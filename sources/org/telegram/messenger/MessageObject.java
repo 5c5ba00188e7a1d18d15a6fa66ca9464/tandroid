@@ -431,6 +431,7 @@ public class MessageObject {
     public String customName;
     public String customReplyName;
     public String dateKey;
+    public int dateKeyInt;
     public boolean deleted;
     public boolean deletedByThanos;
     public boolean drawServiceWithDefaultTypeface;
@@ -472,12 +473,14 @@ public class MessageObject {
     public boolean isMediaSpoilersRevealed;
     public boolean isMediaSpoilersRevealedInSharedMedia;
     public Boolean isOutOwnerCached;
+    public boolean isPrimaryGroupMessage;
     public boolean isReactionPush;
     public boolean isRepostPreview;
     public boolean isRepostVideoPreview;
     public boolean isRestrictedMessage;
     private int isRoundVideoCached;
     public boolean isSaved;
+    public boolean isSavedFiltered;
     public boolean isSpoilersRevealed;
     public boolean isStoryMentionPush;
     public boolean isStoryPush;
@@ -1538,8 +1541,17 @@ public class MessageObject {
         public ArrayList<MessageObject> messages = new ArrayList<>();
         public ArrayList<GroupedMessagePosition> posArray = new ArrayList<>();
         public HashMap<MessageObject, GroupedMessagePosition> positions = new HashMap<>();
+        public LongSparseArray<GroupedMessagePosition> positionsArray = new LongSparseArray<>();
         private int maxSizeWidth = 800;
         public final TransitionParams transitionParams = new TransitionParams();
+
+        public GroupedMessagePosition getPosition(MessageObject messageObject) {
+            if (messageObject == null) {
+                return null;
+            }
+            GroupedMessagePosition groupedMessagePosition = this.positions.get(messageObject);
+            return groupedMessagePosition == null ? this.positionsArray.get(messageObject.getId()) : groupedMessagePosition;
+        }
 
         /* JADX INFO: Access modifiers changed from: private */
         /* loaded from: classes.dex */
@@ -1572,39 +1584,41 @@ public class MessageObject {
             return this.maxSizeWidth / f;
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:40:0x009e, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:40:0x00a3, code lost:
             if ((org.telegram.messenger.MessageObject.getMedia(r14.messageOwner) instanceof org.telegram.tgnet.TLRPC$TL_messageMediaInvoice) == false) goto L82;
          */
-        /* JADX WARN: Removed duplicated region for block: B:20:0x005c  */
-        /* JADX WARN: Removed duplicated region for block: B:21:0x005f  */
-        /* JADX WARN: Removed duplicated region for block: B:23:0x0062  */
-        /* JADX WARN: Removed duplicated region for block: B:49:0x00b4  */
-        /* JADX WARN: Removed duplicated region for block: B:60:0x00d7  */
-        /* JADX WARN: Removed duplicated region for block: B:61:0x00da  */
-        /* JADX WARN: Removed duplicated region for block: B:64:0x00e7  */
-        /* JADX WARN: Removed duplicated region for block: B:65:0x00ee  */
-        /* JADX WARN: Removed duplicated region for block: B:71:0x010b  */
-        /* JADX WARN: Removed duplicated region for block: B:74:0x011a  */
-        /* JADX WARN: Removed duplicated region for block: B:83:0x0131  */
-        /* JADX WARN: Removed duplicated region for block: B:86:0x0136  */
-        /* JADX WARN: Removed duplicated region for block: B:87:0x0139  */
+        /* JADX WARN: Removed duplicated region for block: B:20:0x005f  */
+        /* JADX WARN: Removed duplicated region for block: B:21:0x0062  */
+        /* JADX WARN: Removed duplicated region for block: B:23:0x0065  */
+        /* JADX WARN: Removed duplicated region for block: B:49:0x00b9  */
+        /* JADX WARN: Removed duplicated region for block: B:60:0x00dc  */
+        /* JADX WARN: Removed duplicated region for block: B:61:0x00df  */
+        /* JADX WARN: Removed duplicated region for block: B:64:0x00ec  */
+        /* JADX WARN: Removed duplicated region for block: B:65:0x00f3  */
+        /* JADX WARN: Removed duplicated region for block: B:71:0x0110  */
+        /* JADX WARN: Removed duplicated region for block: B:74:0x012b  */
+        /* JADX WARN: Removed duplicated region for block: B:83:0x0142  */
+        /* JADX WARN: Removed duplicated region for block: B:86:0x0147  */
+        /* JADX WARN: Removed duplicated region for block: B:87:0x014a  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public void calculate() {
             int i;
-            int i2;
+            boolean z;
             byte b;
-            int i3;
+            int i2;
             float f;
-            int i4;
+            int i3;
             float f2;
             MessageObject messageObject;
-            int i5;
+            int i4;
             float f3;
             float f4;
             this.posArray.clear();
             this.positions.clear();
+            this.positionsArray.clear();
+            Boolean bool = null;
             this.captionMessage = null;
             this.maxSizeWidth = 800;
             int size = this.messages.size();
@@ -1614,28 +1628,29 @@ public class MessageObject {
                 StringBuilder sb = new StringBuilder();
                 this.hasSibling = false;
                 this.hasCaption = false;
-                int i6 = this.reversed ? size - 1 : 0;
-                boolean z = false;
-                float f5 = 1.0f;
+                int i5 = this.reversed ? size - 1 : 0;
                 boolean z2 = false;
+                float f5 = 1.0f;
                 boolean z3 = false;
-                boolean z4 = true;
+                boolean z4 = false;
+                boolean z5 = true;
                 while (true) {
                     if (this.reversed) {
-                        if (i6 < 0) {
+                        if (i5 < 0) {
                             break;
                         }
-                        messageObject = this.messages.get(i6);
-                        if (i6 != (!this.reversed ? size - 1 : 0)) {
-                            z3 = messageObject.isOutOwner();
-                            if (!z3) {
+                        messageObject = this.messages.get(i5);
+                        if (i5 != (!this.reversed ? size - 1 : 0)) {
+                            messageObject.isOutOwnerCached = bool;
+                            z4 = messageObject.isOutOwner();
+                            if (!z4) {
                                 TLRPC$Message tLRPC$Message = messageObject.messageOwner;
                                 TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader = tLRPC$Message.fwd_from;
                                 if (tLRPC$MessageFwdHeader != null && tLRPC$MessageFwdHeader.saved_from_peer != null) {
-                                    i5 = size;
+                                    i4 = size;
                                 } else if (tLRPC$Message.from_id instanceof TLRPC$TL_peerUser) {
                                     TLRPC$Peer tLRPC$Peer = tLRPC$Message.peer_id;
-                                    i5 = size;
+                                    i4 = size;
                                     if (tLRPC$Peer.channel_id == 0) {
                                         if (tLRPC$Peer.chat_id == 0) {
                                             if (!(MessageObject.getMedia(tLRPC$Message) instanceof TLRPC$TL_messageMediaGame)) {
@@ -1643,22 +1658,22 @@ public class MessageObject {
                                         }
                                     }
                                 }
-                                z = true;
+                                z2 = true;
                                 if (!messageObject.isMusic() || messageObject.isDocument()) {
                                     this.isDocuments = true;
                                 }
                             }
-                            i5 = size;
-                            z = false;
+                            i4 = size;
+                            z2 = false;
                             if (!messageObject.isMusic()) {
                             }
                             this.isDocuments = true;
                         } else {
-                            i5 = size;
+                            i4 = size;
                         }
                         TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(messageObject.photoThumbs, AndroidUtilities.getPhotoSize());
                         GroupedMessagePosition groupedMessagePosition = new GroupedMessagePosition();
-                        groupedMessagePosition.last = this.reversed ? i6 == i5 + (-1) : i6 == 0;
+                        groupedMessagePosition.last = this.reversed ? i5 == i4 + (-1) : i5 == 0;
                         f3 = closestPhotoSizeWithSize != null ? 1.0f : closestPhotoSizeWithSize.w / closestPhotoSizeWithSize.h;
                         groupedMessagePosition.aspectRatio = f3;
                         if (f3 <= 1.2f) {
@@ -1671,31 +1686,40 @@ public class MessageObject {
                         f4 = groupedMessagePosition.aspectRatio;
                         f5 += f4;
                         if (f4 > 2.0f) {
-                            z2 = true;
+                            z3 = true;
                         }
                         this.positions.put(messageObject, groupedMessagePosition);
+                        boolean z6 = z2;
+                        this.positionsArray.put(messageObject.getId(), groupedMessagePosition);
                         this.posArray.add(groupedMessagePosition);
-                        if (messageObject.caption != null) {
-                            if (z4 && this.captionMessage == null) {
+                        if (messageObject.caption == null) {
+                            if (z5 && this.captionMessage == null) {
                                 this.captionMessage = messageObject;
-                                z4 = false;
-                            } else if (!this.isDocuments) {
+                                bool = null;
+                                z5 = false;
+                            } else if (this.isDocuments) {
+                                bool = null;
+                            } else {
+                                bool = null;
                                 this.captionMessage = null;
                             }
                             this.hasCaption = true;
+                        } else {
+                            bool = null;
                         }
-                        i6 = !this.reversed ? i6 - 1 : i6 + 1;
-                        size = i5;
+                        i5 = !this.reversed ? i5 - 1 : i5 + 1;
+                        size = i4;
+                        z2 = z6;
                     } else {
-                        if (i6 >= size) {
+                        if (i5 >= size) {
                             break;
                         }
-                        messageObject = this.messages.get(i6);
-                        if (i6 != (!this.reversed ? size - 1 : 0)) {
+                        messageObject = this.messages.get(i5);
+                        if (i5 != (!this.reversed ? size - 1 : 0)) {
                         }
                         TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(messageObject.photoThumbs, AndroidUtilities.getPhotoSize());
                         GroupedMessagePosition groupedMessagePosition2 = new GroupedMessagePosition();
-                        groupedMessagePosition2.last = this.reversed ? i6 == i5 + (-1) : i6 == 0;
+                        groupedMessagePosition2.last = this.reversed ? i5 == i4 + (-1) : i5 == 0;
                         if (closestPhotoSizeWithSize2 != null) {
                         }
                         groupedMessagePosition2.aspectRatio = f3;
@@ -1706,40 +1730,46 @@ public class MessageObject {
                         if (f4 > 2.0f) {
                         }
                         this.positions.put(messageObject, groupedMessagePosition2);
+                        boolean z62 = z2;
+                        this.positionsArray.put(messageObject.getId(), groupedMessagePosition2);
                         this.posArray.add(groupedMessagePosition2);
-                        if (messageObject.caption != null) {
+                        if (messageObject.caption == null) {
                         }
                         if (!this.reversed) {
                         }
-                        size = i5;
+                        size = i4;
+                        z2 = z62;
                     }
                 }
-                int i7 = size;
+                int i6 = size;
+                int i7 = 3;
                 if (this.isDocuments) {
-                    for (int i8 = 0; i8 < i7; i8++) {
+                    for (int i8 = 0; i8 < i6; i8++) {
                         GroupedMessagePosition groupedMessagePosition3 = this.posArray.get(i8);
                         groupedMessagePosition3.flags = 3;
-                        boolean z5 = this.reversed;
-                        if ((!z5 && i8 == 0) || (z5 && i8 == i7 - 1)) {
+                        if (i8 == 0) {
                             groupedMessagePosition3.flags = 3 | 4;
                             groupedMessagePosition3.last = false;
-                        } else if ((z5 && i8 == 0) || (!z5 && i8 == i7 - 1)) {
+                        } else if (i8 == i6 - 1) {
                             groupedMessagePosition3.flags = 3 | 8;
                             groupedMessagePosition3.last = true;
+                        } else {
+                            groupedMessagePosition3.last = false;
                         }
                         groupedMessagePosition3.edge = true;
                         groupedMessagePosition3.aspectRatio = 1.0f;
                         groupedMessagePosition3.minX = (byte) 0;
                         groupedMessagePosition3.maxX = (byte) 0;
-                        groupedMessagePosition3.minY = (byte) (z5 ? (i7 - 1) - i8 : i8);
-                        groupedMessagePosition3.maxY = (byte) (z5 ? (i7 - 1) - i8 : i8);
+                        byte b2 = (byte) i8;
+                        groupedMessagePosition3.minY = b2;
+                        groupedMessagePosition3.maxY = b2;
                         groupedMessagePosition3.spanSize = 1000;
                         groupedMessagePosition3.pw = this.maxSizeWidth;
                         groupedMessagePosition3.ph = 100.0f;
                     }
                     return;
                 }
-                if (z) {
+                if (z2) {
                     this.maxSizeWidth -= 50;
                     i = 250;
                 } else {
@@ -1752,13 +1782,13 @@ public class MessageObject {
                 int i9 = this.maxSizeWidth;
                 int dp3 = (int) (AndroidUtilities.dp(40.0f) / (Math.min(point2.x, point2.y) / i9));
                 float f6 = i9 / 814.0f;
-                float f7 = f5 / i7;
+                float f7 = f5 / i6;
                 float dp4 = AndroidUtilities.dp(100.0f) / 814.0f;
-                if (z2 || !(i7 == 2 || i7 == 3 || i7 == 4)) {
-                    i2 = i;
+                if (z3 || !(i6 == 2 || i6 == 3 || i6 == 4)) {
+                    z = z4;
                     int size2 = this.posArray.size();
                     float[] fArr = new float[size2];
-                    for (int i10 = 0; i10 < i7; i10++) {
+                    for (int i10 = 0; i10 < i6; i10++) {
                         if (f7 > 1.1f) {
                             fArr[i10] = Math.max(1.0f, this.posArray.get(i10).aspectRatio);
                         } else {
@@ -1789,7 +1819,8 @@ public class MessageObject {
                             }
                         }
                     }
-                    for (int i18 = 1; i18 < size2 - 2; i18++) {
+                    int i18 = 1;
+                    while (i18 < size2 - 2) {
                         int i19 = 1;
                         while (true) {
                             int i20 = size2 - i18;
@@ -1799,17 +1830,21 @@ public class MessageObject {
                                     int i22 = i20 - i19;
                                     if (i21 < i22) {
                                         int i23 = i22 - i21;
-                                        if (i18 <= 3 && i19 <= 3 && i21 <= 3 && i23 <= 3) {
+                                        if (i18 <= i7 && i19 <= i7 && i21 <= i7 && i23 <= i7) {
                                             int i24 = i18 + i19;
                                             int i25 = i24 + i21;
                                             arrayList.add(new MessageGroupedLayoutAttempt(i18, i19, i21, i23, multiHeight(fArr, 0, i18), multiHeight(fArr, i18, i24), multiHeight(fArr, i24, i25), multiHeight(fArr, i25, size2)));
                                         }
                                         i21++;
+                                        i7 = 3;
                                     }
                                 }
                                 i19++;
+                                i7 = 3;
                             }
                         }
+                        i18++;
+                        i7 = 3;
                     }
                     float f8 = (this.maxSizeWidth / 3) * 4;
                     int i26 = 0;
@@ -1862,7 +1897,7 @@ public class MessageObject {
                     }
                     int i28 = 0;
                     int i29 = 0;
-                    byte b2 = 0;
+                    byte b3 = 0;
                     while (true) {
                         int[] iArr2 = messageGroupedLayoutAttempt.lineCounts;
                         if (i28 >= iArr2.length) {
@@ -1872,7 +1907,7 @@ public class MessageObject {
                         float f13 = messageGroupedLayoutAttempt.heights[i28];
                         int i31 = this.maxSizeWidth;
                         int i32 = i30 - 1;
-                        b2 = Math.max((int) b2, i32);
+                        b3 = Math.max((int) b3, i32);
                         int i33 = i31;
                         GroupedMessagePosition groupedMessagePosition4 = null;
                         int i34 = i29;
@@ -1882,35 +1917,35 @@ public class MessageObject {
                             i33 -= i36;
                             float[] fArr3 = fArr;
                             GroupedMessagePosition groupedMessagePosition5 = this.posArray.get(i34);
-                            int i37 = b2;
+                            int i37 = b3;
                             int i38 = i28 == 0 ? 4 : 0;
                             if (i28 == messageGroupedLayoutAttempt.lineCounts.length - 1) {
                                 i38 |= 8;
                             }
                             if (i35 == 0) {
                                 i38 |= 1;
-                                if (z3) {
+                                if (z) {
                                     groupedMessagePosition4 = groupedMessagePosition5;
                                 }
                             }
                             if (i35 == i32) {
                                 i38 |= 2;
-                                if (!z3) {
-                                    i3 = i38;
+                                if (!z) {
+                                    i2 = i38;
                                     groupedMessagePosition4 = groupedMessagePosition5;
-                                    groupedMessagePosition5.set(i35, i35, i28, i28, i36, Math.max(dp4, f13 / 814.0f), i3);
+                                    groupedMessagePosition5.set(i35, i35, i28, i28, i36, Math.max(dp4, f13 / 814.0f), i2);
                                     i34++;
                                     i35++;
                                     fArr = fArr3;
-                                    b2 = i37;
+                                    b3 = i37;
                                 }
                             }
-                            i3 = i38;
-                            groupedMessagePosition5.set(i35, i35, i28, i28, i36, Math.max(dp4, f13 / 814.0f), i3);
+                            i2 = i38;
+                            groupedMessagePosition5.set(i35, i35, i28, i28, i36, Math.max(dp4, f13 / 814.0f), i2);
                             i34++;
                             i35++;
                             fArr = fArr3;
-                            b2 = i37;
+                            b3 = i37;
                         }
                         groupedMessagePosition4.pw += i33;
                         groupedMessagePosition4.spanSize += i33;
@@ -1918,13 +1953,13 @@ public class MessageObject {
                         i29 = i34;
                         fArr = fArr;
                     }
-                    b = b2;
-                } else if (i7 == 2) {
+                    b = b3;
+                } else if (i6 == 2) {
                     GroupedMessagePosition groupedMessagePosition6 = this.posArray.get(0);
                     GroupedMessagePosition groupedMessagePosition7 = this.posArray.get(1);
                     String sb2 = sb.toString();
                     if (sb2.equals("ww")) {
-                        i2 = i;
+                        z = z4;
                         double d = f6;
                         Double.isNaN(d);
                         if (f7 > d * 1.4d) {
@@ -1935,12 +1970,12 @@ public class MessageObject {
                                 float round = Math.round(Math.min(i39 / f14, Math.min(i39 / f15, 407.0f))) / 814.0f;
                                 groupedMessagePosition6.set(0, 0, 0, 0, this.maxSizeWidth, round, 7);
                                 groupedMessagePosition7.set(0, 0, 1, 1, this.maxSizeWidth, round, 11);
-                                i4 = 0;
-                                b = i4;
+                                i3 = 0;
+                                b = i3;
                             }
                         }
                     } else {
-                        i2 = i;
+                        z = z4;
                     }
                     if (sb2.equals("ww") || sb2.equals("qq")) {
                         int i40 = this.maxSizeWidth / 2;
@@ -1961,11 +1996,11 @@ public class MessageObject {
                         groupedMessagePosition6.set(0, 0, 0, 0, i42, min, 13);
                         groupedMessagePosition7.set(1, 1, 0, 0, max, min, 14);
                     }
-                    i4 = 1;
-                    b = i4;
+                    i3 = 1;
+                    b = i3;
                 } else {
-                    i2 = i;
-                    if (i7 == 3) {
+                    z = z4;
+                    if (i6 == 3) {
                         GroupedMessagePosition groupedMessagePosition8 = this.posArray.get(0);
                         GroupedMessagePosition groupedMessagePosition9 = this.posArray.get(1);
                         GroupedMessagePosition groupedMessagePosition10 = this.posArray.get(2);
@@ -1982,7 +2017,7 @@ public class MessageObject {
                             int i43 = this.maxSizeWidth;
                             groupedMessagePosition10.spanSize = i43;
                             groupedMessagePosition8.siblingHeights = new float[]{f20, f19};
-                            if (z3) {
+                            if (z) {
                                 groupedMessagePosition8.spanSize = i43 - max2;
                             } else {
                                 groupedMessagePosition9.spanSize = i43 - round3;
@@ -2032,8 +2067,8 @@ public class MessageObject {
                             groupedMessagePosition12.set(0, 0, 1, 1, i47, f24, 9);
                             groupedMessagePosition13.set(1, 1, 1, 1, i45, f24, 8);
                             groupedMessagePosition14.set(2, 2, 1, 1, max4, f24, 10);
-                            i4 = 2;
-                            b = i4;
+                            i3 = 2;
+                            b = i3;
                         } else {
                             int max5 = Math.max(dp2, Math.round(814.0f / (((1.0f / groupedMessagePosition12.aspectRatio) + (1.0f / groupedMessagePosition13.aspectRatio)) + (1.0f / groupedMessagePosition14.aspectRatio))));
                             float f25 = dp;
@@ -2049,7 +2084,7 @@ public class MessageObject {
                             groupedMessagePosition14.set(0, 1, 2, 2, max5, f27, 10);
                             int i48 = this.maxSizeWidth;
                             groupedMessagePosition14.spanSize = i48;
-                            if (z3) {
+                            if (z) {
                                 groupedMessagePosition11.spanSize = i48 - max5;
                             } else {
                                 groupedMessagePosition12.spanSize = i48 - round7;
@@ -2058,30 +2093,30 @@ public class MessageObject {
                             }
                             groupedMessagePosition11.siblingHeights = new float[]{min5, min6, f27};
                             this.hasSibling = true;
-                            i4 = 1;
-                            b = i4;
+                            i3 = 1;
+                            b = i3;
                         }
                     }
                 }
-                for (int i49 = 0; i49 < i7; i49++) {
+                for (int i49 = 0; i49 < i6; i49++) {
                     GroupedMessagePosition groupedMessagePosition15 = this.posArray.get(i49);
-                    if (z3) {
+                    if (z) {
                         if (groupedMessagePosition15.minX == 0) {
-                            groupedMessagePosition15.spanSize += i2;
+                            groupedMessagePosition15.spanSize += i;
                         }
                         if ((groupedMessagePosition15.flags & 2) != 0) {
                             groupedMessagePosition15.edge = true;
                         }
                     } else {
                         if (groupedMessagePosition15.maxX == b || (groupedMessagePosition15.flags & 2) != 0) {
-                            groupedMessagePosition15.spanSize += i2;
+                            groupedMessagePosition15.spanSize += i;
                         }
                         if ((groupedMessagePosition15.flags & 1) != 0) {
                             groupedMessagePosition15.edge = true;
                         }
                     }
                     MessageObject messageObject2 = this.messages.get(i49);
-                    if (!z3 && messageObject2.needDrawAvatarInternal()) {
+                    if (!z && messageObject2.needDrawAvatarInternal()) {
                         if (groupedMessagePosition15.edge) {
                             int i50 = groupedMessagePosition15.spanSize;
                             if (i50 != 1000) {
@@ -2107,7 +2142,7 @@ public class MessageObject {
         }
 
         public MessageObject findPrimaryMessageObject() {
-            return findMessageWithFlags(5);
+            return findMessageWithFlags(this.reversed ? 10 : 5);
         }
 
         public MessageObject findCaptionMessageObject() {
@@ -2276,7 +2311,7 @@ public class MessageObject {
         Theme.createCommonMessageResources();
         this.isRepostPreview = z3;
         this.isRepostVideoPreview = z4;
-        this.isSaved = z5;
+        this.isSaved = z5 || getDialogId(tLRPC$Message) == UserConfig.getInstance(i).getClientUserId();
         this.currentAccount = i;
         this.messageOwner = tLRPC$Message;
         this.replyMessageObject = messageObject;
@@ -2302,6 +2337,7 @@ public class MessageObject {
         int i3 = gregorianCalendar.get(1);
         int i4 = gregorianCalendar.get(2);
         this.dateKey = String.format("%d_%02d_%02d", Integer.valueOf(i3), Integer.valueOf(i4), Integer.valueOf(i2));
+        this.dateKeyInt = (i4 * 10000) + i3 + (i2 * MediaController.VIDEO_BITRATE_480);
         this.monthKey = String.format("%d_%02d", Integer.valueOf(i3), Integer.valueOf(i4));
         createMessageSendInfo();
         generateCaption();
@@ -2564,16 +2600,16 @@ public class MessageObject {
         this.totalAnimatedEmojiCount = 0;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:1013:0x04fa A[EDGE_INSN: B:1013:0x04fa->B:195:0x04fa ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1013:0x0505 A[EDGE_INSN: B:1013:0x0505->B:195:0x0505 ?: BREAK  , SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:1023:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:186:0x04d4  */
-    /* JADX WARN: Removed duplicated region for block: B:193:0x04e4 A[LOOP:0: B:170:0x04a0->B:193:0x04e4, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:474:0x0ce4  */
-    /* JADX WARN: Removed duplicated region for block: B:967:0x1b2c  */
-    /* JADX WARN: Removed duplicated region for block: B:970:0x1b7d  */
-    /* JADX WARN: Removed duplicated region for block: B:972:0x1b80  */
-    /* JADX WARN: Removed duplicated region for block: B:984:0x1c02  */
-    /* JADX WARN: Removed duplicated region for block: B:988:0x1c09  */
+    /* JADX WARN: Removed duplicated region for block: B:186:0x04df  */
+    /* JADX WARN: Removed duplicated region for block: B:193:0x04ef A[LOOP:0: B:170:0x04ab->B:193:0x04ef, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:474:0x0cef  */
+    /* JADX WARN: Removed duplicated region for block: B:967:0x1b37  */
+    /* JADX WARN: Removed duplicated region for block: B:970:0x1b88  */
+    /* JADX WARN: Removed duplicated region for block: B:972:0x1b8b  */
+    /* JADX WARN: Removed duplicated region for block: B:984:0x1c0d  */
+    /* JADX WARN: Removed duplicated region for block: B:988:0x1c14  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2652,6 +2688,7 @@ public class MessageObject {
         int i12 = gregorianCalendar.get(1);
         int i13 = gregorianCalendar.get(2);
         messageObject.dateKey = String.format("%d_%02d_%02d", Integer.valueOf(i12), Integer.valueOf(i13), Integer.valueOf(i11));
+        messageObject.dateKeyInt = (i13 * 1000) + i12 + (i11 * 100000);
         messageObject.monthKey = String.format("%d_%02d", Integer.valueOf(i12), Integer.valueOf(i13));
         TLRPC$TL_peerChannel tLRPC$TL_peerChannel = new TLRPC$TL_peerChannel();
         tLRPC$TL_peerChannel.channel_id = tLRPC$Chat.id;
@@ -4591,6 +4628,17 @@ public class MessageObject {
     public boolean hasReactions() {
         TLRPC$TL_messageReactions tLRPC$TL_messageReactions = this.messageOwner.reactions;
         return (tLRPC$TL_messageReactions == null || tLRPC$TL_messageReactions.results.isEmpty()) ? false : true;
+    }
+
+    public boolean hasReaction(ReactionsLayoutInBubble.VisibleReaction visibleReaction) {
+        if (hasReactions() && visibleReaction != null) {
+            for (int i = 0; i < this.messageOwner.reactions.results.size(); i++) {
+                if (visibleReaction.isSame(this.messageOwner.reactions.results.get(i).reaction)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public static void updatePollResults(TLRPC$TL_messageMediaPoll tLRPC$TL_messageMediaPoll, TLRPC$PollResults tLRPC$PollResults) {
@@ -7897,8 +7945,8 @@ public class MessageObject {
             if (needDrawAvatarInternal() && !isOutOwner() && !this.messageOwner.isThreadMessage) {
                 dp -= AndroidUtilities.dp(52.0f);
             }
-            if (needDrawShareButton() && !isOutOwner()) {
-                dp -= AndroidUtilities.dp(10.0f);
+            if (needDrawShareButton() && (this.isSaved || !isOutOwner())) {
+                dp -= AndroidUtilities.dp((this.isSaved && isOutOwner()) ? 40.0f : 10.0f);
             }
             i = getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaGame ? dp - AndroidUtilities.dp(10.0f) : dp;
         }
@@ -9420,9 +9468,9 @@ public class MessageObject {
     }
 
     public boolean isOutOwner() {
+        TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader;
         TLRPC$Peer tLRPC$Peer;
         TLRPC$Peer tLRPC$Peer2;
-        TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader;
         boolean z = true;
         if (this.previewForward) {
             return true;
@@ -9432,7 +9480,7 @@ public class MessageObject {
             return bool.booleanValue();
         }
         long clientUserId = UserConfig.getInstance(this.currentAccount).getClientUserId();
-        if (this.isSaved && (tLRPC$MessageFwdHeader = this.messageOwner.fwd_from) != null) {
+        if ((this.isSaved || getDialogId() == clientUserId) && (tLRPC$MessageFwdHeader = this.messageOwner.fwd_from) != null) {
             TLRPC$Peer tLRPC$Peer3 = tLRPC$MessageFwdHeader.from_id;
             if ((tLRPC$Peer3 == null || tLRPC$Peer3.user_id != clientUserId) && !tLRPC$MessageFwdHeader.saved_out) {
                 z = false;
@@ -9484,48 +9532,36 @@ public class MessageObject {
     }
 
     public boolean needDrawAvatar() {
-        if (this.isRepostPreview) {
+        if (this.isRepostPreview || this.isSaved || this.forceAvatar || this.customAvatarDrawable != null) {
             return true;
         }
-        if (this.isSaved) {
-            return getSavedDialogId() < 0 || getSavedDialogId() == UserObject.ANONYMOUS;
-        } else if (this.forceAvatar || this.customAvatarDrawable != null) {
-            return true;
-        } else {
-            if (!isSponsored()) {
-                if (isFromUser() || isFromGroup() || this.eventId != 0) {
-                    return true;
-                }
-                TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader = this.messageOwner.fwd_from;
-                if (tLRPC$MessageFwdHeader != null && tLRPC$MessageFwdHeader.saved_from_peer != null) {
-                    return true;
-                }
+        if (!isSponsored()) {
+            if (isFromUser() || isFromGroup() || this.eventId != 0) {
+                return true;
             }
-            return false;
+            TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader = this.messageOwner.fwd_from;
+            if (tLRPC$MessageFwdHeader != null && tLRPC$MessageFwdHeader.saved_from_peer != null) {
+                return true;
+            }
         }
+        return false;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public boolean needDrawAvatarInternal() {
-        if (this.isRepostPreview) {
+        if (this.isRepostPreview || this.isSaved || this.forceAvatar || this.customAvatarDrawable != null) {
             return true;
         }
-        if (this.isSaved) {
-            return getSavedDialogId() < 0 || getSavedDialogId() == UserObject.ANONYMOUS;
-        } else if (this.forceAvatar || this.customAvatarDrawable != null) {
-            return true;
-        } else {
-            if (!isSponsored()) {
-                if ((isFromChat() && isFromUser()) || isFromGroup() || this.eventId != 0) {
-                    return true;
-                }
-                TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader = this.messageOwner.fwd_from;
-                if (tLRPC$MessageFwdHeader != null && tLRPC$MessageFwdHeader.saved_from_peer != null) {
-                    return true;
-                }
+        if (!isSponsored()) {
+            if ((isFromChat() && isFromUser()) || isFromGroup() || this.eventId != 0) {
+                return true;
             }
-            return false;
+            TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader = this.messageOwner.fwd_from;
+            if (tLRPC$MessageFwdHeader != null && tLRPC$MessageFwdHeader.saved_from_peer != null) {
+                return true;
+            }
         }
+        return false;
     }
 
     public boolean isFromChat() {
@@ -11767,7 +11803,7 @@ public class MessageObject {
             } else {
                 charSequence = this.messageText;
             }
-            CharSequence replaceCharSequence = AndroidUtilities.replaceCharSequence("\n", charSequence, " ");
+            CharSequence replaceMultipleCharSequence = AndroidUtilities.replaceMultipleCharSequence("\n", charSequence, " ");
             if (z && (tLRPC$Message = this.messageOwner) != null && (tLRPC$MessageReplyHeader = tLRPC$Message.reply_to) != null && tLRPC$MessageReplyHeader.quote_text != null) {
                 SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(this.messageOwner.reply_to.quote_text);
                 addEntitiesToText(spannableStringBuilder, this.messageOwner.reply_to.quote_entities, isOutOwner(), false, false, false);
@@ -11775,19 +11811,20 @@ public class MessageObject {
                 ColoredImageSpan coloredImageSpan = new ColoredImageSpan(R.drawable.mini_quote);
                 coloredImageSpan.setOverrideColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText4));
                 spannableString.setSpan(coloredImageSpan, 0, 1, 33);
-                replaceCharSequence = new SpannableStringBuilder(spannableString).append((CharSequence) spannableStringBuilder).append('\n').append(replaceCharSequence);
+                replaceMultipleCharSequence = new SpannableStringBuilder(spannableString).append((CharSequence) spannableStringBuilder).append('\n').append(replaceMultipleCharSequence);
             }
-            String charSequence2 = replaceCharSequence.toString();
+            String charSequence2 = replaceMultipleCharSequence.toString();
             int length = charSequence2.length();
             int indexOf = charSequence2.toLowerCase().indexOf(arrayList.get(0));
             if (indexOf < 0) {
                 indexOf = 0;
             }
-            if (length > 200) {
-                int max = Math.max(0, indexOf - 100);
-                replaceCharSequence = replaceCharSequence.subSequence(max, Math.min(length, (indexOf - max) + indexOf + 100));
+            if (length > 120) {
+                float f = 120;
+                int max = Math.max(0, indexOf - ((int) (0.1f * f)));
+                replaceMultipleCharSequence = replaceMultipleCharSequence.subSequence(max, Math.min(length, (indexOf - max) + indexOf + ((int) (f * 0.9f))));
             }
-            this.messageTrimmedToHighlight = replaceCharSequence;
+            this.messageTrimmedToHighlight = replaceMultipleCharSequence;
         }
     }
 
@@ -11887,9 +11924,6 @@ public class MessageObject {
                 if (i4 <= 0) {
                     this.messageOwner.reactions.results.remove(tLRPC$ReactionCount);
                 }
-                if (this.messageOwner.reactions.reactions_as_tags) {
-                    MessagesController.getInstance(this.currentAccount).updateSavedReactionTags(visibleReaction, false);
-                }
             }
             if (this.messageOwner.reactions.can_see_list) {
                 int i5 = 0;
@@ -11918,9 +11952,6 @@ public class MessageObject {
             if (i8 <= 0) {
                 this.messageOwner.reactions.results.remove(tLRPC$ReactionCount3);
             }
-            if (this.messageOwner.reactions.reactions_as_tags) {
-                MessagesController.getInstance(this.currentAccount).updateSavedReactionTags(ReactionsLayoutInBubble.VisibleReaction.fromTLReaction(tLRPC$ReactionCount3.reaction), false);
-            }
             arrayList.remove(tLRPC$ReactionCount3);
             if (this.messageOwner.reactions.can_see_list) {
                 int i9 = 0;
@@ -11941,9 +11972,6 @@ public class MessageObject {
         tLRPC$ReactionCount.chosen = true;
         tLRPC$ReactionCount.count++;
         tLRPC$ReactionCount.chosen_order = i + 1;
-        if (this.messageOwner.reactions.reactions_as_tags) {
-            MessagesController.getInstance(this.currentAccount).updateSavedReactionTags(visibleReaction, true);
-        }
         TLRPC$Message tLRPC$Message3 = this.messageOwner;
         if (tLRPC$Message3.reactions.can_see_list || (tLRPC$Message3.dialog_id > 0 && maxUserReactionsCount > 1)) {
             TLRPC$TL_messagePeerReaction tLRPC$TL_messagePeerReaction = new TLRPC$TL_messagePeerReaction();
@@ -12232,13 +12260,13 @@ public class MessageObject {
         boolean z = !this.isRestrictedMessage && (getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaWebPage) && (getMedia(this.messageOwner).webpage instanceof TLRPC$TL_webPage);
         TLRPC$WebPage tLRPC$WebPage = z ? getMedia(this.messageOwner).webpage : null;
         String str = tLRPC$WebPage != null ? tLRPC$WebPage.type : null;
-        return z && !isGiveawayOrGiveawayResults() && tLRPC$WebPage != null && (tLRPC$WebPage.photo != null || isVideoDocument(tLRPC$WebPage.document)) && !((TextUtils.isEmpty(tLRPC$WebPage.description) && TextUtils.isEmpty(tLRPC$WebPage.title)) || ((isSponsored() && this.sponsoredWebPage == null && this.sponsoredChannelPost == 0) || "telegram_megagroup".equals(str) || "telegram_background".equals(str) || "telegram_voicechat".equals(str) || "telegram_livestream".equals(str) || "telegram_user".equals(str) || "telegram_story".equals(str) || "telegram_channel_boost".equals(str)));
+        return z && !isGiveawayOrGiveawayResults() && tLRPC$WebPage != null && (tLRPC$WebPage.photo != null || isVideoDocument(tLRPC$WebPage.document)) && !((TextUtils.isEmpty(tLRPC$WebPage.description) && TextUtils.isEmpty(tLRPC$WebPage.title)) || ((isSponsored() && this.sponsoredWebPage == null && this.sponsoredChannelPost == 0) || "telegram_megagroup".equals(str) || "telegram_background".equals(str) || "telegram_voicechat".equals(str) || "telegram_livestream".equals(str) || "telegram_user".equals(str) || "telegram_story".equals(str) || "telegram_channel_boost".equals(str) || "telegram_chat".equals(str)));
     }
 
     public boolean isLinkMediaSmall() {
         TLRPC$WebPage tLRPC$WebPage = !this.isRestrictedMessage && (getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaWebPage) && (getMedia(this.messageOwner).webpage instanceof TLRPC$TL_webPage) ? getMedia(this.messageOwner).webpage : null;
         String str = tLRPC$WebPage != null ? tLRPC$WebPage.type : null;
-        return !(tLRPC$WebPage != null && TextUtils.isEmpty(tLRPC$WebPage.description) && TextUtils.isEmpty(tLRPC$WebPage.title)) && ("app".equals(str) || "profile".equals(str) || "article".equals(str) || "telegram_bot".equals(str) || "telegram_user".equals(str) || "telegram_channel".equals(str) || "telegram_megagroup".equals(str) || "telegram_voicechat".equals(str) || "telegram_livestream".equals(str) || "telegram_channel_boost".equals(str));
+        return !(tLRPC$WebPage != null && TextUtils.isEmpty(tLRPC$WebPage.description) && TextUtils.isEmpty(tLRPC$WebPage.title)) && ("app".equals(str) || "profile".equals(str) || "article".equals(str) || "telegram_bot".equals(str) || "telegram_user".equals(str) || "telegram_channel".equals(str) || "telegram_megagroup".equals(str) || "telegram_voicechat".equals(str) || "telegram_livestream".equals(str) || "telegram_channel_boost".equals(str) || "telegram_chat".equals(str));
     }
 
     /* loaded from: classes.dex */

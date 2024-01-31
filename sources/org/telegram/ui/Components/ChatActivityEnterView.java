@@ -196,6 +196,8 @@ import org.telegram.tgnet.TLRPC$TL_requestPeerTypeUser;
 import org.telegram.tgnet.TLRPC$TL_stickerSetFullCovered;
 import org.telegram.tgnet.TLRPC$TL_stickerSetNoCovered;
 import org.telegram.tgnet.TLRPC$TL_userStatusEmpty;
+import org.telegram.tgnet.TLRPC$TL_userStatusLastMonth;
+import org.telegram.tgnet.TLRPC$TL_userStatusLastWeek;
 import org.telegram.tgnet.TLRPC$TL_userStatusOnline;
 import org.telegram.tgnet.TLRPC$TL_userStatusRecently;
 import org.telegram.tgnet.TLRPC$TL_webPagePending;
@@ -4538,7 +4540,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         }
     }
 
-    /* JADX WARN: Can't wrap try/catch for region: R(15:5|(1:80)(1:9)|10|(8:12|(1:40)(1:16)|(1:39)(1:22)|23|(4:25|(1:27)(1:33)|28|(1:32))|(1:35)|36|(1:38))|41|(3:43|(1:45)(1:47)|46)|48|(3:50|(2:54|(1:60))|61)|62|(4:64|(1:78)(1:68)|69|(5:71|72|73|74|75))|79|72|73|74|75) */
+    /* JADX WARN: Can't wrap try/catch for region: R(15:5|(1:84)(1:9)|10|(8:12|(1:40)(1:16)|(1:39)(1:22)|23|(4:25|(1:27)(1:33)|28|(1:32))|(1:35)|36|(1:38))|41|(3:43|(1:45)(1:47)|46)|48|(3:50|(2:54|(1:64))|65)|66|(4:68|(1:82)(1:72)|73|(5:75|76|77|78|79))|83|76|77|78|79) */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -4660,7 +4662,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             TLRPC$User currentUser = this.parentFragment.getCurrentUser();
             if (currentUser != null && !currentUser.bot) {
                 TLRPC$UserStatus tLRPC$UserStatus = currentUser.status;
-                if (!(tLRPC$UserStatus instanceof TLRPC$TL_userStatusEmpty) && !(tLRPC$UserStatus instanceof TLRPC$TL_userStatusOnline) && !(tLRPC$UserStatus instanceof TLRPC$TL_userStatusRecently)) {
+                if (!(tLRPC$UserStatus instanceof TLRPC$TL_userStatusEmpty) && !(tLRPC$UserStatus instanceof TLRPC$TL_userStatusOnline) && !(tLRPC$UserStatus instanceof TLRPC$TL_userStatusRecently) && !(tLRPC$UserStatus instanceof TLRPC$TL_userStatusLastMonth) && !(tLRPC$UserStatus instanceof TLRPC$TL_userStatusLastWeek)) {
                     this.sendWhenOnlineButton.setVisibility(0);
                 }
             }
@@ -13411,6 +13413,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         return this.stickersArrow;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.BlurredFrameLayout, android.view.ViewGroup, android.view.View
     public void dispatchDraw(Canvas canvas) {
         EmojiView emojiView = this.emojiView;

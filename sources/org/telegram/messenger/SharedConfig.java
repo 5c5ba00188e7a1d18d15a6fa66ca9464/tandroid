@@ -78,7 +78,6 @@ public class SharedConfig {
     public static int fontSize = 0;
     public static boolean fontSizeIsDefault = false;
     public static boolean forceDisableTabletMode = false;
-    public static boolean forceLessData = false;
     public static boolean forwardingOptionsHintShown = false;
     private static String goodHevcEncoder = null;
     public static boolean hasCameraCache = false;
@@ -147,7 +146,6 @@ public class SharedConfig {
     public static int scheduledHintShows;
     public static long scheduledOrNoSoundHintSeenAt;
     public static int scheduledOrNoSoundHintShows;
-    public static int searchMessagesAsListHintShows;
     public static boolean searchMessagesAsListUsed;
     public static boolean showNotificationsForAllAccounts;
     public static boolean shuffleMusic;
@@ -492,15 +490,15 @@ public class SharedConfig {
         return i;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:38:0x0182 A[Catch: Exception -> 0x01a6, all -> 0x048e, TryCatch #3 {Exception -> 0x01a6, blocks: (B:22:0x0131, B:24:0x0139, B:26:0x014b, B:27:0x015f, B:38:0x0182, B:40:0x0188, B:41:0x018a, B:43:0x018e, B:45:0x0194, B:47:0x019a, B:49:0x019e, B:36:0x017c), top: B:93:0x0131, outer: #4 }] */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0188 A[Catch: Exception -> 0x01a6, all -> 0x048e, TryCatch #3 {Exception -> 0x01a6, blocks: (B:22:0x0131, B:24:0x0139, B:26:0x014b, B:27:0x015f, B:38:0x0182, B:40:0x0188, B:41:0x018a, B:43:0x018e, B:45:0x0194, B:47:0x019a, B:49:0x019e, B:36:0x017c), top: B:93:0x0131, outer: #4 }] */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0182 A[Catch: Exception -> 0x01a6, all -> 0x047d, TryCatch #2 {Exception -> 0x01a6, blocks: (B:22:0x0131, B:24:0x0139, B:26:0x014b, B:27:0x015f, B:38:0x0182, B:40:0x0188, B:41:0x018a, B:43:0x018e, B:45:0x0194, B:47:0x019a, B:49:0x019e, B:36:0x017c), top: B:91:0x0131, outer: #4 }] */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0188 A[Catch: Exception -> 0x01a6, all -> 0x047d, TryCatch #2 {Exception -> 0x01a6, blocks: (B:22:0x0131, B:24:0x0139, B:26:0x014b, B:27:0x015f, B:38:0x0182, B:40:0x0188, B:41:0x018a, B:43:0x018e, B:45:0x0194, B:47:0x019a, B:49:0x019e, B:36:0x017c), top: B:91:0x0131, outer: #4 }] */
     /* JADX WARN: Removed duplicated region for block: B:61:0x022f  */
     /* JADX WARN: Removed duplicated region for block: B:62:0x0232  */
     /* JADX WARN: Removed duplicated region for block: B:65:0x0242  */
     /* JADX WARN: Removed duplicated region for block: B:66:0x0244  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x0431  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x0433  */
-    /* JADX WARN: Removed duplicated region for block: B:91:0x047e A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x0428  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x042a  */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x046d A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -625,7 +623,6 @@ public class SharedConfig {
                             debugWebView = sharedPreferences2.getBoolean("debugWebView", false);
                             lastKeepMediaCheckTime = sharedPreferences2.getInt("lastKeepMediaCheckTime", 0);
                             lastLogsCheckTime = sharedPreferences2.getInt("lastLogsCheckTime", 0);
-                            searchMessagesAsListHintShows = sharedPreferences2.getInt("searchMessagesAsListHintShows", 0);
                             searchMessagesAsListUsed = sharedPreferences2.getBoolean("searchMessagesAsListUsed", false);
                             stickersReorderingHintUsed = sharedPreferences2.getBoolean("stickersReorderingHintUsed", false);
                             storyReactionsLongPressHint = sharedPreferences2.getBoolean("storyReactionsLongPressHint", false);
@@ -659,7 +656,6 @@ public class SharedConfig {
                             payByInvoice = sharedPreferences2.getBoolean("payByInvoice", false);
                             photoViewerBlur = sharedPreferences2.getBoolean("photoViewerBlur", true);
                             multipleReactionsPromoShowed = sharedPreferences2.getBoolean("multipleReactionsPromoShowed", false);
-                            forceLessData = sharedPreferences2.getBoolean("forceLessData", false);
                             callEncryptionHintDisplayedCount = sharedPreferences2.getInt("callEncryptionHintDisplayedCount", 0);
                             loadDebugConfig(sharedPreferences2);
                             showNotificationsForAllAccounts = ApplicationLoader.applicationContext.getSharedPreferences("Notifications", 0).getBoolean("AllAccounts", true);
@@ -725,7 +721,6 @@ public class SharedConfig {
                 debugWebView = sharedPreferences22.getBoolean("debugWebView", false);
                 lastKeepMediaCheckTime = sharedPreferences22.getInt("lastKeepMediaCheckTime", 0);
                 lastLogsCheckTime = sharedPreferences22.getInt("lastLogsCheckTime", 0);
-                searchMessagesAsListHintShows = sharedPreferences22.getInt("searchMessagesAsListHintShows", 0);
                 searchMessagesAsListUsed = sharedPreferences22.getBoolean("searchMessagesAsListUsed", false);
                 stickersReorderingHintUsed = sharedPreferences22.getBoolean("stickersReorderingHintUsed", false);
                 storyReactionsLongPressHint = sharedPreferences22.getBoolean("storyReactionsLongPressHint", false);
@@ -759,7 +754,6 @@ public class SharedConfig {
                 payByInvoice = sharedPreferences22.getBoolean("payByInvoice", false);
                 photoViewerBlur = sharedPreferences22.getBoolean("photoViewerBlur", true);
                 multipleReactionsPromoShowed = sharedPreferences22.getBoolean("multipleReactionsPromoShowed", false);
-                forceLessData = sharedPreferences22.getBoolean("forceLessData", false);
                 callEncryptionHintDisplayedCount = sharedPreferences22.getInt("callEncryptionHintDisplayedCount", 0);
                 loadDebugConfig(sharedPreferences22);
                 showNotificationsForAllAccounts = ApplicationLoader.applicationContext.getSharedPreferences("Notifications", 0).getBoolean("AllAccounts", true);
@@ -1119,14 +1113,6 @@ public class SharedConfig {
     public static void removeLockRecordAudioVideoHint() {
         SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
         edit.putInt("lockRecordAudioVideoHint", 3);
-        edit.apply();
-    }
-
-    public static void increaseSearchAsListHintShows() {
-        SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
-        int i = searchMessagesAsListHintShows + 1;
-        searchMessagesAsListHintShows = i;
-        edit.putInt("searchMessagesAsListHintShows", i);
         edit.apply();
     }
 
@@ -1642,12 +1628,6 @@ public class SharedConfig {
     public static void updateEmojiInteractionsHintCount(int i) {
         emojiInteractionsHintCount = i;
         ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0).edit().putInt("emojiInteractionsHintCount", emojiInteractionsHintCount).apply();
-    }
-
-    public static void setForceLessData(boolean z) {
-        SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
-        forceLessData = z;
-        edit.putBoolean("forceLessData", z).apply();
     }
 
     public static void updateDayNightThemeSwitchHintCount(int i) {

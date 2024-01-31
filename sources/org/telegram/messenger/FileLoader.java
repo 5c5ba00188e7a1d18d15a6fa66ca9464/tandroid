@@ -897,7 +897,7 @@ public class FileLoader extends BaseController {
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:119:0x024e, code lost:
-        if (r7 != null) goto L92;
+        if (r7 != null) goto L91;
      */
     /* JADX WARN: Code restructure failed: missing block: B:120:0x0250, code lost:
         r5 = r7;
@@ -907,7 +907,7 @@ public class FileLoader extends BaseController {
         r7 = false;
      */
     /* JADX WARN: Code restructure failed: missing block: B:131:0x0272, code lost:
-        if (r7 != null) goto L92;
+        if (r7 != null) goto L91;
      */
     /* JADX WARN: Removed duplicated region for block: B:116:0x0243  */
     /* JADX WARN: Removed duplicated region for block: B:144:0x029f  */
@@ -1153,7 +1153,7 @@ public class FileLoader extends BaseController {
             fileLoaderPriorityQueue2.add(fileLoadOperation2);
             fileLoaderPriorityQueue2.checkLoadingOperations(fileLoadOperation2.isStory && i9 >= 3);
             if (BuildVars.LOGS_ENABLED) {
-                FileLog.d("create load operation fileName=" + str6 + " documentName=" + getDocumentFileName(tLRPC$Document) + " size=" + AndroidUtilities.formatFileSize(fileLoadOperation2.totalBytesCount) + str3 + fileLoadOperation2.getPositionInQueue() + " account=" + fileLoader2.currentAccount);
+                FileLog.d("create load operation fileName=" + str6 + " documentName=" + getDocumentFileName(tLRPC$Document) + " size=" + AndroidUtilities.formatFileSize(fileLoadOperation2.totalBytesCount) + str3 + fileLoadOperation2.getPositionInQueue() + " account=" + fileLoader2.currentAccount + " cacheType=" + i2);
             }
             return fileLoadOperation2;
         }

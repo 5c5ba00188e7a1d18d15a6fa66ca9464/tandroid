@@ -40,7 +40,6 @@ import java.util.Collection;
 import java.util.List;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.MediaController;
-import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.R;
 /* loaded from: classes.dex */
 public class MediaCodecVideoRenderer extends MediaCodecRenderer {
@@ -2448,7 +2447,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
                             case 136:
                             case 137:
                             case 138:
-                            case MessagesStorage.LAST_DB_VERSION /* 139 */:
+                            case 139:
                                 break;
                             default:
                                 str2.hashCode();

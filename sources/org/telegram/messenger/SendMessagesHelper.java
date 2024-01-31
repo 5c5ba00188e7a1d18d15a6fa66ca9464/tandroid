@@ -3651,9 +3651,9 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x00ed  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x00fc  */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x0104  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x00fb  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x010a  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x0112  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3685,6 +3685,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                 }
                 i4++;
             }
+            getNotificationCenter().postNotificationNameOnUIThread(NotificationCenter.savedMessagesForwarded, sparseLongArray2);
             Integer num = getMessagesController().dialogs_read_outbox_max.get(Long.valueOf(j));
             if (num == null) {
                 num = Integer.valueOf(getMessagesStorage().getDialogReadMax(true, j));
@@ -4737,8 +4738,8 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         return this.voteSendTime.get(j, 0L).longValue();
     }
 
-    public void sendReaction(MessageObject messageObject, ArrayList<ReactionsLayoutInBubble.VisibleReaction> arrayList, ReactionsLayoutInBubble.VisibleReaction visibleReaction, boolean z, boolean z2, ChatActivity chatActivity, final Runnable runnable) {
-        if (messageObject == null || chatActivity == null) {
+    public void sendReaction(MessageObject messageObject, ArrayList<ReactionsLayoutInBubble.VisibleReaction> arrayList, ReactionsLayoutInBubble.VisibleReaction visibleReaction, boolean z, boolean z2, BaseFragment baseFragment, final Runnable runnable) {
+        if (messageObject == null || baseFragment == null) {
             return;
         }
         TLRPC$TL_messages_sendReaction tLRPC$TL_messages_sendReaction = new TLRPC$TL_messages_sendReaction();

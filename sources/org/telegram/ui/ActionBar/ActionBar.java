@@ -14,6 +14,7 @@ import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.SpannableString;
@@ -78,7 +79,6 @@ public class ActionBar extends FrameLayout {
     private boolean castShadows;
     private boolean centerScale;
     private boolean clipContent;
-    private PorterDuff.Mode colorFilterMode;
     SizeNotifierFrameLayout contentView;
     private boolean drawBackButton;
     EllipsizeSpanAnimator ellipsizeSpanAnimator;
@@ -160,7 +160,6 @@ public class ActionBar extends FrameLayout {
         this.overlayTitleToSet = new Object[3];
         this.castShadows = true;
         this.titleColorToSet = 0;
-        this.colorFilterMode = PorterDuff.Mode.MULTIPLY;
         this.blurScrimPaint = new Paint();
         this.rectTmp = new Rect();
         this.ellipsizeSpanAnimator = new EllipsizeSpanAnimator(this);
@@ -182,10 +181,6 @@ public class ActionBar extends FrameLayout {
         runnable.run();
     }
 
-    public void setColorFilterMode(PorterDuff.Mode mode) {
-        this.colorFilterMode = mode;
-    }
-
     public INavigationLayout.BackButtonState getBackButtonState() {
         Drawable drawable = this.backButtonDrawable;
         if (drawable instanceof INavigationLayout.IBackButtonDrawable) {
@@ -202,9 +197,6 @@ public class ActionBar extends FrameLayout {
         this.backButtonImageView = imageView;
         imageView.setScaleType(ImageView.ScaleType.CENTER);
         this.backButtonImageView.setBackgroundDrawable(Theme.createSelectorDrawable(this.itemsBackgroundColor));
-        if (this.itemsColor != 0) {
-            this.backButtonImageView.setColorFilter(new PorterDuffColorFilter(this.itemsColor, this.colorFilterMode));
-        }
         this.backButtonImageView.setPadding(AndroidUtilities.dp(1.0f), 0, 0, 0);
         addView(this.backButtonImageView, LayoutHelper.createFrame(54, 54, 51));
         this.backButtonImageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBar$$ExternalSyntheticLambda3
@@ -249,6 +241,8 @@ public class ActionBar extends FrameLayout {
             MenuDrawable menuDrawable = (MenuDrawable) drawable;
             menuDrawable.setBackColor(this.actionBarColor);
             menuDrawable.setIconColor(this.itemsColor);
+        } else if (drawable instanceof BitmapDrawable) {
+            this.backButtonImageView.setColorFilter(new PorterDuffColorFilter(this.itemsColor, PorterDuff.Mode.SRC_IN));
         }
     }
 
@@ -391,6 +385,7 @@ public class ActionBar extends FrameLayout {
         }
         this.backButtonImageView.setVisibility(i == 0 ? 8 : 0);
         this.backButtonImageView.setImageResource(i);
+        this.backButtonImageView.setColorFilter(new PorterDuffColorFilter(this.itemsColor, PorterDuff.Mode.SRC_IN));
     }
 
     private void createSubtitleTextView() {
@@ -1758,20 +1753,25 @@ public class ActionBar extends FrameLayout {
                 if (drawable instanceof BackDrawable) {
                     ((BackDrawable) drawable).setRotatedColor(i);
                     return;
+                } else if (drawable instanceof BitmapDrawable) {
+                    this.backButtonImageView.setColorFilter(new PorterDuffColorFilter(i, PorterDuff.Mode.SRC_IN));
+                    return;
+                } else {
+                    return;
                 }
-                return;
             }
             return;
         }
         this.itemsColor = i;
         ImageView imageView2 = this.backButtonImageView;
         if (imageView2 != null && i != 0) {
-            imageView2.setColorFilter(new PorterDuffColorFilter(this.itemsColor, this.colorFilterMode));
-            Drawable drawable2 = this.backButtonImageView.getDrawable();
+            Drawable drawable2 = imageView2.getDrawable();
             if (drawable2 instanceof BackDrawable) {
                 ((BackDrawable) drawable2).setColor(i);
             } else if (drawable2 instanceof MenuDrawable) {
                 ((MenuDrawable) drawable2).setIconColor(i);
+            } else if (drawable2 instanceof BitmapDrawable) {
+                this.backButtonImageView.setColorFilter(new PorterDuffColorFilter(i, PorterDuff.Mode.SRC_IN));
             }
         }
         ActionBarMenu actionBarMenu2 = this.menu;

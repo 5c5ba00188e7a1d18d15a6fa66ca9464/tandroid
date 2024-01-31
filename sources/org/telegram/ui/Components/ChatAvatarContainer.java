@@ -267,7 +267,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         }
         ChatActivity chatActivity3 = this.parentFragment;
         if (chatActivity3 != null && (chatActivity3.getChatMode() == 0 || this.parentFragment.getChatMode() == 3)) {
-            if ((!this.parentFragment.isThreadChat() || this.parentFragment.isTopic) && !UserObject.isReplyUser(this.parentFragment.getCurrentUser()) && this.parentFragment.getChatMode() != 3) {
+            if ((!this.parentFragment.isThreadChat() || this.parentFragment.isTopic) && !UserObject.isReplyUser(this.parentFragment.getCurrentUser())) {
                 setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatAvatarContainer$$ExternalSyntheticLambda1
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
@@ -509,7 +509,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
     }
 
     public void openProfile(boolean z) {
-        openProfile(z, true);
+        openProfile(z, true, false);
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:9:0x001b, code lost:
@@ -518,7 +518,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void openProfile(boolean z, boolean z2) {
+    public void openProfile(boolean z, boolean z2, boolean z3) {
         if (z) {
             if (!AndroidUtilities.isTablet()) {
                 android.graphics.Point point = AndroidUtilities.displaySize;
@@ -555,18 +555,23 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
                 if (z2) {
                     profileActivity.setPlayProfileAnimation(z ? 2 : 1);
                 }
-                this.parentFragment.presentFragment(profileActivity);
+                this.parentFragment.presentFragment(profileActivity, z3);
                 return;
             }
             return;
         }
         Bundle bundle2 = new Bundle();
-        if (UserObject.isUserSelf(currentUser) && this.parentFragment.getChatMode() != 3) {
-            bundle2.putLong("dialog_id", this.parentFragment.getDialogId());
-            System.arraycopy(this.sharedMediaPreloader.getLastMediaCount(), 0, new int[8], 0, 8);
-            MediaActivity mediaActivity = new MediaActivity(bundle2, this.sharedMediaPreloader);
-            mediaActivity.setChatInfo(this.parentFragment.getCurrentChatInfo());
-            this.parentFragment.presentFragment(mediaActivity);
+        if (UserObject.isUserSelf(currentUser)) {
+            if (this.sharedMediaPreloader.hasSharedMedia()) {
+                bundle2.putLong("dialog_id", this.parentFragment.getDialogId());
+                if (this.parentFragment.getChatMode() == 3) {
+                    bundle2.putLong("topic_id", this.parentFragment.getSavedDialogId());
+                }
+                MediaActivity mediaActivity = new MediaActivity(bundle2, this.sharedMediaPreloader);
+                mediaActivity.setChatInfo(this.parentFragment.getCurrentChatInfo());
+                this.parentFragment.presentFragment(mediaActivity, z3);
+                return;
+            }
             return;
         }
         if (this.parentFragment.getChatMode() == 3) {
@@ -590,7 +595,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         if (z2) {
             profileActivity2.setPlayProfileAnimation(z ? 2 : 1);
         }
-        this.parentFragment.presentFragment(profileActivity2);
+        this.parentFragment.presentFragment(profileActivity2, z3);
     }
 
     public void setOccupyStatusBar(boolean z) {

@@ -7,7 +7,6 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
 import java.nio.ByteBuffer;
 import org.telegram.messenger.LiteMode;
-import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.R;
 /* loaded from: classes.dex */
 public final class Ac3Util {
@@ -16,7 +15,7 @@ public final class Ac3Util {
     private static final int[] SAMPLE_RATE_BY_FSCOD2 = {24000, 22050, 16000};
     private static final int[] CHANNEL_COUNT_BY_ACMOD = {2, 1, 2, 3, 3, 4, 4, 5};
     private static final int[] BITRATE_BY_HALF_FRMSIZECOD = {32, 40, 48, 56, 64, 80, 96, R.styleable.AppCompatTheme_toolbarNavigationButtonStyle, 128, 160, 192, 224, LiteMode.FLAG_CHAT_BLUR, 320, 384, 448, LiteMode.FLAG_CALLS_ANIMATIONS, 576, 640};
-    private static final int[] SYNCFRAME_SIZE_WORDS_BY_HALF_FRMSIZECOD_44_1 = {69, 87, R.styleable.AppCompatTheme_textAppearanceListItemSecondary, 121, MessagesStorage.LAST_DB_VERSION, 174, 208, 243, 278, 348, 417, 487, 557, 696, 835, 975, 1114, 1253, 1393};
+    private static final int[] SYNCFRAME_SIZE_WORDS_BY_HALF_FRMSIZECOD_44_1 = {69, 87, R.styleable.AppCompatTheme_textAppearanceListItemSecondary, 121, 139, 174, 208, 243, 278, 348, 417, 487, 557, 696, 835, 975, 1114, 1253, 1393};
 
     /* loaded from: classes.dex */
     public static final class SyncFrameInfo {

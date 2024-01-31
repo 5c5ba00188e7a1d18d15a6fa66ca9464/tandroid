@@ -11,8 +11,8 @@ public final /* synthetic */ class SharedMediaLayout$$ExternalSyntheticLambda8 i
 
     @Override // android.view.View.OnTouchListener
     public final boolean onTouch(View view, MotionEvent motionEvent) {
-        boolean lambda$new$9;
-        lambda$new$9 = SharedMediaLayout.lambda$new$9(view, motionEvent);
-        return lambda$new$9;
+        boolean lambda$new$11;
+        lambda$new$11 = SharedMediaLayout.lambda$new$11(view, motionEvent);
+        return lambda$new$11;
     }
 }

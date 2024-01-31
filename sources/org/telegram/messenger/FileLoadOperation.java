@@ -3166,7 +3166,7 @@ public class FileLoadOperation {
                                     }
                                 }, null, null, i13, i14, i5, z8);
                                 if (BuildVars.LOGS_ENABLED) {
-                                    FileLog.d("debug_loading: " + this.cacheFileFinal.getName() + " dc=" + i14 + " send reqId " + requestInfo.requestToken + " offset=" + requestInfo.offset + " conType=" + i5 + " priority=");
+                                    FileLog.d("debug_loading: " + this.cacheFileFinal.getName() + " dc=" + i14 + " send reqId " + requestInfo.requestToken + " offset=" + requestInfo.offset + " conType=" + i5 + " priority=" + this.priority);
                                 }
                                 this.requestsCount++;
                             } else {

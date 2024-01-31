@@ -221,6 +221,7 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
         actionBar.setBackButtonImage(R.drawable.ic_ab_back);
         actionBar.setItemsBackgroundColor(436207615, false);
         actionBar.setItemsColor(-1, false);
+        actionBar.setItemsColor(-1, true);
         addView(actionBar, LayoutHelper.createFrame(-1, -2, 55));
         actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.Stories.recorder.GalleryListView.6
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick

@@ -29,6 +29,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
+import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.tl.TL_stories$PeerStories;
 import org.telegram.tgnet.tl.TL_stories$StoryItem;
 import org.telegram.tgnet.tl.TL_stories$TL_storyItemDeleted;
@@ -222,11 +223,11 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:59:0x00f0, code lost:
-        if (r7 != false) goto L34;
+    /* JADX WARN: Code restructure failed: missing block: B:101:0x0186, code lost:
+        if (r11 != false) goto L103;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:96:0x016f, code lost:
-        if (r9 != false) goto L99;
+    /* JADX WARN: Code restructure failed: missing block: B:59:0x00fd, code lost:
+        if (r7 != false) goto L34;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -236,7 +237,9 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
         int i;
         int i2;
         TL_stories$StoryItem tL_stories$StoryItem;
+        int i3;
         boolean z3 = this.dialogId == UserConfig.getInstance(this.currentAccount).getClientUserId();
+        int currentTime = ConnectionsManager.getInstance(this.currentAccount).getCurrentTime();
         TL_stories$PeerStories storiesFromFullPeer = MessagesController.getInstance(this.currentAccount).getStoriesController().getStoriesFromFullPeer(this.dialogId);
         TL_stories$PeerStories stories = MessagesController.getInstance(this.currentAccount).getStoriesController().getStories(this.dialogId);
         TL_stories$PeerStories tL_stories$PeerStories = this.dialogId == 0 ? null : storiesFromFullPeer;
@@ -248,110 +251,112 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
             arrayList = new ArrayList<>();
         }
         ArrayList arrayList2 = new ArrayList();
-        int i3 = this.unreadCount;
+        int i4 = this.unreadCount;
         this.unreadCount = 0;
         if (arrayList != null) {
-            i2 = 0;
-            for (int i4 = 0; i4 < arrayList.size(); i4++) {
-                TL_stories$StoryItem tL_stories$StoryItem2 = arrayList.get(i4);
+            int i5 = 0;
+            for (int i6 = 0; i6 < arrayList.size(); i6++) {
+                TL_stories$StoryItem tL_stories$StoryItem2 = arrayList.get(i6);
                 if (!(tL_stories$StoryItem2 instanceof TL_stories$TL_storyItemDeleted)) {
                     if (tL_stories$StoryItem2.id > max) {
                         this.unreadCount++;
                     }
-                    i2++;
+                    i5++;
                 }
             }
-            int i5 = 0;
+            int i7 = 0;
             while (true) {
-                if (i5 >= arrayList.size()) {
+                if (i7 >= arrayList.size()) {
                     i = 3;
                     break;
                 }
-                TL_stories$StoryItem tL_stories$StoryItem3 = arrayList.get(i5);
+                TL_stories$StoryItem tL_stories$StoryItem3 = arrayList.get(i7);
                 if (!(tL_stories$StoryItem3 instanceof TL_stories$TL_storyItemDeleted)) {
                     if (tL_stories$StoryItem3 instanceof TL_stories$TL_storyItemSkipped) {
-                        int i6 = tL_stories$StoryItem3.id;
+                        int i8 = tL_stories$StoryItem3.id;
                         if (stories != null) {
-                            int i7 = 0;
+                            int i9 = 0;
                             while (true) {
-                                if (i7 >= stories.stories.size()) {
+                                if (i9 >= stories.stories.size()) {
                                     break;
-                                } else if (stories.stories.get(i7).id == i6) {
-                                    tL_stories$StoryItem3 = stories.stories.get(i7);
+                                } else if (stories.stories.get(i9).id == i8) {
+                                    tL_stories$StoryItem3 = stories.stories.get(i9);
                                     break;
                                 } else {
-                                    i7++;
+                                    i9++;
                                 }
                             }
                         }
                         boolean z4 = tL_stories$StoryItem3 instanceof TL_stories$TL_storyItemSkipped;
                         if (z4) {
                             if (storiesFromFullPeer != null) {
-                                int i8 = 0;
+                                int i10 = 0;
                                 while (true) {
-                                    if (i8 >= storiesFromFullPeer.stories.size()) {
+                                    if (i10 >= storiesFromFullPeer.stories.size()) {
                                         break;
-                                    } else if (storiesFromFullPeer.stories.get(i8).id == i6) {
-                                        storiesFromFullPeer.stories.get(i8);
+                                    } else if (storiesFromFullPeer.stories.get(i10).id == i8) {
+                                        storiesFromFullPeer.stories.get(i10);
                                         break;
                                     } else {
-                                        i8++;
+                                        i10++;
                                     }
                                 }
                             }
                         }
                     }
-                    if (z3 || tL_stories$StoryItem3.id > max) {
+                    int i11 = tL_stories$StoryItem3.expire_date;
+                    if ((i11 == 0 || currentTime <= i11) && (z3 || tL_stories$StoryItem3.id > max)) {
                         arrayList2.add(tL_stories$StoryItem3);
                         i = 3;
                         if (arrayList2.size() >= 3) {
                             break;
                         }
-                        i5++;
+                        i7++;
                     }
                 }
-                i5++;
+                i7++;
             }
+            i2 = i5;
         } else {
             i = 3;
             i2 = 0;
         }
         if (arrayList2.size() < i) {
-            for (int i9 = 0; i9 < arrayList.size(); i9++) {
-                TL_stories$StoryItem tL_stories$StoryItem4 = arrayList.get(i9);
+            for (int i12 = 0; i12 < arrayList.size(); i12++) {
+                TL_stories$StoryItem tL_stories$StoryItem4 = arrayList.get(i12);
                 if (tL_stories$StoryItem4 instanceof TL_stories$TL_storyItemSkipped) {
-                    int i10 = tL_stories$StoryItem4.id;
+                    int i13 = tL_stories$StoryItem4.id;
                     if (stories != null) {
-                        int i11 = 0;
+                        int i14 = 0;
                         while (true) {
-                            if (i11 >= stories.stories.size()) {
+                            if (i14 >= stories.stories.size()) {
                                 break;
-                            } else if (stories.stories.get(i11).id == i10) {
-                                tL_stories$StoryItem4 = stories.stories.get(i11);
+                            } else if (stories.stories.get(i14).id == i13) {
+                                tL_stories$StoryItem4 = stories.stories.get(i14);
                                 break;
                             } else {
-                                i11++;
+                                i14++;
                             }
                         }
                     }
                     boolean z5 = tL_stories$StoryItem4 instanceof TL_stories$TL_storyItemSkipped;
                     if (z5) {
                         if (storiesFromFullPeer != null) {
-                            int i12 = 0;
+                            int i15 = 0;
                             while (true) {
-                                if (i12 >= storiesFromFullPeer.stories.size()) {
+                                if (i15 >= storiesFromFullPeer.stories.size()) {
                                     break;
-                                } else if (storiesFromFullPeer.stories.get(i12).id == i10) {
-                                    storiesFromFullPeer.stories.get(i12);
+                                } else if (storiesFromFullPeer.stories.get(i15).id == i13) {
+                                    storiesFromFullPeer.stories.get(i15);
                                     break;
                                 } else {
-                                    i12++;
+                                    i15++;
                                 }
                             }
                         }
                     }
                 }
-                if (!(tL_stories$StoryItem4 instanceof TL_stories$TL_storyItemDeleted) && !arrayList2.contains(tL_stories$StoryItem4)) {
+                if (!(tL_stories$StoryItem4 instanceof TL_stories$TL_storyItemDeleted) && (((i3 = tL_stories$StoryItem4.expire_date) == 0 || currentTime <= i3) && !arrayList2.contains(tL_stories$StoryItem4))) {
                     arrayList2.add(tL_stories$StoryItem4);
                     if (arrayList2.size() >= 3) {
                         break;
@@ -359,48 +364,48 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
                 }
             }
         }
-        for (int i13 = 0; i13 < this.circles.size(); i13++) {
-            StoryCircle storyCircle = this.circles.get(i13);
-            int i14 = 0;
+        for (int i16 = 0; i16 < this.circles.size(); i16++) {
+            StoryCircle storyCircle = this.circles.get(i16);
+            int i17 = 0;
             while (true) {
-                if (i14 >= arrayList2.size()) {
-                    i14 = -1;
+                if (i17 >= arrayList2.size()) {
+                    i17 = -1;
                     tL_stories$StoryItem = null;
                     break;
                 }
-                tL_stories$StoryItem = (TL_stories$StoryItem) arrayList2.get(i14);
+                tL_stories$StoryItem = (TL_stories$StoryItem) arrayList2.get(i17);
                 if (tL_stories$StoryItem.id == storyCircle.storyId) {
                     break;
                 }
-                i14++;
+                i17++;
             }
-            if (i14 == -1) {
+            if (i17 == -1) {
                 storyCircle.scale = 0.0f;
             } else {
-                storyCircle.index = i14;
+                storyCircle.index = i17;
                 storyCircle.read = z3 || !(tL_stories$PeerStories == null || tL_stories$StoryItem == null || tL_stories$StoryItem.id > this.storiesController.getMaxStoriesReadId(this.dialogId));
             }
             if (!z) {
                 storyCircle.apply();
             }
         }
-        for (int i15 = 0; i15 < arrayList2.size(); i15++) {
-            TL_stories$StoryItem tL_stories$StoryItem5 = (TL_stories$StoryItem) arrayList2.get(i15);
-            int i16 = 0;
+        for (int i18 = 0; i18 < arrayList2.size(); i18++) {
+            TL_stories$StoryItem tL_stories$StoryItem5 = (TL_stories$StoryItem) arrayList2.get(i18);
+            int i19 = 0;
             while (true) {
-                if (i16 >= this.circles.size()) {
-                    i16 = -1;
+                if (i19 >= this.circles.size()) {
+                    i19 = -1;
                     break;
-                } else if (this.circles.get(i16).storyId == tL_stories$StoryItem5.id) {
+                } else if (this.circles.get(i19).storyId == tL_stories$StoryItem5.id) {
                     break;
                 } else {
-                    i16++;
+                    i19++;
                 }
             }
-            if (i16 == -1) {
+            if (i19 == -1) {
                 tL_stories$StoryItem5.dialogId = this.dialogId;
                 StoryCircle storyCircle2 = new StoryCircle(tL_stories$StoryItem5);
-                storyCircle2.index = i15;
+                storyCircle2.index = i18;
                 storyCircle2.scale = 1.0f;
                 storyCircle2.scaleAnimated.set(0.0f, true);
                 storyCircle2.read = z3 || (tL_stories$PeerStories != null && tL_stories$StoryItem5.id <= tL_stories$PeerStories.max_read_id);
@@ -411,17 +416,17 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
             }
         }
         this.mainCircle = null;
-        int i17 = 0;
+        int i20 = 0;
         while (true) {
-            if (i17 >= this.circles.size()) {
+            if (i20 >= this.circles.size()) {
                 break;
             }
-            StoryCircle storyCircle3 = this.circles.get(i17);
+            StoryCircle storyCircle3 = this.circles.get(i20);
             if (storyCircle3.scale > 0.0f) {
                 this.mainCircle = storyCircle3;
                 break;
             }
-            i17++;
+            i20++;
         }
         ArrayList<StoriesController.UploadingStory> uploadingStories = this.storiesController.getUploadingStories(this.dialogId);
         this.uploadingStoriesCount = uploadingStories == null ? 0 : uploadingStories.size();
@@ -430,7 +435,7 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
             max2 = 1;
         }
         if (z2 && z) {
-            if (max2 == this.count + 1 && this.unreadCount == i3 + 1) {
+            if (max2 == this.count + 1 && this.unreadCount == i4 + 1) {
                 animateNewStory();
             }
         }

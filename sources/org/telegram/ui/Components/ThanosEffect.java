@@ -17,7 +17,6 @@ import android.view.TextureView;
 import android.view.View;
 import com.google.zxing.common.detector.MathUtils;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import javax.microedition.khronos.egl.EGL10;
 import javax.microedition.khronos.egl.EGLConfig;
@@ -204,6 +203,9 @@ public class ThanosEffect extends TextureView {
     }
 
     public void kill() {
+        if (this.destroyed) {
+            return;
+        }
         this.destroyed = true;
         Iterator<ToSet> it = this.toSet.iterator();
         while (it.hasNext()) {
@@ -307,7 +309,6 @@ public class ThanosEffect extends TextureView {
         private int gridSizeHandle;
         private int height;
         private final Runnable invalidate;
-        private boolean killed;
         private int longevityHandle;
         private int matrixHandle;
         private int offsetHandle;
@@ -352,7 +353,7 @@ public class ThanosEffect extends TextureView {
             } else if (i == 2) {
                 killInternal();
             } else if (i == 3) {
-                addAnimationInternal((Animation) message.obj);
+                lambda$animateGroup$2((Animation) message.obj);
             } else if (i != 4) {
                 if (i != 5) {
                     return;
@@ -374,7 +375,7 @@ public class ThanosEffect extends TextureView {
                 init();
                 if (!this.toAddAnimations.isEmpty()) {
                     while (i < this.toAddAnimations.size()) {
-                        addAnimationInternal(this.toAddAnimations.get(i));
+                        lambda$animateGroup$2(this.toAddAnimations.get(i));
                         i++;
                     }
                     this.toAddAnimations.clear();
@@ -392,7 +393,7 @@ public class ThanosEffect extends TextureView {
                     i++;
                 }
                 this.toAddAnimations.clear();
-                AndroidUtilities.runOnUIThread(ThanosEffect$DrawingThread$$ExternalSyntheticLambda1.INSTANCE);
+                AndroidUtilities.runOnUIThread(ThanosEffect$DrawingThread$$ExternalSyntheticLambda5.INSTANCE);
                 killInternal();
             }
         }
@@ -428,16 +429,14 @@ public class ThanosEffect extends TextureView {
         }
 
         public void kill() {
-            if (this.killed) {
-                return;
-            }
-            try {
-                Handler handler = getHandler();
-                if (handler != null) {
-                    handler.sendMessage(handler.obtainMessage(2));
+            if (this.alive) {
+                try {
+                    Handler handler = getHandler();
+                    if (handler != null) {
+                        handler.sendMessage(handler.obtainMessage(2));
+                    }
+                } catch (Exception unused) {
                 }
-                this.killed = true;
-            } catch (Exception unused) {
             }
         }
 
@@ -612,7 +611,7 @@ public class ThanosEffect extends TextureView {
                         i++;
                     }
                     this.pendingAnimations.clear();
-                    AndroidUtilities.runOnUIThread(ThanosEffect$DrawingThread$$ExternalSyntheticLambda0.INSTANCE);
+                    AndroidUtilities.runOnUIThread(ThanosEffect$DrawingThread$$ExternalSyntheticLambda4.INSTANCE);
                     killInternal();
                 }
             }
@@ -624,29 +623,56 @@ public class ThanosEffect extends TextureView {
         }
 
         public void animateGroup(ArrayList<View> arrayList, Runnable runnable) {
-            if (this.alive) {
-                Animation animation = new Animation(this, arrayList, runnable);
-                Handler handler = getHandler();
-                this.running = true;
-                if (handler == null) {
-                    this.toAddAnimations.add(animation);
-                } else {
-                    handler.sendMessage(handler.obtainMessage(3, animation));
+            if (!this.alive) {
+                for (int i = 0; i < arrayList.size(); i++) {
+                    arrayList.get(i).setVisibility(8);
                 }
+                if (runnable != null) {
+                    AndroidUtilities.runOnUIThread(runnable);
+                }
+                Runnable runnable2 = this.destroy;
+                if (runnable2 != null) {
+                    AndroidUtilities.runOnUIThread(runnable2);
+                    this.destroy = null;
+                    return;
+                }
+                return;
             }
+            final Animation animation = new Animation(this, arrayList, runnable);
+            this.running = true;
+            postRunnable(new Runnable() { // from class: org.telegram.ui.Components.ThanosEffect$DrawingThread$$ExternalSyntheticLambda1
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ThanosEffect.DrawingThread.this.lambda$animateGroup$2(animation);
+                }
+            });
         }
 
         public void animate(View view, float f, Runnable runnable) {
-            if (this.alive) {
-                Animation animation = new Animation(view, f, runnable);
-                Handler handler = getHandler();
-                this.running = true;
-                if (handler == null) {
-                    this.toAddAnimations.add(animation);
-                } else {
-                    handler.sendMessage(handler.obtainMessage(3, animation));
+            if (!this.alive) {
+                if (view != null) {
+                    view.setVisibility(8);
                 }
+                if (runnable != null) {
+                    AndroidUtilities.runOnUIThread(runnable);
+                }
+                Runnable runnable2 = this.destroy;
+                if (runnable2 != null) {
+                    AndroidUtilities.runOnUIThread(runnable2);
+                    this.destroy = null;
+                    return;
+                }
+                return;
             }
+            final Animation animation = new Animation(view, f, runnable);
+            getHandler();
+            this.running = true;
+            postRunnable(new Runnable() { // from class: org.telegram.ui.Components.ThanosEffect$DrawingThread$$ExternalSyntheticLambda3
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ThanosEffect.DrawingThread.this.lambda$animate$3(animation);
+                }
+            });
         }
 
         public void cancel(View view) {
@@ -686,16 +712,40 @@ public class ThanosEffect extends TextureView {
             }
         }
 
-        public void animate(Matrix matrix, Bitmap bitmap, Runnable runnable, Runnable runnable2) {
-            if (this.alive) {
-                Animation animation = new Animation(matrix, bitmap, runnable, runnable2);
-                Handler handler = getHandler();
-                this.running = true;
-                if (handler == null) {
-                    this.toAddAnimations.add(animation);
-                } else {
-                    handler.sendMessage(handler.obtainMessage(3, animation));
+        public void animate(Matrix matrix, Bitmap bitmap, final Runnable runnable, final Runnable runnable2) {
+            if (!this.alive) {
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ThanosEffect$DrawingThread$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        ThanosEffect.DrawingThread.lambda$animate$4(runnable, runnable2);
+                    }
+                });
+                Runnable runnable3 = this.destroy;
+                if (runnable3 != null) {
+                    AndroidUtilities.runOnUIThread(runnable3);
+                    this.destroy = null;
+                    return;
                 }
+                return;
+            }
+            final Animation animation = new Animation(matrix, bitmap, runnable, runnable2);
+            getHandler();
+            this.running = true;
+            postRunnable(new Runnable() { // from class: org.telegram.ui.Components.ThanosEffect$DrawingThread$$ExternalSyntheticLambda2
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ThanosEffect.DrawingThread.this.lambda$animate$5(animation);
+                }
+            });
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public static /* synthetic */ void lambda$animate$4(Runnable runnable, Runnable runnable2) {
+            if (runnable != null) {
+                runnable.run();
+            }
+            if (runnable2 != null) {
+                AndroidUtilities.runOnUIThread(runnable2);
             }
         }
 
@@ -712,7 +762,9 @@ public class ThanosEffect extends TextureView {
             }
         }
 
-        private void addAnimationInternal(Animation animation) {
+        /* JADX INFO: Access modifiers changed from: private */
+        /* renamed from: addAnimationInternal */
+        public void lambda$animateGroup$2(Animation animation) {
             GLES31.glGenTextures(1, animation.texture, 0);
             GLES20.glBindTexture(3553, animation.texture[0]);
             GLES20.glTexParameteri(3553, 10241, 9729);
@@ -795,8 +847,8 @@ public class ThanosEffect extends TextureView {
                 this.bitmap = bitmap;
             }
 
-            /* JADX WARN: Code restructure failed: missing block: B:86:0x021b, code lost:
-                if (r0.messages.size() != 1) goto L90;
+            /* JADX WARN: Code restructure failed: missing block: B:87:0x0217, code lost:
+                if (r0.messages.size() != 1) goto L91;
              */
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -818,8 +870,6 @@ public class ThanosEffect extends TextureView {
                 float f3;
                 int i2;
                 ArrayList arrayList9;
-                MessageObject.GroupedMessagePosition groupedMessagePosition;
-                HashMap<MessageObject, MessageObject.GroupedMessagePosition> hashMap;
                 Animation animation = this;
                 DrawingThread.this = drawingThread;
                 animation.views = new ArrayList<>();
@@ -895,23 +945,18 @@ public class ThanosEffect extends TextureView {
                                         ChatMessageCell chatMessageCell = (ChatMessageCell) view2;
                                         if (view2.getY() <= recyclerListView.getHeight() && view2.getY() + view2.getHeight() >= 0.0f && chatMessageCell.getVisibility() != 4 && chatMessageCell.getVisibility() != 8) {
                                             MessageObject.GroupedMessages currentMessagesGroup = chatMessageCell.getCurrentMessagesGroup();
-                                            if (currentMessagesGroup == null || (hashMap = currentMessagesGroup.positions) == null) {
-                                                f3 = f4;
-                                                groupedMessagePosition = null;
-                                            } else {
-                                                f3 = f4;
-                                                groupedMessagePosition = hashMap.get(chatMessageCell.getMessageObject());
-                                            }
-                                            if (i10 == 0 && (groupedMessagePosition != null || chatMessageCell.getTransitionParams().animateBackgroundBoundsInner)) {
-                                                if (groupedMessagePosition == null || groupedMessagePosition.last || (groupedMessagePosition.minX == 0 && groupedMessagePosition.minY == 0)) {
-                                                    if (groupedMessagePosition == null || groupedMessagePosition.last) {
+                                            MessageObject.GroupedMessagePosition position = (currentMessagesGroup == null || currentMessagesGroup.positions == null) ? null : currentMessagesGroup.getPosition(chatMessageCell.getMessageObject());
+                                            f3 = f4;
+                                            if (i10 == 0 && (position != null || chatMessageCell.getTransitionParams().animateBackgroundBoundsInner)) {
+                                                if (position == null || position.last || (position.minX == 0 && position.minY == 0)) {
+                                                    if (position == null || position.last) {
                                                         arrayList11.add(chatMessageCell);
                                                     }
-                                                    if ((groupedMessagePosition == null || (groupedMessagePosition.minX == 0 && groupedMessagePosition.minY == 0)) && chatMessageCell.hasNameLayout()) {
+                                                    if ((position == null || (position.minX == 0 && position.minY == 0)) && chatMessageCell.hasNameLayout()) {
                                                         arrayList12.add(chatMessageCell);
                                                     }
                                                 }
-                                                if ((groupedMessagePosition != null || chatMessageCell.getTransitionParams().transformGroupToSingleMessage || chatMessageCell.getTransitionParams().animateBackgroundBoundsInner) && (groupedMessagePosition == null || (groupedMessagePosition.flags & 8) != 0)) {
+                                                if ((position != null || chatMessageCell.getTransitionParams().transformGroupToSingleMessage || chatMessageCell.getTransitionParams().animateBackgroundBoundsInner) && (position == null || (position.flags & 8) != 0)) {
                                                     arrayList13.add(chatMessageCell);
                                                 }
                                             }
@@ -1000,7 +1045,7 @@ public class ThanosEffect extends TextureView {
                                     MessageObject.GroupedMessages.TransitionParams transitionParams3 = groupedMessages.transitionParams;
                                     float f6 = transitionParams3.left + nonAnimationTranslationX + transitionParams3.offsetLeft;
                                     float f7 = transitionParams3.top + transitionParams3.offsetTop;
-                                    float f8 = transitionParams3.offsetRight + transitionParams3.right + nonAnimationTranslationX;
+                                    float f8 = transitionParams3.right + nonAnimationTranslationX + transitionParams3.offsetRight;
                                     float f9 = transitionParams3.bottom + transitionParams3.offsetBottom;
                                     if (!transitionParams3.backgroundChangeBounds) {
                                         f7 += transitionParams3.cell.getTranslationY();
@@ -1012,21 +1057,24 @@ public class ThanosEffect extends TextureView {
                                     float f10 = animation.top;
                                     float f11 = f7 - f10;
                                     float f12 = f9 - f10;
+                                    float f13 = animation.left;
+                                    float f14 = f6 - f13;
+                                    float f15 = f8 - f13;
                                     boolean z = (groupedMessages.transitionParams.cell.getScaleX() == 1.0f && groupedMessages.transitionParams.cell.getScaleY() == 1.0f) ? false : true;
                                     if (z) {
                                         canvas2.save();
                                         arrayList7 = arrayList11;
-                                        canvas2.scale(groupedMessages.transitionParams.cell.getScaleX(), groupedMessages.transitionParams.cell.getScaleY(), f6 + ((f8 - f6) / 2.0f), f11 + ((f12 - f11) / 2.0f));
+                                        canvas2.scale(groupedMessages.transitionParams.cell.getScaleX(), groupedMessages.transitionParams.cell.getScaleY(), f14 + ((f15 - f14) / 2.0f), f11 + ((f12 - f11) / 2.0f));
                                     } else {
                                         arrayList7 = arrayList11;
                                     }
                                     MessageObject.GroupedMessages.TransitionParams transitionParams4 = groupedMessages.transitionParams;
                                     ChatActivity chatActivity4 = chatActivity3;
-                                    float f13 = f5;
+                                    float f16 = f5;
                                     int i19 = i18;
                                     int i20 = i17;
                                     ArrayList arrayList16 = arrayList14;
-                                    transitionParams4.cell.drawBackground(canvas2, (int) f6, (int) f11, (int) f8, (int) f12, transitionParams4.pinnedTop, transitionParams4.pinnedBotton, false, chatActivityFragmentView.getKeyboardHeight());
+                                    transitionParams4.cell.drawBackground(canvas2, (int) f14, (int) f11, (int) f15, (int) f12, transitionParams4.pinnedTop, transitionParams4.pinnedBotton, false, chatActivityFragmentView.getKeyboardHeight());
                                     MessageObject.GroupedMessages.TransitionParams transitionParams5 = groupedMessages.transitionParams;
                                     transitionParams5.cell = null;
                                     transitionParams5.drawCaptionLayout = groupedMessages.hasCaption;
@@ -1039,7 +1087,7 @@ public class ThanosEffect extends TextureView {
                                                 if (chatMessageCell2.getCurrentMessagesGroup() == groupedMessages) {
                                                     int left3 = chatMessageCell2.getLeft();
                                                     int top3 = chatMessageCell2.getTop();
-                                                    view3.setPivotX((f6 - left3) + ((f8 - f6) / 2.0f));
+                                                    view3.setPivotX((f14 - left3) + ((f15 - f14) / 2.0f));
                                                     view3.setPivotY((f11 - top3) + ((f12 - f11) / 2.0f));
                                                 }
                                             }
@@ -1050,7 +1098,7 @@ public class ThanosEffect extends TextureView {
                                     arrayList10 = arrayList15;
                                     arrayList11 = arrayList7;
                                     chatActivity3 = chatActivity4;
-                                    f5 = f13;
+                                    f5 = f16;
                                     i17 = i20;
                                     arrayList14 = arrayList16;
                                 }
@@ -1084,13 +1132,13 @@ public class ThanosEffect extends TextureView {
                         ArrayList arrayList17 = arrayList12;
                         ArrayList arrayList18 = arrayList11;
                         ChatActivity chatActivity5 = chatActivity3;
-                        float f14 = f4;
-                        float f15 = f5;
+                        float f17 = f4;
+                        float f18 = f5;
                         ArrayList arrayList19 = arrayList13;
                         for (int i22 = 0; i22 < arrayList.size(); i22++) {
                             View view4 = arrayList.get(i22);
                             canvas2.save();
-                            canvas2.translate(view4.getX() - f15, view4.getY() - f14);
+                            canvas2.translate(view4.getX() - f18, view4.getY() - f17);
                             view4.draw(canvas2);
                             if (view4 instanceof ChatMessageCell) {
                                 ((ChatMessageCell) view4).drawOutboundsContent(canvas2);
@@ -1107,7 +1155,7 @@ public class ThanosEffect extends TextureView {
                             while (i23 < size) {
                                 ArrayList arrayList20 = arrayList18;
                                 ChatMessageCell chatMessageCell3 = (ChatMessageCell) arrayList20.get(i23);
-                                drawChildElement(recyclerListView, chatActivity6, canvas2, y, chatMessageCell3, 0, chatMessageCell3.getX() - f15, chatMessageCell3.getY() - f14);
+                                drawChildElement(recyclerListView, chatActivity6, canvas2, y, chatMessageCell3, 0, chatMessageCell3.getX() - f18, chatMessageCell3.getY() - f17);
                                 i23++;
                                 chatActivity6 = chatActivity6;
                                 canvas2 = canvas2;
@@ -1126,7 +1174,7 @@ public class ThanosEffect extends TextureView {
                         if (size2 > 0) {
                             for (int i24 = 0; i24 < size2; i24++) {
                                 ChatMessageCell chatMessageCell4 = (ChatMessageCell) arrayList2.get(i24);
-                                drawChildElement(recyclerListView, chatActivity, canvas, y, chatMessageCell4, 1, chatMessageCell4.getX() - f15, chatMessageCell4.getY() - f14);
+                                drawChildElement(recyclerListView, chatActivity, canvas, y, chatMessageCell4, 1, chatMessageCell4.getX() - f18, chatMessageCell4.getY() - f17);
                             }
                             arrayList2.clear();
                         }
@@ -1137,7 +1185,7 @@ public class ThanosEffect extends TextureView {
                                 ArrayList arrayList21 = arrayList19;
                                 ChatMessageCell chatMessageCell5 = (ChatMessageCell) arrayList21.get(i25);
                                 if (chatMessageCell5.getCurrentPosition() != null || chatMessageCell5.getTransitionParams().animateBackgroundBoundsInner) {
-                                    drawChildElement(recyclerListView, chatActivity, canvas, y, chatMessageCell5, 2, chatMessageCell5.getX() - f15, chatMessageCell5.getY() - f14);
+                                    drawChildElement(recyclerListView, chatActivity, canvas, y, chatMessageCell5, 2, chatMessageCell5.getX() - f18, chatMessageCell5.getY() - f17);
                                 }
                                 i25++;
                                 arrayList19 = arrayList21;

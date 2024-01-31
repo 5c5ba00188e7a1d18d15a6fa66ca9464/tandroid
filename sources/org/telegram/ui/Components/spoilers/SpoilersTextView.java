@@ -2,9 +2,11 @@ package org.telegram.ui.Components.spoilers;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.Region;
@@ -17,12 +19,18 @@ import java.util.List;
 import java.util.Stack;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.Cells.TextSelectionHelper;
+import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.spoilers.SpoilersClickDetector;
 /* loaded from: classes4.dex */
 public class SpoilersTextView extends TextView implements TextSelectionHelper.SimpleSelectabeleView {
     public boolean allowClickSpoilers;
+    private AnimatedEmojiSpan.EmojiGroupedSpans animatedEmoji;
+    private ColorFilter animatedEmojiColorFilter;
+    public int cacheType;
     private SpoilersClickDetector clickDetector;
     private boolean isSpoilersRevealed;
+    private Layout lastLayout;
+    private int lastTextLength;
     private Path path;
     protected List<SpoilerEffect> spoilers;
     private Stack<SpoilerEffect> spoilersPool;
@@ -38,6 +46,8 @@ public class SpoilersTextView extends TextView implements TextSelectionHelper.Si
         this.spoilersPool = new Stack<>();
         this.path = new Path();
         this.allowClickSpoilers = true;
+        this.cacheType = 0;
+        this.lastLayout = null;
         this.clickDetector = new SpoilersClickDetector(this, this.spoilers, new SpoilersClickDetector.OnSpoilerClickedListener() { // from class: org.telegram.ui.Components.spoilers.SpoilersTextView$$ExternalSyntheticLambda2
             @Override // org.telegram.ui.Components.spoilers.SpoilersClickDetector.OnSpoilerClickedListener
             public final void onSpoilerClicked(SpoilerEffect spoilerEffect, float f, float f2) {
@@ -98,12 +108,19 @@ public class SpoilersTextView extends TextView implements TextSelectionHelper.Si
     public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
         super.onTextChanged(charSequence, i, i2, i3);
         invalidateSpoilers();
+        updateAnimatedEmoji(true);
     }
 
     @Override // android.view.View
     protected void onSizeChanged(int i, int i2, int i3, int i4) {
         super.onSizeChanged(i, i2, i3, i4);
         invalidateSpoilers();
+    }
+
+    @Override // android.widget.TextView
+    public void setTextColor(int i) {
+        super.setTextColor(i);
+        this.animatedEmojiColorFilter = new PorterDuffColorFilter(i, PorterDuff.Mode.SRC_IN);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -129,6 +146,13 @@ public class SpoilersTextView extends TextView implements TextSelectionHelper.Si
         canvas.clipPath(this.path);
         super.onDraw(canvas);
         canvas.restore();
+        updateAnimatedEmoji(false);
+        if (this.animatedEmoji != null) {
+            canvas.save();
+            canvas.translate(getPaddingLeft(), getPaddingTop());
+            AnimatedEmojiSpan.drawAnimatedEmojis(canvas, getLayout(), this.animatedEmoji, 0.0f, this.spoilers, 0.0f, getHeight(), 0.0f, 1.0f, this.animatedEmojiColorFilter);
+            canvas.restore();
+        }
         if (this.spoilers.isEmpty()) {
             return;
         }
@@ -158,9 +182,25 @@ public class SpoilersTextView extends TextView implements TextSelectionHelper.Si
     }
 
     @Override // android.widget.TextView, android.view.View
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        updateAnimatedEmoji(true);
+    }
+
+    @Override // android.widget.TextView, android.view.View
     protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
         super.onLayout(z, i, i2, i3, i4);
         invalidateSpoilers();
+    }
+
+    public void updateAnimatedEmoji(boolean z) {
+        int length = (getLayout() == null || getLayout().getText() == null) ? 0 : getLayout().getText().length();
+        if (!z && this.lastLayout == getLayout() && this.lastTextLength == length) {
+            return;
+        }
+        this.animatedEmoji = AnimatedEmojiSpan.update(this.cacheType, this, this.animatedEmoji, getLayout());
+        this.lastLayout = getLayout();
+        this.lastTextLength = length;
     }
 
     private void invalidateSpoilers() {

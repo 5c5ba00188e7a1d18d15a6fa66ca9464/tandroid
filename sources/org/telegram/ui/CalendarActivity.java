@@ -124,6 +124,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
     private StoryViewer.PlaceProvider storiesPlaceProvider;
     TextPaint textPaint;
     TextPaint textPaint2;
+    private long topicId;
 
     /* loaded from: classes3.dex */
     public interface Callback {
@@ -162,7 +163,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean onFragmentCreate() {
         this.dialogId = getArguments().getLong("dialog_id");
-        getArguments().getLong("topic_id");
+        this.topicId = getArguments().getLong("topic_id");
         int i = getArguments().getInt("type");
         this.calendarType = i;
         if (i == 2) {
@@ -499,7 +500,11 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
         } else {
             tLRPC$TL_messages_getSearchResultsCalendar.filter = new TLRPC$TL_inputMessagesFilterPhotoVideo();
         }
-        tLRPC$TL_messages_getSearchResultsCalendar.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(this.dialogId);
+        tLRPC$TL_messages_getSearchResultsCalendar.peer = getMessagesController().getInputPeer(this.dialogId);
+        if (this.topicId != 0 && this.dialogId == getUserConfig().getClientUserId()) {
+            tLRPC$TL_messages_getSearchResultsCalendar.flags |= 4;
+            tLRPC$TL_messages_getSearchResultsCalendar.saved_peer_id = getMessagesController().getInputPeer(this.topicId);
+        }
         tLRPC$TL_messages_getSearchResultsCalendar.offset_id = this.lastId;
         final Calendar calendar = Calendar.getInstance();
         this.listView.setItemAnimator(null);

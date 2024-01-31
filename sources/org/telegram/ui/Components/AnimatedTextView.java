@@ -72,6 +72,7 @@ public class AnimatedTextView extends View {
         private int overrideFullWidth;
         private boolean preserveIndex;
         private float rightPadding;
+        private float scaleAmplitude;
         private int shadowColor;
         private float shadowDx;
         private float shadowDy;
@@ -153,6 +154,7 @@ public class AnimatedTextView extends View {
             this.animateDuration = 450L;
             this.animateInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
             this.moveAmplitude = 1.0f;
+            this.scaleAmplitude = 0.0f;
             this.alpha = 255;
             this.bounds = new android.graphics.Rect();
             this.shadowed = false;
@@ -181,8 +183,11 @@ public class AnimatedTextView extends View {
             }
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:107:0x01da  */
-        /* JADX WARN: Removed duplicated region for block: B:125:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Code restructure failed: missing block: B:46:0x00eb, code lost:
+            if (r18.ignoreRTL == false) goto L32;
+         */
+        /* JADX WARN: Removed duplicated region for block: B:115:0x0216  */
+        /* JADX WARN: Removed duplicated region for block: B:132:? A[RETURN, SYNTHETIC] */
         @Override // android.graphics.drawable.Drawable
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -252,14 +257,19 @@ public class AnimatedTextView extends View {
                                     f9 = (width - f15) / 2.0f;
                                     f7 += f9;
                                 } else if (this.isRTL) {
-                                    if (this.ignoreRTL) {
-                                    }
                                 }
                             }
                             f9 = width - f15;
                             f7 += f9;
                         }
                         canvas.translate(f7, f8);
+                        if (i2 < 0) {
+                            float f16 = this.scaleAmplitude;
+                            if (f16 > 0.0f) {
+                                float lerp2 = AndroidUtilities.lerp(1.0f - f16, 1.0f, this.t);
+                                canvas.scale(lerp2, lerp2, part.width / 2.0f, part.layout.getHeight() / 2.0f);
+                            }
+                        }
                         part.layout.draw(canvas);
                         canvas.restore();
                         i++;
@@ -272,17 +282,17 @@ public class AnimatedTextView extends View {
                         }
                         Part part3 = partArr2[i4];
                         if (part3.toOppositeIndex < 0) {
-                            float f16 = part3.offset;
+                            float f17 = part3.offset;
                             float textSize = this.textPaint.getTextSize() * this.moveAmplitude;
-                            float f17 = this.t;
-                            float f18 = textSize * f17 * (this.moveDown ? 1.0f : -1.0f);
-                            applyAlphaInternal(1.0f - f17);
+                            float f18 = this.t;
+                            float f19 = textSize * f18 * (this.moveDown ? 1.0f : -1.0f);
+                            applyAlphaInternal(1.0f - f18);
                             canvas.save();
                             boolean z2 = this.isRTL;
                             if (z2 && !this.ignoreRTL) {
-                                f16 = this.oldWidth - (f16 + part3.width);
+                                f17 = this.oldWidth - (f17 + part3.width);
                             }
-                            float f19 = f16 - part3.left;
+                            float f20 = f17 - part3.left;
                             int i5 = this.gravity;
                             if ((i5 | (-4)) != -1) {
                                 if ((i5 | (-6)) == -1) {
@@ -290,15 +300,20 @@ public class AnimatedTextView extends View {
                                     f5 = this.oldWidth;
                                 } else if ((i5 | (-2)) == -1) {
                                     f6 = (width - this.oldWidth) / 2.0f;
-                                    f19 += f6;
+                                    f20 += f6;
                                 } else if (z2 && !this.ignoreRTL) {
                                     f4 = width;
                                     f5 = this.oldWidth;
                                 }
                                 f6 = f4 - f5;
-                                f19 += f6;
+                                f20 += f6;
                             }
-                            canvas.translate(f19, f18);
+                            canvas.translate(f20, f19);
+                            float f21 = this.scaleAmplitude;
+                            if (f21 > 0.0f) {
+                                float lerp3 = AndroidUtilities.lerp(1.0f, 1.0f - f21, this.t);
+                                canvas.scale(lerp3, lerp3, part3.width / 2.0f, part3.layout.getHeight() / 2.0f);
+                            }
                             part3.layout.draw(canvas);
                             canvas.restore();
                         }
@@ -322,8 +337,8 @@ public class AnimatedTextView extends View {
                     this.ellipsizeGradient.setLocalMatrix(this.ellipsizeGradientMatrix);
                     canvas.save();
                     int i6 = this.bounds.right;
-                    float f20 = this.rightPadding;
-                    canvas.drawRect((i6 - f20) - dp, rect.top, (i6 - f20) + AndroidUtilities.dp(1.0f), this.bounds.bottom, this.ellipsizePaint);
+                    float f22 = this.rightPadding;
+                    canvas.drawRect((i6 - f22) - dp, rect.top, (i6 - f22) + AndroidUtilities.dp(1.0f), this.bounds.bottom, this.ellipsizePaint);
                     canvas.restore();
                     canvas.restore();
                     return;
@@ -335,12 +350,12 @@ public class AnimatedTextView extends View {
                 for (int i7 = 0; i7 < this.currentParts.length; i7++) {
                     canvas.save();
                     Part part4 = this.currentParts[i7];
-                    float f21 = part4.offset;
+                    float f23 = part4.offset;
                     boolean z3 = this.isRTL;
                     if (z3 && !this.ignoreRTL) {
-                        f21 = this.currentWidth - (f21 + part4.width);
+                        f23 = this.currentWidth - (f23 + part4.width);
                     }
-                    float f22 = f21 - part4.left;
+                    float f24 = f23 - part4.left;
                     int i8 = this.gravity;
                     if ((i8 | (-4)) != -1) {
                         if ((i8 | (-6)) == -1) {
@@ -348,15 +363,15 @@ public class AnimatedTextView extends View {
                             f2 = this.currentWidth;
                         } else if ((i8 | (-2)) == -1) {
                             f3 = (width - this.currentWidth) / 2.0f;
-                            f22 += f3;
+                            f24 += f3;
                         } else if (z3 && !this.ignoreRTL) {
                             f = width;
                             f2 = this.currentWidth;
                         }
                         f3 = f - f2;
-                        f22 += f3;
+                        f24 += f3;
                     }
-                    canvas.translate(f22, 0.0f);
+                    canvas.translate(f24, 0.0f);
                     part4.layout.draw(canvas);
                     canvas.restore();
                 }
@@ -936,6 +951,10 @@ public class AnimatedTextView extends View {
             this.animateInterpolator = timeInterpolator;
         }
 
+        public void setScaleProperty(float f) {
+            this.scaleAmplitude = f;
+        }
+
         public TextPaint getPaint() {
             return this.textPaint;
         }
@@ -1117,6 +1136,10 @@ public class AnimatedTextView extends View {
 
     public void setAnimationProperties(float f, long j, long j2, TimeInterpolator timeInterpolator) {
         this.drawable.setAnimationProperties(f, j, j2, timeInterpolator);
+    }
+
+    public void setScaleProperty(float f) {
+        this.drawable.setScaleProperty(f);
     }
 
     public AnimatedTextDrawable getDrawable() {

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.INavigationLayout;
 import org.telegram.ui.Components.LayoutHelper;
 /* loaded from: classes3.dex */
@@ -14,12 +15,26 @@ public class ChatActivityContainer extends FrameLayout {
     private boolean isActive;
     private final INavigationLayout parentLayout;
 
-    public ChatActivityContainer(Context context, INavigationLayout iNavigationLayout, Bundle bundle) {
+    protected void onSearchLoadingUpdate(boolean z) {
+        throw null;
+    }
+
+    public ChatActivityContainer(Context context, Utilities.Callback0Return<FrameLayout> callback0Return, INavigationLayout iNavigationLayout, Bundle bundle) {
         super(context);
         this.isActive = true;
         this.parentLayout = iNavigationLayout;
-        ChatActivity chatActivity = new ChatActivity(bundle);
+        ChatActivity chatActivity = new ChatActivity(bundle) { // from class: org.telegram.ui.ChatActivityContainer.1
+            @Override // org.telegram.ui.ActionBar.BaseFragment
+            public void setNavigationBarColor(int i) {
+            }
+
+            @Override // org.telegram.ui.ChatActivity
+            protected void onSearchLoadingUpdate(boolean z) {
+                ChatActivityContainer.this.onSearchLoadingUpdate(z);
+            }
+        };
         this.chatActivity = chatActivity;
+        chatActivity.insideContainerResizableView = callback0Return;
         chatActivity.isInsideContainer = true;
     }
 
@@ -40,6 +55,7 @@ public class ChatActivityContainer extends FrameLayout {
                     viewGroup.removeView(this.fragmentView);
                 }
             }
+            this.chatActivity.openedInstantly();
             addView(this.fragmentView, LayoutHelper.createFrame(-1, -1.0f));
             if (this.isActive) {
                 this.chatActivity.onResume();

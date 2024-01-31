@@ -11,8 +11,8 @@ public final /* synthetic */ class SavedMessagesController$$ExternalSyntheticLam
 
     @Override // java.util.Comparator
     public final int compare(Object obj, Object obj2) {
-        int lambda$updatePinnedOrder$3;
-        lambda$updatePinnedOrder$3 = SavedMessagesController.lambda$updatePinnedOrder$3((SavedMessagesController.SavedDialog) obj, (SavedMessagesController.SavedDialog) obj2);
-        return lambda$updatePinnedOrder$3;
+        int lambda$updatePinnedOrder$4;
+        lambda$updatePinnedOrder$4 = SavedMessagesController.lambda$updatePinnedOrder$4((SavedMessagesController.SavedDialog) obj, (SavedMessagesController.SavedDialog) obj2);
+        return lambda$updatePinnedOrder$4;
     }
 }

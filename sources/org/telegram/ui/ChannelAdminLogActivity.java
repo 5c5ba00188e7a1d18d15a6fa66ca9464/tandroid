@@ -2639,6 +2639,11 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ boolean doNotShowLoadingReply(MessageObject messageObject) {
+                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$doNotShowLoadingReply(this, messageObject);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
             public /* synthetic */ String getAdminRank(long j) {
                 return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$getAdminRank(this, j);
             }

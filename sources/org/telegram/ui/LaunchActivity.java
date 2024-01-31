@@ -265,6 +265,7 @@ import org.telegram.ui.Components.Premium.boosts.UserSelectorBottomSheet;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.Components.RecyclerListView;
+import org.telegram.ui.Components.SearchTagsList;
 import org.telegram.ui.Components.SharingLocationsAlert;
 import org.telegram.ui.Components.SideMenultItemAnimator;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
@@ -352,6 +353,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     private FrameLayout shadowTabletSide;
     private RecyclerListView sideMenu;
     private FrameLayout sideMenuContainer;
+    private boolean switchingAccount;
     private HashMap<String, String> systemLocaleStrings;
     private boolean tabletFullSize;
     private int[] tempLocation;
@@ -1596,6 +1598,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         if (i == UserConfig.selectedAccount || !UserConfig.isValidAccount(i)) {
             return;
         }
+        this.switchingAccount = true;
         ConnectionsManager.getInstance(this.currentAccount).setAppPaused(true, false);
         UserConfig.selectedAccount = i;
         UserConfig.getInstance(0).saveConfig(false);
@@ -1633,6 +1636,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             showTosActivity(i, UserConfig.getInstance(i).unacceptedTermsOfService);
         }
         updateCurrentConnectionState(this.currentAccount);
+        this.switchingAccount = false;
     }
 
     private void switchToAvailableAccountOrLogout() {
@@ -1984,47 +1988,48 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:1176:0x24b7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1188:0x2563, code lost:
         if (r2.checkCanOpenChat(r0, r3.get(r3.size() - 1)) != false) goto L129;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1193:0x253a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1205:0x25e6, code lost:
         if (r2.checkCanOpenChat(r0, r3.get(r3.size() - 1)) != false) goto L147;
      */
     /* JADX WARN: Code restructure failed: missing block: B:181:0x034f, code lost:
-        if (r96.sendingText == null) goto L331;
+        if (r96.sendingText == null) goto L340;
      */
     /* JADX WARN: Code restructure failed: missing block: B:454:0x0a94, code lost:
-        if (r4.longValue() == 0) goto L795;
+        if (r4.longValue() == 0) goto L804;
      */
     /* JADX WARN: Code restructure failed: missing block: B:69:0x0160, code lost:
         if (r7.equals(r0) != false) goto L47;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:911:0x1b43, code lost:
-        if (r5.longValue() == 0) goto L1258;
+    /* JADX WARN: Code restructure failed: missing block: B:923:0x1bef, code lost:
+        if (r5.longValue() == 0) goto L1278;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:1000:0x1f96  */
+    /* JADX WARN: Removed duplicated region for block: B:1000:0x1ffc  */
     /* JADX WARN: Removed duplicated region for block: B:100:0x01f5  */
-    /* JADX WARN: Removed duplicated region for block: B:1058:0x2075  */
-    /* JADX WARN: Removed duplicated region for block: B:1059:0x2079 A[Catch: all -> 0x2088, TRY_LEAVE, TryCatch #22 {all -> 0x2088, blocks: (B:1056:0x2063, B:1059:0x2079), top: B:1470:0x2063 }] */
+    /* JADX WARN: Removed duplicated region for block: B:1012:0x2042  */
     /* JADX WARN: Removed duplicated region for block: B:105:0x0203  */
-    /* JADX WARN: Removed duplicated region for block: B:1098:0x217d  */
-    /* JADX WARN: Removed duplicated region for block: B:1099:0x218f  */
-    /* JADX WARN: Removed duplicated region for block: B:1149:0x2436  */
-    /* JADX WARN: Removed duplicated region for block: B:1163:0x2464  */
-    /* JADX WARN: Removed duplicated region for block: B:1164:0x2478  */
-    /* JADX WARN: Removed duplicated region for block: B:1287:0x272f  */
-    /* JADX WARN: Removed duplicated region for block: B:1288:0x2741  */
-    /* JADX WARN: Removed duplicated region for block: B:1291:0x2750  */
-    /* JADX WARN: Removed duplicated region for block: B:1292:0x2761  */
-    /* JADX WARN: Removed duplicated region for block: B:1378:0x2a25 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:1381:0x2a2e  */
-    /* JADX WARN: Removed duplicated region for block: B:1392:0x2a7e  */
-    /* JADX WARN: Removed duplicated region for block: B:1403:0x2ac5  */
-    /* JADX WARN: Removed duplicated region for block: B:1407:0x2adc  */
-    /* JADX WARN: Removed duplicated region for block: B:1409:0x2ae4  */
-    /* JADX WARN: Removed duplicated region for block: B:1443:0x168c A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1450:0x20a4 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1070:0x2121  */
+    /* JADX WARN: Removed duplicated region for block: B:1071:0x2125 A[Catch: all -> 0x2134, TRY_LEAVE, TryCatch #14 {all -> 0x2134, blocks: (B:1068:0x210f, B:1071:0x2125), top: B:1477:0x210f }] */
+    /* JADX WARN: Removed duplicated region for block: B:1110:0x2229  */
+    /* JADX WARN: Removed duplicated region for block: B:1111:0x223b  */
+    /* JADX WARN: Removed duplicated region for block: B:1161:0x24e2  */
+    /* JADX WARN: Removed duplicated region for block: B:1175:0x2510  */
+    /* JADX WARN: Removed duplicated region for block: B:1176:0x2524  */
+    /* JADX WARN: Removed duplicated region for block: B:1308:0x27f9  */
+    /* JADX WARN: Removed duplicated region for block: B:1309:0x280b  */
+    /* JADX WARN: Removed duplicated region for block: B:1312:0x281a  */
+    /* JADX WARN: Removed duplicated region for block: B:1313:0x282b  */
+    /* JADX WARN: Removed duplicated region for block: B:1399:0x2aef A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:1402:0x2af8  */
+    /* JADX WARN: Removed duplicated region for block: B:1413:0x2b48  */
+    /* JADX WARN: Removed duplicated region for block: B:1424:0x2b8f  */
+    /* JADX WARN: Removed duplicated region for block: B:1428:0x2ba6  */
+    /* JADX WARN: Removed duplicated region for block: B:1430:0x2bae  */
+    /* JADX WARN: Removed duplicated region for block: B:1459:0x1738 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1495:0x2150 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:180:0x034d  */
     /* JADX WARN: Removed duplicated region for block: B:185:0x0356  */
     /* JADX WARN: Removed duplicated region for block: B:214:0x0411  */
@@ -2040,24 +2045,23 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX WARN: Removed duplicated region for block: B:543:0x0d47  */
     /* JADX WARN: Removed duplicated region for block: B:544:0x0d71  */
     /* JADX WARN: Removed duplicated region for block: B:68:0x015c  */
-    /* JADX WARN: Removed duplicated region for block: B:867:0x19ce  */
-    /* JADX WARN: Removed duplicated region for block: B:904:0x1ab3 A[Catch: Exception -> 0x1ac2, TRY_LEAVE, TryCatch #30 {Exception -> 0x1ac2, blocks: (B:902:0x1aa7, B:904:0x1ab3), top: B:1484:0x1aa7 }] */
-    /* JADX WARN: Removed duplicated region for block: B:906:0x1ac0  */
+    /* JADX WARN: Removed duplicated region for block: B:879:0x1a7a  */
+    /* JADX WARN: Removed duplicated region for block: B:916:0x1b5f A[Catch: Exception -> 0x1b6e, TRY_LEAVE, TryCatch #1 {Exception -> 0x1b6e, blocks: (B:914:0x1b53, B:916:0x1b5f), top: B:1452:0x1b53 }] */
+    /* JADX WARN: Removed duplicated region for block: B:918:0x1b6c  */
     /* JADX WARN: Removed duplicated region for block: B:92:0x01ca  */
-    /* JADX WARN: Removed duplicated region for block: B:972:0x1e35  */
-    /* JADX WARN: Removed duplicated region for block: B:973:0x1e86  */
-    /* JADX WARN: Removed duplicated region for block: B:988:0x1f50  */
+    /* JADX WARN: Removed duplicated region for block: B:984:0x1ee1  */
+    /* JADX WARN: Removed duplicated region for block: B:985:0x1f32  */
     /* JADX WARN: Type inference failed for: r5v41 */
     /* JADX WARN: Type inference failed for: r5v42, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r5v43 */
     /* JADX WARN: Type inference failed for: r6v15 */
     /* JADX WARN: Type inference failed for: r6v16, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r6v17 */
-    /* JADX WARN: Type inference failed for: r8v104 */
+    /* JADX WARN: Type inference failed for: r8v100 */
+    /* JADX WARN: Type inference failed for: r8v107 */
     /* JADX WARN: Type inference failed for: r8v16 */
     /* JADX WARN: Type inference failed for: r8v6, types: [android.os.Bundle, java.lang.String] */
-    /* JADX WARN: Type inference failed for: r8v92 */
-    /* JADX WARN: Type inference failed for: r8v97 */
+    /* JADX WARN: Type inference failed for: r8v95 */
     @SuppressLint({"Range"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -2109,11 +2113,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         BaseFragment lastFragment;
         ?? r6;
         char c3;
-        BaseFragment editWidgetActivity;
+        final BaseFragment privacySettingsActivity;
         final boolean z23;
-        final BaseFragment baseFragment;
         ?? r5;
-        BaseFragment baseFragment2;
         boolean z24;
         String str9;
         boolean z25;
@@ -4094,7 +4096,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 i11 = 0;
                                                 z29 = false;
                                             } else if (uri10.startsWith("tg:settings") || uri10.startsWith("tg://settings")) {
-                                                if (uri10.contains("themes")) {
+                                                if (uri10.contains("themes") || uri10.contains("theme")) {
                                                     str21 = "message_id";
                                                     str32 = null;
                                                     str31 = null;
@@ -4198,6 +4200,84 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     str16 = null;
                                                     i9 = 0;
                                                     c5 = 5;
+                                                } else if (uri10.contains("language")) {
+                                                    str21 = "message_id";
+                                                    str32 = null;
+                                                    str31 = null;
+                                                    str30 = null;
+                                                    str29 = null;
+                                                    str28 = null;
+                                                    str27 = null;
+                                                    str26 = null;
+                                                    str25 = null;
+                                                    str24 = null;
+                                                    str23 = null;
+                                                    str22 = null;
+                                                    str20 = null;
+                                                    str19 = null;
+                                                    z28 = false;
+                                                    l2 = null;
+                                                    num2 = null;
+                                                    num = null;
+                                                    l = null;
+                                                    str18 = null;
+                                                    hashMap = null;
+                                                    str17 = null;
+                                                    str16 = null;
+                                                    i9 = 0;
+                                                    c5 = '\n';
+                                                } else if (uri10.contains("auto_delete")) {
+                                                    str21 = "message_id";
+                                                    str32 = null;
+                                                    str31 = null;
+                                                    str30 = null;
+                                                    str29 = null;
+                                                    str28 = null;
+                                                    str27 = null;
+                                                    str26 = null;
+                                                    str25 = null;
+                                                    str24 = null;
+                                                    str23 = null;
+                                                    str22 = null;
+                                                    str20 = null;
+                                                    str19 = null;
+                                                    z28 = false;
+                                                    l2 = null;
+                                                    num2 = null;
+                                                    num = null;
+                                                    l = null;
+                                                    str18 = null;
+                                                    hashMap = null;
+                                                    str17 = null;
+                                                    str16 = null;
+                                                    i9 = 0;
+                                                    c5 = 11;
+                                                } else if (uri10.contains("privacy")) {
+                                                    str21 = "message_id";
+                                                    str32 = null;
+                                                    str31 = null;
+                                                    str30 = null;
+                                                    str29 = null;
+                                                    str28 = null;
+                                                    str27 = null;
+                                                    str26 = null;
+                                                    str25 = null;
+                                                    str24 = null;
+                                                    str23 = null;
+                                                    str22 = null;
+                                                    str20 = null;
+                                                    str19 = null;
+                                                    z28 = false;
+                                                    l2 = null;
+                                                    num2 = null;
+                                                    num = null;
+                                                    l = null;
+                                                    str18 = null;
+                                                    hashMap = null;
+                                                    str17 = null;
+                                                    str16 = null;
+                                                    i9 = 0;
+                                                    c5 = '\f';
                                                 } else if (uri10.contains("?enablelogs")) {
                                                     str21 = "message_id";
                                                     str32 = null;
@@ -7197,26 +7277,26 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                                             if (c7 == 1) {
                                                                                 Bundle bundle6 = new Bundle();
                                                                                 bundle6.putLong("user_id", UserConfig.getInstance(launchActivity.currentAccount).clientUserId);
-                                                                                baseFragment2 = new ProfileActivity(bundle6);
+                                                                                privacySettingsActivity = new ProfileActivity(bundle6);
                                                                             } else if (c7 == 2) {
-                                                                                baseFragment2 = new ThemeActivity(0);
+                                                                                privacySettingsActivity = new ThemeActivity(0);
                                                                             } else if (c7 == 3) {
-                                                                                baseFragment2 = new SessionsActivity(0);
+                                                                                privacySettingsActivity = new SessionsActivity(0);
                                                                             } else if (c7 == 4) {
-                                                                                baseFragment2 = new FiltersSetupActivity();
+                                                                                privacySettingsActivity = new FiltersSetupActivity();
                                                                             } else if (c7 == 5) {
+                                                                                privacySettingsActivity = new ActionIntroActivity(3);
                                                                                 c3 = 6;
                                                                                 z23 = true;
-                                                                                baseFragment = new ActionIntroActivity(3);
                                                                                 if (c7 == c3) {
                                                                                     r5 = 1;
-                                                                                    getActionBarLayout().presentFragment(new INavigationLayout.NavigationParams(baseFragment).setNoAnimation(true));
+                                                                                    getActionBarLayout().presentFragment(new INavigationLayout.NavigationParams(privacySettingsActivity).setNoAnimation(true));
                                                                                 } else {
                                                                                     r5 = 1;
                                                                                     AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda93
                                                                                         @Override // java.lang.Runnable
                                                                                         public final void run() {
-                                                                                            LaunchActivity.this.lambda$handleIntent$23(baseFragment, z23);
+                                                                                            LaunchActivity.this.lambda$handleIntent$23(privacySettingsActivity, z23);
                                                                                         }
                                                                                     });
                                                                                 }
@@ -7229,18 +7309,23 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                                                 }
                                                                             } else {
                                                                                 c3 = 6;
-                                                                                editWidgetActivity = c7 == 6 ? new EditWidgetActivity(i, i2) : null;
+                                                                                if (c7 == 6) {
+                                                                                    privacySettingsActivity = new EditWidgetActivity(i, i2);
+                                                                                } else if (c7 == '\n') {
+                                                                                    privacySettingsActivity = new LanguageSelectActivity();
+                                                                                } else if (c7 == 11) {
+                                                                                    privacySettingsActivity = new AutoDeleteMessagesActivity();
+                                                                                } else {
+                                                                                    privacySettingsActivity = c7 == '\f' ? new PrivacySettingsActivity() : null;
+                                                                                }
                                                                                 z23 = false;
-                                                                                baseFragment = editWidgetActivity;
                                                                                 if (c7 == c3) {
                                                                                 }
                                                                                 if (AndroidUtilities.isTablet()) {
                                                                                 }
                                                                             }
                                                                             c3 = 6;
-                                                                            editWidgetActivity = baseFragment2;
                                                                             z23 = false;
-                                                                            baseFragment = editWidgetActivity;
                                                                             if (c7 == c3) {
                                                                             }
                                                                             if (AndroidUtilities.isTablet()) {
@@ -13286,32 +13371,32 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         PasscodeView passcodeView = this.passcodeView;
         if (passcodeView != null && passcodeView.getVisibility() == 0) {
             finish();
-            return;
-        }
-        if (ContentPreviewViewer.hasInstance() && ContentPreviewViewer.getInstance().isVisible()) {
-            ContentPreviewViewer.getInstance().closeWithMenu();
-        }
-        if (SecretMediaViewer.hasInstance() && SecretMediaViewer.getInstance().isVisible()) {
-            SecretMediaViewer.getInstance().closePhoto(true, false);
-        } else if (PhotoViewer.hasInstance() && PhotoViewer.getInstance().isVisible()) {
-            PhotoViewer.getInstance().closePhoto(true, false);
-        } else if (ArticleViewer.hasInstance() && ArticleViewer.getInstance().isVisible()) {
-            ArticleViewer.getInstance().close(true, false);
-        } else if (this.drawerLayoutContainer.isDrawerOpened()) {
-            this.drawerLayoutContainer.closeDrawer(false);
-        } else if (AndroidUtilities.isTablet()) {
-            if (this.layersActionBarLayout.getView().getVisibility() == 0) {
-                this.layersActionBarLayout.onBackPressed();
-            } else if (this.rightActionBarLayout.getView().getVisibility() == 0 && !this.rightActionBarLayout.getFragmentStack().isEmpty()) {
-                BaseFragment baseFragment = this.rightActionBarLayout.getFragmentStack().get(this.rightActionBarLayout.getFragmentStack().size() - 1);
-                if (baseFragment.onBackPressed()) {
-                    baseFragment.finishFragment();
+        } else if (SearchTagsList.onBackPressedRenameTagAlert()) {
+        } else {
+            if (ContentPreviewViewer.hasInstance() && ContentPreviewViewer.getInstance().isVisible()) {
+                ContentPreviewViewer.getInstance().closeWithMenu();
+            } else if (SecretMediaViewer.hasInstance() && SecretMediaViewer.getInstance().isVisible()) {
+                SecretMediaViewer.getInstance().closePhoto(true, false);
+            } else if (PhotoViewer.hasInstance() && PhotoViewer.getInstance().isVisible()) {
+                PhotoViewer.getInstance().closePhoto(true, false);
+            } else if (ArticleViewer.hasInstance() && ArticleViewer.getInstance().isVisible()) {
+                ArticleViewer.getInstance().close(true, false);
+            } else if (this.drawerLayoutContainer.isDrawerOpened()) {
+                this.drawerLayoutContainer.closeDrawer(false);
+            } else if (AndroidUtilities.isTablet()) {
+                if (this.layersActionBarLayout.getView().getVisibility() == 0) {
+                    this.layersActionBarLayout.onBackPressed();
+                } else if (this.rightActionBarLayout.getView().getVisibility() == 0 && !this.rightActionBarLayout.getFragmentStack().isEmpty()) {
+                    BaseFragment baseFragment = this.rightActionBarLayout.getFragmentStack().get(this.rightActionBarLayout.getFragmentStack().size() - 1);
+                    if (baseFragment.onBackPressed()) {
+                        baseFragment.finishFragment();
+                    }
+                } else {
+                    this.actionBarLayout.onBackPressed();
                 }
             } else {
                 this.actionBarLayout.onBackPressed();
             }
-        } else {
-            this.actionBarLayout.onBackPressed();
         }
     }
 
@@ -13666,7 +13751,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     @Override // org.telegram.ui.ActionBar.INavigationLayout.INavigationLayoutDelegate
     public boolean needCloseLastFragment(INavigationLayout iNavigationLayout) {
         if (AndroidUtilities.isTablet()) {
-            if (iNavigationLayout == this.actionBarLayout && iNavigationLayout.getFragmentStack().size() <= 1) {
+            if (iNavigationLayout == this.actionBarLayout && iNavigationLayout.getFragmentStack().size() <= 1 && !this.switchingAccount) {
                 onFinish();
                 finish();
                 return false;

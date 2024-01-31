@@ -447,7 +447,7 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
         return true;
     }
 
-    void animateChangeImpl(final ChangeInfo changeInfo) {
+    public void animateChangeImpl(final ChangeInfo changeInfo) {
         RecyclerView.ViewHolder viewHolder = changeInfo.oldHolder;
         final View view = viewHolder == null ? null : viewHolder.itemView;
         RecyclerView.ViewHolder viewHolder2 = changeInfo.newHolder;

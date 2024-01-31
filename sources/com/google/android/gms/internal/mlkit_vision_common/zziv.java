@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.mlkit_vision_common;
 
 import org.telegram.messenger.LiteMode;
+import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.R;
 /* compiled from: com.google.mlkit:vision-common@@17.3.0 */
 /* loaded from: classes.dex */
@@ -20,7 +21,7 @@ public enum zziv implements zzag {
     zzm(24),
     zzn(141),
     zzo(142),
-    zzp(143),
+    zzp(MessagesStorage.LAST_DB_VERSION),
     zzq(144),
     zzr(151),
     zzs(152),

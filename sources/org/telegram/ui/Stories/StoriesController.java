@@ -1607,7 +1607,15 @@ public class StoriesController {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public void loadSkippedStories(long j) {
-        loadSkippedStories(getStories(j), false);
+        boolean z;
+        TL_stories$PeerStories stories = getStories(j);
+        if (stories == null) {
+            stories = getStoriesFromFullPeer(j);
+            z = true;
+        } else {
+            z = false;
+        }
+        loadSkippedStories(stories, z);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

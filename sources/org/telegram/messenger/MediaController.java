@@ -111,6 +111,7 @@ import org.telegram.ui.Components.EmbedBottomSheet;
 import org.telegram.ui.Components.PhotoFilterView;
 import org.telegram.ui.Components.PipRoundVideoView;
 import org.telegram.ui.Components.Point;
+import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 import org.telegram.ui.Components.VideoPlayer;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PhotoViewer;
@@ -2650,8 +2651,8 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x00f9  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x0103  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x00fb  */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x0105  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2748,11 +2749,11 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         boolean[] zArr = this.playlistEndReached;
         if (!zArr[0]) {
             this.loadingPlaylist = true;
-            AccountInstance.getInstance(this.playingMessageObject.currentAccount).getMediaDataController().loadMedia(this.playingMessageObject.getDialogId(), 50, this.playlistMaxId[0], 0, 4, 0L, 1, this.playlistClassGuid, 0);
+            AccountInstance.getInstance(this.playingMessageObject.currentAccount).getMediaDataController().loadMedia(this.playingMessageObject.getDialogId(), 50, this.playlistMaxId[0], 0, 4, 0L, 1, this.playlistClassGuid, 0, null, null);
         } else if (this.playlistMergeDialogId == 0 || zArr[1]) {
         } else {
             this.loadingPlaylist = true;
-            AccountInstance.getInstance(this.playingMessageObject.currentAccount).getMediaDataController().loadMedia(this.playlistMergeDialogId, 50, this.playlistMaxId[0], 0, 4, 0L, 1, this.playlistClassGuid, 0);
+            AccountInstance.getInstance(this.playingMessageObject.currentAccount).getMediaDataController().loadMedia(this.playlistMergeDialogId, 50, this.playlistMaxId[0], 0, 4, 0L, 1, this.playlistClassGuid, 0, null, null);
         }
     }
 
@@ -8146,6 +8147,8 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         final long minDate;
         public int nextSearchRate;
         final String query;
+        public ReactionsLayoutInBubble.VisibleReaction reaction;
+        public long topicId;
         public int totalCount;
 
         public PlaylistGlobalSearchParams(String str, long j, long j2, long j3, FiltersView.MediaFilterData mediaFilterData) {

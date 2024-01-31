@@ -1,6 +1,8 @@
 package org.telegram.tgnet;
 /* loaded from: classes3.dex */
 public abstract class TLRPC$Reaction extends TLObject {
+    public long tag_long_id;
+
     public static TLRPC$Reaction TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
         TLRPC$Reaction tLRPC$TL_reactionCustomEmoji;
         if (i == -1992950669) {

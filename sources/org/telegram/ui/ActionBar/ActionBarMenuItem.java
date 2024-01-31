@@ -82,6 +82,7 @@ public class ActionBarMenuItem extends FrameLayout {
     private boolean fixBackground;
     private boolean forceSmoothKeyboard;
     protected RLottieImageView iconView;
+    private int iconViewResId;
     private boolean ignoreOnTextChange;
     private boolean isSearchField;
     private boolean layoutInScreen;
@@ -1104,9 +1105,10 @@ public class ActionBarMenuItem extends FrameLayout {
     /* JADX INFO: Access modifiers changed from: private */
     public void onFiltersChanged() {
         final SearchFilterView searchFilterView;
+        FrameLayout frameLayout;
         boolean z = !this.currentSearchFilters.isEmpty();
         ArrayList arrayList = new ArrayList(this.currentSearchFilters);
-        if (Build.VERSION.SDK_INT >= 19 && this.searchContainer.getTag() != null) {
+        if (Build.VERSION.SDK_INT >= 19 && (frameLayout = this.searchContainer) != null && frameLayout.getTag() != null) {
             TransitionSet transitionSet = new TransitionSet();
             ChangeBounds changeBounds = new ChangeBounds();
             changeBounds.setDuration(150L);
@@ -1252,6 +1254,7 @@ public class ActionBarMenuItem extends FrameLayout {
         } else {
             rLottieImageView.setImageDrawable(drawable);
         }
+        this.iconViewResId = 0;
     }
 
     public RLottieImageView getIconView() {
@@ -1267,6 +1270,21 @@ public class ActionBarMenuItem extends FrameLayout {
         if (rLottieImageView == null) {
             return;
         }
+        this.iconViewResId = i;
+        rLottieImageView.setImageResource(i);
+    }
+
+    public void setIcon(int i, boolean z) {
+        RLottieImageView rLottieImageView = this.iconView;
+        if (rLottieImageView == null || this.iconViewResId == i) {
+            return;
+        }
+        if (z) {
+            this.iconViewResId = i;
+            AndroidUtilities.updateImageViewImageAnimated(rLottieImageView, i);
+            return;
+        }
+        this.iconViewResId = i;
         rLottieImageView.setImageResource(i);
     }
 
@@ -2172,7 +2190,7 @@ public class ActionBarMenuItem extends FrameLayout {
             TLRPC$TL_reactionCount tLRPC$TL_reactionCount = new TLRPC$TL_reactionCount();
             tLRPC$TL_reactionCount.count = 1;
             tLRPC$TL_reactionCount.reaction = mediaFilterData.reaction.toTLReaction();
-            ReactionsLayoutInBubble.ReactionButton reactionButton = new ReactionsLayoutInBubble.ReactionButton(null, UserConfig.selectedAccount, this, tLRPC$TL_reactionCount, false, this.resourcesProvider) { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem.ReactionFilterView.1
+            ReactionsLayoutInBubble.ReactionButton reactionButton = new ReactionsLayoutInBubble.ReactionButton(null, UserConfig.selectedAccount, this, tLRPC$TL_reactionCount, false, true, this.resourcesProvider) { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem.ReactionFilterView.1
                 @Override // org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble.ReactionButton
                 protected int getCacheType() {
                     return 9;
@@ -2181,9 +2199,11 @@ public class ActionBarMenuItem extends FrameLayout {
                 @Override // org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble.ReactionButton
                 protected void updateColors(float f) {
                     this.lastDrawnBackgroundColor = ColorUtils.blendARGB(this.fromBackgroundColor, Theme.getColor(Theme.key_chat_inReactionButtonBackground, ReactionFilterView.this.resourcesProvider), f);
+                    this.lastDrawnTagDotColor = ColorUtils.blendARGB(this.fromTagDotColor, 1526726655, f);
                 }
             };
             this.reactionButton = reactionButton;
+            reactionButton.isTag = true;
             reactionButton.width = AndroidUtilities.dp(44.33f);
             this.reactionButton.height = AndroidUtilities.dp(28.0f);
             ReactionsLayoutInBubble.ReactionButton reactionButton2 = this.reactionButton;

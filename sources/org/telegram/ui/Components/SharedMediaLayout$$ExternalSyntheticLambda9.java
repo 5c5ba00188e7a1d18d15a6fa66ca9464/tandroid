@@ -10,8 +10,8 @@ public final /* synthetic */ class SharedMediaLayout$$ExternalSyntheticLambda9 i
 
     @Override // android.animation.TimeInterpolator
     public final float getInterpolation(float f) {
-        float lambda$static$1;
-        lambda$static$1 = SharedMediaLayout.lambda$static$1(f);
-        return lambda$static$1;
+        float lambda$static$2;
+        lambda$static$2 = SharedMediaLayout.lambda$static$2(f);
+        return lambda$static$2;
     }
 }

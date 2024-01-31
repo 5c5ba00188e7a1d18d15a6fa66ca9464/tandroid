@@ -314,7 +314,7 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
             if (TextUtils.isEmpty(str)) {
                 this.editText.setText(str);
                 EditTextEmoji editTextEmoji = this.editText;
-                editTextEmoji.setSelection(editTextEmoji.getText().length());
+                editTextEmoji.setSelection(0, editTextEmoji.getText().length());
                 return;
             }
             return;

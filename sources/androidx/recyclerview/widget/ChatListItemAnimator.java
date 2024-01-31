@@ -1205,7 +1205,7 @@ public class ChatListItemAnimator extends DefaultItemAnimator {
     }
 
     @Override // androidx.recyclerview.widget.DefaultItemAnimator
-    void animateChangeImpl(final DefaultItemAnimator.ChangeInfo changeInfo) {
+    public void animateChangeImpl(final DefaultItemAnimator.ChangeInfo changeInfo) {
         RecyclerView.ViewHolder viewHolder = changeInfo.oldHolder;
         final View view = viewHolder == null ? null : viewHolder.itemView;
         RecyclerView.ViewHolder viewHolder2 = changeInfo.newHolder;

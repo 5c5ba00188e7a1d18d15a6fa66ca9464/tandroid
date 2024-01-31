@@ -128,8 +128,8 @@ public class ThemeColors {
         iArr[Theme.key_fastScrollInactive] = -3551791;
         iArr[Theme.key_fastScrollText] = -1;
         iArr[Theme.key_avatar_text] = -1;
-        iArr[Theme.key_avatar_backgroundSaved] = -9846790;
-        iArr[Theme.key_avatar_background2Saved] = -12739104;
+        iArr[Theme.key_avatar_backgroundSaved] = -9847303;
+        iArr[Theme.key_avatar_background2Saved] = -12541983;
         iArr[Theme.key_avatar_backgroundArchived] = -4668724;
         iArr[Theme.key_avatar_backgroundArchivedHidden] = -10043398;
         iArr[Theme.key_avatar_backgroundRed] = -31650;
@@ -175,6 +175,7 @@ public class ThemeColors {
         iArr[Theme.key_actionBarDefaultSubmenuSeparator] = -657931;
         iArr[Theme.key_actionBarActionModeDefaultSelector] = -1907998;
         iArr[Theme.key_actionBarActionModeReaction] = -986896;
+        iArr[Theme.key_actionBarActionModeReactionText] = -8223094;
         iArr[Theme.key_actionBarActionModeReactionDot] = -4144960;
         iArr[Theme.key_actionBarTabActiveText] = -1;
         iArr[Theme.key_actionBarTabUnactiveText] = -2758409;
@@ -900,6 +901,7 @@ public class ThemeColors {
         sparseArray.put(Theme.key_actionBarActionModeDefaultIcon, "actionBarActionModeDefaultIcon");
         sparseArray.put(Theme.key_actionBarActionModeDefaultSelector, "actionBarActionModeDefaultSelector");
         sparseArray.put(Theme.key_actionBarActionModeReaction, "actionBarActionModeReaction");
+        sparseArray.put(Theme.key_actionBarActionModeReactionText, "actionBarActionModeReactionText");
         sparseArray.put(Theme.key_actionBarActionModeReactionDot, "actionBarActionModeReactionDot");
         sparseArray.put(Theme.key_actionBarDefaultTitle, "actionBarDefaultTitle");
         sparseArray.put(Theme.key_actionBarDefaultSubtitle, "actionBarDefaultSubtitle");
