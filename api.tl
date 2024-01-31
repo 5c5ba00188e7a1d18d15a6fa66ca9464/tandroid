@@ -1482,10 +1482,10 @@ messages.getReplies#22ddd30c peer:InputPeer msg_id:int offset_id:int offset_date
 messages.getSavedDialogs#5381d21a flags:# exclude_pinned:flags.0?true offset_date:int offset_id:int offset_peer:InputPeer limit:int hash:long = messages.SavedDialogs;
 messages.getSavedGifs#5cf09635 hash:long = messages.SavedGifs;
 messages.getSavedHistory#3d9a414d peer:InputPeer offset_id:int offset_date:int add_offset:int limit:int max_id:int min_id:int hash:long = messages.Messages;
-messages.getSavedReactionTags#761ddacf hash:long = messages.SavedReactionTags;
+messages.getSavedReactionTags#3637e05b flags:# peer:flags.0?InputPeer hash:long = messages.SavedReactionTags;
 messages.getScheduledHistory#f516760b peer:InputPeer hash:long = messages.Messages;
 messages.getScheduledMessages#bdbb0464 peer:InputPeer id:Vector<int> = messages.Messages;
-messages.getSearchCounters#1bbcf300 flags:# peer:InputPeer saved_peer_id:flags.1?InputPeer top_msg_id:flags.0?int filters:Vector<MessagesFilter> = Vector<messages.SearchCounter>;
+messages.getSearchCounters#1bbcf300 flags:# peer:InputPeer saved_peer_id:flags.2?InputPeer top_msg_id:flags.0?int filters:Vector<MessagesFilter> = Vector<messages.SearchCounter>;
 messages.getSearchResultsCalendar#6aa3f6bd flags:# peer:InputPeer filter:MessagesFilter saved_peer_id:flags.2?InputPeer offset_id:int offset_date:int = messages.SearchResultsCalendar;
 messages.getSearchResultsPositions#9c7f2f10 flags:# peer:InputPeer saved_peer_id:flags.2?InputPeer filter:MessagesFilter offset_id:int limit:int = messages.SearchResultsPositions;
 messages.getStatsURL#812c2ae6 flags:# dark:flags.0?true peer:InputPeer params:string = StatsURL;
@@ -1569,6 +1569,7 @@ messages.unpinAllMessages#f025bc8b peer:InputPeer = messages.AffectedHistory;
 messages.updateDialogFilter#1ad4a04a flags:# id:int filter:flags.0?DialogFilter = Bool;
 messages.updateDialogFiltersOrder#c563c1e4 order:Vector<int> = Bool;
 messages.updatePinnedMessage#d2aaf7ec flags:# silent:flags.0?true unpin:flags.1?true pm_oneside:flags.2?true peer:InputPeer id:int = Updates;
+messages.updateSavedReactionTag#60297dec flags:# reaction:Reaction title:flags.0?string = Bool;
 messages.uploadImportedMedia#2a862092 peer:InputPeer import_id:long file_name:string media:InputMedia = MessageMedia;
 messages.uploadMedia#519bc2b1 peer:InputPeer media:InputMedia = MessageMedia;
 payments.applyGiftCode#f6e26854 slug:string = Updates;
@@ -1679,4 +1680,4 @@ stories.sendStory#e4e6694b flags:# pinned:flags.2?true noforwards:flags.4?true f
 stories.togglePeerStoriesHidden#bd0415c4 peer:InputPeer hidden:Bool = Bool;
 stories.togglePinned#9a75a1ef peer:InputPeer id:Vector<int> pinned:Bool = Vector<int>;
 
-// Layer 172
+// Layer 173
