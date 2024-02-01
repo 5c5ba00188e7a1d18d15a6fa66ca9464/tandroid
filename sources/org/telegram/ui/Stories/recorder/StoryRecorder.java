@@ -4429,7 +4429,8 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
         19 r0 = new 19(this.currentAccount, getContext(), this.resourcesProvider, this.lastGallerySelectedAlbum, z);
         this.galleryListView = r0;
-        r0.setOnBackClickListener(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda39
+        r0.allowSearch(false);
+        this.galleryListView.setOnBackClickListener(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda39
             @Override // java.lang.Runnable
             public final void run() {
                 StoryRecorder.this.lambda$createGalleryListView$41();

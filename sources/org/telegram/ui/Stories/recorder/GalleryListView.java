@@ -35,7 +35,6 @@ import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScrollerCustom;
@@ -559,6 +558,10 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
         callback2.run(this.searchAdapterImages.results.get(i), null);
     }
 
+    public void allowSearch(boolean z) {
+        this.searchItem.setVisibility(z ? 0 : 8);
+    }
+
     private ArrayList<MediaController.PhotoEntry> getPhotoEntries(MediaController.AlbumEntry albumEntry) {
         if (albumEntry == null) {
             return new ArrayList<>();
@@ -574,10 +577,6 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
             }
         }
         return arrayList;
-    }
-
-    public void openSearch() {
-        this.actionBar.onSearchFieldVisibilityChanged(this.searchItem.toggleSearch(true));
     }
 
     public boolean onBackPressed() {
@@ -1288,29 +1287,13 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes4.dex */
-    public class HeaderView extends FrameLayout {
-        public ImageView searchButton;
+    private class HeaderView extends FrameLayout {
         public TextView textView;
 
-        public HeaderView(Context context, boolean z) {
+        public HeaderView(GalleryListView galleryListView, Context context, boolean z) {
             super(context);
             setPadding(AndroidUtilities.dp(z ? 14.0f : 16.0f), AndroidUtilities.dp(16.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(10.0f));
-            if (z) {
-                ImageView imageView = new ImageView(context);
-                this.searchButton = imageView;
-                imageView.setImageResource(R.drawable.ic_ab_search);
-                this.searchButton.setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.SRC_IN));
-                this.searchButton.setBackground(Theme.createSelectorDrawable(436207615));
-                this.searchButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$HeaderView$$ExternalSyntheticLambda0
-                    @Override // android.view.View.OnClickListener
-                    public final void onClick(View view) {
-                        GalleryListView.HeaderView.this.lambda$new$0(view);
-                    }
-                });
-                addView(this.searchButton, LayoutHelper.createFrame(24, 24, 21));
-            }
             TextView textView = new TextView(context);
             this.textView = textView;
             textView.setTextSize(1, 16.0f);
@@ -1318,11 +1301,6 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
             this.textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             this.textView.setText(LocaleController.getString(z ? R.string.AddImage : R.string.ChoosePhotoOrVideo));
             addView(this.textView, LayoutHelper.createFrame(-1, -1.0f, 119, 0.0f, 0.0f, z ? 32.0f : 0.0f, 0.0f));
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$new$0(View view) {
-            GalleryListView.this.openSearch();
         }
     }
 
@@ -1346,7 +1324,7 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
             } else if (i == 1) {
                 GalleryListView galleryListView2 = GalleryListView.this;
                 GalleryListView galleryListView3 = GalleryListView.this;
-                cell = galleryListView2.headerView = new HeaderView(galleryListView3.getContext(), GalleryListView.this.onlyPhotos);
+                cell = galleryListView2.headerView = new HeaderView(galleryListView3, galleryListView3.getContext(), GalleryListView.this.onlyPhotos);
             } else {
                 cell = new Cell(GalleryListView.this.getContext());
             }

@@ -1925,8 +1925,12 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         if ((ChatActivity.this.chatMode == 3 && ChatActivity.this.getSavedDialogId() == ChatActivity.this.getUserConfig().getClientUserId()) || (ChatActivity.this.chatMode == 0 && ((ChatActivity.this.threadMessageId == 0 || ChatActivity.this.isTopic) && !UserObject.isReplyUser(ChatActivity.this.currentUser) && ChatActivity.this.reportType < 0))) {
                             ChatActivity.this.editTextItem.setVisibility(0);
                             ChatActivity.this.checkEditTextItemMenu();
-                            ChatActivity.this.headerItem.setVisibility(8);
-                            ChatActivity.this.attachItem.setVisibility(8);
+                            if (ChatActivity.this.headerItem != null) {
+                                ChatActivity.this.headerItem.setVisibility(8);
+                            }
+                            if (ChatActivity.this.attachItem != null) {
+                                ChatActivity.this.attachItem.setVisibility(8);
+                            }
                         } else {
                             ValueAnimator ofFloat = ValueAnimator.ofFloat(AndroidUtilities.dp(48.0f), 0.0f);
                             ofFloat.setDuration(220L);
@@ -1963,12 +1967,22 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     if ((ChatActivity.this.chatMode == 3 && ChatActivity.this.getSavedDialogId() == ChatActivity.this.getUserConfig().getClientUserId()) || (ChatActivity.this.chatMode == 0 && ((ChatActivity.this.threadMessageId == 0 || ChatActivity.this.isTopic) && !UserObject.isReplyUser(ChatActivity.this.currentUser) && ChatActivity.this.reportType < 0))) {
                         ChatActivity.this.editTextItem.setVisibility(8);
                         if (!ChatActivity.this.chatActivityEnterView.hasText() || !TextUtils.isEmpty(ChatActivity.this.chatActivityEnterView.getSlowModeTimer())) {
-                            ChatActivity.this.headerItem.setVisibility(0);
-                            ChatActivity.this.attachItem.setVisibility(8);
+                            if (ChatActivity.this.headerItem != null) {
+                                ChatActivity.this.headerItem.setVisibility(0);
+                            }
+                            if (ChatActivity.this.attachItem != null) {
+                                ChatActivity.this.attachItem.setVisibility(8);
+                                return;
+                            }
                             return;
                         }
-                        ChatActivity.this.headerItem.setVisibility(8);
-                        ChatActivity.this.attachItem.setVisibility(0);
+                        if (ChatActivity.this.headerItem != null) {
+                            ChatActivity.this.headerItem.setVisibility(8);
+                        }
+                        if (ChatActivity.this.attachItem != null) {
+                            ChatActivity.this.attachItem.setVisibility(0);
+                            return;
+                        }
                         return;
                     }
                     ValueAnimator ofFloat2 = ValueAnimator.ofFloat(0.0f, AndroidUtilities.dp(48.0f));
@@ -4059,7 +4073,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Removed duplicated region for block: B:466:0x1861  */
     /* JADX WARN: Removed duplicated region for block: B:475:0x18c8  */
     /* JADX WARN: Removed duplicated region for block: B:476:0x18d1  */
-    /* JADX WARN: Removed duplicated region for block: B:480:0x19b9  */
+    /* JADX WARN: Removed duplicated region for block: B:479:0x1970  */
+    /* JADX WARN: Removed duplicated region for block: B:482:0x19ca  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -5992,10 +6007,12 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     this.savedMessagesSearchHint = rounding;
                     rounding.setText(LocaleController.getString(R.string.SavedTagSearchTooltipHint));
                     this.contentView.addView(this.savedMessagesSearchHint, LayoutHelper.createFrame(-1, 120.0f, 55, 16.0f, -8.0f, 16.0f, 0.0f));
-                    HintView2 rounding2 = new HintView2(context, 3).setMultilineText(true).setTextAlign(Layout.Alignment.ALIGN_CENTER).setDuration(-1L).setHideByTouch(true).useScale(true).setCloseButton(true).setRounding(8.0f);
-                    this.savedMessagesTagHint = rounding2;
-                    rounding2.setText(LocaleController.getString(R.string.SavedTagLongpressHint));
-                    this.contentView.addView(this.savedMessagesTagHint, LayoutHelper.createFrame(-1, 120.0f, 55, 16.0f, 0.0f, 16.0f, 0.0f));
+                    if (getUserConfig().isPremium()) {
+                        HintView2 rounding2 = new HintView2(context, 3).setMultilineText(true).setTextAlign(Layout.Alignment.ALIGN_CENTER).setDuration(-1L).setHideByTouch(true).useScale(true).setCloseButton(true).setRounding(8.0f);
+                        this.savedMessagesTagHint = rounding2;
+                        rounding2.setText(LocaleController.getString(R.string.SavedTagLongpressHint));
+                        this.contentView.addView(this.savedMessagesTagHint, LayoutHelper.createFrame(-1, 120.0f, 55, 16.0f, 0.0f, 16.0f, 0.0f));
+                    }
                 }
                 if (getDialogId() == getUserConfig().getClientUserId()) {
                     SearchTagsList searchTagsList = new SearchTagsList(context, this, this.contentView, this.currentAccount, getSavedDialogId(), this.themeDelegate, true) { // from class: org.telegram.ui.ChatActivity.49
@@ -7288,10 +7305,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             this.savedMessagesSearchHint = rounding3;
             rounding3.setText(LocaleController.getString(R.string.SavedTagSearchTooltipHint));
             this.contentView.addView(this.savedMessagesSearchHint, LayoutHelper.createFrame(-1, 120.0f, 55, 16.0f, -8.0f, 16.0f, 0.0f));
-            HintView2 rounding22 = new HintView2(context, 3).setMultilineText(true).setTextAlign(Layout.Alignment.ALIGN_CENTER).setDuration(-1L).setHideByTouch(true).useScale(true).setCloseButton(true).setRounding(8.0f);
-            this.savedMessagesTagHint = rounding22;
-            rounding22.setText(LocaleController.getString(R.string.SavedTagLongpressHint));
-            this.contentView.addView(this.savedMessagesTagHint, LayoutHelper.createFrame(-1, 120.0f, 55, 16.0f, 0.0f, 16.0f, 0.0f));
+            if (getUserConfig().isPremium()) {
+            }
         }
         if (getDialogId() == getUserConfig().getClientUserId()) {
         }
@@ -30259,7 +30274,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     l = null;
                 }
                 TLRPC$Message draftMessage = (draft == null || (tLRPC$InputReplyTo = draft.reply_to) == null || tLRPC$InputReplyTo.reply_to_msg_id == 0) ? null : getMediaDataController().getDraftMessage(this.dialog_id, l != null ? l.longValue() : this.threadMessageId);
-                if (this.chatActivityEnterView.getFieldText() == null || (this.chatMode == 0 && getUserConfig().getClientUserId() == getDialogId() && this.appliedDraftDate < draft.date)) {
+                if (this.chatActivityEnterView.getFieldText() == null || (this.chatMode == 0 && getUserConfig().getClientUserId() == getDialogId() && draft != null && this.appliedDraftDate < draft.date)) {
                     if (draft != null) {
                         this.appliedDraftDate = draft.date;
                         this.chatActivityEnterView.setWebPage(null, !draft.no_webpage);
@@ -34378,7 +34393,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         if (isInScheduleMode() || messageObject == null) {
             return;
         }
-        if (getDialogId() == getUserConfig().getClientUserId() && !getUserConfig().isPremium() && (tLRPC$Message = messageObject.messageOwner) != null && (tLRPC$TL_messageReactions = tLRPC$Message.reactions) != null && (tLRPC$TL_messageReactions.reactions_as_tags || tLRPC$TL_messageReactions.results.isEmpty())) {
+        if (getDialogId() == getUserConfig().getClientUserId() && !getUserConfig().isPremium() && (tLRPC$Message = messageObject.messageOwner) != null && ((tLRPC$TL_messageReactions = tLRPC$Message.reactions) == null || tLRPC$TL_messageReactions.reactions_as_tags || tLRPC$TL_messageReactions.results.isEmpty())) {
             new PremiumFeatureBottomSheet(this, 24, true).show();
             return;
         }
