@@ -28294,7 +28294,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Type inference failed for: r6v2, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r6v33 */
     /* JADX WARN: Type inference failed for: r8v182 */
-    /* JADX WARN: Type inference failed for: r8v183, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r8v183, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r8v184 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
