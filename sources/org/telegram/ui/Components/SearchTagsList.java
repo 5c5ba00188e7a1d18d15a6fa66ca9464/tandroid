@@ -360,6 +360,10 @@ public class SearchTagsList extends BlurredFrameLayout implements NotificationCe
             new PremiumFeatureBottomSheet(baseFragment, 24, true).show();
             return true;
         }
+        ReactionsLayoutInBubble.ReactionButton reactionButton = ((TagButton) view).reactionButton;
+        if (reactionButton != null) {
+            reactionButton.startAnimation();
+        }
         final Item item = this.items.get(i2);
         ItemOptions.makeOptions(baseFragment, view).setGravity(3).add(R.drawable.menu_tag_rename, LocaleController.getString(TextUtils.isEmpty(item.name) ? R.string.SavedTagLabelTag : R.string.SavedTagRenameTag), new Runnable() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda11
             @Override // java.lang.Runnable
@@ -910,7 +914,7 @@ public class SearchTagsList extends BlurredFrameLayout implements NotificationCe
 
                     @Override // org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble.ReactionButton
                     protected int getCacheType() {
-                        return 9;
+                        return 18;
                     }
 
                     @Override // org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble.ReactionButton

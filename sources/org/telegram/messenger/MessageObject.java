@@ -867,6 +867,10 @@ public class MessageObject {
         return ((messageObject != null && (messageObject.messageOwner instanceof TLRPC$TL_messageEmpty)) || (tLRPC$MessageReplyHeader = (tLRPC$Message = this.messageOwner).reply_to) == null || tLRPC$MessageReplyHeader.story_id == 0 || (tLRPC$Message.flags & 8) == 0) ? false : true;
     }
 
+    public boolean isUnsupported() {
+        return getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaUnsupported;
+    }
+
     public boolean isExpiredStory() {
         int i = this.type;
         return (i == 23 || i == 24) && (this.messageOwner.media.storyItem instanceof TL_stories$TL_storyItemDeleted);
@@ -5080,8 +5084,8 @@ public class MessageObject {
     /* JADX WARN: Removed duplicated region for block: B:412:0x0a5c  */
     /* JADX WARN: Removed duplicated region for block: B:433:0x0b07  */
     /* JADX WARN: Removed duplicated region for block: B:750:0x1408  */
-    /* JADX WARN: Removed duplicated region for block: B:892:0x17b4  */
-    /* JADX WARN: Removed duplicated region for block: B:918:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:888:0x17a9  */
+    /* JADX WARN: Removed duplicated region for block: B:914:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -6043,7 +6047,7 @@ public class MessageObject {
                     } else if (getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaInvoice) {
                         this.messageText = getMedia(this.messageOwner).description;
                     } else if (getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaUnsupported) {
-                        this.messageText = LocaleController.getString(ApplicationLoader.applicationLoaderInstance.isStandalone() ? R.string.UnsupportedMediaStandalone : R.string.UnsupportedMedia);
+                        this.messageText = LocaleController.getString(R.string.UnsupportedMedia2);
                     } else if (getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaDocument) {
                         if (isSticker() || isAnimatedStickerDocument(getDocument(), true)) {
                             String stickerChar = getStickerChar();
@@ -6193,8 +6197,9 @@ public class MessageObject {
                     return tLRPC$MessageMedia.description;
                 }
                 if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaUnsupported) {
-                    return LocaleController.getString(ApplicationLoader.applicationLoaderInstance.isStandalone() ? R.string.UnsupportedMediaStandalone : R.string.UnsupportedMedia);
-                } else if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaDocument) {
+                    return LocaleController.getString(R.string.UnsupportedMedia2);
+                }
+                if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaDocument) {
                     if (isStickerDocument(tLRPC$MessageMedia.document) || isAnimatedStickerDocument(tLRPC$MessageMedia.document, true)) {
                         String stickerChar = getStickerChar();
                         return (stickerChar == null || stickerChar.length() <= 0) ? LocaleController.getString("AttachSticker", R.string.AttachSticker) : String.format("%s %s", stickerChar, LocaleController.getString("AttachSticker", R.string.AttachSticker));
@@ -6207,9 +6212,8 @@ public class MessageObject {
                         String documentFileName = FileLoader.getDocumentFileName(tLRPC$MessageMedia.document);
                         return !TextUtils.isEmpty(documentFileName) ? documentFileName : LocaleController.getString("AttachDocument", R.string.AttachDocument);
                     }
-                } else {
-                    return null;
                 }
+                return null;
             }
         }
     }
@@ -7444,7 +7448,7 @@ public class MessageObject {
         if (charSequence == null) {
             return false;
         }
-        if (this.isRestrictedMessage) {
+        if (this.isRestrictedMessage || (getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaUnsupported)) {
             ArrayList arrayList2 = new ArrayList();
             TLRPC$TL_messageEntityItalic tLRPC$TL_messageEntityItalic = new TLRPC$TL_messageEntityItalic();
             tLRPC$TL_messageEntityItalic.offset = 0;
@@ -7975,8 +7979,11 @@ public class MessageObject {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:38:0x006e, code lost:
-        if ((getMedia(r0) instanceof org.telegram.tgnet.TLRPC$TL_messageMediaUnsupported) == false) goto L37;
+    /* JADX WARN: Code restructure failed: missing block: B:34:0x0060, code lost:
+        if (r9.messageOwner.send_state == 0) goto L32;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:36:0x0066, code lost:
+        if (r9.messageOwner.id >= 0) goto L35;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -7990,9 +7997,22 @@ public class MessageObject {
         if (!(this.messageOwner.send_state != 0 ? false : !arrayList.isEmpty())) {
             if (this.eventId == 0) {
                 TLRPC$Message tLRPC$Message = this.messageOwner;
-                if (!(tLRPC$Message instanceof TLRPC$TL_message_old) && !(tLRPC$Message instanceof TLRPC$TL_message_old2) && !(tLRPC$Message instanceof TLRPC$TL_message_old3) && !(tLRPC$Message instanceof TLRPC$TL_message_old4) && !(tLRPC$Message instanceof TLRPC$TL_messageForwarded_old) && !(tLRPC$Message instanceof TLRPC$TL_messageForwarded_old2) && !(tLRPC$Message instanceof TLRPC$TL_message_secret) && !(getMedia(tLRPC$Message) instanceof TLRPC$TL_messageMediaInvoice) && (!isOut() || this.messageOwner.send_state == 0)) {
-                    TLRPC$Message tLRPC$Message2 = this.messageOwner;
-                    if (tLRPC$Message2.id >= 0) {
+                if (!(tLRPC$Message instanceof TLRPC$TL_message_old)) {
+                    if (!(tLRPC$Message instanceof TLRPC$TL_message_old2)) {
+                        if (!(tLRPC$Message instanceof TLRPC$TL_message_old3)) {
+                            if (!(tLRPC$Message instanceof TLRPC$TL_message_old4)) {
+                                if (!(tLRPC$Message instanceof TLRPC$TL_messageForwarded_old)) {
+                                    if (!(tLRPC$Message instanceof TLRPC$TL_messageForwarded_old2)) {
+                                        if (!(tLRPC$Message instanceof TLRPC$TL_message_secret)) {
+                                            if (!(getMedia(tLRPC$Message) instanceof TLRPC$TL_messageMediaInvoice)) {
+                                                if (isOut()) {
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }

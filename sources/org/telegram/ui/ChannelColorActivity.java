@@ -1889,7 +1889,7 @@ public class ChannelColorActivity extends BaseFragment {
 
         /* JADX INFO: Access modifiers changed from: private */
         /* JADX WARN: Type inference failed for: r4v23 */
-        /* JADX WARN: Type inference failed for: r4v5, types: [int, boolean] */
+        /* JADX WARN: Type inference failed for: r4v5, types: [boolean, int] */
         /* JADX WARN: Type inference failed for: r4v8 */
         public boolean parseTheme(final Theme.ThemeInfo themeInfo) {
             int stringKeyToInt;

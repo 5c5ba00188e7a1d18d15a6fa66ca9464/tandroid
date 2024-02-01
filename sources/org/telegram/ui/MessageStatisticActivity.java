@@ -397,8 +397,9 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
         updateRows();
         this.listView.setEmptyView(this.emptyView);
         this.avatarContainer = new ChatAvatarContainer(context, null, false) { // from class: org.telegram.ui.MessageStatisticActivity.4
-            @Override // android.view.ViewGroup, android.view.View
-            protected void dispatchDraw(Canvas canvas) {
+            /* JADX INFO: Access modifiers changed from: protected */
+            @Override // org.telegram.ui.Components.ChatAvatarContainer, android.view.ViewGroup, android.view.View
+            public void dispatchDraw(Canvas canvas) {
                 super.dispatchDraw(canvas);
                 MessageStatisticActivity messageStatisticActivity = MessageStatisticActivity.this;
                 messageStatisticActivity.thumbImage.setImageCoords(messageStatisticActivity.avatarContainer.getAvatarImageView().getX(), MessageStatisticActivity.this.avatarContainer.getAvatarImageView().getY(), MessageStatisticActivity.this.avatarContainer.getAvatarImageView().getWidth(), MessageStatisticActivity.this.avatarContainer.getAvatarImageView().getHeight());

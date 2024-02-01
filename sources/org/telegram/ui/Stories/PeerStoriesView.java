@@ -4491,7 +4491,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
         if (ApplicationLoader.isStandaloneBuild()) {
             LaunchActivity launchActivity = LaunchActivity.instance;
             if (launchActivity != null) {
-                launchActivity.checkAppUpdate(true);
+                launchActivity.checkAppUpdate(true, null);
             }
         } else if (BuildVars.isHuaweiStoreApp()) {
             Browser.openUrl(getContext(), BuildVars.HUAWEI_STORE_URL);
@@ -5006,7 +5006,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
     /* JADX WARN: Removed duplicated region for block: B:363:0x0867  */
     /* JADX WARN: Removed duplicated region for block: B:364:0x0869  */
     /* JADX WARN: Type inference failed for: r2v4 */
-    /* JADX WARN: Type inference failed for: r2v5, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r2v5, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r2v79 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

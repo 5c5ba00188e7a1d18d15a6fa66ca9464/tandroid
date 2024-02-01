@@ -69,8 +69,7 @@ public class ApplicationLoader extends Application {
         return false;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public boolean isStandalone() {
+    protected boolean isStandalone() {
         return false;
     }
 

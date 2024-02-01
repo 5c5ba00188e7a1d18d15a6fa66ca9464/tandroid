@@ -30,6 +30,7 @@ import org.telegram.messenger.DocumentObject;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
@@ -51,10 +52,12 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.ChatMessageCell;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
+import org.telegram.ui.Components.AnimatedFileDrawable;
 import org.telegram.ui.Components.AnimatedTextView;
 import org.telegram.ui.Components.AvatarsDrawable;
 import org.telegram.ui.Components.CounterView;
 import org.telegram.ui.Components.CubicBezierInterpolator;
+import org.telegram.ui.Components.RLottieDrawable;
 /* loaded from: classes4.dex */
 public class ReactionsLayoutInBubble {
     private static int animationUniq;
@@ -144,11 +147,11 @@ public class ReactionsLayoutInBubble {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x01d5  */
-    /* JADX WARN: Removed duplicated region for block: B:93:0x01d8 A[SYNTHETIC] */
-    /* JADX WARN: Type inference failed for: r10v0 */
-    /* JADX WARN: Type inference failed for: r10v4, types: [int, boolean] */
-    /* JADX WARN: Type inference failed for: r10v5 */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x01db  */
+    /* JADX WARN: Removed duplicated region for block: B:94:0x01de A[SYNTHETIC] */
+    /* JADX WARN: Type inference failed for: r11v0 */
+    /* JADX WARN: Type inference failed for: r11v4, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r11v5 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -156,9 +159,10 @@ public class ReactionsLayoutInBubble {
         int i;
         this.resourcesProvider = resourcesProvider;
         this.isSmall = z;
+        this.tags = z2;
         this.messageObject = messageObject;
         ArrayList arrayList = new ArrayList(this.reactionButtons);
-        ?? r10 = 0;
+        ?? r11 = 0;
         this.hasUnreadReactions = false;
         this.reactionButtons.clear();
         if (messageObject != null) {
@@ -196,8 +200,8 @@ public class ReactionsLayoutInBubble {
                             }
                             reactionLayoutButton.setUsers(arrayList3);
                             if (!arrayList3.isEmpty()) {
-                                reactionLayoutButton.count = r10;
-                                reactionLayoutButton.counterDrawable.setCount(r10, r10);
+                                reactionLayoutButton.count = r11;
+                                reactionLayoutButton.counterDrawable.setCount(r11, r11);
                             }
                         } else if (tLRPC$ReactionCount.count <= 3 && i2 <= 3) {
                             int i5 = 0;
@@ -223,7 +227,7 @@ public class ReactionsLayoutInBubble {
                                 reactionLayoutButton.counterDrawable.setCount(0, false);
                             }
                             if (!z && tLRPC$ReactionCount.count > 1 && tLRPC$ReactionCount.chosen) {
-                                this.reactionButtons.add(new ReactionLayoutButton(null, tLRPC$ReactionCount, z, this.tags));
+                                this.reactionButtons.add(new ReactionLayoutButton(null, tLRPC$ReactionCount, z, z2));
                                 this.reactionButtons.get(0).isSelected = false;
                                 this.reactionButtons.get(1).isSelected = true;
                                 this.reactionButtons.get(0).realCount = 1;
@@ -238,7 +242,7 @@ public class ReactionsLayoutInBubble {
                                 }
                                 i4++;
                                 i2 = i;
-                                r10 = 0;
+                                r11 = 0;
                             }
                         }
                     }
@@ -251,7 +255,7 @@ public class ReactionsLayoutInBubble {
                     }
                     i4++;
                     i2 = i;
-                    r10 = 0;
+                    r11 = 0;
                 }
             }
             if (!z && !this.reactionButtons.isEmpty()) {
@@ -292,9 +296,13 @@ public class ReactionsLayoutInBubble {
             } else if (reactionButton.isTag) {
                 reactionButton.width = AndroidUtilities.dp(42.0f);
                 reactionButton.height = AndroidUtilities.dp(26.0f);
-                CounterView.CounterDrawable counterDrawable = reactionButton.counterDrawable;
-                if (counterDrawable != null && (reactionButton.count > 1 || reactionButton.hasName)) {
-                    reactionButton.width += counterDrawable.getCurrentWidth() + AndroidUtilities.dp(8.0f);
+                if (reactionButton.hasName) {
+                    reactionButton.width = (int) (reactionButton.width + reactionButton.textDrawable.getAnimateToWidth() + AndroidUtilities.dp(8.0f));
+                } else {
+                    CounterView.CounterDrawable counterDrawable = reactionButton.counterDrawable;
+                    if (counterDrawable != null && reactionButton.count > 1) {
+                        reactionButton.width += counterDrawable.getCurrentWidth() + AndroidUtilities.dp(8.0f);
+                    }
                 }
             } else {
                 reactionButton.width = AndroidUtilities.dp(8.0f) + AndroidUtilities.dp(20.0f) + AndroidUtilities.dp(4.0f);
@@ -302,6 +310,8 @@ public class ReactionsLayoutInBubble {
                     reactionButton.users.size();
                     reactionButton.width = (int) (reactionButton.width + AndroidUtilities.dp(2.0f) + (AndroidUtilities.dp(20.0f) * 1) + ((reactionButton.users.size() > 1 ? reactionButton.users.size() - 1 : 0) * AndroidUtilities.dp(20.0f) * 0.8f) + AndroidUtilities.dp(1.0f));
                     reactionButton.avatarsDrawable.height = AndroidUtilities.dp(26.0f);
+                } else if (reactionButton.hasName) {
+                    reactionButton.width = (int) (reactionButton.width + reactionButton.textDrawable.getAnimateToWidth() + AndroidUtilities.dp(8.0f));
                 } else {
                     reactionButton.width += reactionButton.counterDrawable.getCurrentWidth() + AndroidUtilities.dp(8.0f);
                 }
@@ -589,7 +599,7 @@ public class ReactionsLayoutInBubble {
         public int animateFromWidth;
         public int animateFromX;
         public int animateFromY;
-        AnimatedEmojiDrawable animatedEmojiDrawable;
+        public AnimatedEmojiDrawable animatedEmojiDrawable;
         int animatedEmojiDrawableColor;
         public int animationType;
         public boolean attached;
@@ -606,7 +616,7 @@ public class ReactionsLayoutInBubble {
         public int fromTextColor;
         public boolean hasName;
         public int height;
-        ImageReceiver imageReceiver;
+        public ImageReceiver imageReceiver;
         boolean isSelected;
         private final boolean isSmall;
         public boolean isTag;
@@ -644,10 +654,6 @@ public class ReactionsLayoutInBubble {
             return false;
         }
 
-        protected int getCacheType() {
-            return 3;
-        }
-
         protected float getDrawServiceShaderBackground() {
             return 0.0f;
         }
@@ -667,6 +673,10 @@ public class ReactionsLayoutInBubble {
         protected void removeImageReceiver() {
         }
 
+        protected int getCacheType() {
+            return this.isTag ? 18 : 3;
+        }
+
         public ReactionButton(ReactionButton reactionButton, int i, View view, TLRPC$ReactionCount tLRPC$ReactionCount, boolean z, boolean z2, Theme.ResourcesProvider resourcesProvider) {
             this.currentAccount = i;
             this.parentView = view;
@@ -681,7 +691,7 @@ public class ReactionsLayoutInBubble {
             if (this.counterDrawable == null) {
                 this.counterDrawable = new CounterView.CounterDrawable(view, false, null);
             }
-            if (z2 && drawTextWithCounter() && this.textDrawable == null) {
+            if (this.textDrawable == null) {
                 AnimatedTextView.AnimatedTextDrawable animatedTextDrawable = new AnimatedTextView.AnimatedTextDrawable(true, true, true);
                 this.textDrawable = animatedTextDrawable;
                 animatedTextDrawable.setAnimationProperties(0.4f, 0L, 320L, CubicBezierInterpolator.EASE_OUT_QUINT);
@@ -731,24 +741,22 @@ public class ReactionsLayoutInBubble {
                 this.name = savedTagName;
                 this.hasName = !TextUtils.isEmpty(savedTagName);
             }
-            if (this.hasName && drawTextWithCounter()) {
+            if (this.hasName) {
                 AnimatedTextView.AnimatedTextDrawable animatedTextDrawable2 = this.textDrawable;
-                animatedTextDrawable2.setText(Emoji.replaceEmoji(this.name, animatedTextDrawable2.getPaint().getFontMetricsInt(), false), false);
-                Integer.toString(tLRPC$ReactionCount.count);
-                this.counterDrawable.setCount(this.count, false);
+                animatedTextDrawable2.setText(Emoji.replaceEmoji(this.name, animatedTextDrawable2.getPaint().getFontMetricsInt(), false), !LocaleController.isRTL);
+                if (drawTextWithCounter()) {
+                    Integer.toString(tLRPC$ReactionCount.count);
+                    this.counterDrawable.setCount(this.count, false);
+                } else {
+                    this.counterDrawable.setCount(0, false);
+                }
             } else {
                 AnimatedTextView.AnimatedTextDrawable animatedTextDrawable3 = this.textDrawable;
                 if (animatedTextDrawable3 != null) {
                     animatedTextDrawable3.setText("", false);
                 }
-                if (this.hasName) {
-                    String str = this.name;
-                    CounterView.CounterDrawable counterDrawable2 = this.counterDrawable;
-                    counterDrawable2.setText(Emoji.replaceEmoji(str, counterDrawable2.textPaint.getFontMetricsInt(), false), false);
-                } else {
-                    Integer.toString(tLRPC$ReactionCount.count);
-                    this.counterDrawable.setCount(this.count, false);
-                }
+                Integer.toString(tLRPC$ReactionCount.count);
+                this.counterDrawable.setCount(this.count, false);
             }
             this.counterDrawable.setType(2);
             this.counterDrawable.gravity = 3;
@@ -772,7 +780,7 @@ public class ReactionsLayoutInBubble {
             return ((i == 0 || (this.isTag && !this.hasName && i == 1)) && this.counterDrawable.countChangeProgress == 1.0f) ? false : true;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:133:0x032a  */
+        /* JADX WARN: Removed duplicated region for block: B:133:0x0334  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -900,6 +908,7 @@ public class ReactionsLayoutInBubble {
                 canvas.translate(AndroidUtilities.dp(f7) + f + AndroidUtilities.dp(20.0f) + AndroidUtilities.dp(2.0f), f2);
                 this.textDrawable.setBounds(0, 0, this.width, this.height);
                 this.textDrawable.draw(canvas);
+                this.textDrawable.setAlpha((int) (255.0f * f4));
                 canvas.restore();
                 f5 = this.textDrawable.getCurrentWidth() + (AndroidUtilities.dp(4.0f) * this.textDrawable.isNotEmpty());
                 if (this.counterDrawable != null && drawCounter()) {
@@ -1045,6 +1054,27 @@ public class ReactionsLayoutInBubble {
             AnimatedEmojiDrawable animatedEmojiDrawable = this.animatedEmojiDrawable;
             if (animatedEmojiDrawable != null) {
                 animatedEmojiDrawable.removeView(this.parentView);
+            }
+        }
+
+        public void startAnimation() {
+            ImageReceiver imageReceiver;
+            AnimatedEmojiDrawable animatedEmojiDrawable = this.animatedEmojiDrawable;
+            if (animatedEmojiDrawable != null && animatedEmojiDrawable.getImageReceiver() != null) {
+                imageReceiver = this.animatedEmojiDrawable.getImageReceiver();
+            } else {
+                imageReceiver = this.imageReceiver;
+            }
+            if (imageReceiver != null) {
+                RLottieDrawable lottieAnimation = imageReceiver.getLottieAnimation();
+                if (lottieAnimation != null) {
+                    lottieAnimation.restart(true);
+                    return;
+                }
+                AnimatedFileDrawable animation = imageReceiver.getAnimation();
+                if (animation != null) {
+                    animation.start();
+                }
             }
         }
     }
@@ -1206,6 +1236,13 @@ public class ReactionsLayoutInBubble {
             imageReceiver.setAutoRepeat(0);
             imageReceiver.onAttachedToWindow();
             this.animatedReactions.put(visibleReaction, imageReceiver);
+        } else if (this.tags && visibleReaction.documentId != 0) {
+            for (int i2 = 0; i2 < this.reactionButtons.size(); i2++) {
+                if (visibleReaction.isSame(this.reactionButtons.get(i2).reaction)) {
+                    this.reactionButtons.get(i2).startAnimation();
+                    return;
+                }
+            }
         }
     }
 
@@ -1309,6 +1346,15 @@ public class ReactionsLayoutInBubble {
                 return MessageObject.findAnimatedEmojiEmoticon(findDocument, null);
             }
             return "VisibleReaction{" + this.documentId + ", " + this.emojicon + "}";
+        }
+
+        public CharSequence toCharSequence(Paint.FontMetricsInt fontMetricsInt) {
+            if (!TextUtils.isEmpty(this.emojicon)) {
+                return this.emojicon;
+            }
+            SpannableString spannableString = new SpannableString("😀");
+            spannableString.setSpan(new AnimatedEmojiSpan(this.documentId, fontMetricsInt), 0, spannableString.length(), 17);
+            return spannableString;
         }
 
         public CharSequence toCharSequence(int i) {
