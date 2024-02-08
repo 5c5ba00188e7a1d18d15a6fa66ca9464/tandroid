@@ -20,7 +20,6 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.core.graphics.ColorUtils;
@@ -55,6 +54,7 @@ import org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSynth
 import org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 import org.telegram.ui.Components.RecyclerListView;
+import org.telegram.ui.LaunchActivity;
 /* loaded from: classes4.dex */
 public class SearchTagsList extends BlurredFrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private static AlertDialog currentDialog;
@@ -411,15 +411,16 @@ public class SearchTagsList extends BlurredFrameLayout implements NotificationCe
     /* JADX WARN: Type inference failed for: r0v17, types: [org.telegram.ui.ActionBar.AlertDialog] */
     /* JADX WARN: Type inference failed for: r14v0, types: [org.telegram.ui.ActionBar.AlertDialog[]] */
     /* JADX WARN: Type inference failed for: r15v0, types: [org.telegram.ui.ActionBar.AlertDialog$Builder] */
-    /* JADX WARN: Type inference failed for: r1v16 */
-    /* JADX WARN: Type inference failed for: r1v17, types: [boolean] */
-    /* JADX WARN: Type inference failed for: r1v22 */
+    /* JADX WARN: Type inference failed for: r1v17 */
+    /* JADX WARN: Type inference failed for: r1v18, types: [boolean] */
+    /* JADX WARN: Type inference failed for: r1v23 */
     public static void openRenameTagAlert(Context context, final int i, final TLRPC$Reaction tLRPC$Reaction, final Theme.ResourcesProvider resourcesProvider, boolean z) {
         Object builder;
         ?? r1;
+        BaseFragment lastFragment = LaunchActivity.getLastFragment();
         Activity findActivity = AndroidUtilities.findActivity(context);
         final View currentFocus = findActivity != null ? findActivity.getCurrentFocus() : null;
-        boolean z2 = (currentFocus instanceof EditText) && !z;
+        boolean z2 = (lastFragment != null && (lastFragment.getFragmentView() instanceof SizeNotifierFrameLayout) && ((SizeNotifierFrameLayout) lastFragment.getFragmentView()).measureKeyboardHeight() > AndroidUtilities.dp(20.0f)) && !z;
         final ?? r14 = new AlertDialog[1];
         if (z2) {
             builder = new AlertDialogDecor.Builder(context, resourcesProvider);

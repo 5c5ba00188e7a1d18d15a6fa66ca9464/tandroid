@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.exoplayer2.util.Consumer;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
@@ -47,6 +48,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Adapters.MentionsAdapter;
 import org.telegram.ui.Adapters.PaddedListAdapter;
 import org.telegram.ui.Cells.ContextLinkCell;
+import org.telegram.ui.Cells.MentionCell;
 import org.telegram.ui.Cells.StickerCell;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.ContentPreviewViewer;
@@ -147,7 +149,7 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
         this.ignoreLayout = false;
         this.scrollToFirst = false;
         this.shown = false;
-        this.updateVisibilityRunnable = new Runnable() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda4
+        this.updateVisibilityRunnable = new Runnable() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 MentionsContainerView.this.lambda$new$0();
@@ -717,7 +719,7 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
     public void withDelegate(final Delegate delegate) {
         this.delegate = delegate;
         MentionsListView listView = getListView();
-        RecyclerListView.OnItemClickListener onItemClickListener = new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda5
+        RecyclerListView.OnItemClickListener onItemClickListener = new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda6
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i) {
                 MentionsContainerView.this.lambda$withDelegate$4(delegate, view, i);
@@ -987,7 +989,15 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     public void didReceivedNotification(int i, int i2, Object... objArr) {
         if (i == NotificationCenter.emojiLoaded) {
-            getListView().invalidateViews();
+            AndroidUtilities.forEachViews((RecyclerView) this.listView, (Consumer<View>) MentionsContainerView$$ExternalSyntheticLambda4.INSTANCE);
+        }
+    }
+
+    public static /* synthetic */ void lambda$didReceivedNotification$6(View view) {
+        if (view instanceof MentionCell) {
+            ((MentionCell) view).invalidateEmojis();
+        } else {
+            view.invalidate();
         }
     }
 }

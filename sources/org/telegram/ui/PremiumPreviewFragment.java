@@ -1590,19 +1590,26 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
             addView(textView2, LayoutHelper.createLinear(-1, -2, 0.0f, 0, 16, 7, 16, 0));
             RecyclerListView recyclerListView = new RecyclerListView(context, PremiumPreviewFragment.this) { // from class: org.telegram.ui.PremiumPreviewFragment.BackgroundView.2
                 Paint paint;
+                private Path path;
 
                 {
                     Paint paint = new Paint(1);
                     this.paint = paint;
                     paint.setColor(Theme.getColor(Theme.key_dialogBackground));
+                    this.path = new Path();
                 }
 
                 @Override // androidx.recyclerview.widget.RecyclerView, android.view.View
                 public void draw(Canvas canvas) {
+                    this.path.rewind();
                     RectF rectF = AndroidUtilities.rectTmp;
                     rectF.set(0.0f, 0.0f, getWidth(), getHeight());
-                    canvas.drawRoundRect(rectF, AndroidUtilities.dp(12.0f), AndroidUtilities.dp(12.0f), this.paint);
+                    this.path.addRoundRect(rectF, AndroidUtilities.dp(12.0f), AndroidUtilities.dp(12.0f), Path.Direction.CW);
+                    canvas.drawPath(this.path, this.paint);
+                    canvas.save();
+                    canvas.clipPath(this.path);
                     super.draw(canvas);
+                    canvas.restore();
                 }
 
                 /* JADX INFO: Access modifiers changed from: protected */

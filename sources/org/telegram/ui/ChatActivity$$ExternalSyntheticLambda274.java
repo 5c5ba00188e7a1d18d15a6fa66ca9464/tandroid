@@ -1,6 +1,7 @@
 package org.telegram.ui;
 
 import java.util.Comparator;
+import org.telegram.messenger.MessageObject;
 /* loaded from: classes3.dex */
 public final /* synthetic */ class ChatActivity$$ExternalSyntheticLambda274 implements Comparator {
     public static final /* synthetic */ ChatActivity$$ExternalSyntheticLambda274 INSTANCE = new ChatActivity$$ExternalSyntheticLambda274();
@@ -10,8 +11,8 @@ public final /* synthetic */ class ChatActivity$$ExternalSyntheticLambda274 impl
 
     @Override // java.util.Comparator
     public final int compare(Object obj, Object obj2) {
-        int compareTo;
-        compareTo = ((Integer) obj2).compareTo((Integer) obj);
-        return compareTo;
+        int lambda$checkGroupMessagesOrder$324;
+        lambda$checkGroupMessagesOrder$324 = ChatActivity.lambda$checkGroupMessagesOrder$324((MessageObject) obj, (MessageObject) obj2);
+        return lambda$checkGroupMessagesOrder$324;
     }
 }

@@ -73,7 +73,9 @@ public class ChatGreetingsView extends LinearLayout {
         this.descriptionView.setGravity(17);
         this.descriptionView.setTextSize(1, 14.0f);
         this.descriptionView.setGravity(1);
-        this.stickerToSendView = new BackupImageView(context);
+        BackupImageView backupImageView = new BackupImageView(context);
+        this.stickerToSendView = backupImageView;
+        ScaleStateListAnimator.apply(backupImageView);
         updateLayout();
         updateColors();
         if (i <= 0) {

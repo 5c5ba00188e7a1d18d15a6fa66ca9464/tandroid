@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -327,6 +328,8 @@ public class MediaDataController extends BaseController {
     private String doubleTapReaction;
     private LongSparseArray<LongSparseArray<TLRPC$Message>> draftMessages;
     private SharedPreferences draftPreferences;
+    public LongSparseArray<DraftVoice> draftVoices;
+    private boolean draftVoicesLoaded;
     private LongSparseArray<LongSparseArray<TLRPC$DraftMessage>> drafts;
     private LongSparseArray<Integer> draftsFolderIds;
     private ArrayList<TLRPC$EmojiStatus>[] emojiStatuses;
@@ -573,6 +576,8 @@ public class MediaDataController extends BaseController {
         this.recentReactions = new ArrayList<>();
         this.topReactions = new ArrayList<>();
         this.savedReactions = new ArrayList<>();
+        this.draftVoicesLoaded = false;
+        this.draftVoices = new LongSparseArray<>();
         if (this.currentAccount == 0) {
             this.draftPreferences = ApplicationLoader.applicationContext.getSharedPreferences("drafts", 0);
         } else {
@@ -8151,7 +8156,7 @@ public class MediaDataController extends BaseController {
     /* JADX WARN: Type inference failed for: r3v1, types: [java.lang.Object[]] */
     /* JADX WARN: Type inference failed for: r4v1 */
     /* JADX WARN: Type inference failed for: r4v11 */
-    /* JADX WARN: Type inference failed for: r4v2, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r4v2, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r7v1, types: [java.lang.String] */
     /* JADX WARN: Type inference failed for: r7v13, types: [java.lang.StringBuilder] */
     /* JADX WARN: Type inference failed for: r7v2 */
@@ -8788,7 +8793,7 @@ public class MediaDataController extends BaseController {
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Type inference failed for: r15v4 */
-    /* JADX WARN: Type inference failed for: r15v5, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r15v5, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r15v9 */
     public /* synthetic */ void lambda$loadReplyMessagesForMessages$169(LongSparseArray longSparseArray, final AtomicInteger atomicInteger, final Runnable runnable, int i, final LongSparseArray longSparseArray2, LongSparseArray longSparseArray3, final boolean z, final long j) {
         int i2;
@@ -12848,6 +12853,128 @@ public class MediaDataController extends BaseController {
             edit.putString("restrictedstatuses", Utilities.bytesToHex(serializedData.toByteArray()));
             edit.putLong("restrictedstatuses_last_check", System.currentTimeMillis());
             edit.apply();
+        }
+    }
+
+    private void loadDraftVoiceMessages() {
+        if (this.draftVoicesLoaded) {
+            return;
+        }
+        Context context = ApplicationLoader.applicationContext;
+        Set<Map.Entry<String, ?>> entrySet = context.getSharedPreferences("voicedrafts_" + this.currentAccount, 0).getAll().entrySet();
+        this.draftVoices.clear();
+        for (Map.Entry<String, ?> entry : entrySet) {
+            String key = entry.getKey();
+            DraftVoice fromString = DraftVoice.fromString((String) entry.getValue());
+            if (fromString != null) {
+                this.draftVoices.put(Long.parseLong(key), fromString);
+            }
+        }
+        this.draftVoicesLoaded = true;
+    }
+
+    public void toggleDraftVoiceOnce(long j, long j2, boolean z) {
+        DraftVoice draftVoice = getDraftVoice(j, j2);
+        if (draftVoice == null || draftVoice.once == z) {
+            return;
+        }
+        draftVoice.once = z;
+        Context context = ApplicationLoader.applicationContext;
+        SharedPreferences.Editor edit = context.getSharedPreferences("voicedrafts_" + this.currentAccount, 0).edit();
+        edit.putString(Objects.hash(Long.valueOf(j), Long.valueOf(j2)) + "", draftVoice.toString()).apply();
+    }
+
+    public void pushDraftVoiceMessage(long j, long j2, DraftVoice draftVoice) {
+        Context context = ApplicationLoader.applicationContext;
+        SharedPreferences sharedPreferences = context.getSharedPreferences("voicedrafts_" + this.currentAccount, 0);
+        long hash = (long) Objects.hash(Long.valueOf(j), Long.valueOf(j2));
+        sharedPreferences.edit().remove(hash + "").apply();
+        this.draftVoices.remove(hash);
+    }
+
+    public DraftVoice getDraftVoice(long j, long j2) {
+        loadDraftVoiceMessages();
+        return this.draftVoices.get(Objects.hash(Long.valueOf(j), Long.valueOf(j2)));
+    }
+
+    /* loaded from: classes.dex */
+    public static class DraftVoice {
+        public long id;
+        public boolean once;
+        public String path;
+        public short[] recordSamples;
+        public long recordTimeCount;
+        public long samplesCount;
+        public int writedFrame;
+
+        public static DraftVoice of(MediaController mediaController, String str, boolean z) {
+            if (mediaController.recordingAudio == null) {
+                return null;
+            }
+            DraftVoice draftVoice = new DraftVoice();
+            draftVoice.path = str;
+            draftVoice.samplesCount = mediaController.samplesCount;
+            draftVoice.writedFrame = mediaController.writedFrame;
+            draftVoice.recordTimeCount = mediaController.recordTimeCount;
+            draftVoice.id = mediaController.recordingAudio.id;
+            draftVoice.recordSamples = mediaController.recordSamples;
+            draftVoice.once = z;
+            return draftVoice;
+        }
+
+        public String toString() {
+            char[] cArr = new char[this.recordSamples.length];
+            int i = 0;
+            while (true) {
+                short[] sArr = this.recordSamples;
+                if (i < sArr.length) {
+                    cArr[i] = (char) sArr[i];
+                    i++;
+                } else {
+                    return this.path + "\n" + this.samplesCount + "\n" + this.writedFrame + "\n" + this.recordTimeCount + "\n" + (this.once ? 1 : 0) + "\n" + new String(cArr);
+                }
+            }
+        }
+
+        public static DraftVoice fromString(String str) {
+            if (str == null) {
+                return null;
+            }
+            try {
+                String[] split = str.split("\n");
+                if (split.length < 6) {
+                    return null;
+                }
+                DraftVoice draftVoice = new DraftVoice();
+                int i = 0;
+                draftVoice.path = split[0];
+                boolean z = true;
+                draftVoice.samplesCount = Long.parseLong(split[1]);
+                draftVoice.writedFrame = Integer.parseInt(split[2]);
+                draftVoice.recordTimeCount = Long.parseLong(split[3]);
+                if (Integer.parseInt(split[4]) == 0) {
+                    z = false;
+                }
+                draftVoice.once = z;
+                int length = split.length - 5;
+                String[] strArr = new String[length];
+                for (int i2 = 0; i2 < length; i2++) {
+                    strArr[i2] = split[i2 + 5];
+                }
+                String join = TextUtils.join("\n", strArr);
+                draftVoice.recordSamples = new short[join.length()];
+                while (true) {
+                    short[] sArr = draftVoice.recordSamples;
+                    if (i >= sArr.length) {
+                        return draftVoice;
+                    }
+                    sArr[i] = (short) join.charAt(i);
+                    i++;
+                }
+            } catch (Exception e) {
+                FileLog.e(e);
+                return null;
+            }
         }
     }
 }

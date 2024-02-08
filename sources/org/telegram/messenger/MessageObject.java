@@ -9488,7 +9488,6 @@ public class MessageObject {
     }
 
     public boolean isOutOwner() {
-        TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader;
         TLRPC$Peer tLRPC$Peer;
         TLRPC$Peer tLRPC$Peer2;
         boolean z = true;
@@ -9500,14 +9499,19 @@ public class MessageObject {
             return bool.booleanValue();
         }
         long clientUserId = UserConfig.getInstance(this.currentAccount).getClientUserId();
-        if ((this.isSaved || getDialogId() == clientUserId) && (tLRPC$MessageFwdHeader = this.messageOwner.fwd_from) != null) {
-            TLRPC$Peer tLRPC$Peer3 = tLRPC$MessageFwdHeader.from_id;
-            if ((tLRPC$Peer3 == null || tLRPC$Peer3.user_id != clientUserId) && !tLRPC$MessageFwdHeader.saved_out) {
-                z = false;
+        if (this.isSaved || getDialogId() == clientUserId) {
+            TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader = this.messageOwner.fwd_from;
+            if (tLRPC$MessageFwdHeader != null) {
+                TLRPC$Peer tLRPC$Peer3 = tLRPC$MessageFwdHeader.from_id;
+                if ((tLRPC$Peer3 == null || tLRPC$Peer3.user_id != clientUserId) && !tLRPC$MessageFwdHeader.saved_out) {
+                    z = false;
+                }
+                Boolean valueOf = Boolean.valueOf(z);
+                this.isOutOwnerCached = valueOf;
+                return valueOf.booleanValue();
             }
-            Boolean valueOf = Boolean.valueOf(z);
-            this.isOutOwnerCached = valueOf;
-            return valueOf.booleanValue();
+            this.isOutOwnerCached = Boolean.TRUE;
+            return true;
         }
         TLRPC$Peer tLRPC$Peer4 = this.messageOwner.peer_id;
         TLRPC$Chat tLRPC$Chat = null;

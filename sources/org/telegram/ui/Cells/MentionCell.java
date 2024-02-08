@@ -11,7 +11,6 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.MediaDataController;
-import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.tgnet.TLRPC$Chat;
@@ -53,7 +52,6 @@ public class MentionCell extends LinearLayout {
             }
         };
         this.nameTextView = textView;
-        NotificationCenter.listenEmojiLoading(textView);
         textView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
         textView.setTextSize(1, 15.0f);
         textView.setSingleLine(true);
@@ -68,6 +66,11 @@ public class MentionCell extends LinearLayout {
         textView2.setGravity(3);
         textView2.setEllipsize(TextUtils.TruncateAt.END);
         addView(textView2, LayoutHelper.createLinear(-2, -2, 16, 12, 0, 8, 0));
+    }
+
+    public void invalidateEmojis() {
+        this.nameTextView.invalidate();
+        this.usernameTextView.invalidate();
     }
 
     @Override // android.widget.LinearLayout, android.view.View

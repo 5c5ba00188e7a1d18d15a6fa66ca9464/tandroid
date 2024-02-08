@@ -633,13 +633,15 @@ public class SavedMessagesController {
                 }
             }
             if (savedDialog != null) {
-                int max = Math.max(0, savedDialog.messagesCount - valueAt.size());
-                int i5 = savedDialog.messagesCount;
-                if (max != i5) {
-                    savedDialog.messagesCount = Math.max(0, i5 - valueAt.size());
-                    z = true;
+                if (savedDialog.messagesCountLoaded) {
+                    int max = Math.max(0, savedDialog.messagesCount - valueAt.size());
+                    int i5 = savedDialog.messagesCount;
+                    if (max != i5) {
+                        savedDialog.messagesCount = Math.max(0, i5 - valueAt.size());
+                        z = true;
+                    }
                 }
-                if (savedDialog.messagesCount <= 0) {
+                if (savedDialog.messagesCountLoaded && savedDialog.messagesCount <= 0) {
                     removeDialog(savedDialog.dialogId);
                 } else if (savedDialog.top_message_id <= i2) {
                     arrayList.add(savedDialog);

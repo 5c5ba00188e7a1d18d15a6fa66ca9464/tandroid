@@ -81,6 +81,7 @@ public class CaptionContainerView extends FrameLayout {
     private final ButtonBounce bounce;
     private final RectF bounds;
     protected final BlurringShader.StoryBlurDrawer captionBlur;
+    private final RectF clickBounds;
     private int codePointCount;
     private RadialGradient collapseGradient;
     private Matrix collapseGradientMatrix;
@@ -247,6 +248,7 @@ public class CaptionContainerView extends FrameLayout {
         this.ignoreDraw = false;
         this.rectF = new RectF();
         this.bounds = new RectF();
+        this.clickBounds = new RectF();
         this.collapsedT = new AnimatedFloat(this, 500L, cubicBezierInterpolator);
         this.resourcesProvider = resourcesProvider;
         this.rootView = frameLayout;
@@ -520,7 +522,7 @@ public class CaptionContainerView extends FrameLayout {
 
     @Override // android.view.ViewGroup, android.view.View
     public boolean dispatchTouchEvent(MotionEvent motionEvent) {
-        if (this.ignoreTouches || ((motionEvent.getAction() == 0 && ignoreTouches(motionEvent.getX(), motionEvent.getY())) || !(this.bounds.contains(motionEvent.getX(), motionEvent.getY()) || this.keyboardShown))) {
+        if (this.ignoreTouches || ((motionEvent.getAction() == 0 && ignoreTouches(motionEvent.getX(), motionEvent.getY())) || !(this.clickBounds.contains(motionEvent.getX(), motionEvent.getY()) || this.keyboardShown))) {
             return false;
         }
         if (motionEvent.getAction() == 0 && !this.keyboardShown) {
@@ -998,7 +1000,7 @@ public class CaptionContainerView extends FrameLayout {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:53:0x016e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:53:0x018a, code lost:
         if ((r0 <= 0.0f) != (r1 <= 0.0f)) goto L57;
      */
     @Override // android.view.ViewGroup, android.view.View
@@ -1033,15 +1035,17 @@ public class CaptionContainerView extends FrameLayout {
             this.lastHeight = min;
         }
         updateMentionsLayoutPosition();
+        float dpf2 = (AndroidUtilities.dpf2(-1.0f) * this.keyboardT) + f;
         float f2 = i;
-        float dpf2 = ((AndroidUtilities.dpf2(-1.0f) * this.keyboardT) + f) - f2;
-        if (Math.abs(this.lastHeightTranslation - dpf2) >= 1.0f && !this.collapsed) {
+        float f3 = dpf2 - f2;
+        if (Math.abs(this.lastHeightTranslation - f3) >= 1.0f && !this.collapsed) {
             EditTextCaption editText = this.editText.getEditText();
-            this.lastHeightTranslation = dpf2;
-            editText.setTranslationY(dpf2);
+            this.lastHeightTranslation = f3;
+            editText.setTranslationY(f3);
         }
         float lerp = AndroidUtilities.lerp(AndroidUtilities.dp(12.0f), 0, this.keyboardT);
         this.bounds.set(lerp, (getHeight() - lerp) - f2, getWidth() - lerp, getHeight() - lerp);
+        this.clickBounds.set(0.0f, (getHeight() - i) - AndroidUtilities.dp(24.0f), getWidth(), getHeight());
         canvas.save();
         float scale = this.bounce.getScale(0.018f);
         canvas.scale(scale, scale, this.bounds.centerX(), this.bounds.centerY());
@@ -1066,17 +1070,17 @@ public class CaptionContainerView extends FrameLayout {
                 canvas.drawRoundRect(this.bounds, lerp2, lerp2, this.backgroundPaint);
             }
         }
-        float f3 = this.collapsedT.get();
-        float f4 = this.collapsedT.set(this.collapsed);
-        if (Math.abs(f3 - f4) <= 0.001f) {
+        float f4 = this.collapsedT.get();
+        float f5 = this.collapsedT.set(this.collapsed);
+        if (Math.abs(f4 - f5) <= 0.001f) {
         }
         invalidateDrawOver2();
-        if (f4 > 0.0f) {
+        if (f5 > 0.0f) {
             canvas.saveLayerAlpha(this.bounds, 255, 31);
         }
         drawReply(canvas);
         super.dispatchDraw(canvas);
-        if (f4 > 0.0f) {
+        if (f5 > 0.0f) {
             int i2 = this.collapsedFromX;
             if (i2 == Integer.MAX_VALUE) {
                 dp = this.bounds.right - AndroidUtilities.dp(20.0f);
@@ -1091,7 +1095,7 @@ public class CaptionContainerView extends FrameLayout {
             RectF rectF3 = this.bounds;
             float distance2 = MathUtils.distance(rectF3.right, rectF3.top, dp, dp2);
             RectF rectF4 = this.bounds;
-            float max2 = Math.max(max, Math.max(distance2, MathUtils.distance(rectF4.right, rectF4.bottom, dp, dp2))) * f4;
+            float max2 = Math.max(max, Math.max(distance2, MathUtils.distance(rectF4.right, rectF4.bottom, dp, dp2))) * f5;
             if (this.collapsePaint == null) {
                 Paint paint = new Paint(1);
                 this.collapsePaint = paint;
@@ -1126,7 +1130,7 @@ public class CaptionContainerView extends FrameLayout {
             canvas.restore();
             canvas.restore();
             if (!drawOver2FromParent()) {
-                drawOver2(canvas, this.bounds, f4);
+                drawOver2(canvas, this.bounds, f5);
             }
         }
         canvas.restore();

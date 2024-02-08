@@ -4703,6 +4703,9 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
     public void setSendMediaEnabled(boolean z) {
         TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights = this.defaultBannedRights;
         tLRPC$TL_chatBannedRights.send_media = !z;
+        tLRPC$TL_chatBannedRights.send_gifs = !z;
+        tLRPC$TL_chatBannedRights.send_inline = !z;
+        tLRPC$TL_chatBannedRights.send_games = !z;
         tLRPC$TL_chatBannedRights.send_photos = !z;
         tLRPC$TL_chatBannedRights.send_videos = !z;
         tLRPC$TL_chatBannedRights.send_stickers = !z;

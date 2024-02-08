@@ -68,6 +68,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
 import org.telegram.messenger.MediaController;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
@@ -219,12 +220,13 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     private MessageObject recordReplyingTopMsg;
     private Runnable recordStartRunnable;
     private long recordStartTime;
-    private long recordTimeCount;
-    private TLRPC$TL_document recordingAudio;
+    public long recordTimeCount;
+    private long recordTopicId;
+    public TLRPC$TL_document recordingAudio;
     private File recordingAudioFile;
     private int recordingCurrentAccount;
     private boolean resumeAudioOnFocusGain;
-    private long samplesCount;
+    public long samplesCount;
     private float seekToProgressPending;
     private int sendAfterDone;
     private boolean sendAfterDoneNotify;
@@ -242,7 +244,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     private SparseArray<MessageObject> voiceMessagesPlaylistMap;
     private boolean voiceMessagesPlaylistUnread;
     private long writedFileLenght;
-    private int writedFrame;
+    public int writedFrame;
     AudioManager.OnAudioFocusChangeListener audioRecordFocusChangedListener = new AudioManager.OnAudioFocusChangeListener() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda2
         @Override // android.media.AudioManager.OnAudioFocusChangeListener
         public final void onAudioFocusChange(int i) {
@@ -288,7 +290,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         }
     };
     private int recordingGuid = -1;
-    private short[] recordSamples = new short[1024];
+    public short[] recordSamples = new short[1024];
     private final Object sync = new Object();
     private ArrayList<ByteBuffer> recordBuffers = new ArrayList<>();
     public int recordBufferSize = 1280;
@@ -342,9 +344,11 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         }
     }
 
+    private native int resumeRecord(String str, int i);
+
     private native int startRecord(String str, int i);
 
-    private native void stopRecord();
+    private native void stopRecord(boolean z);
 
     /* JADX INFO: Access modifiers changed from: private */
     public native int writeFrame(ByteBuffer byteBuffer, int i);
@@ -353,18 +357,6 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
 
     @Override // android.hardware.SensorEventListener
     public void onAccuracyChanged(Sensor sensor, int i) {
-    }
-
-    static /* synthetic */ long access$1714(MediaController mediaController, long j) {
-        long j2 = mediaController.recordTimeCount + j;
-        mediaController.recordTimeCount = j2;
-        return j2;
-    }
-
-    static /* synthetic */ int access$1808(MediaController mediaController) {
-        int i = mediaController.writedFrame;
-        mediaController.writedFrame = i + 1;
-        return i;
     }
 
     public boolean isBuffering() {
@@ -849,16 +841,15 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         2() {
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:47:0x0115  */
+        /* JADX WARN: Removed duplicated region for block: B:33:0x00b1 A[Catch: Exception -> 0x00c5, TRY_ENTER, TryCatch #0 {Exception -> 0x00c5, blocks: (B:11:0x0052, B:13:0x0063, B:15:0x006d, B:17:0x0072, B:19:0x007a, B:20:0x0087, B:21:0x008e, B:23:0x0092, B:33:0x00b1, B:35:0x00b8, B:36:0x00bd, B:37:0x00c0), top: B:51:0x0052 }] */
+        /* JADX WARN: Removed duplicated region for block: B:56:0x00bd A[SYNTHETIC] */
         @Override // java.lang.Runnable
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public void run() {
-            ByteBuffer allocateDirect;
+            final ByteBuffer allocateDirect;
             double d;
-            double d2;
-            double d3;
             if (MediaController.this.audioRecorder != null) {
                 if (!MediaController.this.recordBuffers.isEmpty()) {
                     allocateDirect = (ByteBuffer) MediaController.this.recordBuffers.get(0);
@@ -867,11 +858,10 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                     allocateDirect = ByteBuffer.allocateDirect(MediaController.this.recordBufferSize);
                     allocateDirect.order(ByteOrder.nativeOrder());
                 }
-                final ByteBuffer byteBuffer = allocateDirect;
-                byteBuffer.rewind();
-                int read = MediaController.this.audioRecorder.read(byteBuffer, byteBuffer.capacity());
+                allocateDirect.rewind();
+                int read = MediaController.this.audioRecorder.read(allocateDirect, allocateDirect.capacity());
                 if (read <= 0) {
-                    MediaController.this.recordBuffers.add(byteBuffer);
+                    MediaController.this.recordBuffers.add(allocateDirect);
                     if (MediaController.this.sendAfterDone == 3 || MediaController.this.sendAfterDone == 4) {
                         return;
                     }
@@ -879,99 +869,76 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                     mediaController.stopRecordingInternal(mediaController.sendAfterDone, MediaController.this.sendAfterDoneNotify, MediaController.this.sendAfterDoneScheduleDate, MediaController.this.sendAfterDoneOnce);
                     return;
                 }
-                byteBuffer.limit(read);
+                allocateDirect.limit(read);
+                double d2 = 0.0d;
                 try {
-                    long j = MediaController.this.samplesCount + (read / 2);
-                    double d4 = MediaController.this.samplesCount;
-                    double d5 = j;
+                    MediaController mediaController2 = MediaController.this;
+                    long j = mediaController2.samplesCount;
+                    long j2 = (read / 2) + j;
+                    double d3 = j;
+                    double d4 = j2;
+                    Double.isNaN(d3);
                     Double.isNaN(d4);
-                    Double.isNaN(d5);
-                    double d6 = d4 / d5;
-                    double length = MediaController.this.recordSamples.length;
+                    double d5 = d3 / d4;
+                    short[] sArr = mediaController2.recordSamples;
+                    double length = sArr.length;
                     Double.isNaN(length);
-                    int i = (int) (d6 * length);
-                    int length2 = MediaController.this.recordSamples.length - i;
+                    int i = (int) (d5 * length);
+                    int length2 = sArr.length - i;
                     float f = 0.0f;
                     if (i != 0) {
-                        float length3 = MediaController.this.recordSamples.length / i;
+                        float length3 = sArr.length / i;
                         float f2 = 0.0f;
                         for (int i2 = 0; i2 < i; i2++) {
-                            MediaController.this.recordSamples[i2] = MediaController.this.recordSamples[(int) f2];
+                            short[] sArr2 = MediaController.this.recordSamples;
+                            sArr2[i2] = sArr2[(int) f2];
                             f2 += length3;
                         }
                     }
                     float f3 = (read / 2.0f) / length2;
-                    d2 = 0.0d;
                     for (int i3 = 0; i3 < read / 2; i3++) {
-                        try {
-                            short s = byteBuffer.getShort();
-                            if (Build.VERSION.SDK_INT < 21) {
-                                if (s > 2500) {
-                                    d3 = s * s;
-                                    Double.isNaN(d3);
-                                }
-                                if (i3 == ((int) f) && i < MediaController.this.recordSamples.length) {
-                                    MediaController.this.recordSamples[i] = s;
+                        short s = allocateDirect.getShort();
+                        if (Build.VERSION.SDK_INT < 21) {
+                            if (s > 2500) {
+                                d = s * s;
+                                Double.isNaN(d);
+                            }
+                            if (i3 != ((int) f)) {
+                                short[] sArr3 = MediaController.this.recordSamples;
+                                if (i < sArr3.length) {
+                                    sArr3[i] = s;
                                     f += f3;
                                     i++;
                                 }
-                            } else {
-                                d3 = s * s;
-                                Double.isNaN(d3);
                             }
-                            d2 += d3;
-                            if (i3 == ((int) f)) {
-                                MediaController.this.recordSamples[i] = s;
-                                f += f3;
-                                i++;
-                            }
-                        } catch (Exception e) {
-                            e = e;
-                            d = d2;
-                            FileLog.e(e);
-                            d2 = d;
-                            byteBuffer.position(0);
-                            double d7 = read;
-                            Double.isNaN(d7);
-                            final double sqrt = Math.sqrt((d2 / d7) / 2.0d);
-                            if (read != byteBuffer.capacity()) {
-                            }
-                            MediaController.this.fileEncodingQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaController$2$$ExternalSyntheticLambda2
-                                @Override // java.lang.Runnable
-                                public final void run() {
-                                    MediaController.2.this.lambda$run$1(byteBuffer, r3);
-                                }
-                            });
-                            MediaController.this.recordQueue.postRunnable(MediaController.this.recordRunnable);
-                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$2$$ExternalSyntheticLambda0
-                                @Override // java.lang.Runnable
-                                public final void run() {
-                                    MediaController.2.this.lambda$run$2(sqrt);
-                                }
-                            });
+                        } else {
+                            d = s * s;
+                            Double.isNaN(d);
+                        }
+                        d2 += d;
+                        if (i3 != ((int) f)) {
                         }
                     }
-                    MediaController.this.samplesCount = j;
-                } catch (Exception e2) {
-                    e = e2;
-                    d = 0.0d;
+                    MediaController.this.samplesCount = j2;
+                } catch (Exception e) {
+                    FileLog.e(e);
                 }
-                byteBuffer.position(0);
-                double d72 = read;
-                Double.isNaN(d72);
-                final double sqrt2 = Math.sqrt((d2 / d72) / 2.0d);
-                final boolean z = read != byteBuffer.capacity();
+                allocateDirect.position(0);
+                double d6 = read;
+                Double.isNaN(d6);
+                final double sqrt = Math.sqrt((d2 / d6) / 2.0d);
+                final boolean z = read != allocateDirect.capacity();
                 MediaController.this.fileEncodingQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaController$2$$ExternalSyntheticLambda2
                     @Override // java.lang.Runnable
                     public final void run() {
-                        MediaController.2.this.lambda$run$1(byteBuffer, z);
+                        MediaController.2.this.lambda$run$1(allocateDirect, z);
                     }
                 });
                 MediaController.this.recordQueue.postRunnable(MediaController.this.recordRunnable);
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$2$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        MediaController.2.this.lambda$run$2(sqrt2);
+                        MediaController.2.this.lambda$run$2(sqrt);
                     }
                 });
             }
@@ -993,8 +960,10 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                     if (mediaController.writeFrame(mediaController.fileBuffer, !z ? MediaController.this.fileBuffer.limit() : byteBuffer.position()) != 0) {
                         MediaController.this.fileBuffer.rewind();
                         MediaController mediaController2 = MediaController.this;
-                        MediaController.access$1714(mediaController2, (mediaController2.fileBuffer.limit() / 2) / (MediaController.this.sampleRate / 1000));
-                        MediaController.access$1808(MediaController.this);
+                        long j = mediaController2.recordTimeCount;
+                        MediaController mediaController3 = MediaController.this;
+                        mediaController2.recordTimeCount = j + ((mediaController2.fileBuffer.limit() / 2) / (mediaController3.sampleRate / 1000));
+                        mediaController3.writedFrame++;
                     } else {
                         FileLog.e("writing frame failed");
                     }
@@ -1294,7 +1263,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             }
         });
         this.fileBuffer = ByteBuffer.allocateDirect(1920);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda14
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda15
             @Override // java.lang.Runnable
             public final void run() {
                 MediaController.this.lambda$new$4();
@@ -1453,7 +1422,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
 
     @Override // android.media.AudioManager.OnAudioFocusChangeListener
     public void onAudioFocusChange(final int i) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda18
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda19
             @Override // java.lang.Runnable
             public final void run() {
                 MediaController.this.lambda$onAudioFocusChange$5(i);
@@ -1743,7 +1712,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                     cursor.close();
                 }
                 if (!arrayList.isEmpty()) {
-                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda33
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda37
                         @Override // java.lang.Runnable
                         public final void run() {
                             MediaController.this.lambda$processMediaObserver$6(arrayList);
@@ -2215,7 +2184,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
 
     private void raiseToSpeakUpdated(boolean z) {
         if (this.recordingAudio != null) {
-            toggleRecordingPause();
+            toggleRecordingPause(false);
         } else if (z) {
             startRecording(this.raiseChat.getCurrentAccount(), this.raiseChat.getDialogId(), null, this.raiseChat.getThreadMessage(), null, this.raiseChat.getClassGuid(), false);
         } else {
@@ -2275,7 +2244,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         playMessage(messageObject2);
         if (z) {
             if (z2) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda34
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda38
                     @Override // java.lang.Runnable
                     public final void run() {
                         MediaController.this.lambda$startAudioAgain$7(messageObject2);
@@ -2378,7 +2347,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         this.proximityTouched = false;
         this.raiseToEarRecord = false;
         this.useFrontSpeaker = false;
-        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda17
+        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda18
             @Override // java.lang.Runnable
             public final void run() {
                 MediaController.this.lambda$stopRaiseToEarSensors$9();
@@ -2739,7 +2708,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 }
             }
             this.loadingPlaylist = true;
-            ConnectionsManager.getInstance(i2).sendRequest(tLRPC$TL_messages_searchGlobal, new RequestDelegate() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda47
+            ConnectionsManager.getInstance(i2).sendRequest(tLRPC$TL_messages_searchGlobal, new RequestDelegate() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda53
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     MediaController.this.lambda$loadMoreMusic$12(i, i2, tLObject, tLRPC$TL_error);
@@ -2760,7 +2729,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadMoreMusic$12(final int i, final int i2, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda25
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda28
             @Override // java.lang.Runnable
             public final void run() {
                 MediaController.this.lambda$loadMoreMusic$11(i, tLRPC$TL_error, tLObject, i2);
@@ -2865,7 +2834,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     private void sortPlaylist() {
-        Collections.sort(this.playlist, MediaController$$ExternalSyntheticLambda46.INSTANCE);
+        Collections.sort(this.playlist, MediaController$$ExternalSyntheticLambda52.INSTANCE);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -3184,7 +3153,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 try {
                     PipRoundVideoView pipRoundVideoView2 = new PipRoundVideoView();
                     this.pipRoundVideoView = pipRoundVideoView2;
-                    pipRoundVideoView2.show(this.baseActivity, new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda13
+                    pipRoundVideoView2.show(this.baseActivity, new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda14
                         @Override // java.lang.Runnable
                         public final void run() {
                             MediaController.this.lambda$setCurrentVideoVisible$14();
@@ -3280,7 +3249,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 this.audioPlayer.pause();
                 final MessageObject messageObject = this.playingMessageObject;
                 final float f2 = messageObject.audioProgress;
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda35
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda39
                     @Override // java.lang.Runnable
                     public final void run() {
                         MediaController.this.lambda$setPlaybackSpeed$16(messageObject, f2);
@@ -3542,7 +3511,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         if (emojiSound == null) {
             return;
         }
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda36
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda40
             @Override // java.lang.Runnable
             public final void run() {
                 MediaController.this.lambda$playEmojiSound$19(emojiSound, accountInstance, z);
@@ -3568,7 +3537,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             });
         } else if (z) {
         } else {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda27
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda30
                 @Override // java.lang.Runnable
                 public final void run() {
                     MediaController.this.lambda$playEmojiSound$17(pathToAttach);
@@ -3867,7 +3836,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 }
                 if (!z7) {
                     if (!messageObject.mediaExists && file3 != file4) {
-                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda38
+                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda44
                             @Override // java.lang.Runnable
                             public final void run() {
                                 MediaController.lambda$playMessage$21(MessageObject.this, file3);
@@ -4033,7 +4002,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 });
                 if (z7) {
                     if (!messageObject.mediaExists && pathToMessage != file) {
-                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda39
+                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda45
                             @Override // java.lang.Runnable
                             public final void run() {
                                 MediaController.lambda$playMessage$22(MessageObject.this, pathToMessage);
@@ -4572,55 +4541,177 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         }
     }
 
-    public void toggleRecordingPause() {
-        this.recordQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda11
+    public void prepareResumedRecording(final int i, final MediaDataController.DraftVoice draftVoice, final long j, final MessageObject messageObject, final MessageObject messageObject2, final TL_stories$StoryItem tL_stories$StoryItem, final int i2, boolean z) {
+        this.manualRecording = z;
+        requestAudioFocus(true);
+        this.recordQueue.cancelRunnable(this.recordStartRunnable);
+        this.recordQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda27
             @Override // java.lang.Runnable
             public final void run() {
-                MediaController.this.lambda$toggleRecordingPause$25();
+                MediaController.this.lambda$prepareResumedRecording$25(i2, draftVoice, i, j, messageObject2, messageObject, tL_stories$StoryItem);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$toggleRecordingPause$25() {
+    public /* synthetic */ void lambda$prepareResumedRecording$25(int i, MediaDataController.DraftVoice draftVoice, final int i2, final long j, MessageObject messageObject, MessageObject messageObject2, TL_stories$StoryItem tL_stories$StoryItem) {
+        setBluetoothScoOn(true);
+        this.sendAfterDone = 0;
+        TLRPC$TL_document tLRPC$TL_document = new TLRPC$TL_document();
+        this.recordingAudio = tLRPC$TL_document;
+        this.recordingGuid = i;
+        tLRPC$TL_document.dc_id = Integer.MIN_VALUE;
+        tLRPC$TL_document.id = draftVoice.id;
+        tLRPC$TL_document.user_id = UserConfig.getInstance(i2).getClientUserId();
+        TLRPC$TL_document tLRPC$TL_document2 = this.recordingAudio;
+        tLRPC$TL_document2.mime_type = "audio/ogg";
+        tLRPC$TL_document2.file_reference = new byte[0];
+        SharedConfig.saveConfig();
+        this.recordingAudioFile = new File(draftVoice.path) { // from class: org.telegram.messenger.MediaController.13
+            @Override // java.io.File
+            public boolean delete() {
+                if (BuildVars.LOGS_ENABLED) {
+                    FileLog.e("delete voice file");
+                }
+                return super.delete();
+            }
+        };
+        FileLoader.getDirectory(4).mkdirs();
+        if (BuildVars.LOGS_ENABLED) {
+            FileLog.d("start recording internal " + this.recordingAudioFile.getPath() + " " + this.recordingAudioFile.exists());
+        }
+        AutoDeleteMediaTask.lockFile(this.recordingAudioFile);
+        try {
+            this.audioRecorderPaused = true;
+            this.recordTimeCount = draftVoice.recordTimeCount;
+            this.writedFrame = draftVoice.writedFrame;
+            this.samplesCount = draftVoice.samplesCount;
+            this.recordSamples = draftVoice.recordSamples;
+            this.recordDialogId = j;
+            this.recordTopicId = messageObject == null ? 0L : MessageObject.getTopicId(this.recordingCurrentAccount, messageObject.messageOwner, false);
+            this.recordingCurrentAccount = i2;
+            this.recordReplyingMsg = messageObject2;
+            this.recordReplyingTopMsg = messageObject;
+            this.recordReplyingStory = tL_stories$StoryItem;
+            final TLRPC$TL_document tLRPC$TL_document3 = this.recordingAudio;
+            final File file = this.recordingAudioFile;
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda31
+                @Override // java.lang.Runnable
+                public final void run() {
+                    MediaController.this.lambda$prepareResumedRecording$24(file, tLRPC$TL_document3);
+                }
+            });
+        } catch (Exception e) {
+            FileLog.e(e);
+            this.recordingAudio = null;
+            AutoDeleteMediaTask.unlockFile(this.recordingAudioFile);
+            this.recordingAudioFile.delete();
+            this.recordingAudioFile = null;
+            try {
+                this.audioRecorder.release();
+                this.audioRecorder = null;
+            } catch (Exception e2) {
+                FileLog.e(e2);
+            }
+            setBluetoothScoOn(false);
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda26
+                @Override // java.lang.Runnable
+                public final void run() {
+                    MediaController.this.lambda$prepareResumedRecording$23(i2, j);
+                }
+            });
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$prepareResumedRecording$23(int i, long j) {
+        MediaDataController.getInstance(i).pushDraftVoiceMessage(j, this.recordTopicId, null);
+        this.recordStartRunnable = null;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$prepareResumedRecording$24(File file, TLRPC$TL_document tLRPC$TL_document) {
+        if (!file.exists() && BuildVars.DEBUG_VERSION) {
+            FileLog.e(new RuntimeException("file not found :( recordTimeCount " + this.recordTimeCount + " writedFrames" + this.writedFrame));
+        }
+        tLRPC$TL_document.date = ConnectionsManager.getInstance(this.recordingCurrentAccount).getCurrentTime();
+        tLRPC$TL_document.size = (int) file.length();
+        TLRPC$TL_documentAttributeAudio tLRPC$TL_documentAttributeAudio = new TLRPC$TL_documentAttributeAudio();
+        tLRPC$TL_documentAttributeAudio.voice = true;
+        short[] sArr = this.recordSamples;
+        byte[] waveform2 = getWaveform2(sArr, sArr.length);
+        tLRPC$TL_documentAttributeAudio.waveform = waveform2;
+        if (waveform2 != null) {
+            tLRPC$TL_documentAttributeAudio.flags |= 4;
+        }
+        double d = this.recordTimeCount;
+        Double.isNaN(d);
+        tLRPC$TL_documentAttributeAudio.duration = d / 1000.0d;
+        tLRPC$TL_document.attributes.clear();
+        tLRPC$TL_document.attributes.add(tLRPC$TL_documentAttributeAudio);
+        NotificationCenter.getInstance(this.recordingCurrentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.recordPaused, new Object[0]);
+        NotificationCenter.getInstance(this.recordingCurrentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.audioDidSent, Integer.valueOf(this.recordingGuid), tLRPC$TL_document, file.getAbsolutePath(), Boolean.TRUE);
+    }
+
+    public void toggleRecordingPause(final boolean z) {
+        this.recordQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda41
+            @Override // java.lang.Runnable
+            public final void run() {
+                MediaController.this.lambda$toggleRecordingPause$31(z);
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$toggleRecordingPause$31(final boolean z) {
         if (this.recordingAudio == null || this.recordingAudioFile == null) {
             return;
         }
-        boolean z = !this.audioRecorderPaused;
-        this.audioRecorderPaused = z;
-        if (z) {
+        boolean z2 = !this.audioRecorderPaused;
+        this.audioRecorderPaused = z2;
+        if (z2) {
             this.sendAfterDone = 4;
             this.audioRecorder.stop();
             this.audioRecorder.release();
             this.audioRecorder = null;
-            final TLRPC$TL_document tLRPC$TL_document = this.recordingAudio;
-            final File file = this.recordingAudioFile;
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda28
+            this.recordQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda42
                 @Override // java.lang.Runnable
                 public final void run() {
-                    MediaController.this.lambda$toggleRecordingPause$23(file, tLRPC$TL_document);
+                    MediaController.this.lambda$toggleRecordingPause$27(z);
                 }
             });
             return;
         }
         this.recordQueue.cancelRunnable(this.recordRunnable);
-        this.audioRecorder = new AudioRecord(0, this.sampleRate, 16, 2, this.recordBufferSize);
-        this.recordStartTime = System.currentTimeMillis();
-        this.fileBuffer.rewind();
-        this.audioRecorder.startRecording();
-        this.recordQueue.postRunnable(this.recordRunnable);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda15
+        this.recordQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda17
             @Override // java.lang.Runnable
             public final void run() {
-                MediaController.this.lambda$toggleRecordingPause$24();
+                MediaController.this.lambda$toggleRecordingPause$30();
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$toggleRecordingPause$23(File file, TLRPC$TL_document tLRPC$TL_document) {
-        if (!file.exists() && BuildVars.DEBUG_VERSION) {
+    public /* synthetic */ void lambda$toggleRecordingPause$27(final boolean z) {
+        stopRecord(true);
+        final TLRPC$TL_document tLRPC$TL_document = this.recordingAudio;
+        final File file = this.recordingAudioFile;
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda34
+            @Override // java.lang.Runnable
+            public final void run() {
+                MediaController.this.lambda$toggleRecordingPause$26(file, z, tLRPC$TL_document);
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$toggleRecordingPause$26(File file, boolean z, TLRPC$TL_document tLRPC$TL_document) {
+        boolean exists = file.exists();
+        if (!exists && BuildVars.DEBUG_VERSION) {
             FileLog.e(new RuntimeException("file not found :( recordTimeCount " + this.recordTimeCount + " writedFrames" + this.writedFrame));
+        }
+        if (exists) {
+            MediaDataController.getInstance(this.recordingCurrentAccount).pushDraftVoiceMessage(this.recordDialogId, this.recordTopicId, MediaDataController.DraftVoice.of(this, file.getAbsolutePath(), z));
         }
         tLRPC$TL_document.date = ConnectionsManager.getInstance(this.recordingCurrentAccount).getCurrentTime();
         tLRPC$TL_document.size = (int) file.length();
@@ -4642,7 +4733,42 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$toggleRecordingPause$24() {
+    public /* synthetic */ void lambda$toggleRecordingPause$30() {
+        if (resumeRecord(this.recordingAudioFile.getPath(), this.sampleRate) == 0) {
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda11
+                @Override // java.lang.Runnable
+                public final void run() {
+                    MediaController.this.lambda$toggleRecordingPause$28();
+                }
+            });
+            if (BuildVars.LOGS_ENABLED) {
+                FileLog.d("cant resume encoder");
+                return;
+            }
+            return;
+        }
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda13
+            @Override // java.lang.Runnable
+            public final void run() {
+                MediaController.this.lambda$toggleRecordingPause$29();
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$toggleRecordingPause$28() {
+        this.recordStartRunnable = null;
+        NotificationCenter.getInstance(this.recordingCurrentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.recordStartError, Integer.valueOf(this.recordingGuid));
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$toggleRecordingPause$29() {
+        MediaDataController.getInstance(this.recordingCurrentAccount).pushDraftVoiceMessage(this.recordDialogId, this.recordTopicId, null);
+        this.audioRecorder = new AudioRecord(0, this.sampleRate, 16, 2, this.recordBufferSize);
+        this.recordStartTime = System.currentTimeMillis();
+        this.fileBuffer.rewind();
+        this.audioRecorder.startRecording();
+        this.recordQueue.postRunnable(this.recordRunnable);
         NotificationCenter.getInstance(this.recordingCurrentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.recordResumed, new Object[0]);
     }
 
@@ -4664,10 +4790,10 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         } catch (Exception unused) {
         }
         DispatchQueue dispatchQueue = this.recordQueue;
-        Runnable runnable = new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda24
+        Runnable runnable = new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda25
             @Override // java.lang.Runnable
             public final void run() {
-                MediaController.this.lambda$startRecording$30(i, i2, j, messageObject, messageObject2, tL_stories$StoryItem);
+                MediaController.this.lambda$startRecording$36(i, i2, j, messageObject2, messageObject, tL_stories$StoryItem);
             }
         };
         this.recordStartRunnable = runnable;
@@ -4675,12 +4801,12 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$startRecording$30(final int i, final int i2, long j, MessageObject messageObject, MessageObject messageObject2, TL_stories$StoryItem tL_stories$StoryItem) {
+    public /* synthetic */ void lambda$startRecording$36(final int i, final int i2, long j, MessageObject messageObject, MessageObject messageObject2, TL_stories$StoryItem tL_stories$StoryItem) {
         if (this.audioRecorder != null) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda20
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda22
                 @Override // java.lang.Runnable
                 public final void run() {
-                    MediaController.this.lambda$startRecording$26(i, i2);
+                    MediaController.this.lambda$startRecording$32(i, i2);
                 }
             });
             return;
@@ -4699,7 +4825,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         tLRPC$TL_document2.file_reference = new byte[0];
         SharedConfig.saveConfig();
         File directory = FileLoader.getDirectory(1);
-        this.recordingAudioFile = new File(directory, System.currentTimeMillis() + "_" + FileLoader.getAttachFileName(this.recordingAudio)) { // from class: org.telegram.messenger.MediaController.13
+        this.recordingAudioFile = new File(directory, System.currentTimeMillis() + "_" + FileLoader.getAttachFileName(this.recordingAudio)) { // from class: org.telegram.messenger.MediaController.14
             @Override // java.io.File
             public boolean delete() {
                 if (BuildVars.LOGS_ENABLED) {
@@ -4715,10 +4841,10 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         AutoDeleteMediaTask.lockFile(this.recordingAudioFile);
         try {
             if (startRecord(this.recordingAudioFile.getPath(), this.sampleRate) == 0) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda22
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda24
                     @Override // java.lang.Runnable
                     public final void run() {
-                        MediaController.this.lambda$startRecording$27(i, i2);
+                        MediaController.this.lambda$startRecording$33(i, i2);
                     }
                 });
                 if (BuildVars.LOGS_ENABLED) {
@@ -4730,27 +4856,32 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             this.audioRecorderPaused = false;
             this.audioRecorder = new AudioRecord(0, this.sampleRate, 16, 2, this.recordBufferSize);
             this.recordStartTime = System.currentTimeMillis();
+            long j2 = 0;
             this.recordTimeCount = 0L;
             this.writedFrame = 0;
             this.samplesCount = 0L;
             this.recordDialogId = j;
+            if (messageObject != null) {
+                j2 = MessageObject.getTopicId(this.recordingCurrentAccount, messageObject.messageOwner, false);
+            }
+            this.recordTopicId = j2;
             this.recordingCurrentAccount = i;
-            this.recordReplyingMsg = messageObject;
-            this.recordReplyingTopMsg = messageObject2;
+            this.recordReplyingMsg = messageObject2;
+            this.recordReplyingTopMsg = messageObject;
             this.recordReplyingStory = tL_stories$StoryItem;
             this.fileBuffer.rewind();
             this.audioRecorder.startRecording();
             this.recordQueue.postRunnable(this.recordRunnable);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda23
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda21
                 @Override // java.lang.Runnable
                 public final void run() {
-                    MediaController.this.lambda$startRecording$29(i, i2);
+                    MediaController.this.lambda$startRecording$35(i, i2);
                 }
             });
         } catch (Exception e) {
             FileLog.e(e);
             this.recordingAudio = null;
-            stopRecord();
+            stopRecord(false);
             AutoDeleteMediaTask.unlockFile(this.recordingAudioFile);
             this.recordingAudioFile.delete();
             this.recordingAudioFile = null;
@@ -4761,35 +4892,35 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 FileLog.e(e2);
             }
             setBluetoothScoOn(false);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda21
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda23
                 @Override // java.lang.Runnable
                 public final void run() {
-                    MediaController.this.lambda$startRecording$28(i, i2);
+                    MediaController.this.lambda$startRecording$34(i, i2);
                 }
             });
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$startRecording$26(int i, int i2) {
+    public /* synthetic */ void lambda$startRecording$32(int i, int i2) {
         this.recordStartRunnable = null;
         NotificationCenter.getInstance(i).lambda$postNotificationNameOnUIThread$1(NotificationCenter.recordStartError, Integer.valueOf(i2));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$startRecording$27(int i, int i2) {
+    public /* synthetic */ void lambda$startRecording$33(int i, int i2) {
         this.recordStartRunnable = null;
         NotificationCenter.getInstance(i).lambda$postNotificationNameOnUIThread$1(NotificationCenter.recordStartError, Integer.valueOf(i2));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$startRecording$28(int i, int i2) {
+    public /* synthetic */ void lambda$startRecording$34(int i, int i2) {
         this.recordStartRunnable = null;
         NotificationCenter.getInstance(i).lambda$postNotificationNameOnUIThread$1(NotificationCenter.recordStartError, Integer.valueOf(i2));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$startRecording$29(int i, int i2) {
+    public /* synthetic */ void lambda$startRecording$35(int i, int i2) {
         this.recordStartRunnable = null;
         NotificationCenter.getInstance(i).lambda$postNotificationNameOnUIThread$1(NotificationCenter.recordStarted, Integer.valueOf(i2), Boolean.TRUE);
     }
@@ -4801,22 +4932,22 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             return;
         }
         this.generatingWaveform.put(str, messageObject);
-        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda31
+        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda35
             @Override // java.lang.Runnable
             public final void run() {
-                MediaController.this.lambda$generateWaveform$32(absolutePath, str, messageObject);
+                MediaController.this.lambda$generateWaveform$38(absolutePath, str, messageObject);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$generateWaveform$32(String str, final String str2, final MessageObject messageObject) {
+    public /* synthetic */ void lambda$generateWaveform$38(String str, final String str2, final MessageObject messageObject) {
         try {
             final byte[] waveform = getWaveform(str);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda32
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda36
                 @Override // java.lang.Runnable
                 public final void run() {
-                    MediaController.this.lambda$generateWaveform$31(str2, waveform, messageObject);
+                    MediaController.this.lambda$generateWaveform$37(str2, waveform, messageObject);
                 }
             });
         } catch (Exception e) {
@@ -4825,7 +4956,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$generateWaveform$31(String str, byte[] bArr, MessageObject messageObject) {
+    public /* synthetic */ void lambda$generateWaveform$37(String str, byte[] bArr, MessageObject messageObject) {
         MessageObject remove = this.generatingWaveform.remove(str);
         if (remove == null || bArr == null || remove.getDocument() == null) {
             return;
@@ -4859,10 +4990,10 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             if (BuildVars.LOGS_ENABLED) {
                 FileLog.d("stop recording internal filename " + this.recordingAudioFile.getPath());
             }
-            this.fileEncodingQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda30
+            this.fileEncodingQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda32
                 @Override // java.lang.Runnable
                 public final void run() {
-                    MediaController.this.lambda$stopRecordingInternal$34(file, tLRPC$TL_document, i, z, i2, z2);
+                    MediaController.this.lambda$stopRecordingInternal$40(file, tLRPC$TL_document, i, z, i2, z2);
                 }
             });
         } else {
@@ -4890,21 +5021,21 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$stopRecordingInternal$34(final File file, final TLRPC$TL_document tLRPC$TL_document, final int i, final boolean z, final int i2, final boolean z2) {
-        stopRecord();
+    public /* synthetic */ void lambda$stopRecordingInternal$40(final File file, final TLRPC$TL_document tLRPC$TL_document, final int i, final boolean z, final int i2, final boolean z2) {
+        stopRecord(false);
         if (BuildVars.LOGS_ENABLED) {
             FileLog.d("stop recording internal in queue " + file.exists() + " " + file.length());
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda29
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda33
             @Override // java.lang.Runnable
             public final void run() {
-                MediaController.this.lambda$stopRecordingInternal$33(file, tLRPC$TL_document, i, z, i2, z2);
+                MediaController.this.lambda$stopRecordingInternal$39(file, tLRPC$TL_document, i, z, i2, z2);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$stopRecordingInternal$33(File file, TLRPC$TL_document tLRPC$TL_document, int i, boolean z, int i2, boolean z2) {
+    public /* synthetic */ void lambda$stopRecordingInternal$39(File file, TLRPC$TL_document tLRPC$TL_document, int i, boolean z, int i2, boolean z2) {
         boolean z3;
         char c;
         if (BuildVars.LOGS_ENABLED) {
@@ -4913,6 +5044,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         if (!file.exists() && BuildVars.DEBUG_VERSION) {
             FileLog.e(new RuntimeException("file not found :( recordTimeCount " + this.recordTimeCount + " writedFrames" + this.writedFrame));
         }
+        MediaDataController.getInstance(this.recordingCurrentAccount).pushDraftVoiceMessage(this.recordDialogId, this.recordTopicId, null);
         tLRPC$TL_document.date = ConnectionsManager.getInstance(this.recordingCurrentAccount).getCurrentTime();
         tLRPC$TL_document.size = (int) file.length();
         TLRPC$TL_documentAttributeAudio tLRPC$TL_documentAttributeAudio = new TLRPC$TL_documentAttributeAudio();
@@ -4961,16 +5093,16 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             this.recordQueue.cancelRunnable(runnable);
             this.recordStartRunnable = null;
         }
-        this.recordQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda26
+        this.recordQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda29
             @Override // java.lang.Runnable
             public final void run() {
-                MediaController.this.lambda$stopRecording$36(i, z, i2, z2);
+                MediaController.this.lambda$stopRecording$42(i, z, i2, z2);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$stopRecording$36(final int i, boolean z, int i2, boolean z2) {
+    public /* synthetic */ void lambda$stopRecording$42(final int i, boolean z, int i2, boolean z2) {
         if (this.sendAfterDone == 3) {
             this.sendAfterDone = 0;
             stopRecordingInternal(i, z, i2, z2);
@@ -5007,16 +5139,16 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             this.feedbackView.performHapticFeedback(3, 2);
         } catch (Exception unused) {
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda19
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda20
             @Override // java.lang.Runnable
             public final void run() {
-                MediaController.this.lambda$stopRecording$35(i);
+                MediaController.this.lambda$stopRecording$41(i);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$stopRecording$35(int i) {
+    public /* synthetic */ void lambda$stopRecording$41(int i) {
         NotificationCenter notificationCenter = NotificationCenter.getInstance(this.recordingCurrentAccount);
         int i2 = NotificationCenter.recordStopped;
         Object[] objArr = new Object[2];
@@ -5532,13 +5664,13 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                             alertDialog2.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda1
                                 @Override // android.content.DialogInterface.OnCancelListener
                                 public final void onCancel(DialogInterface dialogInterface) {
-                                    MediaController.lambda$saveFile$37(zArr, dialogInterface);
+                                    MediaController.lambda$saveFile$43(zArr, dialogInterface);
                                 }
                             });
-                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda44
+                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda50
                                 @Override // java.lang.Runnable
                                 public final void run() {
-                                    MediaController.lambda$saveFile$38(zArr2, alertDialog2);
+                                    MediaController.lambda$saveFile$44(zArr2, alertDialog2);
                                 }
                             }, 250L);
                             alertDialog = alertDialog2;
@@ -5548,7 +5680,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                         new Thread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda5
                             @Override // java.lang.Runnable
                             public final void run() {
-                                MediaController.lambda$saveFile$43(i, file, str2, alertDialog, zArr, str3, callback, zArr2);
+                                MediaController.lambda$saveFile$49(i, file, str2, alertDialog, zArr, str3, callback, zArr2);
                             }
                         }).start();
                         return;
@@ -5557,7 +5689,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                     new Thread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda5
                         @Override // java.lang.Runnable
                         public final void run() {
-                            MediaController.lambda$saveFile$43(i, file, str2, alertDialog, zArr, str3, callback, zArr2);
+                            MediaController.lambda$saveFile$49(i, file, str2, alertDialog, zArr, str3, callback, zArr2);
                         }
                     }).start();
                     return;
@@ -5571,12 +5703,12 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$saveFile$37(boolean[] zArr, DialogInterface dialogInterface) {
+    public static /* synthetic */ void lambda$saveFile$43(boolean[] zArr, DialogInterface dialogInterface) {
         zArr[0] = true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$saveFile$38(boolean[] zArr, AlertDialog alertDialog) {
+    public static /* synthetic */ void lambda$saveFile$44(boolean[] zArr, AlertDialog alertDialog) {
         if (zArr[0]) {
             return;
         }
@@ -5598,7 +5730,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public static /* synthetic */ void lambda$saveFile$43(int i, File file, String str, final AlertDialog alertDialog, boolean[] zArr, String str2, final Utilities.Callback callback, final boolean[] zArr2) {
+    public static /* synthetic */ void lambda$saveFile$49(int i, File file, String str, final AlertDialog alertDialog, boolean[] zArr, String str2, final Utilities.Callback callback, final boolean[] zArr2) {
         File externalStoragePublicDirectory;
         File file2;
         String str3;
@@ -5697,7 +5829,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                         fromFile = Uri.fromFile(r23);
                         z3 = z2;
                         if (z3) {
-                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda40
+                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda46
                                 @Override // java.lang.Runnable
                                 public final void run() {
                                     Utilities.Callback.this.run(fromFile);
@@ -5731,10 +5863,10 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                             long size = channel.size();
                             if (AndroidUtilities.isInternalUri(((Integer) FileDescriptor.class.getDeclaredMethod("getInt$", new Class[0]).invoke(fileInputStream.getFD(), new Object[0])).intValue())) {
                                 if (alertDialog != null) {
-                                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda41
+                                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda47
                                         @Override // java.lang.Runnable
                                         public final void run() {
-                                            MediaController.lambda$saveFile$39(AlertDialog.this);
+                                            MediaController.lambda$saveFile$45(AlertDialog.this);
                                         }
                                     });
                                 }
@@ -5772,10 +5904,10 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                                         if (currentTimeMillis <= System.currentTimeMillis() - 500) {
                                             currentTimeMillis = System.currentTimeMillis();
                                             final int i3 = (int) ((((float) j2) / ((float) j3)) * 100.0f);
-                                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda42
+                                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda48
                                                 @Override // java.lang.Runnable
                                                 public final void run() {
-                                                    MediaController.lambda$saveFile$40(AlertDialog.this, i3);
+                                                    MediaController.lambda$saveFile$46(AlertDialog.this, i3);
                                                 }
                                             });
                                         }
@@ -5836,7 +5968,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 }
             }
             if (z3 && callback != null) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda40
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda46
                     @Override // java.lang.Runnable
                     public final void run() {
                         Utilities.Callback.this.run(fromFile);
@@ -5847,17 +5979,17 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             FileLog.e(e3);
         }
         if (alertDialog != null) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda43
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda49
                 @Override // java.lang.Runnable
                 public final void run() {
-                    MediaController.lambda$saveFile$42(AlertDialog.this, zArr2);
+                    MediaController.lambda$saveFile$48(AlertDialog.this, zArr2);
                 }
             });
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$saveFile$39(AlertDialog alertDialog) {
+    public static /* synthetic */ void lambda$saveFile$45(AlertDialog alertDialog) {
         try {
             alertDialog.dismiss();
         } catch (Exception e) {
@@ -5866,7 +5998,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$saveFile$40(AlertDialog alertDialog, int i) {
+    public static /* synthetic */ void lambda$saveFile$46(AlertDialog alertDialog, int i) {
         try {
             alertDialog.setProgress(i);
         } catch (Exception e) {
@@ -5875,7 +6007,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$saveFile$42(AlertDialog alertDialog, boolean[] zArr) {
+    public static /* synthetic */ void lambda$saveFile$48(AlertDialog alertDialog, boolean[] zArr) {
         try {
             if (alertDialog.isShowing()) {
                 alertDialog.dismiss();
@@ -6393,7 +6525,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         Thread thread = new Thread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
-                MediaController.lambda$loadGalleryPhotosAlbums$45(i);
+                MediaController.lambda$loadGalleryPhotosAlbums$51(i);
             }
         });
         thread.setPriority(1);
@@ -6425,7 +6557,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public static /* synthetic */ void lambda$loadGalleryPhotosAlbums$45(int i) {
+    public static /* synthetic */ void lambda$loadGalleryPhotosAlbums$51(int i) {
         SparseArray sparseArray;
         String str;
         String str2;
@@ -6713,7 +6845,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 AlbumEntry albumEntry112222 = obj3;
                 Integer num2222 = obj2;
                 for (i2 = 0; i2 < arrayList.size(); i2++) {
-                    Collections.sort(((AlbumEntry) arrayList.get(i2)).photos, MediaController$$ExternalSyntheticLambda45.INSTANCE);
+                    Collections.sort(((AlbumEntry) arrayList.get(i2)).photos, MediaController$$ExternalSyntheticLambda51.INSTANCE);
                 }
                 broadcastNewPhotos(i, arrayList, arrayList3, num2222, albumEntry112222, albumEntry9222, albumEntry102222, 0);
             }
@@ -7486,7 +7618,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ int lambda$loadGalleryPhotosAlbums$44(PhotoEntry photoEntry, PhotoEntry photoEntry2) {
+    public static /* synthetic */ int lambda$loadGalleryPhotosAlbums$50(PhotoEntry photoEntry, PhotoEntry photoEntry2) {
         long j = photoEntry.dateTaken;
         long j2 = photoEntry2.dateTaken;
         if (j < j2) {
@@ -7503,7 +7635,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         Runnable runnable2 = new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
-                MediaController.lambda$broadcastNewPhotos$46(i, arrayList, arrayList2, num, albumEntry, albumEntry2, albumEntry3);
+                MediaController.lambda$broadcastNewPhotos$52(i, arrayList, arrayList2, num, albumEntry, albumEntry2, albumEntry3);
             }
         };
         broadcastPhotosRunnable = runnable2;
@@ -7511,7 +7643,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$broadcastNewPhotos$46(int i, ArrayList arrayList, ArrayList arrayList2, Integer num, AlbumEntry albumEntry, AlbumEntry albumEntry2, AlbumEntry albumEntry3) {
+    public static /* synthetic */ void lambda$broadcastNewPhotos$52(int i, ArrayList arrayList, ArrayList arrayList2, Integer num, AlbumEntry albumEntry, AlbumEntry albumEntry2, AlbumEntry albumEntry3) {
         if (PhotoViewer.getInstance().isVisible() && !forceBroadcastNewPhotos) {
             broadcastNewPhotos(i, arrayList, arrayList2, num, albumEntry, albumEntry2, albumEntry3, 1000);
             return;
@@ -7685,16 +7817,16 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         if (z3) {
             videoEditedInfo.videoConvertFirstWrite = false;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda37
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda43
             @Override // java.lang.Runnable
             public final void run() {
-                MediaController.this.lambda$didWriteData$47(z2, z, videoConvertMessage, file, f, j, z3, j2);
+                MediaController.this.lambda$didWriteData$53(z2, z, videoConvertMessage, file, f, j, z3, j2);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$didWriteData$47(boolean z, boolean z2, VideoConvertMessage videoConvertMessage, File file, float f, long j, boolean z3, long j2) {
+    public /* synthetic */ void lambda$didWriteData$53(boolean z, boolean z2, VideoConvertMessage videoConvertMessage, File file, float f, long j, boolean z3, long j2) {
         if (z || z2) {
             boolean z4 = videoConvertMessage.videoEditedInfo.canceled;
             synchronized (this.videoConvertSync) {
@@ -7892,7 +8024,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                     SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("videoconvert", 0);
                     long currentTimeMillis = System.currentTimeMillis();
                     final File file3 = file;
-                    VideoConvertorListener videoConvertorListener = new VideoConvertorListener() { // from class: org.telegram.messenger.MediaController.14
+                    VideoConvertorListener videoConvertorListener = new VideoConvertorListener() { // from class: org.telegram.messenger.MediaController.15
                         private long lastAvailableSize = 0;
 
                         @Override // org.telegram.messenger.MediaController.VideoConvertorListener
@@ -7940,7 +8072,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             SharedPreferences sharedPreferences2 = ApplicationLoader.applicationContext.getSharedPreferences("videoconvert", 0);
             long currentTimeMillis2 = System.currentTimeMillis();
             final File file32 = file;
-            VideoConvertorListener videoConvertorListener2 = new VideoConvertorListener() { // from class: org.telegram.messenger.MediaController.14
+            VideoConvertorListener videoConvertorListener2 = new VideoConvertorListener() { // from class: org.telegram.messenger.MediaController.15
                 private long lastAvailableSize = 0;
 
                 @Override // org.telegram.messenger.MediaController.VideoConvertorListener
@@ -7996,7 +8128,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         SharedPreferences sharedPreferences22 = ApplicationLoader.applicationContext.getSharedPreferences("videoconvert", 0);
         long currentTimeMillis22 = System.currentTimeMillis();
         final File file322 = file;
-        VideoConvertorListener videoConvertorListener22 = new VideoConvertorListener() { // from class: org.telegram.messenger.MediaController.14
+        VideoConvertorListener videoConvertorListener22 = new VideoConvertorListener() { // from class: org.telegram.messenger.MediaController.15
             private long lastAvailableSize = 0;
 
             @Override // org.telegram.messenger.MediaController.VideoConvertorListener

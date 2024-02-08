@@ -1433,7 +1433,7 @@ public class FileLoader extends BaseController {
     public /* synthetic */ void lambda$checkDownloadQueue$13(FileLoaderPriorityQueue fileLoaderPriorityQueue, FileLoadOperation fileLoadOperation) {
         if (fileLoaderPriorityQueue.remove(fileLoadOperation)) {
             this.loadOperationPaths.remove(fileLoadOperation.getFileName());
-            fileLoaderPriorityQueue.checkLoadingOperations();
+            fileLoaderPriorityQueue.checkLoadingOperations(fileLoadOperation.isStory);
         }
     }
 

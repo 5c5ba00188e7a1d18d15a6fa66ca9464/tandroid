@@ -366,6 +366,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     private SimpleTextView titleTextView;
     private long transitionAnimationStartTime;
     VideoPlayerHolderBase videoPlayer;
+    private LongSparseArray<BlockVideoCellState> videoStates;
     private Dialog visibleDialog;
     private WindowManager.LayoutParams windowLayoutParams;
     private WindowView windowView;
@@ -432,9 +433,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         this.fontCells = new FontCell[2];
         this.searchResults = new ArrayList<>();
         this.lastSearchIndex = -1;
+        this.videoStates = new LongSparseArray<>();
     }
 
-    static /* synthetic */ int access$13408(ArticleViewer articleViewer) {
+    static /* synthetic */ int access$13708(ArticleViewer articleViewer) {
         int i = articleViewer.lastBlockNum;
         articleViewer.lastBlockNum = i + 1;
         return i;
@@ -4368,9 +4370,17 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
         boolean z = !PhotoViewer.getInstance().isVisibleOrAnimating();
         if (!z || ((blockVideoCell = this.currentPlayer) != null && blockVideoCell != blockVideoCell2 && this.videoPlayer != null)) {
-            VideoPlayerHolderBase videoPlayerHolderBase = this.videoPlayer;
-            if (videoPlayerHolderBase != null) {
-                this.currentPlayer.playFrom = videoPlayerHolderBase.getCurrentPosition();
+            if (this.videoPlayer != null) {
+                LongSparseArray<BlockVideoCellState> longSparseArray = this.videoStates;
+                long j = this.currentPlayer.currentBlock.video_id;
+                BlockVideoCell blockVideoCell3 = this.currentPlayer;
+                longSparseArray.put(j, blockVideoCell3.setState(BlockVideoCellState.fromPlayer(this.videoPlayer, blockVideoCell3)));
+                if (this.currentPlayer.videoState != null) {
+                    if (this.currentPlayer.videoState.lastFrameBitmap != null) {
+                        this.currentPlayer.imageView.setImageBitmap(this.currentPlayer.videoState.lastFrameBitmap);
+                    }
+                    this.currentPlayer.updateButtonState(false);
+                }
                 this.videoPlayer.release(null);
             }
             this.videoPlayer = null;
@@ -5286,63 +5296,74 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
         if (this.textSelectionHelper.isInSelectionMode()) {
             this.textSelectionHelper.clear();
-        } else if (this.searchContainer.getTag() != null) {
-            showSearch(false);
-        } else {
-            if (this.openUrlReqId != 0) {
-                ConnectionsManager.getInstance(this.currentAccount).cancelRequest(this.openUrlReqId, true);
-                this.openUrlReqId = 0;
-                showProgressView(true, false);
-            }
-            if (this.previewsReqId != 0) {
-                ConnectionsManager.getInstance(this.currentAccount).cancelRequest(this.previewsReqId, true);
-                this.previewsReqId = 0;
-                showProgressView(true, false);
-            }
-            saveCurrentPagePosition();
-            if (z && !z2 && removeLastPageFromStack()) {
-                return;
-            }
-            NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.messagePlayingProgressDidChanged);
-            NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.messagePlayingDidReset);
-            NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.messagePlayingPlayStateChanged);
-            NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.messagePlayingDidStart);
-            this.parentFragment = null;
-            try {
-                Dialog dialog = this.visibleDialog;
-                if (dialog != null) {
-                    dialog.dismiss();
-                    this.visibleDialog = null;
-                }
-            } catch (Exception e) {
-                FileLog.e(e);
-            }
-            AnimatorSet animatorSet = new AnimatorSet();
-            animatorSet.playTogether(ObjectAnimator.ofFloat(this.windowView, View.ALPHA, 0.0f), ObjectAnimator.ofFloat(this.containerView, View.ALPHA, 0.0f), ObjectAnimator.ofFloat(this.windowView, View.TRANSLATION_X, 0.0f, AndroidUtilities.dp(56.0f)));
-            this.animationInProgress = 2;
-            this.animationEndRunnable = new Runnable() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda22
-                @Override // java.lang.Runnable
-                public final void run() {
-                    ArticleViewer.this.lambda$close$37();
-                }
-            };
-            animatorSet.setDuration(150L);
-            animatorSet.setInterpolator(this.interpolator);
-            animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ArticleViewer.26
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator) {
-                    if (ArticleViewer.this.animationEndRunnable != null) {
-                        ArticleViewer.this.animationEndRunnable.run();
-                        ArticleViewer.this.animationEndRunnable = null;
-                    }
-                }
-            });
-            this.transitionAnimationStartTime = System.currentTimeMillis();
-            if (Build.VERSION.SDK_INT >= 18) {
-                this.containerView.setLayerType(2, null);
-            }
-            animatorSet.start();
+            return;
         }
+        if (this.searchContainer.getTag() != null) {
+            showSearch(false);
+            return;
+        }
+        if (this.openUrlReqId != 0) {
+            ConnectionsManager.getInstance(this.currentAccount).cancelRequest(this.openUrlReqId, true);
+            this.openUrlReqId = 0;
+            showProgressView(true, false);
+        }
+        if (this.previewsReqId != 0) {
+            ConnectionsManager.getInstance(this.currentAccount).cancelRequest(this.previewsReqId, true);
+            this.previewsReqId = 0;
+            showProgressView(true, false);
+        }
+        saveCurrentPagePosition();
+        if (z && !z2 && removeLastPageFromStack()) {
+            return;
+        }
+        NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.messagePlayingProgressDidChanged);
+        NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.messagePlayingDidReset);
+        NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.messagePlayingPlayStateChanged);
+        NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.messagePlayingDidStart);
+        this.parentFragment = null;
+        try {
+            Dialog dialog = this.visibleDialog;
+            if (dialog != null) {
+                dialog.dismiss();
+                this.visibleDialog = null;
+            }
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(ObjectAnimator.ofFloat(this.windowView, View.ALPHA, 0.0f), ObjectAnimator.ofFloat(this.containerView, View.ALPHA, 0.0f), ObjectAnimator.ofFloat(this.windowView, View.TRANSLATION_X, 0.0f, AndroidUtilities.dp(56.0f)));
+        this.animationInProgress = 2;
+        this.animationEndRunnable = new Runnable() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda22
+            @Override // java.lang.Runnable
+            public final void run() {
+                ArticleViewer.this.lambda$close$37();
+            }
+        };
+        animatorSet.setDuration(150L);
+        animatorSet.setInterpolator(this.interpolator);
+        animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ArticleViewer.26
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                if (ArticleViewer.this.animationEndRunnable != null) {
+                    ArticleViewer.this.animationEndRunnable.run();
+                    ArticleViewer.this.animationEndRunnable = null;
+                }
+            }
+        });
+        this.transitionAnimationStartTime = System.currentTimeMillis();
+        if (Build.VERSION.SDK_INT >= 18) {
+            this.containerView.setLayerType(2, null);
+        }
+        animatorSet.start();
+        for (int i = 0; i < this.videoStates.size(); i++) {
+            BlockVideoCellState valueAt = this.videoStates.valueAt(i);
+            Bitmap bitmap = valueAt.lastFrameBitmap;
+            if (bitmap != null) {
+                bitmap.recycle();
+                valueAt.lastFrameBitmap = null;
+            }
+        }
+        this.videoStates.clear();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -6291,7 +6312,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                         addAllMediaFromBlock(webpageAdapter, tLRPC$PageBlock2);
                         i++;
                     }
-                    ArticleViewer.access$13408(ArticleViewer.this);
+                    ArticleViewer.access$13708(ArticleViewer.this);
                 } else if (tLRPC$PageBlock instanceof TLRPC$TL_pageBlockCollage) {
                     TLRPC$TL_pageBlockCollage tLRPC$TL_pageBlockCollage = (TLRPC$TL_pageBlockCollage) tLRPC$PageBlock;
                     int size2 = tLRPC$TL_pageBlockCollage.items.size();
@@ -6301,7 +6322,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                         addAllMediaFromBlock(webpageAdapter, tLRPC$PageBlock3);
                         i++;
                     }
-                    ArticleViewer.access$13408(ArticleViewer.this);
+                    ArticleViewer.access$13708(ArticleViewer.this);
                 } else if (tLRPC$PageBlock instanceof TLRPC$TL_pageBlockCover) {
                     addAllMediaFromBlock(webpageAdapter, ((TLRPC$TL_pageBlockCover) tLRPC$PageBlock).cover);
                 }
@@ -6470,7 +6491,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                         return;
                     case 5:
                         BlockVideoCell blockVideoCell = (BlockVideoCell) viewHolder.itemView;
-                        blockVideoCell.setBlock((TLRPC$TL_pageBlockVideo) tLRPC$PageBlock2, i2 == 0, i2 == i3 - 1);
+                        TLRPC$TL_pageBlockVideo tLRPC$TL_pageBlockVideo = (TLRPC$TL_pageBlockVideo) tLRPC$PageBlock2;
+                        blockVideoCell.setBlock(tLRPC$TL_pageBlockVideo, (BlockVideoCellState) ArticleViewer.this.videoStates.get(tLRPC$TL_pageBlockVideo.video_id), i2 == 0, i2 == i3 - 1);
                         blockVideoCell.setParentBlock(this.channelBlock, tLRPC$PageBlock);
                         return;
                     case 6:
@@ -6762,6 +6784,61 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
+    public static class BlockVideoCellState {
+        Bitmap lastFrameBitmap;
+        long playFrom;
+
+        private BlockVideoCellState() {
+        }
+
+        public static BlockVideoCellState fromPlayer(VideoPlayerHolderBase videoPlayerHolderBase, BlockVideoCell blockVideoCell) {
+            BlockVideoCellState blockVideoCellState = new BlockVideoCellState();
+            blockVideoCellState.playFrom = videoPlayerHolderBase.getCurrentPosition();
+            if (videoPlayerHolderBase.firstFrameRendered && blockVideoCell.textureView != null && blockVideoCell.textureView.getSurfaceTexture() != null) {
+                if (Build.VERSION.SDK_INT >= 24) {
+                    Surface surface = new Surface(blockVideoCell.textureView.getSurfaceTexture());
+                    Bitmap createBitmap = Bitmap.createBitmap(blockVideoCell.textureView.getMeasuredWidth(), blockVideoCell.textureView.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+                    AndroidUtilities.getBitmapFromSurface(surface, createBitmap);
+                    surface.release();
+                    blockVideoCellState.lastFrameBitmap = createBitmap;
+                } else {
+                    blockVideoCellState.lastFrameBitmap = blockVideoCell.textureView.getBitmap();
+                }
+            }
+            return blockVideoCellState;
+        }
+
+        public static BlockVideoCellState fromPlayer(VideoPlayer videoPlayer, BlockVideoCell blockVideoCell, TextureView textureView) {
+            BlockVideoCellState blockVideoCellState = new BlockVideoCellState();
+            blockVideoCellState.playFrom = videoPlayer.getCurrentPosition();
+            if (textureView != null && textureView.getSurfaceTexture() != null) {
+                if (Build.VERSION.SDK_INT >= 24) {
+                    Surface surface = new Surface(textureView.getSurfaceTexture());
+                    Bitmap createBitmap = Bitmap.createBitmap(textureView.getMeasuredWidth(), textureView.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+                    AndroidUtilities.getBitmapFromSurface(surface, createBitmap);
+                    surface.release();
+                    blockVideoCellState.lastFrameBitmap = createBitmap;
+                } else {
+                    blockVideoCellState.lastFrameBitmap = textureView.getBitmap();
+                }
+            }
+            return blockVideoCellState;
+        }
+
+        public static BlockVideoCellState fromPlayer(VideoPlayer videoPlayer, BlockVideoCell blockVideoCell, SurfaceView surfaceView) {
+            BlockVideoCellState blockVideoCellState = new BlockVideoCellState();
+            blockVideoCellState.playFrom = videoPlayer.getCurrentPosition();
+            if (surfaceView != null && Build.VERSION.SDK_INT >= 24) {
+                Bitmap createBitmap = Bitmap.createBitmap(surfaceView.getMeasuredWidth(), surfaceView.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+                AndroidUtilities.getBitmapFromSurface(surfaceView, createBitmap);
+                blockVideoCellState.lastFrameBitmap = createBitmap;
+            }
+            return blockVideoCellState;
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes3.dex */
     public class BlockVideoCell extends FrameLayout implements DownloadController.FileDownloadProgressListener, TextSelectionHelper.ArticleSelectableView {
         private int TAG;
         private AspectRatioFrameLayout aspectRatioFrameLayout;
@@ -6787,11 +6864,11 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         private WebpageAdapter parentAdapter;
         private TLRPC$PageBlock parentBlock;
         private boolean photoPressed;
-        public long playFrom;
         private RadialProgress2 radialProgress;
         private int textX;
         private int textY;
         private TextureView textureView;
+        private BlockVideoCellState videoState;
 
         @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener
         public void onProgressUpload(String str, long j, long j2, boolean z) {
@@ -6833,8 +6910,19 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             return super.drawChild(canvas, view, j);
         }
 
-        public void setBlock(TLRPC$TL_pageBlockVideo tLRPC$TL_pageBlockVideo, boolean z, boolean z2) {
+        public void setBlock(TLRPC$TL_pageBlockVideo tLRPC$TL_pageBlockVideo, BlockVideoCellState blockVideoCellState, boolean z, boolean z2) {
+            if (this.currentBlock != null) {
+                ArticleViewer articleViewer = ArticleViewer.this;
+                if (articleViewer.videoPlayer != null && articleViewer.currentPlayer == this) {
+                    LongSparseArray longSparseArray = articleViewer.videoStates;
+                    long j = this.currentBlock.video_id;
+                    BlockVideoCellState fromPlayer = BlockVideoCellState.fromPlayer(ArticleViewer.this.videoPlayer, this);
+                    this.videoState = fromPlayer;
+                    longSparseArray.put(j, fromPlayer);
+                }
+            }
             this.currentBlock = tLRPC$TL_pageBlockVideo;
+            this.videoState = blockVideoCellState;
             this.parentBlock = null;
             TLRPC$Document documentWithId = this.parentAdapter.getDocumentWithId(tLRPC$TL_pageBlockVideo.video_id);
             this.currentDocument = documentWithId;
@@ -6906,7 +6994,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
         /* JADX WARN: Removed duplicated region for block: B:11:0x0046  */
         /* JADX WARN: Removed duplicated region for block: B:67:0x0164  */
-        /* JADX WARN: Removed duplicated region for block: B:76:0x0212  */
+        /* JADX WARN: Removed duplicated region for block: B:81:0x022a  */
         @Override // android.widget.FrameLayout, android.view.View
         @SuppressLint({"NewApi"})
         /*
@@ -7005,15 +7093,21 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                                 this.imageView.setQualityThumbDocument(this.currentDocument);
                                 this.imageView.setImageCoords(i6, (!this.isFirst || (i10 = this.currentType) == 1 || i10 == 2 || this.currentBlock.level > 0) ? 0 : AndroidUtilities.dp(8.0f), i9, i4);
                                 if (!this.isGif) {
-                                    this.autoDownload = DownloadController.getInstance(ArticleViewer.this.currentAccount).canDownloadMedia(4, this.currentDocument.size);
-                                    File pathToAttach = FileLoader.getInstance(ArticleViewer.this.currentAccount).getPathToAttach(this.currentDocument);
-                                    File pathToAttach2 = FileLoader.getInstance(ArticleViewer.this.currentAccount).getPathToAttach(this.currentDocument, true);
-                                    if (this.autoDownload || pathToAttach.exists() || pathToAttach2.exists()) {
-                                        this.imageView.setStrippedLocation(null);
-                                        this.imageView.setImage(null, null, ImageLocation.getForDocument(this.currentDocument), "200_200_pframe", ImageLocation.getForDocument(closestPhotoSizeWithSize, this.currentDocument), "80_80_b", null, this.currentDocument.size, null, this.parentAdapter.currentPage, 1);
+                                    BlockVideoCellState blockVideoCellState = this.videoState;
+                                    if (blockVideoCellState == null || blockVideoCellState.lastFrameBitmap == null) {
+                                        this.autoDownload = DownloadController.getInstance(ArticleViewer.this.currentAccount).canDownloadMedia(4, this.currentDocument.size);
+                                        File pathToAttach = FileLoader.getInstance(ArticleViewer.this.currentAccount).getPathToAttach(this.currentDocument);
+                                        File pathToAttach2 = FileLoader.getInstance(ArticleViewer.this.currentAccount).getPathToAttach(this.currentDocument, true);
+                                        if (this.autoDownload || pathToAttach.exists() || pathToAttach2.exists()) {
+                                            this.imageView.setStrippedLocation(null);
+                                            this.imageView.setImage(null, null, ImageLocation.getForDocument(this.currentDocument), "200_200_pframe", ImageLocation.getForDocument(closestPhotoSizeWithSize, this.currentDocument), "80_80_b", null, this.currentDocument.size, null, this.parentAdapter.currentPage, 1);
+                                        } else {
+                                            this.imageView.setStrippedLocation(ImageLocation.getForDocument(this.currentDocument));
+                                            this.imageView.setImage(null, null, null, null, ImageLocation.getForDocument(closestPhotoSizeWithSize, this.currentDocument), "80_80_b", null, this.currentDocument.size, null, this.parentAdapter.currentPage, 1);
+                                        }
                                     } else {
-                                        this.imageView.setStrippedLocation(ImageLocation.getForDocument(this.currentDocument));
-                                        this.imageView.setImage(null, null, null, null, ImageLocation.getForDocument(closestPhotoSizeWithSize, this.currentDocument), "80_80_b", null, this.currentDocument.size, null, this.parentAdapter.currentPage, 1);
+                                        this.imageView.setStrippedLocation(null);
+                                        this.imageView.setImageBitmap(this.videoState.lastFrameBitmap);
                                     }
                                 } else {
                                     this.imageView.setStrippedLocation(null);
@@ -7177,21 +7271,28 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 this.radialProgress.setIcon(getIconForCurrentState(), false, z);
             } else {
                 DownloadController.getInstance(ArticleViewer.this.currentAccount).addLoadingFileObserver(attachFileName, null, this);
+                BlockVideoCellState blockVideoCellState = this.videoState;
                 float f = 0.0f;
-                if (!FileLoader.getInstance(ArticleViewer.this.currentAccount).isLoadingFile(attachFileName)) {
-                    if (!this.cancelLoading && this.autoDownload && this.isGif) {
-                        this.buttonState = 1;
+                if (blockVideoCellState == null || blockVideoCellState.lastFrameBitmap == null) {
+                    if (!FileLoader.getInstance(ArticleViewer.this.currentAccount).isLoadingFile(attachFileName)) {
+                        if (!this.cancelLoading && this.autoDownload && this.isGif) {
+                            this.buttonState = 1;
+                        } else {
+                            this.buttonState = 0;
+                        }
                     } else {
-                        this.buttonState = 0;
-                        z2 = false;
+                        this.buttonState = 1;
+                        Float fileProgress = ImageLoader.getInstance().getFileProgress(attachFileName);
+                        if (fileProgress != null) {
+                            f = fileProgress.floatValue();
+                        }
                     }
+                    this.radialProgress.setIcon(getIconForCurrentState(), z2, z);
+                    this.radialProgress.setProgress(f, false);
                 } else {
-                    this.buttonState = 1;
-                    Float fileProgress = ImageLoader.getInstance().getFileProgress(attachFileName);
-                    if (fileProgress != null) {
-                        f = fileProgress.floatValue();
-                    }
+                    this.buttonState = -1;
                 }
+                z2 = false;
                 this.radialProgress.setIcon(getIconForCurrentState(), z2, z);
                 this.radialProgress.setProgress(f, false);
             }
@@ -7235,10 +7336,33 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
         @Override // android.view.ViewGroup, android.view.View
         protected void onDetachedFromWindow() {
+            if (this.currentBlock != null) {
+                ArticleViewer articleViewer = ArticleViewer.this;
+                if (articleViewer.videoPlayer != null && articleViewer.currentPlayer == this) {
+                    articleViewer.videoStates.put(this.currentBlock.video_id, setState(BlockVideoCellState.fromPlayer(ArticleViewer.this.videoPlayer, this)));
+                }
+            }
             super.onDetachedFromWindow();
             this.imageView.onDetachedFromWindow();
             DownloadController.getInstance(ArticleViewer.this.currentAccount).removeLoadingFileObserver(this);
-            this.playFrom = 0L;
+        }
+
+        public BlockVideoCellState setState(BlockVideoCellState blockVideoCellState) {
+            Bitmap bitmap;
+            Bitmap bitmap2;
+            Bitmap bitmap3;
+            BlockVideoCellState blockVideoCellState2 = this.videoState;
+            if (blockVideoCellState2 != null && blockVideoCellState != null && (bitmap2 = blockVideoCellState.lastFrameBitmap) != null && (bitmap3 = blockVideoCellState2.lastFrameBitmap) != null && bitmap2 != bitmap3) {
+                bitmap3.recycle();
+                this.videoState.lastFrameBitmap = null;
+            }
+            BlockVideoCellState blockVideoCellState3 = this.videoState;
+            if (blockVideoCellState3 != null && blockVideoCellState != null && blockVideoCellState.lastFrameBitmap == null && (bitmap = blockVideoCellState3.lastFrameBitmap) != null) {
+                blockVideoCellState.playFrom = blockVideoCellState3.playFrom;
+                blockVideoCellState.lastFrameBitmap = bitmap;
+            }
+            this.videoState = blockVideoCellState;
+            return blockVideoCellState;
         }
 
         @Override // android.view.ViewGroup, android.view.View
@@ -7269,6 +7393,12 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                         }
                         this.firstFrameRendered = true;
                         BlockVideoCell.this.textureView.setAlpha(1.0f);
+                        if (BlockVideoCell.this.currentBlock != null) {
+                            LongSparseArray longSparseArray = ArticleViewer.this.videoStates;
+                            long j = BlockVideoCell.this.currentBlock.video_id;
+                            BlockVideoCell blockVideoCell = BlockVideoCell.this;
+                            longSparseArray.put(j, blockVideoCell.setState(BlockVideoCellState.fromPlayer(ArticleViewer.this.videoPlayer, blockVideoCell)));
+                        }
                     }
                 }.with(this.textureView);
                 TLRPC$Document tLRPC$Document = this.currentDocument;
@@ -7282,7 +7412,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 if (prepareUri == null) {
                     return;
                 }
-                ArticleViewer.this.videoPlayer.seekTo(this.playFrom);
+                VideoPlayerHolderBase videoPlayerHolderBase = ArticleViewer.this.videoPlayer;
+                BlockVideoCellState blockVideoCellState = this.videoState;
+                videoPlayerHolderBase.seekTo(blockVideoCellState == null ? 0L : blockVideoCellState.playFrom);
                 ArticleViewer.this.videoPlayer.preparePlayer(prepareUri, true, 1.0f);
                 ArticleViewer.this.videoPlayer.play();
             }
@@ -9460,7 +9592,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     }
                     BlockVideoCell blockVideoCell = (BlockVideoCell) viewHolder.itemView;
                     blockVideoCell.groupPosition = BlockCollageCell.this.group.positions.get(tLRPC$PageBlock);
-                    blockVideoCell.setBlock((TLRPC$TL_pageBlockVideo) tLRPC$PageBlock, true, true);
+                    TLRPC$TL_pageBlockVideo tLRPC$TL_pageBlockVideo = (TLRPC$TL_pageBlockVideo) tLRPC$PageBlock;
+                    blockVideoCell.setBlock(tLRPC$TL_pageBlockVideo, (BlockVideoCellState) ArticleViewer.this.videoStates.get(tLRPC$TL_pageBlockVideo.video_id), true, true);
                 }
 
                 @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -9707,7 +9840,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     } else {
                         BlockSlideshowCell blockSlideshowCell2 = BlockSlideshowCell.this;
                         BlockVideoCell blockVideoCell2 = new BlockVideoCell(blockSlideshowCell2.getContext(), BlockSlideshowCell.this.parentAdapter, 1);
-                        blockVideoCell2.setBlock((TLRPC$TL_pageBlockVideo) tLRPC$PageBlock, true, true);
+                        TLRPC$TL_pageBlockVideo tLRPC$TL_pageBlockVideo = (TLRPC$TL_pageBlockVideo) tLRPC$PageBlock;
+                        blockVideoCell2.setBlock(tLRPC$TL_pageBlockVideo, (BlockVideoCellState) ArticleViewer.this.videoStates.get(tLRPC$TL_pageBlockVideo.video_id), true, true);
                         blockVideoCell = blockVideoCell2;
                     }
                     viewGroup.addView(blockVideoCell);
@@ -13184,28 +13318,20 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             SurfaceView videoSurfaceView = PhotoViewer.getInstance().getVideoSurfaceView();
             BlockVideoCell viewFromListView = getViewFromListView(ArticleViewer.this.listView[0], tLRPC$PageBlock);
             if (viewFromListView != null && videoPlayer != null && videoTextureView != null) {
-                viewFromListView.playFrom = videoPlayer.getCurrentPosition();
+                ArticleViewer.this.videoStates.put(viewFromListView.currentBlock.video_id, viewFromListView.setState(BlockVideoCellState.fromPlayer(videoPlayer, viewFromListView, videoTextureView)));
                 viewFromListView.firstFrameRendered = false;
                 viewFromListView.textureView.setAlpha(0.0f);
-                if (videoTextureView.getSurfaceTexture() != null) {
-                    if (Build.VERSION.SDK_INT < 24) {
-                        viewFromListView.imageView.setImageBitmap(videoTextureView.getBitmap());
-                    } else {
-                        Surface surface = new Surface(videoTextureView.getSurfaceTexture());
-                        Bitmap createBitmap = Bitmap.createBitmap(videoTextureView.getMeasuredWidth(), videoTextureView.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
-                        AndroidUtilities.getBitmapFromSurface(surface, createBitmap);
-                        surface.release();
-                        viewFromListView.imageView.setImageBitmap(createBitmap);
-                    }
+                if (viewFromListView.videoState != null && viewFromListView.videoState.lastFrameBitmap != null) {
+                    viewFromListView.imageView.setImageBitmap(viewFromListView.videoState.lastFrameBitmap);
                 }
             }
             if (viewFromListView != null && videoPlayer != null && videoSurfaceView != null) {
-                viewFromListView.playFrom = videoPlayer.getCurrentPosition();
+                ArticleViewer.this.videoStates.put(viewFromListView.currentBlock.video_id, viewFromListView.setState(BlockVideoCellState.fromPlayer(videoPlayer, viewFromListView, videoSurfaceView)));
                 viewFromListView.firstFrameRendered = false;
                 viewFromListView.textureView.setAlpha(0.0f);
-                Bitmap createBitmap2 = Bitmap.createBitmap(videoSurfaceView.getMeasuredWidth(), videoSurfaceView.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
-                AndroidUtilities.getBitmapFromSurface(videoSurfaceView, createBitmap2);
-                viewFromListView.imageView.setImageBitmap(createBitmap2);
+                if (viewFromListView.videoState != null && viewFromListView.videoState.lastFrameBitmap != null) {
+                    viewFromListView.imageView.setImageBitmap(viewFromListView.videoState.lastFrameBitmap);
+                }
             }
             ArticleViewer.this.checkVideoPlayer();
         }

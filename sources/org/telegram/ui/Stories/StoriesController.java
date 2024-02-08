@@ -850,7 +850,8 @@ public class StoriesController {
 
     public int getMyStoriesCount() {
         ArrayList<TL_stories$StoryItem> arrayList;
-        int size = this.uploadingAndEditingStories.size();
+        ArrayList<UploadingStory> arrayList2 = this.uploadingAndEditingStories.get(getSelfUserId());
+        int size = arrayList2 == null ? 0 : arrayList2.size();
         TL_stories$PeerStories stories = getStories(getSelfUserId());
         return (stories == null || (arrayList = stories.stories) == null) ? size : size + arrayList.size();
     }

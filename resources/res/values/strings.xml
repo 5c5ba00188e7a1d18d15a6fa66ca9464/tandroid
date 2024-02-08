@@ -3314,6 +3314,7 @@
     <string name="GiftPremiumActivateErrorTitle">You already have Telegram Premium</string>
     <string name="GiftPremiumActivateForFree">Activate For Free</string>
     <string name="GiftPremiumChooseRecipientsBtn">Choose Recipients</string>
+    <string name="GiftPremiumEventAdsTitle">Send gifts **to your friends!** ��</string>
     <string name="GiftPremiumFrequentContacts">Frequent Contacts</string>
     <string name="GiftPremiumGifting">Premium Gifting</string>
     <string name="GiftPremiumGiftsSentStatus">They now have access to additional features.</string>
