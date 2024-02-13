@@ -460,7 +460,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
     private boolean sendButtonVisible;
     private boolean sendByEnter;
     private Drawable sendDrawable;
-    private boolean sendPlainEnabled;
+    public boolean sendPlainEnabled;
     private ActionBarPopupWindow.ActionBarPopupWindowLayout sendPopupLayout;
     private ActionBarPopupWindow sendPopupWindow;
     private android.graphics.Rect sendRect;
@@ -483,7 +483,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
     private SlideTextView slideText;
     private float slideToCancelLockProgress;
     private float slideToCancelProgress;
-    private SimpleTextView slowModeButton;
+    private SlowModeBtn slowModeButton;
     private int slowModeTimer;
     private boolean smoothKeyboard;
     private float snapAnimationProgress;
@@ -531,6 +531,10 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         /* loaded from: classes4.dex */
         public final /* synthetic */ class -CC {
             public static void $default$bottomPanelTranslationYChanged(ChatActivityEnterViewDelegate chatActivityEnterViewDelegate, float f) {
+            }
+
+            public static boolean $default$checkCanRemoveRestrictionsByBoosts(ChatActivityEnterViewDelegate chatActivityEnterViewDelegate) {
+                return false;
             }
 
             public static int $default$getContentViewHeight(ChatActivityEnterViewDelegate chatActivityEnterViewDelegate) {
@@ -591,6 +595,8 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         }
 
         void bottomPanelTranslationYChanged(float f);
+
+        boolean checkCanRemoveRestrictionsByBoosts();
 
         void didPressAttachButton();
 
@@ -823,6 +829,100 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             int i = Theme.key_chat_recordedVoiceProgress;
             seekBarWaveform.setColors(chatActivityEnterView.getThemedColor(i), ChatActivityEnterView.this.getThemedColor(Theme.key_chat_recordedVoiceProgressInner), ChatActivityEnterView.this.getThemedColor(i));
             ChatActivityEnterView.this.seekBarWaveform.draw(canvas, this);
+        }
+    }
+
+    /* loaded from: classes4.dex */
+    public static class SlowModeBtn extends FrameLayout {
+        private final RectF bgRect;
+        private final Drawable closeDrawable;
+        private final Paint gradientPaint;
+        private boolean isPremiumMode;
+        private final SimpleTextView textView;
+
+        public SlowModeBtn(Context context) {
+            super(context);
+            this.bgRect = new RectF();
+            this.gradientPaint = new Paint(1);
+            this.isPremiumMode = true;
+            SimpleTextView simpleTextView = new SimpleTextView(context);
+            this.textView = simpleTextView;
+            addView(simpleTextView, LayoutHelper.createFrame(-1, -1.0f));
+            setWillNotDraw(false);
+            Drawable drawable = ContextCompat.getDrawable(context, R.drawable.msg_mini_close_tooltip);
+            this.closeDrawable = drawable;
+            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+            setClipToPadding(false);
+            setClipChildren(false);
+            ScaleStateListAnimator.apply(this);
+        }
+
+        @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
+        protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
+            super.onLayout(z, i, i2, i3, i4);
+            this.gradientPaint.setShader(new LinearGradient(0.0f, 0.0f, getMeasuredWidth(), 0.0f, new int[]{-9071617, -5999873}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP));
+        }
+
+        public void setTextSize(int i) {
+            this.textView.setTextSize(i);
+            invalidate();
+        }
+
+        public void setTextColor(int i) {
+            this.textView.setTextColor(i);
+            invalidate();
+        }
+
+        public void setGravity(int i) {
+            this.textView.setGravity(i);
+            invalidate();
+        }
+
+        public void setText(CharSequence charSequence) {
+            this.textView.setText(charSequence);
+            invalidate();
+        }
+
+        public void setPremiumMode(boolean z) {
+            this.isPremiumMode = z;
+            invalidate();
+        }
+
+        public CharSequence getText() {
+            return this.textView.getText();
+        }
+
+        @Override // android.view.View
+        protected void onDraw(Canvas canvas) {
+            if (this.isPremiumMode) {
+                canvas.save();
+                int dp = AndroidUtilities.dp(26.0f);
+                canvas.translate(0.0f, ((getMeasuredHeight() - dp) / 2.0f) - AndroidUtilities.dp(1.0f));
+                float f = dp;
+                this.bgRect.set(0.0f, 0.0f, getMeasuredWidth() - getPaddingEnd(), f);
+                float f2 = f / 2.0f;
+                canvas.drawRoundRect(this.bgRect, f2, f2, this.gradientPaint);
+                canvas.translate(((getMeasuredWidth() - getPaddingEnd()) - AndroidUtilities.dp(6.0f)) - this.closeDrawable.getIntrinsicWidth(), AndroidUtilities.dp(5.0f));
+                this.closeDrawable.draw(canvas);
+                canvas.restore();
+            }
+        }
+
+        @Override // android.view.ViewGroup
+        protected boolean drawChild(Canvas canvas, View view, long j) {
+            if ((view instanceof SimpleTextView) && this.isPremiumMode) {
+                SimpleTextView simpleTextView = (SimpleTextView) view;
+                canvas.save();
+                canvas.scale(0.8f, 0.8f);
+                canvas.translate(-AndroidUtilities.dp(16.0f), AndroidUtilities.dp(5.0f));
+                int color = simpleTextView.getTextPaint().getColor();
+                simpleTextView.getTextPaint().setColor(-1);
+                boolean drawChild = super.drawChild(canvas, view, j);
+                simpleTextView.getTextPaint().setColor(color);
+                canvas.restore();
+                return drawChild;
+            }
+            return super.drawChild(canvas, view, j);
         }
     }
 
@@ -3133,18 +3233,18 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                 return onSendLongClick;
             }
         });
-        SimpleTextView simpleTextView = new SimpleTextView(activity);
-        this.slowModeButton = simpleTextView;
-        simpleTextView.setTextSize(18);
+        SlowModeBtn slowModeBtn = new SlowModeBtn(activity);
+        this.slowModeButton = slowModeBtn;
+        slowModeBtn.setTextSize(18);
         this.slowModeButton.setVisibility(4);
         this.slowModeButton.setSoundEffectsEnabled(false);
         this.slowModeButton.setScaleX(0.1f);
         this.slowModeButton.setScaleY(0.1f);
         this.slowModeButton.setAlpha(0.0f);
-        this.slowModeButton.setPadding(0, 0, AndroidUtilities.dp(13.0f), 0);
+        this.slowModeButton.setPadding(0, 0, AndroidUtilities.dp(10.0f), 0);
         this.slowModeButton.setGravity(21);
         this.slowModeButton.setTextColor(getThemedColor(i3));
-        this.sendButtonContainer.addView(this.slowModeButton, LayoutHelper.createFrame(64, 48, 53));
+        this.sendButtonContainer.addView(this.slowModeButton, LayoutHelper.createFrame(74, 48, 53));
         this.slowModeButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatActivityEnterView$$ExternalSyntheticLambda13
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
@@ -3185,7 +3285,9 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                     showPopup(1, 0);
                     EmojiView emojiView = this.emojiView;
                     EditTextCaption editTextCaption = this.messageEditText;
-                    emojiView.onOpen((editTextCaption == null || editTextCaption.length() <= 0) ? false : false);
+                    boolean z2 = editTextCaption != null && editTextCaption.length() > 0;
+                    ChatActivity chatActivity = this.parentFragment;
+                    emojiView.onOpen(z2, (chatActivity == null || !chatActivity.groupEmojiPackHintWasVisible()) ? false : false);
                     return;
                 }
                 if (this.searchingType != 0) {
@@ -3485,10 +3587,12 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
 
     public /* synthetic */ void lambda$new$5(View view) {
         ChatActivityEnterViewDelegate chatActivityEnterViewDelegate = this.delegate;
-        if (chatActivityEnterViewDelegate != null) {
-            SimpleTextView simpleTextView = this.slowModeButton;
-            chatActivityEnterViewDelegate.onUpdateSlowModeButton(simpleTextView, true, simpleTextView.getText());
+        if (chatActivityEnterViewDelegate == null || chatActivityEnterViewDelegate.checkCanRemoveRestrictionsByBoosts()) {
+            return;
         }
+        ChatActivityEnterViewDelegate chatActivityEnterViewDelegate2 = this.delegate;
+        SlowModeBtn slowModeBtn = this.slowModeButton;
+        chatActivityEnterViewDelegate2.onUpdateSlowModeButton(slowModeBtn, true, slowModeBtn.getText());
     }
 
     public /* synthetic */ boolean lambda$new$6(View view) {
@@ -4364,7 +4468,8 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
     }
 
     public void showRestrictedHint() {
-        if (DialogObject.isChatDialog(this.dialog_id)) {
+        ChatActivityEnterViewDelegate chatActivityEnterViewDelegate = this.delegate;
+        if ((chatActivityEnterViewDelegate == null || !chatActivityEnterViewDelegate.checkCanRemoveRestrictionsByBoosts()) && DialogObject.isChatDialog(this.dialog_id)) {
             BulletinFactory.of(this.parentFragment).createSimpleBulletin(R.raw.passcode_lock_close, LocaleController.formatString("SendPlainTextRestrictionHint", R.string.SendPlainTextRestrictionHint, ChatObject.getAllowedSendString(this.accountInstance.getMessagesController().getChat(Long.valueOf(-this.dialog_id)))), 3).show();
         }
     }
@@ -5007,7 +5112,8 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
         public boolean onTouchEvent(MotionEvent motionEvent) {
             if (!ChatActivityEnterView.this.stickersDragging && ChatActivityEnterView.this.stickersExpansionAnim == null) {
-                if (!ChatActivityEnterView.this.sendPlainEnabled && !ChatActivityEnterView.this.isEditingMessage()) {
+                ChatActivityEnterView chatActivityEnterView = ChatActivityEnterView.this;
+                if (!chatActivityEnterView.sendPlainEnabled && !chatActivityEnterView.isEditingMessage()) {
                     if (this.canvasButton == null) {
                         CanvasButton canvasButton = new CanvasButton(this);
                         this.canvasButton = canvasButton;
@@ -5244,7 +5350,8 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
 
         @Override // android.view.View
         public boolean requestFocus(int i, android.graphics.Rect rect) {
-            if (ChatActivityEnterView.this.sendPlainEnabled || ChatActivityEnterView.this.isEditingMessage()) {
+            ChatActivityEnterView chatActivityEnterView = ChatActivityEnterView.this;
+            if (chatActivityEnterView.sendPlainEnabled || chatActivityEnterView.isEditingMessage()) {
                 return super.requestFocus(i, rect);
             }
             return false;
@@ -5810,7 +5917,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         this.updateSlowModeRunnable = null;
         TLRPC$ChatFull tLRPC$ChatFull = this.info;
         if (tLRPC$ChatFull != null && tLRPC$ChatFull.slowmode_seconds != 0 && tLRPC$ChatFull.slowmode_next_send_date <= currentTime && ((isUploadingMessageIdDialog = SendMessagesHelper.getInstance(this.currentAccount).isUploadingMessageIdDialog(this.dialog_id)) || SendMessagesHelper.getInstance(this.currentAccount).isSendingMessageIdDialog(this.dialog_id))) {
-            if (!ChatObject.hasAdminRights(this.accountInstance.getMessagesController().getChat(Long.valueOf(this.info.id)))) {
+            if (!ChatObject.hasAdminRights(this.accountInstance.getMessagesController().getChat(Long.valueOf(this.info.id))) && !ChatObject.isIgnoredChatRestrictionsForBoosters(this.info)) {
                 i = this.info.slowmode_seconds;
                 this.slowModeTimer = isUploadingMessageIdDialog ? ConnectionsManager.DEFAULT_DATACENTER_ID : 2147483646;
             }
@@ -5830,8 +5937,8 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             this.slowModeButton.setText(AndroidUtilities.formatDurationNoHours(Math.max(1, i), false));
             ChatActivityEnterViewDelegate chatActivityEnterViewDelegate = this.delegate;
             if (chatActivityEnterViewDelegate != null) {
-                SimpleTextView simpleTextView = this.slowModeButton;
-                chatActivityEnterViewDelegate.onUpdateSlowModeButton(simpleTextView, false, simpleTextView.getText());
+                SlowModeBtn slowModeBtn = this.slowModeButton;
+                chatActivityEnterViewDelegate.onUpdateSlowModeButton(slowModeBtn, false, slowModeBtn.getText());
             }
             Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.ChatActivityEnterView$$ExternalSyntheticLambda38
                 @Override // java.lang.Runnable
@@ -6321,7 +6428,6 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         if (tLRPC$Chat != null) {
             this.audioVideoButtonContainer.setAlpha((ChatObject.canSendVoice(tLRPC$Chat) || (ChatObject.canSendRoundVideo(tLRPC$Chat) && this.hasRecordVideo)) ? 1.0f : 0.5f);
             this.stickersEnabled = ChatObject.canSendStickers(tLRPC$Chat);
-            this.sendPlainEnabled = ChatObject.canSendPlain(tLRPC$Chat);
             boolean canSendPlain = ChatObject.canSendPlain(tLRPC$Chat);
             this.sendPlainEnabled = canSendPlain;
             boolean z2 = (this.stickersEnabled || canSendPlain) ? false : true;
@@ -6329,7 +6435,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             this.emojiButtonAlpha = z2 ? 0.5f : 1.0f;
             updateEmojiButtonParams();
             if (!this.emojiButtonRestricted && (emojiView = this.emojiView) != null) {
-                emojiView.setStickersBanned(!ChatObject.canSendPlain(tLRPC$Chat), !ChatObject.canSendStickers(tLRPC$Chat), tLRPC$Chat.id);
+                emojiView.setStickersBanned(!this.sendPlainEnabled, !this.stickersEnabled, -this.dialog_id);
             }
             this.sendRoundEnabled = ChatObject.canSendRoundVideo(tLRPC$Chat);
             this.sendVoiceEnabled = ChatObject.canSendVoice(tLRPC$Chat);
@@ -6523,6 +6629,13 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         EmojiView emojiView = this.emojiView;
         if (emojiView != null) {
             emojiView.setChatInfo(tLRPC$ChatFull);
+        }
+        SlowModeBtn slowModeBtn = this.slowModeButton;
+        if (slowModeBtn != null) {
+            slowModeBtn.setPremiumMode(ChatObject.isPossibleRemoveChatRestrictionsByBoosts(tLRPC$ChatFull));
+        }
+        if (ChatObject.isIgnoredChatRestrictionsForBoosters(tLRPC$ChatFull)) {
+            return;
         }
         setSlowModeTimer(tLRPC$ChatFull.slowmode_next_send_date);
     }
@@ -7164,110 +7277,125 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:210:0x0090, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:263:0x009b, code lost:
         continue;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:218:0x0120, code lost:
-        continue;
-     */
-    /* JADX WARN: Removed duplicated region for block: B:138:0x0065  */
+    /* JADX WARN: Removed duplicated region for block: B:167:0x0070  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public static boolean checkPremiumAnimatedEmoji(int i, long j, final BaseFragment baseFragment, FrameLayout frameLayout, CharSequence charSequence) {
         AnimatedEmojiSpan[] animatedEmojiSpanArr;
+        int i2;
+        TLRPC$ChatFull chatFull;
+        TLRPC$TL_messages_stickerSet groupStickerSetById;
         ArrayList<TLRPC$Document> arrayList;
         ArrayList<TLRPC$Document> arrayList2;
         ArrayList<TLRPC$Document> arrayList3;
-        if (charSequence != null && baseFragment != null && !UserConfig.getInstance(i).isPremium() && UserConfig.getInstance(i).getClientUserId() != j && (charSequence instanceof Spanned) && (animatedEmojiSpanArr = (AnimatedEmojiSpan[]) ((Spanned) charSequence).getSpans(0, charSequence.length(), AnimatedEmojiSpan.class)) != null) {
-            for (int i2 = 0; i2 < animatedEmojiSpanArr.length; i2++) {
-                if (animatedEmojiSpanArr[i2] != null) {
-                    TLRPC$Document tLRPC$Document = animatedEmojiSpanArr[i2].document;
-                    if (tLRPC$Document == null) {
-                        tLRPC$Document = AnimatedEmojiDrawable.findDocument(i, animatedEmojiSpanArr[i2].getDocumentId());
-                    }
-                    long documentId = animatedEmojiSpanArr[i2].getDocumentId();
-                    if (tLRPC$Document == null) {
-                        Iterator<TLRPC$TL_messages_stickerSet> it = MediaDataController.getInstance(i).getStickerSets(5).iterator();
+        if (charSequence == null || baseFragment == null || UserConfig.getInstance(i).isPremium() || UserConfig.getInstance(i).getClientUserId() == j || !(charSequence instanceof Spanned) || (animatedEmojiSpanArr = (AnimatedEmojiSpan[]) ((Spanned) charSequence).getSpans(0, charSequence.length(), AnimatedEmojiSpan.class)) == null) {
+            return false;
+        }
+        int i3 = 0;
+        while (i3 < animatedEmojiSpanArr.length) {
+            if (animatedEmojiSpanArr[i3] != null) {
+                TLRPC$Document tLRPC$Document = animatedEmojiSpanArr[i3].document;
+                if (tLRPC$Document == null) {
+                    tLRPC$Document = AnimatedEmojiDrawable.findDocument(i, animatedEmojiSpanArr[i3].getDocumentId());
+                }
+                long documentId = animatedEmojiSpanArr[i3].getDocumentId();
+                if (tLRPC$Document == null) {
+                    Iterator<TLRPC$TL_messages_stickerSet> it = MediaDataController.getInstance(i).getStickerSets(5).iterator();
+                    while (it.hasNext()) {
+                        TLRPC$TL_messages_stickerSet next = it.next();
+                        if (next != null && (arrayList3 = next.documents) != null && !arrayList3.isEmpty()) {
+                            Iterator<TLRPC$Document> it2 = next.documents.iterator();
+                            while (true) {
+                                if (it2.hasNext()) {
+                                    TLRPC$Document next2 = it2.next();
+                                    if (next2.id == documentId) {
+                                        tLRPC$Document = next2;
+                                        continue;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
                         while (it.hasNext()) {
-                            TLRPC$TL_messages_stickerSet next = it.next();
-                            if (next != null && (arrayList3 = next.documents) != null && !arrayList3.isEmpty()) {
-                                Iterator<TLRPC$Document> it2 = next.documents.iterator();
-                                while (true) {
-                                    if (it2.hasNext()) {
-                                        TLRPC$Document next2 = it2.next();
-                                        if (next2.id == documentId) {
-                                            tLRPC$Document = next2;
-                                            continue;
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
-                            while (it.hasNext()) {
-                            }
                         }
-                    }
-                    if (tLRPC$Document == null) {
-                        Iterator<TLRPC$StickerSetCovered> it3 = MediaDataController.getInstance(i).getFeaturedEmojiSets().iterator();
-                        while (it3.hasNext()) {
-                            TLRPC$StickerSetCovered next3 = it3.next();
-                            if (next3 != null && (arrayList2 = next3.covers) != null && !arrayList2.isEmpty()) {
-                                Iterator<TLRPC$Document> it4 = next3.covers.iterator();
-                                while (true) {
-                                    if (!it4.hasNext()) {
-                                        break;
-                                    }
-                                    TLRPC$Document next4 = it4.next();
-                                    if (next4.id == documentId) {
-                                        tLRPC$Document = next4;
-                                        break;
-                                    }
-                                }
-                            }
-                            if (tLRPC$Document != null) {
-                                break;
-                            }
-                            ArrayList<TLRPC$Document> arrayList4 = null;
-                            if (next3 instanceof TLRPC$TL_stickerSetFullCovered) {
-                                arrayList4 = ((TLRPC$TL_stickerSetFullCovered) next3).documents;
-                            } else if ((next3 instanceof TLRPC$TL_stickerSetNoCovered) && next3.set != null) {
-                                TLRPC$TL_inputStickerSetID tLRPC$TL_inputStickerSetID = new TLRPC$TL_inputStickerSetID();
-                                tLRPC$TL_inputStickerSetID.id = next3.set.id;
-                                TLRPC$TL_messages_stickerSet stickerSet = MediaDataController.getInstance(i).getStickerSet(tLRPC$TL_inputStickerSetID, true);
-                                if (stickerSet != null && (arrayList = stickerSet.documents) != null) {
-                                    arrayList4 = arrayList;
-                                }
-                            }
-                            if (arrayList4 != null && !arrayList4.isEmpty()) {
-                                Iterator<TLRPC$Document> it5 = arrayList4.iterator();
-                                while (true) {
-                                    if (it5.hasNext()) {
-                                        TLRPC$Document next5 = it5.next();
-                                        if (next5.id == documentId) {
-                                            tLRPC$Document = next5;
-                                            continue;
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
-                            if (tLRPC$Document != null) {
-                                break;
-                            }
-                        }
-                    }
-                    if (tLRPC$Document == null || !MessageObject.isFreeEmoji(tLRPC$Document)) {
-                        BulletinFactory.of(baseFragment).createEmojiBulletin(tLRPC$Document, AndroidUtilities.replaceTags(LocaleController.getString("UnlockPremiumEmojiHint", R.string.UnlockPremiumEmojiHint)), LocaleController.getString("PremiumMore", R.string.PremiumMore), new Runnable() { // from class: org.telegram.ui.Components.ChatActivityEnterView$$ExternalSyntheticLambda32
-                            @Override // java.lang.Runnable
-                            public final void run() {
-                                ChatActivityEnterView.lambda$checkPremiumAnimatedEmoji$38(BaseFragment.this);
-                            }
-                        }).show();
-                        return true;
                     }
                 }
+                if (tLRPC$Document == null) {
+                    Iterator<TLRPC$StickerSetCovered> it3 = MediaDataController.getInstance(i).getFeaturedEmojiSets().iterator();
+                    while (it3.hasNext()) {
+                        TLRPC$StickerSetCovered next3 = it3.next();
+                        if (next3 != null && (arrayList2 = next3.covers) != null && !arrayList2.isEmpty()) {
+                            Iterator<TLRPC$Document> it4 = next3.covers.iterator();
+                            while (it4.hasNext()) {
+                                TLRPC$Document next4 = it4.next();
+                                i2 = i3;
+                                if (next4.id == documentId) {
+                                    tLRPC$Document = next4;
+                                    break;
+                                }
+                                i3 = i2;
+                            }
+                        }
+                        i2 = i3;
+                        if (tLRPC$Document != null) {
+                            break;
+                        }
+                        ArrayList<TLRPC$Document> arrayList4 = null;
+                        if (next3 instanceof TLRPC$TL_stickerSetFullCovered) {
+                            arrayList4 = ((TLRPC$TL_stickerSetFullCovered) next3).documents;
+                        } else if ((next3 instanceof TLRPC$TL_stickerSetNoCovered) && next3.set != null) {
+                            TLRPC$TL_inputStickerSetID tLRPC$TL_inputStickerSetID = new TLRPC$TL_inputStickerSetID();
+                            tLRPC$TL_inputStickerSetID.id = next3.set.id;
+                            TLRPC$TL_messages_stickerSet stickerSet = MediaDataController.getInstance(i).getStickerSet(tLRPC$TL_inputStickerSetID, true);
+                            if (stickerSet != null && (arrayList = stickerSet.documents) != null) {
+                                arrayList4 = arrayList;
+                            }
+                        }
+                        if (arrayList4 != null && !arrayList4.isEmpty()) {
+                            Iterator<TLRPC$Document> it5 = arrayList4.iterator();
+                            while (true) {
+                                if (!it5.hasNext()) {
+                                    break;
+                                }
+                                TLRPC$Document next5 = it5.next();
+                                if (next5.id == documentId) {
+                                    tLRPC$Document = next5;
+                                    break;
+                                }
+                            }
+                        }
+                        if (tLRPC$Document != null) {
+                            break;
+                        }
+                        i3 = i2;
+                    }
+                }
+                i2 = i3;
+                if (tLRPC$Document != null && (chatFull = MessagesController.getInstance(i).getChatFull(-j)) != null && chatFull.emojiset != null && (groupStickerSetById = MediaDataController.getInstance(i).getGroupStickerSetById(chatFull.emojiset)) != null) {
+                    Iterator<TLRPC$Document> it6 = groupStickerSetById.documents.iterator();
+                    while (it6.hasNext()) {
+                        if (it6.next().id == documentId) {
+                            return false;
+                        }
+                    }
+                }
+                if (tLRPC$Document == null || !MessageObject.isFreeEmoji(tLRPC$Document)) {
+                    BulletinFactory.of(baseFragment).createEmojiBulletin(tLRPC$Document, AndroidUtilities.replaceTags(LocaleController.getString("UnlockPremiumEmojiHint", R.string.UnlockPremiumEmojiHint)), LocaleController.getString("PremiumMore", R.string.PremiumMore), new Runnable() { // from class: org.telegram.ui.Components.ChatActivityEnterView$$ExternalSyntheticLambda32
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            ChatActivityEnterView.lambda$checkPremiumAnimatedEmoji$38(BaseFragment.this);
+                        }
+                    }).show();
+                    return true;
+                }
+            } else {
+                i2 = i3;
             }
+            i3 = i2 + 1;
         }
         return false;
     }
@@ -9371,8 +9499,8 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         } else if (this.slowModeTimer > 0 && !isInScheduleMode()) {
             ChatActivityEnterViewDelegate chatActivityEnterViewDelegate2 = this.delegate;
             if (chatActivityEnterViewDelegate2 != null) {
-                SimpleTextView simpleTextView = this.slowModeButton;
-                chatActivityEnterViewDelegate2.onUpdateSlowModeButton(simpleTextView, true, simpleTextView.getText());
+                SlowModeBtn slowModeBtn = this.slowModeButton;
+                chatActivityEnterViewDelegate2.onUpdateSlowModeButton(slowModeBtn, true, slowModeBtn.getText());
             }
         } else {
             if (messageObject != null && DialogObject.isChatDialog(this.dialog_id)) {
@@ -11061,6 +11189,10 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                 return ChatActivityEnterView.this.stickersTabOpen && (ChatActivityEnterView.this.stickersExpanded || (editTextCaption = ChatActivityEnterView.this.messageEditText) == null || editTextCaption.length() <= 0) && ChatActivityEnterView.this.emojiView.areThereAnyStickers() && !ChatActivityEnterView.this.waitingForKeyboardOpen;
             }
         });
+        EmojiView emojiView3 = this.emojiView;
+        if (emojiView3 != null) {
+            emojiView3.setStickersBanned(!this.sendPlainEnabled, !this.stickersEnabled, -this.dialog_id);
+        }
         attachEmojiView();
         checkChannelRights();
     }
@@ -11485,8 +11617,8 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         if (this.slowModeTimer > 0 && !isInScheduleMode()) {
             ChatActivityEnterViewDelegate chatActivityEnterViewDelegate = this.delegate;
             if (chatActivityEnterViewDelegate != null) {
-                SimpleTextView simpleTextView = this.slowModeButton;
-                chatActivityEnterViewDelegate.onUpdateSlowModeButton(simpleTextView, true, simpleTextView.getText());
+                SlowModeBtn slowModeBtn = this.slowModeButton;
+                chatActivityEnterViewDelegate.onUpdateSlowModeButton(slowModeBtn, true, slowModeBtn.getText());
                 return;
             }
             return;
@@ -12505,7 +12637,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                     chatActivityEnterViewAnimatedIconView2.invalidate();
                 }
             } else if (i == NotificationCenter.messageReceivedByServer) {
-                if (((Boolean) objArr[6]).booleanValue() || ((Long) objArr[3]).longValue() != this.dialog_id || (tLRPC$ChatFull = this.info) == null || tLRPC$ChatFull.slowmode_seconds == 0 || (chat = this.accountInstance.getMessagesController().getChat(Long.valueOf(this.info.id))) == null || ChatObject.hasAdminRights(chat)) {
+                if (((Boolean) objArr[6]).booleanValue() || ((Long) objArr[3]).longValue() != this.dialog_id || (tLRPC$ChatFull = this.info) == null || tLRPC$ChatFull.slowmode_seconds == 0 || (chat = this.accountInstance.getMessagesController().getChat(Long.valueOf(this.info.id))) == null || ChatObject.hasAdminRights(chat) || ChatObject.isIgnoredChatRestrictionsForBoosters(chat)) {
                     return;
                 }
                 TLRPC$ChatFull tLRPC$ChatFull2 = this.info;

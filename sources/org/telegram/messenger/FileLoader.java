@@ -896,21 +896,16 @@ public class FileLoader extends BaseController {
         loadFile(null, null, webFile, null, null, null, null, 0L, i, i2);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:119:0x024e, code lost:
-        if (r7 != null) goto L91;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:120:0x0250, code lost:
-        r5 = r7;
-        r7 = true;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:121:0x0253, code lost:
-        r7 = false;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:131:0x0272, code lost:
-        if (r7 != null) goto L91;
-     */
-    /* JADX WARN: Removed duplicated region for block: B:116:0x0243  */
-    /* JADX WARN: Removed duplicated region for block: B:144:0x029f  */
+    /* JADX WARN: Removed duplicated region for block: B:101:0x0211  */
+    /* JADX WARN: Removed duplicated region for block: B:111:0x022b  */
+    /* JADX WARN: Removed duplicated region for block: B:118:0x025a  */
+    /* JADX WARN: Removed duplicated region for block: B:151:0x02da  */
+    /* JADX WARN: Removed duplicated region for block: B:153:0x02e1  */
+    /* JADX WARN: Removed duplicated region for block: B:156:0x02fd  */
+    /* JADX WARN: Removed duplicated region for block: B:159:0x0324  */
+    /* JADX WARN: Removed duplicated region for block: B:162:0x032e  */
+    /* JADX WARN: Removed duplicated region for block: B:168:0x033c  */
+    /* JADX WARN: Removed duplicated region for block: B:95:0x01fe A[ADDED_TO_REGION] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -918,23 +913,29 @@ public class FileLoader extends BaseController {
         String str2;
         String attachFileName;
         String str3;
+        Object obj2;
         int i3;
-        FileLoader fileLoader;
+        String str4;
         long j3;
         int i4;
         int i5;
         int i6;
-        int i7;
+        int clamp;
+        FileLoader fileLoader;
         FileLoaderPriorityQueue fileLoaderPriorityQueue;
-        int i8;
+        int i7;
         File directory;
-        String str4;
         String str5;
+        String str6;
+        File file;
         boolean z2;
         File directory2;
         boolean z3;
-        FileLoader fileLoader2;
         boolean z4;
+        String str7;
+        String str8;
+        boolean z5;
+        boolean z6;
         if (tLRPC$TL_fileLocationToBeDeprecated != null) {
             attachFileName = getAttachFileName(tLRPC$TL_fileLocationToBeDeprecated, str);
         } else if (secureDocument != null) {
@@ -965,197 +966,277 @@ public class FileLoader extends BaseController {
             int priorityValue = getPriorityValue(i);
             if (fileLoadOperation != null) {
                 if (i2 == 10 || !fileLoadOperation.isPreloadVideoOperation()) {
-                    z4 = false;
+                    z6 = false;
                 } else {
-                    z4 = false;
+                    z6 = false;
                     fileLoadOperation.setIsPreloadVideoOperation(false);
                 }
                 fileLoadOperation.setForceRequest(priorityValue > 0);
                 fileLoadOperation.setStream(fileLoadOperationStream, z, j2);
                 if (fileLoadOperation.getPriority() != priorityValue) {
                     fileLoadOperation.setPriority(priorityValue);
-                    z4 = true;
+                    z6 = true;
                 }
                 fileLoadOperation.getQueue().add(fileLoadOperation);
                 fileLoadOperation.updateProgress();
-                if (z4) {
+                if (z6) {
                     fileLoadOperation.getQueue().checkLoadingOperations();
                 }
-                FileLog.d("load operation update position fileName=" + str2 + " position in queue " + fileLoadOperation.getPositionInQueue() + " preloadFinish " + fileLoadOperation.isPreloadFinished());
+                FileLog.d("load operation update position fileName=" + str2 + " position in queue " + fileLoadOperation.getPositionInQueue() + " preloadFinish " + fileLoadOperation.isPreloadFinished() + " priority=" + fileLoadOperation.getPriority());
                 return fileLoadOperation;
             }
             File directory3 = getDirectory(4);
+            int i8 = 3;
             if (secureDocument != null) {
                 fileLoadOperation = new FileLoadOperation(secureDocument);
-                i4 = 0;
-                i5 = 3;
-                fileLoader = this;
-                str3 = " position in queue ";
+                obj2 = obj;
+                str3 = " priority=";
+                str4 = " position in queue ";
                 j3 = 0;
+                i4 = 3;
+                i5 = 0;
                 i3 = 0;
             } else if (tLRPC$TL_fileLocationToBeDeprecated != null) {
                 long j4 = tLRPC$TL_fileLocationToBeDeprecated.volume_id;
-                str3 = " position in queue ";
-                i5 = 0;
+                obj2 = obj;
+                str3 = " priority=";
+                i4 = 0;
                 i3 = 0;
-                fileLoader = this;
-                i4 = tLRPC$TL_fileLocationToBeDeprecated.dc_id + (tLRPC$TL_fileLocationToBeDeprecated.local_id << 16);
-                fileLoadOperation = new FileLoadOperation(imageLocation, obj, str, j);
+                str4 = " position in queue ";
+                i5 = tLRPC$TL_fileLocationToBeDeprecated.dc_id + (tLRPC$TL_fileLocationToBeDeprecated.local_id << 16);
+                fileLoadOperation = new FileLoadOperation(imageLocation, obj2, str, j);
                 j3 = j4;
             } else {
-                str3 = " position in queue ";
+                str3 = " priority=";
                 if (tLRPC$Document != null) {
-                    fileLoadOperation = new FileLoadOperation(tLRPC$Document, obj);
+                    obj2 = obj;
+                    i3 = 0;
+                    fileLoadOperation = new FileLoadOperation(tLRPC$Document, obj2);
                     if (MessageObject.isVoiceDocument(tLRPC$Document)) {
                         j3 = 0;
                         i6 = 0;
-                        i7 = 1;
+                        i8 = 1;
                     } else if (MessageObject.isVideoDocument(tLRPC$Document)) {
                         j3 = tLRPC$Document.id;
                         i6 = tLRPC$Document.dc_id;
-                        i7 = 2;
+                        i8 = 2;
                     } else {
                         j3 = tLRPC$Document.id;
                         i6 = tLRPC$Document.dc_id;
-                        i7 = 3;
                     }
                     if (MessageObject.isRoundVideoDocument(tLRPC$Document)) {
-                        i4 = 0;
-                        i3 = 0;
-                        i5 = i7;
+                        str4 = " position in queue ";
+                        i4 = i8;
                         j3 = 0;
+                        i5 = 0;
                     } else {
-                        i3 = 0;
-                        i4 = i6;
-                        i5 = i7;
+                        i5 = i6;
+                        str4 = " position in queue ";
+                        i4 = i8;
                     }
-                    fileLoader = this;
                 } else {
+                    obj2 = obj;
+                    i3 = 0;
                     if (webFile != null) {
-                        i3 = 0;
-                        fileLoader = this;
-                        fileLoadOperation = new FileLoadOperation(fileLoader.currentAccount, webFile);
+                        str4 = " position in queue ";
+                        fileLoadOperation = new FileLoadOperation(this.currentAccount, webFile);
                         if (webFile.location == null) {
                             if (MessageObject.isVoiceWebDocument(webFile)) {
                                 j3 = 0;
-                                i4 = 0;
-                                i5 = 1;
+                                i4 = 1;
                             } else if (MessageObject.isVideoWebDocument(webFile)) {
                                 j3 = 0;
-                                i4 = 0;
-                                i5 = 2;
+                                i4 = 2;
                             } else if (MessageObject.isImageWebDocument(webFile)) {
                                 j3 = 0;
                                 i4 = 0;
-                                i5 = 0;
                             } else {
                                 j3 = 0;
-                                i4 = 0;
-                                i5 = 3;
+                                i4 = 3;
                             }
-                        }
-                    } else {
-                        i3 = 0;
-                        fileLoader = this;
-                    }
-                    j3 = 0;
-                    i4 = 0;
-                    i5 = 4;
-                }
-            }
-            int clamp = Utilities.clamp(fileLoadOperation.getDatacenterId() - 1, 4, i3);
-            boolean z5 = obj instanceof TL_stories$StoryItem;
-            if (fileLoadOperation.totalBytesCount > 20971520 || z5) {
-                fileLoaderPriorityQueue = fileLoader.largeFilesQueue[clamp];
-            } else {
-                fileLoaderPriorityQueue = fileLoader.smallFilesQueue[clamp];
-            }
-            FileLoaderPriorityQueue fileLoaderPriorityQueue2 = fileLoaderPriorityQueue;
-            if (i2 != 0 && i2 != 10 && !z5) {
-                if (i2 == 2) {
-                    fileLoadOperation.setEncryptFile(true);
-                }
-                i8 = priorityValue;
-                str4 = str2;
-                directory = directory3;
-            } else if (j3 != 0) {
-                String path = getFileDatabase().getPath(j3, i4, i5, true);
-                i8 = priorityValue;
-                if (path != null) {
-                    File file = new File(path);
-                    if (file.exists()) {
-                        str5 = file.getName();
-                        directory = file.getParentFile();
-                        z2 = true;
-                        if (!z2) {
-                            File directory4 = getDirectory(i5);
-                            if (z5) {
-                                directory2 = getDirectory(6);
-                            } else if ((i5 != 0 && i5 != 2) || !fileLoader.canSaveToPublicStorage(obj)) {
-                                if (TextUtils.isEmpty(getDocumentFileName(tLRPC$Document)) || !canSaveAsFile(obj)) {
-                                    directory = directory4;
-                                    str5 = str2;
-                                } else {
-                                    String documentFileName = getDocumentFileName(tLRPC$Document);
-                                    File directory5 = getDirectory(5);
-                                    if (directory5 != null) {
-                                        str5 = documentFileName;
-                                        directory = directory5;
-                                        z3 = true;
-                                        if (z3) {
-                                            fileLoadOperation.pathSaveData = new FilePathDatabase.PathData(j3, i4, i5);
+                            i5 = 0;
+                            String str9 = str4;
+                            clamp = Utilities.clamp(fileLoadOperation.getDatacenterId() - 1, 4, i3);
+                            boolean z7 = obj2 instanceof TL_stories$StoryItem;
+                            if (fileLoadOperation.totalBytesCount <= 20971520 || z7) {
+                                fileLoader = this;
+                                fileLoaderPriorityQueue = fileLoader.largeFilesQueue[clamp];
+                            } else {
+                                fileLoader = this;
+                                fileLoaderPriorityQueue = fileLoader.smallFilesQueue[clamp];
+                            }
+                            FileLoaderPriorityQueue fileLoaderPriorityQueue2 = fileLoaderPriorityQueue;
+                            if (i2 == 0 && i2 != 10 && !z7) {
+                                if (i2 == 2) {
+                                    fileLoadOperation.setEncryptFile(true);
+                                }
+                                i7 = i4;
+                                str5 = str2;
+                                directory = directory3;
+                            } else if (j3 != 0) {
+                                String path = getFileDatabase().getPath(j3, i5, i4, true);
+                                if (path != null) {
+                                    File file2 = new File(path);
+                                    if (file2.exists()) {
+                                        str6 = file2.getName();
+                                        file = file2.getParentFile();
+                                        z2 = true;
+                                        if (z2) {
+                                            File directory4 = getDirectory(i4);
+                                            if (z7) {
+                                                File directory5 = getDirectory(6);
+                                                if (directory5 != null) {
+                                                    directory4 = directory5;
+                                                    z5 = true;
+                                                } else {
+                                                    z5 = false;
+                                                }
+                                                file = directory4;
+                                                z4 = z5;
+                                                str7 = str2;
+                                                i7 = i4;
+                                            } else {
+                                                i7 = i4;
+                                                if ((i7 == 0 || i7 == 2) && fileLoader.canSaveToPublicStorage(obj2)) {
+                                                    if (i7 == 0) {
+                                                        directory2 = getDirectory(100);
+                                                    } else {
+                                                        directory2 = getDirectory(101);
+                                                    }
+                                                    if (directory2 != null) {
+                                                        directory4 = directory2;
+                                                        z3 = true;
+                                                    } else {
+                                                        z3 = false;
+                                                    }
+                                                    z4 = z3;
+                                                    file = directory4;
+                                                    str7 = str2;
+                                                } else if (TextUtils.isEmpty(getDocumentFileName(tLRPC$Document)) || !canSaveAsFile(obj)) {
+                                                    file = directory4;
+                                                    str7 = str2;
+                                                    z4 = false;
+                                                } else {
+                                                    String documentFileName = getDocumentFileName(tLRPC$Document);
+                                                    File directory6 = getDirectory(5);
+                                                    if (directory6 != null) {
+                                                        str7 = documentFileName;
+                                                        file = directory6;
+                                                        z4 = true;
+                                                    } else {
+                                                        z4 = false;
+                                                        file = directory4;
+                                                        str7 = documentFileName;
+                                                    }
+                                                }
+                                            }
+                                            if (z4) {
+                                                str8 = str7;
+                                                fileLoadOperation.pathSaveData = new FilePathDatabase.PathData(j3, i5, i7);
+                                            } else {
+                                                str8 = str7;
+                                            }
+                                            str6 = str8;
+                                        } else {
+                                            i7 = i4;
                                         }
-                                    } else {
-                                        directory = directory4;
-                                        str5 = documentFileName;
+                                        str5 = str6;
+                                        directory = file;
                                     }
                                 }
-                                z3 = false;
-                                if (z3) {
+                                str6 = str2;
+                                file = directory3;
+                                z2 = false;
+                                if (z2) {
                                 }
-                            } else if (i5 == 0) {
-                                directory2 = getDirectory(100);
+                                str5 = str6;
+                                directory = file;
                             } else {
-                                directory2 = getDirectory(101);
+                                i7 = i4;
+                                directory = getDirectory(i7);
+                                str5 = str2;
                             }
-                            directory = directory4;
-                            str5 = str2;
-                            if (z3) {
+                            String str10 = str2;
+                            fileLoadOperation.setPaths(fileLoader.currentAccount, str10, fileLoaderPriorityQueue2, directory, directory3, str5);
+                            if (i2 == 10) {
+                                fileLoadOperation.setIsPreloadVideoOperation(true);
                             }
+                            FileLoadOperation fileLoadOperation2 = fileLoadOperation;
+                            fileLoadOperation2.setDelegate(new 2(obj, tLRPC$Document, str10, i7));
+                            fileLoader.loadOperationPaths.put(str10, fileLoadOperation2);
+                            fileLoadOperation2.setPriority(priorityValue);
+                            if (fileLoadOperationStream != null) {
+                                fileLoadOperation2.setStream(fileLoadOperationStream, z, j2);
+                            }
+                            fileLoaderPriorityQueue2.add(fileLoadOperation2);
+                            fileLoaderPriorityQueue2.checkLoadingOperations(!fileLoadOperation2.isStory && priorityValue >= 1048576);
+                            if (BuildVars.LOGS_ENABLED) {
+                                FileLog.d("create load operation fileName=" + str10 + " documentName=" + getDocumentFileName(tLRPC$Document) + " size=" + AndroidUtilities.formatFileSize(fileLoadOperation2.totalBytesCount) + str9 + fileLoadOperation2.getPositionInQueue() + " account=" + fileLoader.currentAccount + " cacheType=" + i2 + str3 + fileLoadOperation2.getPriority());
+                            }
+                            return fileLoadOperation2;
                         }
-                        str4 = str5;
+                    } else {
+                        str4 = " position in queue ";
                     }
+                    j3 = 0;
+                    i4 = 4;
+                    i5 = 0;
+                    String str92 = str4;
+                    clamp = Utilities.clamp(fileLoadOperation.getDatacenterId() - 1, 4, i3);
+                    boolean z72 = obj2 instanceof TL_stories$StoryItem;
+                    if (fileLoadOperation.totalBytesCount <= 20971520) {
+                    }
+                    fileLoader = this;
+                    fileLoaderPriorityQueue = fileLoader.largeFilesQueue[clamp];
+                    FileLoaderPriorityQueue fileLoaderPriorityQueue22 = fileLoaderPriorityQueue;
+                    if (i2 == 0) {
+                    }
+                    if (j3 != 0) {
+                    }
+                    String str102 = str2;
+                    fileLoadOperation.setPaths(fileLoader.currentAccount, str102, fileLoaderPriorityQueue22, directory, directory3, str5);
+                    if (i2 == 10) {
+                    }
+                    FileLoadOperation fileLoadOperation22 = fileLoadOperation;
+                    fileLoadOperation22.setDelegate(new 2(obj, tLRPC$Document, str102, i7));
+                    fileLoader.loadOperationPaths.put(str102, fileLoadOperation22);
+                    fileLoadOperation22.setPriority(priorityValue);
+                    if (fileLoadOperationStream != null) {
+                    }
+                    fileLoaderPriorityQueue22.add(fileLoadOperation22);
+                    fileLoaderPriorityQueue22.checkLoadingOperations(!fileLoadOperation22.isStory && priorityValue >= 1048576);
+                    if (BuildVars.LOGS_ENABLED) {
+                    }
+                    return fileLoadOperation22;
                 }
-                str5 = str2;
-                directory = directory3;
-                z2 = false;
-                if (!z2) {
-                }
-                str4 = str5;
-            } else {
-                i8 = priorityValue;
-                directory = getDirectory(i5);
-                str4 = str2;
             }
-            int i9 = i8;
-            String str6 = str2;
-            fileLoadOperation.setPaths(fileLoader.currentAccount, str6, fileLoaderPriorityQueue2, directory, directory3, str4);
+            String str922 = str4;
+            clamp = Utilities.clamp(fileLoadOperation.getDatacenterId() - 1, 4, i3);
+            boolean z722 = obj2 instanceof TL_stories$StoryItem;
+            if (fileLoadOperation.totalBytesCount <= 20971520) {
+            }
+            fileLoader = this;
+            fileLoaderPriorityQueue = fileLoader.largeFilesQueue[clamp];
+            FileLoaderPriorityQueue fileLoaderPriorityQueue222 = fileLoaderPriorityQueue;
+            if (i2 == 0) {
+            }
+            if (j3 != 0) {
+            }
+            String str1022 = str2;
+            fileLoadOperation.setPaths(fileLoader.currentAccount, str1022, fileLoaderPriorityQueue222, directory, directory3, str5);
             if (i2 == 10) {
-                fileLoadOperation.setIsPreloadVideoOperation(true);
             }
-            FileLoadOperation fileLoadOperation2 = fileLoadOperation;
-            fileLoadOperation2.setDelegate(new 2(obj, tLRPC$Document, str6, i5));
-            fileLoader.loadOperationPaths.put(str6, fileLoadOperation2);
-            fileLoadOperation2.setPriority(i9);
+            FileLoadOperation fileLoadOperation222 = fileLoadOperation;
+            fileLoadOperation222.setDelegate(new 2(obj, tLRPC$Document, str1022, i7));
+            fileLoader.loadOperationPaths.put(str1022, fileLoadOperation222);
+            fileLoadOperation222.setPriority(priorityValue);
             if (fileLoadOperationStream != null) {
-                fileLoadOperation2.setStream(fileLoadOperationStream, z, j2);
             }
-            fileLoaderPriorityQueue2.add(fileLoadOperation2);
-            fileLoaderPriorityQueue2.checkLoadingOperations(fileLoadOperation2.isStory && i9 >= 3);
+            fileLoaderPriorityQueue222.add(fileLoadOperation222);
+            fileLoaderPriorityQueue222.checkLoadingOperations(!fileLoadOperation222.isStory && priorityValue >= 1048576);
             if (BuildVars.LOGS_ENABLED) {
-                FileLog.d("create load operation fileName=" + str6 + " documentName=" + getDocumentFileName(tLRPC$Document) + " size=" + AndroidUtilities.formatFileSize(fileLoadOperation2.totalBytesCount) + str3 + fileLoadOperation2.getPositionInQueue() + " account=" + fileLoader2.currentAccount + " cacheType=" + i2);
             }
-            return fileLoadOperation2;
+            return fileLoadOperation222;
         }
         str2 = attachFileName;
         if (str2 != null) {

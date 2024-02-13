@@ -533,7 +533,7 @@ public class MessagePreviewView extends FrameLayout {
                 }
 
                 /* JADX WARN: Type inference failed for: r3v0 */
-                /* JADX WARN: Type inference failed for: r3v1, types: [boolean, int] */
+                /* JADX WARN: Type inference failed for: r3v1, types: [int, boolean] */
                 /* JADX WARN: Type inference failed for: r3v9 */
                 private void drawChatBackgroundElements(Canvas canvas) {
                     boolean z2;
@@ -1950,6 +1950,11 @@ public class MessagePreviewView extends FrameLayout {
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+                    public /* synthetic */ void didPressBoostCounter(ChatMessageCell chatMessageCell2) {
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressBoostCounter(this, chatMessageCell2);
+                    }
+
+                    @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ void didPressBotButton(ChatMessageCell chatMessageCell2, TLRPC$KeyboardButton tLRPC$KeyboardButton) {
                         ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressBotButton(this, chatMessageCell2, tLRPC$KeyboardButton);
                     }
@@ -2305,6 +2310,11 @@ public class MessagePreviewView extends FrameLayout {
                         @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                         public /* synthetic */ boolean didPressAnimatedEmoji(ChatMessageCell chatMessageCell2, AnimatedEmojiSpan animatedEmojiSpan) {
                             return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressAnimatedEmoji(this, chatMessageCell2, animatedEmojiSpan);
+                        }
+
+                        @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+                        public /* synthetic */ void didPressBoostCounter(ChatMessageCell chatMessageCell2) {
+                            ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressBoostCounter(this, chatMessageCell2);
                         }
 
                         @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate

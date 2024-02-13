@@ -420,6 +420,11 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
                 }
 
                 @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+                public /* synthetic */ void didPressBoostCounter(ChatMessageCell chatMessageCell2) {
+                    ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressBoostCounter(this, chatMessageCell2);
+                }
+
+                @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                 public /* synthetic */ void didPressBotButton(ChatMessageCell chatMessageCell2, TLRPC$KeyboardButton tLRPC$KeyboardButton) {
                     ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressBotButton(this, chatMessageCell2, tLRPC$KeyboardButton);
                 }

@@ -1283,7 +1283,7 @@ public class UndoView extends FrameLayout {
             } else if (i11 == 90 || i11 == 91 || i11 == 92 || i11 == 93 || i11 == 94) {
                 switch (i11) {
                     case R.styleable.AppCompatTheme_popupWindowStyle /* 90 */:
-                        this.infoTextView.setText(LocaleController.formatPluralString("BoostingSelectUpToWarningChannelsPlural", (int) BoostRepository.giveawayAddPeersMax(), new Object[0]));
+                        this.infoTextView.setText(LocaleController.formatPluralString("BoostingSelectUpToWarningChannelsGroupsPlural", (int) BoostRepository.giveawayAddPeersMax(), new Object[0]));
                         break;
                     case R.styleable.AppCompatTheme_radioButtonStyle /* 91 */:
                         this.infoTextView.setText(LocaleController.getString("BoostingSelectUpToWarningUsers", R.string.BoostingSelectUpToWarningUsers));

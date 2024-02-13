@@ -365,7 +365,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
     public TLRPC$InputReplyTo createReplyInput(TL_stories$StoryItem tL_stories$StoryItem) {
         TLRPC$TL_inputReplyToStory tLRPC$TL_inputReplyToStory = new TLRPC$TL_inputReplyToStory();
         tLRPC$TL_inputReplyToStory.story_id = tL_stories$StoryItem.id;
-        tLRPC$TL_inputReplyToStory.user_id = getMessagesController().getInputUser(tL_stories$StoryItem.dialogId);
+        tLRPC$TL_inputReplyToStory.peer = getMessagesController().getInputPeer(tL_stories$StoryItem.dialogId);
         return tLRPC$TL_inputReplyToStory;
     }
 
@@ -5278,273 +5278,251 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         }
     }
 
-    /* JADX WARN: Can't wrap try/catch for region: R(14:(1:1380)(1:1416)|1381|1382|(1:1384)|1385|(1:1387)|1388|(1:1415)(1:1392)|(4:(1:1414)(2:1396|(2:1398|1399))|1405|1406|1399)|1400|1401|1402|1403|1404) */
-    /* JADX WARN: Can't wrap try/catch for region: R(68:10|(1:13)|14|(1:19)|(1:1696)(1:23)|24|(1:26)(1:1695)|27|(2:29|(1:(2:32|33)(1:34))(1:35))(2:1681|(62:1683|(1:1685)(1:1693)|(1:1692)(1:1690)|1691|37|38|(6:1581|1582|(3:1585|1586|(1:1588))|1592|(6:(2:1595|(1:1597))(1:1674)|1599|(1:1601)(5:1611|(2:1616|(1:1618)(2:1619|(3:1621|(1:1623)|1624)(5:1625|(2:1632|(3:1634|1635|1636)(5:1637|(2:1648|(3:1650|(1:1652)(1:1654)|1653)(2:1655|(1:1657)(1:1658)))|1659|(1:1661)(1:1663)|1662))|1664|(1:1666)(1:1668)|1667)))|1669|(1:1671)(1:1673)|1672)|(1:1610)(1:1605)|1606|(1:1608)(1:1609))(1:1675)|1598)(5:40|41|42|(2:1574|1575)(1:44)|(3:(1:47)(1:1354)|(2:51|(1:53)(1:54))|(14:(1:1341)(2:1350|(1:1352)(1:1353))|(1:1349)(1:1345)|1346|1347|1348|(3:1334|1335|(12:1337|(1:70)(3:1330|1331|(1:1333))|71|(1:73)|74|(2:1326|(1:1328)(6:1329|79|80|81|82|83))(1:77)|78|79|80|81|82|83))|68|(0)(0)|71|(0)|74|(0)|1326|(0)(0))(10:66|(0)|68|(0)(0)|71|(0)|74|(0)|1326|(0)(0)))(3:1355|1356|(14:(1:1359)(1:1363)|1360|1361|1362|1348|(0)|68|(0)(0)|71|(0)|74|(0)|1326|(0)(0))(11:1364|(5:(1:1367)(1:1376)|1368|1369|(1:1375)(1:1373)|1374)(2:1377|(17:(1:1380)(1:1416)|1381|1382|(1:1384)|1385|(1:1387)|1388|(1:1415)(1:1392)|(1:1414)(2:1396|(2:1398|1399))|1400|1401|1402|1403|1404|1405|1406|1399)(5:1417|1418|(4:1420|1421|(1:1423)|1428)(1:(5:1430|1431|1432|(1:1434)|1428)(1:(10:(1:1438)(1:1457)|1439|(1:1456)(1:1443)|1444|(1:1446)|1447|(1:1449)|(1:1455)(1:1453)|1454|1427)(2:1458|(13:(1:1461)(1:1557)|1462|1463|(1:1554)(5:1466|1467|(2:1469|(3:1472|1473|1474)(1:1471))|1551|1552)|1553|1475|(1:1477)|1478|(2:1539|(2:1547|(1:1549)(1:1550))(1:1546))(1:1482)|(3:1484|(1:1486)|1487)|(1:1538)(1:1497)|(1:1537)(4:1504|(2:1505|(5:1507|1508|1509|1510|(3:1513|1514|(4:1516|(1:1518)(1:1530)|1519|(1:1521)(3:1525|(1:1527)(1:1529)|1528))(1:1531))(1:1512))(2:1534|1535))|1522|1523)|1524)(3:1558|(3:(1:1561)(1:1565)|1562|1563)(1:1566)|1564))))|1426|1427))|(0)|68|(0)(0)|71|(0)|74|(0)|1326|(0)(0))))|(4:85|86|87|(53:89|90|91|92|(1:94)|95|(1:1310)(2:(3:100|(1:102)|103)(1:1309)|104)|105|(3:107|108|(42:110|111|(1:113)(2:1251|(47:(2:1254|(2:1256|(1:1258)(36:1286|115|(1:117)|(2:120|(1:122))|123|(3:125|(2:127|(2:129|130)(2:131|(1:133)))|134)(6:1205|1206|(1:1208)(1:1250)|(2:1210|1211)(3:1244|1245|(1:1249))|1212|(2:1216|(3:1218|(2:1219|(2:1221|(2:1224|1225)(1:1223))(2:1227|1228))|1226)(2:1229|(3:1233|(2:1234|(2:1236|(2:1239|1240)(1:1238))(2:1242|1243))|1241))))|(1:1204)(15:141|(1:143)(1:1203)|144|(1:1202)(1:148)|(2:154|(11:158|(8:160|161|(1:163)(1:1199)|(1:1198)(1:169)|(3:173|(2:(1:176)(1:189)|(6:178|(1:182)|183|(1:185)|186|(1:188)))|190)|1197|(0)|190)|1200|161|(0)(0)|(1:165)|1198|(3:173|(0)|190)|1197|(0)|190))|1201|1200|161|(0)(0)|(0)|1198|(0)|1197|(0)|190)|191|(2:1195|1196)|195|(1:197)|198|199|(4:201|(1:203)(1:1193)|204|(18:206|(1:1191)(1:212)|213|214|215|216|(1:218)(1:1186)|219|(3:1177|1178|(1:1185))|221|(2:(3:1171|1172|(1:1174))(1:1176)|1175)|224|(7:226|(1:228)(1:1152)|229|(1:231)(1:1151)|232|(1:234)(1:1150)|235)(7:1153|1154|(2:1156|1157)(1:1169)|(4:1159|(1:1161)(1:1164)|1162|1163)|1165|1166|(1:1168))|236|(1:1148)(1:239)|(6:246|(4:248|(1:250)|251|(10:253|254|(5:256|257|(1:259)(2:402|(4:404|(1:406)|407|(1:409))(1:410))|260|261)(2:411|(13:602|603|604|(1:606)|(1:641)(4:610|(1:612)|613|614)|615|616|(1:618)(4:635|(2:637|638)|639|640)|(3:620|(1:622)(1:633)|623)(1:634)|624|(2:628|(2:630|631))|632|631)(4:416|417|(16:542|543|(10:545|(1:(2:548|(1:550)))(1:594)|(1:557)|(1:593)(6:561|562|563|(1:565)|566|567)|568|(1:570)(4:584|(1:586)|(1:590)|591)|(3:572|(1:574)(1:582)|575)(1:583)|576|(2:578|(1:580))|581)|595|552|553|(1:555)|(0)|(1:559)|593|568|(0)(0)|(0)(0)|576|(0)|581)(2:419|(3:421|(1:428)(1:425)|426)(3:429|(11:490|(1:541)(2:493|(1:495)(5:540|512|(1:514)(4:530|(1:532)|(1:536)|537)|(3:(3:517|(1:519)(1:527)|520)(1:528)|521|(2:523|(1:525)))(1:529)|526))|496|(1:498)|(1:539)|(1:538)(1:510)|511|512|(0)(0)|(0)(0)|526)(2:433|(8:462|463|(3:465|466|467)(1:486)|468|(1:470)(4:477|(1:479)|(1:483)|484)|471|(1:473)(1:476)|474)(3:435|(4:437|(2:441|(4:443|(2:446|444)|447|448))|449|(2:451|(1:453)))(2:455|(1:457)(2:458|(1:460)(1:461)))|454))|475))|427))|262|(6:264|(1:266)(4:364|(1:366)(2:370|(1:372))|(1:368)|369)|267|(2:269|(1:271))|272|273)(12:373|374|(1:376)|(1:378)(2:399|(1:401))|379|380|(1:382)|383|(1:387)|(1:389)|(1:393)|(1:395))|274|(1:276)(4:281|282|(4:284|(1:286)(1:291)|287|288)(4:292|(1:(1:295)(5:296|(1:298)(1:314)|299|300|301))(4:315|316|(1:(1:319)(2:(1:323)(1:325)|324))(2:326|(2:(1:329)(1:331)|330)(2:332|(1:(2:(1:338)(1:340)|339)(1:336))(2:341|(1:(1:344)(2:(1:346)(1:348)|347))(2:349|(2:(1:356)(1:358)|357)))))|320)|278|279)|289)|277|278|279)(21:644|645|646|647|(3:883|884|(1:886))(1:649)|650|(1:654)|655|(2:657|(1:659))|660|(3:662|663|(1:665))|666|667|668|(3:670|(1:672)(1:709)|673)(13:710|(7:716|(13:718|(11:723|(1:761)(1:727)|728|(2:729|(2:731|(2:734|735)(1:733))(1:760))|736|(2:741|742)|759|753|(1:755)|756|742)|762|(1:767)(1:766)|728|(3:729|(0)(0)|733)|736|(3:738|741|742)|759|753|(0)|756|742)(3:768|(1:770)(5:772|(2:778|(6:780|(1:782)(1:789)|783|(1:785)(1:788)|786|787))|790|791|(9:807|(2:809|(1:811)(1:841))(1:842)|812|(2:817|818)|840|(2:832|(1:834))|835|(1:837)|818)(4:797|(1:799)(1:806)|(2:801|(1:803))(1:805)|804))|771)|675|(9:677|(1:679)(1:707)|680|681|682|683|(2:688|689)|699|689)(1:708)|(3:691|(1:693)(1:696)|694)|697|698)|843|844|845|(3:847|848|849)(2:878|879)|850|(5:(6:856|(2:858|(4:860|861|(1:863)(1:875)|864))|876|861|(0)(0)|864)(1:877)|865|(2:873|874)(1:869)|870|(1:872))(1:854)|675|(0)(0)|(0)|697|698)|674|675|(0)(0)|(0)|697|698))|891|(6:905|906|(11:908|(1:910)|(1:952)(3:914|(2:916|(1:918)(1:950))(1:951)|919)|920|(3:922|923|924)(1:946)|925|(1:927)(2:938|(1:940)(2:941|(1:943)))|928|(1:930)(1:937)|931|932)(4:953|(15:955|956|(1:958)|959|(1:961)(1:985)|962|(1:964)(2:982|(1:984))|965|(1:967)|968|(3:970|(1:972)(1:975)|973)|976|(1:978)(1:981)|979|980)|934|935)|933|934|935)|251|(0)(0))|990|(7:(19:1054|1055|(1:1057)(1:1111)|1058|(1:1060)(2:1108|(1:1110))|(1:1064)|1065|(1:1067)|(1:1071)|(3:1074|1075|1076)(1:1107)|1077|1078|(1:1080)(1:1103)|1081|1082|1083|(5:1085|(2:1087|1088)(1:1098)|1089|1090|1091)(1:1099)|1092|1093)(22:993|994|995|(1:997)(1:1051)|998|999|(1:1001)(2:1046|(1:1048))|(1:1005)|1006|(1:1008)|(1:1010)|(1:1014)|(1:1016)|1018|1019|(1:1021)(1:1044)|1022|1023|1024|(5:1026|(3:1035|1036|1037)(1:1028)|1029|1030|1031)|934|935)|305|(1:307)(1:313)|308|(1:310)|311|312)(11:1114|1115|1116|(1:1120)|1121|(2:1123|(1:1125))|(1:1129)|1130|(1:1145)(1:1134)|1135|(4:1137|(1:1139)(1:1143)|1140|1142)(1:1144))))(1:1194)|1192|(0)|1191|213|214|215|216|(0)(0)|219|(0)|221|(0)|(0)(0)|1175|224|(0)(0)|236|(0)|1148|(15:241|246|(0)|891|(1:893)|895|898|900|902|905|906|(0)(0)|933|934|935)|990|(0)(0)))(1:1287))(1:1288)|1259|(2:1261|(42:1263|1264|(2:1281|(1:1283))(2:1269|(1:1271))|(2:1273|(2:1275|(1:1280)(1:1279)))|115|(0)|(2:120|(0))|123|(0)(0)|(0)|1204|191|(1:193)|1195|1196|195|(0)|198|199|(0)(0)|1192|(0)|1191|213|214|215|216|(0)(0)|219|(0)|221|(0)|(0)(0)|1175|224|(0)(0)|236|(0)|1148|(0)|990|(0)(0)))(1:1285)|1284|1264|(0)|1281|(0)|(0)|115|(0)|(0)|123|(0)(0)|(0)|1204|191|(0)|1195|1196|195|(0)|198|199|(0)(0)|1192|(0)|1191|213|214|215|216|(0)(0)|219|(0)|221|(0)|(0)(0)|1175|224|(0)(0)|236|(0)|1148|(0)|990|(0)(0)))|114|115|(0)|(0)|123|(0)(0)|(0)|1204|191|(0)|1195|1196|195|(0)|198|199|(0)(0)|1192|(0)|1191|213|214|215|216|(0)(0)|219|(0)|221|(0)|(0)(0)|1175|224|(0)(0)|236|(0)|1148|(0)|990|(0)(0)))(1:1308)|(1:1290)(1:1307)|1291|(3:(2:1295|1296)|1297|(2:1299|(1:1301)(2:1302|(1:1304))))(2:1305|1306)|111|(0)(0)|114|115|(0)|(0)|123|(0)(0)|(0)|1204|191|(0)|1195|1196|195|(0)|198|199|(0)(0)|1192|(0)|1191|213|214|215|216|(0)(0)|219|(0)|221|(0)|(0)(0)|1175|224|(0)(0)|236|(0)|1148|(0)|990|(0)(0)))(1:1319)|1314|90|91|92|(0)|95|(1:97)|1310|105|(0)(0)|(0)(0)|1291|(0)(0)|111|(0)(0)|114|115|(0)|(0)|123|(0)(0)|(0)|1204|191|(0)|1195|1196|195|(0)|198|199|(0)(0)|1192|(0)|1191|213|214|215|216|(0)(0)|219|(0)|221|(0)|(0)(0)|1175|224|(0)(0)|236|(0)|1148|(0)|990|(0)(0))(1:1694))|36|37|38|(0)(0)|(0)(0)|1314|90|91|92|(0)|95|(0)|1310|105|(0)(0)|(0)(0)|1291|(0)(0)|111|(0)(0)|114|115|(0)|(0)|123|(0)(0)|(0)|1204|191|(0)|1195|1196|195|(0)|198|199|(0)(0)|1192|(0)|1191|213|214|215|216|(0)(0)|219|(0)|221|(0)|(0)(0)|1175|224|(0)(0)|236|(0)|1148|(0)|990|(0)(0)) */
-    /* JADX WARN: Code restructure failed: missing block: B:1306:0x1aa8, code lost:
-        r14 = r14;
-        r1 = new org.telegram.messenger.SendMessagesHelper.DelayedMessage(r2, r14);
-        r1.encryptedChat = r6;
-        r1.type = 1;
-        r1.sendEncryptedRequest = r7;
-        r4 = r39;
-        r1.originalPath = r4;
-        r1.obj = r12;
+    /* JADX WARN: Code restructure failed: missing block: B:1343:0x1ac5, code lost:
+        r13 = r42;
+        r3 = new org.telegram.messenger.SendMessagesHelper.DelayedMessage(r9, r13);
+        r3.encryptedChat = r7;
+        r3.type = 1;
+        r3.sendEncryptedRequest = r6;
+        r4 = r11;
+        r3.originalPath = r4;
+        r3.obj = r12;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1307:0x1abc, code lost:
-        if (r10 == null) goto L758;
+    /* JADX WARN: Code restructure failed: missing block: B:1344:0x1ad9, code lost:
+        if (r5 == null) goto L878;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1308:0x1abe, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1345:0x1adb, code lost:
         r8 = r56;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1309:0x1ac4, code lost:
-        if (r10.containsKey(r8) == false) goto L758;
+    /* JADX WARN: Code restructure failed: missing block: B:1346:0x1ae1, code lost:
+        if (r5.containsKey(r8) == false) goto L878;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1310:0x1ac6, code lost:
-        r1.parentObject = r10.get(r8);
+    /* JADX WARN: Code restructure failed: missing block: B:1347:0x1ae3, code lost:
+        r3.parentObject = r5.get(r8);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1311:0x1acd, code lost:
-        r1.parentObject = r19;
+    /* JADX WARN: Code restructure failed: missing block: B:1348:0x1aea, code lost:
+        r3.parentObject = r25;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1312:0x1ad1, code lost:
-        r1.performMediaUpload = true;
+    /* JADX WARN: Code restructure failed: missing block: B:1349:0x1aee, code lost:
+        r3.performMediaUpload = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1313:0x1ad4, code lost:
-        if (r59 == 0) goto L757;
+    /* JADX WARN: Code restructure failed: missing block: B:1350:0x1af1, code lost:
+        if (r14 == null) goto L877;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1314:0x1ad6, code lost:
-        r3 = true;
+    /* JADX WARN: Code restructure failed: missing block: B:1351:0x1af3, code lost:
+        r1 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1315:0x1ad8, code lost:
-        r3 = false;
+    /* JADX WARN: Code restructure failed: missing block: B:1352:0x1af5, code lost:
+        r1 = false;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1316:0x1ad9, code lost:
-        r1.scheduled = r3;
-        r3 = r80;
+    /* JADX WARN: Code restructure failed: missing block: B:1353:0x1af6, code lost:
+        r3.scheduled = r1;
+        r1 = r23;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1377:0x1cdb, code lost:
-        r1 = new org.telegram.messenger.SendMessagesHelper.DelayedMessage(r2, r14);
-        r1.encryptedChat = r6;
-        r1.type = 2;
-        r1.sendEncryptedRequest = r7;
-        r1.originalPath = r4;
-        r1.obj = r12;
+    /* JADX WARN: Code restructure failed: missing block: B:1424:0x1cf5, code lost:
+        r3 = new org.telegram.messenger.SendMessagesHelper.DelayedMessage(r9, r13);
+        r3.encryptedChat = r7;
+        r3.type = 2;
+        r3.sendEncryptedRequest = r6;
+        r3.originalPath = r11;
+        r3.obj = r12;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1378:0x1ceb, code lost:
-        if (r10 == null) goto L839;
+    /* JADX WARN: Code restructure failed: missing block: B:1425:0x1d05, code lost:
+        if (r5 == null) goto L829;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1380:0x1cf5, code lost:
-        if (r10.containsKey(r8) == false) goto L839;
+    /* JADX WARN: Code restructure failed: missing block: B:1427:0x1d0b, code lost:
+        if (r5.containsKey(r8) == false) goto L829;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1381:0x1cf7, code lost:
-        r1.parentObject = r10.get(r8);
+    /* JADX WARN: Code restructure failed: missing block: B:1428:0x1d0d, code lost:
+        r3.parentObject = r5.get(r8);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1382:0x1cfe, code lost:
-        r1.parentObject = r19;
+    /* JADX WARN: Code restructure failed: missing block: B:1429:0x1d14, code lost:
+        r3.parentObject = r25;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1383:0x1d00, code lost:
-        r1.performMediaUpload = true;
+    /* JADX WARN: Code restructure failed: missing block: B:1430:0x1d18, code lost:
+        r3.performMediaUpload = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1384:0x1d03, code lost:
-        if (r59 == 0) goto L838;
+    /* JADX WARN: Code restructure failed: missing block: B:1431:0x1d1b, code lost:
+        if (r14 == null) goto L828;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1385:0x1d05, code lost:
-        r3 = true;
+    /* JADX WARN: Code restructure failed: missing block: B:1432:0x1d1d, code lost:
+        r1 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1386:0x1d07, code lost:
-        r3 = false;
+    /* JADX WARN: Code restructure failed: missing block: B:1433:0x1d1f, code lost:
+        r1 = false;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1387:0x1d08, code lost:
-        r1.scheduled = r3;
+    /* JADX WARN: Code restructure failed: missing block: B:1434:0x1d20, code lost:
+        r3.scheduled = r1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1614:0x210e, code lost:
-        r0 = e;
+    /* JADX WARN: Code restructure failed: missing block: B:264:0x0608, code lost:
+        if (r5.containsKey("query_id") != false) goto L1453;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1615:0x210f, code lost:
-        r4 = r9;
-        r3 = r59;
+    /* JADX WARN: Code restructure failed: missing block: B:276:0x0627, code lost:
+        if (r5.containsKey("query_id") != false) goto L1453;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1617:0x2114, code lost:
-        r0 = move-exception;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:1618:0x2115, code lost:
-        r4 = r9;
-        r3 = r59;
-        r1 = r0;
-        r10 = r10;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:167:0x03d9, code lost:
-        r0 = move-exception;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:168:0x03da, code lost:
-        r4 = r79;
-        r1 = r0;
-        r10 = r7;
-        r12 = r12;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:205:0x04c5, code lost:
-        r3 = r12;
-        r10 = r10;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:252:0x05d7, code lost:
-        r0 = move-exception;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:253:0x05d8, code lost:
-        r1 = r0;
-        r10 = r3;
-        r4 = r9;
-        r12 = r12;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:260:0x060f, code lost:
-        if (r5.containsKey("query_id") != false) goto L1425;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:272:0x062f, code lost:
-        if (r5.containsKey("query_id") != false) goto L1425;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:273:0x0631, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:277:0x0629, code lost:
         r19 = r13;
         r20 = r17;
         r4 = r34;
         r3 = r37;
         r38 = '\t';
      */
-    /* JADX WARN: Code restructure failed: missing block: B:898:0x1238, code lost:
-        if (r11.roundVideo == false) goto L552;
+    /* JADX WARN: Code restructure failed: missing block: B:392:0x0859, code lost:
+        r3 = null;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:1041:0x1561 A[Catch: Exception -> 0x1615, TryCatch #33 {Exception -> 0x1615, blocks: (B:1112:0x16d8, B:1114:0x16dc, B:1124:0x171f, B:1126:0x1760, B:1128:0x1766, B:1129:0x1770, B:1160:0x17fa, B:1115:0x16df, B:1117:0x16f0, B:1122:0x1715, B:1123:0x171d, B:1118:0x16ff, B:1120:0x1705, B:1134:0x178e, B:1136:0x1793, B:1144:0x17be, B:1147:0x17d0, B:1149:0x17d6, B:1151:0x17e1, B:1153:0x17eb, B:1155:0x17ef, B:1157:0x17f4, B:1140:0x17a6, B:967:0x13d3, B:969:0x13e0, B:980:0x142b, B:984:0x1442, B:972:0x13ef, B:974:0x140d, B:976:0x1414, B:978:0x141a, B:979:0x1428, B:989:0x1459, B:991:0x1466, B:993:0x146e, B:996:0x147e, B:998:0x1481, B:999:0x1491, B:1000:0x1497, B:1002:0x149b, B:1004:0x14a3, B:1007:0x14b8, B:1011:0x14d1, B:1016:0x1501, B:1021:0x150e, B:1023:0x1517, B:1025:0x1523, B:1027:0x1529, B:1030:0x1538, B:1034:0x1545, B:1038:0x1550, B:1039:0x155b, B:1041:0x1561, B:1052:0x15a5, B:1056:0x15bc, B:1058:0x15c5, B:1060:0x15d1, B:1062:0x15de, B:1042:0x1567, B:1044:0x1583, B:1046:0x158a, B:1048:0x1590, B:1049:0x159e, B:1032:0x1540, B:1070:0x160a, B:1074:0x161e, B:1076:0x1629, B:1078:0x163a, B:1079:0x1653, B:1093:0x1691, B:1097:0x16a2, B:1102:0x16ad, B:1104:0x16b3, B:1106:0x16bd, B:1089:0x1688), top: B:1643:0x117e }] */
-    /* JADX WARN: Removed duplicated region for block: B:1042:0x1567 A[Catch: Exception -> 0x1615, TryCatch #33 {Exception -> 0x1615, blocks: (B:1112:0x16d8, B:1114:0x16dc, B:1124:0x171f, B:1126:0x1760, B:1128:0x1766, B:1129:0x1770, B:1160:0x17fa, B:1115:0x16df, B:1117:0x16f0, B:1122:0x1715, B:1123:0x171d, B:1118:0x16ff, B:1120:0x1705, B:1134:0x178e, B:1136:0x1793, B:1144:0x17be, B:1147:0x17d0, B:1149:0x17d6, B:1151:0x17e1, B:1153:0x17eb, B:1155:0x17ef, B:1157:0x17f4, B:1140:0x17a6, B:967:0x13d3, B:969:0x13e0, B:980:0x142b, B:984:0x1442, B:972:0x13ef, B:974:0x140d, B:976:0x1414, B:978:0x141a, B:979:0x1428, B:989:0x1459, B:991:0x1466, B:993:0x146e, B:996:0x147e, B:998:0x1481, B:999:0x1491, B:1000:0x1497, B:1002:0x149b, B:1004:0x14a3, B:1007:0x14b8, B:1011:0x14d1, B:1016:0x1501, B:1021:0x150e, B:1023:0x1517, B:1025:0x1523, B:1027:0x1529, B:1030:0x1538, B:1034:0x1545, B:1038:0x1550, B:1039:0x155b, B:1041:0x1561, B:1052:0x15a5, B:1056:0x15bc, B:1058:0x15c5, B:1060:0x15d1, B:1062:0x15de, B:1042:0x1567, B:1044:0x1583, B:1046:0x158a, B:1048:0x1590, B:1049:0x159e, B:1032:0x1540, B:1070:0x160a, B:1074:0x161e, B:1076:0x1629, B:1078:0x163a, B:1079:0x1653, B:1093:0x1691, B:1097:0x16a2, B:1102:0x16ad, B:1104:0x16b3, B:1106:0x16bd, B:1089:0x1688), top: B:1643:0x117e }] */
-    /* JADX WARN: Removed duplicated region for block: B:1051:0x15a3  */
-    /* JADX WARN: Removed duplicated region for block: B:1064:0x15e3  */
-    /* JADX WARN: Removed duplicated region for block: B:1232:0x18ec  */
-    /* JADX WARN: Removed duplicated region for block: B:1295:0x1a43 A[Catch: Exception -> 0x1927, TryCatch #16 {Exception -> 0x1927, blocks: (B:1236:0x1912, B:1238:0x191b, B:1245:0x1938, B:1247:0x193e, B:1250:0x194a, B:1252:0x1950, B:1256:0x1967, B:1258:0x196d, B:1262:0x1984, B:1264:0x1988, B:1266:0x19a7, B:1265:0x19a0, B:1275:0x19e0, B:1277:0x19ef, B:1280:0x19f6, B:1282:0x19ff, B:1284:0x1a03, B:1292:0x1a2d, B:1293:0x1a3b, B:1295:0x1a43, B:1297:0x1a4f, B:1298:0x1a5f, B:1299:0x1a62, B:1304:0x1a75, B:1306:0x1aa8, B:1308:0x1abe, B:1310:0x1ac6, B:1312:0x1ad1, B:1316:0x1ad9, B:1318:0x1ae6, B:1320:0x1aec, B:1311:0x1acd, B:1285:0x1a08, B:1286:0x1a10, B:1288:0x1a1d, B:1290:0x1a21, B:1291:0x1a26, B:1325:0x1b05, B:1334:0x1b44, B:1338:0x1b5c, B:1340:0x1b73, B:1342:0x1b96, B:1341:0x1b88), top: B:1664:0x1912 }] */
-    /* JADX WARN: Removed duplicated region for block: B:1320:0x1aec A[Catch: Exception -> 0x1927, TryCatch #16 {Exception -> 0x1927, blocks: (B:1236:0x1912, B:1238:0x191b, B:1245:0x1938, B:1247:0x193e, B:1250:0x194a, B:1252:0x1950, B:1256:0x1967, B:1258:0x196d, B:1262:0x1984, B:1264:0x1988, B:1266:0x19a7, B:1265:0x19a0, B:1275:0x19e0, B:1277:0x19ef, B:1280:0x19f6, B:1282:0x19ff, B:1284:0x1a03, B:1292:0x1a2d, B:1293:0x1a3b, B:1295:0x1a43, B:1297:0x1a4f, B:1298:0x1a5f, B:1299:0x1a62, B:1304:0x1a75, B:1306:0x1aa8, B:1308:0x1abe, B:1310:0x1ac6, B:1312:0x1ad1, B:1316:0x1ad9, B:1318:0x1ae6, B:1320:0x1aec, B:1311:0x1acd, B:1285:0x1a08, B:1286:0x1a10, B:1288:0x1a1d, B:1290:0x1a21, B:1291:0x1a26, B:1325:0x1b05, B:1334:0x1b44, B:1338:0x1b5c, B:1340:0x1b73, B:1342:0x1b96, B:1341:0x1b88), top: B:1664:0x1912 }] */
-    /* JADX WARN: Removed duplicated region for block: B:1424:0x1e07  */
-    /* JADX WARN: Removed duplicated region for block: B:1425:0x1e09  */
-    /* JADX WARN: Removed duplicated region for block: B:1442:0x1e42 A[Catch: Exception -> 0x1ea6, TRY_ENTER, TRY_LEAVE, TryCatch #18 {Exception -> 0x1ea6, blocks: (B:1442:0x1e42, B:1447:0x1e50, B:1446:0x1e49, B:1402:0x1d42, B:1409:0x1d85, B:1429:0x1e10, B:1436:0x1e25, B:1408:0x1d7b), top: B:1667:0x1d42 }] */
-    /* JADX WARN: Removed duplicated region for block: B:1457:0x1e87  */
-    /* JADX WARN: Removed duplicated region for block: B:1459:0x1e8b A[Catch: Exception -> 0x1ea1, TryCatch #21 {Exception -> 0x1ea1, blocks: (B:1449:0x1e59, B:1456:0x1e7c, B:1459:0x1e8b, B:1461:0x1e91, B:1463:0x1e9b), top: B:1674:0x1e59 }] */
-    /* JADX WARN: Removed duplicated region for block: B:1475:0x1ec3  */
-    /* JADX WARN: Removed duplicated region for block: B:149:0x0388  */
-    /* JADX WARN: Removed duplicated region for block: B:1583:0x2068  */
-    /* JADX WARN: Removed duplicated region for block: B:1630:0x2136  */
-    /* JADX WARN: Removed duplicated region for block: B:1631:0x2138  */
-    /* JADX WARN: Removed duplicated region for block: B:1634:0x213e  */
-    /* JADX WARN: Removed duplicated region for block: B:1637:0x08da A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1652:0x08fb A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1694:0x0e40 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1704:0x016c A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1720:0x1a62 A[EDGE_INSN: B:1720:0x1a62->B:1299:0x1a62 ?: BREAK  , SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:412:0x08f8 A[Catch: Exception -> 0x08ed, TRY_LEAVE, TryCatch #0 {Exception -> 0x08ed, blocks: (B:405:0x08da, B:407:0x08e0, B:412:0x08f8, B:419:0x0905, B:423:0x091a, B:426:0x0938, B:416:0x08ff), top: B:1637:0x08da }] */
-    /* JADX WARN: Removed duplicated region for block: B:419:0x0905 A[Catch: Exception -> 0x08ed, TRY_ENTER, TRY_LEAVE, TryCatch #0 {Exception -> 0x08ed, blocks: (B:405:0x08da, B:407:0x08e0, B:412:0x08f8, B:419:0x0905, B:423:0x091a, B:426:0x0938, B:416:0x08ff), top: B:1637:0x08da }] */
-    /* JADX WARN: Removed duplicated region for block: B:422:0x0918 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:426:0x0938 A[Catch: Exception -> 0x08ed, TRY_LEAVE, TryCatch #0 {Exception -> 0x08ed, blocks: (B:405:0x08da, B:407:0x08e0, B:412:0x08f8, B:419:0x0905, B:423:0x091a, B:426:0x0938, B:416:0x08ff), top: B:1637:0x08da }] */
-    /* JADX WARN: Removed duplicated region for block: B:428:0x093f A[Catch: Exception -> 0x211c, TRY_ENTER, TryCatch #9 {Exception -> 0x211c, blocks: (B:417:0x0901, B:420:0x0907, B:429:0x0950, B:428:0x093f, B:414:0x08fb), top: B:1652:0x08fb }] */
-    /* JADX WARN: Removed duplicated region for block: B:434:0x0980  */
-    /* JADX WARN: Removed duplicated region for block: B:443:0x09af  */
-    /* JADX WARN: Removed duplicated region for block: B:448:0x09bf A[Catch: Exception -> 0x09a8, TRY_ENTER, TRY_LEAVE, TryCatch #15 {Exception -> 0x09a8, blocks: (B:435:0x0982, B:448:0x09bf, B:451:0x09cb, B:454:0x09d3, B:456:0x09dd, B:459:0x09f4, B:465:0x0a03, B:492:0x0a71, B:534:0x0b80, B:537:0x0b9f, B:539:0x0bb1, B:542:0x0bbd, B:544:0x0bcd, B:546:0x0bdb, B:548:0x0be1, B:550:0x0be5, B:598:0x0c9a, B:600:0x0c9e, B:602:0x0ca8, B:604:0x0cb4, B:606:0x0cbd, B:608:0x0cc3, B:613:0x0cdc, B:615:0x0ce2, B:617:0x0ce8, B:619:0x0cf0, B:621:0x0cf4, B:623:0x0cfe, B:626:0x0d0d, B:631:0x0d31, B:633:0x0d3b, B:644:0x0d66, B:647:0x0d74, B:649:0x0d78, B:651:0x0d7c, B:652:0x0d86, B:654:0x0d8c, B:655:0x0da6, B:657:0x0dac, B:662:0x0dc8, B:668:0x0dd5, B:672:0x0dde, B:674:0x0de8, B:676:0x0dfc, B:683:0x0e0d, B:641:0x0d57, B:605:0x0cb9, B:555:0x0bf9, B:560:0x0c04, B:570:0x0c1f, B:572:0x0c25, B:575:0x0c2c, B:577:0x0c38, B:579:0x0c48, B:582:0x0c50, B:580:0x0c4c, B:583:0x0c5b, B:585:0x0c61, B:588:0x0c68, B:590:0x0c74, B:592:0x0c84, B:595:0x0c8c, B:593:0x0c88, B:565:0x0c0f, B:567:0x0c13, B:498:0x0a9d, B:504:0x0ab4, B:506:0x0abd, B:508:0x0ac7, B:511:0x0ada, B:514:0x0aea, B:516:0x0af1, B:518:0x0b05, B:523:0x0b20, B:525:0x0b32, B:527:0x0b53, B:529:0x0b59, B:519:0x0b0e, B:521:0x0b12, B:510:0x0ad3, B:478:0x0a27, B:479:0x0a2f, B:481:0x0a43, B:483:0x0a47, B:484:0x0a4b, B:486:0x0a52, B:458:0x09e2), top: B:1663:0x0982 }] */
-    /* JADX WARN: Removed duplicated region for block: B:451:0x09cb A[Catch: Exception -> 0x09a8, TRY_ENTER, TryCatch #15 {Exception -> 0x09a8, blocks: (B:435:0x0982, B:448:0x09bf, B:451:0x09cb, B:454:0x09d3, B:456:0x09dd, B:459:0x09f4, B:465:0x0a03, B:492:0x0a71, B:534:0x0b80, B:537:0x0b9f, B:539:0x0bb1, B:542:0x0bbd, B:544:0x0bcd, B:546:0x0bdb, B:548:0x0be1, B:550:0x0be5, B:598:0x0c9a, B:600:0x0c9e, B:602:0x0ca8, B:604:0x0cb4, B:606:0x0cbd, B:608:0x0cc3, B:613:0x0cdc, B:615:0x0ce2, B:617:0x0ce8, B:619:0x0cf0, B:621:0x0cf4, B:623:0x0cfe, B:626:0x0d0d, B:631:0x0d31, B:633:0x0d3b, B:644:0x0d66, B:647:0x0d74, B:649:0x0d78, B:651:0x0d7c, B:652:0x0d86, B:654:0x0d8c, B:655:0x0da6, B:657:0x0dac, B:662:0x0dc8, B:668:0x0dd5, B:672:0x0dde, B:674:0x0de8, B:676:0x0dfc, B:683:0x0e0d, B:641:0x0d57, B:605:0x0cb9, B:555:0x0bf9, B:560:0x0c04, B:570:0x0c1f, B:572:0x0c25, B:575:0x0c2c, B:577:0x0c38, B:579:0x0c48, B:582:0x0c50, B:580:0x0c4c, B:583:0x0c5b, B:585:0x0c61, B:588:0x0c68, B:590:0x0c74, B:592:0x0c84, B:595:0x0c8c, B:593:0x0c88, B:565:0x0c0f, B:567:0x0c13, B:498:0x0a9d, B:504:0x0ab4, B:506:0x0abd, B:508:0x0ac7, B:511:0x0ada, B:514:0x0aea, B:516:0x0af1, B:518:0x0b05, B:523:0x0b20, B:525:0x0b32, B:527:0x0b53, B:529:0x0b59, B:519:0x0b0e, B:521:0x0b12, B:510:0x0ad3, B:478:0x0a27, B:479:0x0a2f, B:481:0x0a43, B:483:0x0a47, B:484:0x0a4b, B:486:0x0a52, B:458:0x09e2), top: B:1663:0x0982 }] */
-    /* JADX WARN: Removed duplicated region for block: B:464:0x0a01  */
-    /* JADX WARN: Removed duplicated region for block: B:469:0x0a0d  */
-    /* JADX WARN: Removed duplicated region for block: B:471:0x0a11  */
-    /* JADX WARN: Removed duplicated region for block: B:472:0x0a14 A[Catch: Exception -> 0x2114, TRY_ENTER, TryCatch #34 {Exception -> 0x2114, blocks: (B:445:0x09b6, B:462:0x09fd, B:490:0x0a63, B:540:0x0bb7, B:660:0x0dc2, B:666:0x0dd1, B:670:0x0dda, B:689:0x0e1b, B:665:0x0dcf, B:552:0x0bec, B:568:0x0c1b, B:563:0x0c09, B:557:0x0bfe, B:473:0x0a1c, B:489:0x0a61, B:472:0x0a14), top: B:1697:0x09b6 }] */
-    /* JADX WARN: Removed duplicated region for block: B:475:0x0a22  */
-    /* JADX WARN: Removed duplicated region for block: B:488:0x0a5c  */
-    /* JADX WARN: Removed duplicated region for block: B:492:0x0a71 A[Catch: Exception -> 0x09a8, TRY_ENTER, TryCatch #15 {Exception -> 0x09a8, blocks: (B:435:0x0982, B:448:0x09bf, B:451:0x09cb, B:454:0x09d3, B:456:0x09dd, B:459:0x09f4, B:465:0x0a03, B:492:0x0a71, B:534:0x0b80, B:537:0x0b9f, B:539:0x0bb1, B:542:0x0bbd, B:544:0x0bcd, B:546:0x0bdb, B:548:0x0be1, B:550:0x0be5, B:598:0x0c9a, B:600:0x0c9e, B:602:0x0ca8, B:604:0x0cb4, B:606:0x0cbd, B:608:0x0cc3, B:613:0x0cdc, B:615:0x0ce2, B:617:0x0ce8, B:619:0x0cf0, B:621:0x0cf4, B:623:0x0cfe, B:626:0x0d0d, B:631:0x0d31, B:633:0x0d3b, B:644:0x0d66, B:647:0x0d74, B:649:0x0d78, B:651:0x0d7c, B:652:0x0d86, B:654:0x0d8c, B:655:0x0da6, B:657:0x0dac, B:662:0x0dc8, B:668:0x0dd5, B:672:0x0dde, B:674:0x0de8, B:676:0x0dfc, B:683:0x0e0d, B:641:0x0d57, B:605:0x0cb9, B:555:0x0bf9, B:560:0x0c04, B:570:0x0c1f, B:572:0x0c25, B:575:0x0c2c, B:577:0x0c38, B:579:0x0c48, B:582:0x0c50, B:580:0x0c4c, B:583:0x0c5b, B:585:0x0c61, B:588:0x0c68, B:590:0x0c74, B:592:0x0c84, B:595:0x0c8c, B:593:0x0c88, B:565:0x0c0f, B:567:0x0c13, B:498:0x0a9d, B:504:0x0ab4, B:506:0x0abd, B:508:0x0ac7, B:511:0x0ada, B:514:0x0aea, B:516:0x0af1, B:518:0x0b05, B:523:0x0b20, B:525:0x0b32, B:527:0x0b53, B:529:0x0b59, B:519:0x0b0e, B:521:0x0b12, B:510:0x0ad3, B:478:0x0a27, B:479:0x0a2f, B:481:0x0a43, B:483:0x0a47, B:484:0x0a4b, B:486:0x0a52, B:458:0x09e2), top: B:1663:0x0982 }] */
-    /* JADX WARN: Removed duplicated region for block: B:493:0x0a8f  */
-    /* JADX WARN: Removed duplicated region for block: B:521:0x0b12 A[Catch: Exception -> 0x09a8, TryCatch #15 {Exception -> 0x09a8, blocks: (B:435:0x0982, B:448:0x09bf, B:451:0x09cb, B:454:0x09d3, B:456:0x09dd, B:459:0x09f4, B:465:0x0a03, B:492:0x0a71, B:534:0x0b80, B:537:0x0b9f, B:539:0x0bb1, B:542:0x0bbd, B:544:0x0bcd, B:546:0x0bdb, B:548:0x0be1, B:550:0x0be5, B:598:0x0c9a, B:600:0x0c9e, B:602:0x0ca8, B:604:0x0cb4, B:606:0x0cbd, B:608:0x0cc3, B:613:0x0cdc, B:615:0x0ce2, B:617:0x0ce8, B:619:0x0cf0, B:621:0x0cf4, B:623:0x0cfe, B:626:0x0d0d, B:631:0x0d31, B:633:0x0d3b, B:644:0x0d66, B:647:0x0d74, B:649:0x0d78, B:651:0x0d7c, B:652:0x0d86, B:654:0x0d8c, B:655:0x0da6, B:657:0x0dac, B:662:0x0dc8, B:668:0x0dd5, B:672:0x0dde, B:674:0x0de8, B:676:0x0dfc, B:683:0x0e0d, B:641:0x0d57, B:605:0x0cb9, B:555:0x0bf9, B:560:0x0c04, B:570:0x0c1f, B:572:0x0c25, B:575:0x0c2c, B:577:0x0c38, B:579:0x0c48, B:582:0x0c50, B:580:0x0c4c, B:583:0x0c5b, B:585:0x0c61, B:588:0x0c68, B:590:0x0c74, B:592:0x0c84, B:595:0x0c8c, B:593:0x0c88, B:565:0x0c0f, B:567:0x0c13, B:498:0x0a9d, B:504:0x0ab4, B:506:0x0abd, B:508:0x0ac7, B:511:0x0ada, B:514:0x0aea, B:516:0x0af1, B:518:0x0b05, B:523:0x0b20, B:525:0x0b32, B:527:0x0b53, B:529:0x0b59, B:519:0x0b0e, B:521:0x0b12, B:510:0x0ad3, B:478:0x0a27, B:479:0x0a2f, B:481:0x0a43, B:483:0x0a47, B:484:0x0a4b, B:486:0x0a52, B:458:0x09e2), top: B:1663:0x0982 }] */
-    /* JADX WARN: Removed duplicated region for block: B:523:0x0b20 A[Catch: Exception -> 0x09a8, TryCatch #15 {Exception -> 0x09a8, blocks: (B:435:0x0982, B:448:0x09bf, B:451:0x09cb, B:454:0x09d3, B:456:0x09dd, B:459:0x09f4, B:465:0x0a03, B:492:0x0a71, B:534:0x0b80, B:537:0x0b9f, B:539:0x0bb1, B:542:0x0bbd, B:544:0x0bcd, B:546:0x0bdb, B:548:0x0be1, B:550:0x0be5, B:598:0x0c9a, B:600:0x0c9e, B:602:0x0ca8, B:604:0x0cb4, B:606:0x0cbd, B:608:0x0cc3, B:613:0x0cdc, B:615:0x0ce2, B:617:0x0ce8, B:619:0x0cf0, B:621:0x0cf4, B:623:0x0cfe, B:626:0x0d0d, B:631:0x0d31, B:633:0x0d3b, B:644:0x0d66, B:647:0x0d74, B:649:0x0d78, B:651:0x0d7c, B:652:0x0d86, B:654:0x0d8c, B:655:0x0da6, B:657:0x0dac, B:662:0x0dc8, B:668:0x0dd5, B:672:0x0dde, B:674:0x0de8, B:676:0x0dfc, B:683:0x0e0d, B:641:0x0d57, B:605:0x0cb9, B:555:0x0bf9, B:560:0x0c04, B:570:0x0c1f, B:572:0x0c25, B:575:0x0c2c, B:577:0x0c38, B:579:0x0c48, B:582:0x0c50, B:580:0x0c4c, B:583:0x0c5b, B:585:0x0c61, B:588:0x0c68, B:590:0x0c74, B:592:0x0c84, B:595:0x0c8c, B:593:0x0c88, B:565:0x0c0f, B:567:0x0c13, B:498:0x0a9d, B:504:0x0ab4, B:506:0x0abd, B:508:0x0ac7, B:511:0x0ada, B:514:0x0aea, B:516:0x0af1, B:518:0x0b05, B:523:0x0b20, B:525:0x0b32, B:527:0x0b53, B:529:0x0b59, B:519:0x0b0e, B:521:0x0b12, B:510:0x0ad3, B:478:0x0a27, B:479:0x0a2f, B:481:0x0a43, B:483:0x0a47, B:484:0x0a4b, B:486:0x0a52, B:458:0x09e2), top: B:1663:0x0982 }] */
-    /* JADX WARN: Removed duplicated region for block: B:534:0x0b80 A[Catch: Exception -> 0x09a8, TryCatch #15 {Exception -> 0x09a8, blocks: (B:435:0x0982, B:448:0x09bf, B:451:0x09cb, B:454:0x09d3, B:456:0x09dd, B:459:0x09f4, B:465:0x0a03, B:492:0x0a71, B:534:0x0b80, B:537:0x0b9f, B:539:0x0bb1, B:542:0x0bbd, B:544:0x0bcd, B:546:0x0bdb, B:548:0x0be1, B:550:0x0be5, B:598:0x0c9a, B:600:0x0c9e, B:602:0x0ca8, B:604:0x0cb4, B:606:0x0cbd, B:608:0x0cc3, B:613:0x0cdc, B:615:0x0ce2, B:617:0x0ce8, B:619:0x0cf0, B:621:0x0cf4, B:623:0x0cfe, B:626:0x0d0d, B:631:0x0d31, B:633:0x0d3b, B:644:0x0d66, B:647:0x0d74, B:649:0x0d78, B:651:0x0d7c, B:652:0x0d86, B:654:0x0d8c, B:655:0x0da6, B:657:0x0dac, B:662:0x0dc8, B:668:0x0dd5, B:672:0x0dde, B:674:0x0de8, B:676:0x0dfc, B:683:0x0e0d, B:641:0x0d57, B:605:0x0cb9, B:555:0x0bf9, B:560:0x0c04, B:570:0x0c1f, B:572:0x0c25, B:575:0x0c2c, B:577:0x0c38, B:579:0x0c48, B:582:0x0c50, B:580:0x0c4c, B:583:0x0c5b, B:585:0x0c61, B:588:0x0c68, B:590:0x0c74, B:592:0x0c84, B:595:0x0c8c, B:593:0x0c88, B:565:0x0c0f, B:567:0x0c13, B:498:0x0a9d, B:504:0x0ab4, B:506:0x0abd, B:508:0x0ac7, B:511:0x0ada, B:514:0x0aea, B:516:0x0af1, B:518:0x0b05, B:523:0x0b20, B:525:0x0b32, B:527:0x0b53, B:529:0x0b59, B:519:0x0b0e, B:521:0x0b12, B:510:0x0ad3, B:478:0x0a27, B:479:0x0a2f, B:481:0x0a43, B:483:0x0a47, B:484:0x0a4b, B:486:0x0a52, B:458:0x09e2), top: B:1663:0x0982 }] */
-    /* JADX WARN: Removed duplicated region for block: B:536:0x0b9d A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:539:0x0bb1 A[Catch: Exception -> 0x09a8, TRY_LEAVE, TryCatch #15 {Exception -> 0x09a8, blocks: (B:435:0x0982, B:448:0x09bf, B:451:0x09cb, B:454:0x09d3, B:456:0x09dd, B:459:0x09f4, B:465:0x0a03, B:492:0x0a71, B:534:0x0b80, B:537:0x0b9f, B:539:0x0bb1, B:542:0x0bbd, B:544:0x0bcd, B:546:0x0bdb, B:548:0x0be1, B:550:0x0be5, B:598:0x0c9a, B:600:0x0c9e, B:602:0x0ca8, B:604:0x0cb4, B:606:0x0cbd, B:608:0x0cc3, B:613:0x0cdc, B:615:0x0ce2, B:617:0x0ce8, B:619:0x0cf0, B:621:0x0cf4, B:623:0x0cfe, B:626:0x0d0d, B:631:0x0d31, B:633:0x0d3b, B:644:0x0d66, B:647:0x0d74, B:649:0x0d78, B:651:0x0d7c, B:652:0x0d86, B:654:0x0d8c, B:655:0x0da6, B:657:0x0dac, B:662:0x0dc8, B:668:0x0dd5, B:672:0x0dde, B:674:0x0de8, B:676:0x0dfc, B:683:0x0e0d, B:641:0x0d57, B:605:0x0cb9, B:555:0x0bf9, B:560:0x0c04, B:570:0x0c1f, B:572:0x0c25, B:575:0x0c2c, B:577:0x0c38, B:579:0x0c48, B:582:0x0c50, B:580:0x0c4c, B:583:0x0c5b, B:585:0x0c61, B:588:0x0c68, B:590:0x0c74, B:592:0x0c84, B:595:0x0c8c, B:593:0x0c88, B:565:0x0c0f, B:567:0x0c13, B:498:0x0a9d, B:504:0x0ab4, B:506:0x0abd, B:508:0x0ac7, B:511:0x0ada, B:514:0x0aea, B:516:0x0af1, B:518:0x0b05, B:523:0x0b20, B:525:0x0b32, B:527:0x0b53, B:529:0x0b59, B:519:0x0b0e, B:521:0x0b12, B:510:0x0ad3, B:478:0x0a27, B:479:0x0a2f, B:481:0x0a43, B:483:0x0a47, B:484:0x0a4b, B:486:0x0a52, B:458:0x09e2), top: B:1663:0x0982 }] */
-    /* JADX WARN: Removed duplicated region for block: B:542:0x0bbd A[Catch: Exception -> 0x09a8, TRY_ENTER, TryCatch #15 {Exception -> 0x09a8, blocks: (B:435:0x0982, B:448:0x09bf, B:451:0x09cb, B:454:0x09d3, B:456:0x09dd, B:459:0x09f4, B:465:0x0a03, B:492:0x0a71, B:534:0x0b80, B:537:0x0b9f, B:539:0x0bb1, B:542:0x0bbd, B:544:0x0bcd, B:546:0x0bdb, B:548:0x0be1, B:550:0x0be5, B:598:0x0c9a, B:600:0x0c9e, B:602:0x0ca8, B:604:0x0cb4, B:606:0x0cbd, B:608:0x0cc3, B:613:0x0cdc, B:615:0x0ce2, B:617:0x0ce8, B:619:0x0cf0, B:621:0x0cf4, B:623:0x0cfe, B:626:0x0d0d, B:631:0x0d31, B:633:0x0d3b, B:644:0x0d66, B:647:0x0d74, B:649:0x0d78, B:651:0x0d7c, B:652:0x0d86, B:654:0x0d8c, B:655:0x0da6, B:657:0x0dac, B:662:0x0dc8, B:668:0x0dd5, B:672:0x0dde, B:674:0x0de8, B:676:0x0dfc, B:683:0x0e0d, B:641:0x0d57, B:605:0x0cb9, B:555:0x0bf9, B:560:0x0c04, B:570:0x0c1f, B:572:0x0c25, B:575:0x0c2c, B:577:0x0c38, B:579:0x0c48, B:582:0x0c50, B:580:0x0c4c, B:583:0x0c5b, B:585:0x0c61, B:588:0x0c68, B:590:0x0c74, B:592:0x0c84, B:595:0x0c8c, B:593:0x0c88, B:565:0x0c0f, B:567:0x0c13, B:498:0x0a9d, B:504:0x0ab4, B:506:0x0abd, B:508:0x0ac7, B:511:0x0ada, B:514:0x0aea, B:516:0x0af1, B:518:0x0b05, B:523:0x0b20, B:525:0x0b32, B:527:0x0b53, B:529:0x0b59, B:519:0x0b0e, B:521:0x0b12, B:510:0x0ad3, B:478:0x0a27, B:479:0x0a2f, B:481:0x0a43, B:483:0x0a47, B:484:0x0a4b, B:486:0x0a52, B:458:0x09e2), top: B:1663:0x0982 }] */
-    /* JADX WARN: Removed duplicated region for block: B:552:0x0bec A[Catch: Exception -> 0x2114, TRY_ENTER, TRY_LEAVE, TryCatch #34 {Exception -> 0x2114, blocks: (B:445:0x09b6, B:462:0x09fd, B:490:0x0a63, B:540:0x0bb7, B:660:0x0dc2, B:666:0x0dd1, B:670:0x0dda, B:689:0x0e1b, B:665:0x0dcf, B:552:0x0bec, B:568:0x0c1b, B:563:0x0c09, B:557:0x0bfe, B:473:0x0a1c, B:489:0x0a61, B:472:0x0a14), top: B:1697:0x09b6 }] */
-    /* JADX WARN: Removed duplicated region for block: B:597:0x0c98 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:628:0x0d2c  */
-    /* JADX WARN: Removed duplicated region for block: B:629:0x0d2e  */
-    /* JADX WARN: Removed duplicated region for block: B:631:0x0d31 A[Catch: Exception -> 0x09a8, TryCatch #15 {Exception -> 0x09a8, blocks: (B:435:0x0982, B:448:0x09bf, B:451:0x09cb, B:454:0x09d3, B:456:0x09dd, B:459:0x09f4, B:465:0x0a03, B:492:0x0a71, B:534:0x0b80, B:537:0x0b9f, B:539:0x0bb1, B:542:0x0bbd, B:544:0x0bcd, B:546:0x0bdb, B:548:0x0be1, B:550:0x0be5, B:598:0x0c9a, B:600:0x0c9e, B:602:0x0ca8, B:604:0x0cb4, B:606:0x0cbd, B:608:0x0cc3, B:613:0x0cdc, B:615:0x0ce2, B:617:0x0ce8, B:619:0x0cf0, B:621:0x0cf4, B:623:0x0cfe, B:626:0x0d0d, B:631:0x0d31, B:633:0x0d3b, B:644:0x0d66, B:647:0x0d74, B:649:0x0d78, B:651:0x0d7c, B:652:0x0d86, B:654:0x0d8c, B:655:0x0da6, B:657:0x0dac, B:662:0x0dc8, B:668:0x0dd5, B:672:0x0dde, B:674:0x0de8, B:676:0x0dfc, B:683:0x0e0d, B:641:0x0d57, B:605:0x0cb9, B:555:0x0bf9, B:560:0x0c04, B:570:0x0c1f, B:572:0x0c25, B:575:0x0c2c, B:577:0x0c38, B:579:0x0c48, B:582:0x0c50, B:580:0x0c4c, B:583:0x0c5b, B:585:0x0c61, B:588:0x0c68, B:590:0x0c74, B:592:0x0c84, B:595:0x0c8c, B:593:0x0c88, B:565:0x0c0f, B:567:0x0c13, B:498:0x0a9d, B:504:0x0ab4, B:506:0x0abd, B:508:0x0ac7, B:511:0x0ada, B:514:0x0aea, B:516:0x0af1, B:518:0x0b05, B:523:0x0b20, B:525:0x0b32, B:527:0x0b53, B:529:0x0b59, B:519:0x0b0e, B:521:0x0b12, B:510:0x0ad3, B:478:0x0a27, B:479:0x0a2f, B:481:0x0a43, B:483:0x0a47, B:484:0x0a4b, B:486:0x0a52, B:458:0x09e2), top: B:1663:0x0982 }] */
-    /* JADX WARN: Removed duplicated region for block: B:638:0x0d52 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:643:0x0d64  */
-    /* JADX WARN: Removed duplicated region for block: B:662:0x0dc8 A[Catch: Exception -> 0x09a8, TRY_ENTER, TRY_LEAVE, TryCatch #15 {Exception -> 0x09a8, blocks: (B:435:0x0982, B:448:0x09bf, B:451:0x09cb, B:454:0x09d3, B:456:0x09dd, B:459:0x09f4, B:465:0x0a03, B:492:0x0a71, B:534:0x0b80, B:537:0x0b9f, B:539:0x0bb1, B:542:0x0bbd, B:544:0x0bcd, B:546:0x0bdb, B:548:0x0be1, B:550:0x0be5, B:598:0x0c9a, B:600:0x0c9e, B:602:0x0ca8, B:604:0x0cb4, B:606:0x0cbd, B:608:0x0cc3, B:613:0x0cdc, B:615:0x0ce2, B:617:0x0ce8, B:619:0x0cf0, B:621:0x0cf4, B:623:0x0cfe, B:626:0x0d0d, B:631:0x0d31, B:633:0x0d3b, B:644:0x0d66, B:647:0x0d74, B:649:0x0d78, B:651:0x0d7c, B:652:0x0d86, B:654:0x0d8c, B:655:0x0da6, B:657:0x0dac, B:662:0x0dc8, B:668:0x0dd5, B:672:0x0dde, B:674:0x0de8, B:676:0x0dfc, B:683:0x0e0d, B:641:0x0d57, B:605:0x0cb9, B:555:0x0bf9, B:560:0x0c04, B:570:0x0c1f, B:572:0x0c25, B:575:0x0c2c, B:577:0x0c38, B:579:0x0c48, B:582:0x0c50, B:580:0x0c4c, B:583:0x0c5b, B:585:0x0c61, B:588:0x0c68, B:590:0x0c74, B:592:0x0c84, B:595:0x0c8c, B:593:0x0c88, B:565:0x0c0f, B:567:0x0c13, B:498:0x0a9d, B:504:0x0ab4, B:506:0x0abd, B:508:0x0ac7, B:511:0x0ada, B:514:0x0aea, B:516:0x0af1, B:518:0x0b05, B:523:0x0b20, B:525:0x0b32, B:527:0x0b53, B:529:0x0b59, B:519:0x0b0e, B:521:0x0b12, B:510:0x0ad3, B:478:0x0a27, B:479:0x0a2f, B:481:0x0a43, B:483:0x0a47, B:484:0x0a4b, B:486:0x0a52, B:458:0x09e2), top: B:1663:0x0982 }] */
-    /* JADX WARN: Removed duplicated region for block: B:668:0x0dd5 A[Catch: Exception -> 0x09a8, TRY_ENTER, TRY_LEAVE, TryCatch #15 {Exception -> 0x09a8, blocks: (B:435:0x0982, B:448:0x09bf, B:451:0x09cb, B:454:0x09d3, B:456:0x09dd, B:459:0x09f4, B:465:0x0a03, B:492:0x0a71, B:534:0x0b80, B:537:0x0b9f, B:539:0x0bb1, B:542:0x0bbd, B:544:0x0bcd, B:546:0x0bdb, B:548:0x0be1, B:550:0x0be5, B:598:0x0c9a, B:600:0x0c9e, B:602:0x0ca8, B:604:0x0cb4, B:606:0x0cbd, B:608:0x0cc3, B:613:0x0cdc, B:615:0x0ce2, B:617:0x0ce8, B:619:0x0cf0, B:621:0x0cf4, B:623:0x0cfe, B:626:0x0d0d, B:631:0x0d31, B:633:0x0d3b, B:644:0x0d66, B:647:0x0d74, B:649:0x0d78, B:651:0x0d7c, B:652:0x0d86, B:654:0x0d8c, B:655:0x0da6, B:657:0x0dac, B:662:0x0dc8, B:668:0x0dd5, B:672:0x0dde, B:674:0x0de8, B:676:0x0dfc, B:683:0x0e0d, B:641:0x0d57, B:605:0x0cb9, B:555:0x0bf9, B:560:0x0c04, B:570:0x0c1f, B:572:0x0c25, B:575:0x0c2c, B:577:0x0c38, B:579:0x0c48, B:582:0x0c50, B:580:0x0c4c, B:583:0x0c5b, B:585:0x0c61, B:588:0x0c68, B:590:0x0c74, B:592:0x0c84, B:595:0x0c8c, B:593:0x0c88, B:565:0x0c0f, B:567:0x0c13, B:498:0x0a9d, B:504:0x0ab4, B:506:0x0abd, B:508:0x0ac7, B:511:0x0ada, B:514:0x0aea, B:516:0x0af1, B:518:0x0b05, B:523:0x0b20, B:525:0x0b32, B:527:0x0b53, B:529:0x0b59, B:519:0x0b0e, B:521:0x0b12, B:510:0x0ad3, B:478:0x0a27, B:479:0x0a2f, B:481:0x0a43, B:483:0x0a47, B:484:0x0a4b, B:486:0x0a52, B:458:0x09e2), top: B:1663:0x0982 }] */
-    /* JADX WARN: Removed duplicated region for block: B:672:0x0dde A[Catch: Exception -> 0x09a8, TRY_ENTER, TryCatch #15 {Exception -> 0x09a8, blocks: (B:435:0x0982, B:448:0x09bf, B:451:0x09cb, B:454:0x09d3, B:456:0x09dd, B:459:0x09f4, B:465:0x0a03, B:492:0x0a71, B:534:0x0b80, B:537:0x0b9f, B:539:0x0bb1, B:542:0x0bbd, B:544:0x0bcd, B:546:0x0bdb, B:548:0x0be1, B:550:0x0be5, B:598:0x0c9a, B:600:0x0c9e, B:602:0x0ca8, B:604:0x0cb4, B:606:0x0cbd, B:608:0x0cc3, B:613:0x0cdc, B:615:0x0ce2, B:617:0x0ce8, B:619:0x0cf0, B:621:0x0cf4, B:623:0x0cfe, B:626:0x0d0d, B:631:0x0d31, B:633:0x0d3b, B:644:0x0d66, B:647:0x0d74, B:649:0x0d78, B:651:0x0d7c, B:652:0x0d86, B:654:0x0d8c, B:655:0x0da6, B:657:0x0dac, B:662:0x0dc8, B:668:0x0dd5, B:672:0x0dde, B:674:0x0de8, B:676:0x0dfc, B:683:0x0e0d, B:641:0x0d57, B:605:0x0cb9, B:555:0x0bf9, B:560:0x0c04, B:570:0x0c1f, B:572:0x0c25, B:575:0x0c2c, B:577:0x0c38, B:579:0x0c48, B:582:0x0c50, B:580:0x0c4c, B:583:0x0c5b, B:585:0x0c61, B:588:0x0c68, B:590:0x0c74, B:592:0x0c84, B:595:0x0c8c, B:593:0x0c88, B:565:0x0c0f, B:567:0x0c13, B:498:0x0a9d, B:504:0x0ab4, B:506:0x0abd, B:508:0x0ac7, B:511:0x0ada, B:514:0x0aea, B:516:0x0af1, B:518:0x0b05, B:523:0x0b20, B:525:0x0b32, B:527:0x0b53, B:529:0x0b59, B:519:0x0b0e, B:521:0x0b12, B:510:0x0ad3, B:478:0x0a27, B:479:0x0a2f, B:481:0x0a43, B:483:0x0a47, B:484:0x0a4b, B:486:0x0a52, B:458:0x09e2), top: B:1663:0x0982 }] */
-    /* JADX WARN: Removed duplicated region for block: B:679:0x0e06  */
-    /* JADX WARN: Removed duplicated region for block: B:682:0x0e0b A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:693:0x0e35  */
-    /* JADX WARN: Removed duplicated region for block: B:694:0x0e37  */
-    /* JADX WARN: Removed duplicated region for block: B:711:0x0e61 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:714:0x0e66  */
-    /* JADX WARN: Removed duplicated region for block: B:718:0x0e6f  */
-    /* JADX WARN: Removed duplicated region for block: B:722:0x0e76 A[Catch: Exception -> 0x0e56, TryCatch #32 {Exception -> 0x0e56, blocks: (B:697:0x0e40, B:702:0x0e4a, B:704:0x0e52, B:722:0x0e76, B:726:0x0e9b, B:730:0x0ead, B:732:0x0eb2, B:756:0x0f1b, B:786:0x0fc6, B:788:0x0fd7, B:790:0x0fe5, B:792:0x0fed, B:794:0x1014, B:796:0x1027, B:799:0x1046, B:801:0x1057, B:797:0x1037, B:798:0x103f, B:800:0x1050, B:740:0x0ee7, B:743:0x0ef3, B:747:0x0f02, B:752:0x0f11, B:715:0x0e68, B:717:0x0e6c), top: B:1694:0x0e40 }] */
-    /* JADX WARN: Removed duplicated region for block: B:736:0x0ec9  */
-    /* JADX WARN: Removed duplicated region for block: B:755:0x0f19 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:759:0x0f8e  */
-    /* JADX WARN: Removed duplicated region for block: B:766:0x0f9d  */
-    /* JADX WARN: Removed duplicated region for block: B:786:0x0fc6 A[Catch: Exception -> 0x0e56, TryCatch #32 {Exception -> 0x0e56, blocks: (B:697:0x0e40, B:702:0x0e4a, B:704:0x0e52, B:722:0x0e76, B:726:0x0e9b, B:730:0x0ead, B:732:0x0eb2, B:756:0x0f1b, B:786:0x0fc6, B:788:0x0fd7, B:790:0x0fe5, B:792:0x0fed, B:794:0x1014, B:796:0x1027, B:799:0x1046, B:801:0x1057, B:797:0x1037, B:798:0x103f, B:800:0x1050, B:740:0x0ee7, B:743:0x0ef3, B:747:0x0f02, B:752:0x0f11, B:715:0x0e68, B:717:0x0e6c), top: B:1694:0x0e40 }] */
-    /* JADX WARN: Removed duplicated region for block: B:826:0x10c9  */
-    /* JADX WARN: Removed duplicated region for block: B:862:0x117d  */
-    /* JADX WARN: Removed duplicated region for block: B:907:0x1257 A[Catch: Exception -> 0x11f6, TRY_LEAVE, TryCatch #4 {Exception -> 0x11f6, blocks: (B:865:0x1182, B:867:0x1186, B:877:0x11d0, B:868:0x11a0, B:870:0x11a4, B:872:0x11b7, B:873:0x11bd, B:875:0x11c1, B:876:0x11cb, B:892:0x1224, B:895:0x122c, B:897:0x1236, B:905:0x124f, B:907:0x1257), top: B:1643:0x117e }] */
-    /* JADX WARN: Removed duplicated region for block: B:920:0x12bf  */
-    /* JADX WARN: Removed duplicated region for block: B:921:0x12c2 A[Catch: Exception -> 0x13a9, TryCatch #3 {Exception -> 0x13a9, blocks: (B:913:0x1280, B:915:0x1286, B:916:0x12a3, B:918:0x12b9, B:930:0x12fd, B:934:0x1314, B:936:0x131d, B:938:0x1329, B:940:0x1336, B:941:0x133a, B:921:0x12c2, B:923:0x12dc, B:925:0x12e3, B:927:0x12e9, B:928:0x12f7, B:946:0x135e, B:948:0x1379, B:950:0x138c, B:951:0x139a), top: B:1642:0x120d }] */
-    /* JADX WARN: Removed duplicated region for block: B:930:0x12fd A[Catch: Exception -> 0x13a9, TryCatch #3 {Exception -> 0x13a9, blocks: (B:913:0x1280, B:915:0x1286, B:916:0x12a3, B:918:0x12b9, B:930:0x12fd, B:934:0x1314, B:936:0x131d, B:938:0x1329, B:940:0x1336, B:941:0x133a, B:921:0x12c2, B:923:0x12dc, B:925:0x12e3, B:927:0x12e9, B:928:0x12f7, B:946:0x135e, B:948:0x1379, B:950:0x138c, B:951:0x139a), top: B:1642:0x120d }] */
-    /* JADX WARN: Removed duplicated region for block: B:935:0x1317  */
-    /* JADX WARN: Removed duplicated region for block: B:938:0x1329 A[Catch: Exception -> 0x13a9, TryCatch #3 {Exception -> 0x13a9, blocks: (B:913:0x1280, B:915:0x1286, B:916:0x12a3, B:918:0x12b9, B:930:0x12fd, B:934:0x1314, B:936:0x131d, B:938:0x1329, B:940:0x1336, B:941:0x133a, B:921:0x12c2, B:923:0x12dc, B:925:0x12e3, B:927:0x12e9, B:928:0x12f7, B:946:0x135e, B:948:0x1379, B:950:0x138c, B:951:0x139a), top: B:1642:0x120d }] */
-    /* JADX WARN: Type inference failed for: r10v119 */
-    /* JADX WARN: Type inference failed for: r10v125 */
-    /* JADX WARN: Type inference failed for: r10v149 */
+    /* JADX WARN: Removed duplicated region for block: B:1047:0x1549 A[Catch: Exception -> 0x1645, TRY_ENTER, TRY_LEAVE, TryCatch #50 {Exception -> 0x1645, blocks: (B:1129:0x16c3, B:1131:0x16c7, B:1132:0x16cc, B:1134:0x16dd, B:1135:0x16ec, B:1137:0x16f2, B:1047:0x1549, B:1026:0x14fd, B:1029:0x150a, B:1031:0x1510, B:1034:0x151f, B:1039:0x152c, B:1085:0x15fa, B:1090:0x160a, B:1092:0x1615, B:1094:0x1626, B:1095:0x163b, B:1110:0x167b, B:1114:0x168c, B:1119:0x1697, B:1121:0x169d, B:1123:0x16a7, B:1106:0x1672), top: B:1747:0x117d }] */
+    /* JADX WARN: Removed duplicated region for block: B:1049:0x154f A[Catch: Exception -> 0x15cd, TRY_ENTER, TRY_LEAVE, TryCatch #33 {Exception -> 0x15cd, blocks: (B:1044:0x1543, B:1049:0x154f, B:1043:0x1537, B:1037:0x1528), top: B:1720:0x1528 }] */
+    /* JADX WARN: Removed duplicated region for block: B:1060:0x158c  */
+    /* JADX WARN: Removed duplicated region for block: B:1073:0x15c4  */
+    /* JADX WARN: Removed duplicated region for block: B:1251:0x18e0  */
+    /* JADX WARN: Removed duplicated region for block: B:1332:0x1a5e A[Catch: Exception -> 0x1b54, TryCatch #38 {Exception -> 0x1b54, blocks: (B:1329:0x1a51, B:1330:0x1a56, B:1332:0x1a5e, B:1334:0x1a6a, B:1335:0x1a7a, B:1336:0x1a7d, B:1341:0x1a90, B:1343:0x1ac5, B:1345:0x1adb, B:1347:0x1ae3, B:1349:0x1aee, B:1353:0x1af6, B:1355:0x1b03, B:1357:0x1b09, B:1348:0x1aea, B:1364:0x1b24, B:1375:0x1b64, B:1379:0x1b7c, B:1381:0x1b93, B:1383:0x1bb6, B:1382:0x1ba8, B:1390:0x1bd7, B:1392:0x1bdd, B:1394:0x1be4, B:1396:0x1c0f, B:1399:0x1c2e, B:1401:0x1c35, B:1403:0x1c3f, B:1397:0x1c16), top: B:1729:0x19f6 }] */
+    /* JADX WARN: Removed duplicated region for block: B:1357:0x1b09 A[Catch: Exception -> 0x1b54, TryCatch #38 {Exception -> 0x1b54, blocks: (B:1329:0x1a51, B:1330:0x1a56, B:1332:0x1a5e, B:1334:0x1a6a, B:1335:0x1a7a, B:1336:0x1a7d, B:1341:0x1a90, B:1343:0x1ac5, B:1345:0x1adb, B:1347:0x1ae3, B:1349:0x1aee, B:1353:0x1af6, B:1355:0x1b03, B:1357:0x1b09, B:1348:0x1aea, B:1364:0x1b24, B:1375:0x1b64, B:1379:0x1b7c, B:1381:0x1b93, B:1383:0x1bb6, B:1382:0x1ba8, B:1390:0x1bd7, B:1392:0x1bdd, B:1394:0x1be4, B:1396:0x1c0f, B:1399:0x1c2e, B:1401:0x1c35, B:1403:0x1c3f, B:1397:0x1c16), top: B:1729:0x19f6 }] */
+    /* JADX WARN: Removed duplicated region for block: B:1472:0x1e19  */
+    /* JADX WARN: Removed duplicated region for block: B:1473:0x1e1b  */
+    /* JADX WARN: Removed duplicated region for block: B:148:0x0385  */
+    /* JADX WARN: Removed duplicated region for block: B:1511:0x1ea2  */
+    /* JADX WARN: Removed duplicated region for block: B:1615:0x2059  */
+    /* JADX WARN: Removed duplicated region for block: B:1662:0x2125  */
+    /* JADX WARN: Removed duplicated region for block: B:1663:0x2127  */
+    /* JADX WARN: Removed duplicated region for block: B:1666:0x212d  */
+    /* JADX WARN: Removed duplicated region for block: B:1675:0x08d1 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1679:0x08f2 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1688:0x016c A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1714:0x1e52 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1730:0x1eea A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1745:0x0e30 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1748:0x1ea6 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1758:0x1a7d A[EDGE_INSN: B:1758:0x1a7d->B:1336:0x1a7d ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:416:0x08ef A[Catch: Exception -> 0x08e4, TRY_LEAVE, TryCatch #4 {Exception -> 0x08e4, blocks: (B:409:0x08d1, B:411:0x08d7, B:416:0x08ef, B:423:0x08fc, B:427:0x0911, B:430:0x092f, B:420:0x08f6), top: B:1675:0x08d1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:423:0x08fc A[Catch: Exception -> 0x08e4, TRY_ENTER, TRY_LEAVE, TryCatch #4 {Exception -> 0x08e4, blocks: (B:409:0x08d1, B:411:0x08d7, B:416:0x08ef, B:423:0x08fc, B:427:0x0911, B:430:0x092f, B:420:0x08f6), top: B:1675:0x08d1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:426:0x090f A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:430:0x092f A[Catch: Exception -> 0x08e4, TRY_LEAVE, TryCatch #4 {Exception -> 0x08e4, blocks: (B:409:0x08d1, B:411:0x08d7, B:416:0x08ef, B:423:0x08fc, B:427:0x0911, B:430:0x092f, B:420:0x08f6), top: B:1675:0x08d1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:432:0x0936 A[Catch: Exception -> 0x210e, TRY_ENTER, TryCatch #7 {Exception -> 0x210e, blocks: (B:421:0x08f8, B:424:0x08fe, B:433:0x0947, B:432:0x0936, B:418:0x08f2), top: B:1679:0x08f2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:438:0x0977  */
+    /* JADX WARN: Removed duplicated region for block: B:446:0x09a6  */
+    /* JADX WARN: Removed duplicated region for block: B:451:0x09b6 A[Catch: Exception -> 0x099f, TRY_ENTER, TRY_LEAVE, TryCatch #27 {Exception -> 0x099f, blocks: (B:439:0x0979, B:451:0x09b6, B:454:0x09c2, B:457:0x09ca, B:459:0x09d4, B:462:0x09eb, B:468:0x09fa, B:495:0x0a68, B:535:0x0b74, B:539:0x0b98, B:541:0x0baa, B:544:0x0bb6, B:546:0x0bc6, B:548:0x0bd4, B:550:0x0bda, B:552:0x0bde, B:598:0x0c95, B:600:0x0c99, B:602:0x0ca3, B:604:0x0caf, B:606:0x0cb8, B:608:0x0cbe, B:613:0x0cd7, B:615:0x0cdd, B:617:0x0ce3, B:619:0x0ceb, B:621:0x0cef, B:623:0x0cf7, B:625:0x0d02, B:630:0x0d24, B:632:0x0d2e, B:643:0x0d59, B:646:0x0d66, B:648:0x0d6a, B:650:0x0d6e, B:651:0x0d78, B:653:0x0d7e, B:654:0x0d98, B:656:0x0d9e, B:661:0x0db8, B:667:0x0dc5, B:671:0x0dce, B:673:0x0dd8, B:675:0x0dec, B:682:0x0dfd, B:640:0x0d4a, B:605:0x0cb4, B:557:0x0bf8, B:561:0x0c01, B:570:0x0c1a, B:572:0x0c20, B:575:0x0c27, B:577:0x0c33, B:579:0x0c43, B:582:0x0c4b, B:580:0x0c47, B:583:0x0c56, B:585:0x0c5c, B:588:0x0c63, B:590:0x0c6f, B:592:0x0c7f, B:595:0x0c87, B:593:0x0c83, B:565:0x0c0a, B:567:0x0c0e, B:501:0x0aa0, B:505:0x0aac, B:507:0x0ab5, B:509:0x0abd, B:511:0x0ace, B:514:0x0ade, B:516:0x0ae5, B:518:0x0af9, B:523:0x0b14, B:525:0x0b26, B:527:0x0b47, B:529:0x0b4d, B:519:0x0b02, B:521:0x0b06, B:510:0x0ac7, B:481:0x0a1e, B:482:0x0a26, B:484:0x0a3a, B:486:0x0a3e, B:487:0x0a42, B:489:0x0a49, B:461:0x09d9), top: B:1713:0x0979 }] */
+    /* JADX WARN: Removed duplicated region for block: B:454:0x09c2 A[Catch: Exception -> 0x099f, TRY_ENTER, TryCatch #27 {Exception -> 0x099f, blocks: (B:439:0x0979, B:451:0x09b6, B:454:0x09c2, B:457:0x09ca, B:459:0x09d4, B:462:0x09eb, B:468:0x09fa, B:495:0x0a68, B:535:0x0b74, B:539:0x0b98, B:541:0x0baa, B:544:0x0bb6, B:546:0x0bc6, B:548:0x0bd4, B:550:0x0bda, B:552:0x0bde, B:598:0x0c95, B:600:0x0c99, B:602:0x0ca3, B:604:0x0caf, B:606:0x0cb8, B:608:0x0cbe, B:613:0x0cd7, B:615:0x0cdd, B:617:0x0ce3, B:619:0x0ceb, B:621:0x0cef, B:623:0x0cf7, B:625:0x0d02, B:630:0x0d24, B:632:0x0d2e, B:643:0x0d59, B:646:0x0d66, B:648:0x0d6a, B:650:0x0d6e, B:651:0x0d78, B:653:0x0d7e, B:654:0x0d98, B:656:0x0d9e, B:661:0x0db8, B:667:0x0dc5, B:671:0x0dce, B:673:0x0dd8, B:675:0x0dec, B:682:0x0dfd, B:640:0x0d4a, B:605:0x0cb4, B:557:0x0bf8, B:561:0x0c01, B:570:0x0c1a, B:572:0x0c20, B:575:0x0c27, B:577:0x0c33, B:579:0x0c43, B:582:0x0c4b, B:580:0x0c47, B:583:0x0c56, B:585:0x0c5c, B:588:0x0c63, B:590:0x0c6f, B:592:0x0c7f, B:595:0x0c87, B:593:0x0c83, B:565:0x0c0a, B:567:0x0c0e, B:501:0x0aa0, B:505:0x0aac, B:507:0x0ab5, B:509:0x0abd, B:511:0x0ace, B:514:0x0ade, B:516:0x0ae5, B:518:0x0af9, B:523:0x0b14, B:525:0x0b26, B:527:0x0b47, B:529:0x0b4d, B:519:0x0b02, B:521:0x0b06, B:510:0x0ac7, B:481:0x0a1e, B:482:0x0a26, B:484:0x0a3a, B:486:0x0a3e, B:487:0x0a42, B:489:0x0a49, B:461:0x09d9), top: B:1713:0x0979 }] */
+    /* JADX WARN: Removed duplicated region for block: B:467:0x09f8  */
+    /* JADX WARN: Removed duplicated region for block: B:472:0x0a04  */
+    /* JADX WARN: Removed duplicated region for block: B:474:0x0a08  */
+    /* JADX WARN: Removed duplicated region for block: B:475:0x0a0b A[Catch: Exception -> 0x2104, TRY_ENTER, TryCatch #18 {Exception -> 0x2104, blocks: (B:448:0x09ad, B:465:0x09f4, B:493:0x0a5a, B:542:0x0bb0, B:659:0x0db2, B:665:0x0dc1, B:669:0x0dca, B:688:0x0e0b, B:664:0x0dbf, B:554:0x0be7, B:568:0x0c16, B:563:0x0c04, B:559:0x0bfd, B:476:0x0a13, B:492:0x0a58, B:475:0x0a0b), top: B:1697:0x09ad }] */
+    /* JADX WARN: Removed duplicated region for block: B:478:0x0a19  */
+    /* JADX WARN: Removed duplicated region for block: B:491:0x0a53  */
+    /* JADX WARN: Removed duplicated region for block: B:495:0x0a68 A[Catch: Exception -> 0x099f, TRY_ENTER, TryCatch #27 {Exception -> 0x099f, blocks: (B:439:0x0979, B:451:0x09b6, B:454:0x09c2, B:457:0x09ca, B:459:0x09d4, B:462:0x09eb, B:468:0x09fa, B:495:0x0a68, B:535:0x0b74, B:539:0x0b98, B:541:0x0baa, B:544:0x0bb6, B:546:0x0bc6, B:548:0x0bd4, B:550:0x0bda, B:552:0x0bde, B:598:0x0c95, B:600:0x0c99, B:602:0x0ca3, B:604:0x0caf, B:606:0x0cb8, B:608:0x0cbe, B:613:0x0cd7, B:615:0x0cdd, B:617:0x0ce3, B:619:0x0ceb, B:621:0x0cef, B:623:0x0cf7, B:625:0x0d02, B:630:0x0d24, B:632:0x0d2e, B:643:0x0d59, B:646:0x0d66, B:648:0x0d6a, B:650:0x0d6e, B:651:0x0d78, B:653:0x0d7e, B:654:0x0d98, B:656:0x0d9e, B:661:0x0db8, B:667:0x0dc5, B:671:0x0dce, B:673:0x0dd8, B:675:0x0dec, B:682:0x0dfd, B:640:0x0d4a, B:605:0x0cb4, B:557:0x0bf8, B:561:0x0c01, B:570:0x0c1a, B:572:0x0c20, B:575:0x0c27, B:577:0x0c33, B:579:0x0c43, B:582:0x0c4b, B:580:0x0c47, B:583:0x0c56, B:585:0x0c5c, B:588:0x0c63, B:590:0x0c6f, B:592:0x0c7f, B:595:0x0c87, B:593:0x0c83, B:565:0x0c0a, B:567:0x0c0e, B:501:0x0aa0, B:505:0x0aac, B:507:0x0ab5, B:509:0x0abd, B:511:0x0ace, B:514:0x0ade, B:516:0x0ae5, B:518:0x0af9, B:523:0x0b14, B:525:0x0b26, B:527:0x0b47, B:529:0x0b4d, B:519:0x0b02, B:521:0x0b06, B:510:0x0ac7, B:481:0x0a1e, B:482:0x0a26, B:484:0x0a3a, B:486:0x0a3e, B:487:0x0a42, B:489:0x0a49, B:461:0x09d9), top: B:1713:0x0979 }] */
+    /* JADX WARN: Removed duplicated region for block: B:496:0x0a90  */
+    /* JADX WARN: Removed duplicated region for block: B:521:0x0b06 A[Catch: Exception -> 0x099f, TryCatch #27 {Exception -> 0x099f, blocks: (B:439:0x0979, B:451:0x09b6, B:454:0x09c2, B:457:0x09ca, B:459:0x09d4, B:462:0x09eb, B:468:0x09fa, B:495:0x0a68, B:535:0x0b74, B:539:0x0b98, B:541:0x0baa, B:544:0x0bb6, B:546:0x0bc6, B:548:0x0bd4, B:550:0x0bda, B:552:0x0bde, B:598:0x0c95, B:600:0x0c99, B:602:0x0ca3, B:604:0x0caf, B:606:0x0cb8, B:608:0x0cbe, B:613:0x0cd7, B:615:0x0cdd, B:617:0x0ce3, B:619:0x0ceb, B:621:0x0cef, B:623:0x0cf7, B:625:0x0d02, B:630:0x0d24, B:632:0x0d2e, B:643:0x0d59, B:646:0x0d66, B:648:0x0d6a, B:650:0x0d6e, B:651:0x0d78, B:653:0x0d7e, B:654:0x0d98, B:656:0x0d9e, B:661:0x0db8, B:667:0x0dc5, B:671:0x0dce, B:673:0x0dd8, B:675:0x0dec, B:682:0x0dfd, B:640:0x0d4a, B:605:0x0cb4, B:557:0x0bf8, B:561:0x0c01, B:570:0x0c1a, B:572:0x0c20, B:575:0x0c27, B:577:0x0c33, B:579:0x0c43, B:582:0x0c4b, B:580:0x0c47, B:583:0x0c56, B:585:0x0c5c, B:588:0x0c63, B:590:0x0c6f, B:592:0x0c7f, B:595:0x0c87, B:593:0x0c83, B:565:0x0c0a, B:567:0x0c0e, B:501:0x0aa0, B:505:0x0aac, B:507:0x0ab5, B:509:0x0abd, B:511:0x0ace, B:514:0x0ade, B:516:0x0ae5, B:518:0x0af9, B:523:0x0b14, B:525:0x0b26, B:527:0x0b47, B:529:0x0b4d, B:519:0x0b02, B:521:0x0b06, B:510:0x0ac7, B:481:0x0a1e, B:482:0x0a26, B:484:0x0a3a, B:486:0x0a3e, B:487:0x0a42, B:489:0x0a49, B:461:0x09d9), top: B:1713:0x0979 }] */
+    /* JADX WARN: Removed duplicated region for block: B:523:0x0b14 A[Catch: Exception -> 0x099f, TryCatch #27 {Exception -> 0x099f, blocks: (B:439:0x0979, B:451:0x09b6, B:454:0x09c2, B:457:0x09ca, B:459:0x09d4, B:462:0x09eb, B:468:0x09fa, B:495:0x0a68, B:535:0x0b74, B:539:0x0b98, B:541:0x0baa, B:544:0x0bb6, B:546:0x0bc6, B:548:0x0bd4, B:550:0x0bda, B:552:0x0bde, B:598:0x0c95, B:600:0x0c99, B:602:0x0ca3, B:604:0x0caf, B:606:0x0cb8, B:608:0x0cbe, B:613:0x0cd7, B:615:0x0cdd, B:617:0x0ce3, B:619:0x0ceb, B:621:0x0cef, B:623:0x0cf7, B:625:0x0d02, B:630:0x0d24, B:632:0x0d2e, B:643:0x0d59, B:646:0x0d66, B:648:0x0d6a, B:650:0x0d6e, B:651:0x0d78, B:653:0x0d7e, B:654:0x0d98, B:656:0x0d9e, B:661:0x0db8, B:667:0x0dc5, B:671:0x0dce, B:673:0x0dd8, B:675:0x0dec, B:682:0x0dfd, B:640:0x0d4a, B:605:0x0cb4, B:557:0x0bf8, B:561:0x0c01, B:570:0x0c1a, B:572:0x0c20, B:575:0x0c27, B:577:0x0c33, B:579:0x0c43, B:582:0x0c4b, B:580:0x0c47, B:583:0x0c56, B:585:0x0c5c, B:588:0x0c63, B:590:0x0c6f, B:592:0x0c7f, B:595:0x0c87, B:593:0x0c83, B:565:0x0c0a, B:567:0x0c0e, B:501:0x0aa0, B:505:0x0aac, B:507:0x0ab5, B:509:0x0abd, B:511:0x0ace, B:514:0x0ade, B:516:0x0ae5, B:518:0x0af9, B:523:0x0b14, B:525:0x0b26, B:527:0x0b47, B:529:0x0b4d, B:519:0x0b02, B:521:0x0b06, B:510:0x0ac7, B:481:0x0a1e, B:482:0x0a26, B:484:0x0a3a, B:486:0x0a3e, B:487:0x0a42, B:489:0x0a49, B:461:0x09d9), top: B:1713:0x0979 }] */
+    /* JADX WARN: Removed duplicated region for block: B:535:0x0b74 A[Catch: Exception -> 0x099f, TryCatch #27 {Exception -> 0x099f, blocks: (B:439:0x0979, B:451:0x09b6, B:454:0x09c2, B:457:0x09ca, B:459:0x09d4, B:462:0x09eb, B:468:0x09fa, B:495:0x0a68, B:535:0x0b74, B:539:0x0b98, B:541:0x0baa, B:544:0x0bb6, B:546:0x0bc6, B:548:0x0bd4, B:550:0x0bda, B:552:0x0bde, B:598:0x0c95, B:600:0x0c99, B:602:0x0ca3, B:604:0x0caf, B:606:0x0cb8, B:608:0x0cbe, B:613:0x0cd7, B:615:0x0cdd, B:617:0x0ce3, B:619:0x0ceb, B:621:0x0cef, B:623:0x0cf7, B:625:0x0d02, B:630:0x0d24, B:632:0x0d2e, B:643:0x0d59, B:646:0x0d66, B:648:0x0d6a, B:650:0x0d6e, B:651:0x0d78, B:653:0x0d7e, B:654:0x0d98, B:656:0x0d9e, B:661:0x0db8, B:667:0x0dc5, B:671:0x0dce, B:673:0x0dd8, B:675:0x0dec, B:682:0x0dfd, B:640:0x0d4a, B:605:0x0cb4, B:557:0x0bf8, B:561:0x0c01, B:570:0x0c1a, B:572:0x0c20, B:575:0x0c27, B:577:0x0c33, B:579:0x0c43, B:582:0x0c4b, B:580:0x0c47, B:583:0x0c56, B:585:0x0c5c, B:588:0x0c63, B:590:0x0c6f, B:592:0x0c7f, B:595:0x0c87, B:593:0x0c83, B:565:0x0c0a, B:567:0x0c0e, B:501:0x0aa0, B:505:0x0aac, B:507:0x0ab5, B:509:0x0abd, B:511:0x0ace, B:514:0x0ade, B:516:0x0ae5, B:518:0x0af9, B:523:0x0b14, B:525:0x0b26, B:527:0x0b47, B:529:0x0b4d, B:519:0x0b02, B:521:0x0b06, B:510:0x0ac7, B:481:0x0a1e, B:482:0x0a26, B:484:0x0a3a, B:486:0x0a3e, B:487:0x0a42, B:489:0x0a49, B:461:0x09d9), top: B:1713:0x0979 }] */
+    /* JADX WARN: Removed duplicated region for block: B:536:0x0b92  */
+    /* JADX WARN: Removed duplicated region for block: B:538:0x0b96 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:541:0x0baa A[Catch: Exception -> 0x099f, TRY_LEAVE, TryCatch #27 {Exception -> 0x099f, blocks: (B:439:0x0979, B:451:0x09b6, B:454:0x09c2, B:457:0x09ca, B:459:0x09d4, B:462:0x09eb, B:468:0x09fa, B:495:0x0a68, B:535:0x0b74, B:539:0x0b98, B:541:0x0baa, B:544:0x0bb6, B:546:0x0bc6, B:548:0x0bd4, B:550:0x0bda, B:552:0x0bde, B:598:0x0c95, B:600:0x0c99, B:602:0x0ca3, B:604:0x0caf, B:606:0x0cb8, B:608:0x0cbe, B:613:0x0cd7, B:615:0x0cdd, B:617:0x0ce3, B:619:0x0ceb, B:621:0x0cef, B:623:0x0cf7, B:625:0x0d02, B:630:0x0d24, B:632:0x0d2e, B:643:0x0d59, B:646:0x0d66, B:648:0x0d6a, B:650:0x0d6e, B:651:0x0d78, B:653:0x0d7e, B:654:0x0d98, B:656:0x0d9e, B:661:0x0db8, B:667:0x0dc5, B:671:0x0dce, B:673:0x0dd8, B:675:0x0dec, B:682:0x0dfd, B:640:0x0d4a, B:605:0x0cb4, B:557:0x0bf8, B:561:0x0c01, B:570:0x0c1a, B:572:0x0c20, B:575:0x0c27, B:577:0x0c33, B:579:0x0c43, B:582:0x0c4b, B:580:0x0c47, B:583:0x0c56, B:585:0x0c5c, B:588:0x0c63, B:590:0x0c6f, B:592:0x0c7f, B:595:0x0c87, B:593:0x0c83, B:565:0x0c0a, B:567:0x0c0e, B:501:0x0aa0, B:505:0x0aac, B:507:0x0ab5, B:509:0x0abd, B:511:0x0ace, B:514:0x0ade, B:516:0x0ae5, B:518:0x0af9, B:523:0x0b14, B:525:0x0b26, B:527:0x0b47, B:529:0x0b4d, B:519:0x0b02, B:521:0x0b06, B:510:0x0ac7, B:481:0x0a1e, B:482:0x0a26, B:484:0x0a3a, B:486:0x0a3e, B:487:0x0a42, B:489:0x0a49, B:461:0x09d9), top: B:1713:0x0979 }] */
+    /* JADX WARN: Removed duplicated region for block: B:544:0x0bb6 A[Catch: Exception -> 0x099f, TRY_ENTER, TryCatch #27 {Exception -> 0x099f, blocks: (B:439:0x0979, B:451:0x09b6, B:454:0x09c2, B:457:0x09ca, B:459:0x09d4, B:462:0x09eb, B:468:0x09fa, B:495:0x0a68, B:535:0x0b74, B:539:0x0b98, B:541:0x0baa, B:544:0x0bb6, B:546:0x0bc6, B:548:0x0bd4, B:550:0x0bda, B:552:0x0bde, B:598:0x0c95, B:600:0x0c99, B:602:0x0ca3, B:604:0x0caf, B:606:0x0cb8, B:608:0x0cbe, B:613:0x0cd7, B:615:0x0cdd, B:617:0x0ce3, B:619:0x0ceb, B:621:0x0cef, B:623:0x0cf7, B:625:0x0d02, B:630:0x0d24, B:632:0x0d2e, B:643:0x0d59, B:646:0x0d66, B:648:0x0d6a, B:650:0x0d6e, B:651:0x0d78, B:653:0x0d7e, B:654:0x0d98, B:656:0x0d9e, B:661:0x0db8, B:667:0x0dc5, B:671:0x0dce, B:673:0x0dd8, B:675:0x0dec, B:682:0x0dfd, B:640:0x0d4a, B:605:0x0cb4, B:557:0x0bf8, B:561:0x0c01, B:570:0x0c1a, B:572:0x0c20, B:575:0x0c27, B:577:0x0c33, B:579:0x0c43, B:582:0x0c4b, B:580:0x0c47, B:583:0x0c56, B:585:0x0c5c, B:588:0x0c63, B:590:0x0c6f, B:592:0x0c7f, B:595:0x0c87, B:593:0x0c83, B:565:0x0c0a, B:567:0x0c0e, B:501:0x0aa0, B:505:0x0aac, B:507:0x0ab5, B:509:0x0abd, B:511:0x0ace, B:514:0x0ade, B:516:0x0ae5, B:518:0x0af9, B:523:0x0b14, B:525:0x0b26, B:527:0x0b47, B:529:0x0b4d, B:519:0x0b02, B:521:0x0b06, B:510:0x0ac7, B:481:0x0a1e, B:482:0x0a26, B:484:0x0a3a, B:486:0x0a3e, B:487:0x0a42, B:489:0x0a49, B:461:0x09d9), top: B:1713:0x0979 }] */
+    /* JADX WARN: Removed duplicated region for block: B:554:0x0be7 A[Catch: Exception -> 0x2104, TRY_ENTER, TRY_LEAVE, TryCatch #18 {Exception -> 0x2104, blocks: (B:448:0x09ad, B:465:0x09f4, B:493:0x0a5a, B:542:0x0bb0, B:659:0x0db2, B:665:0x0dc1, B:669:0x0dca, B:688:0x0e0b, B:664:0x0dbf, B:554:0x0be7, B:568:0x0c16, B:563:0x0c04, B:559:0x0bfd, B:476:0x0a13, B:492:0x0a58, B:475:0x0a0b), top: B:1697:0x09ad }] */
+    /* JADX WARN: Removed duplicated region for block: B:597:0x0c93 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:627:0x0d1f  */
+    /* JADX WARN: Removed duplicated region for block: B:628:0x0d21  */
+    /* JADX WARN: Removed duplicated region for block: B:642:0x0d57  */
+    /* JADX WARN: Removed duplicated region for block: B:661:0x0db8 A[Catch: Exception -> 0x099f, TRY_ENTER, TRY_LEAVE, TryCatch #27 {Exception -> 0x099f, blocks: (B:439:0x0979, B:451:0x09b6, B:454:0x09c2, B:457:0x09ca, B:459:0x09d4, B:462:0x09eb, B:468:0x09fa, B:495:0x0a68, B:535:0x0b74, B:539:0x0b98, B:541:0x0baa, B:544:0x0bb6, B:546:0x0bc6, B:548:0x0bd4, B:550:0x0bda, B:552:0x0bde, B:598:0x0c95, B:600:0x0c99, B:602:0x0ca3, B:604:0x0caf, B:606:0x0cb8, B:608:0x0cbe, B:613:0x0cd7, B:615:0x0cdd, B:617:0x0ce3, B:619:0x0ceb, B:621:0x0cef, B:623:0x0cf7, B:625:0x0d02, B:630:0x0d24, B:632:0x0d2e, B:643:0x0d59, B:646:0x0d66, B:648:0x0d6a, B:650:0x0d6e, B:651:0x0d78, B:653:0x0d7e, B:654:0x0d98, B:656:0x0d9e, B:661:0x0db8, B:667:0x0dc5, B:671:0x0dce, B:673:0x0dd8, B:675:0x0dec, B:682:0x0dfd, B:640:0x0d4a, B:605:0x0cb4, B:557:0x0bf8, B:561:0x0c01, B:570:0x0c1a, B:572:0x0c20, B:575:0x0c27, B:577:0x0c33, B:579:0x0c43, B:582:0x0c4b, B:580:0x0c47, B:583:0x0c56, B:585:0x0c5c, B:588:0x0c63, B:590:0x0c6f, B:592:0x0c7f, B:595:0x0c87, B:593:0x0c83, B:565:0x0c0a, B:567:0x0c0e, B:501:0x0aa0, B:505:0x0aac, B:507:0x0ab5, B:509:0x0abd, B:511:0x0ace, B:514:0x0ade, B:516:0x0ae5, B:518:0x0af9, B:523:0x0b14, B:525:0x0b26, B:527:0x0b47, B:529:0x0b4d, B:519:0x0b02, B:521:0x0b06, B:510:0x0ac7, B:481:0x0a1e, B:482:0x0a26, B:484:0x0a3a, B:486:0x0a3e, B:487:0x0a42, B:489:0x0a49, B:461:0x09d9), top: B:1713:0x0979 }] */
+    /* JADX WARN: Removed duplicated region for block: B:667:0x0dc5 A[Catch: Exception -> 0x099f, TRY_ENTER, TRY_LEAVE, TryCatch #27 {Exception -> 0x099f, blocks: (B:439:0x0979, B:451:0x09b6, B:454:0x09c2, B:457:0x09ca, B:459:0x09d4, B:462:0x09eb, B:468:0x09fa, B:495:0x0a68, B:535:0x0b74, B:539:0x0b98, B:541:0x0baa, B:544:0x0bb6, B:546:0x0bc6, B:548:0x0bd4, B:550:0x0bda, B:552:0x0bde, B:598:0x0c95, B:600:0x0c99, B:602:0x0ca3, B:604:0x0caf, B:606:0x0cb8, B:608:0x0cbe, B:613:0x0cd7, B:615:0x0cdd, B:617:0x0ce3, B:619:0x0ceb, B:621:0x0cef, B:623:0x0cf7, B:625:0x0d02, B:630:0x0d24, B:632:0x0d2e, B:643:0x0d59, B:646:0x0d66, B:648:0x0d6a, B:650:0x0d6e, B:651:0x0d78, B:653:0x0d7e, B:654:0x0d98, B:656:0x0d9e, B:661:0x0db8, B:667:0x0dc5, B:671:0x0dce, B:673:0x0dd8, B:675:0x0dec, B:682:0x0dfd, B:640:0x0d4a, B:605:0x0cb4, B:557:0x0bf8, B:561:0x0c01, B:570:0x0c1a, B:572:0x0c20, B:575:0x0c27, B:577:0x0c33, B:579:0x0c43, B:582:0x0c4b, B:580:0x0c47, B:583:0x0c56, B:585:0x0c5c, B:588:0x0c63, B:590:0x0c6f, B:592:0x0c7f, B:595:0x0c87, B:593:0x0c83, B:565:0x0c0a, B:567:0x0c0e, B:501:0x0aa0, B:505:0x0aac, B:507:0x0ab5, B:509:0x0abd, B:511:0x0ace, B:514:0x0ade, B:516:0x0ae5, B:518:0x0af9, B:523:0x0b14, B:525:0x0b26, B:527:0x0b47, B:529:0x0b4d, B:519:0x0b02, B:521:0x0b06, B:510:0x0ac7, B:481:0x0a1e, B:482:0x0a26, B:484:0x0a3a, B:486:0x0a3e, B:487:0x0a42, B:489:0x0a49, B:461:0x09d9), top: B:1713:0x0979 }] */
+    /* JADX WARN: Removed duplicated region for block: B:671:0x0dce A[Catch: Exception -> 0x099f, TRY_ENTER, TryCatch #27 {Exception -> 0x099f, blocks: (B:439:0x0979, B:451:0x09b6, B:454:0x09c2, B:457:0x09ca, B:459:0x09d4, B:462:0x09eb, B:468:0x09fa, B:495:0x0a68, B:535:0x0b74, B:539:0x0b98, B:541:0x0baa, B:544:0x0bb6, B:546:0x0bc6, B:548:0x0bd4, B:550:0x0bda, B:552:0x0bde, B:598:0x0c95, B:600:0x0c99, B:602:0x0ca3, B:604:0x0caf, B:606:0x0cb8, B:608:0x0cbe, B:613:0x0cd7, B:615:0x0cdd, B:617:0x0ce3, B:619:0x0ceb, B:621:0x0cef, B:623:0x0cf7, B:625:0x0d02, B:630:0x0d24, B:632:0x0d2e, B:643:0x0d59, B:646:0x0d66, B:648:0x0d6a, B:650:0x0d6e, B:651:0x0d78, B:653:0x0d7e, B:654:0x0d98, B:656:0x0d9e, B:661:0x0db8, B:667:0x0dc5, B:671:0x0dce, B:673:0x0dd8, B:675:0x0dec, B:682:0x0dfd, B:640:0x0d4a, B:605:0x0cb4, B:557:0x0bf8, B:561:0x0c01, B:570:0x0c1a, B:572:0x0c20, B:575:0x0c27, B:577:0x0c33, B:579:0x0c43, B:582:0x0c4b, B:580:0x0c47, B:583:0x0c56, B:585:0x0c5c, B:588:0x0c63, B:590:0x0c6f, B:592:0x0c7f, B:595:0x0c87, B:593:0x0c83, B:565:0x0c0a, B:567:0x0c0e, B:501:0x0aa0, B:505:0x0aac, B:507:0x0ab5, B:509:0x0abd, B:511:0x0ace, B:514:0x0ade, B:516:0x0ae5, B:518:0x0af9, B:523:0x0b14, B:525:0x0b26, B:527:0x0b47, B:529:0x0b4d, B:519:0x0b02, B:521:0x0b06, B:510:0x0ac7, B:481:0x0a1e, B:482:0x0a26, B:484:0x0a3a, B:486:0x0a3e, B:487:0x0a42, B:489:0x0a49, B:461:0x09d9), top: B:1713:0x0979 }] */
+    /* JADX WARN: Removed duplicated region for block: B:678:0x0df6  */
+    /* JADX WARN: Removed duplicated region for block: B:681:0x0dfb A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:692:0x0e25  */
+    /* JADX WARN: Removed duplicated region for block: B:693:0x0e27  */
+    /* JADX WARN: Removed duplicated region for block: B:710:0x0e51 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:713:0x0e57  */
+    /* JADX WARN: Removed duplicated region for block: B:717:0x0e60  */
+    /* JADX WARN: Removed duplicated region for block: B:720:0x0e66 A[Catch: Exception -> 0x0e46, TryCatch #49 {Exception -> 0x0e46, blocks: (B:696:0x0e30, B:701:0x0e3a, B:703:0x0e42, B:720:0x0e66, B:724:0x0e8b, B:728:0x0e9f, B:730:0x0ea4, B:754:0x0f15, B:784:0x0fc0, B:786:0x0fd1, B:788:0x0fdf, B:790:0x0fe7, B:792:0x100e, B:794:0x1021, B:797:0x1040, B:799:0x1051, B:795:0x1031, B:796:0x1039, B:798:0x104a, B:738:0x0edd, B:740:0x0ee7, B:744:0x0ef8, B:750:0x0f0b, B:714:0x0e59, B:716:0x0e5d), top: B:1745:0x0e30 }] */
+    /* JADX WARN: Removed duplicated region for block: B:734:0x0ebd  */
+    /* JADX WARN: Removed duplicated region for block: B:753:0x0f13 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:757:0x0f88  */
+    /* JADX WARN: Removed duplicated region for block: B:764:0x0f97  */
+    /* JADX WARN: Removed duplicated region for block: B:784:0x0fc0 A[Catch: Exception -> 0x0e46, TryCatch #49 {Exception -> 0x0e46, blocks: (B:696:0x0e30, B:701:0x0e3a, B:703:0x0e42, B:720:0x0e66, B:724:0x0e8b, B:728:0x0e9f, B:730:0x0ea4, B:754:0x0f15, B:784:0x0fc0, B:786:0x0fd1, B:788:0x0fdf, B:790:0x0fe7, B:792:0x100e, B:794:0x1021, B:797:0x1040, B:799:0x1051, B:795:0x1031, B:796:0x1039, B:798:0x104a, B:738:0x0edd, B:740:0x0ee7, B:744:0x0ef8, B:750:0x0f0b, B:714:0x0e59, B:716:0x0e5d), top: B:1745:0x0e30 }] */
+    /* JADX WARN: Removed duplicated region for block: B:824:0x10c4  */
+    /* JADX WARN: Removed duplicated region for block: B:858:0x117c  */
     /* JADX WARN: Type inference failed for: r10v2, types: [java.lang.Object] */
-    /* JADX WARN: Type inference failed for: r10v43, types: [java.lang.Object] */
-    /* JADX WARN: Type inference failed for: r10v6, types: [org.telegram.tgnet.TLRPC$Message] */
-    /* JADX WARN: Type inference failed for: r10v69 */
-    /* JADX WARN: Type inference failed for: r10v84 */
-    /* JADX WARN: Type inference failed for: r10v9 */
+    /* JADX WARN: Type inference failed for: r10v50 */
+    /* JADX WARN: Type inference failed for: r10v57 */
+    /* JADX WARN: Type inference failed for: r10v64 */
+    /* JADX WARN: Type inference failed for: r10v79 */
     /* JADX WARN: Type inference failed for: r12v10, types: [java.lang.String] */
-    /* JADX WARN: Type inference failed for: r13v109 */
-    /* JADX WARN: Type inference failed for: r13v110 */
-    /* JADX WARN: Type inference failed for: r13v111 */
-    /* JADX WARN: Type inference failed for: r13v112 */
-    /* JADX WARN: Type inference failed for: r13v113 */
-    /* JADX WARN: Type inference failed for: r13v114 */
-    /* JADX WARN: Type inference failed for: r13v18, types: [org.telegram.tgnet.TLRPC$InputPeer] */
-    /* JADX WARN: Type inference failed for: r13v25 */
-    /* JADX WARN: Type inference failed for: r13v28 */
-    /* JADX WARN: Type inference failed for: r13v29 */
-    /* JADX WARN: Type inference failed for: r13v35 */
-    /* JADX WARN: Type inference failed for: r13v36 */
-    /* JADX WARN: Type inference failed for: r13v53 */
-    /* JADX WARN: Type inference failed for: r13v55, types: [org.telegram.tgnet.TLRPC$Message, java.lang.Object] */
-    /* JADX WARN: Type inference failed for: r13v60 */
-    /* JADX WARN: Type inference failed for: r14v37, types: [long] */
-    /* JADX WARN: Type inference failed for: r18v3 */
-    /* JADX WARN: Type inference failed for: r18v4 */
-    /* JADX WARN: Type inference failed for: r18v41 */
+    /* JADX WARN: Type inference failed for: r12v134, types: [org.telegram.messenger.FileLoader] */
+    /* JADX WARN: Type inference failed for: r12v194 */
+    /* JADX WARN: Type inference failed for: r12v195 */
+    /* JADX WARN: Type inference failed for: r12v196 */
+    /* JADX WARN: Type inference failed for: r12v197 */
+    /* JADX WARN: Type inference failed for: r12v198 */
+    /* JADX WARN: Type inference failed for: r12v199 */
+    /* JADX WARN: Type inference failed for: r12v58 */
+    /* JADX WARN: Type inference failed for: r12v61 */
+    /* JADX WARN: Type inference failed for: r12v62 */
+    /* JADX WARN: Type inference failed for: r12v63 */
+    /* JADX WARN: Type inference failed for: r12v64 */
+    /* JADX WARN: Type inference failed for: r12v66, types: [java.lang.Object] */
+    /* JADX WARN: Type inference failed for: r12v83, types: [long] */
+    /* JADX WARN: Type inference failed for: r13v14, types: [org.telegram.messenger.MediaDataController] */
+    /* JADX WARN: Type inference failed for: r13v16, types: [org.telegram.messenger.MediaDataController] */
+    /* JADX WARN: Type inference failed for: r13v18, types: [org.telegram.messenger.MediaDataController] */
+    /* JADX WARN: Type inference failed for: r14v12 */
+    /* JADX WARN: Type inference failed for: r14v14 */
+    /* JADX WARN: Type inference failed for: r14v15 */
+    /* JADX WARN: Type inference failed for: r14v16, types: [org.telegram.tgnet.TLRPC$Message] */
+    /* JADX WARN: Type inference failed for: r14v35, types: [org.telegram.tgnet.TLRPC$Message, java.lang.Object] */
+    /* JADX WARN: Type inference failed for: r14v50 */
+    /* JADX WARN: Type inference failed for: r14v51 */
+    /* JADX WARN: Type inference failed for: r14v52 */
+    /* JADX WARN: Type inference failed for: r14v6, types: [long] */
+    /* JADX WARN: Type inference failed for: r14v9 */
+    /* JADX WARN: Type inference failed for: r15v7 */
+    /* JADX WARN: Type inference failed for: r15v8 */
+    /* JADX WARN: Type inference failed for: r1v311, types: [org.telegram.tgnet.TLRPC$TL_inputMediaDocument, org.telegram.tgnet.TLRPC$InputMedia] */
+    /* JADX WARN: Type inference failed for: r1v319, types: [org.telegram.tgnet.TLRPC$TL_inputMediaDocument, org.telegram.tgnet.TLRPC$InputMedia] */
     /* JADX WARN: Type inference failed for: r1v8, types: [org.telegram.messenger.MessagesStorage] */
-    /* JADX WARN: Type inference failed for: r2v162, types: [org.telegram.tgnet.TLRPC$TL_messages_sendMedia, org.telegram.tgnet.TLObject] */
-    /* JADX WARN: Type inference failed for: r2v163, types: [org.telegram.tgnet.TLObject] */
-    /* JADX WARN: Type inference failed for: r2v166, types: [org.telegram.tgnet.TLRPC$TL_messages_sendMultiMedia] */
-    /* JADX WARN: Type inference failed for: r2v220, types: [org.telegram.tgnet.TLRPC$TL_message] */
-    /* JADX WARN: Type inference failed for: r2v221, types: [org.telegram.tgnet.TLRPC$Message] */
-    /* JADX WARN: Type inference failed for: r2v222 */
-    /* JADX WARN: Type inference failed for: r2v225 */
-    /* JADX WARN: Type inference failed for: r2v230 */
-    /* JADX WARN: Type inference failed for: r2v231, types: [org.telegram.tgnet.TLRPC$TL_message_secret] */
-    /* JADX WARN: Type inference failed for: r2v276 */
-    /* JADX WARN: Type inference failed for: r2v277 */
-    /* JADX WARN: Type inference failed for: r3v299, types: [org.telegram.tgnet.TLRPC$TL_inputMediaDocument, org.telegram.tgnet.TLRPC$InputMedia] */
-    /* JADX WARN: Type inference failed for: r3v306, types: [org.telegram.tgnet.TLRPC$TL_inputMediaDice] */
-    /* JADX WARN: Type inference failed for: r3v308, types: [org.telegram.tgnet.TLRPC$TL_inputMediaPoll, org.telegram.tgnet.TLRPC$InputMedia] */
-    /* JADX WARN: Type inference failed for: r3v383 */
-    /* JADX WARN: Type inference failed for: r3v432, types: [org.telegram.tgnet.TLRPC$TL_message] */
-    /* JADX WARN: Type inference failed for: r3v433, types: [org.telegram.tgnet.TLRPC$Message] */
-    /* JADX WARN: Type inference failed for: r3v435, types: [org.telegram.tgnet.TLRPC$TL_message_secret] */
-    /* JADX WARN: Type inference failed for: r3v462 */
-    /* JADX WARN: Type inference failed for: r3v475 */
-    /* JADX WARN: Type inference failed for: r4v163, types: [org.telegram.tgnet.TLRPC$TL_inputMediaPhoto, org.telegram.tgnet.TLRPC$InputMedia] */
-    /* JADX WARN: Type inference failed for: r7v43 */
-    /* JADX WARN: Type inference failed for: r7v48 */
-    /* JADX WARN: Type inference failed for: r7v49 */
-    /* JADX WARN: Type inference failed for: r7v51 */
-    /* JADX WARN: Type inference failed for: r7v54 */
-    /* JADX WARN: Type inference failed for: r7v58 */
+    /* JADX WARN: Type inference failed for: r2v102, types: [org.telegram.tgnet.TLRPC$TL_inputMediaPhoto, org.telegram.tgnet.TLRPC$InputMedia] */
+    /* JADX WARN: Type inference failed for: r2v117, types: [org.telegram.tgnet.TLRPC$TL_inputMediaDocument, org.telegram.tgnet.TLRPC$InputMedia] */
+    /* JADX WARN: Type inference failed for: r2v180, types: [org.telegram.tgnet.TLRPC$TL_messages_sendMedia, org.telegram.tgnet.TLObject] */
+    /* JADX WARN: Type inference failed for: r2v181, types: [org.telegram.tgnet.TLObject] */
+    /* JADX WARN: Type inference failed for: r2v184, types: [org.telegram.tgnet.TLRPC$TL_messages_sendMultiMedia] */
+    /* JADX WARN: Type inference failed for: r2v199, types: [org.telegram.tgnet.TLRPC$TL_message] */
+    /* JADX WARN: Type inference failed for: r2v200, types: [org.telegram.tgnet.TLRPC$Message] */
+    /* JADX WARN: Type inference failed for: r2v201 */
+    /* JADX WARN: Type inference failed for: r2v204 */
+    /* JADX WARN: Type inference failed for: r2v209 */
+    /* JADX WARN: Type inference failed for: r2v210, types: [org.telegram.tgnet.TLRPC$TL_message_secret] */
+    /* JADX WARN: Type inference failed for: r2v255 */
+    /* JADX WARN: Type inference failed for: r2v256 */
+    /* JADX WARN: Type inference failed for: r2v61, types: [org.telegram.tgnet.TLRPC$Document] */
+    /* JADX WARN: Type inference failed for: r3v17, types: [org.telegram.tgnet.TLRPC$TL_document] */
+    /* JADX WARN: Type inference failed for: r3v219, types: [org.telegram.tgnet.TLRPC$TL_inputMediaDice] */
+    /* JADX WARN: Type inference failed for: r3v221, types: [org.telegram.tgnet.TLRPC$TL_inputMediaPoll, org.telegram.tgnet.TLRPC$InputMedia] */
+    /* JADX WARN: Type inference failed for: r3v230 */
+    /* JADX WARN: Type inference failed for: r3v24, types: [org.telegram.tgnet.TLRPC$TL_document] */
+    /* JADX WARN: Type inference failed for: r3v282 */
+    /* JADX WARN: Type inference failed for: r3v283 */
+    /* JADX WARN: Type inference failed for: r3v292, types: [org.telegram.tgnet.TLRPC$Document, org.telegram.tgnet.TLObject] */
+    /* JADX WARN: Type inference failed for: r3v309, types: [org.telegram.tgnet.TLRPC$Document] */
+    /* JADX WARN: Type inference failed for: r3v334, types: [org.telegram.tgnet.TLRPC$Message] */
+    /* JADX WARN: Type inference failed for: r3v364 */
+    /* JADX WARN: Type inference failed for: r3v377 */
+    /* JADX WARN: Type inference failed for: r3v385 */
+    /* JADX WARN: Type inference failed for: r3v388 */
+    /* JADX WARN: Type inference failed for: r3v39, types: [org.telegram.tgnet.TLRPC$TL_document] */
+    /* JADX WARN: Type inference failed for: r3v403 */
+    /* JADX WARN: Type inference failed for: r3v404 */
+    /* JADX WARN: Type inference failed for: r3v9, types: [org.telegram.tgnet.TLRPC$Message] */
+    /* JADX WARN: Type inference failed for: r4v167, types: [org.telegram.messenger.MessagesController] */
+    /* JADX WARN: Type inference failed for: r4v2, types: [int] */
+    /* JADX WARN: Type inference failed for: r5v118, types: [java.lang.StringBuilder] */
+    /* JADX WARN: Type inference failed for: r5v75, types: [org.telegram.tgnet.TLRPC$Document, org.telegram.tgnet.TLObject] */
+    /* JADX WARN: Type inference failed for: r5v76, types: [org.telegram.tgnet.TLRPC$Document, org.telegram.tgnet.TLObject] */
+    /* JADX WARN: Type inference failed for: r7v84 */
+    /* JADX WARN: Type inference failed for: r7v89 */
+    /* JADX WARN: Type inference failed for: r7v90 */
+    /* JADX WARN: Type inference failed for: r7v92 */
+    /* JADX WARN: Type inference failed for: r7v95 */
+    /* JADX WARN: Type inference failed for: r7v99 */
+    /* JADX WARN: Type inference failed for: r8v0, types: [org.telegram.tgnet.TLRPC$TL_document] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -5556,3957 +5534,4158 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         TLRPC$EncryptedChat tLRPC$EncryptedChat;
         boolean z;
         TLRPC$Peer peer;
-        SendMessagesHelper sendMessagesHelper;
+        ?? r12;
         Exception exc;
-        int i;
+        TLRPC$Peer tLRPC$Peer;
+        byte b;
+        byte b2;
         TLRPC$TL_message tLRPC$TL_message;
         MessageObject messageObject;
+        byte b3;
         TLRPC$Message tLRPC$Message;
-        TLRPC$Message tLRPC$Message2;
         TLRPC$InputPeer tLRPC$InputPeer2;
-        TLRPC$Message tLRPC$Message3;
+        VideoEditedInfo videoEditedInfo;
         Object obj;
-        TLRPC$Message tLRPC$Message4;
+        TLRPC$Message tLRPC$Message2;
         TLRPC$WebPage tLRPC$WebPage;
         MessageObject messageObject2;
-        int i2;
-        TLRPC$Message tLRPC$Message5;
+        TLRPC$Message tLRPC$Message3;
+        TLRPC$Message tLRPC$Message4;
         TLRPC$TL_messageMediaPoll tLRPC$TL_messageMediaPoll;
         TLRPC$User tLRPC$User;
         TLRPC$InputPeer tLRPC$InputPeer3;
         char c;
-        SendMessagesHelper sendMessagesHelper2;
+        SendMessagesHelper sendMessagesHelper;
         String str2;
         HashMap<String, String> hashMap;
         ArrayList<TLRPC$MessageEntity> arrayList;
         TLRPC$TL_photo tLRPC$TL_photo;
         TLRPC$MessageMedia tLRPC$MessageMedia;
-        int i3;
+        int i;
         TLRPC$TL_messageMediaWebPage tLRPC$TL_messageMediaWebPage;
         String str3;
         long j3;
         boolean z2;
-        TLRPC$TL_document tLRPC$TL_document;
+        TLRPC$Message tLRPC$Message5;
         DelayedMessage delayedMessage;
+        String str4;
         TLRPC$InputPeer tLRPC$InputPeer4;
-        int i4;
+        byte b4;
         TLRPC$MessageMedia tLRPC$MessageMedia2;
         TLRPC$TL_messageMediaPoll tLRPC$TL_messageMediaPoll2;
-        String str4;
-        TLRPC$TL_userRequest_old2 tLRPC$TL_userRequest_old2;
         String str5;
-        TLRPC$Peer tLRPC$Peer;
+        TLRPC$TL_userRequest_old2 tLRPC$TL_userRequest_old2;
+        String str6;
         TLRPC$TL_message tLRPC$TL_message2;
         TLRPC$MessageMedia tLRPC$MessageMedia3;
-        String str6;
+        String str7;
         Object obj2;
         boolean z3;
-        Object obj3;
+        byte b5;
+        TLRPC$Message tLRPC$Message6;
+        VideoEditedInfo videoEditedInfo2;
         MessageObject messageObject3;
-        String str7;
+        String str8;
         char c2;
-        MessageObject messageObject4;
-        TL_stories$StoryItem tL_stories$StoryItem;
         TLRPC$InputPeer tLRPC$InputPeer5;
+        long j4;
+        TL_stories$StoryItem tL_stories$StoryItem;
+        MessageObject messageObject4;
+        ChatActivity.ReplyQuote replyQuote;
         MessageObject messageObject5;
         MessageObject messageObject6;
-        int i5;
-        int i6;
-        TLRPC$MessageMedia tLRPC$MessageMedia4;
-        int i7;
-        int i8;
-        TL_stories$StoryItem tL_stories$StoryItem2;
-        ?? r18;
-        boolean z4;
-        long j4;
-        boolean z5;
-        TLRPC$Message tLRPC$Message6;
-        VideoEditedInfo videoEditedInfo;
-        VideoEditedInfo videoEditedInfo2;
-        VideoEditedInfo videoEditedInfo3;
-        DelayedMessage delayedMessage2;
-        DelayedMessage delayedMessage3;
+        TLRPC$EncryptedChat tLRPC$EncryptedChat2;
+        TLRPC$EncryptedChat tLRPC$EncryptedChat3;
         long j5;
-        int i9;
-        TLRPC$TL_messages_sendMedia tLRPC$TL_messages_sendMedia;
-        int i10;
-        int i11;
-        MessageObject messageObject7;
-        SendMessagesHelper sendMessagesHelper3;
-        long id;
-        int i12;
-        TLRPC$Message tLRPC$Message7;
-        char c3;
-        int i13;
-        TLRPC$Message tLRPC$Message8;
-        TLRPC$TL_decryptedMessage tLRPC$TL_decryptedMessage;
-        char c4;
-        DelayedMessage delayedMessage4;
+        TLRPC$MessageMedia tLRPC$MessageMedia4;
+        int i2;
+        int i3;
+        TLRPC$EncryptedChat tLRPC$EncryptedChat4;
+        Object obj3;
+        boolean z4;
         long j6;
-        String str8;
-        Object obj4;
-        String str9;
-        ArrayList<TLRPC$PhotoSize> arrayList2;
+        boolean z5;
+        TLRPC$Message tLRPC$Message7;
+        byte b6;
+        VideoEditedInfo videoEditedInfo3;
+        TLRPC$Message tLRPC$Message8;
+        int i4;
+        TLRPC$EncryptedChat tLRPC$EncryptedChat5;
+        DelayedMessage delayedMessage2;
+        ?? r14;
+        DelayedMessage delayedMessage3;
+        long j7;
+        TLRPC$InputPeer tLRPC$InputPeer6;
+        MessageObject messageObject7;
+        byte b7;
         TLRPC$Message tLRPC$Message9;
-        Object obj5;
+        char c3;
+        byte b8;
+        TLRPC$TL_decryptedMessage tLRPC$TL_decryptedMessage;
+        long j8;
+        long j9;
+        TLRPC$Message tLRPC$Message10;
+        byte b9;
+        char c4;
+        TLRPC$Message tLRPC$Message11;
+        DelayedMessage delayedMessage4;
+        String str9;
+        long j10;
         String str10;
         DelayedMessage delayedMessage5;
-        String str11;
-        TLRPC$Message tLRPC$Message10;
-        DelayedMessage delayedMessage6;
-        byte[] bArr;
-        int i14;
-        String str12;
-        byte[] bArr2;
-        TLRPC$TL_messages_sendEncryptedMultiMedia tLRPC$TL_messages_sendEncryptedMultiMedia;
-        long j7;
-        char c5;
-        TL_stories$StoryItem tL_stories$StoryItem3;
-        MessageObject messageObject8;
-        TLRPC$InputPeer tLRPC$InputPeer6;
-        String str13;
-        HashMap<String, String> hashMap2;
-        TLRPC$Message tLRPC$Message11;
-        boolean z6;
-        TLRPC$TL_inputMediaUploadedPhoto tLRPC$TL_inputMediaUploadedPhoto;
-        DelayedMessage delayedMessage7;
-        TLRPC$InputMedia tLRPC$InputMedia;
-        DelayedMessage delayedMessage8;
-        String str14;
-        VideoEditedInfo videoEditedInfo4;
         TLRPC$Message tLRPC$Message12;
-        VideoEditedInfo videoEditedInfo5;
-        TLRPC$TL_inputMediaDocument tLRPC$TL_inputMediaDocument;
+        TLRPC$TL_messages_sendEncryptedMultiMedia tLRPC$TL_messages_sendEncryptedMultiMedia;
+        long j11;
         TLRPC$Message tLRPC$Message13;
-        String str15;
-        DelayedMessage delayedMessage9;
+        MessageObject messageObject8;
+        MessageObject messageObject9;
+        DelayedMessage delayedMessage6;
+        ArrayList<TLRPC$PhotoSize> arrayList2;
         TLRPC$Message tLRPC$Message14;
-        String str16;
-        TLRPC$TL_inputMediaUploadedDocument tLRPC$TL_inputMediaUploadedDocument;
-        TLRPC$Message tLRPC$Message15;
-        TLRPC$TL_inputMediaUploadedDocument tLRPC$TL_inputMediaUploadedDocument2;
-        TLRPC$Message tLRPC$Message16;
-        DelayedMessage delayedMessage10;
-        TLRPC$TL_inputMediaUploadedDocument tLRPC$TL_inputMediaUploadedDocument3;
-        TLRPC$Message tLRPC$Message17;
-        TLRPC$Message tLRPC$Message18;
-        String str17;
-        TLRPC$Message tLRPC$Message19;
-        TLRPC$TL_inputMediaUploadedDocument tLRPC$TL_inputMediaUploadedDocument4;
-        TLRPC$TL_inputMediaStory tLRPC$TL_inputMediaStory;
-        int i15;
-        ?? tLRPC$TL_messages_sendMedia2;
-        String str18;
-        SendMessagesHelper sendMessagesHelper4;
-        TLRPC$InputMedia tLRPC$TL_inputMediaGeoPoint;
-        TLRPC$Peer tLRPC$Peer2;
-        TLRPC$Peer tLRPC$Peer3;
+        Object obj4;
+        VideoEditedInfo videoEditedInfo4;
+        byte[] bArr;
+        int i5;
+        byte[] bArr2;
+        VideoEditedInfo videoEditedInfo5;
+        char c5;
+        TL_stories$StoryItem tL_stories$StoryItem2;
+        TLRPC$InputPeer tLRPC$InputPeer7;
+        String str11;
+        MessageObject messageObject10;
+        TLRPC$InputMedia tLRPC$TL_inputMediaUploadedPhoto;
+        TLRPC$TL_photo tLRPC$TL_photo2;
+        boolean z6;
+        TLRPC$InputMedia tLRPC$InputMedia;
+        DelayedMessage delayedMessage7;
+        TLRPC$InputMedia tLRPC$InputMedia2;
         boolean z7;
+        DelayedMessage delayedMessage8;
+        String str12;
+        TLRPC$Message tLRPC$Message15;
+        TLRPC$InputMedia tLRPC$InputMedia3;
         boolean z8;
-        ChatActivity.ReplyQuote replyQuote;
+        VideoEditedInfo videoEditedInfo6;
+        byte b10;
+        String str13;
+        VideoEditedInfo videoEditedInfo7;
+        TLRPC$InputMedia tLRPC$TL_inputMediaUploadedDocument;
+        TLRPC$Message tLRPC$Message16;
+        DelayedMessage delayedMessage9;
+        byte b11;
+        byte b12;
+        TLRPC$InputMedia tLRPC$InputMedia4;
+        TLRPC$Message tLRPC$Message17;
+        byte b13;
+        byte b14;
+        TLRPC$InputMedia tLRPC$InputMedia5;
+        byte b15;
+        MessageObject messageObject11;
+        VideoEditedInfo videoEditedInfo8;
+        ?? tLRPC$TL_messages_sendMedia;
+        String str14;
+        MessageObject messageObject12;
+        byte b16;
+        TLRPC$InputMedia tLRPC$InputMedia6;
+        boolean z9;
+        ChatActivity.ReplyQuote replyQuote2;
         TLRPC$MessageMedia tLRPC$MessageMedia5;
-        TLRPC$Peer tLRPC$Peer4;
-        String str19;
-        SharedPreferences notificationsSettings;
-        StringBuilder sb;
-        TLRPC$Message tLRPC$Message20;
-        ?? r3;
-        String str20;
-        TLRPC$Message tLRPC$Message21;
+        TLRPC$Peer tLRPC$Peer2;
+        String str15;
+        MessageObject messageObject13;
+        VideoEditedInfo videoEditedInfo9;
+        TLRPC$TL_message_secret tLRPC$TL_message_secret;
+        String str16;
+        VideoEditedInfo videoEditedInfo10;
         TLRPC$TL_messageMediaPoll tLRPC$TL_messageMediaPoll3;
         TLRPC$MessageMedia tLRPC$MessageMedia6;
-        String str21;
-        TLRPC$TL_photo tLRPC$TL_photo2;
+        String str17;
+        TLRPC$TL_photo tLRPC$TL_photo3;
         ArrayList<TLRPC$MessageEntity> arrayList3;
-        TLRPC$TL_document tLRPC$TL_document2;
-        boolean z9;
-        int i16;
-        TL_stories$StoryItem tL_stories$StoryItem4;
-        String str22;
-        DelayedMessage delayedMessage11;
-        TLRPC$Message tLRPC$Message22;
+        VideoEditedInfo videoEditedInfo11;
         boolean z10;
+        int i6;
+        TL_stories$StoryItem tL_stories$StoryItem3;
+        String str18;
+        DelayedMessage delayedMessage10;
+        TLRPC$Message tLRPC$Message18;
+        boolean z11;
         TLRPC$Message tLRPC$TL_message3;
         ?? tLRPC$TL_message4;
-        String str23;
-        TLRPC$TL_document tLRPC$TL_document3;
-        boolean z11;
-        HashMap<String, String> hashMap3;
-        DelayedMessage delayedMessage12;
+        String str19;
+        VideoEditedInfo videoEditedInfo12;
+        boolean z12;
+        ?? r3;
+        HashMap<String, String> hashMap2;
+        DelayedMessage delayedMessage11;
         String stickerSetName;
         TLRPC$TL_message tLRPC$TL_message5;
         TLRPC$TL_message tLRPC$TL_message6;
-        ?? tLRPC$TL_message7;
         ArrayList<TLRPC$PhotoSize> arrayList4;
+        TLRPC$Message tLRPC$TL_message7;
         TLRPC$Message tLRPC$TL_message8;
-        TLRPC$Message tLRPC$TL_message9;
         ArrayList<TLRPC$MessageEntity> arrayList5;
-        DelayedMessage delayedMessage13;
-        TLRPC$TL_message tLRPC$TL_message10;
-        String str24;
-        HashMap<String, String> hashMap4;
+        DelayedMessage delayedMessage12;
+        TLRPC$TL_message tLRPC$TL_message9;
+        String str20;
+        HashMap<String, String> hashMap3;
         TLRPC$TL_messageMediaWebPage tLRPC$TL_messageMediaWebPage2;
-        MessageObject messageObject9;
-        String str25 = sendMessageParams.message;
-        String str26 = sendMessageParams.caption;
+        MessageObject messageObject14;
+        String str21 = sendMessageParams.message;
+        String str22 = sendMessageParams.caption;
         TLRPC$MessageMedia tLRPC$MessageMedia7 = sendMessageParams.location;
-        TLRPC$TL_photo tLRPC$TL_photo3 = sendMessageParams.photo;
-        VideoEditedInfo videoEditedInfo6 = sendMessageParams.videoEditedInfo;
+        TLRPC$TL_photo tLRPC$TL_photo4 = sendMessageParams.photo;
+        VideoEditedInfo videoEditedInfo13 = sendMessageParams.videoEditedInfo;
         TLRPC$User tLRPC$User2 = sendMessageParams.user;
-        TLRPC$TL_document tLRPC$TL_document4 = sendMessageParams.document;
+        ?? r8 = sendMessageParams.document;
         TLRPC$TL_game tLRPC$TL_game = sendMessageParams.game;
         TLRPC$TL_messageMediaPoll tLRPC$TL_messageMediaPoll4 = sendMessageParams.poll;
         TLRPC$TL_messageMediaInvoice tLRPC$TL_messageMediaInvoice = sendMessageParams.invoice;
-        long j8 = sendMessageParams.peer;
-        String str27 = sendMessageParams.path;
-        MessageObject messageObject10 = sendMessageParams.replyToMsg;
-        TLRPC$TL_document tLRPC$TL_document5 = tLRPC$TL_document4;
-        MessageObject messageObject11 = sendMessageParams.replyToTopMsg;
+        long j12 = sendMessageParams.peer;
+        String str23 = sendMessageParams.path;
+        MessageObject messageObject15 = sendMessageParams.replyToMsg;
+        TLRPC$Message tLRPC$Message19 = r8;
+        MessageObject messageObject16 = sendMessageParams.replyToTopMsg;
         TLRPC$WebPage tLRPC$WebPage2 = sendMessageParams.webPage;
         TLRPC$TL_messageMediaWebPage tLRPC$TL_messageMediaWebPage3 = sendMessageParams.mediaWebPage;
-        boolean z12 = sendMessageParams.searchLinks;
-        MessageObject messageObject12 = sendMessageParams.retryMessageObject;
-        String str28 = str27;
+        boolean z13 = sendMessageParams.searchLinks;
+        MessageObject messageObject17 = sendMessageParams.retryMessageObject;
+        String str24 = str23;
         ArrayList<TLRPC$MessageEntity> arrayList6 = sendMessageParams.entities;
-        TLRPC$TL_photo tLRPC$TL_photo4 = tLRPC$TL_photo3;
+        TLRPC$TL_photo tLRPC$TL_photo5 = tLRPC$TL_photo4;
         TLRPC$ReplyMarkup tLRPC$ReplyMarkup = sendMessageParams.replyMarkup;
-        HashMap<String, String> hashMap5 = sendMessageParams.params;
-        boolean z13 = sendMessageParams.notify;
-        int i17 = sendMessageParams.scheduleDate;
-        int i18 = sendMessageParams.ttl;
+        HashMap<String, String> hashMap4 = sendMessageParams.params;
+        boolean z14 = sendMessageParams.notify;
+        ?? r4 = sendMessageParams.scheduleDate;
+        int i7 = sendMessageParams.ttl;
         ?? r10 = sendMessageParams.parentObject;
         MessageObject.SendAnimationData sendAnimationData = sendMessageParams.sendAnimationData;
-        boolean z14 = sendMessageParams.updateStickersOrder;
-        boolean z15 = sendMessageParams.hasMediaSpoilers;
-        TL_stories$StoryItem tL_stories$StoryItem5 = sendMessageParams.replyToStoryItem;
-        TL_stories$StoryItem tL_stories$StoryItem6 = sendMessageParams.sendingStory;
-        ChatActivity.ReplyQuote replyQuote2 = sendMessageParams.replyQuote;
-        boolean z16 = sendMessageParams.invert_media;
-        if ((tLRPC$User2 != null && tLRPC$User2.phone == null) || j8 == 0) {
+        boolean z15 = sendMessageParams.updateStickersOrder;
+        boolean z16 = sendMessageParams.hasMediaSpoilers;
+        TL_stories$StoryItem tL_stories$StoryItem4 = sendMessageParams.replyToStoryItem;
+        TL_stories$StoryItem tL_stories$StoryItem5 = sendMessageParams.sendingStory;
+        ChatActivity.ReplyQuote replyQuote3 = sendMessageParams.replyQuote;
+        boolean z17 = sendMessageParams.invert_media;
+        if ((tLRPC$User2 != null && tLRPC$User2.phone == null) || j12 == 0) {
             return;
         }
-        if (str25 == null && str26 == null) {
-            str26 = "";
+        if (str21 == null && str22 == null) {
+            str22 = "";
         }
-        String str29 = str26;
-        if (replyQuote2 != null && (messageObject9 = replyQuote2.message) != null && messageObject10 != null) {
-            messageObject10 = messageObject9;
+        String str25 = str22;
+        if (replyQuote3 != null && (messageObject14 = replyQuote3.message) != null && messageObject15 != null) {
+            messageObject15 = messageObject14;
         }
-        String str30 = (hashMap5 == null || !hashMap5.containsKey("originalPath")) ? null : hashMap5.get("originalPath");
+        String str26 = (hashMap4 == null || !hashMap4.containsKey("originalPath")) ? null : hashMap4.get("originalPath");
         char c6 = 65535;
-        if (DialogObject.isEncryptedDialog(j8)) {
-            str = str30;
+        if (DialogObject.isEncryptedDialog(j12)) {
+            str = str26;
             tLRPC$InputPeer = null;
         } else {
-            str = str30;
-            tLRPC$InputPeer = getMessagesController().getInputPeer(j8);
+            str = str26;
+            tLRPC$InputPeer = getMessagesController().getInputPeer(j12);
         }
-        MessageObject messageObject13 = messageObject10;
+        MessageObject messageObject18 = messageObject15;
         TLRPC$User tLRPC$User3 = tLRPC$User2;
         long clientUserId = getUserConfig().getClientUserId();
-        ChatActivity.ReplyQuote replyQuote3 = replyQuote2;
-        if (DialogObject.isEncryptedDialog(j8)) {
-            j = clientUserId;
-            tLRPC$EncryptedChat = getMessagesController().getEncryptedChat(Integer.valueOf(DialogObject.getEncryptedChatId(j8)));
-            if (tLRPC$EncryptedChat == null) {
-                if (messageObject12 != null) {
-                    getMessagesStorage().markMessageAsSendError(messageObject12.messageOwner, messageObject12.scheduled);
-                    messageObject12.messageOwner.send_state = 2;
-                    getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(messageObject12.getId()));
-                    processSentMessage(messageObject12.getId());
-                    return;
-                }
-                return;
-            }
-            j2 = 0;
-        } else {
-            j = clientUserId;
-            if (tLRPC$InputPeer instanceof TLRPC$TL_inputPeerChannel) {
-                TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(tLRPC$InputPeer.channel_id));
-                TLRPC$ChatFull chatFull = getMessagesController().getChatFull(chat.id);
-                boolean z17 = !chat.megagroup;
-                if (z17 && chat.has_link && chatFull != null) {
-                    z = z17;
-                    j2 = chatFull.linked_chat_id;
-                } else {
-                    z = z17;
-                    j2 = 0;
-                }
-                peer = getMessagesController().getPeer(ChatObject.getSendAsPeerId(chat, chatFull, true));
-                tLRPC$EncryptedChat = null;
-                ?? r12 = "parentObject";
-                TLRPC$Peer tLRPC$Peer5 = peer;
-                if (messageObject12 == null) {
+        try {
+            try {
+                try {
                     try {
-                        TLRPC$Message tLRPC$Message23 = messageObject12.messageOwner;
-                        if (r10 == null && hashMap5 != null) {
-                            try {
-                                if (hashMap5.containsKey("parentObject")) {
-                                    r10 = hashMap5.get("parentObject");
+                        if (DialogObject.isEncryptedDialog(j12)) {
+                            j = clientUserId;
+                            tLRPC$EncryptedChat = getMessagesController().getEncryptedChat(Integer.valueOf(DialogObject.getEncryptedChatId(j12)));
+                            if (tLRPC$EncryptedChat == null) {
+                                if (messageObject17 != null) {
+                                    getMessagesStorage().markMessageAsSendError(messageObject17.messageOwner, messageObject17.scheduled);
+                                    messageObject17.messageOwner.send_state = 2;
+                                    getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(messageObject17.getId()));
+                                    processSentMessage(messageObject17.getId());
+                                    return;
                                 }
-                            } catch (Exception e) {
-                                exc = e;
-                                i = i17;
-                                tLRPC$Message2 = tLRPC$Message23;
-                                messageObject = null;
-                                sendMessagesHelper = this;
-                                tLRPC$Message = tLRPC$Message2;
-                                FileLog.e(exc);
-                                getMessagesStorage().markMessageAsSendError(tLRPC$Message, i != 0);
-                                if (messageObject != null) {
-                                }
-                                getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
-                                sendMessagesHelper.processSentMessage(tLRPC$Message.id);
                                 return;
                             }
-                        }
-                        if (messageObject12.isForwarded()) {
-                            tLRPC$InputPeer2 = tLRPC$InputPeer;
-                            tLRPC$Message3 = r10;
+                            j2 = 0;
                         } else {
-                            if (hashMap5 != null) {
-                                tLRPC$Message3 = r10;
-                                if (hashMap5.containsKey("fwd_id")) {
-                                    tLRPC$InputPeer2 = tLRPC$InputPeer;
+                            j = clientUserId;
+                            if (tLRPC$InputPeer instanceof TLRPC$TL_inputPeerChannel) {
+                                TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(tLRPC$InputPeer.channel_id));
+                                TLRPC$ChatFull chatFull = getMessagesController().getChatFull(chat.id);
+                                boolean z18 = !chat.megagroup;
+                                if (z18 && chat.has_link && chatFull != null) {
+                                    z = z18;
+                                    j2 = chatFull.linked_chat_id;
+                                } else {
+                                    z = z18;
+                                    j2 = 0;
                                 }
-                            } else {
-                                tLRPC$Message3 = r10;
-                            }
-                            if (messageObject12.isDice()) {
-                                str25 = messageObject12.getDiceEmoji();
-                                tLRPC$InputPeer4 = tLRPC$InputPeer;
-                                obj = "parentObject";
-                                tLRPC$TL_messageMediaPoll2 = tLRPC$TL_messageMediaPoll4;
-                                c6 = 11;
-                                str4 = "";
-                                i4 = i17;
-                                tLRPC$MessageMedia2 = tLRPC$MessageMedia7;
-                                tLRPC$TL_userRequest_old2 = tLRPC$User3;
-                            } else {
-                                if (messageObject12.type != 0 && !messageObject12.isAnimatedEmoji()) {
-                                    int i19 = messageObject12.type;
-                                    obj = "parentObject";
-                                    if (i19 == 4) {
-                                        tLRPC$InputPeer4 = tLRPC$InputPeer;
-                                        i4 = i17;
-                                        tLRPC$MessageMedia2 = tLRPC$Message23.media;
-                                        tLRPC$TL_messageMediaPoll2 = tLRPC$TL_messageMediaPoll4;
-                                        str4 = str29;
-                                        c6 = 1;
-                                        tLRPC$TL_userRequest_old2 = tLRPC$User3;
-                                    } else if (i19 == 1) {
-                                        TLRPC$TL_photo tLRPC$TL_photo5 = (TLRPC$TL_photo) tLRPC$Message23.media.photo;
-                                        String str31 = messageObject12.messageOwner.message;
-                                        if (str31 != null) {
-                                            str29 = str31;
+                                peer = getMessagesController().getPeer(ChatObject.getSendAsPeerId(chat, chatFull, true));
+                                tLRPC$EncryptedChat = null;
+                                r12 = "parentObject";
+                                TLRPC$Peer tLRPC$Peer3 = peer;
+                                if (messageObject17 == null) {
+                                    try {
+                                        TLRPC$Message tLRPC$Message20 = messageObject17.messageOwner;
+                                        TLRPC$Message tLRPC$Message21 = r10;
+                                        tLRPC$Message21 = r10;
+                                        if (r10 == 0 && hashMap4 != null) {
+                                            try {
+                                                tLRPC$Message21 = r10;
+                                                if (hashMap4.containsKey("parentObject")) {
+                                                    tLRPC$Message21 = hashMap4.get("parentObject");
+                                                }
+                                            } catch (Exception e) {
+                                                exc = e;
+                                                b2 = r4;
+                                                tLRPC$TL_message = tLRPC$Message20;
+                                                messageObject = null;
+                                                tLRPC$Message = tLRPC$TL_message;
+                                                b3 = b2;
+                                                FileLog.e(exc);
+                                                getMessagesStorage().markMessageAsSendError(tLRPC$Message, b3 != 0);
+                                                if (messageObject != null) {
+                                                }
+                                                getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
+                                                processSentMessage(tLRPC$Message.id);
+                                                return;
+                                            }
                                         }
-                                        tLRPC$InputPeer4 = tLRPC$InputPeer;
-                                        i4 = i17;
-                                        tLRPC$TL_photo4 = tLRPC$TL_photo5;
-                                        tLRPC$MessageMedia2 = tLRPC$MessageMedia7;
-                                        tLRPC$TL_messageMediaPoll2 = tLRPC$TL_messageMediaPoll4;
-                                        str4 = str29;
-                                        c6 = 2;
-                                        tLRPC$TL_userRequest_old2 = tLRPC$User3;
-                                    } else {
-                                        if (i19 != 3 && i19 != 5 && messageObject12.videoEditedInfo == null) {
-                                            if (i19 == 12) {
-                                                TLRPC$TL_userRequest_old2 tLRPC$TL_userRequest_old22 = new TLRPC$TL_userRequest_old2();
-                                                TLRPC$MessageMedia tLRPC$MessageMedia8 = tLRPC$Message23.media;
-                                                tLRPC$InputPeer4 = tLRPC$InputPeer;
-                                                tLRPC$TL_userRequest_old22.phone = tLRPC$MessageMedia8.phone_number;
-                                                tLRPC$TL_userRequest_old22.first_name = tLRPC$MessageMedia8.first_name;
-                                                tLRPC$TL_userRequest_old22.last_name = tLRPC$MessageMedia8.last_name;
-                                                TLRPC$TL_restrictionReason tLRPC$TL_restrictionReason = new TLRPC$TL_restrictionReason();
-                                                tLRPC$TL_restrictionReason.platform = "";
-                                                tLRPC$TL_restrictionReason.reason = "";
-                                                tLRPC$TL_restrictionReason.text = tLRPC$Message23.media.vcard;
-                                                tLRPC$TL_userRequest_old22.restriction_reason.add(tLRPC$TL_restrictionReason);
-                                                i4 = i17;
-                                                tLRPC$TL_userRequest_old22.id = tLRPC$Message23.media.user_id;
-                                                tLRPC$TL_userRequest_old2 = tLRPC$TL_userRequest_old22;
-                                                tLRPC$MessageMedia2 = tLRPC$MessageMedia7;
-                                                tLRPC$TL_messageMediaPoll2 = tLRPC$TL_messageMediaPoll4;
-                                                str4 = str29;
-                                                c6 = 6;
+                                        if (messageObject17.isForwarded()) {
+                                            tLRPC$InputPeer2 = tLRPC$InputPeer;
+                                            videoEditedInfo = tLRPC$Message21;
+                                        } else {
+                                            if (hashMap4 != null) {
+                                                str4 = tLRPC$Message21;
+                                                if (hashMap4.containsKey("fwd_id")) {
+                                                    tLRPC$InputPeer2 = tLRPC$InputPeer;
+                                                    videoEditedInfo = str4;
+                                                }
                                             } else {
+                                                str4 = tLRPC$Message21;
+                                            }
+                                            if (messageObject17.isDice()) {
+                                                str21 = messageObject17.getDiceEmoji();
                                                 tLRPC$InputPeer4 = tLRPC$InputPeer;
-                                                i4 = i17;
-                                                if (i19 != 8 && i19 != 9 && i19 != 13 && i19 != 14 && i19 != 15) {
-                                                    if (i19 == 2) {
-                                                        String str32 = messageObject12.messageOwner.message;
-                                                        tLRPC$TL_document5 = (TLRPC$TL_document) tLRPC$Message23.media.document;
-                                                        if (str32 != null) {
-                                                            str4 = str32;
+                                                obj = "parentObject";
+                                                tLRPC$TL_messageMediaPoll2 = tLRPC$TL_messageMediaPoll4;
+                                                c6 = 11;
+                                                str5 = "";
+                                                b4 = r4;
+                                                tLRPC$MessageMedia2 = tLRPC$MessageMedia7;
+                                                tLRPC$TL_userRequest_old2 = tLRPC$User3;
+                                            } else {
+                                                if (messageObject17.type != 0 && !messageObject17.isAnimatedEmoji()) {
+                                                    int i8 = messageObject17.type;
+                                                    obj = "parentObject";
+                                                    if (i8 == 4) {
+                                                        tLRPC$InputPeer4 = tLRPC$InputPeer;
+                                                        b4 = r4;
+                                                        tLRPC$MessageMedia2 = tLRPC$Message20.media;
+                                                        tLRPC$TL_messageMediaPoll2 = tLRPC$TL_messageMediaPoll4;
+                                                        str5 = str25;
+                                                        c6 = 1;
+                                                        tLRPC$TL_userRequest_old2 = tLRPC$User3;
+                                                    } else if (i8 == 1) {
+                                                        TLRPC$TL_photo tLRPC$TL_photo6 = (TLRPC$TL_photo) tLRPC$Message20.media.photo;
+                                                        String str27 = messageObject17.messageOwner.message;
+                                                        if (str27 != null) {
+                                                            str25 = str27;
+                                                        }
+                                                        tLRPC$InputPeer4 = tLRPC$InputPeer;
+                                                        b4 = r4;
+                                                        tLRPC$TL_photo5 = tLRPC$TL_photo6;
+                                                        tLRPC$MessageMedia2 = tLRPC$MessageMedia7;
+                                                        tLRPC$TL_messageMediaPoll2 = tLRPC$TL_messageMediaPoll4;
+                                                        str5 = str25;
+                                                        c6 = 2;
+                                                        tLRPC$TL_userRequest_old2 = tLRPC$User3;
+                                                    } else {
+                                                        if (i8 != 3 && i8 != 5 && messageObject17.videoEditedInfo == null) {
+                                                            if (i8 == 12) {
+                                                                TLRPC$TL_userRequest_old2 tLRPC$TL_userRequest_old22 = new TLRPC$TL_userRequest_old2();
+                                                                TLRPC$MessageMedia tLRPC$MessageMedia8 = tLRPC$Message20.media;
+                                                                tLRPC$InputPeer4 = tLRPC$InputPeer;
+                                                                tLRPC$TL_userRequest_old22.phone = tLRPC$MessageMedia8.phone_number;
+                                                                tLRPC$TL_userRequest_old22.first_name = tLRPC$MessageMedia8.first_name;
+                                                                tLRPC$TL_userRequest_old22.last_name = tLRPC$MessageMedia8.last_name;
+                                                                TLRPC$TL_restrictionReason tLRPC$TL_restrictionReason = new TLRPC$TL_restrictionReason();
+                                                                tLRPC$TL_restrictionReason.platform = "";
+                                                                tLRPC$TL_restrictionReason.reason = "";
+                                                                tLRPC$TL_restrictionReason.text = tLRPC$Message20.media.vcard;
+                                                                tLRPC$TL_userRequest_old22.restriction_reason.add(tLRPC$TL_restrictionReason);
+                                                                b4 = r4;
+                                                                tLRPC$TL_userRequest_old22.id = tLRPC$Message20.media.user_id;
+                                                                tLRPC$TL_userRequest_old2 = tLRPC$TL_userRequest_old22;
+                                                                tLRPC$MessageMedia2 = tLRPC$MessageMedia7;
+                                                                tLRPC$TL_messageMediaPoll2 = tLRPC$TL_messageMediaPoll4;
+                                                                str5 = str25;
+                                                                c6 = 6;
+                                                            } else {
+                                                                tLRPC$InputPeer4 = tLRPC$InputPeer;
+                                                                b4 = r4;
+                                                                if (i8 != 8 && i8 != 9 && i8 != 13 && i8 != 14 && i8 != 15) {
+                                                                    if (i8 == 2) {
+                                                                        String str28 = messageObject17.messageOwner.message;
+                                                                        tLRPC$Message19 = (TLRPC$TL_document) tLRPC$Message20.media.document;
+                                                                        if (str28 != null) {
+                                                                            str5 = str28;
+                                                                            tLRPC$MessageMedia2 = tLRPC$MessageMedia7;
+                                                                            tLRPC$TL_messageMediaPoll2 = tLRPC$TL_messageMediaPoll4;
+                                                                        } else {
+                                                                            tLRPC$MessageMedia2 = tLRPC$MessageMedia7;
+                                                                            tLRPC$TL_messageMediaPoll2 = tLRPC$TL_messageMediaPoll4;
+                                                                            str5 = str25;
+                                                                        }
+                                                                        c6 = '\b';
+                                                                        tLRPC$TL_userRequest_old2 = tLRPC$User3;
+                                                                    } else if (i8 == 17) {
+                                                                        tLRPC$TL_messageMediaPoll2 = (TLRPC$TL_messageMediaPoll) tLRPC$Message20.media;
+                                                                        tLRPC$MessageMedia2 = tLRPC$MessageMedia7;
+                                                                        str5 = str25;
+                                                                        c6 = '\n';
+                                                                        tLRPC$TL_userRequest_old2 = tLRPC$User3;
+                                                                    } else {
+                                                                        tLRPC$MessageMedia2 = tLRPC$MessageMedia7;
+                                                                        tLRPC$TL_messageMediaPoll2 = tLRPC$TL_messageMediaPoll4;
+                                                                        str5 = str25;
+                                                                        tLRPC$TL_userRequest_old2 = tLRPC$User3;
+                                                                    }
+                                                                }
+                                                                String str29 = messageObject17.messageOwner.message;
+                                                                tLRPC$Message19 = (TLRPC$TL_document) tLRPC$Message20.media.document;
+                                                                if (str29 != null) {
+                                                                    str5 = str29;
+                                                                    tLRPC$MessageMedia2 = tLRPC$MessageMedia7;
+                                                                    tLRPC$TL_messageMediaPoll2 = tLRPC$TL_messageMediaPoll4;
+                                                                } else {
+                                                                    tLRPC$MessageMedia2 = tLRPC$MessageMedia7;
+                                                                    tLRPC$TL_messageMediaPoll2 = tLRPC$TL_messageMediaPoll4;
+                                                                    str5 = str25;
+                                                                }
+                                                                c6 = 7;
+                                                                tLRPC$TL_userRequest_old2 = tLRPC$User3;
+                                                            }
+                                                        }
+                                                        tLRPC$InputPeer4 = tLRPC$InputPeer;
+                                                        b4 = r4;
+                                                        String str30 = messageObject17.messageOwner.message;
+                                                        tLRPC$Message19 = (TLRPC$TL_document) tLRPC$Message20.media.document;
+                                                        if (str30 != null) {
+                                                            str5 = str30;
                                                             tLRPC$MessageMedia2 = tLRPC$MessageMedia7;
                                                             tLRPC$TL_messageMediaPoll2 = tLRPC$TL_messageMediaPoll4;
                                                         } else {
                                                             tLRPC$MessageMedia2 = tLRPC$MessageMedia7;
                                                             tLRPC$TL_messageMediaPoll2 = tLRPC$TL_messageMediaPoll4;
-                                                            str4 = str29;
+                                                            str5 = str25;
                                                         }
-                                                        c6 = '\b';
-                                                        tLRPC$TL_userRequest_old2 = tLRPC$User3;
-                                                    } else if (i19 == 17) {
-                                                        tLRPC$TL_messageMediaPoll2 = (TLRPC$TL_messageMediaPoll) tLRPC$Message23.media;
-                                                        tLRPC$MessageMedia2 = tLRPC$MessageMedia7;
-                                                        str4 = str29;
-                                                        c6 = '\n';
-                                                        tLRPC$TL_userRequest_old2 = tLRPC$User3;
-                                                    } else {
-                                                        tLRPC$MessageMedia2 = tLRPC$MessageMedia7;
-                                                        tLRPC$TL_messageMediaPoll2 = tLRPC$TL_messageMediaPoll4;
-                                                        str4 = str29;
+                                                        c6 = 3;
                                                         tLRPC$TL_userRequest_old2 = tLRPC$User3;
                                                     }
                                                 }
-                                                String str33 = messageObject12.messageOwner.message;
-                                                tLRPC$TL_document5 = (TLRPC$TL_document) tLRPC$Message23.media.document;
-                                                if (str33 != null) {
-                                                    str4 = str33;
-                                                    tLRPC$MessageMedia2 = tLRPC$MessageMedia7;
-                                                    tLRPC$TL_messageMediaPoll2 = tLRPC$TL_messageMediaPoll4;
-                                                } else {
-                                                    tLRPC$MessageMedia2 = tLRPC$MessageMedia7;
-                                                    tLRPC$TL_messageMediaPoll2 = tLRPC$TL_messageMediaPoll4;
-                                                    str4 = str29;
+                                                tLRPC$InputPeer4 = tLRPC$InputPeer;
+                                                obj = "parentObject";
+                                                b4 = r4;
+                                                if (!(messageObject17.messageOwner.media instanceof TLRPC$TL_messageMediaGame)) {
+                                                    str21 = tLRPC$Message20.message;
                                                 }
-                                                c6 = 7;
+                                                tLRPC$MessageMedia2 = tLRPC$MessageMedia7;
+                                                tLRPC$TL_messageMediaPoll2 = tLRPC$TL_messageMediaPoll4;
+                                                str5 = str25;
+                                                c6 = 0;
                                                 tLRPC$TL_userRequest_old2 = tLRPC$User3;
                                             }
-                                        }
-                                        tLRPC$InputPeer4 = tLRPC$InputPeer;
-                                        i4 = i17;
-                                        String str34 = messageObject12.messageOwner.message;
-                                        tLRPC$TL_document5 = (TLRPC$TL_document) tLRPC$Message23.media.document;
-                                        if (str34 != null) {
-                                            str4 = str34;
-                                            tLRPC$MessageMedia2 = tLRPC$MessageMedia7;
-                                            tLRPC$TL_messageMediaPoll2 = tLRPC$TL_messageMediaPoll4;
-                                        } else {
-                                            tLRPC$MessageMedia2 = tLRPC$MessageMedia7;
-                                            tLRPC$TL_messageMediaPoll2 = tLRPC$TL_messageMediaPoll4;
-                                            str4 = str29;
-                                        }
-                                        c6 = 3;
-                                        tLRPC$TL_userRequest_old2 = tLRPC$User3;
-                                    }
-                                }
-                                tLRPC$InputPeer4 = tLRPC$InputPeer;
-                                obj = "parentObject";
-                                i4 = i17;
-                                if (!(messageObject12.messageOwner.media instanceof TLRPC$TL_messageMediaGame)) {
-                                    str25 = tLRPC$Message23.message;
-                                }
-                                tLRPC$MessageMedia2 = tLRPC$MessageMedia7;
-                                tLRPC$TL_messageMediaPoll2 = tLRPC$TL_messageMediaPoll4;
-                                str4 = str29;
-                                c6 = 0;
-                                tLRPC$TL_userRequest_old2 = tLRPC$User3;
-                            }
-                            if (hashMap5 == null || !hashMap5.containsKey("query_id")) {
-                                str5 = str25;
-                            } else {
-                                str5 = str25;
-                                c6 = '\t';
-                            }
-                            int i20 = tLRPC$Message23.media.ttl_seconds;
-                            if (i20 > 0) {
-                                tLRPC$WebPage = tLRPC$WebPage2;
-                                messageObject2 = messageObject12;
-                                tLRPC$TL_messageMediaPoll = tLRPC$TL_messageMediaPoll2;
-                                i2 = i4;
-                                tLRPC$TL_document = tLRPC$TL_document5;
-                                tLRPC$TL_photo = tLRPC$TL_photo4;
-                                tLRPC$TL_messageMediaWebPage = tLRPC$TL_messageMediaWebPage3;
-                                c = c6;
-                                tLRPC$User = tLRPC$TL_userRequest_old2;
-                                delayedMessage = null;
-                                z2 = false;
-                                sendMessagesHelper2 = this;
-                                str3 = str4;
-                                hashMap = hashMap5;
-                                tLRPC$Message4 = tLRPC$Message23;
-                                str2 = str5;
-                                tLRPC$InputPeer3 = tLRPC$InputPeer4;
-                                tLRPC$Message5 = tLRPC$Message3;
-                                arrayList = arrayList6;
-                                i3 = i20;
-                                tLRPC$MessageMedia = tLRPC$MessageMedia2;
-                                j3 = j;
-                            } else {
-                                tLRPC$MessageMedia = tLRPC$MessageMedia2;
-                                tLRPC$WebPage = tLRPC$WebPage2;
-                                messageObject2 = messageObject12;
-                                tLRPC$TL_messageMediaPoll = tLRPC$TL_messageMediaPoll2;
-                                i2 = i4;
-                                tLRPC$TL_document = tLRPC$TL_document5;
-                                tLRPC$TL_photo = tLRPC$TL_photo4;
-                                c = c6;
-                                tLRPC$User = tLRPC$TL_userRequest_old2;
-                                delayedMessage = null;
-                                sendMessagesHelper2 = this;
-                                str3 = str4;
-                                hashMap = hashMap5;
-                                tLRPC$Message4 = tLRPC$Message23;
-                                str2 = str5;
-                                j3 = j;
-                                tLRPC$InputPeer3 = tLRPC$InputPeer4;
-                                tLRPC$Message5 = tLRPC$Message3;
-                                arrayList = arrayList6;
-                                i3 = i18;
-                                tLRPC$TL_messageMediaWebPage = tLRPC$TL_messageMediaWebPage3;
-                                z2 = false;
-                            }
-                        }
-                        obj = "parentObject";
-                        tLRPC$Message4 = tLRPC$Message23;
-                        tLRPC$WebPage = tLRPC$WebPage2;
-                        messageObject2 = messageObject12;
-                        i2 = i17;
-                        tLRPC$Message5 = tLRPC$Message3;
-                        tLRPC$TL_messageMediaPoll = tLRPC$TL_messageMediaPoll4;
-                        tLRPC$User = tLRPC$User3;
-                        tLRPC$InputPeer3 = tLRPC$InputPeer2;
-                        c = 4;
-                        sendMessagesHelper2 = this;
-                        str2 = str25;
-                        hashMap = hashMap5;
-                        arrayList = arrayList6;
-                        tLRPC$TL_photo = tLRPC$TL_photo4;
-                        tLRPC$MessageMedia = tLRPC$MessageMedia7;
-                        i3 = i18;
-                        tLRPC$TL_messageMediaWebPage = tLRPC$TL_messageMediaWebPage3;
-                        str3 = str29;
-                        j3 = j;
-                        z2 = false;
-                        tLRPC$TL_document = tLRPC$TL_document5;
-                        delayedMessage = null;
-                    } catch (Exception e2) {
-                        exc = e2;
-                        i = i17;
-                        tLRPC$Message2 = null;
-                    }
-                } else {
-                    TLRPC$InputPeer tLRPC$InputPeer7 = tLRPC$InputPeer;
-                    obj = "parentObject";
-                    int i21 = i17;
-                    try {
-                        if (DialogObject.isChatDialog(j8)) {
-                            try {
-                                messageObject2 = messageObject12;
-                                tLRPC$Message20 = r10;
-                                r3 = ChatObject.canSendStickers(getMessagesController().getChat(Long.valueOf(-j8)));
-                            } catch (Exception e3) {
-                                sendMessagesHelper = this;
-                                exc = e3;
-                                i = i21;
-                                tLRPC$TL_message = null;
-                                messageObject = null;
-                                tLRPC$Message = tLRPC$TL_message;
-                                FileLog.e(exc);
-                                getMessagesStorage().markMessageAsSendError(tLRPC$Message, i != 0);
-                                if (messageObject != null) {
-                                }
-                                getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
-                                sendMessagesHelper.processSentMessage(tLRPC$Message.id);
-                                return;
-                            }
-                        } else {
-                            messageObject2 = messageObject12;
-                            tLRPC$Message20 = r10;
-                            r3 = 1;
-                        }
-                        if (str25 != null) {
-                            if (tLRPC$EncryptedChat != null) {
-                                tLRPC$Message22 = new TLRPC$TL_message_secret();
-                            } else {
-                                tLRPC$Message22 = new TLRPC$TL_message();
-                            }
-                            if (tLRPC$EncryptedChat != null && (tLRPC$WebPage2 instanceof TLRPC$TL_webPagePending)) {
-                                if (tLRPC$WebPage2.url != null) {
-                                    TLRPC$TL_webPageUrlPending tLRPC$TL_webPageUrlPending = new TLRPC$TL_webPageUrlPending();
-                                    tLRPC$TL_webPageUrlPending.url = tLRPC$WebPage2.url;
-                                    tLRPC$WebPage2 = tLRPC$TL_webPageUrlPending;
-                                } else {
-                                    tLRPC$WebPage2 = null;
-                                }
-                            }
-                            if (r3 != 0 && str25.length() < 30 && tLRPC$WebPage2 == null && ((arrayList6 == null || arrayList6.isEmpty()) && getMessagesController().diceEmojies.contains(str25.replace("️", "")) && tLRPC$EncryptedChat == null && i21 == 0)) {
-                                TLRPC$TL_messageMediaDice tLRPC$TL_messageMediaDice = new TLRPC$TL_messageMediaDice();
-                                tLRPC$TL_messageMediaDice.emoticon = str25;
-                                tLRPC$TL_messageMediaDice.value = -1;
-                                tLRPC$Message22.media = tLRPC$TL_messageMediaDice;
-                                sendMessagesHelper2 = this;
-                                str22 = "";
-                                i2 = i21;
-                                arrayList3 = arrayList6;
-                                tLRPC$TL_document2 = tLRPC$TL_document5;
-                                str21 = str28;
-                                tLRPC$TL_photo2 = tLRPC$TL_photo4;
-                                tLRPC$MessageMedia6 = tLRPC$MessageMedia7;
-                                i16 = i18;
-                                tLRPC$TL_messageMediaWebPage = tLRPC$TL_messageMediaWebPage3;
-                                z9 = z15;
-                                c6 = 11;
-                                z10 = false;
-                                str20 = str25;
-                                tLRPC$TL_messageMediaPoll3 = tLRPC$TL_messageMediaPoll4;
-                                delayedMessage11 = null;
-                                tLRPC$Message21 = tLRPC$Message20;
-                                tL_stories$StoryItem4 = tL_stories$StoryItem6;
-                                if (arrayList3 != null) {
-                                }
-                                arrayList5 = arrayList3;
-                                delayedMessage13 = delayedMessage11;
-                                if (str22 != null) {
-                                }
-                                if (tLRPC$Message22.attachPath == null) {
-                                }
-                                int newMessageId = getUserConfig().getNewMessageId();
-                                tLRPC$Message22.id = newMessageId;
-                                tLRPC$Message22.local_id = newMessageId;
-                                tLRPC$Message22.out = true;
-                                if (z) {
-                                }
-                                str24 = str22;
-                                tL_stories$StoryItem6 = tL_stories$StoryItem4;
-                                hashMap4 = hashMap5;
-                                tLRPC$InputPeer3 = tLRPC$InputPeer7;
-                                if (tLRPC$Peer5 != null) {
-                                }
-                            } else {
-                                if (tLRPC$TL_messageMediaWebPage3 != null) {
-                                    tLRPC$TL_messageMediaWebPage2 = tLRPC$TL_messageMediaWebPage3;
-                                    tLRPC$Message22.media = tLRPC$TL_messageMediaWebPage2;
-                                } else {
-                                    tLRPC$TL_messageMediaWebPage2 = tLRPC$TL_messageMediaWebPage3;
-                                    if (tLRPC$WebPage2 == null) {
-                                        tLRPC$Message22.media = new TLRPC$TL_messageMediaEmpty();
-                                    } else {
-                                        TLRPC$TL_messageMediaWebPage tLRPC$TL_messageMediaWebPage4 = new TLRPC$TL_messageMediaWebPage();
-                                        tLRPC$Message22.media = tLRPC$TL_messageMediaWebPage4;
-                                        tLRPC$TL_messageMediaWebPage4.webpage = tLRPC$WebPage2;
-                                    }
-                                }
-                                c6 = (hashMap5 == null || !hashMap5.containsKey("query_id")) ? (char) 0 : '\t';
-                                tLRPC$Message22.message = str25;
-                                i2 = i21;
-                                arrayList3 = arrayList6;
-                                tLRPC$TL_document2 = tLRPC$TL_document5;
-                                str21 = str28;
-                                tLRPC$TL_photo2 = tLRPC$TL_photo4;
-                                tLRPC$MessageMedia6 = tLRPC$MessageMedia7;
-                                tLRPC$TL_messageMediaPoll3 = tLRPC$TL_messageMediaPoll4;
-                                i16 = i18;
-                                z9 = z15;
-                                str22 = str29;
-                                z10 = false;
-                                str20 = str25;
-                                tLRPC$Message21 = tLRPC$Message20;
-                                tLRPC$TL_messageMediaWebPage = tLRPC$TL_messageMediaWebPage2;
-                                tL_stories$StoryItem4 = tL_stories$StoryItem6;
-                                delayedMessage11 = null;
-                                sendMessagesHelper2 = this;
-                                if (arrayList3 != null) {
-                                    try {
-                                        if (!arrayList3.isEmpty()) {
-                                            arrayList5 = arrayList3;
-                                            tLRPC$Message22.entities = arrayList5;
-                                            delayedMessage13 = delayedMessage11;
-                                            tLRPC$Message22.flags |= 128;
-                                            if (str22 != null) {
-                                                tLRPC$Message22.message = str22;
+                                            if (hashMap4 == null || !hashMap4.containsKey("query_id")) {
+                                                str6 = str21;
                                             } else {
-                                                try {
-                                                    if (tLRPC$Message22.message == null) {
-                                                        tLRPC$Message22.message = "";
-                                                    }
-                                                } catch (Exception e4) {
-                                                    e = e4;
-                                                    tLRPC$TL_message10 = tLRPC$Message22;
-                                                    sendMessagesHelper = sendMessagesHelper2;
-                                                    i = i2;
-                                                    exc = e;
-                                                    tLRPC$TL_message = tLRPC$TL_message10;
-                                                    messageObject = null;
-                                                    tLRPC$Message = tLRPC$TL_message;
-                                                    FileLog.e(exc);
-                                                    getMessagesStorage().markMessageAsSendError(tLRPC$Message, i != 0);
-                                                    if (messageObject != null) {
-                                                    }
-                                                    getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
-                                                    sendMessagesHelper.processSentMessage(tLRPC$Message.id);
-                                                    return;
-                                                }
+                                                str6 = str21;
+                                                c6 = '\t';
                                             }
-                                            if (tLRPC$Message22.attachPath == null) {
-                                                tLRPC$Message22.attachPath = "";
-                                            }
-                                            int newMessageId2 = getUserConfig().getNewMessageId();
-                                            tLRPC$Message22.id = newMessageId2;
-                                            tLRPC$Message22.local_id = newMessageId2;
-                                            tLRPC$Message22.out = true;
-                                            try {
-                                                if (z || tLRPC$InputPeer7 == null) {
-                                                    str24 = str22;
-                                                    tL_stories$StoryItem6 = tL_stories$StoryItem4;
-                                                    hashMap4 = hashMap5;
-                                                    tLRPC$InputPeer3 = tLRPC$InputPeer7;
-                                                    if (tLRPC$Peer5 != null) {
-                                                        tLRPC$Message22.from_id = tLRPC$Peer5;
-                                                    } else {
-                                                        TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
-                                                        tLRPC$Message22.from_id = tLRPC$TL_peerUser;
-                                                        j3 = j;
-                                                        tLRPC$TL_peerUser.user_id = j3;
-                                                        tLRPC$Message22.flags |= LiteMode.FLAG_CHAT_BLUR;
-                                                        tLRPC$TL_message10 = tLRPC$Message22;
-                                                        getUserConfig().saveConfig(false);
-                                                        tLRPC$WebPage = tLRPC$WebPage2;
-                                                        tLRPC$MessageMedia = tLRPC$MessageMedia6;
-                                                        str2 = str20;
-                                                        tLRPC$TL_messageMediaPoll = tLRPC$TL_messageMediaPoll3;
-                                                        str3 = str24;
-                                                        hashMap = hashMap4;
-                                                        tLRPC$User = tLRPC$User3;
-                                                        z2 = z10;
-                                                        z15 = z9;
-                                                        i3 = i16;
-                                                        delayedMessage = delayedMessage13;
-                                                        tLRPC$TL_document = tLRPC$TL_document2;
-                                                        tLRPC$Message5 = tLRPC$Message21;
-                                                        arrayList = arrayList5;
-                                                        tLRPC$TL_photo = tLRPC$TL_photo2;
-                                                        c = c6;
-                                                        str28 = str21;
-                                                        tLRPC$Message4 = tLRPC$TL_message10;
-                                                    }
-                                                } else {
-                                                    TLRPC$TL_peerChannel tLRPC$TL_peerChannel = new TLRPC$TL_peerChannel();
-                                                    tLRPC$Message22.from_id = tLRPC$TL_peerChannel;
-                                                    str24 = str22;
-                                                    tL_stories$StoryItem6 = tL_stories$StoryItem4;
-                                                    hashMap4 = hashMap5;
-                                                    tLRPC$InputPeer3 = tLRPC$InputPeer7;
-                                                    tLRPC$TL_peerChannel.channel_id = tLRPC$InputPeer3.channel_id;
-                                                }
-                                                getUserConfig().saveConfig(false);
+                                            int i9 = tLRPC$Message20.media.ttl_seconds;
+                                            if (i9 > 0) {
                                                 tLRPC$WebPage = tLRPC$WebPage2;
-                                                tLRPC$MessageMedia = tLRPC$MessageMedia6;
-                                                str2 = str20;
-                                                tLRPC$TL_messageMediaPoll = tLRPC$TL_messageMediaPoll3;
-                                                str3 = str24;
-                                                hashMap = hashMap4;
-                                                tLRPC$User = tLRPC$User3;
-                                                z2 = z10;
-                                                z15 = z9;
-                                                i3 = i16;
-                                                delayedMessage = delayedMessage13;
-                                                tLRPC$TL_document = tLRPC$TL_document2;
-                                                tLRPC$Message5 = tLRPC$Message21;
-                                                arrayList = arrayList5;
-                                                tLRPC$TL_photo = tLRPC$TL_photo2;
+                                                messageObject2 = messageObject17;
+                                                tLRPC$TL_messageMediaPoll = tLRPC$TL_messageMediaPoll2;
+                                                tLRPC$Message3 = b4;
+                                                tLRPC$Message5 = tLRPC$Message19;
+                                                tLRPC$TL_photo = tLRPC$TL_photo5;
+                                                tLRPC$TL_messageMediaWebPage = tLRPC$TL_messageMediaWebPage3;
                                                 c = c6;
-                                                str28 = str21;
-                                                tLRPC$Message4 = tLRPC$TL_message10;
-                                            } catch (Exception e5) {
-                                                e = e5;
-                                                sendMessagesHelper = sendMessagesHelper2;
-                                                i = i2;
-                                                exc = e;
-                                                tLRPC$TL_message = tLRPC$TL_message10;
-                                                messageObject = null;
-                                                tLRPC$Message = tLRPC$TL_message;
-                                                FileLog.e(exc);
-                                                getMessagesStorage().markMessageAsSendError(tLRPC$Message, i != 0);
-                                                if (messageObject != null) {
-                                                }
-                                                getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
-                                                sendMessagesHelper.processSentMessage(tLRPC$Message.id);
-                                                return;
+                                                tLRPC$User = tLRPC$TL_userRequest_old2;
+                                                delayedMessage = null;
+                                                z2 = false;
+                                                sendMessagesHelper = this;
+                                                str3 = str5;
+                                                hashMap = hashMap4;
+                                                tLRPC$Message2 = tLRPC$Message20;
+                                                str2 = str6;
+                                                tLRPC$InputPeer3 = tLRPC$InputPeer4;
+                                                tLRPC$Message4 = str4;
+                                                arrayList = arrayList6;
+                                                i = i9;
+                                                tLRPC$MessageMedia = tLRPC$MessageMedia2;
+                                                j3 = j;
+                                            } else {
+                                                tLRPC$MessageMedia = tLRPC$MessageMedia2;
+                                                tLRPC$WebPage = tLRPC$WebPage2;
+                                                messageObject2 = messageObject17;
+                                                tLRPC$TL_messageMediaPoll = tLRPC$TL_messageMediaPoll2;
+                                                tLRPC$Message3 = b4;
+                                                tLRPC$Message5 = tLRPC$Message19;
+                                                tLRPC$TL_photo = tLRPC$TL_photo5;
+                                                c = c6;
+                                                tLRPC$User = tLRPC$TL_userRequest_old2;
+                                                delayedMessage = null;
+                                                sendMessagesHelper = this;
+                                                str3 = str5;
+                                                hashMap = hashMap4;
+                                                tLRPC$Message2 = tLRPC$Message20;
+                                                str2 = str6;
+                                                j3 = j;
+                                                tLRPC$InputPeer3 = tLRPC$InputPeer4;
+                                                tLRPC$Message4 = str4;
+                                                arrayList = arrayList6;
+                                                i = i7;
+                                                tLRPC$TL_messageMediaWebPage = tLRPC$TL_messageMediaWebPage3;
+                                                z2 = false;
                                             }
-                                            j3 = j;
-                                            tLRPC$TL_message10 = tLRPC$Message22;
                                         }
-                                    } catch (Exception e6) {
-                                        exc = e6;
-                                        tLRPC$TL_message2 = tLRPC$Message22;
-                                        sendMessagesHelper = sendMessagesHelper2;
-                                        tLRPC$Peer = tLRPC$TL_message2;
-                                        i = i2;
-                                        tLRPC$TL_message = tLRPC$Peer;
+                                        obj = "parentObject";
+                                        tLRPC$Message2 = tLRPC$Message20;
+                                        tLRPC$WebPage = tLRPC$WebPage2;
+                                        messageObject2 = messageObject17;
+                                        tLRPC$Message3 = r4;
+                                        tLRPC$Message4 = videoEditedInfo;
+                                        tLRPC$TL_messageMediaPoll = tLRPC$TL_messageMediaPoll4;
+                                        tLRPC$User = tLRPC$User3;
+                                        tLRPC$InputPeer3 = tLRPC$InputPeer2;
+                                        c = 4;
+                                        sendMessagesHelper = this;
+                                        str2 = str21;
+                                        hashMap = hashMap4;
+                                        arrayList = arrayList6;
+                                        tLRPC$TL_photo = tLRPC$TL_photo5;
+                                        tLRPC$MessageMedia = tLRPC$MessageMedia7;
+                                        i = i7;
+                                        tLRPC$TL_messageMediaWebPage = tLRPC$TL_messageMediaWebPage3;
+                                        str3 = str25;
+                                        j3 = j;
+                                        z2 = false;
+                                        tLRPC$Message5 = tLRPC$Message19;
+                                        delayedMessage = null;
+                                    } catch (Exception e2) {
+                                        exc = e2;
+                                        b2 = r4;
+                                        tLRPC$TL_message = null;
                                         messageObject = null;
                                         tLRPC$Message = tLRPC$TL_message;
+                                        b3 = b2;
                                         FileLog.e(exc);
-                                        getMessagesStorage().markMessageAsSendError(tLRPC$Message, i != 0);
+                                        getMessagesStorage().markMessageAsSendError(tLRPC$Message, b3 != 0);
                                         if (messageObject != null) {
                                         }
                                         getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
-                                        sendMessagesHelper.processSentMessage(tLRPC$Message.id);
+                                        processSentMessage(tLRPC$Message.id);
                                         return;
                                     }
-                                }
-                                arrayList5 = arrayList3;
-                                delayedMessage13 = delayedMessage11;
-                                if (str22 != null) {
-                                }
-                                if (tLRPC$Message22.attachPath == null) {
-                                }
-                                int newMessageId22 = getUserConfig().getNewMessageId();
-                                tLRPC$Message22.id = newMessageId22;
-                                tLRPC$Message22.local_id = newMessageId22;
-                                tLRPC$Message22.out = true;
-                                if (z) {
-                                }
-                                str24 = str22;
-                                tL_stories$StoryItem6 = tL_stories$StoryItem4;
-                                hashMap4 = hashMap5;
-                                tLRPC$InputPeer3 = tLRPC$InputPeer7;
-                                if (tLRPC$Peer5 != null) {
-                                }
-                            }
-                        } else {
-                            try {
-                                if (tLRPC$TL_messageMediaPoll4 != null) {
-                                    if (tLRPC$EncryptedChat != null) {
-                                        tLRPC$TL_message9 = new TLRPC$TL_message_secret();
-                                    } else {
-                                        tLRPC$TL_message9 = new TLRPC$TL_message();
-                                    }
-                                    tLRPC$TL_message9.media = tLRPC$TL_messageMediaPoll4;
-                                    tLRPC$Message21 = tLRPC$Message20;
-                                    tLRPC$TL_messageMediaPoll3 = tLRPC$TL_messageMediaPoll4;
-                                    i2 = i21;
-                                    arrayList3 = arrayList6;
-                                    tLRPC$TL_document2 = tLRPC$TL_document5;
-                                    str21 = str28;
-                                    tLRPC$TL_photo2 = tLRPC$TL_photo4;
-                                    tLRPC$MessageMedia6 = tLRPC$MessageMedia7;
-                                    i16 = i18;
-                                    z9 = z15;
-                                    tL_stories$StoryItem4 = tL_stories$StoryItem6;
-                                    c6 = '\n';
-                                    z10 = false;
-                                    str20 = str25;
-                                    tLRPC$Message22 = tLRPC$TL_message9;
-                                    tLRPC$TL_messageMediaWebPage = tLRPC$TL_messageMediaWebPage3;
-                                    str22 = str29;
-                                    delayedMessage11 = null;
-                                    sendMessagesHelper2 = this;
-                                    if (arrayList3 != null) {
-                                    }
-                                    arrayList5 = arrayList3;
-                                    delayedMessage13 = delayedMessage11;
-                                    if (str22 != null) {
-                                    }
-                                    if (tLRPC$Message22.attachPath == null) {
-                                    }
-                                    int newMessageId222 = getUserConfig().getNewMessageId();
-                                    tLRPC$Message22.id = newMessageId222;
-                                    tLRPC$Message22.local_id = newMessageId222;
-                                    tLRPC$Message22.out = true;
-                                    if (z) {
-                                    }
-                                    str24 = str22;
-                                    tL_stories$StoryItem6 = tL_stories$StoryItem4;
-                                    hashMap4 = hashMap5;
-                                    tLRPC$InputPeer3 = tLRPC$InputPeer7;
-                                    if (tLRPC$Peer5 != null) {
-                                    }
                                 } else {
-                                    if (tLRPC$MessageMedia7 != null) {
-                                        if (tLRPC$EncryptedChat != null) {
-                                            tLRPC$TL_message8 = new TLRPC$TL_message_secret();
-                                        } else {
-                                            tLRPC$TL_message8 = new TLRPC$TL_message();
-                                        }
-                                        tLRPC$TL_message8.media = tLRPC$MessageMedia7;
-                                        if (hashMap5 == null || !hashMap5.containsKey("query_id")) {
-                                            str20 = str25;
-                                            tLRPC$Message21 = tLRPC$Message20;
-                                            tLRPC$TL_messageMediaPoll3 = tLRPC$TL_messageMediaPoll4;
-                                            i2 = i21;
-                                            arrayList3 = arrayList6;
-                                            tLRPC$TL_document2 = tLRPC$TL_document5;
-                                            i16 = i18;
-                                            z9 = z15;
-                                            tL_stories$StoryItem4 = tL_stories$StoryItem6;
-                                            delayedMessage11 = null;
-                                            c6 = 1;
-                                        } else {
-                                            str20 = str25;
-                                            tLRPC$Message21 = tLRPC$Message20;
-                                            tLRPC$TL_messageMediaPoll3 = tLRPC$TL_messageMediaPoll4;
-                                            i2 = i21;
-                                            arrayList3 = arrayList6;
-                                            tLRPC$TL_document2 = tLRPC$TL_document5;
-                                            i16 = i18;
-                                            z9 = z15;
-                                            tL_stories$StoryItem4 = tL_stories$StoryItem6;
-                                            delayedMessage11 = null;
-                                            c6 = '\t';
-                                        }
-                                        z10 = false;
-                                        tLRPC$Message22 = tLRPC$TL_message8;
-                                        tLRPC$TL_messageMediaWebPage = tLRPC$TL_messageMediaWebPage3;
-                                        str22 = str29;
-                                        sendMessagesHelper2 = this;
-                                        tLRPC$MessageMedia6 = tLRPC$MessageMedia7;
-                                        str21 = str28;
-                                        tLRPC$TL_photo2 = tLRPC$TL_photo4;
-                                    } else if (tLRPC$TL_photo4 != null) {
-                                        if (tLRPC$EncryptedChat != null) {
-                                            tLRPC$TL_message7 = new TLRPC$TL_message_secret();
-                                        } else {
-                                            tLRPC$TL_message7 = new TLRPC$TL_message();
-                                        }
-                                        str20 = str25;
-                                        TLRPC$TL_messageMediaPhoto tLRPC$TL_messageMediaPhoto = new TLRPC$TL_messageMediaPhoto();
-                                        tLRPC$TL_message7.media = tLRPC$TL_messageMediaPhoto;
-                                        tLRPC$Message21 = tLRPC$Message20;
-                                        int i22 = tLRPC$TL_messageMediaPhoto.flags | 3;
-                                        tLRPC$TL_messageMediaPhoto.flags = i22;
-                                        tLRPC$TL_messageMediaPoll3 = tLRPC$TL_messageMediaPoll4;
-                                        tLRPC$TL_messageMediaPhoto.spoiler = z15;
-                                        if (arrayList6 != null) {
-                                            tLRPC$TL_message7.entities = arrayList6;
-                                        }
-                                        if (i18 != 0) {
-                                            tLRPC$TL_messageMediaPhoto.ttl_seconds = i18;
-                                            tLRPC$TL_message7.ttl = i18;
-                                            tLRPC$TL_messageMediaPhoto.flags = i22 | 4;
-                                        }
-                                        tLRPC$TL_messageMediaPhoto.photo = tLRPC$TL_photo4;
-                                        c6 = (hashMap5 == null || !hashMap5.containsKey("query_id")) ? (char) 2 : '\t';
-                                        try {
-                                            if (str28 == null || str28.length() <= 0) {
-                                                tLRPC$MessageMedia6 = tLRPC$MessageMedia7;
-                                                str21 = str28;
-                                            } else {
-                                                tLRPC$MessageMedia6 = tLRPC$MessageMedia7;
-                                                str21 = str28;
-                                                if (str21.startsWith("http")) {
-                                                    tLRPC$TL_message7.attachPath = str21;
-                                                    tLRPC$TL_photo2 = tLRPC$TL_photo4;
-                                                    tLRPC$TL_messageMediaWebPage = tLRPC$TL_messageMediaWebPage3;
-                                                    i2 = i21;
-                                                    sendMessagesHelper2 = this;
-                                                    arrayList3 = arrayList6;
-                                                    tLRPC$TL_document2 = tLRPC$TL_document5;
-                                                    tL_stories$StoryItem4 = tL_stories$StoryItem6;
-                                                    delayedMessage11 = null;
-                                                    z10 = false;
-                                                    z9 = z15;
-                                                    i16 = i18;
-                                                    tLRPC$WebPage2 = tLRPC$WebPage2;
-                                                    tLRPC$Message22 = tLRPC$TL_message7;
-                                                    str22 = str29;
-                                                }
-                                            }
-                                            tLRPC$TL_message7.attachPath = FileLoader.getInstance(sendMessagesHelper2.currentAccount).getPathToAttach(tLRPC$TL_photo4.sizes.get(arrayList4.size() - 1).location, true).toString();
-                                            arrayList3 = arrayList6;
-                                            tLRPC$TL_document2 = tLRPC$TL_document5;
-                                            tL_stories$StoryItem4 = tL_stories$StoryItem6;
-                                            delayedMessage11 = null;
-                                            z10 = false;
-                                            z9 = z15;
-                                            i16 = i18;
-                                            tLRPC$WebPage2 = tLRPC$WebPage2;
-                                            tLRPC$Message22 = tLRPC$TL_message7;
-                                            str22 = str29;
-                                        } catch (Exception e7) {
-                                            exc = e7;
-                                            tLRPC$TL_message2 = tLRPC$TL_message7;
-                                            sendMessagesHelper = sendMessagesHelper2;
-                                            tLRPC$Peer = tLRPC$TL_message2;
-                                            i = i2;
-                                            tLRPC$TL_message = tLRPC$Peer;
-                                            messageObject = null;
-                                            tLRPC$Message = tLRPC$TL_message;
-                                            FileLog.e(exc);
-                                            getMessagesStorage().markMessageAsSendError(tLRPC$Message, i != 0);
-                                            if (messageObject != null) {
-                                            }
-                                            getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
-                                            sendMessagesHelper.processSentMessage(tLRPC$Message.id);
-                                            return;
-                                        }
-                                        tLRPC$TL_photo2 = tLRPC$TL_photo4;
-                                        tLRPC$TL_messageMediaWebPage = tLRPC$TL_messageMediaWebPage3;
-                                        sendMessagesHelper2 = this;
-                                        i2 = i21;
-                                    } else {
-                                        str20 = str25;
-                                        tLRPC$Message21 = tLRPC$Message20;
-                                        tLRPC$TL_messageMediaPoll3 = tLRPC$TL_messageMediaPoll4;
-                                        i2 = i21;
-                                        tLRPC$TL_messageMediaWebPage = tLRPC$TL_messageMediaWebPage3;
-                                        sendMessagesHelper2 = this;
-                                        tLRPC$MessageMedia6 = tLRPC$MessageMedia7;
-                                        str21 = str28;
-                                        tLRPC$TL_photo2 = tLRPC$TL_photo4;
-                                        try {
+                                    TLRPC$InputPeer tLRPC$InputPeer8 = tLRPC$InputPeer;
+                                    obj = "parentObject";
+                                    byte b17 = r4;
+                                    try {
+                                        if (DialogObject.isChatDialog(j12)) {
                                             try {
-                                                if (tLRPC$TL_game != null) {
-                                                    tLRPC$TL_message6 = new TLRPC$TL_message();
-                                                    TLRPC$TL_messageMediaGame tLRPC$TL_messageMediaGame = new TLRPC$TL_messageMediaGame();
-                                                    tLRPC$TL_message6.media = tLRPC$TL_messageMediaGame;
-                                                    tLRPC$TL_messageMediaGame.game = tLRPC$TL_game;
-                                                    if (hashMap5 != null) {
-                                                    }
-                                                    arrayList3 = arrayList6;
-                                                    tLRPC$TL_document2 = tLRPC$TL_document5;
-                                                    tL_stories$StoryItem4 = tL_stories$StoryItem6;
-                                                    str22 = str29;
-                                                } else if (tLRPC$TL_messageMediaInvoice != null) {
-                                                    tLRPC$TL_message6 = new TLRPC$TL_message();
-                                                    tLRPC$TL_message6.media = tLRPC$TL_messageMediaInvoice;
-                                                    if (hashMap5 != null) {
-                                                    }
-                                                    arrayList3 = arrayList6;
-                                                    tLRPC$TL_document2 = tLRPC$TL_document5;
-                                                    tL_stories$StoryItem4 = tL_stories$StoryItem6;
-                                                    str22 = str29;
-                                                } else if (tLRPC$User3 != null) {
-                                                    if (tLRPC$EncryptedChat != null) {
-                                                        tLRPC$TL_message5 = new TLRPC$TL_message_secret();
-                                                    } else {
-                                                        tLRPC$TL_message5 = new TLRPC$TL_message();
-                                                    }
-                                                    TLRPC$TL_messageMediaContact tLRPC$TL_messageMediaContact = new TLRPC$TL_messageMediaContact();
-                                                    tLRPC$TL_message5.media = tLRPC$TL_messageMediaContact;
-                                                    tLRPC$TL_messageMediaContact.phone_number = tLRPC$User3.phone;
-                                                    tLRPC$TL_messageMediaContact.first_name = tLRPC$User3.first_name;
-                                                    tLRPC$TL_messageMediaContact.last_name = tLRPC$User3.last_name;
-                                                    arrayList3 = arrayList6;
-                                                    tLRPC$TL_messageMediaContact.user_id = tLRPC$User3.id;
-                                                    if (!tLRPC$User3.restriction_reason.isEmpty() && tLRPC$User3.restriction_reason.get(0).text.startsWith("BEGIN:VCARD")) {
-                                                        tLRPC$TL_message5.media.vcard = tLRPC$User3.restriction_reason.get(0).text;
-                                                    } else {
-                                                        tLRPC$TL_message5.media.vcard = "";
-                                                    }
-                                                    TLRPC$MessageMedia tLRPC$MessageMedia9 = tLRPC$TL_message5.media;
-                                                    if (tLRPC$MessageMedia9.first_name == null) {
-                                                        tLRPC$MessageMedia9.first_name = "";
-                                                        tLRPC$User3.first_name = "";
-                                                    }
-                                                    if (tLRPC$MessageMedia9.last_name == null) {
-                                                        tLRPC$MessageMedia9.last_name = "";
-                                                        tLRPC$User3.last_name = "";
-                                                    }
-                                                    if (hashMap5 == null || !hashMap5.containsKey("query_id")) {
-                                                        tLRPC$User3 = tLRPC$User3;
-                                                        z9 = z15;
-                                                        tLRPC$TL_document2 = tLRPC$TL_document5;
-                                                        tL_stories$StoryItem4 = tL_stories$StoryItem6;
-                                                        str22 = str29;
-                                                        c6 = 6;
-                                                    } else {
-                                                        tLRPC$User3 = tLRPC$User3;
-                                                        z9 = z15;
-                                                        tLRPC$TL_document2 = tLRPC$TL_document5;
-                                                        tL_stories$StoryItem4 = tL_stories$StoryItem6;
-                                                        str22 = str29;
-                                                        c6 = '\t';
-                                                    }
-                                                    z10 = false;
-                                                    tLRPC$Message22 = tLRPC$TL_message5;
-                                                    i16 = i18;
-                                                    tLRPC$WebPage2 = tLRPC$WebPage2;
-                                                    delayedMessage11 = null;
-                                                } else {
-                                                    arrayList3 = arrayList6;
-                                                    TLRPC$User tLRPC$User4 = tLRPC$User3;
-                                                    if (tLRPC$TL_document5 != null) {
-                                                        if (tLRPC$EncryptedChat != null) {
-                                                            tLRPC$TL_message4 = new TLRPC$TL_message_secret();
-                                                        } else {
-                                                            tLRPC$TL_message4 = new TLRPC$TL_message();
-                                                        }
-                                                        try {
-                                                            if (DialogObject.isChatDialog(j8) && r3 == 0) {
-                                                                tLRPC$TL_document3 = tLRPC$TL_document5;
-                                                                int size = tLRPC$TL_document3.attributes.size();
-                                                                int i23 = 0;
-                                                                while (i23 < size) {
-                                                                    tLRPC$User3 = tLRPC$User4;
-                                                                    if (tLRPC$TL_document3.attributes.get(i23) instanceof TLRPC$TL_documentAttributeAnimated) {
-                                                                        tLRPC$TL_document3.attributes.remove(i23);
-                                                                        z11 = true;
-                                                                        break;
-                                                                    }
-                                                                    i23++;
-                                                                    tLRPC$User4 = tLRPC$User3;
-                                                                }
-                                                                tLRPC$User3 = tLRPC$User4;
-                                                            } else {
-                                                                tLRPC$User3 = tLRPC$User4;
-                                                                tLRPC$TL_document3 = tLRPC$TL_document5;
-                                                            }
-                                                            z11 = false;
-                                                            TLRPC$TL_messageMediaDocument tLRPC$TL_messageMediaDocument = new TLRPC$TL_messageMediaDocument();
-                                                            tLRPC$TL_message4.media = tLRPC$TL_messageMediaDocument;
-                                                            int i24 = tLRPC$TL_messageMediaDocument.flags | 3;
-                                                            tLRPC$TL_messageMediaDocument.flags = i24;
-                                                            tLRPC$TL_messageMediaDocument.spoiler = z15;
-                                                            if (i18 != 0) {
-                                                                tLRPC$TL_messageMediaDocument.ttl_seconds = i18;
-                                                                tLRPC$TL_message4.ttl = i18;
-                                                                tLRPC$TL_messageMediaDocument.flags = i24 | 4;
-                                                            }
-                                                            tLRPC$TL_messageMediaDocument.document = tLRPC$TL_document3;
-                                                            if (hashMap5 != null && hashMap5.containsKey("query_id")) {
-                                                                c6 = '\t';
-                                                            } else if (MessageObject.isVideoSticker(tLRPC$TL_document3) || !(MessageObject.isVideoDocument(tLRPC$TL_document3) || MessageObject.isRoundVideoDocument(tLRPC$TL_document3) || videoEditedInfo6 != null)) {
-                                                                c6 = MessageObject.isVoiceDocument(tLRPC$TL_document3) ? '\b' : (char) 7;
-                                                            } else {
-                                                                c6 = 3;
-                                                            }
-                                                            if (videoEditedInfo6 != null) {
-                                                                String string = videoEditedInfo6.getString();
-                                                                if (hashMap5 == null) {
-                                                                    hashMap5 = new HashMap<>();
-                                                                }
-                                                                hashMap5.put("ve", string);
-                                                            }
-                                                            if (tLRPC$EncryptedChat != null && tLRPC$TL_document3.dc_id > 0 && !MessageObject.isStickerDocument(tLRPC$TL_document3) && !MessageObject.isAnimatedStickerDocument(tLRPC$TL_document3, true) && !MessageObject.isGifDocument(tLRPC$TL_document3)) {
-                                                                tLRPC$TL_message4.attachPath = FileLoader.getInstance(sendMessagesHelper2.currentAccount).getPathToAttach(tLRPC$TL_document3).toString();
-                                                            } else {
-                                                                tLRPC$TL_message4.attachPath = str21;
-                                                            }
-                                                            if (tLRPC$EncryptedChat == null || !(MessageObject.isStickerDocument(tLRPC$TL_document3) || MessageObject.isAnimatedStickerDocument(tLRPC$TL_document3, true))) {
-                                                                tLRPC$TL_document2 = tLRPC$TL_document3;
-                                                                z10 = z11;
-                                                                z9 = z15;
-                                                                tLRPC$Message22 = tLRPC$TL_message4;
-                                                                tL_stories$StoryItem4 = tL_stories$StoryItem6;
-                                                                str22 = str29;
-                                                                hashMap5 = hashMap5;
-                                                                delayedMessage11 = null;
-                                                            } else {
-                                                                int i25 = 0;
-                                                                while (true) {
-                                                                    if (i25 >= tLRPC$TL_document3.attributes.size()) {
-                                                                        str23 = tLRPC$TL_message4;
-                                                                        tLRPC$TL_document2 = tLRPC$TL_document3;
-                                                                        z10 = z11;
-                                                                        hashMap3 = hashMap5;
-                                                                        break;
-                                                                    }
-                                                                    TLRPC$DocumentAttribute tLRPC$DocumentAttribute = tLRPC$TL_document3.attributes.get(i25);
-                                                                    str23 = tLRPC$TL_message4;
-                                                                    try {
-                                                                        if (tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeSticker) {
-                                                                            tLRPC$TL_document3.attributes.remove(i25);
-                                                                            TLRPC$TL_documentAttributeSticker_layer55 tLRPC$TL_documentAttributeSticker_layer55 = new TLRPC$TL_documentAttributeSticker_layer55();
-                                                                            tLRPC$TL_document3.attributes.add(tLRPC$TL_documentAttributeSticker_layer55);
-                                                                            tLRPC$TL_documentAttributeSticker_layer55.alt = tLRPC$DocumentAttribute.alt;
-                                                                            TLRPC$InputStickerSet tLRPC$InputStickerSet = tLRPC$DocumentAttribute.stickerset;
-                                                                            if (tLRPC$InputStickerSet != null) {
-                                                                                tLRPC$TL_document2 = tLRPC$TL_document3;
-                                                                                if (tLRPC$InputStickerSet instanceof TLRPC$TL_inputStickerSetShortName) {
-                                                                                    stickerSetName = tLRPC$InputStickerSet.short_name;
-                                                                                    z10 = z11;
-                                                                                    hashMap3 = hashMap5;
-                                                                                } else {
-                                                                                    z10 = z11;
-                                                                                    hashMap3 = hashMap5;
-                                                                                    stickerSetName = getMediaDataController().getStickerSetName(tLRPC$DocumentAttribute.stickerset.id);
-                                                                                }
-                                                                                if (!TextUtils.isEmpty(stickerSetName)) {
-                                                                                    TLRPC$TL_inputStickerSetShortName tLRPC$TL_inputStickerSetShortName = new TLRPC$TL_inputStickerSetShortName();
-                                                                                    tLRPC$TL_documentAttributeSticker_layer55.stickerset = tLRPC$TL_inputStickerSetShortName;
-                                                                                    tLRPC$TL_inputStickerSetShortName.short_name = stickerSetName;
-                                                                                } else {
-                                                                                    if (tLRPC$DocumentAttribute.stickerset instanceof TLRPC$TL_inputStickerSetID) {
-                                                                                        delayedMessage12 = new DelayedMessage(j8);
-                                                                                        delayedMessage12.encryptedChat = tLRPC$EncryptedChat;
-                                                                                        delayedMessage12.locationParent = tLRPC$TL_documentAttributeSticker_layer55;
-                                                                                        delayedMessage12.type = 5;
-                                                                                        delayedMessage12.parentObject = tLRPC$DocumentAttribute.stickerset;
-                                                                                    } else {
-                                                                                        delayedMessage12 = null;
-                                                                                    }
-                                                                                    tLRPC$TL_documentAttributeSticker_layer55.stickerset = new TLRPC$TL_inputStickerSetEmpty();
-                                                                                }
-                                                                            } else {
-                                                                                tLRPC$TL_document2 = tLRPC$TL_document3;
-                                                                                z10 = z11;
-                                                                                hashMap3 = hashMap5;
-                                                                                tLRPC$TL_documentAttributeSticker_layer55.stickerset = new TLRPC$TL_inputStickerSetEmpty();
-                                                                            }
-                                                                        } else {
-                                                                            i25++;
-                                                                            tLRPC$TL_message4 = str23;
-                                                                        }
-                                                                    } catch (Exception e8) {
-                                                                        e = e8;
-                                                                        exc = e;
-                                                                        sendMessagesHelper = sendMessagesHelper2;
-                                                                        tLRPC$Peer = str23;
-                                                                        i = i2;
-                                                                        tLRPC$TL_message = tLRPC$Peer;
-                                                                        messageObject = null;
-                                                                        tLRPC$Message = tLRPC$TL_message;
-                                                                        FileLog.e(exc);
-                                                                        getMessagesStorage().markMessageAsSendError(tLRPC$Message, i != 0);
-                                                                        if (messageObject != null) {
-                                                                        }
-                                                                        getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
-                                                                        sendMessagesHelper.processSentMessage(tLRPC$Message.id);
-                                                                        return;
-                                                                    }
-                                                                }
-                                                                delayedMessage12 = null;
-                                                                delayedMessage11 = delayedMessage12;
-                                                                z9 = z15;
-                                                                tLRPC$Message22 = str23;
-                                                                tL_stories$StoryItem4 = tL_stories$StoryItem6;
-                                                                str22 = str29;
-                                                                hashMap5 = hashMap3;
-                                                            }
-                                                            i16 = i18;
-                                                            tLRPC$WebPage2 = tLRPC$WebPage2;
-                                                        } catch (Exception e9) {
-                                                            e = e9;
-                                                            str23 = tLRPC$TL_message4;
-                                                        }
-                                                    } else {
-                                                        tLRPC$User3 = tLRPC$User4;
-                                                        tLRPC$TL_document2 = tLRPC$TL_document5;
-                                                        if (tL_stories$StoryItem6 != null) {
-                                                            if (tLRPC$EncryptedChat != null) {
-                                                                tLRPC$TL_message3 = new TLRPC$TL_message_secret();
-                                                            } else {
-                                                                tLRPC$TL_message3 = new TLRPC$TL_message();
-                                                            }
-                                                            MessageMediaStoryFull messageMediaStoryFull = new MessageMediaStoryFull();
-                                                            tL_stories$StoryItem4 = tL_stories$StoryItem6;
-                                                            messageMediaStoryFull.id = tL_stories$StoryItem4.id;
-                                                            messageMediaStoryFull.user_id = tL_stories$StoryItem4.dialogId;
-                                                            z9 = z15;
-                                                            i16 = i18;
-                                                            messageMediaStoryFull.peer = getMessagesController().getPeer(tL_stories$StoryItem4.dialogId);
-                                                            messageMediaStoryFull.storyItem = tL_stories$StoryItem4;
-                                                            tLRPC$TL_message3.media = messageMediaStoryFull;
-                                                            tLRPC$Message22 = tLRPC$TL_message3;
-                                                            tLRPC$WebPage2 = tLRPC$WebPage2;
-                                                            str22 = str29;
-                                                            delayedMessage11 = null;
-                                                            c6 = '\f';
-                                                        } else {
-                                                            z9 = z15;
-                                                            i16 = i18;
-                                                            tL_stories$StoryItem4 = tL_stories$StoryItem6;
-                                                            tLRPC$WebPage2 = tLRPC$WebPage2;
-                                                            str22 = str29;
-                                                            delayedMessage11 = null;
-                                                            tLRPC$Message22 = null;
-                                                        }
-                                                        z10 = false;
-                                                    }
-                                                }
-                                                z10 = false;
-                                                z9 = z15;
-                                                i16 = i18;
-                                                tLRPC$WebPage2 = tLRPC$WebPage2;
-                                                tLRPC$Message22 = tLRPC$TL_message6;
-                                                delayedMessage11 = null;
-                                            } catch (Exception e10) {
-                                                exc = e10;
-                                                sendMessagesHelper = sendMessagesHelper2;
-                                                i = i2;
+                                                messageObject2 = messageObject17;
+                                                videoEditedInfo9 = r10;
+                                                tLRPC$TL_message_secret = ChatObject.canSendStickers(getMessagesController().getChat(Long.valueOf(-j12)));
+                                            } catch (Exception e3) {
+                                                e = e3;
+                                                exc = e;
+                                                b2 = b17;
                                                 tLRPC$TL_message = null;
                                                 messageObject = null;
                                                 tLRPC$Message = tLRPC$TL_message;
+                                                b3 = b2;
                                                 FileLog.e(exc);
-                                                getMessagesStorage().markMessageAsSendError(tLRPC$Message, i != 0);
+                                                getMessagesStorage().markMessageAsSendError(tLRPC$Message, b3 != 0);
                                                 if (messageObject != null) {
                                                 }
                                                 getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
-                                                sendMessagesHelper.processSentMessage(tLRPC$Message.id);
+                                                processSentMessage(tLRPC$Message.id);
                                                 return;
                                             }
-                                        } catch (Exception e11) {
-                                            exc = e11;
-                                            tLRPC$TL_message2 = str25;
-                                            sendMessagesHelper = sendMessagesHelper2;
-                                            tLRPC$Peer = tLRPC$TL_message2;
-                                            i = i2;
-                                            tLRPC$TL_message = tLRPC$Peer;
-                                            messageObject = null;
-                                            tLRPC$Message = tLRPC$TL_message;
-                                            FileLog.e(exc);
-                                            getMessagesStorage().markMessageAsSendError(tLRPC$Message, i != 0);
-                                            if (messageObject != null) {
-                                            }
-                                            getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
-                                            sendMessagesHelper.processSentMessage(tLRPC$Message.id);
-                                            return;
+                                        } else {
+                                            messageObject2 = messageObject17;
+                                            videoEditedInfo9 = r10;
+                                            tLRPC$TL_message_secret = 1;
                                         }
-                                    }
-                                    if (arrayList3 != null) {
-                                    }
-                                    arrayList5 = arrayList3;
-                                    delayedMessage13 = delayedMessage11;
-                                    if (str22 != null) {
-                                    }
-                                    if (tLRPC$Message22.attachPath == null) {
-                                    }
-                                    int newMessageId2222 = getUserConfig().getNewMessageId();
-                                    tLRPC$Message22.id = newMessageId2222;
-                                    tLRPC$Message22.local_id = newMessageId2222;
-                                    tLRPC$Message22.out = true;
-                                    if (z) {
-                                    }
-                                    str24 = str22;
-                                    tL_stories$StoryItem6 = tL_stories$StoryItem4;
-                                    hashMap4 = hashMap5;
-                                    tLRPC$InputPeer3 = tLRPC$InputPeer7;
-                                    if (tLRPC$Peer5 != null) {
-                                    }
-                                }
-                            } catch (Exception e12) {
-                                sendMessagesHelper = this;
-                                exc = e12;
-                                TLRPC$Peer tLRPC$Peer6 = r3;
-                                int i26 = i21;
-                            }
-                        }
-                    } catch (Exception e13) {
-                        sendMessagesHelper = this;
-                        i = i21;
-                        exc = e13;
-                    }
-                }
-                if (z13) {
-                    tLRPC$MessageMedia3 = tLRPC$MessageMedia;
-                    str6 = str2;
-                    obj2 = "query_id";
-                } else {
-                    tLRPC$MessageMedia3 = tLRPC$MessageMedia;
-                    try {
-                        notificationsSettings = MessagesController.getNotificationsSettings(sendMessagesHelper2.currentAccount);
-                        obj2 = "query_id";
-                        sb = new StringBuilder();
-                        str6 = str2;
-                        sb.append(NotificationsSettingsFacade.PROPERTY_SILENT);
-                        sb.append(j8);
-                    } catch (Exception e14) {
-                        exc = e14;
-                        tLRPC$TL_message2 = tLRPC$Message4;
-                        sendMessagesHelper = sendMessagesHelper2;
-                        tLRPC$Peer = tLRPC$TL_message2;
-                        i = i2;
-                        tLRPC$TL_message = tLRPC$Peer;
-                        messageObject = null;
-                        tLRPC$Message = tLRPC$TL_message;
-                        FileLog.e(exc);
-                        getMessagesStorage().markMessageAsSendError(tLRPC$Message, i != 0);
-                        if (messageObject != null) {
-                        }
-                        getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
-                        sendMessagesHelper.processSentMessage(tLRPC$Message.id);
-                        return;
-                    }
-                    if (!notificationsSettings.getBoolean(sb.toString(), false)) {
-                        z3 = false;
-                        tLRPC$Message4.silent = z3;
-                        char c7 = c;
-                        if (tLRPC$Message4.random_id == 0) {
-                            tLRPC$Message4.random_id = getNextRandomId();
-                        }
-                        if (hashMap == null && hashMap.containsKey("bot")) {
-                            if (tLRPC$EncryptedChat != null) {
-                                String str35 = hashMap.get("bot_name");
-                                tLRPC$Message4.via_bot_name = str35;
-                                if (str35 == null) {
-                                    tLRPC$Message4.via_bot_name = "";
-                                }
-                                obj3 = "bot_name";
-                            } else {
-                                obj3 = "bot_name";
-                                tLRPC$Message4.via_bot_id = Utilities.parseLong(hashMap.get("bot")).longValue();
-                            }
-                            tLRPC$Message4.flags |= LiteMode.FLAG_AUTOPLAY_GIFS;
-                        } else {
-                            obj3 = "bot_name";
-                        }
-                        tLRPC$Message4.params = hashMap;
-                        if (messageObject2 != null) {
-                            messageObject3 = messageObject2;
-                            if (messageObject3.resendAsIs) {
-                                str7 = "";
-                                c2 = c7;
-                                tLRPC$Message4.flags |= LiteMode.FLAG_CALLS_ANIMATIONS;
-                                tLRPC$Message4.dialog_id = j8;
-                                tLRPC$Message4.invert_media = z16;
-                                if (tL_stories$StoryItem5 == null) {
-                                    TLRPC$TL_messageReplyStoryHeader tLRPC$TL_messageReplyStoryHeader = new TLRPC$TL_messageReplyStoryHeader();
-                                    tLRPC$Message4.reply_to = tLRPC$TL_messageReplyStoryHeader;
-                                    tL_stories$StoryItem = tL_stories$StoryItem5;
-                                    tLRPC$TL_messageReplyStoryHeader.story_id = tL_stories$StoryItem.id;
-                                    messageObject4 = messageObject3;
-                                    tLRPC$TL_messageReplyStoryHeader.user_id = tL_stories$StoryItem.dialogId;
-                                    tLRPC$Message4.replyStory = tL_stories$StoryItem;
-                                    tLRPC$Message4.flags |= 8;
-                                } else {
-                                    messageObject4 = messageObject3;
-                                    tL_stories$StoryItem = tL_stories$StoryItem5;
-                                    if (messageObject13 != null) {
-                                        if (messageObject11 != null) {
-                                            messageObject5 = messageObject11;
-                                            messageObject6 = messageObject13;
-                                            if (messageObject6 == messageObject5) {
-                                                tLRPC$InputPeer5 = tLRPC$InputPeer3;
-                                                if (messageObject5.getId() == 1) {
-                                                    i5 = i3;
-                                                    if (j2 != 0) {
-                                                        TLRPC$TL_messageReplies tLRPC$TL_messageReplies = new TLRPC$TL_messageReplies();
-                                                        tLRPC$Message4.replies = tLRPC$TL_messageReplies;
-                                                        tLRPC$TL_messageReplies.comments = true;
-                                                        tLRPC$TL_messageReplies.channel_id = j2;
-                                                        tLRPC$TL_messageReplies.flags |= 1;
-                                                        tLRPC$Message4.flags |= 8388608;
-                                                    }
-                                                    if (tLRPC$ReplyMarkup != null && tLRPC$EncryptedChat == null) {
-                                                        tLRPC$Message4.flags |= 64;
-                                                        tLRPC$Message4.reply_markup = tLRPC$ReplyMarkup;
-                                                        str19 = hashMap.get("bot");
-                                                        if (str19 != null) {
-                                                            tLRPC$Message4.via_bot_id = Long.parseLong(str19);
-                                                        }
-                                                    }
-                                                    if (!DialogObject.isEncryptedDialog(j8)) {
-                                                        tLRPC$Message4.peer_id = getMessagesController().getPeer(j8);
-                                                        if (DialogObject.isUserDialog(j8)) {
-                                                            TLRPC$User user = getMessagesController().getUser(Long.valueOf(j8));
-                                                            if (user == null) {
-                                                                sendMessagesHelper2.processSentMessage(tLRPC$Message4.id);
-                                                                return;
-                                                            } else if (user.bot) {
-                                                                tLRPC$Message4.unread = false;
-                                                            }
-                                                        }
-                                                        i6 = i5;
+                                        if (str21 != null) {
+                                            if (tLRPC$EncryptedChat != null) {
+                                                tLRPC$Message18 = new TLRPC$TL_message_secret();
+                                            } else {
+                                                tLRPC$Message18 = new TLRPC$TL_message();
+                                            }
+                                            if (tLRPC$EncryptedChat != null && (tLRPC$WebPage2 instanceof TLRPC$TL_webPagePending)) {
+                                                if (tLRPC$WebPage2.url != null) {
+                                                    TLRPC$TL_webPageUrlPending tLRPC$TL_webPageUrlPending = new TLRPC$TL_webPageUrlPending();
+                                                    tLRPC$TL_webPageUrlPending.url = tLRPC$WebPage2.url;
+                                                    tLRPC$WebPage2 = tLRPC$TL_webPageUrlPending;
+                                                } else {
+                                                    tLRPC$WebPage2 = null;
+                                                }
+                                            }
+                                            if (tLRPC$TL_message_secret != 0 && str21.length() < 30 && tLRPC$WebPage2 == null && ((arrayList6 == null || arrayList6.isEmpty()) && getMessagesController().diceEmojies.contains(str21.replace("️", "")) && tLRPC$EncryptedChat == null && b17 == 0)) {
+                                                TLRPC$TL_messageMediaDice tLRPC$TL_messageMediaDice = new TLRPC$TL_messageMediaDice();
+                                                tLRPC$TL_messageMediaDice.emoticon = str21;
+                                                tLRPC$TL_messageMediaDice.value = -1;
+                                                tLRPC$Message18.media = tLRPC$TL_messageMediaDice;
+                                                sendMessagesHelper = this;
+                                                str18 = "";
+                                                tLRPC$Message3 = b17;
+                                                arrayList3 = arrayList6;
+                                                videoEditedInfo11 = tLRPC$Message19;
+                                                str17 = str24;
+                                                tLRPC$TL_photo3 = tLRPC$TL_photo5;
+                                                tLRPC$MessageMedia6 = tLRPC$MessageMedia7;
+                                                i6 = i7;
+                                                tLRPC$TL_messageMediaWebPage = tLRPC$TL_messageMediaWebPage3;
+                                                z10 = z16;
+                                                c6 = 11;
+                                                z11 = false;
+                                                str16 = str21;
+                                                tLRPC$TL_messageMediaPoll3 = tLRPC$TL_messageMediaPoll4;
+                                                delayedMessage10 = null;
+                                                videoEditedInfo10 = videoEditedInfo9;
+                                                tL_stories$StoryItem3 = tL_stories$StoryItem5;
+                                                if (arrayList3 != null) {
+                                                }
+                                                arrayList5 = arrayList3;
+                                                delayedMessage12 = delayedMessage10;
+                                                if (str18 != null) {
+                                                }
+                                                if (tLRPC$Message18.attachPath == null) {
+                                                }
+                                                int newMessageId = getUserConfig().getNewMessageId();
+                                                tLRPC$Message18.id = newMessageId;
+                                                tLRPC$Message18.local_id = newMessageId;
+                                                tLRPC$Message18.out = true;
+                                                if (z) {
+                                                }
+                                                str20 = str18;
+                                                tL_stories$StoryItem5 = tL_stories$StoryItem3;
+                                                hashMap3 = hashMap4;
+                                                tLRPC$InputPeer3 = tLRPC$InputPeer8;
+                                                if (tLRPC$Peer3 != null) {
+                                                }
+                                            } else {
+                                                if (tLRPC$TL_messageMediaWebPage3 != null) {
+                                                    tLRPC$TL_messageMediaWebPage2 = tLRPC$TL_messageMediaWebPage3;
+                                                    tLRPC$Message18.media = tLRPC$TL_messageMediaWebPage2;
+                                                } else {
+                                                    tLRPC$TL_messageMediaWebPage2 = tLRPC$TL_messageMediaWebPage3;
+                                                    if (tLRPC$WebPage2 == null) {
+                                                        tLRPC$Message18.media = new TLRPC$TL_messageMediaEmpty();
                                                     } else {
-                                                        TLRPC$TL_peerUser tLRPC$TL_peerUser2 = new TLRPC$TL_peerUser();
-                                                        tLRPC$Message4.peer_id = tLRPC$TL_peerUser2;
-                                                        long j9 = tLRPC$EncryptedChat.participant_id;
-                                                        if (j9 == j3) {
-                                                            tLRPC$TL_peerUser2.user_id = tLRPC$EncryptedChat.admin_id;
-                                                        } else {
-                                                            tLRPC$TL_peerUser2.user_id = j9;
-                                                        }
-                                                        if (i5 != 0) {
-                                                            i6 = i5;
-                                                            tLRPC$Message4.ttl = i6;
-                                                        } else {
-                                                            i6 = i5;
-                                                            int i27 = tLRPC$EncryptedChat.ttl;
-                                                            tLRPC$Message4.ttl = i27;
-                                                            if (i27 != 0 && (tLRPC$MessageMedia4 = tLRPC$Message4.media) != null) {
-                                                                tLRPC$MessageMedia4.ttl_seconds = i27;
-                                                                tLRPC$MessageMedia4.flags |= 4;
-                                                            }
-                                                        }
-                                                        if (tLRPC$Message4.ttl != 0 && tLRPC$Message4.media.document != null) {
-                                                            if (MessageObject.isVoiceMessage(tLRPC$Message4)) {
-                                                                int i28 = 0;
-                                                                while (true) {
-                                                                    if (i28 >= tLRPC$Message4.media.document.attributes.size()) {
-                                                                        i8 = 0;
-                                                                        break;
-                                                                    }
-                                                                    TLRPC$DocumentAttribute tLRPC$DocumentAttribute2 = tLRPC$Message4.media.document.attributes.get(i28);
-                                                                    if (tLRPC$DocumentAttribute2 instanceof TLRPC$TL_documentAttributeAudio) {
-                                                                        i8 = (int) tLRPC$DocumentAttribute2.duration;
-                                                                        break;
-                                                                    }
-                                                                    i28++;
-                                                                }
-                                                                tLRPC$Message4.ttl = Math.max(tLRPC$Message4.ttl, i8 + 1);
-                                                            } else if (MessageObject.isVideoMessage(tLRPC$Message4) || MessageObject.isRoundVideoMessage(tLRPC$Message4)) {
-                                                                int i29 = 0;
-                                                                while (true) {
-                                                                    if (i29 >= tLRPC$Message4.media.document.attributes.size()) {
-                                                                        i7 = 0;
-                                                                        break;
-                                                                    }
-                                                                    TLRPC$DocumentAttribute tLRPC$DocumentAttribute3 = tLRPC$Message4.media.document.attributes.get(i29);
-                                                                    if (tLRPC$DocumentAttribute3 instanceof TLRPC$TL_documentAttributeVideo) {
-                                                                        i7 = (int) tLRPC$DocumentAttribute3.duration;
-                                                                        break;
-                                                                    }
-                                                                    i29++;
-                                                                }
-                                                                tLRPC$Message4.ttl = Math.max(tLRPC$Message4.ttl, i7 + 1);
-                                                            }
-                                                        }
+                                                        TLRPC$TL_messageMediaWebPage tLRPC$TL_messageMediaWebPage4 = new TLRPC$TL_messageMediaWebPage();
+                                                        tLRPC$Message18.media = tLRPC$TL_messageMediaWebPage4;
+                                                        tLRPC$TL_messageMediaWebPage4.webpage = tLRPC$WebPage2;
                                                     }
-                                                    if (messageObject6 != null || tL_stories$StoryItem != null || tLRPC$Message4.reply_to == null || DialogObject.isEncryptedDialog(messageObject6.getDialogId())) {
-                                                        tL_stories$StoryItem2 = tL_stories$StoryItem;
-                                                        r18 = i6;
-                                                        z4 = false;
-                                                    } else {
-                                                        TLRPC$Peer peer2 = getMessagesController().getPeer(messageObject6.getDialogId() > 0 ? messageObject6.getSenderId() : messageObject6.getDialogId());
-                                                        boolean z18 = (peer2 == null || MessageObject.peersEqual(getMessagesController().getPeer(messageObject6.getDialogId()), tLRPC$Message4.peer_id)) ? false : true;
-                                                        if (z18 && messageObject6.isForwarded() && !messageObject6.isImportedForward()) {
-                                                            TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader = messageObject6.messageOwner.fwd_from;
-                                                            if (tLRPC$MessageFwdHeader.saved_from_peer == null && (tLRPC$Peer4 = tLRPC$MessageFwdHeader.from_id) != null) {
-                                                                tLRPC$Peer2 = peer2;
-                                                                if ((tLRPC$MessageFwdHeader.flags & 4) != 0) {
-                                                                    tLRPC$Message4.reply_to.reply_to_msg_id = tLRPC$MessageFwdHeader.channel_post;
-                                                                    tLRPC$Peer3 = tLRPC$Peer4;
-                                                                    z18 = true;
-                                                                    z7 = true;
-                                                                    boolean z19 = z7;
-                                                                    tL_stories$StoryItem2 = tL_stories$StoryItem;
-                                                                    r18 = i6;
-                                                                    boolean z20 = ((ChatObject.isForum(getMessagesController().getChat(Long.valueOf(-DialogObject.getPeerDialogId(tLRPC$Message4.peer_id))))) || messageObject5.getId() == messageObject6.getId() || MessageObject.getTopicId(sendMessagesHelper2.currentAccount, messageObject6.messageOwner, true) == ((long) messageObject5.getId())) ? false : true;
-                                                                    if (!z18 && !z20) {
-                                                                        z8 = false;
-                                                                        if (z8) {
-                                                                            if (replyQuote3 == null) {
-                                                                                tLRPC$Message4.reply_to.quote = false;
-                                                                                replyQuote = ChatActivity.ReplyQuote.from(messageObject6);
-                                                                            } else {
-                                                                                replyQuote = replyQuote3;
-                                                                            }
-                                                                            if (replyQuote != null) {
-                                                                                TLRPC$Message tLRPC$Message24 = messageObject6.messageOwner;
-                                                                                if (tLRPC$Message24 != null && (tLRPC$MessageMedia5 = tLRPC$Message24.media) != null) {
-                                                                                    TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader = tLRPC$Message4.reply_to;
-                                                                                    tLRPC$MessageReplyHeader.flags |= LiteMode.FLAG_CHAT_BLUR;
-                                                                                    tLRPC$MessageReplyHeader.reply_media = tLRPC$MessageMedia5;
-                                                                                }
-                                                                                if (replyQuote.getText() != null) {
-                                                                                    TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader2 = tLRPC$Message4.reply_to;
-                                                                                    tLRPC$MessageReplyHeader2.flags |= 64;
-                                                                                    tLRPC$MessageReplyHeader2.quote_text = replyQuote.getText();
-                                                                                    TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader3 = tLRPC$Message4.reply_to;
-                                                                                    tLRPC$MessageReplyHeader3.flags |= 1024;
-                                                                                    tLRPC$MessageReplyHeader3.quote_offset = replyQuote.start;
-                                                                                }
-                                                                                if (replyQuote.getEntities() != null) {
-                                                                                    TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader4 = tLRPC$Message4.reply_to;
-                                                                                    tLRPC$MessageReplyHeader4.flags |= 128;
-                                                                                    tLRPC$MessageReplyHeader4.quote_entities = replyQuote.getEntities();
-                                                                                }
-                                                                            }
-                                                                        }
-                                                                        z4 = z19;
-                                                                    }
-                                                                    TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader5 = tLRPC$Message4.reply_to;
-                                                                    tLRPC$MessageReplyHeader5.flags |= 1;
-                                                                    tLRPC$MessageReplyHeader5.reply_to_peer_id = tLRPC$Peer3;
-                                                                    z8 = true;
-                                                                    if (z8) {
-                                                                    }
-                                                                    z4 = z19;
-                                                                }
-                                                                tLRPC$Peer3 = tLRPC$Peer2;
-                                                                z7 = false;
-                                                                boolean z192 = z7;
-                                                                tL_stories$StoryItem2 = tL_stories$StoryItem;
-                                                                r18 = i6;
-                                                                if (ChatObject.isForum(getMessagesController().getChat(Long.valueOf(-DialogObject.getPeerDialogId(tLRPC$Message4.peer_id))))) {
-                                                                }
-                                                                if (!z18) {
-                                                                    z8 = false;
-                                                                    if (z8) {
-                                                                    }
-                                                                    z4 = z192;
-                                                                }
-                                                                TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader52 = tLRPC$Message4.reply_to;
-                                                                tLRPC$MessageReplyHeader52.flags |= 1;
-                                                                tLRPC$MessageReplyHeader52.reply_to_peer_id = tLRPC$Peer3;
-                                                                z8 = true;
-                                                                if (z8) {
-                                                                }
-                                                                z4 = z192;
-                                                            }
-                                                        }
-                                                        tLRPC$Peer2 = peer2;
-                                                        tLRPC$Peer3 = tLRPC$Peer2;
-                                                        z7 = false;
-                                                        boolean z1922 = z7;
-                                                        tL_stories$StoryItem2 = tL_stories$StoryItem;
-                                                        r18 = i6;
-                                                        if (ChatObject.isForum(getMessagesController().getChat(Long.valueOf(-DialogObject.getPeerDialogId(tLRPC$Message4.peer_id))))) {
-                                                        }
-                                                        if (!z18) {
-                                                        }
-                                                        TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader522 = tLRPC$Message4.reply_to;
-                                                        tLRPC$MessageReplyHeader522.flags |= 1;
-                                                        tLRPC$MessageReplyHeader522.reply_to_peer_id = tLRPC$Peer3;
-                                                        z8 = true;
-                                                        if (z8) {
-                                                        }
-                                                        z4 = z1922;
-                                                    }
-                                                    if (!MessageObject.isVoiceMessage(tLRPC$Message4) || MessageObject.isRoundVideoMessage(tLRPC$Message4)) {
-                                                        tLRPC$Message4.media_unread = true;
-                                                    }
-                                                    if (tLRPC$Message4.from_id == null) {
-                                                        tLRPC$Message4.from_id = tLRPC$Message4.peer_id;
-                                                    }
-                                                    tLRPC$Message4.send_state = 1;
-                                                    if (hashMap != null) {
-                                                        String str36 = hashMap.get("groupId");
-                                                        if (str36 != null) {
-                                                            j4 = Utilities.parseLong(str36).longValue();
-                                                            tLRPC$Message4.grouped_id = j4;
-                                                            tLRPC$Message4.flags |= 131072;
-                                                        } else {
-                                                            j4 = 0;
-                                                        }
-                                                        if (hashMap.get("final") != null) {
-                                                            z5 = true;
-                                                            messageObject = new MessageObject(sendMessagesHelper2.currentAccount, tLRPC$Message4, ((messageObject5 == null && messageObject5 == messageObject6 && messageObject5.getId() == 1) || z4) ? null : messageObject6, true, true);
-                                                            messageObject.sendAnimationData = sendAnimationData;
-                                                            messageObject.wasJustSent = true;
-                                                            messageObject.scheduled = i2 == 0;
-                                                            if (!messageObject.isForwarded()) {
+                                                }
+                                                c6 = (hashMap4 == null || !hashMap4.containsKey("query_id")) ? (char) 0 : '\t';
+                                                tLRPC$Message18.message = str21;
+                                                tLRPC$Message3 = b17;
+                                                arrayList3 = arrayList6;
+                                                videoEditedInfo11 = tLRPC$Message19;
+                                                str17 = str24;
+                                                tLRPC$TL_photo3 = tLRPC$TL_photo5;
+                                                tLRPC$MessageMedia6 = tLRPC$MessageMedia7;
+                                                tLRPC$TL_messageMediaPoll3 = tLRPC$TL_messageMediaPoll4;
+                                                i6 = i7;
+                                                z10 = z16;
+                                                str18 = str25;
+                                                z11 = false;
+                                                str16 = str21;
+                                                videoEditedInfo10 = videoEditedInfo9;
+                                                tLRPC$TL_messageMediaWebPage = tLRPC$TL_messageMediaWebPage2;
+                                                tL_stories$StoryItem3 = tL_stories$StoryItem5;
+                                                delayedMessage10 = null;
+                                                sendMessagesHelper = this;
+                                                if (arrayList3 != null) {
+                                                    try {
+                                                        if (!arrayList3.isEmpty()) {
+                                                            arrayList5 = arrayList3;
+                                                            tLRPC$Message18.entities = arrayList5;
+                                                            delayedMessage12 = delayedMessage10;
+                                                            tLRPC$Message18.flags |= 128;
+                                                            if (str18 != null) {
+                                                                tLRPC$Message18.message = str18;
+                                                            } else {
                                                                 try {
-                                                                    int i30 = messageObject.type;
-                                                                    if ((i30 == 3 || videoEditedInfo6 != null || i30 == 2) && !TextUtils.isEmpty(tLRPC$Message4.attachPath)) {
-                                                                        messageObject.attachPathExists = true;
+                                                                    if (tLRPC$Message18.message == null) {
+                                                                        tLRPC$Message18.message = "";
                                                                     }
-                                                                } catch (Exception e15) {
-                                                                    exc = e15;
-                                                                    sendMessagesHelper = sendMessagesHelper2;
-                                                                    tLRPC$Message6 = tLRPC$Message4;
-                                                                    i = i2;
-                                                                    tLRPC$Message = tLRPC$Message6;
+                                                                } catch (Exception e4) {
+                                                                    e = e4;
+                                                                    tLRPC$TL_message9 = tLRPC$Message18;
+                                                                    b2 = tLRPC$Message3;
+                                                                    exc = e;
+                                                                    tLRPC$TL_message = tLRPC$TL_message9;
+                                                                    messageObject = null;
+                                                                    tLRPC$Message = tLRPC$TL_message;
+                                                                    b3 = b2;
                                                                     FileLog.e(exc);
-                                                                    getMessagesStorage().markMessageAsSendError(tLRPC$Message, i != 0);
+                                                                    getMessagesStorage().markMessageAsSendError(tLRPC$Message, b3 != 0);
                                                                     if (messageObject != null) {
                                                                     }
                                                                     getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
-                                                                    sendMessagesHelper.processSentMessage(tLRPC$Message.id);
+                                                                    processSentMessage(tLRPC$Message.id);
                                                                     return;
                                                                 }
                                                             }
-                                                            videoEditedInfo = messageObject.videoEditedInfo;
-                                                            if (videoEditedInfo != null || videoEditedInfo6 != null) {
-                                                                if (videoEditedInfo6 == null) {
-                                                                    videoEditedInfo2 = videoEditedInfo6;
-                                                                    boolean z21 = videoEditedInfo2.notReadyYet;
-                                                                    if (z21) {
-                                                                        videoEditedInfo.notReadyYet = z21;
-                                                                    }
-                                                                } else {
-                                                                    videoEditedInfo2 = videoEditedInfo6;
-                                                                }
-                                                                videoEditedInfo = videoEditedInfo2;
+                                                            if (tLRPC$Message18.attachPath == null) {
+                                                                tLRPC$Message18.attachPath = "";
                                                             }
-                                                            if (j4 != 0) {
-                                                                ArrayList<MessageObject> arrayList7 = new ArrayList<>();
-                                                                arrayList7.add(messageObject);
-                                                                ArrayList<TLRPC$Message> arrayList8 = new ArrayList<>();
-                                                                arrayList8.add(tLRPC$Message4);
-                                                                MessagesStorage.getInstance(sendMessagesHelper2.currentAccount).putMessages(arrayList8, false, true, false, 0, i2 != 0 ? 1 : 0, 0L);
-                                                                MessagesController.getInstance(sendMessagesHelper2.currentAccount).updateInterfaceWithMessages(j8, arrayList7, i2 != 0);
-                                                                if (i2 == 0) {
-                                                                    videoEditedInfo3 = videoEditedInfo;
-                                                                    NotificationCenter.getInstance(sendMessagesHelper2.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.dialogsNeedReload, new Object[0]);
-                                                                } else {
-                                                                    videoEditedInfo3 = videoEditedInfo;
-                                                                }
-                                                                delayedMessage2 = delayedMessage;
-                                                            } else {
-                                                                videoEditedInfo3 = videoEditedInfo;
-                                                                ArrayList<DelayedMessage> arrayList9 = sendMessagesHelper2.delayedMessages.get("group_" + j4);
-                                                                delayedMessage2 = arrayList9 != null ? arrayList9.get(0) : delayedMessage;
-                                                                if (delayedMessage2 == null) {
-                                                                    DelayedMessage delayedMessage14 = new DelayedMessage(j8);
-                                                                    delayedMessage14.initForGroup(j4);
-                                                                    delayedMessage14.encryptedChat = tLRPC$EncryptedChat;
-                                                                    delayedMessage14.scheduled = i2 != 0;
-                                                                    delayedMessage2 = delayedMessage14;
-                                                                }
-                                                                delayedMessage2.performMediaUpload = false;
-                                                                delayedMessage2.photoSize = null;
-                                                                delayedMessage2.videoEditedInfo = null;
-                                                                delayedMessage2.httpLocation = null;
-                                                                if (z5) {
-                                                                    delayedMessage2.finalGroupMessage = tLRPC$Message4.id;
-                                                                }
-                                                            }
-                                                            if (BuildVars.LOGS_ENABLED || tLRPC$InputPeer5 == null) {
-                                                                delayedMessage3 = delayedMessage2;
-                                                                j5 = j4;
-                                                                i9 = tLRPC$InputPeer5;
-                                                            } else {
-                                                                StringBuilder sb2 = new StringBuilder();
-                                                                sb2.append("send message user_id = ");
-                                                                delayedMessage3 = delayedMessage2;
-                                                                TLRPC$InputPeer tLRPC$InputPeer8 = tLRPC$InputPeer5;
-                                                                sb2.append(tLRPC$InputPeer8.user_id);
-                                                                sb2.append(" chat_id = ");
-                                                                sb2.append(tLRPC$InputPeer8.chat_id);
-                                                                sb2.append(" channel_id = ");
-                                                                sb2.append(tLRPC$InputPeer8.channel_id);
-                                                                sb2.append(" access_hash = ");
-                                                                sb2.append(tLRPC$InputPeer8.access_hash);
-                                                                sb2.append(" notify = ");
-                                                                sb2.append(z13);
-                                                                sb2.append(" silent = ");
-                                                                SharedPreferences notificationsSettings2 = MessagesController.getNotificationsSettings(sendMessagesHelper2.currentAccount);
-                                                                StringBuilder sb3 = new StringBuilder();
-                                                                j5 = j4;
-                                                                sb3.append(NotificationsSettingsFacade.PROPERTY_SILENT);
-                                                                sb3.append(j8);
-                                                                sb2.append(notificationsSettings2.getBoolean(sb3.toString(), false));
-                                                                FileLog.d(sb2.toString());
-                                                                i9 = tLRPC$InputPeer8;
-                                                            }
-                                                            if (c2 != 0 && ((c3 = c2) != '\t' || str6 == null || tLRPC$EncryptedChat == null)) {
-                                                                if (c3 >= 1) {
-                                                                    if (c3 <= 3) {
-                                                                    }
-                                                                    TL_stories$StoryItem tL_stories$StoryItem7 = tL_stories$StoryItem2;
-                                                                    MessageObject messageObject14 = messageObject4;
-                                                                    int i31 = i2;
-                                                                    if (tLRPC$EncryptedChat != null) {
-                                                                        try {
-                                                                            try {
-                                                                                if (c3 == 1) {
-                                                                                    TLRPC$MessageMedia tLRPC$MessageMedia10 = tLRPC$MessageMedia3;
-                                                                                    if (tLRPC$MessageMedia10 instanceof TLRPC$TL_messageMediaVenue) {
-                                                                                        tLRPC$TL_inputMediaGeoPoint = new TLRPC$TL_inputMediaVenue();
-                                                                                        tLRPC$TL_inputMediaGeoPoint.address = tLRPC$MessageMedia10.address;
-                                                                                        tLRPC$TL_inputMediaGeoPoint.title = tLRPC$MessageMedia10.title;
-                                                                                        tLRPC$TL_inputMediaGeoPoint.provider = tLRPC$MessageMedia10.provider;
-                                                                                        tLRPC$TL_inputMediaGeoPoint.venue_id = tLRPC$MessageMedia10.venue_id;
-                                                                                        tLRPC$TL_inputMediaGeoPoint.venue_type = str7;
-                                                                                    } else if (tLRPC$MessageMedia10 instanceof TLRPC$TL_messageMediaGeoLive) {
-                                                                                        tLRPC$TL_inputMediaGeoPoint = new TLRPC$TL_inputMediaGeoLive();
-                                                                                        tLRPC$TL_inputMediaGeoPoint.period = tLRPC$MessageMedia10.period;
-                                                                                        int i32 = tLRPC$TL_inputMediaGeoPoint.flags | 2;
-                                                                                        tLRPC$TL_inputMediaGeoPoint.flags = i32;
-                                                                                        int i33 = tLRPC$MessageMedia10.heading;
-                                                                                        if (i33 != 0) {
-                                                                                            tLRPC$TL_inputMediaGeoPoint.heading = i33;
-                                                                                            tLRPC$TL_inputMediaGeoPoint.flags = i32 | 4;
-                                                                                        }
-                                                                                        int i34 = tLRPC$MessageMedia10.proximity_notification_radius;
-                                                                                        if (i34 != 0) {
-                                                                                            tLRPC$TL_inputMediaGeoPoint.proximity_notification_radius = i34;
-                                                                                            tLRPC$TL_inputMediaGeoPoint.flags |= 8;
-                                                                                        }
-                                                                                    } else {
-                                                                                        tLRPC$TL_inputMediaGeoPoint = new TLRPC$TL_inputMediaGeoPoint();
-                                                                                    }
-                                                                                    TLRPC$TL_inputGeoPoint tLRPC$TL_inputGeoPoint = new TLRPC$TL_inputGeoPoint();
-                                                                                    tLRPC$TL_inputMediaGeoPoint.geo_point = tLRPC$TL_inputGeoPoint;
-                                                                                    TLRPC$GeoPoint tLRPC$GeoPoint = tLRPC$MessageMedia10.geo;
-                                                                                    tLRPC$TL_inputGeoPoint.lat = tLRPC$GeoPoint.lat;
-                                                                                    tLRPC$TL_inputGeoPoint._long = tLRPC$GeoPoint._long;
-                                                                                    c5 = c3;
-                                                                                    tL_stories$StoryItem3 = tL_stories$StoryItem7;
-                                                                                    hashMap2 = hashMap;
-                                                                                    messageObject8 = messageObject5;
-                                                                                    tLRPC$InputPeer6 = i9;
-                                                                                    tLRPC$Message11 = tLRPC$Message5;
-                                                                                    str13 = str;
-                                                                                    z6 = false;
-                                                                                    tLRPC$InputMedia = tLRPC$TL_inputMediaGeoPoint;
-                                                                                    i9 = tLRPC$Message4;
-                                                                                    delayedMessage8 = delayedMessage3;
-                                                                                } else {
-                                                                                    String str37 = str7;
-                                                                                    if (c3 == 2 || (c3 == '\t' && tLRPC$TL_photo != null)) {
-                                                                                        c5 = c3;
-                                                                                        tL_stories$StoryItem3 = tL_stories$StoryItem7;
-                                                                                        messageObject8 = messageObject5;
-                                                                                        tLRPC$InputPeer6 = i9;
-                                                                                        int i35 = r18;
-                                                                                        boolean z22 = z15;
-                                                                                        str13 = str;
-                                                                                        i9 = tLRPC$Message4;
-                                                                                        TLRPC$Message tLRPC$Message25 = tLRPC$Message5;
-                                                                                        try {
-                                                                                            TLRPC$TL_inputMediaUploadedPhoto tLRPC$TL_inputMediaUploadedPhoto2 = new TLRPC$TL_inputMediaUploadedPhoto();
-                                                                                            tLRPC$TL_inputMediaUploadedPhoto2.spoiler = z22;
-                                                                                            if (i35 != 0) {
-                                                                                                tLRPC$TL_inputMediaUploadedPhoto2.ttl_seconds = i35;
-                                                                                                i9.ttl = i35;
-                                                                                                tLRPC$TL_inputMediaUploadedPhoto2.flags |= 2;
-                                                                                            }
-                                                                                            if (hashMap == null || (str14 = hashMap.get("masks")) == null) {
-                                                                                                hashMap2 = hashMap;
-                                                                                            } else {
-                                                                                                SerializedData serializedData = new SerializedData(Utilities.hexToBytes(str14));
-                                                                                                boolean z23 = false;
-                                                                                                int readInt32 = serializedData.readInt32(false);
-                                                                                                int i36 = 0;
-                                                                                                while (i36 < readInt32) {
-                                                                                                    tLRPC$TL_inputMediaUploadedPhoto2.stickers.add(TLRPC$InputDocument.TLdeserialize(serializedData, serializedData.readInt32(z23), z23));
-                                                                                                    i36++;
-                                                                                                    readInt32 = readInt32;
-                                                                                                    hashMap = hashMap;
-                                                                                                    z23 = false;
-                                                                                                }
-                                                                                                hashMap2 = hashMap;
-                                                                                                tLRPC$TL_inputMediaUploadedPhoto2.flags |= 1;
-                                                                                                serializedData.cleanup();
-                                                                                            }
-                                                                                            tLRPC$Message11 = tLRPC$Message25;
-                                                                                            TLRPC$TL_photo tLRPC$TL_photo6 = tLRPC$TL_photo;
-                                                                                            if (tLRPC$TL_photo6.access_hash == 0) {
-                                                                                                tLRPC$TL_inputMediaUploadedPhoto = tLRPC$TL_inputMediaUploadedPhoto2;
-                                                                                                z6 = true;
-                                                                                            } else {
-                                                                                                ?? tLRPC$TL_inputMediaPhoto = new TLRPC$TL_inputMediaPhoto();
-                                                                                                TLRPC$TL_inputPhoto tLRPC$TL_inputPhoto = new TLRPC$TL_inputPhoto();
-                                                                                                tLRPC$TL_inputMediaPhoto.id = tLRPC$TL_inputPhoto;
-                                                                                                tLRPC$TL_inputPhoto.id = tLRPC$TL_photo6.id;
-                                                                                                tLRPC$TL_inputPhoto.access_hash = tLRPC$TL_photo6.access_hash;
-                                                                                                byte[] bArr3 = tLRPC$TL_photo6.file_reference;
-                                                                                                tLRPC$TL_inputPhoto.file_reference = bArr3;
-                                                                                                if (bArr3 == null) {
-                                                                                                    tLRPC$TL_inputPhoto.file_reference = new byte[0];
-                                                                                                }
-                                                                                                tLRPC$TL_inputMediaPhoto.spoiler = z22;
-                                                                                                z6 = false;
-                                                                                                tLRPC$TL_inputMediaUploadedPhoto = tLRPC$TL_inputMediaPhoto;
-                                                                                            }
-                                                                                            if (delayedMessage3 == null) {
-                                                                                                delayedMessage7 = new DelayedMessage(j8);
-                                                                                                delayedMessage7.type = 0;
-                                                                                                delayedMessage7.obj = messageObject;
-                                                                                                delayedMessage7.originalPath = str13;
-                                                                                                delayedMessage7.scheduled = i31 != 0;
-                                                                                            } else {
-                                                                                                delayedMessage7 = delayedMessage3;
-                                                                                            }
-                                                                                            delayedMessage7.inputUploadMedia = tLRPC$TL_inputMediaUploadedPhoto2;
-                                                                                            delayedMessage7.performMediaUpload = z6;
-                                                                                            if (str28 != null && str28.length() > 0) {
-                                                                                                String str38 = str28;
-                                                                                                if (str38.startsWith("http")) {
-                                                                                                    delayedMessage7.httpLocation = str38;
-                                                                                                    tLRPC$InputMedia = tLRPC$TL_inputMediaUploadedPhoto;
-                                                                                                    delayedMessage8 = delayedMessage7;
-                                                                                                    i9 = i9;
-                                                                                                }
-                                                                                            }
-                                                                                            ArrayList<TLRPC$PhotoSize> arrayList10 = tLRPC$TL_photo6.sizes;
-                                                                                            delayedMessage7.photoSize = arrayList10.get(arrayList10.size() - 1);
-                                                                                            delayedMessage7.locationParent = tLRPC$TL_photo6;
-                                                                                            tLRPC$InputMedia = tLRPC$TL_inputMediaUploadedPhoto;
-                                                                                            delayedMessage8 = delayedMessage7;
-                                                                                            i9 = i9;
-                                                                                        } catch (Exception e16) {
-                                                                                            exc = e16;
-                                                                                            i = i31;
-                                                                                            tLRPC$Message = i9;
-                                                                                            sendMessagesHelper = sendMessagesHelper2;
-                                                                                        }
-                                                                                    } else {
-                                                                                        try {
-                                                                                            if (c3 == 3) {
-                                                                                                try {
-                                                                                                    TLRPC$TL_inputMediaUploadedDocument tLRPC$TL_inputMediaUploadedDocument5 = new TLRPC$TL_inputMediaUploadedDocument();
-                                                                                                    TLRPC$TL_document tLRPC$TL_document6 = tLRPC$TL_document;
-                                                                                                    tLRPC$TL_inputMediaUploadedDocument5.mime_type = tLRPC$TL_document6.mime_type;
-                                                                                                    tLRPC$TL_inputMediaUploadedDocument5.attributes = tLRPC$TL_document6.attributes;
-                                                                                                    boolean z24 = z15;
-                                                                                                    tLRPC$TL_inputMediaUploadedDocument5.spoiler = z24;
-                                                                                                    if (!z2) {
-                                                                                                        if (MessageObject.isRoundVideoDocument(tLRPC$TL_document6)) {
-                                                                                                            tL_stories$StoryItem3 = tL_stories$StoryItem7;
-                                                                                                            messageObject8 = messageObject5;
-                                                                                                            videoEditedInfo4 = videoEditedInfo3;
-                                                                                                        } else if (videoEditedInfo3 != null) {
-                                                                                                            tL_stories$StoryItem3 = tL_stories$StoryItem7;
-                                                                                                            messageObject8 = messageObject5;
-                                                                                                            videoEditedInfo4 = videoEditedInfo3;
-                                                                                                            if (!videoEditedInfo4.muted) {
-                                                                                                            }
-                                                                                                        }
-                                                                                                        if (r18 != 0) {
-                                                                                                            int i37 = r18;
-                                                                                                            tLRPC$TL_inputMediaUploadedDocument5.ttl_seconds = i37;
-                                                                                                            tLRPC$Message4.ttl = i37;
-                                                                                                            tLRPC$TL_inputMediaUploadedDocument5.flags |= 2;
-                                                                                                        }
-                                                                                                        if (hashMap != null || (str16 = hashMap.get("masks")) == null) {
-                                                                                                            c5 = c3;
-                                                                                                            tLRPC$Message12 = tLRPC$Message4;
-                                                                                                            videoEditedInfo5 = videoEditedInfo4;
-                                                                                                            tLRPC$InputPeer6 = i9;
-                                                                                                        } else {
-                                                                                                            tLRPC$InputPeer6 = i9;
-                                                                                                            SerializedData serializedData2 = new SerializedData(Utilities.hexToBytes(str16));
-                                                                                                            tLRPC$Message12 = tLRPC$Message4;
-                                                                                                            int i38 = 0;
-                                                                                                            int readInt322 = serializedData2.readInt32(false);
-                                                                                                            while (i38 < readInt322) {
-                                                                                                                tLRPC$TL_inputMediaUploadedDocument5.stickers.add(TLRPC$InputDocument.TLdeserialize(serializedData2, serializedData2.readInt32(false), false));
-                                                                                                                i38++;
-                                                                                                                readInt322 = readInt322;
-                                                                                                                videoEditedInfo4 = videoEditedInfo4;
-                                                                                                                c3 = c3;
-                                                                                                            }
-                                                                                                            c5 = c3;
-                                                                                                            videoEditedInfo5 = videoEditedInfo4;
-                                                                                                            tLRPC$TL_inputMediaUploadedDocument5.flags |= 1;
-                                                                                                            serializedData2.cleanup();
-                                                                                                        }
-                                                                                                        if (tLRPC$TL_document6.access_hash != 0) {
-                                                                                                            tLRPC$TL_inputMediaDocument = tLRPC$TL_inputMediaUploadedDocument5;
-                                                                                                            z6 = true;
-                                                                                                        } else {
-                                                                                                            TLRPC$TL_inputMediaDocument tLRPC$TL_inputMediaDocument2 = new TLRPC$TL_inputMediaDocument();
-                                                                                                            TLRPC$TL_inputDocument tLRPC$TL_inputDocument = new TLRPC$TL_inputDocument();
-                                                                                                            tLRPC$TL_inputMediaDocument2.id = tLRPC$TL_inputDocument;
-                                                                                                            tLRPC$TL_inputDocument.id = tLRPC$TL_document6.id;
-                                                                                                            tLRPC$TL_inputDocument.access_hash = tLRPC$TL_document6.access_hash;
-                                                                                                            byte[] bArr4 = tLRPC$TL_document6.file_reference;
-                                                                                                            tLRPC$TL_inputDocument.file_reference = bArr4;
-                                                                                                            if (bArr4 == null) {
-                                                                                                                tLRPC$TL_inputDocument.file_reference = new byte[0];
-                                                                                                            }
-                                                                                                            if (hashMap != null && hashMap.containsKey("query")) {
-                                                                                                                tLRPC$TL_inputMediaDocument2.query = hashMap.get("query");
-                                                                                                                tLRPC$TL_inputMediaDocument2.flags |= 2;
-                                                                                                            }
-                                                                                                            tLRPC$TL_inputMediaDocument2.spoiler = z24;
-                                                                                                            tLRPC$TL_inputMediaDocument = tLRPC$TL_inputMediaDocument2;
-                                                                                                            z6 = false;
-                                                                                                        }
-                                                                                                        if (delayedMessage3 != null) {
-                                                                                                            delayedMessage9 = new DelayedMessage(j8);
-                                                                                                            delayedMessage9.type = 1;
-                                                                                                            delayedMessage9.obj = messageObject;
-                                                                                                            str15 = str;
-                                                                                                            delayedMessage9.originalPath = str15;
-                                                                                                            tLRPC$Message13 = tLRPC$Message5;
-                                                                                                            delayedMessage9.parentObject = tLRPC$Message13;
-                                                                                                            delayedMessage9.scheduled = i31 != 0;
-                                                                                                        } else {
-                                                                                                            tLRPC$Message13 = tLRPC$Message5;
-                                                                                                            str15 = str;
-                                                                                                            delayedMessage9 = delayedMessage3;
-                                                                                                        }
-                                                                                                        delayedMessage9.inputUploadMedia = tLRPC$TL_inputMediaUploadedDocument5;
-                                                                                                        delayedMessage9.performMediaUpload = z6;
-                                                                                                        if (!tLRPC$TL_document6.thumbs.isEmpty()) {
-                                                                                                            TLRPC$PhotoSize tLRPC$PhotoSize = tLRPC$TL_document6.thumbs.get(0);
-                                                                                                            if (!(tLRPC$PhotoSize instanceof TLRPC$TL_photoStrippedSize)) {
-                                                                                                                delayedMessage9.photoSize = tLRPC$PhotoSize;
-                                                                                                                delayedMessage9.locationParent = tLRPC$TL_document6;
-                                                                                                            }
-                                                                                                        }
-                                                                                                        delayedMessage9.videoEditedInfo = videoEditedInfo5;
-                                                                                                        str13 = str15;
-                                                                                                        tLRPC$Message14 = tLRPC$Message12;
-                                                                                                        delayedMessage8 = delayedMessage9;
-                                                                                                    }
-                                                                                                    tL_stories$StoryItem3 = tL_stories$StoryItem7;
-                                                                                                    messageObject8 = messageObject5;
-                                                                                                    videoEditedInfo4 = videoEditedInfo3;
-                                                                                                    tLRPC$TL_inputMediaUploadedDocument5.nosound_video = true;
-                                                                                                    if (BuildVars.DEBUG_VERSION) {
-                                                                                                        FileLog.d("nosound_video = true");
-                                                                                                    }
-                                                                                                    if (r18 != 0) {
-                                                                                                    }
-                                                                                                    if (hashMap != null) {
-                                                                                                    }
-                                                                                                    c5 = c3;
-                                                                                                    tLRPC$Message12 = tLRPC$Message4;
-                                                                                                    videoEditedInfo5 = videoEditedInfo4;
-                                                                                                    tLRPC$InputPeer6 = i9;
-                                                                                                    if (tLRPC$TL_document6.access_hash != 0) {
-                                                                                                    }
-                                                                                                    if (delayedMessage3 != null) {
-                                                                                                    }
-                                                                                                    delayedMessage9.inputUploadMedia = tLRPC$TL_inputMediaUploadedDocument5;
-                                                                                                    delayedMessage9.performMediaUpload = z6;
-                                                                                                    if (!tLRPC$TL_document6.thumbs.isEmpty()) {
-                                                                                                    }
-                                                                                                    delayedMessage9.videoEditedInfo = videoEditedInfo5;
-                                                                                                    str13 = str15;
-                                                                                                    tLRPC$Message14 = tLRPC$Message12;
-                                                                                                    delayedMessage8 = delayedMessage9;
-                                                                                                } catch (Exception e17) {
-                                                                                                    e = e17;
-                                                                                                    exc = e;
-                                                                                                    i = i31;
-                                                                                                    sendMessagesHelper = sendMessagesHelper2;
-                                                                                                    tLRPC$Message = tLRPC$Message4;
-                                                                                                    FileLog.e(exc);
-                                                                                                    getMessagesStorage().markMessageAsSendError(tLRPC$Message, i != 0);
-                                                                                                    if (messageObject != null) {
-                                                                                                    }
-                                                                                                    getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
-                                                                                                    sendMessagesHelper.processSentMessage(tLRPC$Message.id);
-                                                                                                    return;
-                                                                                                }
-                                                                                            } else {
-                                                                                                tL_stories$StoryItem3 = tL_stories$StoryItem7;
-                                                                                                messageObject8 = messageObject5;
-                                                                                                tLRPC$InputPeer6 = i9;
-                                                                                                int i39 = r18;
-                                                                                                tLRPC$Message13 = tLRPC$Message5;
-                                                                                                TLRPC$TL_document tLRPC$TL_document7 = tLRPC$TL_document;
-                                                                                                boolean z25 = z15;
-                                                                                                TLRPC$Message tLRPC$Message26 = tLRPC$Message4;
-                                                                                                String str39 = str;
-                                                                                                if (c3 == 6) {
-                                                                                                    tLRPC$TL_inputMediaDocument = new TLRPC$TL_inputMediaContact();
-                                                                                                    TLRPC$User tLRPC$User5 = tLRPC$User;
-                                                                                                    tLRPC$TL_inputMediaDocument.phone_number = tLRPC$User5.phone;
-                                                                                                    tLRPC$TL_inputMediaDocument.first_name = tLRPC$User5.first_name;
-                                                                                                    tLRPC$TL_inputMediaDocument.last_name = tLRPC$User5.last_name;
-                                                                                                    if (!tLRPC$User5.restriction_reason.isEmpty() && tLRPC$User5.restriction_reason.get(0).text.startsWith("BEGIN:VCARD")) {
-                                                                                                        tLRPC$TL_inputMediaDocument.vcard = tLRPC$User5.restriction_reason.get(0).text;
-                                                                                                    } else {
-                                                                                                        tLRPC$TL_inputMediaDocument.vcard = str37;
-                                                                                                    }
-                                                                                                    c5 = c3;
-                                                                                                    str13 = str39;
-                                                                                                    delayedMessage8 = delayedMessage3;
-                                                                                                    tLRPC$Message14 = tLRPC$Message26;
-                                                                                                    z6 = false;
-                                                                                                } else {
-                                                                                                    if (c3 == 7 || c3 == '\t') {
-                                                                                                        TLRPC$Message tLRPC$Message27 = tLRPC$Message26;
-                                                                                                        if (str39 == null && str28 == null) {
-                                                                                                            c5 = c3;
-                                                                                                            if (tLRPC$TL_document7.access_hash != 0) {
-                                                                                                                tLRPC$TL_inputMediaUploadedDocument = null;
-                                                                                                                if (tLRPC$TL_document7.access_hash != 0) {
-                                                                                                                    z6 = tLRPC$TL_inputMediaUploadedDocument instanceof TLRPC$TL_inputMediaUploadedDocument;
-                                                                                                                    tLRPC$TL_inputMediaUploadedDocument2 = tLRPC$TL_inputMediaUploadedDocument;
-                                                                                                                    tLRPC$Message15 = tLRPC$Message13;
-                                                                                                                } else {
-                                                                                                                    TLRPC$TL_inputMediaDocument tLRPC$TL_inputMediaDocument3 = new TLRPC$TL_inputMediaDocument();
-                                                                                                                    TLRPC$TL_inputDocument tLRPC$TL_inputDocument2 = new TLRPC$TL_inputDocument();
-                                                                                                                    tLRPC$TL_inputMediaDocument3.id = tLRPC$TL_inputDocument2;
-                                                                                                                    tLRPC$Message15 = tLRPC$Message13;
-                                                                                                                    tLRPC$TL_inputDocument2.id = tLRPC$TL_document7.id;
-                                                                                                                    tLRPC$TL_inputDocument2.access_hash = tLRPC$TL_document7.access_hash;
-                                                                                                                    byte[] bArr5 = tLRPC$TL_document7.file_reference;
-                                                                                                                    tLRPC$TL_inputDocument2.file_reference = bArr5;
-                                                                                                                    if (bArr5 == null) {
-                                                                                                                        tLRPC$TL_inputDocument2.file_reference = new byte[0];
-                                                                                                                    }
-                                                                                                                    if (hashMap != null && hashMap.containsKey("query")) {
-                                                                                                                        tLRPC$TL_inputMediaDocument3.query = hashMap.get("query");
-                                                                                                                        tLRPC$TL_inputMediaDocument3.flags |= 2;
-                                                                                                                    }
-                                                                                                                    tLRPC$TL_inputMediaDocument3.spoiler = z25;
-                                                                                                                    z6 = false;
-                                                                                                                    tLRPC$TL_inputMediaUploadedDocument2 = tLRPC$TL_inputMediaDocument3;
-                                                                                                                }
-                                                                                                                if (tLRPC$TL_inputMediaUploadedDocument == null) {
-                                                                                                                    if (delayedMessage3 == null) {
-                                                                                                                        delayedMessage10 = new DelayedMessage(j8);
-                                                                                                                        delayedMessage10.type = 2;
-                                                                                                                        delayedMessage10.obj = messageObject;
-                                                                                                                        str13 = str39;
-                                                                                                                        delayedMessage10.originalPath = str13;
-                                                                                                                        tLRPC$Message16 = tLRPC$Message15;
-                                                                                                                        delayedMessage10.parentObject = tLRPC$Message16;
-                                                                                                                        delayedMessage10.scheduled = i31 != 0;
-                                                                                                                    } else {
-                                                                                                                        tLRPC$Message16 = tLRPC$Message15;
-                                                                                                                        str13 = str39;
-                                                                                                                        delayedMessage10 = delayedMessage3;
-                                                                                                                    }
-                                                                                                                    delayedMessage10.inputUploadMedia = tLRPC$TL_inputMediaUploadedDocument;
-                                                                                                                    delayedMessage10.performMediaUpload = z6;
-                                                                                                                    if (!tLRPC$TL_document7.thumbs.isEmpty()) {
-                                                                                                                        TLRPC$PhotoSize tLRPC$PhotoSize2 = tLRPC$TL_document7.thumbs.get(0);
-                                                                                                                        if (!(tLRPC$PhotoSize2 instanceof TLRPC$TL_photoStrippedSize)) {
-                                                                                                                            delayedMessage10.photoSize = tLRPC$PhotoSize2;
-                                                                                                                            delayedMessage10.locationParent = tLRPC$TL_document7;
-                                                                                                                        }
-                                                                                                                    }
-                                                                                                                } else {
-                                                                                                                    tLRPC$Message16 = tLRPC$Message15;
-                                                                                                                    str13 = str39;
-                                                                                                                    delayedMessage10 = delayedMessage3;
-                                                                                                                }
-                                                                                                                tLRPC$TL_inputMediaUploadedDocument3 = tLRPC$TL_inputMediaUploadedDocument2;
-                                                                                                                hashMap2 = hashMap;
-                                                                                                                tLRPC$Message11 = tLRPC$Message16;
-                                                                                                                tLRPC$Message17 = tLRPC$Message27;
-                                                                                                            }
-                                                                                                        } else {
-                                                                                                            c5 = c3;
-                                                                                                        }
-                                                                                                        TLRPC$TL_inputMediaUploadedDocument tLRPC$TL_inputMediaUploadedDocument6 = new TLRPC$TL_inputMediaUploadedDocument();
-                                                                                                        tLRPC$TL_inputMediaUploadedDocument6.spoiler = z25;
-                                                                                                        if (i39 != 0) {
-                                                                                                            tLRPC$TL_inputMediaUploadedDocument6.ttl_seconds = i39;
-                                                                                                            tLRPC$Message27.ttl = i39;
-                                                                                                            tLRPC$TL_inputMediaUploadedDocument6.flags |= 2;
-                                                                                                        }
-                                                                                                        if (z2 || (!TextUtils.isEmpty(str28) && str28.toLowerCase().endsWith("mp4") && (hashMap == null || hashMap.containsKey("forceDocument")))) {
-                                                                                                            tLRPC$TL_inputMediaUploadedDocument6.nosound_video = true;
-                                                                                                        }
-                                                                                                        tLRPC$TL_inputMediaUploadedDocument6.force_file = hashMap != null && hashMap.containsKey("forceDocument");
-                                                                                                        tLRPC$TL_inputMediaUploadedDocument6.mime_type = tLRPC$TL_document7.mime_type;
-                                                                                                        tLRPC$TL_inputMediaUploadedDocument6.attributes = tLRPC$TL_document7.attributes;
-                                                                                                        tLRPC$TL_inputMediaUploadedDocument = tLRPC$TL_inputMediaUploadedDocument6;
-                                                                                                        if (tLRPC$TL_document7.access_hash != 0) {
-                                                                                                        }
-                                                                                                        if (tLRPC$TL_inputMediaUploadedDocument == null) {
-                                                                                                        }
-                                                                                                        tLRPC$TL_inputMediaUploadedDocument3 = tLRPC$TL_inputMediaUploadedDocument2;
-                                                                                                        hashMap2 = hashMap;
-                                                                                                        tLRPC$Message11 = tLRPC$Message16;
-                                                                                                        tLRPC$Message17 = tLRPC$Message27;
-                                                                                                    } else if (c3 == '\b') {
-                                                                                                        try {
-                                                                                                            TLRPC$TL_inputMediaUploadedDocument tLRPC$TL_inputMediaUploadedDocument7 = new TLRPC$TL_inputMediaUploadedDocument();
-                                                                                                            tLRPC$TL_inputMediaUploadedDocument7.mime_type = tLRPC$TL_document7.mime_type;
-                                                                                                            tLRPC$TL_inputMediaUploadedDocument7.attributes = tLRPC$TL_document7.attributes;
-                                                                                                            tLRPC$TL_inputMediaUploadedDocument7.spoiler = z25;
-                                                                                                            if (i39 != 0) {
-                                                                                                                tLRPC$TL_inputMediaUploadedDocument7.ttl_seconds = i39;
-                                                                                                                TLRPC$Message tLRPC$Message28 = tLRPC$Message26;
-                                                                                                                tLRPC$Message28.ttl = i39;
-                                                                                                                tLRPC$TL_inputMediaUploadedDocument7.flags |= 2;
-                                                                                                                tLRPC$Message18 = tLRPC$Message28;
-                                                                                                            } else {
-                                                                                                                tLRPC$Message18 = tLRPC$Message26;
-                                                                                                            }
-                                                                                                            c5 = c3;
-                                                                                                            if (tLRPC$TL_document7.access_hash == 0) {
-                                                                                                                tLRPC$TL_inputMediaUploadedDocument4 = tLRPC$TL_inputMediaUploadedDocument7;
-                                                                                                                str17 = str39;
-                                                                                                                tLRPC$Message19 = tLRPC$Message13;
-                                                                                                                z6 = true;
-                                                                                                            } else {
-                                                                                                                ?? tLRPC$TL_inputMediaDocument4 = new TLRPC$TL_inputMediaDocument();
-                                                                                                                TLRPC$TL_inputDocument tLRPC$TL_inputDocument3 = new TLRPC$TL_inputDocument();
-                                                                                                                tLRPC$TL_inputMediaDocument4.id = tLRPC$TL_inputDocument3;
-                                                                                                                str17 = str39;
-                                                                                                                tLRPC$Message19 = tLRPC$Message13;
-                                                                                                                tLRPC$TL_inputDocument3.id = tLRPC$TL_document7.id;
-                                                                                                                tLRPC$TL_inputDocument3.access_hash = tLRPC$TL_document7.access_hash;
-                                                                                                                byte[] bArr6 = tLRPC$TL_document7.file_reference;
-                                                                                                                tLRPC$TL_inputDocument3.file_reference = bArr6;
-                                                                                                                if (bArr6 == null) {
-                                                                                                                    tLRPC$TL_inputDocument3.file_reference = new byte[0];
-                                                                                                                }
-                                                                                                                if (hashMap != null && hashMap.containsKey("query")) {
-                                                                                                                    tLRPC$TL_inputMediaDocument4.query = hashMap.get("query");
-                                                                                                                    tLRPC$TL_inputMediaDocument4.flags |= 2;
-                                                                                                                }
-                                                                                                                tLRPC$TL_inputMediaDocument4.spoiler = z25;
-                                                                                                                z6 = false;
-                                                                                                                tLRPC$TL_inputMediaUploadedDocument4 = tLRPC$TL_inputMediaDocument4;
-                                                                                                            }
-                                                                                                            delayedMessage10 = new DelayedMessage(j8);
-                                                                                                            delayedMessage10.type = 3;
-                                                                                                            delayedMessage10.obj = messageObject;
-                                                                                                            TLRPC$Message tLRPC$Message29 = tLRPC$Message19;
-                                                                                                            delayedMessage10.parentObject = tLRPC$Message29;
-                                                                                                            delayedMessage10.inputUploadMedia = tLRPC$TL_inputMediaUploadedDocument7;
-                                                                                                            delayedMessage10.performMediaUpload = z6;
-                                                                                                            delayedMessage10.scheduled = i31 != 0;
-                                                                                                            hashMap2 = hashMap;
-                                                                                                            tLRPC$Message11 = tLRPC$Message29;
-                                                                                                            str13 = str17;
-                                                                                                            tLRPC$TL_inputMediaUploadedDocument3 = tLRPC$TL_inputMediaUploadedDocument4;
-                                                                                                            tLRPC$Message17 = tLRPC$Message18;
-                                                                                                        } catch (Exception e18) {
-                                                                                                            e = e18;
-                                                                                                            i9 = tLRPC$Message26;
-                                                                                                            exc = e;
-                                                                                                            i = i31;
-                                                                                                            sendMessagesHelper = sendMessagesHelper2;
-                                                                                                            tLRPC$Message = i9;
-                                                                                                            FileLog.e(exc);
-                                                                                                            getMessagesStorage().markMessageAsSendError(tLRPC$Message, i != 0);
-                                                                                                            if (messageObject != null) {
-                                                                                                            }
-                                                                                                            getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
-                                                                                                            sendMessagesHelper.processSentMessage(tLRPC$Message.id);
-                                                                                                            return;
-                                                                                                        }
-                                                                                                    } else {
-                                                                                                        TLRPC$Message tLRPC$Message30 = tLRPC$Message26;
-                                                                                                        if (c3 == '\n') {
-                                                                                                            ?? tLRPC$TL_inputMediaPoll = new TLRPC$TL_inputMediaPoll();
-                                                                                                            TLRPC$TL_messageMediaPoll tLRPC$TL_messageMediaPoll5 = tLRPC$TL_messageMediaPoll;
-                                                                                                            tLRPC$TL_inputMediaPoll.poll = tLRPC$TL_messageMediaPoll5.poll;
-                                                                                                            if (hashMap != null && hashMap.containsKey("answers")) {
-                                                                                                                byte[] hexToBytes = Utilities.hexToBytes(hashMap.get("answers"));
-                                                                                                                if (hexToBytes.length > 0) {
-                                                                                                                    for (int i40 = 0; i40 < hexToBytes.length; i40++) {
-                                                                                                                        tLRPC$TL_inputMediaPoll.correct_answers.add(new byte[]{hexToBytes[i40]});
-                                                                                                                    }
-                                                                                                                    tLRPC$TL_inputMediaPoll.flags |= 1;
-                                                                                                                }
-                                                                                                            }
-                                                                                                            TLRPC$PollResults tLRPC$PollResults = tLRPC$TL_messageMediaPoll5.results;
-                                                                                                            tLRPC$TL_inputMediaStory = tLRPC$TL_inputMediaPoll;
-                                                                                                            if (tLRPC$PollResults != null) {
-                                                                                                                tLRPC$TL_inputMediaStory = tLRPC$TL_inputMediaPoll;
-                                                                                                                if (!TextUtils.isEmpty(tLRPC$PollResults.solution)) {
-                                                                                                                    TLRPC$PollResults tLRPC$PollResults2 = tLRPC$TL_messageMediaPoll5.results;
-                                                                                                                    tLRPC$TL_inputMediaPoll.solution = tLRPC$PollResults2.solution;
-                                                                                                                    tLRPC$TL_inputMediaPoll.solution_entities = tLRPC$PollResults2.solution_entities;
-                                                                                                                    tLRPC$TL_inputMediaPoll.flags |= 2;
-                                                                                                                    tLRPC$TL_inputMediaStory = tLRPC$TL_inputMediaPoll;
-                                                                                                                }
-                                                                                                            }
-                                                                                                        } else if (c3 == 11) {
-                                                                                                            ?? tLRPC$TL_inputMediaDice = new TLRPC$TL_inputMediaDice();
-                                                                                                            tLRPC$TL_inputMediaDice.emoticon = str6;
-                                                                                                            tLRPC$TL_inputMediaStory = tLRPC$TL_inputMediaDice;
-                                                                                                        } else if (c3 == '\f') {
-                                                                                                            TLRPC$TL_inputMediaStory tLRPC$TL_inputMediaStory2 = new TLRPC$TL_inputMediaStory();
-                                                                                                            TL_stories$StoryItem tL_stories$StoryItem8 = tL_stories$StoryItem6;
-                                                                                                            tLRPC$TL_inputMediaStory2.id = tL_stories$StoryItem8.id;
-                                                                                                            tLRPC$TL_inputMediaStory2.peer = MessagesController.getInstance(sendMessagesHelper2.currentAccount).getInputPeer(tL_stories$StoryItem8.dialogId);
-                                                                                                            tLRPC$TL_inputMediaStory = tLRPC$TL_inputMediaStory2;
-                                                                                                        } else {
-                                                                                                            c5 = c3;
-                                                                                                            hashMap2 = hashMap;
-                                                                                                            tLRPC$Message11 = tLRPC$Message13;
-                                                                                                            delayedMessage8 = delayedMessage3;
-                                                                                                            str13 = str39;
-                                                                                                            z6 = false;
-                                                                                                            tLRPC$InputMedia = null;
-                                                                                                            i9 = tLRPC$Message30;
-                                                                                                        }
-                                                                                                        c5 = c3;
-                                                                                                        hashMap2 = hashMap;
-                                                                                                        tLRPC$Message11 = tLRPC$Message13;
-                                                                                                        delayedMessage8 = delayedMessage3;
-                                                                                                        str13 = str39;
-                                                                                                        z6 = false;
-                                                                                                        tLRPC$InputMedia = tLRPC$TL_inputMediaStory;
-                                                                                                        i9 = tLRPC$Message30;
-                                                                                                    }
-                                                                                                    delayedMessage8 = delayedMessage10;
-                                                                                                    tLRPC$InputMedia = tLRPC$TL_inputMediaUploadedDocument3;
-                                                                                                    i9 = tLRPC$Message17;
-                                                                                                }
-                                                                                            }
-                                                                                            hashMap2 = hashMap;
-                                                                                            tLRPC$Message11 = tLRPC$Message13;
-                                                                                            tLRPC$InputMedia = tLRPC$TL_inputMediaDocument;
-                                                                                            i9 = tLRPC$Message14;
-                                                                                        } catch (Exception e19) {
-                                                                                            exc = e19;
-                                                                                            i = i31;
-                                                                                            sendMessagesHelper = sendMessagesHelper2;
-                                                                                            tLRPC$Message = r18;
-                                                                                        }
-                                                                                    }
-                                                                                }
-                                                                                if (j5 != 0) {
-                                                                                    TLObject tLObject = delayedMessage8.sendRequest;
-                                                                                    if (tLObject != null) {
-                                                                                        tLRPC$TL_messages_sendMedia2 = (TLRPC$TL_messages_sendMultiMedia) tLObject;
-                                                                                    } else {
-                                                                                        TLRPC$TL_messages_sendMultiMedia tLRPC$TL_messages_sendMultiMedia = new TLRPC$TL_messages_sendMultiMedia();
-                                                                                        tLRPC$TL_messages_sendMultiMedia.peer = tLRPC$InputPeer6;
-                                                                                        tLRPC$TL_messages_sendMultiMedia.silent = i9.silent;
-                                                                                        if (i9.replyStory != null) {
-                                                                                            tLRPC$TL_messages_sendMultiMedia.flags |= 1;
-                                                                                            tLRPC$TL_messages_sendMultiMedia.reply_to = sendMessagesHelper2.createReplyInput(tL_stories$StoryItem3);
-                                                                                        } else {
-                                                                                            TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader6 = i9.reply_to;
-                                                                                            if (tLRPC$MessageReplyHeader6 instanceof TLRPC$TL_messageReplyHeader) {
-                                                                                                tLRPC$TL_messages_sendMultiMedia.flags |= 1;
-                                                                                                tLRPC$TL_messages_sendMultiMedia.reply_to = sendMessagesHelper2.createReplyInput((TLRPC$TL_messageReplyHeader) tLRPC$MessageReplyHeader6);
-                                                                                            }
-                                                                                        }
-                                                                                        if (i31 != 0) {
-                                                                                            tLRPC$TL_messages_sendMultiMedia.schedule_date = i31;
-                                                                                            tLRPC$TL_messages_sendMultiMedia.flags |= 1024;
-                                                                                        }
-                                                                                        delayedMessage8.sendRequest = tLRPC$TL_messages_sendMultiMedia;
-                                                                                        tLRPC$TL_messages_sendMedia2 = tLRPC$TL_messages_sendMultiMedia;
-                                                                                    }
-                                                                                    delayedMessage8.messageObjects.add(messageObject);
-                                                                                    delayedMessage8.parentObjects.add(tLRPC$Message11);
-                                                                                    delayedMessage8.locations.add(delayedMessage8.photoSize);
-                                                                                    delayedMessage8.videoEditedInfos.add(delayedMessage8.videoEditedInfo);
-                                                                                    delayedMessage8.httpLocations.add(delayedMessage8.httpLocation);
-                                                                                    delayedMessage8.inputMedias.add(delayedMessage8.inputUploadMedia);
-                                                                                    delayedMessage8.messages.add(i9);
-                                                                                    delayedMessage8.originalPaths.add(str13);
-                                                                                    TLRPC$TL_inputSingleMedia tLRPC$TL_inputSingleMedia = new TLRPC$TL_inputSingleMedia();
-                                                                                    ?? r14 = i9.random_id;
-                                                                                    tLRPC$TL_inputSingleMedia.random_id = r14;
-                                                                                    tLRPC$TL_inputSingleMedia.media = tLRPC$InputMedia;
-                                                                                    tLRPC$TL_inputSingleMedia.message = str3;
-                                                                                    i15 = r14;
-                                                                                    if (arrayList != null) {
-                                                                                        i15 = r14;
-                                                                                        if (!arrayList.isEmpty()) {
-                                                                                            ArrayList<TLRPC$MessageEntity> arrayList11 = arrayList;
-                                                                                            tLRPC$TL_inputSingleMedia.entities = arrayList11;
-                                                                                            tLRPC$TL_inputSingleMedia.flags |= 1;
-                                                                                            i15 = arrayList11;
-                                                                                        }
-                                                                                    }
-                                                                                    tLRPC$TL_messages_sendMedia2.multi_media.add(tLRPC$TL_inputSingleMedia);
-                                                                                    str18 = str13;
-                                                                                } else {
-                                                                                    i15 = arrayList;
-                                                                                    String str40 = str3;
-                                                                                    TL_stories$StoryItem tL_stories$StoryItem9 = tL_stories$StoryItem3;
-                                                                                    TLRPC$InputPeer tLRPC$InputPeer9 = tLRPC$InputPeer6;
-                                                                                    tLRPC$TL_messages_sendMedia2 = new TLRPC$TL_messages_sendMedia();
-                                                                                    tLRPC$TL_messages_sendMedia2.peer = tLRPC$InputPeer9;
-                                                                                    tLRPC$TL_messages_sendMedia2.silent = i9.silent;
-                                                                                    if (messageObject8 != null) {
-                                                                                        messageObject8.getId();
-                                                                                    }
-                                                                                    if (tL_stories$StoryItem9 != null) {
-                                                                                        tLRPC$TL_messages_sendMedia2.reply_to = sendMessagesHelper2.createReplyInput(tL_stories$StoryItem9);
-                                                                                        tLRPC$TL_messages_sendMedia2.flags |= 1;
-                                                                                    } else {
-                                                                                        TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader7 = i9.reply_to;
-                                                                                        if (tLRPC$MessageReplyHeader7 instanceof TLRPC$TL_messageReplyHeader) {
-                                                                                            tLRPC$TL_messages_sendMedia2.flags |= 1;
-                                                                                            tLRPC$TL_messages_sendMedia2.reply_to = sendMessagesHelper2.createReplyInput((TLRPC$TL_messageReplyHeader) tLRPC$MessageReplyHeader7);
-                                                                                        }
-                                                                                    }
-                                                                                    str18 = str13;
-                                                                                    tLRPC$TL_messages_sendMedia2.random_id = i9.random_id;
-                                                                                    if (i9.from_id != null) {
-                                                                                        tLRPC$TL_messages_sendMedia2.send_as = getMessagesController().getInputPeer(i9.from_id);
-                                                                                    }
-                                                                                    tLRPC$TL_messages_sendMedia2.media = tLRPC$InputMedia;
-                                                                                    tLRPC$TL_messages_sendMedia2.message = str40;
-                                                                                    if (i15 != null && !i15.isEmpty()) {
-                                                                                        tLRPC$TL_messages_sendMedia2.entities = i15;
-                                                                                        tLRPC$TL_messages_sendMedia2.flags |= 8;
-                                                                                    }
-                                                                                    if (i31 != 0) {
-                                                                                        tLRPC$TL_messages_sendMedia2.schedule_date = i31;
-                                                                                        tLRPC$TL_messages_sendMedia2.flags |= 1024;
-                                                                                    }
-                                                                                    if (z14 && SharedConfig.updateStickersOrderOnSend) {
-                                                                                        tLRPC$TL_messages_sendMedia2.update_stickersets_order = true;
-                                                                                    }
-                                                                                    if (delayedMessage8 != null) {
-                                                                                        delayedMessage8.sendRequest = tLRPC$TL_messages_sendMedia2;
-                                                                                    }
-                                                                                }
-                                                                                if (j5 != 0) {
-                                                                                    sendMessagesHelper2.performSendDelayedMessage(delayedMessage8);
-                                                                                } else {
-                                                                                    char c8 = c5;
-                                                                                    try {
-                                                                                        if (c8 != 1) {
-                                                                                            i15 = i31;
-                                                                                            if (c8 != 2) {
-                                                                                                HashMap<String, String> hashMap6 = hashMap2;
-                                                                                                String str41 = str18;
-                                                                                                TLRPC$Message tLRPC$Message31 = i9;
-                                                                                                sendMessagesHelper4 = sendMessagesHelper2;
-                                                                                                try {
-                                                                                                    if (c8 == 3) {
-                                                                                                        if (z6) {
-                                                                                                            sendMessagesHelper4.performSendDelayedMessage(delayedMessage8);
-                                                                                                        } else {
-                                                                                                            performSendMessageRequest(tLRPC$TL_messages_sendMedia2, messageObject, str41, delayedMessage8, tLRPC$Message11, hashMap6, i15 != 0);
-                                                                                                        }
-                                                                                                    } else if (c8 == 6) {
-                                                                                                        performSendMessageRequest(tLRPC$TL_messages_sendMedia2, messageObject, str41, delayedMessage8, tLRPC$Message11, hashMap6, i15 != 0);
-                                                                                                    } else if (c8 == 7) {
-                                                                                                        if (z6 && delayedMessage8 != null) {
-                                                                                                            sendMessagesHelper4.performSendDelayedMessage(delayedMessage8);
-                                                                                                        } else {
-                                                                                                            performSendMessageRequest(tLRPC$TL_messages_sendMedia2, messageObject, str41, delayedMessage8, tLRPC$Message11, hashMap6, i15 != 0);
-                                                                                                        }
-                                                                                                    } else if (c8 == '\b') {
-                                                                                                        if (z6) {
-                                                                                                            sendMessagesHelper4.performSendDelayedMessage(delayedMessage8);
-                                                                                                        } else {
-                                                                                                            performSendMessageRequest(tLRPC$TL_messages_sendMedia2, messageObject, str41, delayedMessage8, tLRPC$Message11, hashMap6, i15 != 0);
-                                                                                                        }
-                                                                                                    } else if (c8 == '\n' || c8 == 11 || c8 == '\f') {
-                                                                                                        performSendMessageRequest(tLRPC$TL_messages_sendMedia2, messageObject, str41, delayedMessage8, tLRPC$Message11, hashMap6, i15 != 0);
-                                                                                                    }
-                                                                                                } catch (Exception e20) {
-                                                                                                    exc = e20;
-                                                                                                    tLRPC$Message7 = tLRPC$Message31;
-                                                                                                    sendMessagesHelper = sendMessagesHelper4;
-                                                                                                    i12 = i15;
-                                                                                                    i = i12;
-                                                                                                    tLRPC$Message = tLRPC$Message7;
-                                                                                                    FileLog.e(exc);
-                                                                                                    getMessagesStorage().markMessageAsSendError(tLRPC$Message, i != 0);
-                                                                                                    if (messageObject != null) {
-                                                                                                    }
-                                                                                                    getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
-                                                                                                    sendMessagesHelper.processSentMessage(tLRPC$Message.id);
-                                                                                                    return;
-                                                                                                }
-                                                                                            } else if (z6) {
-                                                                                                sendMessagesHelper2.performSendDelayedMessage(delayedMessage8);
-                                                                                            } else {
-                                                                                                Object obj6 = i9;
-                                                                                                sendMessagesHelper4 = sendMessagesHelper2;
-                                                                                                try {
-                                                                                                    performSendMessageRequest(tLRPC$TL_messages_sendMedia2, messageObject, str18, null, true, delayedMessage8, tLRPC$Message11, hashMap2, i15 != 0);
-                                                                                                } catch (Exception e21) {
-                                                                                                    exc = e21;
-                                                                                                    sendMessagesHelper = sendMessagesHelper4;
-                                                                                                    i = i15;
-                                                                                                    tLRPC$Message = obj6;
-                                                                                                }
-                                                                                            }
-                                                                                            return;
-                                                                                        }
-                                                                                        i15 = i31;
-                                                                                        performSendMessageRequest(tLRPC$TL_messages_sendMedia2, messageObject, null, delayedMessage8, tLRPC$Message11, hashMap2, i31 != 0);
-                                                                                    } catch (Exception e22) {
-                                                                                        exc = e22;
-                                                                                        sendMessagesHelper = sendMessagesHelper2;
-                                                                                        tLRPC$Message7 = i9;
-                                                                                        i12 = i15;
-                                                                                    }
-                                                                                }
-                                                                                sendMessagesHelper4 = sendMessagesHelper2;
-                                                                                return;
-                                                                            } catch (Exception e23) {
-                                                                                e = e23;
-                                                                            }
-                                                                        } catch (Exception e24) {
-                                                                            e = e24;
-                                                                        }
+                                                            int newMessageId2 = getUserConfig().getNewMessageId();
+                                                            tLRPC$Message18.id = newMessageId2;
+                                                            tLRPC$Message18.local_id = newMessageId2;
+                                                            tLRPC$Message18.out = true;
+                                                            try {
+                                                                if (z || tLRPC$InputPeer8 == null) {
+                                                                    str20 = str18;
+                                                                    tL_stories$StoryItem5 = tL_stories$StoryItem3;
+                                                                    hashMap3 = hashMap4;
+                                                                    tLRPC$InputPeer3 = tLRPC$InputPeer8;
+                                                                    if (tLRPC$Peer3 != null) {
+                                                                        tLRPC$Message18.from_id = tLRPC$Peer3;
                                                                     } else {
-                                                                        i2 = i31;
-                                                                        SendMessagesHelper sendMessagesHelper5 = sendMessagesHelper2;
-                                                                        TLRPC$Message tLRPC$Message32 = tLRPC$Message4;
-                                                                        MessageObject messageObject15 = messageObject5;
-                                                                        ArrayList<TLRPC$MessageEntity> arrayList12 = arrayList;
-                                                                        TLRPC$Message tLRPC$Message33 = tLRPC$Message5;
-                                                                        TLRPC$TL_document tLRPC$TL_document8 = tLRPC$TL_document;
-                                                                        TLRPC$TL_photo tLRPC$TL_photo7 = tLRPC$TL_photo;
-                                                                        TLRPC$MessageMedia tLRPC$MessageMedia11 = tLRPC$MessageMedia3;
-                                                                        TLRPC$User tLRPC$User6 = tLRPC$User;
-                                                                        HashMap<String, String> hashMap7 = hashMap;
-                                                                        String str42 = str3;
-                                                                        String str43 = str7;
+                                                                        TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
+                                                                        tLRPC$Message18.from_id = tLRPC$TL_peerUser;
+                                                                        j3 = j;
+                                                                        tLRPC$TL_peerUser.user_id = j3;
+                                                                        tLRPC$Message18.flags |= LiteMode.FLAG_CHAT_BLUR;
+                                                                        tLRPC$TL_message9 = tLRPC$Message18;
+                                                                        getUserConfig().saveConfig(false);
+                                                                        tLRPC$WebPage = tLRPC$WebPage2;
+                                                                        tLRPC$MessageMedia = tLRPC$MessageMedia6;
+                                                                        str2 = str16;
+                                                                        tLRPC$TL_messageMediaPoll = tLRPC$TL_messageMediaPoll3;
+                                                                        str3 = str20;
+                                                                        hashMap = hashMap3;
+                                                                        tLRPC$User = tLRPC$User3;
+                                                                        z2 = z11;
+                                                                        z16 = z10;
+                                                                        i = i6;
+                                                                        delayedMessage = delayedMessage12;
+                                                                        tLRPC$Message5 = videoEditedInfo11;
+                                                                        tLRPC$Message4 = videoEditedInfo10;
+                                                                        arrayList = arrayList5;
+                                                                        tLRPC$TL_photo = tLRPC$TL_photo3;
+                                                                        c = c6;
+                                                                        str24 = str17;
+                                                                        tLRPC$Message2 = tLRPC$TL_message9;
+                                                                        tLRPC$Message3 = tLRPC$Message3;
+                                                                    }
+                                                                } else {
+                                                                    TLRPC$TL_peerChannel tLRPC$TL_peerChannel = new TLRPC$TL_peerChannel();
+                                                                    tLRPC$Message18.from_id = tLRPC$TL_peerChannel;
+                                                                    str20 = str18;
+                                                                    tL_stories$StoryItem5 = tL_stories$StoryItem3;
+                                                                    hashMap3 = hashMap4;
+                                                                    tLRPC$InputPeer3 = tLRPC$InputPeer8;
+                                                                    tLRPC$TL_peerChannel.channel_id = tLRPC$InputPeer3.channel_id;
+                                                                }
+                                                                getUserConfig().saveConfig(false);
+                                                                tLRPC$WebPage = tLRPC$WebPage2;
+                                                                tLRPC$MessageMedia = tLRPC$MessageMedia6;
+                                                                str2 = str16;
+                                                                tLRPC$TL_messageMediaPoll = tLRPC$TL_messageMediaPoll3;
+                                                                str3 = str20;
+                                                                hashMap = hashMap3;
+                                                                tLRPC$User = tLRPC$User3;
+                                                                z2 = z11;
+                                                                z16 = z10;
+                                                                i = i6;
+                                                                delayedMessage = delayedMessage12;
+                                                                tLRPC$Message5 = videoEditedInfo11;
+                                                                tLRPC$Message4 = videoEditedInfo10;
+                                                                arrayList = arrayList5;
+                                                                tLRPC$TL_photo = tLRPC$TL_photo3;
+                                                                c = c6;
+                                                                str24 = str17;
+                                                                tLRPC$Message2 = tLRPC$TL_message9;
+                                                                tLRPC$Message3 = tLRPC$Message3;
+                                                            } catch (Exception e5) {
+                                                                e = e5;
+                                                                b2 = tLRPC$Message3;
+                                                                exc = e;
+                                                                tLRPC$TL_message = tLRPC$TL_message9;
+                                                                messageObject = null;
+                                                                tLRPC$Message = tLRPC$TL_message;
+                                                                b3 = b2;
+                                                                FileLog.e(exc);
+                                                                getMessagesStorage().markMessageAsSendError(tLRPC$Message, b3 != 0);
+                                                                if (messageObject != null) {
+                                                                }
+                                                                getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
+                                                                processSentMessage(tLRPC$Message.id);
+                                                                return;
+                                                            }
+                                                            j3 = j;
+                                                            tLRPC$TL_message9 = tLRPC$Message18;
+                                                        }
+                                                    } catch (Exception e6) {
+                                                        exc = e6;
+                                                        tLRPC$TL_message2 = tLRPC$Message18;
+                                                        b2 = tLRPC$Message3;
+                                                        tLRPC$TL_message = tLRPC$TL_message2;
+                                                        messageObject = null;
+                                                        tLRPC$Message = tLRPC$TL_message;
+                                                        b3 = b2;
+                                                        FileLog.e(exc);
+                                                        getMessagesStorage().markMessageAsSendError(tLRPC$Message, b3 != 0);
+                                                        if (messageObject != null) {
+                                                        }
+                                                        getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
+                                                        processSentMessage(tLRPC$Message.id);
+                                                        return;
+                                                    }
+                                                }
+                                                arrayList5 = arrayList3;
+                                                delayedMessage12 = delayedMessage10;
+                                                if (str18 != null) {
+                                                }
+                                                if (tLRPC$Message18.attachPath == null) {
+                                                }
+                                                int newMessageId22 = getUserConfig().getNewMessageId();
+                                                tLRPC$Message18.id = newMessageId22;
+                                                tLRPC$Message18.local_id = newMessageId22;
+                                                tLRPC$Message18.out = true;
+                                                if (z) {
+                                                }
+                                                str20 = str18;
+                                                tL_stories$StoryItem5 = tL_stories$StoryItem3;
+                                                hashMap3 = hashMap4;
+                                                tLRPC$InputPeer3 = tLRPC$InputPeer8;
+                                                if (tLRPC$Peer3 != null) {
+                                                }
+                                            }
+                                        } else {
+                                            try {
+                                                if (tLRPC$TL_messageMediaPoll4 != null) {
+                                                    if (tLRPC$EncryptedChat != null) {
+                                                        tLRPC$TL_message8 = new TLRPC$TL_message_secret();
+                                                    } else {
+                                                        tLRPC$TL_message8 = new TLRPC$TL_message();
+                                                    }
+                                                    tLRPC$TL_message8.media = tLRPC$TL_messageMediaPoll4;
+                                                    videoEditedInfo10 = videoEditedInfo9;
+                                                    tLRPC$TL_messageMediaPoll3 = tLRPC$TL_messageMediaPoll4;
+                                                    tLRPC$Message3 = b17;
+                                                    arrayList3 = arrayList6;
+                                                    videoEditedInfo11 = tLRPC$Message19;
+                                                    str17 = str24;
+                                                    tLRPC$TL_photo3 = tLRPC$TL_photo5;
+                                                    tLRPC$MessageMedia6 = tLRPC$MessageMedia7;
+                                                    i6 = i7;
+                                                    z10 = z16;
+                                                    tL_stories$StoryItem3 = tL_stories$StoryItem5;
+                                                    c6 = '\n';
+                                                    z11 = false;
+                                                    str16 = str21;
+                                                    tLRPC$Message18 = tLRPC$TL_message8;
+                                                    tLRPC$TL_messageMediaWebPage = tLRPC$TL_messageMediaWebPage3;
+                                                    str18 = str25;
+                                                    delayedMessage10 = null;
+                                                    sendMessagesHelper = this;
+                                                    if (arrayList3 != null) {
+                                                    }
+                                                    arrayList5 = arrayList3;
+                                                    delayedMessage12 = delayedMessage10;
+                                                    if (str18 != null) {
+                                                    }
+                                                    if (tLRPC$Message18.attachPath == null) {
+                                                    }
+                                                    int newMessageId222 = getUserConfig().getNewMessageId();
+                                                    tLRPC$Message18.id = newMessageId222;
+                                                    tLRPC$Message18.local_id = newMessageId222;
+                                                    tLRPC$Message18.out = true;
+                                                    if (z) {
+                                                    }
+                                                    str20 = str18;
+                                                    tL_stories$StoryItem5 = tL_stories$StoryItem3;
+                                                    hashMap3 = hashMap4;
+                                                    tLRPC$InputPeer3 = tLRPC$InputPeer8;
+                                                    if (tLRPC$Peer3 != null) {
+                                                    }
+                                                } else {
+                                                    if (tLRPC$MessageMedia7 != null) {
+                                                        if (tLRPC$EncryptedChat != null) {
+                                                            tLRPC$TL_message7 = new TLRPC$TL_message_secret();
+                                                        } else {
+                                                            tLRPC$TL_message7 = new TLRPC$TL_message();
+                                                        }
+                                                        tLRPC$TL_message7.media = tLRPC$MessageMedia7;
+                                                        if (hashMap4 == null || !hashMap4.containsKey("query_id")) {
+                                                            str16 = str21;
+                                                            videoEditedInfo10 = videoEditedInfo9;
+                                                            tLRPC$TL_messageMediaPoll3 = tLRPC$TL_messageMediaPoll4;
+                                                            tLRPC$Message3 = b17;
+                                                            arrayList3 = arrayList6;
+                                                            videoEditedInfo11 = tLRPC$Message19;
+                                                            i6 = i7;
+                                                            z10 = z16;
+                                                            tL_stories$StoryItem3 = tL_stories$StoryItem5;
+                                                            delayedMessage10 = null;
+                                                            c6 = 1;
+                                                        } else {
+                                                            str16 = str21;
+                                                            videoEditedInfo10 = videoEditedInfo9;
+                                                            tLRPC$TL_messageMediaPoll3 = tLRPC$TL_messageMediaPoll4;
+                                                            tLRPC$Message3 = b17;
+                                                            arrayList3 = arrayList6;
+                                                            videoEditedInfo11 = tLRPC$Message19;
+                                                            i6 = i7;
+                                                            z10 = z16;
+                                                            tL_stories$StoryItem3 = tL_stories$StoryItem5;
+                                                            delayedMessage10 = null;
+                                                            c6 = '\t';
+                                                        }
+                                                        z11 = false;
+                                                        tLRPC$Message18 = tLRPC$TL_message7;
+                                                        tLRPC$TL_messageMediaWebPage = tLRPC$TL_messageMediaWebPage3;
+                                                        str18 = str25;
+                                                        sendMessagesHelper = this;
+                                                        tLRPC$MessageMedia6 = tLRPC$MessageMedia7;
+                                                        str17 = str24;
+                                                        tLRPC$TL_photo3 = tLRPC$TL_photo5;
+                                                    } else if (tLRPC$TL_photo5 != null) {
+                                                        if (tLRPC$EncryptedChat != null) {
+                                                            tLRPC$TL_message_secret = new TLRPC$TL_message_secret();
+                                                        } else {
+                                                            try {
+                                                                tLRPC$TL_message_secret = new TLRPC$TL_message();
+                                                            } catch (Exception e7) {
+                                                                e = e7;
+                                                                exc = e;
+                                                                b2 = b17;
+                                                                tLRPC$TL_message = null;
+                                                                messageObject = null;
+                                                                tLRPC$Message = tLRPC$TL_message;
+                                                                b3 = b2;
+                                                                FileLog.e(exc);
+                                                                getMessagesStorage().markMessageAsSendError(tLRPC$Message, b3 != 0);
+                                                                if (messageObject != null) {
+                                                                }
+                                                                getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
+                                                                processSentMessage(tLRPC$Message.id);
+                                                                return;
+                                                            }
+                                                        }
+                                                        str16 = str21;
+                                                        try {
+                                                            TLRPC$TL_messageMediaPhoto tLRPC$TL_messageMediaPhoto = new TLRPC$TL_messageMediaPhoto();
+                                                            tLRPC$TL_message_secret.media = tLRPC$TL_messageMediaPhoto;
+                                                            videoEditedInfo10 = videoEditedInfo9;
+                                                            int i10 = tLRPC$TL_messageMediaPhoto.flags | 3;
+                                                            tLRPC$TL_messageMediaPhoto.flags = i10;
+                                                            tLRPC$TL_messageMediaPoll3 = tLRPC$TL_messageMediaPoll4;
+                                                            tLRPC$TL_messageMediaPhoto.spoiler = z16;
+                                                            if (arrayList6 != null) {
+                                                                tLRPC$TL_message_secret.entities = arrayList6;
+                                                            }
+                                                            if (i7 != 0) {
+                                                                tLRPC$TL_messageMediaPhoto.ttl_seconds = i7;
+                                                                tLRPC$TL_message_secret.ttl = i7;
+                                                                tLRPC$TL_messageMediaPhoto.flags = i10 | 4;
+                                                            }
+                                                            tLRPC$TL_messageMediaPhoto.photo = tLRPC$TL_photo5;
+                                                            c6 = (hashMap4 == null || !hashMap4.containsKey("query_id")) ? (char) 2 : '\t';
+                                                        } catch (Exception e8) {
+                                                            e = e8;
+                                                            exc = e;
+                                                            tLRPC$Peer = tLRPC$TL_message_secret;
+                                                            b = b17;
+                                                            b2 = b;
+                                                            tLRPC$TL_message = tLRPC$Peer;
+                                                            messageObject = null;
+                                                            tLRPC$Message = tLRPC$TL_message;
+                                                            b3 = b2;
+                                                            FileLog.e(exc);
+                                                            getMessagesStorage().markMessageAsSendError(tLRPC$Message, b3 != 0);
+                                                            if (messageObject != null) {
+                                                            }
+                                                            getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
+                                                            processSentMessage(tLRPC$Message.id);
+                                                            return;
+                                                        }
+                                                        try {
+                                                            if (str24 == null || str24.length() <= 0) {
+                                                                tLRPC$MessageMedia6 = tLRPC$MessageMedia7;
+                                                                str17 = str24;
+                                                            } else {
+                                                                tLRPC$MessageMedia6 = tLRPC$MessageMedia7;
+                                                                str17 = str24;
+                                                                if (str17.startsWith("http")) {
+                                                                    tLRPC$TL_message_secret.attachPath = str17;
+                                                                    tLRPC$TL_photo3 = tLRPC$TL_photo5;
+                                                                    tLRPC$TL_messageMediaWebPage = tLRPC$TL_messageMediaWebPage3;
+                                                                    tLRPC$Message3 = b17;
+                                                                    sendMessagesHelper = this;
+                                                                    arrayList3 = arrayList6;
+                                                                    videoEditedInfo11 = tLRPC$Message19;
+                                                                    tL_stories$StoryItem3 = tL_stories$StoryItem5;
+                                                                    delayedMessage10 = null;
+                                                                    z11 = false;
+                                                                    z10 = z16;
+                                                                    i6 = i7;
+                                                                    tLRPC$WebPage2 = tLRPC$WebPage2;
+                                                                    tLRPC$Message18 = tLRPC$TL_message_secret;
+                                                                    str18 = str25;
+                                                                }
+                                                            }
+                                                            tLRPC$TL_message_secret.attachPath = FileLoader.getInstance(sendMessagesHelper.currentAccount).getPathToAttach(tLRPC$TL_photo5.sizes.get(arrayList4.size() - 1).location, true).toString();
+                                                            arrayList3 = arrayList6;
+                                                            videoEditedInfo11 = tLRPC$Message19;
+                                                            tL_stories$StoryItem3 = tL_stories$StoryItem5;
+                                                            delayedMessage10 = null;
+                                                            z11 = false;
+                                                            z10 = z16;
+                                                            i6 = i7;
+                                                            tLRPC$WebPage2 = tLRPC$WebPage2;
+                                                            tLRPC$Message18 = tLRPC$TL_message_secret;
+                                                            str18 = str25;
+                                                        } catch (Exception e9) {
+                                                            exc = e9;
+                                                            tLRPC$TL_message2 = tLRPC$TL_message_secret;
+                                                            b2 = tLRPC$Message3;
+                                                            tLRPC$TL_message = tLRPC$TL_message2;
+                                                            messageObject = null;
+                                                            tLRPC$Message = tLRPC$TL_message;
+                                                            b3 = b2;
+                                                            FileLog.e(exc);
+                                                            getMessagesStorage().markMessageAsSendError(tLRPC$Message, b3 != 0);
+                                                            if (messageObject != null) {
+                                                            }
+                                                            getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
+                                                            processSentMessage(tLRPC$Message.id);
+                                                            return;
+                                                        }
+                                                        tLRPC$TL_photo3 = tLRPC$TL_photo5;
+                                                        tLRPC$TL_messageMediaWebPage = tLRPC$TL_messageMediaWebPage3;
+                                                        sendMessagesHelper = this;
+                                                        tLRPC$Message3 = b17;
+                                                    } else {
+                                                        str16 = str21;
+                                                        videoEditedInfo10 = videoEditedInfo9;
+                                                        tLRPC$TL_messageMediaPoll3 = tLRPC$TL_messageMediaPoll4;
+                                                        tLRPC$Message3 = b17;
+                                                        tLRPC$TL_messageMediaWebPage = tLRPC$TL_messageMediaWebPage3;
+                                                        sendMessagesHelper = this;
+                                                        tLRPC$MessageMedia6 = tLRPC$MessageMedia7;
+                                                        str17 = str24;
+                                                        tLRPC$TL_photo3 = tLRPC$TL_photo5;
+                                                        try {
+                                                            try {
+                                                                if (tLRPC$TL_game != null) {
+                                                                    tLRPC$TL_message6 = new TLRPC$TL_message();
+                                                                    TLRPC$TL_messageMediaGame tLRPC$TL_messageMediaGame = new TLRPC$TL_messageMediaGame();
+                                                                    tLRPC$TL_message6.media = tLRPC$TL_messageMediaGame;
+                                                                    tLRPC$TL_messageMediaGame.game = tLRPC$TL_game;
+                                                                    if (hashMap4 != null) {
+                                                                    }
+                                                                    arrayList3 = arrayList6;
+                                                                    videoEditedInfo11 = tLRPC$Message19;
+                                                                    tL_stories$StoryItem3 = tL_stories$StoryItem5;
+                                                                    str18 = str25;
+                                                                } else if (tLRPC$TL_messageMediaInvoice != null) {
+                                                                    tLRPC$TL_message6 = new TLRPC$TL_message();
+                                                                    tLRPC$TL_message6.media = tLRPC$TL_messageMediaInvoice;
+                                                                    if (hashMap4 != null) {
+                                                                    }
+                                                                    arrayList3 = arrayList6;
+                                                                    videoEditedInfo11 = tLRPC$Message19;
+                                                                    tL_stories$StoryItem3 = tL_stories$StoryItem5;
+                                                                    str18 = str25;
+                                                                } else if (tLRPC$User3 != null) {
+                                                                    if (tLRPC$EncryptedChat != null) {
+                                                                        tLRPC$TL_message5 = new TLRPC$TL_message_secret();
+                                                                    } else {
+                                                                        tLRPC$TL_message5 = new TLRPC$TL_message();
+                                                                    }
+                                                                    TLRPC$TL_messageMediaContact tLRPC$TL_messageMediaContact = new TLRPC$TL_messageMediaContact();
+                                                                    tLRPC$TL_message5.media = tLRPC$TL_messageMediaContact;
+                                                                    tLRPC$TL_messageMediaContact.phone_number = tLRPC$User3.phone;
+                                                                    tLRPC$TL_messageMediaContact.first_name = tLRPC$User3.first_name;
+                                                                    tLRPC$TL_messageMediaContact.last_name = tLRPC$User3.last_name;
+                                                                    arrayList3 = arrayList6;
+                                                                    tLRPC$TL_messageMediaContact.user_id = tLRPC$User3.id;
+                                                                    if (!tLRPC$User3.restriction_reason.isEmpty() && tLRPC$User3.restriction_reason.get(0).text.startsWith("BEGIN:VCARD")) {
+                                                                        tLRPC$TL_message5.media.vcard = tLRPC$User3.restriction_reason.get(0).text;
+                                                                    } else {
+                                                                        tLRPC$TL_message5.media.vcard = "";
+                                                                    }
+                                                                    TLRPC$MessageMedia tLRPC$MessageMedia9 = tLRPC$TL_message5.media;
+                                                                    if (tLRPC$MessageMedia9.first_name == null) {
+                                                                        tLRPC$MessageMedia9.first_name = "";
+                                                                        tLRPC$User3.first_name = "";
+                                                                    }
+                                                                    if (tLRPC$MessageMedia9.last_name == null) {
+                                                                        tLRPC$MessageMedia9.last_name = "";
+                                                                        tLRPC$User3.last_name = "";
+                                                                    }
+                                                                    if (hashMap4 == null || !hashMap4.containsKey("query_id")) {
+                                                                        tLRPC$User3 = tLRPC$User3;
+                                                                        z10 = z16;
+                                                                        videoEditedInfo11 = tLRPC$Message19;
+                                                                        tL_stories$StoryItem3 = tL_stories$StoryItem5;
+                                                                        str18 = str25;
+                                                                        c6 = 6;
+                                                                    } else {
+                                                                        tLRPC$User3 = tLRPC$User3;
+                                                                        z10 = z16;
+                                                                        videoEditedInfo11 = tLRPC$Message19;
+                                                                        tL_stories$StoryItem3 = tL_stories$StoryItem5;
+                                                                        str18 = str25;
+                                                                        c6 = '\t';
+                                                                    }
+                                                                    z11 = false;
+                                                                    tLRPC$Message18 = tLRPC$TL_message5;
+                                                                    i6 = i7;
+                                                                    tLRPC$WebPage2 = tLRPC$WebPage2;
+                                                                    delayedMessage10 = null;
+                                                                } else {
+                                                                    arrayList3 = arrayList6;
+                                                                    TLRPC$User tLRPC$User4 = tLRPC$User3;
+                                                                    if (tLRPC$Message19 != null) {
+                                                                        if (tLRPC$EncryptedChat != null) {
+                                                                            tLRPC$TL_message4 = new TLRPC$TL_message_secret();
+                                                                        } else {
+                                                                            tLRPC$TL_message4 = new TLRPC$TL_message();
+                                                                        }
                                                                         try {
-                                                                            if (AndroidUtilities.getPeerLayerVersion(tLRPC$EncryptedChat.layer) >= 73) {
-                                                                                try {
-                                                                                    tLRPC$TL_decryptedMessage = new TLRPC$TL_decryptedMessage();
-                                                                                    if (j5 != 0) {
-                                                                                        tLRPC$TL_decryptedMessage.grouped_id = j5;
-                                                                                        tLRPC$TL_decryptedMessage.flags |= 131072;
+                                                                            if (DialogObject.isChatDialog(j12) && tLRPC$TL_message_secret == 0) {
+                                                                                ?? r32 = tLRPC$Message19;
+                                                                                int size = r32.attributes.size();
+                                                                                int i11 = 0;
+                                                                                while (i11 < size) {
+                                                                                    tLRPC$User3 = tLRPC$User4;
+                                                                                    if (r32.attributes.get(i11) instanceof TLRPC$TL_documentAttributeAnimated) {
+                                                                                        r32.attributes.remove(i11);
+                                                                                        z12 = true;
+                                                                                        r3 = r32;
+                                                                                        break;
                                                                                     }
-                                                                                } catch (Exception e25) {
-                                                                                    exc = e25;
-                                                                                    sendMessagesHelper = sendMessagesHelper5;
-                                                                                    tLRPC$Message6 = tLRPC$Message32;
-                                                                                    i = i2;
-                                                                                    tLRPC$Message = tLRPC$Message6;
-                                                                                    FileLog.e(exc);
-                                                                                    getMessagesStorage().markMessageAsSendError(tLRPC$Message, i != 0);
-                                                                                    if (messageObject != null) {
-                                                                                    }
-                                                                                    getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
-                                                                                    sendMessagesHelper.processSentMessage(tLRPC$Message.id);
-                                                                                    return;
+                                                                                    i11++;
+                                                                                    tLRPC$User4 = tLRPC$User3;
                                                                                 }
+                                                                                tLRPC$User3 = tLRPC$User4;
+                                                                                videoEditedInfo12 = r32;
                                                                             } else {
-                                                                                tLRPC$TL_decryptedMessage = new TLRPC$TL_decryptedMessage_layer45();
+                                                                                tLRPC$User3 = tLRPC$User4;
+                                                                                videoEditedInfo12 = tLRPC$Message19;
                                                                             }
-                                                                            tLRPC$TL_decryptedMessage.ttl = tLRPC$Message32.ttl;
-                                                                            if (arrayList12 != null && !arrayList12.isEmpty()) {
-                                                                                tLRPC$TL_decryptedMessage.entities = arrayList12;
-                                                                                tLRPC$TL_decryptedMessage.flags |= 128;
+                                                                            z12 = false;
+                                                                            r3 = videoEditedInfo12;
+                                                                            TLRPC$TL_messageMediaDocument tLRPC$TL_messageMediaDocument = new TLRPC$TL_messageMediaDocument();
+                                                                            tLRPC$TL_message4.media = tLRPC$TL_messageMediaDocument;
+                                                                            int i12 = tLRPC$TL_messageMediaDocument.flags | 3;
+                                                                            tLRPC$TL_messageMediaDocument.flags = i12;
+                                                                            tLRPC$TL_messageMediaDocument.spoiler = z16;
+                                                                            if (i7 != 0) {
+                                                                                tLRPC$TL_messageMediaDocument.ttl_seconds = i7;
+                                                                                tLRPC$TL_message4.ttl = i7;
+                                                                                tLRPC$TL_messageMediaDocument.flags = i12 | 4;
                                                                             }
-                                                                            TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader8 = tLRPC$Message32.reply_to;
-                                                                            if (tLRPC$MessageReplyHeader8 != null) {
-                                                                                long j10 = tLRPC$MessageReplyHeader8.reply_to_random_id;
-                                                                                if (j10 != 0) {
-                                                                                    tLRPC$TL_decryptedMessage.reply_to_random_id = j10;
-                                                                                    tLRPC$TL_decryptedMessage.flags |= 8;
+                                                                            tLRPC$TL_messageMediaDocument.document = r3;
+                                                                            if (hashMap4 != null && hashMap4.containsKey("query_id")) {
+                                                                                c6 = '\t';
+                                                                            } else if (MessageObject.isVideoSticker(r3) || !(MessageObject.isVideoDocument(r3) || MessageObject.isRoundVideoDocument(r3) || videoEditedInfo13 != null)) {
+                                                                                c6 = MessageObject.isVoiceDocument(r3) ? '\b' : (char) 7;
+                                                                            } else {
+                                                                                c6 = 3;
+                                                                            }
+                                                                            if (videoEditedInfo13 != null) {
+                                                                                String string = videoEditedInfo13.getString();
+                                                                                if (hashMap4 == null) {
+                                                                                    hashMap4 = new HashMap<>();
                                                                                 }
+                                                                                hashMap4.put("ve", string);
                                                                             }
-                                                                            tLRPC$TL_decryptedMessage.silent = tLRPC$Message32.silent;
-                                                                            tLRPC$TL_decryptedMessage.flags |= LiteMode.FLAG_CALLS_ANIMATIONS;
-                                                                            if (hashMap7 != null) {
-                                                                                Object obj7 = obj3;
-                                                                                if (hashMap7.get(obj7) != null) {
-                                                                                    tLRPC$TL_decryptedMessage.via_bot_name = hashMap7.get(obj7);
-                                                                                    tLRPC$TL_decryptedMessage.flags |= LiteMode.FLAG_AUTOPLAY_GIFS;
-                                                                                }
+                                                                            if (tLRPC$EncryptedChat != null && r3.dc_id > 0 && !MessageObject.isStickerDocument(r3) && !MessageObject.isAnimatedStickerDocument(r3, true) && !MessageObject.isGifDocument((TLRPC$Document) r3)) {
+                                                                                tLRPC$TL_message4.attachPath = FileLoader.getInstance(sendMessagesHelper.currentAccount).getPathToAttach(r3).toString();
+                                                                            } else {
+                                                                                tLRPC$TL_message4.attachPath = str17;
                                                                             }
-                                                                            tLRPC$TL_decryptedMessage.random_id = tLRPC$Message32.random_id;
-                                                                            tLRPC$TL_decryptedMessage.message = str43;
-                                                                            try {
-                                                                                if (c3 == 1) {
-                                                                                    if (tLRPC$MessageMedia11 instanceof TLRPC$TL_messageMediaVenue) {
-                                                                                        TLRPC$TL_decryptedMessageMediaVenue tLRPC$TL_decryptedMessageMediaVenue = new TLRPC$TL_decryptedMessageMediaVenue();
-                                                                                        tLRPC$TL_decryptedMessage.media = tLRPC$TL_decryptedMessageMediaVenue;
-                                                                                        tLRPC$TL_decryptedMessageMediaVenue.address = tLRPC$MessageMedia11.address;
-                                                                                        tLRPC$TL_decryptedMessageMediaVenue.title = tLRPC$MessageMedia11.title;
-                                                                                        tLRPC$TL_decryptedMessageMediaVenue.provider = tLRPC$MessageMedia11.provider;
-                                                                                        tLRPC$TL_decryptedMessageMediaVenue.venue_id = tLRPC$MessageMedia11.venue_id;
-                                                                                    } else {
-                                                                                        tLRPC$TL_decryptedMessage.media = new TLRPC$TL_decryptedMessageMediaGeoPoint();
+                                                                            if (tLRPC$EncryptedChat == null || !(MessageObject.isStickerDocument(r3) || MessageObject.isAnimatedStickerDocument(r3, true))) {
+                                                                                videoEditedInfo11 = r3;
+                                                                                z11 = z12;
+                                                                                z10 = z16;
+                                                                                tLRPC$Message18 = tLRPC$TL_message4;
+                                                                                tL_stories$StoryItem3 = tL_stories$StoryItem5;
+                                                                                str18 = str25;
+                                                                                hashMap4 = hashMap4;
+                                                                                delayedMessage10 = null;
+                                                                            } else {
+                                                                                int i13 = 0;
+                                                                                while (true) {
+                                                                                    if (i13 >= r3.attributes.size()) {
+                                                                                        str19 = tLRPC$TL_message4;
+                                                                                        videoEditedInfo11 = r3;
+                                                                                        z11 = z12;
+                                                                                        hashMap2 = hashMap4;
+                                                                                        break;
                                                                                     }
-                                                                                    TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia = tLRPC$TL_decryptedMessage.media;
-                                                                                    TLRPC$GeoPoint tLRPC$GeoPoint2 = tLRPC$MessageMedia11.geo;
-                                                                                    tLRPC$DecryptedMessageMedia.lat = tLRPC$GeoPoint2.lat;
-                                                                                    tLRPC$DecryptedMessageMedia._long = tLRPC$GeoPoint2._long;
-                                                                                    getSecretChatHelper().performSendEncryptedRequest(tLRPC$TL_decryptedMessage, messageObject.messageOwner, tLRPC$EncryptedChat, null, null, messageObject);
-                                                                                    tLRPC$Message10 = tLRPC$Message32;
-                                                                                    delayedMessage6 = delayedMessage3;
-                                                                                    j6 = j8;
-                                                                                    str11 = str;
-                                                                                } else {
+                                                                                    TLRPC$DocumentAttribute tLRPC$DocumentAttribute = r3.attributes.get(i13);
+                                                                                    str19 = tLRPC$TL_message4;
                                                                                     try {
-                                                                                        if (c3 != 2 && (c3 != '\t' || tLRPC$TL_photo7 == null)) {
-                                                                                            if (c3 == 3) {
-                                                                                                TLRPC$PhotoSize thumbForSecretChat = sendMessagesHelper5.getThumbForSecretChat(tLRPC$TL_document8.thumbs);
-                                                                                                ImageLoader.fillPhotoSizeWithBytes(thumbForSecretChat);
-                                                                                                if (!MessageObject.isNewGifDocument(tLRPC$TL_document8) && !MessageObject.isRoundVideoDocument(tLRPC$TL_document8)) {
-                                                                                                    TLRPC$TL_decryptedMessageMediaVideo tLRPC$TL_decryptedMessageMediaVideo = new TLRPC$TL_decryptedMessageMediaVideo();
-                                                                                                    tLRPC$TL_decryptedMessage.media = tLRPC$TL_decryptedMessageMediaVideo;
-                                                                                                    if (thumbForSecretChat != null && (bArr2 = thumbForSecretChat.bytes) != null) {
-                                                                                                        tLRPC$TL_decryptedMessageMediaVideo.thumb = bArr2;
+                                                                                        if (tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeSticker) {
+                                                                                            r3.attributes.remove(i13);
+                                                                                            TLRPC$TL_documentAttributeSticker_layer55 tLRPC$TL_documentAttributeSticker_layer55 = new TLRPC$TL_documentAttributeSticker_layer55();
+                                                                                            r3.attributes.add(tLRPC$TL_documentAttributeSticker_layer55);
+                                                                                            tLRPC$TL_documentAttributeSticker_layer55.alt = tLRPC$DocumentAttribute.alt;
+                                                                                            TLRPC$InputStickerSet tLRPC$InputStickerSet = tLRPC$DocumentAttribute.stickerset;
+                                                                                            if (tLRPC$InputStickerSet != null) {
+                                                                                                videoEditedInfo11 = r3;
+                                                                                                if (tLRPC$InputStickerSet instanceof TLRPC$TL_inputStickerSetShortName) {
+                                                                                                    stickerSetName = tLRPC$InputStickerSet.short_name;
+                                                                                                    z11 = z12;
+                                                                                                    hashMap2 = hashMap4;
+                                                                                                } else {
+                                                                                                    z11 = z12;
+                                                                                                    hashMap2 = hashMap4;
+                                                                                                    stickerSetName = getMediaDataController().getStickerSetName(tLRPC$DocumentAttribute.stickerset.id);
+                                                                                                }
+                                                                                                if (!TextUtils.isEmpty(stickerSetName)) {
+                                                                                                    TLRPC$TL_inputStickerSetShortName tLRPC$TL_inputStickerSetShortName = new TLRPC$TL_inputStickerSetShortName();
+                                                                                                    tLRPC$TL_documentAttributeSticker_layer55.stickerset = tLRPC$TL_inputStickerSetShortName;
+                                                                                                    tLRPC$TL_inputStickerSetShortName.short_name = stickerSetName;
+                                                                                                } else {
+                                                                                                    if (tLRPC$DocumentAttribute.stickerset instanceof TLRPC$TL_inputStickerSetID) {
+                                                                                                        delayedMessage11 = new DelayedMessage(j12);
+                                                                                                        delayedMessage11.encryptedChat = tLRPC$EncryptedChat;
+                                                                                                        delayedMessage11.locationParent = tLRPC$TL_documentAttributeSticker_layer55;
+                                                                                                        delayedMessage11.type = 5;
+                                                                                                        delayedMessage11.parentObject = tLRPC$DocumentAttribute.stickerset;
                                                                                                     } else {
-                                                                                                        tLRPC$TL_decryptedMessageMediaVideo.thumb = new byte[0];
+                                                                                                        delayedMessage11 = null;
                                                                                                     }
-                                                                                                    TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia2 = tLRPC$TL_decryptedMessage.media;
-                                                                                                    tLRPC$DecryptedMessageMedia2.caption = str42;
-                                                                                                    tLRPC$DecryptedMessageMedia2.mime_type = "video/mp4";
-                                                                                                    tLRPC$DecryptedMessageMedia2.size = tLRPC$TL_document8.size;
-                                                                                                    i14 = 0;
-                                                                                                    while (true) {
-                                                                                                        if (i14 < tLRPC$TL_document8.attributes.size()) {
-                                                                                                            break;
-                                                                                                        }
-                                                                                                        TLRPC$DocumentAttribute tLRPC$DocumentAttribute4 = tLRPC$TL_document8.attributes.get(i14);
-                                                                                                        if (tLRPC$DocumentAttribute4 instanceof TLRPC$TL_documentAttributeVideo) {
-                                                                                                            TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia3 = tLRPC$TL_decryptedMessage.media;
-                                                                                                            tLRPC$DecryptedMessageMedia3.w = tLRPC$DocumentAttribute4.w;
-                                                                                                            tLRPC$DecryptedMessageMedia3.h = tLRPC$DocumentAttribute4.h;
-                                                                                                            tLRPC$DecryptedMessageMedia3.duration = (int) tLRPC$DocumentAttribute4.duration;
-                                                                                                            break;
-                                                                                                        }
-                                                                                                        i14++;
-                                                                                                    }
-                                                                                                    TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia4 = tLRPC$TL_decryptedMessage.media;
-                                                                                                    tLRPC$DecryptedMessageMedia4.thumb_h = thumbForSecretChat.h;
-                                                                                                    tLRPC$DecryptedMessageMedia4.thumb_w = thumbForSecretChat.w;
-                                                                                                    if (tLRPC$TL_document8.key != null && j5 == 0) {
-                                                                                                        TLRPC$InputEncryptedFile tLRPC$InputEncryptedFile = new TLRPC$InputEncryptedFile() { // from class: org.telegram.tgnet.TLRPC$TL_inputEncryptedFile
-                                                                                                            @Override // org.telegram.tgnet.TLObject
-                                                                                                            public void readParams(AbstractSerializedData abstractSerializedData, boolean z26) {
-                                                                                                                this.id = abstractSerializedData.readInt64(z26);
-                                                                                                                this.access_hash = abstractSerializedData.readInt64(z26);
-                                                                                                            }
-
-                                                                                                            @Override // org.telegram.tgnet.TLObject
-                                                                                                            public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-                                                                                                                abstractSerializedData.writeInt32(1511503333);
-                                                                                                                abstractSerializedData.writeInt64(this.id);
-                                                                                                                abstractSerializedData.writeInt64(this.access_hash);
-                                                                                                            }
-                                                                                                        };
-                                                                                                        tLRPC$InputEncryptedFile.id = tLRPC$TL_document8.id;
-                                                                                                        tLRPC$InputEncryptedFile.access_hash = tLRPC$TL_document8.access_hash;
-                                                                                                        TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia5 = tLRPC$TL_decryptedMessage.media;
-                                                                                                        tLRPC$DecryptedMessageMedia5.key = tLRPC$TL_document8.key;
-                                                                                                        tLRPC$DecryptedMessageMedia5.iv = tLRPC$TL_document8.iv;
-                                                                                                        getSecretChatHelper().performSendEncryptedRequest(tLRPC$TL_decryptedMessage, messageObject.messageOwner, tLRPC$EncryptedChat, tLRPC$InputEncryptedFile, null, messageObject);
-                                                                                                        j6 = j8;
-                                                                                                        str12 = str;
-                                                                                                        str10 = str12;
-                                                                                                        c4 = c3;
-                                                                                                        tLRPC$Message33 = tLRPC$Message32;
-                                                                                                        delayedMessage5 = delayedMessage3;
-                                                                                                    }
-                                                                                                    j6 = j8;
-                                                                                                    str12 = str;
-                                                                                                    VideoEditedInfo videoEditedInfo7 = videoEditedInfo3;
-                                                                                                    DelayedMessage delayedMessage15 = delayedMessage3;
-                                                                                                    delayedMessage15.videoEditedInfo = videoEditedInfo7;
-                                                                                                    if (j5 == 0) {
-                                                                                                        sendMessagesHelper5.performSendDelayedMessage(delayedMessage15);
-                                                                                                    }
-                                                                                                    delayedMessage3 = delayedMessage15;
-                                                                                                    str10 = str12;
-                                                                                                    c4 = c3;
-                                                                                                    tLRPC$Message33 = tLRPC$Message32;
-                                                                                                    delayedMessage5 = delayedMessage3;
-                                                                                                }
-                                                                                                TLRPC$TL_decryptedMessageMediaDocument tLRPC$TL_decryptedMessageMediaDocument = new TLRPC$TL_decryptedMessageMediaDocument();
-                                                                                                tLRPC$TL_decryptedMessage.media = tLRPC$TL_decryptedMessageMediaDocument;
-                                                                                                tLRPC$TL_decryptedMessageMediaDocument.attributes = tLRPC$TL_document8.attributes;
-                                                                                                if (thumbForSecretChat != null && (bArr = thumbForSecretChat.bytes) != null) {
-                                                                                                    tLRPC$TL_decryptedMessageMediaDocument.thumb = bArr;
-                                                                                                } else {
-                                                                                                    tLRPC$TL_decryptedMessageMediaDocument.thumb = new byte[0];
-                                                                                                }
-                                                                                                TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia22 = tLRPC$TL_decryptedMessage.media;
-                                                                                                tLRPC$DecryptedMessageMedia22.caption = str42;
-                                                                                                tLRPC$DecryptedMessageMedia22.mime_type = "video/mp4";
-                                                                                                tLRPC$DecryptedMessageMedia22.size = tLRPC$TL_document8.size;
-                                                                                                i14 = 0;
-                                                                                                while (true) {
-                                                                                                    if (i14 < tLRPC$TL_document8.attributes.size()) {
-                                                                                                    }
-                                                                                                    i14++;
-                                                                                                }
-                                                                                                TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia42 = tLRPC$TL_decryptedMessage.media;
-                                                                                                tLRPC$DecryptedMessageMedia42.thumb_h = thumbForSecretChat.h;
-                                                                                                tLRPC$DecryptedMessageMedia42.thumb_w = thumbForSecretChat.w;
-                                                                                                if (tLRPC$TL_document8.key != null) {
-                                                                                                    TLRPC$InputEncryptedFile tLRPC$InputEncryptedFile2 = new TLRPC$InputEncryptedFile() { // from class: org.telegram.tgnet.TLRPC$TL_inputEncryptedFile
-                                                                                                        @Override // org.telegram.tgnet.TLObject
-                                                                                                        public void readParams(AbstractSerializedData abstractSerializedData, boolean z26) {
-                                                                                                            this.id = abstractSerializedData.readInt64(z26);
-                                                                                                            this.access_hash = abstractSerializedData.readInt64(z26);
-                                                                                                        }
-
-                                                                                                        @Override // org.telegram.tgnet.TLObject
-                                                                                                        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-                                                                                                            abstractSerializedData.writeInt32(1511503333);
-                                                                                                            abstractSerializedData.writeInt64(this.id);
-                                                                                                            abstractSerializedData.writeInt64(this.access_hash);
-                                                                                                        }
-                                                                                                    };
-                                                                                                    tLRPC$InputEncryptedFile2.id = tLRPC$TL_document8.id;
-                                                                                                    tLRPC$InputEncryptedFile2.access_hash = tLRPC$TL_document8.access_hash;
-                                                                                                    TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia52 = tLRPC$TL_decryptedMessage.media;
-                                                                                                    tLRPC$DecryptedMessageMedia52.key = tLRPC$TL_document8.key;
-                                                                                                    tLRPC$DecryptedMessageMedia52.iv = tLRPC$TL_document8.iv;
-                                                                                                    getSecretChatHelper().performSendEncryptedRequest(tLRPC$TL_decryptedMessage, messageObject.messageOwner, tLRPC$EncryptedChat, tLRPC$InputEncryptedFile2, null, messageObject);
-                                                                                                    j6 = j8;
-                                                                                                    str12 = str;
-                                                                                                    str10 = str12;
-                                                                                                    c4 = c3;
-                                                                                                    tLRPC$Message33 = tLRPC$Message32;
-                                                                                                    delayedMessage5 = delayedMessage3;
-                                                                                                }
-                                                                                                j6 = j8;
-                                                                                                str12 = str;
-                                                                                                VideoEditedInfo videoEditedInfo72 = videoEditedInfo3;
-                                                                                                DelayedMessage delayedMessage152 = delayedMessage3;
-                                                                                                delayedMessage152.videoEditedInfo = videoEditedInfo72;
-                                                                                                if (j5 == 0) {
-                                                                                                }
-                                                                                                delayedMessage3 = delayedMessage152;
-                                                                                                str10 = str12;
-                                                                                                c4 = c3;
-                                                                                                tLRPC$Message33 = tLRPC$Message32;
-                                                                                                delayedMessage5 = delayedMessage3;
-                                                                                            } else {
-                                                                                                j6 = j8;
-                                                                                                str11 = str;
-                                                                                                Object obj8 = obj;
-                                                                                                if (c3 == 6) {
-                                                                                                    TLRPC$TL_decryptedMessageMediaContact tLRPC$TL_decryptedMessageMediaContact = new TLRPC$TL_decryptedMessageMediaContact();
-                                                                                                    tLRPC$TL_decryptedMessage.media = tLRPC$TL_decryptedMessageMediaContact;
-                                                                                                    tLRPC$TL_decryptedMessageMediaContact.phone_number = tLRPC$User6.phone;
-                                                                                                    tLRPC$TL_decryptedMessageMediaContact.first_name = tLRPC$User6.first_name;
-                                                                                                    tLRPC$TL_decryptedMessageMediaContact.last_name = tLRPC$User6.last_name;
-                                                                                                    tLRPC$TL_decryptedMessageMediaContact.user_id = tLRPC$User6.id;
-                                                                                                    getSecretChatHelper().performSendEncryptedRequest(tLRPC$TL_decryptedMessage, messageObject.messageOwner, tLRPC$EncryptedChat, null, null, messageObject);
-                                                                                                } else {
-                                                                                                    if (c3 != 7 && (c3 != '\t' || tLRPC$TL_document8 == null)) {
-                                                                                                        if (c3 == '\b') {
-                                                                                                            DelayedMessage delayedMessage16 = new DelayedMessage(j6);
-                                                                                                            delayedMessage16.encryptedChat = tLRPC$EncryptedChat;
-                                                                                                            delayedMessage16.sendEncryptedRequest = tLRPC$TL_decryptedMessage;
-                                                                                                            delayedMessage16.obj = messageObject;
-                                                                                                            delayedMessage16.type = 3;
-                                                                                                            delayedMessage16.parentObject = tLRPC$Message33;
-                                                                                                            delayedMessage16.performMediaUpload = true;
-                                                                                                            delayedMessage16.scheduled = i2 != 0;
-                                                                                                            TLRPC$TL_decryptedMessageMediaDocument tLRPC$TL_decryptedMessageMediaDocument2 = new TLRPC$TL_decryptedMessageMediaDocument();
-                                                                                                            tLRPC$TL_decryptedMessage.media = tLRPC$TL_decryptedMessageMediaDocument2;
-                                                                                                            tLRPC$TL_decryptedMessageMediaDocument2.attributes = tLRPC$TL_document8.attributes;
-                                                                                                            tLRPC$TL_decryptedMessageMediaDocument2.caption = str42;
-                                                                                                            TLRPC$PhotoSize thumbForSecretChat2 = sendMessagesHelper5.getThumbForSecretChat(tLRPC$TL_document8.thumbs);
-                                                                                                            if (thumbForSecretChat2 != null) {
-                                                                                                                ImageLoader.fillPhotoSizeWithBytes(thumbForSecretChat2);
-                                                                                                                TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia6 = tLRPC$TL_decryptedMessage.media;
-                                                                                                                ((TLRPC$TL_decryptedMessageMediaDocument) tLRPC$DecryptedMessageMedia6).thumb = thumbForSecretChat2.bytes;
-                                                                                                                tLRPC$DecryptedMessageMedia6.thumb_h = thumbForSecretChat2.h;
-                                                                                                                tLRPC$DecryptedMessageMedia6.thumb_w = thumbForSecretChat2.w;
-                                                                                                            } else {
-                                                                                                                TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia7 = tLRPC$TL_decryptedMessage.media;
-                                                                                                                ((TLRPC$TL_decryptedMessageMediaDocument) tLRPC$DecryptedMessageMedia7).thumb = new byte[0];
-                                                                                                                tLRPC$DecryptedMessageMedia7.thumb_h = 0;
-                                                                                                                tLRPC$DecryptedMessageMedia7.thumb_w = 0;
-                                                                                                            }
-                                                                                                            TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia8 = tLRPC$TL_decryptedMessage.media;
-                                                                                                            tLRPC$DecryptedMessageMedia8.mime_type = tLRPC$TL_document8.mime_type;
-                                                                                                            tLRPC$DecryptedMessageMedia8.size = tLRPC$TL_document8.size;
-                                                                                                            delayedMessage16.originalPath = str11;
-                                                                                                            sendMessagesHelper5.performSendDelayedMessage(delayedMessage16);
-                                                                                                            delayedMessage5 = delayedMessage16;
-                                                                                                            str10 = str11;
-                                                                                                            c4 = c3;
-                                                                                                            tLRPC$Message33 = tLRPC$Message32;
-                                                                                                        }
-                                                                                                    }
-                                                                                                    tLRPC$Message10 = tLRPC$Message32;
-                                                                                                    if (tLRPC$TL_document8.access_hash != 0 && (MessageObject.isStickerDocument(tLRPC$TL_document8) || MessageObject.isAnimatedStickerDocument(tLRPC$TL_document8, true))) {
-                                                                                                        TLRPC$TL_decryptedMessageMediaExternalDocument tLRPC$TL_decryptedMessageMediaExternalDocument = new TLRPC$TL_decryptedMessageMediaExternalDocument();
-                                                                                                        tLRPC$TL_decryptedMessage.media = tLRPC$TL_decryptedMessageMediaExternalDocument;
-                                                                                                        tLRPC$TL_decryptedMessageMediaExternalDocument.id = tLRPC$TL_document8.id;
-                                                                                                        tLRPC$TL_decryptedMessageMediaExternalDocument.date = tLRPC$TL_document8.date;
-                                                                                                        tLRPC$TL_decryptedMessageMediaExternalDocument.access_hash = tLRPC$TL_document8.access_hash;
-                                                                                                        tLRPC$TL_decryptedMessageMediaExternalDocument.mime_type = tLRPC$TL_document8.mime_type;
-                                                                                                        tLRPC$TL_decryptedMessageMediaExternalDocument.size = tLRPC$TL_document8.size;
-                                                                                                        tLRPC$TL_decryptedMessageMediaExternalDocument.dc_id = tLRPC$TL_document8.dc_id;
-                                                                                                        tLRPC$TL_decryptedMessageMediaExternalDocument.attributes = tLRPC$TL_document8.attributes;
-                                                                                                        TLRPC$PhotoSize thumbForSecretChat3 = sendMessagesHelper5.getThumbForSecretChat(tLRPC$TL_document8.thumbs);
-                                                                                                        if (thumbForSecretChat3 != null) {
-                                                                                                            ((TLRPC$TL_decryptedMessageMediaExternalDocument) tLRPC$TL_decryptedMessage.media).thumb = thumbForSecretChat3;
-                                                                                                        } else {
-                                                                                                            ((TLRPC$TL_decryptedMessageMediaExternalDocument) tLRPC$TL_decryptedMessage.media).thumb = new TLRPC$TL_photoSizeEmpty();
-                                                                                                            ((TLRPC$TL_decryptedMessageMediaExternalDocument) tLRPC$TL_decryptedMessage.media).thumb.type = "s";
-                                                                                                        }
-                                                                                                        if (delayedMessage3 != null) {
-                                                                                                            delayedMessage6 = delayedMessage3;
-                                                                                                            if (delayedMessage6.type == 5) {
-                                                                                                                delayedMessage6.sendEncryptedRequest = tLRPC$TL_decryptedMessage;
-                                                                                                                delayedMessage6.obj = messageObject;
-                                                                                                                sendMessagesHelper5.performSendDelayedMessage(delayedMessage6);
-                                                                                                            }
-                                                                                                        } else {
-                                                                                                            delayedMessage6 = delayedMessage3;
-                                                                                                        }
-                                                                                                        getSecretChatHelper().performSendEncryptedRequest(tLRPC$TL_decryptedMessage, messageObject.messageOwner, tLRPC$EncryptedChat, null, null, messageObject);
-                                                                                                    } else {
-                                                                                                        DelayedMessage delayedMessage17 = delayedMessage3;
-                                                                                                        TLRPC$TL_decryptedMessageMediaDocument tLRPC$TL_decryptedMessageMediaDocument3 = new TLRPC$TL_decryptedMessageMediaDocument();
-                                                                                                        tLRPC$TL_decryptedMessage.media = tLRPC$TL_decryptedMessageMediaDocument3;
-                                                                                                        tLRPC$TL_decryptedMessageMediaDocument3.attributes = tLRPC$TL_document8.attributes;
-                                                                                                        tLRPC$TL_decryptedMessageMediaDocument3.caption = str42;
-                                                                                                        TLRPC$PhotoSize thumbForSecretChat4 = sendMessagesHelper5.getThumbForSecretChat(tLRPC$TL_document8.thumbs);
-                                                                                                        if (thumbForSecretChat4 != null) {
-                                                                                                            if (thumbForSecretChat4 instanceof TLRPC$TL_photoStrippedSize) {
-                                                                                                                TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia9 = tLRPC$TL_decryptedMessage.media;
-                                                                                                                c4 = c3;
-                                                                                                                ((TLRPC$TL_decryptedMessageMediaDocument) tLRPC$DecryptedMessageMedia9).thumb = thumbForSecretChat4.bytes;
-                                                                                                                tLRPC$DecryptedMessageMedia9.thumb_h = thumbForSecretChat4.h;
-                                                                                                                tLRPC$DecryptedMessageMedia9.thumb_w = thumbForSecretChat4.w;
-                                                                                                            } else {
-                                                                                                                c4 = c3;
-                                                                                                                ImageLoader.fillPhotoSizeWithBytes(thumbForSecretChat4);
-                                                                                                                TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia10 = tLRPC$TL_decryptedMessage.media;
-                                                                                                                ((TLRPC$TL_decryptedMessageMediaDocument) tLRPC$DecryptedMessageMedia10).thumb = thumbForSecretChat4.bytes;
-                                                                                                                tLRPC$DecryptedMessageMedia10.thumb_h = thumbForSecretChat4.h;
-                                                                                                                tLRPC$DecryptedMessageMedia10.thumb_w = thumbForSecretChat4.w;
-                                                                                                            }
-                                                                                                        } else {
-                                                                                                            c4 = c3;
-                                                                                                            TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia11 = tLRPC$TL_decryptedMessage.media;
-                                                                                                            ((TLRPC$TL_decryptedMessageMediaDocument) tLRPC$DecryptedMessageMedia11).thumb = new byte[0];
-                                                                                                            tLRPC$DecryptedMessageMedia11.thumb_h = 0;
-                                                                                                            tLRPC$DecryptedMessageMedia11.thumb_w = 0;
-                                                                                                        }
-                                                                                                        TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia12 = tLRPC$TL_decryptedMessage.media;
-                                                                                                        tLRPC$DecryptedMessageMedia12.size = tLRPC$TL_document8.size;
-                                                                                                        tLRPC$DecryptedMessageMedia12.mime_type = tLRPC$TL_document8.mime_type;
-                                                                                                        if (tLRPC$TL_document8.key != null && j5 == 0) {
-                                                                                                            TLRPC$InputEncryptedFile tLRPC$InputEncryptedFile3 = new TLRPC$InputEncryptedFile() { // from class: org.telegram.tgnet.TLRPC$TL_inputEncryptedFile
-                                                                                                                @Override // org.telegram.tgnet.TLObject
-                                                                                                                public void readParams(AbstractSerializedData abstractSerializedData, boolean z26) {
-                                                                                                                    this.id = abstractSerializedData.readInt64(z26);
-                                                                                                                    this.access_hash = abstractSerializedData.readInt64(z26);
-                                                                                                                }
-
-                                                                                                                @Override // org.telegram.tgnet.TLObject
-                                                                                                                public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-                                                                                                                    abstractSerializedData.writeInt32(1511503333);
-                                                                                                                    abstractSerializedData.writeInt64(this.id);
-                                                                                                                    abstractSerializedData.writeInt64(this.access_hash);
-                                                                                                                }
-                                                                                                            };
-                                                                                                            tLRPC$InputEncryptedFile3.id = tLRPC$TL_document8.id;
-                                                                                                            tLRPC$InputEncryptedFile3.access_hash = tLRPC$TL_document8.access_hash;
-                                                                                                            TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia13 = tLRPC$TL_decryptedMessage.media;
-                                                                                                            tLRPC$DecryptedMessageMedia13.key = tLRPC$TL_document8.key;
-                                                                                                            tLRPC$DecryptedMessageMedia13.iv = tLRPC$TL_document8.iv;
-                                                                                                            getSecretChatHelper().performSendEncryptedRequest(tLRPC$TL_decryptedMessage, messageObject.messageOwner, tLRPC$EncryptedChat, tLRPC$InputEncryptedFile3, null, messageObject);
-                                                                                                            delayedMessage5 = delayedMessage17;
-                                                                                                            str10 = str11;
-                                                                                                            tLRPC$Message33 = tLRPC$Message10;
-                                                                                                        }
-                                                                                                        delayedMessage5 = delayedMessage17;
-                                                                                                        if (str28 != null && str28.length() > 0) {
-                                                                                                            String str44 = str28;
-                                                                                                            if (str44.startsWith("http")) {
-                                                                                                                delayedMessage5.httpLocation = str44;
-                                                                                                            }
-                                                                                                        }
-                                                                                                        if (j5 == 0) {
-                                                                                                            sendMessagesHelper5.performSendDelayedMessage(delayedMessage5);
-                                                                                                        }
-                                                                                                        str10 = str11;
-                                                                                                        tLRPC$Message33 = tLRPC$Message10;
-                                                                                                    }
-                                                                                                }
-                                                                                                tLRPC$Message10 = tLRPC$Message32;
-                                                                                                delayedMessage6 = delayedMessage3;
-                                                                                            }
-                                                                                            if (j5 != 0) {
-                                                                                                TLObject tLObject2 = delayedMessage5.sendEncryptedRequest;
-                                                                                                if (tLObject2 != null) {
-                                                                                                    tLRPC$TL_messages_sendEncryptedMultiMedia = (TLRPC$TL_messages_sendEncryptedMultiMedia) tLObject2;
-                                                                                                } else {
-                                                                                                    tLRPC$TL_messages_sendEncryptedMultiMedia = new TLRPC$TL_messages_sendEncryptedMultiMedia();
-                                                                                                    delayedMessage5.sendEncryptedRequest = tLRPC$TL_messages_sendEncryptedMultiMedia;
-                                                                                                }
-                                                                                                delayedMessage5.messageObjects.add(messageObject);
-                                                                                                tLRPC$Message8 = tLRPC$Message33;
-                                                                                                try {
-                                                                                                    delayedMessage5.messages.add(tLRPC$Message8);
-                                                                                                    delayedMessage5.originalPaths.add(str10);
-                                                                                                    delayedMessage5.performMediaUpload = true;
-                                                                                                    tLRPC$TL_messages_sendEncryptedMultiMedia.messages.add(tLRPC$TL_decryptedMessage);
-                                                                                                    TLRPC$InputEncryptedFile tLRPC$InputEncryptedFile4 = new TLRPC$InputEncryptedFile() { // from class: org.telegram.tgnet.TLRPC$TL_inputEncryptedFile
-                                                                                                        @Override // org.telegram.tgnet.TLObject
-                                                                                                        public void readParams(AbstractSerializedData abstractSerializedData, boolean z26) {
-                                                                                                            this.id = abstractSerializedData.readInt64(z26);
-                                                                                                            this.access_hash = abstractSerializedData.readInt64(z26);
-                                                                                                        }
-
-                                                                                                        @Override // org.telegram.tgnet.TLObject
-                                                                                                        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-                                                                                                            abstractSerializedData.writeInt32(1511503333);
-                                                                                                            abstractSerializedData.writeInt64(this.id);
-                                                                                                            abstractSerializedData.writeInt64(this.access_hash);
-                                                                                                        }
-                                                                                                    };
-                                                                                                    char c9 = c4;
-                                                                                                    if (c9 != 3 && c9 != 7) {
-                                                                                                        j7 = 0;
-                                                                                                        tLRPC$InputEncryptedFile4.id = j7;
-                                                                                                        tLRPC$TL_messages_sendEncryptedMultiMedia.files.add(tLRPC$InputEncryptedFile4);
-                                                                                                        sendMessagesHelper5.performSendDelayedMessage(delayedMessage5);
-                                                                                                        tLRPC$Message8 = tLRPC$Message8;
-                                                                                                    }
-                                                                                                    j7 = 1;
-                                                                                                    tLRPC$InputEncryptedFile4.id = j7;
-                                                                                                    tLRPC$TL_messages_sendEncryptedMultiMedia.files.add(tLRPC$InputEncryptedFile4);
-                                                                                                    sendMessagesHelper5.performSendDelayedMessage(delayedMessage5);
-                                                                                                    tLRPC$Message8 = tLRPC$Message8;
-                                                                                                } catch (Exception e26) {
-                                                                                                    e = e26;
-                                                                                                    exc = e;
-                                                                                                    sendMessagesHelper = sendMessagesHelper5;
-                                                                                                    tLRPC$Message6 = tLRPC$Message8;
-                                                                                                    i = i2;
-                                                                                                    tLRPC$Message = tLRPC$Message6;
-                                                                                                    FileLog.e(exc);
-                                                                                                    getMessagesStorage().markMessageAsSendError(tLRPC$Message, i != 0);
-                                                                                                    if (messageObject != null) {
-                                                                                                    }
-                                                                                                    getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
-                                                                                                    sendMessagesHelper.processSentMessage(tLRPC$Message.id);
-                                                                                                    return;
+                                                                                                    tLRPC$TL_documentAttributeSticker_layer55.stickerset = new TLRPC$TL_inputStickerSetEmpty();
                                                                                                 }
                                                                                             } else {
-                                                                                                tLRPC$Message8 = tLRPC$Message33;
-                                                                                            }
-                                                                                            if (messageObject14 == null) {
-                                                                                                getMediaDataController().cleanDraft(j6, messageObject15 != null ? messageObject15.getId() : 0L, false);
-                                                                                            }
-                                                                                            return;
-                                                                                        }
-                                                                                        TLRPC$PhotoSize tLRPC$PhotoSize3 = tLRPC$TL_photo7.sizes.get(0);
-                                                                                        TLRPC$PhotoSize tLRPC$PhotoSize4 = tLRPC$TL_photo7.sizes.get(arrayList2.size() - 1);
-                                                                                        ImageLoader.fillPhotoSizeWithBytes(tLRPC$PhotoSize3);
-                                                                                        TLRPC$TL_decryptedMessageMediaPhoto tLRPC$TL_decryptedMessageMediaPhoto = new TLRPC$TL_decryptedMessageMediaPhoto();
-                                                                                        tLRPC$TL_decryptedMessage.media = tLRPC$TL_decryptedMessageMediaPhoto;
-                                                                                        tLRPC$TL_decryptedMessageMediaPhoto.caption = str42;
-                                                                                        byte[] bArr7 = tLRPC$PhotoSize3.bytes;
-                                                                                        if (bArr7 != null) {
-                                                                                            tLRPC$Message9 = tLRPC$Message33;
-                                                                                            tLRPC$TL_decryptedMessageMediaPhoto.thumb = bArr7;
-                                                                                            obj5 = obj4;
-                                                                                        } else {
-                                                                                            tLRPC$Message9 = tLRPC$Message33;
-                                                                                            obj5 = obj4;
-                                                                                            tLRPC$TL_decryptedMessageMediaPhoto.thumb = new byte[0];
-                                                                                        }
-                                                                                        tLRPC$TL_decryptedMessageMediaPhoto.thumb_h = tLRPC$PhotoSize3.h;
-                                                                                        tLRPC$TL_decryptedMessageMediaPhoto.thumb_w = tLRPC$PhotoSize3.w;
-                                                                                        tLRPC$TL_decryptedMessageMediaPhoto.w = tLRPC$PhotoSize4.w;
-                                                                                        tLRPC$TL_decryptedMessageMediaPhoto.h = tLRPC$PhotoSize4.h;
-                                                                                        tLRPC$TL_decryptedMessageMediaPhoto.size = tLRPC$PhotoSize4.size;
-                                                                                        if (tLRPC$PhotoSize4.location.key == null || j5 != 0) {
-                                                                                            if (delayedMessage4 == null) {
-                                                                                                delayedMessage5 = new DelayedMessage(j6);
-                                                                                                delayedMessage5.encryptedChat = tLRPC$EncryptedChat;
-                                                                                                delayedMessage5.type = 0;
-                                                                                                str10 = str8;
-                                                                                                delayedMessage5.originalPath = str10;
-                                                                                                delayedMessage5.sendEncryptedRequest = tLRPC$TL_decryptedMessage;
-                                                                                                delayedMessage5.obj = messageObject;
-                                                                                                if (hashMap7 != null) {
-                                                                                                    Object obj9 = obj5;
-                                                                                                    if (hashMap7.containsKey(obj9)) {
-                                                                                                        delayedMessage5.parentObject = hashMap7.get(obj9);
-                                                                                                        delayedMessage5.performMediaUpload = true;
-                                                                                                        delayedMessage5.scheduled = i2 == 0;
-                                                                                                    }
-                                                                                                }
-                                                                                                delayedMessage5.parentObject = tLRPC$Message9;
-                                                                                                delayedMessage5.performMediaUpload = true;
-                                                                                                delayedMessage5.scheduled = i2 == 0;
-                                                                                            } else {
-                                                                                                str10 = str8;
-                                                                                                delayedMessage5 = delayedMessage4;
-                                                                                            }
-                                                                                            if (!TextUtils.isEmpty(str9) && str9.startsWith("http")) {
-                                                                                                delayedMessage5.httpLocation = str9;
-                                                                                            } else {
-                                                                                                ArrayList<TLRPC$PhotoSize> arrayList13 = tLRPC$TL_photo7.sizes;
-                                                                                                delayedMessage5.photoSize = arrayList13.get(arrayList13.size() - 1);
-                                                                                                delayedMessage5.locationParent = tLRPC$TL_photo7;
-                                                                                            }
-                                                                                            tLRPC$Message33 = tLRPC$Message33;
-                                                                                            if (j5 == 0) {
-                                                                                                sendMessagesHelper5.performSendDelayedMessage(delayedMessage5);
-                                                                                                tLRPC$Message33 = tLRPC$Message33;
+                                                                                                videoEditedInfo11 = r3;
+                                                                                                z11 = z12;
+                                                                                                hashMap2 = hashMap4;
+                                                                                                tLRPC$TL_documentAttributeSticker_layer55.stickerset = new TLRPC$TL_inputStickerSetEmpty();
                                                                                             }
                                                                                         } else {
-                                                                                            TLRPC$InputEncryptedFile tLRPC$InputEncryptedFile5 = new TLRPC$InputEncryptedFile() { // from class: org.telegram.tgnet.TLRPC$TL_inputEncryptedFile
-                                                                                                @Override // org.telegram.tgnet.TLObject
-                                                                                                public void readParams(AbstractSerializedData abstractSerializedData, boolean z26) {
-                                                                                                    this.id = abstractSerializedData.readInt64(z26);
-                                                                                                    this.access_hash = abstractSerializedData.readInt64(z26);
-                                                                                                }
-
-                                                                                                @Override // org.telegram.tgnet.TLObject
-                                                                                                public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-                                                                                                    abstractSerializedData.writeInt32(1511503333);
-                                                                                                    abstractSerializedData.writeInt64(this.id);
-                                                                                                    abstractSerializedData.writeInt64(this.access_hash);
-                                                                                                }
-                                                                                            };
-                                                                                            TLRPC$FileLocation tLRPC$FileLocation = tLRPC$PhotoSize4.location;
-                                                                                            tLRPC$InputEncryptedFile5.id = tLRPC$FileLocation.volume_id;
-                                                                                            tLRPC$InputEncryptedFile5.access_hash = tLRPC$FileLocation.secret;
-                                                                                            TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia14 = tLRPC$TL_decryptedMessage.media;
-                                                                                            tLRPC$DecryptedMessageMedia14.key = tLRPC$FileLocation.key;
-                                                                                            tLRPC$DecryptedMessageMedia14.iv = tLRPC$FileLocation.iv;
-                                                                                            getSecretChatHelper().performSendEncryptedRequest(tLRPC$TL_decryptedMessage, messageObject.messageOwner, tLRPC$EncryptedChat, tLRPC$InputEncryptedFile5, null, messageObject);
-                                                                                            delayedMessage5 = delayedMessage4;
-                                                                                            str10 = str8;
-                                                                                            tLRPC$Message33 = tLRPC$Message33;
+                                                                                            i13++;
+                                                                                            tLRPC$TL_message4 = str19;
                                                                                         }
-                                                                                        if (j5 != 0) {
-                                                                                        }
-                                                                                        if (messageObject14 == null) {
-                                                                                        }
-                                                                                        return;
-                                                                                    } catch (Exception e27) {
-                                                                                        e = e27;
-                                                                                        tLRPC$Message8 = tLRPC$Message33;
+                                                                                    } catch (Exception e10) {
+                                                                                        e = e10;
                                                                                         exc = e;
-                                                                                        sendMessagesHelper = sendMessagesHelper5;
-                                                                                        tLRPC$Message6 = tLRPC$Message8;
-                                                                                        i = i2;
-                                                                                        tLRPC$Message = tLRPC$Message6;
+                                                                                        tLRPC$TL_message2 = str19;
+                                                                                        b2 = tLRPC$Message3;
+                                                                                        tLRPC$TL_message = tLRPC$TL_message2;
+                                                                                        messageObject = null;
+                                                                                        tLRPC$Message = tLRPC$TL_message;
+                                                                                        b3 = b2;
                                                                                         FileLog.e(exc);
-                                                                                        getMessagesStorage().markMessageAsSendError(tLRPC$Message, i != 0);
+                                                                                        getMessagesStorage().markMessageAsSendError(tLRPC$Message, b3 != 0);
                                                                                         if (messageObject != null) {
                                                                                         }
                                                                                         getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
-                                                                                        sendMessagesHelper.processSentMessage(tLRPC$Message.id);
+                                                                                        processSentMessage(tLRPC$Message.id);
                                                                                         return;
                                                                                     }
-                                                                                    c4 = c3;
-                                                                                    delayedMessage4 = delayedMessage3;
-                                                                                    j6 = j8;
-                                                                                    str8 = str;
-                                                                                    obj4 = obj;
-                                                                                    tLRPC$Message33 = tLRPC$Message32;
-                                                                                    str9 = str28;
                                                                                 }
-                                                                                str10 = str11;
-                                                                                c4 = c3;
-                                                                                delayedMessage5 = delayedMessage6;
-                                                                                tLRPC$Message33 = tLRPC$Message10;
-                                                                                if (j5 != 0) {
-                                                                                }
-                                                                                if (messageObject14 == null) {
-                                                                                }
-                                                                                return;
-                                                                            } catch (Exception e28) {
-                                                                                exc = e28;
-                                                                                sendMessagesHelper = sendMessagesHelper5;
-                                                                                tLRPC$Message6 = tLRPC$Message33;
-                                                                                i = i2;
-                                                                                tLRPC$Message = tLRPC$Message6;
-                                                                                FileLog.e(exc);
-                                                                                getMessagesStorage().markMessageAsSendError(tLRPC$Message, i != 0);
-                                                                                if (messageObject != null) {
-                                                                                }
-                                                                                getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
-                                                                                sendMessagesHelper.processSentMessage(tLRPC$Message.id);
-                                                                                return;
+                                                                                delayedMessage10 = delayedMessage11;
+                                                                                z10 = z16;
+                                                                                tLRPC$Message18 = str19;
+                                                                                tL_stories$StoryItem3 = tL_stories$StoryItem5;
+                                                                                str18 = str25;
+                                                                                hashMap4 = hashMap2;
                                                                             }
-                                                                        } catch (Exception e29) {
-                                                                            e = e29;
-                                                                            tLRPC$Message8 = tLRPC$Message32;
+                                                                            i6 = i7;
+                                                                            tLRPC$WebPage2 = tLRPC$WebPage2;
+                                                                        } catch (Exception e11) {
+                                                                            e = e11;
+                                                                            str19 = tLRPC$TL_message4;
                                                                         }
+                                                                    } else {
+                                                                        tLRPC$User3 = tLRPC$User4;
+                                                                        videoEditedInfo11 = tLRPC$Message19;
+                                                                        if (tL_stories$StoryItem5 != null) {
+                                                                            if (tLRPC$EncryptedChat != null) {
+                                                                                tLRPC$TL_message3 = new TLRPC$TL_message_secret();
+                                                                            } else {
+                                                                                tLRPC$TL_message3 = new TLRPC$TL_message();
+                                                                            }
+                                                                            MessageMediaStoryFull messageMediaStoryFull = new MessageMediaStoryFull();
+                                                                            tL_stories$StoryItem3 = tL_stories$StoryItem5;
+                                                                            messageMediaStoryFull.id = tL_stories$StoryItem3.id;
+                                                                            messageMediaStoryFull.user_id = tL_stories$StoryItem3.dialogId;
+                                                                            z10 = z16;
+                                                                            i6 = i7;
+                                                                            messageMediaStoryFull.peer = getMessagesController().getPeer(tL_stories$StoryItem3.dialogId);
+                                                                            messageMediaStoryFull.storyItem = tL_stories$StoryItem3;
+                                                                            tLRPC$TL_message3.media = messageMediaStoryFull;
+                                                                            tLRPC$Message18 = tLRPC$TL_message3;
+                                                                            tLRPC$WebPage2 = tLRPC$WebPage2;
+                                                                            str18 = str25;
+                                                                            delayedMessage10 = null;
+                                                                            c6 = '\f';
+                                                                        } else {
+                                                                            z10 = z16;
+                                                                            i6 = i7;
+                                                                            tL_stories$StoryItem3 = tL_stories$StoryItem5;
+                                                                            tLRPC$WebPage2 = tLRPC$WebPage2;
+                                                                            str18 = str25;
+                                                                            delayedMessage10 = null;
+                                                                            tLRPC$Message18 = null;
+                                                                        }
+                                                                        z11 = false;
                                                                     }
                                                                 }
-                                                                if ((c3 >= 5 || c3 > '\b') && ((c3 != '\t' || tLRPC$EncryptedChat == null) && c3 != '\n' && c3 != 11 && c3 != '\f')) {
-                                                                    try {
-                                                                        if (c3 == 4) {
-                                                                            MessageObject messageObject16 = messageObject4;
-                                                                            int i41 = i2;
-                                                                            if (c3 == '\t') {
-                                                                                try {
-                                                                                    TLRPC$TL_messages_sendInlineBotResult tLRPC$TL_messages_sendInlineBotResult = new TLRPC$TL_messages_sendInlineBotResult();
-                                                                                    tLRPC$TL_messages_sendInlineBotResult.peer = i9;
-                                                                                    tLRPC$TL_messages_sendInlineBotResult.random_id = tLRPC$Message4.random_id;
-                                                                                    if (tLRPC$Message4.from_id != null) {
-                                                                                        tLRPC$TL_messages_sendInlineBotResult.send_as = getMessagesController().getInputPeer(tLRPC$Message4.from_id);
+                                                                z11 = false;
+                                                                z10 = z16;
+                                                                i6 = i7;
+                                                                tLRPC$WebPage2 = tLRPC$WebPage2;
+                                                                tLRPC$Message18 = tLRPC$TL_message6;
+                                                                delayedMessage10 = null;
+                                                            } catch (Exception e12) {
+                                                                exc = e12;
+                                                                b2 = tLRPC$Message3;
+                                                                tLRPC$TL_message = null;
+                                                                messageObject = null;
+                                                                tLRPC$Message = tLRPC$TL_message;
+                                                                b3 = b2;
+                                                                FileLog.e(exc);
+                                                                getMessagesStorage().markMessageAsSendError(tLRPC$Message, b3 != 0);
+                                                                if (messageObject != null) {
+                                                                }
+                                                                getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
+                                                                processSentMessage(tLRPC$Message.id);
+                                                                return;
+                                                            }
+                                                        } catch (Exception e13) {
+                                                            exc = e13;
+                                                            tLRPC$TL_message2 = str21;
+                                                        }
+                                                    }
+                                                    if (arrayList3 != null) {
+                                                    }
+                                                    arrayList5 = arrayList3;
+                                                    delayedMessage12 = delayedMessage10;
+                                                    if (str18 != null) {
+                                                    }
+                                                    if (tLRPC$Message18.attachPath == null) {
+                                                    }
+                                                    int newMessageId2222 = getUserConfig().getNewMessageId();
+                                                    tLRPC$Message18.id = newMessageId2222;
+                                                    tLRPC$Message18.local_id = newMessageId2222;
+                                                    tLRPC$Message18.out = true;
+                                                    if (z) {
+                                                    }
+                                                    str20 = str18;
+                                                    tL_stories$StoryItem5 = tL_stories$StoryItem3;
+                                                    hashMap3 = hashMap4;
+                                                    tLRPC$InputPeer3 = tLRPC$InputPeer8;
+                                                    if (tLRPC$Peer3 != null) {
+                                                    }
+                                                }
+                                            } catch (Exception e14) {
+                                                e = e14;
+                                            }
+                                        }
+                                    } catch (Exception e15) {
+                                        b2 = b17;
+                                        exc = e15;
+                                    }
+                                }
+                                if (z14) {
+                                    tLRPC$MessageMedia3 = tLRPC$MessageMedia;
+                                    str7 = str2;
+                                    obj2 = "query_id";
+                                } else {
+                                    tLRPC$MessageMedia3 = tLRPC$MessageMedia;
+                                    try {
+                                        SharedPreferences notificationsSettings = MessagesController.getNotificationsSettings(sendMessagesHelper.currentAccount);
+                                        obj2 = "query_id";
+                                        StringBuilder sb = new StringBuilder();
+                                        str7 = str2;
+                                        sb.append(NotificationsSettingsFacade.PROPERTY_SILENT);
+                                        sb.append(j12);
+                                        if (!notificationsSettings.getBoolean(sb.toString(), false)) {
+                                            z3 = false;
+                                            tLRPC$Message2.silent = z3;
+                                            char c7 = c;
+                                            if (tLRPC$Message2.random_id == 0) {
+                                                tLRPC$Message2.random_id = getNextRandomId();
+                                            }
+                                            if (hashMap == null && hashMap.containsKey("bot")) {
+                                                if (tLRPC$EncryptedChat != null) {
+                                                    String str31 = hashMap.get("bot_name");
+                                                    tLRPC$Message2.via_bot_name = str31;
+                                                    if (str31 == null) {
+                                                        tLRPC$Message2.via_bot_name = "";
+                                                    }
+                                                    videoEditedInfo2 = "bot_name";
+                                                } else {
+                                                    videoEditedInfo2 = "bot_name";
+                                                    tLRPC$Message2.via_bot_id = Utilities.parseLong(hashMap.get("bot")).longValue();
+                                                }
+                                                tLRPC$Message2.flags |= LiteMode.FLAG_AUTOPLAY_GIFS;
+                                            } else {
+                                                videoEditedInfo2 = "bot_name";
+                                            }
+                                            tLRPC$Message2.params = hashMap;
+                                            if (messageObject2 != null) {
+                                                messageObject3 = messageObject2;
+                                                if (messageObject3.resendAsIs) {
+                                                    str8 = "";
+                                                    c2 = c7;
+                                                    tLRPC$Message2.flags |= LiteMode.FLAG_CALLS_ANIMATIONS;
+                                                    tLRPC$Message2.dialog_id = j12;
+                                                    tLRPC$Message2.invert_media = z17;
+                                                    if (tL_stories$StoryItem4 == null) {
+                                                        TLRPC$TL_messageReplyStoryHeader tLRPC$TL_messageReplyStoryHeader = new TLRPC$TL_messageReplyStoryHeader();
+                                                        tLRPC$Message2.reply_to = tLRPC$TL_messageReplyStoryHeader;
+                                                        tL_stories$StoryItem = tL_stories$StoryItem4;
+                                                        tLRPC$TL_messageReplyStoryHeader.story_id = tL_stories$StoryItem.id;
+                                                        tLRPC$InputPeer5 = tLRPC$InputPeer3;
+                                                        j4 = j3;
+                                                        tLRPC$TL_messageReplyStoryHeader.peer = getMessagesController().getPeer(tL_stories$StoryItem.dialogId);
+                                                        tLRPC$Message2.replyStory = tL_stories$StoryItem;
+                                                        tLRPC$Message2.flags |= 8;
+                                                    } else {
+                                                        tLRPC$InputPeer5 = tLRPC$InputPeer3;
+                                                        j4 = j3;
+                                                        tL_stories$StoryItem = tL_stories$StoryItem4;
+                                                        if (messageObject18 != null) {
+                                                            MessageObject messageObject19 = messageObject16;
+                                                            messageObject4 = messageObject18;
+                                                            if (messageObject16 != null) {
+                                                                if (messageObject4 == messageObject19) {
+                                                                    if (messageObject19.getId() != 1) {
+                                                                    }
+                                                                    messageObject5 = messageObject3;
+                                                                    messageObject13 = messageObject19;
+                                                                    replyQuote = replyQuote3;
+                                                                    messageObject6 = messageObject13;
+                                                                    if (j2 == 0) {
+                                                                        TLRPC$TL_messageReplies tLRPC$TL_messageReplies = new TLRPC$TL_messageReplies();
+                                                                        tLRPC$Message2.replies = tLRPC$TL_messageReplies;
+                                                                        tLRPC$TL_messageReplies.comments = true;
+                                                                        tLRPC$EncryptedChat2 = tLRPC$EncryptedChat;
+                                                                        tLRPC$TL_messageReplies.channel_id = j2;
+                                                                        tLRPC$TL_messageReplies.flags |= 1;
+                                                                        tLRPC$Message2.flags |= 8388608;
+                                                                    } else {
+                                                                        tLRPC$EncryptedChat2 = tLRPC$EncryptedChat;
+                                                                    }
+                                                                    if (tLRPC$ReplyMarkup != null && tLRPC$EncryptedChat2 == null) {
+                                                                        tLRPC$Message2.flags |= 64;
+                                                                        tLRPC$Message2.reply_markup = tLRPC$ReplyMarkup;
+                                                                        str15 = hashMap.get("bot");
+                                                                        if (str15 != null) {
+                                                                            tLRPC$Message2.via_bot_id = Long.parseLong(str15);
+                                                                        }
+                                                                    }
+                                                                    if (DialogObject.isEncryptedDialog(j12)) {
+                                                                        tLRPC$Message2.peer_id = getMessagesController().getPeer(j12);
+                                                                        if (DialogObject.isUserDialog(j12)) {
+                                                                            TLRPC$User user = getMessagesController().getUser(Long.valueOf(j12));
+                                                                            if (user == null) {
+                                                                                sendMessagesHelper.processSentMessage(tLRPC$Message2.id);
+                                                                                return;
+                                                                            } else if (user.bot) {
+                                                                                tLRPC$Message2.unread = false;
+                                                                            }
+                                                                        }
+                                                                        tLRPC$EncryptedChat3 = tLRPC$EncryptedChat2;
+                                                                        j5 = j12;
+                                                                    } else {
+                                                                        TLRPC$TL_peerUser tLRPC$TL_peerUser2 = new TLRPC$TL_peerUser();
+                                                                        tLRPC$Message2.peer_id = tLRPC$TL_peerUser2;
+                                                                        tLRPC$EncryptedChat3 = tLRPC$EncryptedChat2;
+                                                                        j5 = j12;
+                                                                        long j13 = tLRPC$EncryptedChat3.participant_id;
+                                                                        if (j13 == j4) {
+                                                                            tLRPC$TL_peerUser2.user_id = tLRPC$EncryptedChat3.admin_id;
+                                                                        } else {
+                                                                            tLRPC$TL_peerUser2.user_id = j13;
+                                                                        }
+                                                                        if (i != 0) {
+                                                                            tLRPC$Message2.ttl = i;
+                                                                        } else {
+                                                                            int i14 = tLRPC$EncryptedChat3.ttl;
+                                                                            tLRPC$Message2.ttl = i14;
+                                                                            if (i14 != 0 && (tLRPC$MessageMedia4 = tLRPC$Message2.media) != null) {
+                                                                                tLRPC$MessageMedia4.ttl_seconds = i14;
+                                                                                tLRPC$MessageMedia4.flags |= 4;
+                                                                            }
+                                                                        }
+                                                                        if (tLRPC$Message2.ttl != 0 && tLRPC$Message2.media.document != null) {
+                                                                            if (MessageObject.isVoiceMessage(tLRPC$Message2)) {
+                                                                                int i15 = 0;
+                                                                                while (true) {
+                                                                                    if (i15 >= tLRPC$Message2.media.document.attributes.size()) {
+                                                                                        i3 = 0;
+                                                                                        break;
                                                                                     }
-                                                                                    tLRPC$TL_messages_sendInlineBotResult.hide_via = !hashMap.containsKey("bot");
-                                                                                    if (tL_stories$StoryItem2 != null) {
-                                                                                        tLRPC$TL_messages_sendInlineBotResult.reply_to = sendMessagesHelper2.createReplyInput(tL_stories$StoryItem2);
-                                                                                        tLRPC$TL_messages_sendInlineBotResult.flags |= 1;
-                                                                                    } else {
-                                                                                        TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader9 = tLRPC$Message4.reply_to;
-                                                                                        if (tLRPC$MessageReplyHeader9 instanceof TLRPC$TL_messageReplyHeader) {
-                                                                                            tLRPC$TL_messages_sendInlineBotResult.flags |= 1;
-                                                                                            tLRPC$TL_messages_sendInlineBotResult.reply_to = sendMessagesHelper2.createReplyInput((TLRPC$TL_messageReplyHeader) tLRPC$MessageReplyHeader9);
+                                                                                    TLRPC$DocumentAttribute tLRPC$DocumentAttribute2 = tLRPC$Message2.media.document.attributes.get(i15);
+                                                                                    if (tLRPC$DocumentAttribute2 instanceof TLRPC$TL_documentAttributeAudio) {
+                                                                                        i3 = (int) tLRPC$DocumentAttribute2.duration;
+                                                                                        break;
+                                                                                    }
+                                                                                    i15++;
+                                                                                }
+                                                                                tLRPC$Message2.ttl = Math.max(tLRPC$Message2.ttl, i3 + 1);
+                                                                            } else if (MessageObject.isVideoMessage(tLRPC$Message2) || MessageObject.isRoundVideoMessage(tLRPC$Message2)) {
+                                                                                int i16 = 0;
+                                                                                while (true) {
+                                                                                    if (i16 >= tLRPC$Message2.media.document.attributes.size()) {
+                                                                                        i2 = 0;
+                                                                                        break;
+                                                                                    }
+                                                                                    TLRPC$DocumentAttribute tLRPC$DocumentAttribute3 = tLRPC$Message2.media.document.attributes.get(i16);
+                                                                                    if (tLRPC$DocumentAttribute3 instanceof TLRPC$TL_documentAttributeVideo) {
+                                                                                        i2 = (int) tLRPC$DocumentAttribute3.duration;
+                                                                                        break;
+                                                                                    }
+                                                                                    i16++;
+                                                                                }
+                                                                                tLRPC$Message2.ttl = Math.max(tLRPC$Message2.ttl, i2 + 1);
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                    if (messageObject4 != null || tL_stories$StoryItem != null || tLRPC$Message2.reply_to == null || DialogObject.isEncryptedDialog(messageObject4.getDialogId())) {
+                                                                        tLRPC$EncryptedChat4 = tLRPC$EncryptedChat3;
+                                                                        obj3 = "bot";
+                                                                        z4 = false;
+                                                                    } else {
+                                                                        TLRPC$Peer peer2 = getMessagesController().getPeer(messageObject4.getDialogId() > 0 ? messageObject4.getSenderId() : messageObject4.getDialogId());
+                                                                        boolean z19 = (peer2 == null || MessageObject.peersEqual(getMessagesController().getPeer(messageObject4.getDialogId()), tLRPC$Message2.peer_id)) ? false : true;
+                                                                        if (z19 && messageObject4.isForwarded() && !messageObject4.isImportedForward()) {
+                                                                            TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader = messageObject4.messageOwner.fwd_from;
+                                                                            if (tLRPC$MessageFwdHeader.saved_from_peer == null && (tLRPC$Peer2 = tLRPC$MessageFwdHeader.from_id) != null && (tLRPC$MessageFwdHeader.flags & 4) != 0) {
+                                                                                tLRPC$Message2.reply_to.reply_to_msg_id = tLRPC$MessageFwdHeader.channel_post;
+                                                                                peer2 = tLRPC$Peer2;
+                                                                                z19 = true;
+                                                                                z4 = true;
+                                                                                tLRPC$EncryptedChat4 = tLRPC$EncryptedChat3;
+                                                                                obj3 = "bot";
+                                                                                boolean z20 = ((!ChatObject.isForum(getMessagesController().getChat(Long.valueOf(-DialogObject.getPeerDialogId(tLRPC$Message2.peer_id))))) || messageObject6.getId() == messageObject4.getId() || MessageObject.getTopicId(sendMessagesHelper.currentAccount, messageObject4.messageOwner, true) == ((long) messageObject6.getId())) ? false : true;
+                                                                                if (!z19 && !z20) {
+                                                                                    z9 = false;
+                                                                                    if (z9) {
+                                                                                        if (replyQuote == null) {
+                                                                                            tLRPC$Message2.reply_to.quote = false;
+                                                                                            replyQuote2 = ChatActivity.ReplyQuote.from(messageObject4);
+                                                                                        } else {
+                                                                                            replyQuote2 = replyQuote;
+                                                                                        }
+                                                                                        if (replyQuote2 != null) {
+                                                                                            TLRPC$Message tLRPC$Message22 = messageObject4.messageOwner;
+                                                                                            if (tLRPC$Message22 != null && (tLRPC$MessageMedia5 = tLRPC$Message22.media) != null) {
+                                                                                                TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader = tLRPC$Message2.reply_to;
+                                                                                                tLRPC$MessageReplyHeader.flags |= LiteMode.FLAG_CHAT_BLUR;
+                                                                                                tLRPC$MessageReplyHeader.reply_media = tLRPC$MessageMedia5;
+                                                                                            }
+                                                                                            if (replyQuote2.getText() != null) {
+                                                                                                TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader2 = tLRPC$Message2.reply_to;
+                                                                                                tLRPC$MessageReplyHeader2.flags |= 64;
+                                                                                                tLRPC$MessageReplyHeader2.quote_text = replyQuote2.getText();
+                                                                                                TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader3 = tLRPC$Message2.reply_to;
+                                                                                                tLRPC$MessageReplyHeader3.flags |= 1024;
+                                                                                                tLRPC$MessageReplyHeader3.quote_offset = replyQuote2.start;
+                                                                                            }
+                                                                                            if (replyQuote2.getEntities() != null) {
+                                                                                                TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader4 = tLRPC$Message2.reply_to;
+                                                                                                tLRPC$MessageReplyHeader4.flags |= 128;
+                                                                                                tLRPC$MessageReplyHeader4.quote_entities = replyQuote2.getEntities();
+                                                                                            }
                                                                                         }
                                                                                     }
-                                                                                    tLRPC$TL_messages_sendInlineBotResult.silent = tLRPC$Message4.silent;
-                                                                                    if (i41 != 0) {
-                                                                                        tLRPC$TL_messages_sendInlineBotResult.schedule_date = i41;
-                                                                                        tLRPC$TL_messages_sendInlineBotResult.flags |= 1024;
-                                                                                    }
-                                                                                    tLRPC$TL_messages_sendInlineBotResult.query_id = Utilities.parseLong(hashMap.get(obj2)).longValue();
-                                                                                    tLRPC$TL_messages_sendInlineBotResult.id = hashMap.get("id");
-                                                                                    if (messageObject16 == null) {
-                                                                                        tLRPC$TL_messages_sendInlineBotResult.clear_draft = true;
-                                                                                        getMediaDataController().cleanDraft(j8, messageObject5 != null ? messageObject5.getId() : 0L, false);
-                                                                                    }
-                                                                                    i9 = i41;
-                                                                                    performSendMessageRequest(tLRPC$TL_messages_sendInlineBotResult, messageObject, null, null, tLRPC$Message5, hashMap, i41 != 0);
-                                                                                } catch (Exception e30) {
-                                                                                    exc = e30;
-                                                                                    i = i41;
-                                                                                    sendMessagesHelper = sendMessagesHelper2;
-                                                                                    tLRPC$Message = tLRPC$Message4;
-                                                                                    FileLog.e(exc);
-                                                                                    getMessagesStorage().markMessageAsSendError(tLRPC$Message, i != 0);
-                                                                                    if (messageObject != null) {
-                                                                                    }
-                                                                                    getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
-                                                                                    sendMessagesHelper.processSentMessage(tLRPC$Message.id);
-                                                                                    return;
+                                                                                }
+                                                                                TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader5 = tLRPC$Message2.reply_to;
+                                                                                tLRPC$MessageReplyHeader5.flags |= 1;
+                                                                                tLRPC$MessageReplyHeader5.reply_to_peer_id = peer2;
+                                                                                z9 = true;
+                                                                                if (z9) {
                                                                                 }
                                                                             }
-                                                                            return;
                                                                         }
-                                                                        TLRPC$TL_messages_forwardMessages tLRPC$TL_messages_forwardMessages = new TLRPC$TL_messages_forwardMessages();
-                                                                        tLRPC$TL_messages_forwardMessages.to_peer = i9;
-                                                                        MessageObject messageObject17 = messageObject4;
-                                                                        tLRPC$TL_messages_forwardMessages.with_my_score = messageObject17.messageOwner.with_my_score;
-                                                                        if (messageObject5 != null) {
-                                                                            tLRPC$TL_messages_forwardMessages.top_msg_id = messageObject5.getId();
-                                                                            tLRPC$TL_messages_forwardMessages.flags |= LiteMode.FLAG_CALLS_ANIMATIONS;
+                                                                        z4 = false;
+                                                                        tLRPC$EncryptedChat4 = tLRPC$EncryptedChat3;
+                                                                        obj3 = "bot";
+                                                                        if (!ChatObject.isForum(getMessagesController().getChat(Long.valueOf(-DialogObject.getPeerDialogId(tLRPC$Message2.peer_id))))) {
                                                                         }
-                                                                        if (hashMap != null && hashMap.containsKey("fwd_id")) {
-                                                                            int intValue = Utilities.parseInt((CharSequence) hashMap.get("fwd_id")).intValue();
-                                                                            tLRPC$TL_messages_forwardMessages.drop_author = true;
-                                                                            long longValue = Utilities.parseLong(hashMap.get("fwd_peer")).longValue();
-                                                                            if (longValue < 0) {
-                                                                                TLRPC$Chat chat2 = getMessagesController().getChat(Long.valueOf(-longValue));
-                                                                                if (ChatObject.isChannel(chat2)) {
-                                                                                    TLRPC$TL_inputPeerChannel tLRPC$TL_inputPeerChannel = new TLRPC$TL_inputPeerChannel();
-                                                                                    tLRPC$TL_messages_forwardMessages.from_peer = tLRPC$TL_inputPeerChannel;
-                                                                                    tLRPC$TL_inputPeerChannel.channel_id = chat2.id;
-                                                                                    tLRPC$TL_inputPeerChannel.access_hash = chat2.access_hash;
-                                                                                } else {
-                                                                                    tLRPC$TL_messages_forwardMessages.from_peer = new TLRPC$TL_inputPeerEmpty();
-                                                                                }
-                                                                            } else {
-                                                                                tLRPC$TL_messages_forwardMessages.from_peer = new TLRPC$TL_inputPeerEmpty();
+                                                                        if (!z19) {
+                                                                            z9 = false;
+                                                                            if (z9) {
                                                                             }
-                                                                            tLRPC$TL_messages_forwardMessages.id.add(Integer.valueOf(intValue));
+                                                                        }
+                                                                        TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader52 = tLRPC$Message2.reply_to;
+                                                                        tLRPC$MessageReplyHeader52.flags |= 1;
+                                                                        tLRPC$MessageReplyHeader52.reply_to_peer_id = peer2;
+                                                                        z9 = true;
+                                                                        if (z9) {
+                                                                        }
+                                                                    }
+                                                                    if (!MessageObject.isVoiceMessage(tLRPC$Message2) || MessageObject.isRoundVideoMessage(tLRPC$Message2)) {
+                                                                        tLRPC$Message2.media_unread = true;
+                                                                    }
+                                                                    if (tLRPC$Message2.from_id == null) {
+                                                                        tLRPC$Message2.from_id = tLRPC$Message2.peer_id;
+                                                                    }
+                                                                    tLRPC$Message2.send_state = 1;
+                                                                    if (hashMap == null) {
+                                                                        String str32 = hashMap.get("groupId");
+                                                                        if (str32 != null) {
+                                                                            j6 = Utilities.parseLong(str32).longValue();
+                                                                            tLRPC$Message2.grouped_id = j6;
+                                                                            tLRPC$Message2.flags |= 131072;
                                                                         } else {
-                                                                            tLRPC$TL_messages_forwardMessages.from_peer = new TLRPC$TL_inputPeerEmpty();
+                                                                            j6 = 0;
                                                                         }
-                                                                        tLRPC$TL_messages_forwardMessages.silent = tLRPC$Message4.silent;
-                                                                        if (i2 != 0) {
-                                                                            i13 = i2;
-                                                                            try {
-                                                                                tLRPC$TL_messages_forwardMessages.schedule_date = i13;
-                                                                                tLRPC$TL_messages_forwardMessages.flags |= 1024;
-                                                                            } catch (Exception e31) {
-                                                                                exc = e31;
-                                                                                i = i13;
-                                                                                sendMessagesHelper = sendMessagesHelper2;
-                                                                                tLRPC$Message = tLRPC$Message4;
-                                                                                FileLog.e(exc);
-                                                                                getMessagesStorage().markMessageAsSendError(tLRPC$Message, i != 0);
-                                                                                if (messageObject != null) {
-                                                                                }
-                                                                                getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
-                                                                                sendMessagesHelper.processSentMessage(tLRPC$Message.id);
-                                                                                return;
-                                                                            }
-                                                                        } else {
-                                                                            i13 = i2;
-                                                                        }
-                                                                        tLRPC$TL_messages_forwardMessages.random_id.add(Long.valueOf(tLRPC$Message4.random_id));
-                                                                        if (messageObject17.getId() >= 0) {
-                                                                            tLRPC$TL_messages_forwardMessages.id.add(Integer.valueOf(messageObject17.getId()));
-                                                                        } else {
-                                                                            TLRPC$Message tLRPC$Message34 = messageObject17.messageOwner;
-                                                                            int i42 = tLRPC$Message34.fwd_msg_id;
-                                                                            if (i42 != 0) {
-                                                                                tLRPC$TL_messages_forwardMessages.id.add(Integer.valueOf(i42));
-                                                                            } else {
-                                                                                TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader2 = tLRPC$Message34.fwd_from;
-                                                                                if (tLRPC$MessageFwdHeader2 != null) {
-                                                                                    tLRPC$TL_messages_forwardMessages.id.add(Integer.valueOf(tLRPC$MessageFwdHeader2.channel_post));
-                                                                                }
-                                                                            }
-                                                                        }
-                                                                        i9 = i13;
-                                                                        performSendMessageRequest(tLRPC$TL_messages_forwardMessages, messageObject, null, null, tLRPC$Message5, hashMap, i13 != 0);
-                                                                        return;
-                                                                    } catch (Exception e32) {
-                                                                        exc = e32;
-                                                                        sendMessagesHelper = sendMessagesHelper2;
-                                                                        i = i9;
-                                                                        tLRPC$Message = tLRPC$Message4;
-                                                                    }
-                                                                }
-                                                                TL_stories$StoryItem tL_stories$StoryItem72 = tL_stories$StoryItem2;
-                                                                MessageObject messageObject142 = messageObject4;
-                                                                int i312 = i2;
-                                                                if (tLRPC$EncryptedChat != null) {
-                                                                }
-                                                            }
-                                                            MessageObject messageObject18 = messageObject5;
-                                                            TLRPC$InputPeer tLRPC$InputPeer10 = i9;
-                                                            ArrayList<TLRPC$MessageEntity> arrayList14 = arrayList;
-                                                            TLRPC$Message tLRPC$Message35 = tLRPC$Message5;
-                                                            TL_stories$StoryItem tL_stories$StoryItem10 = tL_stories$StoryItem2;
-                                                            String str45 = str6;
-                                                            Object obj10 = obj3;
-                                                            SendMessagesHelper sendMessagesHelper6 = sendMessagesHelper2;
-                                                            HashMap<String, String> hashMap8 = hashMap;
-                                                            if (tLRPC$EncryptedChat == null) {
-                                                                sendMessagesHelper = sendMessagesHelper6;
-                                                                MessageObject messageObject19 = messageObject4;
-                                                                i = i2;
-                                                                try {
-                                                                    TLRPC$TL_decryptedMessage tLRPC$TL_decryptedMessage2 = new TLRPC$TL_decryptedMessage();
-                                                                    tLRPC$TL_decryptedMessage2.ttl = tLRPC$Message4.ttl;
-                                                                    if (arrayList14 != null && !arrayList14.isEmpty()) {
-                                                                        tLRPC$TL_decryptedMessage2.entities = arrayList14;
-                                                                        tLRPC$TL_decryptedMessage2.flags |= 128;
-                                                                    }
-                                                                    TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader10 = tLRPC$Message4.reply_to;
-                                                                    if (tLRPC$MessageReplyHeader10 != null) {
-                                                                        long j11 = tLRPC$MessageReplyHeader10.reply_to_random_id;
-                                                                        if (j11 != 0) {
-                                                                            tLRPC$TL_decryptedMessage2.reply_to_random_id = j11;
-                                                                            tLRPC$TL_decryptedMessage2.flags |= 8;
-                                                                        }
-                                                                    }
-                                                                    if (hashMap8 != null && hashMap8.get(obj10) != null) {
-                                                                        tLRPC$TL_decryptedMessage2.via_bot_name = hashMap8.get(obj10);
-                                                                        tLRPC$TL_decryptedMessage2.flags |= LiteMode.FLAG_AUTOPLAY_GIFS;
-                                                                    }
-                                                                    tLRPC$TL_decryptedMessage2.silent = tLRPC$Message4.silent;
-                                                                    tLRPC$TL_decryptedMessage2.random_id = tLRPC$Message4.random_id;
-                                                                    tLRPC$TL_decryptedMessage2.message = str45;
-                                                                    TLRPC$WebPage tLRPC$WebPage3 = tLRPC$WebPage;
-                                                                    if (tLRPC$WebPage3 != null && tLRPC$WebPage3.url != null) {
-                                                                        TLRPC$TL_decryptedMessageMediaWebPage tLRPC$TL_decryptedMessageMediaWebPage = new TLRPC$TL_decryptedMessageMediaWebPage();
-                                                                        tLRPC$TL_decryptedMessage2.media = tLRPC$TL_decryptedMessageMediaWebPage;
-                                                                        tLRPC$TL_decryptedMessageMediaWebPage.url = tLRPC$WebPage3.url;
-                                                                        tLRPC$TL_decryptedMessage2.flags |= LiteMode.FLAG_CALLS_ANIMATIONS;
-                                                                    } else {
-                                                                        tLRPC$TL_decryptedMessage2.media = new TLRPC$TL_decryptedMessageMediaEmpty();
-                                                                    }
-                                                                    getSecretChatHelper().performSendEncryptedRequest(tLRPC$TL_decryptedMessage2, messageObject.messageOwner, tLRPC$EncryptedChat, null, null, messageObject);
-                                                                    if (messageObject19 == null) {
-                                                                        getMediaDataController().cleanDraft(j8, messageObject18 != null ? messageObject18.getId() : 0L, false);
-                                                                        return;
-                                                                    }
-                                                                    return;
-                                                                } catch (Exception e33) {
-                                                                    e = e33;
-                                                                    exc = e;
-                                                                    tLRPC$Message = tLRPC$Message4;
-                                                                    FileLog.e(exc);
-                                                                    getMessagesStorage().markMessageAsSendError(tLRPC$Message, i != 0);
-                                                                    if (messageObject != null) {
-                                                                    }
-                                                                    getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
-                                                                    sendMessagesHelper.processSentMessage(tLRPC$Message.id);
-                                                                    return;
-                                                                }
-                                                            }
-                                                            if (tLRPC$TL_messageMediaWebPage != null) {
-                                                                try {
-                                                                    tLRPC$TL_messages_sendMedia = new TLRPC$TL_messages_sendMedia();
-                                                                    tLRPC$TL_messages_sendMedia.message = str45;
-                                                                    tLRPC$TL_messages_sendMedia.clear_draft = messageObject4 == null;
-                                                                    tLRPC$TL_messages_sendMedia.silent = tLRPC$Message4.silent;
-                                                                    tLRPC$TL_messages_sendMedia.peer = tLRPC$InputPeer10;
-                                                                    tLRPC$TL_messages_sendMedia.random_id = tLRPC$Message4.random_id;
-                                                                    TLRPC$TL_inputMediaWebPage tLRPC$TL_inputMediaWebPage = new TLRPC$TL_inputMediaWebPage();
-                                                                    TLRPC$TL_messageMediaWebPage tLRPC$TL_messageMediaWebPage5 = tLRPC$TL_messageMediaWebPage;
-                                                                    tLRPC$TL_inputMediaWebPage.url = tLRPC$TL_messageMediaWebPage5.webpage.url;
-                                                                    tLRPC$TL_inputMediaWebPage.force_large_media = tLRPC$TL_messageMediaWebPage5.force_large_media;
-                                                                    tLRPC$TL_inputMediaWebPage.force_small_media = tLRPC$TL_messageMediaWebPage5.force_small_media;
-                                                                    tLRPC$TL_inputMediaWebPage.optional = true;
-                                                                    tLRPC$TL_messages_sendMedia.media = tLRPC$TL_inputMediaWebPage;
-                                                                    if (tL_stories$StoryItem10 != null) {
-                                                                        tLRPC$TL_messages_sendMedia.reply_to = sendMessagesHelper6.createReplyInput(tL_stories$StoryItem10);
-                                                                        tLRPC$TL_messages_sendMedia.flags |= 1;
-                                                                    } else {
-                                                                        TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader11 = tLRPC$Message4.reply_to;
-                                                                        if (tLRPC$MessageReplyHeader11 instanceof TLRPC$TL_messageReplyHeader) {
-                                                                            tLRPC$TL_messages_sendMedia.reply_to = sendMessagesHelper6.createReplyInput((TLRPC$TL_messageReplyHeader) tLRPC$MessageReplyHeader11);
-                                                                            tLRPC$TL_messages_sendMedia.flags |= 1;
-                                                                        }
-                                                                    }
-                                                                    if (z14 && SharedConfig.updateStickersOrderOnSend) {
-                                                                        tLRPC$TL_messages_sendMedia.update_stickersets_order = true;
-                                                                    }
-                                                                    if (tLRPC$Message4.from_id != null) {
-                                                                        tLRPC$TL_messages_sendMedia.send_as = getMessagesController().getInputPeer(tLRPC$Message4.from_id);
-                                                                    }
-                                                                    if (arrayList14 != null && !arrayList14.isEmpty()) {
-                                                                        tLRPC$TL_messages_sendMedia.entities = arrayList14;
-                                                                        tLRPC$TL_messages_sendMedia.flags |= 8;
-                                                                    }
-                                                                    if (i2 != 0) {
-                                                                        i10 = i2;
-                                                                        try {
-                                                                            tLRPC$TL_messages_sendMedia.schedule_date = i10;
-                                                                            tLRPC$TL_messages_sendMedia.flags |= 1024;
-                                                                        } catch (Exception e34) {
-                                                                            exc = e34;
-                                                                            i = i10;
-                                                                            sendMessagesHelper = sendMessagesHelper6;
-                                                                            tLRPC$Message = tLRPC$Message4;
-                                                                            FileLog.e(exc);
-                                                                            getMessagesStorage().markMessageAsSendError(tLRPC$Message, i != 0);
-                                                                            if (messageObject != null) {
-                                                                            }
-                                                                            getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
-                                                                            sendMessagesHelper.processSentMessage(tLRPC$Message.id);
-                                                                            return;
-                                                                        }
-                                                                    } else {
-                                                                        i10 = i2;
-                                                                    }
-                                                                    tLRPC$TL_messages_sendMedia.invert_media = tLRPC$Message4.invert_media;
-                                                                    i11 = i10;
-                                                                    messageObject7 = messageObject4;
-                                                                } catch (Exception e35) {
-                                                                    exc = e35;
-                                                                    sendMessagesHelper = sendMessagesHelper6;
-                                                                    tLRPC$Message6 = tLRPC$Message4;
-                                                                    i = i2;
-                                                                    tLRPC$Message = tLRPC$Message6;
-                                                                    FileLog.e(exc);
-                                                                    getMessagesStorage().markMessageAsSendError(tLRPC$Message, i != 0);
-                                                                    if (messageObject != null) {
-                                                                    }
-                                                                    getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
-                                                                    sendMessagesHelper.processSentMessage(tLRPC$Message.id);
-                                                                    return;
-                                                                }
-                                                                try {
-                                                                    performSendMessageRequest(tLRPC$TL_messages_sendMedia, messageObject, null, null, tLRPC$Message35, hashMap8, i10 != 0);
-                                                                    if (messageObject7 == null) {
-                                                                        sendMessagesHelper3 = sendMessagesHelper6;
-                                                                        try {
-                                                                            getMediaDataController().cleanDraft(j8, messageObject18 != null ? messageObject18.getId() : 0L, false);
-                                                                        } catch (Exception e36) {
-                                                                            exc = e36;
-                                                                            sendMessagesHelper = sendMessagesHelper3;
-                                                                            i = i11;
-                                                                            tLRPC$Message = tLRPC$Message4;
-                                                                        }
-                                                                    } else {
-                                                                        sendMessagesHelper3 = sendMessagesHelper6;
-                                                                    }
-                                                                    return;
-                                                                } catch (Exception e37) {
-                                                                    exc = e37;
-                                                                    i = i11;
-                                                                    sendMessagesHelper = sendMessagesHelper6;
-                                                                    tLRPC$Message = tLRPC$Message4;
-                                                                    FileLog.e(exc);
-                                                                    getMessagesStorage().markMessageAsSendError(tLRPC$Message, i != 0);
-                                                                    if (messageObject != null) {
-                                                                    }
-                                                                    getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
-                                                                    sendMessagesHelper.processSentMessage(tLRPC$Message.id);
-                                                                    return;
-                                                                }
-                                                            }
-                                                            MessageObject messageObject20 = messageObject4;
-                                                            int i43 = i2;
-                                                            try {
-                                                                TLRPC$TL_messages_sendMessage tLRPC$TL_messages_sendMessage = new TLRPC$TL_messages_sendMessage();
-                                                                tLRPC$TL_messages_sendMessage.message = str45;
-                                                                tLRPC$TL_messages_sendMessage.clear_draft = messageObject20 == null;
-                                                                tLRPC$TL_messages_sendMessage.silent = tLRPC$Message4.silent;
-                                                                tLRPC$TL_messages_sendMessage.peer = tLRPC$InputPeer10;
-                                                                tLRPC$TL_messages_sendMessage.random_id = tLRPC$Message4.random_id;
-                                                                try {
-                                                                    if (tL_stories$StoryItem10 != null) {
-                                                                        tLRPC$TL_messages_sendMessage.reply_to = sendMessagesHelper6.createReplyInput(tL_stories$StoryItem10);
-                                                                        tLRPC$TL_messages_sendMessage.flags |= 1;
-                                                                    } else {
-                                                                        TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader12 = tLRPC$Message4.reply_to;
-                                                                        if (tLRPC$MessageReplyHeader12 instanceof TLRPC$TL_messageReplyHeader) {
-                                                                            tLRPC$TL_messages_sendMessage.reply_to = sendMessagesHelper6.createReplyInput((TLRPC$TL_messageReplyHeader) tLRPC$MessageReplyHeader12);
-                                                                            tLRPC$TL_messages_sendMessage.flags |= 1;
-                                                                        }
-                                                                    }
-                                                                    if (z14 && SharedConfig.updateStickersOrderOnSend) {
-                                                                        tLRPC$TL_messages_sendMessage.update_stickersets_order = true;
-                                                                    }
-                                                                    if (tLRPC$Message4.from_id != null) {
-                                                                        tLRPC$TL_messages_sendMessage.send_as = getMessagesController().getInputPeer(tLRPC$Message4.from_id);
-                                                                    }
-                                                                    if (!z12) {
-                                                                        tLRPC$TL_messages_sendMessage.no_webpage = true;
-                                                                    }
-                                                                    if (arrayList14 != null && !arrayList14.isEmpty()) {
-                                                                        tLRPC$TL_messages_sendMessage.entities = arrayList14;
-                                                                        tLRPC$TL_messages_sendMessage.flags |= 8;
-                                                                    }
-                                                                    if (i43 != 0) {
-                                                                        tLRPC$TL_messages_sendMessage.schedule_date = i43;
-                                                                        tLRPC$TL_messages_sendMessage.flags |= 1024;
-                                                                    }
-                                                                    tLRPC$TL_messages_sendMessage.invert_media = tLRPC$Message4.invert_media;
-                                                                    sendMessagesHelper2 = sendMessagesHelper6;
-                                                                    try {
-                                                                        performSendMessageRequest(tLRPC$TL_messages_sendMessage, messageObject, null, null, tLRPC$Message35, hashMap8, i43 != 0);
-                                                                        if (messageObject20 == null) {
-                                                                            MediaDataController mediaDataController = getMediaDataController();
-                                                                            if (messageObject18 != null) {
+                                                                        if (hashMap.get("final") != null) {
+                                                                            z5 = true;
+                                                                            messageObject = new MessageObject(sendMessagesHelper.currentAccount, tLRPC$Message2, ((messageObject6 == null && messageObject6 == messageObject4 && messageObject6.getId() == 1) || z4) ? null : messageObject4, true, true);
+                                                                            messageObject.sendAnimationData = sendAnimationData;
+                                                                            messageObject.wasJustSent = true;
+                                                                            messageObject.scheduled = tLRPC$Message3 != 0;
+                                                                            if (!messageObject.isForwarded()) {
                                                                                 try {
-                                                                                    id = messageObject18.getId();
-                                                                                } catch (Exception e38) {
-                                                                                    exc = e38;
-                                                                                    sendMessagesHelper = sendMessagesHelper2;
-                                                                                    tLRPC$Message7 = tLRPC$Message4;
-                                                                                    i12 = i43;
-                                                                                    i = i12;
+                                                                                    int i17 = messageObject.type;
+                                                                                    if ((i17 == 3 || videoEditedInfo13 != null || i17 == 2) && !TextUtils.isEmpty(tLRPC$Message2.attachPath)) {
+                                                                                        messageObject.attachPathExists = true;
+                                                                                    }
+                                                                                } catch (Exception e16) {
+                                                                                    exc = e16;
+                                                                                    tLRPC$Message7 = tLRPC$Message2;
+                                                                                    b6 = tLRPC$Message3;
+                                                                                    b3 = b6;
                                                                                     tLRPC$Message = tLRPC$Message7;
                                                                                     FileLog.e(exc);
-                                                                                    getMessagesStorage().markMessageAsSendError(tLRPC$Message, i != 0);
+                                                                                    getMessagesStorage().markMessageAsSendError(tLRPC$Message, b3 != 0);
                                                                                     if (messageObject != null) {
                                                                                     }
                                                                                     getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
-                                                                                    sendMessagesHelper.processSentMessage(tLRPC$Message.id);
+                                                                                    processSentMessage(tLRPC$Message.id);
                                                                                     return;
                                                                                 }
-                                                                            } else {
-                                                                                id = 0;
                                                                             }
-                                                                            i = i43;
-                                                                            try {
-                                                                                mediaDataController.cleanDraft(j8, id, false);
-                                                                            } catch (Exception e39) {
-                                                                                e = e39;
-                                                                                exc = e;
-                                                                                sendMessagesHelper = sendMessagesHelper2;
-                                                                                tLRPC$Message = tLRPC$Message4;
-                                                                                FileLog.e(exc);
-                                                                                getMessagesStorage().markMessageAsSendError(tLRPC$Message, i != 0);
-                                                                                if (messageObject != null) {
+                                                                            videoEditedInfo3 = messageObject.videoEditedInfo;
+                                                                            if (videoEditedInfo3 == null && videoEditedInfo13 == null) {
+                                                                                tLRPC$Message8 = videoEditedInfo3;
+                                                                            } else if (videoEditedInfo13 != null) {
+                                                                                tLRPC$Message8 = videoEditedInfo13;
+                                                                                boolean z21 = tLRPC$Message8.notReadyYet;
+                                                                                if (z21) {
+                                                                                    videoEditedInfo3.notReadyYet = z21;
                                                                                 }
-                                                                                getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
-                                                                                sendMessagesHelper.processSentMessage(tLRPC$Message.id);
-                                                                                return;
+                                                                            } else {
+                                                                                tLRPC$Message8 = videoEditedInfo13;
                                                                             }
+                                                                            if (j6 == 0) {
+                                                                                ArrayList<MessageObject> arrayList7 = new ArrayList<>();
+                                                                                arrayList7.add(messageObject);
+                                                                                ArrayList<TLRPC$Message> arrayList8 = new ArrayList<>();
+                                                                                arrayList8.add(tLRPC$Message2);
+                                                                                MessagesStorage.getInstance(sendMessagesHelper.currentAccount).putMessages(arrayList8, false, true, false, 0, tLRPC$Message3 != 0 ? 1 : 0, 0L);
+                                                                                long j14 = j5;
+                                                                                MessagesController.getInstance(sendMessagesHelper.currentAccount).updateInterfaceWithMessages(j14, arrayList7, tLRPC$Message3 != 0);
+                                                                                if (tLRPC$Message3 == 0) {
+                                                                                    i4 = i;
+                                                                                    NotificationCenter.getInstance(sendMessagesHelper.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.dialogsNeedReload, new Object[0]);
+                                                                                } else {
+                                                                                    i4 = i;
+                                                                                }
+                                                                                delayedMessage2 = delayedMessage;
+                                                                                tLRPC$EncryptedChat5 = tLRPC$EncryptedChat4;
+                                                                                r14 = j14;
+                                                                            } else {
+                                                                                i4 = i;
+                                                                                long j15 = j5;
+                                                                                ArrayList<DelayedMessage> arrayList9 = sendMessagesHelper.delayedMessages.get("group_" + j6);
+                                                                                if (arrayList9 != null) {
+                                                                                    delayedMessage = arrayList9.get(0);
+                                                                                }
+                                                                                if (delayedMessage == null) {
+                                                                                    delayedMessage2 = new DelayedMessage(j15);
+                                                                                    delayedMessage2.initForGroup(j6);
+                                                                                    tLRPC$EncryptedChat5 = tLRPC$EncryptedChat4;
+                                                                                    delayedMessage2.encryptedChat = tLRPC$EncryptedChat5;
+                                                                                    delayedMessage2.scheduled = tLRPC$Message3 != 0;
+                                                                                } else {
+                                                                                    tLRPC$EncryptedChat5 = tLRPC$EncryptedChat4;
+                                                                                    delayedMessage2 = delayedMessage;
+                                                                                }
+                                                                                delayedMessage2.performMediaUpload = false;
+                                                                                delayedMessage2.photoSize = null;
+                                                                                delayedMessage2.videoEditedInfo = null;
+                                                                                delayedMessage2.httpLocation = null;
+                                                                                r14 = j15;
+                                                                                if (z5) {
+                                                                                    delayedMessage2.finalGroupMessage = tLRPC$Message2.id;
+                                                                                    r14 = j15;
+                                                                                }
+                                                                            }
+                                                                            if (BuildVars.LOGS_ENABLED || tLRPC$InputPeer5 == null) {
+                                                                                delayedMessage3 = delayedMessage2;
+                                                                                j7 = j6;
+                                                                                tLRPC$InputPeer6 = tLRPC$InputPeer5;
+                                                                            } else {
+                                                                                StringBuilder sb2 = new StringBuilder();
+                                                                                sb2.append("send message user_id = ");
+                                                                                j7 = j6;
+                                                                                tLRPC$InputPeer6 = tLRPC$InputPeer5;
+                                                                                sb2.append(tLRPC$InputPeer6.user_id);
+                                                                                sb2.append(" chat_id = ");
+                                                                                sb2.append(tLRPC$InputPeer6.chat_id);
+                                                                                sb2.append(" channel_id = ");
+                                                                                sb2.append(tLRPC$InputPeer6.channel_id);
+                                                                                sb2.append(" access_hash = ");
+                                                                                sb2.append(tLRPC$InputPeer6.access_hash);
+                                                                                sb2.append(" notify = ");
+                                                                                sb2.append(z14);
+                                                                                sb2.append(" silent = ");
+                                                                                SharedPreferences notificationsSettings2 = MessagesController.getNotificationsSettings(sendMessagesHelper.currentAccount);
+                                                                                ?? sb3 = new StringBuilder();
+                                                                                delayedMessage3 = delayedMessage2;
+                                                                                sb3.append(NotificationsSettingsFacade.PROPERTY_SILENT);
+                                                                                sb3.append(r14);
+                                                                                sb2.append(notificationsSettings2.getBoolean(sb3.toString(), false));
+                                                                                FileLog.d(sb2.toString());
+                                                                            }
+                                                                            if (c2 != 0 && ((c3 = c2) != '\t' || str7 == null || tLRPC$EncryptedChat5 == null)) {
+                                                                                try {
+                                                                                    if (c3 >= 1) {
+                                                                                        if (c3 <= 3) {
+                                                                                        }
+                                                                                        long j16 = r14;
+                                                                                        MessageObject messageObject20 = messageObject5;
+                                                                                        TLRPC$Message tLRPC$Message23 = tLRPC$Message3;
+                                                                                        if (tLRPC$EncryptedChat5 != null) {
+                                                                                            try {
+                                                                                                if (c3 == 1) {
+                                                                                                    TLRPC$MessageMedia tLRPC$MessageMedia10 = tLRPC$MessageMedia3;
+                                                                                                    if (tLRPC$MessageMedia10 instanceof TLRPC$TL_messageMediaVenue) {
+                                                                                                        TLRPC$InputMedia tLRPC$TL_inputMediaVenue = new TLRPC$TL_inputMediaVenue();
+                                                                                                        tLRPC$TL_inputMediaVenue.address = tLRPC$MessageMedia10.address;
+                                                                                                        tLRPC$TL_inputMediaVenue.title = tLRPC$MessageMedia10.title;
+                                                                                                        tLRPC$TL_inputMediaVenue.provider = tLRPC$MessageMedia10.provider;
+                                                                                                        tLRPC$TL_inputMediaVenue.venue_id = tLRPC$MessageMedia10.venue_id;
+                                                                                                        tLRPC$TL_inputMediaVenue.venue_type = str8;
+                                                                                                        tLRPC$InputMedia6 = tLRPC$TL_inputMediaVenue;
+                                                                                                    } else if (tLRPC$MessageMedia10 instanceof TLRPC$TL_messageMediaGeoLive) {
+                                                                                                        TLRPC$InputMedia tLRPC$TL_inputMediaGeoLive = new TLRPC$TL_inputMediaGeoLive();
+                                                                                                        tLRPC$TL_inputMediaGeoLive.period = tLRPC$MessageMedia10.period;
+                                                                                                        int i18 = tLRPC$TL_inputMediaGeoLive.flags | 2;
+                                                                                                        tLRPC$TL_inputMediaGeoLive.flags = i18;
+                                                                                                        int i19 = tLRPC$MessageMedia10.heading;
+                                                                                                        if (i19 != 0) {
+                                                                                                            tLRPC$TL_inputMediaGeoLive.heading = i19;
+                                                                                                            tLRPC$TL_inputMediaGeoLive.flags = i18 | 4;
+                                                                                                        }
+                                                                                                        int i20 = tLRPC$MessageMedia10.proximity_notification_radius;
+                                                                                                        tLRPC$InputMedia6 = tLRPC$TL_inputMediaGeoLive;
+                                                                                                        if (i20 != 0) {
+                                                                                                            tLRPC$TL_inputMediaGeoLive.proximity_notification_radius = i20;
+                                                                                                            tLRPC$TL_inputMediaGeoLive.flags |= 8;
+                                                                                                            tLRPC$InputMedia6 = tLRPC$TL_inputMediaGeoLive;
+                                                                                                        }
+                                                                                                    } else {
+                                                                                                        tLRPC$InputMedia6 = new TLRPC$TL_inputMediaGeoPoint();
+                                                                                                    }
+                                                                                                    TLRPC$TL_inputGeoPoint tLRPC$TL_inputGeoPoint = new TLRPC$TL_inputGeoPoint();
+                                                                                                    tLRPC$InputMedia6.geo_point = tLRPC$TL_inputGeoPoint;
+                                                                                                    TLRPC$GeoPoint tLRPC$GeoPoint = tLRPC$MessageMedia10.geo;
+                                                                                                    tLRPC$TL_inputGeoPoint.lat = tLRPC$GeoPoint.lat;
+                                                                                                    tLRPC$TL_inputGeoPoint._long = tLRPC$GeoPoint._long;
+                                                                                                    c5 = c3;
+                                                                                                    tL_stories$StoryItem2 = tL_stories$StoryItem;
+                                                                                                    messageObject10 = messageObject6;
+                                                                                                    tLRPC$InputPeer7 = tLRPC$InputPeer6;
+                                                                                                    b15 = tLRPC$Message23;
+                                                                                                    delayedMessage8 = delayedMessage3;
+                                                                                                    z7 = false;
+                                                                                                    tLRPC$Message23 = tLRPC$Message2;
+                                                                                                    str11 = str;
+                                                                                                    tLRPC$InputMedia2 = tLRPC$InputMedia6;
+                                                                                                    messageObject11 = messageObject6;
+                                                                                                } else {
+                                                                                                    String str33 = str8;
+                                                                                                    try {
+                                                                                                        if (c3 == 2 || (c3 == '\t' && tLRPC$TL_photo != null)) {
+                                                                                                            c5 = c3;
+                                                                                                            tL_stories$StoryItem2 = tL_stories$StoryItem;
+                                                                                                            tLRPC$Message5 = tLRPC$Message2;
+                                                                                                            tLRPC$InputPeer7 = tLRPC$InputPeer6;
+                                                                                                            tLRPC$Message3 = tLRPC$Message23;
+                                                                                                            int i21 = i4;
+                                                                                                            VideoEditedInfo videoEditedInfo14 = tLRPC$Message4;
+                                                                                                            boolean z22 = z16;
+                                                                                                            str11 = str;
+                                                                                                            messageObject10 = messageObject6;
+                                                                                                            long j17 = j16;
+                                                                                                            try {
+                                                                                                                tLRPC$TL_inputMediaUploadedPhoto = new TLRPC$TL_inputMediaUploadedPhoto();
+                                                                                                                tLRPC$TL_inputMediaUploadedPhoto.spoiler = z22;
+                                                                                                                if (i21 != 0) {
+                                                                                                                    tLRPC$TL_inputMediaUploadedPhoto.ttl_seconds = i21;
+                                                                                                                    tLRPC$Message23 = tLRPC$Message5;
+                                                                                                                    tLRPC$Message23.ttl = i21;
+                                                                                                                    tLRPC$TL_inputMediaUploadedPhoto.flags |= 2;
+                                                                                                                } else {
+                                                                                                                    tLRPC$Message23 = tLRPC$Message5;
+                                                                                                                }
+                                                                                                                if (hashMap != null && (str12 = hashMap.get("masks")) != null) {
+                                                                                                                    SerializedData serializedData = new SerializedData(Utilities.hexToBytes(str12));
+                                                                                                                    boolean z23 = false;
+                                                                                                                    int readInt32 = serializedData.readInt32(false);
+                                                                                                                    int i22 = 0;
+                                                                                                                    while (i22 < readInt32) {
+                                                                                                                        tLRPC$TL_inputMediaUploadedPhoto.stickers.add(TLRPC$InputDocument.TLdeserialize(serializedData, serializedData.readInt32(z23), z23));
+                                                                                                                        i22++;
+                                                                                                                        readInt32 = readInt32;
+                                                                                                                        z23 = false;
+                                                                                                                    }
+                                                                                                                    tLRPC$TL_inputMediaUploadedPhoto.flags |= 1;
+                                                                                                                    serializedData.cleanup();
+                                                                                                                }
+                                                                                                                tLRPC$TL_photo2 = tLRPC$TL_photo;
+                                                                                                            } catch (Exception e17) {
+                                                                                                                e = e17;
+                                                                                                                tLRPC$Message3 = tLRPC$Message3;
+                                                                                                                tLRPC$Message23 = tLRPC$Message5;
+                                                                                                                exc = e;
+                                                                                                                tLRPC$Message7 = tLRPC$Message23;
+                                                                                                                b6 = tLRPC$Message3;
+                                                                                                                b3 = b6;
+                                                                                                                tLRPC$Message = tLRPC$Message7;
+                                                                                                                FileLog.e(exc);
+                                                                                                                getMessagesStorage().markMessageAsSendError(tLRPC$Message, b3 != 0);
+                                                                                                                if (messageObject != null) {
+                                                                                                                }
+                                                                                                                getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
+                                                                                                                processSentMessage(tLRPC$Message.id);
+                                                                                                                return;
+                                                                                                            }
+                                                                                                            try {
+                                                                                                                if (tLRPC$TL_photo2.access_hash == 0) {
+                                                                                                                    tLRPC$InputMedia = tLRPC$TL_inputMediaUploadedPhoto;
+                                                                                                                    tLRPC$Message4 = videoEditedInfo14;
+                                                                                                                    z6 = true;
+                                                                                                                } else {
+                                                                                                                    ?? tLRPC$TL_inputMediaPhoto = new TLRPC$TL_inputMediaPhoto();
+                                                                                                                    TLRPC$TL_inputPhoto tLRPC$TL_inputPhoto = new TLRPC$TL_inputPhoto();
+                                                                                                                    tLRPC$TL_inputMediaPhoto.id = tLRPC$TL_inputPhoto;
+                                                                                                                    tLRPC$Message4 = videoEditedInfo14;
+                                                                                                                    tLRPC$TL_inputPhoto.id = tLRPC$TL_photo2.id;
+                                                                                                                    tLRPC$TL_inputPhoto.access_hash = tLRPC$TL_photo2.access_hash;
+                                                                                                                    byte[] bArr3 = tLRPC$TL_photo2.file_reference;
+                                                                                                                    tLRPC$TL_inputPhoto.file_reference = bArr3;
+                                                                                                                    if (bArr3 == null) {
+                                                                                                                        tLRPC$TL_inputPhoto.file_reference = new byte[0];
+                                                                                                                    }
+                                                                                                                    tLRPC$TL_inputMediaPhoto.spoiler = z22;
+                                                                                                                    z6 = false;
+                                                                                                                    tLRPC$InputMedia = tLRPC$TL_inputMediaPhoto;
+                                                                                                                }
+                                                                                                                if (delayedMessage3 == null) {
+                                                                                                                    delayedMessage7 = new DelayedMessage(j17);
+                                                                                                                    delayedMessage7.type = 0;
+                                                                                                                    delayedMessage7.obj = messageObject;
+                                                                                                                    delayedMessage7.originalPath = str11;
+                                                                                                                    delayedMessage7.scheduled = tLRPC$Message3 != 0;
+                                                                                                                } else {
+                                                                                                                    delayedMessage7 = delayedMessage3;
+                                                                                                                }
+                                                                                                                delayedMessage7.inputUploadMedia = tLRPC$TL_inputMediaUploadedPhoto;
+                                                                                                                delayedMessage7.performMediaUpload = z6;
+                                                                                                                if (str24 != null && str24.length() > 0) {
+                                                                                                                    String str34 = str24;
+                                                                                                                    if (str34.startsWith("http")) {
+                                                                                                                        delayedMessage7.httpLocation = str34;
+                                                                                                                        tLRPC$InputMedia2 = tLRPC$InputMedia;
+                                                                                                                        z7 = z6;
+                                                                                                                        delayedMessage8 = delayedMessage7;
+                                                                                                                        messageObject11 = j17;
+                                                                                                                        b15 = tLRPC$Message3;
+                                                                                                                    }
+                                                                                                                }
+                                                                                                                ArrayList<TLRPC$PhotoSize> arrayList10 = tLRPC$TL_photo2.sizes;
+                                                                                                                delayedMessage7.photoSize = arrayList10.get(arrayList10.size() - 1);
+                                                                                                                delayedMessage7.locationParent = tLRPC$TL_photo2;
+                                                                                                                tLRPC$InputMedia2 = tLRPC$InputMedia;
+                                                                                                                z7 = z6;
+                                                                                                                delayedMessage8 = delayedMessage7;
+                                                                                                                messageObject11 = j17;
+                                                                                                                b15 = tLRPC$Message3;
+                                                                                                            } catch (Exception e18) {
+                                                                                                                e = e18;
+                                                                                                                exc = e;
+                                                                                                                tLRPC$Message7 = tLRPC$Message23;
+                                                                                                                b6 = tLRPC$Message3;
+                                                                                                                b3 = b6;
+                                                                                                                tLRPC$Message = tLRPC$Message7;
+                                                                                                                FileLog.e(exc);
+                                                                                                                getMessagesStorage().markMessageAsSendError(tLRPC$Message, b3 != 0);
+                                                                                                                if (messageObject != null) {
+                                                                                                                }
+                                                                                                                getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
+                                                                                                                processSentMessage(tLRPC$Message.id);
+                                                                                                                return;
+                                                                                                            }
+                                                                                                        } else {
+                                                                                                            try {
+                                                                                                                if (c3 == 3) {
+                                                                                                                    try {
+                                                                                                                        TLRPC$InputMedia tLRPC$TL_inputMediaUploadedDocument2 = new TLRPC$TL_inputMediaUploadedDocument();
+                                                                                                                        ?? r5 = tLRPC$Message5;
+                                                                                                                        tLRPC$TL_inputMediaUploadedDocument2.mime_type = r5.mime_type;
+                                                                                                                        tLRPC$TL_inputMediaUploadedDocument2.attributes = r5.attributes;
+                                                                                                                        boolean z24 = z16;
+                                                                                                                        tLRPC$TL_inputMediaUploadedDocument2.spoiler = z24;
+                                                                                                                        if (z2 || (!MessageObject.isRoundVideoDocument(r5) && (tLRPC$Message8 == null || (!tLRPC$Message8.muted && !tLRPC$Message8.roundVideo)))) {
+                                                                                                                            tLRPC$TL_inputMediaUploadedDocument2.nosound_video = true;
+                                                                                                                            if (BuildVars.DEBUG_VERSION) {
+                                                                                                                                FileLog.d("nosound_video = true");
+                                                                                                                            }
+                                                                                                                        }
+                                                                                                                        if (i4 != 0) {
+                                                                                                                            int i23 = i4;
+                                                                                                                            tLRPC$TL_inputMediaUploadedDocument2.ttl_seconds = i23;
+                                                                                                                            tLRPC$Message2.ttl = i23;
+                                                                                                                            tLRPC$TL_inputMediaUploadedDocument2.flags |= 2;
+                                                                                                                        }
+                                                                                                                        if (hashMap == null || (str13 = hashMap.get("masks")) == null) {
+                                                                                                                            tL_stories$StoryItem2 = tL_stories$StoryItem;
+                                                                                                                            tLRPC$Message15 = tLRPC$Message2;
+                                                                                                                            messageObject10 = messageObject6;
+                                                                                                                            tLRPC$InputPeer7 = tLRPC$InputPeer6;
+                                                                                                                        } else {
+                                                                                                                            messageObject10 = messageObject6;
+                                                                                                                            SerializedData serializedData2 = new SerializedData(Utilities.hexToBytes(str13));
+                                                                                                                            tL_stories$StoryItem2 = tL_stories$StoryItem;
+                                                                                                                            int i24 = 0;
+                                                                                                                            int readInt322 = serializedData2.readInt32(false);
+                                                                                                                            while (i24 < readInt322) {
+                                                                                                                                int i25 = readInt322;
+                                                                                                                                TLRPC$Message tLRPC$Message24 = tLRPC$Message2;
+                                                                                                                                TLRPC$InputPeer tLRPC$InputPeer9 = tLRPC$InputPeer6;
+                                                                                                                                tLRPC$TL_inputMediaUploadedDocument2.stickers.add(TLRPC$InputDocument.TLdeserialize(serializedData2, serializedData2.readInt32(false), false));
+                                                                                                                                i24++;
+                                                                                                                                readInt322 = i25;
+                                                                                                                                tLRPC$Message2 = tLRPC$Message24;
+                                                                                                                                tLRPC$InputPeer6 = tLRPC$InputPeer9;
+                                                                                                                            }
+                                                                                                                            tLRPC$Message15 = tLRPC$Message2;
+                                                                                                                            tLRPC$InputPeer7 = tLRPC$InputPeer6;
+                                                                                                                            tLRPC$TL_inputMediaUploadedDocument2.flags |= 1;
+                                                                                                                            serializedData2.cleanup();
+                                                                                                                        }
+                                                                                                                        if (r5.access_hash == 0) {
+                                                                                                                            tLRPC$InputMedia3 = tLRPC$TL_inputMediaUploadedDocument2;
+                                                                                                                            z8 = true;
+                                                                                                                        } else {
+                                                                                                                            ?? tLRPC$TL_inputMediaDocument = new TLRPC$TL_inputMediaDocument();
+                                                                                                                            TLRPC$TL_inputDocument tLRPC$TL_inputDocument = new TLRPC$TL_inputDocument();
+                                                                                                                            tLRPC$TL_inputMediaDocument.id = tLRPC$TL_inputDocument;
+                                                                                                                            tLRPC$TL_inputDocument.id = r5.id;
+                                                                                                                            tLRPC$TL_inputDocument.access_hash = r5.access_hash;
+                                                                                                                            byte[] bArr4 = r5.file_reference;
+                                                                                                                            tLRPC$TL_inputDocument.file_reference = bArr4;
+                                                                                                                            if (bArr4 == null) {
+                                                                                                                                tLRPC$TL_inputDocument.file_reference = new byte[0];
+                                                                                                                            }
+                                                                                                                            if (hashMap != null && hashMap.containsKey("query")) {
+                                                                                                                                tLRPC$TL_inputMediaDocument.query = hashMap.get("query");
+                                                                                                                                tLRPC$TL_inputMediaDocument.flags |= 2;
+                                                                                                                            }
+                                                                                                                            tLRPC$TL_inputMediaDocument.spoiler = z24;
+                                                                                                                            tLRPC$InputMedia3 = tLRPC$TL_inputMediaDocument;
+                                                                                                                            z8 = false;
+                                                                                                                        }
+                                                                                                                        if (delayedMessage3 == null) {
+                                                                                                                            delayedMessage8 = new DelayedMessage(j16);
+                                                                                                                            delayedMessage8.type = 1;
+                                                                                                                            delayedMessage8.obj = messageObject;
+                                                                                                                            str11 = str;
+                                                                                                                            delayedMessage8.originalPath = str11;
+                                                                                                                            VideoEditedInfo videoEditedInfo15 = tLRPC$Message4;
+                                                                                                                            delayedMessage8.parentObject = videoEditedInfo15;
+                                                                                                                            delayedMessage8.scheduled = tLRPC$Message23 != null;
+                                                                                                                            videoEditedInfo6 = videoEditedInfo15;
+                                                                                                                        } else {
+                                                                                                                            videoEditedInfo6 = tLRPC$Message4;
+                                                                                                                            str11 = str;
+                                                                                                                            delayedMessage8 = delayedMessage3;
+                                                                                                                        }
+                                                                                                                        delayedMessage8.inputUploadMedia = tLRPC$TL_inputMediaUploadedDocument2;
+                                                                                                                        delayedMessage8.performMediaUpload = z8;
+                                                                                                                        if (!r5.thumbs.isEmpty()) {
+                                                                                                                            TLRPC$PhotoSize tLRPC$PhotoSize = r5.thumbs.get(0);
+                                                                                                                            if (!(tLRPC$PhotoSize instanceof TLRPC$TL_photoStrippedSize)) {
+                                                                                                                                delayedMessage8.photoSize = tLRPC$PhotoSize;
+                                                                                                                                delayedMessage8.locationParent = r5;
+                                                                                                                            }
+                                                                                                                        }
+                                                                                                                        delayedMessage8.videoEditedInfo = tLRPC$Message8;
+                                                                                                                        c5 = c3;
+                                                                                                                        z7 = z8;
+                                                                                                                        tLRPC$Message4 = videoEditedInfo6;
+                                                                                                                        b10 = tLRPC$Message23;
+                                                                                                                        videoEditedInfo7 = videoEditedInfo6;
+                                                                                                                    } catch (Exception e19) {
+                                                                                                                        e = e19;
+                                                                                                                        tLRPC$Message5 = tLRPC$Message2;
+                                                                                                                        exc = e;
+                                                                                                                        b9 = tLRPC$Message23;
+                                                                                                                        tLRPC$Message = tLRPC$Message5;
+                                                                                                                        b3 = b9;
+                                                                                                                        FileLog.e(exc);
+                                                                                                                        getMessagesStorage().markMessageAsSendError(tLRPC$Message, b3 != 0);
+                                                                                                                        if (messageObject != null) {
+                                                                                                                        }
+                                                                                                                        getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
+                                                                                                                        processSentMessage(tLRPC$Message.id);
+                                                                                                                        return;
+                                                                                                                    }
+                                                                                                                } else {
+                                                                                                                    tL_stories$StoryItem2 = tL_stories$StoryItem;
+                                                                                                                    tLRPC$InputPeer7 = tLRPC$InputPeer6;
+                                                                                                                    int i26 = i4;
+                                                                                                                    VideoEditedInfo videoEditedInfo16 = tLRPC$Message4;
+                                                                                                                    ?? r52 = tLRPC$Message5;
+                                                                                                                    boolean z25 = z16;
+                                                                                                                    TLRPC$Message tLRPC$Message25 = tLRPC$Message2;
+                                                                                                                    messageObject10 = messageObject6;
+                                                                                                                    str11 = str;
+                                                                                                                    long j18 = j16;
+                                                                                                                    if (c3 == 6) {
+                                                                                                                        TLRPC$InputMedia tLRPC$TL_inputMediaContact = new TLRPC$TL_inputMediaContact();
+                                                                                                                        TLRPC$User tLRPC$User5 = tLRPC$User;
+                                                                                                                        tLRPC$TL_inputMediaContact.phone_number = tLRPC$User5.phone;
+                                                                                                                        tLRPC$TL_inputMediaContact.first_name = tLRPC$User5.first_name;
+                                                                                                                        tLRPC$TL_inputMediaContact.last_name = tLRPC$User5.last_name;
+                                                                                                                        if (!tLRPC$User5.restriction_reason.isEmpty() && tLRPC$User5.restriction_reason.get(0).text.startsWith("BEGIN:VCARD")) {
+                                                                                                                            tLRPC$TL_inputMediaContact.vcard = tLRPC$User5.restriction_reason.get(0).text;
+                                                                                                                        } else {
+                                                                                                                            tLRPC$TL_inputMediaContact.vcard = str33;
+                                                                                                                        }
+                                                                                                                        c5 = c3;
+                                                                                                                        tLRPC$Message4 = videoEditedInfo16;
+                                                                                                                        b11 = tLRPC$Message23;
+                                                                                                                        tLRPC$InputMedia5 = tLRPC$TL_inputMediaContact;
+                                                                                                                        b14 = j18;
+                                                                                                                    } else {
+                                                                                                                        try {
+                                                                                                                            if (c3 != 7 && c3 != '\t') {
+                                                                                                                                if (c3 == '\b') {
+                                                                                                                                    TLRPC$InputMedia tLRPC$TL_inputMediaUploadedDocument3 = new TLRPC$TL_inputMediaUploadedDocument();
+                                                                                                                                    tLRPC$TL_inputMediaUploadedDocument3.mime_type = r52.mime_type;
+                                                                                                                                    tLRPC$TL_inputMediaUploadedDocument3.attributes = r52.attributes;
+                                                                                                                                    tLRPC$TL_inputMediaUploadedDocument3.spoiler = z25;
+                                                                                                                                    if (i26 != 0) {
+                                                                                                                                        try {
+                                                                                                                                            tLRPC$TL_inputMediaUploadedDocument3.ttl_seconds = i26;
+                                                                                                                                            tLRPC$Message17 = tLRPC$Message25;
+                                                                                                                                        } catch (Exception e20) {
+                                                                                                                                            e = e20;
+                                                                                                                                            tLRPC$Message17 = tLRPC$Message25;
+                                                                                                                                        }
+                                                                                                                                        try {
+                                                                                                                                            tLRPC$Message17.ttl = i26;
+                                                                                                                                            tLRPC$TL_inputMediaUploadedDocument3.flags |= 2;
+                                                                                                                                        } catch (Exception e21) {
+                                                                                                                                            e = e21;
+                                                                                                                                            exc = e;
+                                                                                                                                            b3 = tLRPC$Message23;
+                                                                                                                                            tLRPC$Message = tLRPC$Message17;
+                                                                                                                                            FileLog.e(exc);
+                                                                                                                                            getMessagesStorage().markMessageAsSendError(tLRPC$Message, b3 != 0);
+                                                                                                                                            if (messageObject != null) {
+                                                                                                                                            }
+                                                                                                                                            getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
+                                                                                                                                            processSentMessage(tLRPC$Message.id);
+                                                                                                                                            return;
+                                                                                                                                        }
+                                                                                                                                    } else {
+                                                                                                                                        tLRPC$Message17 = tLRPC$Message25;
+                                                                                                                                    }
+                                                                                                                                    c5 = c3;
+                                                                                                                                    try {
+                                                                                                                                        if (r52.access_hash == 0) {
+                                                                                                                                            tLRPC$InputMedia3 = tLRPC$TL_inputMediaUploadedDocument3;
+                                                                                                                                            b13 = tLRPC$Message23;
+                                                                                                                                            tLRPC$Message15 = tLRPC$Message17;
+                                                                                                                                            z7 = true;
+                                                                                                                                        } else {
+                                                                                                                                            ?? tLRPC$TL_inputMediaDocument2 = new TLRPC$TL_inputMediaDocument();
+                                                                                                                                            TLRPC$TL_inputDocument tLRPC$TL_inputDocument2 = new TLRPC$TL_inputDocument();
+                                                                                                                                            tLRPC$TL_inputMediaDocument2.id = tLRPC$TL_inputDocument2;
+                                                                                                                                            b13 = tLRPC$Message23;
+                                                                                                                                            tLRPC$Message15 = tLRPC$Message17;
+                                                                                                                                            tLRPC$TL_inputDocument2.id = r52.id;
+                                                                                                                                            tLRPC$TL_inputDocument2.access_hash = r52.access_hash;
+                                                                                                                                            byte[] bArr5 = r52.file_reference;
+                                                                                                                                            tLRPC$TL_inputDocument2.file_reference = bArr5;
+                                                                                                                                            if (bArr5 == null) {
+                                                                                                                                                tLRPC$TL_inputDocument2.file_reference = new byte[0];
+                                                                                                                                            }
+                                                                                                                                            if (hashMap != null && hashMap.containsKey("query")) {
+                                                                                                                                                tLRPC$TL_inputMediaDocument2.query = hashMap.get("query");
+                                                                                                                                                tLRPC$TL_inputMediaDocument2.flags |= 2;
+                                                                                                                                            }
+                                                                                                                                            tLRPC$TL_inputMediaDocument2.spoiler = z25;
+                                                                                                                                            tLRPC$InputMedia3 = tLRPC$TL_inputMediaDocument2;
+                                                                                                                                            z7 = false;
+                                                                                                                                        }
+                                                                                                                                        delayedMessage9 = new DelayedMessage(j18);
+                                                                                                                                        delayedMessage9.type = 3;
+                                                                                                                                        delayedMessage9.obj = messageObject;
+                                                                                                                                        delayedMessage9.parentObject = videoEditedInfo16;
+                                                                                                                                        delayedMessage9.inputUploadMedia = tLRPC$TL_inputMediaUploadedDocument3;
+                                                                                                                                        delayedMessage9.performMediaUpload = z7;
+                                                                                                                                        delayedMessage9.scheduled = b13 != 0;
+                                                                                                                                        b10 = b13;
+                                                                                                                                        delayedMessage8 = delayedMessage9;
+                                                                                                                                        tLRPC$Message4 = videoEditedInfo16;
+                                                                                                                                        videoEditedInfo7 = j18;
+                                                                                                                                    } catch (Exception e22) {
+                                                                                                                                        e = e22;
+                                                                                                                                        tLRPC$Message5 = tLRPC$Message17;
+                                                                                                                                        exc = e;
+                                                                                                                                        b9 = tLRPC$Message23;
+                                                                                                                                        tLRPC$Message = tLRPC$Message5;
+                                                                                                                                        b3 = b9;
+                                                                                                                                        FileLog.e(exc);
+                                                                                                                                        getMessagesStorage().markMessageAsSendError(tLRPC$Message, b3 != 0);
+                                                                                                                                        if (messageObject != null) {
+                                                                                                                                        }
+                                                                                                                                        getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
+                                                                                                                                        processSentMessage(tLRPC$Message.id);
+                                                                                                                                        return;
+                                                                                                                                    }
+                                                                                                                                } else {
+                                                                                                                                    b11 = tLRPC$Message23;
+                                                                                                                                    if (c3 == '\n') {
+                                                                                                                                        ?? tLRPC$TL_inputMediaPoll = new TLRPC$TL_inputMediaPoll();
+                                                                                                                                        TLRPC$TL_messageMediaPoll tLRPC$TL_messageMediaPoll5 = tLRPC$TL_messageMediaPoll;
+                                                                                                                                        tLRPC$TL_inputMediaPoll.poll = tLRPC$TL_messageMediaPoll5.poll;
+                                                                                                                                        byte b18 = j18;
+                                                                                                                                        if (hashMap != null) {
+                                                                                                                                            b18 = j18;
+                                                                                                                                            if (hashMap.containsKey("answers")) {
+                                                                                                                                                byte[] hexToBytes = Utilities.hexToBytes(hashMap.get("answers"));
+                                                                                                                                                b18 = j18;
+                                                                                                                                                if (hexToBytes.length > 0) {
+                                                                                                                                                    int i27 = 0;
+                                                                                                                                                    byte b19 = j18;
+                                                                                                                                                    while (i27 < hexToBytes.length) {
+                                                                                                                                                        ArrayList<byte[]> arrayList11 = tLRPC$TL_inputMediaPoll.correct_answers;
+                                                                                                                                                        byte b20 = hexToBytes[i27];
+                                                                                                                                                        arrayList11.add(new byte[]{b20});
+                                                                                                                                                        i27++;
+                                                                                                                                                        b19 = b20;
+                                                                                                                                                    }
+                                                                                                                                                    tLRPC$TL_inputMediaPoll.flags |= 1;
+                                                                                                                                                    b18 = b19;
+                                                                                                                                                }
+                                                                                                                                            }
+                                                                                                                                        }
+                                                                                                                                        TLRPC$PollResults tLRPC$PollResults = tLRPC$TL_messageMediaPoll5.results;
+                                                                                                                                        tLRPC$InputMedia4 = tLRPC$TL_inputMediaPoll;
+                                                                                                                                        b12 = b18;
+                                                                                                                                        if (tLRPC$PollResults != null) {
+                                                                                                                                            tLRPC$InputMedia4 = tLRPC$TL_inputMediaPoll;
+                                                                                                                                            b12 = b18;
+                                                                                                                                            if (!TextUtils.isEmpty(tLRPC$PollResults.solution)) {
+                                                                                                                                                TLRPC$PollResults tLRPC$PollResults2 = tLRPC$TL_messageMediaPoll5.results;
+                                                                                                                                                tLRPC$TL_inputMediaPoll.solution = tLRPC$PollResults2.solution;
+                                                                                                                                                tLRPC$TL_inputMediaPoll.solution_entities = tLRPC$PollResults2.solution_entities;
+                                                                                                                                                tLRPC$TL_inputMediaPoll.flags |= 2;
+                                                                                                                                                tLRPC$InputMedia4 = tLRPC$TL_inputMediaPoll;
+                                                                                                                                                b12 = b18;
+                                                                                                                                            }
+                                                                                                                                        }
+                                                                                                                                    } else if (c3 == 11) {
+                                                                                                                                        ?? tLRPC$TL_inputMediaDice = new TLRPC$TL_inputMediaDice();
+                                                                                                                                        tLRPC$TL_inputMediaDice.emoticon = str7;
+                                                                                                                                        tLRPC$InputMedia4 = tLRPC$TL_inputMediaDice;
+                                                                                                                                        b12 = j18;
+                                                                                                                                    } else if (c3 == '\f') {
+                                                                                                                                        TLRPC$TL_inputMediaStory tLRPC$TL_inputMediaStory = new TLRPC$TL_inputMediaStory();
+                                                                                                                                        TL_stories$StoryItem tL_stories$StoryItem6 = tL_stories$StoryItem5;
+                                                                                                                                        tLRPC$TL_inputMediaStory.id = tL_stories$StoryItem6.id;
+                                                                                                                                        ?? messagesController = MessagesController.getInstance(sendMessagesHelper.currentAccount);
+                                                                                                                                        ?? r122 = tL_stories$StoryItem6.dialogId;
+                                                                                                                                        tLRPC$TL_inputMediaStory.peer = messagesController.getInputPeer(r122);
+                                                                                                                                        tLRPC$InputMedia4 = tLRPC$TL_inputMediaStory;
+                                                                                                                                        b12 = r122;
+                                                                                                                                    } else {
+                                                                                                                                        c5 = c3;
+                                                                                                                                        tLRPC$Message4 = videoEditedInfo16;
+                                                                                                                                        delayedMessage8 = delayedMessage3;
+                                                                                                                                        tLRPC$Message23 = tLRPC$Message25;
+                                                                                                                                        z7 = false;
+                                                                                                                                        tLRPC$InputMedia2 = null;
+                                                                                                                                        messageObject11 = j18;
+                                                                                                                                        b15 = b11;
+                                                                                                                                    }
+                                                                                                                                    c5 = c3;
+                                                                                                                                    tLRPC$Message4 = videoEditedInfo16;
+                                                                                                                                    tLRPC$InputMedia5 = tLRPC$InputMedia4;
+                                                                                                                                    b14 = b12;
+                                                                                                                                }
+                                                                                                                            }
+                                                                                                                            tLRPC$Message3 = tLRPC$Message23;
+                                                                                                                            if (str11 == null && str24 == null && r52.access_hash != 0) {
+                                                                                                                                c5 = c3;
+                                                                                                                                tLRPC$Message16 = tLRPC$Message25;
+                                                                                                                                tLRPC$TL_inputMediaUploadedDocument = null;
+                                                                                                                                if (r52.access_hash != 0) {
+                                                                                                                                    z7 = tLRPC$TL_inputMediaUploadedDocument instanceof TLRPC$TL_inputMediaUploadedDocument;
+                                                                                                                                    tLRPC$InputMedia3 = tLRPC$TL_inputMediaUploadedDocument;
+                                                                                                                                    tLRPC$Message15 = tLRPC$Message16;
+                                                                                                                                } else {
+                                                                                                                                    ?? tLRPC$TL_inputMediaDocument3 = new TLRPC$TL_inputMediaDocument();
+                                                                                                                                    TLRPC$TL_inputDocument tLRPC$TL_inputDocument3 = new TLRPC$TL_inputDocument();
+                                                                                                                                    tLRPC$TL_inputMediaDocument3.id = tLRPC$TL_inputDocument3;
+                                                                                                                                    tLRPC$Message15 = tLRPC$Message16;
+                                                                                                                                    tLRPC$TL_inputDocument3.id = r52.id;
+                                                                                                                                    tLRPC$TL_inputDocument3.access_hash = r52.access_hash;
+                                                                                                                                    byte[] bArr6 = r52.file_reference;
+                                                                                                                                    tLRPC$TL_inputDocument3.file_reference = bArr6;
+                                                                                                                                    if (bArr6 == null) {
+                                                                                                                                        tLRPC$TL_inputDocument3.file_reference = new byte[0];
+                                                                                                                                    }
+                                                                                                                                    if (hashMap != null && hashMap.containsKey("query")) {
+                                                                                                                                        tLRPC$TL_inputMediaDocument3.query = hashMap.get("query");
+                                                                                                                                        tLRPC$TL_inputMediaDocument3.flags |= 2;
+                                                                                                                                    }
+                                                                                                                                    tLRPC$TL_inputMediaDocument3.spoiler = z25;
+                                                                                                                                    tLRPC$InputMedia3 = tLRPC$TL_inputMediaDocument3;
+                                                                                                                                    z7 = false;
+                                                                                                                                }
+                                                                                                                                if (tLRPC$TL_inputMediaUploadedDocument == null) {
+                                                                                                                                    if (delayedMessage3 == null) {
+                                                                                                                                        delayedMessage9 = new DelayedMessage(j18);
+                                                                                                                                        delayedMessage9.type = 2;
+                                                                                                                                        delayedMessage9.obj = messageObject;
+                                                                                                                                        delayedMessage9.originalPath = str11;
+                                                                                                                                        delayedMessage9.parentObject = videoEditedInfo16;
+                                                                                                                                        delayedMessage9.scheduled = tLRPC$Message3 != 0;
+                                                                                                                                    } else {
+                                                                                                                                        delayedMessage9 = delayedMessage3;
+                                                                                                                                    }
+                                                                                                                                    delayedMessage9.inputUploadMedia = tLRPC$TL_inputMediaUploadedDocument;
+                                                                                                                                    delayedMessage9.performMediaUpload = z7;
+                                                                                                                                    b10 = tLRPC$Message3;
+                                                                                                                                    if (!r52.thumbs.isEmpty()) {
+                                                                                                                                        TLRPC$PhotoSize tLRPC$PhotoSize2 = r52.thumbs.get(0);
+                                                                                                                                        b10 = tLRPC$Message3;
+                                                                                                                                        if (!(tLRPC$PhotoSize2 instanceof TLRPC$TL_photoStrippedSize)) {
+                                                                                                                                            delayedMessage9.photoSize = tLRPC$PhotoSize2;
+                                                                                                                                            delayedMessage9.locationParent = r52;
+                                                                                                                                            b10 = tLRPC$Message3;
+                                                                                                                                        }
+                                                                                                                                    }
+                                                                                                                                } else {
+                                                                                                                                    delayedMessage9 = delayedMessage3;
+                                                                                                                                    b10 = tLRPC$Message3;
+                                                                                                                                }
+                                                                                                                                delayedMessage8 = delayedMessage9;
+                                                                                                                                tLRPC$Message4 = videoEditedInfo16;
+                                                                                                                                videoEditedInfo7 = j18;
+                                                                                                                            }
+                                                                                                                            tLRPC$TL_inputMediaUploadedDocument = new TLRPC$TL_inputMediaUploadedDocument();
+                                                                                                                            tLRPC$TL_inputMediaUploadedDocument.spoiler = z25;
+                                                                                                                            if (i26 != 0) {
+                                                                                                                                tLRPC$TL_inputMediaUploadedDocument.ttl_seconds = i26;
+                                                                                                                                tLRPC$Message16 = tLRPC$Message25;
+                                                                                                                                tLRPC$Message16.ttl = i26;
+                                                                                                                                tLRPC$TL_inputMediaUploadedDocument.flags |= 2;
+                                                                                                                            } else {
+                                                                                                                                tLRPC$Message16 = tLRPC$Message25;
+                                                                                                                            }
+                                                                                                                            if (z2 || (!TextUtils.isEmpty(str24) && str24.toLowerCase().endsWith("mp4") && (hashMap == null || hashMap.containsKey("forceDocument")))) {
+                                                                                                                                try {
+                                                                                                                                    tLRPC$TL_inputMediaUploadedDocument.nosound_video = true;
+                                                                                                                                } catch (Exception e23) {
+                                                                                                                                    e = e23;
+                                                                                                                                    tLRPC$Message25 = tLRPC$Message16;
+                                                                                                                                    exc = e;
+                                                                                                                                    tLRPC$Message7 = tLRPC$Message25;
+                                                                                                                                    b6 = tLRPC$Message3;
+                                                                                                                                    b3 = b6;
+                                                                                                                                    tLRPC$Message = tLRPC$Message7;
+                                                                                                                                    FileLog.e(exc);
+                                                                                                                                    getMessagesStorage().markMessageAsSendError(tLRPC$Message, b3 != 0);
+                                                                                                                                    if (messageObject != null) {
+                                                                                                                                    }
+                                                                                                                                    getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
+                                                                                                                                    processSentMessage(tLRPC$Message.id);
+                                                                                                                                    return;
+                                                                                                                                }
+                                                                                                                            }
+                                                                                                                            tLRPC$TL_inputMediaUploadedDocument.force_file = hashMap != null && hashMap.containsKey("forceDocument");
+                                                                                                                            tLRPC$TL_inputMediaUploadedDocument.mime_type = r52.mime_type;
+                                                                                                                            tLRPC$TL_inputMediaUploadedDocument.attributes = r52.attributes;
+                                                                                                                            c5 = c3;
+                                                                                                                            if (r52.access_hash != 0) {
+                                                                                                                            }
+                                                                                                                            if (tLRPC$TL_inputMediaUploadedDocument == null) {
+                                                                                                                            }
+                                                                                                                            delayedMessage8 = delayedMessage9;
+                                                                                                                            tLRPC$Message4 = videoEditedInfo16;
+                                                                                                                            videoEditedInfo7 = j18;
+                                                                                                                        } catch (Exception e24) {
+                                                                                                                            e = e24;
+                                                                                                                        }
+                                                                                                                    }
+                                                                                                                    delayedMessage8 = delayedMessage3;
+                                                                                                                    tLRPC$Message23 = tLRPC$Message25;
+                                                                                                                    z7 = false;
+                                                                                                                    tLRPC$InputMedia2 = tLRPC$InputMedia5;
+                                                                                                                    messageObject11 = b14;
+                                                                                                                    b15 = b11;
+                                                                                                                }
+                                                                                                                tLRPC$Message23 = tLRPC$Message15;
+                                                                                                                tLRPC$InputMedia2 = tLRPC$InputMedia3;
+                                                                                                                messageObject11 = videoEditedInfo7;
+                                                                                                                b15 = b10;
+                                                                                                            } catch (Exception e25) {
+                                                                                                                e = e25;
+                                                                                                            }
+                                                                                                        }
+                                                                                                    } catch (Exception e26) {
+                                                                                                        e = e26;
+                                                                                                        tLRPC$Message3 = tLRPC$Message3;
+                                                                                                    }
+                                                                                                }
+                                                                                                try {
+                                                                                                    if (j7 != 0) {
+                                                                                                        TLObject tLObject = delayedMessage8.sendRequest;
+                                                                                                        if (tLObject != null) {
+                                                                                                            messageObject11 = b15;
+                                                                                                            tLRPC$TL_messages_sendMedia = (TLRPC$TL_messages_sendMultiMedia) tLObject;
+                                                                                                        } else {
+                                                                                                            TLRPC$TL_messages_sendMultiMedia tLRPC$TL_messages_sendMultiMedia = new TLRPC$TL_messages_sendMultiMedia();
+                                                                                                            tLRPC$TL_messages_sendMultiMedia.peer = tLRPC$InputPeer7;
+                                                                                                            tLRPC$TL_messages_sendMultiMedia.silent = tLRPC$Message23.silent;
+                                                                                                            if (tLRPC$Message23.replyStory != null) {
+                                                                                                                tLRPC$TL_messages_sendMultiMedia.flags |= 1;
+                                                                                                                tLRPC$TL_messages_sendMultiMedia.reply_to = sendMessagesHelper.createReplyInput(tL_stories$StoryItem2);
+                                                                                                            } else {
+                                                                                                                TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader6 = tLRPC$Message23.reply_to;
+                                                                                                                if (tLRPC$MessageReplyHeader6 instanceof TLRPC$TL_messageReplyHeader) {
+                                                                                                                    tLRPC$TL_messages_sendMultiMedia.flags |= 1;
+                                                                                                                    tLRPC$TL_messages_sendMultiMedia.reply_to = sendMessagesHelper.createReplyInput((TLRPC$TL_messageReplyHeader) tLRPC$MessageReplyHeader6);
+                                                                                                                }
+                                                                                                            }
+                                                                                                            if (b15 != 0) {
+                                                                                                                b16 = b15;
+                                                                                                                tLRPC$TL_messages_sendMultiMedia.schedule_date = b16 == 1 ? 1 : 0;
+                                                                                                                tLRPC$TL_messages_sendMultiMedia.flags |= 1024;
+                                                                                                            } else {
+                                                                                                                b16 = b15;
+                                                                                                            }
+                                                                                                            delayedMessage8.sendRequest = tLRPC$TL_messages_sendMultiMedia;
+                                                                                                            tLRPC$TL_messages_sendMedia = tLRPC$TL_messages_sendMultiMedia;
+                                                                                                            messageObject11 = b16;
+                                                                                                        }
+                                                                                                        delayedMessage8.messageObjects.add(messageObject);
+                                                                                                        videoEditedInfo8 = tLRPC$Message4;
+                                                                                                        delayedMessage8.parentObjects.add(videoEditedInfo8);
+                                                                                                        delayedMessage8.locations.add(delayedMessage8.photoSize);
+                                                                                                        delayedMessage8.videoEditedInfos.add(delayedMessage8.videoEditedInfo);
+                                                                                                        delayedMessage8.httpLocations.add(delayedMessage8.httpLocation);
+                                                                                                        delayedMessage8.inputMedias.add(delayedMessage8.inputUploadMedia);
+                                                                                                        delayedMessage8.messages.add(tLRPC$Message23);
+                                                                                                        delayedMessage8.originalPaths.add(str11);
+                                                                                                        TLRPC$TL_inputSingleMedia tLRPC$TL_inputSingleMedia = new TLRPC$TL_inputSingleMedia();
+                                                                                                        tLRPC$TL_inputSingleMedia.random_id = tLRPC$Message23.random_id;
+                                                                                                        tLRPC$TL_inputSingleMedia.media = tLRPC$InputMedia2;
+                                                                                                        tLRPC$TL_inputSingleMedia.message = str3;
+                                                                                                        if (arrayList != null && !arrayList.isEmpty()) {
+                                                                                                            tLRPC$TL_inputSingleMedia.entities = arrayList;
+                                                                                                            tLRPC$TL_inputSingleMedia.flags |= 1;
+                                                                                                        }
+                                                                                                        tLRPC$TL_messages_sendMedia.multi_media.add(tLRPC$TL_inputSingleMedia);
+                                                                                                        str14 = str11;
+                                                                                                        messageObject12 = messageObject;
+                                                                                                    } else {
+                                                                                                        ArrayList<TLRPC$MessageEntity> arrayList12 = arrayList;
+                                                                                                        videoEditedInfo8 = tLRPC$Message4;
+                                                                                                        String str35 = str3;
+                                                                                                        TL_stories$StoryItem tL_stories$StoryItem7 = tL_stories$StoryItem2;
+                                                                                                        TLRPC$InputPeer tLRPC$InputPeer10 = tLRPC$InputPeer7;
+                                                                                                        messageObject11 = b15;
+                                                                                                        try {
+                                                                                                            tLRPC$TL_messages_sendMedia = new TLRPC$TL_messages_sendMedia();
+                                                                                                            tLRPC$TL_messages_sendMedia.peer = tLRPC$InputPeer10;
+                                                                                                            tLRPC$TL_messages_sendMedia.silent = tLRPC$Message23.silent;
+                                                                                                            if (messageObject10 != null) {
+                                                                                                                messageObject10.getId();
+                                                                                                            }
+                                                                                                            if (tL_stories$StoryItem7 != null) {
+                                                                                                                tLRPC$TL_messages_sendMedia.reply_to = sendMessagesHelper.createReplyInput(tL_stories$StoryItem7);
+                                                                                                                tLRPC$TL_messages_sendMedia.flags |= 1;
+                                                                                                            } else {
+                                                                                                                TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader7 = tLRPC$Message23.reply_to;
+                                                                                                                if (tLRPC$MessageReplyHeader7 instanceof TLRPC$TL_messageReplyHeader) {
+                                                                                                                    tLRPC$TL_messages_sendMedia.flags |= 1;
+                                                                                                                    tLRPC$TL_messages_sendMedia.reply_to = sendMessagesHelper.createReplyInput((TLRPC$TL_messageReplyHeader) tLRPC$MessageReplyHeader7);
+                                                                                                                }
+                                                                                                            }
+                                                                                                            str14 = str11;
+                                                                                                            messageObject12 = messageObject;
+                                                                                                        } catch (Exception e27) {
+                                                                                                            e = e27;
+                                                                                                        }
+                                                                                                        try {
+                                                                                                            tLRPC$TL_messages_sendMedia.random_id = tLRPC$Message23.random_id;
+                                                                                                            if (tLRPC$Message23.from_id != null) {
+                                                                                                                tLRPC$TL_messages_sendMedia.send_as = getMessagesController().getInputPeer(tLRPC$Message23.from_id);
+                                                                                                            }
+                                                                                                            tLRPC$TL_messages_sendMedia.media = tLRPC$InputMedia2;
+                                                                                                            tLRPC$TL_messages_sendMedia.message = str35;
+                                                                                                            if (arrayList12 != null && !arrayList12.isEmpty()) {
+                                                                                                                tLRPC$TL_messages_sendMedia.entities = arrayList12;
+                                                                                                                tLRPC$TL_messages_sendMedia.flags |= 8;
+                                                                                                            }
+                                                                                                            if (messageObject11 != 0) {
+                                                                                                                tLRPC$TL_messages_sendMedia.schedule_date = messageObject11 == 1 ? 1 : 0;
+                                                                                                                tLRPC$TL_messages_sendMedia.flags |= 1024;
+                                                                                                            }
+                                                                                                            if (z15 && SharedConfig.updateStickersOrderOnSend) {
+                                                                                                                tLRPC$TL_messages_sendMedia.update_stickersets_order = true;
+                                                                                                            }
+                                                                                                            if (delayedMessage8 != null) {
+                                                                                                                delayedMessage8.sendRequest = tLRPC$TL_messages_sendMedia;
+                                                                                                            }
+                                                                                                        } catch (Exception e28) {
+                                                                                                            e = e28;
+                                                                                                            messageObject = messageObject12;
+                                                                                                            exc = e;
+                                                                                                            b3 = messageObject11;
+                                                                                                            tLRPC$Message = tLRPC$Message23;
+                                                                                                            FileLog.e(exc);
+                                                                                                            getMessagesStorage().markMessageAsSendError(tLRPC$Message, b3 != 0);
+                                                                                                            if (messageObject != null) {
+                                                                                                            }
+                                                                                                            getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
+                                                                                                            processSentMessage(tLRPC$Message.id);
+                                                                                                            return;
+                                                                                                        }
+                                                                                                    }
+                                                                                                    if (j7 != 0) {
+                                                                                                        sendMessagesHelper.performSendDelayedMessage(delayedMessage8);
+                                                                                                    } else {
+                                                                                                        char c8 = c5;
+                                                                                                        if (c8 == 1) {
+                                                                                                            performSendMessageRequest(tLRPC$TL_messages_sendMedia, messageObject12, null, delayedMessage8, videoEditedInfo8, hashMap, messageObject11 != 0);
+                                                                                                        } else if (c8 != 2) {
+                                                                                                            HashMap<String, String> hashMap5 = hashMap;
+                                                                                                            String str36 = str14;
+                                                                                                            if (c8 == 3) {
+                                                                                                                if (z7) {
+                                                                                                                    sendMessagesHelper.performSendDelayedMessage(delayedMessage8);
+                                                                                                                } else {
+                                                                                                                    performSendMessageRequest(tLRPC$TL_messages_sendMedia, messageObject12, str36, delayedMessage8, videoEditedInfo8, hashMap5, messageObject11 != 0);
+                                                                                                                }
+                                                                                                            } else if (c8 == 6) {
+                                                                                                                performSendMessageRequest(tLRPC$TL_messages_sendMedia, messageObject12, str36, delayedMessage8, videoEditedInfo8, hashMap5, messageObject11 != 0);
+                                                                                                            } else if (c8 == 7) {
+                                                                                                                if (z7 && delayedMessage8 != null) {
+                                                                                                                    sendMessagesHelper.performSendDelayedMessage(delayedMessage8);
+                                                                                                                } else {
+                                                                                                                    performSendMessageRequest(tLRPC$TL_messages_sendMedia, messageObject12, str36, delayedMessage8, videoEditedInfo8, hashMap5, messageObject11 != 0);
+                                                                                                                }
+                                                                                                            } else if (c8 == '\b') {
+                                                                                                                if (z7) {
+                                                                                                                    sendMessagesHelper.performSendDelayedMessage(delayedMessage8);
+                                                                                                                } else {
+                                                                                                                    performSendMessageRequest(tLRPC$TL_messages_sendMedia, messageObject12, str36, delayedMessage8, videoEditedInfo8, hashMap5, messageObject11 != 0);
+                                                                                                                }
+                                                                                                            } else if (c8 == '\n' || c8 == 11 || c8 == '\f') {
+                                                                                                                performSendMessageRequest(tLRPC$TL_messages_sendMedia, messageObject12, str36, delayedMessage8, videoEditedInfo8, hashMap5, messageObject11 != 0);
+                                                                                                            }
+                                                                                                        } else if (z7) {
+                                                                                                            sendMessagesHelper.performSendDelayedMessage(delayedMessage8);
+                                                                                                        } else {
+                                                                                                            performSendMessageRequest(tLRPC$TL_messages_sendMedia, messageObject12, str14, null, true, delayedMessage8, videoEditedInfo8, hashMap, messageObject11 != 0);
+                                                                                                        }
+                                                                                                    }
+                                                                                                    return;
+                                                                                                } catch (Exception e29) {
+                                                                                                    e = e29;
+                                                                                                }
+                                                                                            } catch (Exception e30) {
+                                                                                                e = e30;
+                                                                                            }
+                                                                                        } else {
+                                                                                            HashMap<String, String> hashMap6 = hashMap;
+                                                                                            MessageObject messageObject21 = messageObject6;
+                                                                                            ArrayList<TLRPC$MessageEntity> arrayList13 = arrayList;
+                                                                                            ?? r2 = tLRPC$Message5;
+                                                                                            TLRPC$TL_photo tLRPC$TL_photo7 = tLRPC$TL_photo;
+                                                                                            TLRPC$MessageMedia tLRPC$MessageMedia11 = tLRPC$MessageMedia3;
+                                                                                            String str37 = str;
+                                                                                            messageObject6 = j16;
+                                                                                            String str38 = str8;
+                                                                                            tLRPC$Message5 = tLRPC$Message4;
+                                                                                            TLRPC$User tLRPC$User6 = tLRPC$User;
+                                                                                            TLRPC$Message tLRPC$Message26 = tLRPC$Message2;
+                                                                                            String str39 = str3;
+                                                                                            VideoEditedInfo videoEditedInfo17 = tLRPC$Message8;
+                                                                                            try {
+                                                                                                if (AndroidUtilities.getPeerLayerVersion(tLRPC$EncryptedChat5.layer) >= 73) {
+                                                                                                    try {
+                                                                                                        tLRPC$TL_decryptedMessage = new TLRPC$TL_decryptedMessage();
+                                                                                                        if (j7 != 0) {
+                                                                                                            j8 = messageObject6;
+                                                                                                            j9 = j7;
+                                                                                                            tLRPC$TL_decryptedMessage.grouped_id = j9;
+                                                                                                            tLRPC$TL_decryptedMessage.flags |= 131072;
+                                                                                                        } else {
+                                                                                                            j8 = messageObject6;
+                                                                                                            j9 = j7;
+                                                                                                        }
+                                                                                                    } catch (Exception e31) {
+                                                                                                        messageObject = messageObject;
+                                                                                                        exc = e31;
+                                                                                                        tLRPC$Message10 = tLRPC$Message26;
+                                                                                                        b3 = tLRPC$Message23;
+                                                                                                        tLRPC$Message = tLRPC$Message10;
+                                                                                                        FileLog.e(exc);
+                                                                                                        getMessagesStorage().markMessageAsSendError(tLRPC$Message, b3 != 0);
+                                                                                                        if (messageObject != null) {
+                                                                                                        }
+                                                                                                        getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
+                                                                                                        processSentMessage(tLRPC$Message.id);
+                                                                                                        return;
+                                                                                                    }
+                                                                                                } else {
+                                                                                                    j8 = messageObject6;
+                                                                                                    j9 = j7;
+                                                                                                    tLRPC$TL_decryptedMessage = new TLRPC$TL_decryptedMessage_layer45();
+                                                                                                }
+                                                                                                tLRPC$TL_decryptedMessage.ttl = tLRPC$Message26.ttl;
+                                                                                                if (arrayList13 != null && !arrayList13.isEmpty()) {
+                                                                                                    tLRPC$TL_decryptedMessage.entities = arrayList13;
+                                                                                                    tLRPC$TL_decryptedMessage.flags |= 128;
+                                                                                                }
+                                                                                                TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader8 = tLRPC$Message26.reply_to;
+                                                                                                long j19 = j9;
+                                                                                                if (tLRPC$MessageReplyHeader8 != null) {
+                                                                                                    long j20 = tLRPC$MessageReplyHeader8.reply_to_random_id;
+                                                                                                    if (j20 != 0) {
+                                                                                                        tLRPC$TL_decryptedMessage.reply_to_random_id = j20;
+                                                                                                        tLRPC$TL_decryptedMessage.flags |= 8;
+                                                                                                    }
+                                                                                                }
+                                                                                                tLRPC$TL_decryptedMessage.silent = tLRPC$Message26.silent;
+                                                                                                tLRPC$TL_decryptedMessage.flags |= LiteMode.FLAG_CALLS_ANIMATIONS;
+                                                                                                if (hashMap6 != null) {
+                                                                                                    VideoEditedInfo videoEditedInfo18 = videoEditedInfo2;
+                                                                                                    if (hashMap6.get(videoEditedInfo18) != null) {
+                                                                                                        tLRPC$TL_decryptedMessage.via_bot_name = hashMap6.get(videoEditedInfo18);
+                                                                                                        tLRPC$TL_decryptedMessage.flags |= LiteMode.FLAG_AUTOPLAY_GIFS;
+                                                                                                    }
+                                                                                                }
+                                                                                                tLRPC$TL_decryptedMessage.random_id = tLRPC$Message26.random_id;
+                                                                                                tLRPC$TL_decryptedMessage.message = str38;
+                                                                                                try {
+                                                                                                    try {
+                                                                                                        if (c3 != 1) {
+                                                                                                            messageObject6 = messageObject;
+                                                                                                            if (c3 == 2 || (c3 == '\t' && tLRPC$TL_photo7 != null)) {
+                                                                                                                c4 = c3;
+                                                                                                                String str40 = str24;
+                                                                                                                delayedMessage6 = delayedMessage3;
+                                                                                                                str10 = str37;
+                                                                                                                Object obj5 = obj;
+                                                                                                                TLRPC$Message tLRPC$Message27 = tLRPC$Message26;
+                                                                                                                j10 = j8;
+                                                                                                                try {
+                                                                                                                    TLRPC$PhotoSize tLRPC$PhotoSize3 = tLRPC$TL_photo7.sizes.get(0);
+                                                                                                                    TLRPC$PhotoSize tLRPC$PhotoSize4 = tLRPC$TL_photo7.sizes.get(arrayList2.size() - 1);
+                                                                                                                    ImageLoader.fillPhotoSizeWithBytes(tLRPC$PhotoSize3);
+                                                                                                                    TLRPC$TL_decryptedMessageMediaPhoto tLRPC$TL_decryptedMessageMediaPhoto = new TLRPC$TL_decryptedMessageMediaPhoto();
+                                                                                                                    tLRPC$TL_decryptedMessage.media = tLRPC$TL_decryptedMessageMediaPhoto;
+                                                                                                                    tLRPC$TL_decryptedMessageMediaPhoto.caption = str39;
+                                                                                                                    byte[] bArr7 = tLRPC$PhotoSize3.bytes;
+                                                                                                                    if (bArr7 != null) {
+                                                                                                                        tLRPC$Message14 = tLRPC$Message5;
+                                                                                                                        tLRPC$TL_decryptedMessageMediaPhoto.thumb = bArr7;
+                                                                                                                        obj4 = obj5;
+                                                                                                                    } else {
+                                                                                                                        tLRPC$Message14 = tLRPC$Message5;
+                                                                                                                        obj4 = obj5;
+                                                                                                                        tLRPC$TL_decryptedMessageMediaPhoto.thumb = new byte[0];
+                                                                                                                    }
+                                                                                                                    tLRPC$TL_decryptedMessageMediaPhoto.thumb_h = tLRPC$PhotoSize3.h;
+                                                                                                                    tLRPC$TL_decryptedMessageMediaPhoto.thumb_w = tLRPC$PhotoSize3.w;
+                                                                                                                    tLRPC$TL_decryptedMessageMediaPhoto.w = tLRPC$PhotoSize4.w;
+                                                                                                                    tLRPC$TL_decryptedMessageMediaPhoto.h = tLRPC$PhotoSize4.h;
+                                                                                                                    tLRPC$TL_decryptedMessageMediaPhoto.size = tLRPC$PhotoSize4.size;
+                                                                                                                    if (tLRPC$PhotoSize4.location.key == null || j19 != 0) {
+                                                                                                                        if (delayedMessage6 == null) {
+                                                                                                                            delayedMessage5 = new DelayedMessage(j10);
+                                                                                                                            delayedMessage5.encryptedChat = tLRPC$EncryptedChat5;
+                                                                                                                            delayedMessage5.type = 0;
+                                                                                                                            delayedMessage5.originalPath = str10;
+                                                                                                                            delayedMessage5.sendEncryptedRequest = tLRPC$TL_decryptedMessage;
+                                                                                                                            delayedMessage5.obj = messageObject6;
+                                                                                                                            if (hashMap6 != null) {
+                                                                                                                                Object obj6 = obj4;
+                                                                                                                                if (hashMap6.containsKey(obj6)) {
+                                                                                                                                    delayedMessage5.parentObject = hashMap6.get(obj6);
+                                                                                                                                    delayedMessage5.performMediaUpload = true;
+                                                                                                                                    delayedMessage5.scheduled = tLRPC$Message23 == null;
+                                                                                                                                }
+                                                                                                                            }
+                                                                                                                            delayedMessage5.parentObject = tLRPC$Message14;
+                                                                                                                            delayedMessage5.performMediaUpload = true;
+                                                                                                                            delayedMessage5.scheduled = tLRPC$Message23 == null;
+                                                                                                                        } else {
+                                                                                                                            delayedMessage5 = delayedMessage6;
+                                                                                                                        }
+                                                                                                                        if (!TextUtils.isEmpty(str40) && str40.startsWith("http")) {
+                                                                                                                            delayedMessage5.httpLocation = str40;
+                                                                                                                        } else {
+                                                                                                                            ArrayList<TLRPC$PhotoSize> arrayList14 = tLRPC$TL_photo7.sizes;
+                                                                                                                            delayedMessage5.photoSize = arrayList14.get(arrayList14.size() - 1);
+                                                                                                                            delayedMessage5.locationParent = tLRPC$TL_photo7;
+                                                                                                                        }
+                                                                                                                        messageObject6 = messageObject6;
+                                                                                                                        tLRPC$Message5 = tLRPC$Message27;
+                                                                                                                        if (j19 == 0) {
+                                                                                                                            sendMessagesHelper.performSendDelayedMessage(delayedMessage5);
+                                                                                                                            messageObject6 = messageObject6;
+                                                                                                                            tLRPC$Message5 = tLRPC$Message27;
+                                                                                                                        }
+                                                                                                                        if (j19 == 0) {
+                                                                                                                            try {
+                                                                                                                                TLObject tLObject2 = delayedMessage5.sendEncryptedRequest;
+                                                                                                                                if (tLObject2 != null) {
+                                                                                                                                    tLRPC$TL_messages_sendEncryptedMultiMedia = (TLRPC$TL_messages_sendEncryptedMultiMedia) tLObject2;
+                                                                                                                                } else {
+                                                                                                                                    tLRPC$TL_messages_sendEncryptedMultiMedia = new TLRPC$TL_messages_sendEncryptedMultiMedia();
+                                                                                                                                    delayedMessage5.sendEncryptedRequest = tLRPC$TL_messages_sendEncryptedMultiMedia;
+                                                                                                                                }
+                                                                                                                                delayedMessage5.messageObjects.add(messageObject6);
+                                                                                                                                tLRPC$Message12 = tLRPC$Message5;
+                                                                                                                                try {
+                                                                                                                                    delayedMessage5.messages.add(tLRPC$Message12);
+                                                                                                                                    delayedMessage5.originalPaths.add(str10);
+                                                                                                                                    delayedMessage5.performMediaUpload = true;
+                                                                                                                                    tLRPC$TL_messages_sendEncryptedMultiMedia.messages.add(tLRPC$TL_decryptedMessage);
+                                                                                                                                    TLRPC$InputEncryptedFile tLRPC$InputEncryptedFile = new TLRPC$InputEncryptedFile() { // from class: org.telegram.tgnet.TLRPC$TL_inputEncryptedFile
+                                                                                                                                        @Override // org.telegram.tgnet.TLObject
+                                                                                                                                        public void readParams(AbstractSerializedData abstractSerializedData, boolean z26) {
+                                                                                                                                            this.id = abstractSerializedData.readInt64(z26);
+                                                                                                                                            this.access_hash = abstractSerializedData.readInt64(z26);
+                                                                                                                                        }
+
+                                                                                                                                        @Override // org.telegram.tgnet.TLObject
+                                                                                                                                        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
+                                                                                                                                            abstractSerializedData.writeInt32(1511503333);
+                                                                                                                                            abstractSerializedData.writeInt64(this.id);
+                                                                                                                                            abstractSerializedData.writeInt64(this.access_hash);
+                                                                                                                                        }
+                                                                                                                                    };
+                                                                                                                                    char c9 = c4;
+                                                                                                                                    if (c9 != 3 && c9 != 7) {
+                                                                                                                                        j11 = 0;
+                                                                                                                                        tLRPC$InputEncryptedFile.id = j11;
+                                                                                                                                        tLRPC$TL_messages_sendEncryptedMultiMedia.files.add(tLRPC$InputEncryptedFile);
+                                                                                                                                        sendMessagesHelper.performSendDelayedMessage(delayedMessage5);
+                                                                                                                                        tLRPC$Message12 = tLRPC$Message12;
+                                                                                                                                    }
+                                                                                                                                    j11 = 1;
+                                                                                                                                    tLRPC$InputEncryptedFile.id = j11;
+                                                                                                                                    tLRPC$TL_messages_sendEncryptedMultiMedia.files.add(tLRPC$InputEncryptedFile);
+                                                                                                                                    sendMessagesHelper.performSendDelayedMessage(delayedMessage5);
+                                                                                                                                    tLRPC$Message12 = tLRPC$Message12;
+                                                                                                                                } catch (Exception e32) {
+                                                                                                                                    e = e32;
+                                                                                                                                    exc = e;
+                                                                                                                                    tLRPC$Message10 = tLRPC$Message12;
+                                                                                                                                    messageObject = messageObject6;
+                                                                                                                                    b3 = tLRPC$Message23;
+                                                                                                                                    tLRPC$Message = tLRPC$Message10;
+                                                                                                                                    FileLog.e(exc);
+                                                                                                                                    getMessagesStorage().markMessageAsSendError(tLRPC$Message, b3 != 0);
+                                                                                                                                    if (messageObject != null) {
+                                                                                                                                    }
+                                                                                                                                    getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
+                                                                                                                                    processSentMessage(tLRPC$Message.id);
+                                                                                                                                    return;
+                                                                                                                                }
+                                                                                                                            } catch (Exception e33) {
+                                                                                                                                e = e33;
+                                                                                                                                tLRPC$Message12 = tLRPC$Message5;
+                                                                                                                                exc = e;
+                                                                                                                                tLRPC$Message10 = tLRPC$Message12;
+                                                                                                                                messageObject = messageObject6;
+                                                                                                                                b3 = tLRPC$Message23;
+                                                                                                                                tLRPC$Message = tLRPC$Message10;
+                                                                                                                                FileLog.e(exc);
+                                                                                                                                getMessagesStorage().markMessageAsSendError(tLRPC$Message, b3 != 0);
+                                                                                                                                if (messageObject != null) {
+                                                                                                                                }
+                                                                                                                                getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
+                                                                                                                                processSentMessage(tLRPC$Message.id);
+                                                                                                                                return;
+                                                                                                                            }
+                                                                                                                        } else {
+                                                                                                                            tLRPC$Message12 = tLRPC$Message5;
+                                                                                                                        }
+                                                                                                                        if (messageObject20 == null) {
+                                                                                                                            try {
+                                                                                                                                getMediaDataController().cleanDraft(j10, messageObject21 != null ? messageObject21.getId() : 0L, false);
+                                                                                                                            } catch (Exception e34) {
+                                                                                                                                e = e34;
+                                                                                                                                tLRPC$Message8 = tLRPC$Message12;
+                                                                                                                                messageObject6 = messageObject6;
+                                                                                                                                tLRPC$Message2 = tLRPC$Message23;
+                                                                                                                                exc = e;
+                                                                                                                                tLRPC$Message9 = tLRPC$Message8;
+                                                                                                                                b7 = tLRPC$Message2;
+                                                                                                                                messageObject7 = messageObject6;
+                                                                                                                                messageObject = messageObject7;
+                                                                                                                                tLRPC$Message = tLRPC$Message9;
+                                                                                                                                b3 = b7;
+                                                                                                                                FileLog.e(exc);
+                                                                                                                                getMessagesStorage().markMessageAsSendError(tLRPC$Message, b3 != 0);
+                                                                                                                                if (messageObject != null) {
+                                                                                                                                }
+                                                                                                                                getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
+                                                                                                                                processSentMessage(tLRPC$Message.id);
+                                                                                                                                return;
+                                                                                                                            }
+                                                                                                                        }
+                                                                                                                    } else {
+                                                                                                                        TLRPC$InputEncryptedFile tLRPC$InputEncryptedFile2 = new TLRPC$InputEncryptedFile() { // from class: org.telegram.tgnet.TLRPC$TL_inputEncryptedFile
+                                                                                                                            @Override // org.telegram.tgnet.TLObject
+                                                                                                                            public void readParams(AbstractSerializedData abstractSerializedData, boolean z26) {
+                                                                                                                                this.id = abstractSerializedData.readInt64(z26);
+                                                                                                                                this.access_hash = abstractSerializedData.readInt64(z26);
+                                                                                                                            }
+
+                                                                                                                            @Override // org.telegram.tgnet.TLObject
+                                                                                                                            public void serializeToStream(AbstractSerializedData abstractSerializedData) {
+                                                                                                                                abstractSerializedData.writeInt32(1511503333);
+                                                                                                                                abstractSerializedData.writeInt64(this.id);
+                                                                                                                                abstractSerializedData.writeInt64(this.access_hash);
+                                                                                                                            }
+                                                                                                                        };
+                                                                                                                        TLRPC$FileLocation tLRPC$FileLocation = tLRPC$PhotoSize4.location;
+                                                                                                                        tLRPC$InputEncryptedFile2.id = tLRPC$FileLocation.volume_id;
+                                                                                                                        tLRPC$InputEncryptedFile2.access_hash = tLRPC$FileLocation.secret;
+                                                                                                                        TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia = tLRPC$TL_decryptedMessage.media;
+                                                                                                                        tLRPC$DecryptedMessageMedia.key = tLRPC$FileLocation.key;
+                                                                                                                        tLRPC$DecryptedMessageMedia.iv = tLRPC$FileLocation.iv;
+                                                                                                                        getSecretChatHelper().performSendEncryptedRequest(tLRPC$TL_decryptedMessage, messageObject6.messageOwner, tLRPC$EncryptedChat5, tLRPC$InputEncryptedFile2, null, messageObject6);
+                                                                                                                        videoEditedInfo4 = tLRPC$Message27;
+                                                                                                                        delayedMessage5 = delayedMessage6;
+                                                                                                                        messageObject6 = messageObject6;
+                                                                                                                        tLRPC$Message5 = videoEditedInfo4;
+                                                                                                                        if (j19 == 0) {
+                                                                                                                        }
+                                                                                                                        if (messageObject20 == null) {
+                                                                                                                        }
+                                                                                                                    }
+                                                                                                                } catch (Exception e35) {
+                                                                                                                    e = e35;
+                                                                                                                    tLRPC$Message2 = tLRPC$Message23;
+                                                                                                                    tLRPC$Message8 = tLRPC$Message27;
+                                                                                                                    exc = e;
+                                                                                                                    tLRPC$Message9 = tLRPC$Message8;
+                                                                                                                    b7 = tLRPC$Message2;
+                                                                                                                    messageObject7 = messageObject6;
+                                                                                                                    messageObject = messageObject7;
+                                                                                                                    tLRPC$Message = tLRPC$Message9;
+                                                                                                                    b3 = b7;
+                                                                                                                    FileLog.e(exc);
+                                                                                                                    getMessagesStorage().markMessageAsSendError(tLRPC$Message, b3 != 0);
+                                                                                                                    if (messageObject != null) {
+                                                                                                                    }
+                                                                                                                    getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
+                                                                                                                    processSentMessage(tLRPC$Message.id);
+                                                                                                                    return;
+                                                                                                                }
+                                                                                                            } else {
+                                                                                                                try {
+                                                                                                                    if (c3 == 3) {
+                                                                                                                        try {
+                                                                                                                            TLRPC$PhotoSize thumbForSecretChat = sendMessagesHelper.getThumbForSecretChat(r2.thumbs);
+                                                                                                                            ImageLoader.fillPhotoSizeWithBytes(thumbForSecretChat);
+                                                                                                                            if (!MessageObject.isNewGifDocument((TLRPC$Document) r2) && !MessageObject.isRoundVideoDocument(r2)) {
+                                                                                                                                TLRPC$TL_decryptedMessageMediaVideo tLRPC$TL_decryptedMessageMediaVideo = new TLRPC$TL_decryptedMessageMediaVideo();
+                                                                                                                                tLRPC$TL_decryptedMessage.media = tLRPC$TL_decryptedMessageMediaVideo;
+                                                                                                                                if (thumbForSecretChat != null && (bArr2 = thumbForSecretChat.bytes) != null) {
+                                                                                                                                    tLRPC$TL_decryptedMessageMediaVideo.thumb = bArr2;
+                                                                                                                                } else {
+                                                                                                                                    tLRPC$TL_decryptedMessageMediaVideo.thumb = new byte[0];
+                                                                                                                                }
+                                                                                                                                TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia2 = tLRPC$TL_decryptedMessage.media;
+                                                                                                                                tLRPC$DecryptedMessageMedia2.caption = str39;
+                                                                                                                                tLRPC$DecryptedMessageMedia2.mime_type = "video/mp4";
+                                                                                                                                tLRPC$Message11 = tLRPC$Message26;
+                                                                                                                                tLRPC$DecryptedMessageMedia2.size = r2.size;
+                                                                                                                                i5 = 0;
+                                                                                                                                while (true) {
+                                                                                                                                    if (i5 < r2.attributes.size()) {
+                                                                                                                                        break;
+                                                                                                                                    }
+                                                                                                                                    TLRPC$DocumentAttribute tLRPC$DocumentAttribute4 = r2.attributes.get(i5);
+                                                                                                                                    if (tLRPC$DocumentAttribute4 instanceof TLRPC$TL_documentAttributeVideo) {
+                                                                                                                                        TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia3 = tLRPC$TL_decryptedMessage.media;
+                                                                                                                                        tLRPC$DecryptedMessageMedia3.w = tLRPC$DocumentAttribute4.w;
+                                                                                                                                        tLRPC$DecryptedMessageMedia3.h = tLRPC$DocumentAttribute4.h;
+                                                                                                                                        tLRPC$DecryptedMessageMedia3.duration = (int) tLRPC$DocumentAttribute4.duration;
+                                                                                                                                        break;
+                                                                                                                                    }
+                                                                                                                                    i5++;
+                                                                                                                                }
+                                                                                                                                TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia4 = tLRPC$TL_decryptedMessage.media;
+                                                                                                                                tLRPC$DecryptedMessageMedia4.thumb_h = thumbForSecretChat.h;
+                                                                                                                                tLRPC$DecryptedMessageMedia4.thumb_w = thumbForSecretChat.w;
+                                                                                                                                if (r2.key != null && j19 == 0) {
+                                                                                                                                    TLRPC$InputEncryptedFile tLRPC$InputEncryptedFile3 = new TLRPC$InputEncryptedFile() { // from class: org.telegram.tgnet.TLRPC$TL_inputEncryptedFile
+                                                                                                                                        @Override // org.telegram.tgnet.TLObject
+                                                                                                                                        public void readParams(AbstractSerializedData abstractSerializedData, boolean z26) {
+                                                                                                                                            this.id = abstractSerializedData.readInt64(z26);
+                                                                                                                                            this.access_hash = abstractSerializedData.readInt64(z26);
+                                                                                                                                        }
+
+                                                                                                                                        @Override // org.telegram.tgnet.TLObject
+                                                                                                                                        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
+                                                                                                                                            abstractSerializedData.writeInt32(1511503333);
+                                                                                                                                            abstractSerializedData.writeInt64(this.id);
+                                                                                                                                            abstractSerializedData.writeInt64(this.access_hash);
+                                                                                                                                        }
+                                                                                                                                    };
+                                                                                                                                    tLRPC$InputEncryptedFile3.id = r2.id;
+                                                                                                                                    tLRPC$InputEncryptedFile3.access_hash = r2.access_hash;
+                                                                                                                                    TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia5 = tLRPC$TL_decryptedMessage.media;
+                                                                                                                                    tLRPC$DecryptedMessageMedia5.key = r2.key;
+                                                                                                                                    tLRPC$DecryptedMessageMedia5.iv = r2.iv;
+                                                                                                                                    getSecretChatHelper().performSendEncryptedRequest(tLRPC$TL_decryptedMessage, messageObject6.messageOwner, tLRPC$EncryptedChat5, tLRPC$InputEncryptedFile3, null, messageObject6);
+                                                                                                                                    delayedMessage5 = delayedMessage3;
+                                                                                                                                    str9 = str37;
+                                                                                                                                    j10 = j8;
+                                                                                                                                }
+                                                                                                                                str9 = str37;
+                                                                                                                                j10 = j8;
+                                                                                                                                VideoEditedInfo videoEditedInfo19 = videoEditedInfo17;
+                                                                                                                                delayedMessage5 = delayedMessage3;
+                                                                                                                                delayedMessage5.videoEditedInfo = videoEditedInfo19;
+                                                                                                                                if (j19 == 0) {
+                                                                                                                                    sendMessagesHelper.performSendDelayedMessage(delayedMessage5);
+                                                                                                                                }
+                                                                                                                            }
+                                                                                                                            TLRPC$TL_decryptedMessageMediaDocument tLRPC$TL_decryptedMessageMediaDocument = new TLRPC$TL_decryptedMessageMediaDocument();
+                                                                                                                            tLRPC$TL_decryptedMessage.media = tLRPC$TL_decryptedMessageMediaDocument;
+                                                                                                                            tLRPC$TL_decryptedMessageMediaDocument.attributes = r2.attributes;
+                                                                                                                            if (thumbForSecretChat != null && (bArr = thumbForSecretChat.bytes) != null) {
+                                                                                                                                tLRPC$TL_decryptedMessageMediaDocument.thumb = bArr;
+                                                                                                                            } else {
+                                                                                                                                tLRPC$TL_decryptedMessageMediaDocument.thumb = new byte[0];
+                                                                                                                            }
+                                                                                                                            TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia22 = tLRPC$TL_decryptedMessage.media;
+                                                                                                                            tLRPC$DecryptedMessageMedia22.caption = str39;
+                                                                                                                            tLRPC$DecryptedMessageMedia22.mime_type = "video/mp4";
+                                                                                                                            tLRPC$Message11 = tLRPC$Message26;
+                                                                                                                            tLRPC$DecryptedMessageMedia22.size = r2.size;
+                                                                                                                            i5 = 0;
+                                                                                                                            while (true) {
+                                                                                                                                if (i5 < r2.attributes.size()) {
+                                                                                                                                }
+                                                                                                                                i5++;
+                                                                                                                            }
+                                                                                                                            TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia42 = tLRPC$TL_decryptedMessage.media;
+                                                                                                                            tLRPC$DecryptedMessageMedia42.thumb_h = thumbForSecretChat.h;
+                                                                                                                            tLRPC$DecryptedMessageMedia42.thumb_w = thumbForSecretChat.w;
+                                                                                                                            if (r2.key != null) {
+                                                                                                                                TLRPC$InputEncryptedFile tLRPC$InputEncryptedFile32 = new TLRPC$InputEncryptedFile() { // from class: org.telegram.tgnet.TLRPC$TL_inputEncryptedFile
+                                                                                                                                    @Override // org.telegram.tgnet.TLObject
+                                                                                                                                    public void readParams(AbstractSerializedData abstractSerializedData, boolean z26) {
+                                                                                                                                        this.id = abstractSerializedData.readInt64(z26);
+                                                                                                                                        this.access_hash = abstractSerializedData.readInt64(z26);
+                                                                                                                                    }
+
+                                                                                                                                    @Override // org.telegram.tgnet.TLObject
+                                                                                                                                    public void serializeToStream(AbstractSerializedData abstractSerializedData) {
+                                                                                                                                        abstractSerializedData.writeInt32(1511503333);
+                                                                                                                                        abstractSerializedData.writeInt64(this.id);
+                                                                                                                                        abstractSerializedData.writeInt64(this.access_hash);
+                                                                                                                                    }
+                                                                                                                                };
+                                                                                                                                tLRPC$InputEncryptedFile32.id = r2.id;
+                                                                                                                                tLRPC$InputEncryptedFile32.access_hash = r2.access_hash;
+                                                                                                                                TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia52 = tLRPC$TL_decryptedMessage.media;
+                                                                                                                                tLRPC$DecryptedMessageMedia52.key = r2.key;
+                                                                                                                                tLRPC$DecryptedMessageMedia52.iv = r2.iv;
+                                                                                                                                getSecretChatHelper().performSendEncryptedRequest(tLRPC$TL_decryptedMessage, messageObject6.messageOwner, tLRPC$EncryptedChat5, tLRPC$InputEncryptedFile32, null, messageObject6);
+                                                                                                                                delayedMessage5 = delayedMessage3;
+                                                                                                                                str9 = str37;
+                                                                                                                                j10 = j8;
+                                                                                                                            }
+                                                                                                                            str9 = str37;
+                                                                                                                            j10 = j8;
+                                                                                                                            VideoEditedInfo videoEditedInfo192 = videoEditedInfo17;
+                                                                                                                            delayedMessage5 = delayedMessage3;
+                                                                                                                            delayedMessage5.videoEditedInfo = videoEditedInfo192;
+                                                                                                                            if (j19 == 0) {
+                                                                                                                            }
+                                                                                                                        } catch (Exception e36) {
+                                                                                                                            e = e36;
+                                                                                                                            str38 = tLRPC$Message26;
+                                                                                                                            exc = e;
+                                                                                                                            messageObject = messageObject6;
+                                                                                                                            tLRPC$Message10 = str38;
+                                                                                                                            b3 = tLRPC$Message23;
+                                                                                                                            tLRPC$Message = tLRPC$Message10;
+                                                                                                                            FileLog.e(exc);
+                                                                                                                            getMessagesStorage().markMessageAsSendError(tLRPC$Message, b3 != 0);
+                                                                                                                            if (messageObject != null) {
+                                                                                                                            }
+                                                                                                                            getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
+                                                                                                                            processSentMessage(tLRPC$Message.id);
+                                                                                                                            return;
+                                                                                                                        }
+                                                                                                                    } else {
+                                                                                                                        tLRPC$Message11 = tLRPC$Message26;
+                                                                                                                        str9 = str37;
+                                                                                                                        j10 = j8;
+                                                                                                                        Object obj7 = obj;
+                                                                                                                        if (c3 == 6) {
+                                                                                                                            TLRPC$TL_decryptedMessageMediaContact tLRPC$TL_decryptedMessageMediaContact = new TLRPC$TL_decryptedMessageMediaContact();
+                                                                                                                            tLRPC$TL_decryptedMessage.media = tLRPC$TL_decryptedMessageMediaContact;
+                                                                                                                            tLRPC$TL_decryptedMessageMediaContact.phone_number = tLRPC$User6.phone;
+                                                                                                                            tLRPC$TL_decryptedMessageMediaContact.first_name = tLRPC$User6.first_name;
+                                                                                                                            tLRPC$TL_decryptedMessageMediaContact.last_name = tLRPC$User6.last_name;
+                                                                                                                            tLRPC$TL_decryptedMessageMediaContact.user_id = tLRPC$User6.id;
+                                                                                                                            getSecretChatHelper().performSendEncryptedRequest(tLRPC$TL_decryptedMessage, messageObject6.messageOwner, tLRPC$EncryptedChat5, null, null, messageObject6);
+                                                                                                                        } else {
+                                                                                                                            if (c3 != 7 && (c3 != '\t' || r2 == 0)) {
+                                                                                                                                if (c3 == '\b') {
+                                                                                                                                    delayedMessage5 = new DelayedMessage(j10);
+                                                                                                                                    delayedMessage5.encryptedChat = tLRPC$EncryptedChat5;
+                                                                                                                                    delayedMessage5.sendEncryptedRequest = tLRPC$TL_decryptedMessage;
+                                                                                                                                    delayedMessage5.obj = messageObject6;
+                                                                                                                                    delayedMessage5.type = 3;
+                                                                                                                                    delayedMessage5.parentObject = tLRPC$Message5;
+                                                                                                                                    delayedMessage5.performMediaUpload = true;
+                                                                                                                                    delayedMessage5.scheduled = tLRPC$Message23 != null;
+                                                                                                                                    TLRPC$TL_decryptedMessageMediaDocument tLRPC$TL_decryptedMessageMediaDocument2 = new TLRPC$TL_decryptedMessageMediaDocument();
+                                                                                                                                    tLRPC$TL_decryptedMessage.media = tLRPC$TL_decryptedMessageMediaDocument2;
+                                                                                                                                    tLRPC$TL_decryptedMessageMediaDocument2.attributes = r2.attributes;
+                                                                                                                                    tLRPC$TL_decryptedMessageMediaDocument2.caption = str39;
+                                                                                                                                    TLRPC$PhotoSize thumbForSecretChat2 = sendMessagesHelper.getThumbForSecretChat(r2.thumbs);
+                                                                                                                                    if (thumbForSecretChat2 != null) {
+                                                                                                                                        ImageLoader.fillPhotoSizeWithBytes(thumbForSecretChat2);
+                                                                                                                                        TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia6 = tLRPC$TL_decryptedMessage.media;
+                                                                                                                                        ((TLRPC$TL_decryptedMessageMediaDocument) tLRPC$DecryptedMessageMedia6).thumb = thumbForSecretChat2.bytes;
+                                                                                                                                        tLRPC$DecryptedMessageMedia6.thumb_h = thumbForSecretChat2.h;
+                                                                                                                                        tLRPC$DecryptedMessageMedia6.thumb_w = thumbForSecretChat2.w;
+                                                                                                                                    } else {
+                                                                                                                                        TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia7 = tLRPC$TL_decryptedMessage.media;
+                                                                                                                                        ((TLRPC$TL_decryptedMessageMediaDocument) tLRPC$DecryptedMessageMedia7).thumb = new byte[0];
+                                                                                                                                        tLRPC$DecryptedMessageMedia7.thumb_h = 0;
+                                                                                                                                        tLRPC$DecryptedMessageMedia7.thumb_w = 0;
+                                                                                                                                    }
+                                                                                                                                    TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia8 = tLRPC$TL_decryptedMessage.media;
+                                                                                                                                    tLRPC$DecryptedMessageMedia8.mime_type = r2.mime_type;
+                                                                                                                                    tLRPC$DecryptedMessageMedia8.size = r2.size;
+                                                                                                                                    delayedMessage5.originalPath = str9;
+                                                                                                                                    sendMessagesHelper.performSendDelayedMessage(delayedMessage5);
+                                                                                                                                }
+                                                                                                                            }
+                                                                                                                            c4 = c3;
+                                                                                                                            try {
+                                                                                                                                if (r2.access_hash != 0 && (MessageObject.isStickerDocument(r2) || MessageObject.isAnimatedStickerDocument(r2, true))) {
+                                                                                                                                    TLRPC$TL_decryptedMessageMediaExternalDocument tLRPC$TL_decryptedMessageMediaExternalDocument = new TLRPC$TL_decryptedMessageMediaExternalDocument();
+                                                                                                                                    tLRPC$TL_decryptedMessage.media = tLRPC$TL_decryptedMessageMediaExternalDocument;
+                                                                                                                                    tLRPC$TL_decryptedMessageMediaExternalDocument.id = r2.id;
+                                                                                                                                    tLRPC$TL_decryptedMessageMediaExternalDocument.date = r2.date;
+                                                                                                                                    tLRPC$TL_decryptedMessageMediaExternalDocument.access_hash = r2.access_hash;
+                                                                                                                                    tLRPC$TL_decryptedMessageMediaExternalDocument.mime_type = r2.mime_type;
+                                                                                                                                    tLRPC$TL_decryptedMessageMediaExternalDocument.size = r2.size;
+                                                                                                                                    tLRPC$TL_decryptedMessageMediaExternalDocument.dc_id = r2.dc_id;
+                                                                                                                                    tLRPC$TL_decryptedMessageMediaExternalDocument.attributes = r2.attributes;
+                                                                                                                                    TLRPC$PhotoSize thumbForSecretChat3 = sendMessagesHelper.getThumbForSecretChat(r2.thumbs);
+                                                                                                                                    if (thumbForSecretChat3 != null) {
+                                                                                                                                        ((TLRPC$TL_decryptedMessageMediaExternalDocument) tLRPC$TL_decryptedMessage.media).thumb = thumbForSecretChat3;
+                                                                                                                                    } else {
+                                                                                                                                        ((TLRPC$TL_decryptedMessageMediaExternalDocument) tLRPC$TL_decryptedMessage.media).thumb = new TLRPC$TL_photoSizeEmpty();
+                                                                                                                                        ((TLRPC$TL_decryptedMessageMediaExternalDocument) tLRPC$TL_decryptedMessage.media).thumb.type = "s";
+                                                                                                                                    }
+                                                                                                                                    if (delayedMessage3 != null) {
+                                                                                                                                        delayedMessage4 = delayedMessage3;
+                                                                                                                                        if (delayedMessage4.type == 5) {
+                                                                                                                                            delayedMessage4.sendEncryptedRequest = tLRPC$TL_decryptedMessage;
+                                                                                                                                            delayedMessage4.obj = messageObject6;
+                                                                                                                                            sendMessagesHelper.performSendDelayedMessage(delayedMessage4);
+                                                                                                                                            messageObject9 = messageObject6;
+                                                                                                                                        }
+                                                                                                                                    } else {
+                                                                                                                                        delayedMessage4 = delayedMessage3;
+                                                                                                                                    }
+                                                                                                                                    getSecretChatHelper().performSendEncryptedRequest(tLRPC$TL_decryptedMessage, messageObject6.messageOwner, tLRPC$EncryptedChat5, null, null, messageObject6);
+                                                                                                                                    messageObject9 = messageObject6;
+                                                                                                                                } else {
+                                                                                                                                    delayedMessage6 = delayedMessage3;
+                                                                                                                                    TLRPC$TL_decryptedMessageMediaDocument tLRPC$TL_decryptedMessageMediaDocument3 = new TLRPC$TL_decryptedMessageMediaDocument();
+                                                                                                                                    tLRPC$TL_decryptedMessage.media = tLRPC$TL_decryptedMessageMediaDocument3;
+                                                                                                                                    tLRPC$TL_decryptedMessageMediaDocument3.attributes = r2.attributes;
+                                                                                                                                    tLRPC$TL_decryptedMessageMediaDocument3.caption = str39;
+                                                                                                                                    TLRPC$PhotoSize thumbForSecretChat4 = sendMessagesHelper.getThumbForSecretChat(r2.thumbs);
+                                                                                                                                    if (thumbForSecretChat4 != null) {
+                                                                                                                                        if (thumbForSecretChat4 instanceof TLRPC$TL_photoStrippedSize) {
+                                                                                                                                            TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia9 = tLRPC$TL_decryptedMessage.media;
+                                                                                                                                            videoEditedInfo5 = tLRPC$Message11;
+                                                                                                                                            ((TLRPC$TL_decryptedMessageMediaDocument) tLRPC$DecryptedMessageMedia9).thumb = thumbForSecretChat4.bytes;
+                                                                                                                                            tLRPC$DecryptedMessageMedia9.thumb_h = thumbForSecretChat4.h;
+                                                                                                                                            tLRPC$DecryptedMessageMedia9.thumb_w = thumbForSecretChat4.w;
+                                                                                                                                        } else {
+                                                                                                                                            videoEditedInfo5 = tLRPC$Message11;
+                                                                                                                                            ImageLoader.fillPhotoSizeWithBytes(thumbForSecretChat4);
+                                                                                                                                            TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia10 = tLRPC$TL_decryptedMessage.media;
+                                                                                                                                            ((TLRPC$TL_decryptedMessageMediaDocument) tLRPC$DecryptedMessageMedia10).thumb = thumbForSecretChat4.bytes;
+                                                                                                                                            tLRPC$DecryptedMessageMedia10.thumb_h = thumbForSecretChat4.h;
+                                                                                                                                            tLRPC$DecryptedMessageMedia10.thumb_w = thumbForSecretChat4.w;
+                                                                                                                                        }
+                                                                                                                                    } else {
+                                                                                                                                        videoEditedInfo5 = tLRPC$Message11;
+                                                                                                                                        TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia11 = tLRPC$TL_decryptedMessage.media;
+                                                                                                                                        ((TLRPC$TL_decryptedMessageMediaDocument) tLRPC$DecryptedMessageMedia11).thumb = new byte[0];
+                                                                                                                                        tLRPC$DecryptedMessageMedia11.thumb_h = 0;
+                                                                                                                                        tLRPC$DecryptedMessageMedia11.thumb_w = 0;
+                                                                                                                                    }
+                                                                                                                                    TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia12 = tLRPC$TL_decryptedMessage.media;
+                                                                                                                                    str10 = str9;
+                                                                                                                                    tLRPC$DecryptedMessageMedia12.size = r2.size;
+                                                                                                                                    tLRPC$DecryptedMessageMedia12.mime_type = r2.mime_type;
+                                                                                                                                    if (r2.key != null && j19 == 0) {
+                                                                                                                                        TLRPC$InputEncryptedFile tLRPC$InputEncryptedFile4 = new TLRPC$InputEncryptedFile() { // from class: org.telegram.tgnet.TLRPC$TL_inputEncryptedFile
+                                                                                                                                            @Override // org.telegram.tgnet.TLObject
+                                                                                                                                            public void readParams(AbstractSerializedData abstractSerializedData, boolean z26) {
+                                                                                                                                                this.id = abstractSerializedData.readInt64(z26);
+                                                                                                                                                this.access_hash = abstractSerializedData.readInt64(z26);
+                                                                                                                                            }
+
+                                                                                                                                            @Override // org.telegram.tgnet.TLObject
+                                                                                                                                            public void serializeToStream(AbstractSerializedData abstractSerializedData) {
+                                                                                                                                                abstractSerializedData.writeInt32(1511503333);
+                                                                                                                                                abstractSerializedData.writeInt64(this.id);
+                                                                                                                                                abstractSerializedData.writeInt64(this.access_hash);
+                                                                                                                                            }
+                                                                                                                                        };
+                                                                                                                                        tLRPC$InputEncryptedFile4.id = r2.id;
+                                                                                                                                        tLRPC$InputEncryptedFile4.access_hash = r2.access_hash;
+                                                                                                                                        TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia13 = tLRPC$TL_decryptedMessage.media;
+                                                                                                                                        tLRPC$DecryptedMessageMedia13.key = r2.key;
+                                                                                                                                        tLRPC$DecryptedMessageMedia13.iv = r2.iv;
+                                                                                                                                        getSecretChatHelper().performSendEncryptedRequest(tLRPC$TL_decryptedMessage, messageObject6.messageOwner, tLRPC$EncryptedChat5, tLRPC$InputEncryptedFile4, null, messageObject6);
+                                                                                                                                        videoEditedInfo4 = videoEditedInfo5;
+                                                                                                                                        delayedMessage5 = delayedMessage6;
+                                                                                                                                        messageObject6 = messageObject6;
+                                                                                                                                        tLRPC$Message5 = videoEditedInfo4;
+                                                                                                                                        if (j19 == 0) {
+                                                                                                                                        }
+                                                                                                                                        if (messageObject20 == null) {
+                                                                                                                                        }
+                                                                                                                                    }
+                                                                                                                                    delayedMessage5 = delayedMessage6;
+                                                                                                                                    if (str24 != null && str24.length() > 0) {
+                                                                                                                                        String str41 = str24;
+                                                                                                                                        if (str41.startsWith("http")) {
+                                                                                                                                            delayedMessage5.httpLocation = str41;
+                                                                                                                                        }
+                                                                                                                                    }
+                                                                                                                                    messageObject6 = messageObject6;
+                                                                                                                                    tLRPC$Message5 = videoEditedInfo5;
+                                                                                                                                    if (j19 == 0) {
+                                                                                                                                        sendMessagesHelper.performSendDelayedMessage(delayedMessage5);
+                                                                                                                                        messageObject6 = messageObject6;
+                                                                                                                                        tLRPC$Message5 = videoEditedInfo5;
+                                                                                                                                    }
+                                                                                                                                    if (j19 == 0) {
+                                                                                                                                    }
+                                                                                                                                    if (messageObject20 == null) {
+                                                                                                                                    }
+                                                                                                                                }
+                                                                                                                            } catch (Exception e37) {
+                                                                                                                                e = e37;
+                                                                                                                                tLRPC$Message5 = tLRPC$Message11;
+                                                                                                                                exc = e;
+                                                                                                                                messageObject = messageObject6;
+                                                                                                                                b9 = tLRPC$Message23;
+                                                                                                                                tLRPC$Message = tLRPC$Message5;
+                                                                                                                                b3 = b9;
+                                                                                                                                FileLog.e(exc);
+                                                                                                                                getMessagesStorage().markMessageAsSendError(tLRPC$Message, b3 != 0);
+                                                                                                                                if (messageObject != null) {
+                                                                                                                                }
+                                                                                                                                getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
+                                                                                                                                processSentMessage(tLRPC$Message.id);
+                                                                                                                                return;
+                                                                                                                            }
+                                                                                                                        }
+                                                                                                                        c4 = c3;
+                                                                                                                        delayedMessage4 = delayedMessage3;
+                                                                                                                        messageObject9 = messageObject6;
+                                                                                                                    }
+                                                                                                                    str10 = str9;
+                                                                                                                    c4 = c3;
+                                                                                                                    messageObject8 = messageObject6;
+                                                                                                                    tLRPC$Message13 = tLRPC$Message11;
+                                                                                                                    tLRPC$Message5 = tLRPC$Message13;
+                                                                                                                    messageObject6 = messageObject8;
+                                                                                                                    if (j19 == 0) {
+                                                                                                                    }
+                                                                                                                    if (messageObject20 == null) {
+                                                                                                                    }
+                                                                                                                } catch (Exception e38) {
+                                                                                                                    e = e38;
+                                                                                                                }
+                                                                                                            }
+                                                                                                            return;
+                                                                                                        }
+                                                                                                        try {
+                                                                                                            if (tLRPC$MessageMedia11 instanceof TLRPC$TL_messageMediaVenue) {
+                                                                                                                TLRPC$TL_decryptedMessageMediaVenue tLRPC$TL_decryptedMessageMediaVenue = new TLRPC$TL_decryptedMessageMediaVenue();
+                                                                                                                tLRPC$TL_decryptedMessage.media = tLRPC$TL_decryptedMessageMediaVenue;
+                                                                                                                tLRPC$TL_decryptedMessageMediaVenue.address = tLRPC$MessageMedia11.address;
+                                                                                                                tLRPC$TL_decryptedMessageMediaVenue.title = tLRPC$MessageMedia11.title;
+                                                                                                                tLRPC$TL_decryptedMessageMediaVenue.provider = tLRPC$MessageMedia11.provider;
+                                                                                                                tLRPC$TL_decryptedMessageMediaVenue.venue_id = tLRPC$MessageMedia11.venue_id;
+                                                                                                            } else {
+                                                                                                                tLRPC$TL_decryptedMessage.media = new TLRPC$TL_decryptedMessageMediaGeoPoint();
+                                                                                                            }
+                                                                                                            TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia14 = tLRPC$TL_decryptedMessage.media;
+                                                                                                            TLRPC$GeoPoint tLRPC$GeoPoint2 = tLRPC$MessageMedia11.geo;
+                                                                                                            tLRPC$DecryptedMessageMedia14.lat = tLRPC$GeoPoint2.lat;
+                                                                                                            tLRPC$DecryptedMessageMedia14._long = tLRPC$GeoPoint2._long;
+                                                                                                            MessageObject messageObject22 = messageObject;
+                                                                                                            getSecretChatHelper().performSendEncryptedRequest(tLRPC$TL_decryptedMessage, messageObject22.messageOwner, tLRPC$EncryptedChat5, null, null, messageObject22);
+                                                                                                            c4 = c3;
+                                                                                                            tLRPC$Message11 = tLRPC$Message26;
+                                                                                                            delayedMessage4 = delayedMessage3;
+                                                                                                            str9 = str37;
+                                                                                                            j10 = j8;
+                                                                                                            messageObject9 = messageObject22;
+                                                                                                        } catch (Exception e39) {
+                                                                                                            e = e39;
+                                                                                                            messageObject6 = messageObject;
+                                                                                                            exc = e;
+                                                                                                            messageObject = messageObject6;
+                                                                                                            tLRPC$Message10 = tLRPC$Message26;
+                                                                                                            b3 = tLRPC$Message23;
+                                                                                                            tLRPC$Message = tLRPC$Message10;
+                                                                                                            FileLog.e(exc);
+                                                                                                            getMessagesStorage().markMessageAsSendError(tLRPC$Message, b3 != 0);
+                                                                                                            if (messageObject != null) {
+                                                                                                            }
+                                                                                                            getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
+                                                                                                            processSentMessage(tLRPC$Message.id);
+                                                                                                            return;
+                                                                                                        }
+                                                                                                        str10 = str9;
+                                                                                                        delayedMessage5 = delayedMessage4;
+                                                                                                        messageObject8 = messageObject9;
+                                                                                                        tLRPC$Message13 = tLRPC$Message11;
+                                                                                                        tLRPC$Message5 = tLRPC$Message13;
+                                                                                                        messageObject6 = messageObject8;
+                                                                                                        if (j19 == 0) {
+                                                                                                        }
+                                                                                                        if (messageObject20 == null) {
+                                                                                                        }
+                                                                                                        return;
+                                                                                                    } catch (Exception e40) {
+                                                                                                        e = e40;
+                                                                                                    }
+                                                                                                } catch (Exception e41) {
+                                                                                                    e = e41;
+                                                                                                }
+                                                                                            } catch (Exception e42) {
+                                                                                                e = e42;
+                                                                                                messageObject6 = messageObject;
+                                                                                                tLRPC$Message8 = tLRPC$Message26;
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                    if ((c3 >= 5 || c3 > '\b') && ((c3 != '\t' || tLRPC$EncryptedChat5 == null) && c3 != '\n' && c3 != 11 && c3 != '\f')) {
+                                                                                        if (c3 != 4) {
+                                                                                            TLRPC$TL_messages_forwardMessages tLRPC$TL_messages_forwardMessages = new TLRPC$TL_messages_forwardMessages();
+                                                                                            tLRPC$TL_messages_forwardMessages.to_peer = tLRPC$InputPeer6;
+                                                                                            MessageObject messageObject23 = messageObject5;
+                                                                                            tLRPC$TL_messages_forwardMessages.with_my_score = messageObject23.messageOwner.with_my_score;
+                                                                                            if (messageObject6 != null) {
+                                                                                                tLRPC$TL_messages_forwardMessages.top_msg_id = messageObject6.getId();
+                                                                                                tLRPC$TL_messages_forwardMessages.flags |= LiteMode.FLAG_CALLS_ANIMATIONS;
+                                                                                            }
+                                                                                            if (hashMap != null && hashMap.containsKey("fwd_id")) {
+                                                                                                int intValue = Utilities.parseInt((CharSequence) hashMap.get("fwd_id")).intValue();
+                                                                                                tLRPC$TL_messages_forwardMessages.drop_author = true;
+                                                                                                long longValue = Utilities.parseLong(hashMap.get("fwd_peer")).longValue();
+                                                                                                if (longValue < 0) {
+                                                                                                    TLRPC$Chat chat2 = getMessagesController().getChat(Long.valueOf(-longValue));
+                                                                                                    if (ChatObject.isChannel(chat2)) {
+                                                                                                        TLRPC$TL_inputPeerChannel tLRPC$TL_inputPeerChannel = new TLRPC$TL_inputPeerChannel();
+                                                                                                        tLRPC$TL_messages_forwardMessages.from_peer = tLRPC$TL_inputPeerChannel;
+                                                                                                        tLRPC$TL_inputPeerChannel.channel_id = chat2.id;
+                                                                                                        tLRPC$TL_inputPeerChannel.access_hash = chat2.access_hash;
+                                                                                                    } else {
+                                                                                                        tLRPC$TL_messages_forwardMessages.from_peer = new TLRPC$TL_inputPeerEmpty();
+                                                                                                    }
+                                                                                                } else {
+                                                                                                    tLRPC$TL_messages_forwardMessages.from_peer = new TLRPC$TL_inputPeerEmpty();
+                                                                                                }
+                                                                                                tLRPC$TL_messages_forwardMessages.id.add(Integer.valueOf(intValue));
+                                                                                            } else {
+                                                                                                tLRPC$TL_messages_forwardMessages.from_peer = new TLRPC$TL_inputPeerEmpty();
+                                                                                            }
+                                                                                            tLRPC$TL_messages_forwardMessages.silent = tLRPC$Message2.silent;
+                                                                                            if (tLRPC$Message3 != 0) {
+                                                                                                b8 = tLRPC$Message3;
+                                                                                                try {
+                                                                                                    tLRPC$TL_messages_forwardMessages.schedule_date = b8;
+                                                                                                    tLRPC$TL_messages_forwardMessages.flags |= 1024;
+                                                                                                } catch (Exception e43) {
+                                                                                                    exc = e43;
+                                                                                                    tLRPC$Message = tLRPC$Message2;
+                                                                                                    b3 = b8;
+                                                                                                    FileLog.e(exc);
+                                                                                                    getMessagesStorage().markMessageAsSendError(tLRPC$Message, b3 != 0);
+                                                                                                    if (messageObject != null) {
+                                                                                                    }
+                                                                                                    getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
+                                                                                                    processSentMessage(tLRPC$Message.id);
+                                                                                                    return;
+                                                                                                }
+                                                                                            } else {
+                                                                                                b8 = tLRPC$Message3;
+                                                                                            }
+                                                                                            tLRPC$TL_messages_forwardMessages.random_id.add(Long.valueOf(tLRPC$Message2.random_id));
+                                                                                            if (messageObject23.getId() >= 0) {
+                                                                                                tLRPC$TL_messages_forwardMessages.id.add(Integer.valueOf(messageObject23.getId()));
+                                                                                            } else {
+                                                                                                TLRPC$Message tLRPC$Message28 = messageObject23.messageOwner;
+                                                                                                int i28 = tLRPC$Message28.fwd_msg_id;
+                                                                                                if (i28 != 0) {
+                                                                                                    tLRPC$TL_messages_forwardMessages.id.add(Integer.valueOf(i28));
+                                                                                                } else {
+                                                                                                    TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader2 = tLRPC$Message28.fwd_from;
+                                                                                                    if (tLRPC$MessageFwdHeader2 != null) {
+                                                                                                        tLRPC$TL_messages_forwardMessages.id.add(Integer.valueOf(tLRPC$MessageFwdHeader2.channel_post));
+                                                                                                    }
+                                                                                                }
+                                                                                            }
+                                                                                            byte b21 = b8;
+                                                                                            try {
+                                                                                                performSendMessageRequest(tLRPC$TL_messages_forwardMessages, messageObject, null, null, tLRPC$Message4, hashMap, b8 != 0);
+                                                                                            } catch (Exception e44) {
+                                                                                                exc = e44;
+                                                                                                tLRPC$Message = tLRPC$Message2;
+                                                                                                b3 = b21;
+                                                                                                FileLog.e(exc);
+                                                                                                getMessagesStorage().markMessageAsSendError(tLRPC$Message, b3 != 0);
+                                                                                                if (messageObject != null) {
+                                                                                                }
+                                                                                                getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
+                                                                                                processSentMessage(tLRPC$Message.id);
+                                                                                                return;
+                                                                                            }
+                                                                                        } else {
+                                                                                            MessageObject messageObject24 = messageObject5;
+                                                                                            byte b22 = tLRPC$Message3;
+                                                                                            if (c3 == '\t') {
+                                                                                                try {
+                                                                                                    TLRPC$TL_messages_sendInlineBotResult tLRPC$TL_messages_sendInlineBotResult = new TLRPC$TL_messages_sendInlineBotResult();
+                                                                                                    tLRPC$TL_messages_sendInlineBotResult.peer = tLRPC$InputPeer6;
+                                                                                                    long j21 = r14;
+                                                                                                    tLRPC$TL_messages_sendInlineBotResult.random_id = tLRPC$Message2.random_id;
+                                                                                                    if (tLRPC$Message2.from_id != null) {
+                                                                                                        tLRPC$TL_messages_sendInlineBotResult.send_as = getMessagesController().getInputPeer(tLRPC$Message2.from_id);
+                                                                                                    }
+                                                                                                    tLRPC$TL_messages_sendInlineBotResult.hide_via = !hashMap.containsKey(obj3);
+                                                                                                    if (tL_stories$StoryItem != null) {
+                                                                                                        tLRPC$TL_messages_sendInlineBotResult.reply_to = sendMessagesHelper.createReplyInput(tL_stories$StoryItem);
+                                                                                                        tLRPC$TL_messages_sendInlineBotResult.flags |= 1;
+                                                                                                    } else {
+                                                                                                        TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader9 = tLRPC$Message2.reply_to;
+                                                                                                        if (tLRPC$MessageReplyHeader9 instanceof TLRPC$TL_messageReplyHeader) {
+                                                                                                            tLRPC$TL_messages_sendInlineBotResult.flags |= 1;
+                                                                                                            tLRPC$TL_messages_sendInlineBotResult.reply_to = sendMessagesHelper.createReplyInput((TLRPC$TL_messageReplyHeader) tLRPC$MessageReplyHeader9);
+                                                                                                        }
+                                                                                                    }
+                                                                                                    tLRPC$TL_messages_sendInlineBotResult.silent = tLRPC$Message2.silent;
+                                                                                                    if (b22 != 0) {
+                                                                                                        tLRPC$TL_messages_sendInlineBotResult.schedule_date = b22;
+                                                                                                        tLRPC$TL_messages_sendInlineBotResult.flags |= 1024;
+                                                                                                    }
+                                                                                                    tLRPC$TL_messages_sendInlineBotResult.query_id = Utilities.parseLong(hashMap.get(obj2)).longValue();
+                                                                                                    tLRPC$TL_messages_sendInlineBotResult.id = hashMap.get("id");
+                                                                                                    if (messageObject24 == null) {
+                                                                                                        tLRPC$TL_messages_sendInlineBotResult.clear_draft = true;
+                                                                                                        getMediaDataController().cleanDraft(j21, messageObject6 != null ? messageObject6.getId() : 0L, false);
+                                                                                                    }
+                                                                                                    performSendMessageRequest(tLRPC$TL_messages_sendInlineBotResult, messageObject, null, null, tLRPC$Message4, hashMap, b22 != 0);
+                                                                                                } catch (Exception e45) {
+                                                                                                    exc = e45;
+                                                                                                    tLRPC$Message = tLRPC$Message2;
+                                                                                                    b3 = b22;
+                                                                                                    FileLog.e(exc);
+                                                                                                    getMessagesStorage().markMessageAsSendError(tLRPC$Message, b3 != 0);
+                                                                                                    if (messageObject != null) {
+                                                                                                        messageObject.messageOwner.send_state = 2;
+                                                                                                    }
+                                                                                                    getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
+                                                                                                    processSentMessage(tLRPC$Message.id);
+                                                                                                    return;
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                        return;
+                                                                                    }
+                                                                                    long j162 = r14;
+                                                                                    MessageObject messageObject202 = messageObject5;
+                                                                                    TLRPC$Message tLRPC$Message232 = tLRPC$Message3;
+                                                                                    if (tLRPC$EncryptedChat5 != null) {
+                                                                                    }
+                                                                                } catch (Exception e46) {
+                                                                                    exc = e46;
+                                                                                    tLRPC$Message = tLRPC$Message2;
+                                                                                    b3 = r14;
+                                                                                }
+                                                                            }
+                                                                            TL_stories$StoryItem tL_stories$StoryItem8 = tL_stories$StoryItem;
+                                                                            HashMap<String, String> hashMap7 = hashMap;
+                                                                            TLRPC$Message tLRPC$Message29 = tLRPC$Message2;
+                                                                            MessageObject messageObject25 = messageObject6;
+                                                                            TLRPC$InputPeer tLRPC$InputPeer11 = tLRPC$InputPeer6;
+                                                                            ArrayList<TLRPC$MessageEntity> arrayList15 = arrayList;
+                                                                            VideoEditedInfo videoEditedInfo20 = tLRPC$Message4;
+                                                                            String str42 = str7;
+                                                                            b5 = tLRPC$Message3;
+                                                                            MessageObject messageObject26 = messageObject;
+                                                                            TLRPC$Message tLRPC$Message30 = videoEditedInfo2;
+                                                                            if (tLRPC$EncryptedChat5 == null) {
+                                                                                try {
+                                                                                    if (tLRPC$TL_messageMediaWebPage != null) {
+                                                                                        try {
+                                                                                            TLRPC$TL_messages_sendMedia tLRPC$TL_messages_sendMedia2 = new TLRPC$TL_messages_sendMedia();
+                                                                                            tLRPC$TL_messages_sendMedia2.message = str42;
+                                                                                            tLRPC$TL_messages_sendMedia2.clear_draft = messageObject5 == null;
+                                                                                            tLRPC$TL_messages_sendMedia2.silent = tLRPC$Message29.silent;
+                                                                                            tLRPC$TL_messages_sendMedia2.peer = tLRPC$InputPeer11;
+                                                                                            tLRPC$TL_messages_sendMedia2.random_id = tLRPC$Message29.random_id;
+                                                                                            TLRPC$TL_inputMediaWebPage tLRPC$TL_inputMediaWebPage = new TLRPC$TL_inputMediaWebPage();
+                                                                                            TLRPC$TL_messageMediaWebPage tLRPC$TL_messageMediaWebPage5 = tLRPC$TL_messageMediaWebPage;
+                                                                                            tLRPC$TL_inputMediaWebPage.url = tLRPC$TL_messageMediaWebPage5.webpage.url;
+                                                                                            tLRPC$TL_inputMediaWebPage.force_large_media = tLRPC$TL_messageMediaWebPage5.force_large_media;
+                                                                                            tLRPC$TL_inputMediaWebPage.force_small_media = tLRPC$TL_messageMediaWebPage5.force_small_media;
+                                                                                            tLRPC$TL_inputMediaWebPage.optional = true;
+                                                                                            tLRPC$TL_messages_sendMedia2.media = tLRPC$TL_inputMediaWebPage;
+                                                                                            if (tL_stories$StoryItem8 != null) {
+                                                                                                tLRPC$TL_messages_sendMedia2.reply_to = sendMessagesHelper.createReplyInput(tL_stories$StoryItem8);
+                                                                                                tLRPC$TL_messages_sendMedia2.flags |= 1;
+                                                                                            } else {
+                                                                                                TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader10 = tLRPC$Message29.reply_to;
+                                                                                                if (tLRPC$MessageReplyHeader10 instanceof TLRPC$TL_messageReplyHeader) {
+                                                                                                    tLRPC$TL_messages_sendMedia2.reply_to = sendMessagesHelper.createReplyInput((TLRPC$TL_messageReplyHeader) tLRPC$MessageReplyHeader10);
+                                                                                                    tLRPC$TL_messages_sendMedia2.flags |= 1;
+                                                                                                }
+                                                                                            }
+                                                                                            if (z15 && SharedConfig.updateStickersOrderOnSend) {
+                                                                                                tLRPC$TL_messages_sendMedia2.update_stickersets_order = true;
+                                                                                            }
+                                                                                            if (tLRPC$Message29.from_id != null) {
+                                                                                                tLRPC$TL_messages_sendMedia2.send_as = getMessagesController().getInputPeer(tLRPC$Message29.from_id);
+                                                                                            }
+                                                                                            if (arrayList15 != null && !arrayList15.isEmpty()) {
+                                                                                                tLRPC$TL_messages_sendMedia2.entities = arrayList15;
+                                                                                                tLRPC$TL_messages_sendMedia2.flags |= 8;
+                                                                                            }
+                                                                                            if (b5 != 0) {
+                                                                                                tLRPC$TL_messages_sendMedia2.schedule_date = b5;
+                                                                                                tLRPC$TL_messages_sendMedia2.flags |= 1024;
+                                                                                            }
+                                                                                            tLRPC$TL_messages_sendMedia2.invert_media = tLRPC$Message29.invert_media;
+                                                                                            MessageObject messageObject27 = messageObject5;
+                                                                                            performSendMessageRequest(tLRPC$TL_messages_sendMedia2, messageObject26, null, null, videoEditedInfo20, hashMap7, b5 != 0);
+                                                                                            if (messageObject27 == null) {
+                                                                                                getMediaDataController().cleanDraft(r14, messageObject25 != null ? messageObject25.getId() : 0L, false);
+                                                                                            }
+                                                                                        } catch (Exception e47) {
+                                                                                            e = e47;
+                                                                                            tLRPC$Message30 = tLRPC$Message29;
+                                                                                            exc = e;
+                                                                                            tLRPC$Message9 = tLRPC$Message30;
+                                                                                            b7 = b5;
+                                                                                            messageObject7 = messageObject26;
+                                                                                            messageObject = messageObject7;
+                                                                                            tLRPC$Message = tLRPC$Message9;
+                                                                                            b3 = b7;
+                                                                                            FileLog.e(exc);
+                                                                                            getMessagesStorage().markMessageAsSendError(tLRPC$Message, b3 != 0);
+                                                                                            if (messageObject != null) {
+                                                                                            }
+                                                                                            getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
+                                                                                            processSentMessage(tLRPC$Message.id);
+                                                                                            return;
+                                                                                        }
+                                                                                    } else {
+                                                                                        MessageObject messageObject28 = messageObject5;
+                                                                                        TLRPC$TL_messages_sendMessage tLRPC$TL_messages_sendMessage = new TLRPC$TL_messages_sendMessage();
+                                                                                        tLRPC$TL_messages_sendMessage.message = str42;
+                                                                                        tLRPC$TL_messages_sendMessage.clear_draft = messageObject28 == null;
+                                                                                        tLRPC$TL_messages_sendMessage.silent = tLRPC$Message29.silent;
+                                                                                        tLRPC$TL_messages_sendMessage.peer = tLRPC$InputPeer11;
+                                                                                        tLRPC$TL_messages_sendMessage.random_id = tLRPC$Message29.random_id;
+                                                                                        if (tL_stories$StoryItem8 != null) {
+                                                                                            tLRPC$TL_messages_sendMessage.reply_to = sendMessagesHelper.createReplyInput(tL_stories$StoryItem8);
+                                                                                            tLRPC$TL_messages_sendMessage.flags |= 1;
+                                                                                        } else {
+                                                                                            TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader11 = tLRPC$Message29.reply_to;
+                                                                                            if (tLRPC$MessageReplyHeader11 instanceof TLRPC$TL_messageReplyHeader) {
+                                                                                                tLRPC$TL_messages_sendMessage.reply_to = sendMessagesHelper.createReplyInput((TLRPC$TL_messageReplyHeader) tLRPC$MessageReplyHeader11);
+                                                                                                tLRPC$TL_messages_sendMessage.flags |= 1;
+                                                                                            }
+                                                                                        }
+                                                                                        if (z15 && SharedConfig.updateStickersOrderOnSend) {
+                                                                                            tLRPC$TL_messages_sendMessage.update_stickersets_order = true;
+                                                                                        }
+                                                                                        if (tLRPC$Message29.from_id != null) {
+                                                                                            tLRPC$TL_messages_sendMessage.send_as = getMessagesController().getInputPeer(tLRPC$Message29.from_id);
+                                                                                        }
+                                                                                        if (!z13) {
+                                                                                            tLRPC$TL_messages_sendMessage.no_webpage = true;
+                                                                                        }
+                                                                                        if (arrayList15 != null && !arrayList15.isEmpty()) {
+                                                                                            tLRPC$TL_messages_sendMessage.entities = arrayList15;
+                                                                                            tLRPC$TL_messages_sendMessage.flags |= 8;
+                                                                                        }
+                                                                                        if (b5 != 0) {
+                                                                                            tLRPC$TL_messages_sendMessage.schedule_date = b5;
+                                                                                            tLRPC$TL_messages_sendMessage.flags |= 1024;
+                                                                                        }
+                                                                                        tLRPC$TL_messages_sendMessage.invert_media = tLRPC$Message29.invert_media;
+                                                                                        performSendMessageRequest(tLRPC$TL_messages_sendMessage, messageObject26, null, null, videoEditedInfo20, hashMap7, b5 != 0);
+                                                                                        if (messageObject28 == null) {
+                                                                                            getMediaDataController().cleanDraft(r14, messageObject25 != null ? messageObject25.getId() : 0L, false);
+                                                                                        }
+                                                                                    }
+                                                                                } catch (Exception e48) {
+                                                                                    e = e48;
+                                                                                }
+                                                                            } else {
+                                                                                MessageObject messageObject29 = messageObject5;
+                                                                                try {
+                                                                                    TLRPC$TL_decryptedMessage tLRPC$TL_decryptedMessage2 = new TLRPC$TL_decryptedMessage();
+                                                                                    tLRPC$TL_decryptedMessage2.ttl = tLRPC$Message29.ttl;
+                                                                                    if (arrayList15 != null && !arrayList15.isEmpty()) {
+                                                                                        tLRPC$TL_decryptedMessage2.entities = arrayList15;
+                                                                                        tLRPC$TL_decryptedMessage2.flags |= 128;
+                                                                                    }
+                                                                                    TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader12 = tLRPC$Message29.reply_to;
+                                                                                    if (tLRPC$MessageReplyHeader12 != null) {
+                                                                                        long j22 = tLRPC$MessageReplyHeader12.reply_to_random_id;
+                                                                                        if (j22 != 0) {
+                                                                                            tLRPC$TL_decryptedMessage2.reply_to_random_id = j22;
+                                                                                            tLRPC$TL_decryptedMessage2.flags |= 8;
+                                                                                        }
+                                                                                    }
+                                                                                    if (hashMap7 != null && hashMap7.get(tLRPC$Message30) != null) {
+                                                                                        tLRPC$TL_decryptedMessage2.via_bot_name = hashMap7.get(tLRPC$Message30);
+                                                                                        tLRPC$TL_decryptedMessage2.flags |= LiteMode.FLAG_AUTOPLAY_GIFS;
+                                                                                    }
+                                                                                    tLRPC$TL_decryptedMessage2.silent = tLRPC$Message29.silent;
+                                                                                    tLRPC$TL_decryptedMessage2.random_id = tLRPC$Message29.random_id;
+                                                                                    tLRPC$TL_decryptedMessage2.message = str42;
+                                                                                    TLRPC$WebPage tLRPC$WebPage3 = tLRPC$WebPage;
+                                                                                    if (tLRPC$WebPage3 != null && tLRPC$WebPage3.url != null) {
+                                                                                        TLRPC$TL_decryptedMessageMediaWebPage tLRPC$TL_decryptedMessageMediaWebPage = new TLRPC$TL_decryptedMessageMediaWebPage();
+                                                                                        tLRPC$TL_decryptedMessage2.media = tLRPC$TL_decryptedMessageMediaWebPage;
+                                                                                        tLRPC$TL_decryptedMessageMediaWebPage.url = tLRPC$WebPage3.url;
+                                                                                        tLRPC$TL_decryptedMessage2.flags |= LiteMode.FLAG_CALLS_ANIMATIONS;
+                                                                                    } else {
+                                                                                        tLRPC$TL_decryptedMessage2.media = new TLRPC$TL_decryptedMessageMediaEmpty();
+                                                                                    }
+                                                                                    getSecretChatHelper().performSendEncryptedRequest(tLRPC$TL_decryptedMessage2, messageObject26.messageOwner, tLRPC$EncryptedChat5, null, null, messageObject26);
+                                                                                    if (messageObject29 == null) {
+                                                                                        getMediaDataController().cleanDraft(r14, messageObject25 != null ? messageObject25.getId() : 0L, false);
+                                                                                    }
+                                                                                } catch (Exception e49) {
+                                                                                    e = e49;
+                                                                                    tLRPC$Message6 = tLRPC$Message29;
+                                                                                    messageObject = messageObject26;
+                                                                                    exc = e;
+                                                                                    tLRPC$Message = tLRPC$Message6;
+                                                                                    b3 = b5;
+                                                                                    FileLog.e(exc);
+                                                                                    getMessagesStorage().markMessageAsSendError(tLRPC$Message, b3 != 0);
+                                                                                    if (messageObject != null) {
+                                                                                    }
+                                                                                    getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
+                                                                                    processSentMessage(tLRPC$Message.id);
+                                                                                    return;
+                                                                                }
+                                                                            }
+                                                                            return;
+                                                                        }
+                                                                    } else {
+                                                                        j6 = 0;
+                                                                    }
+                                                                    z5 = false;
+                                                                    messageObject = new MessageObject(sendMessagesHelper.currentAccount, tLRPC$Message2, ((messageObject6 == null && messageObject6 == messageObject4 && messageObject6.getId() == 1) || z4) ? null : messageObject4, true, true);
+                                                                    messageObject.sendAnimationData = sendAnimationData;
+                                                                    messageObject.wasJustSent = true;
+                                                                    messageObject.scheduled = tLRPC$Message3 != 0;
+                                                                    if (!messageObject.isForwarded()) {
+                                                                    }
+                                                                    videoEditedInfo3 = messageObject.videoEditedInfo;
+                                                                    if (videoEditedInfo3 == null) {
+                                                                    }
+                                                                    if (videoEditedInfo13 != null) {
+                                                                    }
+                                                                    if (j6 == 0) {
+                                                                    }
+                                                                    if (BuildVars.LOGS_ENABLED) {
+                                                                    }
+                                                                    delayedMessage3 = delayedMessage2;
+                                                                    j7 = j6;
+                                                                    tLRPC$InputPeer6 = tLRPC$InputPeer5;
+                                                                    if (c2 != 0) {
+                                                                        if (c3 >= 1) {
+                                                                        }
+                                                                        if (c3 >= 5) {
+                                                                        }
+                                                                        if (c3 != 4) {
                                                                         }
                                                                         return;
-                                                                    } catch (Exception e40) {
-                                                                        e = e40;
-                                                                        i = i43;
                                                                     }
-                                                                } catch (Exception e41) {
-                                                                    exc = e41;
-                                                                    sendMessagesHelper = sendMessagesHelper6;
-                                                                    tLRPC$Message7 = tLRPC$Message4;
-                                                                    i12 = i43;
+                                                                    TL_stories$StoryItem tL_stories$StoryItem82 = tL_stories$StoryItem;
+                                                                    HashMap<String, String> hashMap72 = hashMap;
+                                                                    TLRPC$Message tLRPC$Message292 = tLRPC$Message2;
+                                                                    MessageObject messageObject252 = messageObject6;
+                                                                    TLRPC$InputPeer tLRPC$InputPeer112 = tLRPC$InputPeer6;
+                                                                    ArrayList<TLRPC$MessageEntity> arrayList152 = arrayList;
+                                                                    VideoEditedInfo videoEditedInfo202 = tLRPC$Message4;
+                                                                    String str422 = str7;
+                                                                    b5 = tLRPC$Message3;
+                                                                    MessageObject messageObject262 = messageObject;
+                                                                    TLRPC$Message tLRPC$Message302 = videoEditedInfo2;
+                                                                    if (tLRPC$EncryptedChat5 == null) {
+                                                                    }
+                                                                    return;
                                                                 }
-                                                            } catch (Exception e42) {
-                                                                i = i43;
-                                                                exc = e42;
-                                                                sendMessagesHelper = sendMessagesHelper6;
-                                                                tLRPC$Message = tLRPC$Message4;
                                                             }
-                                                            FileLog.e(exc);
-                                                            getMessagesStorage().markMessageAsSendError(tLRPC$Message, i != 0);
-                                                            if (messageObject != null) {
-                                                                messageObject.messageOwner.send_state = 2;
+                                                            TLRPC$TL_messageReplyHeader tLRPC$TL_messageReplyHeader = new TLRPC$TL_messageReplyHeader();
+                                                            tLRPC$Message2.reply_to = tLRPC$TL_messageReplyHeader;
+                                                            if (tLRPC$EncryptedChat != null) {
+                                                                long j23 = messageObject4.messageOwner.random_id;
+                                                                if (j23 != 0) {
+                                                                    tLRPC$TL_messageReplyHeader.reply_to_random_id = j23;
+                                                                    tLRPC$Message2.flags |= 8;
+                                                                    tLRPC$TL_messageReplyHeader.flags |= 16;
+                                                                    tLRPC$TL_messageReplyHeader.reply_to_msg_id = messageObject4.getId();
+                                                                    if (messageObject19 == null && messageObject19 != messageObject4 && messageObject19.getId() != 1) {
+                                                                        tLRPC$Message2.reply_to.reply_to_top_id = messageObject19.getId();
+                                                                        TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader13 = tLRPC$Message2.reply_to;
+                                                                        int i29 = tLRPC$MessageReplyHeader13.flags | 2;
+                                                                        tLRPC$MessageReplyHeader13.flags = i29;
+                                                                        if (messageObject19.isTopicMainMessage) {
+                                                                            tLRPC$MessageReplyHeader13.forum_topic = true;
+                                                                            tLRPC$MessageReplyHeader13.flags = i29 | 8;
+                                                                        }
+                                                                    } else if (messageObject4.isTopicMainMessage) {
+                                                                        TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader14 = tLRPC$Message2.reply_to;
+                                                                        tLRPC$MessageReplyHeader14.forum_topic = true;
+                                                                        tLRPC$MessageReplyHeader14.flags |= 8;
+                                                                    }
+                                                                    if (replyQuote3 != null) {
+                                                                        tLRPC$Message2.reply_to.quote_text = replyQuote3.getText();
+                                                                        if (!TextUtils.isEmpty(tLRPC$Message2.reply_to.quote_text)) {
+                                                                            TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader15 = tLRPC$Message2.reply_to;
+                                                                            tLRPC$MessageReplyHeader15.quote = true;
+                                                                            int i30 = tLRPC$MessageReplyHeader15.flags | 64;
+                                                                            tLRPC$MessageReplyHeader15.flags = i30;
+                                                                            tLRPC$MessageReplyHeader15.flags = i30 | 1024;
+                                                                            replyQuote = replyQuote3;
+                                                                            tLRPC$MessageReplyHeader15.quote_offset = replyQuote.start;
+                                                                            tLRPC$MessageReplyHeader15.quote_entities = replyQuote.getEntities();
+                                                                            ArrayList<TLRPC$MessageEntity> arrayList16 = tLRPC$Message2.reply_to.quote_entities;
+                                                                            if (arrayList16 == null || arrayList16.isEmpty()) {
+                                                                                messageObject5 = messageObject3;
+                                                                                messageObject6 = messageObject19;
+                                                                            } else {
+                                                                                messageObject5 = messageObject3;
+                                                                                tLRPC$Message2.reply_to.quote_entities = new ArrayList<>(tLRPC$Message2.reply_to.quote_entities);
+                                                                                tLRPC$Message2.reply_to.flags |= 128;
+                                                                                messageObject6 = messageObject19;
+                                                                            }
+                                                                            if (j2 == 0) {
+                                                                            }
+                                                                            if (tLRPC$ReplyMarkup != null) {
+                                                                                tLRPC$Message2.flags |= 64;
+                                                                                tLRPC$Message2.reply_markup = tLRPC$ReplyMarkup;
+                                                                                str15 = hashMap.get("bot");
+                                                                                if (str15 != null) {
+                                                                                }
+                                                                            }
+                                                                            if (DialogObject.isEncryptedDialog(j12)) {
+                                                                            }
+                                                                            if (messageObject4 != null) {
+                                                                            }
+                                                                            tLRPC$EncryptedChat4 = tLRPC$EncryptedChat3;
+                                                                            obj3 = "bot";
+                                                                            z4 = false;
+                                                                            if (!MessageObject.isVoiceMessage(tLRPC$Message2)) {
+                                                                            }
+                                                                            tLRPC$Message2.media_unread = true;
+                                                                            if (tLRPC$Message2.from_id == null) {
+                                                                            }
+                                                                            tLRPC$Message2.send_state = 1;
+                                                                            if (hashMap == null) {
+                                                                            }
+                                                                            z5 = false;
+                                                                            messageObject = new MessageObject(sendMessagesHelper.currentAccount, tLRPC$Message2, ((messageObject6 == null && messageObject6 == messageObject4 && messageObject6.getId() == 1) || z4) ? null : messageObject4, true, true);
+                                                                            messageObject.sendAnimationData = sendAnimationData;
+                                                                            messageObject.wasJustSent = true;
+                                                                            messageObject.scheduled = tLRPC$Message3 != 0;
+                                                                            if (!messageObject.isForwarded()) {
+                                                                            }
+                                                                            videoEditedInfo3 = messageObject.videoEditedInfo;
+                                                                            if (videoEditedInfo3 == null) {
+                                                                            }
+                                                                            if (videoEditedInfo13 != null) {
+                                                                            }
+                                                                            if (j6 == 0) {
+                                                                            }
+                                                                            if (BuildVars.LOGS_ENABLED) {
+                                                                            }
+                                                                            delayedMessage3 = delayedMessage2;
+                                                                            j7 = j6;
+                                                                            tLRPC$InputPeer6 = tLRPC$InputPeer5;
+                                                                            if (c2 != 0) {
+                                                                            }
+                                                                            TL_stories$StoryItem tL_stories$StoryItem822 = tL_stories$StoryItem;
+                                                                            HashMap<String, String> hashMap722 = hashMap;
+                                                                            TLRPC$Message tLRPC$Message2922 = tLRPC$Message2;
+                                                                            MessageObject messageObject2522 = messageObject6;
+                                                                            TLRPC$InputPeer tLRPC$InputPeer1122 = tLRPC$InputPeer6;
+                                                                            ArrayList<TLRPC$MessageEntity> arrayList1522 = arrayList;
+                                                                            VideoEditedInfo videoEditedInfo2022 = tLRPC$Message4;
+                                                                            String str4222 = str7;
+                                                                            b5 = tLRPC$Message3;
+                                                                            MessageObject messageObject2622 = messageObject;
+                                                                            TLRPC$Message tLRPC$Message3022 = videoEditedInfo2;
+                                                                            if (tLRPC$EncryptedChat5 == null) {
+                                                                            }
+                                                                            return;
+                                                                        }
+                                                                    }
+                                                                    messageObject5 = messageObject3;
+                                                                    messageObject13 = messageObject19;
+                                                                    replyQuote = replyQuote3;
+                                                                    messageObject6 = messageObject13;
+                                                                    if (j2 == 0) {
+                                                                    }
+                                                                    if (tLRPC$ReplyMarkup != null) {
+                                                                    }
+                                                                    if (DialogObject.isEncryptedDialog(j12)) {
+                                                                    }
+                                                                    if (messageObject4 != null) {
+                                                                    }
+                                                                    tLRPC$EncryptedChat4 = tLRPC$EncryptedChat3;
+                                                                    obj3 = "bot";
+                                                                    z4 = false;
+                                                                    if (!MessageObject.isVoiceMessage(tLRPC$Message2)) {
+                                                                    }
+                                                                    tLRPC$Message2.media_unread = true;
+                                                                    if (tLRPC$Message2.from_id == null) {
+                                                                    }
+                                                                    tLRPC$Message2.send_state = 1;
+                                                                    if (hashMap == null) {
+                                                                    }
+                                                                    z5 = false;
+                                                                    messageObject = new MessageObject(sendMessagesHelper.currentAccount, tLRPC$Message2, ((messageObject6 == null && messageObject6 == messageObject4 && messageObject6.getId() == 1) || z4) ? null : messageObject4, true, true);
+                                                                    messageObject.sendAnimationData = sendAnimationData;
+                                                                    messageObject.wasJustSent = true;
+                                                                    messageObject.scheduled = tLRPC$Message3 != 0;
+                                                                    if (!messageObject.isForwarded()) {
+                                                                    }
+                                                                    videoEditedInfo3 = messageObject.videoEditedInfo;
+                                                                    if (videoEditedInfo3 == null) {
+                                                                    }
+                                                                    if (videoEditedInfo13 != null) {
+                                                                    }
+                                                                    if (j6 == 0) {
+                                                                    }
+                                                                    if (BuildVars.LOGS_ENABLED) {
+                                                                    }
+                                                                    delayedMessage3 = delayedMessage2;
+                                                                    j7 = j6;
+                                                                    tLRPC$InputPeer6 = tLRPC$InputPeer5;
+                                                                    if (c2 != 0) {
+                                                                    }
+                                                                    TL_stories$StoryItem tL_stories$StoryItem8222 = tL_stories$StoryItem;
+                                                                    HashMap<String, String> hashMap7222 = hashMap;
+                                                                    TLRPC$Message tLRPC$Message29222 = tLRPC$Message2;
+                                                                    MessageObject messageObject25222 = messageObject6;
+                                                                    TLRPC$InputPeer tLRPC$InputPeer11222 = tLRPC$InputPeer6;
+                                                                    ArrayList<TLRPC$MessageEntity> arrayList15222 = arrayList;
+                                                                    VideoEditedInfo videoEditedInfo20222 = tLRPC$Message4;
+                                                                    String str42222 = str7;
+                                                                    b5 = tLRPC$Message3;
+                                                                    MessageObject messageObject26222 = messageObject;
+                                                                    TLRPC$Message tLRPC$Message30222 = videoEditedInfo2;
+                                                                    if (tLRPC$EncryptedChat5 == null) {
+                                                                    }
+                                                                    return;
+                                                                }
                                                             }
-                                                            getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
-                                                            sendMessagesHelper.processSentMessage(tLRPC$Message.id);
+                                                            tLRPC$Message2.flags |= 8;
+                                                            tLRPC$TL_messageReplyHeader.flags |= 16;
+                                                            tLRPC$TL_messageReplyHeader.reply_to_msg_id = messageObject4.getId();
+                                                            if (messageObject19 == null) {
+                                                            }
+                                                            if (messageObject4.isTopicMainMessage) {
+                                                            }
+                                                            if (replyQuote3 != null) {
+                                                            }
+                                                            messageObject5 = messageObject3;
+                                                            messageObject13 = messageObject19;
+                                                            replyQuote = replyQuote3;
+                                                            messageObject6 = messageObject13;
+                                                            if (j2 == 0) {
+                                                            }
+                                                            if (tLRPC$ReplyMarkup != null) {
+                                                            }
+                                                            if (DialogObject.isEncryptedDialog(j12)) {
+                                                            }
+                                                            if (messageObject4 != null) {
+                                                            }
+                                                            tLRPC$EncryptedChat4 = tLRPC$EncryptedChat3;
+                                                            obj3 = "bot";
+                                                            z4 = false;
+                                                            if (!MessageObject.isVoiceMessage(tLRPC$Message2)) {
+                                                            }
+                                                            tLRPC$Message2.media_unread = true;
+                                                            if (tLRPC$Message2.from_id == null) {
+                                                            }
+                                                            tLRPC$Message2.send_state = 1;
+                                                            if (hashMap == null) {
+                                                            }
+                                                            z5 = false;
+                                                            messageObject = new MessageObject(sendMessagesHelper.currentAccount, tLRPC$Message2, ((messageObject6 == null && messageObject6 == messageObject4 && messageObject6.getId() == 1) || z4) ? null : messageObject4, true, true);
+                                                            messageObject.sendAnimationData = sendAnimationData;
+                                                            messageObject.wasJustSent = true;
+                                                            messageObject.scheduled = tLRPC$Message3 != 0;
+                                                            if (!messageObject.isForwarded()) {
+                                                            }
+                                                            videoEditedInfo3 = messageObject.videoEditedInfo;
+                                                            if (videoEditedInfo3 == null) {
+                                                            }
+                                                            if (videoEditedInfo13 != null) {
+                                                            }
+                                                            if (j6 == 0) {
+                                                            }
+                                                            if (BuildVars.LOGS_ENABLED) {
+                                                            }
+                                                            delayedMessage3 = delayedMessage2;
+                                                            j7 = j6;
+                                                            tLRPC$InputPeer6 = tLRPC$InputPeer5;
+                                                            if (c2 != 0) {
+                                                            }
+                                                            TL_stories$StoryItem tL_stories$StoryItem82222 = tL_stories$StoryItem;
+                                                            HashMap<String, String> hashMap72222 = hashMap;
+                                                            TLRPC$Message tLRPC$Message292222 = tLRPC$Message2;
+                                                            MessageObject messageObject252222 = messageObject6;
+                                                            TLRPC$InputPeer tLRPC$InputPeer112222 = tLRPC$InputPeer6;
+                                                            ArrayList<TLRPC$MessageEntity> arrayList152222 = arrayList;
+                                                            VideoEditedInfo videoEditedInfo202222 = tLRPC$Message4;
+                                                            String str422222 = str7;
+                                                            b5 = tLRPC$Message3;
+                                                            MessageObject messageObject262222 = messageObject;
+                                                            TLRPC$Message tLRPC$Message302222 = videoEditedInfo2;
+                                                            if (tLRPC$EncryptedChat5 == null) {
+                                                            }
                                                             return;
                                                         }
-                                                    } else {
-                                                        j4 = 0;
+                                                    }
+                                                    messageObject5 = messageObject3;
+                                                    messageObject13 = messageObject16;
+                                                    messageObject4 = messageObject18;
+                                                    replyQuote = replyQuote3;
+                                                    messageObject6 = messageObject13;
+                                                    if (j2 == 0) {
+                                                    }
+                                                    if (tLRPC$ReplyMarkup != null) {
+                                                    }
+                                                    if (DialogObject.isEncryptedDialog(j12)) {
+                                                    }
+                                                    if (messageObject4 != null) {
+                                                    }
+                                                    tLRPC$EncryptedChat4 = tLRPC$EncryptedChat3;
+                                                    obj3 = "bot";
+                                                    z4 = false;
+                                                    if (!MessageObject.isVoiceMessage(tLRPC$Message2)) {
+                                                    }
+                                                    tLRPC$Message2.media_unread = true;
+                                                    if (tLRPC$Message2.from_id == null) {
+                                                    }
+                                                    tLRPC$Message2.send_state = 1;
+                                                    if (hashMap == null) {
                                                     }
                                                     z5 = false;
-                                                    messageObject = new MessageObject(sendMessagesHelper2.currentAccount, tLRPC$Message4, ((messageObject5 == null && messageObject5 == messageObject6 && messageObject5.getId() == 1) || z4) ? null : messageObject6, true, true);
+                                                    messageObject = new MessageObject(sendMessagesHelper.currentAccount, tLRPC$Message2, ((messageObject6 == null && messageObject6 == messageObject4 && messageObject6.getId() == 1) || z4) ? null : messageObject4, true, true);
                                                     messageObject.sendAnimationData = sendAnimationData;
                                                     messageObject.wasJustSent = true;
-                                                    messageObject.scheduled = i2 == 0;
+                                                    messageObject.scheduled = tLRPC$Message3 != 0;
                                                     if (!messageObject.isForwarded()) {
                                                     }
-                                                    videoEditedInfo = messageObject.videoEditedInfo;
-                                                    if (videoEditedInfo != null) {
+                                                    videoEditedInfo3 = messageObject.videoEditedInfo;
+                                                    if (videoEditedInfo3 == null) {
                                                     }
-                                                    if (videoEditedInfo6 == null) {
+                                                    if (videoEditedInfo13 != null) {
                                                     }
-                                                    videoEditedInfo = videoEditedInfo2;
-                                                    if (j4 != 0) {
+                                                    if (j6 == 0) {
                                                     }
                                                     if (BuildVars.LOGS_ENABLED) {
                                                     }
                                                     delayedMessage3 = delayedMessage2;
-                                                    j5 = j4;
-                                                    i9 = tLRPC$InputPeer5;
+                                                    j7 = j6;
+                                                    tLRPC$InputPeer6 = tLRPC$InputPeer5;
                                                     if (c2 != 0) {
-                                                        if (c3 >= 1) {
-                                                        }
-                                                        if (c3 >= 5) {
-                                                        }
-                                                        if (c3 == 4) {
-                                                        }
-                                                        return;
                                                     }
-                                                    MessageObject messageObject182 = messageObject5;
-                                                    TLRPC$InputPeer tLRPC$InputPeer102 = i9;
-                                                    ArrayList<TLRPC$MessageEntity> arrayList142 = arrayList;
-                                                    TLRPC$Message tLRPC$Message352 = tLRPC$Message5;
-                                                    TL_stories$StoryItem tL_stories$StoryItem102 = tL_stories$StoryItem2;
-                                                    String str452 = str6;
-                                                    Object obj102 = obj3;
-                                                    SendMessagesHelper sendMessagesHelper62 = sendMessagesHelper2;
-                                                    HashMap<String, String> hashMap82 = hashMap;
-                                                    if (tLRPC$EncryptedChat == null) {
+                                                    TL_stories$StoryItem tL_stories$StoryItem822222 = tL_stories$StoryItem;
+                                                    HashMap<String, String> hashMap722222 = hashMap;
+                                                    TLRPC$Message tLRPC$Message2922222 = tLRPC$Message2;
+                                                    MessageObject messageObject2522222 = messageObject6;
+                                                    TLRPC$InputPeer tLRPC$InputPeer1122222 = tLRPC$InputPeer6;
+                                                    ArrayList<TLRPC$MessageEntity> arrayList1522222 = arrayList;
+                                                    VideoEditedInfo videoEditedInfo2022222 = tLRPC$Message4;
+                                                    String str4222222 = str7;
+                                                    b5 = tLRPC$Message3;
+                                                    MessageObject messageObject2622222 = messageObject;
+                                                    TLRPC$Message tLRPC$Message3022222 = videoEditedInfo2;
+                                                    if (tLRPC$EncryptedChat5 == null) {
+                                                    }
+                                                    return;
+                                                }
+                                            } else {
+                                                messageObject3 = messageObject2;
+                                            }
+                                            tLRPC$Message2.date = tLRPC$Message3 != 0 ? tLRPC$Message3 : getConnectionsManager().getCurrentTime();
+                                            if (tLRPC$InputPeer3 instanceof TLRPC$TL_inputPeerChannel) {
+                                                if (tLRPC$Message3 == 0 && z) {
+                                                    tLRPC$Message2.views = 1;
+                                                    tLRPC$Message2.flags |= 1024;
+                                                }
+                                                str8 = "";
+                                                c2 = c7;
+                                                TLRPC$Chat chat3 = getMessagesController().getChat(Long.valueOf(tLRPC$InputPeer3.channel_id));
+                                                if (chat3 != null) {
+                                                    if (chat3.megagroup) {
+                                                        tLRPC$Message2.unread = true;
+                                                    } else {
+                                                        tLRPC$Message2.post = true;
+                                                        if (chat3.signatures) {
+                                                            TLRPC$TL_peerUser tLRPC$TL_peerUser3 = new TLRPC$TL_peerUser();
+                                                            tLRPC$Message2.from_id = tLRPC$TL_peerUser3;
+                                                            tLRPC$TL_peerUser3.user_id = j3;
+                                                        }
                                                     }
                                                 }
                                             } else {
-                                                tLRPC$InputPeer5 = tLRPC$InputPeer3;
+                                                str8 = "";
+                                                c2 = c7;
+                                                tLRPC$Message2.unread = true;
                                             }
-                                        } else {
-                                            tLRPC$InputPeer5 = tLRPC$InputPeer3;
-                                            messageObject5 = messageObject11;
+                                            tLRPC$Message2.flags |= LiteMode.FLAG_CALLS_ANIMATIONS;
+                                            tLRPC$Message2.dialog_id = j12;
+                                            tLRPC$Message2.invert_media = z17;
+                                            if (tL_stories$StoryItem4 == null) {
+                                            }
+                                            messageObject5 = messageObject3;
+                                            messageObject13 = messageObject16;
+                                            messageObject4 = messageObject18;
+                                            replyQuote = replyQuote3;
                                             messageObject6 = messageObject13;
-                                        }
-                                        TLRPC$TL_messageReplyHeader tLRPC$TL_messageReplyHeader = new TLRPC$TL_messageReplyHeader();
-                                        tLRPC$Message4.reply_to = tLRPC$TL_messageReplyHeader;
-                                        if (tLRPC$EncryptedChat != null) {
-                                            i5 = i3;
-                                            long j12 = messageObject6.messageOwner.random_id;
-                                            if (j12 != 0) {
-                                                tLRPC$TL_messageReplyHeader.reply_to_random_id = j12;
-                                                tLRPC$Message4.flags |= 8;
-                                                tLRPC$TL_messageReplyHeader.flags |= 16;
-                                                tLRPC$TL_messageReplyHeader.reply_to_msg_id = messageObject6.getId();
-                                                if (messageObject5 == null && messageObject5 != messageObject6 && messageObject5.getId() != 1) {
-                                                    tLRPC$Message4.reply_to.reply_to_top_id = messageObject5.getId();
-                                                    TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader13 = tLRPC$Message4.reply_to;
-                                                    int i44 = tLRPC$MessageReplyHeader13.flags | 2;
-                                                    tLRPC$MessageReplyHeader13.flags = i44;
-                                                    if (messageObject5.isTopicMainMessage) {
-                                                        tLRPC$MessageReplyHeader13.forum_topic = true;
-                                                        tLRPC$MessageReplyHeader13.flags = i44 | 8;
-                                                    }
-                                                } else if (messageObject6.isTopicMainMessage) {
-                                                    TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader14 = tLRPC$Message4.reply_to;
-                                                    tLRPC$MessageReplyHeader14.forum_topic = true;
-                                                    tLRPC$MessageReplyHeader14.flags |= 8;
-                                                }
-                                                if (replyQuote3 != null) {
-                                                    tLRPC$Message4.reply_to.quote_text = replyQuote3.getText();
-                                                    if (!TextUtils.isEmpty(tLRPC$Message4.reply_to.quote_text)) {
-                                                        TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader15 = tLRPC$Message4.reply_to;
-                                                        tLRPC$MessageReplyHeader15.quote = true;
-                                                        int i45 = tLRPC$MessageReplyHeader15.flags | 64;
-                                                        tLRPC$MessageReplyHeader15.flags = i45;
-                                                        tLRPC$MessageReplyHeader15.flags = i45 | 1024;
-                                                        tLRPC$MessageReplyHeader15.quote_offset = replyQuote3.start;
-                                                        tLRPC$MessageReplyHeader15.quote_entities = replyQuote3.getEntities();
-                                                        ArrayList<TLRPC$MessageEntity> arrayList15 = tLRPC$Message4.reply_to.quote_entities;
-                                                        if (arrayList15 == null || arrayList15.isEmpty()) {
-                                                            replyQuote3 = replyQuote3;
-                                                        } else {
-                                                            replyQuote3 = replyQuote3;
-                                                            tLRPC$Message4.reply_to.quote_entities = new ArrayList<>(tLRPC$Message4.reply_to.quote_entities);
-                                                            tLRPC$Message4.reply_to.flags |= 128;
-                                                        }
-                                                    }
-                                                }
-                                                if (j2 != 0) {
-                                                }
-                                                if (tLRPC$ReplyMarkup != null) {
-                                                    tLRPC$Message4.flags |= 64;
-                                                    tLRPC$Message4.reply_markup = tLRPC$ReplyMarkup;
-                                                    str19 = hashMap.get("bot");
-                                                    if (str19 != null) {
-                                                    }
-                                                }
-                                                if (!DialogObject.isEncryptedDialog(j8)) {
-                                                }
-                                                if (messageObject6 != null) {
-                                                }
-                                                tL_stories$StoryItem2 = tL_stories$StoryItem;
-                                                r18 = i6;
-                                                z4 = false;
-                                                if (!MessageObject.isVoiceMessage(tLRPC$Message4)) {
-                                                }
-                                                tLRPC$Message4.media_unread = true;
-                                                if (tLRPC$Message4.from_id == null) {
-                                                }
-                                                tLRPC$Message4.send_state = 1;
-                                                if (hashMap != null) {
-                                                }
-                                                z5 = false;
-                                                messageObject = new MessageObject(sendMessagesHelper2.currentAccount, tLRPC$Message4, ((messageObject5 == null && messageObject5 == messageObject6 && messageObject5.getId() == 1) || z4) ? null : messageObject6, true, true);
-                                                messageObject.sendAnimationData = sendAnimationData;
-                                                messageObject.wasJustSent = true;
-                                                messageObject.scheduled = i2 == 0;
-                                                if (!messageObject.isForwarded()) {
-                                                }
-                                                videoEditedInfo = messageObject.videoEditedInfo;
-                                                if (videoEditedInfo != null) {
-                                                }
-                                                if (videoEditedInfo6 == null) {
-                                                }
-                                                videoEditedInfo = videoEditedInfo2;
-                                                if (j4 != 0) {
-                                                }
-                                                if (BuildVars.LOGS_ENABLED) {
-                                                }
-                                                delayedMessage3 = delayedMessage2;
-                                                j5 = j4;
-                                                i9 = tLRPC$InputPeer5;
-                                                if (c2 != 0) {
-                                                }
-                                                MessageObject messageObject1822 = messageObject5;
-                                                TLRPC$InputPeer tLRPC$InputPeer1022 = i9;
-                                                ArrayList<TLRPC$MessageEntity> arrayList1422 = arrayList;
-                                                TLRPC$Message tLRPC$Message3522 = tLRPC$Message5;
-                                                TL_stories$StoryItem tL_stories$StoryItem1022 = tL_stories$StoryItem2;
-                                                String str4522 = str6;
-                                                Object obj1022 = obj3;
-                                                SendMessagesHelper sendMessagesHelper622 = sendMessagesHelper2;
-                                                HashMap<String, String> hashMap822 = hashMap;
-                                                if (tLRPC$EncryptedChat == null) {
-                                                }
+                                            if (j2 == 0) {
                                             }
-                                        } else {
-                                            i5 = i3;
+                                            if (tLRPC$ReplyMarkup != null) {
+                                            }
+                                            if (DialogObject.isEncryptedDialog(j12)) {
+                                            }
+                                            if (messageObject4 != null) {
+                                            }
+                                            tLRPC$EncryptedChat4 = tLRPC$EncryptedChat3;
+                                            obj3 = "bot";
+                                            z4 = false;
+                                            if (!MessageObject.isVoiceMessage(tLRPC$Message2)) {
+                                            }
+                                            tLRPC$Message2.media_unread = true;
+                                            if (tLRPC$Message2.from_id == null) {
+                                            }
+                                            tLRPC$Message2.send_state = 1;
+                                            if (hashMap == null) {
+                                            }
+                                            z5 = false;
+                                            messageObject = new MessageObject(sendMessagesHelper.currentAccount, tLRPC$Message2, ((messageObject6 == null && messageObject6 == messageObject4 && messageObject6.getId() == 1) || z4) ? null : messageObject4, true, true);
+                                            messageObject.sendAnimationData = sendAnimationData;
+                                            messageObject.wasJustSent = true;
+                                            messageObject.scheduled = tLRPC$Message3 != 0;
+                                            if (!messageObject.isForwarded()) {
+                                            }
+                                            videoEditedInfo3 = messageObject.videoEditedInfo;
+                                            if (videoEditedInfo3 == null) {
+                                            }
+                                            if (videoEditedInfo13 != null) {
+                                            }
+                                            if (j6 == 0) {
+                                            }
+                                            if (BuildVars.LOGS_ENABLED) {
+                                            }
+                                            delayedMessage3 = delayedMessage2;
+                                            j7 = j6;
+                                            tLRPC$InputPeer6 = tLRPC$InputPeer5;
+                                            if (c2 != 0) {
+                                            }
+                                            TL_stories$StoryItem tL_stories$StoryItem8222222 = tL_stories$StoryItem;
+                                            HashMap<String, String> hashMap7222222 = hashMap;
+                                            TLRPC$Message tLRPC$Message29222222 = tLRPC$Message2;
+                                            MessageObject messageObject25222222 = messageObject6;
+                                            TLRPC$InputPeer tLRPC$InputPeer11222222 = tLRPC$InputPeer6;
+                                            ArrayList<TLRPC$MessageEntity> arrayList15222222 = arrayList;
+                                            VideoEditedInfo videoEditedInfo20222222 = tLRPC$Message4;
+                                            String str42222222 = str7;
+                                            b5 = tLRPC$Message3;
+                                            MessageObject messageObject26222222 = messageObject;
+                                            TLRPC$Message tLRPC$Message30222222 = videoEditedInfo2;
+                                            if (tLRPC$EncryptedChat5 == null) {
+                                            }
+                                            return;
                                         }
-                                        tLRPC$Message4.flags |= 8;
-                                        tLRPC$TL_messageReplyHeader.flags |= 16;
-                                        tLRPC$TL_messageReplyHeader.reply_to_msg_id = messageObject6.getId();
-                                        if (messageObject5 == null) {
+                                    } catch (Exception e50) {
+                                        exc = e50;
+                                        tLRPC$TL_message2 = tLRPC$Message2;
+                                        b2 = tLRPC$Message3;
+                                        tLRPC$TL_message = tLRPC$TL_message2;
+                                        messageObject = null;
+                                        tLRPC$Message = tLRPC$TL_message;
+                                        b3 = b2;
+                                        FileLog.e(exc);
+                                        getMessagesStorage().markMessageAsSendError(tLRPC$Message, b3 != 0);
+                                        if (messageObject != null) {
                                         }
-                                        if (messageObject6.isTopicMainMessage) {
-                                        }
-                                        if (replyQuote3 != null) {
-                                        }
-                                        if (j2 != 0) {
-                                        }
-                                        if (tLRPC$ReplyMarkup != null) {
-                                        }
-                                        if (!DialogObject.isEncryptedDialog(j8)) {
-                                        }
-                                        if (messageObject6 != null) {
-                                        }
-                                        tL_stories$StoryItem2 = tL_stories$StoryItem;
-                                        r18 = i6;
-                                        z4 = false;
-                                        if (!MessageObject.isVoiceMessage(tLRPC$Message4)) {
-                                        }
-                                        tLRPC$Message4.media_unread = true;
-                                        if (tLRPC$Message4.from_id == null) {
-                                        }
-                                        tLRPC$Message4.send_state = 1;
-                                        if (hashMap != null) {
-                                        }
-                                        z5 = false;
-                                        messageObject = new MessageObject(sendMessagesHelper2.currentAccount, tLRPC$Message4, ((messageObject5 == null && messageObject5 == messageObject6 && messageObject5.getId() == 1) || z4) ? null : messageObject6, true, true);
-                                        messageObject.sendAnimationData = sendAnimationData;
-                                        messageObject.wasJustSent = true;
-                                        messageObject.scheduled = i2 == 0;
-                                        if (!messageObject.isForwarded()) {
-                                        }
-                                        videoEditedInfo = messageObject.videoEditedInfo;
-                                        if (videoEditedInfo != null) {
-                                        }
-                                        if (videoEditedInfo6 == null) {
-                                        }
-                                        videoEditedInfo = videoEditedInfo2;
-                                        if (j4 != 0) {
-                                        }
-                                        if (BuildVars.LOGS_ENABLED) {
-                                        }
-                                        delayedMessage3 = delayedMessage2;
-                                        j5 = j4;
-                                        i9 = tLRPC$InputPeer5;
-                                        if (c2 != 0) {
-                                        }
-                                        MessageObject messageObject18222 = messageObject5;
-                                        TLRPC$InputPeer tLRPC$InputPeer10222 = i9;
-                                        ArrayList<TLRPC$MessageEntity> arrayList14222 = arrayList;
-                                        TLRPC$Message tLRPC$Message35222 = tLRPC$Message5;
-                                        TL_stories$StoryItem tL_stories$StoryItem10222 = tL_stories$StoryItem2;
-                                        String str45222 = str6;
-                                        Object obj10222 = obj3;
-                                        SendMessagesHelper sendMessagesHelper6222 = sendMessagesHelper2;
-                                        HashMap<String, String> hashMap8222 = hashMap;
-                                        if (tLRPC$EncryptedChat == null) {
-                                        }
+                                        getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message.id));
+                                        processSentMessage(tLRPC$Message.id);
+                                        return;
                                     }
                                 }
-                                tLRPC$InputPeer5 = tLRPC$InputPeer3;
-                                i5 = i3;
-                                messageObject5 = messageObject11;
+                                z3 = true;
+                                tLRPC$Message2.silent = z3;
+                                char c72 = c;
+                                if (tLRPC$Message2.random_id == 0) {
+                                }
+                                if (hashMap == null) {
+                                }
+                                videoEditedInfo2 = "bot_name";
+                                tLRPC$Message2.params = hashMap;
+                                if (messageObject2 != null) {
+                                }
+                                tLRPC$Message2.date = tLRPC$Message3 != 0 ? tLRPC$Message3 : getConnectionsManager().getCurrentTime();
+                                if (tLRPC$InputPeer3 instanceof TLRPC$TL_inputPeerChannel) {
+                                }
+                                tLRPC$Message2.flags |= LiteMode.FLAG_CALLS_ANIMATIONS;
+                                tLRPC$Message2.dialog_id = j12;
+                                tLRPC$Message2.invert_media = z17;
+                                if (tL_stories$StoryItem4 == null) {
+                                }
+                                messageObject5 = messageObject3;
+                                messageObject13 = messageObject16;
+                                messageObject4 = messageObject18;
+                                replyQuote = replyQuote3;
                                 messageObject6 = messageObject13;
-                                if (j2 != 0) {
+                                if (j2 == 0) {
                                 }
                                 if (tLRPC$ReplyMarkup != null) {
                                 }
-                                if (!DialogObject.isEncryptedDialog(j8)) {
+                                if (DialogObject.isEncryptedDialog(j12)) {
                                 }
-                                if (messageObject6 != null) {
+                                if (messageObject4 != null) {
                                 }
-                                tL_stories$StoryItem2 = tL_stories$StoryItem;
-                                r18 = i6;
+                                tLRPC$EncryptedChat4 = tLRPC$EncryptedChat3;
+                                obj3 = "bot";
                                 z4 = false;
-                                if (!MessageObject.isVoiceMessage(tLRPC$Message4)) {
+                                if (!MessageObject.isVoiceMessage(tLRPC$Message2)) {
                                 }
-                                tLRPC$Message4.media_unread = true;
-                                if (tLRPC$Message4.from_id == null) {
+                                tLRPC$Message2.media_unread = true;
+                                if (tLRPC$Message2.from_id == null) {
                                 }
-                                tLRPC$Message4.send_state = 1;
-                                if (hashMap != null) {
+                                tLRPC$Message2.send_state = 1;
+                                if (hashMap == null) {
                                 }
                                 z5 = false;
-                                messageObject = new MessageObject(sendMessagesHelper2.currentAccount, tLRPC$Message4, ((messageObject5 == null && messageObject5 == messageObject6 && messageObject5.getId() == 1) || z4) ? null : messageObject6, true, true);
+                                messageObject = new MessageObject(sendMessagesHelper.currentAccount, tLRPC$Message2, ((messageObject6 == null && messageObject6 == messageObject4 && messageObject6.getId() == 1) || z4) ? null : messageObject4, true, true);
                                 messageObject.sendAnimationData = sendAnimationData;
                                 messageObject.wasJustSent = true;
-                                messageObject.scheduled = i2 == 0;
+                                messageObject.scheduled = tLRPC$Message3 != 0;
                                 if (!messageObject.isForwarded()) {
                                 }
-                                videoEditedInfo = messageObject.videoEditedInfo;
-                                if (videoEditedInfo != null) {
+                                videoEditedInfo3 = messageObject.videoEditedInfo;
+                                if (videoEditedInfo3 == null) {
                                 }
-                                if (videoEditedInfo6 == null) {
+                                if (videoEditedInfo13 != null) {
                                 }
-                                videoEditedInfo = videoEditedInfo2;
-                                if (j4 != 0) {
+                                if (j6 == 0) {
                                 }
                                 if (BuildVars.LOGS_ENABLED) {
                                 }
                                 delayedMessage3 = delayedMessage2;
-                                j5 = j4;
-                                i9 = tLRPC$InputPeer5;
+                                j7 = j6;
+                                tLRPC$InputPeer6 = tLRPC$InputPeer5;
                                 if (c2 != 0) {
                                 }
-                                MessageObject messageObject182222 = messageObject5;
-                                TLRPC$InputPeer tLRPC$InputPeer102222 = i9;
-                                ArrayList<TLRPC$MessageEntity> arrayList142222 = arrayList;
-                                TLRPC$Message tLRPC$Message352222 = tLRPC$Message5;
-                                TL_stories$StoryItem tL_stories$StoryItem102222 = tL_stories$StoryItem2;
-                                String str452222 = str6;
-                                Object obj102222 = obj3;
-                                SendMessagesHelper sendMessagesHelper62222 = sendMessagesHelper2;
-                                HashMap<String, String> hashMap82222 = hashMap;
-                                if (tLRPC$EncryptedChat == null) {
+                                TL_stories$StoryItem tL_stories$StoryItem82222222 = tL_stories$StoryItem;
+                                HashMap<String, String> hashMap72222222 = hashMap;
+                                TLRPC$Message tLRPC$Message292222222 = tLRPC$Message2;
+                                MessageObject messageObject252222222 = messageObject6;
+                                TLRPC$InputPeer tLRPC$InputPeer112222222 = tLRPC$InputPeer6;
+                                ArrayList<TLRPC$MessageEntity> arrayList152222222 = arrayList;
+                                VideoEditedInfo videoEditedInfo202222222 = tLRPC$Message4;
+                                String str422222222 = str7;
+                                b5 = tLRPC$Message3;
+                                MessageObject messageObject262222222 = messageObject;
+                                TLRPC$Message tLRPC$Message302222222 = videoEditedInfo2;
+                                if (tLRPC$EncryptedChat5 == null) {
                                 }
+                                return;
                             }
-                        } else {
-                            messageObject3 = messageObject2;
+                            j2 = 0;
+                            tLRPC$EncryptedChat = null;
                         }
-                        tLRPC$Message4.date = i2 != 0 ? i2 : getConnectionsManager().getCurrentTime();
-                        if (tLRPC$InputPeer3 instanceof TLRPC$TL_inputPeerChannel) {
-                            if (i2 == 0 && z) {
-                                tLRPC$Message4.views = 1;
-                                tLRPC$Message4.flags |= 1024;
-                            }
-                            str7 = "";
-                            c2 = c7;
-                            TLRPC$Chat chat3 = getMessagesController().getChat(Long.valueOf(tLRPC$InputPeer3.channel_id));
-                            if (chat3 != null) {
-                                if (chat3.megagroup) {
-                                    tLRPC$Message4.unread = true;
-                                } else {
-                                    tLRPC$Message4.post = true;
-                                    if (chat3.signatures) {
-                                        TLRPC$TL_peerUser tLRPC$TL_peerUser3 = new TLRPC$TL_peerUser();
-                                        tLRPC$Message4.from_id = tLRPC$TL_peerUser3;
-                                        tLRPC$TL_peerUser3.user_id = j3;
-                                    }
-                                }
-                            }
-                        } else {
-                            str7 = "";
-                            c2 = c7;
-                            tLRPC$Message4.unread = true;
-                        }
-                        tLRPC$Message4.flags |= LiteMode.FLAG_CALLS_ANIMATIONS;
-                        tLRPC$Message4.dialog_id = j8;
-                        tLRPC$Message4.invert_media = z16;
-                        if (tL_stories$StoryItem5 == null) {
-                        }
-                        tLRPC$InputPeer5 = tLRPC$InputPeer3;
-                        i5 = i3;
-                        messageObject5 = messageObject11;
-                        messageObject6 = messageObject13;
-                        if (j2 != 0) {
-                        }
-                        if (tLRPC$ReplyMarkup != null) {
-                        }
-                        if (!DialogObject.isEncryptedDialog(j8)) {
-                        }
-                        if (messageObject6 != null) {
-                        }
-                        tL_stories$StoryItem2 = tL_stories$StoryItem;
-                        r18 = i6;
-                        z4 = false;
-                        if (!MessageObject.isVoiceMessage(tLRPC$Message4)) {
-                        }
-                        tLRPC$Message4.media_unread = true;
-                        if (tLRPC$Message4.from_id == null) {
-                        }
-                        tLRPC$Message4.send_state = 1;
-                        if (hashMap != null) {
-                        }
-                        z5 = false;
-                        messageObject = new MessageObject(sendMessagesHelper2.currentAccount, tLRPC$Message4, ((messageObject5 == null && messageObject5 == messageObject6 && messageObject5.getId() == 1) || z4) ? null : messageObject6, true, true);
-                        messageObject.sendAnimationData = sendAnimationData;
-                        messageObject.wasJustSent = true;
-                        messageObject.scheduled = i2 == 0;
-                        if (!messageObject.isForwarded()) {
-                        }
-                        videoEditedInfo = messageObject.videoEditedInfo;
-                        if (videoEditedInfo != null) {
-                        }
-                        if (videoEditedInfo6 == null) {
-                        }
-                        videoEditedInfo = videoEditedInfo2;
-                        if (j4 != 0) {
-                        }
-                        if (BuildVars.LOGS_ENABLED) {
-                        }
-                        delayedMessage3 = delayedMessage2;
-                        j5 = j4;
-                        i9 = tLRPC$InputPeer5;
                         if (c2 != 0) {
                         }
-                        MessageObject messageObject1822222 = messageObject5;
-                        TLRPC$InputPeer tLRPC$InputPeer1022222 = i9;
-                        ArrayList<TLRPC$MessageEntity> arrayList1422222 = arrayList;
-                        TLRPC$Message tLRPC$Message3522222 = tLRPC$Message5;
-                        TL_stories$StoryItem tL_stories$StoryItem1022222 = tL_stories$StoryItem2;
-                        String str4522222 = str6;
-                        Object obj1022222 = obj3;
-                        SendMessagesHelper sendMessagesHelper622222 = sendMessagesHelper2;
-                        HashMap<String, String> hashMap822222 = hashMap;
-                        if (tLRPC$EncryptedChat == null) {
+                        TL_stories$StoryItem tL_stories$StoryItem822222222 = tL_stories$StoryItem;
+                        HashMap<String, String> hashMap722222222 = hashMap;
+                        TLRPC$Message tLRPC$Message2922222222 = tLRPC$Message2;
+                        MessageObject messageObject2522222222 = messageObject6;
+                        TLRPC$InputPeer tLRPC$InputPeer1122222222 = tLRPC$InputPeer6;
+                        ArrayList<TLRPC$MessageEntity> arrayList1522222222 = arrayList;
+                        VideoEditedInfo videoEditedInfo2022222222 = tLRPC$Message4;
+                        String str4222222222 = str7;
+                        b5 = tLRPC$Message3;
+                        MessageObject messageObject2622222222 = messageObject;
+                        TLRPC$Message tLRPC$Message3022222222 = videoEditedInfo2;
+                        if (tLRPC$EncryptedChat5 == null) {
                         }
+                        return;
+                    } catch (Exception e51) {
+                        e = e51;
                     }
+                    messageObject.sendAnimationData = sendAnimationData;
+                    messageObject.wasJustSent = true;
+                    messageObject.scheduled = tLRPC$Message3 != 0;
+                    if (!messageObject.isForwarded()) {
+                    }
+                    videoEditedInfo3 = messageObject.videoEditedInfo;
+                    if (videoEditedInfo3 == null) {
+                    }
+                    if (videoEditedInfo13 != null) {
+                    }
+                    if (j6 == 0) {
+                    }
+                    if (BuildVars.LOGS_ENABLED) {
+                    }
+                    delayedMessage3 = delayedMessage2;
+                    j7 = j6;
+                    tLRPC$InputPeer6 = tLRPC$InputPeer5;
+                } catch (Exception e52) {
+                    e = e52;
+                    TLRPC$Message tLRPC$Message31 = tLRPC$Message2;
+                    b5 = tLRPC$Message3;
+                    tLRPC$Message6 = tLRPC$Message31;
                 }
-                z3 = true;
-                tLRPC$Message4.silent = z3;
-                char c72 = c;
-                if (tLRPC$Message4.random_id == 0) {
+                tLRPC$Message2.silent = z3;
+                char c722 = c;
+                if (tLRPC$Message2.random_id == 0) {
                 }
                 if (hashMap == null) {
                 }
-                obj3 = "bot_name";
-                tLRPC$Message4.params = hashMap;
+                videoEditedInfo2 = "bot_name";
+                tLRPC$Message2.params = hashMap;
                 if (messageObject2 != null) {
                 }
-                tLRPC$Message4.date = i2 != 0 ? i2 : getConnectionsManager().getCurrentTime();
+                tLRPC$Message2.date = tLRPC$Message3 != 0 ? tLRPC$Message3 : getConnectionsManager().getCurrentTime();
                 if (tLRPC$InputPeer3 instanceof TLRPC$TL_inputPeerChannel) {
                 }
-                tLRPC$Message4.flags |= LiteMode.FLAG_CALLS_ANIMATIONS;
-                tLRPC$Message4.dialog_id = j8;
-                tLRPC$Message4.invert_media = z16;
-                if (tL_stories$StoryItem5 == null) {
+                tLRPC$Message2.flags |= LiteMode.FLAG_CALLS_ANIMATIONS;
+                tLRPC$Message2.dialog_id = j12;
+                tLRPC$Message2.invert_media = z17;
+                if (tL_stories$StoryItem4 == null) {
                 }
-                tLRPC$InputPeer5 = tLRPC$InputPeer3;
-                i5 = i3;
-                messageObject5 = messageObject11;
+                messageObject5 = messageObject3;
+                messageObject13 = messageObject16;
+                messageObject4 = messageObject18;
+                replyQuote = replyQuote3;
                 messageObject6 = messageObject13;
-                if (j2 != 0) {
+                if (j2 == 0) {
                 }
                 if (tLRPC$ReplyMarkup != null) {
                 }
-                if (!DialogObject.isEncryptedDialog(j8)) {
+                if (DialogObject.isEncryptedDialog(j12)) {
                 }
-                if (messageObject6 != null) {
+                if (messageObject4 != null) {
                 }
-                tL_stories$StoryItem2 = tL_stories$StoryItem;
-                r18 = i6;
+                tLRPC$EncryptedChat4 = tLRPC$EncryptedChat3;
+                obj3 = "bot";
                 z4 = false;
-                if (!MessageObject.isVoiceMessage(tLRPC$Message4)) {
+                if (!MessageObject.isVoiceMessage(tLRPC$Message2)) {
                 }
-                tLRPC$Message4.media_unread = true;
-                if (tLRPC$Message4.from_id == null) {
+                tLRPC$Message2.media_unread = true;
+                if (tLRPC$Message2.from_id == null) {
                 }
-                tLRPC$Message4.send_state = 1;
-                if (hashMap != null) {
+                tLRPC$Message2.send_state = 1;
+                if (hashMap == null) {
                 }
                 z5 = false;
-                messageObject = new MessageObject(sendMessagesHelper2.currentAccount, tLRPC$Message4, ((messageObject5 == null && messageObject5 == messageObject6 && messageObject5.getId() == 1) || z4) ? null : messageObject6, true, true);
-                messageObject.sendAnimationData = sendAnimationData;
-                messageObject.wasJustSent = true;
-                messageObject.scheduled = i2 == 0;
-                if (!messageObject.isForwarded()) {
-                }
-                videoEditedInfo = messageObject.videoEditedInfo;
-                if (videoEditedInfo != null) {
-                }
-                if (videoEditedInfo6 == null) {
-                }
-                videoEditedInfo = videoEditedInfo2;
-                if (j4 != 0) {
-                }
-                if (BuildVars.LOGS_ENABLED) {
-                }
-                delayedMessage3 = delayedMessage2;
-                j5 = j4;
-                i9 = tLRPC$InputPeer5;
-                if (c2 != 0) {
-                }
-                MessageObject messageObject18222222 = messageObject5;
-                TLRPC$InputPeer tLRPC$InputPeer10222222 = i9;
-                ArrayList<TLRPC$MessageEntity> arrayList14222222 = arrayList;
-                TLRPC$Message tLRPC$Message35222222 = tLRPC$Message5;
-                TL_stories$StoryItem tL_stories$StoryItem10222222 = tL_stories$StoryItem2;
-                String str45222222 = str6;
-                Object obj10222222 = obj3;
-                SendMessagesHelper sendMessagesHelper6222222 = sendMessagesHelper2;
-                HashMap<String, String> hashMap8222222 = hashMap;
-                if (tLRPC$EncryptedChat == null) {
-                }
-            } else {
-                j2 = 0;
-                tLRPC$EncryptedChat = null;
+                messageObject = new MessageObject(sendMessagesHelper.currentAccount, tLRPC$Message2, ((messageObject6 == null && messageObject6 == messageObject4 && messageObject6.getId() == 1) || z4) ? null : messageObject4, true, true);
+            } catch (Exception e53) {
+                e = e53;
+                TLRPC$Message tLRPC$Message32 = tLRPC$Message2;
+                b5 = tLRPC$Message3;
+                tLRPC$Message6 = tLRPC$Message32;
+                messageObject = null;
             }
+            if (messageObject17 == null) {
+            }
+            if (z14) {
+            }
+            z3 = true;
+        } catch (Exception e54) {
+            exc = e54;
+            tLRPC$Peer = peer;
+            b = r12;
         }
         peer = null;
         z = false;
-        ?? r122 = "parentObject";
-        TLRPC$Peer tLRPC$Peer52 = peer;
-        if (messageObject12 == null) {
-        }
-        if (z13) {
-        }
-        z3 = true;
-        tLRPC$Message4.silent = z3;
-        char c722 = c;
-        if (tLRPC$Message4.random_id == 0) {
-        }
-        if (hashMap == null) {
-        }
-        obj3 = "bot_name";
-        tLRPC$Message4.params = hashMap;
-        if (messageObject2 != null) {
-        }
-        tLRPC$Message4.date = i2 != 0 ? i2 : getConnectionsManager().getCurrentTime();
-        if (tLRPC$InputPeer3 instanceof TLRPC$TL_inputPeerChannel) {
-        }
-        tLRPC$Message4.flags |= LiteMode.FLAG_CALLS_ANIMATIONS;
-        tLRPC$Message4.dialog_id = j8;
-        tLRPC$Message4.invert_media = z16;
-        if (tL_stories$StoryItem5 == null) {
-        }
-        tLRPC$InputPeer5 = tLRPC$InputPeer3;
-        i5 = i3;
-        messageObject5 = messageObject11;
-        messageObject6 = messageObject13;
-        if (j2 != 0) {
-        }
-        if (tLRPC$ReplyMarkup != null) {
-        }
-        if (!DialogObject.isEncryptedDialog(j8)) {
-        }
-        if (messageObject6 != null) {
-        }
-        tL_stories$StoryItem2 = tL_stories$StoryItem;
-        r18 = i6;
-        z4 = false;
-        if (!MessageObject.isVoiceMessage(tLRPC$Message4)) {
-        }
-        tLRPC$Message4.media_unread = true;
-        if (tLRPC$Message4.from_id == null) {
-        }
-        tLRPC$Message4.send_state = 1;
-        if (hashMap != null) {
-        }
-        z5 = false;
-        messageObject = new MessageObject(sendMessagesHelper2.currentAccount, tLRPC$Message4, ((messageObject5 == null && messageObject5 == messageObject6 && messageObject5.getId() == 1) || z4) ? null : messageObject6, true, true);
-        messageObject.sendAnimationData = sendAnimationData;
-        messageObject.wasJustSent = true;
-        messageObject.scheduled = i2 == 0;
-        if (!messageObject.isForwarded()) {
-        }
-        videoEditedInfo = messageObject.videoEditedInfo;
-        if (videoEditedInfo != null) {
-        }
-        if (videoEditedInfo6 == null) {
-        }
-        videoEditedInfo = videoEditedInfo2;
-        if (j4 != 0) {
-        }
-        if (BuildVars.LOGS_ENABLED) {
-        }
-        delayedMessage3 = delayedMessage2;
-        j5 = j4;
-        i9 = tLRPC$InputPeer5;
-        if (c2 != 0) {
-        }
-        MessageObject messageObject182222222 = messageObject5;
-        TLRPC$InputPeer tLRPC$InputPeer102222222 = i9;
-        ArrayList<TLRPC$MessageEntity> arrayList142222222 = arrayList;
-        TLRPC$Message tLRPC$Message352222222 = tLRPC$Message5;
-        TL_stories$StoryItem tL_stories$StoryItem102222222 = tL_stories$StoryItem2;
-        String str452222222 = str6;
-        Object obj102222222 = obj3;
-        SendMessagesHelper sendMessagesHelper62222222 = sendMessagesHelper2;
-        HashMap<String, String> hashMap82222222 = hashMap;
-        if (tLRPC$EncryptedChat == null) {
-        }
+        r12 = "parentObject";
+        TLRPC$Peer tLRPC$Peer32 = peer;
     }
 
     private void performSendDelayedMessage(DelayedMessage delayedMessage) {

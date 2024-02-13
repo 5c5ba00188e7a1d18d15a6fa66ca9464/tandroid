@@ -376,6 +376,9 @@ public abstract class TLRPC$MessageAction extends TLObject {
                     }
                 };
                 break;
+            case -872240531:
+                tLRPC$MessageAction = new TLRPC$TL_messageActionBoostApply();
+                break;
             case -758129906:
                 tLRPC$MessageAction = new TLRPC$TL_messageActionGiftCode() { // from class: org.telegram.tgnet.TLRPC$TL_messageActionGiftCode_layer167
                     @Override // org.telegram.tgnet.TLRPC$TL_messageActionGiftCode, org.telegram.tgnet.TLObject

@@ -2344,13 +2344,13 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                 }
 
                 /* JADX INFO: Access modifiers changed from: protected */
-                /* JADX WARN: Removed duplicated region for block: B:178:0x05b0  */
-                /* JADX WARN: Removed duplicated region for block: B:233:0x0989  */
-                /* JADX WARN: Removed duplicated region for block: B:242:0x09bc  */
-                /* JADX WARN: Removed duplicated region for block: B:243:0x09c2  */
-                /* JADX WARN: Removed duplicated region for block: B:250:0x09d7  */
-                /* JADX WARN: Removed duplicated region for block: B:256:0x09f4  */
-                /* JADX WARN: Removed duplicated region for block: B:276:0x05ff A[SYNTHETIC] */
+                /* JADX WARN: Removed duplicated region for block: B:186:0x05df  */
+                /* JADX WARN: Removed duplicated region for block: B:241:0x09b8  */
+                /* JADX WARN: Removed duplicated region for block: B:250:0x09eb  */
+                /* JADX WARN: Removed duplicated region for block: B:251:0x09f1  */
+                /* JADX WARN: Removed duplicated region for block: B:258:0x0a06  */
+                /* JADX WARN: Removed duplicated region for block: B:264:0x0a23  */
+                /* JADX WARN: Removed duplicated region for block: B:284:0x062e A[SYNTHETIC] */
                 @Override // org.telegram.ui.Components.BlurredRecyclerView, org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
                 /*
                     Code decompiled incorrectly, please refer to instructions dump.
@@ -2390,7 +2390,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                         int measuredWidth = getMeasuredWidth() - AndroidUtilities.dp(60.0f);
                         StaticLayout staticLayout = this.archivedHintLayout;
                         if (staticLayout == null || staticLayout.getWidth() != measuredWidth) {
-                            this.archivedHintLayout = new StaticLayout(LocaleController.getString(SharedMediaLayout.this.isArchivedOnlyStoriesView() ? R.string.ProfileStoriesArchiveChannelHint : R.string.ProfileStoriesArchiveHint), this.archivedHintPaint, measuredWidth, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
+                            this.archivedHintLayout = new StaticLayout(LocaleController.getString(SharedMediaLayout.this.isArchivedOnlyStoriesView() ? SharedMediaLayout.this.profileActivity != null && ChatObject.isChannelAndNotMegaGroup(SharedMediaLayout.this.profileActivity.getMessagesController().getChat(Long.valueOf(-SharedMediaLayout.this.dialog_id))) ? R.string.ProfileStoriesArchiveChannelHint : R.string.ProfileStoriesArchiveGroupHint : R.string.ProfileStoriesArchiveHint), this.archivedHintPaint, measuredWidth, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
                             this.archivedHintLayoutWidth = 0.0f;
                             this.archivedHintLayoutLeft = measuredWidth;
                             for (int i27 = 0; i27 < this.archivedHintLayout.getLineCount(); i27++) {
@@ -3500,7 +3500,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                                                         public void onTransitionAnimationStart(boolean z, boolean z2) {
                                                             if (this.firstCreateView) {
                                                                 if (this.searchItem != null) {
-                                                                    lambda$openSearchWithText$282("");
+                                                                    lambda$openSearchWithText$286("");
                                                                     this.searchItem.setSearchFieldText(SharedMediaLayout.this.savedMessagesSearchAdapter.lastQuery, false);
                                                                 }
                                                                 SearchTagsList searchTagsList = this.actionBarSearchTags;

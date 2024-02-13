@@ -40,6 +40,7 @@ import org.telegram.messenger.SvgHelper;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$Document;
+import org.telegram.tgnet.TLRPC$Message;
 import org.telegram.tgnet.TLRPC$TL_messageMediaGiveaway;
 import org.telegram.tgnet.TLRPC$TL_messages_stickerSet;
 import org.telegram.tgnet.TLRPC$TL_stickerPack;
@@ -233,10 +234,10 @@ public class GiveawayMessageCell {
         this.parentView.invalidate();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:48:0x0374  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x0385  */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x03ea  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x0408  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x03a6  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x03b7  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x041b  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x0439  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -246,6 +247,7 @@ public class GiveawayMessageCell {
         ArrayList arrayList;
         Iterator<Long> it;
         int i3;
+        String str2;
         this.messageObject = null;
         this.titleLayout = null;
         this.additionPrizeLayout = null;
@@ -269,6 +271,10 @@ public class GiveawayMessageCell {
             } else {
                 dp = i - AndroidUtilities.dp(80.0f);
             }
+            MessagesController messagesController = MessagesController.getInstance(UserConfig.selectedAccount);
+            boolean isForwarded = messageObject.isForwarded();
+            TLRPC$Message tLRPC$Message = messageObject.messageOwner;
+            boolean isChannelAndNotMegaGroup = ChatObject.isChannelAndNotMegaGroup(messagesController.getChat(Long.valueOf(-MessageObject.getPeerId(isForwarded ? tLRPC$Message.fwd_from.from_id : tLRPC$Message.peer_id))));
             SpannableStringBuilder replaceTags = AndroidUtilities.replaceTags(LocaleController.getString("BoostingGiveawayPrizes", R.string.BoostingGiveawayPrizes));
             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(replaceTags);
             spannableStringBuilder.setSpan(new RelativeSizeSpan(1.05f), 0, replaceTags.length(), 33);
@@ -285,9 +291,9 @@ public class GiveawayMessageCell {
             spannableStringBuilder3.setSpan(new RelativeSizeSpan(1.05f), spannableStringBuilder2.length() + 2, spannableStringBuilder2.length() + 2 + replaceTags2.length(), 33);
             spannableStringBuilder3.append((CharSequence) "\n");
             if (tLRPC$TL_messageMediaGiveaway.only_new_subscribers) {
-                spannableStringBuilder3.append((CharSequence) LocaleController.formatPluralString("BoostingGiveawayMsgNewSubsPlural", tLRPC$TL_messageMediaGiveaway.channels.size(), new Object[0]));
+                spannableStringBuilder3.append((CharSequence) LocaleController.formatPluralString(isChannelAndNotMegaGroup ? "BoostingGiveawayMsgNewSubsPlural" : "BoostingGiveawayMsgNewSubsGroupPlural", tLRPC$TL_messageMediaGiveaway.channels.size(), new Object[0]));
             } else {
-                spannableStringBuilder3.append((CharSequence) LocaleController.formatPluralString("BoostingGiveawayMsgAllSubsPlural", tLRPC$TL_messageMediaGiveaway.channels.size(), new Object[0]));
+                spannableStringBuilder3.append((CharSequence) LocaleController.formatPluralString(isChannelAndNotMegaGroup ? "BoostingGiveawayMsgAllSubsPlural" : "BoostingGiveawayMsgAllSubsGroupPlural", tLRPC$TL_messageMediaGiveaway.channels.size(), new Object[0]));
             }
             SpannableStringBuilder replaceTags3 = AndroidUtilities.replaceTags(LocaleController.getString("BoostingWinnersDate", R.string.BoostingWinnersDate));
             SpannableStringBuilder spannableStringBuilder4 = new SpannableStringBuilder(replaceTags3);
@@ -315,8 +321,8 @@ public class GiveawayMessageCell {
             if (i6 < AndroidUtilities.dp(180.0f)) {
                 i6 = AndroidUtilities.dp(180.0f);
             }
-            String str2 = tLRPC$TL_messageMediaGiveaway.prize_description;
-            if (str2 != null && !str2.isEmpty()) {
+            String str3 = tLRPC$TL_messageMediaGiveaway.prize_description;
+            if (str3 != null && !str3.isEmpty()) {
                 StaticLayout createStaticLayout = StaticLayoutEx.createStaticLayout(Emoji.replaceEmoji(AndroidUtilities.replaceTags(LocaleController.formatPluralString("BoostingGiveawayMsgPrizes", tLRPC$TL_messageMediaGiveaway.quantity, tLRPC$TL_messageMediaGiveaway.prize_description)), this.countriesTextPaint.getFontMetricsInt(), false), this.textPaint, i6, Layout.Alignment.ALIGN_CENTER, 1.0f, AndroidUtilities.dp(2.0f), false, TextUtils.TruncateAt.END, i6, 20);
                 this.additionPrizeLayout = createStaticLayout;
                 this.additionPrizeHeight = createStaticLayout.getLineBottom(createStaticLayout.getLineCount() - 1) + AndroidUtilities.dp(22.0f);
@@ -339,10 +345,8 @@ public class GiveawayMessageCell {
                     arrayList2.add(spannableStringBuilder5);
                 }
                 if (!arrayList2.isEmpty()) {
-                    int i10 = R.string.BoostingGiveAwayFromCountries;
-                    Object[] objArr = {TextUtils.join(", ", arrayList2)};
                     str = "";
-                    this.countriesLayout = StaticLayoutEx.createStaticLayout(Emoji.replaceEmoji(AndroidUtilities.replaceTags(LocaleController.formatString("BoostingGiveAwayFromCountries", i10, objArr)), this.countriesTextPaint.getFontMetricsInt(), false), this.countriesTextPaint, i6, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false, TextUtils.TruncateAt.END, i6, 10);
+                    this.countriesLayout = StaticLayoutEx.createStaticLayout(Emoji.replaceEmoji(AndroidUtilities.replaceTags(LocaleController.formatString("BoostingGiveAwayFromCountries", R.string.BoostingGiveAwayFromCountries, TextUtils.join(", ", arrayList2))), this.countriesTextPaint.getFontMetricsInt(), false), this.countriesTextPaint, i6, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false, TextUtils.TruncateAt.END, i6, 10);
                     int max = Math.max(i2, Math.min(i6 + AndroidUtilities.dp(38.0f), dp));
                     this.diffTextWidth = max - dp;
                     float f = max;
@@ -352,25 +356,25 @@ public class GiveawayMessageCell {
                     StaticLayout staticLayout = this.titleLayout;
                     int lineBottom = staticLayout.getLineBottom(staticLayout.getLineCount() - 1) + AndroidUtilities.dp(5.0f);
                     this.titleHeight = lineBottom;
-                    int i11 = lineBottom + this.additionPrizeHeight;
+                    int i10 = lineBottom + this.additionPrizeHeight;
                     StaticLayout staticLayout2 = this.topLayout;
-                    this.topHeight = i11 + staticLayout2.getLineBottom(staticLayout2.getLineCount() - 1);
+                    this.topHeight = i10 + staticLayout2.getLineBottom(staticLayout2.getLineCount() - 1);
                     StaticLayout staticLayout3 = this.bottomLayout;
                     this.bottomHeight = staticLayout3.getLineBottom(staticLayout3.getLineCount() - 1);
                     StaticLayout staticLayout4 = this.countriesLayout;
                     int lineBottom2 = staticLayout4 == null ? staticLayout4.getLineBottom(staticLayout4.getLineCount() - 1) + AndroidUtilities.dp(12.0f) : 0;
                     this.countriesHeight = lineBottom2;
-                    int i12 = this.measuredHeight + this.topHeight;
+                    int i11 = this.measuredHeight + this.topHeight;
+                    this.measuredHeight = i11;
+                    int i12 = i11 + lineBottom2;
                     this.measuredHeight = i12;
-                    int i13 = i12 + lineBottom2;
+                    int i13 = i12 + this.bottomHeight;
                     this.measuredHeight = i13;
-                    int i14 = i13 + this.bottomHeight;
-                    this.measuredHeight = i14;
-                    this.measuredHeight = i14 + AndroidUtilities.dp(128.0f);
+                    this.measuredHeight = i13 + AndroidUtilities.dp(128.0f);
                     this.measuredWidth = max;
-                    String str3 = "x" + tLRPC$TL_messageMediaGiveaway.quantity;
-                    this.counterStr = str3;
-                    this.counterTextPaint.getTextBounds(str3, 0, str3.length(), this.counterTextBounds);
+                    String str4 = "x" + tLRPC$TL_messageMediaGiveaway.quantity;
+                    this.counterStr = str4;
+                    this.counterTextPaint.getTextBounds(str4, 0, str4.length(), this.counterTextBounds);
                     Arrays.fill(this.avatarVisible, false);
                     this.measuredHeight += AndroidUtilities.dp(30.0f);
                     arrayList = new ArrayList(tLRPC$TL_messageMediaGiveaway.channels.size());
@@ -381,8 +385,9 @@ public class GiveawayMessageCell {
                             arrayList.add(next2);
                         }
                     }
+                    i3 = 0;
                     float f4 = 0.0f;
-                    for (i3 = 0; i3 < arrayList.size(); i3++) {
+                    while (i3 < arrayList.size()) {
                         long longValue = ((Long) arrayList.get(i3)).longValue();
                         TLRPC$Chat chat = MessagesController.getInstance(UserConfig.selectedAccount).getChat(Long.valueOf(longValue));
                         if (chat != null) {
@@ -408,14 +413,18 @@ public class GiveawayMessageCell {
                             this.avatarDrawables[i3].setInfo(chat);
                             this.avatarImageReceivers[i3].setForUserOrChat(chat, this.avatarDrawables[i3]);
                             this.avatarImageReceivers[i3].setImageCoords(0.0f, 0.0f, AndroidUtilities.dp(24.0f), AndroidUtilities.dp(24.0f));
+                            str2 = str;
                         } else {
                             this.chats[i3] = null;
                             this.avatarVisible[i3] = false;
-                            this.chatTitles[i3] = str;
+                            str2 = str;
+                            this.chatTitles[i3] = str2;
                             this.needNewRow[i3] = false;
                             this.chatTitleWidths[i3] = AndroidUtilities.dp(20.0f);
-                            this.avatarDrawables[i3].setInfo(longValue, str, str);
+                            this.avatarDrawables[i3].setInfo(longValue, str2, str2);
                         }
+                        i3++;
+                        str = str2;
                     }
                 }
             }
@@ -429,32 +438,33 @@ public class GiveawayMessageCell {
             StaticLayout staticLayout5 = this.titleLayout;
             int lineBottom3 = staticLayout5.getLineBottom(staticLayout5.getLineCount() - 1) + AndroidUtilities.dp(5.0f);
             this.titleHeight = lineBottom3;
-            int i112 = lineBottom3 + this.additionPrizeHeight;
+            int i102 = lineBottom3 + this.additionPrizeHeight;
             StaticLayout staticLayout22 = this.topLayout;
-            this.topHeight = i112 + staticLayout22.getLineBottom(staticLayout22.getLineCount() - 1);
+            this.topHeight = i102 + staticLayout22.getLineBottom(staticLayout22.getLineCount() - 1);
             StaticLayout staticLayout32 = this.bottomLayout;
             this.bottomHeight = staticLayout32.getLineBottom(staticLayout32.getLineCount() - 1);
             StaticLayout staticLayout42 = this.countriesLayout;
             if (staticLayout42 == null) {
             }
             this.countriesHeight = lineBottom2;
-            int i122 = this.measuredHeight + this.topHeight;
+            int i112 = this.measuredHeight + this.topHeight;
+            this.measuredHeight = i112;
+            int i122 = i112 + lineBottom2;
             this.measuredHeight = i122;
-            int i132 = i122 + lineBottom2;
+            int i132 = i122 + this.bottomHeight;
             this.measuredHeight = i132;
-            int i142 = i132 + this.bottomHeight;
-            this.measuredHeight = i142;
-            this.measuredHeight = i142 + AndroidUtilities.dp(128.0f);
+            this.measuredHeight = i132 + AndroidUtilities.dp(128.0f);
             this.measuredWidth = max2;
-            String str32 = "x" + tLRPC$TL_messageMediaGiveaway.quantity;
-            this.counterStr = str32;
-            this.counterTextPaint.getTextBounds(str32, 0, str32.length(), this.counterTextBounds);
+            String str42 = "x" + tLRPC$TL_messageMediaGiveaway.quantity;
+            this.counterStr = str42;
+            this.counterTextPaint.getTextBounds(str42, 0, str42.length(), this.counterTextBounds);
             Arrays.fill(this.avatarVisible, false);
             this.measuredHeight += AndroidUtilities.dp(30.0f);
             arrayList = new ArrayList(tLRPC$TL_messageMediaGiveaway.channels.size());
             it = tLRPC$TL_messageMediaGiveaway.channels.iterator();
             while (it.hasNext()) {
             }
+            i3 = 0;
             float f42 = 0.0f;
             while (i3 < arrayList.size()) {
             }

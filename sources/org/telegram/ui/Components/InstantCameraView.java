@@ -89,6 +89,7 @@ import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.VideoEditedInfo;
+import org.telegram.messenger.camera.Camera2Session;
 import org.telegram.messenger.camera.CameraController;
 import org.telegram.messenger.camera.CameraInfo;
 import org.telegram.messenger.camera.CameraSession;
@@ -102,6 +103,7 @@ import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.InstantCameraView;
 import org.telegram.ui.Components.VideoPlayer;
 import org.telegram.ui.Components.voip.CellFlickerDrawable;
+import org.telegram.ui.Stories.recorder.DualCameraView;
 import org.telegram.ui.Stories.recorder.StoryEntry;
 import org.webrtc.EglBase;
 import org.webrtc.MediaStreamTrack;
@@ -115,6 +117,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
     private AnimatorSet animatorSet;
     private org.telegram.messenger.camera.Size aspectRatio;
     private BlurBehindDrawable blurBehindDrawable;
+    private Camera2Session camera2Session;
     private InstantViewCameraContainer cameraContainer;
     private File cameraFile;
     private volatile boolean cameraReady;
@@ -158,7 +161,9 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
     private int pointerId2;
     private int[] position;
     private File previewFile;
+    private volatile int previewHeight;
     private org.telegram.messenger.camera.Size previewSize;
+    private volatile int previewWidth;
     private float progress;
     private Timer progressTimer;
     private long recordPlusTime;
@@ -180,6 +185,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
     private TextureView textureView;
     private int textureViewSize;
     private boolean updateTextureViewSize;
+    private final boolean useCamera2;
     private FloatBuffer vertexBuffer;
     private VideoEditedInfo videoEditedInfo;
     private VideoRecorder videoEncoder;
@@ -220,10 +226,19 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
     public void setIsMessageTransition(boolean z) {
     }
 
-    static /* synthetic */ float access$2916(InstantCameraView instantCameraView, float f) {
+    static /* synthetic */ float access$3316(InstantCameraView instantCameraView, float f) {
         float f2 = instantCameraView.cameraTextureAlpha + f;
         instantCameraView.cameraTextureAlpha = f2;
         return f2;
+    }
+
+    private boolean isCameraSessionInitiated() {
+        if (this.useCamera2) {
+            Camera2Session camera2Session = this.camera2Session;
+            return camera2Session != null && camera2Session.isInitiated();
+        }
+        CameraSession cameraSession = this.cameraSession;
+        return cameraSession != null && cameraSession.isInitied();
     }
 
     @SuppressLint({"ClickableViewAccessibility"})
@@ -237,6 +252,12 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         this.oldCameraTexture = new int[1];
         this.cameraTextureAlpha = 1.0f;
         this.aspectRatio = SharedConfig.roundCamera16to9 ? new org.telegram.messenger.camera.Size(16, 9) : new org.telegram.messenger.camera.Size(4, 3);
+        int i = Build.VERSION.SDK_INT;
+        boolean z = i >= 21 && SharedConfig.useCamera2;
+        this.useCamera2 = z;
+        if (z) {
+            DualCameraView.dualAvailableStatic(ApplicationLoader.applicationContext);
+        }
         this.mMVPMatrix = new float[16];
         this.mSTMatrix = new float[16];
         this.moldSTMatrix = new float[16];
@@ -250,8 +271,8 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         this.isSecretChat = delegate.isSecretChat();
         Paint paint = new Paint(1) { // from class: org.telegram.ui.Components.InstantCameraView.1
             @Override // android.graphics.Paint
-            public void setAlpha(int i) {
-                super.setAlpha(i);
+            public void setAlpha(int i2) {
+                super.setAlpha(i2);
                 InstantCameraView.this.invalidate();
             }
         };
@@ -261,7 +282,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         this.paint.setStrokeWidth(AndroidUtilities.dp(3.0f));
         this.paint.setColor(-1);
         this.rect = new RectF();
-        if (Build.VERSION.SDK_INT >= 21) {
+        if (i >= 21) {
             InstantViewCameraContainer instantViewCameraContainer = new InstantViewCameraContainer(context) { // from class: org.telegram.ui.Components.InstantCameraView.2
                 @Override // android.view.View
                 public void setScaleX(float f) {
@@ -298,11 +319,11 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                 }
 
                 @Override // android.view.View
-                protected void onSizeChanged(int i, int i2, int i3, int i4) {
-                    super.onSizeChanged(i, i2, i3, i4);
+                protected void onSizeChanged(int i2, int i3, int i4, int i5) {
+                    super.onSizeChanged(i2, i3, i4, i5);
                     path.reset();
-                    float f = i / 2;
-                    path.addCircle(f, i2 / 2, f, Path.Direction.CW);
+                    float f = i2 / 2;
+                    path.addCircle(f, i3 / 2, f, Path.Direction.CW);
                     path.toggleInverseFillType();
                 }
 
@@ -320,8 +341,8 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
             this.cameraContainer.setLayerType(2, null);
         }
         View view = this.cameraContainer;
-        int i = AndroidUtilities.roundPlayingMessageSize;
-        addView(view, new FrameLayout.LayoutParams(i, i, 17));
+        int i2 = AndroidUtilities.roundPlayingMessageSize;
+        addView(view, new FrameLayout.LayoutParams(i2, i2, 17));
         ImageView imageView = new ImageView(context);
         this.switchCameraButton = imageView;
         imageView.setScaleType(ImageView.ScaleType.CENTER);
@@ -361,8 +382,8 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
             }
         };
         this.textureOverlayView = backupImageView;
-        int i2 = AndroidUtilities.roundPlayingMessageSize;
-        addView(backupImageView, new FrameLayout.LayoutParams(i2, i2, 17));
+        int i3 = AndroidUtilities.roundPlayingMessageSize;
+        addView(backupImageView, new FrameLayout.LayoutParams(i3, i3, 17));
         this.setVisibilityFromPause = false;
         setVisibility(4);
         this.blurBehindDrawable = new BlurBehindDrawable(this.parentView, this, 0, resourcesProvider);
@@ -370,45 +391,43 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
-        CameraSession cameraSession;
-        if (!this.cameraReady || (cameraSession = this.cameraSession) == null || !cameraSession.isInitied() || this.cameraThread == null) {
-            return;
-        }
-        switchCamera();
-        AnimatedVectorDrawable animatedVectorDrawable = this.switchCameraDrawable;
-        if (animatedVectorDrawable != null) {
-            animatedVectorDrawable.start();
-        }
-        this.flipAnimationInProgress = true;
-        ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-        ofFloat.setDuration(300L);
-        ofFloat.setInterpolator(CubicBezierInterpolator.DEFAULT);
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.InstantCameraView.5
-            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-                float f = floatValue < 0.5f ? 1.0f - (floatValue / 0.5f) : (floatValue - 0.5f) / 0.5f;
-                float f2 = (0.1f * f) + 0.9f;
-                float f3 = f * f2;
-                InstantCameraView.this.cameraContainer.setScaleX(f3);
-                InstantCameraView.this.cameraContainer.setScaleY(f2);
-                InstantCameraView.this.textureOverlayView.setScaleX(f3);
-                InstantCameraView.this.textureOverlayView.setScaleY(f2);
+        if (this.cameraReady && isCameraSessionInitiated() && this.cameraThread != null) {
+            switchCamera();
+            AnimatedVectorDrawable animatedVectorDrawable = this.switchCameraDrawable;
+            if (animatedVectorDrawable != null) {
+                animatedVectorDrawable.start();
             }
-        });
-        ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.InstantCameraView.6
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                super.onAnimationEnd(animator);
-                InstantCameraView.this.cameraContainer.setScaleX(1.0f);
-                InstantCameraView.this.cameraContainer.setScaleY(1.0f);
-                InstantCameraView.this.textureOverlayView.setScaleY(1.0f);
-                InstantCameraView.this.textureOverlayView.setScaleX(1.0f);
-                InstantCameraView.this.flipAnimationInProgress = false;
-                InstantCameraView.this.invalidate();
-            }
-        });
-        ofFloat.start();
+            this.flipAnimationInProgress = true;
+            ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
+            ofFloat.setDuration(300L);
+            ofFloat.setInterpolator(CubicBezierInterpolator.DEFAULT);
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.InstantCameraView.5
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
+                    float f = floatValue < 0.5f ? 1.0f - (floatValue / 0.5f) : (floatValue - 0.5f) / 0.5f;
+                    float f2 = (0.1f * f) + 0.9f;
+                    float f3 = f * f2;
+                    InstantCameraView.this.cameraContainer.setScaleX(f3);
+                    InstantCameraView.this.cameraContainer.setScaleY(f2);
+                    InstantCameraView.this.textureOverlayView.setScaleX(f3);
+                    InstantCameraView.this.textureOverlayView.setScaleY(f2);
+                }
+            });
+            ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.InstantCameraView.6
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    super.onAnimationEnd(animator);
+                    InstantCameraView.this.cameraContainer.setScaleX(1.0f);
+                    InstantCameraView.this.cameraContainer.setScaleY(1.0f);
+                    InstantCameraView.this.textureOverlayView.setScaleY(1.0f);
+                    InstantCameraView.this.textureOverlayView.setScaleX(1.0f);
+                    InstantCameraView.this.flipAnimationInProgress = false;
+                    InstantCameraView.this.invalidate();
+                }
+            });
+            ofFloat.start();
+        }
     }
 
     @Override // android.widget.FrameLayout, android.view.View
@@ -499,11 +518,20 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         }
     }
 
-    public void destroy(boolean z, Runnable runnable) {
+    public void destroy(boolean z) {
+        if (this.useCamera2) {
+            Camera2Session camera2Session = this.camera2Session;
+            if (camera2Session != null) {
+                camera2Session.destroy(z);
+                this.camera2Session = null;
+                return;
+            }
+            return;
+        }
         CameraSession cameraSession = this.cameraSession;
         if (cameraSession != null) {
             cameraSession.destroy();
-            CameraController.getInstance().close(this.cameraSession, !z ? new CountDownLatch(1) : null, runnable);
+            CameraController.getInstance().close(this.cameraSession, !z ? new CountDownLatch(1) : null, null);
         }
     }
 
@@ -681,6 +709,18 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
             if (BuildVars.LOGS_ENABLED) {
                 FileLog.d("InstantCamera show round camera " + this.cameraFile.getAbsolutePath());
             }
+            if (this.useCamera2) {
+                boolean z2 = this.isFrontface;
+                int i = AndroidUtilities.roundPlayingMessageSize;
+                Camera2Session create = Camera2Session.create(true, z2, i, i);
+                this.camera2Session = create;
+                if (create == null) {
+                    return;
+                }
+                create.setRecordingVideo(true);
+                this.previewWidth = this.camera2Session.getPreviewWidth();
+                this.previewHeight = this.camera2Session.getPreviewHeight();
+            }
             TextureView textureView = new TextureView(getContext());
             this.textureView = textureView;
             textureView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() { // from class: org.telegram.ui.Components.InstantCameraView.9
@@ -689,7 +729,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                 }
 
                 @Override // android.view.TextureView.SurfaceTextureListener
-                public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int i, int i2) {
+                public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int i2, int i3) {
                     if (BuildVars.LOGS_ENABLED) {
                         FileLog.d("InstantCamera camera surface available");
                     }
@@ -699,14 +739,14 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                     if (BuildVars.LOGS_ENABLED) {
                         FileLog.d("InstantCamera start create thread");
                     }
-                    InstantCameraView.this.cameraThread = new CameraGLThread(surfaceTexture, i, i2);
+                    InstantCameraView.this.cameraThread = new CameraGLThread(surfaceTexture, i2, i3);
                 }
 
                 @Override // android.view.TextureView.SurfaceTextureListener
-                public void onSurfaceTextureSizeChanged(SurfaceTexture surfaceTexture, int i, int i2) {
+                public void onSurfaceTextureSizeChanged(SurfaceTexture surfaceTexture, int i2, int i3) {
                     if (InstantCameraView.this.cameraThread != null) {
-                        InstantCameraView.this.cameraThread.surfaceWidth = i;
-                        InstantCameraView.this.cameraThread.surfaceHeight = i2;
+                        InstantCameraView.this.cameraThread.surfaceWidth = i2;
+                        InstantCameraView.this.cameraThread.surfaceHeight = i3;
                         InstantCameraView.this.cameraThread.updateScale();
                     }
                 }
@@ -717,11 +757,18 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                         InstantCameraView.this.cameraThread.shutdown(0, 0);
                         InstantCameraView.this.cameraThread = null;
                     }
-                    if (InstantCameraView.this.cameraSession != null) {
+                    if (InstantCameraView.this.useCamera2) {
+                        if (InstantCameraView.this.camera2Session != null) {
+                            InstantCameraView.this.camera2Session.destroy(false);
+                            return true;
+                        }
+                        return true;
+                    } else if (InstantCameraView.this.cameraSession != null) {
                         CameraController.getInstance().close(InstantCameraView.this.cameraSession, null, null);
                         return true;
+                    } else {
+                        return true;
                     }
-                    return true;
                 }
             });
             this.cameraContainer.addView(this.textureView, LayoutHelper.createFrame(-1, -1.0f));
@@ -1033,7 +1080,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
 
     public void hideCamera(boolean z) {
         ViewGroup viewGroup;
-        destroy(z, null);
+        destroy(z);
         this.cameraContainer.setTranslationX(0.0f);
         this.textureOverlayView.setTranslationX(0.0f);
         this.animationTranslationY = 0.0f;
@@ -1055,21 +1102,44 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
             this.textureOverlayView.setImageBitmap(bitmap);
             this.textureOverlayView.setAlpha(1.0f);
         }
-        CameraSession cameraSession = this.cameraSession;
-        if (cameraSession != null) {
-            cameraSession.destroy();
-            CameraController.getInstance().close(this.cameraSession, null, null);
-            this.cameraSession = null;
-        }
         this.isFrontface = !this.isFrontface;
+        if (this.useCamera2) {
+            Camera2Session camera2Session = this.camera2Session;
+            if (camera2Session != null) {
+                camera2Session.destroy(false);
+                this.camera2Session = null;
+            }
+            boolean z = this.isFrontface;
+            int i = AndroidUtilities.roundPlayingMessageSize;
+            Camera2Session create = Camera2Session.create(true, z, i, i);
+            this.camera2Session = create;
+            if (create == null) {
+                return;
+            }
+            create.setRecordingVideo(true);
+            this.previewWidth = this.camera2Session.getPreviewWidth();
+            this.previewHeight = this.camera2Session.getPreviewHeight();
+            this.cameraThread.setCurrentSession(this.camera2Session);
+        } else {
+            CameraSession cameraSession = this.cameraSession;
+            if (cameraSession != null) {
+                cameraSession.destroy();
+                CameraController.getInstance().close(this.cameraSession, null, null);
+                this.cameraSession = null;
+            }
+        }
         initCamera();
         this.cameraReady = false;
         this.cameraThread.reinitForNewCamera();
     }
 
+    @Deprecated
     private boolean initCamera() {
         int i;
         int i2;
+        if (this.useCamera2) {
+            return true;
+        }
         ArrayList<CameraInfo> cameras = CameraController.getInstance().getCameras();
         boolean z = false;
         if (cameras == null) {
@@ -1154,6 +1224,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         return true;
     }
 
+    @Deprecated
     private org.telegram.messenger.camera.Size chooseOptimalSize(ArrayList<org.telegram.messenger.camera.Size> arrayList) {
         ArrayList<org.telegram.messenger.camera.Size> arrayList2 = new ArrayList<>();
         int i = Build.MANUFACTURER.equalsIgnoreCase("Samsung") ? 1200 : allowBigSizeCamera() ? 1440 : 1200;
@@ -1185,6 +1256,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         return abs > abs2 ? 1 : 0;
     }
 
+    @Deprecated
     private boolean allowBigSizeCamera() {
         if (SharedConfig.bigCameraForRound || SharedConfig.deviceIsAboveAverage() || Math.max(SharedConfig.getDevicePerformanceClass(), SharedConfig.getLegacyDevicePerformanceClass()) == 2) {
             return true;
@@ -1203,6 +1275,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         }
     }
 
+    @Deprecated
     public static boolean allowBigSizeCameraDebug() {
         if (Math.max(SharedConfig.getDevicePerformanceClass(), SharedConfig.getLegacyDevicePerformanceClass()) == 2) {
             return true;
@@ -1238,6 +1311,11 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         }
         if (BuildVars.LOGS_ENABLED) {
             FileLog.d("InstantCamera create camera session");
+        }
+        if (this.useCamera2) {
+            this.cameraThread.setCurrentSession(this.camera2Session);
+            this.camera2Session.open(surfaceTexture);
+            return;
         }
         surfaceTexture.setDefaultBufferSize(this.previewSize.getWidth(), this.previewSize.getHeight());
         CameraSession cameraSession = new CameraSession(this.selectedCamera, this.previewSize, this.pictureSize, LiteMode.FLAG_CHAT_BLUR, true);
@@ -1412,7 +1490,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
     public class CameraGLThread extends DispatchQueue {
         private Integer cameraId;
         private SurfaceTexture cameraSurface;
-        private CameraSession currentSession;
+        private Object currentSession;
         private int drawProgram;
         private EGL10 egl10;
         private EGLContext eglContext;
@@ -1439,8 +1517,17 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
 
         /* JADX INFO: Access modifiers changed from: private */
         public void updateScale() {
-            int width = InstantCameraView.this.previewSize.getWidth();
-            int height = InstantCameraView.this.previewSize.getHeight();
+            int width;
+            int height;
+            if (InstantCameraView.this.useCamera2) {
+                width = InstantCameraView.this.previewWidth;
+                height = InstantCameraView.this.previewHeight;
+            } else if (InstantCameraView.this.previewSize == null) {
+                return;
+            } else {
+                width = InstantCameraView.this.previewSize.getWidth();
+                height = InstantCameraView.this.previewSize.getHeight();
+            }
             float min = this.surfaceWidth / Math.min(width, height);
             int i = (int) (width * min);
             int i2 = (int) (height * min);
@@ -1652,8 +1739,16 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
             }
         }
 
+        public void setCurrentSession(Camera2Session camera2Session) {
+            Handler handler = getHandler();
+            if (handler != null) {
+                sendMessage(handler.obtainMessage(3, camera2Session), 0);
+            }
+        }
+
         private void onDraw(Integer num) {
             boolean z;
+            int currentOrientation;
             if (this.initied) {
                 if (!this.eglContext.equals(this.egl10.eglGetCurrentContext()) || !this.eglSurface.equals(this.egl10.eglGetCurrentSurface(12377))) {
                     EGL10 egl10 = this.egl10;
@@ -1690,7 +1785,12 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                         z = true;
                     }
                     InstantCameraView.this.videoEncoder.startRecording(InstantCameraView.this.cameraFile, EGL14.eglGetCurrentContext());
-                    int currentOrientation = this.currentSession.getCurrentOrientation();
+                    Object obj = this.currentSession;
+                    if (obj instanceof CameraSession) {
+                        currentOrientation = ((CameraSession) obj).getCurrentOrientation();
+                    } else {
+                        currentOrientation = obj instanceof Camera2Session ? ((Camera2Session) obj).getCurrentOrientation() : 0;
+                    }
                     if (currentOrientation == 90 || currentOrientation == 270) {
                         float f = InstantCameraView.this.scaleX;
                         InstantCameraView instantCameraView2 = InstantCameraView.this;
@@ -1755,6 +1855,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
 
         @Override // org.telegram.messenger.DispatchQueue
         public void handleMessage(Message message) {
+            int worldAngle;
             int i = message.what;
             if (i == 0) {
                 onDraw((Integer) message.obj);
@@ -1774,18 +1875,22 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                 if (BuildVars.LOGS_ENABLED) {
                     FileLog.d("InstantCamera set gl rednderer session");
                 }
-                CameraSession cameraSession = (CameraSession) message.obj;
-                CameraSession cameraSession2 = this.currentSession;
-                if (cameraSession2 == cameraSession) {
-                    int worldAngle = cameraSession2.getWorldAngle();
+                Object obj = message.obj;
+                Object obj2 = this.currentSession;
+                if (obj2 == obj) {
+                    if (obj2 instanceof CameraSession) {
+                        worldAngle = ((CameraSession) obj2).getWorldAngle();
+                    } else {
+                        worldAngle = obj2 instanceof Camera2Session ? ((Camera2Session) obj2).getWorldAngle() : 0;
+                    }
                     Matrix.setIdentityM(InstantCameraView.this.mMVPMatrix, 0);
                     if (worldAngle != 0) {
                         Matrix.rotateM(InstantCameraView.this.mMVPMatrix, 0, worldAngle, 0.0f, 0.0f, 1.0f);
-                        return;
                     }
-                    return;
+                } else {
+                    this.currentSession = obj;
                 }
-                this.currentSession = cameraSession;
+                updateScale();
             } else {
                 EGL10 egl10 = this.egl10;
                 EGLDisplay eGLDisplay = this.eglDisplay;
@@ -1827,7 +1932,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                     }
                 });
                 InstantCameraView.this.createCamera(this.cameraSurface);
-                InstantCameraView.this.cameraThread.updateScale();
+                updateScale();
                 float f = (1.0f / InstantCameraView.this.scaleX) / 2.0f;
                 float f2 = (1.0f / InstantCameraView.this.scaleY) / 2.0f;
                 float f3 = 0.5f - f;
@@ -2548,7 +2653,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                         });
                         return;
                     }
-                    InstantCameraView.access$2916(InstantCameraView.this, ((float) j4) / 2.0E8f);
+                    InstantCameraView.access$3316(InstantCameraView.this, ((float) j4) / 2.0E8f);
                     if (InstantCameraView.this.cameraTextureAlpha > 1.0f) {
                         GLES20.glDisable(3042);
                         this.blendEnabled = false;
@@ -3269,8 +3374,12 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                 }
                 GLES20.glBlendFunc(770, 771);
                 int loadShader = InstantCameraView.this.loadShader(35633, "uniform mat4 uMVPMatrix;\nuniform mat4 uSTMatrix;\nattribute vec4 aPosition;\nattribute vec4 aTextureCoord;\nvarying vec2 vTextureCoord;\nvoid main() {\n   gl_Position = uMVPMatrix * aPosition;\n   vTextureCoord = (uSTMatrix * aTextureCoord).xy;\n}\n");
+                org.telegram.messenger.camera.Size size = InstantCameraView.this.previewSize;
+                if (size == null && InstantCameraView.this.useCamera2) {
+                    size = new org.telegram.messenger.camera.Size(InstantCameraView.this.previewWidth, InstantCameraView.this.previewHeight);
+                }
                 InstantCameraView instantCameraView = InstantCameraView.this;
-                int loadShader2 = instantCameraView.loadShader(35632, instantCameraView.createFragmentShader(instantCameraView.previewSize));
+                int loadShader2 = instantCameraView.loadShader(35632, instantCameraView.createFragmentShader(size));
                 if (loadShader == 0 || loadShader2 == 0) {
                     return;
                 }
@@ -3592,7 +3701,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public String createFragmentShader(org.telegram.messenger.camera.Size size) {
-        return (SharedConfig.deviceIsLow() || !allowBigSizeCamera() || ((float) Math.max(size.getHeight(), size.getWidth())) * 0.7f < ((float) MessagesController.getInstance(this.currentAccount).roundVideoSize)) ? "#extension GL_OES_EGL_image_external : require\nprecision highp float;\nvarying vec2 vTextureCoord;\nuniform float alpha;\nuniform vec2 preview;\nuniform vec2 resolution;\nuniform samplerExternalOES sTexture;\nvoid main() {\n   vec4 textColor = texture2D(sTexture, vTextureCoord);\n   vec2 coord = resolution * 0.5;\n   float radius = 0.51 * resolution.x;\n   float d = length(coord - gl_FragCoord.xy) - radius;\n   float t = clamp(d, 0.0, 1.0);\n   vec3 color = mix(textColor.rgb, vec3(1, 1, 1), t);\n   gl_FragColor = vec4(color * alpha, alpha);\n}\n" : "#extension GL_OES_EGL_image_external : require\nprecision highp float;\nvarying vec2 vTextureCoord;\nuniform vec2 resolution;\nuniform vec2 preview;\nuniform float alpha;\nuniform samplerExternalOES sTexture;\nvoid main() {\n   vec2 coord = resolution * 0.5;\n   float radius = 0.51 * resolution.x;\n   float d = length(coord - gl_FragCoord.xy) - radius;\n   float t = clamp(d, 0.0, 1.0);\n   if (t == 0.0) {\n       vec2 c_textureSize = preview;\n       vec2 c_onePixel = (1.0 / c_textureSize);\n       vec2 uv = vTextureCoord;\n       vec2 pixel = uv * c_textureSize + 0.5;\n       vec2 frac = fract(pixel);\n       pixel = (floor(pixel) / c_textureSize) - vec2(c_onePixel);\n       vec4 tl = texture2D(sTexture, pixel + vec2(0.0         , 0.0));\n       vec4 tr = texture2D(sTexture, pixel + vec2(c_onePixel.x, 0.0));\n       vec4 bl = texture2D(sTexture, pixel + vec2(0.0         , c_onePixel.y));\n       vec4 br = texture2D(sTexture, pixel + vec2(c_onePixel.x, c_onePixel.y));\n       vec4 x1 = mix(tl, tr, frac.x);\n       vec4 x2 = mix(bl, br, frac.x);\n       gl_FragColor = mix(x1, x2, frac.y) * alpha;   } else {\n       gl_FragColor = vec4(1, 1, 1, alpha);\n   }\n}\n";
+        return (SharedConfig.deviceIsLow() || !allowBigSizeCamera()) ? "#extension GL_OES_EGL_image_external : require\nprecision highp float;\nvarying vec2 vTextureCoord;\nuniform float alpha;\nuniform vec2 preview;\nuniform vec2 resolution;\nuniform samplerExternalOES sTexture;\nvoid main() {\n   vec4 textColor = texture2D(sTexture, vTextureCoord);\n   vec2 coord = resolution * 0.5;\n   float radius = 0.51 * resolution.x;\n   float d = length(coord - gl_FragCoord.xy) - radius;\n   float t = clamp(d, 0.0, 1.0);\n   vec3 color = mix(textColor.rgb, vec3(1, 1, 1), t);\n   gl_FragColor = vec4(color * alpha, alpha);\n}\n" : (size == null || ((float) Math.max(size.getHeight(), size.getWidth())) * 0.7f >= ((float) MessagesController.getInstance(this.currentAccount).roundVideoSize)) ? "#extension GL_OES_EGL_image_external : require\nprecision highp float;\nvarying vec2 vTextureCoord;\nuniform vec2 resolution;\nuniform vec2 preview;\nuniform float alpha;\nuniform samplerExternalOES sTexture;\nvoid main() {\n   vec2 coord = resolution * 0.5;\n   float radius = 0.51 * resolution.x;\n   float d = length(coord - gl_FragCoord.xy) - radius;\n   float t = clamp(d, 0.0, 1.0);\n   if (t == 0.0) {\n       vec2 c_textureSize = preview;\n       vec2 c_onePixel = (1.0 / c_textureSize);\n       vec2 uv = vTextureCoord;\n       vec2 pixel = uv * c_textureSize + 0.5;\n       vec2 frac = fract(pixel);\n       pixel = (floor(pixel) / c_textureSize) - vec2(c_onePixel);\n       vec4 tl = texture2D(sTexture, pixel + vec2(0.0         , 0.0));\n       vec4 tr = texture2D(sTexture, pixel + vec2(c_onePixel.x, 0.0));\n       vec4 bl = texture2D(sTexture, pixel + vec2(0.0         , c_onePixel.y));\n       vec4 br = texture2D(sTexture, pixel + vec2(c_onePixel.x, c_onePixel.y));\n       vec4 x1 = mix(tl, tr, frac.x);\n       vec4 x2 = mix(bl, br, frac.x);\n       gl_FragColor = mix(x1, x2, frac.y) * alpha;   } else {\n       gl_FragColor = vec4(1, 1, 1, alpha);\n   }\n}\n" : "#extension GL_OES_EGL_image_external : require\nprecision highp float;\nvarying vec2 vTextureCoord;\nuniform float alpha;\nuniform vec2 preview;\nuniform vec2 resolution;\nuniform samplerExternalOES sTexture;\nvoid main() {\n   vec4 textColor = texture2D(sTexture, vTextureCoord);\n   vec2 coord = resolution * 0.5;\n   float radius = 0.51 * resolution.x;\n   float d = length(coord - gl_FragCoord.xy) - radius;\n   float t = clamp(d, 0.0, 1.0);\n   vec3 color = mix(textColor.rgb, vec3(1, 1, 1), t);\n   gl_FragColor = vec4(color * alpha, alpha);\n}\n";
     }
 
     /* loaded from: classes4.dex */
@@ -3715,7 +3824,14 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
             }
             float hypot = ((float) Math.hypot(motionEvent.getX(i2) - motionEvent.getX(i), motionEvent.getY(i2) - motionEvent.getY(i))) / this.pinchStartDistance;
             this.pinchScale = hypot;
-            this.cameraSession.setZoom(Math.min(1.0f, Math.max(0.0f, hypot - 1.0f)));
+            if (this.useCamera2) {
+                Camera2Session camera2Session = this.camera2Session;
+                if (camera2Session != null) {
+                    this.camera2Session.setZoom(Utilities.clamp(hypot, camera2Session.getMaxZoom(), this.camera2Session.getMinZoom()));
+                }
+            } else {
+                this.cameraSession.setZoom(Math.min(1.0f, Math.max(0.0f, hypot - 1.0f)));
+            }
         } else if ((motionEvent.getActionMasked() == 1 || ((motionEvent.getActionMasked() == 6 && checkPointerIds(motionEvent)) || motionEvent.getActionMasked() == 3)) && this.isInPinchToZoomTouchMode) {
             this.isInPinchToZoomTouchMode = false;
             finishZoom();
@@ -3724,10 +3840,19 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
     }
 
     public void finishZoom() {
+        float min;
         if (this.finishZoomTransition != null) {
             return;
         }
-        float min = Math.min(1.0f, Math.max(0.0f, this.pinchScale - 1.0f));
+        if (this.useCamera2) {
+            Camera2Session camera2Session = this.camera2Session;
+            if (camera2Session == null) {
+                return;
+            }
+            min = Utilities.clamp(this.pinchScale, camera2Session.getMaxZoom(), this.camera2Session.getMinZoom());
+        } else {
+            min = Math.min(1.0f, Math.max(0.0f, this.pinchScale - 1.0f));
+        }
         if (min > 0.0f) {
             ValueAnimator ofFloat = ValueAnimator.ofFloat(min, 0.0f);
             this.finishZoomTransition = ofFloat;
@@ -3754,6 +3879,14 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$finishZoom$6(ValueAnimator valueAnimator) {
+        if (this.useCamera2) {
+            Camera2Session camera2Session = this.camera2Session;
+            if (camera2Session != null) {
+                camera2Session.setZoom(((Float) valueAnimator.getAnimatedValue()).floatValue());
+                return;
+            }
+            return;
+        }
         CameraSession cameraSession = this.cameraSession;
         if (cameraSession != null) {
             cameraSession.setZoom(((Float) valueAnimator.getAnimatedValue()).floatValue());

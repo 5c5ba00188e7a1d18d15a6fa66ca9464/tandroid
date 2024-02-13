@@ -68,7 +68,7 @@ import org.telegram.messenger.SendMessagesHelper;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.camera.CameraController;
-import org.telegram.messenger.camera.CameraSession;
+import org.telegram.messenger.camera.CameraSessionWrapper;
 import org.telegram.messenger.camera.CameraView;
 import org.telegram.messenger.camera.Size;
 import org.telegram.ui.ActionBar.ActionBar;
@@ -777,7 +777,7 @@ public class CameraScanActivity extends BaseFragment {
     }
 
     public /* synthetic */ void lambda$createView$4(View view) {
-        CameraSession cameraSession;
+        CameraSessionWrapper cameraSession;
         CameraView cameraView = this.cameraView;
         if (cameraView == null || (cameraSession = cameraView.getCameraSession()) == null) {
             return;
@@ -815,11 +815,11 @@ public class CameraScanActivity extends BaseFragment {
         this.flashAnimator.start();
         if (this.flashButton.getTag() == null) {
             this.flashButton.setTag(1);
-            cameraSession.setTorchEnabled(true);
+            cameraSession.setCurrentFlashMode("torch");
             return;
         }
         this.flashButton.setTag(null);
-        cameraSession.setTorchEnabled(false);
+        cameraSession.setCurrentFlashMode("off");
     }
 
     public /* synthetic */ void lambda$createView$3(ValueAnimator valueAnimator) {

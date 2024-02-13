@@ -14,7 +14,6 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.Theme;
-import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.ChatAttachAlert;
 import org.telegram.ui.Components.RecyclerListView;
 /* loaded from: classes4.dex */
@@ -35,15 +34,15 @@ public class ChatAttachRestrictedLayout extends ChatAttachAlert.AttachAlertLayou
         emptyTextProgressView.setTextSize(16);
         addView(emptyTextProgressView, LayoutHelper.createFrame(-1, -2.0f));
         emptyTextProgressView.setLottie(R.raw.media_forbidden, ImageReceiver.DEFAULT_CROSSFADE_DURATION, ImageReceiver.DEFAULT_CROSSFADE_DURATION);
-        TLRPC$Chat currentChat = ((ChatActivity) this.parentAlert.baseFragment).getCurrentChat();
+        TLRPC$Chat chat = this.parentAlert.getChat();
         if (i == 1) {
-            emptyTextProgressView.setText(ChatObject.getRestrictedErrorText(currentChat, 7));
+            emptyTextProgressView.setText(ChatObject.getRestrictedErrorText(chat, 7));
         } else if (i == 3) {
-            emptyTextProgressView.setText(ChatObject.getRestrictedErrorText(currentChat, 18));
+            emptyTextProgressView.setText(ChatObject.getRestrictedErrorText(chat, 18));
         } else if (i == 4) {
-            emptyTextProgressView.setText(ChatObject.getRestrictedErrorText(currentChat, 19));
+            emptyTextProgressView.setText(ChatObject.getRestrictedErrorText(chat, 19));
         } else {
-            emptyTextProgressView.setText(ChatObject.getRestrictedErrorText(currentChat, 22));
+            emptyTextProgressView.setText(ChatObject.getRestrictedErrorText(chat, 22));
         }
         emptyTextProgressView.showTextView();
         RecyclerListView recyclerListView = new RecyclerListView(context, resourcesProvider);

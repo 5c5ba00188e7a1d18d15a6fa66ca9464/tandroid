@@ -166,6 +166,7 @@ public class SharedConfig {
     public static int textSelectionHintShows;
     public static boolean translateChats;
     public static boolean updateStickersOrderOnSend;
+    public static boolean useCamera2;
     public static boolean useFingerprint;
     public static boolean useSurfaceInStories;
     public static boolean useSystemEmoji;
@@ -490,15 +491,15 @@ public class SharedConfig {
         return i;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:38:0x0182 A[Catch: Exception -> 0x01a6, all -> 0x047d, TryCatch #2 {Exception -> 0x01a6, blocks: (B:22:0x0131, B:24:0x0139, B:26:0x014b, B:27:0x015f, B:38:0x0182, B:40:0x0188, B:41:0x018a, B:43:0x018e, B:45:0x0194, B:47:0x019a, B:49:0x019e, B:36:0x017c), top: B:91:0x0131, outer: #4 }] */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0188 A[Catch: Exception -> 0x01a6, all -> 0x047d, TryCatch #2 {Exception -> 0x01a6, blocks: (B:22:0x0131, B:24:0x0139, B:26:0x014b, B:27:0x015f, B:38:0x0182, B:40:0x0188, B:41:0x018a, B:43:0x018e, B:45:0x0194, B:47:0x019a, B:49:0x019e, B:36:0x017c), top: B:91:0x0131, outer: #4 }] */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0182 A[Catch: Exception -> 0x01a6, all -> 0x0486, TryCatch #4 {Exception -> 0x01a6, blocks: (B:22:0x0131, B:24:0x0139, B:26:0x014b, B:27:0x015f, B:38:0x0182, B:40:0x0188, B:41:0x018a, B:43:0x018e, B:45:0x0194, B:47:0x019a, B:49:0x019e, B:36:0x017c), top: B:94:0x0131, outer: #2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0188 A[Catch: Exception -> 0x01a6, all -> 0x0486, TryCatch #4 {Exception -> 0x01a6, blocks: (B:22:0x0131, B:24:0x0139, B:26:0x014b, B:27:0x015f, B:38:0x0182, B:40:0x0188, B:41:0x018a, B:43:0x018e, B:45:0x0194, B:47:0x019a, B:49:0x019e, B:36:0x017c), top: B:94:0x0131, outer: #2 }] */
     /* JADX WARN: Removed duplicated region for block: B:61:0x022f  */
     /* JADX WARN: Removed duplicated region for block: B:62:0x0232  */
     /* JADX WARN: Removed duplicated region for block: B:65:0x0242  */
     /* JADX WARN: Removed duplicated region for block: B:66:0x0244  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x0428  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x042a  */
-    /* JADX WARN: Removed duplicated region for block: B:93:0x046d A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x0431  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x0433  */
+    /* JADX WARN: Removed duplicated region for block: B:87:0x0476 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -651,6 +652,7 @@ public class SharedConfig {
                             updateStickersOrderOnSend = sharedPreferences2.getBoolean("updateStickersOrderOnSend", true);
                             dayNightWallpaperSwitchHint = sharedPreferences2.getInt("dayNightWallpaperSwitchHint", 0);
                             bigCameraForRound = sharedPreferences2.getBoolean("bigCameraForRound", false);
+                            useCamera2 = sharedPreferences2.getBoolean("useCamera2", false);
                             i = Build.VERSION.SDK_INT;
                             useSurfaceInStories = sharedPreferences2.getBoolean("useSurfaceInStories", i < 30);
                             payByInvoice = sharedPreferences2.getBoolean("payByInvoice", false);
@@ -749,6 +751,7 @@ public class SharedConfig {
                 updateStickersOrderOnSend = sharedPreferences22.getBoolean("updateStickersOrderOnSend", true);
                 dayNightWallpaperSwitchHint = sharedPreferences22.getInt("dayNightWallpaperSwitchHint", 0);
                 bigCameraForRound = sharedPreferences22.getBoolean("bigCameraForRound", false);
+                useCamera2 = sharedPreferences22.getBoolean("useCamera2", false);
                 i = Build.VERSION.SDK_INT;
                 useSurfaceInStories = sharedPreferences22.getBoolean("useSurfaceInStories", i < 30);
                 payByInvoice = sharedPreferences22.getBoolean("payByInvoice", false);
@@ -1792,6 +1795,13 @@ public class SharedConfig {
     public static void toggleRoundCamera() {
         bigCameraForRound = !bigCameraForRound;
         ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0).edit().putBoolean("bigCameraForRound", bigCameraForRound).apply();
+    }
+
+    public static void toggleUseCamera2() {
+        SharedPreferences.Editor edit = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0).edit();
+        boolean z = !useCamera2;
+        useCamera2 = z;
+        edit.putBoolean("useCamera2", z).apply();
     }
 
     @Deprecated

@@ -21,8 +21,6 @@ import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
-import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.util.SparseIntArray;
@@ -31,8 +29,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -66,6 +66,7 @@ import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$ChatFull;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$EmojiStatus;
+import org.telegram.tgnet.TLRPC$StickerSet;
 import org.telegram.tgnet.TLRPC$TL_account_getWallPaper;
 import org.telegram.tgnet.TLRPC$TL_channels_updateColor;
 import org.telegram.tgnet.TLRPC$TL_channels_updateEmojiStatus;
@@ -77,6 +78,7 @@ import org.telegram.tgnet.TLRPC$TL_inputWallPaper;
 import org.telegram.tgnet.TLRPC$TL_inputWallPaperNoFile;
 import org.telegram.tgnet.TLRPC$TL_inputWallPaperSlug;
 import org.telegram.tgnet.TLRPC$TL_messages_setChatWallPaper;
+import org.telegram.tgnet.TLRPC$TL_messages_stickerSet;
 import org.telegram.tgnet.TLRPC$TL_peerColor;
 import org.telegram.tgnet.TLRPC$TL_wallPaper;
 import org.telegram.tgnet.TLRPC$TL_wallPaperNoFile;
@@ -101,6 +103,7 @@ import org.telegram.ui.Cells.ThemesHorizontalListCell;
 import org.telegram.ui.ChannelColorActivity;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.AnimatedFloat;
+import org.telegram.ui.Components.Bulletin;
 import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.ButtonBounce;
 import org.telegram.ui.Components.ChatThemeBottomSheet;
@@ -118,14 +121,15 @@ import org.telegram.ui.PeerColorActivity;
 import org.telegram.ui.SelectAnimatedEmojiDialog;
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
 import org.telegram.ui.Stories.recorder.PreviewView;
+import org.telegram.ui.ThemePreviewActivity;
 /* loaded from: classes3.dex */
-public class ChannelColorActivity extends BaseFragment {
-    private Adapter adapter;
+public class ChannelColorActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
+    protected Adapter adapter;
     public Drawable backgroundDrawable;
     public TL_stories$TL_premium_boostsStatus boostsStatus;
     private BaseFragment bulletinFragment;
-    private ButtonWithCounterView button;
-    private FrameLayout buttonContainer;
+    protected ButtonWithCounterView button;
+    protected FrameLayout buttonContainer;
     private View changeDayNightView;
     private ValueAnimator changeDayNightViewAnimator;
     private float changeDayNightViewProgress;
@@ -143,22 +147,29 @@ public class ChannelColorActivity extends BaseFragment {
     private boolean forceDark;
     public TLRPC$WallPaper galleryWallpaper;
     private boolean isDark;
-    private RecyclerListView listView;
+    protected boolean isGroup;
+    protected RecyclerListView listView;
     private SpannableStringBuilder lock;
-    private int messagesPreviewRow;
+    protected int messagesPreviewRow;
     private final Theme.MessageDrawable msgInDrawable;
     private final Theme.MessageDrawable msgInDrawableSelected;
+    private final Drawable msgOutCheckReadDrawable;
+    private final Theme.MessageDrawable msgOutDrawable;
+    private final Theme.MessageDrawable msgOutDrawableSelected;
+    private final Drawable msgOutHalfCheckDrawable;
+    protected int packEmojiHintRow;
+    protected int packEmojiRow;
     private Theme.ResourcesProvider parentResourcesProvider;
-    private int profileColorGridRow;
-    private int profileEmojiRow;
-    private int profileHintRow;
-    private int profilePreviewRow;
-    private int removeProfileColorRow;
-    private int removeProfileColorShadowRow;
-    private int replyColorListRow;
-    private int replyEmojiRow;
-    private int replyHintRow;
-    private int rowsCount;
+    protected int profileColorGridRow;
+    protected int profileEmojiRow;
+    protected int profileHintRow;
+    protected int profilePreviewRow;
+    protected int removeProfileColorRow;
+    protected int removeProfileColorShadowRow;
+    protected int replyColorListRow;
+    protected int replyEmojiRow;
+    protected int replyHintRow;
+    protected int rowsCount;
     private SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow selectAnimatedEmojiDialog;
     public int selectedProfileColor;
     public long selectedProfileEmoji;
@@ -166,16 +177,36 @@ public class ChannelColorActivity extends BaseFragment {
     public long selectedReplyEmoji;
     public TLRPC$EmojiStatus selectedStatusEmoji;
     public TLRPC$WallPaper selectedWallpaper;
-    private int statusEmojiRow;
-    private int statusHintRow;
+    protected int statusEmojiRow;
+    protected int statusHintRow;
     private RLottieDrawable sunDrawable;
-    private int wallpaperHintRow;
-    private int wallpaperRow;
-    private int wallpaperThemesRow;
+    protected int wallpaperHintRow;
+    protected int wallpaperRow;
+    protected int wallpaperThemesRow;
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ boolean lambda$toggleTheme$15(View view, MotionEvent motionEvent) {
+    public static /* synthetic */ boolean lambda$toggleTheme$16(View view, MotionEvent motionEvent) {
         return true;
+    }
+
+    protected int getEmojiPackInfoStrRes() {
+        return 0;
+    }
+
+    protected int getEmojiPackStrRes() {
+        return 0;
+    }
+
+    protected int getEmojiStickersLevelMin() {
+        return 0;
+    }
+
+    protected int getMessagePreviewType() {
+        return 3;
+    }
+
+    protected boolean needBoostInfoSection() {
+        return false;
     }
 
     public int minLevelRequired() {
@@ -184,7 +215,7 @@ public class ChannelColorActivity extends BaseFragment {
             MessagesController.PeerColors peerColors = getMessagesController().peerColors;
             MessagesController.PeerColor color = peerColors == null ? null : peerColors.getColor(this.selectedReplyColor);
             if (color != null) {
-                i = Math.max(0, color.lvl);
+                i = Math.max(0, color.getLvl(this.isGroup));
             }
         }
         if (this.currentReplyEmoji != this.selectedReplyEmoji) {
@@ -194,22 +225,38 @@ public class ChannelColorActivity extends BaseFragment {
             MessagesController.PeerColors peerColors2 = getMessagesController().profilePeerColors;
             MessagesController.PeerColor color2 = peerColors2 != null ? peerColors2.getColor(this.selectedProfileColor) : null;
             if (color2 != null) {
-                i = Math.max(i, color2.lvl);
+                i = Math.max(i, color2.getLvl(this.isGroup));
             }
         }
         if (this.currentProfileEmoji != this.selectedProfileEmoji) {
-            i = Math.max(i, getMessagesController().channelProfileIconLevelMin);
+            i = Math.max(i, getProfileIconLevelMin());
         }
         if (!DialogObject.emojiStatusesEqual(this.currentStatusEmoji, this.selectedStatusEmoji)) {
-            i = Math.max(i, getMessagesController().channelEmojiStatusLevelMin);
+            i = Math.max(i, getEmojiStatusLevelMin());
         }
         if (ChatThemeController.wallpaperEquals(this.currentWallpaper, this.selectedWallpaper)) {
             return i;
         }
         if (!TextUtils.isEmpty(ChatThemeController.getWallpaperEmoticon(this.selectedWallpaper))) {
-            return Math.max(i, getMessagesController().channelWallpaperLevelMin);
+            return Math.max(i, getWallpaperLevelMin());
         }
-        return Math.max(i, getMessagesController().channelCustomWallpaperLevelMin);
+        return Math.max(i, getCustomWallpaperLevelMin());
+    }
+
+    protected int getProfileIconLevelMin() {
+        return getMessagesController().channelProfileIconLevelMin;
+    }
+
+    protected int getCustomWallpaperLevelMin() {
+        return getMessagesController().channelCustomWallpaperLevelMin;
+    }
+
+    protected int getWallpaperLevelMin() {
+        return getMessagesController().channelWallpaperLevelMin;
+    }
+
+    protected int getEmojiStatusLevelMin() {
+        return getMessagesController().channelEmojiStatusLevelMin;
     }
 
     public void updateButton(boolean z) {
@@ -293,10 +340,23 @@ public class ChannelColorActivity extends BaseFragment {
             if (str.equals("drawableMsgInSelected")) {
                 return ChannelColorActivity.this.msgInDrawableSelected;
             }
-            if (ChannelColorActivity.this.parentResourcesProvider != null) {
-                return ChannelColorActivity.this.parentResourcesProvider.getDrawable(str);
+            if (str.equals("drawableMsgOut")) {
+                return ChannelColorActivity.this.msgOutDrawable;
             }
-            return Theme.getThemeDrawable(str);
+            if (str.equals("drawableMsgOutSelected")) {
+                return ChannelColorActivity.this.msgOutDrawableSelected;
+            }
+            if (str.equals("drawableMsgOutCheckRead")) {
+                ChannelColorActivity.this.msgOutCheckReadDrawable.setColorFilter(getColor(Theme.key_chat_outSentCheckRead), PorterDuff.Mode.MULTIPLY);
+                return ChannelColorActivity.this.msgOutCheckReadDrawable;
+            } else if (str.equals("drawableMsgOutHalfCheck")) {
+                ChannelColorActivity.this.msgOutHalfCheckDrawable.setColorFilter(getColor(Theme.key_chat_outSentCheckRead), PorterDuff.Mode.MULTIPLY);
+                return ChannelColorActivity.this.msgOutHalfCheckDrawable;
+            } else if (ChannelColorActivity.this.parentResourcesProvider != null) {
+                return ChannelColorActivity.this.parentResourcesProvider.getDrawable(str);
+            } else {
+                return Theme.getThemeDrawable(str);
+            }
         }
 
         @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
@@ -325,7 +385,16 @@ public class ChannelColorActivity extends BaseFragment {
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean onFragmentCreate() {
         getMediaDataController().loadRestrictedStatusEmojis();
+        NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.boostByChannelCreated);
+        NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.chatWasBoostedByUser);
         return super.onFragmentCreate();
+    }
+
+    @Override // org.telegram.ui.ActionBar.BaseFragment
+    public void onFragmentDestroy() {
+        super.onFragmentDestroy();
+        NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.boostByChannelCreated);
+        NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.chatWasBoostedByUser);
     }
 
     public ChannelColorActivity(long j) {
@@ -338,12 +407,14 @@ public class ChannelColorActivity extends BaseFragment {
         this.dividerPaint = paint;
         paint.setStrokeWidth(1.0f);
         paint.setColor(Theme.getColor(Theme.key_divider, this.resourceProvider));
+        this.msgOutCheckReadDrawable = ContextCompat.getDrawable(ApplicationLoader.applicationContext, R.drawable.msg_check_s).mutate();
+        this.msgOutHalfCheckDrawable = ContextCompat.getDrawable(ApplicationLoader.applicationContext, R.drawable.msg_halfcheck).mutate();
         this.dialogId = j;
         final TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(-j));
         if (chat != null) {
             this.currentLevel = chat.level;
         }
-        MessagesController.getInstance(this.currentAccount).getBoostsController().getBoostsStats(j, new Consumer() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda6
+        MessagesController.getInstance(this.currentAccount).getBoostsController().getBoostsStats(j, new Consumer() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda7
             @Override // com.google.android.exoplayer2.util.Consumer
             public final void accept(Object obj) {
                 ChannelColorActivity.this.lambda$new$0(chat, (TL_stories$TL_premium_boostsStatus) obj);
@@ -352,6 +423,8 @@ public class ChannelColorActivity extends BaseFragment {
         this.resourceProvider = new ThemeDelegate();
         this.msgInDrawable = new Theme.MessageDrawable(0, false, false, this.resourceProvider);
         this.msgInDrawableSelected = new Theme.MessageDrawable(0, false, true, this.resourceProvider);
+        this.msgOutDrawable = new Theme.MessageDrawable(0, true, false, this.resourceProvider);
+        this.msgOutDrawableSelected = new Theme.MessageDrawable(0, true, true, this.resourceProvider);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -377,6 +450,10 @@ public class ChannelColorActivity extends BaseFragment {
         this.parentResourcesProvider = resourcesProvider;
     }
 
+    protected void createListView() {
+        this.listView = new RecyclerListView(getContext(), this.resourceProvider);
+    }
+
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(Context context) {
         TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(-this.dialogId));
@@ -397,7 +474,7 @@ public class ChannelColorActivity extends BaseFragment {
             this.selectedStatusEmoji = tLRPC$EmojiStatus;
             this.currentStatusEmoji = tLRPC$EmojiStatus;
         }
-        TLRPC$ChatFull chatFull = getMessagesController().getChatFull(-this.dialogId);
+        final TLRPC$ChatFull chatFull = getMessagesController().getChatFull(-this.dialogId);
         if (chatFull != null) {
             TLRPC$WallPaper tLRPC$WallPaper = chatFull.wallpaper;
             this.selectedWallpaper = tLRPC$WallPaper;
@@ -446,8 +523,8 @@ public class ChannelColorActivity extends BaseFragment {
         this.dayNightItem = this.actionBar.createMenu().addItem(1, this.sunDrawable);
         FrameLayout frameLayout = new FrameLayout(context);
         updateRows();
-        RecyclerListView recyclerListView = new RecyclerListView(context, this.resourceProvider);
-        this.listView = recyclerListView;
+        createListView();
+        RecyclerListView recyclerListView = this.listView;
         Adapter adapter = new Adapter();
         this.adapter = adapter;
         recyclerListView.setAdapter(adapter);
@@ -456,10 +533,10 @@ public class ChannelColorActivity extends BaseFragment {
         int i2 = Theme.key_windowBackgroundGray;
         recyclerListView2.setBackgroundColor(getThemedColor(i2));
         frameLayout.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f, 119, 0.0f, 0.0f, 0.0f, 68.0f));
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda17
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda19
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i3) {
-                ChannelColorActivity.this.lambda$createView$3(view, i3);
+                ChannelColorActivity.this.lambda$createView$4(chatFull, view, i3);
             }
         });
         DefaultItemAnimator defaultItemAnimator = new DefaultItemAnimator();
@@ -474,7 +551,7 @@ public class ChannelColorActivity extends BaseFragment {
         this.button.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
-                ChannelColorActivity.this.lambda$createView$4(view);
+                ChannelColorActivity.this.lambda$createView$5(view);
             }
         });
         updateButton(false);
@@ -483,12 +560,48 @@ public class ChannelColorActivity extends BaseFragment {
         frameLayout2.setBackgroundColor(getThemedColor(i2));
         this.buttonContainer.addView(this.button, LayoutHelper.createFrame(-1, 48.0f, 80, 10.0f, 10.0f, 10.0f, 10.0f));
         frameLayout.addView(this.buttonContainer, LayoutHelper.createFrame(-1, 68, 80));
+        Bulletin.addDelegate(this, new Bulletin.Delegate() { // from class: org.telegram.ui.ChannelColorActivity.3
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public /* synthetic */ boolean allowLayoutChanges() {
+                return Bulletin.Delegate.-CC.$default$allowLayoutChanges(this);
+            }
+
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public /* synthetic */ boolean clipWithGradient(int i3) {
+                return Bulletin.Delegate.-CC.$default$clipWithGradient(this, i3);
+            }
+
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public /* synthetic */ int getTopOffset(int i3) {
+                return Bulletin.Delegate.-CC.$default$getTopOffset(this, i3);
+            }
+
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public /* synthetic */ void onBottomOffsetChange(float f) {
+                Bulletin.Delegate.-CC.$default$onBottomOffsetChange(this, f);
+            }
+
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public /* synthetic */ void onHide(Bulletin bulletin) {
+                Bulletin.Delegate.-CC.$default$onHide(this, bulletin);
+            }
+
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public /* synthetic */ void onShow(Bulletin bulletin) {
+                Bulletin.Delegate.-CC.$default$onShow(this, bulletin);
+            }
+
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public int getBottomOffset(int i3) {
+                return ChannelColorActivity.this.buttonContainer.getMeasuredHeight();
+            }
+        });
         this.fragmentView = frameLayout;
         return frameLayout;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$3(final View view, final int i) {
+    public /* synthetic */ void lambda$createView$4(TLRPC$ChatFull tLRPC$ChatFull, final View view, final int i) {
         long j = 0;
         if (view instanceof EmojiCell) {
             if (i == this.replyEmojiRow) {
@@ -498,7 +611,23 @@ public class ChannelColorActivity extends BaseFragment {
             } else if (i == this.statusEmojiRow) {
                 j = DialogObject.getEmojiStatusDocumentId(this.selectedStatusEmoji);
             }
-            showSelectStatusDialog((EmojiCell) view, j, i == this.statusEmojiRow, new Utilities.Callback2() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda10
+            long j2 = j;
+            if (i == this.packEmojiRow) {
+                int emojiStickersLevelMin = getEmojiStickersLevelMin();
+                TL_stories$TL_premium_boostsStatus tL_stories$TL_premium_boostsStatus = this.boostsStatus;
+                if (tL_stories$TL_premium_boostsStatus != null && tL_stories$TL_premium_boostsStatus.level < emojiStickersLevelMin) {
+                    LimitReachedBottomSheet limitReachedBottomSheet = new LimitReachedBottomSheet(this, getContext(), 29, this.currentAccount, getResourceProvider());
+                    limitReachedBottomSheet.setBoostsStats(this.boostsStatus, true);
+                    limitReachedBottomSheet.setDialogId(this.dialogId);
+                    showDialog(limitReachedBottomSheet);
+                    return;
+                }
+                GroupStickersActivity groupStickersActivity = new GroupStickersActivity(-this.dialogId, true);
+                groupStickersActivity.setInfo(tLRPC$ChatFull);
+                presentFragment(groupStickersActivity);
+                return;
+            }
+            showSelectStatusDialog((EmojiCell) view, j2, i == this.statusEmojiRow, new Utilities.Callback2() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda12
                 @Override // org.telegram.messenger.Utilities.Callback2
                 public final void run(Object obj, Object obj2) {
                     ChannelColorActivity.this.lambda$createView$1(i, view, (Long) obj, (Integer) obj2);
@@ -511,16 +640,31 @@ public class ChannelColorActivity extends BaseFragment {
             updateButton(true);
             updateRows();
         } else if (i == this.wallpaperRow) {
-            ChannelWallpaperActivity channelWallpaperActivity = new ChannelWallpaperActivity(this.dialogId, this.boostsStatus);
-            channelWallpaperActivity.setResourceProvider(this.resourceProvider);
-            channelWallpaperActivity.setSelectedWallpaper(this.selectedWallpaper, this.galleryWallpaper);
-            channelWallpaperActivity.setOnSelectedWallpaperChange(new Utilities.Callback3() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda11
-                @Override // org.telegram.messenger.Utilities.Callback3
-                public final void run(Object obj, Object obj2, Object obj3) {
-                    ChannelColorActivity.this.lambda$createView$2((TLRPC$WallPaper) obj, (TLRPC$WallPaper) obj2, (TLRPC$WallPaper) obj3);
+            ChatThemeBottomSheet.openGalleryForBackground(getParentActivity(), this, this.dialogId, this.resourceProvider, new Utilities.Callback() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda13
+                @Override // org.telegram.messenger.Utilities.Callback
+                public final void run(Object obj) {
+                    ChannelColorActivity.this.lambda$createView$3((TLRPC$WallPaper) obj);
                 }
-            });
-            presentFragment(channelWallpaperActivity);
+            }, new ThemePreviewActivity.DayNightSwitchDelegate() { // from class: org.telegram.ui.ChannelColorActivity.2
+                @Override // org.telegram.ui.ThemePreviewActivity.DayNightSwitchDelegate
+                public boolean supportsAnimation() {
+                    return false;
+                }
+
+                @Override // org.telegram.ui.ThemePreviewActivity.DayNightSwitchDelegate
+                public boolean isDark() {
+                    return ((BaseFragment) ChannelColorActivity.this).resourceProvider != null ? ((BaseFragment) ChannelColorActivity.this).resourceProvider.isDark() : Theme.isCurrentThemeDark();
+                }
+
+                @Override // org.telegram.ui.ThemePreviewActivity.DayNightSwitchDelegate
+                public void switchDayNight(boolean z) {
+                    if (((BaseFragment) ChannelColorActivity.this).resourceProvider instanceof ThemeDelegate) {
+                        ((ThemeDelegate) ((BaseFragment) ChannelColorActivity.this).resourceProvider).toggle();
+                    }
+                    ChannelColorActivity.this.setForceDark(isDark(), false);
+                    ChannelColorActivity.this.updateColors();
+                }
+            }, this.boostsStatus);
         }
     }
 
@@ -552,16 +696,27 @@ public class ChannelColorActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$2(TLRPC$WallPaper tLRPC$WallPaper, TLRPC$WallPaper tLRPC$WallPaper2, TLRPC$WallPaper tLRPC$WallPaper3) {
+    public /* synthetic */ void lambda$createView$3(TLRPC$WallPaper tLRPC$WallPaper) {
         this.currentWallpaper = tLRPC$WallPaper;
-        this.selectedWallpaper = tLRPC$WallPaper2;
-        this.galleryWallpaper = tLRPC$WallPaper3;
+        this.selectedWallpaper = tLRPC$WallPaper;
+        this.galleryWallpaper = tLRPC$WallPaper;
         updateButton(false);
         updateMessagesPreview(false);
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda8
+            @Override // java.lang.Runnable
+            public final void run() {
+                ChannelColorActivity.this.lambda$createView$2();
+            }
+        }, 350L);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$4(View view) {
+    public /* synthetic */ void lambda$createView$2() {
+        BulletinFactory.of(this).createSimpleBulletin(R.raw.done, LocaleController.getString(R.string.ChannelWallpaperUpdated)).show();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$createView$5(View view) {
         buttonClick();
     }
 
@@ -591,10 +746,10 @@ public class ChannelColorActivity extends BaseFragment {
         final int[] iArr = {0};
         final int[] iArr2 = {0};
         final boolean[] zArr = {false};
-        final Utilities.Callback callback = new Utilities.Callback() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda12
+        final Utilities.Callback callback = new Utilities.Callback() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda14
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
-                ChannelColorActivity.this.lambda$buttonClick$6(zArr, iArr2, iArr, (TLRPC$TL_error) obj);
+                ChannelColorActivity.this.lambda$buttonClick$7(zArr, iArr2, iArr, (TLRPC$TL_error) obj);
             }
         };
         TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(-this.dialogId));
@@ -631,10 +786,10 @@ public class ChannelColorActivity extends BaseFragment {
                 tLRPC$TL_peerColor.background_emoji_id = 0L;
             }
             iArr[0] = iArr[0] + 1;
-            getConnectionsManager().sendRequest(tLRPC$TL_channels_updateColor, new RequestDelegate() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda13
+            getConnectionsManager().sendRequest(tLRPC$TL_channels_updateColor, new RequestDelegate() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda16
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    ChannelColorActivity.this.lambda$buttonClick$7(callback, tLObject, tLRPC$TL_error);
+                    ChannelColorActivity.this.lambda$buttonClick$8(callback, tLObject, tLRPC$TL_error);
                 }
             });
         }
@@ -669,10 +824,10 @@ public class ChannelColorActivity extends BaseFragment {
                 tLRPC$TL_peerColor4.background_emoji_id = 0L;
             }
             iArr[0] = iArr[0] + 1;
-            getConnectionsManager().sendRequest(tLRPC$TL_channels_updateColor2, new RequestDelegate() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda14
+            getConnectionsManager().sendRequest(tLRPC$TL_channels_updateColor2, new RequestDelegate() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda17
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    ChannelColorActivity.this.lambda$buttonClick$8(callback, tLObject, tLRPC$TL_error);
+                    ChannelColorActivity.this.lambda$buttonClick$9(callback, tLObject, tLRPC$TL_error);
                 }
             });
         }
@@ -708,10 +863,10 @@ public class ChannelColorActivity extends BaseFragment {
                 }
             }
             iArr[0] = iArr[0] + 1;
-            getConnectionsManager().sendRequest(tLRPC$TL_messages_setChatWallPaper, new RequestDelegate() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda15
+            getConnectionsManager().sendRequest(tLRPC$TL_messages_setChatWallPaper, new RequestDelegate() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda18
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    ChannelColorActivity.this.lambda$buttonClick$9(callback, tLObject, tLRPC$TL_error);
+                    ChannelColorActivity.this.lambda$buttonClick$10(callback, tLObject, tLRPC$TL_error);
                 }
             });
             TLRPC$ChatFull chatFull = getMessagesController().getChatFull(-this.dialogId);
@@ -747,10 +902,10 @@ public class ChannelColorActivity extends BaseFragment {
             }
             getMessagesController().updateEmojiStatusUntilUpdate(this.dialogId, this.selectedStatusEmoji);
             iArr[0] = iArr[0] + 1;
-            getConnectionsManager().sendRequest(tLRPC$TL_channels_updateEmojiStatus, new RequestDelegate() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda16
+            getConnectionsManager().sendRequest(tLRPC$TL_channels_updateEmojiStatus, new RequestDelegate() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda15
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    ChannelColorActivity.this.lambda$buttonClick$10(callback, tLObject, tLRPC$TL_error);
+                    ChannelColorActivity.this.lambda$buttonClick$11(callback, tLObject, tLRPC$TL_error);
                 }
             });
         }
@@ -764,17 +919,17 @@ public class ChannelColorActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$buttonClick$6(final boolean[] zArr, final int[] iArr, final int[] iArr2, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda9
+    public /* synthetic */ void lambda$buttonClick$7(final boolean[] zArr, final int[] iArr, final int[] iArr2, final TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda11
             @Override // java.lang.Runnable
             public final void run() {
-                ChannelColorActivity.this.lambda$buttonClick$5(zArr, iArr, iArr2, tLRPC$TL_error);
+                ChannelColorActivity.this.lambda$buttonClick$6(zArr, iArr, iArr2, tLRPC$TL_error);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$buttonClick$5(boolean[] zArr, int[] iArr, int[] iArr2, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$buttonClick$6(boolean[] zArr, int[] iArr, int[] iArr2, TLRPC$TL_error tLRPC$TL_error) {
         if (zArr[0] || iArr[0] >= iArr2[0]) {
             return;
         }
@@ -793,16 +948,6 @@ public class ChannelColorActivity extends BaseFragment {
             finishFragment();
             showBulletin();
             this.button.setLoading(false);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$buttonClick$7(Utilities.Callback callback, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        if (tLObject instanceof TLRPC$Updates) {
-            getMessagesController().processUpdates((TLRPC$Updates) tLObject, false);
-        }
-        if (callback != null) {
-            callback.run(tLRPC$TL_error);
         }
     }
 
@@ -836,64 +981,71 @@ public class ChannelColorActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$buttonClick$11(Utilities.Callback callback, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        if (tLObject instanceof TLRPC$Updates) {
+            getMessagesController().processUpdates((TLRPC$Updates) tLObject, false);
+        }
+        if (callback != null) {
+            callback.run(tLRPC$TL_error);
+        }
+    }
+
     private void showLimit() {
         getMessagesController().getBoostsController().userCanBoostChannel(this.dialogId, this.boostsStatus, new Consumer() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda5
             @Override // com.google.android.exoplayer2.util.Consumer
             public final void accept(Object obj) {
-                ChannelColorActivity.this.lambda$showLimit$12((ChannelBoostsController.CanApplyBoost) obj);
+                ChannelColorActivity.this.lambda$showLimit$13((ChannelBoostsController.CanApplyBoost) obj);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:10:0x001e, code lost:
-        if (r0 > r12.currentLevel) goto L9;
-     */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x008e  */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x00a4  */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x00d6  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x0034  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x009c  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x00b2  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x00e4  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public /* synthetic */ void lambda$showLimit$12(ChannelBoostsController.CanApplyBoost canApplyBoost) {
+    public /* synthetic */ void lambda$showLimit$13(ChannelBoostsController.CanApplyBoost canApplyBoost) {
         int i;
-        final int i2;
+        int i2;
         int i3;
         final TLRPC$Chat chat;
-        int i4;
         if (this.currentReplyColor != this.selectedReplyColor) {
             MessagesController.PeerColors peerColors = getMessagesController().peerColors;
             MessagesController.PeerColor color = peerColors == null ? null : peerColors.getColor(this.selectedReplyColor);
-            if (color != null) {
-                i = color.lvl;
-            }
-        }
-        i = 0;
-        int i5 = 20;
-        if (this.currentProfileColor != this.selectedProfileColor) {
-            MessagesController.PeerColors peerColors2 = getMessagesController().profilePeerColors;
-            MessagesController.PeerColor color2 = peerColors2 != null ? peerColors2.getColor(this.selectedProfileColor) : null;
-            if (color2 != null && (i4 = color2.lvl) > this.currentLevel) {
-                i5 = 24;
-                i2 = i4;
+            if (color != null && color.getLvl(this.isGroup) > this.currentLevel) {
+                i = color.getLvl(this.isGroup);
+                i2 = 20;
+                if (this.currentProfileColor != this.selectedProfileColor) {
+                    MessagesController.PeerColors peerColors2 = getMessagesController().profilePeerColors;
+                    MessagesController.PeerColor color2 = peerColors2 != null ? peerColors2.getColor(this.selectedProfileColor) : null;
+                    if (color2 != null && color2.getLvl(this.isGroup) > this.currentLevel) {
+                        i2 = 24;
+                        i = color2.getLvl(this.isGroup);
+                    }
+                }
+                final int i4 = i;
                 if (this.currentReplyEmoji != this.selectedReplyEmoji && getMessagesController().channelBgIconLevelMin > this.currentLevel) {
-                    i5 = 26;
+                    i2 = 26;
                 }
-                if (this.currentProfileEmoji != this.selectedProfileEmoji && getMessagesController().channelProfileIconLevelMin > this.currentLevel) {
-                    i5 = 27;
+                if (this.currentProfileEmoji != this.selectedProfileEmoji && getProfileIconLevelMin() > this.currentLevel) {
+                    i2 = 27;
                 }
-                if (!DialogObject.emojiStatusesEqual(this.currentStatusEmoji, this.selectedStatusEmoji) && getMessagesController().channelEmojiStatusLevelMin > this.currentLevel) {
-                    i5 = 25;
+                if (!DialogObject.emojiStatusesEqual(this.currentStatusEmoji, this.selectedStatusEmoji) && getEmojiStatusLevelMin() > this.currentLevel) {
+                    i2 = 25;
                 }
                 if (ChatThemeController.wallpaperEquals(this.currentWallpaper, this.selectedWallpaper)) {
                     i3 = !TextUtils.isEmpty(ChatThemeController.getWallpaperEmoticon(this.selectedWallpaper)) ? 22 : 23;
                 } else {
-                    i3 = i5;
+                    i3 = i2;
                 }
-                LimitReachedBottomSheet limitReachedBottomSheet = new LimitReachedBottomSheet(this, this, getContext(), i3, this.currentAccount, getResourceProvider()) { // from class: org.telegram.ui.ChannelColorActivity.2
+                LimitReachedBottomSheet limitReachedBottomSheet = new LimitReachedBottomSheet(this, this, getContext(), i3, this.currentAccount, getResourceProvider()) { // from class: org.telegram.ui.ChannelColorActivity.4
                     @Override // org.telegram.ui.Components.Premium.LimitReachedBottomSheet
                     protected int channelColorLevelMin() {
-                        return i2;
+                        return i4;
                     }
                 };
                 limitReachedBottomSheet.setCanApplyBoost(canApplyBoost);
@@ -901,10 +1053,10 @@ public class ChannelColorActivity extends BaseFragment {
                 limitReachedBottomSheet.setDialogId(this.dialogId);
                 chat = getMessagesController().getChat(Long.valueOf(-this.dialogId));
                 if (chat != null) {
-                    limitReachedBottomSheet.showStatisticButtonInLink(new Runnable() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda8
+                    limitReachedBottomSheet.showStatisticButtonInLink(new Runnable() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda10
                         @Override // java.lang.Runnable
                         public final void run() {
-                            ChannelColorActivity.this.lambda$showLimit$11(chat);
+                            ChannelColorActivity.this.lambda$showLimit$12(chat);
                         }
                     });
                 }
@@ -912,22 +1064,26 @@ public class ChannelColorActivity extends BaseFragment {
                 this.button.setLoading(false);
             }
         }
-        i2 = i;
+        i = 0;
+        i2 = 20;
+        if (this.currentProfileColor != this.selectedProfileColor) {
+        }
+        final int i42 = i;
         if (this.currentReplyEmoji != this.selectedReplyEmoji) {
-            i5 = 26;
+            i2 = 26;
         }
         if (this.currentProfileEmoji != this.selectedProfileEmoji) {
-            i5 = 27;
+            i2 = 27;
         }
         if (!DialogObject.emojiStatusesEqual(this.currentStatusEmoji, this.selectedStatusEmoji)) {
-            i5 = 25;
+            i2 = 25;
         }
         if (ChatThemeController.wallpaperEquals(this.currentWallpaper, this.selectedWallpaper)) {
         }
-        LimitReachedBottomSheet limitReachedBottomSheet2 = new LimitReachedBottomSheet(this, this, getContext(), i3, this.currentAccount, getResourceProvider()) { // from class: org.telegram.ui.ChannelColorActivity.2
+        LimitReachedBottomSheet limitReachedBottomSheet2 = new LimitReachedBottomSheet(this, this, getContext(), i3, this.currentAccount, getResourceProvider()) { // from class: org.telegram.ui.ChannelColorActivity.4
             @Override // org.telegram.ui.Components.Premium.LimitReachedBottomSheet
             protected int channelColorLevelMin() {
-                return i2;
+                return i42;
             }
         };
         limitReachedBottomSheet2.setCanApplyBoost(canApplyBoost);
@@ -941,16 +1097,8 @@ public class ChannelColorActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showLimit$11(TLRPC$Chat tLRPC$Chat) {
-        Bundle bundle = new Bundle();
-        bundle.putLong("chat_id", -this.dialogId);
-        bundle.putBoolean("is_megagroup", tLRPC$Chat.megagroup);
-        bundle.putBoolean("start_from_boosts", true);
-        TLRPC$ChatFull chatFull = getMessagesController().getChatFull(-this.dialogId);
-        if (chatFull == null || !chatFull.can_view_stats) {
-            bundle.putBoolean("only_boosts", true);
-        }
-        presentFragment(new StatisticActivity(bundle));
+    public /* synthetic */ void lambda$showLimit$12(TLRPC$Chat tLRPC$Chat) {
+        presentFragment(StatisticActivity.create(tLRPC$Chat));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -958,15 +1106,15 @@ public class ChannelColorActivity extends BaseFragment {
         if (getVisibleDialog() != null) {
             return;
         }
-        AlertDialog create = new AlertDialog.Builder(getContext(), getResourceProvider()).setTitle(LocaleController.getString(R.string.ChannelColorUnsaved)).setMessage(LocaleController.getString(R.string.ChannelColorUnsavedMessage)).setNegativeButton(LocaleController.getString(R.string.Dismiss), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda1
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                ChannelColorActivity.this.lambda$showUnsavedAlert$13(dialogInterface, i);
-            }
-        }).setPositiveButton(LocaleController.getString(R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda0
+        AlertDialog create = new AlertDialog.Builder(getContext(), getResourceProvider()).setTitle(LocaleController.getString(R.string.ChannelColorUnsaved)).setMessage(LocaleController.getString(R.string.ChannelColorUnsavedMessage)).setNegativeButton(LocaleController.getString(R.string.Dismiss), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda0
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 ChannelColorActivity.this.lambda$showUnsavedAlert$14(dialogInterface, i);
+            }
+        }).setPositiveButton(LocaleController.getString(R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda1
+            @Override // android.content.DialogInterface.OnClickListener
+            public final void onClick(DialogInterface dialogInterface, int i) {
+                ChannelColorActivity.this.lambda$showUnsavedAlert$15(dialogInterface, i);
             }
         }).create();
         showDialog(create);
@@ -974,12 +1122,12 @@ public class ChannelColorActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showUnsavedAlert$13(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$showUnsavedAlert$14(DialogInterface dialogInterface, int i) {
         finishFragment();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showUnsavedAlert$14(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$showUnsavedAlert$15(DialogInterface dialogInterface, int i) {
         buttonClick();
     }
 
@@ -1012,7 +1160,7 @@ public class ChannelColorActivity extends BaseFragment {
             i2 = 0;
         }
         int i3 = i2;
-        SelectAnimatedEmojiDialog selectAnimatedEmojiDialog = new SelectAnimatedEmojiDialog(this, getContext(), true, Integer.valueOf(i), z ? z2 ? 10 : 9 : z2 ? 5 : 7, true, getResourceProvider(), z2 ? 24 : 16, emojiCell.getColor()) { // from class: org.telegram.ui.ChannelColorActivity.3
+        SelectAnimatedEmojiDialog selectAnimatedEmojiDialog = new SelectAnimatedEmojiDialog(this, getContext(), true, Integer.valueOf(i), z ? z2 ? 10 : 9 : z2 ? 5 : 7, true, getResourceProvider(), z2 ? 24 : 16, emojiCell.getColor()) { // from class: org.telegram.ui.ChannelColorActivity.5
             @Override // org.telegram.ui.SelectAnimatedEmojiDialog
             protected float getScrimDrawableTranslationY() {
                 return 0.0f;
@@ -1034,7 +1182,7 @@ public class ChannelColorActivity extends BaseFragment {
         selectAnimatedEmojiDialog.setSelected(j == 0 ? null : Long.valueOf(j));
         selectAnimatedEmojiDialog.setSaveState(3);
         selectAnimatedEmojiDialog.setScrimDrawable(swapAnimatedEmojiDrawable, emojiCell);
-        SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow selectAnimatedEmojiDialogWindow = new SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow(selectAnimatedEmojiDialog, -2, -2) { // from class: org.telegram.ui.ChannelColorActivity.4
+        SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow selectAnimatedEmojiDialogWindow = new SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow(selectAnimatedEmojiDialog, -2, -2) { // from class: org.telegram.ui.ChannelColorActivity.6
             @Override // org.telegram.ui.SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow, android.widget.PopupWindow
             public void dismiss() {
                 super.dismiss();
@@ -1047,7 +1195,7 @@ public class ChannelColorActivity extends BaseFragment {
         selectAnimatedEmojiDialogWindowArr[0].dimBehind();
     }
 
-    private void updateRows() {
+    protected void updateRows() {
         Adapter adapter;
         Adapter adapter2;
         this.rowsCount = 0;
@@ -1108,10 +1256,36 @@ public class ChannelColorActivity extends BaseFragment {
         this.statusHintRow = i14;
     }
 
+    protected int getProfileInfoStrRes() {
+        return R.string.ChannelProfileInfo;
+    }
+
+    protected int getEmojiStatusStrRes() {
+        return R.string.ChannelEmojiStatus;
+    }
+
+    protected int getEmojiStatusInfoStrRes() {
+        return R.string.ChannelEmojiStatusInfo;
+    }
+
+    protected int getWallpaperStrRes() {
+        return R.string.ChannelWallpaper;
+    }
+
+    protected int getWallpaper2InfoStrRes() {
+        return R.string.ChannelWallpaper2Info;
+    }
+
     /* JADX INFO: Access modifiers changed from: private */
+    public String getThemeChooserEmoticon() {
+        String wallpaperEmoticon = ChatThemeController.getWallpaperEmoticon(this.selectedWallpaper);
+        return (wallpaperEmoticon == null && this.selectedWallpaper == null && this.galleryWallpaper != null) ? "❌" : wallpaperEmoticon;
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
     /* loaded from: classes3.dex */
     public class Adapter extends RecyclerListView.SelectionAdapter {
-        private Adapter() {
+        protected Adapter() {
         }
 
         /* JADX WARN: Multi-variable type inference failed */
@@ -1121,12 +1295,11 @@ public class ChannelColorActivity extends BaseFragment {
             if (i == 0) {
                 Context context = ChannelColorActivity.this.getContext();
                 INavigationLayout iNavigationLayout = ((BaseFragment) ChannelColorActivity.this).parentLayout;
+                int messagePreviewType = ChannelColorActivity.this.getMessagePreviewType();
                 ChannelColorActivity channelColorActivity = ChannelColorActivity.this;
-                ThemePreviewMessagesCell themePreviewMessagesCell = new ThemePreviewMessagesCell(context, iNavigationLayout, 3, channelColorActivity.dialogId, ((BaseFragment) channelColorActivity).resourceProvider);
+                ThemePreviewMessagesCell themePreviewMessagesCell = new ThemePreviewMessagesCell(context, iNavigationLayout, messagePreviewType, channelColorActivity.dialogId, ((BaseFragment) channelColorActivity).resourceProvider);
                 themePreviewMessagesCell.customAnimation = true;
-                if (Build.VERSION.SDK_INT >= 19) {
-                    themePreviewMessagesCell.setImportantForAccessibility(4);
-                }
+                themePreviewMessagesCell.setImportantForAccessibility(4);
                 ChannelColorActivity channelColorActivity2 = ChannelColorActivity.this;
                 themePreviewMessagesCell.fragment = channelColorActivity2;
                 Drawable drawable = channelColorActivity2.backgroundDrawable;
@@ -1138,7 +1311,8 @@ public class ChannelColorActivity extends BaseFragment {
                 themeChooser = themePreviewMessagesCell;
             } else if (i == 2) {
                 ThemeChooser themeChooser2 = new ThemeChooser(ChannelColorActivity.this.getContext(), false, ((BaseFragment) ChannelColorActivity.this).currentAccount, ((BaseFragment) ChannelColorActivity.this).resourceProvider);
-                themeChooser2.setSelectedEmoticon(ChatThemeController.getWallpaperEmoticon(ChannelColorActivity.this.selectedWallpaper), false);
+                themeChooser2.setWithRemovedStub(true);
+                themeChooser2.setSelectedEmoticon(ChannelColorActivity.this.getThemeChooserEmoticon(), false);
                 themeChooser2.setGalleryWallpaper(ChannelColorActivity.this.galleryWallpaper);
                 themeChooser2.setOnEmoticonSelected(new Utilities.Callback() { // from class: org.telegram.ui.ChannelColorActivity$Adapter$$ExternalSyntheticLambda1
                     @Override // org.telegram.messenger.Utilities.Callback
@@ -1191,6 +1365,8 @@ public class ChannelColorActivity extends BaseFragment {
             if (str == null) {
                 ChannelColorActivity channelColorActivity = ChannelColorActivity.this;
                 channelColorActivity.selectedWallpaper = channelColorActivity.galleryWallpaper;
+            } else if (str.equals("❌")) {
+                ChannelColorActivity.this.selectedWallpaper = null;
             } else {
                 ChannelColorActivity.this.selectedWallpaper = new TLRPC$TL_wallPaperNoFile();
                 TLRPC$WallPaper tLRPC$WallPaper = ChannelColorActivity.this.selectedWallpaper;
@@ -1226,6 +1402,7 @@ public class ChannelColorActivity extends BaseFragment {
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
+            TLRPC$StickerSet tLRPC$StickerSet;
             int itemViewType = viewHolder.getItemViewType();
             if (itemViewType == 1) {
                 ProfilePreview profilePreview = (ProfilePreview) viewHolder.itemView;
@@ -1240,14 +1417,17 @@ public class ChannelColorActivity extends BaseFragment {
                 ((PeerColorActivity.PeerColorGrid) viewHolder.itemView).setSelected(ChannelColorActivity.this.selectedProfileColor, false);
             } else if (itemViewType == 5) {
                 TextCell textCell = (TextCell) viewHolder.itemView;
-                if (i == ChannelColorActivity.this.removeProfileColorRow) {
+                ChannelColorActivity channelColorActivity = ChannelColorActivity.this;
+                if (i == channelColorActivity.removeProfileColorRow) {
                     textCell.setText(LocaleController.getString(R.string.ChannelProfileColorReset), false);
                     return;
                 }
-                textCell.setText(LocaleController.getString(R.string.ChannelWallpaper), false);
-                ChannelColorActivity channelColorActivity = ChannelColorActivity.this;
-                if (channelColorActivity.currentLevel < channelColorActivity.getMessagesController().channelWallpaperLevelMin) {
-                    textCell.setLockLevel(false, ChannelColorActivity.this.getMessagesController().channelWallpaperLevelMin);
+                textCell.setText(LocaleController.getString(channelColorActivity.getWallpaperStrRes()), false);
+                ChannelColorActivity channelColorActivity2 = ChannelColorActivity.this;
+                if (channelColorActivity2.currentLevel < channelColorActivity2.getCustomWallpaperLevelMin()) {
+                    textCell.setLockLevel(false, ChannelColorActivity.this.getCustomWallpaperLevelMin());
+                } else {
+                    textCell.setLockLevel(false, 0);
                 }
             } else if (itemViewType != 6) {
                 if (itemViewType != 7) {
@@ -1255,55 +1435,74 @@ public class ChannelColorActivity extends BaseFragment {
                 }
                 TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
                 textInfoPrivacyCell.setFixedSize(0);
-                if (i != ChannelColorActivity.this.replyHintRow) {
-                    if (i != ChannelColorActivity.this.wallpaperHintRow) {
-                        if (i != ChannelColorActivity.this.profileHintRow) {
-                            if (i != ChannelColorActivity.this.statusHintRow) {
-                                if (i == ChannelColorActivity.this.removeProfileColorShadowRow) {
-                                    textInfoPrivacyCell.setText("");
-                                    textInfoPrivacyCell.setFixedSize(12);
-                                }
-                            } else {
-                                textInfoPrivacyCell.setText(LocaleController.getString(R.string.ChannelEmojiStatusInfo));
-                            }
-                        } else {
-                            textInfoPrivacyCell.setText(LocaleController.getString(R.string.ChannelProfileInfo));
-                        }
-                    } else {
-                        textInfoPrivacyCell.setText(LocaleController.getString(R.string.ChannelWallpaper2Info));
-                    }
-                } else {
+                ChannelColorActivity channelColorActivity3 = ChannelColorActivity.this;
+                if (i == channelColorActivity3.replyHintRow) {
                     textInfoPrivacyCell.setText(LocaleController.getString(R.string.ChannelReplyInfo));
+                } else if (i == channelColorActivity3.wallpaperHintRow) {
+                    textInfoPrivacyCell.setText(LocaleController.getString(channelColorActivity3.getWallpaper2InfoStrRes()));
+                } else if (i == channelColorActivity3.profileHintRow) {
+                    textInfoPrivacyCell.setText(LocaleController.getString(channelColorActivity3.getProfileInfoStrRes()));
+                } else if (i == channelColorActivity3.statusHintRow) {
+                    textInfoPrivacyCell.setText(LocaleController.getString(channelColorActivity3.getEmojiStatusInfoStrRes()));
+                } else if (i == channelColorActivity3.packEmojiHintRow) {
+                    textInfoPrivacyCell.setText(LocaleController.getString(channelColorActivity3.getEmojiPackInfoStrRes()));
+                } else if (i == channelColorActivity3.removeProfileColorShadowRow) {
+                    textInfoPrivacyCell.setText("");
+                    textInfoPrivacyCell.setFixedSize(12);
                 }
-                textInfoPrivacyCell.setBackground(Theme.getThemedDrawableByKey(ChannelColorActivity.this.getContext(), i == ChannelColorActivity.this.statusHintRow ? R.drawable.greydivider_bottom : R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow, ((BaseFragment) ChannelColorActivity.this).resourceProvider));
+                Context context = ChannelColorActivity.this.getContext();
+                ChannelColorActivity channelColorActivity4 = ChannelColorActivity.this;
+                textInfoPrivacyCell.setBackground(Theme.getThemedDrawableByKey(context, i == channelColorActivity4.statusHintRow ? R.drawable.greydivider_bottom : R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow, ((BaseFragment) channelColorActivity4).resourceProvider));
             } else {
                 EmojiCell emojiCell = (EmojiCell) viewHolder.itemView;
                 emojiCell.setDivider(false);
-                if (i == ChannelColorActivity.this.replyEmojiRow) {
-                    emojiCell.setAdaptiveEmojiColor(((BaseFragment) ChannelColorActivity.this).currentAccount, ChannelColorActivity.this.selectedReplyColor, true);
+                ChannelColorActivity channelColorActivity5 = ChannelColorActivity.this;
+                if (i == channelColorActivity5.replyEmojiRow) {
+                    emojiCell.setAdaptiveEmojiColor(((BaseFragment) channelColorActivity5).currentAccount, ChannelColorActivity.this.selectedReplyColor, true);
                     emojiCell.setText(LocaleController.getString(R.string.ChannelReplyLogo));
-                    ChannelColorActivity channelColorActivity2 = ChannelColorActivity.this;
-                    if (channelColorActivity2.currentLevel < channelColorActivity2.getMessagesController().channelBgIconLevelMin) {
+                    ChannelColorActivity channelColorActivity6 = ChannelColorActivity.this;
+                    if (channelColorActivity6.currentLevel < channelColorActivity6.getMessagesController().channelBgIconLevelMin) {
                         emojiCell.setLockLevel(ChannelColorActivity.this.getMessagesController().channelBgIconLevelMin);
+                    } else {
+                        emojiCell.setLockLevel(0);
                     }
                     emojiCell.setEmoji(ChannelColorActivity.this.selectedReplyEmoji, false);
-                } else if (i == ChannelColorActivity.this.profileEmojiRow) {
-                    emojiCell.setAdaptiveEmojiColor(((BaseFragment) ChannelColorActivity.this).currentAccount, ChannelColorActivity.this.selectedProfileColor, false);
+                } else if (i == channelColorActivity5.profileEmojiRow) {
+                    emojiCell.setAdaptiveEmojiColor(((BaseFragment) channelColorActivity5).currentAccount, ChannelColorActivity.this.selectedProfileColor, false);
                     emojiCell.setText(LocaleController.getString(R.string.ChannelProfileLogo));
                     emojiCell.setDivider(ChannelColorActivity.this.removeProfileColorRow >= 0);
-                    ChannelColorActivity channelColorActivity3 = ChannelColorActivity.this;
-                    if (channelColorActivity3.currentLevel < channelColorActivity3.getMessagesController().channelProfileIconLevelMin) {
-                        emojiCell.setLockLevel(ChannelColorActivity.this.getMessagesController().channelProfileIconLevelMin);
+                    ChannelColorActivity channelColorActivity7 = ChannelColorActivity.this;
+                    if (channelColorActivity7.currentLevel < channelColorActivity7.getProfileIconLevelMin()) {
+                        emojiCell.setLockLevel(ChannelColorActivity.this.getProfileIconLevelMin());
+                    } else {
+                        emojiCell.setLockLevel(0);
                     }
                     emojiCell.setEmoji(ChannelColorActivity.this.selectedProfileEmoji, false);
-                } else if (i == ChannelColorActivity.this.statusEmojiRow) {
-                    emojiCell.setAdaptiveEmojiColor(((BaseFragment) ChannelColorActivity.this).currentAccount, ChannelColorActivity.this.selectedProfileColor, false);
-                    emojiCell.setText(LocaleController.getString(R.string.ChannelEmojiStatus));
-                    ChannelColorActivity channelColorActivity4 = ChannelColorActivity.this;
-                    if (channelColorActivity4.currentLevel < channelColorActivity4.getMessagesController().channelEmojiStatusLevelMin) {
-                        emojiCell.setLockLevel(ChannelColorActivity.this.getMessagesController().channelEmojiStatusLevelMin);
+                } else if (i == channelColorActivity5.statusEmojiRow) {
+                    emojiCell.setAdaptiveEmojiColor(((BaseFragment) channelColorActivity5).currentAccount, ChannelColorActivity.this.selectedProfileColor, false);
+                    emojiCell.setText(LocaleController.getString(ChannelColorActivity.this.getEmojiStatusStrRes()));
+                    ChannelColorActivity channelColorActivity8 = ChannelColorActivity.this;
+                    if (channelColorActivity8.currentLevel < channelColorActivity8.getEmojiStatusLevelMin()) {
+                        emojiCell.setLockLevel(ChannelColorActivity.this.getEmojiStatusLevelMin());
+                    } else {
+                        emojiCell.setLockLevel(0);
                     }
                     emojiCell.setEmoji(DialogObject.getEmojiStatusDocumentId(ChannelColorActivity.this.selectedStatusEmoji), false);
+                } else if (i == channelColorActivity5.packEmojiRow) {
+                    emojiCell.setAdaptiveEmojiColor(((BaseFragment) channelColorActivity5).currentAccount, ChannelColorActivity.this.selectedProfileColor, false);
+                    emojiCell.setText(LocaleController.getString(ChannelColorActivity.this.getEmojiPackStrRes()));
+                    ChannelColorActivity channelColorActivity9 = ChannelColorActivity.this;
+                    if (channelColorActivity9.currentLevel < channelColorActivity9.getEmojiStickersLevelMin()) {
+                        emojiCell.setLockLevel(ChannelColorActivity.this.getEmojiStickersLevelMin());
+                    } else {
+                        emojiCell.setLockLevel(0);
+                    }
+                    TLRPC$ChatFull chatFull = ChannelColorActivity.this.getMessagesController().getChatFull(-ChannelColorActivity.this.dialogId);
+                    if (chatFull != null && (tLRPC$StickerSet = chatFull.emojiset) != null) {
+                        emojiCell.setEmoji(ChannelColorActivity.this.getEmojiSetThumbId(tLRPC$StickerSet), false);
+                    } else {
+                        emojiCell.setEmoji(0L, false);
+                    }
                 }
             }
         }
@@ -1327,25 +1526,26 @@ public class ChannelColorActivity extends BaseFragment {
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public int getItemViewType(int i) {
-            if (i == ChannelColorActivity.this.messagesPreviewRow) {
+            ChannelColorActivity channelColorActivity = ChannelColorActivity.this;
+            if (i == channelColorActivity.messagesPreviewRow) {
                 return 0;
             }
-            if (i == ChannelColorActivity.this.wallpaperThemesRow) {
+            if (i == channelColorActivity.wallpaperThemesRow) {
                 return 2;
             }
-            if (i == ChannelColorActivity.this.profilePreviewRow) {
+            if (i == channelColorActivity.profilePreviewRow) {
                 return 1;
             }
-            if (i == ChannelColorActivity.this.replyColorListRow) {
+            if (i == channelColorActivity.replyColorListRow) {
                 return 3;
             }
-            if (i == ChannelColorActivity.this.profileColorGridRow) {
+            if (i == channelColorActivity.profileColorGridRow) {
                 return 4;
             }
-            if (i == ChannelColorActivity.this.replyEmojiRow || i == ChannelColorActivity.this.profileEmojiRow || i == ChannelColorActivity.this.statusEmojiRow) {
+            if (i == channelColorActivity.replyEmojiRow || i == channelColorActivity.profileEmojiRow || i == channelColorActivity.statusEmojiRow || i == channelColorActivity.packEmojiRow) {
                 return 6;
             }
-            return (i == ChannelColorActivity.this.wallpaperRow || i == ChannelColorActivity.this.removeProfileColorRow) ? 5 : 7;
+            return (i == channelColorActivity.wallpaperRow || i == channelColorActivity.removeProfileColorRow) ? 5 : 7;
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -1393,16 +1593,18 @@ public class ChannelColorActivity extends BaseFragment {
         }
         if (findChildAt4 instanceof ThemeChooser) {
             ThemeChooser themeChooser = (ThemeChooser) findChildAt4;
-            themeChooser.setSelectedEmoticon(ChatThemeController.getWallpaperEmoticon(this.selectedWallpaper), z);
+            themeChooser.setSelectedEmoticon(getThemeChooserEmoticon(), z);
             themeChooser.setGalleryWallpaper(this.galleryWallpaper);
         }
     }
 
     public void updateProfilePreview(boolean z) {
+        TLRPC$StickerSet tLRPC$StickerSet;
         View findChildAt = findChildAt(this.profilePreviewRow);
         View findChildAt2 = findChildAt(this.profileColorGridRow);
         View findChildAt3 = findChildAt(this.profileEmojiRow);
         View findChildAt4 = findChildAt(this.statusEmojiRow);
+        View findChildAt5 = findChildAt(this.packEmojiRow);
         if (findChildAt instanceof ProfilePreview) {
             ProfilePreview profilePreview = (ProfilePreview) findChildAt;
             profilePreview.setColor(this.selectedProfileColor, z);
@@ -1425,7 +1627,30 @@ public class ChannelColorActivity extends BaseFragment {
             emojiCell2.setAdaptiveEmojiColor(this.currentAccount, this.selectedProfileColor, false);
             emojiCell2.setEmoji(DialogObject.getEmojiStatusDocumentId(this.selectedStatusEmoji), z);
         }
+        if (findChildAt5 instanceof EmojiCell) {
+            EmojiCell emojiCell3 = (EmojiCell) findChildAt5;
+            emojiCell3.setAdaptiveEmojiColor(this.currentAccount, this.selectedProfileColor, false);
+            TLRPC$ChatFull chatFull = getMessagesController().getChatFull(-this.dialogId);
+            if (chatFull != null && (tLRPC$StickerSet = chatFull.emojiset) != null) {
+                emojiCell3.setEmoji(getEmojiSetThumbId(tLRPC$StickerSet), false);
+            } else {
+                emojiCell3.setEmoji(0L, false);
+            }
+        }
         updateRows();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public long getEmojiSetThumbId(TLRPC$StickerSet tLRPC$StickerSet) {
+        if (tLRPC$StickerSet == null) {
+            return 0L;
+        }
+        long j = tLRPC$StickerSet.thumb_document_id;
+        if (j == 0) {
+            TLRPC$TL_messages_stickerSet groupStickerSetById = getMediaDataController().getGroupStickerSetById(tLRPC$StickerSet);
+            return !groupStickerSetById.documents.isEmpty() ? groupStickerSetById.documents.get(0).id : j;
+        }
+        return j;
     }
 
     public View findChildAt(int i) {
@@ -1438,11 +1663,28 @@ public class ChannelColorActivity extends BaseFragment {
         return null;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
+    /* JADX INFO: Access modifiers changed from: protected */
     /* loaded from: classes3.dex */
     public class ProfilePreview extends FrameLayout {
         public final PeerColorActivity.ColoredActionBar backgroundView;
+        public LinearLayout infoLayout;
         public final PeerColorActivity.ProfilePreview profileView;
+        public TextView textInfo1;
+        public TextView textInfo2;
+        public SimpleTextView title;
+
+        public void setTitleSize() {
+            float f;
+            boolean z = getResources().getConfiguration().orientation == 2;
+            this.title.setTextSize((AndroidUtilities.isTablet() || !z) ? 20 : 18);
+            SimpleTextView simpleTextView = this.title;
+            if (AndroidUtilities.isTablet()) {
+                f = -2.0f;
+            } else {
+                f = z ? 4 : 0;
+            }
+            simpleTextView.setTranslationY(AndroidUtilities.dp(f));
+        }
 
         public ProfilePreview(Context context) {
             super(context);
@@ -1450,10 +1692,52 @@ public class ChannelColorActivity extends BaseFragment {
             this.backgroundView = coloredActionBar;
             coloredActionBar.setProgressToGradient(1.0f);
             coloredActionBar.ignoreMeasure = true;
-            addView(coloredActionBar, LayoutHelper.createFrame(-1, 134, 119));
-            PeerColorActivity.ProfilePreview profilePreview = new PeerColorActivity.ProfilePreview(getContext(), ((BaseFragment) ChannelColorActivity.this).currentAccount, ChannelColorActivity.this.dialogId, ((BaseFragment) ChannelColorActivity.this).resourceProvider);
+            addView(coloredActionBar, LayoutHelper.createFrame(-1, ChannelColorActivity.this.isGroup ? 194 : 134, 119));
+            PeerColorActivity.ProfilePreview profilePreview = new PeerColorActivity.ProfilePreview(getContext(), ((BaseFragment) ChannelColorActivity.this).currentAccount, ChannelColorActivity.this.dialogId, ((BaseFragment) ChannelColorActivity.this).resourceProvider, ChannelColorActivity.this) { // from class: org.telegram.ui.ChannelColorActivity.ProfilePreview.1
+                @Override // org.telegram.ui.PeerColorActivity.ProfilePreview
+                public void setColor(int i, boolean z) {
+                    super.setColor(i, z);
+                    ProfilePreview profilePreview2 = ProfilePreview.this;
+                    TextView textView = profilePreview2.textInfo1;
+                    if (textView != null) {
+                        textView.setTextColor(profilePreview2.profileView.subtitleView.getTextColor());
+                    }
+                }
+            };
             this.profileView = profilePreview;
-            addView(profilePreview, LayoutHelper.createFrame(-1, (int) R.styleable.AppCompatTheme_textAppearanceListItemSecondary, 80));
+            addView(profilePreview, LayoutHelper.createFrame(-1, 104.0f, 80, 0.0f, 0.0f, 0.0f, ChannelColorActivity.this.isGroup ? 24.0f : 0.0f));
+            if (ChannelColorActivity.this.needBoostInfoSection()) {
+                SimpleTextView simpleTextView = new SimpleTextView(getContext());
+                this.title = simpleTextView;
+                simpleTextView.setGravity(19);
+                this.title.setTextColor(ChannelColorActivity.this.getThemedColor(Theme.key_actionBarDefaultTitle));
+                this.title.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                this.title.setText(LocaleController.getString(R.string.ChangeChannelNameColor2));
+                this.title.setAlpha(0.0f);
+                setTitleSize();
+                addView(this.title, LayoutHelper.createFrame(-1, -2.0f, 80, 72.0f, 0.0f, 0.0f, 16.0f));
+                LinearLayout linearLayout = new LinearLayout(context);
+                this.infoLayout = linearLayout;
+                linearLayout.setOrientation(0);
+                this.infoLayout.setBackground(Theme.createSelectorWithBackgroundDrawable(Theme.multAlpha(-16777216, 0.15f), Theme.multAlpha(-16777216, 0.35f)));
+                this.infoLayout.setGravity(17);
+                this.infoLayout.setPadding(AndroidUtilities.dp(4.0f), AndroidUtilities.dp(4.0f), AndroidUtilities.dp(4.0f), AndroidUtilities.dp(4.0f));
+                TextView textView = new TextView(context);
+                this.textInfo1 = textView;
+                textView.setTextSize(1, 12.0f);
+                this.textInfo1.setTextColor(profilePreview.subtitleView.getTextColor());
+                TextView textView2 = new TextView(context);
+                this.textInfo2 = textView2;
+                textView2.setTextSize(1, 12.0f);
+                this.textInfo2.setTextColor(-1);
+                TextView textView3 = this.textInfo1;
+                TL_stories$TL_premium_boostsStatus tL_stories$TL_premium_boostsStatus = ChannelColorActivity.this.boostsStatus;
+                textView3.setText(AndroidUtilities.replaceTags(LocaleController.formatPluralString("BoostingGroupBoostCount", tL_stories$TL_premium_boostsStatus != null ? tL_stories$TL_premium_boostsStatus.boosts : 0, new Object[0])));
+                this.textInfo2.setText(LocaleController.getString(R.string.BoostingGroupBoostWhatAreBoosts));
+                this.infoLayout.addView(this.textInfo1);
+                this.infoLayout.addView(this.textInfo2, LayoutHelper.createLinear(-2, -2, 3.0f, 0.0f, 0.0f, 0.0f));
+                addView(this.infoLayout, LayoutHelper.createFrame(-1, -2, 80));
+            }
         }
 
         public void setColor(int i, boolean z) {
@@ -1613,6 +1897,11 @@ public class ChannelColorActivity extends BaseFragment {
         private Utilities.Callback<String> onEmoticonSelected;
         private FlickerLoadingView progressView;
         private final Theme.ResourcesProvider resourcesProvider;
+        private boolean withRemovedStub;
+
+        public void setWithRemovedStub(boolean z) {
+            this.withRemovedStub = z;
+        }
 
         public void setOnEmoticonSelected(Utilities.Callback<String> callback) {
             this.onEmoticonSelected = callback;
@@ -1643,12 +1932,19 @@ public class ChannelColorActivity extends BaseFragment {
                     ChannelColorActivity.ThemeChooser.this.lambda$setGalleryWallpaper$0((View) obj);
                 }
             });
+            if (this.fallbackWallpaper != null) {
+                if ((this.items.isEmpty() || this.items.get(0).chatTheme.showAsDefaultStub) && this.withRemovedStub) {
+                    this.items.add(0, new ChatThemeBottomSheet.ChatThemeItem(EmojiThemes.createChatThemesRemoved(this.currentAccount)));
+                    this.adapter.notifyDataSetChanged();
+                }
+            }
         }
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$setGalleryWallpaper$0(View view) {
             if (view instanceof ThemeSmallPreviewView) {
-                ((ThemeSmallPreviewView) view).setFallbackWallpaper(this.fallbackWallpaper);
+                ThemeSmallPreviewView themeSmallPreviewView = (ThemeSmallPreviewView) view;
+                themeSmallPreviewView.setFallbackWallpaper(themeSmallPreviewView.chatThemeItem.chatTheme.showAsRemovedStub ? null : this.fallbackWallpaper);
             }
         }
 
@@ -1720,8 +2016,9 @@ public class ChannelColorActivity extends BaseFragment {
                             return LocaleController.getString(R.string.ChannelNoWallpaper);
                         }
 
+                        /* JADX INFO: Access modifiers changed from: protected */
                         @Override // org.telegram.ui.Components.ThemeSmallPreviewView
-                        protected int noThemeStringTextSize() {
+                        public int noThemeStringTextSize() {
                             if (z) {
                                 return super.noThemeStringTextSize();
                             }
@@ -1742,7 +2039,7 @@ public class ChannelColorActivity extends BaseFragment {
                     themeSmallPreviewView.setBackgroundColor(Theme.getColor(Theme.key_dialogBackgroundGray));
                     themeSmallPreviewView.setItem(chatThemeItem, false);
                     themeSmallPreviewView.setSelected(chatThemeItem.isSelected, false);
-                    themeSmallPreviewView.setFallbackWallpaper(ThemeChooser.this.fallbackWallpaper);
+                    themeSmallPreviewView.setFallbackWallpaper(chatThemeItem.chatTheme.showAsRemovedStub ? null : ThemeChooser.this.fallbackWallpaper);
                 }
 
                 @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -1751,8 +2048,9 @@ public class ChannelColorActivity extends BaseFragment {
                     if (adapterPosition < 0 || adapterPosition >= ThemeChooser.this.items.size()) {
                         return;
                     }
-                    ((ThemeSmallPreviewView) viewHolder.itemView).setSelected(ThemeChooser.this.items.get(adapterPosition).isSelected, false);
-                    ((ThemeSmallPreviewView) viewHolder.itemView).setFallbackWallpaper(ThemeChooser.this.fallbackWallpaper);
+                    ChatThemeBottomSheet.ChatThemeItem chatThemeItem = ThemeChooser.this.items.get(adapterPosition);
+                    ((ThemeSmallPreviewView) viewHolder.itemView).setSelected(chatThemeItem.isSelected, false);
+                    ((ThemeSmallPreviewView) viewHolder.itemView).setFallbackWallpaper(chatThemeItem.chatTheme.showAsRemovedStub ? null : ThemeChooser.this.fallbackWallpaper);
                 }
 
                 @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -1857,6 +2155,9 @@ public class ChannelColorActivity extends BaseFragment {
             this.dataLoaded = true;
             this.items.clear();
             this.items.add(0, new ChatThemeBottomSheet.ChatThemeItem(list.get(0)));
+            if (this.fallbackWallpaper != null && this.withRemovedStub) {
+                this.items.add(0, new ChatThemeBottomSheet.ChatThemeItem(EmojiThemes.createChatThemesRemoved(this.currentAccount)));
+            }
             Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
             int isDark = resourcesProvider != null ? resourcesProvider.isDark() : Theme.isCurrentThemeDark();
             for (int i = 1; i < list.size(); i++) {
@@ -1889,7 +2190,7 @@ public class ChannelColorActivity extends BaseFragment {
 
         /* JADX INFO: Access modifiers changed from: private */
         /* JADX WARN: Type inference failed for: r4v23 */
-        /* JADX WARN: Type inference failed for: r4v5, types: [boolean, int] */
+        /* JADX WARN: Type inference failed for: r4v5, types: [int, boolean] */
         /* JADX WARN: Type inference failed for: r4v8 */
         public boolean parseTheme(final Theme.ThemeInfo themeInfo) {
             int stringKeyToInt;
@@ -2092,7 +2393,7 @@ public class ChannelColorActivity extends BaseFragment {
             if (baseFragment instanceof ChatEditActivity) {
                 ((ChatEditActivity) baseFragment).updateColorCell();
             }
-            BulletinFactory.of(this.bulletinFragment).createSimpleBulletin(R.raw.contact_check, LocaleController.getString(R.string.ChannelAppearanceUpdated)).show();
+            BulletinFactory.of(this.bulletinFragment).createSimpleBulletin(R.raw.contact_check, LocaleController.getString(this.isGroup ? R.string.GroupAppearanceUpdated : R.string.ChannelAppearanceUpdated)).show();
             this.bulletinFragment = null;
         }
     }
@@ -2406,7 +2707,7 @@ public class ChannelColorActivity extends BaseFragment {
         final float max = Math.max(createBitmap.getHeight(), createBitmap.getWidth()) + AndroidUtilities.navigationBarHeight;
         Shader.TileMode tileMode = Shader.TileMode.CLAMP;
         paint2.setShader(new BitmapShader(createBitmap, tileMode, tileMode));
-        View view = new View(getContext()) { // from class: org.telegram.ui.ChannelColorActivity.5
+        View view = new View(getContext()) { // from class: org.telegram.ui.ChannelColorActivity.7
             @Override // android.view.View
             protected void onDraw(Canvas canvas2) {
                 super.onDraw(canvas2);
@@ -2429,7 +2730,7 @@ public class ChannelColorActivity extends BaseFragment {
         this.changeDayNightViewProgress = 0.0f;
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
         this.changeDayNightViewAnimator = ofFloat;
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ChannelColorActivity.6
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ChannelColorActivity.8
             boolean changedNavigationBarColor = false;
 
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
@@ -2442,7 +2743,7 @@ public class ChannelColorActivity extends BaseFragment {
                 this.changedNavigationBarColor = true;
             }
         });
-        this.changeDayNightViewAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ChannelColorActivity.7
+        this.changeDayNightViewAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ChannelColorActivity.9
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
                 if (ChannelColorActivity.this.changeDayNightView != null) {
@@ -2459,16 +2760,16 @@ public class ChannelColorActivity extends BaseFragment {
         this.changeDayNightViewAnimator.setInterpolator(Easings.easeInOutQuad);
         this.changeDayNightViewAnimator.start();
         frameLayout.addView(this.changeDayNightView, new ViewGroup.LayoutParams(-1, -1));
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda7
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda9
             @Override // java.lang.Runnable
             public final void run() {
-                ChannelColorActivity.this.lambda$toggleTheme$16();
+                ChannelColorActivity.this.lambda$toggleTheme$17();
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$toggleTheme$16() {
+    public /* synthetic */ void lambda$toggleTheme$17() {
         Theme.ResourcesProvider resourcesProvider = this.resourceProvider;
         if (resourcesProvider instanceof ThemeDelegate) {
             ((ThemeDelegate) resourcesProvider).toggle();
@@ -2587,6 +2888,39 @@ public class ChannelColorActivity extends BaseFragment {
         this.backgroundDrawable = PreviewView.getBackgroundDrawable(this.backgroundDrawable, this.currentAccount, this.selectedWallpaper, this.isDark);
         findChildAt = findChildAt(this.messagesPreviewRow);
         if (findChildAt instanceof ThemePreviewMessagesCell) {
+        }
+    }
+
+    @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
+    public void didReceivedNotification(int i, int i2, Object... objArr) {
+        if (i == NotificationCenter.chatWasBoostedByUser) {
+            updateBoostsAndLevels((TL_stories$TL_premium_boostsStatus) objArr[0]);
+        } else if (i != NotificationCenter.boostByChannelCreated || ((Boolean) objArr[1]).booleanValue()) {
+        } else {
+            getMessagesController().getBoostsController().getBoostsStats(this.dialogId, new Consumer() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda6
+                @Override // com.google.android.exoplayer2.util.Consumer
+                public final void accept(Object obj) {
+                    ChannelColorActivity.this.updateBoostsAndLevels((TL_stories$TL_premium_boostsStatus) obj);
+                }
+            });
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void updateBoostsAndLevels(TL_stories$TL_premium_boostsStatus tL_stories$TL_premium_boostsStatus) {
+        if (tL_stories$TL_premium_boostsStatus != null) {
+            TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(-this.dialogId));
+            this.boostsStatus = tL_stories$TL_premium_boostsStatus;
+            int i = tL_stories$TL_premium_boostsStatus.level;
+            this.currentLevel = i;
+            if (chat != null) {
+                chat.level = i;
+            }
+            Adapter adapter = this.adapter;
+            if (adapter != null) {
+                adapter.notifyDataSetChanged();
+            }
+            updateButton(true);
         }
     }
 }

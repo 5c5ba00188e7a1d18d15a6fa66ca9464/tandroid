@@ -11,8 +11,8 @@ public final /* synthetic */ class ChannelColorActivity$$ExternalSyntheticLambda
 
     @Override // android.view.View.OnTouchListener
     public final boolean onTouch(View view, MotionEvent motionEvent) {
-        boolean lambda$toggleTheme$15;
-        lambda$toggleTheme$15 = ChannelColorActivity.lambda$toggleTheme$15(view, motionEvent);
-        return lambda$toggleTheme$15;
+        boolean lambda$toggleTheme$16;
+        lambda$toggleTheme$16 = ChannelColorActivity.lambda$toggleTheme$16(view, motionEvent);
+        return lambda$toggleTheme$16;
     }
 }

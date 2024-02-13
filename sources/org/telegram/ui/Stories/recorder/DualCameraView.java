@@ -19,8 +19,7 @@ import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
-import org.telegram.messenger.camera.CameraController;
-import org.telegram.messenger.camera.CameraSession;
+import org.telegram.messenger.camera.CameraSessionWrapper;
 import org.telegram.messenger.camera.CameraView;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLObject;
@@ -32,7 +31,7 @@ import org.telegram.tgnet.TLRPC$TL_jsonObjectValue;
 import org.telegram.tgnet.TLRPC$TL_jsonString;
 import org.telegram.ui.ActionBar.AlertDialog;
 /* loaded from: classes4.dex */
-public class DualCameraView extends CameraView implements CameraController.ErrorCallback {
+public class DualCameraView extends CameraView {
     private static final int[] dualWhitelistByDevice = {1893745684, -215458996, -862041025, -1258375037, -1320049076, -215749424, 1901578030, -215451421, 1908491424, -1321491332, -1155551678, 1908524435, 976847578, -1489198134, 1910814392, -713271737, -2010722764, 1407170066, -821405251, -1394190955, -1394190055, 1407170066, 1407159934, 1407172057, 1231389747, -2076538925, 41497626, 846150482, -1198092731, -251277614, -2073158771, 1273004781};
     private static final int[] dualWhitelistByModel = new int[0];
     private boolean allowRotation;
@@ -96,7 +95,6 @@ public class DualCameraView extends CameraView implements CameraController.Error
         this.vertices = new float[2];
         new Matrix();
         this.vertex = new float[2];
-        CameraController.getInstance().addOnErrorListener(this);
         this.dualAvailable = dualAvailableStatic(context);
     }
 
@@ -109,7 +107,6 @@ public class DualCameraView extends CameraView implements CameraController.Error
     public void destroy(boolean z, Runnable runnable) {
         saveDual();
         super.destroy(z, runnable);
-        CameraController.getInstance().removeOnErrorListener(this);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -559,8 +556,8 @@ public class DualCameraView extends CameraView implements CameraController.Error
         return (((Math.sqrt((((d - sqrt) * d) * (d - sqrt5)) * (d - sqrt6)) + Math.sqrt((((d2 - sqrt2) * d2) * (d2 - sqrt6)) * (d2 - sqrt7))) + Math.sqrt((((d3 - sqrt3) * d3) * (d3 - sqrt7)) * (d3 - sqrt8))) + Math.sqrt((((d4 - sqrt4) * d4) * (d4 - sqrt8)) * (d4 - sqrt5))) - (sqrt * sqrt2) < 1.0d;
     }
 
-    @Override // org.telegram.messenger.camera.CameraController.ErrorCallback
-    public void onError(int i, Camera camera, CameraSession cameraSession) {
+    @Override // org.telegram.messenger.camera.CameraView, org.telegram.messenger.camera.CameraController.ErrorCallback
+    public void onError(int i, Camera camera, CameraSessionWrapper cameraSessionWrapper) {
         if (isDual()) {
             if (!dualAvailableDefault(getContext(), false)) {
                 SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
@@ -571,7 +568,7 @@ public class DualCameraView extends CameraView implements CameraController.Error
             log(false);
             toggleDual();
         }
-        if (getCameraSession(0) == cameraSession) {
+        if (getCameraSession(0) != null && getCameraSession(0).equals(cameraSessionWrapper)) {
             resetCamera();
         }
         onCameraError();

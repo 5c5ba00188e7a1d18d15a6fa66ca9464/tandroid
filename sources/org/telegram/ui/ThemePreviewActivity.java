@@ -3236,8 +3236,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     str = str2;
                 }
                 ThemePreviewActivity.this.showDialog(new ShareAlert(ThemePreviewActivity.this.getParentActivity(), null, str, false, str, false) { // from class: org.telegram.ui.ThemePreviewActivity.9.1
+                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.Components.ShareAlert
-                    protected void onSend(LongSparseArray<TLRPC$Dialog> longSparseArray, int i3, TLRPC$TL_forumTopic tLRPC$TL_forumTopic) {
+                    public void onSend(LongSparseArray<TLRPC$Dialog> longSparseArray, int i3, TLRPC$TL_forumTopic tLRPC$TL_forumTopic) {
                         if (longSparseArray.size() == 1) {
                             ThemePreviewActivity.this.undoView.showWithAction(longSparseArray.valueAt(0).id, 61, Integer.valueOf(i3));
                         } else {
@@ -4348,16 +4349,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$applyWallpaperBackground$19() {
-        TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(-this.dialogId));
-        Bundle bundle = new Bundle();
-        bundle.putLong("chat_id", -this.dialogId);
-        bundle.putBoolean("is_megagroup", chat.megagroup);
-        bundle.putBoolean("start_from_boosts", true);
-        TLRPC$ChatFull chatFull = getMessagesController().getChatFull(-this.dialogId);
-        if (chatFull == null || !chatFull.can_view_stats) {
-            bundle.putBoolean("only_boosts", true);
-        }
-        presentFragment(new StatisticActivity(bundle));
+        presentFragment(StatisticActivity.create(getMessagesController().getChat(Long.valueOf(-this.dialogId))));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -7378,6 +7370,11 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ boolean didPressAnimatedEmoji(ChatMessageCell chatMessageCell2, AnimatedEmojiSpan animatedEmojiSpan) {
                         return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressAnimatedEmoji(this, chatMessageCell2, animatedEmojiSpan);
+                    }
+
+                    @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+                    public /* synthetic */ void didPressBoostCounter(ChatMessageCell chatMessageCell2) {
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressBoostCounter(this, chatMessageCell2);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate

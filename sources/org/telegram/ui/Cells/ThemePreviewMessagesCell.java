@@ -40,6 +40,7 @@ import org.telegram.tgnet.TLRPC$TL_messageMediaWebPage;
 import org.telegram.tgnet.TLRPC$TL_messageReplyHeader;
 import org.telegram.tgnet.TLRPC$TL_peerChannel;
 import org.telegram.tgnet.TLRPC$TL_peerUser;
+import org.telegram.tgnet.TLRPC$TL_user;
 import org.telegram.tgnet.TLRPC$TL_webPage;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$WebPage;
@@ -107,8 +108,8 @@ public class ThemePreviewMessagesCell extends LinearLayout {
         this(context, iNavigationLayout, i, j, null);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:75:0x03fa  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x0454 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x0417  */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x0478 A[SYNTHETIC] */
     @SuppressLint({"ClickableViewAccessibility"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -337,6 +338,13 @@ public class ThemePreviewMessagesCell extends LinearLayout {
             messageObject7.eventId = 1L;
             messageObject7.resetLayout();
             messageObject7.replyMessageObject = messageObject5;
+            if (i == 4) {
+                TLRPC$TL_user tLRPC$TL_user = new TLRPC$TL_user();
+                String string2 = LocaleController.getString(R.string.GroupThemePreviewSenderName);
+                tLRPC$TL_user.first_name = string2;
+                messageObject7.customName = string2;
+                messageObject7.customAvatarDrawable = new AvatarDrawable((TLRPC$User) tLRPC$TL_user, false);
+            }
             messageObject = messageObject7;
             messageObject2 = messageObject6;
             i2 = 0;
@@ -505,6 +513,11 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ boolean didPressAnimatedEmoji(ChatMessageCell chatMessageCell, AnimatedEmojiSpan animatedEmojiSpan) {
                         return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressAnimatedEmoji(this, chatMessageCell, animatedEmojiSpan);
+                    }
+
+                    @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+                    public /* synthetic */ void didPressBoostCounter(ChatMessageCell chatMessageCell) {
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressBoostCounter(this, chatMessageCell);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -787,7 +800,7 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                     }
                 });
                 ChatMessageCell[] chatMessageCellArr2 = this.cells;
-                chatMessageCellArr2[i2].isChat = i == 2;
+                chatMessageCellArr2[i2].isChat = i == 2 || i == 4;
                 chatMessageCellArr2[i2].setFullyDraw(true);
                 MessageObject messageObject8 = i2 == 0 ? messageObject : messageObject2;
                 if (messageObject8 != null) {

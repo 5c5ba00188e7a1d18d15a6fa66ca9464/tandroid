@@ -152,18 +152,14 @@ public class WallpapersListActivity extends BaseFragment implements Notification
     private static final String[] searchColorsNames = {"Blue", "Red", "Orange", "Yellow", "Green", "Teal", "Purple", "Pink", "Brown", "Black", "Gray", "White"};
     private static final int[] searchColorsNamesR = {R.string.Blue, R.string.Red, R.string.Orange, R.string.Yellow, R.string.Green, R.string.Teal, R.string.Purple, R.string.Pink, R.string.Brown, R.string.Black, R.string.Gray, R.string.White};
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ boolean lambda$createView$0(View view, MotionEvent motionEvent) {
-        return true;
-    }
-
     /* loaded from: classes3.dex */
     public static class EmojiWallpaper {
         public final String emoticon;
+    }
 
-        public EmojiWallpaper(String str) {
-            this.emoticon = str;
-        }
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ boolean lambda$createView$0(View view, MotionEvent motionEvent) {
+        return true;
     }
 
     /* loaded from: classes3.dex */

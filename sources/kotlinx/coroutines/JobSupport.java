@@ -823,7 +823,7 @@ public class JobSupport implements Job, ChildJob, ParentJob {
             this._rootCause = th;
         }
 
-        /* JADX WARN: Type inference failed for: r0v0, types: [boolean, int] */
+        /* JADX WARN: Type inference failed for: r0v0, types: [int, boolean] */
         public final boolean isCompleting() {
             return this._isCompleting;
         }

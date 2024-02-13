@@ -1175,11 +1175,11 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
             updateItems(z, true);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:129:0x061a  */
-        /* JADX WARN: Removed duplicated region for block: B:248:0x082e  */
-        /* JADX WARN: Removed duplicated region for block: B:39:0x0151  */
-        /* JADX WARN: Removed duplicated region for block: B:40:0x0153  */
-        /* JADX WARN: Removed duplicated region for block: B:43:0x015d  */
+        /* JADX WARN: Removed duplicated region for block: B:135:0x062e  */
+        /* JADX WARN: Removed duplicated region for block: B:254:0x0843  */
+        /* JADX WARN: Removed duplicated region for block: B:39:0x0157  */
+        /* JADX WARN: Removed duplicated region for block: B:40:0x0159  */
+        /* JADX WARN: Removed duplicated region for block: B:43:0x0163  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -1191,6 +1191,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
             int dp2;
             boolean containsKey;
             boolean z3;
+            boolean z4;
             String formatPluralString;
             String string;
             String string2;
@@ -1215,6 +1216,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                         string2 = LocaleController.getString("StoryPrivacyAlertSubtitleProfile", R.string.StoryPrivacyAlertSubtitleProfile);
                     }
                     arrayList2.add(ItemInner.asHeader2(string, string2));
+                    z4 = false;
                     z3 = true;
                 } else {
                     this.items.add(ItemInner.asHeaderCell(LocaleController.getString(R.string.StoryPrivacyPublishAs)));
@@ -1226,9 +1228,12 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                         this.items.add(ItemInner.asUser(MessagesController.getInstance(((BottomSheet) storyPrivacyBottomSheet).currentAccount).getUser(Long.valueOf(StoryPrivacyBottomSheet.this.selectedPeer.user_id)), false, false).asSendAs());
                     } else {
                         if (tLRPC$InputPeer instanceof TLRPC$TL_inputPeerChannel) {
-                            this.items.add(ItemInner.asChat(MessagesController.getInstance(((BottomSheet) storyPrivacyBottomSheet).currentAccount).getChat(Long.valueOf(StoryPrivacyBottomSheet.this.selectedPeer.channel_id)), false).asSendAs());
+                            TLRPC$Chat chat = MessagesController.getInstance(((BottomSheet) storyPrivacyBottomSheet).currentAccount).getChat(Long.valueOf(StoryPrivacyBottomSheet.this.selectedPeer.channel_id));
+                            this.items.add(ItemInner.asChat(chat, false).asSendAs());
+                            z4 = ChatObject.isChannelAndNotMegaGroup(chat);
                         } else if (tLRPC$InputPeer instanceof TLRPC$TL_inputPeerChat) {
                             this.items.add(ItemInner.asChat(MessagesController.getInstance(((BottomSheet) storyPrivacyBottomSheet).currentAccount).getChat(Long.valueOf(StoryPrivacyBottomSheet.this.selectedPeer.chat_id)), false).asSendAs());
+                            z4 = false;
                         }
                         z3 = false;
                         ItemInner asShadow = ItemInner.asShadow(null);
@@ -1238,6 +1243,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                             this.items.add(ItemInner.asHeaderCell(LocaleController.getString(R.string.StoryPrivacyWhoCanView)));
                         }
                     }
+                    z4 = false;
                     z3 = true;
                     ItemInner asShadow2 = ItemInner.asShadow(null);
                     asShadow2.resId = !z3 ? 1 : 2;
@@ -1315,8 +1321,8 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                 }
                 if (!StoryPrivacyBottomSheet.this.isEdit) {
                     this.items.add(ItemInner.asCheck(LocaleController.getString(R.string.StoryAllowScreenshots), 0, StoryPrivacyBottomSheet.this.allowScreenshots));
-                    this.items.add(ItemInner.asCheck(LocaleController.getString(z3 ? R.string.StoryKeep : R.string.StoryKeepChannel), 1, StoryPrivacyBottomSheet.this.keepOnMyPage));
-                    this.items.add(ItemInner.asShadow(LocaleController.formatPluralString(z3 ? "StoryKeepInfo" : "StoryKeepChannelInfo", (StoryPrivacyBottomSheet.this.storyPeriod == Integer.MAX_VALUE ? 86400 : StoryPrivacyBottomSheet.this.storyPeriod) / 3600, new Object[0])));
+                    this.items.add(ItemInner.asCheck(LocaleController.getString(z3 ? R.string.StoryKeep : z4 ? R.string.StoryKeepChannel : R.string.StoryKeepGroup), 1, StoryPrivacyBottomSheet.this.keepOnMyPage));
+                    this.items.add(ItemInner.asShadow(LocaleController.formatPluralString(z3 ? "StoryKeepInfo" : z4 ? "StoryKeepChannelInfo" : "StoryKeepGroupInfo", (StoryPrivacyBottomSheet.this.storyPeriod == Integer.MAX_VALUE ? 86400 : StoryPrivacyBottomSheet.this.storyPeriod) / 3600, new Object[0])));
                 }
             } else {
                 if (i3 == 1) {
@@ -1398,7 +1404,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                     updateSectionCell(z);
                     this.containsHeader = true;
                 }
-                boolean z4 = !TextUtils.isEmpty(this.query);
+                boolean z5 = !TextUtils.isEmpty(this.query);
                 if (this.pageType != 0) {
                     String lowerCase = AndroidUtilities.translitSafe(this.query).toLowerCase();
                     int i4 = this.pageType;
@@ -1409,7 +1415,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                         users = storyPrivacyBottomSheet2.getUsers(i4 == 1 || i4 == 2, storyPrivacyBottomSheet2.allowSmallChats && ((i = this.pageType) == 3 || i == 6));
                     }
                     HashSet mergeUsers = StoryPrivacyBottomSheet.this.mergeUsers(this.selectedUsers, this.selectedUsersByGroup);
-                    if (z4) {
+                    if (z5) {
                         i2 = 0;
                     } else {
                         if (!z) {
@@ -1432,9 +1438,9 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                             if (tLObject2 instanceof TLRPC$User) {
                                 TLRPC$User tLRPC$User = (TLRPC$User) tLObject2;
                                 boolean contains = this.selectedUsers.contains(Long.valueOf(tLRPC$User.id));
-                                boolean z5 = !contains && mergeUsers.contains(Long.valueOf(tLRPC$User.id));
+                                boolean z6 = !contains && mergeUsers.contains(Long.valueOf(tLRPC$User.id));
                                 ArrayList<ItemInner> arrayList10 = this.items;
-                                ItemInner asUser = ItemInner.asUser(tLRPC$User, contains, z5);
+                                ItemInner asUser = ItemInner.asUser(tLRPC$User, contains, z6);
                                 int i7 = this.pageType;
                                 arrayList10.add(asUser.red(i7 == 2 || i7 == 4));
                                 dp += AndroidUtilities.dp(56.0f);
@@ -1451,13 +1457,13 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                     }
                     for (int i9 = 0; i9 < users.size(); i9++) {
                         TLObject tLObject3 = (TLObject) users.get(i9);
-                        if ((z4 || !this.atTop.contains(tLObject3)) && match(tLObject3, lowerCase)) {
+                        if ((z5 || !this.atTop.contains(tLObject3)) && match(tLObject3, lowerCase)) {
                             if (tLObject3 instanceof TLRPC$User) {
                                 TLRPC$User tLRPC$User2 = (TLRPC$User) tLObject3;
                                 boolean contains2 = this.selectedUsers.contains(Long.valueOf(tLRPC$User2.id));
-                                boolean z6 = !contains2 && mergeUsers.contains(Long.valueOf(tLRPC$User2.id));
+                                boolean z7 = !contains2 && mergeUsers.contains(Long.valueOf(tLRPC$User2.id));
                                 ArrayList<ItemInner> arrayList12 = this.items;
-                                ItemInner asUser2 = ItemInner.asUser(tLRPC$User2, contains2, z6);
+                                ItemInner asUser2 = ItemInner.asUser(tLRPC$User2, contains2, z7);
                                 int i10 = this.pageType;
                                 arrayList12.add(asUser2.red(i10 == 2 || i10 == 4));
                                 dp += AndroidUtilities.dp(56.0f);
@@ -1473,7 +1479,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                             }
                         }
                     }
-                    if (z4) {
+                    if (z5) {
                         if (i2 == 0) {
                             this.items.add(ItemInner.asNoUsers());
                             dp += AndroidUtilities.dp(150.0f);
@@ -1503,7 +1509,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                 this.contentView.invalidate();
             }
             dp = 0.0f;
-            boolean z42 = !TextUtils.isEmpty(this.query);
+            boolean z52 = !TextUtils.isEmpty(this.query);
             if (this.pageType != 0) {
             }
             if (this.layoutManager.getReverseLayout()) {
@@ -3153,10 +3159,11 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                 if (i <= 0) {
                     i = tLRPC$Chat.participants_count;
                 }
+                boolean isChannelAndNotMegaGroup = ChatObject.isChannelAndNotMegaGroup(tLRPC$Chat);
                 if (i >= 1) {
-                    lowerCase = LocaleController.formatPluralString("Subscribers", i, new Object[0]);
+                    lowerCase = LocaleController.formatPluralString(isChannelAndNotMegaGroup ? "Subscribers" : "Members", i, new Object[0]);
                 } else {
-                    lowerCase = LocaleController.getString(R.string.DiscussChannel);
+                    lowerCase = LocaleController.getString(isChannelAndNotMegaGroup ? R.string.DiscussChannel : R.string.AccDescrGroup);
                 }
             } else if (!ChatObject.isChannel(tLRPC$Chat) || tLRPC$Chat.megagroup) {
                 if (i >= 1) {

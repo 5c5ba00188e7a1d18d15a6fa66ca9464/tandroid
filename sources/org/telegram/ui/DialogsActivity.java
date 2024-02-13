@@ -3205,7 +3205,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     /* JADX WARN: Type inference failed for: r0v233, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, org.telegram.ui.Components.RecyclerListView] */
     /* JADX WARN: Type inference failed for: r0v30, types: [org.telegram.ui.ActionBar.ActionBar] */
     /* JADX WARN: Type inference failed for: r13v0 */
-    /* JADX WARN: Type inference failed for: r13v1, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r13v1, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r13v4 */
     /* JADX WARN: Type inference failed for: r2v85, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, org.telegram.ui.Components.RecyclerListView] */
     /* JADX WARN: Type inference failed for: r2v86, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, org.telegram.ui.Components.RecyclerListView] */
@@ -3216,7 +3216,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     /* JADX WARN: Type inference failed for: r2v95, types: [androidx.recyclerview.widget.LinearLayoutManager] */
     /* JADX WARN: Type inference failed for: r3v49, types: [android.graphics.drawable.BitmapDrawable] */
     /* JADX WARN: Type inference failed for: r7v0 */
-    /* JADX WARN: Type inference failed for: r7v1, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r7v1, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r7v11 */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
@@ -4081,6 +4081,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 this.commentView.setDelegate(new ChatActivityEnterView.ChatActivityEnterViewDelegate() { // from class: org.telegram.ui.DialogsActivity.25
                     @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
                     public void bottomPanelTranslationYChanged(float f4) {
+                    }
+
+                    @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+                    public /* synthetic */ boolean checkCanRemoveRestrictionsByBoosts() {
+                        return ChatActivityEnterView.ChatActivityEnterViewDelegate.-CC.$default$checkCanRemoveRestrictionsByBoosts(this);
                     }
 
                     @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
@@ -6370,6 +6375,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     return;
                 }
             } else {
+                TLRPC$Chat chat = DialogsActivity.this.getMessagesController().getChat(Long.valueOf(-j));
                 final String sharedPrefKey = NotificationsController.getSharedPrefKey(j, 0L);
                 boolean z = !NotificationsCustomSettingsActivity.areStoriesNotMuted(((BaseFragment) DialogsActivity.this).currentAccount, j);
                 DialogsActivity.this.filterOptions.addIf(j > 0, R.drawable.msg_discussion, LocaleController.getString("SendMessage", R.string.SendMessage), new Runnable() { // from class: org.telegram.ui.DialogsActivity$29$$ExternalSyntheticLambda7
@@ -6382,7 +6388,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     public final void run() {
                         DialogsActivity.29.this.lambda$onUserLongPressed$4(j);
                     }
-                }).addIf(j < 0, R.drawable.msg_channel, LocaleController.getString("OpenChannel2", R.string.OpenChannel2), new Runnable() { // from class: org.telegram.ui.DialogsActivity$29$$ExternalSyntheticLambda5
+                }).addIf(j < 0, R.drawable.msg_channel, LocaleController.getString(ChatObject.isChannelAndNotMegaGroup(chat) ? R.string.OpenChannel2 : R.string.OpenGroup2), new Runnable() { // from class: org.telegram.ui.DialogsActivity$29$$ExternalSyntheticLambda5
                     @Override // java.lang.Runnable
                     public final void run() {
                         DialogsActivity.29.this.lambda$onUserLongPressed$5(j);

@@ -256,7 +256,6 @@ import org.telegram.tgnet.TLRPC$WebPageAttribute;
 import org.telegram.tgnet.TLRPC$account_EmojiStatuses;
 import org.telegram.tgnet.TLRPC$messages_Messages;
 import org.telegram.tgnet.TLRPC$messages_StickerSet;
-import org.telegram.tgnet.tl.TL_stories$StoryItem;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.EmojiThemes;
 import org.telegram.ui.ActionBar.Theme;
@@ -8156,7 +8155,7 @@ public class MediaDataController extends BaseController {
     /* JADX WARN: Type inference failed for: r3v1, types: [java.lang.Object[]] */
     /* JADX WARN: Type inference failed for: r4v1 */
     /* JADX WARN: Type inference failed for: r4v11 */
-    /* JADX WARN: Type inference failed for: r4v2, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r4v2, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r7v1, types: [java.lang.String] */
     /* JADX WARN: Type inference failed for: r7v13, types: [java.lang.StringBuilder] */
     /* JADX WARN: Type inference failed for: r7v2 */
@@ -8465,106 +8464,106 @@ public class MediaDataController extends BaseController {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:100:0x01a6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:100:0x01b2, code lost:
         if (r1.contains(java.lang.Integer.valueOf(r12)) != false) goto L140;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:101:0x01a8, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:101:0x01b4, code lost:
         r1.add(java.lang.Integer.valueOf(r12));
      */
-    /* JADX WARN: Code restructure failed: missing block: B:102:0x01af, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:102:0x01bb, code lost:
         r2.add(r4);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:62:0x0114, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:62:0x0120, code lost:
         if (r2 != 0) goto L109;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:65:0x011f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:65:0x012b, code lost:
         if (r2 != 0) goto L109;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:67:0x0122, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:67:0x012e, code lost:
         r2 = 0;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:68:0x0123, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:68:0x012f, code lost:
         r8 = r4.replyMessageObject;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:69:0x0125, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:69:0x0131, code lost:
         if (r8 == null) goto L120;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:70:0x0127, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:70:0x0133, code lost:
         r8 = r8.messageOwner;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:71:0x0129, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:71:0x0135, code lost:
         if (r8 == null) goto L119;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:72:0x012b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:72:0x0137, code lost:
         r8 = r8.peer_id;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:73:0x012d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:73:0x0139, code lost:
         if (r8 == null) goto L119;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:75:0x0131, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:75:0x013d, code lost:
         if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageEmpty) == false) goto L117;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:78:0x0138, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:78:0x0144, code lost:
         if (r8.channel_id != r2) goto L120;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:79:0x013a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:79:0x0146, code lost:
         r5 = r1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:81:0x0141, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:81:0x014d, code lost:
         if (r19 == org.telegram.messenger.UserObject.REPLY_BOT) goto L141;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:83:0x0147, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:83:0x0153, code lost:
         if (r2 == 0) goto L141;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:84:0x0149, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:84:0x0155, code lost:
         r5 = r1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:85:0x0151, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:85:0x015d, code lost:
         if (r4.getDialogId() == (-r2)) goto L130;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:86:0x0153, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:86:0x015f, code lost:
         r0 = org.telegram.messenger.MessagesController.getInstance(r17.currentAccount).getChat(java.lang.Long.valueOf(r2));
      */
-    /* JADX WARN: Code restructure failed: missing block: B:87:0x0161, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:87:0x016d, code lost:
         if (r0 == null) goto L130;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:89:0x0167, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:89:0x0173, code lost:
         if (org.telegram.messenger.ChatObject.isPublic(r0) != false) goto L130;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:91:0x016d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:91:0x0179, code lost:
         r5 = r1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:92:0x016e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:92:0x017a, code lost:
         r0 = (android.util.SparseArray) r6.get(r19);
         r1 = (java.util.ArrayList) r7.get(r2);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:93:0x017a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:93:0x0186, code lost:
         if (r0 != null) goto L133;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:94:0x017c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:94:0x0188, code lost:
         r0 = new android.util.SparseArray();
         r6.put(r19, r0);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:95:0x0184, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:95:0x0190, code lost:
         if (r1 != null) goto L135;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:96:0x0186, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:96:0x0192, code lost:
         r1 = new java.util.ArrayList();
         r7.put(r2, r1);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:97:0x018e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:97:0x019a, code lost:
         r2 = (java.util.ArrayList) r0.get(r12);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:98:0x0194, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:98:0x01a0, code lost:
         if (r2 != null) goto L140;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:99:0x0196, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:99:0x01a2, code lost:
         r2 = new java.util.ArrayList();
         r0.put(r12, r2);
      */
-    /* JADX WARN: Removed duplicated region for block: B:118:0x0201  */
-    /* JADX WARN: Removed duplicated region for block: B:129:0x0220  */
-    /* JADX WARN: Removed duplicated region for block: B:159:0x026c A[ADDED_TO_REGION, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:118:0x020d  */
+    /* JADX WARN: Removed duplicated region for block: B:129:0x022c  */
+    /* JADX WARN: Removed duplicated region for block: B:159:0x0278 A[ADDED_TO_REGION, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -8666,27 +8665,28 @@ public class MediaDataController extends BaseController {
                 } else {
                     if (messageObject2.getId() > 0 && messageObject2.isReplyToStory()) {
                         TLRPC$Message tLRPC$Message2 = messageObject2.messageOwner;
-                        TL_stories$StoryItem tL_stories$StoryItem = tLRPC$Message2.replyStory;
-                        if (tL_stories$StoryItem == null) {
-                            long j5 = tLRPC$Message2.reply_to.user_id;
+                        if (tLRPC$Message2.replyStory == null) {
+                            long peerDialogId4 = DialogObject.getPeerDialogId(tLRPC$Message2.reply_to.peer);
                             if (longSparseArray5 == null) {
                                 longSparseArray5 = new LongSparseArray();
                             }
-                            ArrayList arrayList7 = (ArrayList) longSparseArray5.get(j5);
+                            ArrayList arrayList7 = (ArrayList) longSparseArray5.get(peerDialogId4);
                             if (arrayList7 == null) {
                                 arrayList7 = new ArrayList();
-                                longSparseArray5.put(j5, arrayList7);
+                                longSparseArray5.put(peerDialogId4, arrayList7);
                             }
                             arrayList7.add(messageObject2);
                             i2 = i5;
                             if (messageObject2.type == 0) {
                             }
                         } else {
-                            tLRPC$Message2.replyStory = StoriesStorage.checkExpiredStateLocal(this.currentAccount, tLRPC$Message2.reply_to.user_id, tL_stories$StoryItem);
+                            long peerDialogId5 = DialogObject.getPeerDialogId(tLRPC$Message2.reply_to.peer);
+                            TLRPC$Message tLRPC$Message3 = messageObject2.messageOwner;
+                            tLRPC$Message3.replyStory = StoriesStorage.checkExpiredStateLocal(this.currentAccount, peerDialogId5, tLRPC$Message3.replyStory);
                         }
                     } else if (messageObject2.getId() > 0 && messageObject2.isReply()) {
-                        TLRPC$Message tLRPC$Message3 = messageObject2.messageOwner;
-                        TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader = tLRPC$Message3.reply_to;
+                        TLRPC$Message tLRPC$Message4 = messageObject2.messageOwner;
+                        TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader = tLRPC$Message4.reply_to;
                         int i7 = tLRPC$MessageReplyHeader.reply_to_msg_id;
                         if (i7 != j2) {
                             TLRPC$Peer tLRPC$Peer = tLRPC$MessageReplyHeader.reply_to_peer_id;
@@ -8695,7 +8695,7 @@ public class MediaDataController extends BaseController {
                                 j3 = tLRPC$Peer.channel_id;
                             } else {
                                 longSparseArray = longSparseArray5;
-                                j3 = tLRPC$Message3.peer_id.channel_id;
+                                j3 = tLRPC$Message4.peer_id.channel_id;
                             }
                         }
                     }
@@ -8793,7 +8793,7 @@ public class MediaDataController extends BaseController {
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Type inference failed for: r15v4 */
-    /* JADX WARN: Type inference failed for: r15v5, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r15v5, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r15v9 */
     public /* synthetic */ void lambda$loadReplyMessagesForMessages$169(LongSparseArray longSparseArray, final AtomicInteger atomicInteger, final Runnable runnable, int i, final LongSparseArray longSparseArray2, LongSparseArray longSparseArray3, final boolean z, final long j) {
         int i2;
@@ -10067,7 +10067,7 @@ public class MediaDataController extends BaseController {
         if (z) {
             return MessageObject.peersEqual(tLRPC$InputReplyTo.reply_to_peer_id, tLRPC$InputReplyTo2.reply_to_peer_id) && TextUtils.equals(tLRPC$InputReplyTo.quote_text, tLRPC$InputReplyTo2.quote_text) && tLRPC$InputReplyTo.reply_to_msg_id == tLRPC$InputReplyTo2.reply_to_msg_id;
         } else if (tLRPC$InputReplyTo instanceof TLRPC$TL_inputReplyToStory) {
-            return tLRPC$InputReplyTo.user_id == tLRPC$InputReplyTo2.user_id && tLRPC$InputReplyTo.story_id == tLRPC$InputReplyTo2.story_id;
+            return MessageObject.peersEqual(tLRPC$InputReplyTo.peer, tLRPC$InputReplyTo2.peer) && tLRPC$InputReplyTo.story_id == tLRPC$InputReplyTo2.story_id;
         } else {
             return true;
         }
@@ -10076,7 +10076,7 @@ public class MediaDataController extends BaseController {
     private static TLRPC$InputReplyTo toInputReplyTo(int i, TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader) {
         if (tLRPC$MessageReplyHeader instanceof TLRPC$TL_messageReplyStoryHeader) {
             TLRPC$TL_inputReplyToStory tLRPC$TL_inputReplyToStory = new TLRPC$TL_inputReplyToStory();
-            tLRPC$TL_inputReplyToStory.user_id = MessagesController.getInstance(i).getInputUser(tLRPC$MessageReplyHeader.user_id);
+            tLRPC$TL_inputReplyToStory.peer = MessagesController.getInstance(i).getInputPeer(tLRPC$MessageReplyHeader.peer);
             tLRPC$TL_inputReplyToStory.story_id = tLRPC$MessageReplyHeader.story_id;
             return tLRPC$TL_inputReplyToStory;
         } else if (tLRPC$MessageReplyHeader instanceof TLRPC$TL_messageReplyHeader) {
@@ -12885,11 +12885,16 @@ public class MediaDataController extends BaseController {
     }
 
     public void pushDraftVoiceMessage(long j, long j2, DraftVoice draftVoice) {
-        Context context = ApplicationLoader.applicationContext;
-        SharedPreferences sharedPreferences = context.getSharedPreferences("voicedrafts_" + this.currentAccount, 0);
-        long hash = (long) Objects.hash(Long.valueOf(j), Long.valueOf(j2));
-        sharedPreferences.edit().remove(hash + "").apply();
-        this.draftVoices.remove(hash);
+        SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("voicedrafts_" + this.currentAccount, 0);
+        long hash = Objects.hash(Long.valueOf(j), Long.valueOf(j2));
+        String str = hash + "";
+        if (draftVoice == null) {
+            sharedPreferences.edit().remove(str).apply();
+            this.draftVoices.remove(hash);
+            return;
+        }
+        sharedPreferences.edit().putString(str, draftVoice.toString()).apply();
+        this.draftVoices.put(hash, draftVoice);
     }
 
     public DraftVoice getDraftVoice(long j, long j2) {

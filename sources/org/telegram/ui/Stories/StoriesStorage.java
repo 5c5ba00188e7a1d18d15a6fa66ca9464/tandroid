@@ -70,29 +70,26 @@ public class StoriesStorage {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x0153  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x0159  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x0162  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x014a  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0155  */
     /* JADX WARN: Type inference failed for: r7v10 */
-    /* JADX WARN: Type inference failed for: r7v2, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r7v2, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r7v4 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public /* synthetic */ void lambda$getAllStories$3(final Consumer consumer) {
-        ArrayList<Long> arrayList;
         SQLiteCursor sQLiteCursor;
         boolean z;
         SQLiteDatabase sQLiteDatabase;
-        ArrayList<Long> arrayList2;
         int i;
         LongSparseIntArray longSparseIntArray;
         int i2;
         TLRPC$Peer tLRPC$Peer;
         SQLiteDatabase database = this.storage.getDatabase();
-        ArrayList<TL_stories$PeerStories> arrayList3 = new ArrayList<>();
-        ArrayList<Long> arrayList4 = new ArrayList<>();
-        ArrayList<Long> arrayList5 = new ArrayList<>();
+        ArrayList<TL_stories$PeerStories> arrayList = new ArrayList<>();
+        ArrayList<Long> arrayList2 = new ArrayList<>();
+        ArrayList<Long> arrayList3 = new ArrayList<>();
         int i3 = 1;
         int i4 = 0;
         try {
@@ -103,9 +100,9 @@ public class StoriesStorage {
                     long longValue = queryFinalized.longValue(0);
                     longSparseIntArray2.put(longValue, queryFinalized.intValue(1));
                     if (longValue > 0) {
-                        arrayList4.add(Long.valueOf(longValue));
+                        arrayList2.add(Long.valueOf(longValue));
                     } else {
-                        arrayList5.add(Long.valueOf(longValue));
+                        arrayList3.add(Long.valueOf(longValue));
                     }
                 }
                 queryFinalized.dispose();
@@ -118,7 +115,7 @@ public class StoriesStorage {
                     objArr[i4] = Long.valueOf(keyAt);
                     sQLiteCursor = database.queryFinalized(String.format(locale, "SELECT data, custom_params FROM stories WHERE dialog_id = %d", objArr), new Object[i4]);
                     try {
-                        ArrayList<TL_stories$StoryItem> arrayList6 = new ArrayList<>();
+                        ArrayList<TL_stories$StoryItem> arrayList4 = new ArrayList<>();
                         ?? r7 = i3;
                         while (sQLiteCursor.next()) {
                             NativeByteBuffer byteBufferValue = sQLiteCursor.byteBufferValue(i4);
@@ -129,7 +126,7 @@ public class StoriesStorage {
                                 TLdeserialize.dialogId = keyAt;
                                 TL_stories$StoryFwdHeader tL_stories$StoryFwdHeader = TLdeserialize.fwd_from;
                                 if (tL_stories$StoryFwdHeader != null && (tLRPC$Peer = tL_stories$StoryFwdHeader.from) != null) {
-                                    MessagesStorage.addLoadPeerInfo(tLRPC$Peer, arrayList4, arrayList5);
+                                    MessagesStorage.addLoadPeerInfo(tLRPC$Peer, arrayList2, arrayList3);
                                 }
                                 longSparseIntArray = longSparseIntArray2;
                                 int i6 = 0;
@@ -137,43 +134,25 @@ public class StoriesStorage {
                                     if (TLdeserialize.media_areas.get(i6) instanceof TL_stories$TL_mediaAreaChannelPost) {
                                         i2 = i5;
                                         long j = ((TL_stories$TL_mediaAreaChannelPost) TLdeserialize.media_areas.get(i6)).channel_id;
-                                        arrayList = arrayList4;
-                                        try {
-                                            if (!arrayList5.contains(Long.valueOf(j))) {
-                                                arrayList5.add(Long.valueOf(j));
-                                            }
-                                        } catch (Throwable th) {
-                                            th = th;
-                                            try {
-                                                FileLog.e(th);
-                                                if (sQLiteCursor != null) {
-                                                }
-                                                z = true;
-                                                if (z) {
-                                                }
-                                            } catch (Throwable th2) {
-                                                if (sQLiteCursor != null) {
-                                                    sQLiteCursor.dispose();
-                                                }
-                                                throw th2;
-                                            }
+                                        if (!arrayList3.contains(Long.valueOf(j))) {
+                                            arrayList3.add(Long.valueOf(j));
                                         }
                                     } else {
-                                        arrayList = arrayList4;
                                         i2 = i5;
                                     }
                                     i6++;
                                     i5 = i2;
-                                    arrayList4 = arrayList;
                                 }
-                                arrayList2 = arrayList4;
                                 i = i5;
+                                TLRPC$Peer tLRPC$Peer2 = TLdeserialize.from_id;
+                                if (tLRPC$Peer2 != null) {
+                                    MessagesStorage.addLoadPeerInfo(tLRPC$Peer2, arrayList2, arrayList3);
+                                }
                                 StoryCustomParamsHelper.readLocalParams(TLdeserialize, byteBufferValue2);
-                                arrayList6.add(TLdeserialize);
+                                arrayList4.add(TLdeserialize);
                                 byteBufferValue.reuse();
                             } else {
                                 sQLiteDatabase = database;
-                                arrayList2 = arrayList4;
                                 i = i5;
                                 longSparseIntArray = longSparseIntArray2;
                             }
@@ -183,55 +162,51 @@ public class StoriesStorage {
                             database = sQLiteDatabase;
                             longSparseIntArray2 = longSparseIntArray;
                             i5 = i;
-                            arrayList4 = arrayList2;
                             r7 = 1;
                             i4 = 0;
                         }
                         SQLiteDatabase sQLiteDatabase2 = database;
-                        arrayList = arrayList4;
                         int i7 = i5;
                         LongSparseIntArray longSparseIntArray3 = longSparseIntArray2;
                         sQLiteCursor.dispose();
+                        TL_stories$TL_peerStories tL_stories$TL_peerStories = new TL_stories$TL_peerStories();
+                        tL_stories$TL_peerStories.stories = arrayList4;
+                        tL_stories$TL_peerStories.max_read_id = valueAt;
+                        tL_stories$TL_peerStories.peer = MessagesController.getInstance(this.currentAccount).getPeer(keyAt);
+                        arrayList.add(tL_stories$TL_peerStories);
+                        i5 = i7 + 1;
+                        database = sQLiteDatabase2;
+                        longSparseIntArray2 = longSparseIntArray3;
+                        i3 = 1;
+                        i4 = 0;
+                    } catch (Throwable th) {
+                        th = th;
                         try {
-                            TL_stories$TL_peerStories tL_stories$TL_peerStories = new TL_stories$TL_peerStories();
-                            tL_stories$TL_peerStories.stories = arrayList6;
-                            tL_stories$TL_peerStories.max_read_id = valueAt;
-                            tL_stories$TL_peerStories.peer = MessagesController.getInstance(this.currentAccount).getPeer(keyAt);
-                            arrayList3.add(tL_stories$TL_peerStories);
-                            i5 = i7 + 1;
-                            database = sQLiteDatabase2;
-                            longSparseIntArray2 = longSparseIntArray3;
-                            arrayList4 = arrayList;
-                            i3 = 1;
-                            i4 = 0;
-                        } catch (Throwable th3) {
-                            th = th3;
-                            sQLiteCursor = null;
                             FileLog.e(th);
                             if (sQLiteCursor != null) {
                                 sQLiteCursor.dispose();
                             }
                             z = true;
-                            if (z) {
+                            if (!z) {
                             }
+                        } catch (Throwable th2) {
+                            if (sQLiteCursor != null) {
+                                sQLiteCursor.dispose();
+                            }
+                            throw th2;
                         }
-                    } catch (Throwable th4) {
-                        th = th4;
-                        arrayList = arrayList4;
                     }
                 }
-                arrayList = arrayList4;
                 z = false;
-            } catch (Throwable th5) {
-                th = th5;
-                arrayList = arrayList4;
+            } catch (Throwable th3) {
+                th = th3;
                 sQLiteCursor = queryFinalized;
             }
-        } catch (Throwable th6) {
-            th = th6;
-            arrayList = arrayList4;
+        } catch (Throwable th4) {
+            th = th4;
+            sQLiteCursor = null;
         }
-        if (z) {
+        if (!z) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
@@ -241,9 +216,9 @@ public class StoriesStorage {
             return;
         }
         final TL_stories$TL_stories_allStories tL_stories$TL_stories_allStories = new TL_stories$TL_stories_allStories();
-        tL_stories$TL_stories_allStories.peer_stories = arrayList3;
-        tL_stories$TL_stories_allStories.users = this.storage.getUsers(arrayList);
-        tL_stories$TL_stories_allStories.chats = this.storage.getChats(arrayList5);
+        tL_stories$TL_stories_allStories.peer_stories = arrayList;
+        tL_stories$TL_stories_allStories.users = this.storage.getUsers(arrayList2);
+        tL_stories$TL_stories_allStories.chats = this.storage.getChats(arrayList3);
         int i8 = 0;
         while (i8 < tL_stories$TL_stories_allStories.peer_stories.size()) {
             TL_stories$PeerStories tL_stories$PeerStories = tL_stories$TL_stories_allStories.peer_stories.get(i8);

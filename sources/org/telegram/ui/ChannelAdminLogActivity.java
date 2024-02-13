@@ -97,6 +97,7 @@ import org.telegram.tgnet.TLRPC$ReactionCount;
 import org.telegram.tgnet.TLRPC$TL_boolFalse;
 import org.telegram.tgnet.TLRPC$TL_boolTrue;
 import org.telegram.tgnet.TLRPC$TL_channelAdminLogEvent;
+import org.telegram.tgnet.TLRPC$TL_channelAdminLogEventActionChangeEmojiStickerSet;
 import org.telegram.tgnet.TLRPC$TL_channelAdminLogEventActionChangeHistoryTTL;
 import org.telegram.tgnet.TLRPC$TL_channelAdminLogEventActionChangeStickerSet;
 import org.telegram.tgnet.TLRPC$TL_channelAdminLogEventActionDeleteMessage;
@@ -1312,7 +1313,14 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                         }
                     }
                 }
-                if (tLRPC$TL_channelAdminLogEvent3 != null && (tLRPC$TL_channelAdminLogEvent3.action instanceof TLRPC$TL_channelAdminLogEventActionChangeHistoryTTL) && ChatObject.canUserDoAdminAction(this.currentChat, 13)) {
+                if (tLRPC$TL_channelAdminLogEvent3 != null && (tLRPC$TL_channelAdminLogEvent3.action instanceof TLRPC$TL_channelAdminLogEventActionChangeEmojiStickerSet)) {
+                    GroupStickersActivity groupStickersActivity = new GroupStickersActivity(this.currentChat.id, true);
+                    TLRPC$ChatFull chatFull = getMessagesController().getChatFull(this.currentChat.id);
+                    if (chatFull != null) {
+                        groupStickersActivity.setInfo(chatFull);
+                        presentFragment(groupStickersActivity);
+                    }
+                } else if (tLRPC$TL_channelAdminLogEvent3 != null && (tLRPC$TL_channelAdminLogEvent3.action instanceof TLRPC$TL_channelAdminLogEventActionChangeHistoryTTL) && ChatObject.canUserDoAdminAction(this.currentChat, 13)) {
                     ClearHistoryAlert clearHistoryAlert = new ClearHistoryAlert(getParentActivity(), null, this.currentChat, false, null);
                     clearHistoryAlert.setDelegate(new ClearHistoryAlert.ClearHistoryAlertDelegate() { // from class: org.telegram.ui.ChannelAdminLogActivity.14
                         @Override // org.telegram.ui.Components.ClearHistoryAlert.ClearHistoryAlertDelegate
@@ -1323,9 +1331,9 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                         @Override // org.telegram.ui.Components.ClearHistoryAlert.ClearHistoryAlertDelegate
                         public void onAutoDeleteHistory(int i, int i2) {
                             ChannelAdminLogActivity.this.getMessagesController().setDialogHistoryTTL(-ChannelAdminLogActivity.this.currentChat.id, i);
-                            TLRPC$ChatFull chatFull = ChannelAdminLogActivity.this.getMessagesController().getChatFull(ChannelAdminLogActivity.this.currentChat.id);
-                            if (chatFull != null) {
-                                ChannelAdminLogActivity.this.undoView.showWithAction(-ChannelAdminLogActivity.this.currentChat.id, i2, (Object) null, Integer.valueOf(chatFull.ttl_period), (Runnable) null, (Runnable) null);
+                            TLRPC$ChatFull chatFull2 = ChannelAdminLogActivity.this.getMessagesController().getChatFull(ChannelAdminLogActivity.this.currentChat.id);
+                            if (chatFull2 != null) {
+                                ChannelAdminLogActivity.this.undoView.showWithAction(-ChannelAdminLogActivity.this.currentChat.id, i2, (Object) null, Integer.valueOf(chatFull2.ttl_period), (Runnable) null, (Runnable) null);
                             }
                         }
                     });
@@ -2529,6 +2537,11 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
             public /* synthetic */ boolean didPressAnimatedEmoji(ChatMessageCell chatMessageCell, AnimatedEmojiSpan animatedEmojiSpan) {
                 return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressAnimatedEmoji(this, chatMessageCell, animatedEmojiSpan);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ void didPressBoostCounter(ChatMessageCell chatMessageCell) {
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressBoostCounter(this, chatMessageCell);
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate

@@ -95,7 +95,6 @@ import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.VideoEditedInfo;
 import org.telegram.messenger.camera.CameraController;
-import org.telegram.messenger.camera.CameraSession;
 import org.telegram.messenger.camera.CameraView;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Chat;
@@ -3436,7 +3435,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                         z = true;
                         FileLog.e(e);
                         bitmap.recycle();
-                        if (z) {
+                        if (!z) {
                         }
                     }
                 } catch (Exception e2) {
@@ -3447,31 +3446,31 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             } else {
                 z = false;
             }
-            if (z) {
-                CameraSession cameraSession = StoryRecorder.this.cameraView.getCameraSession();
-                StoryRecorder.this.takingPhoto = CameraController.getInstance().takePicture(StoryRecorder.this.outputFile, true, cameraSession, new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$12$$ExternalSyntheticLambda7
-                    @Override // org.telegram.messenger.Utilities.Callback
-                    public final void run(Object obj) {
-                        StoryRecorder.12.this.lambda$takePicture$1(callback, (Integer) obj);
-                    }
-                });
-                return;
+            if (!z) {
+                StoryRecorder.this.takingPhoto = false;
+                StoryRecorder storyRecorder = StoryRecorder.this;
+                storyRecorder.outputEntry = StoryEntry.fromPhotoShoot(storyRecorder.outputFile, 0);
+                StoryPrivacySelector.applySaved(StoryRecorder.this.currentAccount, StoryRecorder.this.outputEntry);
+                StoryRecorder.this.fromGallery = false;
+                if (callback != null) {
+                    callback.run(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$12$$ExternalSyntheticLambda2
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            StoryRecorder.12.this.lambda$takePicture$2();
+                        }
+                    });
+                    return;
+                } else {
+                    StoryRecorder.this.navigateTo(1, true);
+                    return;
+                }
             }
-            StoryRecorder.this.takingPhoto = false;
-            StoryRecorder storyRecorder = StoryRecorder.this;
-            storyRecorder.outputEntry = StoryEntry.fromPhotoShoot(storyRecorder.outputFile, 0);
-            StoryPrivacySelector.applySaved(StoryRecorder.this.currentAccount, StoryRecorder.this.outputEntry);
-            StoryRecorder.this.fromGallery = false;
-            if (callback != null) {
-                callback.run(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$12$$ExternalSyntheticLambda2
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        StoryRecorder.12.this.lambda$takePicture$2();
-                    }
-                });
-            } else {
-                StoryRecorder.this.navigateTo(1, true);
-            }
+            StoryRecorder.this.takingPhoto = CameraController.getInstance().takePicture(StoryRecorder.this.outputFile, true, StoryRecorder.this.cameraView.getCameraSessionObject(), new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$12$$ExternalSyntheticLambda7
+                @Override // org.telegram.messenger.Utilities.Callback
+                public final void run(Object obj) {
+                    StoryRecorder.12.this.lambda$takePicture$1(callback, (Integer) obj);
+                }
+            });
         }
 
         /* JADX WARN: Removed duplicated region for block: B:58:0x0046  */
@@ -3592,7 +3591,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
 
         /* renamed from: startRecording */
         public void lambda$onVideoRecordStart$3(final boolean z, final Runnable runnable) {
-            CameraController.getInstance().recordVideo(StoryRecorder.this.cameraView.getCameraSession(), StoryRecorder.this.outputFile, false, new CameraController.VideoTakeCallback() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$12$$ExternalSyntheticLambda8
+            CameraController.getInstance().recordVideo(StoryRecorder.this.cameraView.getCameraSessionObject(), StoryRecorder.this.outputFile, false, new CameraController.VideoTakeCallback() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$12$$ExternalSyntheticLambda8
                 @Override // org.telegram.messenger.camera.CameraController.VideoTakeCallback
                 public final void onFinishVideoRecording(String str, long j) {
                     StoryRecorder.12.this.lambda$startRecording$5(str, j);
@@ -6677,7 +6676,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         if (dualCameraView == null || dualCameraView.getCameraSession() == null) {
             return null;
         }
-        if (this.cameraView.isFrontface() && this.cameraView.getCameraSession().availableFlashModes.isEmpty()) {
+        if (this.cameraView.isFrontface() && !this.cameraView.getCameraSession().hasFlashModes()) {
             checkFrontfaceFlashModes();
             return this.frontfaceFlashModes.get(this.frontfaceFlashMode);
         }
@@ -6689,7 +6688,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         if (dualCameraView == null || dualCameraView.getCameraSession() == null) {
             return null;
         }
-        if (this.cameraView.isFrontface() && this.cameraView.getCameraSession().availableFlashModes.isEmpty()) {
+        if (this.cameraView.isFrontface() && !this.cameraView.getCameraSession().hasFlashModes()) {
             checkFrontfaceFlashModes();
             ArrayList<String> arrayList = this.frontfaceFlashModes;
             return arrayList.get(this.frontfaceFlashMode + 1 >= arrayList.size() ? 0 : this.frontfaceFlashMode + 1);
@@ -6702,7 +6701,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         if (dualCameraView == null || dualCameraView.getCameraSession() == null) {
             return;
         }
-        if (this.cameraView.isFrontface() && this.cameraView.getCameraSession().availableFlashModes.isEmpty()) {
+        if (this.cameraView.isFrontface() && !this.cameraView.getCameraSession().hasFlashModes()) {
             int indexOf = this.frontfaceFlashModes.indexOf(str);
             if (indexOf >= 0) {
                 this.frontfaceFlashMode = indexOf;

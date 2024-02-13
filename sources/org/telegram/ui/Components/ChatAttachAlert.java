@@ -187,7 +187,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
     float currentPanTranslationY;
     protected ChatAttachViewDelegate delegate;
     public boolean destroyed;
-    private long dialogId;
+    public long dialogId;
     private ChatAttachAlertDocumentLayout documentLayout;
     private ChatAttachAlertDocumentLayout.DocumentSelectActivityDelegate documentsDelegate;
     private boolean documentsEnabled;
@@ -277,6 +277,14 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
     @Override // org.telegram.ui.ActionBar.BottomSheet
     protected boolean canDismissWithSwipe() {
         return false;
+    }
+
+    public TLRPC$Chat getChat() {
+        BaseFragment baseFragment = this.baseFragment;
+        if (baseFragment instanceof ChatActivity) {
+            return ((ChatActivity) baseFragment).getCurrentChat();
+        }
+        return MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-this.dialogId));
     }
 
     public void setCanOpenPreview(boolean z) {
@@ -2837,6 +2845,9 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             Activity parentActivity = baseFragment.getParentActivity();
             int intValue = ((Integer) view.getTag()).intValue();
             if (intValue == 1) {
+                if (!this.photosEnabled && !this.videosEnabled && checkCanRemoveRestrictionsByBoosts()) {
+                    return;
+                }
                 if (!this.photosEnabled && !this.videosEnabled) {
                     ChatAttachRestrictedLayout chatAttachRestrictedLayout = new ChatAttachRestrictedLayout(1, this, getContext(), resourcesProvider);
                     this.restrictedLayout = chatAttachRestrictedLayout;
@@ -2844,6 +2855,9 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                 }
                 showLayout(this.photoLayout);
             } else if (intValue == 3) {
+                if (!this.musicEnabled && checkCanRemoveRestrictionsByBoosts()) {
+                    return;
+                }
                 int i2 = Build.VERSION.SDK_INT;
                 if (i2 >= 33) {
                     if (parentActivity.checkSelfPermission("android.permission.READ_MEDIA_AUDIO") != 0) {
@@ -2856,6 +2870,9 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                 }
                 openAudioLayout(true);
             } else if (intValue == 4) {
+                if (!this.documentsEnabled && checkCanRemoveRestrictionsByBoosts()) {
+                    return;
+                }
                 int i3 = Build.VERSION.SDK_INT;
                 if (i3 >= 33) {
                     if (parentActivity.checkSelfPermission("android.permission.READ_MEDIA_IMAGES") != 0 || parentActivity.checkSelfPermission("android.permission.READ_MEDIA_VIDEO") != 0) {
@@ -2868,13 +2885,16 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                 }
                 openDocumentsLayout(true);
             } else if (intValue == 5) {
+                if (!this.plainTextEnabled && checkCanRemoveRestrictionsByBoosts()) {
+                    return;
+                }
                 if (Build.VERSION.SDK_INT >= 23 && this.plainTextEnabled && getContext().checkSelfPermission("android.permission.READ_CONTACTS") != 0) {
                     AndroidUtilities.findActivity(getContext()).requestPermissions(new String[]{"android.permission.READ_CONTACTS"}, 5);
                     return;
                 }
                 openContactsLayout();
             } else if (intValue == 6) {
-                if (!AndroidUtilities.isMapsInstalled(this.baseFragment)) {
+                if ((!this.plainTextEnabled && checkCanRemoveRestrictionsByBoosts()) || !AndroidUtilities.isMapsInstalled(this.baseFragment)) {
                     return;
                 }
                 if (!this.plainTextEnabled) {
@@ -2897,6 +2917,9 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                     showLayout(this.locationLayout);
                 }
             } else if (intValue == 9) {
+                if (!this.pollsEnabled && checkCanRemoveRestrictionsByBoosts()) {
+                    return;
+                }
                 if (!this.pollsEnabled) {
                     ChatAttachRestrictedLayout chatAttachRestrictedLayout3 = new ChatAttachRestrictedLayout(9, this, getContext(), resourcesProvider);
                     this.restrictedLayout = chatAttachRestrictedLayout3;
@@ -4065,6 +4088,11 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         ((ChatActivity) this.baseFragment).sendContact(tLRPC$User, z, i);
     }
 
+    public boolean checkCanRemoveRestrictionsByBoosts() {
+        BaseFragment baseFragment = this.baseFragment;
+        return (baseFragment instanceof ChatActivity) && ((ChatActivity) baseFragment).checkCanRemoveRestrictionsByBoosts();
+    }
+
     public void openAudioLayout(boolean z) {
         if (!this.musicEnabled && z) {
             ChatAttachRestrictedLayout chatAttachRestrictedLayout = new ChatAttachRestrictedLayout(3, this, getContext(), this.resourcesProvider);
@@ -5181,8 +5209,28 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         this.delegate = chatAttachViewDelegate;
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:122:0x00b2  */
+    /* JADX WARN: Removed duplicated region for block: B:123:0x00d7  */
+    /* JADX WARN: Removed duplicated region for block: B:131:0x00e9  */
+    /* JADX WARN: Removed duplicated region for block: B:135:0x00f3  */
+    /* JADX WARN: Removed duplicated region for block: B:136:0x00f5  */
+    /* JADX WARN: Removed duplicated region for block: B:140:0x0112  */
+    /* JADX WARN: Removed duplicated region for block: B:144:0x0137  */
+    /* JADX WARN: Removed duplicated region for block: B:170:0x01a3  */
+    /* JADX WARN: Removed duplicated region for block: B:171:0x01a5  */
+    /* JADX WARN: Removed duplicated region for block: B:174:0x01b0  */
+    /* JADX WARN: Removed duplicated region for block: B:175:0x01b2  */
+    /* JADX WARN: Removed duplicated region for block: B:178:0x01ba  */
+    /* JADX WARN: Removed duplicated region for block: B:190:0x0221  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public void init() {
+        TLRPC$Chat tLRPC$Chat;
+        TLRPC$User tLRPC$User;
         AttachAlertLayout attachAlertLayout;
+        AttachAlertLayout attachAlertLayout2;
+        ChatAttachAlertPhotoLayout chatAttachAlertPhotoLayout;
         this.botButtonWasVisible = false;
         this.botButtonProgressWasVisible = false;
         this.botMainButtonOffsetY = 0.0f;
@@ -5198,97 +5246,159 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         }
         this.shadow.setAlpha(1.0f);
         this.shadow.setTranslationY(0.0f);
-        BaseFragment baseFragment = this.baseFragment;
-        if ((baseFragment instanceof ChatActivity) && this.avatarPicker != 2) {
-            TLRPC$Chat currentChat = ((ChatActivity) baseFragment).getCurrentChat();
-            TLRPC$User currentUser = ((ChatActivity) this.baseFragment).getCurrentUser();
-            if (currentChat != null) {
-                this.photosEnabled = ChatObject.canSendPhoto(currentChat);
-                this.videosEnabled = ChatObject.canSendVideo(currentChat);
-                this.musicEnabled = ChatObject.canSendMusic(currentChat);
-                this.pollsEnabled = ChatObject.canSendPolls(currentChat);
-                this.plainTextEnabled = ChatObject.canSendPlain(currentChat);
-                this.documentsEnabled = ChatObject.canSendDocument(currentChat);
+        if (this.avatarPicker != 2) {
+            BaseFragment baseFragment = this.baseFragment;
+            if (baseFragment instanceof ChatActivity) {
+                tLRPC$Chat = ((ChatActivity) baseFragment).getCurrentChat();
+                tLRPC$User = ((ChatActivity) this.baseFragment).getCurrentUser();
             } else {
-                this.pollsEnabled = currentUser != null && currentUser.bot;
+                long j = this.dialogId;
+                if (j >= 0) {
+                    tLRPC$User = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(this.dialogId));
+                    tLRPC$Chat = null;
+                } else if (j < 0) {
+                    tLRPC$Chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-this.dialogId));
+                    tLRPC$User = null;
+                }
             }
-        } else if (this.allowEnterCaption) {
-            this.commentTextView.setVisibility(0);
-        } else {
-            this.commentTextView.setVisibility(4);
+            if (((this.baseFragment instanceof ChatActivity) && this.avatarPicker != 2) || tLRPC$Chat != null || tLRPC$User != null) {
+                if (tLRPC$Chat != null) {
+                    this.photosEnabled = ChatObject.canSendPhoto(tLRPC$Chat);
+                    this.videosEnabled = ChatObject.canSendVideo(tLRPC$Chat);
+                    this.musicEnabled = ChatObject.canSendMusic(tLRPC$Chat);
+                    this.pollsEnabled = ChatObject.canSendPolls(tLRPC$Chat);
+                    this.plainTextEnabled = ChatObject.canSendPlain(tLRPC$Chat);
+                    this.documentsEnabled = ChatObject.canSendDocument(tLRPC$Chat);
+                } else {
+                    this.pollsEnabled = tLRPC$User != null && tLRPC$User.bot;
+                }
+            }
+            if ((this.baseFragment instanceof ChatActivity) || this.avatarPicker == 2) {
+                this.commentTextView.setVisibility(this.allowEnterCaption ? 0 : 4);
+            }
+            this.photoLayout.onInit(this.videosEnabled, this.photosEnabled, this.documentsEnabled);
+            this.commentTextView.hidePopup(true);
+            this.enterCommentEventSent = false;
+            setFocusable(false);
+            if (this.isStoryLocationPicker) {
+                if (this.locationLayout == null) {
+                    AttachAlertLayout[] attachAlertLayoutArr = this.layouts;
+                    ChatAttachAlertLocationLayout chatAttachAlertLocationLayout = new ChatAttachAlertLocationLayout(this, getContext(), this.resourcesProvider);
+                    this.locationLayout = chatAttachAlertLocationLayout;
+                    attachAlertLayoutArr[5] = chatAttachAlertLocationLayout;
+                    chatAttachAlertLocationLayout.setDelegate(new ChatAttachAlertLocationLayout.LocationActivityDelegate() { // from class: org.telegram.ui.Components.ChatAttachAlert$$ExternalSyntheticLambda39
+                        @Override // org.telegram.ui.Components.ChatAttachAlertLocationLayout.LocationActivityDelegate
+                        public final void didSelectLocation(TLRPC$MessageMedia tLRPC$MessageMedia, int i2, boolean z, int i3) {
+                            ChatAttachAlert.this.lambda$init$37(tLRPC$MessageMedia, i2, z, i3);
+                        }
+                    });
+                }
+                this.selectedId = 5L;
+                attachAlertLayout = this.locationLayout;
+            } else if (this.isStoryAudioPicker) {
+                openAudioLayout(false);
+                attachAlertLayout = this.audioLayout;
+                this.selectedId = 3L;
+            } else if (this.isSoundPicker) {
+                openDocumentsLayout(false);
+                attachAlertLayout = this.documentLayout;
+                this.selectedId = 4L;
+            } else {
+                MessageObject messageObject = this.editingMessageObject;
+                if (messageObject != null && (messageObject.isMusic() || (this.editingMessageObject.isDocument() && !this.editingMessageObject.isGif()))) {
+                    if (this.editingMessageObject.isMusic()) {
+                        openAudioLayout(false);
+                        attachAlertLayout = this.audioLayout;
+                        this.selectedId = 3L;
+                    } else {
+                        openDocumentsLayout(false);
+                        attachAlertLayout = this.documentLayout;
+                        this.selectedId = 4L;
+                    }
+                    this.typeButtonsAvailable = !this.editingMessageObject.hasValidGroupId();
+                } else {
+                    attachAlertLayout = this.photoLayout;
+                    this.typeButtonsAvailable = this.avatarPicker == 0;
+                    this.selectedId = 1L;
+                }
+            }
+            this.buttonsRecyclerView.setVisibility(this.typeButtonsAvailable ? 0 : 8);
+            this.shadow.setVisibility(this.typeButtonsAvailable ? 0 : 4);
+            if (this.currentAttachLayout != attachAlertLayout) {
+                if (this.actionBar.isSearchFieldVisible()) {
+                    this.actionBar.closeSearchField();
+                }
+                this.containerView.removeView(this.currentAttachLayout);
+                this.currentAttachLayout.onHide();
+                this.currentAttachLayout.setVisibility(8);
+                this.currentAttachLayout.onHidden();
+                this.currentAttachLayout = attachAlertLayout;
+                setAllowNestedScroll(true);
+                if (this.currentAttachLayout.getParent() == null) {
+                    this.containerView.addView(this.currentAttachLayout, 0, LayoutHelper.createFrame(-1, -1.0f));
+                }
+                attachAlertLayout.setAlpha(1.0f);
+                attachAlertLayout.setVisibility(0);
+                attachAlertLayout.onShow(null);
+                attachAlertLayout.onShown();
+                this.actionBar.setVisibility(attachAlertLayout.needsActionBar() != 0 ? 0 : 4);
+                this.actionBarShadow.setVisibility(this.actionBar.getVisibility());
+            }
+            attachAlertLayout2 = this.currentAttachLayout;
+            chatAttachAlertPhotoLayout = this.photoLayout;
+            if (attachAlertLayout2 != chatAttachAlertPhotoLayout) {
+                chatAttachAlertPhotoLayout.setCheckCameraWhenShown(true);
+            }
+            updateCountButton(0);
+            this.buttonsAdapter.notifyDataSetChanged();
+            this.commentTextView.setText("");
+            this.buttonsLayoutManager.scrollToPositionWithOffset(0, MediaController.VIDEO_BITRATE_480);
         }
+        tLRPC$Chat = null;
+        tLRPC$User = null;
+        if (this.baseFragment instanceof ChatActivity) {
+            if (tLRPC$Chat != null) {
+            }
+            if (this.baseFragment instanceof ChatActivity) {
+            }
+            this.commentTextView.setVisibility(this.allowEnterCaption ? 0 : 4);
+            this.photoLayout.onInit(this.videosEnabled, this.photosEnabled, this.documentsEnabled);
+            this.commentTextView.hidePopup(true);
+            this.enterCommentEventSent = false;
+            setFocusable(false);
+            if (this.isStoryLocationPicker) {
+            }
+            this.buttonsRecyclerView.setVisibility(this.typeButtonsAvailable ? 0 : 8);
+            this.shadow.setVisibility(this.typeButtonsAvailable ? 0 : 4);
+            if (this.currentAttachLayout != attachAlertLayout) {
+            }
+            attachAlertLayout2 = this.currentAttachLayout;
+            chatAttachAlertPhotoLayout = this.photoLayout;
+            if (attachAlertLayout2 != chatAttachAlertPhotoLayout) {
+            }
+            updateCountButton(0);
+            this.buttonsAdapter.notifyDataSetChanged();
+            this.commentTextView.setText("");
+            this.buttonsLayoutManager.scrollToPositionWithOffset(0, MediaController.VIDEO_BITRATE_480);
+        }
+        if (tLRPC$Chat != null) {
+        }
+        if (this.baseFragment instanceof ChatActivity) {
+        }
+        this.commentTextView.setVisibility(this.allowEnterCaption ? 0 : 4);
         this.photoLayout.onInit(this.videosEnabled, this.photosEnabled, this.documentsEnabled);
         this.commentTextView.hidePopup(true);
         this.enterCommentEventSent = false;
         setFocusable(false);
         if (this.isStoryLocationPicker) {
-            if (this.locationLayout == null) {
-                AttachAlertLayout[] attachAlertLayoutArr = this.layouts;
-                ChatAttachAlertLocationLayout chatAttachAlertLocationLayout = new ChatAttachAlertLocationLayout(this, getContext(), this.resourcesProvider);
-                this.locationLayout = chatAttachAlertLocationLayout;
-                attachAlertLayoutArr[5] = chatAttachAlertLocationLayout;
-                chatAttachAlertLocationLayout.setDelegate(new ChatAttachAlertLocationLayout.LocationActivityDelegate() { // from class: org.telegram.ui.Components.ChatAttachAlert$$ExternalSyntheticLambda39
-                    @Override // org.telegram.ui.Components.ChatAttachAlertLocationLayout.LocationActivityDelegate
-                    public final void didSelectLocation(TLRPC$MessageMedia tLRPC$MessageMedia, int i2, boolean z, int i3) {
-                        ChatAttachAlert.this.lambda$init$37(tLRPC$MessageMedia, i2, z, i3);
-                    }
-                });
-            }
-            this.selectedId = 5L;
-            attachAlertLayout = this.locationLayout;
-        } else if (this.isStoryAudioPicker) {
-            openAudioLayout(false);
-            attachAlertLayout = this.audioLayout;
-            this.selectedId = 3L;
-        } else if (this.isSoundPicker) {
-            openDocumentsLayout(false);
-            attachAlertLayout = this.documentLayout;
-            this.selectedId = 4L;
-        } else {
-            MessageObject messageObject = this.editingMessageObject;
-            if (messageObject != null && (messageObject.isMusic() || (this.editingMessageObject.isDocument() && !this.editingMessageObject.isGif()))) {
-                if (this.editingMessageObject.isMusic()) {
-                    openAudioLayout(false);
-                    attachAlertLayout = this.audioLayout;
-                    this.selectedId = 3L;
-                } else {
-                    openDocumentsLayout(false);
-                    attachAlertLayout = this.documentLayout;
-                    this.selectedId = 4L;
-                }
-                this.typeButtonsAvailable = !this.editingMessageObject.hasValidGroupId();
-            } else {
-                attachAlertLayout = this.photoLayout;
-                this.typeButtonsAvailable = this.avatarPicker == 0;
-                this.selectedId = 1L;
-            }
         }
         this.buttonsRecyclerView.setVisibility(this.typeButtonsAvailable ? 0 : 8);
         this.shadow.setVisibility(this.typeButtonsAvailable ? 0 : 4);
         if (this.currentAttachLayout != attachAlertLayout) {
-            if (this.actionBar.isSearchFieldVisible()) {
-                this.actionBar.closeSearchField();
-            }
-            this.containerView.removeView(this.currentAttachLayout);
-            this.currentAttachLayout.onHide();
-            this.currentAttachLayout.setVisibility(8);
-            this.currentAttachLayout.onHidden();
-            this.currentAttachLayout = attachAlertLayout;
-            setAllowNestedScroll(true);
-            if (this.currentAttachLayout.getParent() == null) {
-                this.containerView.addView(this.currentAttachLayout, 0, LayoutHelper.createFrame(-1, -1.0f));
-            }
-            attachAlertLayout.setAlpha(1.0f);
-            attachAlertLayout.setVisibility(0);
-            attachAlertLayout.onShow(null);
-            attachAlertLayout.onShown();
-            this.actionBar.setVisibility(attachAlertLayout.needsActionBar() != 0 ? 0 : 4);
-            this.actionBarShadow.setVisibility(this.actionBar.getVisibility());
         }
-        AttachAlertLayout attachAlertLayout2 = this.currentAttachLayout;
-        ChatAttachAlertPhotoLayout chatAttachAlertPhotoLayout = this.photoLayout;
+        attachAlertLayout2 = this.currentAttachLayout;
+        chatAttachAlertPhotoLayout = this.photoLayout;
         if (attachAlertLayout2 != chatAttachAlertPhotoLayout) {
-            chatAttachAlertPhotoLayout.setCheckCameraWhenShown(true);
         }
         updateCountButton(0);
         this.buttonsAdapter.notifyDataSetChanged();
@@ -5336,6 +5446,10 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         this.currentAttachLayout.onOpenAnimationEnd();
         AndroidUtilities.makeAccessibilityAnnouncement(LocaleController.getString("AccDescrAttachButton", R.string.AccDescrAttachButton));
         this.openTransitionFinished = true;
+        if (this.videosEnabled || this.photosEnabled) {
+            return;
+        }
+        checkCanRemoveRestrictionsByBoosts();
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet

@@ -104,7 +104,7 @@ public class RoundVideoRecorder extends FrameLayout {
         if (this.recordingStarted > 0) {
             return;
         }
-        CameraController.getInstance().recordVideo(this.cameraView.getCameraSession(), this.file, false, new CameraController.VideoTakeCallback() { // from class: org.telegram.ui.Stories.recorder.RoundVideoRecorder$$ExternalSyntheticLambda6
+        CameraController.getInstance().recordVideo(this.cameraView.getCameraSessionObject(), this.file, false, new CameraController.VideoTakeCallback() { // from class: org.telegram.ui.Stories.recorder.RoundVideoRecorder$$ExternalSyntheticLambda6
             @Override // org.telegram.messenger.camera.CameraController.VideoTakeCallback
             public final void onFinishVideoRecording(String str, long j) {
                 RoundVideoRecorder.this.lambda$new$0(str, j);

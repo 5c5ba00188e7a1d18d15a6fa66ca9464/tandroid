@@ -197,6 +197,22 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
         boolean canceled;
     }
 
+    public static BaseFragment create(TLRPC$Chat tLRPC$Chat) {
+        return create(tLRPC$Chat, true);
+    }
+
+    public static BaseFragment create(TLRPC$Chat tLRPC$Chat, boolean z) {
+        Bundle bundle = new Bundle();
+        bundle.putLong("chat_id", tLRPC$Chat.id);
+        bundle.putBoolean("is_megagroup", tLRPC$Chat.megagroup);
+        bundle.putBoolean("start_from_boosts", z);
+        TLRPC$ChatFull chatFull = MessagesController.getInstance(UserConfig.selectedAccount).getChatFull(tLRPC$Chat.id);
+        if (chatFull == null || !chatFull.can_view_stats) {
+            return new BoostsActivity(-tLRPC$Chat.id);
+        }
+        return new StatisticActivity(bundle);
+    }
+
     public StatisticActivity(Bundle bundle) {
         super(bundle);
         this.topMembersAll = new ArrayList<>();
@@ -566,7 +582,7 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(Context context) {
         this.sharedUi = new BaseChartView.SharedUiComponents();
-        final boolean isChannelAndNotMegaGroup = ChatObject.isChannelAndNotMegaGroup(this.chatId, this.currentAccount);
+        final boolean isBoostSupported = ChatObject.isBoostSupported(MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(this.chatId)));
         final BottomPagerTabs bottomPagerTabs = new BottomPagerTabs(this, context, getResourceProvider()) { // from class: org.telegram.ui.StatisticActivity.3
             @Override // org.telegram.ui.Components.BottomPagerTabs
             public BottomPagerTabs.Tab[] createTabs() {
@@ -600,10 +616,10 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
             }
         });
         final FrameLayout frameLayout = new FrameLayout(context);
-        if (isChannelAndNotMegaGroup) {
+        if (isBoostSupported) {
             this.boostLayout = new ChannelBoostLayout(this, -this.chatId, getResourceProvider());
         }
-        boolean z = isChannelAndNotMegaGroup && !this.onlyBoostsStat;
+        boolean z = isBoostSupported && !this.onlyBoostsStat;
         if (z && this.startFromBoosts) {
             this.viewPagerFixed.setPosition(1);
         }
@@ -619,7 +635,7 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
 
             @Override // org.telegram.ui.Components.ViewPagerFixed.Adapter
             public int getItemCount() {
-                return (!StatisticActivity.this.onlyBoostsStat && isChannelAndNotMegaGroup) ? 2 : 1;
+                return (!StatisticActivity.this.onlyBoostsStat && isBoostSupported) ? 2 : 1;
             }
 
             @Override // org.telegram.ui.Components.ViewPagerFixed.Adapter

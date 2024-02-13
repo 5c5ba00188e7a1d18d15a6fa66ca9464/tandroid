@@ -226,6 +226,7 @@ import org.telegram.ui.ActionBar.INavigationLayout;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ActionIntroActivity;
 import org.telegram.ui.Adapters.DrawerLayoutAdapter;
+import org.telegram.ui.Cells.ChatMessageCell;
 import org.telegram.ui.Cells.DrawerActionCell;
 import org.telegram.ui.Cells.DrawerAddCell;
 import org.telegram.ui.Cells.DrawerProfileCell;
@@ -1701,7 +1702,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     private void checkCurrentAccount() {
         int i = this.currentAccount;
         if (i != UserConfig.selectedAccount) {
-            NotificationCenter.getInstance(i).removeObserver(this, NotificationCenter.appDidLogout);
+            NotificationCenter.getInstance(i).removeObserver(this, NotificationCenter.openBoostForUsersDialog);
+            NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.appDidLogout);
             NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.mainUserInfoChanged);
             NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.attachMenuBotsDidLoad);
             NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.didUpdateConnectionState);
@@ -1723,7 +1725,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         }
         int i2 = UserConfig.selectedAccount;
         this.currentAccount = i2;
-        NotificationCenter.getInstance(i2).addObserver(this, NotificationCenter.appDidLogout);
+        NotificationCenter.getInstance(i2).addObserver(this, NotificationCenter.openBoostForUsersDialog);
+        NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.appDidLogout);
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.mainUserInfoChanged);
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.attachMenuBotsDidLoad);
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.didUpdateConnectionState);
@@ -2053,10 +2056,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX WARN: Removed duplicated region for block: B:984:0x1ee1  */
     /* JADX WARN: Removed duplicated region for block: B:985:0x1f32  */
     /* JADX WARN: Type inference failed for: r5v41 */
-    /* JADX WARN: Type inference failed for: r5v42, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r5v42, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r5v43 */
     /* JADX WARN: Type inference failed for: r6v15 */
-    /* JADX WARN: Type inference failed for: r6v16, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r6v16, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r6v17 */
     /* JADX WARN: Type inference failed for: r8v100 */
     /* JADX WARN: Type inference failed for: r8v107 */
@@ -8705,7 +8708,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             bundle2.putInt("message_id", num.intValue());
                                         }
                                         TLRPC$Chat chat2 = MessagesController.getInstance(this.currentAccount).getChat(l);
-                                        if (chat2 != null && ChatObject.isChannelAndNotMegaGroup(chat2) && z3) {
+                                        if (chat2 != null && ChatObject.isBoostSupported(chat2) && z3) {
                                             processBoostDialog(Long.valueOf(-l.longValue()), runnable2, progress2);
                                         } else if (chat2 != null && chat2.forum) {
                                             openForumFromLink(-l.longValue(), num, new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda32
@@ -8999,7 +9002,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     }
                     processWebAppBot(i2, str5, str6, str7, str8, str9, str10, str11, str12, str13, str14, str15, z, num, l, l2, num2, str, hashMap, str16, str17, str18, str19, tLRPC$TL_wallPaper, str20, str21, str2, str3, i3, i4, str22, str23, str24, str4, str25, progress, z2, i, z3, user, runnable, false, false);
                     return;
-                } else if (z3 && ChatObject.isChannelAndNotMegaGroup(MessagesController.getInstance(i2).getChat(Long.valueOf(-l3.longValue())))) {
+                } else if (z3 && ChatObject.isBoostSupported(MessagesController.getInstance(i2).getChat(Long.valueOf(-l3.longValue())))) {
                     processBoostDialog(l3, runnable, progress);
                     return;
                 } else {
@@ -10323,7 +10326,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             if (!tLRPC$TL_messages_chats.chats.isEmpty()) {
                 MessagesController.getInstance(this.currentAccount).putChats(tLRPC$TL_messages_chats.chats, false);
                 TLRPC$Chat tLRPC$Chat = tLRPC$TL_messages_chats.chats.get(0);
-                if (tLRPC$Chat != null && z && ChatObject.isChannelAndNotMegaGroup(tLRPC$Chat)) {
+                if (tLRPC$Chat != null && z && ChatObject.isBoostSupported(tLRPC$Chat)) {
                     processBoostDialog(Long.valueOf(-l.longValue()), null, progress);
                 } else if (tLRPC$Chat != null && tLRPC$Chat.forum) {
                     if (l2 != null) {
@@ -10443,7 +10446,11 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         }
     }
 
-    private void processBoostDialog(final Long l, final Runnable runnable, final Browser.Progress progress) {
+    private void processBoostDialog(Long l, Runnable runnable, Browser.Progress progress) {
+        processBoostDialog(l, runnable, progress, null);
+    }
+
+    private void processBoostDialog(final Long l, final Runnable runnable, final Browser.Progress progress, final ChatMessageCell chatMessageCell) {
         final ChannelBoostsController boostsController = MessagesController.getInstance(this.currentAccount).getBoostsController();
         if (progress != null) {
             progress.init();
@@ -10451,30 +10458,32 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         boostsController.getBoostsStats(l.longValue(), new com.google.android.exoplayer2.util.Consumer() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda27
             @Override // com.google.android.exoplayer2.util.Consumer
             public final void accept(Object obj) {
-                LaunchActivity.this.lambda$processBoostDialog$107(progress, runnable, boostsController, l, (TL_stories$TL_premium_boostsStatus) obj);
+                LaunchActivity.this.lambda$processBoostDialog$107(progress, runnable, boostsController, l, chatMessageCell, (TL_stories$TL_premium_boostsStatus) obj);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$processBoostDialog$107(final Browser.Progress progress, final Runnable runnable, ChannelBoostsController channelBoostsController, final Long l, final TL_stories$TL_premium_boostsStatus tL_stories$TL_premium_boostsStatus) {
-        if (tL_stories$TL_premium_boostsStatus == null) {
-            if (progress != null) {
-                progress.end();
-            }
-            runnable.run();
+    public /* synthetic */ void lambda$processBoostDialog$107(final Browser.Progress progress, final Runnable runnable, ChannelBoostsController channelBoostsController, final Long l, final ChatMessageCell chatMessageCell, final TL_stories$TL_premium_boostsStatus tL_stories$TL_premium_boostsStatus) {
+        if (tL_stories$TL_premium_boostsStatus != null) {
+            channelBoostsController.userCanBoostChannel(l.longValue(), tL_stories$TL_premium_boostsStatus, new com.google.android.exoplayer2.util.Consumer() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda26
+                @Override // com.google.android.exoplayer2.util.Consumer
+                public final void accept(Object obj) {
+                    LaunchActivity.this.lambda$processBoostDialog$106(progress, l, tL_stories$TL_premium_boostsStatus, chatMessageCell, runnable, (ChannelBoostsController.CanApplyBoost) obj);
+                }
+            });
             return;
         }
-        channelBoostsController.userCanBoostChannel(l.longValue(), tL_stories$TL_premium_boostsStatus, new com.google.android.exoplayer2.util.Consumer() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda26
-            @Override // com.google.android.exoplayer2.util.Consumer
-            public final void accept(Object obj) {
-                LaunchActivity.this.lambda$processBoostDialog$106(progress, l, tL_stories$TL_premium_boostsStatus, runnable, (ChannelBoostsController.CanApplyBoost) obj);
-            }
-        });
+        if (progress != null) {
+            progress.end();
+        }
+        if (runnable != null) {
+            runnable.run();
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$processBoostDialog$106(Browser.Progress progress, Long l, TL_stories$TL_premium_boostsStatus tL_stories$TL_premium_boostsStatus, Runnable runnable, ChannelBoostsController.CanApplyBoost canApplyBoost) {
+    public /* synthetic */ void lambda$processBoostDialog$106(Browser.Progress progress, Long l, TL_stories$TL_premium_boostsStatus tL_stories$TL_premium_boostsStatus, ChatMessageCell chatMessageCell, Runnable runnable, ChannelBoostsController.CanApplyBoost canApplyBoost) {
         if (progress != null) {
             progress.end();
         }
@@ -10495,6 +10504,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         }
         limitReachedBottomSheet.setBoostsStats(tL_stories$TL_premium_boostsStatus, z);
         limitReachedBottomSheet.setDialogId(l.longValue());
+        limitReachedBottomSheet.setChatMessageCell(chatMessageCell);
         lastFragment.showDialog(limitReachedBottomSheet);
         if (runnable != null) {
             try {
@@ -12002,14 +12012,14 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         checkLayout();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:110:0x02fe, code lost:
-        if (((org.telegram.ui.ProfileActivity) r1.get(r1.size() - 1)).isSettings() == false) goto L124;
+    /* JADX WARN: Code restructure failed: missing block: B:117:0x031d, code lost:
+        if (((org.telegram.ui.ProfileActivity) r1.get(r1.size() - 1)).isSettings() == false) goto L132;
      */
-    /* JADX WARN: Removed duplicated region for block: B:109:0x02ed  */
-    /* JADX WARN: Removed duplicated region for block: B:223:0x0662  */
-    /* JADX WARN: Removed duplicated region for block: B:224:0x066a  */
-    /* JADX WARN: Removed duplicated region for block: B:227:0x0670 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:228:0x0671  */
+    /* JADX WARN: Removed duplicated region for block: B:116:0x030c  */
+    /* JADX WARN: Removed duplicated region for block: B:230:0x0680  */
+    /* JADX WARN: Removed duplicated region for block: B:231:0x0686  */
+    /* JADX WARN: Removed duplicated region for block: B:234:0x068b A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:235:0x068c  */
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -12034,11 +12044,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         }
         boolean z3 = false;
         boolean z4 = false;
-        r4 = false;
-        r4 = false;
+        r5 = false;
+        r5 = false;
         boolean z5 = false;
         z3 = false;
-        if (i == NotificationCenter.closeOtherAppActivities) {
+        if (i == NotificationCenter.openBoostForUsersDialog) {
+            processBoostDialog(Long.valueOf(((Long) objArr[0]).longValue()), null, null, objArr.length > 1 ? (ChatMessageCell) objArr[1] : null);
+        } else if (i == NotificationCenter.closeOtherAppActivities) {
             if (objArr[0] != this) {
                 onFinish();
                 finish();
@@ -12428,8 +12440,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             if (str6 != null) {
                 if (str6.equals(str5)) {
                     this.loadingThemeFileName = null;
-                    File filesDirFixed = ApplicationLoader.getFilesDirFixed();
-                    File file = new File(filesDirFixed, "remote" + this.loadingTheme.id + ".attheme");
+                    File file = new File(ApplicationLoader.getFilesDirFixed(), "remote" + this.loadingTheme.id + ".attheme");
                     TLRPC$TL_theme tLRPC$TL_theme = this.loadingTheme;
                     final Theme.ThemeInfo fillThemeValues = Theme.fillThemeValues(file, tLRPC$TL_theme.title, tLRPC$TL_theme);
                     if (fillThemeValues != null) {

@@ -318,6 +318,11 @@ public class PopupNotificationActivity extends Activity implements NotificationC
             }
 
             @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+            public /* synthetic */ boolean checkCanRemoveRestrictionsByBoosts() {
+                return ChatActivityEnterView.ChatActivityEnterViewDelegate.-CC.$default$checkCanRemoveRestrictionsByBoosts(this);
+            }
+
+            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
             public void didPressAttachButton() {
             }
 
