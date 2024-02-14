@@ -85,6 +85,7 @@ import org.telegram.tgnet.TLRPC$MessageEntity;
 import org.telegram.tgnet.TLRPC$MessageFwdHeader;
 import org.telegram.tgnet.TLRPC$MessageMedia;
 import org.telegram.tgnet.TLRPC$MessagePeerReaction;
+import org.telegram.tgnet.TLRPC$Peer;
 import org.telegram.tgnet.TLRPC$Photo;
 import org.telegram.tgnet.TLRPC$PhotoSize;
 import org.telegram.tgnet.TLRPC$TL_chatAdminRights;
@@ -109,6 +110,7 @@ import org.telegram.tgnet.TLRPC$TL_messageMediaPoll;
 import org.telegram.tgnet.TLRPC$TL_messageMediaStory;
 import org.telegram.tgnet.TLRPC$TL_messageReactions;
 import org.telegram.tgnet.TLRPC$TL_messageService;
+import org.telegram.tgnet.TLRPC$TL_peerChannel;
 import org.telegram.tgnet.TLRPC$TL_peerUser;
 import org.telegram.tgnet.TLRPC$TL_photoEmpty;
 import org.telegram.tgnet.TLRPC$User;
@@ -1017,14 +1019,14 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
         return Emoji.replaceEmoji((CharSequence) spannableStringBuilder, Theme.dialogs_messagePaint[this.paintIndex].getFontMetricsInt(), AndroidUtilities.dp(17.0f), false);
     }
 
-    /* JADX WARN: Can't wrap try/catch for region: R(66:14|(1:1551)(1:18)|19|(1:1550)(1:25)|26|(1:1549)(1:30)|31|(1:33)|34|(2:36|(1:1538)(1:40))(2:1539|(1:1548)(1:1543))|41|(1:43)|44|(1:46)(1:1533)|47|(7:49|(1:51)|52|53|(1:55)|56|57)|58|(9:60|(2:62|(2:699|(1:701)(1:702))(2:66|(1:68)(1:698)))(4:703|(1:720)(1:707)|708|(2:716|(1:718)(1:719))(2:712|(1:714)(1:715)))|69|(3:71|(1:73)(4:685|(1:687)|688|(1:693)(1:692))|74)(3:694|(1:696)|697)|75|(1:77)(1:684)|78|(1:80)(1:(1:680)(1:(1:682)(1:683)))|81)(27:721|(2:1529|(1:1531)(1:1532))(2:725|(1:727)(1:1528))|728|(2:730|(2:732|(2:740|(1:742)(1:743))(2:736|(1:738)(1:739))))(2:1479|(2:1481|(2:1483|(1:1485)(2:1486|(1:1488)(2:1489|(1:1491)(3:1492|(1:1498)(1:1496)|1497))))(2:1499|(7:1501|(1:1503)(2:1518|(1:1520)(3:1521|(1:1527)(1:1525)|1526))|1504|(2:1506|(3:1510|1511|(2:1513|(1:1515)(1:1516))))|1517|1511|(0)))))|744|(1:748)|749|(6:751|(1:753)(1:1464)|754|(1:756)(1:1463)|757|(1:761))(2:1465|(5:1470|(1:1472)(1:1478)|1473|(1:1475)(1:1477)|1476)(1:1469))|762|(4:766|(2:768|(2:770|(2:772|(1:1433))))|1435|(12:1447|776|(7:778|(1:780)(1:962)|781|(1:783)(1:961)|784|(1:789)|790)(3:(6:964|(1:966)(1:1431)|967|(1:969)(1:1430)|(1:971)(1:1429)|972)(1:1432)|973|(3:1389|(7:1400|(1:1402)(2:1423|(2:1425|(1:1427))(1:1428))|1403|(2:1405|(3:1409|(1:1411)(1:1413)|1412))(2:1420|(1:1422))|1414|(1:1418)|1419)(2:1393|(3:1399|982|983)(1:1397))|1398)(6:977|(1:979)(2:984|(2:986|(1:988)(6:989|(2:991|(1:993)(2:994|(1:996)(2:997|(1:999)(2:1000|(2:1002|(1:1004)(1:1005))))))(2:1007|(4:1011|(1:1017)(1:1015)|1016|983))|1006|981|982|983))(10:1018|(1:1020)(1:1388)|1021|(2:1035|(2:1037|(8:1041|(1:1043)(3:1382|(1:1384)(1:1386)|1385)|1044|(6:1051|(3:1053|(4:1055|(2:1057|(2:1059|(1:1061)(2:1064|(1:1066)(1:1067))))|1068|(1:1070)(2:1071|(1:1073)(2:1074|(1:1076)(1:1077))))(1:1078)|1062)(2:1079|(2:1090|(2:1097|(4:1112|(1:1381)(1:1120)|1121|(8:1199|(2:1201|(4:1203|(1:1214)|1209|(2:1211|(1:1213)))(2:1215|(4:1222|(2:1224|(2:1229|(1:1231)(2:1232|(1:1234)(1:1235))))|1236|(5:1238|(1:1240)(2:1263|(1:1265)(2:1266|(1:1268)(2:1269|(1:1271)(2:1272|(1:1274)(1:1275)))))|1241|(3:1255|(3:1257|(1:1259)(1:1261)|1260)|1262)(4:1245|(2:1247|(1:1249)(1:1250))|(1:1252)|1253)|1254)(2:1276|(3:1278|(3:1280|(1:1282)(1:1285)|1283)(3:1286|(1:1288)(1:1290)|1289)|1284)(5:1291|(3:1293|(1:1295)(1:1303)|1296)(2:1304|(1:1306)(2:1307|(1:1309)(2:1310|(1:1312)(2:1313|(1:1315)(2:1316|(1:1318)(2:1319|(3:1333|(4:1339|(1:1341)|1342|(2:1344|(3:1346|(1:1348)(1:1350)|1349)))(1:1337)|1338)(2:1323|(3:1325|(2:1327|(1:1329))(1:1331)|1330)(1:1332))))))))|1297|1298|(2:1300|(1:1302)))))(1:1221)))|1351|(1:1353)|1354|(7:1356|(3:1371|(1:1373)|1374)(1:1360)|1361|(1:1363)(1:1370)|1364|(1:1368)|1369)|1375|(1:1380)(1:1379))(13:(1:1132)|1133|(2:1141|(3:1143|(1:1149)(1:1147)|1148))|1150|(1:1186)(5:1156|1157|1158|1159|1160)|1161|(1:1165)|1166|(4:1168|(1:1170)|1171|(1:1173)(1:1174))|1175|1047|(1:1049)|1050))(4:1103|(1:1107)|1108|(1:1110)(1:1111)))(1:1096))(3:1083|(1:1089)(1:1087)|1088))|1063|1047|(0)|1050)|1046|1047|(0)|1050)))|1387|(0)|1046|1047|(0)|1050))|980|981|982|983))|791|(1:793)(2:954|(1:956)(2:957|(1:959)(1:960)))|794|(3:945|(1:953)(1:951)|952)(5:798|(4:800|(1:(1:803)(2:918|805))(1:919)|804|805)(7:920|(1:922)(6:932|(2:941|(1:943)(1:944))(1:940)|924|(1:926)(1:931)|927|(1:929)(1:930))|923|924|(0)(0)|927|(0)(0))|806|(2:811|(2:813|(1:815)(2:880|(1:882)(2:883|(3:885|(3:887|(1:889)(1:892)|890)(2:893|(3:895|(1:907)(1:899)|900)(3:908|(1:916)(1:914)|915))|891)))))|917)|816|(2:820|(1:822)(2:823|(4:825|(1:827)|828|(1:830))))|831|(1:833)(2:835|(3:837|(3:839|(1:841)|842)(2:849|(4:851|(1:853)|854|(1:856)(1:857))(1:858))|(1:847))(4:859|(3:861|(1:863)(2:864|(1:866)(2:867|(2:869|(1:871)(2:872|(1:874)(3:875|(1:877)|878)))(1:879)))|(2:845|847))|848|(0)))|834))|774|775|776|(0)(0)|791|(0)(0)|794|(1:796)|945|(1:947)|953|952|816|(3:818|820|(0)(0))|831|(0)(0)|834)|(2:83|(1:85)(1:677))(1:678)|86|(3:88|(1:90)(1:675)|91)(1:676)|92|(1:94)(1:674)|95|(3:97|(1:99)(1:101)|100)|102|(2:104|(1:106)(1:661))(2:662|(2:664|(2:666|(1:668)(1:669))(2:670|(1:672)(1:673))))|107|(2:631|(2:658|(1:660))(2:635|(2:637|(1:639))(2:640|(2:642|(1:644))(2:645|(4:647|(1:649)(1:653)|650|(1:652))))))(2:111|(1:113))|114|(18:115|116|(1:118)|119|(1:121)|122|(3:124|(1:126)(1:128)|127)|129|(1:131)(1:628)|132|(1:134)|135|(1:627)(1:141)|142|(1:144)(1:626)|145|(1:625)(1:149)|150)|151|(4:609|(1:611)(1:623)|612|(2:613|(3:615|(2:617|618)(2:620|621)|619)(1:622)))(8:155|(1:157)(1:608)|158|(1:160)(1:607)|161|(1:163)(1:606)|164|(2:165|(3:167|(2:169|170)(2:172|173)|171)(1:174)))|175|(1:177)|178|(2:180|(1:182)(1:183))|184|(2:186|(1:188)(1:536))(1:(4:(3:548|(1:550)(1:604)|551)(1:605)|(5:553|(1:555)(1:602)|556|(3:558|(1:560)(1:596)|561)(3:597|(1:599)(1:601)|600)|562)(1:603)|563|(2:565|(4:567|(3:569|(1:571)(1:573)|572)|574|(3:576|(1:578)(1:580)|579))(5:581|(3:583|(1:585)(1:587)|586)|588|(3:590|(1:592)(1:594)|593)|595)))(3:541|(2:543|(1:545))|546))|(7:(1:191)|192|(1:194)|195|(1:206)(1:199)|200|(1:204))|207|(1:535)(1:211)|212|(4:214|(1:486)(1:218)|219|(2:220|(1:222)(1:223)))(2:487|(8:512|513|(1:519)|520|521|(1:531)(1:525)|526|(2:527|(1:529)(1:530)))(2:491|(4:496|(1:506)(1:500)|501|(2:502|(1:504)(1:505)))(1:495)))|224|(1:226)|227|(4:228|229|(1:231)(1:484)|232)|233|(4:234|235|(3:237|(1:242)|243)|244)|(8:246|247|(3:249|(3:251|(2:272|273)|270)|274)|275|(1:479)(1:(2:282|(1:473)(1:288)))|289|(1:472)(1:293)|294)|(12:299|(2:301|(1:305))|306|307|308|309|310|(10:312|(7:316|(1:318)|319|(1:347)(2:323|(1:325)(2:332|(1:334)(2:335|(3:337|(1:339)(1:341)|340)(1:342))))|326|327|(2:329|(1:331)))|348|(3:352|(1:(1:361)(2:354|(1:356)(2:357|358)))|(1:360))|362|(3:366|(1:(1:375)(2:368|(1:370)(2:371|372)))|(1:374))|376|(2:382|(1:384))|385|(4:389|(1:391)|392|393))(10:411|(5:415|(1:417)|418|(4:420|(1:422)|423|(1:425))|426)|427|(4:431|(1:433)|434|435)|436|(4:440|(1:442)|443|444)|445|(4:449|(1:451)|452|453)|454|(1:458))|394|(3:(1:408)(1:403)|404|(1:406)(1:407))|409|410)|463|(1:466)|467|(1:469)(1:471)|470|307|308|309|310|(0)(0)|394|(6:396|398|(1:401)|408|404|(0)(0))|409|410) */
-    /* JADX WARN: Code restructure failed: missing block: B:1400:0x1e4e, code lost:
+    /* JADX WARN: Can't wrap try/catch for region: R(96:14|(1:1556)(1:18)|19|(1:1555)(1:25)|26|(1:1554)(1:30)|31|(1:33)|34|(2:36|(1:1543)(1:40))(2:1544|(1:1553)(1:1548))|41|(1:43)|44|(1:46)(1:1538)|47|(7:49|(1:51)|52|53|(1:55)|56|57)|58|(9:60|(2:62|(2:699|(1:701)(1:702))(2:66|(1:68)(1:698)))(4:703|(1:720)(1:707)|708|(2:716|(1:718)(1:719))(2:712|(1:714)(1:715)))|69|(3:71|(1:73)(4:685|(1:687)|688|(1:693)(1:692))|74)(3:694|(1:696)|697)|75|(1:77)(1:684)|78|(1:80)(1:(1:680)(1:(1:682)(1:683)))|81)(27:721|(2:1534|(1:1536)(1:1537))(2:725|(1:727)(1:1533))|728|(2:730|(2:732|(2:740|(1:742)(1:743))(2:736|(1:738)(1:739))))(2:1484|(2:1486|(2:1488|(1:1490)(2:1491|(1:1493)(2:1494|(1:1496)(3:1497|(1:1503)(1:1501)|1502))))(2:1504|(7:1506|(1:1508)(2:1523|(1:1525)(3:1526|(1:1532)(1:1530)|1531))|1509|(2:1511|(3:1515|1516|(2:1518|(1:1520)(1:1521))))|1522|1516|(0)))))|744|(1:748)|749|(6:751|(1:753)(1:1469)|754|(1:756)(1:1468)|757|(1:761))(2:1470|(5:1475|(1:1477)(1:1483)|1478|(1:1480)(1:1482)|1481)(1:1474))|762|(4:766|(2:768|(2:770|(2:772|(1:1438))))|1440|(12:1452|776|(7:778|(1:780)(1:962)|781|(1:783)(1:961)|784|(1:789)|790)(3:(6:964|(1:966)(1:1436)|967|(1:969)(1:1435)|(1:971)(1:1434)|972)(1:1437)|973|(3:1394|(7:1405|(1:1407)(2:1428|(2:1430|(1:1432))(1:1433))|1408|(2:1410|(3:1414|(1:1416)(1:1418)|1417))(2:1425|(1:1427))|1419|(1:1423)|1424)(2:1398|(3:1404|982|983)(1:1402))|1403)(6:977|(1:979)(2:984|(2:986|(1:988)(6:989|(2:991|(1:993)(2:994|(1:996)(2:997|(1:999)(2:1000|(2:1002|(1:1004)(1:1005))))))(2:1007|(4:1011|(1:1017)(1:1015)|1016|983))|1006|981|982|983))(10:1018|(1:1020)(1:1393)|1021|(2:1035|(2:1037|(8:1041|(1:1043)(3:1387|(1:1389)(1:1391)|1390)|1044|(6:1051|(3:1053|(4:1055|(2:1057|(2:1059|(1:1061)(2:1064|(1:1066)(1:1067))))|1068|(1:1070)(2:1071|(1:1073)(2:1074|(1:1076)(1:1077))))(1:1078)|1062)(2:1079|(2:1090|(2:1097|(4:1112|(1:1386)(1:1120)|1121|(8:1199|(2:1201|(4:1203|(1:1214)|1209|(2:1211|(1:1213)))(2:1215|(4:1222|(2:1224|(2:1229|(1:1231)(2:1232|(1:1234)(1:1235))))|1236|(5:1238|(1:1240)(2:1263|(1:1265)(2:1266|(1:1268)(2:1269|(1:1271)(2:1272|(1:1274)(1:1275)))))|1241|(3:1255|(3:1257|(1:1259)(1:1261)|1260)|1262)(4:1245|(2:1247|(1:1249)(1:1250))|(1:1252)|1253)|1254)(2:1276|(3:1278|(3:1280|(1:1282)(1:1285)|1283)(3:1286|(1:1288)(1:1290)|1289)|1284)(5:1291|(5:1293|(2:1295|(3:1297|(1:1299)(1:1307)|1300))|1308|(0)(0)|1300)(2:1309|(1:1311)(2:1312|(1:1314)(2:1315|(1:1317)(2:1318|(1:1320)(2:1321|(1:1323)(2:1324|(3:1338|(4:1344|(1:1346)|1347|(2:1349|(3:1351|(1:1353)(1:1355)|1354)))(1:1342)|1343)(2:1328|(3:1330|(2:1332|(1:1334))(1:1336)|1335)(1:1337))))))))|1301|1302|(2:1304|(1:1306)))))(1:1221)))|1356|(1:1358)|1359|(7:1361|(3:1376|(1:1378)|1379)(1:1365)|1366|(1:1368)(1:1375)|1369|(1:1373)|1374)|1380|(1:1385)(1:1384))(13:(1:1132)|1133|(2:1141|(3:1143|(1:1149)(1:1147)|1148))|1150|(1:1186)(5:1156|1157|1158|1159|1160)|1161|(1:1165)|1166|(4:1168|(1:1170)|1171|(1:1173)(1:1174))|1175|1047|(1:1049)|1050))(4:1103|(1:1107)|1108|(1:1110)(1:1111)))(1:1096))(3:1083|(1:1089)(1:1087)|1088))|1063|1047|(0)|1050)|1046|1047|(0)|1050)))|1392|(0)|1046|1047|(0)|1050))|980|981|982|983))|791|(1:793)(2:954|(1:956)(2:957|(1:959)(1:960)))|794|(3:945|(1:953)(1:951)|952)(5:798|(4:800|(1:(1:803)(2:918|805))(1:919)|804|805)(7:920|(1:922)(6:932|(2:941|(1:943)(1:944))(1:940)|924|(1:926)(1:931)|927|(1:929)(1:930))|923|924|(0)(0)|927|(0)(0))|806|(2:811|(2:813|(1:815)(2:880|(1:882)(2:883|(3:885|(3:887|(1:889)(1:892)|890)(2:893|(3:895|(1:907)(1:899)|900)(3:908|(1:916)(1:914)|915))|891)))))|917)|816|(2:820|(1:822)(2:823|(4:825|(1:827)|828|(1:830))))|831|(1:833)(2:835|(3:837|(3:839|(1:841)|842)(2:849|(4:851|(1:853)|854|(1:856)(1:857))(1:858))|(1:847))(4:859|(3:861|(1:863)(2:864|(1:866)(2:867|(2:869|(1:871)(2:872|(1:874)(3:875|(1:877)|878)))(1:879)))|(2:845|847))|848|(0)))|834))|774|775|776|(0)(0)|791|(0)(0)|794|(1:796)|945|(1:947)|953|952|816|(3:818|820|(0)(0))|831|(0)(0)|834)|(2:83|(1:85)(1:677))(1:678)|86|(3:88|(1:90)(1:675)|91)(1:676)|92|(1:94)(1:674)|95|(3:97|(1:99)(1:101)|100)|102|(2:104|(1:106)(1:661))(2:662|(2:664|(2:666|(1:668)(1:669))(2:670|(1:672)(1:673))))|107|(2:631|(2:658|(1:660))(2:635|(2:637|(1:639))(2:640|(2:642|(1:644))(2:645|(4:647|(1:649)(1:653)|650|(1:652))))))(2:111|(1:113))|114|115|116|(1:118)|119|(1:121)|122|(3:124|(1:126)(1:128)|127)|129|(1:131)(1:628)|132|(1:134)|135|(1:627)(1:141)|142|(1:144)(1:626)|145|(1:625)(1:149)|150|151|(4:609|(1:611)(1:623)|612|(2:613|(3:615|(2:617|618)(2:620|621)|619)(1:622)))(8:155|(1:157)(1:608)|158|(1:160)(1:607)|161|(1:163)(1:606)|164|(2:165|(3:167|(2:169|170)(2:172|173)|171)(1:174)))|175|(1:177)|178|(2:180|(1:182)(1:183))|184|(2:186|(1:188)(1:536))(1:(4:(3:548|(1:550)(1:604)|551)(1:605)|(5:553|(1:555)(1:602)|556|(3:558|(1:560)(1:596)|561)(3:597|(1:599)(1:601)|600)|562)(1:603)|563|(2:565|(4:567|(3:569|(1:571)(1:573)|572)|574|(3:576|(1:578)(1:580)|579))(5:581|(3:583|(1:585)(1:587)|586)|588|(3:590|(1:592)(1:594)|593)|595)))(3:541|(2:543|(1:545))|546))|(7:(1:191)|192|(1:194)|195|(1:206)(1:199)|200|(1:204))|207|(1:535)(1:211)|212|(4:214|(1:486)(1:218)|219|(2:220|(1:222)(1:223)))(2:487|(8:512|513|(1:519)|520|521|(1:531)(1:525)|526|(2:527|(1:529)(1:530)))(2:491|(4:496|(1:506)(1:500)|501|(2:502|(1:504)(1:505)))(1:495)))|224|(1:226)|227|228|229|(1:231)(1:484)|232|233|234|235|(3:237|(1:242)|243)|244|246|247|(3:249|(3:251|(2:272|273)|270)|274)|275|(1:479)(1:(2:282|(1:473)(1:288)))|289|(1:472)(1:293)|294|(12:299|(2:301|(1:305))|306|307|308|309|310|(10:312|(7:316|(1:318)|319|(1:347)(2:323|(1:325)(2:332|(1:334)(2:335|(3:337|(1:339)(1:341)|340)(1:342))))|326|327|(2:329|(1:331)))|348|(3:352|(1:(1:361)(2:354|(1:356)(2:357|358)))|(1:360))|362|(3:366|(1:(1:375)(2:368|(1:370)(2:371|372)))|(1:374))|376|(2:382|(1:384))|385|(4:389|(1:391)|392|393))(10:411|(5:415|(1:417)|418|(4:420|(1:422)|423|(1:425))|426)|427|(4:431|(1:433)|434|435)|436|(4:440|(1:442)|443|444)|445|(4:449|(1:451)|452|453)|454|(1:458))|394|(3:(1:408)(1:403)|404|(1:406)(1:407))|409|410)|463|(1:466)|467|(1:469)(1:471)|470|307|308|309|310|(0)(0)|394|(6:396|398|(1:401)|408|404|(0)(0))|409|410) */
+    /* JADX WARN: Code restructure failed: missing block: B:1405:0x1e61, code lost:
         r0 = e;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1401:0x1e4f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1406:0x1e62, code lost:
         r4 = r8;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1403:0x1e52, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1408:0x1e65, code lost:
         r37.messageLayout = null;
         org.telegram.messenger.FileLog.e(r0);
         r8 = r4;
@@ -1032,92 +1034,94 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
     /* JADX WARN: Code restructure failed: missing block: B:291:0x0610, code lost:
         if (r2.post_messages == false) goto L774;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:935:0x12ad, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:940:0x12c0, code lost:
         if (r2 == null) goto L848;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:1000:0x1420  */
-    /* JADX WARN: Removed duplicated region for block: B:1004:0x144d  */
-    /* JADX WARN: Removed duplicated region for block: B:1033:0x1513  */
-    /* JADX WARN: Removed duplicated region for block: B:1056:0x1580  */
-    /* JADX WARN: Removed duplicated region for block: B:1059:0x1585 A[Catch: Exception -> 0x1671, TryCatch #7 {Exception -> 0x1671, blocks: (B:1054:0x1577, B:1057:0x1581, B:1059:0x1585, B:1060:0x158f, B:1062:0x1593, B:1066:0x15ad, B:1067:0x15b6, B:1071:0x15cc, B:1073:0x15d2, B:1074:0x15de, B:1076:0x15f5, B:1078:0x15fb, B:1082:0x160c, B:1084:0x1610, B:1086:0x164e, B:1088:0x1652, B:1090:0x165b, B:1092:0x1665, B:1085:0x1631), top: B:1561:0x1577 }] */
-    /* JADX WARN: Removed duplicated region for block: B:1062:0x1593 A[Catch: Exception -> 0x1671, TryCatch #7 {Exception -> 0x1671, blocks: (B:1054:0x1577, B:1057:0x1581, B:1059:0x1585, B:1060:0x158f, B:1062:0x1593, B:1066:0x15ad, B:1067:0x15b6, B:1071:0x15cc, B:1073:0x15d2, B:1074:0x15de, B:1076:0x15f5, B:1078:0x15fb, B:1082:0x160c, B:1084:0x1610, B:1086:0x164e, B:1088:0x1652, B:1090:0x165b, B:1092:0x1665, B:1085:0x1631), top: B:1561:0x1577 }] */
-    /* JADX WARN: Removed duplicated region for block: B:1069:0x15c9  */
-    /* JADX WARN: Removed duplicated region for block: B:1070:0x15cb  */
-    /* JADX WARN: Removed duplicated region for block: B:1073:0x15d2 A[Catch: Exception -> 0x1671, TryCatch #7 {Exception -> 0x1671, blocks: (B:1054:0x1577, B:1057:0x1581, B:1059:0x1585, B:1060:0x158f, B:1062:0x1593, B:1066:0x15ad, B:1067:0x15b6, B:1071:0x15cc, B:1073:0x15d2, B:1074:0x15de, B:1076:0x15f5, B:1078:0x15fb, B:1082:0x160c, B:1084:0x1610, B:1086:0x164e, B:1088:0x1652, B:1090:0x165b, B:1092:0x1665, B:1085:0x1631), top: B:1561:0x1577 }] */
-    /* JADX WARN: Removed duplicated region for block: B:1084:0x1610 A[Catch: Exception -> 0x1671, TryCatch #7 {Exception -> 0x1671, blocks: (B:1054:0x1577, B:1057:0x1581, B:1059:0x1585, B:1060:0x158f, B:1062:0x1593, B:1066:0x15ad, B:1067:0x15b6, B:1071:0x15cc, B:1073:0x15d2, B:1074:0x15de, B:1076:0x15f5, B:1078:0x15fb, B:1082:0x160c, B:1084:0x1610, B:1086:0x164e, B:1088:0x1652, B:1090:0x165b, B:1092:0x1665, B:1085:0x1631), top: B:1561:0x1577 }] */
-    /* JADX WARN: Removed duplicated region for block: B:1085:0x1631 A[Catch: Exception -> 0x1671, TryCatch #7 {Exception -> 0x1671, blocks: (B:1054:0x1577, B:1057:0x1581, B:1059:0x1585, B:1060:0x158f, B:1062:0x1593, B:1066:0x15ad, B:1067:0x15b6, B:1071:0x15cc, B:1073:0x15d2, B:1074:0x15de, B:1076:0x15f5, B:1078:0x15fb, B:1082:0x160c, B:1084:0x1610, B:1086:0x164e, B:1088:0x1652, B:1090:0x165b, B:1092:0x1665, B:1085:0x1631), top: B:1561:0x1577 }] */
-    /* JADX WARN: Removed duplicated region for block: B:1123:0x17d7  */
-    /* JADX WARN: Removed duplicated region for block: B:1124:0x17f9  */
-    /* JADX WARN: Removed duplicated region for block: B:1128:0x183a  */
-    /* JADX WARN: Removed duplicated region for block: B:1135:0x1873  */
-    /* JADX WARN: Removed duplicated region for block: B:1138:0x1882  */
-    /* JADX WARN: Removed duplicated region for block: B:1144:0x18a7  */
-    /* JADX WARN: Removed duplicated region for block: B:1148:0x18df  */
-    /* JADX WARN: Removed duplicated region for block: B:1219:0x1aa3  */
-    /* JADX WARN: Removed duplicated region for block: B:1245:0x1b0f  */
-    /* JADX WARN: Removed duplicated region for block: B:1256:0x1b3a  */
-    /* JADX WARN: Removed duplicated region for block: B:1304:0x1bf6  */
-    /* JADX WARN: Removed duplicated region for block: B:1308:0x1c17 A[Catch: Exception -> 0x1c6c, TryCatch #3 {Exception -> 0x1c6c, blocks: (B:1306:0x1c0f, B:1308:0x1c17, B:1309:0x1c69), top: B:1554:0x1c0f }] */
-    /* JADX WARN: Removed duplicated region for block: B:1309:0x1c69 A[Catch: Exception -> 0x1c6c, TRY_LEAVE, TryCatch #3 {Exception -> 0x1c6c, blocks: (B:1306:0x1c0f, B:1308:0x1c17, B:1309:0x1c69), top: B:1554:0x1c0f }] */
-    /* JADX WARN: Removed duplicated region for block: B:1313:0x1c82 A[Catch: Exception -> 0x1cdc, TryCatch #2 {Exception -> 0x1cdc, blocks: (B:1311:0x1c7c, B:1313:0x1c82, B:1315:0x1c86, B:1318:0x1c8b, B:1319:0x1cb6), top: B:1551:0x1c7c }] */
-    /* JADX WARN: Removed duplicated region for block: B:1325:0x1ce4 A[Catch: Exception -> 0x1e51, TryCatch #6 {Exception -> 0x1e51, blocks: (B:1323:0x1ce0, B:1325:0x1ce4, B:1327:0x1cf6, B:1329:0x1cfc, B:1331:0x1d00, B:1333:0x1d06, B:1335:0x1d0a, B:1337:0x1d0e, B:1339:0x1d12, B:1341:0x1d16, B:1343:0x1d1a, B:1346:0x1d27, B:1345:0x1d24, B:1347:0x1d2a, B:1349:0x1d2e, B:1357:0x1d48, B:1360:0x1d4e, B:1362:0x1d54, B:1364:0x1d58, B:1366:0x1d6b, B:1368:0x1d9a, B:1370:0x1d9e, B:1372:0x1da2, B:1374:0x1da7, B:1376:0x1dab, B:1379:0x1db0, B:1381:0x1db4, B:1383:0x1dc7, B:1385:0x1dcd, B:1386:0x1de2, B:1388:0x1dfd, B:1391:0x1e04, B:1392:0x1e0b, B:1396:0x1e21, B:1373:0x1da5, B:1367:0x1d89, B:1351:0x1d32, B:1353:0x1d36, B:1355:0x1d3b), top: B:1560:0x1ce0 }] */
-    /* JADX WARN: Removed duplicated region for block: B:1381:0x1db4 A[Catch: Exception -> 0x1e51, TryCatch #6 {Exception -> 0x1e51, blocks: (B:1323:0x1ce0, B:1325:0x1ce4, B:1327:0x1cf6, B:1329:0x1cfc, B:1331:0x1d00, B:1333:0x1d06, B:1335:0x1d0a, B:1337:0x1d0e, B:1339:0x1d12, B:1341:0x1d16, B:1343:0x1d1a, B:1346:0x1d27, B:1345:0x1d24, B:1347:0x1d2a, B:1349:0x1d2e, B:1357:0x1d48, B:1360:0x1d4e, B:1362:0x1d54, B:1364:0x1d58, B:1366:0x1d6b, B:1368:0x1d9a, B:1370:0x1d9e, B:1372:0x1da2, B:1374:0x1da7, B:1376:0x1dab, B:1379:0x1db0, B:1381:0x1db4, B:1383:0x1dc7, B:1385:0x1dcd, B:1386:0x1de2, B:1388:0x1dfd, B:1391:0x1e04, B:1392:0x1e0b, B:1396:0x1e21, B:1373:0x1da5, B:1367:0x1d89, B:1351:0x1d32, B:1353:0x1d36, B:1355:0x1d3b), top: B:1560:0x1ce0 }] */
-    /* JADX WARN: Removed duplicated region for block: B:1394:0x1e1c  */
-    /* JADX WARN: Removed duplicated region for block: B:1395:0x1e1f  */
-    /* JADX WARN: Removed duplicated region for block: B:1406:0x1e6d  */
-    /* JADX WARN: Removed duplicated region for block: B:1483:0x2079  */
-    /* JADX WARN: Removed duplicated region for block: B:1530:0x215d  */
-    /* JADX WARN: Removed duplicated region for block: B:1541:0x219a  */
-    /* JADX WARN: Removed duplicated region for block: B:1542:0x21a2  */
-    /* JADX WARN: Removed duplicated region for block: B:1583:0x186b A[EDGE_INSN: B:1583:0x186b->B:1133:0x186b ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1005:0x1433  */
+    /* JADX WARN: Removed duplicated region for block: B:1009:0x1460  */
+    /* JADX WARN: Removed duplicated region for block: B:1038:0x1526  */
+    /* JADX WARN: Removed duplicated region for block: B:1061:0x1593  */
+    /* JADX WARN: Removed duplicated region for block: B:1064:0x1598 A[Catch: Exception -> 0x1684, TryCatch #5 {Exception -> 0x1684, blocks: (B:1059:0x158a, B:1062:0x1594, B:1064:0x1598, B:1065:0x15a2, B:1067:0x15a6, B:1071:0x15c0, B:1072:0x15c9, B:1076:0x15df, B:1078:0x15e5, B:1079:0x15f1, B:1081:0x1608, B:1083:0x160e, B:1087:0x161f, B:1089:0x1623, B:1091:0x1661, B:1093:0x1665, B:1095:0x166e, B:1097:0x1678, B:1090:0x1644), top: B:1562:0x158a }] */
+    /* JADX WARN: Removed duplicated region for block: B:1067:0x15a6 A[Catch: Exception -> 0x1684, TryCatch #5 {Exception -> 0x1684, blocks: (B:1059:0x158a, B:1062:0x1594, B:1064:0x1598, B:1065:0x15a2, B:1067:0x15a6, B:1071:0x15c0, B:1072:0x15c9, B:1076:0x15df, B:1078:0x15e5, B:1079:0x15f1, B:1081:0x1608, B:1083:0x160e, B:1087:0x161f, B:1089:0x1623, B:1091:0x1661, B:1093:0x1665, B:1095:0x166e, B:1097:0x1678, B:1090:0x1644), top: B:1562:0x158a }] */
+    /* JADX WARN: Removed duplicated region for block: B:1074:0x15dc  */
+    /* JADX WARN: Removed duplicated region for block: B:1075:0x15de  */
+    /* JADX WARN: Removed duplicated region for block: B:1078:0x15e5 A[Catch: Exception -> 0x1684, TryCatch #5 {Exception -> 0x1684, blocks: (B:1059:0x158a, B:1062:0x1594, B:1064:0x1598, B:1065:0x15a2, B:1067:0x15a6, B:1071:0x15c0, B:1072:0x15c9, B:1076:0x15df, B:1078:0x15e5, B:1079:0x15f1, B:1081:0x1608, B:1083:0x160e, B:1087:0x161f, B:1089:0x1623, B:1091:0x1661, B:1093:0x1665, B:1095:0x166e, B:1097:0x1678, B:1090:0x1644), top: B:1562:0x158a }] */
+    /* JADX WARN: Removed duplicated region for block: B:1089:0x1623 A[Catch: Exception -> 0x1684, TryCatch #5 {Exception -> 0x1684, blocks: (B:1059:0x158a, B:1062:0x1594, B:1064:0x1598, B:1065:0x15a2, B:1067:0x15a6, B:1071:0x15c0, B:1072:0x15c9, B:1076:0x15df, B:1078:0x15e5, B:1079:0x15f1, B:1081:0x1608, B:1083:0x160e, B:1087:0x161f, B:1089:0x1623, B:1091:0x1661, B:1093:0x1665, B:1095:0x166e, B:1097:0x1678, B:1090:0x1644), top: B:1562:0x158a }] */
+    /* JADX WARN: Removed duplicated region for block: B:1090:0x1644 A[Catch: Exception -> 0x1684, TryCatch #5 {Exception -> 0x1684, blocks: (B:1059:0x158a, B:1062:0x1594, B:1064:0x1598, B:1065:0x15a2, B:1067:0x15a6, B:1071:0x15c0, B:1072:0x15c9, B:1076:0x15df, B:1078:0x15e5, B:1079:0x15f1, B:1081:0x1608, B:1083:0x160e, B:1087:0x161f, B:1089:0x1623, B:1091:0x1661, B:1093:0x1665, B:1095:0x166e, B:1097:0x1678, B:1090:0x1644), top: B:1562:0x158a }] */
+    /* JADX WARN: Removed duplicated region for block: B:1128:0x17ea  */
+    /* JADX WARN: Removed duplicated region for block: B:1129:0x180c  */
+    /* JADX WARN: Removed duplicated region for block: B:1133:0x184d  */
+    /* JADX WARN: Removed duplicated region for block: B:1140:0x1886  */
+    /* JADX WARN: Removed duplicated region for block: B:1143:0x1895  */
+    /* JADX WARN: Removed duplicated region for block: B:1149:0x18ba  */
+    /* JADX WARN: Removed duplicated region for block: B:1153:0x18f2  */
+    /* JADX WARN: Removed duplicated region for block: B:1224:0x1ab6  */
+    /* JADX WARN: Removed duplicated region for block: B:1250:0x1b22  */
+    /* JADX WARN: Removed duplicated region for block: B:1261:0x1b4d  */
+    /* JADX WARN: Removed duplicated region for block: B:1309:0x1c09  */
+    /* JADX WARN: Removed duplicated region for block: B:1313:0x1c2a A[Catch: Exception -> 0x1c7f, TryCatch #1 {Exception -> 0x1c7f, blocks: (B:1311:0x1c22, B:1313:0x1c2a, B:1314:0x1c7c), top: B:1555:0x1c22 }] */
+    /* JADX WARN: Removed duplicated region for block: B:1314:0x1c7c A[Catch: Exception -> 0x1c7f, TRY_LEAVE, TryCatch #1 {Exception -> 0x1c7f, blocks: (B:1311:0x1c22, B:1313:0x1c2a, B:1314:0x1c7c), top: B:1555:0x1c22 }] */
+    /* JADX WARN: Removed duplicated region for block: B:1318:0x1c95 A[Catch: Exception -> 0x1cef, TryCatch #0 {Exception -> 0x1cef, blocks: (B:1316:0x1c8f, B:1318:0x1c95, B:1320:0x1c99, B:1323:0x1c9e, B:1324:0x1cc9), top: B:1552:0x1c8f }] */
+    /* JADX WARN: Removed duplicated region for block: B:1330:0x1cf7 A[Catch: Exception -> 0x1e64, TryCatch #4 {Exception -> 0x1e64, blocks: (B:1328:0x1cf3, B:1330:0x1cf7, B:1332:0x1d09, B:1334:0x1d0f, B:1336:0x1d13, B:1338:0x1d19, B:1340:0x1d1d, B:1342:0x1d21, B:1344:0x1d25, B:1346:0x1d29, B:1348:0x1d2d, B:1351:0x1d3a, B:1350:0x1d37, B:1352:0x1d3d, B:1354:0x1d41, B:1362:0x1d5b, B:1365:0x1d61, B:1367:0x1d67, B:1369:0x1d6b, B:1371:0x1d7e, B:1373:0x1dad, B:1375:0x1db1, B:1377:0x1db5, B:1379:0x1dba, B:1381:0x1dbe, B:1384:0x1dc3, B:1386:0x1dc7, B:1388:0x1dda, B:1390:0x1de0, B:1391:0x1df5, B:1393:0x1e10, B:1396:0x1e17, B:1397:0x1e1e, B:1401:0x1e34, B:1378:0x1db8, B:1372:0x1d9c, B:1356:0x1d45, B:1358:0x1d49, B:1360:0x1d4e), top: B:1561:0x1cf3 }] */
+    /* JADX WARN: Removed duplicated region for block: B:1386:0x1dc7 A[Catch: Exception -> 0x1e64, TryCatch #4 {Exception -> 0x1e64, blocks: (B:1328:0x1cf3, B:1330:0x1cf7, B:1332:0x1d09, B:1334:0x1d0f, B:1336:0x1d13, B:1338:0x1d19, B:1340:0x1d1d, B:1342:0x1d21, B:1344:0x1d25, B:1346:0x1d29, B:1348:0x1d2d, B:1351:0x1d3a, B:1350:0x1d37, B:1352:0x1d3d, B:1354:0x1d41, B:1362:0x1d5b, B:1365:0x1d61, B:1367:0x1d67, B:1369:0x1d6b, B:1371:0x1d7e, B:1373:0x1dad, B:1375:0x1db1, B:1377:0x1db5, B:1379:0x1dba, B:1381:0x1dbe, B:1384:0x1dc3, B:1386:0x1dc7, B:1388:0x1dda, B:1390:0x1de0, B:1391:0x1df5, B:1393:0x1e10, B:1396:0x1e17, B:1397:0x1e1e, B:1401:0x1e34, B:1378:0x1db8, B:1372:0x1d9c, B:1356:0x1d45, B:1358:0x1d49, B:1360:0x1d4e), top: B:1561:0x1cf3 }] */
+    /* JADX WARN: Removed duplicated region for block: B:1399:0x1e2f  */
+    /* JADX WARN: Removed duplicated region for block: B:1400:0x1e32  */
+    /* JADX WARN: Removed duplicated region for block: B:1411:0x1e80  */
+    /* JADX WARN: Removed duplicated region for block: B:1488:0x208c  */
+    /* JADX WARN: Removed duplicated region for block: B:1535:0x2170  */
+    /* JADX WARN: Removed duplicated region for block: B:1546:0x21ad  */
+    /* JADX WARN: Removed duplicated region for block: B:1547:0x21b5  */
+    /* JADX WARN: Removed duplicated region for block: B:1588:0x187e A[EDGE_INSN: B:1588:0x187e->B:1138:0x187e ?: BREAK  , SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:222:0x0520  */
     /* JADX WARN: Removed duplicated region for block: B:309:0x0639  */
     /* JADX WARN: Removed duplicated region for block: B:324:0x069d  */
     /* JADX WARN: Removed duplicated region for block: B:420:0x08dc  */
-    /* JADX WARN: Removed duplicated region for block: B:746:0x0f27  */
-    /* JADX WARN: Removed duplicated region for block: B:756:0x0f8c  */
-    /* JADX WARN: Removed duplicated region for block: B:801:0x1075  */
-    /* JADX WARN: Removed duplicated region for block: B:802:0x107d  */
-    /* JADX WARN: Removed duplicated region for block: B:811:0x109b  */
-    /* JADX WARN: Removed duplicated region for block: B:843:0x111e  */
-    /* JADX WARN: Removed duplicated region for block: B:844:0x1123  */
-    /* JADX WARN: Removed duplicated region for block: B:847:0x112a  */
-    /* JADX WARN: Removed duplicated region for block: B:848:0x112d  */
-    /* JADX WARN: Removed duplicated region for block: B:901:0x11e8  */
-    /* JADX WARN: Removed duplicated region for block: B:910:0x1219  */
-    /* JADX WARN: Removed duplicated region for block: B:914:0x122b  */
-    /* JADX WARN: Removed duplicated region for block: B:915:0x1235  */
-    /* JADX WARN: Removed duplicated region for block: B:925:0x126f  */
-    /* JADX WARN: Removed duplicated region for block: B:927:0x1282  */
-    /* JADX WARN: Removed duplicated region for block: B:970:0x1339  */
-    /* JADX WARN: Removed duplicated region for block: B:974:0x134b  */
-    /* JADX WARN: Removed duplicated region for block: B:978:0x138a  */
-    /* JADX WARN: Removed duplicated region for block: B:981:0x1397  */
-    /* JADX WARN: Removed duplicated region for block: B:986:0x13cb  */
-    /* JADX WARN: Removed duplicated region for block: B:989:0x13d0  */
-    /* JADX WARN: Removed duplicated region for block: B:990:0x13e2  */
-    /* JADX WARN: Removed duplicated region for block: B:993:0x1401  */
+    /* JADX WARN: Removed duplicated region for block: B:617:0x0c06  */
+    /* JADX WARN: Removed duplicated region for block: B:618:0x0c09  */
+    /* JADX WARN: Removed duplicated region for block: B:751:0x0f3a  */
+    /* JADX WARN: Removed duplicated region for block: B:761:0x0f9f  */
+    /* JADX WARN: Removed duplicated region for block: B:806:0x1088  */
+    /* JADX WARN: Removed duplicated region for block: B:807:0x1090  */
+    /* JADX WARN: Removed duplicated region for block: B:816:0x10ae  */
+    /* JADX WARN: Removed duplicated region for block: B:848:0x1131  */
+    /* JADX WARN: Removed duplicated region for block: B:849:0x1136  */
+    /* JADX WARN: Removed duplicated region for block: B:852:0x113d  */
+    /* JADX WARN: Removed duplicated region for block: B:853:0x1140  */
+    /* JADX WARN: Removed duplicated region for block: B:906:0x11fb  */
+    /* JADX WARN: Removed duplicated region for block: B:915:0x122c  */
+    /* JADX WARN: Removed duplicated region for block: B:919:0x123e  */
+    /* JADX WARN: Removed duplicated region for block: B:920:0x1248  */
+    /* JADX WARN: Removed duplicated region for block: B:930:0x1282  */
+    /* JADX WARN: Removed duplicated region for block: B:932:0x1295  */
+    /* JADX WARN: Removed duplicated region for block: B:975:0x134c  */
+    /* JADX WARN: Removed duplicated region for block: B:979:0x135e  */
+    /* JADX WARN: Removed duplicated region for block: B:983:0x139d  */
+    /* JADX WARN: Removed duplicated region for block: B:986:0x13aa  */
+    /* JADX WARN: Removed duplicated region for block: B:991:0x13de  */
+    /* JADX WARN: Removed duplicated region for block: B:994:0x13e3  */
+    /* JADX WARN: Removed duplicated region for block: B:995:0x13f5  */
+    /* JADX WARN: Removed duplicated region for block: B:998:0x1414  */
     /* JADX WARN: Type inference failed for: r0v159, types: [java.lang.CharSequence] */
     /* JADX WARN: Type inference failed for: r11v38, types: [android.text.SpannableStringBuilder] */
-    /* JADX WARN: Type inference failed for: r1v136 */
-    /* JADX WARN: Type inference failed for: r1v176 */
-    /* JADX WARN: Type inference failed for: r1v177, types: [java.lang.CharSequence] */
-    /* JADX WARN: Type inference failed for: r1v188 */
-    /* JADX WARN: Type inference failed for: r1v226 */
+    /* JADX WARN: Type inference failed for: r1v141 */
+    /* JADX WARN: Type inference failed for: r1v181 */
+    /* JADX WARN: Type inference failed for: r1v182, types: [java.lang.CharSequence] */
+    /* JADX WARN: Type inference failed for: r1v193 */
+    /* JADX WARN: Type inference failed for: r1v231 */
     /* JADX WARN: Type inference failed for: r1v30 */
     /* JADX WARN: Type inference failed for: r1v31 */
-    /* JADX WARN: Type inference failed for: r1v327 */
+    /* JADX WARN: Type inference failed for: r1v332 */
     /* JADX WARN: Type inference failed for: r1v44 */
     /* JADX WARN: Type inference failed for: r1v47, types: [android.text.SpannableStringBuilder] */
     /* JADX WARN: Type inference failed for: r1v62, types: [android.text.SpannableStringBuilder] */
     /* JADX WARN: Type inference failed for: r1v72, types: [android.text.SpannableStringBuilder, java.lang.CharSequence, android.text.Spannable] */
     /* JADX WARN: Type inference failed for: r1v80, types: [java.lang.CharSequence] */
     /* JADX WARN: Type inference failed for: r37v0, types: [android.view.View, org.telegram.ui.Cells.DialogCell, android.view.ViewGroup] */
-    /* JADX WARN: Type inference failed for: r4v120, types: [java.lang.CharSequence] */
-    /* JADX WARN: Type inference failed for: r4v121, types: [java.lang.CharSequence] */
-    /* JADX WARN: Type inference failed for: r4v122 */
-    /* JADX WARN: Type inference failed for: r5v97, types: [java.lang.CharSequence] */
+    /* JADX WARN: Type inference failed for: r4v127, types: [java.lang.CharSequence] */
+    /* JADX WARN: Type inference failed for: r4v128, types: [java.lang.CharSequence] */
+    /* JADX WARN: Type inference failed for: r4v129 */
+    /* JADX WARN: Type inference failed for: r5v91, types: [java.lang.CharSequence] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1148,6 +1152,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
         String str2;
         String str3;
         String str4;
+        boolean isChannelAndNotMegaGroup;
         String formatPluralString;
         String str5;
         SpannableStringBuilder append;
@@ -2089,9 +2094,19 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                                                                                 this.currentMessagePaint = Theme.dialogs_messagePrintingPaint[this.paintIndex];
                                                                             } else {
                                                                                 MessageObject messageObject12 = this.message;
-                                                                                TLRPC$MessageMedia tLRPC$MessageMedia2 = messageObject12.messageOwner.media;
+                                                                                TLRPC$Message tLRPC$Message = messageObject12.messageOwner;
+                                                                                TLRPC$MessageMedia tLRPC$MessageMedia2 = tLRPC$Message.media;
                                                                                 if (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaGiveaway) {
-                                                                                    str4 = LocaleController.getString(ChatObject.isChannelAndNotMegaGroup(this.chat) ? R.string.BoostingGiveawayChannelStarted : R.string.BoostingGiveawayGroupStarted);
+                                                                                    TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader = tLRPC$Message.fwd_from;
+                                                                                    if (tLRPC$MessageFwdHeader != null) {
+                                                                                        TLRPC$Peer tLRPC$Peer = tLRPC$MessageFwdHeader.from_id;
+                                                                                        if (tLRPC$Peer instanceof TLRPC$TL_peerChannel) {
+                                                                                            isChannelAndNotMegaGroup = ChatObject.isChannelAndNotMegaGroup(tLRPC$Peer.channel_id, this.currentAccount);
+                                                                                            str4 = LocaleController.getString(!isChannelAndNotMegaGroup ? R.string.BoostingGiveawayChannelStarted : R.string.BoostingGiveawayGroupStarted);
+                                                                                        }
+                                                                                    }
+                                                                                    isChannelAndNotMegaGroup = ChatObject.isChannelAndNotMegaGroup(this.chat);
+                                                                                    str4 = LocaleController.getString(!isChannelAndNotMegaGroup ? R.string.BoostingGiveawayChannelStarted : R.string.BoostingGiveawayGroupStarted);
                                                                                 } else if (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaGiveawayResults) {
                                                                                     str4 = LocaleController.getString("BoostingGiveawayResults", R.string.BoostingGiveawayResults);
                                                                                 } else if (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaPoll) {
@@ -2131,10 +2146,10 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                                                                                         MessageObject messageObject14 = this.message;
                                                                                         str2 = spannableStringBuilder19;
                                                                                         if (messageObject14 != null) {
-                                                                                            TLRPC$Message tLRPC$Message = messageObject14.messageOwner;
+                                                                                            TLRPC$Message tLRPC$Message2 = messageObject14.messageOwner;
                                                                                             str2 = spannableStringBuilder19;
-                                                                                            if (tLRPC$Message != null) {
-                                                                                                ArrayList<TLRPC$MessageEntity> arrayList6 = tLRPC$Message.entities;
+                                                                                            if (tLRPC$Message2 != null) {
+                                                                                                ArrayList<TLRPC$MessageEntity> arrayList6 = tLRPC$Message2.entities;
                                                                                                 TextPaint textPaint8 = this.currentMessagePaint;
                                                                                                 MediaDataController.addAnimatedEmojiSpans(arrayList6, spannableStringBuilder19, textPaint8 == null ? null : textPaint8.getFontMetricsInt());
                                                                                                 str2 = spannableStringBuilder19;

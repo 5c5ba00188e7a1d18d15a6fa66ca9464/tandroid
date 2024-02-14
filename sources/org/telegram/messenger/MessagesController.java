@@ -19544,11 +19544,11 @@ public class MessagesController extends BaseController implements NotificationCe
         });
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:129:0x009d, code lost:
-        if (org.telegram.messenger.ChatObject.isNotInChat(r5) != false) goto L30;
+    /* JADX WARN: Code restructure failed: missing block: B:134:0x009f, code lost:
+        if (org.telegram.messenger.ChatObject.isNotInChat(r5) != false) goto L32;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:138:0x00b8, code lost:
-        if (org.telegram.messenger.ChatObject.isNotInChat(r5) != false) goto L30;
+    /* JADX WARN: Code restructure failed: missing block: B:144:0x00bc, code lost:
+        if (org.telegram.messenger.ChatObject.isNotInChat(r5) != false) goto L32;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -19583,12 +19583,15 @@ public class MessagesController extends BaseController implements NotificationCe
             long j = this.promoDialogId;
             if (j == 0 || j != tLRPC$Message2.dialog_id) {
                 TLRPC$Peer tLRPC$Peer = tLRPC$Message2.peer_id;
-                long j2 = tLRPC$Peer.channel_id;
-                if (j2 != 0) {
-                    TLRPC$Chat tLRPC$Chat4 = (TLRPC$Chat) longSparseArray4.get(j2);
-                    if (tLRPC$Chat4 != null) {
+                if (tLRPC$Peer != null) {
+                    long j2 = tLRPC$Peer.channel_id;
+                    if (j2 != 0) {
+                        TLRPC$Chat tLRPC$Chat4 = (TLRPC$Chat) longSparseArray4.get(j2);
+                        if (tLRPC$Chat4 != null) {
+                        }
                     }
-                } else {
+                }
+                if (tLRPC$Peer != null) {
                     long j3 = tLRPC$Peer.chat_id;
                     if (j3 != 0) {
                         TLRPC$Chat tLRPC$Chat5 = (TLRPC$Chat) longSparseArray4.get(j3);
@@ -19597,12 +19600,12 @@ public class MessagesController extends BaseController implements NotificationCe
                             }
                             i2 = i5;
                             arrayList2 = arrayList3;
+                            i5 = i2 + 1;
+                            arrayList3 = arrayList2;
+                            longSparseIntArray2 = longSparseIntArray3;
                         }
                     }
                 }
-                i5 = i2 + 1;
-                arrayList3 = arrayList2;
-                longSparseIntArray2 = longSparseIntArray3;
             }
             i2 = i5;
             arrayList2 = arrayList3;

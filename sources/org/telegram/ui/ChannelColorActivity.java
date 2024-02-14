@@ -1004,7 +1004,6 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
     /* JADX WARN: Removed duplicated region for block: B:15:0x0034  */
     /* JADX WARN: Removed duplicated region for block: B:40:0x009c  */
     /* JADX WARN: Removed duplicated region for block: B:44:0x00b2  */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x00e4  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1012,7 +1011,6 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
         int i;
         int i2;
         int i3;
-        final TLRPC$Chat chat;
         if (this.currentReplyColor != this.selectedReplyColor) {
             MessagesController.PeerColors peerColors = getMessagesController().peerColors;
             MessagesController.PeerColor color = peerColors == null ? null : peerColors.getColor(this.selectedReplyColor);
@@ -1042,6 +1040,8 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
                 } else {
                     i3 = i2;
                 }
+                if (getContext() != null || getParentActivity() == null) {
+                }
                 LimitReachedBottomSheet limitReachedBottomSheet = new LimitReachedBottomSheet(this, this, getContext(), i3, this.currentAccount, getResourceProvider()) { // from class: org.telegram.ui.ChannelColorActivity.4
                     @Override // org.telegram.ui.Components.Premium.LimitReachedBottomSheet
                     protected int channelColorLevelMin() {
@@ -1051,7 +1051,7 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
                 limitReachedBottomSheet.setCanApplyBoost(canApplyBoost);
                 limitReachedBottomSheet.setBoostsStats(this.boostsStatus, true);
                 limitReachedBottomSheet.setDialogId(this.dialogId);
-                chat = getMessagesController().getChat(Long.valueOf(-this.dialogId));
+                final TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(-this.dialogId));
                 if (chat != null) {
                     limitReachedBottomSheet.showStatisticButtonInLink(new Runnable() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda10
                         @Override // java.lang.Runnable
@@ -1062,6 +1062,7 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
                 }
                 showDialog(limitReachedBottomSheet);
                 this.button.setLoading(false);
+                return;
             }
         }
         i = 0;
@@ -1080,20 +1081,8 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
         }
         if (ChatThemeController.wallpaperEquals(this.currentWallpaper, this.selectedWallpaper)) {
         }
-        LimitReachedBottomSheet limitReachedBottomSheet2 = new LimitReachedBottomSheet(this, this, getContext(), i3, this.currentAccount, getResourceProvider()) { // from class: org.telegram.ui.ChannelColorActivity.4
-            @Override // org.telegram.ui.Components.Premium.LimitReachedBottomSheet
-            protected int channelColorLevelMin() {
-                return i42;
-            }
-        };
-        limitReachedBottomSheet2.setCanApplyBoost(canApplyBoost);
-        limitReachedBottomSheet2.setBoostsStats(this.boostsStatus, true);
-        limitReachedBottomSheet2.setDialogId(this.dialogId);
-        chat = getMessagesController().getChat(Long.valueOf(-this.dialogId));
-        if (chat != null) {
+        if (getContext() != null) {
         }
-        showDialog(limitReachedBottomSheet2);
-        this.button.setLoading(false);
     }
 
     /* JADX INFO: Access modifiers changed from: private */

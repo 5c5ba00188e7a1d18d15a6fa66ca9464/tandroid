@@ -4696,6 +4696,9 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         stopRecord(true);
         final TLRPC$TL_document tLRPC$TL_document = this.recordingAudio;
         final File file = this.recordingAudioFile;
+        if (tLRPC$TL_document == null || file == null) {
+            return;
+        }
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda34
             @Override // java.lang.Runnable
             public final void run() {

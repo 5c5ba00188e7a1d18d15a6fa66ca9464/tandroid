@@ -5095,21 +5095,23 @@ public class MessageObject {
     /* JADX WARN: Removed duplicated region for block: B:252:0x06e1  */
     /* JADX WARN: Removed duplicated region for block: B:253:0x06e4  */
     /* JADX WARN: Removed duplicated region for block: B:265:0x0712  */
-    /* JADX WARN: Removed duplicated region for block: B:266:0x071b  */
-    /* JADX WARN: Removed duplicated region for block: B:268:0x071f  */
-    /* JADX WARN: Removed duplicated region for block: B:278:0x0745  */
-    /* JADX WARN: Removed duplicated region for block: B:299:0x07a7  */
-    /* JADX WARN: Removed duplicated region for block: B:343:0x084f  */
-    /* JADX WARN: Removed duplicated region for block: B:347:0x086d  */
-    /* JADX WARN: Removed duplicated region for block: B:366:0x08cd  */
-    /* JADX WARN: Removed duplicated region for block: B:367:0x08e3  */
-    /* JADX WARN: Removed duplicated region for block: B:383:0x092d  */
-    /* JADX WARN: Removed duplicated region for block: B:384:0x0939  */
-    /* JADX WARN: Removed duplicated region for block: B:472:0x0b3f  */
-    /* JADX WARN: Removed duplicated region for block: B:493:0x0bea  */
-    /* JADX WARN: Removed duplicated region for block: B:810:0x14eb  */
-    /* JADX WARN: Removed duplicated region for block: B:952:0x1893  */
-    /* JADX WARN: Removed duplicated region for block: B:978:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:266:0x071d  */
+    /* JADX WARN: Removed duplicated region for block: B:268:0x0721  */
+    /* JADX WARN: Removed duplicated region for block: B:278:0x0747  */
+    /* JADX WARN: Removed duplicated region for block: B:299:0x07a9  */
+    /* JADX WARN: Removed duplicated region for block: B:343:0x0851  */
+    /* JADX WARN: Removed duplicated region for block: B:347:0x086f  */
+    /* JADX WARN: Removed duplicated region for block: B:366:0x08cf  */
+    /* JADX WARN: Removed duplicated region for block: B:367:0x08e5  */
+    /* JADX WARN: Removed duplicated region for block: B:383:0x092f  */
+    /* JADX WARN: Removed duplicated region for block: B:384:0x093b  */
+    /* JADX WARN: Removed duplicated region for block: B:472:0x0b41  */
+    /* JADX WARN: Removed duplicated region for block: B:493:0x0bec  */
+    /* JADX WARN: Removed duplicated region for block: B:810:0x14ed  */
+    /* JADX WARN: Removed duplicated region for block: B:824:0x1534  */
+    /* JADX WARN: Removed duplicated region for block: B:825:0x1537  */
+    /* JADX WARN: Removed duplicated region for block: B:957:0x18ac  */
+    /* JADX WARN: Removed duplicated region for block: B:983:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -5119,6 +5121,7 @@ public class MessageObject {
         TLRPC$Message tLRPC$Message;
         String str;
         String publicUsername;
+        boolean isChannelAndNotMegaGroup;
         String str2;
         String string;
         String formatString;
@@ -5426,35 +5429,35 @@ public class MessageObject {
                             long j6 = tLRPC$Peer4.channel_id;
                             if (j6 != 0) {
                                 tLRPC$Chat8 = getChat(abstractMap2, longSparseArray2, j6);
-                                boolean isChannelAndNotMegaGroup = ChatObject.isChannelAndNotMegaGroup(tLRPC$Chat8);
+                                boolean isChannelAndNotMegaGroup2 = ChatObject.isChannelAndNotMegaGroup(tLRPC$Chat8);
                                 TLRPC$TL_messageActionBoostApply tLRPC$TL_messageActionBoostApply = (TLRPC$TL_messageActionBoostApply) this.messageOwner.action;
                                 if (tLObject instanceof TLRPC$User) {
                                     str5 = "";
                                     z = false;
                                 } else {
                                     TLRPC$User tLRPC$User2 = (TLRPC$User) tLObject;
-                                    z = tLRPC$User2.self;
+                                    z = UserObject.isUserSelf(tLRPC$User2);
                                     str5 = UserObject.getFirstName(tLRPC$User2);
                                 }
                                 if (!z) {
                                     int i6 = tLRPC$TL_messageActionBoostApply.boosts;
                                     if (i6 <= 1) {
-                                        this.messageText = LocaleController.getString(isChannelAndNotMegaGroup ? R.string.BoostingBoostsChannelByYouServiceMsg : R.string.BoostingBoostsGroupByYouServiceMsg);
+                                        this.messageText = LocaleController.getString(isChannelAndNotMegaGroup2 ? R.string.BoostingBoostsChannelByYouServiceMsg : R.string.BoostingBoostsGroupByYouServiceMsg);
                                     } else {
-                                        this.messageText = LocaleController.formatPluralString(isChannelAndNotMegaGroup ? "BoostingBoostsChannelByYouServiceMsgCount" : "BoostingBoostsGroupByYouServiceMsgCount", i6, new Object[0]);
+                                        this.messageText = LocaleController.formatPluralString(isChannelAndNotMegaGroup2 ? "BoostingBoostsChannelByYouServiceMsgCount" : "BoostingBoostsGroupByYouServiceMsgCount", i6, new Object[0]);
                                     }
                                 } else {
                                     int i7 = tLRPC$TL_messageActionBoostApply.boosts;
                                     if (i7 <= 1) {
-                                        this.messageText = LocaleController.formatString(isChannelAndNotMegaGroup ? R.string.BoostingBoostsChannelByUserServiceMsg : R.string.BoostingBoostsGroupByUserServiceMsg, str5);
+                                        this.messageText = LocaleController.formatString(isChannelAndNotMegaGroup2 ? R.string.BoostingBoostsChannelByUserServiceMsg : R.string.BoostingBoostsGroupByUserServiceMsg, str5);
                                     } else {
-                                        this.messageText = LocaleController.formatPluralString(isChannelAndNotMegaGroup ? "BoostingBoostsChannelByUserServiceMsgCount" : "BoostingBoostsGroupByUserServiceMsgCount", i7, str5);
+                                        this.messageText = LocaleController.formatPluralString(isChannelAndNotMegaGroup2 ? "BoostingBoostsChannelByUserServiceMsgCount" : "BoostingBoostsGroupByUserServiceMsgCount", i7, str5);
                                     }
                                 }
                             }
                         }
                         tLRPC$Chat8 = null;
-                        boolean isChannelAndNotMegaGroup2 = ChatObject.isChannelAndNotMegaGroup(tLRPC$Chat8);
+                        boolean isChannelAndNotMegaGroup22 = ChatObject.isChannelAndNotMegaGroup(tLRPC$Chat8);
                         TLRPC$TL_messageActionBoostApply tLRPC$TL_messageActionBoostApply2 = (TLRPC$TL_messageActionBoostApply) this.messageOwner.action;
                         if (tLObject instanceof TLRPC$User) {
                         }
@@ -6068,7 +6071,16 @@ public class MessageObject {
                     this.isRestrictedMessage = true;
                 } else if (!isMediaEmpty()) {
                     if (getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaGiveaway) {
-                        this.messageText = LocaleController.getString(ChatObject.isChannelAndNotMegaGroup(chat) ? R.string.BoostingGiveawayChannelStarted : R.string.BoostingGiveawayGroupStarted);
+                        TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader = this.messageOwner.fwd_from;
+                        if (tLRPC$MessageFwdHeader != null) {
+                            TLRPC$Peer tLRPC$Peer12 = tLRPC$MessageFwdHeader.from_id;
+                            if (tLRPC$Peer12 instanceof TLRPC$TL_peerChannel) {
+                                isChannelAndNotMegaGroup = ChatObject.isChannelAndNotMegaGroup(getChat(abstractMap2, longSparseArray2, tLRPC$Peer12.channel_id));
+                                this.messageText = LocaleController.getString(!isChannelAndNotMegaGroup ? R.string.BoostingGiveawayChannelStarted : R.string.BoostingGiveawayGroupStarted);
+                            }
+                        }
+                        isChannelAndNotMegaGroup = ChatObject.isChannelAndNotMegaGroup(chat);
+                        this.messageText = LocaleController.getString(!isChannelAndNotMegaGroup ? R.string.BoostingGiveawayChannelStarted : R.string.BoostingGiveawayGroupStarted);
                     } else if (getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaGiveawayResults) {
                         this.messageText = LocaleController.getString("BoostingGiveawayResults", R.string.BoostingGiveawayResults);
                     } else if (getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaStory) {

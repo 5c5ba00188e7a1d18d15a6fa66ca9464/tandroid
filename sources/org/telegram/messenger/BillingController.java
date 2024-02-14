@@ -57,8 +57,8 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
     private final Map<String, Consumer<BillingResult>> resultListeners = new HashMap();
     private final List<String> requestingTokens = Collections.synchronizedList(new ArrayList());
     private final Map<String, Integer> currencyExpMap = new HashMap();
+    private int triesLeft = 0;
 
-    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$consumeGiftPurchase$4(BillingResult billingResult, String str) {
     }
 
@@ -140,6 +140,13 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
         NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.billingProductDetailsUpdated, new Object[0]);
     }
 
+    private void switchBackFromInvoice() {
+        if (billingClientEmpty) {
+            billingClientEmpty = false;
+            NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.billingProductDetailsUpdated, new Object[0]);
+        }
+    }
+
     public boolean isReady() {
         return this.billingClient.isReady();
     }
@@ -198,7 +205,6 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$launchBillingFlow$2(final Activity activity, final AccountInstance accountInstance, final TLRPC$InputStorePaymentPurpose tLRPC$InputStorePaymentPurpose, final List list, final BillingFlowParams.SubscriptionUpdateParams subscriptionUpdateParams, BillingResult billingResult, List list2) {
         if (billingResult.getResponseCode() == 0) {
             final Runnable runnable = new Runnable() { // from class: org.telegram.messenger.BillingController$$ExternalSyntheticLambda6
@@ -240,12 +246,10 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$launchBillingFlow$0(Activity activity, AccountInstance accountInstance, TLRPC$InputStorePaymentPurpose tLRPC$InputStorePaymentPurpose, List list, BillingFlowParams.SubscriptionUpdateParams subscriptionUpdateParams) {
         launchBillingFlow(activity, accountInstance, tLRPC$InputStorePaymentPurpose, list, subscriptionUpdateParams, true);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$launchBillingFlow$1(List list, String str, AtomicInteger atomicInteger, Runnable runnable, BillingResult billingResult, String str2) {
         if (billingResult.getResponseCode() == 0) {
             list.add(str);
@@ -298,7 +302,6 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onPurchasesUpdated$3(Purchase purchase, AccountInstance accountInstance, BillingResult billingResult, TLRPC$TL_payments_assignPlayMarketTransaction tLRPC$TL_payments_assignPlayMarketTransaction, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         this.requestingTokens.remove(purchase.getPurchaseToken());
         if (tLObject instanceof TLRPC$Updates) {
@@ -344,12 +347,8 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
         FileLog.d("Billing: Setup finished with result " + billingResult);
         if (billingResult.getResponseCode() == 0) {
             this.isDisconnected = false;
-            queryProductDetails(Collections.singletonList(PREMIUM_PRODUCT), new ProductDetailsResponseListener() { // from class: org.telegram.messenger.BillingController$$ExternalSyntheticLambda2
-                @Override // com.android.billingclient.api.ProductDetailsResponseListener
-                public final void onProductDetailsResponse(BillingResult billingResult2, List list) {
-                    BillingController.this.lambda$onBillingSetupFinished$6(billingResult2, list);
-                }
-            });
+            this.triesLeft = 3;
+            queryProductDetails(Collections.singletonList(PREMIUM_PRODUCT), new BillingController$$ExternalSyntheticLambda2(this));
             queryPurchases("inapp", new PurchasesResponseListener() { // from class: org.telegram.messenger.BillingController$$ExternalSyntheticLambda3
                 @Override // com.android.billingclient.api.PurchasesResponseListener
                 public final void onQueryPurchasesResponse(BillingResult billingResult2, List list) {
@@ -368,13 +367,10 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onBillingSetupFinished$6(BillingResult billingResult, List list) {
+    public void onQueriedPremiumProductDetails(BillingResult billingResult, List<ProductDetails> list) {
         FileLog.d("Billing: Query product details finished " + billingResult + ", " + list);
         if (billingResult.getResponseCode() == 0) {
-            Iterator it = list.iterator();
-            while (it.hasNext()) {
-                ProductDetails productDetails = (ProductDetails) it.next();
+            for (ProductDetails productDetails : list) {
                 if (productDetails.getProductId().equals(PREMIUM_PRODUCT_ID)) {
                     PREMIUM_PRODUCT_DETAILS = productDetails;
                 }
@@ -382,11 +378,16 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
             if (PREMIUM_PRODUCT_DETAILS == null) {
                 switchToInvoice();
                 return;
-            } else {
-                NotificationCenter.getGlobalInstance().postNotificationNameOnUIThread(NotificationCenter.billingProductDetailsUpdated, new Object[0]);
-                return;
             }
+            switchBackFromInvoice();
+            NotificationCenter.getGlobalInstance().postNotificationNameOnUIThread(NotificationCenter.billingProductDetailsUpdated, new Object[0]);
+            return;
         }
         switchToInvoice();
+        int i = this.triesLeft - 1;
+        this.triesLeft = i;
+        if (i > 0) {
+            queryProductDetails(Collections.singletonList(PREMIUM_PRODUCT), new BillingController$$ExternalSyntheticLambda2(this));
+        }
     }
 }
