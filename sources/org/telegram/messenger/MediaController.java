@@ -4664,14 +4664,15 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$toggleRecordingPause$31(final boolean z) {
-        if (this.recordingAudio == null || this.recordingAudioFile == null) {
+        AudioRecord audioRecord = this.audioRecorder;
+        if (audioRecord == null || this.recordingAudio == null || this.recordingAudioFile == null) {
             return;
         }
         boolean z2 = !this.audioRecorderPaused;
         this.audioRecorderPaused = z2;
         if (z2) {
             this.sendAfterDone = 4;
-            this.audioRecorder.stop();
+            audioRecord.stop();
             this.audioRecorder.release();
             this.audioRecorder = null;
             this.recordQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda42

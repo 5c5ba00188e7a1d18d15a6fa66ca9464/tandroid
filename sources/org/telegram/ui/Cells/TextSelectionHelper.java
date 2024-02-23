@@ -200,6 +200,10 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
         int getY();
     }
 
+    protected boolean canCopy() {
+        return true;
+    }
+
     protected boolean canShowQuote() {
         return false;
     }
@@ -1684,6 +1688,10 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
         @Override // android.view.ActionMode.Callback
         public boolean onPrepareActionMode(ActionMode actionMode, final Menu menu) {
             menu.getItem(1).setVisible(TextSelectionHelper.this.canShowQuote());
+            MenuItem findItem = menu.findItem(16908321);
+            if (findItem != null) {
+                findItem.setVisible(TextSelectionHelper.this.canCopy());
+            }
             TextSelectionHelper textSelectionHelper = TextSelectionHelper.this;
             Cell cell = textSelectionHelper.selectedView;
             if (cell != null) {

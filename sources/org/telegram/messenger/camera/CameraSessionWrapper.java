@@ -106,7 +106,7 @@ public class CameraSessionWrapper {
         }
         CameraSession cameraSession = this.camera1Session;
         if (cameraSession != null) {
-            return cameraSession.getNextFlashMode();
+            return cameraSession.getCurrentFlashMode();
         }
         return null;
     }

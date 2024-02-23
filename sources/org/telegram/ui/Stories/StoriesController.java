@@ -3136,31 +3136,31 @@ public class StoriesController {
                 return;
             }
             this.saving = true;
+            final ArrayList<MessageObject> arrayList = new ArrayList<>();
+            fill(arrayList, true, true);
             final MessagesStorage messagesStorage = MessagesStorage.getInstance(this.currentAccount);
-            messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$StoriesList$$ExternalSyntheticLambda6
+            messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$StoriesList$$ExternalSyntheticLambda5
                 @Override // java.lang.Runnable
                 public final void run() {
-                    StoriesController.StoriesList.this.lambda$saveCache$8(messagesStorage);
+                    StoriesController.StoriesList.this.lambda$saveCache$8(arrayList, messagesStorage);
                 }
             });
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* JADX WARN: Code restructure failed: missing block: B:11:0x00a9, code lost:
-            if (r2 != null) goto L18;
+        /* JADX WARN: Code restructure failed: missing block: B:11:0x00a1, code lost:
+            if (r0 != null) goto L18;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:17:0x00b5, code lost:
-            org.telegram.messenger.AndroidUtilities.runOnUIThread(new org.telegram.ui.Stories.StoriesController$StoriesList$$ExternalSyntheticLambda3(r10));
+        /* JADX WARN: Code restructure failed: missing block: B:17:0x00ad, code lost:
+            org.telegram.messenger.AndroidUtilities.runOnUIThread(new org.telegram.ui.Stories.StoriesController$StoriesList$$ExternalSyntheticLambda3(r9));
          */
-        /* JADX WARN: Code restructure failed: missing block: B:18:0x00bd, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:18:0x00b5, code lost:
             return;
          */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
-        public /* synthetic */ void lambda$saveCache$8(MessagesStorage messagesStorage) {
-            ArrayList<MessageObject> arrayList = new ArrayList<>();
-            fill(arrayList, true, true);
+        public /* synthetic */ void lambda$saveCache$8(ArrayList arrayList, MessagesStorage messagesStorage) {
             FileLog.d("StoriesList " + this.type + "{" + this.dialogId + "} saveCache {" + StoriesController.storyItemMessageIds(arrayList) + "}");
             SQLitePreparedStatement sQLitePreparedStatement = null;
             try {
@@ -3168,7 +3168,7 @@ public class StoriesController {
                 database.executeFast(String.format(Locale.US, "DELETE FROM profile_stories WHERE dialog_id = %d AND type = %d", Long.valueOf(this.dialogId), Integer.valueOf(this.type))).stepThis().dispose();
                 sQLitePreparedStatement = database.executeFast("REPLACE INTO profile_stories VALUES(?, ?, ?, ?)");
                 for (int i = 0; i < arrayList.size(); i++) {
-                    TL_stories$StoryItem tL_stories$StoryItem = arrayList.get(i).storyItem;
+                    TL_stories$StoryItem tL_stories$StoryItem = ((MessageObject) arrayList.get(i)).storyItem;
                     if (tL_stories$StoryItem != null) {
                         NativeByteBuffer nativeByteBuffer = new NativeByteBuffer(tL_stories$StoryItem.getObjectSize());
                         tL_stories$StoryItem.serializeToStream(nativeByteBuffer);
@@ -3298,7 +3298,7 @@ public class StoriesController {
                 for (int i2 = 0; i2 < tL_stories$TL_stories_stories.stories.size(); i2++) {
                     arrayList.add(toMessageObject(tL_stories$TL_stories_stories.stories.get(i2)));
                 }
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$StoriesList$$ExternalSyntheticLambda5
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$StoriesList$$ExternalSyntheticLambda6
                     @Override // java.lang.Runnable
                     public final void run() {
                         StoriesController.StoriesList.this.lambda$load$10(arrayList, tL_stories$TL_stories_stories, i);

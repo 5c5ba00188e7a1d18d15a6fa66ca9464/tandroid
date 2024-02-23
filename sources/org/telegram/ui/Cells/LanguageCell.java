@@ -19,7 +19,7 @@ public class LanguageCell extends FrameLayout {
     private boolean needDivider;
     private RadioButton radioButton;
     private TextView textView;
-    private TextView textView2;
+    public TextView textView2;
 
     public LanguageCell(Context context) {
         super(context);
@@ -74,9 +74,9 @@ public class LanguageCell extends FrameLayout {
         this.needDivider = z;
     }
 
-    public void setValue(String str, String str2) {
-        this.textView.setText(str);
-        this.textView2.setText(str2);
+    public void setValue(CharSequence charSequence, CharSequence charSequence2) {
+        this.textView.setText(charSequence);
+        this.textView2.setText(charSequence2);
         this.radioButton.setChecked(false, false);
         this.currentLocale = null;
         this.needDivider = false;

@@ -5096,22 +5096,22 @@ public class MessageObject {
     /* JADX WARN: Removed duplicated region for block: B:253:0x06e4  */
     /* JADX WARN: Removed duplicated region for block: B:265:0x0712  */
     /* JADX WARN: Removed duplicated region for block: B:266:0x071d  */
-    /* JADX WARN: Removed duplicated region for block: B:268:0x0721  */
-    /* JADX WARN: Removed duplicated region for block: B:278:0x0747  */
-    /* JADX WARN: Removed duplicated region for block: B:299:0x07a9  */
-    /* JADX WARN: Removed duplicated region for block: B:343:0x0851  */
-    /* JADX WARN: Removed duplicated region for block: B:347:0x086f  */
-    /* JADX WARN: Removed duplicated region for block: B:366:0x08cf  */
-    /* JADX WARN: Removed duplicated region for block: B:367:0x08e5  */
-    /* JADX WARN: Removed duplicated region for block: B:383:0x092f  */
-    /* JADX WARN: Removed duplicated region for block: B:384:0x093b  */
-    /* JADX WARN: Removed duplicated region for block: B:472:0x0b41  */
-    /* JADX WARN: Removed duplicated region for block: B:493:0x0bec  */
-    /* JADX WARN: Removed duplicated region for block: B:810:0x14ed  */
-    /* JADX WARN: Removed duplicated region for block: B:824:0x1534  */
-    /* JADX WARN: Removed duplicated region for block: B:825:0x1537  */
-    /* JADX WARN: Removed duplicated region for block: B:957:0x18ac  */
-    /* JADX WARN: Removed duplicated region for block: B:983:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:272:0x072a  */
+    /* JADX WARN: Removed duplicated region for block: B:282:0x0750  */
+    /* JADX WARN: Removed duplicated region for block: B:303:0x07b2  */
+    /* JADX WARN: Removed duplicated region for block: B:347:0x085a  */
+    /* JADX WARN: Removed duplicated region for block: B:351:0x0878  */
+    /* JADX WARN: Removed duplicated region for block: B:370:0x08d8  */
+    /* JADX WARN: Removed duplicated region for block: B:371:0x08ee  */
+    /* JADX WARN: Removed duplicated region for block: B:387:0x0938  */
+    /* JADX WARN: Removed duplicated region for block: B:388:0x0944  */
+    /* JADX WARN: Removed duplicated region for block: B:476:0x0b4a  */
+    /* JADX WARN: Removed duplicated region for block: B:497:0x0bf5  */
+    /* JADX WARN: Removed duplicated region for block: B:814:0x14f6  */
+    /* JADX WARN: Removed duplicated region for block: B:828:0x153d  */
+    /* JADX WARN: Removed duplicated region for block: B:829:0x1540  */
+    /* JADX WARN: Removed duplicated region for block: B:961:0x18b5  */
+    /* JADX WARN: Removed duplicated region for block: B:987:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -5431,13 +5431,13 @@ public class MessageObject {
                                 tLRPC$Chat8 = getChat(abstractMap2, longSparseArray2, j6);
                                 boolean isChannelAndNotMegaGroup2 = ChatObject.isChannelAndNotMegaGroup(tLRPC$Chat8);
                                 TLRPC$TL_messageActionBoostApply tLRPC$TL_messageActionBoostApply = (TLRPC$TL_messageActionBoostApply) this.messageOwner.action;
-                                if (tLObject instanceof TLRPC$User) {
-                                    str5 = "";
-                                    z = false;
-                                } else {
+                                if (!(tLObject instanceof TLRPC$User)) {
                                     TLRPC$User tLRPC$User2 = (TLRPC$User) tLObject;
                                     z = UserObject.isUserSelf(tLRPC$User2);
                                     str5 = UserObject.getFirstName(tLRPC$User2);
+                                } else {
+                                    str5 = tLObject instanceof TLRPC$Chat ? ((TLRPC$Chat) tLObject).title : "";
+                                    z = false;
                                 }
                                 if (!z) {
                                     int i6 = tLRPC$TL_messageActionBoostApply.boosts;
@@ -5459,7 +5459,7 @@ public class MessageObject {
                         tLRPC$Chat8 = null;
                         boolean isChannelAndNotMegaGroup22 = ChatObject.isChannelAndNotMegaGroup(tLRPC$Chat8);
                         TLRPC$TL_messageActionBoostApply tLRPC$TL_messageActionBoostApply2 = (TLRPC$TL_messageActionBoostApply) this.messageOwner.action;
-                        if (tLObject instanceof TLRPC$User) {
+                        if (!(tLObject instanceof TLRPC$User)) {
                         }
                         if (!z) {
                         }
@@ -7950,25 +7950,30 @@ public class MessageObject {
 
     public boolean needDrawShareButton() {
         int i;
+        TLRPC$Message tLRPC$Message;
+        TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader;
         if (this.isRepostPreview) {
             return false;
         }
         if (this.isSaved) {
             long j = UserConfig.getInstance(this.currentAccount).clientUserId;
             long savedDialogId = getSavedDialogId(j, this.messageOwner);
-            return (savedDialogId == j || savedDialogId == UserObject.ANONYMOUS) ? false : true;
+            if (savedDialogId == j || savedDialogId == UserObject.ANONYMOUS || (tLRPC$Message = this.messageOwner) == null || (tLRPC$MessageFwdHeader = tLRPC$Message.fwd_from) == null) {
+                return false;
+            }
+            return (tLRPC$MessageFwdHeader.from_id == null && tLRPC$MessageFwdHeader.saved_from_id == null) ? false : true;
         } else if (this.type == 27 || isSponsored() || this.hasCode || this.preview || this.scheduled || this.eventId != 0) {
             return false;
         } else {
-            TLRPC$Message tLRPC$Message = this.messageOwner;
-            if (tLRPC$Message.noforwards) {
+            TLRPC$Message tLRPC$Message2 = this.messageOwner;
+            if (tLRPC$Message2.noforwards) {
                 return false;
             }
-            if (tLRPC$Message.fwd_from == null || isOutOwner() || this.messageOwner.fwd_from.saved_from_peer == null || getDialogId() != UserConfig.getInstance(this.currentAccount).getClientUserId()) {
+            if (tLRPC$Message2.fwd_from == null || isOutOwner() || this.messageOwner.fwd_from.saved_from_peer == null || getDialogId() != UserConfig.getInstance(this.currentAccount).getClientUserId()) {
                 int i2 = this.type;
                 if (i2 != 13 && i2 != 15 && i2 != 19) {
-                    TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader = this.messageOwner.fwd_from;
-                    if (tLRPC$MessageFwdHeader != null && (tLRPC$MessageFwdHeader.from_id instanceof TLRPC$TL_peerChannel) && !isOutOwner()) {
+                    TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader2 = this.messageOwner.fwd_from;
+                    if (tLRPC$MessageFwdHeader2 != null && (tLRPC$MessageFwdHeader2.from_id instanceof TLRPC$TL_peerChannel) && !isOutOwner()) {
                         return true;
                     }
                     if (isFromUser()) {
@@ -7994,16 +7999,16 @@ public class MessageObject {
                             return ChatObject.isChannel(tLRPC$Chat) && tLRPC$Chat.megagroup && ChatObject.isPublic(tLRPC$Chat) && !(getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaContact) && !(getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaGeo);
                         }
                     } else {
-                        TLRPC$Message tLRPC$Message2 = this.messageOwner;
-                        if ((tLRPC$Message2.from_id instanceof TLRPC$TL_peerChannel) || tLRPC$Message2.post) {
-                            if ((getMedia(tLRPC$Message2) instanceof TLRPC$TL_messageMediaWebPage) && !isOutOwner()) {
+                        TLRPC$Message tLRPC$Message3 = this.messageOwner;
+                        if ((tLRPC$Message3.from_id instanceof TLRPC$TL_peerChannel) || tLRPC$Message3.post) {
+                            if ((getMedia(tLRPC$Message3) instanceof TLRPC$TL_messageMediaWebPage) && !isOutOwner()) {
                                 return true;
                             }
                             if (isSupergroup()) {
                                 return false;
                             }
-                            TLRPC$Message tLRPC$Message3 = this.messageOwner;
-                            if (tLRPC$Message3.peer_id.channel_id != 0 && ((tLRPC$Message3.via_bot_id == 0 && tLRPC$Message3.reply_to == null) || ((i = this.type) != 13 && i != 15))) {
+                            TLRPC$Message tLRPC$Message4 = this.messageOwner;
+                            if (tLRPC$Message4.peer_id.channel_id != 0 && ((tLRPC$Message4.via_bot_id == 0 && tLRPC$Message4.reply_to == null) || ((i = this.type) != 13 && i != 15))) {
                                 return true;
                             }
                         }

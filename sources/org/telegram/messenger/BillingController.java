@@ -207,7 +207,7 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
 
     public /* synthetic */ void lambda$launchBillingFlow$2(final Activity activity, final AccountInstance accountInstance, final TLRPC$InputStorePaymentPurpose tLRPC$InputStorePaymentPurpose, final List list, final BillingFlowParams.SubscriptionUpdateParams subscriptionUpdateParams, BillingResult billingResult, List list2) {
         if (billingResult.getResponseCode() == 0) {
-            final Runnable runnable = new Runnable() { // from class: org.telegram.messenger.BillingController$$ExternalSyntheticLambda6
+            final Runnable runnable = new Runnable() { // from class: org.telegram.messenger.BillingController$$ExternalSyntheticLambda7
                 @Override // java.lang.Runnable
                 public final void run() {
                     BillingController.this.lambda$launchBillingFlow$0(activity, accountInstance, tLRPC$InputStorePaymentPurpose, list, subscriptionUpdateParams);
@@ -288,7 +288,7 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
                         tLRPC$TL_dataJSON.data = purchase.getOriginalJson();
                         tLRPC$TL_payments_assignPlayMarketTransaction.purpose = extractDeveloperPayload.second;
                         final AccountInstance accountInstance = extractDeveloperPayload.first;
-                        accountInstance.getConnectionsManager().sendRequest(tLRPC$TL_payments_assignPlayMarketTransaction, new RequestDelegate() { // from class: org.telegram.messenger.BillingController$$ExternalSyntheticLambda7
+                        accountInstance.getConnectionsManager().sendRequest(tLRPC$TL_payments_assignPlayMarketTransaction, new RequestDelegate() { // from class: org.telegram.messenger.BillingController$$ExternalSyntheticLambda8
                             @Override // org.telegram.tgnet.RequestDelegate
                             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                                 BillingController.this.lambda$onPurchasesUpdated$3(purchase, accountInstance, billingResult, tLRPC$TL_payments_assignPlayMarketTransaction, tLObject, tLRPC$TL_error);
@@ -334,7 +334,7 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
         FileLog.d("Billing: Service disconnected");
         int i = this.isDisconnected ? 15000 : 5000;
         this.isDisconnected = true;
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.BillingController$$ExternalSyntheticLambda5
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.BillingController$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
                 BillingController.this.lambda$onBillingServiceDisconnected$5();
@@ -348,7 +348,11 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
         if (billingResult.getResponseCode() == 0) {
             this.isDisconnected = false;
             this.triesLeft = 3;
-            queryProductDetails(Collections.singletonList(PREMIUM_PRODUCT), new BillingController$$ExternalSyntheticLambda2(this));
+            try {
+                queryProductDetails(Collections.singletonList(PREMIUM_PRODUCT), new BillingController$$ExternalSyntheticLambda2(this));
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
             queryPurchases("inapp", new PurchasesResponseListener() { // from class: org.telegram.messenger.BillingController$$ExternalSyntheticLambda3
                 @Override // com.android.billingclient.api.PurchasesResponseListener
                 public final void onQueryPurchasesResponse(BillingResult billingResult2, List list) {
@@ -387,7 +391,20 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
         int i = this.triesLeft - 1;
         this.triesLeft = i;
         if (i > 0) {
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.BillingController$$ExternalSyntheticLambda5
+                @Override // java.lang.Runnable
+                public final void run() {
+                    BillingController.this.lambda$onQueriedPremiumProductDetails$6();
+                }
+            }, i == 2 ? 1000L : 10000L);
+        }
+    }
+
+    public /* synthetic */ void lambda$onQueriedPremiumProductDetails$6() {
+        try {
             queryProductDetails(Collections.singletonList(PREMIUM_PRODUCT), new BillingController$$ExternalSyntheticLambda2(this));
+        } catch (Exception e) {
+            FileLog.e(e);
         }
     }
 }

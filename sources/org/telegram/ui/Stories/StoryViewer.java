@@ -751,18 +751,19 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
         }
 
         /* JADX INFO: Access modifiers changed from: protected */
-        /* JADX WARN: Removed duplicated region for block: B:171:0x07b3  */
-        /* JADX WARN: Removed duplicated region for block: B:180:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:180:0x07d9  */
+        /* JADX WARN: Removed duplicated region for block: B:189:? A[RETURN, SYNTHETIC] */
         @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public void dispatchDraw(Canvas canvas) {
-            float f;
             PeerStoriesView.PeerHeaderView peerHeaderView;
+            float f;
             StoryViewer storyViewer;
             float lerp;
             float y;
+            Integer avatarImageRoundRadius;
             float f2;
             Paint paint;
             HolderDrawAbove holderDrawAbove;
@@ -787,19 +788,18 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                 }
             }
             PeerStoriesView currentPeerView2 = StoryViewer.this.storiesViewPager.getCurrentPeerView();
-            PeerStoriesView.PeerHeaderView peerHeaderView2 = null;
             if (currentPeerView2 != null) {
-                peerHeaderView2 = currentPeerView2.headerView;
+                peerHeaderView = currentPeerView2.headerView;
                 if (StoryViewer.this.animateAvatar) {
-                    peerHeaderView2.backupImageView.getImageReceiver().setVisible(StoryViewer.this.progressToOpen == 1.0f, true);
+                    peerHeaderView.backupImageView.getImageReceiver().setVisible(StoryViewer.this.progressToOpen == 1.0f, true);
                 } else {
-                    peerHeaderView2.backupImageView.getImageReceiver().setVisible(true, false);
+                    peerHeaderView.backupImageView.getImageReceiver().setVisible(true, false);
                 }
                 if (StoryViewer.this.invalidateOutRect) {
                     StoryViewer.this.invalidateOutRect = false;
                     float f3 = 0.0f;
                     float f4 = 0.0f;
-                    for (View view = peerHeaderView2.backupImageView; view != this; view = (View) view.getParent()) {
+                    for (View view = peerHeaderView.backupImageView; view != this; view = (View) view.getParent()) {
                         if (view.getParent() == this) {
                             f3 += view.getLeft();
                             y2 = view.getTop();
@@ -809,11 +809,13 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                         }
                         f4 += y2;
                     }
-                    this.outFromRectAvatar.set(f3, f4, peerHeaderView2.backupImageView.getMeasuredWidth() + f3, peerHeaderView2.backupImageView.getMeasuredHeight() + f4);
+                    this.outFromRectAvatar.set(f3, f4, peerHeaderView.backupImageView.getMeasuredWidth() + f3, peerHeaderView.backupImageView.getMeasuredHeight() + f4);
                     this.outFromRectContainer.set(0.0f, currentPeerView2.getTop() + currentPeerView2.storyContainer.getTop(), StoryViewer.this.containerView.getMeasuredWidth(), StoryViewer.this.containerView.getMeasuredHeight());
                     StoryViewer.this.containerView.getMatrix().mapRect(this.outFromRectAvatar);
                     StoryViewer.this.containerView.getMatrix().mapRect(this.outFromRectContainer);
                 }
+            } else {
+                peerHeaderView = null;
             }
             StoryViewer.this.volumeControl.setAlpha(1.0f - StoryViewer.this.progressToDismiss);
             StoryViewer storyViewer8 = StoryViewer.this;
@@ -834,11 +836,9 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                         f = f5;
                     }
                     if (!StoryViewer.this.isClosed || (transitionViewHolder = (storyViewer6 = StoryViewer.this).transitionViewHolder) == null || transitionViewHolder.storyImage == null) {
-                        peerHeaderView = peerHeaderView2;
                         boolean unused = StoryViewer.this.isClosed;
                     } else {
                         HwFrameLayout hwFrameLayout = storyViewer6.containerView;
-                        peerHeaderView = peerHeaderView2;
                         hwFrameLayout.setAlpha(hwFrameLayout.getAlpha() * ((float) Math.pow(f5, 0.20000000298023224d)));
                     }
                     StoryViewer storyViewer11 = StoryViewer.this;
@@ -936,11 +936,10 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                         StoryViewer storyViewer21 = StoryViewer.this;
                         float f16 = storyViewer21.swipeToDismissHorizontalOffset;
                         float f17 = storyViewer21.swipeToDismissOffset;
-                        PeerStoriesView.PeerHeaderView peerHeaderView3 = peerHeaderView;
                         if (storyViewer21.isClosed && StoryViewer.this.animateAvatar) {
                             this.rect2.set(this.outFromRectAvatar);
                         } else {
-                            for (View view2 = peerHeaderView3.backupImageView; view2 != this; view2 = (View) view2.getParent()) {
+                            for (View view2 = peerHeaderView.backupImageView; view2 != this; view2 = (View) view2.getParent()) {
                                 if (view2.getParent() == this) {
                                     f16 += view2.getLeft();
                                     y = view2.getTop();
@@ -950,7 +949,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                                 }
                                 f17 += y;
                             }
-                            this.rect2.set(f16, f17, peerHeaderView3.backupImageView.getMeasuredWidth() + f16, peerHeaderView3.backupImageView.getMeasuredHeight() + f17);
+                            this.rect2.set(f16, f17, peerHeaderView.backupImageView.getMeasuredWidth() + f16, peerHeaderView.backupImageView.getMeasuredHeight() + f17);
                         }
                         AndroidUtilities.lerp(this.rect1, this.rect2, StoryViewer.this.progressToOpen, this.rect3);
                         int saveCount2 = canvas.getSaveCount();
@@ -964,23 +963,24 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                             TransitionViewHolder transitionViewHolder4 = storyViewer23.transitionViewHolder;
                             boolean z2 = (transitionViewHolder4 == null || transitionViewHolder4.crossfadeToAvatarImage == null) ? false : true;
                             if (!z2 || storyViewer23.progressToOpen != 0.0f) {
-                                peerHeaderView3.backupImageView.getImageReceiver().setImageCoords(this.rect3);
-                                peerHeaderView3.backupImageView.getImageReceiver().setRoundRadius((int) (this.rect3.width() / 2.0f));
-                                peerHeaderView3.backupImageView.getImageReceiver().setVisible(true, false);
-                                float f18 = z2 ? StoryViewer.this.progressToOpen : 1.0f;
+                                peerHeaderView.backupImageView.getImageReceiver().setImageCoords(this.rect3);
                                 TransitionViewHolder transitionViewHolder5 = StoryViewer.this.transitionViewHolder;
-                                if (transitionViewHolder5 == null || transitionViewHolder5.alpha >= 1.0f || (paint = transitionViewHolder5.bgPaint) == null) {
+                                peerHeaderView.backupImageView.getImageReceiver().setRoundRadius((int) AndroidUtilities.lerp(this.rect3.width() / 2.0f, (transitionViewHolder5 != null ? transitionViewHolder5.getAvatarImageRoundRadius() : null) != null ? avatarImageRoundRadius.intValue() : this.rect3.width() / 2.0f, 1.0f - StoryViewer.this.progressToOpen));
+                                peerHeaderView.backupImageView.getImageReceiver().setVisible(true, false);
+                                float f18 = z2 ? StoryViewer.this.progressToOpen : 1.0f;
+                                TransitionViewHolder transitionViewHolder6 = StoryViewer.this.transitionViewHolder;
+                                if (transitionViewHolder6 == null || transitionViewHolder6.alpha >= 1.0f || (paint = transitionViewHolder6.bgPaint) == null) {
                                     f2 = f18;
                                 } else {
                                     paint.setAlpha((int) ((1.0f - f5) * 255.0f));
                                     canvas.drawCircle(this.rect3.centerX(), this.rect3.centerY(), this.rect3.width() / 2.0f, StoryViewer.this.transitionViewHolder.bgPaint);
                                     f2 = AndroidUtilities.lerp(StoryViewer.this.transitionViewHolder.alpha, f18, f5);
                                 }
-                                peerHeaderView3.backupImageView.getImageReceiver().setAlpha(f2);
-                                peerHeaderView3.drawUploadingProgress(canvas, this.rect3, !StoryViewer.runOpenAnimationAfterLayout, StoryViewer.this.progressToOpen);
-                                peerHeaderView3.backupImageView.getImageReceiver().draw(canvas);
-                                peerHeaderView3.backupImageView.getImageReceiver().setAlpha(f18);
-                                peerHeaderView3.backupImageView.getImageReceiver().setVisible(false, false);
+                                peerHeaderView.backupImageView.getImageReceiver().setAlpha(f2);
+                                peerHeaderView.drawUploadingProgress(canvas, this.rect3, !StoryViewer.runOpenAnimationAfterLayout, StoryViewer.this.progressToOpen);
+                                peerHeaderView.backupImageView.getImageReceiver().draw(canvas);
+                                peerHeaderView.backupImageView.getImageReceiver().setAlpha(f18);
+                                peerHeaderView.backupImageView.getImageReceiver().setVisible(false, false);
                             }
                             StoryViewer storyViewer24 = StoryViewer.this;
                             if (storyViewer24.progressToOpen != 1.0f && z2) {
@@ -999,8 +999,8 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                                 StoryViewer.this.transitionViewHolder.crossfadeToAvatarImage.setRoundRadius(i);
                             }
                             StoryViewer storyViewer26 = StoryViewer.this;
-                            TransitionViewHolder transitionViewHolder6 = storyViewer26.transitionViewHolder;
-                            if (transitionViewHolder6 != null && (holderDrawAbove = transitionViewHolder6.drawAbove) != null) {
+                            TransitionViewHolder transitionViewHolder7 = storyViewer26.transitionViewHolder;
+                            if (transitionViewHolder7 != null && (holderDrawAbove = transitionViewHolder7.drawAbove) != null) {
                                 holderDrawAbove.draw(canvas, this.rect3, 1.0f - f5, storyViewer26.opening);
                             }
                         }
@@ -3130,6 +3130,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
         public float alpha = 1.0f;
         public ImageReceiver avatarImage;
         public Paint bgPaint;
+        public boolean checkParentScale;
         public float clipBottom;
         public View clipParent;
         public float clipTop;
@@ -3141,6 +3142,18 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
         public int storyId;
         public ImageReceiver storyImage;
         public View view;
+
+        public Integer getAvatarImageRoundRadius() {
+            View view;
+            if (this.avatarImage != null) {
+                float f = 1.0f;
+                if (this.checkParentScale && (view = this.view) != null && view.getParent() != null) {
+                    f = ((ViewGroup) this.view.getParent()).getScaleY();
+                }
+                return Integer.valueOf((int) (this.avatarImage.getRoundRadius()[0] * f));
+            }
+            return null;
+        }
 
         public void clear() {
             this.view = null;

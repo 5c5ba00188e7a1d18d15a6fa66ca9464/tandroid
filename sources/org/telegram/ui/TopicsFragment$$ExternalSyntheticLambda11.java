@@ -11,8 +11,8 @@ public final /* synthetic */ class TopicsFragment$$ExternalSyntheticLambda11 imp
 
     @Override // android.view.View.OnTouchListener
     public final boolean onTouch(View view, MotionEvent motionEvent) {
-        boolean lambda$chekActionMode$16;
-        lambda$chekActionMode$16 = TopicsFragment.lambda$chekActionMode$16(view, motionEvent);
-        return lambda$chekActionMode$16;
+        boolean lambda$chekActionMode$17;
+        lambda$chekActionMode$17 = TopicsFragment.lambda$chekActionMode$17(view, motionEvent);
+        return lambda$chekActionMode$17;
     }
 }

@@ -938,6 +938,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onCreate$6(View view, int i, float f, float f2) {
         DrawerLayoutAdapter drawerLayoutAdapter;
+        if (this.drawerLayoutAdapter.click(view, i)) {
+            this.drawerLayoutContainer.closeDrawer(false);
+            return;
+        }
         boolean z = true;
         if (i == 0) {
             DrawerProfileCell drawerProfileCell = (DrawerProfileCell) view;
@@ -10483,6 +10487,15 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Code restructure failed: missing block: B:15:0x0043, code lost:
+        if (((org.telegram.ui.ChatActivity) r8).getDialogId() == r9.longValue()) goto L17;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:24:0x005e, code lost:
+        if (r13.getCurrentFragmetDialogId() == r9.longValue()) goto L17;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public /* synthetic */ void lambda$processBoostDialog$106(Browser.Progress progress, Long l, TL_stories$TL_premium_boostsStatus tL_stories$TL_premium_boostsStatus, ChatMessageCell chatMessageCell, Runnable runnable, ChannelBoostsController.CanApplyBoost canApplyBoost) {
         if (progress != null) {
             progress.end();
@@ -10498,11 +10511,18 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         }
         LimitReachedBottomSheet limitReachedBottomSheet = new LimitReachedBottomSheet(lastFragment, this, 19, this.currentAccount, resourceProvider);
         limitReachedBottomSheet.setCanApplyBoost(canApplyBoost);
-        boolean z = false;
-        if ((lastFragment instanceof ChatActivity) && ((ChatActivity) lastFragment).getDialogId() == l.longValue()) {
-            z = true;
+        boolean z = true;
+        boolean z2 = false;
+        if (!(lastFragment instanceof ChatActivity)) {
+            if (lastFragment instanceof DialogsActivity) {
+                RightSlidingDialogContainer rightSlidingDialogContainer = ((DialogsActivity) lastFragment).rightSlidingDialogContainer;
+                if (rightSlidingDialogContainer != null) {
+                }
+                z = false;
+                z2 = z;
+            }
         }
-        limitReachedBottomSheet.setBoostsStats(tL_stories$TL_premium_boostsStatus, z);
+        limitReachedBottomSheet.setBoostsStats(tL_stories$TL_premium_boostsStatus, z2);
         limitReachedBottomSheet.setDialogId(l.longValue());
         limitReachedBottomSheet.setChatMessageCell(chatMessageCell);
         lastFragment.showDialog(limitReachedBottomSheet);
@@ -11652,24 +11672,27 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     public void onRequestPermissionsResult(int i, String[] strArr, int[] iArr) {
         super.onRequestPermissionsResult(i, strArr, iArr);
         if (checkPermissionsResult(i, strArr, iArr)) {
-            if (this.actionBarLayout.getFragmentStack().size() != 0) {
-                this.actionBarLayout.getFragmentStack().get(this.actionBarLayout.getFragmentStack().size() - 1).onRequestPermissionsResultFragment(i, strArr, iArr);
-            }
-            if (AndroidUtilities.isTablet()) {
-                if (this.rightActionBarLayout.getFragmentStack().size() != 0) {
-                    this.rightActionBarLayout.getFragmentStack().get(this.rightActionBarLayout.getFragmentStack().size() - 1).onRequestPermissionsResultFragment(i, strArr, iArr);
+            ApplicationLoader applicationLoader = ApplicationLoader.applicationLoaderInstance;
+            if (applicationLoader == null || !applicationLoader.checkRequestPermissionResult(i, strArr, iArr)) {
+                if (this.actionBarLayout.getFragmentStack().size() != 0) {
+                    this.actionBarLayout.getFragmentStack().get(this.actionBarLayout.getFragmentStack().size() - 1).onRequestPermissionsResultFragment(i, strArr, iArr);
                 }
-                if (this.layersActionBarLayout.getFragmentStack().size() != 0) {
-                    this.layersActionBarLayout.getFragmentStack().get(this.layersActionBarLayout.getFragmentStack().size() - 1).onRequestPermissionsResultFragment(i, strArr, iArr);
+                if (AndroidUtilities.isTablet()) {
+                    if (this.rightActionBarLayout.getFragmentStack().size() != 0) {
+                        this.rightActionBarLayout.getFragmentStack().get(this.rightActionBarLayout.getFragmentStack().size() - 1).onRequestPermissionsResultFragment(i, strArr, iArr);
+                    }
+                    if (this.layersActionBarLayout.getFragmentStack().size() != 0) {
+                        this.layersActionBarLayout.getFragmentStack().get(this.layersActionBarLayout.getFragmentStack().size() - 1).onRequestPermissionsResultFragment(i, strArr, iArr);
+                    }
                 }
-            }
-            VoIPFragment.onRequestPermissionsResult(i, strArr, iArr);
-            StoryRecorder.onRequestPermissionsResult(i, strArr, iArr);
-            NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.onRequestPermissionResultReceived, Integer.valueOf(i), strArr, iArr);
-            if (this.requestedPermissions.get(i, -1) >= 0) {
-                int i2 = this.requestedPermissions.get(i, -1);
-                this.requestedPermissions.delete(i);
-                NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.permissionsGranted, Integer.valueOf(i2));
+                VoIPFragment.onRequestPermissionsResult(i, strArr, iArr);
+                StoryRecorder.onRequestPermissionsResult(i, strArr, iArr);
+                NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.onRequestPermissionResultReceived, Integer.valueOf(i), strArr, iArr);
+                if (this.requestedPermissions.get(i, -1) >= 0) {
+                    int i2 = this.requestedPermissions.get(i, -1);
+                    this.requestedPermissions.delete(i);
+                    NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.permissionsGranted, Integer.valueOf(i2));
+                }
             }
         }
     }
@@ -13670,7 +13693,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         getActionBarLayout().presentFragment(navigationParams.setNoAnimation(z2).setCheckPresentFromDelegate(false));
                     }
                     return z5;
-                } else if (!z4 && iNavigationLayout != (iNavigationLayout2 = this.rightActionBarLayout)) {
+                } else if (!z4 && iNavigationLayout != (iNavigationLayout2 = this.rightActionBarLayout) && iNavigationLayout2 != null) {
                     if (iNavigationLayout2.getView() != null) {
                         this.rightActionBarLayout.getView().setVisibility(0);
                     }

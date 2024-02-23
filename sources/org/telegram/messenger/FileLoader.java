@@ -901,10 +901,12 @@ public class FileLoader extends BaseController {
     /* JADX WARN: Removed duplicated region for block: B:118:0x025a  */
     /* JADX WARN: Removed duplicated region for block: B:151:0x02da  */
     /* JADX WARN: Removed duplicated region for block: B:153:0x02e1  */
-    /* JADX WARN: Removed duplicated region for block: B:156:0x02fd  */
-    /* JADX WARN: Removed duplicated region for block: B:159:0x0324  */
-    /* JADX WARN: Removed duplicated region for block: B:162:0x032e  */
-    /* JADX WARN: Removed duplicated region for block: B:168:0x033c  */
+    /* JADX WARN: Removed duplicated region for block: B:156:0x02fe  */
+    /* JADX WARN: Removed duplicated region for block: B:159:0x0328  */
+    /* JADX WARN: Removed duplicated region for block: B:160:0x0335  */
+    /* JADX WARN: Removed duplicated region for block: B:162:0x0338  */
+    /* JADX WARN: Removed duplicated region for block: B:165:0x0342  */
+    /* JADX WARN: Removed duplicated region for block: B:171:0x0350  */
     /* JADX WARN: Removed duplicated region for block: B:95:0x01fe A[ADDED_TO_REGION] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -935,6 +937,7 @@ public class FileLoader extends BaseController {
         String str7;
         String str8;
         boolean z5;
+        FileStreamLoadOperation fileStreamLoadOperation;
         boolean z6;
         if (tLRPC$TL_fileLocationToBeDeprecated != null) {
             attachFileName = getAttachFileName(tLRPC$TL_fileLocationToBeDeprecated, str);
@@ -1161,17 +1164,19 @@ public class FileLoader extends BaseController {
                             if (i2 == 10) {
                                 fileLoadOperation.setIsPreloadVideoOperation(true);
                             }
+                            long j5 = j3;
                             FileLoadOperation fileLoadOperation2 = fileLoadOperation;
                             fileLoadOperation2.setDelegate(new 2(obj, tLRPC$Document, str10, i7));
                             fileLoader.loadOperationPaths.put(str10, fileLoadOperation2);
                             fileLoadOperation2.setPriority(priorityValue);
-                            if (fileLoadOperationStream != null) {
-                                fileLoadOperation2.setStream(fileLoadOperationStream, z, j2);
+                            fileStreamLoadOperation = fileLoadOperationStream == null ? FileStreamLoadOperation.allStreams.get(Long.valueOf(j5)) : fileLoadOperationStream;
+                            if (fileStreamLoadOperation != null) {
+                                fileLoadOperation2.setStream(fileStreamLoadOperation, z, j2);
                             }
                             fileLoaderPriorityQueue2.add(fileLoadOperation2);
                             fileLoaderPriorityQueue2.checkLoadingOperations(!fileLoadOperation2.isStory && priorityValue >= 1048576);
                             if (BuildVars.LOGS_ENABLED) {
-                                FileLog.d("create load operation fileName=" + str10 + " documentName=" + getDocumentFileName(tLRPC$Document) + " size=" + AndroidUtilities.formatFileSize(fileLoadOperation2.totalBytesCount) + str9 + fileLoadOperation2.getPositionInQueue() + " account=" + fileLoader.currentAccount + " cacheType=" + i2 + str3 + fileLoadOperation2.getPriority());
+                                FileLog.d("create load operation fileName=" + str10 + " documentName=" + getDocumentFileName(tLRPC$Document) + " size=" + AndroidUtilities.formatFileSize(fileLoadOperation2.totalBytesCount) + str9 + fileLoadOperation2.getPositionInQueue() + " account=" + fileLoader.currentAccount + " cacheType=" + i2 + str3 + fileLoadOperation2.getPriority() + " stream=" + fileStreamLoadOperation);
                             }
                             return fileLoadOperation2;
                         }
@@ -1197,11 +1202,14 @@ public class FileLoader extends BaseController {
                     fileLoadOperation.setPaths(fileLoader.currentAccount, str102, fileLoaderPriorityQueue22, directory, directory3, str5);
                     if (i2 == 10) {
                     }
+                    long j52 = j3;
                     FileLoadOperation fileLoadOperation22 = fileLoadOperation;
                     fileLoadOperation22.setDelegate(new 2(obj, tLRPC$Document, str102, i7));
                     fileLoader.loadOperationPaths.put(str102, fileLoadOperation22);
                     fileLoadOperation22.setPriority(priorityValue);
-                    if (fileLoadOperationStream != null) {
+                    if (fileLoadOperationStream == null) {
+                    }
+                    if (fileStreamLoadOperation != null) {
                     }
                     fileLoaderPriorityQueue22.add(fileLoadOperation22);
                     fileLoaderPriorityQueue22.checkLoadingOperations(!fileLoadOperation22.isStory && priorityValue >= 1048576);
@@ -1226,11 +1234,14 @@ public class FileLoader extends BaseController {
             fileLoadOperation.setPaths(fileLoader.currentAccount, str1022, fileLoaderPriorityQueue222, directory, directory3, str5);
             if (i2 == 10) {
             }
+            long j522 = j3;
             FileLoadOperation fileLoadOperation222 = fileLoadOperation;
             fileLoadOperation222.setDelegate(new 2(obj, tLRPC$Document, str1022, i7));
             fileLoader.loadOperationPaths.put(str1022, fileLoadOperation222);
             fileLoadOperation222.setPriority(priorityValue);
-            if (fileLoadOperationStream != null) {
+            if (fileLoadOperationStream == null) {
+            }
+            if (fileStreamLoadOperation != null) {
             }
             fileLoaderPriorityQueue222.add(fileLoadOperation222);
             fileLoaderPriorityQueue222.checkLoadingOperations(!fileLoadOperation222.isStory && priorityValue >= 1048576);

@@ -11,7 +11,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
+import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
 /* loaded from: classes3.dex */
@@ -44,6 +46,12 @@ public class DialogsHintCell extends FrameLayout {
         textView2.setMaxLines(2);
         textView2.setEllipsize(TextUtils.TruncateAt.END);
         linearLayout.addView(textView2, LayoutHelper.createLinear(-1, -2, 0.0f, 48));
+        NotificationCenter.getGlobalInstance().listen(this, NotificationCenter.emojiLoaded, new Utilities.Callback() { // from class: org.telegram.ui.Cells.DialogsHintCell$$ExternalSyntheticLambda0
+            @Override // org.telegram.messenger.Utilities.Callback
+            public final void run(Object obj) {
+                DialogsHintCell.this.lambda$new$0((Object[]) obj);
+            }
+        });
         ImageView imageView = new ImageView(context);
         this.chevronView = imageView;
         imageView.setImageResource(R.drawable.arrow_newchat);
@@ -57,6 +65,18 @@ public class DialogsHintCell extends FrameLayout {
         imageView2.setVisibility(8);
         setClipToPadding(false);
         updateColors();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$0(Object[] objArr) {
+        TextView textView = this.titleView;
+        if (textView != null) {
+            textView.invalidate();
+        }
+        TextView textView2 = this.messageView;
+        if (textView2 != null) {
+            textView2.invalidate();
+        }
     }
 
     public void updateColors() {

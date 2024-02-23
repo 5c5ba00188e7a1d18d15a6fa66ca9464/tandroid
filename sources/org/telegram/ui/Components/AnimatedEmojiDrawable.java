@@ -1231,6 +1231,16 @@ public class AnimatedEmojiDrawable extends Drawable {
             set(tLRPC$Document, this.cacheType, z);
         }
 
+        public void removeOldDrawable() {
+            Drawable[] drawableArr = this.drawables;
+            if (drawableArr[1] != null) {
+                if (drawableArr[1] instanceof AnimatedEmojiDrawable) {
+                    ((AnimatedEmojiDrawable) drawableArr[1]).removeView(this);
+                }
+                this.drawables[1] = null;
+            }
+        }
+
         public void set(TLRPC$Document tLRPC$Document, int i, boolean z) {
             Drawable[] drawableArr = this.drawables;
             if ((drawableArr[0] instanceof AnimatedEmojiDrawable) && tLRPC$Document != null && ((AnimatedEmojiDrawable) drawableArr[0]).getDocumentId() == tLRPC$Document.id) {

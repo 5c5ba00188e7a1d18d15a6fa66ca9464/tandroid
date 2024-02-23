@@ -1271,8 +1271,8 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:400:0x08c2  */
-    /* JADX WARN: Removed duplicated region for block: B:426:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:403:0x08ca  */
+    /* JADX WARN: Removed duplicated region for block: B:429:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r15v10 */
     /* JADX WARN: Type inference failed for: r15v11 */
     /* JADX WARN: Type inference failed for: r15v12 */
@@ -1806,6 +1806,9 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
             svgDrawable = svgDrawable2;
         } else {
             svgDrawable = null;
+        }
+        if (colorFilter != null && drawable != null) {
+            drawable.setColorFilter(colorFilter);
         }
         try {
             drawable.setAlpha(i);

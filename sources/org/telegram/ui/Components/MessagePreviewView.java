@@ -394,6 +394,12 @@ public class MessagePreviewView extends FrameLayout {
                 }
 
                 @Override // org.telegram.ui.Cells.TextSelectionHelper
+                protected boolean canCopy() {
+                    MessagePreviewParams messagePreviewParams2 = MessagePreviewView.this.messagePreviewParams;
+                    return messagePreviewParams2 == null || !messagePreviewParams2.noforwards;
+                }
+
+                @Override // org.telegram.ui.Cells.TextSelectionHelper
                 protected Theme.ResourcesProvider getResourcesProvider() {
                     return this.resourcesProvider;
                 }

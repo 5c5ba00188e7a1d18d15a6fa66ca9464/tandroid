@@ -25,6 +25,7 @@ import org.telegram.tgnet.TLRPC$TL_documentAttributeVideo;
 import org.webrtc.MediaStreamTrack;
 /* loaded from: classes.dex */
 public class FileStreamLoadOperation extends BaseDataSource implements FileLoadOperationStream {
+    public static final ConcurrentHashMap<Long, FileStreamLoadOperation> allStreams = new ConcurrentHashMap<>();
     private static final ConcurrentHashMap<Long, Integer> priorityMap = new ConcurrentHashMap<>();
     private long bytesRemaining;
     private CountDownLatch countDownLatch;
@@ -88,6 +89,7 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
         } else if (this.document.mime_type.startsWith(MediaStreamTrack.AUDIO_TRACK_KIND)) {
             this.document.attributes.add(new TLRPC$TL_documentAttributeAudio());
         }
+        allStreams.put(Long.valueOf(this.document.id), this);
         FileLoader fileLoader = FileLoader.getInstance(this.currentAccount);
         TLRPC$Document tLRPC$Document = this.document;
         Object obj = this.parentObject;
@@ -237,6 +239,7 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
             this.file = null;
         }
         this.uri = null;
+        allStreams.remove(Long.valueOf(this.document.id));
         if (this.opened) {
             this.opened = false;
             transferEnded();

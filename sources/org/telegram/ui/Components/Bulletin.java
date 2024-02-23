@@ -1983,47 +1983,44 @@ public class Bulletin {
         }
 
         public UndoButton(Context context, boolean z, Theme.ResourcesProvider resourcesProvider) {
+            this(context, z, !z, resourcesProvider);
+        }
+
+        public UndoButton(Context context, boolean z, boolean z2, Theme.ResourcesProvider resourcesProvider) {
             super(context);
             this.resourcesProvider = resourcesProvider;
             int themedColor = getThemedColor(Theme.key_undo_cancelColor);
             if (z) {
                 TextView textView = new TextView(context);
                 this.undoTextView = textView;
-                textView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Bulletin$UndoButton$$ExternalSyntheticLambda0
-                    @Override // android.view.View.OnClickListener
-                    public final void onClick(View view) {
-                        Bulletin.UndoButton.this.lambda$new$0(view);
-                    }
-                });
-                this.undoTextView.setBackground(Theme.createSelectorDrawable((themedColor & 16777215) | 419430400, 7));
+                textView.setBackground(Theme.createSelectorDrawable((themedColor & 16777215) | 419430400, 7));
                 this.undoTextView.setTextSize(1, 14.0f);
                 this.undoTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
                 this.undoTextView.setTextColor(themedColor);
                 this.undoTextView.setText(LocaleController.getString("Undo", R.string.Undo));
                 this.undoTextView.setGravity(16);
-                ViewHelper.setPaddingRelative(this.undoTextView, 12.0f, 8.0f, 12.0f, 8.0f);
+                ViewHelper.setPaddingRelative(this.undoTextView, z2 ? 34.0f : 12.0f, 8.0f, 12.0f, 8.0f);
                 addView(this.undoTextView, LayoutHelper.createFrameRelatively(-2.0f, -2.0f, 16, 8.0f, 0.0f, 8.0f, 0.0f));
-                return;
             }
-            ImageView imageView = new ImageView(getContext());
-            imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Bulletin$UndoButton$$ExternalSyntheticLambda1
+            if (z2) {
+                ImageView imageView = new ImageView(getContext());
+                imageView.setImageResource(R.drawable.chats_undo);
+                imageView.setColorFilter(new PorterDuffColorFilter(themedColor, PorterDuff.Mode.MULTIPLY));
+                if (!z) {
+                    imageView.setBackground(Theme.createSelectorDrawable((themedColor & 16777215) | 419430400));
+                }
+                ViewHelper.setPaddingRelative(imageView, 0.0f, 12.0f, 0.0f, 12.0f);
+                addView(imageView, LayoutHelper.createFrameRelatively(56.0f, 48.0f, 16));
+            }
+            setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Bulletin$UndoButton$$ExternalSyntheticLambda0
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
-                    Bulletin.UndoButton.this.lambda$new$1(view);
+                    Bulletin.UndoButton.this.lambda$new$0(view);
                 }
             });
-            imageView.setImageResource(R.drawable.chats_undo);
-            imageView.setColorFilter(new PorterDuffColorFilter(themedColor, PorterDuff.Mode.MULTIPLY));
-            imageView.setBackground(Theme.createSelectorDrawable((themedColor & 16777215) | 419430400));
-            ViewHelper.setPaddingRelative(imageView, 0.0f, 12.0f, 0.0f, 12.0f);
-            addView(imageView, LayoutHelper.createFrameRelatively(56.0f, 48.0f, 16));
         }
 
         public /* synthetic */ void lambda$new$0(View view) {
-            undo();
-        }
-
-        public /* synthetic */ void lambda$new$1(View view) {
             undo();
         }
 
@@ -2104,7 +2101,6 @@ public class Bulletin {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes4.dex */
     public static class TimerView extends View {
         private long lastUpdateTime;
