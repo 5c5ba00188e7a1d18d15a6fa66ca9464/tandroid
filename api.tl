@@ -685,6 +685,7 @@ messages.savedReactionsTags#3259950a tags:Vector<SavedReactionTag> hash:long = m
 messages.savedReactionsTagsNotModified#889b59ef = messages.SavedReactionTags;
 messages.searchCounter#e844ebff flags:# inexact:flags.1?true filter:MessagesFilter count:int = messages.SearchCounter;
 messages.searchResultsCalendar#147ee23c flags:# inexact:flags.0?true count:int min_date:int min_msg_id:int offset_id_offset:flags.1?int periods:Vector<SearchResultsCalendarPeriod> messages:Vector<Message> chats:Vector<Chat> users:Vector<User> = messages.SearchResultsCalendar;
+messages.searchResultsPositions#53b22baf count:int positions:Vector<SearchResultPosition> = messages.SearchResultsPositions;
 messages.sentEncryptedFile#9493ff32 date:int file:EncryptedFile = messages.SentEncryptedMessage;
 messages.sentEncryptedMessage#560f8935 date:int = messages.SentEncryptedMessage;
 messages.sponsoredMessages#c9ee1d87 flags:# posts_between:flags.0?int messages:Vector<SponsoredMessage> chats:Vector<Chat> users:Vector<User> = messages.SponsoredMessages;
@@ -855,6 +856,7 @@ requestPeerTypeUser#5f3b8a00 flags:# bot:flags.0?Vector<Bool> premium:flags.1?Ve
 restrictionReason#d072acb4 platform:string reason:string text:string = RestrictionReason;
 savedDialog#bd87cb6c flags:# pinned:flags.2?true peer:Peer top_message:int = SavedDialog;
 savedReactionTag#cb6ff828 flags:# reaction:Reaction title:flags.0?string count:int = SavedReactionTag;
+searchResultPosition#7f648b67 msg_id:int date:int offset:int = SearchResultPosition;
 searchResultsCalendarPeriod#c9b0539f date:int min_msg_id:int max_msg_id:int count:int = SearchResultsCalendarPeriod;
 secureCredentialsEncrypted#33f0ea47 data:bytes hash:bytes secret:bytes = SecureCredentialsEncrypted;
 secureData#8aeabec3 data:bytes data_hash:bytes secret:bytes = SecureData;
@@ -1489,6 +1491,7 @@ messages.getScheduledHistory#f516760b peer:InputPeer hash:long = messages.Messag
 messages.getScheduledMessages#bdbb0464 peer:InputPeer id:Vector<int> = messages.Messages;
 messages.getSearchCounters#1bbcf300 flags:# peer:InputPeer saved_peer_id:flags.2?InputPeer top_msg_id:flags.0?int filters:Vector<MessagesFilter> = Vector<messages.SearchCounter>;
 messages.getSearchResultsCalendar#6aa3f6bd flags:# peer:InputPeer filter:MessagesFilter saved_peer_id:flags.2?InputPeer offset_id:int offset_date:int = messages.SearchResultsCalendar;
+messages.getSearchResultsPositions#9c7f2f10 flags:# peer:InputPeer saved_peer_id:flags.2?InputPeer filter:MessagesFilter offset_id:int limit:int = messages.SearchResultsPositions;
 messages.getStatsURL#812c2ae6 flags:# dark:flags.0?true peer:InputPeer params:string = StatsURL;
 messages.getStickerSet#c8a0ec74 stickerset:InputStickerSet hash:int = messages.StickerSet;
 messages.getStickers#d5a5d3a1 emoticon:string hash:long = messages.Stickers;
@@ -1682,4 +1685,4 @@ stories.sendStory#e4e6694b flags:# pinned:flags.2?true noforwards:flags.4?true f
 stories.togglePeerStoriesHidden#bd0415c4 peer:InputPeer hidden:Bool = Bool;
 stories.togglePinned#9a75a1ef peer:InputPeer id:Vector<int> pinned:Bool = Vector<int>;
 
-// Layer 174
+// Layer 175
