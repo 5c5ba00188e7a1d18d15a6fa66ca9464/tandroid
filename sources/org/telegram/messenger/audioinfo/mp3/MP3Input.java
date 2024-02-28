@@ -4,7 +4,7 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import org.telegram.messenger.audioinfo.util.PositionInputStream;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class MP3Input extends PositionInputStream {
     public MP3Input(InputStream inputStream) throws IOException {
         super(inputStream);

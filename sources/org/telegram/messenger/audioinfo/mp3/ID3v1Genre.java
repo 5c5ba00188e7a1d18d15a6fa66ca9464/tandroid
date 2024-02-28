@@ -1,5 +1,5 @@
 package org.telegram.messenger.audioinfo.mp3;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public enum ID3v1Genre {
     Blues("Blues"),
     ClassicRock("Classic Rock"),

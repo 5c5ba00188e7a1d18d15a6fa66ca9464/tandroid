@@ -1996,48 +1996,48 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:1188:0x2563, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1191:0x2597, code lost:
         if (r2.checkCanOpenChat(r0, r3.get(r3.size() - 1)) != false) goto L129;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1205:0x25e6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1208:0x261a, code lost:
         if (r2.checkCanOpenChat(r0, r3.get(r3.size() - 1)) != false) goto L147;
      */
     /* JADX WARN: Code restructure failed: missing block: B:181:0x034f, code lost:
-        if (r96.sendingText == null) goto L340;
+        if (r96.sendingText == null) goto L343;
      */
     /* JADX WARN: Code restructure failed: missing block: B:454:0x0a94, code lost:
-        if (r4.longValue() == 0) goto L804;
+        if (r4.longValue() == 0) goto L807;
      */
     /* JADX WARN: Code restructure failed: missing block: B:69:0x0160, code lost:
         if (r7.equals(r0) != false) goto L47;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:923:0x1bef, code lost:
-        if (r5.longValue() == 0) goto L1278;
+    /* JADX WARN: Code restructure failed: missing block: B:926:0x1c23, code lost:
+        if (r5.longValue() == 0) goto L1284;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:1000:0x1ffc  */
+    /* JADX WARN: Removed duplicated region for block: B:1003:0x2030  */
     /* JADX WARN: Removed duplicated region for block: B:100:0x01f5  */
-    /* JADX WARN: Removed duplicated region for block: B:1012:0x2042  */
+    /* JADX WARN: Removed duplicated region for block: B:1015:0x2076  */
     /* JADX WARN: Removed duplicated region for block: B:105:0x0203  */
-    /* JADX WARN: Removed duplicated region for block: B:1070:0x2121  */
-    /* JADX WARN: Removed duplicated region for block: B:1071:0x2125 A[Catch: all -> 0x2134, TRY_LEAVE, TryCatch #14 {all -> 0x2134, blocks: (B:1068:0x210f, B:1071:0x2125), top: B:1477:0x210f }] */
-    /* JADX WARN: Removed duplicated region for block: B:1110:0x2229  */
-    /* JADX WARN: Removed duplicated region for block: B:1111:0x223b  */
-    /* JADX WARN: Removed duplicated region for block: B:1161:0x24e2  */
-    /* JADX WARN: Removed duplicated region for block: B:1175:0x2510  */
-    /* JADX WARN: Removed duplicated region for block: B:1176:0x2524  */
-    /* JADX WARN: Removed duplicated region for block: B:1308:0x27f9  */
-    /* JADX WARN: Removed duplicated region for block: B:1309:0x280b  */
-    /* JADX WARN: Removed duplicated region for block: B:1312:0x281a  */
-    /* JADX WARN: Removed duplicated region for block: B:1313:0x282b  */
-    /* JADX WARN: Removed duplicated region for block: B:1399:0x2aef A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:1402:0x2af8  */
-    /* JADX WARN: Removed duplicated region for block: B:1413:0x2b48  */
-    /* JADX WARN: Removed duplicated region for block: B:1424:0x2b8f  */
-    /* JADX WARN: Removed duplicated region for block: B:1428:0x2ba6  */
-    /* JADX WARN: Removed duplicated region for block: B:1430:0x2bae  */
-    /* JADX WARN: Removed duplicated region for block: B:1459:0x1738 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1495:0x2150 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1073:0x2155  */
+    /* JADX WARN: Removed duplicated region for block: B:1074:0x2159 A[Catch: all -> 0x2168, TRY_LEAVE, TryCatch #5 {all -> 0x2168, blocks: (B:1071:0x2143, B:1074:0x2159), top: B:1466:0x2143 }] */
+    /* JADX WARN: Removed duplicated region for block: B:1113:0x225d  */
+    /* JADX WARN: Removed duplicated region for block: B:1114:0x226f  */
+    /* JADX WARN: Removed duplicated region for block: B:1164:0x2516  */
+    /* JADX WARN: Removed duplicated region for block: B:1178:0x2544  */
+    /* JADX WARN: Removed duplicated region for block: B:1179:0x2558  */
+    /* JADX WARN: Removed duplicated region for block: B:1314:0x2837  */
+    /* JADX WARN: Removed duplicated region for block: B:1315:0x2849  */
+    /* JADX WARN: Removed duplicated region for block: B:1318:0x2858  */
+    /* JADX WARN: Removed duplicated region for block: B:1319:0x2869  */
+    /* JADX WARN: Removed duplicated region for block: B:1405:0x2b2d A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:1408:0x2b36  */
+    /* JADX WARN: Removed duplicated region for block: B:1419:0x2b86  */
+    /* JADX WARN: Removed duplicated region for block: B:1430:0x2bcd  */
+    /* JADX WARN: Removed duplicated region for block: B:1434:0x2be4  */
+    /* JADX WARN: Removed duplicated region for block: B:1436:0x2bec  */
+    /* JADX WARN: Removed duplicated region for block: B:1504:0x176c A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1508:0x2184 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:180:0x034d  */
     /* JADX WARN: Removed duplicated region for block: B:185:0x0356  */
     /* JADX WARN: Removed duplicated region for block: B:214:0x0411  */
@@ -2053,23 +2053,23 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX WARN: Removed duplicated region for block: B:543:0x0d47  */
     /* JADX WARN: Removed duplicated region for block: B:544:0x0d71  */
     /* JADX WARN: Removed duplicated region for block: B:68:0x015c  */
-    /* JADX WARN: Removed duplicated region for block: B:879:0x1a7a  */
-    /* JADX WARN: Removed duplicated region for block: B:916:0x1b5f A[Catch: Exception -> 0x1b6e, TRY_LEAVE, TryCatch #1 {Exception -> 0x1b6e, blocks: (B:914:0x1b53, B:916:0x1b5f), top: B:1452:0x1b53 }] */
-    /* JADX WARN: Removed duplicated region for block: B:918:0x1b6c  */
+    /* JADX WARN: Removed duplicated region for block: B:882:0x1aae  */
+    /* JADX WARN: Removed duplicated region for block: B:919:0x1b93 A[Catch: Exception -> 0x1ba2, TRY_LEAVE, TryCatch #19 {Exception -> 0x1ba2, blocks: (B:917:0x1b87, B:919:0x1b93), top: B:1491:0x1b87 }] */
+    /* JADX WARN: Removed duplicated region for block: B:921:0x1ba0  */
     /* JADX WARN: Removed duplicated region for block: B:92:0x01ca  */
-    /* JADX WARN: Removed duplicated region for block: B:984:0x1ee1  */
-    /* JADX WARN: Removed duplicated region for block: B:985:0x1f32  */
+    /* JADX WARN: Removed duplicated region for block: B:987:0x1f15  */
+    /* JADX WARN: Removed duplicated region for block: B:988:0x1f66  */
     /* JADX WARN: Type inference failed for: r5v41 */
     /* JADX WARN: Type inference failed for: r5v42, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r5v43 */
     /* JADX WARN: Type inference failed for: r6v15 */
     /* JADX WARN: Type inference failed for: r6v16, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r6v17 */
-    /* JADX WARN: Type inference failed for: r8v100 */
-    /* JADX WARN: Type inference failed for: r8v107 */
+    /* JADX WARN: Type inference failed for: r8v101 */
+    /* JADX WARN: Type inference failed for: r8v108 */
     /* JADX WARN: Type inference failed for: r8v16 */
     /* JADX WARN: Type inference failed for: r8v6, types: [android.os.Bundle, java.lang.String] */
-    /* JADX WARN: Type inference failed for: r8v95 */
+    /* JADX WARN: Type inference failed for: r8v96 */
     @SuppressLint({"Range"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -2105,7 +2105,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         int i3;
         int i4;
         boolean z16;
-        char c;
+        int i5;
         String str7;
         boolean z17;
         boolean z18;
@@ -2113,15 +2113,15 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         boolean z20;
         ?? r8;
         GroupCallActivity groupCallActivity;
-        int i5;
+        int i6;
         boolean z21;
         boolean z22;
-        char c2;
+        int i7;
         String str8;
         BaseFragment lastFragment;
         ?? r6;
-        char c3;
-        final BaseFragment privacySettingsActivity;
+        int i8;
+        final BaseFragment openSettings;
         final boolean z23;
         ?? r5;
         boolean z24;
@@ -2133,16 +2133,16 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         boolean z26;
         Pattern compile;
         String str10;
-        int i6;
-        int i7;
+        int i9;
+        int i10;
         long[] jArr2;
-        char c4;
-        int i8;
+        int i11;
+        int i12;
         String str11;
         int[] iArr3;
         long j5;
-        int i9;
-        char c5;
+        int i13;
+        int i14;
         boolean z27;
         String str12;
         String str13;
@@ -2180,7 +2180,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         String str35;
         String str36;
         String str37;
-        int i10;
+        int i15;
         String str38;
         String str39;
         String str40;
@@ -2188,7 +2188,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         TLRPC$TL_wallPaper tLRPC$TL_wallPaper;
         String str42;
         String str43;
-        int i11;
+        int i16;
         boolean z29;
         String str44;
         final TLRPC$TL_account_sendConfirmPhoneCode tLRPC$TL_account_sendConfirmPhoneCode;
@@ -2196,8 +2196,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         Throwable th;
         String string;
         boolean z30;
-        int i12;
-        char c6;
+        int i17;
+        char c;
         Integer parseInt;
         long j9;
         boolean z31;
@@ -2205,7 +2205,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         String queryParameter2;
         String[] split;
         boolean z32;
-        int i13;
+        int i18;
         String str45;
         long j10;
         long j11;
@@ -2221,11 +2221,11 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         boolean z37;
         boolean z38;
         String str49;
-        int i14;
+        int i19;
         String str50;
         String str51;
         String str52;
-        int i15;
+        int i20;
         String str53;
         String str54;
         String str55;
@@ -2251,18 +2251,18 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         Long l3;
         Long l4;
         Integer num4;
-        int i16;
+        int i21;
         String str73;
         String str74;
         Long parseLong;
-        int i17;
+        int i22;
         String str75;
-        int i18;
+        int i23;
         String str76;
         String str77;
         Integer num5;
         String str78;
-        int i19;
+        int i24;
         Long parseLong2;
         boolean z39;
         Integer num6;
@@ -2340,8 +2340,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                             if (string2 != null) {
                                 List<ShortcutInfoCompat> dynamicShortcuts = ShortcutManagerCompat.getDynamicShortcuts(ApplicationLoader.applicationContext);
                                 int size = dynamicShortcuts.size();
-                                for (int i20 = 0; i20 < size; i20++) {
-                                    ShortcutInfoCompat shortcutInfoCompat = dynamicShortcuts.get(i20);
+                                for (int i25 = 0; i25 < size; i25++) {
+                                    ShortcutInfoCompat shortcutInfoCompat = dynamicShortcuts.get(i25);
                                     if (string2.equals(shortcutInfoCompat.getId())) {
                                         Bundle extras = shortcutInfoCompat.getIntent().getExtras();
                                         long j16 = extras.getLong("dialogId", 0L);
@@ -2435,7 +2435,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     i3 = 0;
                     i4 = 0;
                     z16 = false;
-                    c = 0;
+                    i5 = 0;
                     j = 0;
                     j3 = 0;
                     jArr = null;
@@ -2554,7 +2554,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         i3 = 0;
                         i4 = 0;
                         z16 = false;
-                        c = 0;
+                        i5 = 0;
                         j = 0;
                         j3 = 0;
                         jArr = null;
@@ -2589,7 +2589,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 i3 = 0;
                 i4 = 0;
                 z16 = false;
-                c = 0;
+                i5 = 0;
                 j = 0;
                 j3 = 0;
                 jArr = null;
@@ -2613,9 +2613,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     FileLog.e(e3);
                 }
                 if (parcelableArrayListExtra != null) {
-                    int i21 = 0;
-                    while (i21 < parcelableArrayListExtra.size()) {
-                        Parcelable parcelable = (Parcelable) parcelableArrayListExtra.get(i21);
+                    int i26 = 0;
+                    while (i26 < parcelableArrayListExtra.size()) {
+                        Parcelable parcelable = (Parcelable) parcelableArrayListExtra.get(i26);
                         boolean z45 = parcelable instanceof Uri;
                         Uri uri5 = parcelable;
                         if (!z45) {
@@ -2623,17 +2623,17 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         }
                         Uri uri6 = (Uri) uri5;
                         if (uri6 != null && AndroidUtilities.isInternalUri(uri6)) {
-                            parcelableArrayListExtra.remove(i21);
-                            i21--;
+                            parcelableArrayListExtra.remove(i26);
+                            i26--;
                         }
-                        i21++;
+                        i26++;
                     }
                     if (parcelableArrayListExtra.isEmpty()) {
                         arrayList = null;
                         if (arrayList != null) {
                             if (type != null && type.startsWith("image/")) {
-                                for (int i22 = 0; i22 < arrayList.size(); i22++) {
-                                    Parcelable parcelable2 = (Parcelable) arrayList.get(i22);
+                                for (int i27 = 0; i27 < arrayList.size(); i27++) {
+                                    Parcelable parcelable2 = (Parcelable) arrayList.get(i27);
                                     boolean z46 = parcelable2 instanceof Uri;
                                     Uri uri7 = parcelable2;
                                     if (!z46) {
@@ -2649,8 +2649,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                 }
                             } else {
                                 Set<String> set2 = MessagesController.getInstance(iArr[0]).exportUri;
-                                for (int i23 = 0; i23 < arrayList.size(); i23++) {
-                                    Object obj = (Parcelable) arrayList.get(i23);
+                                for (int i28 = 0; i28 < arrayList.size(); i28++) {
+                                    Object obj = (Parcelable) arrayList.get(i28);
                                     if (!(obj instanceof Uri)) {
                                         obj = Uri.parse(obj.toString());
                                     }
@@ -2735,7 +2735,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                             i3 = 0;
                             i4 = 0;
                             z16 = false;
-                            c = 0;
+                            i5 = 0;
                         }
                         z25 = true;
                         if (z25) {
@@ -2770,7 +2770,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         i3 = 0;
                         i4 = 0;
                         z16 = false;
-                        c = 0;
+                        i5 = 0;
                     }
                 }
                 arrayList = parcelableArrayListExtra;
@@ -2809,7 +2809,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 i3 = 0;
                 i4 = 0;
                 z16 = false;
-                c = 0;
+                i5 = 0;
             } else if ("android.intent.action.VIEW".equals(intent.getAction())) {
                 Uri data = intent.getData();
                 if (data != null) {
@@ -2818,30 +2818,30 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         switch (scheme.hashCode()) {
                             case 3699:
                                 if (scheme.equals("tg")) {
-                                    c6 = 0;
+                                    c = 0;
                                     break;
                                 }
-                                c6 = 65535;
+                                c = 65535;
                                 break;
                             case 3213448:
                                 if (scheme.equals("http")) {
-                                    c6 = 1;
+                                    c = 1;
                                     break;
                                 }
-                                c6 = 65535;
+                                c = 65535;
                                 break;
                             case 99617003:
                                 if (scheme.equals("https")) {
-                                    c6 = 2;
+                                    c = 2;
                                     break;
                                 }
-                                c6 = 65535;
+                                c = 65535;
                                 break;
                             default:
-                                c6 = 65535;
+                                c = 65535;
                                 break;
                         }
-                        switch (c6) {
+                        switch (c) {
                             case 0:
                                 iArr4 = iArr;
                                 final String uri10 = data.toString();
@@ -2878,8 +2878,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                     hashMap = null;
                                     str17 = null;
                                     str16 = null;
-                                    i9 = 0;
-                                    c5 = 0;
+                                    i13 = 0;
+                                    i14 = 0;
                                     z10 = false;
                                     z11 = false;
                                     z27 = false;
@@ -2898,13 +2898,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                     str40 = null;
                                     str39 = null;
                                     str38 = null;
-                                    i10 = -1;
+                                    i15 = -1;
                                     str37 = null;
                                     str36 = null;
                                     str35 = null;
                                     str34 = null;
                                     str33 = null;
-                                    i11 = 0;
+                                    i16 = 0;
                                     z29 = false;
                                     break;
                                 } else if (uri10.startsWith("tg:resolve") || uri10.startsWith("tg://resolve")) {
@@ -2952,8 +2952,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                         str18 = null;
                                         str17 = null;
                                         str16 = null;
-                                        i9 = 0;
-                                        c5 = 0;
+                                        i13 = 0;
+                                        i14 = 0;
                                         z10 = false;
                                         z11 = false;
                                         z27 = false;
@@ -2974,11 +2974,11 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                         str40 = null;
                                         str39 = null;
                                         str38 = null;
-                                        i10 = -1;
+                                        i15 = -1;
                                         str37 = null;
                                         str36 = null;
                                         str35 = null;
-                                        i11 = 0;
+                                        i16 = 0;
                                         z29 = false;
                                     } else {
                                         String queryParameter7 = parse.getQueryParameter("start");
@@ -3004,7 +3004,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             if (parseLong3.longValue() == 0) {
                                                 l = null;
                                                 parseInt = Utilities.parseInt((CharSequence) parse.getQueryParameter("comment"));
-                                                i11 = intValue;
+                                                i16 = intValue;
                                                 str34 = queryParameter4;
                                                 str33 = queryParameter5;
                                                 j7 = 0;
@@ -3030,8 +3030,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     hashMap = null;
                                                     str17 = null;
                                                     str16 = null;
-                                                    i9 = 0;
-                                                    c5 = 0;
+                                                    i13 = 0;
+                                                    i14 = 0;
                                                     z10 = false;
                                                     z11 = false;
                                                     z27 = false;
@@ -3048,7 +3048,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     tLRPC$TL_wallPaper = null;
                                                     str41 = null;
                                                     str40 = null;
-                                                    i10 = -1;
+                                                    i15 = -1;
                                                     z29 = false;
                                                     str21 = "message_id";
                                                     str22 = queryParameter8;
@@ -3071,8 +3071,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     hashMap = null;
                                                     str17 = null;
                                                     str16 = null;
-                                                    i9 = 0;
-                                                    c5 = 0;
+                                                    i13 = 0;
+                                                    i14 = 0;
                                                     z10 = false;
                                                     z11 = false;
                                                     z27 = false;
@@ -3089,7 +3089,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     tLRPC$TL_wallPaper = null;
                                                     str41 = null;
                                                     str40 = null;
-                                                    i10 = -1;
+                                                    i15 = -1;
                                                     z29 = false;
                                                     num2 = parseInt;
                                                     str21 = "message_id";
@@ -3103,7 +3103,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                         }
                                         l = parseLong3;
                                         parseInt = Utilities.parseInt((CharSequence) parse.getQueryParameter("comment"));
-                                        i11 = intValue;
+                                        i16 = intValue;
                                         str34 = queryParameter4;
                                         str33 = queryParameter5;
                                         j7 = 0;
@@ -3138,8 +3138,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                     hashMap = null;
                                     str17 = null;
                                     str16 = null;
-                                    i9 = 0;
-                                    c5 = 0;
+                                    i13 = 0;
+                                    i14 = 0;
                                     z10 = false;
                                     z11 = false;
                                     z27 = false;
@@ -3159,13 +3159,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                     str40 = null;
                                     str39 = null;
                                     str38 = null;
-                                    i10 = -1;
+                                    i15 = -1;
                                     str37 = null;
                                     str36 = null;
                                     str35 = null;
                                     str34 = null;
                                     str33 = null;
-                                    i11 = 0;
+                                    i16 = 0;
                                     z29 = false;
                                 } else {
                                     if (uri10.startsWith("tg:contact") || uri10.startsWith("tg://contact")) {
@@ -3250,8 +3250,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                         hashMap = null;
                                         str17 = null;
                                         str16 = null;
-                                        i9 = 0;
-                                        c5 = 0;
+                                        i13 = 0;
+                                        i14 = 0;
                                         z10 = false;
                                         z11 = false;
                                         z27 = false;
@@ -3272,13 +3272,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                         str40 = null;
                                         str39 = null;
                                         str38 = null;
-                                        i10 = -1;
+                                        i15 = -1;
                                         str37 = null;
                                         str36 = null;
                                         str35 = null;
                                         str34 = null;
                                         str33 = null;
-                                        i11 = 0;
+                                        i16 = 0;
                                         z29 = false;
                                     } else if (uri10.startsWith("tg:bg") || uri10.startsWith("tg://bg")) {
                                         Uri parse3 = Uri.parse(uri10.replace("tg:bg", "tg://telegram.org").replace("tg://bg", "tg://telegram.org"));
@@ -3325,10 +3325,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             if (!z31) {
                                                 String queryParameter17 = parse3.getQueryParameter("mode");
                                                 if (queryParameter17 != null && (split = queryParameter17.toLowerCase().split(" ")) != null && split.length > 0) {
-                                                    for (int i24 = 0; i24 < split.length; i24++) {
-                                                        if ("blur".equals(split[i24])) {
+                                                    for (int i29 = 0; i29 < split.length; i29++) {
+                                                        if ("blur".equals(split[i29])) {
                                                             tLRPC$TL_wallPaper3.settings.blur = true;
-                                                        } else if ("motion".equals(split[i24])) {
+                                                        } else if ("motion".equals(split[i29])) {
                                                             tLRPC$TL_wallPaper3.settings.motion = true;
                                                         }
                                                     }
@@ -3388,8 +3388,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             hashMap = null;
                                             str17 = null;
                                             str16 = null;
-                                            i9 = 0;
-                                            c5 = 0;
+                                            i13 = 0;
+                                            i14 = 0;
                                             z10 = false;
                                             z11 = false;
                                             z27 = false;
@@ -3409,13 +3409,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             str40 = null;
                                             str39 = null;
                                             str38 = null;
-                                            i10 = -1;
+                                            i15 = -1;
                                             str37 = null;
                                             str36 = null;
                                             str35 = null;
                                             str34 = null;
                                             str33 = null;
-                                            i11 = 0;
+                                            i16 = 0;
                                             z29 = false;
                                         }
                                         if (!z31) {
@@ -3444,8 +3444,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                         hashMap = null;
                                         str17 = null;
                                         str16 = null;
-                                        i9 = 0;
-                                        c5 = 0;
+                                        i13 = 0;
+                                        i14 = 0;
                                         z10 = false;
                                         z11 = false;
                                         z27 = false;
@@ -3465,13 +3465,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                         str40 = null;
                                         str39 = null;
                                         str38 = null;
-                                        i10 = -1;
+                                        i15 = -1;
                                         str37 = null;
                                         str36 = null;
                                         str35 = null;
                                         str34 = null;
                                         str33 = null;
-                                        i11 = 0;
+                                        i16 = 0;
                                         z29 = false;
                                     } else {
                                         if (uri10.startsWith("tg:join") || uri10.startsWith("tg://join")) {
@@ -3513,14 +3513,14 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     z32 = false;
                                                 }
                                                 if (str9.length() > 16384) {
-                                                    i13 = 0;
+                                                    i18 = 0;
                                                     str45 = str9.substring(0, LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM);
                                                 } else {
-                                                    i13 = 0;
+                                                    i18 = 0;
                                                     str45 = str9;
                                                 }
                                                 while (str45.endsWith("\n")) {
-                                                    str45 = str45.substring(i13, str45.length() - 1);
+                                                    str45 = str45.substring(i18, str45.length() - 1);
                                                 }
                                                 str23 = str45;
                                                 z28 = z32;
@@ -3545,8 +3545,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 hashMap = null;
                                                 str17 = null;
                                                 str16 = null;
-                                                i9 = 0;
-                                                c5 = 0;
+                                                i13 = 0;
+                                                i14 = 0;
                                                 z10 = false;
                                                 z11 = false;
                                                 z27 = false;
@@ -3567,13 +3567,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 str40 = null;
                                                 str39 = null;
                                                 str38 = null;
-                                                i10 = -1;
+                                                i15 = -1;
                                                 str37 = null;
                                                 str36 = null;
                                                 str35 = null;
                                                 str34 = null;
                                                 str33 = null;
-                                                i11 = 0;
+                                                i16 = 0;
                                                 z29 = false;
                                             } else if (uri10.startsWith("tg:confirmphone") || uri10.startsWith("tg://confirmphone")) {
                                                 Uri parse5 = Uri.parse(uri10.replace("tg:confirmphone", "tg://telegram.org").replace("tg://confirmphone", "tg://telegram.org"));
@@ -3598,8 +3598,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 hashMap = null;
                                                 str17 = null;
                                                 str16 = null;
-                                                i9 = 0;
-                                                c5 = 0;
+                                                i13 = 0;
+                                                i14 = 0;
                                                 z10 = false;
                                                 z11 = false;
                                                 z27 = false;
@@ -3620,13 +3620,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 str40 = null;
                                                 str39 = null;
                                                 str38 = null;
-                                                i10 = -1;
+                                                i15 = -1;
                                                 str37 = null;
                                                 str36 = null;
                                                 str35 = null;
                                                 str34 = null;
                                                 str33 = null;
-                                                i11 = 0;
+                                                i16 = 0;
                                                 z29 = false;
                                                 str27 = parse5.getQueryParameter("hash");
                                                 str32 = null;
@@ -3660,8 +3660,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 hashMap = null;
                                                 str17 = null;
                                                 str16 = null;
-                                                i9 = 0;
-                                                c5 = 0;
+                                                i13 = 0;
+                                                i14 = 0;
                                                 z10 = false;
                                                 z11 = false;
                                                 z27 = false;
@@ -3680,13 +3680,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 str40 = null;
                                                 str39 = null;
                                                 str38 = null;
-                                                i10 = -1;
+                                                i15 = -1;
                                                 str37 = null;
                                                 str36 = null;
                                                 str35 = null;
                                                 str34 = null;
                                                 str33 = null;
-                                                i11 = 0;
+                                                i16 = 0;
                                                 z29 = false;
                                             } else if (uri10.startsWith("tg:openmessage") || uri10.startsWith("tg://openmessage")) {
                                                 Uri parse7 = Uri.parse(uri10.replace("tg:openmessage", "tg://telegram.org").replace("tg://openmessage", "tg://telegram.org"));
@@ -3701,7 +3701,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                             parseInt2 = Integer.parseInt(queryParameter22);
                                                         } catch (NumberFormatException unused7) {
                                                         }
-                                                        i9 = parseInt2;
+                                                        i13 = parseInt2;
                                                         j7 = j10;
                                                         str21 = "message_id";
                                                         j6 = j11;
@@ -3727,7 +3727,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                         hashMap = null;
                                                         str17 = null;
                                                         str16 = null;
-                                                        c5 = 0;
+                                                        i14 = 0;
                                                         z10 = false;
                                                         z11 = false;
                                                         z27 = false;
@@ -3746,17 +3746,17 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                         str40 = null;
                                                         str39 = null;
                                                         str38 = null;
-                                                        i10 = -1;
+                                                        i15 = -1;
                                                         str37 = null;
                                                         str36 = null;
                                                         str35 = null;
                                                         str34 = null;
                                                         str33 = null;
-                                                        i11 = 0;
+                                                        i16 = 0;
                                                         z29 = false;
                                                     }
                                                     parseInt2 = 0;
-                                                    i9 = parseInt2;
+                                                    i13 = parseInt2;
                                                     j7 = j10;
                                                     str21 = "message_id";
                                                     j6 = j11;
@@ -3782,7 +3782,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     hashMap = null;
                                                     str17 = null;
                                                     str16 = null;
-                                                    c5 = 0;
+                                                    i14 = 0;
                                                     z10 = false;
                                                     z11 = false;
                                                     z27 = false;
@@ -3801,13 +3801,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     str40 = null;
                                                     str39 = null;
                                                     str38 = null;
-                                                    i10 = -1;
+                                                    i15 = -1;
                                                     str37 = null;
                                                     str36 = null;
                                                     str35 = null;
                                                     str34 = null;
                                                     str33 = null;
-                                                    i11 = 0;
+                                                    i16 = 0;
                                                     z29 = false;
                                                 } else {
                                                     if (queryParameter21 != null) {
@@ -3816,7 +3816,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                         if (queryParameter22 != null) {
                                                         }
                                                         parseInt2 = 0;
-                                                        i9 = parseInt2;
+                                                        i13 = parseInt2;
                                                         j7 = j10;
                                                         str21 = "message_id";
                                                         j6 = j11;
@@ -3842,7 +3842,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                         hashMap = null;
                                                         str17 = null;
                                                         str16 = null;
-                                                        c5 = 0;
+                                                        i14 = 0;
                                                         z10 = false;
                                                         z11 = false;
                                                         z27 = false;
@@ -3861,13 +3861,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                         str40 = null;
                                                         str39 = null;
                                                         str38 = null;
-                                                        i10 = -1;
+                                                        i15 = -1;
                                                         str37 = null;
                                                         str36 = null;
                                                         str35 = null;
                                                         str34 = null;
                                                         str33 = null;
-                                                        i11 = 0;
+                                                        i16 = 0;
                                                         z29 = false;
                                                     }
                                                     j10 = 0;
@@ -3875,7 +3875,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     if (queryParameter22 != null) {
                                                     }
                                                     parseInt2 = 0;
-                                                    i9 = parseInt2;
+                                                    i13 = parseInt2;
                                                     j7 = j10;
                                                     str21 = "message_id";
                                                     j6 = j11;
@@ -3901,7 +3901,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     hashMap = null;
                                                     str17 = null;
                                                     str16 = null;
-                                                    c5 = 0;
+                                                    i14 = 0;
                                                     z10 = false;
                                                     z11 = false;
                                                     z27 = false;
@@ -3920,13 +3920,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     str40 = null;
                                                     str39 = null;
                                                     str38 = null;
-                                                    i10 = -1;
+                                                    i15 = -1;
                                                     str37 = null;
                                                     str36 = null;
                                                     str35 = null;
                                                     str34 = null;
                                                     str33 = null;
-                                                    i11 = 0;
+                                                    i16 = 0;
                                                     z29 = false;
                                                 }
                                             } else if (uri10.startsWith("tg:passport") || uri10.startsWith("tg://passport") || uri10.startsWith("tg:secureid")) {
@@ -3965,8 +3965,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 str18 = null;
                                                 str17 = null;
                                                 str16 = null;
-                                                i9 = 0;
-                                                c5 = 0;
+                                                i13 = 0;
+                                                i14 = 0;
                                                 z10 = false;
                                                 z11 = false;
                                                 z27 = false;
@@ -3987,13 +3987,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 str40 = null;
                                                 str39 = null;
                                                 str38 = null;
-                                                i10 = -1;
+                                                i15 = -1;
                                                 str37 = null;
                                                 str36 = null;
                                                 str35 = null;
                                                 str34 = null;
                                                 str33 = null;
-                                                i11 = 0;
+                                                i16 = 0;
                                                 z29 = false;
                                             } else if (uri10.startsWith("tg:setlanguage") || uri10.startsWith("tg://setlanguage")) {
                                                 str17 = Uri.parse(uri10.replace("tg:setlanguage", "tg://telegram.org").replace("tg://setlanguage", "tg://telegram.org")).getQueryParameter("lang");
@@ -4019,8 +4019,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 str18 = null;
                                                 hashMap = null;
                                                 str16 = null;
-                                                i9 = 0;
-                                                c5 = 0;
+                                                i13 = 0;
+                                                i14 = 0;
                                                 z10 = false;
                                                 z11 = false;
                                                 z27 = false;
@@ -4041,13 +4041,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 str40 = null;
                                                 str39 = null;
                                                 str38 = null;
-                                                i10 = -1;
+                                                i15 = -1;
                                                 str37 = null;
                                                 str36 = null;
                                                 str35 = null;
                                                 str34 = null;
                                                 str33 = null;
-                                                i11 = 0;
+                                                i16 = 0;
                                                 z29 = false;
                                             } else if (uri10.startsWith("tg:addtheme") || uri10.startsWith("tg://addtheme")) {
                                                 str40 = Uri.parse(uri10.replace("tg:addtheme", "tg://telegram.org").replace("tg://addtheme", "tg://telegram.org")).getQueryParameter("slug");
@@ -4074,8 +4074,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 hashMap = null;
                                                 str17 = null;
                                                 str16 = null;
-                                                i9 = 0;
-                                                c5 = 0;
+                                                i13 = 0;
+                                                i14 = 0;
                                                 z10 = false;
                                                 z11 = false;
                                                 z27 = false;
@@ -4095,13 +4095,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 str41 = null;
                                                 str39 = null;
                                                 str38 = null;
-                                                i10 = -1;
+                                                i15 = -1;
                                                 str37 = null;
                                                 str36 = null;
                                                 str35 = null;
                                                 str34 = null;
                                                 str33 = null;
-                                                i11 = 0;
+                                                i16 = 0;
                                                 z29 = false;
                                             } else if (uri10.startsWith("tg:settings") || uri10.startsWith("tg://settings")) {
                                                 if (uri10.contains("themes") || uri10.contains("theme")) {
@@ -4128,8 +4128,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     hashMap = null;
                                                     str17 = null;
                                                     str16 = null;
-                                                    i9 = 0;
-                                                    c5 = 2;
+                                                    i13 = 0;
+                                                    i14 = 2;
                                                 } else if (uri10.contains("devices")) {
                                                     str21 = "message_id";
                                                     str32 = null;
@@ -4154,8 +4154,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     hashMap = null;
                                                     str17 = null;
                                                     str16 = null;
-                                                    i9 = 0;
-                                                    c5 = 3;
+                                                    i13 = 0;
+                                                    i14 = 3;
                                                 } else if (uri10.contains("folders")) {
                                                     str21 = "message_id";
                                                     str32 = null;
@@ -4180,8 +4180,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     hashMap = null;
                                                     str17 = null;
                                                     str16 = null;
-                                                    i9 = 0;
-                                                    c5 = 4;
+                                                    i13 = 0;
+                                                    i14 = 4;
                                                 } else if (uri10.contains("change_number")) {
                                                     str21 = "message_id";
                                                     str32 = null;
@@ -4206,8 +4206,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     hashMap = null;
                                                     str17 = null;
                                                     str16 = null;
-                                                    i9 = 0;
-                                                    c5 = 5;
+                                                    i13 = 0;
+                                                    i14 = 5;
                                                 } else if (uri10.contains("language")) {
                                                     str21 = "message_id";
                                                     str32 = null;
@@ -4232,8 +4232,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     hashMap = null;
                                                     str17 = null;
                                                     str16 = null;
-                                                    i9 = 0;
-                                                    c5 = '\n';
+                                                    i13 = 0;
+                                                    i14 = 10;
                                                 } else if (uri10.contains("auto_delete")) {
                                                     str21 = "message_id";
                                                     str32 = null;
@@ -4258,8 +4258,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     hashMap = null;
                                                     str17 = null;
                                                     str16 = null;
-                                                    i9 = 0;
-                                                    c5 = 11;
+                                                    i13 = 0;
+                                                    i14 = 11;
                                                 } else if (uri10.contains("privacy")) {
                                                     str21 = "message_id";
                                                     str32 = null;
@@ -4284,8 +4284,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     hashMap = null;
                                                     str17 = null;
                                                     str16 = null;
-                                                    i9 = 0;
-                                                    c5 = '\f';
+                                                    i13 = 0;
+                                                    i14 = 12;
                                                 } else if (uri10.contains("?enablelogs")) {
                                                     str21 = "message_id";
                                                     str32 = null;
@@ -4310,8 +4310,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     hashMap = null;
                                                     str17 = null;
                                                     str16 = null;
-                                                    i9 = 0;
-                                                    c5 = 7;
+                                                    i13 = 0;
+                                                    i14 = 7;
                                                 } else if (uri10.contains("?sendlogs")) {
                                                     str21 = "message_id";
                                                     str32 = null;
@@ -4336,8 +4336,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     hashMap = null;
                                                     str17 = null;
                                                     str16 = null;
-                                                    i9 = 0;
-                                                    c5 = '\b';
+                                                    i13 = 0;
+                                                    i14 = 8;
                                                 } else if (uri10.contains("?disablelogs")) {
                                                     str21 = "message_id";
                                                     str32 = null;
@@ -4362,8 +4362,34 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     hashMap = null;
                                                     str17 = null;
                                                     str16 = null;
-                                                    i9 = 0;
-                                                    c5 = '\t';
+                                                    i13 = 0;
+                                                    i14 = 9;
+                                                } else if (uri10.contains("premium_sms")) {
+                                                    str21 = "message_id";
+                                                    str32 = null;
+                                                    str31 = null;
+                                                    str30 = null;
+                                                    str29 = null;
+                                                    str28 = null;
+                                                    str27 = null;
+                                                    str26 = null;
+                                                    str25 = null;
+                                                    str24 = null;
+                                                    str23 = null;
+                                                    str22 = null;
+                                                    str20 = null;
+                                                    str19 = null;
+                                                    z28 = false;
+                                                    l2 = null;
+                                                    num2 = null;
+                                                    num = null;
+                                                    l = null;
+                                                    str18 = null;
+                                                    hashMap = null;
+                                                    str17 = null;
+                                                    str16 = null;
+                                                    i13 = 0;
+                                                    i14 = 13;
                                                 } else {
                                                     str21 = "message_id";
                                                     str32 = null;
@@ -4388,8 +4414,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     hashMap = null;
                                                     str17 = null;
                                                     str16 = null;
-                                                    i9 = 0;
-                                                    c5 = 1;
+                                                    i13 = 0;
+                                                    i14 = 1;
                                                 }
                                                 z10 = false;
                                                 z11 = false;
@@ -4411,13 +4437,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 str40 = null;
                                                 str39 = null;
                                                 str38 = null;
-                                                i10 = -1;
+                                                i15 = -1;
                                                 str37 = null;
                                                 str36 = null;
                                                 str35 = null;
                                                 str34 = null;
                                                 str33 = null;
-                                                i11 = 0;
+                                                i16 = 0;
                                                 z29 = false;
                                             } else if (uri10.startsWith("tg:search") || uri10.startsWith("tg://search")) {
                                                 String queryParameter24 = Uri.parse(uri10.replace("tg:search", "tg://telegram.org").replace("tg://search", "tg://telegram.org")).getQueryParameter("query");
@@ -4445,8 +4471,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 hashMap = null;
                                                 str17 = null;
                                                 str16 = null;
-                                                i9 = 0;
-                                                c5 = 0;
+                                                i13 = 0;
+                                                i14 = 0;
                                                 z10 = false;
                                                 z11 = false;
                                                 z27 = false;
@@ -4466,13 +4492,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 str40 = null;
                                                 str39 = null;
                                                 str38 = null;
-                                                i10 = -1;
+                                                i15 = -1;
                                                 str37 = null;
                                                 str36 = null;
                                                 str35 = null;
                                                 str34 = null;
                                                 str33 = null;
-                                                i11 = 0;
+                                                i16 = 0;
                                                 z29 = false;
                                             } else if (uri10.startsWith("tg:calllog") || uri10.startsWith("tg://calllog")) {
                                                 str21 = "message_id";
@@ -4498,8 +4524,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 hashMap = null;
                                                 str17 = null;
                                                 str16 = null;
-                                                i9 = 0;
-                                                c5 = 0;
+                                                i13 = 0;
+                                                i14 = 0;
                                                 z10 = true;
                                                 z11 = false;
                                                 z27 = false;
@@ -4520,13 +4546,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 str40 = null;
                                                 str39 = null;
                                                 str38 = null;
-                                                i10 = -1;
+                                                i15 = -1;
                                                 str37 = null;
                                                 str36 = null;
                                                 str35 = null;
                                                 str34 = null;
                                                 str33 = null;
-                                                i11 = 0;
+                                                i16 = 0;
                                                 z29 = false;
                                             } else if (uri10.startsWith("tg:call") || uri10.startsWith("tg://call")) {
                                                 if (UserConfig.getInstance(this.currentAccount).isClientActivated()) {
@@ -4611,8 +4637,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     hashMap = null;
                                                     str17 = null;
                                                     str16 = null;
-                                                    i9 = 0;
-                                                    c5 = 0;
+                                                    i13 = 0;
+                                                    i14 = 0;
                                                     z10 = false;
                                                     z13 = false;
                                                     z15 = false;
@@ -4625,13 +4651,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     str40 = null;
                                                     str39 = null;
                                                     str38 = null;
-                                                    i10 = -1;
+                                                    i15 = -1;
                                                     str37 = null;
                                                     str36 = null;
                                                     str35 = null;
                                                     str34 = null;
                                                     str33 = null;
-                                                    i11 = 0;
+                                                    i16 = 0;
                                                     z29 = false;
                                                     str21 = "message_id";
                                                     str27 = null;
@@ -4663,8 +4689,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 hashMap = null;
                                                 str17 = null;
                                                 str16 = null;
-                                                i9 = 0;
-                                                c5 = 0;
+                                                i13 = 0;
+                                                i14 = 0;
                                                 z10 = false;
                                                 z11 = false;
                                                 z27 = false;
@@ -4683,13 +4709,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 str40 = null;
                                                 str39 = null;
                                                 str38 = null;
-                                                i10 = -1;
+                                                i15 = -1;
                                                 str37 = null;
                                                 str36 = null;
                                                 str35 = null;
                                                 str34 = null;
                                                 str33 = null;
-                                                i11 = 0;
+                                                i16 = 0;
                                                 z29 = false;
                                             } else if (uri10.startsWith("tg:scanqr") || uri10.startsWith("tg://scanqr")) {
                                                 str21 = "message_id";
@@ -4715,8 +4741,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 hashMap = null;
                                                 str17 = null;
                                                 str16 = null;
-                                                i9 = 0;
-                                                c5 = 0;
+                                                i13 = 0;
+                                                i14 = 0;
                                                 z10 = false;
                                                 z11 = false;
                                                 z27 = false;
@@ -4737,13 +4763,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 str40 = null;
                                                 str39 = null;
                                                 str38 = null;
-                                                i10 = -1;
+                                                i15 = -1;
                                                 str37 = null;
                                                 str36 = null;
                                                 str35 = null;
                                                 str34 = null;
                                                 str33 = null;
-                                                i11 = 0;
+                                                i16 = 0;
                                                 z29 = false;
                                             } else if (uri10.startsWith("tg:addcontact") || uri10.startsWith("tg://addcontact")) {
                                                 Uri parse9 = Uri.parse(uri10.replace("tg:addcontact", "tg://telegram.org").replace("tg://addcontact", "tg://telegram.org"));
@@ -4774,8 +4800,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 hashMap = null;
                                                 str17 = null;
                                                 str16 = null;
-                                                i9 = 0;
-                                                c5 = 0;
+                                                i13 = 0;
+                                                i14 = 0;
                                                 z10 = false;
                                                 z11 = false;
                                                 z27 = false;
@@ -4794,13 +4820,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 str40 = null;
                                                 str39 = null;
                                                 str38 = null;
-                                                i10 = -1;
+                                                i15 = -1;
                                                 str37 = null;
                                                 str36 = null;
                                                 str35 = null;
                                                 str34 = null;
                                                 str33 = null;
-                                                i11 = 0;
+                                                i16 = 0;
                                                 z29 = false;
                                             } else if (uri10.startsWith("tg:addlist") || uri10.startsWith("tg://addlist")) {
                                                 str19 = Uri.parse(uri10.replace("tg:addlist", "tg://telegram.org").replace("tg://addlist", "tg://telegram.org")).getQueryParameter("slug");
@@ -4826,8 +4852,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 hashMap = null;
                                                 str17 = null;
                                                 str16 = null;
-                                                i9 = 0;
-                                                c5 = 0;
+                                                i13 = 0;
+                                                i14 = 0;
                                                 z10 = false;
                                                 z11 = false;
                                                 z27 = false;
@@ -4848,13 +4874,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 str40 = null;
                                                 str39 = null;
                                                 str38 = null;
-                                                i10 = -1;
+                                                i15 = -1;
                                                 str37 = null;
                                                 str36 = null;
                                                 str35 = null;
                                                 str34 = null;
                                                 str33 = null;
-                                                i11 = 0;
+                                                i16 = 0;
                                                 z29 = false;
                                             } else {
                                                 String replace2 = uri10.replace("tg://", "").replace("tg:", "");
@@ -4885,8 +4911,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 str18 = null;
                                                 hashMap = null;
                                                 str17 = null;
-                                                i9 = 0;
-                                                c5 = 0;
+                                                i13 = 0;
+                                                i14 = 0;
                                                 z10 = false;
                                                 z11 = false;
                                                 z27 = false;
@@ -4907,13 +4933,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 str40 = null;
                                                 str39 = null;
                                                 str38 = null;
-                                                i10 = -1;
+                                                i15 = -1;
                                                 str37 = null;
                                                 str36 = null;
                                                 str35 = null;
                                                 str34 = null;
                                                 str33 = null;
-                                                i11 = 0;
+                                                i16 = 0;
                                                 z29 = false;
                                             }
                                             str28 = null;
@@ -4936,8 +4962,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                     hashMap = null;
                                     str17 = null;
                                     str16 = null;
-                                    i9 = 0;
-                                    c5 = 0;
+                                    i13 = 0;
+                                    i14 = 0;
                                     z10 = false;
                                     z11 = false;
                                     z27 = false;
@@ -4958,13 +4984,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                     str40 = null;
                                     str39 = null;
                                     str38 = null;
-                                    i10 = -1;
+                                    i15 = -1;
                                     str37 = null;
                                     str36 = null;
                                     str35 = null;
                                     str34 = null;
                                     str33 = null;
-                                    i11 = 0;
+                                    i16 = 0;
                                     z29 = false;
                                 }
                                 break;
@@ -5021,10 +5047,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 if (!z40) {
                                                     String queryParameter30 = data.getQueryParameter("mode");
                                                     if (queryParameter30 != null && (split2 = queryParameter30.toLowerCase().split(" ")) != null && split2.length > 0) {
-                                                        for (int i25 = 0; i25 < split2.length; i25++) {
-                                                            if ("blur".equals(split2[i25])) {
+                                                        for (int i30 = 0; i30 < split2.length; i30++) {
+                                                            if ("blur".equals(split2[i30])) {
                                                                 tLRPC$TL_wallPaper4.settings.blur = true;
-                                                            } else if ("motion".equals(split2[i25])) {
+                                                            } else if ("motion".equals(split2[i30])) {
                                                                 tLRPC$TL_wallPaper4.settings.motion = true;
                                                             }
                                                         }
@@ -5066,7 +5092,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 z37 = false;
                                                 z38 = false;
                                                 str49 = null;
-                                                i14 = -1;
+                                                i19 = -1;
                                                 str25 = null;
                                                 str65 = null;
                                                 str64 = null;
@@ -5081,7 +5107,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 str55 = null;
                                                 str54 = null;
                                                 str53 = null;
-                                                i15 = 0;
+                                                i20 = 0;
                                                 str52 = null;
                                                 str51 = null;
                                                 str50 = null;
@@ -5097,7 +5123,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 str71 = null;
                                                 str70 = null;
                                                 z29 = z37;
-                                                i10 = i14;
+                                                i15 = i19;
                                                 str29 = str65;
                                                 str32 = str64;
                                                 str23 = str63;
@@ -5107,7 +5133,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 str22 = str59;
                                                 str39 = str56;
                                                 str38 = str55;
-                                                i11 = i15;
+                                                i16 = i20;
                                                 str34 = str52;
                                                 str33 = str51;
                                                 str40 = str50;
@@ -5123,8 +5149,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 str35 = str70;
                                                 hashMap = null;
                                                 str16 = null;
-                                                i9 = 0;
-                                                c5 = 0;
+                                                i13 = 0;
+                                                i14 = 0;
                                                 z10 = false;
                                                 z11 = false;
                                                 z27 = false;
@@ -5159,7 +5185,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             z37 = false;
                                             z38 = false;
                                             str49 = null;
-                                            i14 = -1;
+                                            i19 = -1;
                                             str25 = null;
                                             str65 = null;
                                             str64 = null;
@@ -5174,7 +5200,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             str55 = null;
                                             str54 = null;
                                             str53 = null;
-                                            i15 = 0;
+                                            i20 = 0;
                                             str52 = null;
                                             str51 = null;
                                             str50 = null;
@@ -5190,7 +5216,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             str71 = null;
                                             str70 = null;
                                             z29 = z37;
-                                            i10 = i14;
+                                            i15 = i19;
                                             str29 = str65;
                                             str32 = str64;
                                             str23 = str63;
@@ -5200,7 +5226,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             str22 = str59;
                                             str39 = str56;
                                             str38 = str55;
-                                            i11 = i15;
+                                            i16 = i20;
                                             str34 = str52;
                                             str33 = str51;
                                             str40 = str50;
@@ -5216,8 +5242,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             str35 = str70;
                                             hashMap = null;
                                             str16 = null;
-                                            i9 = 0;
-                                            c5 = 0;
+                                            i13 = 0;
+                                            i14 = 0;
                                             z10 = false;
                                             z11 = false;
                                             z27 = false;
@@ -5249,7 +5275,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             z37 = false;
                                             z38 = false;
                                             str49 = null;
-                                            i14 = -1;
+                                            i19 = -1;
                                             str25 = null;
                                             str65 = null;
                                             str64 = null;
@@ -5264,7 +5290,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             str55 = null;
                                             str54 = null;
                                             str53 = null;
-                                            i15 = 0;
+                                            i20 = 0;
                                             str52 = null;
                                             str51 = null;
                                             str50 = null;
@@ -5280,7 +5306,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             str71 = null;
                                             str70 = null;
                                             z29 = z37;
-                                            i10 = i14;
+                                            i15 = i19;
                                             str29 = str65;
                                             str32 = str64;
                                             str23 = str63;
@@ -5290,7 +5316,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             str22 = str59;
                                             str39 = str56;
                                             str38 = str55;
-                                            i11 = i15;
+                                            i16 = i20;
                                             str34 = str52;
                                             str33 = str51;
                                             str40 = str50;
@@ -5306,8 +5332,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             str35 = str70;
                                             hashMap = null;
                                             str16 = null;
-                                            i9 = 0;
-                                            c5 = 0;
+                                            i13 = 0;
+                                            i14 = 0;
                                             z10 = false;
                                             z11 = false;
                                             z27 = false;
@@ -5342,7 +5368,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     iArr4 = iArr;
                                                     z37 = false;
                                                     z38 = false;
-                                                    i14 = -1;
+                                                    i19 = -1;
                                                     str25 = null;
                                                     str65 = null;
                                                     str64 = null;
@@ -5357,7 +5383,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     str55 = null;
                                                     str54 = null;
                                                     str53 = null;
-                                                    i15 = 0;
+                                                    i20 = 0;
                                                     str52 = null;
                                                     str51 = null;
                                                     str50 = null;
@@ -5374,7 +5400,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     str71 = null;
                                                     str70 = null;
                                                     z29 = z37;
-                                                    i10 = i14;
+                                                    i15 = i19;
                                                     str29 = str65;
                                                     str32 = str64;
                                                     str23 = str63;
@@ -5384,7 +5410,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     str22 = str59;
                                                     str39 = str56;
                                                     str38 = str55;
-                                                    i11 = i15;
+                                                    i16 = i20;
                                                     str34 = str52;
                                                     str33 = str51;
                                                     str40 = str50;
@@ -5400,8 +5426,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     str35 = str70;
                                                     hashMap = null;
                                                     str16 = null;
-                                                    i9 = 0;
-                                                    c5 = 0;
+                                                    i13 = 0;
+                                                    i14 = 0;
                                                     z10 = false;
                                                     z11 = false;
                                                     z27 = false;
@@ -5433,7 +5459,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     iArr4 = iArr;
                                                     z38 = false;
                                                     str49 = null;
-                                                    i14 = -1;
+                                                    i19 = -1;
                                                     str25 = null;
                                                     str64 = null;
                                                     str63 = null;
@@ -5447,7 +5473,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     str55 = null;
                                                     str54 = null;
                                                     str53 = null;
-                                                    i15 = 0;
+                                                    i20 = 0;
                                                     str52 = null;
                                                     str51 = null;
                                                     str50 = null;
@@ -5471,7 +5497,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     z37 = false;
                                                     z38 = false;
                                                     str49 = null;
-                                                    i14 = -1;
+                                                    i19 = -1;
                                                     str25 = null;
                                                     str65 = null;
                                                     str63 = null;
@@ -5485,7 +5511,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     str55 = null;
                                                     str54 = null;
                                                     str53 = null;
-                                                    i15 = 0;
+                                                    i20 = 0;
                                                     str52 = null;
                                                     str51 = null;
                                                     str50 = null;
@@ -5517,19 +5543,19 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                         z38 = false;
                                                     }
                                                     if (str9.length() > 16384) {
-                                                        i16 = 0;
+                                                        i21 = 0;
                                                         str73 = str9.substring(0, LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM);
                                                     } else {
-                                                        i16 = 0;
+                                                        i21 = 0;
                                                         str73 = str9;
                                                     }
                                                     while (str73.endsWith("\n")) {
-                                                        str73 = str73.substring(i16, str73.length() - 1);
+                                                        str73 = str73.substring(i21, str73.length() - 1);
                                                     }
                                                     str63 = str73;
                                                     z37 = false;
                                                     str49 = null;
-                                                    i14 = -1;
+                                                    i19 = -1;
                                                     str25 = null;
                                                     str65 = null;
                                                     str64 = null;
@@ -5543,7 +5569,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     str55 = null;
                                                     str54 = null;
                                                     str53 = null;
-                                                    i15 = 0;
+                                                    i20 = 0;
                                                     str52 = null;
                                                     str51 = null;
                                                     str50 = null;
@@ -5567,7 +5593,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     z37 = false;
                                                     z38 = false;
                                                     str49 = null;
-                                                    i14 = -1;
+                                                    i19 = -1;
                                                     str25 = null;
                                                     str65 = null;
                                                     str64 = null;
@@ -5580,7 +5606,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     str56 = null;
                                                     str55 = null;
                                                     str53 = null;
-                                                    i15 = 0;
+                                                    i20 = 0;
                                                     str52 = null;
                                                     str51 = null;
                                                     str50 = null;
@@ -5602,7 +5628,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     z37 = false;
                                                     z38 = false;
                                                     str49 = null;
-                                                    i14 = -1;
+                                                    i19 = -1;
                                                     str25 = null;
                                                     str65 = null;
                                                     str64 = null;
@@ -5616,7 +5642,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     str56 = null;
                                                     str55 = null;
                                                     str54 = null;
-                                                    i15 = 0;
+                                                    i20 = 0;
                                                     str52 = null;
                                                     str51 = null;
                                                     str50 = null;
@@ -5638,7 +5664,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     z37 = false;
                                                     z38 = false;
                                                     str49 = null;
-                                                    i14 = -1;
+                                                    i19 = -1;
                                                     str25 = null;
                                                     str65 = null;
                                                     str64 = null;
@@ -5653,7 +5679,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     str55 = null;
                                                     str54 = null;
                                                     str53 = null;
-                                                    i15 = 0;
+                                                    i20 = 0;
                                                     str52 = null;
                                                     str51 = null;
                                                     str66 = null;
@@ -5683,7 +5709,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                         l4 = parseLong;
                                                         z37 = true;
                                                         z38 = false;
-                                                        i14 = -1;
+                                                        i19 = -1;
                                                         str25 = null;
                                                         str65 = null;
                                                         str64 = null;
@@ -5698,7 +5724,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                         str55 = null;
                                                         str54 = null;
                                                         str53 = null;
-                                                        i15 = 0;
+                                                        i20 = 0;
                                                         str52 = null;
                                                         str51 = null;
                                                         str50 = null;
@@ -5719,7 +5745,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     l4 = parseLong;
                                                     z37 = true;
                                                     z38 = false;
-                                                    i14 = -1;
+                                                    i19 = -1;
                                                     str25 = null;
                                                     str65 = null;
                                                     str64 = null;
@@ -5734,7 +5760,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     str55 = null;
                                                     str54 = null;
                                                     str53 = null;
-                                                    i15 = 0;
+                                                    i20 = 0;
                                                     str52 = null;
                                                     str51 = null;
                                                     str50 = null;
@@ -5794,7 +5820,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     iArr4 = iArr;
                                                     z38 = false;
                                                     str49 = null;
-                                                    i14 = -1;
+                                                    i19 = -1;
                                                     str25 = null;
                                                     str65 = null;
                                                     str64 = null;
@@ -5809,7 +5835,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     str55 = null;
                                                     str54 = null;
                                                     str53 = null;
-                                                    i15 = 0;
+                                                    i20 = 0;
                                                     str52 = null;
                                                     str51 = null;
                                                     str50 = null;
@@ -5828,7 +5854,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     z37 = false;
                                                     z38 = false;
                                                     str49 = null;
-                                                    i14 = -1;
+                                                    i19 = -1;
                                                     str25 = null;
                                                     str65 = null;
                                                     str64 = null;
@@ -5843,7 +5869,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     str55 = null;
                                                     str54 = null;
                                                     str53 = null;
-                                                    i15 = 0;
+                                                    i20 = 0;
                                                     str52 = null;
                                                     str51 = null;
                                                     str50 = null;
@@ -5866,18 +5892,18 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     } else if (substring3.length() >= 1) {
                                                         ArrayList arrayList3 = new ArrayList(data.getPathSegments());
                                                         if (arrayList3.size() > 0) {
-                                                            i17 = 0;
+                                                            i22 = 0;
                                                             if (((String) arrayList3.get(0)).equals("s")) {
                                                                 arrayList3.remove(0);
                                                             }
                                                         } else {
-                                                            i17 = 0;
+                                                            i22 = 0;
                                                         }
                                                         if (arrayList3.size() > 0) {
-                                                            str75 = (String) arrayList3.get(i17);
+                                                            str75 = (String) arrayList3.get(i22);
                                                             if (arrayList3.size() >= 3 && "s".equals(arrayList3.get(1))) {
                                                                 try {
-                                                                    i18 = Integer.parseInt((String) arrayList3.get(2));
+                                                                    i23 = Integer.parseInt((String) arrayList3.get(2));
                                                                 } catch (Exception unused11) {
                                                                 }
                                                                 num5 = null;
@@ -5930,19 +5956,19 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                                         num5 = null;
                                                                     }
                                                                     str77 = str90;
-                                                                    i18 = 0;
+                                                                    i23 = 0;
                                                                 } else if (arrayList3.size() == 1) {
                                                                     str76 = data.getQueryParameter("startapp");
-                                                                    i18 = 0;
+                                                                    i23 = 0;
                                                                     num5 = null;
                                                                     str77 = null;
                                                                 }
                                                                 if (num5 != null) {
-                                                                    i19 = getTimestampFromLink(data);
+                                                                    i24 = getTimestampFromLink(data);
                                                                     str78 = str75;
                                                                 } else {
                                                                     str78 = str75;
-                                                                    i19 = -1;
+                                                                    i24 = -1;
                                                                 }
                                                                 str62 = data.getQueryParameter("start");
                                                                 str61 = data.getQueryParameter("startgroup");
@@ -5956,11 +5982,11 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                                 String queryParameter422 = data.getQueryParameter("attach");
                                                                 parseLong2 = Utilities.parseLong(data.getQueryParameter("thread"));
                                                                 if (data.getQuery() != null) {
-                                                                    i15 = i18;
+                                                                    i20 = i23;
                                                                     str52 = str77;
                                                                     z39 = data.getQuery().equals("boost");
                                                                 } else {
-                                                                    i15 = i18;
+                                                                    i20 = i23;
                                                                     str52 = str77;
                                                                     z39 = false;
                                                                 }
@@ -5986,7 +6012,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                                             num4 = num6;
                                                                             l3 = parseLong2;
                                                                             z37 = z39;
-                                                                            i14 = i19;
+                                                                            i19 = i24;
                                                                             str72 = queryParameter402;
                                                                             str70 = queryParameter412;
                                                                             str71 = queryParameter422;
@@ -6010,7 +6036,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                                             num4 = num6;
                                                                             l3 = parseLong2;
                                                                             z37 = z39;
-                                                                            i14 = i19;
+                                                                            i19 = i24;
                                                                             str72 = queryParameter402;
                                                                             str70 = queryParameter412;
                                                                             str71 = queryParameter422;
@@ -6050,7 +6076,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                         } else {
                                                             str75 = null;
                                                         }
-                                                        i18 = 0;
+                                                        i23 = 0;
                                                         num5 = null;
                                                         str77 = null;
                                                         str76 = null;
@@ -6092,7 +6118,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     z37 = false;
                                                     z38 = false;
                                                     str49 = null;
-                                                    i14 = -1;
+                                                    i19 = -1;
                                                     str25 = null;
                                                     str65 = null;
                                                     str64 = null;
@@ -6107,7 +6133,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     str55 = null;
                                                     str54 = null;
                                                     str53 = null;
-                                                    i15 = 0;
+                                                    i20 = 0;
                                                     str52 = null;
                                                     str51 = null;
                                                     str50 = null;
@@ -6124,7 +6150,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     str70 = null;
                                                 }
                                                 z29 = z37;
-                                                i10 = i14;
+                                                i15 = i19;
                                                 str29 = str65;
                                                 str32 = str64;
                                                 str23 = str63;
@@ -6134,7 +6160,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 str22 = str59;
                                                 str39 = str56;
                                                 str38 = str55;
-                                                i11 = i15;
+                                                i16 = i20;
                                                 str34 = str52;
                                                 str33 = str51;
                                                 str40 = str50;
@@ -6150,8 +6176,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 str35 = str70;
                                                 hashMap = null;
                                                 str16 = null;
-                                                i9 = 0;
-                                                c5 = 0;
+                                                i13 = 0;
+                                                i14 = 0;
                                                 z10 = false;
                                                 z11 = false;
                                                 z27 = false;
@@ -6182,7 +6208,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             z37 = false;
                                             z38 = false;
                                             str49 = null;
-                                            i14 = -1;
+                                            i19 = -1;
                                             str65 = null;
                                             str64 = null;
                                             str63 = null;
@@ -6196,7 +6222,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             str55 = null;
                                             str54 = null;
                                             str53 = null;
-                                            i15 = 0;
+                                            i20 = 0;
                                             str52 = null;
                                             str51 = null;
                                             str50 = null;
@@ -6213,7 +6239,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             str71 = null;
                                             str70 = null;
                                             z29 = z37;
-                                            i10 = i14;
+                                            i15 = i19;
                                             str29 = str65;
                                             str32 = str64;
                                             str23 = str63;
@@ -6223,7 +6249,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             str22 = str59;
                                             str39 = str56;
                                             str38 = str55;
-                                            i11 = i15;
+                                            i16 = i20;
                                             str34 = str52;
                                             str33 = str51;
                                             str40 = str50;
@@ -6239,8 +6265,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             str35 = str70;
                                             hashMap = null;
                                             str16 = null;
-                                            i9 = 0;
-                                            c5 = 0;
+                                            i13 = 0;
+                                            i14 = 0;
                                             z10 = false;
                                             z11 = false;
                                             z27 = false;
@@ -6271,7 +6297,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                         z37 = false;
                                         z38 = false;
                                         str49 = null;
-                                        i14 = -1;
+                                        i19 = -1;
                                         str25 = null;
                                         str65 = null;
                                         str64 = null;
@@ -6286,7 +6312,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                         str55 = null;
                                         str54 = null;
                                         str53 = null;
-                                        i15 = 0;
+                                        i20 = 0;
                                         str52 = null;
                                         str51 = null;
                                         str50 = null;
@@ -6302,7 +6328,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                         str71 = null;
                                         str70 = null;
                                         z29 = z37;
-                                        i10 = i14;
+                                        i15 = i19;
                                         str29 = str65;
                                         str32 = str64;
                                         str23 = str63;
@@ -6312,7 +6338,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                         str22 = str59;
                                         str39 = str56;
                                         str38 = str55;
-                                        i11 = i15;
+                                        i16 = i20;
                                         str34 = str52;
                                         str33 = str51;
                                         str40 = str50;
@@ -6328,8 +6354,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                         str35 = str70;
                                         hashMap = null;
                                         str16 = null;
-                                        i9 = 0;
-                                        c5 = 0;
+                                        i13 = 0;
+                                        i14 = 0;
                                         z10 = false;
                                         z11 = false;
                                         z27 = false;
@@ -6359,7 +6385,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                     z37 = false;
                                     z38 = false;
                                     str49 = null;
-                                    i14 = -1;
+                                    i19 = -1;
                                     str25 = null;
                                     str65 = null;
                                     str64 = null;
@@ -6374,7 +6400,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                     str55 = null;
                                     str54 = null;
                                     str53 = null;
-                                    i15 = 0;
+                                    i20 = 0;
                                     str52 = null;
                                     str51 = null;
                                     str50 = null;
@@ -6391,7 +6417,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                     str71 = null;
                                     str70 = null;
                                     z29 = z37;
-                                    i10 = i14;
+                                    i15 = i19;
                                     str29 = str65;
                                     str32 = str64;
                                     str23 = str63;
@@ -6401,7 +6427,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                     str22 = str59;
                                     str39 = str56;
                                     str38 = str55;
-                                    i11 = i15;
+                                    i16 = i20;
                                     str34 = str52;
                                     str33 = str51;
                                     str40 = str50;
@@ -6417,8 +6443,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                     str35 = str70;
                                     hashMap = null;
                                     str16 = null;
-                                    i9 = 0;
-                                    c5 = 0;
+                                    i13 = 0;
+                                    i14 = 0;
                                     z10 = false;
                                     z11 = false;
                                     z27 = false;
@@ -6473,8 +6499,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                 hashMap = null;
                                 str17 = null;
                                 str16 = null;
-                                i9 = 0;
-                                c5 = 0;
+                                i13 = 0;
+                                i14 = 0;
                                 z10 = false;
                                 z11 = false;
                                 z27 = false;
@@ -6493,13 +6519,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                 str40 = null;
                                 str39 = null;
                                 str38 = null;
-                                i10 = -1;
+                                i15 = -1;
                                 str37 = null;
                                 str36 = null;
                                 str35 = null;
                                 str34 = null;
                                 str33 = null;
-                                i11 = 0;
+                                i16 = 0;
                                 z29 = false;
                                 break;
                         }
@@ -6552,7 +6578,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                             str = " ";
                             str11 = str21;
                             iArr3 = iArr4;
-                            runLinkRequest(iArr4[0], str31, str25, str29, str32, str28, str26, str24, str22, str23, str20, str19, z28, num, l2, l, num2, str18, hashMap, str17, str16, str43, str42, tLRPC$TL_wallPaper, str41, str40, str39, str38, 0, i10, str37, str36, str35, str34, str33, progress, booleanExtra, i11, z29);
+                            runLinkRequest(iArr4[0], str31, str25, str29, str32, str28, str26, str24, str22, str23, str20, str19, z28, num, l2, l, num2, str18, hashMap, str17, str16, str43, str42, tLRPC$TL_wallPaper, str41, str40, str39, str38, 0, i15, str37, str36, str35, str34, str33, progress, booleanExtra, i16, z29);
                             launchActivity = this;
                         } else {
                             try {
@@ -6566,10 +6592,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                         long j18 = query.getLong(query.getColumnIndex("data4"));
                                         int intValue4 = Utilities.parseInt((CharSequence) query.getString(query.getColumnIndex("account_name"))).intValue();
                                         try {
-                                            for (int i26 = -1; i26 < 4; i26++) {
-                                                if (i26 == -1) {
+                                            for (int i31 = -1; i31 < 4; i31++) {
+                                                if (i31 == -1) {
                                                     try {
-                                                        i12 = iArr4[0];
+                                                        i17 = iArr4[0];
                                                     } catch (Throwable th5) {
                                                         th = th5;
                                                         try {
@@ -6578,11 +6604,11 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                         }
                                                     }
                                                 } else {
-                                                    i12 = i26;
+                                                    i17 = i31;
                                                 }
-                                                if (i26 != -1 || !MessagesStorage.getInstance(i12).containsLocalDialog(j18)) {
+                                                if (i31 != -1 || !MessagesStorage.getInstance(i17).containsLocalDialog(j18)) {
                                                     try {
-                                                        if (UserConfig.getInstance(i12).getClientUserId() != intValue4) {
+                                                        if (UserConfig.getInstance(i17).getClientUserId() != intValue4) {
                                                             try {
                                                             } catch (Throwable th6) {
                                                                 th = th6;
@@ -6598,7 +6624,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                         throw th;
                                                     }
                                                 }
-                                                iArr4[0] = i12;
+                                                iArr4[0] = i17;
                                                 switchToAccount(iArr4[0], true);
                                                 NotificationCenter.getInstance(iArr4[0]).lambda$postNotificationNameOnUIThread$1(NotificationCenter.closeChats, new Object[0]);
                                                 string = query.getString(query.getColumnIndex("mimetype"));
@@ -6625,8 +6651,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                         str11 = str21;
                                                         j5 = j7;
                                                         j2 = j5;
-                                                        i4 = i9;
-                                                        c = c5;
+                                                        i4 = i13;
+                                                        i5 = i14;
                                                         z16 = z27;
                                                         str3 = str12;
                                                         str4 = str13;
@@ -6733,8 +6759,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     hashMap = null;
                     str17 = null;
                     str16 = null;
-                    i9 = 0;
-                    c5 = 0;
+                    i13 = 0;
+                    i14 = 0;
                     z10 = false;
                     z11 = false;
                     z27 = false;
@@ -6753,13 +6779,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     str40 = null;
                     str39 = null;
                     str38 = null;
-                    i10 = -1;
+                    i15 = -1;
                     str37 = null;
                     str36 = null;
                     str35 = null;
                     str34 = null;
                     str33 = null;
-                    i11 = 0;
+                    i16 = 0;
                     z29 = false;
                     if (intent.hasExtra("actions.fulfillment.extra.ACTION_TOKEN")) {
                     }
@@ -6800,8 +6826,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     iArr3 = iArr;
                     launchActivity = this;
                     j5 = 0;
-                    i9 = 0;
-                    c5 = 0;
+                    i13 = 0;
+                    i14 = 0;
                     z10 = false;
                     z11 = false;
                     z27 = false;
@@ -6816,8 +6842,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     j6 = 0;
                 }
                 j2 = j5;
-                i4 = i9;
-                c = c5;
+                i4 = i13;
+                i5 = i14;
                 z16 = z27;
                 str3 = str12;
                 str4 = str13;
@@ -6841,7 +6867,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 str = " ";
                 int[] iArr6 = iArr;
                 launchActivity = this;
-                int i27 = -1;
+                int i32 = -1;
                 if (intent.getAction().equals("org.telegram.messenger.OPEN_ACCOUNT")) {
                     str2 = "message_id";
                     iArr2 = iArr6;
@@ -6870,7 +6896,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     i3 = 0;
                     i4 = 0;
                     z16 = false;
-                    c = 1;
+                    i5 = 1;
                 } else if (intent.getAction().equals("new_dialog")) {
                     str2 = "message_id";
                     iArr2 = iArr6;
@@ -6899,7 +6925,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     i3 = 0;
                     i4 = 0;
                     z16 = false;
-                    c = 0;
+                    i5 = 0;
                 } else if (intent.getAction().startsWith("com.tmessages.openchat")) {
                     long longExtra = intent.getLongExtra("chatId", 0L);
                     long[] longArrayExtra = intent.getLongArrayExtra("storyDialogIds");
@@ -6908,18 +6934,18 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     int intExtra2 = intent.getIntExtra("appWidgetId", 0);
                     long longExtra2 = intent.getLongExtra("topicId", 0L);
                     if (intExtra2 != 0) {
-                        i27 = intent.getIntExtra("appWidgetType", 0);
+                        i32 = intent.getIntExtra("appWidgetType", 0);
                         longExtra = 0;
                         j2 = 0;
                         longExtra2 = 0;
-                        i7 = intExtra2;
+                        i10 = intExtra2;
                         str10 = "message_id";
                         iArr2 = iArr6;
                         jArr2 = null;
-                        i8 = 0;
-                        i6 = 0;
+                        i12 = 0;
+                        i9 = 0;
                         z7 = false;
-                        c4 = 6;
+                        i11 = 6;
                     } else {
                         str10 = "message_id";
                         int intExtra3 = intent.getIntExtra(str10, 0);
@@ -6930,8 +6956,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                             longExtra = 0;
                             j2 = 0;
                             longExtra2 = 0;
-                            i6 = intExtra3;
-                            i7 = -1;
+                            i9 = intExtra3;
+                            i10 = -1;
                         } else {
                             iArr2 = iArr6;
                             if (longExtra != 0) {
@@ -6946,36 +6972,36 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                 longExtra = 0;
                                 j2 = 0;
                                 longExtra2 = 0;
-                                i6 = intExtra3;
-                                i7 = -1;
+                                i9 = intExtra3;
+                                i10 = -1;
                                 z7 = false;
-                                c4 = 0;
-                                i8 = intExtra;
+                                i11 = 0;
+                                i12 = intExtra;
                                 jArr2 = null;
                             } else {
                                 longExtra = 0;
                                 j2 = 0;
                                 longExtra2 = 0;
-                                i6 = intExtra3;
-                                i7 = -1;
+                                i9 = intExtra3;
+                                i10 = -1;
                                 jArr2 = null;
                             }
-                            i6 = intExtra3;
-                            i7 = -1;
+                            i9 = intExtra3;
+                            i10 = -1;
                             jArr2 = null;
-                            i8 = 0;
+                            i12 = 0;
                             z7 = false;
-                            c4 = 0;
+                            i11 = 0;
                         }
-                        i8 = 0;
+                        i12 = 0;
                         z7 = true;
-                        c4 = 0;
+                        i11 = 0;
                     }
                     j4 = 0;
                     jArr = jArr2;
-                    i3 = i8;
-                    i4 = i6;
-                    c = c4;
+                    i3 = i12;
+                    i4 = i9;
+                    i5 = i11;
                     str3 = null;
                     str4 = null;
                     z5 = false;
@@ -6992,8 +7018,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     str6 = null;
                     z16 = false;
                     String str91 = str10;
-                    i2 = i7;
-                    i = i27;
+                    i2 = i10;
+                    i = i32;
                     long j19 = longExtra;
                     str2 = str91;
                     j = longExtra2;
@@ -7028,7 +7054,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         i3 = 0;
                         i4 = 0;
                         z16 = false;
-                        c = 0;
+                        i5 = 0;
                     } else if (intent.getAction().equals("org.tmessages.openlocations")) {
                         j = 0;
                         j2 = 0;
@@ -7055,7 +7081,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         i3 = 0;
                         i4 = 0;
                         z16 = false;
-                        c = 0;
+                        i5 = 0;
                     } else {
                         if (action.equals("voip_chat")) {
                             j = 0;
@@ -7083,7 +7109,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                             i3 = 0;
                             i4 = 0;
                             z16 = false;
-                            c = 0;
+                            i5 = 0;
                         }
                         j = j15;
                         j2 = j;
@@ -7110,7 +7136,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         i3 = 0;
                         i4 = 0;
                         z16 = false;
-                        c = 0;
+                        i5 = 0;
                     }
                 }
             }
@@ -7135,9 +7161,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                     if (!z11 && !z48) {
                                         Bundle bundle3 = new Bundle();
                                         bundle3.putLong("user_id", j2);
-                                        int i28 = i4;
-                                        if (i28 != 0) {
-                                            bundle3.putInt(str2, i28);
+                                        int i33 = i4;
+                                        if (i33 != 0) {
+                                            bundle3.putInt(str2, i33);
                                         }
                                         if (!mainFragmentsStack.isEmpty()) {
                                             MessagesController messagesController = MessagesController.getInstance(iArr2[0]);
@@ -7157,13 +7183,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                         VoIPPendingCall.startOrSchedule(launchActivity, j2, z48, AccountInstance.getInstance(iArr2[0]));
                                     }
                                 } else {
-                                    int i29 = i4;
+                                    int i34 = i4;
                                     final boolean z49 = z16;
                                     if (j3 != 0) {
                                         Bundle bundle4 = new Bundle();
                                         bundle4.putLong("chat_id", j3);
-                                        if (i29 != 0) {
-                                            bundle4.putInt(str2, i29);
+                                        if (i34 != 0) {
+                                            bundle4.putInt(str2, i34);
                                         }
                                         if (!mainFragmentsStack.isEmpty()) {
                                             MessagesController messagesController2 = MessagesController.getInstance(iArr2[0]);
@@ -7193,10 +7219,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                         z20 = false;
                                     } else {
                                         String str92 = str;
-                                        int i30 = i3;
-                                        if (i30 != 0) {
+                                        int i35 = i3;
+                                        if (i35 != 0) {
                                             Bundle bundle5 = new Bundle();
-                                            bundle5.putInt("enc_id", i30);
+                                            bundle5.putInt("enc_id", i35);
                                             if (getActionBarLayout().presentFragment(new INavigationLayout.NavigationParams(new ChatActivity(bundle5)).setNoAnimation(true))) {
                                                 launchActivity.drawerLayoutContainer.closeDrawer();
                                                 z20 = true;
@@ -7275,36 +7301,36 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                                     didSelectDialogs(null, arrayList6, null, false, null);
                                                                 }
                                                             } else {
-                                                                char c7 = c;
-                                                                if (c7 != 7) {
-                                                                    c2 = '\b';
-                                                                    if (c7 == '\b' || c7 == '\t') {
+                                                                int i36 = i5;
+                                                                if (i36 != 7) {
+                                                                    i7 = 8;
+                                                                    if (i36 == 8 || i36 == 9) {
                                                                         str7 = str3;
                                                                     } else {
-                                                                        if (c7 != 0) {
-                                                                            if (c7 == 1) {
+                                                                        if (i36 != 0) {
+                                                                            if (i36 == 1) {
                                                                                 Bundle bundle6 = new Bundle();
                                                                                 bundle6.putLong("user_id", UserConfig.getInstance(launchActivity.currentAccount).clientUserId);
-                                                                                privacySettingsActivity = new ProfileActivity(bundle6);
-                                                                            } else if (c7 == 2) {
-                                                                                privacySettingsActivity = new ThemeActivity(0);
-                                                                            } else if (c7 == 3) {
-                                                                                privacySettingsActivity = new SessionsActivity(0);
-                                                                            } else if (c7 == 4) {
-                                                                                privacySettingsActivity = new FiltersSetupActivity();
-                                                                            } else if (c7 == 5) {
-                                                                                privacySettingsActivity = new ActionIntroActivity(3);
-                                                                                c3 = 6;
+                                                                                openSettings = new ProfileActivity(bundle6);
+                                                                            } else if (i36 == 2) {
+                                                                                openSettings = new ThemeActivity(0);
+                                                                            } else if (i36 == 3) {
+                                                                                openSettings = new SessionsActivity(0);
+                                                                            } else if (i36 == 4) {
+                                                                                openSettings = new FiltersSetupActivity();
+                                                                            } else if (i36 == 5) {
+                                                                                openSettings = new ActionIntroActivity(3);
+                                                                                i8 = 6;
                                                                                 z23 = true;
-                                                                                if (c7 == c3) {
+                                                                                if (i36 == i8) {
                                                                                     r5 = 1;
-                                                                                    getActionBarLayout().presentFragment(new INavigationLayout.NavigationParams(privacySettingsActivity).setNoAnimation(true));
+                                                                                    getActionBarLayout().presentFragment(new INavigationLayout.NavigationParams(openSettings).setNoAnimation(true));
                                                                                 } else {
                                                                                     r5 = 1;
                                                                                     AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda96
                                                                                         @Override // java.lang.Runnable
                                                                                         public final void run() {
-                                                                                            LaunchActivity.this.lambda$handleIntent$23(privacySettingsActivity, z23);
+                                                                                            LaunchActivity.this.lambda$handleIntent$23(openSettings, z23);
                                                                                         }
                                                                                     });
                                                                                 }
@@ -7316,25 +7342,28 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                                                     launchActivity.drawerLayoutContainer.setAllowOpenDrawer(r5, false);
                                                                                 }
                                                                             } else {
-                                                                                c3 = 6;
-                                                                                if (c7 == 6) {
-                                                                                    privacySettingsActivity = new EditWidgetActivity(i, i2);
-                                                                                } else if (c7 == '\n') {
-                                                                                    privacySettingsActivity = new LanguageSelectActivity();
-                                                                                } else if (c7 == 11) {
-                                                                                    privacySettingsActivity = new AutoDeleteMessagesActivity();
+                                                                                i8 = 6;
+                                                                                if (i36 == 6) {
+                                                                                    openSettings = new EditWidgetActivity(i, i2);
+                                                                                } else if (i36 == 10) {
+                                                                                    openSettings = new LanguageSelectActivity();
+                                                                                } else if (i36 == 11) {
+                                                                                    openSettings = new AutoDeleteMessagesActivity();
+                                                                                } else if (i36 == 12) {
+                                                                                    openSettings = new PrivacySettingsActivity();
                                                                                 } else {
-                                                                                    privacySettingsActivity = c7 == '\f' ? new PrivacySettingsActivity() : null;
+                                                                                    ApplicationLoader applicationLoader = ApplicationLoader.applicationLoaderInstance;
+                                                                                    openSettings = applicationLoader != null ? applicationLoader.openSettings(i36) : null;
                                                                                 }
                                                                                 z23 = false;
-                                                                                if (c7 == c3) {
+                                                                                if (i36 == i8) {
                                                                                 }
                                                                                 if (AndroidUtilities.isTablet()) {
                                                                                 }
                                                                             }
-                                                                            c3 = 6;
+                                                                            i8 = 6;
                                                                             z23 = false;
-                                                                            if (c7 == c3) {
+                                                                            if (i36 == i8) {
                                                                             }
                                                                             if (AndroidUtilities.isTablet()) {
                                                                             }
@@ -7428,8 +7457,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                                                         final String phoneNumber = NewContactBottomSheet.getPhoneNumber(launchActivity, UserConfig.getInstance(launchActivity.currentAccount).getCurrentUser(), str96, false);
                                                                                         lastFragment4.showDialog(new AlertDialog.Builder(lastFragment4.getParentActivity()).setTitle(LocaleController.getString("NewContactAlertTitle", R.string.NewContactAlertTitle)).setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("NewContactAlertMessage", R.string.NewContactAlertMessage, PhoneFormat.getInstance().format(phoneNumber)))).setPositiveButton(LocaleController.getString("NewContactAlertButton", R.string.NewContactAlertButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda12
                                                                                             @Override // android.content.DialogInterface.OnClickListener
-                                                                                            public final void onClick(DialogInterface dialogInterface, int i31) {
-                                                                                                LaunchActivity.this.lambda$handleIntent$29(lastFragment4, phoneNumber, str95, dialogInterface, i31);
+                                                                                            public final void onClick(DialogInterface dialogInterface, int i37) {
+                                                                                                LaunchActivity.this.lambda$handleIntent$29(lastFragment4, phoneNumber, str95, dialogInterface, i37);
                                                                                             }
                                                                                         }).setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null).create());
                                                                                         z20 = true;
@@ -7455,19 +7484,19 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                                     }
                                                                 } else {
                                                                     str7 = str3;
-                                                                    c2 = '\b';
+                                                                    i7 = 8;
                                                                 }
                                                                 if (!BuildVars.DEBUG_PRIVATE_VERSION) {
                                                                     str8 = "Locked in release.";
-                                                                } else if (c7 == 7) {
+                                                                } else if (i36 == 7) {
                                                                     SharedPreferences.Editor edit = ApplicationLoader.applicationContext.getSharedPreferences("systemConfig", 0).edit();
                                                                     BuildVars.LOGS_ENABLED = true;
                                                                     edit.putBoolean("logsEnabled", true).commit();
                                                                     str8 = "Logs enabled.";
                                                                 } else {
-                                                                    if (c7 == c2) {
+                                                                    if (i36 == i7) {
                                                                         ProfileActivity.sendLogs(launchActivity, false);
-                                                                    } else if (c7 == '\t') {
+                                                                    } else if (i36 == 9) {
                                                                         SharedPreferences.Editor edit2 = ApplicationLoader.applicationContext.getSharedPreferences("systemConfig", 0).edit();
                                                                         BuildVars.LOGS_ENABLED = false;
                                                                         edit2.putBoolean("logsEnabled", false).commit();
@@ -7493,17 +7522,17 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                                             dialogsActivity2.setInitialSearchString(str7);
                                                                         }
                                                                         launchActivity.actionBarLayout.addFragmentToStack(dialogsActivity2, -2);
-                                                                        i5 = 1;
+                                                                        i6 = 1;
                                                                         launchActivity.drawerLayoutContainer.setAllowOpenDrawer(true, false);
                                                                         if (z4) {
-                                                                            launchActivity.actionBarLayout.rebuildFragments(i5);
+                                                                            launchActivity.actionBarLayout.rebuildFragments(i6);
                                                                             if (AndroidUtilities.isTablet()) {
-                                                                                launchActivity.layersActionBarLayout.rebuildFragments(i5);
-                                                                                launchActivity.rightActionBarLayout.rebuildFragments(i5);
+                                                                                launchActivity.layersActionBarLayout.rebuildFragments(i6);
+                                                                                launchActivity.rightActionBarLayout.rebuildFragments(i6);
                                                                             }
                                                                         }
                                                                     }
-                                                                    i5 = 1;
+                                                                    i6 = 1;
                                                                     if (z4) {
                                                                     }
                                                                 } else {
@@ -7518,13 +7547,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                                                 dialogsActivity3.setInitialSearchString(str7);
                                                                             }
                                                                             launchActivity.actionBarLayout.addFragmentToStack(dialogsActivity3, -2);
-                                                                            i5 = 1;
+                                                                            i6 = 1;
                                                                             launchActivity.drawerLayoutContainer.setAllowOpenDrawer(true, false);
                                                                             if (z4) {
                                                                             }
                                                                         }
                                                                     }
-                                                                    i5 = 1;
+                                                                    i6 = 1;
                                                                     if (z4) {
                                                                     }
                                                                 }
@@ -7634,7 +7663,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         i3 = 0;
         i4 = 0;
         z16 = false;
-        c = 0;
+        i5 = 0;
         if (UserConfig.getInstance(launchActivity.currentAccount).isClientActivated()) {
         }
         str7 = str3;
@@ -11225,6 +11254,11 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     public final void didSelectContact(TLRPC$User tLRPC$User, boolean z11, int i4) {
                         LaunchActivity.this.lambda$didSelectDialogs$124(chatActivity5, arrayList, currentAccount, charSequence, z10, tLRPC$User, z11, i4);
                     }
+
+                    @Override // org.telegram.ui.Components.ChatAttachAlertContactsLayout.PhonebookShareAlertDelegate
+                    public /* synthetic */ void didSelectContacts(ArrayList arrayList12, String str6, boolean z11, int i4) {
+                        ChatAttachAlertContactsLayout.PhonebookShareAlertDelegate.-CC.$default$didSelectContacts(this, arrayList12, str6, z11, i4);
+                    }
                 });
                 ArrayList<BaseFragment> arrayList12 = mainFragmentsStack;
                 arrayList12.get(arrayList12.size() - 1).showDialog(phonebookShareAlert);
@@ -11729,7 +11763,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         for (PasscodeView passcodeView2 : this.overlayPasscodeViews) {
             passcodeView2.onPause();
         }
-        ConnectionsManager.getInstance(this.currentAccount).setAppPaused(true, false);
+        ApplicationLoader applicationLoader = ApplicationLoader.applicationLoaderInstance;
+        ConnectionsManager.getInstance(this.currentAccount).setAppPaused(!(applicationLoader != null ? applicationLoader.onPause() : false), false);
         if (PhotoViewer.hasInstance() && PhotoViewer.getInstance().isVisible()) {
             PhotoViewer.getInstance().onPause();
         }
@@ -11929,6 +11964,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         }
         invalidateTabletMode();
         SpoilerEffect2.pause(false);
+        ApplicationLoader applicationLoader = ApplicationLoader.applicationLoaderInstance;
+        if (applicationLoader != null) {
+            applicationLoader.onResume();
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */

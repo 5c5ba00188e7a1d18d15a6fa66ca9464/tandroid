@@ -1,7 +1,7 @@
 package org.telegram.messenger.audioinfo.mp3;
 
 import java.nio.charset.Charset;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public enum ID3v2Encoding {
     ISO_8859_1(Charset.forName("ISO-8859-1"), 1),
     UTF_16(Charset.forName("UTF-16"), 2),

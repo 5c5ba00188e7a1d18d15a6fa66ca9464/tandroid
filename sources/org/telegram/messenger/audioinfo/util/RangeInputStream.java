@@ -2,7 +2,7 @@ package org.telegram.messenger.audioinfo.util;
 
 import java.io.IOException;
 import java.io.InputStream;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class RangeInputStream extends PositionInputStream {
     private final long endPosition;
 

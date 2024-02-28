@@ -8,14 +8,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.telegram.messenger.R;
 import org.telegram.messenger.audioinfo.AudioInfo;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class ID3v2Info extends AudioInfo {
     static final Logger LOGGER = Logger.getLogger(ID3v2Info.class.getName());
     private byte coverPictureType;
     private final Level debugLevel;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class AttachedPicture {
         final byte[] imageData;
         final byte type;
@@ -27,7 +27,7 @@ public class ID3v2Info extends AudioInfo {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class CommentOrUnsynchronizedLyrics {
         final String description;
         final String text;

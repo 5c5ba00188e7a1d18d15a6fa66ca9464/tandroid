@@ -3550,8 +3550,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             final WebpageAdapter webpageAdapter = new WebpageAdapter(this.parentActivity);
             webpageAdapterArr[i2] = webpageAdapter;
             this.listView[i2] = new RecyclerListView(activity) { // from class: org.telegram.ui.ArticleViewer.8
+                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
-                protected void onLayout(boolean z, int i3, int i4, int i5, int i6) {
+                public void onLayout(boolean z, int i3, int i4, int i5, int i6) {
                     super.onLayout(z, i3, i4, i5, i6);
                     int childCount = getChildCount();
                     for (int i7 = 0; i7 < childCount; i7++) {
@@ -3600,8 +3601,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     }
                 }
 
+                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
-                protected void dispatchDraw(Canvas canvas) {
+                public void dispatchDraw(Canvas canvas) {
                     ArticleViewer.this.checkVideoPlayer();
                     super.dispatchDraw(canvas);
                 }

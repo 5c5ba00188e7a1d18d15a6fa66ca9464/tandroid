@@ -1,12 +1,12 @@
 package org.telegram.messenger.audioinfo.mp3;
 
 import org.telegram.messenger.OneUIUtilities;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class MP3Frame {
     private final byte[] bytes;
     private final Header header;
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     static final class CRC16 {
         private short crc = -1;
 
@@ -37,7 +37,7 @@ public class MP3Frame {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class Header {
         private final int bitrate;
         private final int channelMode;

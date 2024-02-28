@@ -4,7 +4,7 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import org.telegram.messenger.audioinfo.AudioInfo;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class ID3v1Info extends AudioInfo {
     public static boolean isID3v1StartPosition(InputStream inputStream) throws IOException {
         boolean z;

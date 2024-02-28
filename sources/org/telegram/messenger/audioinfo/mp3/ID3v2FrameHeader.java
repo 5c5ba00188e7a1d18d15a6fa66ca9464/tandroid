@@ -1,7 +1,7 @@
 package org.telegram.messenger.audioinfo.mp3;
 
 import java.io.IOException;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class ID3v2FrameHeader {
     private int bodySize;
     private boolean compression;

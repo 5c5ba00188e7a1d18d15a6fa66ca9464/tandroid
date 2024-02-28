@@ -11,8 +11,8 @@ public final /* synthetic */ class ChatActivity$$ExternalSyntheticLambda279 impl
 
     @Override // java.util.Comparator
     public final int compare(Object obj, Object obj2) {
-        int lambda$checkGroupMessagesOrder$328;
-        lambda$checkGroupMessagesOrder$328 = ChatActivity.lambda$checkGroupMessagesOrder$328((MessageObject) obj, (MessageObject) obj2);
-        return lambda$checkGroupMessagesOrder$328;
+        int lambda$updateFilteredMessages$67;
+        lambda$updateFilteredMessages$67 = ChatActivity.lambda$updateFilteredMessages$67((MessageObject) obj, (MessageObject) obj2);
+        return lambda$updateFilteredMessages$67;
     }
 }

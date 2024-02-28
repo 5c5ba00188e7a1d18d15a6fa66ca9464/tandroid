@@ -211,7 +211,7 @@ public class GroupColorActivity extends ChannelColorActivity {
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onGlobalLayout$0(View view) {
-            GroupColorActivity.this.openBoostDialog();
+            GroupColorActivity.this.openBoostDialog(19);
         }
     }
 
@@ -286,8 +286,8 @@ public class GroupColorActivity extends ChannelColorActivity {
         });
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public void openBoostDialog() {
+    @Override // org.telegram.ui.ChannelColorActivity
+    protected void openBoostDialog(final int i) {
         if (this.boostsStatus == null || this.isLoading) {
             return;
         }
@@ -295,18 +295,18 @@ public class GroupColorActivity extends ChannelColorActivity {
         MessagesController.getInstance(this.currentAccount).getBoostsController().userCanBoostChannel(this.dialogId, this.boostsStatus, new Consumer() { // from class: org.telegram.ui.GroupColorActivity$$ExternalSyntheticLambda0
             @Override // com.google.android.exoplayer2.util.Consumer
             public final void accept(Object obj) {
-                GroupColorActivity.this.lambda$openBoostDialog$0((ChannelBoostsController.CanApplyBoost) obj);
+                GroupColorActivity.this.lambda$openBoostDialog$0(i, (ChannelBoostsController.CanApplyBoost) obj);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$openBoostDialog$0(ChannelBoostsController.CanApplyBoost canApplyBoost) {
+    public /* synthetic */ void lambda$openBoostDialog$0(int i, ChannelBoostsController.CanApplyBoost canApplyBoost) {
         if (canApplyBoost == null || getContext() == null) {
             this.isLoading = false;
             return;
         }
-        LimitReachedBottomSheet limitReachedBottomSheet = new LimitReachedBottomSheet(this, getContext(), 19, this.currentAccount, this.resourceProvider) { // from class: org.telegram.ui.GroupColorActivity.4
+        LimitReachedBottomSheet limitReachedBottomSheet = new LimitReachedBottomSheet(this, getContext(), i, this.currentAccount, this.resourceProvider) { // from class: org.telegram.ui.GroupColorActivity.4
             @Override // org.telegram.ui.ActionBar.BottomSheet
             public void onOpenAnimationEnd() {
                 GroupColorActivity.this.isLoading = false;

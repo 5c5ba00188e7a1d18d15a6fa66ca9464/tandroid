@@ -4,7 +4,7 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.math.BigDecimal;
 import org.telegram.messenger.audioinfo.util.RangeInputStream;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class MP4Atom extends MP4Box<RangeInputStream> {
     public MP4Atom(RangeInputStream rangeInputStream, MP4Box<?> mP4Box, String str) {
         super(rangeInputStream, mP4Box, str);

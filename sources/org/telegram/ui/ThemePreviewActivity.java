@@ -3732,7 +3732,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             if (chat != null) {
                 this.applyButton1.setText(LocaleController.formatString(R.string.ApplyWallpaperForChannel, chat.title));
                 TL_stories$TL_premium_boostsStatus tL_stories$TL_premium_boostsStatus = this.boostsStatus;
-                if (tL_stories$TL_premium_boostsStatus != null && tL_stories$TL_premium_boostsStatus.level < getMessagesController().channelCustomWallpaperLevelMin) {
+                if (tL_stories$TL_premium_boostsStatus != null && tL_stories$TL_premium_boostsStatus.level < getCustomWallpaperLevelMin()) {
                     SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder("l");
                     if (this.lockSpan == null) {
                         ColoredImageSpan coloredImageSpan = new ColoredImageSpan(R.drawable.mini_switch_lock);
@@ -3740,13 +3740,14 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                         coloredImageSpan.setTopOffset(1);
                     }
                     spannableStringBuilder.setSpan(this.lockSpan, 0, 1, 33);
-                    spannableStringBuilder.append((CharSequence) " ").append((CharSequence) LocaleController.formatPluralString("ReactionLevelRequiredBtn", getMessagesController().channelCustomWallpaperLevelMin, new Object[0]));
+                    spannableStringBuilder.append((CharSequence) " ").append((CharSequence) LocaleController.formatPluralString("ReactionLevelRequiredBtn", getCustomWallpaperLevelMin(), new Object[0]));
                     this.applyButton1.setSubText(spannableStringBuilder, z);
                     return;
                 } else if (this.boostsStatus == null) {
                     checkBoostsLevel();
                     return;
                 } else {
+                    this.applyButton1.setSubText(null, z);
                     return;
                 }
             }
@@ -3756,18 +3757,25 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:129:0x02aa  */
-    /* JADX WARN: Removed duplicated region for block: B:130:0x02bc  */
-    /* JADX WARN: Removed duplicated region for block: B:156:0x035e  */
-    /* JADX WARN: Removed duplicated region for block: B:162:0x0372  */
-    /* JADX WARN: Removed duplicated region for block: B:196:0x03e4  */
-    /* JADX WARN: Removed duplicated region for block: B:201:0x03fe  */
-    /* JADX WARN: Removed duplicated region for block: B:207:0x0416  */
-    /* JADX WARN: Removed duplicated region for block: B:237:0x0599  */
-    /* JADX WARN: Removed duplicated region for block: B:240:0x059f  */
-    /* JADX WARN: Removed duplicated region for block: B:259:0x027f A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    private int getCustomWallpaperLevelMin() {
+        if (ChatObject.isChannelAndNotMegaGroup(-this.dialogId, this.currentAccount)) {
+            return getMessagesController().channelCustomWallpaperLevelMin;
+        }
+        return getMessagesController().groupCustomWallpaperLevelMin;
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:129:0x02a8  */
+    /* JADX WARN: Removed duplicated region for block: B:130:0x02ba  */
+    /* JADX WARN: Removed duplicated region for block: B:156:0x035c  */
+    /* JADX WARN: Removed duplicated region for block: B:162:0x0370  */
+    /* JADX WARN: Removed duplicated region for block: B:196:0x03e2  */
+    /* JADX WARN: Removed duplicated region for block: B:201:0x03fc  */
+    /* JADX WARN: Removed duplicated region for block: B:207:0x0414  */
+    /* JADX WARN: Removed duplicated region for block: B:237:0x0597  */
+    /* JADX WARN: Removed duplicated region for block: B:240:0x059d  */
+    /* JADX WARN: Removed duplicated region for block: B:257:0x027d A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:263:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x00d2  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x00d0  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3798,7 +3806,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         TLRPC$UserFull userFull;
         if (this.dialogId < 0) {
             TL_stories$TL_premium_boostsStatus tL_stories$TL_premium_boostsStatus = this.boostsStatus;
-            if (tL_stories$TL_premium_boostsStatus != null && tL_stories$TL_premium_boostsStatus.level < getMessagesController().channelCustomWallpaperLevelMin) {
+            if (tL_stories$TL_premium_boostsStatus != null && tL_stories$TL_premium_boostsStatus.level < getCustomWallpaperLevelMin()) {
                 getMessagesController().getBoostsController().userCanBoostChannel(this.dialogId, this.boostsStatus, new Consumer() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda17
                     @Override // com.google.android.exoplayer2.util.Consumer
                     public final void accept(Object obj3) {
@@ -4896,6 +4904,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean onFragmentCreate() {
+        NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.chatWasBoostedByUser);
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.emojiLoaded);
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.invalidateMotionBackground);
         getNotificationCenter().addObserver(this, NotificationCenter.wallpaperSettedToUser);
@@ -4930,6 +4939,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onFragmentDestroy() {
+        NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.chatWasBoostedByUser);
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.emojiLoaded);
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.invalidateMotionBackground);
         getNotificationCenter().removeObserver(this, NotificationCenter.wallpaperSettedToUser);
@@ -5197,7 +5207,12 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     public void didReceivedNotification(int i, int i2, Object... objArr) {
         TLRPC$TL_wallPaper tLRPC$TL_wallPaper;
         String str;
-        if (i == NotificationCenter.emojiLoaded) {
+        if (i == NotificationCenter.chatWasBoostedByUser) {
+            if (this.dialogId == ((Long) objArr[2]).longValue()) {
+                this.boostsStatus = (TL_stories$TL_premium_boostsStatus) objArr[0];
+                updateApplyButton1(true);
+            }
+        } else if (i == NotificationCenter.emojiLoaded) {
             RecyclerListView recyclerListView = this.listView;
             if (recyclerListView == null) {
                 return;

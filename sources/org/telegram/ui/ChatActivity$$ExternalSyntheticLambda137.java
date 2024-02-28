@@ -11,6 +11,6 @@ public final /* synthetic */ class ChatActivity$$ExternalSyntheticLambda137 impl
 
     @Override // com.google.android.exoplayer2.util.Consumer
     public final void accept(Object obj) {
-        ChatActivity.lambda$didReceivedNotification$155((View) obj);
+        ChatActivity.lambda$didReceivedNotification$156((View) obj);
     }
 }

@@ -49,7 +49,7 @@ import org.telegram.ui.ActionBar.INavigationLayout;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.Stories.StoryViewer;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public abstract class BaseFragment {
     protected ActionBar actionBar;
     protected Bundle arguments;
