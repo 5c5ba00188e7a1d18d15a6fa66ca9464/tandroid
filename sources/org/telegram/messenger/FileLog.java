@@ -489,7 +489,7 @@ public class FileLog {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class IgnoreSentException extends Exception {
         public IgnoreSentException(String str) {
             super(str);

@@ -1707,7 +1707,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         return this.videoTextureView;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:117:0x02ff, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:117:0x0301, code lost:
         if (r12.exists() != false) goto L122;
      */
     /*
@@ -2953,7 +2953,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                 EmbedBottomSheet.show(channelAdminLogActivity, messageObject, channelAdminLogActivity.provider, str2, str3, str4, str, i, i2, false);
             }
 
-            /* JADX WARN: Code restructure failed: missing block: B:50:0x011c, code lost:
+            /* JADX WARN: Code restructure failed: missing block: B:50:0x011d, code lost:
                 if (r11.exists() != false) goto L36;
              */
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate

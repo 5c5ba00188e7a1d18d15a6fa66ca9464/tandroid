@@ -32,7 +32,7 @@ import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$WebPage;
 import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.MessagePreviewView;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class MessagePreviewParams {
     public CharacterStyle currentLink;
     public Messages forwardMessages;
@@ -60,7 +60,7 @@ public class MessagePreviewParams {
     public boolean webpageTop;
     public boolean willSeeSenders;
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class PreviewMediaPoll extends TLRPC$TL_messageMediaPoll {
         public int totalVotersCached;
     }
@@ -72,7 +72,7 @@ public class MessagePreviewParams {
         return arrayList;
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public class Messages {
         private long dialogId;
         public LongSparseArray<MessageObject.GroupedMessages> groupedMessagesMap;

@@ -15,7 +15,7 @@ import org.json.JSONObject;
 import org.telegram.messenger.SegmentTree;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.ActionBar.ThemeColors;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ChartData {
     public String[] daysLookup;
     public ArrayList<Line> lines = new ArrayList<>();
@@ -223,7 +223,7 @@ public class ChartData {
         return i2;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class Line {
         public int colorKey;
         public String id;

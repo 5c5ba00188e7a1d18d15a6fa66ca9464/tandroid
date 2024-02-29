@@ -12,7 +12,7 @@ import org.telegram.messenger.LocationController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.ui.LaunchActivity;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class LocationSharingService extends Service implements NotificationCenter.NotificationCenterDelegate {
     private NotificationCompat.Builder builder;
     private Handler handler;

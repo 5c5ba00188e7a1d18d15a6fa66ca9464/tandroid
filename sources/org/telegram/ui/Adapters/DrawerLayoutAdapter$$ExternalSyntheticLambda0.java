@@ -1,7 +1,7 @@
 package org.telegram.ui.Adapters;
 
 import java.util.Comparator;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public final /* synthetic */ class DrawerLayoutAdapter$$ExternalSyntheticLambda0 implements Comparator {
     public static final /* synthetic */ DrawerLayoutAdapter$$ExternalSyntheticLambda0 INSTANCE = new DrawerLayoutAdapter$$ExternalSyntheticLambda0();
 

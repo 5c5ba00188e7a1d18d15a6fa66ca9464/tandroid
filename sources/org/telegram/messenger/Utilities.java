@@ -35,52 +35,62 @@ public class Utilities {
     public static volatile DispatchQueue externalNetworkQueue = new DispatchQueue("externalNetworkQueue");
     protected static final char[] hexArray = "0123456789ABCDEF".toCharArray();
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public interface Callback<T> {
         void run(T t);
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public interface Callback0Return<ReturnType> {
         ReturnType run();
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public interface Callback2<T, T2> {
         void run(T t, T2 t2);
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public interface Callback2Return<T1, T2, ReturnType> {
         ReturnType run(T1 t1, T2 t2);
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public interface Callback3<T, T2, T3> {
         void run(T t, T2 t2, T3 t3);
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public interface Callback3Return<T1, T2, T3, ReturnType> {
         ReturnType run(T1 t1, T2 t2, T3 t3);
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public interface Callback4<T, T2, T3, T4> {
         void run(T t, T2 t2, T3 t3, T4 t4);
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
+    public interface Callback4Return<T, T2, T3, T4, ReturnType> {
+        ReturnType run(T t, T2 t2, T3 t3, T4 t4);
+    }
+
+    /* loaded from: classes3.dex */
     public interface Callback5<T, T2, T3, T4, T5> {
         void run(T t, T2 t2, T3 t3, T4 t4, T5 t5);
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
+    public interface Callback5Return<T, T2, T3, T4, T5, ReturnType> {
+        ReturnType run(T t, T2 t2, T3 t3, T4 t4, T5 t5);
+    }
+
+    /* loaded from: classes3.dex */
     public interface CallbackReturn<Arg, ReturnType> {
         ReturnType run(Arg arg);
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public interface CallbackVoidReturn<ReturnType> {
         ReturnType run();
     }

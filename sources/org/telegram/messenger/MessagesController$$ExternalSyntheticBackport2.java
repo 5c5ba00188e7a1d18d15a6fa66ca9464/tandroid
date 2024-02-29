@@ -1,5 +1,5 @@
 package org.telegram.messenger;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public final /* synthetic */ class MessagesController$$ExternalSyntheticBackport2 {
     public static /* synthetic */ long m(long j, long j2) {
         if (j2 < 0) {

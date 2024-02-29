@@ -18,7 +18,7 @@ import org.telegram.ui.Charts.view_data.LegendSignatureView;
 import org.telegram.ui.Charts.view_data.LineViewData;
 import org.telegram.ui.Charts.view_data.PieLegendView;
 import org.telegram.ui.Charts.view_data.TransitionParams;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class PieChartView extends StackLinearChartView<PieChartViewData> {
     float MAX_TEXT_SIZE;
     float MIN_TEXT_SIZE;

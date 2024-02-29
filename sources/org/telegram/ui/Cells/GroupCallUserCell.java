@@ -50,7 +50,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.Components.RadialProgressView;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class GroupCallUserCell extends FrameLayout {
     private AccountInstance accountInstance;
     private AnimatorSet animatorSet;
@@ -220,7 +220,7 @@ public class GroupCallUserCell extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class VerifiedDrawable extends Drawable {
         private Drawable[] drawables;
 
@@ -1160,7 +1160,7 @@ public class GroupCallUserCell extends FrameLayout {
         super.dispatchDraw(canvas);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class AvatarWavesDrawable {
         float amplitude;
         float animateAmplitudeDiff;

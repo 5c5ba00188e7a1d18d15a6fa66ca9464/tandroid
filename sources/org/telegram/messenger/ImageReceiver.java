@@ -47,7 +47,7 @@ import org.telegram.ui.Components.LoadingStickerDrawable;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.RecyclableDrawable;
 import org.telegram.ui.Components.VectorAvatarThumbDrawable;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class ImageReceiver implements NotificationCenter.NotificationCenterDelegate {
     public static final int DEFAULT_CROSSFADE_DURATION = 150;
     private static final int TYPE_CROSSFDADE = 2;
@@ -176,7 +176,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
     private static PorterDuffColorFilter selectedGroupColorFilter = new PorterDuffColorFilter(-4473925, PorterDuff.Mode.MULTIPLY);
     private static final float[] radii = new float[8];
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static abstract class Decorator {
         public void onAttachedToWindow(ImageReceiver imageReceiver) {
         }
@@ -187,10 +187,10 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         protected abstract void onDraw(Canvas canvas, ImageReceiver imageReceiver);
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public interface ImageReceiverDelegate {
 
-        /* loaded from: classes.dex */
+        /* loaded from: classes3.dex */
         public final /* synthetic */ class -CC {
             public static void $default$onAnimationReady(ImageReceiverDelegate imageReceiverDelegate, ImageReceiver imageReceiver) {
             }
@@ -246,7 +246,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         this.allowDrawWhileCacheGenerating = z;
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class BitmapHolder {
         public Bitmap bitmap;
         public Drawable drawable;
@@ -337,7 +337,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class SetImageBackup {
         public int cacheType;
         public String ext;
@@ -3689,7 +3689,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class BackgroundThreadDrawHolder {
         private AnimatedFileDrawable animation;
         public boolean animationNotReady;
@@ -3772,7 +3772,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class ReactionLastFrame extends BitmapDrawable {
         public static final float LAST_FRAME_SCALE = 1.2f;
 

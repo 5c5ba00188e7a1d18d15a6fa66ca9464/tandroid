@@ -10,6 +10,6 @@ public final /* synthetic */ class PremiumPreviewFragment$$ExternalSyntheticLamb
 
     @Override // android.view.View.OnClickListener
     public final void onClick(View view) {
-        PremiumPreviewFragment.lambda$updateButtonText$12(view);
+        PremiumPreviewFragment.lambda$updateButtonText$14(view);
     }
 }

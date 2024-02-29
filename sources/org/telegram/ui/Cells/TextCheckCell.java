@@ -28,7 +28,7 @@ import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.Components.Switch;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class TextCheckCell extends FrameLayout {
     public static final Property<TextCheckCell, Float> ANIMATION_PROGRESS = new AnimationProperties.FloatProperty<TextCheckCell>("animationProgress") { // from class: org.telegram.ui.Cells.TextCheckCell.1
         @Override // org.telegram.ui.Components.AnimationProperties.FloatProperty
@@ -54,6 +54,7 @@ public class TextCheckCell extends FrameLayout {
     private boolean isAnimatingToThumbInsteadOfTouch;
     private boolean isMultiline;
     private boolean isRTL;
+    public int itemId;
     private float lastTouchX;
     private boolean needDivider;
     private int padding;
@@ -281,12 +282,14 @@ public class TextCheckCell extends FrameLayout {
 
     @Override // android.view.View
     public void setBackgroundColor(int i) {
-        clearAnimation();
-        this.animatedColorBackground = 0;
-        super.setBackgroundColor(i);
+        if (this.animatedColorBackground != i) {
+            clearAnimation();
+            this.animatedColorBackground = 0;
+            super.setBackgroundColor(i);
+        }
     }
 
-    public void setBackgroundColorAnimated(boolean z, int i) {
+    public void setBackgroundColorAnimated(boolean z, final int i) {
         ObjectAnimator objectAnimator = this.animator;
         if (objectAnimator != null) {
             objectAnimator.cancel();
@@ -308,9 +311,8 @@ public class TextCheckCell extends FrameLayout {
         ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.TextCheckCell.2
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
-                TextCheckCell textCheckCell = TextCheckCell.this;
-                textCheckCell.setBackgroundColor(textCheckCell.animatedColorBackground);
                 TextCheckCell.this.animatedColorBackground = 0;
+                TextCheckCell.this.setBackgroundColor(i);
                 TextCheckCell.this.invalidate();
             }
         });

@@ -18,7 +18,7 @@ import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.Forum.ForumBubbleDrawable;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.LetterDrawable;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ShareTopicCell extends FrameLayout {
     private int currentAccount;
     private long currentDialog;

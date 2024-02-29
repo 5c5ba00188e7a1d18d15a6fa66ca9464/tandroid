@@ -149,7 +149,7 @@ public final class MediaCodecInfo {
                 i |= LiteMode.FLAG_CALLS_ANIMATIONS;
             }
             if (!Util.areEqual(format.colorInfo, format2.colorInfo)) {
-                i |= LiteMode.FLAG_AUTOPLAY_GIFS;
+                i |= 2048;
             }
             if (needsAdaptationReconfigureWorkaround(this.name) && !format.initializationDataEquals(format2)) {
                 i |= 2;

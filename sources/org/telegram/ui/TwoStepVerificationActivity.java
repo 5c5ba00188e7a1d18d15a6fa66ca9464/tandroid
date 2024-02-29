@@ -211,19 +211,19 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
     /* JADX WARN: Removed duplicated region for block: B:32:0x032d  */
     /* JADX WARN: Removed duplicated region for block: B:33:0x0330  */
     /* JADX WARN: Removed duplicated region for block: B:36:0x035b  */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x0401  */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0404  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x0408  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x040b  */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x042a  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x0460  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x0465  */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x046b  */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x046e  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x0538  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x0554  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x0573  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x0588  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x0402  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0405  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x0409  */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x040c  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x042b  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x0461  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x0466  */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x046c  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x046f  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0539  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x0555  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0574  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x0589  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.

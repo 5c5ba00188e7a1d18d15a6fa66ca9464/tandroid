@@ -80,10 +80,10 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:78:0x01c7  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x01e7  */
-    /* JADX WARN: Removed duplicated region for block: B:82:0x01ee A[LOOP:0: B:25:0x00ac->B:82:0x01ee, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x01aa A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x01bf  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x01df  */
+    /* JADX WARN: Removed duplicated region for block: B:82:0x01e6 A[LOOP:0: B:25:0x00a4->B:82:0x01e6, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:84:0x01a2 A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -363,8 +363,8 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         return new Period(str, j, list, list2, descriptor);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:71:0x030f A[LOOP:0: B:3:0x007e->B:71:0x030f, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x02d0 A[EDGE_INSN: B:72:0x02d0->B:65:0x02d0 ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x030e A[LOOP:0: B:3:0x007d->B:71:0x030e, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x02cf A[EDGE_INSN: B:72:0x02cf->B:65:0x02cf ?: BREAK  , SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -617,9 +617,9 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         return "image".equals(attributeValue) ? 4 : -1;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:49:0x00bb  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x00c2  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x0122  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x00b9  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x00c0  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x011e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -754,8 +754,8 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         maybeSkipTag(xmlPullParser);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:57:0x01f0 A[LOOP:0: B:3:0x006c->B:57:0x01f0, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x019a A[EDGE_INSN: B:58:0x019a->B:47:0x019a ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x01ef A[LOOP:0: B:3:0x006b->B:57:0x01ef, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x0199 A[EDGE_INSN: B:58:0x0199->B:47:0x0199 ?: BREAK  , SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1589,7 +1589,7 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
             case 1:
                 return LiteMode.FLAG_CALLS_ANIMATIONS;
             case 2:
-                return LiteMode.FLAG_AUTOPLAY_GIFS;
+                return 2048;
             case 4:
                 return 2;
             case 6:
@@ -1652,7 +1652,7 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
             case 0:
                 return LiteMode.FLAG_CALLS_ANIMATIONS;
             case 1:
-                return LiteMode.FLAG_AUTOPLAY_GIFS;
+                return 2048;
             case 2:
                 return 4;
             case 3:

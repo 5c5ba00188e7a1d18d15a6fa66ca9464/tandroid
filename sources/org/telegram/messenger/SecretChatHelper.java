@@ -114,7 +114,7 @@ import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$messages_DhConfig;
 import org.telegram.tgnet.TLRPC$messages_SentEncryptedMessage;
 import org.telegram.ui.ActionBar.AlertDialog;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class SecretChatHelper extends BaseController {
     public static int CURRENT_SECRET_CHAT_LAYER = 151;
     private static volatile SecretChatHelper[] Instance = new SecretChatHelper[4];
@@ -127,7 +127,7 @@ public class SecretChatHelper extends BaseController {
     private ArrayList<Integer> sendingNotifyLayer;
     private boolean startingSecretChat;
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class TL_decryptedMessageHolder extends TLObject {
         public static int constructor = 1431655929;
         public int date;
@@ -555,7 +555,7 @@ public class SecretChatHelper extends BaseController {
                 messageObject.wasJustSent = true;
                 ArrayList<MessageObject> arrayList = new ArrayList<>();
                 arrayList.add(messageObject);
-                getMessagesController().updateInterfaceWithMessages(tLRPC$Message.dialog_id, arrayList, false);
+                getMessagesController().updateInterfaceWithMessages(tLRPC$Message.dialog_id, arrayList, 0);
                 getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.dialogsNeedReload, new Object[0]);
             }
             TLRPC$Message tLRPC$Message2 = tLRPC$Message;
@@ -579,7 +579,7 @@ public class SecretChatHelper extends BaseController {
                 messageObject.wasJustSent = true;
                 ArrayList<MessageObject> arrayList2 = new ArrayList<>();
                 arrayList2.add(messageObject);
-                getMessagesController().updateInterfaceWithMessages(tLRPC$Message.dialog_id, arrayList2, false);
+                getMessagesController().updateInterfaceWithMessages(tLRPC$Message.dialog_id, arrayList2, 0);
                 getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.dialogsNeedReload, new Object[0]);
             }
             TLRPC$Message tLRPC$Message2 = tLRPC$Message;
@@ -865,7 +865,7 @@ public class SecretChatHelper extends BaseController {
             });
             return;
         }
-        getMessagesStorage().markMessageAsSendError(tLRPC$Message, false);
+        getMessagesStorage().markMessageAsSendError(tLRPC$Message, 0);
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SecretChatHelper$$ExternalSyntheticLambda19
             @Override // java.lang.Runnable
             public final void run() {
@@ -879,7 +879,7 @@ public class SecretChatHelper extends BaseController {
         if (isSecretInvisibleMessage(tLRPC$Message)) {
             tLRPC$messages_SentEncryptedMessage.date = 0;
         }
-        getMessagesStorage().updateMessageStateAndId(tLRPC$Message.random_id, 0L, Integer.valueOf(tLRPC$Message.id), tLRPC$Message.id, tLRPC$messages_SentEncryptedMessage.date, false, 0);
+        getMessagesStorage().updateMessageStateAndId(tLRPC$Message.random_id, 0L, Integer.valueOf(tLRPC$Message.id), tLRPC$Message.id, tLRPC$messages_SentEncryptedMessage.date, false, 0, 0);
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SecretChatHelper$$ExternalSyntheticLambda20
             @Override // java.lang.Runnable
             public final void run() {
@@ -940,8 +940,8 @@ public class SecretChatHelper extends BaseController {
         getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.encryptedChatUpdated, tLRPC$EncryptedChat);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:305:0x07dd  */
-    /* JADX WARN: Removed duplicated region for block: B:306:0x07ed  */
+    /* JADX WARN: Removed duplicated region for block: B:305:0x07dc  */
+    /* JADX WARN: Removed duplicated region for block: B:306:0x07ec  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1008,7 +1008,7 @@ public class SecretChatHelper extends BaseController {
                 String str = tLRPC$TL_decryptedMessage.via_bot_name;
                 if (str != null && str.length() > 0) {
                     tLRPC$TL_message_secret.via_bot_name = tLRPC$TL_decryptedMessage.via_bot_name;
-                    tLRPC$TL_message_secret.flags |= LiteMode.FLAG_AUTOPLAY_GIFS;
+                    tLRPC$TL_message_secret.flags |= 2048;
                 }
                 long j3 = tLRPC$TL_decryptedMessage.grouped_id;
                 if (j3 != 0) {

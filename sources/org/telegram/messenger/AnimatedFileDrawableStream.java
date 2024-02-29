@@ -2,7 +2,7 @@ package org.telegram.messenger;
 
 import java.util.concurrent.CountDownLatch;
 import org.telegram.tgnet.TLRPC$Document;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class AnimatedFileDrawableStream implements FileLoadOperationStream {
     private volatile boolean canceled;
     private CountDownLatch countDownLatch;

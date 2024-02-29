@@ -62,7 +62,7 @@ import org.telegram.ui.Components.MotionBackgroundDrawable;
 import org.telegram.ui.Components.RadioButton;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.ThemeSetUrlActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ThemesHorizontalListCell extends RecyclerListView implements NotificationCenter.NotificationCenterDelegate {
     public static byte[] bytes = new byte[1024];
     private ThemesListAdapter adapter;
@@ -83,7 +83,7 @@ public class ThemesHorizontalListCell extends RecyclerListView implements Notifi
     protected void updateRows() {
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private class ThemesListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
@@ -124,7 +124,7 @@ public class ThemesHorizontalListCell extends RecyclerListView implements Notifi
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class InnerThemeView extends FrameLayout {
         private ObjectAnimator accentAnimator;
         private boolean accentColorChanged;

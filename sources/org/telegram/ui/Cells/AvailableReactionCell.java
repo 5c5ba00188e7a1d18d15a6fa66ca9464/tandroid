@@ -22,7 +22,7 @@ import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.CheckBox2;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Switch;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class AvailableReactionCell extends FrameLayout {
     private boolean canLock;
     private CheckBox2 checkBox;

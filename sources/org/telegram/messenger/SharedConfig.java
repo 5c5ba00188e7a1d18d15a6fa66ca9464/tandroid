@@ -359,7 +359,7 @@ public class SharedConfig {
         return hevcEncoderWhitelist.contains(mediaCodecInfo.getName().toLowerCase());
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class ProxyInfo {
         public String address;
         public boolean available;
@@ -491,15 +491,15 @@ public class SharedConfig {
         return i;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:38:0x0182 A[Catch: Exception -> 0x01a6, all -> 0x0486, TryCatch #4 {Exception -> 0x01a6, blocks: (B:22:0x0131, B:24:0x0139, B:26:0x014b, B:27:0x015f, B:38:0x0182, B:40:0x0188, B:41:0x018a, B:43:0x018e, B:45:0x0194, B:47:0x019a, B:49:0x019e, B:36:0x017c), top: B:94:0x0131, outer: #2 }] */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0188 A[Catch: Exception -> 0x01a6, all -> 0x0486, TryCatch #4 {Exception -> 0x01a6, blocks: (B:22:0x0131, B:24:0x0139, B:26:0x014b, B:27:0x015f, B:38:0x0182, B:40:0x0188, B:41:0x018a, B:43:0x018e, B:45:0x0194, B:47:0x019a, B:49:0x019e, B:36:0x017c), top: B:94:0x0131, outer: #2 }] */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x022f  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x0232  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x0242  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x0244  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x0431  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x0433  */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x0476 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0174 A[Catch: Exception -> 0x0198, all -> 0x0450, TryCatch #4 {Exception -> 0x0198, blocks: (B:22:0x0123, B:24:0x012b, B:26:0x013d, B:27:0x0151, B:38:0x0174, B:40:0x017a, B:41:0x017c, B:43:0x0180, B:45:0x0186, B:47:0x018c, B:49:0x0190, B:36:0x016e), top: B:94:0x0123, outer: #0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x017a A[Catch: Exception -> 0x0198, all -> 0x0450, TryCatch #4 {Exception -> 0x0198, blocks: (B:22:0x0123, B:24:0x012b, B:26:0x013d, B:27:0x0151, B:38:0x0174, B:40:0x017a, B:41:0x017c, B:43:0x0180, B:45:0x0186, B:47:0x018c, B:49:0x0190, B:36:0x016e), top: B:94:0x0123, outer: #0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0218  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x021b  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x022b  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x022d  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x03fe  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x0400  */
+    /* JADX WARN: Removed duplicated region for block: B:92:0x0440 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -819,7 +819,7 @@ public class SharedConfig {
     }
 
     public static boolean isAutoplayGifs() {
-        return LiteMode.isEnabled(LiteMode.FLAG_AUTOPLAY_GIFS);
+        return LiteMode.isEnabled(2048);
     }
 
     public static boolean isPassportConfigLoaded() {
@@ -1256,7 +1256,7 @@ public class SharedConfig {
     }
 
     public static void toggleAutoplayGifs() {
-        LiteMode.toggleFlag(LiteMode.FLAG_AUTOPLAY_GIFS);
+        LiteMode.toggleFlag(2048);
     }
 
     public static void setUseThreeLinesLayout(boolean z) {
@@ -1740,7 +1740,7 @@ public class SharedConfig {
         return canBlurChat() && LiteMode.isEnabled(LiteMode.FLAG_CHAT_BLUR);
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class BackgroundActivityPrefs {
         private static SharedPreferences prefs;
 

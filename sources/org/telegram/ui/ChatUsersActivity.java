@@ -1062,8 +1062,8 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:317:0x06a1 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:318:0x06a2  */
+    /* JADX WARN: Removed duplicated region for block: B:317:0x06a2 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:318:0x06a3  */
     /* JADX WARN: Type inference failed for: r19v1 */
     /* JADX WARN: Type inference failed for: r29v0, types: [org.telegram.ui.ActionBar.BaseFragment, org.telegram.ui.ChatUsersActivity] */
     /*

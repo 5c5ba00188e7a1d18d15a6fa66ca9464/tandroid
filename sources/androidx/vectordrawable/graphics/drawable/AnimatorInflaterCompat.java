@@ -23,6 +23,7 @@ import androidx.core.content.res.TypedArrayUtils;
 import androidx.core.graphics.PathParser;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 /* loaded from: classes.dex */
@@ -285,47 +286,19 @@ public class AnimatorInflaterCompat {
         return createAnimatorFromXml(context, resources, theme, xmlPullParser, Xml.asAttributeSet(xmlPullParser), null, 0, f);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:37:0x00e1, code lost:
-        if (r23 == null) goto L17;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:38:0x00e3, code lost:
-        if (r13 == null) goto L17;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:39:0x00e5, code lost:
-        r1 = new android.animation.Animator[r13.size()];
-        r2 = r13.iterator();
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:41:0x00f3, code lost:
-        if (r2.hasNext() == false) goto L13;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:42:0x00f5, code lost:
-        r1[r14] = (android.animation.Animator) r2.next();
-        r14 = r14 + 1;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:43:0x0101, code lost:
-        if (r24 != 0) goto L16;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:44:0x0103, code lost:
-        r23.playTogether(r1);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:45:0x0107, code lost:
-        r23.playSequentially(r1);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:46:0x010a, code lost:
-        return r0;
-     */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x00bc  */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x00b8  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private static Animator createAnimatorFromXml(Context context, Resources resources, Resources.Theme theme, XmlPullParser xmlPullParser, AttributeSet attributeSet, AnimatorSet animatorSet, int i, float f) throws XmlPullParserException, IOException {
+        int i2;
         int depth = xmlPullParser.getDepth();
         ValueAnimator valueAnimator = null;
         ArrayList arrayList = null;
         while (true) {
             int next = xmlPullParser.next();
-            int i2 = 0;
+            i2 = 0;
             if ((next != 3 || xmlPullParser.getDepth() > depth) && next != 1) {
                 if (next == 2) {
                     String name = xmlPullParser.getName();
@@ -364,6 +337,20 @@ public class AnimatorInflaterCompat {
                 }
             }
         }
+        if (animatorSet != null && arrayList != null) {
+            Animator[] animatorArr = new Animator[arrayList.size()];
+            Iterator it = arrayList.iterator();
+            while (it.hasNext()) {
+                animatorArr[i2] = (Animator) it.next();
+                i2++;
+            }
+            if (i == 0) {
+                animatorSet.playTogether(animatorArr);
+            } else {
+                animatorSet.playSequentially(animatorArr);
+            }
+        }
+        return valueAnimator;
     }
 
     private static PropertyValuesHolder[] loadValues(Context context, Resources resources, Resources.Theme theme, XmlPullParser xmlPullParser, AttributeSet attributeSet) throws XmlPullParserException, IOException {

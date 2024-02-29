@@ -34,7 +34,7 @@ import org.telegram.ui.Components.CheckBox;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.MotionBackgroundDrawable;
 import org.telegram.ui.WallpapersListActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class WallpaperCell extends FrameLayout {
     private Paint backgroundPaint;
     private Drawable checkDrawable;
@@ -55,7 +55,7 @@ public class WallpaperCell extends FrameLayout {
         return false;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class WallpaperView extends FrameLayout {
         private AnimatorSet animator;
         private CheckBox checkBox;

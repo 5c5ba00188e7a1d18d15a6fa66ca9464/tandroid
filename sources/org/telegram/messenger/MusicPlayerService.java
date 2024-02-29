@@ -30,7 +30,7 @@ import org.telegram.messenger.audioinfo.AudioInfo;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.LaunchActivity;
 import org.webrtc.MediaStreamTrack;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class MusicPlayerService extends Service implements NotificationCenter.NotificationCenterDelegate {
     private static final int ID_NOTIFICATION = 5;
     public static final String NOTIFY_CLOSE = "org.telegram.android.musicplayer.close";

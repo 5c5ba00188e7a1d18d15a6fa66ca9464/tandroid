@@ -8,7 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.telegram.messenger.SegmentTree;
 import org.telegram.ui.Charts.data.ChartData;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class StackLinearChartData extends ChartData {
     public int simplifiedSize;
     public int[][] simplifiedY;

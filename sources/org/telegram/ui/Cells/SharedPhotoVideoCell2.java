@@ -56,7 +56,7 @@ import org.telegram.ui.Components.spoilers.SpoilerEffect2;
 import org.telegram.ui.PhotoViewer;
 import org.telegram.ui.Stories.StoryWidgetsImageDecorator;
 import org.telegram.ui.Stories.recorder.DominantColors;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class SharedPhotoVideoCell2 extends FrameLayout {
     static boolean lastAutoDownload;
     static long lastUpdateDownloadSettingsTime;
@@ -849,7 +849,7 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
         return this.style;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class SharedResources {
         Drawable playDrawable;
         Drawable viewDrawable;

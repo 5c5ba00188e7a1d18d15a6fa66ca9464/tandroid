@@ -10,7 +10,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RadioButton;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class RadioColorCell extends FrameLayout {
     private RadioButton radioButton;
     private final Theme.ResourcesProvider resourcesProvider;

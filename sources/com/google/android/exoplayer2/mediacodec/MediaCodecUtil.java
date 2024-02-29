@@ -78,7 +78,7 @@ public final class MediaCodecUtil {
             case 10:
                 return 1024;
             case 11:
-                return LiteMode.FLAG_AUTOPLAY_GIFS;
+                return 2048;
             case 12:
                 return LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM;
             case 13:
@@ -137,7 +137,7 @@ public final class MediaCodecUtil {
                             default:
                                 switch (i) {
                                     case R.styleable.AppCompatTheme_borderlessButtonStyle /* 40 */:
-                                        return LiteMode.FLAG_AUTOPLAY_GIFS;
+                                        return 2048;
                                     case R.styleable.AppCompatTheme_buttonBarButtonStyle /* 41 */:
                                         return LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM;
                                     case R.styleable.AppCompatTheme_buttonBarNegativeButtonStyle /* 42 */:
@@ -177,7 +177,7 @@ public final class MediaCodecUtil {
                 return 921600;
             case 1024:
                 return 1310720;
-            case LiteMode.FLAG_AUTOPLAY_GIFS /* 2048 */:
+            case 2048:
             case LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM /* 4096 */:
                 return 2097152;
             case LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM /* 8192 */:
@@ -269,7 +269,7 @@ public final class MediaCodecUtil {
                                             if (i != 51) {
                                                 switch (i) {
                                                     case R.styleable.AppCompatTheme_controlBackground /* 60 */:
-                                                        return LiteMode.FLAG_AUTOPLAY_GIFS;
+                                                        return 2048;
                                                     case R.styleable.AppCompatTheme_dialogCornerRadius /* 61 */:
                                                         return LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM;
                                                     case R.styleable.AppCompatTheme_dialogPreferredPadding /* 62 */:
@@ -398,7 +398,7 @@ public final class MediaCodecUtil {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:37:0x0078, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:37:0x0077, code lost:
         if (r3.equals("av01") == false) goto L11;
      */
     /*
@@ -502,17 +502,17 @@ public final class MediaCodecUtil {
     }
 
     /* JADX WARN: Can't wrap try/catch for region: R(7:28|(4:(2:72|73)|53|(9:56|57|58|59|60|61|62|64|65)|9)|32|33|34|36|9) */
-    /* JADX WARN: Code restructure failed: missing block: B:32:0x0081, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:32:0x007f, code lost:
         if (r1.secure == false) goto L32;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:35:0x00a6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:35:0x00a4, code lost:
         r0 = e;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:36:0x00a7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:36:0x00a5, code lost:
         r1 = r11;
      */
-    /* JADX WARN: Removed duplicated region for block: B:57:0x0103 A[Catch: Exception -> 0x0151, TRY_ENTER, TryCatch #5 {Exception -> 0x0151, blocks: (B:3:0x000a, B:5:0x001d, B:60:0x0122, B:8:0x002f, B:11:0x003a, B:54:0x00fb, B:57:0x0103, B:59:0x0109, B:61:0x012c, B:62:0x014f), top: B:78:0x000a }] */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x012c A[ADDED_TO_REGION, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x0101 A[Catch: Exception -> 0x014f, TRY_ENTER, TryCatch #1 {Exception -> 0x014f, blocks: (B:3:0x0008, B:5:0x001b, B:60:0x0120, B:8:0x002d, B:11:0x0038, B:54:0x00f9, B:57:0x0101, B:59:0x0107, B:61:0x012a, B:62:0x014d), top: B:70:0x0008 }] */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x012a A[ADDED_TO_REGION, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1270,7 +1270,7 @@ public final class MediaCodecUtil {
             case '\t':
                 return Integer.valueOf((int) LiteMode.FLAG_CHAT_BLUR);
             case '\n':
-                return Integer.valueOf((int) LiteMode.FLAG_AUTOPLAY_GIFS);
+                return 2048;
             case 11:
                 return Integer.valueOf((int) LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM);
             case '\f':
@@ -1508,7 +1508,7 @@ public final class MediaCodecUtil {
             case '\n':
                 return 1024;
             case 11:
-                return Integer.valueOf((int) LiteMode.FLAG_AUTOPLAY_GIFS);
+                return 2048;
             case '\f':
                 return Integer.valueOf((int) LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM);
             default:

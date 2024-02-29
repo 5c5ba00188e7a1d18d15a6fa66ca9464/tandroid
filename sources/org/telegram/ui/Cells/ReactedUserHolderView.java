@@ -55,7 +55,7 @@ import org.telegram.ui.Components.MessageSeenCheckDrawable;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 import org.telegram.ui.Components.StatusBadgeComponent;
 import org.telegram.ui.Stories.StoriesUtilities;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ReactedUserHolderView extends FrameLayout {
     public static int STYLE_DEFAULT = 0;
     public static int STYLE_STORY = 1;

@@ -715,7 +715,7 @@ public class FragmentedMp4Extractor implements Extractor {
         boolean z7 = (parseFullAtomFlags & LiteMode.FLAG_CHAT_BLUR) != 0;
         boolean z8 = (parseFullAtomFlags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0;
         boolean z9 = (parseFullAtomFlags & 1024) != 0;
-        boolean z10 = (parseFullAtomFlags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0;
+        boolean z10 = (parseFullAtomFlags & 2048) != 0;
         long[] jArr2 = track.editListDurations;
         if (jArr2 == null || jArr2.length != 1) {
             j = 0;

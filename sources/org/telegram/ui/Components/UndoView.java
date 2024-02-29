@@ -380,12 +380,12 @@ public class UndoView extends FrameLayout {
         showWithAction(arrayList, i, obj, obj2, runnable, runnable2);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:621:0x1868  */
-    /* JADX WARN: Removed duplicated region for block: B:624:0x1888  */
-    /* JADX WARN: Removed duplicated region for block: B:627:0x18af  */
-    /* JADX WARN: Removed duplicated region for block: B:631:0x18f4  */
-    /* JADX WARN: Removed duplicated region for block: B:662:0x19a6  */
-    /* JADX WARN: Removed duplicated region for block: B:688:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:627:0x187d  */
+    /* JADX WARN: Removed duplicated region for block: B:630:0x189d  */
+    /* JADX WARN: Removed duplicated region for block: B:633:0x18c4  */
+    /* JADX WARN: Removed duplicated region for block: B:637:0x1909  */
+    /* JADX WARN: Removed duplicated region for block: B:668:0x19bb  */
+    /* JADX WARN: Removed duplicated region for block: B:694:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -707,7 +707,13 @@ public class UndoView extends FrameLayout {
                                 }
                                 if (DialogObject.isUserDialog(longValue)) {
                                     TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(longValue));
-                                    replaceTags = i == 20 ? AndroidUtilities.replaceTags(LocaleController.formatString("FilterUserAddedToExisting", R.string.FilterUserAddedToExisting, UserObject.getFirstName(user), dialogFilter.name)) : AndroidUtilities.replaceTags(LocaleController.formatString("FilterUserRemovedFrom", R.string.FilterUserRemovedFrom, UserObject.getFirstName(user), dialogFilter.name));
+                                    String firstName = UserObject.getFirstName(user);
+                                    if (UserObject.isUserSelf(user)) {
+                                        firstName = LocaleController.getString(R.string.SavedMessages);
+                                    } else if (UserObject.isReplyUser(user)) {
+                                        firstName = LocaleController.getString(R.string.RepliesTitle);
+                                    }
+                                    replaceTags = i == 20 ? AndroidUtilities.replaceTags(LocaleController.formatString("FilterUserAddedToExisting", R.string.FilterUserAddedToExisting, firstName, dialogFilter.name)) : AndroidUtilities.replaceTags(LocaleController.formatString("FilterUserRemovedFrom", R.string.FilterUserRemovedFrom, firstName, dialogFilter.name));
                                 } else {
                                     TLRPC$Chat chat2 = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-longValue));
                                     replaceTags = i == 20 ? AndroidUtilities.replaceTags(LocaleController.formatString("FilterChatAddedToExisting", R.string.FilterChatAddedToExisting, chat2.title, dialogFilter.name)) : AndroidUtilities.replaceTags(LocaleController.formatString("FilterChatRemovedFrom", R.string.FilterChatRemovedFrom, chat2.title, dialogFilter.name));

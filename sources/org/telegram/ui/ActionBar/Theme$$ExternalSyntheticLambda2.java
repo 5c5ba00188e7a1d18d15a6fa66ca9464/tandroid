@@ -1,7 +1,7 @@
 package org.telegram.ui.ActionBar;
 
 import java.util.concurrent.CountDownLatch;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public final /* synthetic */ class Theme$$ExternalSyntheticLambda2 implements Runnable {
     public final /* synthetic */ CountDownLatch f$0;
 

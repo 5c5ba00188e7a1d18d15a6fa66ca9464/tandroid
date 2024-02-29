@@ -117,7 +117,7 @@ final class zzed {
         r6.zzof = zzcw();
      */
     /* JADX WARN: Code restructure failed: missing block: B:68:0x0152, code lost:
-        if (((r6.zznz & org.telegram.messenger.LiteMode.FLAG_AUTOPLAY_GIFS) != 0) != false) goto L32;
+        if (((r6.zznz & 2048) != 0) != false) goto L32;
      */
     /* JADX WARN: Code restructure failed: missing block: B:71:0x0159, code lost:
         if (zzcz() != false) goto L32;

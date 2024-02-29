@@ -86,6 +86,10 @@ public final class BulletinFactory {
         createErrorBulletin(LocaleController.getString(R.string.UnknownError)).show();
     }
 
+    public static void showError(TLRPC$TL_error tLRPC$TL_error) {
+        global().createErrorBulletin(LocaleController.formatString(R.string.UnknownErrorCode, tLRPC$TL_error.text)).show();
+    }
+
     /* JADX WARN: Enum visitor error
     jadx.core.utils.exceptions.JadxRuntimeException: Init of enum PHOTO uses external variables
     	at jadx.core.dex.visitors.EnumVisitor.createEnumFieldByConstructor(EnumVisitor.java:444)

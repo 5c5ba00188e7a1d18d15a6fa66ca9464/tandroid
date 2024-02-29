@@ -17,9 +17,11 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class HeaderCell extends FrameLayout {
+    protected int bottomMargin;
     private int height;
+    protected int padding;
     private final Theme.ResourcesProvider resourcesProvider;
     private TextView textView;
     private SimpleTextView textView2;
@@ -52,6 +54,8 @@ public class HeaderCell extends FrameLayout {
         super(context);
         this.height = 40;
         this.resourcesProvider = resourcesProvider;
+        this.padding = i2;
+        this.bottomMargin = i4;
         TextView textView = new TextView(getContext());
         this.textView = textView;
         textView.setTextSize(1, 15.0f);

@@ -7,7 +7,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
-import android.graphics.SurfaceTexture;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Build;
@@ -18,7 +17,6 @@ import android.widget.FrameLayout;
 import androidx.core.graphics.ColorUtils;
 import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
-import com.google.android.exoplayer2.analytics.AnalyticsListener;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import java.io.File;
 import java.net.URLEncoder;
@@ -33,6 +31,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.SvgHelper;
 import org.telegram.messenger.Utilities;
+import org.telegram.messenger.video.VideoPlayerHolderBase;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$TL_help_premiumPromo;
@@ -41,7 +40,6 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.Premium.HelloParticles;
 import org.telegram.ui.Components.Premium.StarParticlesView;
-import org.telegram.ui.Components.VideoPlayer;
 import org.telegram.ui.Components.voip.CellFlickerDrawable;
 import org.telegram.ui.PremiumPreviewFragment;
 /* loaded from: classes4.dex */
@@ -75,8 +73,12 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
     private final SvgHelper.SvgDrawable svgIcon;
     TextureView textureView;
     int type;
-    VideoPlayer videoPlayer;
+    VideoPlayerHolderBase videoPlayerBase;
     boolean visible;
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$stopVideoPlayer$2() {
+    }
 
     /* JADX INFO: Access modifiers changed from: private */
     public void checkVideo() {
@@ -396,9 +398,9 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
                         drawable.onDraw(canvas);
                     } else if (this.speedLinesDrawable != null) {
                         float f2 = 0.2f;
-                        VideoPlayer videoPlayer = this.videoPlayer;
-                        if (videoPlayer != null) {
-                            float clamp = Utilities.clamp(((float) videoPlayer.getCurrentPosition()) / ((float) this.videoPlayer.getDuration()), 1.0f, 0.0f);
+                        VideoPlayerHolderBase videoPlayerHolderBase = this.videoPlayerBase;
+                        if (videoPlayerHolderBase != null) {
+                            float clamp = Utilities.clamp(((float) videoPlayerHolderBase.getCurrentPosition()) / ((float) this.videoPlayerBase.getDuration()), 1.0f, 0.0f);
                             float[] fArr = speedScaleVideoTimestamps;
                             float length = 1.0f / (fArr.length - 1);
                             int i = (int) (clamp / length);
@@ -575,61 +577,31 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
 
     private void runVideoPlayer() {
         Uri uri;
-        if ((this.file != null || SharedConfig.streamMedia) && this.videoPlayer == null) {
+        if ((this.file != null || SharedConfig.streamMedia) && this.videoPlayerBase == null) {
             this.aspectRatioFrameLayout.setAspectRatio(this.aspectRatio, 0);
-            VideoPlayer videoPlayer = new VideoPlayer();
-            this.videoPlayer = videoPlayer;
-            videoPlayer.setTextureView(this.textureView);
-            this.videoPlayer.setDelegate(new VideoPlayer.VideoPlayerDelegate() { // from class: org.telegram.ui.Components.Premium.VideoScreenPreview.3
-                @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-                public void onError(VideoPlayer videoPlayer2, Exception exc) {
-                }
-
-                @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-                public /* synthetic */ void onRenderedFirstFrame(AnalyticsListener.EventTime eventTime) {
-                    VideoPlayer.VideoPlayerDelegate.-CC.$default$onRenderedFirstFrame(this, eventTime);
-                }
-
-                @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-                public /* synthetic */ void onSeekFinished(AnalyticsListener.EventTime eventTime) {
-                    VideoPlayer.VideoPlayerDelegate.-CC.$default$onSeekFinished(this, eventTime);
-                }
-
-                @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-                public /* synthetic */ void onSeekStarted(AnalyticsListener.EventTime eventTime) {
-                    VideoPlayer.VideoPlayerDelegate.-CC.$default$onSeekStarted(this, eventTime);
-                }
-
-                @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-                public boolean onSurfaceDestroyed(SurfaceTexture surfaceTexture) {
-                    return false;
-                }
-
-                @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-                public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
-                }
-
-                @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-                public void onVideoSizeChanged(int i, int i2, int i3, float f) {
-                }
-
-                @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
+            VideoPlayerHolderBase videoPlayerHolderBase = new VideoPlayerHolderBase() { // from class: org.telegram.ui.Components.Premium.VideoScreenPreview.3
+                @Override // org.telegram.messenger.video.VideoPlayerHolderBase
                 public void onStateChanged(boolean z, int i) {
-                    if (i == 4) {
-                        VideoScreenPreview.this.videoPlayer.seekTo(0L);
-                        VideoScreenPreview.this.videoPlayer.play();
-                    } else if (i == 1) {
-                        VideoScreenPreview.this.videoPlayer.play();
-                    }
-                }
-
-                @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-                public void onRenderedFirstFrame() {
-                    VideoScreenPreview videoScreenPreview = VideoScreenPreview.this;
-                    if (videoScreenPreview.firstFrameRendered) {
+                    VideoPlayerHolderBase videoPlayerHolderBase2 = VideoScreenPreview.this.videoPlayerBase;
+                    if (videoPlayerHolderBase2 == null) {
                         return;
                     }
-                    videoScreenPreview.textureView.setAlpha(0.0f);
+                    if (i == 4) {
+                        videoPlayerHolderBase2.seekTo(0L);
+                        VideoScreenPreview.this.videoPlayerBase.play();
+                    } else if (i == 1) {
+                        videoPlayerHolderBase2.play();
+                    }
+                }
+
+                @Override // org.telegram.messenger.video.VideoPlayerHolderBase
+                public void onRenderedFirstFrame() {
+                    VideoScreenPreview videoScreenPreview = VideoScreenPreview.this;
+                    TextureView textureView = videoScreenPreview.textureView;
+                    if (textureView == null || videoScreenPreview.firstFrameRendered) {
+                        return;
+                    }
+                    textureView.setAlpha(0.0f);
                     VideoScreenPreview.this.textureView.animate().alpha(1.0f).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Premium.VideoScreenPreview.3.1
                         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                         public void onAnimationEnd(Animator animator) {
@@ -639,7 +611,9 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
                         }
                     }).setDuration(200L);
                 }
-            });
+            };
+            this.videoPlayerBase = videoPlayerHolderBase;
+            videoPlayerHolderBase.with(this.textureView);
             File file = this.file;
             if (file != null && file.exists()) {
                 uri = Uri.fromFile(this.file);
@@ -677,24 +651,22 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
             if (uri == null) {
                 return;
             }
-            this.videoPlayer.preparePlayer(uri, "other");
-            this.videoPlayer.setPlayWhenReady(true);
+            this.videoPlayerBase.preparePlayer(uri, false, 1.0f);
             if (!this.firstFrameRendered) {
                 this.imageReceiver.stopAnimation();
                 this.textureView.setAlpha(0.0f);
             }
-            this.videoPlayer.seekTo(this.lastFrameTime + 60);
-            this.videoPlayer.play();
+            this.videoPlayerBase.seekTo(this.lastFrameTime + 60);
+            this.videoPlayerBase.play();
         }
     }
 
     private void stopVideoPlayer() {
-        VideoPlayer videoPlayer = this.videoPlayer;
-        if (videoPlayer != null) {
-            this.lastFrameTime = videoPlayer.getCurrentPosition();
-            this.videoPlayer.setTextureView(null);
-            this.videoPlayer.releasePlayer(true);
-            this.videoPlayer = null;
+        VideoPlayerHolderBase videoPlayerHolderBase = this.videoPlayerBase;
+        if (videoPlayerHolderBase != null) {
+            this.lastFrameTime = videoPlayerHolderBase.getCurrentPosition();
+            this.videoPlayerBase.release(VideoScreenPreview$$ExternalSyntheticLambda3.INSTANCE);
+            this.videoPlayerBase = null;
         }
     }
 }

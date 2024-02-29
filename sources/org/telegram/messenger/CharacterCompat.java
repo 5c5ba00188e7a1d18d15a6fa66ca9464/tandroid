@@ -1,5 +1,5 @@
 package org.telegram.messenger;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class CharacterCompat {
     public static final char MIN_HIGH_SURROGATE = 55296;
     public static final char MIN_LOW_SURROGATE = 56320;

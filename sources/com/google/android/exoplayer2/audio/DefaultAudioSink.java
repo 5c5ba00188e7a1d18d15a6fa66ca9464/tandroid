@@ -1198,7 +1198,7 @@ public final class DefaultAudioSink implements AudioSink {
                 return 1024;
             case 11:
             case 12:
-                return LiteMode.FLAG_AUTOPLAY_GIFS;
+                return 2048;
             case 13:
             case 19:
             default:

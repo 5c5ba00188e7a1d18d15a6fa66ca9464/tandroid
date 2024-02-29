@@ -3,7 +3,7 @@ package org.telegram.ui.ActionBar;
 import android.view.MenuItem;
 import java.util.Comparator;
 import org.telegram.ui.ActionBar.FloatingToolbar;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public final /* synthetic */ class FloatingToolbar$FloatingToolbarPopup$$ExternalSyntheticLambda4 implements Comparator {
     public static final /* synthetic */ FloatingToolbar$FloatingToolbarPopup$$ExternalSyntheticLambda4 INSTANCE = new FloatingToolbar$FloatingToolbarPopup$$ExternalSyntheticLambda4();
 

@@ -80,7 +80,7 @@ public class DownloadController extends BaseController implements NotificationCe
     private ArrayList<DownloadObject> videoDownloadQueue;
     public Preset wifiPreset;
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public interface FileDownloadProgressListener {
         int getObserverTag();
 
@@ -110,7 +110,7 @@ public class DownloadController extends BaseController implements NotificationCe
         return i == 8 ? 2 : 0;
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class Preset {
         public boolean enabled;
         public boolean lessCallData;
@@ -1533,7 +1533,7 @@ public class DownloadController extends BaseController implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public class DownloadingDocumentEntry {
         int hash;
         long id;

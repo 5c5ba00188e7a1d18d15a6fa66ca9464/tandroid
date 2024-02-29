@@ -10,7 +10,7 @@ import org.telegram.tgnet.TLRPC$TL_notificationSoundLocal;
 import org.telegram.tgnet.TLRPC$TL_notificationSoundNone;
 import org.telegram.tgnet.TLRPC$TL_notificationSoundRingtone;
 import org.telegram.ui.NotificationsSoundActivity;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class NotificationsSettingsFacade {
     public static final String PROPERTY_CONTENT_PREVIEW = "content_preview_";
     public static final String PROPERTY_CUSTOM = "custom_";
@@ -111,7 +111,7 @@ public class NotificationsSettingsFacade {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x0197  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x0193  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

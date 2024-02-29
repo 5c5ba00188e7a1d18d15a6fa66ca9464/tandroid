@@ -16,7 +16,7 @@ import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.LaunchActivity;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class UserNameResolver {
     private static final long CACHE_TIME = 3600000;
     private final int currentAccount;
@@ -132,7 +132,7 @@ public class UserNameResolver {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public class CachedPeer {
         final long peerId;
         final long time = System.currentTimeMillis();

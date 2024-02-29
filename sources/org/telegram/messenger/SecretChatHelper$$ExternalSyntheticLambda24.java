@@ -2,7 +2,7 @@ package org.telegram.messenger;
 
 import java.util.Comparator;
 import org.telegram.messenger.SecretChatHelper;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public final /* synthetic */ class SecretChatHelper$$ExternalSyntheticLambda24 implements Comparator {
     public static final /* synthetic */ SecretChatHelper$$ExternalSyntheticLambda24 INSTANCE = new SecretChatHelper$$ExternalSyntheticLambda24();
 

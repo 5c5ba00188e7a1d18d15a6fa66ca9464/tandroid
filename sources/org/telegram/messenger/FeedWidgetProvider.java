@@ -10,7 +10,7 @@ import android.net.Uri;
 import android.widget.RemoteViews;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.LaunchActivity;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class FeedWidgetProvider extends AppWidgetProvider {
     @Override // android.appwidget.AppWidgetProvider, android.content.BroadcastReceiver
     public void onReceive(Context context, Intent intent) {

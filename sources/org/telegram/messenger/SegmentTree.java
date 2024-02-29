@@ -1,7 +1,7 @@
 package org.telegram.messenger;
 
 import org.telegram.tgnet.ConnectionsManager;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class SegmentTree {
     private int[] array;
     private Node[] heap;
@@ -145,7 +145,7 @@ public class SegmentTree {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class Node {
         int from;
         int max;

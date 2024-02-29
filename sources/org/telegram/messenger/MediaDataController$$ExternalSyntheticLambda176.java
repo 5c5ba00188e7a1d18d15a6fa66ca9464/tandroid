@@ -1,7 +1,7 @@
 package org.telegram.messenger;
 
 import org.telegram.tgnet.TLRPC$MessageEntity;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public final /* synthetic */ class MediaDataController$$ExternalSyntheticLambda176 implements GenericProvider {
     public static final /* synthetic */ MediaDataController$$ExternalSyntheticLambda176 INSTANCE = new MediaDataController$$ExternalSyntheticLambda176();
 

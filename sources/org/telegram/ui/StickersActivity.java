@@ -1108,7 +1108,7 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
             }
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:158:0x04af, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:158:0x04b0, code lost:
             if (r6 == false) goto L188;
          */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter

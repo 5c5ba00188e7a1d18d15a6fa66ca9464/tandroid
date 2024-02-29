@@ -53,6 +53,18 @@ public abstract class TLRPC$MessageMedia extends TLObject {
     public boolean voice;
     public TLRPC$WebPage webpage;
 
+    /* JADX WARN: Code restructure failed: missing block: B:60:0x019f, code lost:
+        if (r6.captionLegacy == null) goto L22;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:73:0x0222, code lost:
+        if (r6.captionLegacy == null) goto L22;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:74:0x0224, code lost:
+        r6.captionLegacy = "";
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public static TLRPC$MessageMedia TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
         TLRPC$MessageMedia tLRPC$MessageMedia;
         TLRPC$TL_messageMediaDocument tLRPC$TL_messageMediaDocument;
@@ -587,11 +599,10 @@ public abstract class TLRPC$MessageMedia extends TLObject {
                 tLRPC$Document.access_hash = tLRPC$Video2.access_hash;
                 tLRPC$Document.date = tLRPC$Video2.date;
                 String str = tLRPC$Video2.mime_type;
-                if (str != null) {
-                    tLRPC$Document.mime_type = str;
-                } else {
-                    tLRPC$Document.mime_type = "video/mp4";
+                if (str == null) {
+                    str = "video/mp4";
                 }
+                tLRPC$Document.mime_type = str;
                 tLRPC$Document.size = tLRPC$Video2.size;
                 tLRPC$Document.thumbs.add(tLRPC$Video2.thumb);
                 tLRPC$TL_messageMediaDocument.document.dc_id = tLRPC$MessageMedia.video_unused.dc_id;
@@ -602,9 +613,6 @@ public abstract class TLRPC$MessageMedia extends TLObject {
                 tLRPC$TL_documentAttributeVideo.h = tLRPC$Video3.h;
                 tLRPC$TL_documentAttributeVideo.duration = tLRPC$Video3.duration;
                 tLRPC$TL_messageMediaDocument.document.attributes.add(tLRPC$TL_documentAttributeVideo);
-                if (tLRPC$TL_messageMediaDocument.captionLegacy == null) {
-                    tLRPC$TL_messageMediaDocument.captionLegacy = "";
-                }
             } else if (tLRPC$MessageMedia.audio_unused == null) {
                 return tLRPC$MessageMedia;
             } else {
@@ -626,11 +634,10 @@ public abstract class TLRPC$MessageMedia extends TLObject {
                 tLRPC$Document2.access_hash = tLRPC$Audio2.access_hash;
                 tLRPC$Document2.date = tLRPC$Audio2.date;
                 String str2 = tLRPC$Audio2.mime_type;
-                if (str2 != null) {
-                    tLRPC$Document2.mime_type = str2;
-                } else {
-                    tLRPC$Document2.mime_type = "audio/ogg";
+                if (str2 == null) {
+                    str2 = "audio/ogg";
                 }
+                tLRPC$Document2.mime_type = str2;
                 tLRPC$Document2.size = tLRPC$Audio2.size;
                 TLRPC$TL_photoSizeEmpty tLRPC$TL_photoSizeEmpty = new TLRPC$TL_photoSizeEmpty();
                 tLRPC$TL_photoSizeEmpty.type = "s";
@@ -641,9 +648,6 @@ public abstract class TLRPC$MessageMedia extends TLObject {
                 tLRPC$TL_documentAttributeAudio.duration = tLRPC$MessageMedia.audio_unused.duration;
                 tLRPC$TL_documentAttributeAudio.voice = true;
                 tLRPC$TL_messageMediaDocument.document.attributes.add(tLRPC$TL_documentAttributeAudio);
-                if (tLRPC$TL_messageMediaDocument.captionLegacy == null) {
-                    tLRPC$TL_messageMediaDocument.captionLegacy = "";
-                }
             }
             return tLRPC$TL_messageMediaDocument;
         }
@@ -651,9 +655,6 @@ public abstract class TLRPC$MessageMedia extends TLObject {
     }
 
     public TLRPC$Document getDocument() {
-        if (this.alt_document != null && !MessagesController.isStoryQualityFull()) {
-            return this.alt_document;
-        }
-        return this.document;
+        return (this.alt_document == null || MessagesController.isStoryQualityFull()) ? this.document : this.alt_document;
     }
 }

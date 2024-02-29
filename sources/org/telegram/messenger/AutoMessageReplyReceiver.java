@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import androidx.core.app.RemoteInput;
 import org.telegram.messenger.SendMessagesHelper;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class AutoMessageReplyReceiver extends BroadcastReceiver {
     @Override // android.content.BroadcastReceiver
     public void onReceive(Context context, Intent intent) {

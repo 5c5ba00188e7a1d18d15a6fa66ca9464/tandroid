@@ -3,7 +3,7 @@ package org.telegram.messenger;
 import j$.util.function.Function;
 import java.util.Objects;
 import org.telegram.messenger.TranslateController;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public final /* synthetic */ class TranslateController$$ExternalSyntheticLambda23 implements Function {
     public static final /* synthetic */ TranslateController$$ExternalSyntheticLambda23 INSTANCE = new TranslateController$$ExternalSyntheticLambda23();
 

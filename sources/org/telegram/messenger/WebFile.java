@@ -13,7 +13,7 @@ import org.telegram.tgnet.TLRPC$TL_inputWebFileGeoPointLocation;
 import org.telegram.tgnet.TLRPC$TL_inputWebFileLocation;
 import org.telegram.tgnet.TLRPC$TL_webDocument;
 import org.telegram.tgnet.TLRPC$WebDocument;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class WebFile extends TLObject {
     public ArrayList<TLRPC$DocumentAttribute> attributes;
     public TLRPC$InputGeoPoint geo_point;

@@ -271,7 +271,7 @@ public class AndroidUtilities {
     public static final Rect rectTmp2 = new Rect();
     private static Pattern singleTagPatter = null;
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public interface IntColorCallback {
         void run(int i);
     }
@@ -898,7 +898,7 @@ public class AndroidUtilities {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class LinkSpec {
         int end;
         int start;
@@ -1567,7 +1567,7 @@ public class AndroidUtilities {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     private static class VcardData {
         String name;
         ArrayList<String> phones;
@@ -1579,7 +1579,7 @@ public class AndroidUtilities {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class VcardItem {
         public int type;
         public ArrayList<String> vcardData = new ArrayList<>();
@@ -2909,7 +2909,7 @@ public class AndroidUtilities {
         return spannableStringBuilder;
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class LinkMovementMethodMy extends LinkMovementMethod {
         @Override // android.text.method.LinkMovementMethod, android.text.method.ScrollingMovementMethod, android.text.method.BaseMovementMethod, android.text.method.MovementMethod
         public boolean onTouchEvent(TextView textView, Spannable spannable, MotionEvent motionEvent) {
@@ -3098,19 +3098,19 @@ public class AndroidUtilities {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:40:0x00b5, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:40:0x00b4, code lost:
         if (r2 == 1) goto L38;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:41:0x00b7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:41:0x00b6, code lost:
         if (r2 == 2) goto L37;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:42:0x00b9, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:42:0x00b8, code lost:
         r1 = null;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:43:0x00bb, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:43:0x00ba, code lost:
         r1 = android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:44:0x00be, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:44:0x00bd, code lost:
         r1 = android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
      */
     @SuppressLint({"NewApi"})
@@ -3607,10 +3607,10 @@ public class AndroidUtilities {
     /* JADX WARN: Code restructure failed: missing block: B:11:0x0036, code lost:
         if (r8.length() != 0) goto L11;
      */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x0069  */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x0089  */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x00c7  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x0099 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0068  */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x0088  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x00c6  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x0098 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3927,13 +3927,13 @@ public class AndroidUtilities {
         return accessibilityManager.isEnabled() && accessibilityManager.isTouchExplorationEnabled();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:54:0x0116 A[Catch: Exception -> 0x0133, TRY_LEAVE, TryCatch #0 {Exception -> 0x0133, blocks: (B:5:0x000a, B:8:0x0014, B:10:0x001a, B:12:0x0022, B:15:0x0039, B:18:0x0042, B:20:0x004b, B:23:0x005e, B:25:0x0064, B:27:0x006a, B:29:0x0070, B:31:0x008e, B:32:0x0092, B:52:0x0110, B:54:0x0116, B:67:0x012f, B:33:0x00a8, B:35:0x00b9, B:37:0x00c2, B:39:0x00cb, B:41:0x00d1, B:43:0x00d9, B:45:0x00e1, B:47:0x00eb, B:48:0x00ef), top: B:71:0x000a }] */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x0120  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x0122  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0125  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x0127  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x012a  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x012c  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x0109 A[Catch: Exception -> 0x0126, TRY_LEAVE, TryCatch #0 {Exception -> 0x0126, blocks: (B:5:0x0008, B:8:0x0012, B:10:0x0018, B:12:0x0020, B:15:0x0033, B:18:0x003c, B:20:0x0044, B:23:0x0054, B:25:0x005a, B:27:0x0060, B:29:0x0066, B:31:0x0084, B:32:0x0088, B:52:0x0103, B:54:0x0109, B:67:0x0122, B:33:0x009e, B:35:0x00ae, B:37:0x00b6, B:39:0x00be, B:41:0x00c4, B:43:0x00cc, B:45:0x00d4, B:47:0x00de, B:48:0x00e2), top: B:71:0x0008 }] */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x0113  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x0115  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0118  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x011a  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x011d  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x011f  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -5285,7 +5285,7 @@ public class AndroidUtilities {
         return Math.max(i, i2) >= Math.min(i3, i4) && Math.max(i3, i4) >= Math.min(i, i2);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:18:0x0024, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:18:0x0023, code lost:
         if (r1 == null) goto L11;
      */
     /*

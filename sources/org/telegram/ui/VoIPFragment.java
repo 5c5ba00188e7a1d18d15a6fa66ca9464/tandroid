@@ -1809,11 +1809,11 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
     /* JADX WARN: Removed duplicated region for block: B:109:0x046a A[RETURN] */
     /* JADX WARN: Removed duplicated region for block: B:110:0x046b  */
-    /* JADX WARN: Removed duplicated region for block: B:355:0x08cc  */
-    /* JADX WARN: Removed duplicated region for block: B:402:0x0a39  */
-    /* JADX WARN: Removed duplicated region for block: B:404:0x0a3e  */
-    /* JADX WARN: Removed duplicated region for block: B:407:0x0a52  */
-    /* JADX WARN: Removed duplicated region for block: B:412:0x0a6e  */
+    /* JADX WARN: Removed duplicated region for block: B:355:0x08cd  */
+    /* JADX WARN: Removed duplicated region for block: B:402:0x0a3a  */
+    /* JADX WARN: Removed duplicated region for block: B:404:0x0a3f  */
+    /* JADX WARN: Removed duplicated region for block: B:407:0x0a53  */
+    /* JADX WARN: Removed duplicated region for block: B:412:0x0a6f  */
     /* JADX WARN: Removed duplicated region for block: B:416:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

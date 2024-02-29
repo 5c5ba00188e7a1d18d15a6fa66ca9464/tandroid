@@ -2,7 +2,7 @@ package org.telegram.ui.Cells;
 
 import android.view.MotionEvent;
 import android.view.View;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public final /* synthetic */ class DialogsEmptyCell$$ExternalSyntheticLambda3 implements View.OnTouchListener {
     public static final /* synthetic */ DialogsEmptyCell$$ExternalSyntheticLambda3 INSTANCE = new DialogsEmptyCell$$ExternalSyntheticLambda3();
 

@@ -1,35 +1,24 @@
 package j$.time.format;
-
-import java.util.List;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-final class f implements g {
-    private final g[] a;
-    private final boolean b;
+public final class f implements h {
+    private final char a;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public f(List list, boolean z) {
-        this.a = (g[]) list.toArray(new g[list.size()]);
-        this.b = z;
+    public f(char c) {
+        this.a = c;
     }
 
-    f(g[] gVarArr, boolean z) {
-        this.a = gVarArr;
-        this.b = z;
-    }
-
-    public f a(boolean z) {
-        return z == this.b ? this : new f(this.a, z);
+    @Override // j$.time.format.h
+    public boolean a(t tVar, StringBuilder sb) {
+        sb.append(this.a);
+        return true;
     }
 
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        if (this.a != null) {
-            sb.append(this.b ? "[" : "(");
-            for (g gVar : this.a) {
-                sb.append(gVar);
-            }
-            sb.append(this.b ? "]" : ")");
+        if (this.a == '\'') {
+            return "''";
         }
-        return sb.toString();
+        return "'" + this.a + "'";
     }
 }

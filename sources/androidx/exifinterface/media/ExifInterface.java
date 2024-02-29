@@ -1664,11 +1664,11 @@ public class ExifInterface {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:46:0x0134  */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x013c  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x022c  */
-    /* JADX WARN: Removed duplicated region for block: B:91:0x024a  */
-    /* JADX WARN: Removed duplicated region for block: B:96:0x0286  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x0133  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x013b  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x0229  */
+    /* JADX WARN: Removed duplicated region for block: B:91:0x0247  */
+    /* JADX WARN: Removed duplicated region for block: B:96:0x0283  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

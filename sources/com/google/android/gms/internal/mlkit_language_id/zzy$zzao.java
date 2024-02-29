@@ -31,7 +31,7 @@ public final class zzy$zzao extends zzeo<zzy$zzao, zzc> implements zzgb {
         zzj(LiteMode.FLAG_CHAT_BLUR),
         zzk(LiteMode.FLAG_CALLS_ANIMATIONS),
         zzl(1024),
-        zzm(LiteMode.FLAG_AUTOPLAY_GIFS),
+        zzm(2048),
         zzn(LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM);
         
         private final int zzp;

@@ -17,7 +17,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.LayoutHelper;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class MemberRequestCell extends FrameLayout {
     private final AvatarDrawable avatarDrawable;
     private final BackupImageView avatarImageView;
@@ -26,7 +26,7 @@ public class MemberRequestCell extends FrameLayout {
     private final SimpleTextView nameTextView;
     private final SimpleTextView statusTextView;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface OnClickListener {
         void onAddClicked(TLRPC$TL_chatInviteImporter tLRPC$TL_chatInviteImporter);
 

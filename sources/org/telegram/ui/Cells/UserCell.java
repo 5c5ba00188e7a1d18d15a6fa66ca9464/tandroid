@@ -13,6 +13,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.ImageLocation;
@@ -43,11 +44,13 @@ import org.telegram.ui.Components.CheckBox2;
 import org.telegram.ui.Components.CheckBoxSquare;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
+import org.telegram.ui.Components.ScaleStateListAnimator;
+import org.telegram.ui.Components.UItem;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.NotificationsSettingsActivity;
 import org.telegram.ui.Stories.StoriesListPlaceProvider;
 import org.telegram.ui.Stories.StoriesUtilities;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class UserCell extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private TextView addButton;
     private TextView adminTextView;
@@ -55,6 +58,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
     public BackupImageView avatarImageView;
     private CheckBox2 checkBox;
     private CheckBoxSquare checkBoxBig;
+    private ImageView closeView;
     private int currentAccount;
     private int currentDrawable;
     private int currentId;
@@ -445,12 +449,6 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:91:0x0114, code lost:
-        if (r7.equals("groups") == false) goto L45;
-     */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     public void update(int i) {
         TLRPC$User tLRPC$User;
         TLRPC$Chat tLRPC$Chat;
@@ -459,6 +457,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         int i2;
         TLRPC$UserStatus tLRPC$UserStatus;
         TextView textView;
+        char c;
         TLRPC$FileLocation tLRPC$FileLocation2;
         this.dialogId = 0L;
         Object obj = this.currentObject;
@@ -482,7 +481,6 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
             tLRPC$Chat = null;
             tLRPC$FileLocation = null;
         }
-        char c = 1;
         if (i != 0) {
             boolean z = (i & MessagesController.UPDATE_MASK_AVATAR) != 0 && (((tLRPC$FileLocation2 = this.lastAvatar) != null && tLRPC$FileLocation == null) || ((tLRPC$FileLocation2 == null && tLRPC$FileLocation != null) || !(tLRPC$FileLocation2 == null || (tLRPC$FileLocation2.volume_id == tLRPC$FileLocation.volume_id && tLRPC$FileLocation2.local_id == tLRPC$FileLocation.local_id))));
             if (tLRPC$User != null && !z && (i & MessagesController.UPDATE_MASK_STATUS) != 0) {
@@ -522,6 +520,11 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
                     c = 65535;
                     break;
                 case -1237460524:
+                    if (str2.equals("groups")) {
+                        c = 1;
+                        break;
+                    }
+                    c = 65535;
                     break;
                 case -1197490811:
                     if (str2.equals("non_contacts")) {
@@ -537,30 +540,44 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
                     }
                     c = 65535;
                     break;
+                case -268161860:
+                    if (str2.equals("new_chats")) {
+                        c = 4;
+                        break;
+                    }
+                    c = 65535;
+                    break;
                 case 3029900:
                     if (str2.equals("bots")) {
-                        c = 4;
+                        c = 5;
                         break;
                     }
                     c = 65535;
                     break;
                 case 3496342:
                     if (str2.equals("read")) {
-                        c = 5;
+                        c = 6;
                         break;
                     }
                     c = 65535;
                     break;
                 case 104264043:
                     if (str2.equals("muted")) {
-                        c = 6;
+                        c = 7;
+                        break;
+                    }
+                    c = 65535;
+                    break;
+                case 151051367:
+                    if (str2.equals("existing_chats")) {
+                        c = '\b';
                         break;
                     }
                     c = 65535;
                     break;
                 case 1432626128:
                     if (str2.equals("channels")) {
-                        c = 7;
+                        c = '\t';
                         break;
                     }
                     c = 65535;
@@ -583,15 +600,21 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
                     this.avatarDrawable.setAvatarType(4);
                     break;
                 case 4:
-                    this.avatarDrawable.setAvatarType(8);
+                    this.avatarDrawable.setAvatarType(24);
                     break;
                 case 5:
-                    this.avatarDrawable.setAvatarType(10);
+                    this.avatarDrawable.setAvatarType(8);
                     break;
                 case 6:
-                    this.avatarDrawable.setAvatarType(9);
+                    this.avatarDrawable.setAvatarType(10);
                     break;
                 case 7:
+                    this.avatarDrawable.setAvatarType(9);
+                    break;
+                case '\b':
+                    this.avatarDrawable.setAvatarType(23);
+                    break;
+                case '\t':
                     this.avatarDrawable.setAvatarType(7);
                     break;
             }
@@ -787,5 +810,82 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
 
     public long getDialogId() {
         return this.dialogId;
+    }
+
+    public void setFromUItem(int i, UItem uItem, boolean z) {
+        CharSequence string;
+        CharSequence string2;
+        Object obj = uItem.chatType;
+        if (obj != null) {
+            setData(obj, uItem.text, null, 0, z);
+            return;
+        }
+        long j = uItem.dialogId;
+        if (j > 0) {
+            TLRPC$User user = MessagesController.getInstance(i).getUser(Long.valueOf(j));
+            if (user != null) {
+                if (user.bot) {
+                    string2 = LocaleController.getString("Bot", R.string.Bot);
+                } else if (user.contact) {
+                    string2 = LocaleController.getString("FilterContact", R.string.FilterContact);
+                } else {
+                    string2 = LocaleController.getString("FilterNonContact", R.string.FilterNonContact);
+                }
+                setData(user, null, string2, 0, z);
+                return;
+            }
+            return;
+        }
+        TLRPC$Chat chat = MessagesController.getInstance(i).getChat(Long.valueOf(-j));
+        if (chat != null) {
+            if (chat.participants_count != 0) {
+                if (ChatObject.isChannelAndNotMegaGroup(chat)) {
+                    string = LocaleController.formatPluralStringComma("Subscribers", chat.participants_count);
+                } else {
+                    string = LocaleController.formatPluralStringComma("Members", chat.participants_count);
+                }
+            } else if (!ChatObject.isPublic(chat)) {
+                if (ChatObject.isChannel(chat) && !chat.megagroup) {
+                    string = LocaleController.getString("ChannelPrivate", R.string.ChannelPrivate);
+                } else {
+                    string = LocaleController.getString("MegaPrivate", R.string.MegaPrivate);
+                }
+            } else if (ChatObject.isChannel(chat) && !chat.megagroup) {
+                string = LocaleController.getString("ChannelPublic", R.string.ChannelPublic);
+            } else {
+                string = LocaleController.getString("MegaPublic", R.string.MegaPublic);
+            }
+            setData(chat, null, string, 0, z);
+        }
+    }
+
+    public void setCloseIcon(final Runnable runnable) {
+        if (runnable == null) {
+            ImageView imageView = this.closeView;
+            if (imageView != null) {
+                removeView(imageView);
+                this.closeView = null;
+                return;
+            }
+            return;
+        }
+        if (this.closeView == null) {
+            ImageView imageView2 = new ImageView(getContext());
+            this.closeView = imageView2;
+            imageView2.setScaleType(ImageView.ScaleType.CENTER);
+            ScaleStateListAnimator.apply(this.closeView);
+            this.closeView.setImageResource(R.drawable.ic_close_white);
+            this.closeView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText3, this.resourcesProvider), PorterDuff.Mode.SRC_IN));
+            this.closeView.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_listSelector, this.resourcesProvider), 5));
+            ImageView imageView3 = this.closeView;
+            boolean z = LocaleController.isRTL;
+            addView(imageView3, LayoutHelper.createFrame(30, 30.0f, (z ? 3 : 5) | 16, z ? 14.0f : 0.0f, 0.0f, z ? 0.0f : 14.0f, 0.0f));
+        }
+        this.closeView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.UserCell$$ExternalSyntheticLambda0
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view) {
+                runnable.run();
+            }
+        });
     }
 }

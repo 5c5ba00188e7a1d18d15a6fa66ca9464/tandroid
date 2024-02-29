@@ -14,24 +14,24 @@ public interface ILocationServiceProvider {
     public static final int STATUS_SETTINGS_CHANGE_UNAVAILABLE = 2;
     public static final int STATUS_SUCCESS = 0;
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public interface IAPIConnectionCallbacks {
         void onConnected(Bundle bundle);
 
         void onConnectionSuspended(int i);
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public interface IAPIOnConnectionFailedListener {
         void onConnectionFailed();
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public interface ILocationListener {
         void onLocationChanged(Location location);
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public interface ILocationRequest {
         void setFastestInterval(long j);
 
@@ -40,7 +40,7 @@ public interface ILocationServiceProvider {
         void setPriority(int i);
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public interface IMapApiClient {
         void connect();
 

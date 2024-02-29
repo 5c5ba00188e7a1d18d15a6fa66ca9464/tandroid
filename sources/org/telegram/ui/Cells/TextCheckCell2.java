@@ -19,7 +19,7 @@ import org.telegram.ui.Components.AnimatedTextView;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Switch;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class TextCheckCell2 extends FrameLayout {
     private AnimatedTextView animatedTextView;
     private Switch checkBox;

@@ -49,7 +49,7 @@ import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.Premium.PremiumGradient;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Stories.StoriesUtilities;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ProfileSearchCell extends BaseCell implements NotificationCenter.NotificationCenterDelegate {
     CanvasButton actionButton;
     private StaticLayout actionLayout;

@@ -209,7 +209,7 @@ public final class ResourcesCompat {
         return loadFont;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:37:0x00b8  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x00b7  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

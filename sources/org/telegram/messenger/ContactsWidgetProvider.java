@@ -12,7 +12,7 @@ import android.widget.RemoteViews;
 import java.util.ArrayList;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.LaunchActivity;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class ContactsWidgetProvider extends AppWidgetProvider {
     private static int getCellsForSize(int i) {
         int i2 = 2;

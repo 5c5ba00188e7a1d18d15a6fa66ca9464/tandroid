@@ -31,7 +31,7 @@ import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.DotDividerSpan;
 import org.telegram.ui.Components.RadialProgress2;
 import org.telegram.ui.FilteredSearchView;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class AudioPlayerCell extends View implements DownloadController.FileDownloadProgressListener {
     private int TAG;
     private boolean buttonPressed;

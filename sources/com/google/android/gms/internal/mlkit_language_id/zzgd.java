@@ -448,7 +448,7 @@ final class zzgd<T> implements zzgp<T> {
                                 int i84 = (i63 / 3) << 1;
                                 i20 = i82 + 1;
                                 objArr2[i84] = zze[i82];
-                                if ((charAt24 & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
+                                if ((charAt24 & 2048) != 0) {
                                     i82 = i20 + 1;
                                     objArr2[i84 + 1] = zze[i20];
                                     i59 = i83;

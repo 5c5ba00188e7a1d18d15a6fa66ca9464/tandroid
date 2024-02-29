@@ -17,7 +17,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimationProperties;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RadioButton;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class TextRadioCell extends FrameLayout {
     private int animatedColorBackground;
     private Paint animationPaint;

@@ -67,6 +67,7 @@ public class VideoPlayerHolderBase {
             }
         }
     };
+    private volatile int triesCount = 3;
     private volatile boolean firstSeek = true;
     private volatile long lastSeek = -1;
     private long lastBetterSeek = -1;
@@ -97,6 +98,12 @@ public class VideoPlayerHolderBase {
     }
 
     public void onStateChanged(boolean z, int i) {
+    }
+
+    static /* synthetic */ int access$010(VideoPlayerHolderBase videoPlayerHolderBase) {
+        int i = videoPlayerHolderBase.triesCount;
+        videoPlayerHolderBase.triesCount = i - 1;
+        return i;
     }
 
     public VideoPlayerHolderBase with(SurfaceView surfaceView) {
@@ -138,6 +145,7 @@ public class VideoPlayerHolderBase {
         }
         ensurePlayerCreated(z);
         this.videoPlayer.setPlaybackSpeed(f);
+        FileLog.d("videoplayerholderbase.preparePlayer(): preparePlayer new player as preload uri=" + uri);
         this.videoPlayer.preparePlayer(uri, "other", 0);
         this.videoPlayer.setPlayWhenReady(false);
         this.videoPlayer.setWorkerQueue(this.dispatchQueue);
@@ -147,6 +155,7 @@ public class VideoPlayerHolderBase {
         this.startTime = System.currentTimeMillis();
         this.audioDisabled = z2;
         this.paused = z;
+        this.triesCount = 3;
         if (j > 0) {
             this.currentPosition = j;
         }
@@ -164,12 +173,13 @@ public class VideoPlayerHolderBase {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$start$2(boolean z, float f, Uri uri, boolean z2, long j) {
         if (this.released) {
+            FileLog.d("videoplayerholderbase returned from start: released");
             return;
         }
-        VideoPlayer videoPlayer = this.videoPlayer;
-        if (videoPlayer == null) {
+        if (this.videoPlayer == null) {
             ensurePlayerCreated(z);
             this.videoPlayer.setPlaybackSpeed(f);
+            FileLog.d("videoplayerholderbase.start(): preparePlayer new player uri=" + uri);
             this.videoPlayer.preparePlayer(uri, "other");
             this.videoPlayer.setWorkerQueue(this.dispatchQueue);
             if (!z2) {
@@ -181,14 +191,17 @@ public class VideoPlayerHolderBase {
                 }
                 this.videoPlayer.setPlayWhenReady(true);
             }
-        } else if (!z2) {
-            SurfaceView surfaceView2 = this.surfaceView;
-            if (surfaceView2 != null) {
-                videoPlayer.setSurfaceView(surfaceView2);
-            } else {
-                videoPlayer.setTextureView(this.textureView);
+        } else {
+            FileLog.d("videoplayerholderbase.start(): player already exist");
+            if (!z2) {
+                SurfaceView surfaceView2 = this.surfaceView;
+                if (surfaceView2 != null) {
+                    this.videoPlayer.setSurfaceView(surfaceView2);
+                } else {
+                    this.videoPlayer.setTextureView(this.textureView);
+                }
+                this.videoPlayer.play();
             }
-            this.videoPlayer.play();
         }
         if (j > 0) {
             this.videoPlayer.seekTo(j);
@@ -275,6 +288,30 @@ public class VideoPlayerHolderBase {
         @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
         public void onError(VideoPlayer videoPlayer, Exception exc) {
             FileLog.e(exc);
+            final long currentPosition = VideoPlayerHolderBase.this.getCurrentPosition();
+            VideoPlayerHolderBase.access$010(VideoPlayerHolderBase.this);
+            if (VideoPlayerHolderBase.this.triesCount > 0) {
+                VideoPlayerHolderBase videoPlayerHolderBase = VideoPlayerHolderBase.this;
+                DispatchQueue dispatchQueue = videoPlayerHolderBase.dispatchQueue;
+                Runnable runnable = new Runnable() { // from class: org.telegram.messenger.video.VideoPlayerHolderBase$2$$ExternalSyntheticLambda1
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        VideoPlayerHolderBase.2.this.lambda$onError$0(currentPosition);
+                    }
+                };
+                videoPlayerHolderBase.initRunnable = runnable;
+                dispatchQueue.postRunnable(runnable);
+            }
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onError$0(long j) {
+            if (VideoPlayerHolderBase.this.released) {
+                return;
+            }
+            VideoPlayerHolderBase videoPlayerHolderBase = VideoPlayerHolderBase.this;
+            videoPlayerHolderBase.videoPlayer.preparePlayer(videoPlayerHolderBase.uri, "other");
+            VideoPlayerHolderBase.this.videoPlayer.seekTo(j);
         }
 
         @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
@@ -282,13 +319,13 @@ public class VideoPlayerHolderBase {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.video.VideoPlayerHolderBase$2$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    VideoPlayerHolderBase.2.this.lambda$onRenderedFirstFrame$0();
+                    VideoPlayerHolderBase.2.this.lambda$onRenderedFirstFrame$1();
                 }
             }, VideoPlayerHolderBase.this.surfaceView == null ? 16L : 32L);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onRenderedFirstFrame$0() {
+        public /* synthetic */ void lambda$onRenderedFirstFrame$1() {
             if (VideoPlayerHolderBase.this.released) {
                 return;
             }
@@ -472,6 +509,7 @@ public class VideoPlayerHolderBase {
             return;
         }
         this.audioDisabled = z3;
+        this.triesCount = 3;
         this.dispatchQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.video.VideoPlayerHolderBase$$ExternalSyntheticLambda13
             @Override // java.lang.Runnable
             public final void run() {
@@ -493,6 +531,7 @@ public class VideoPlayerHolderBase {
             this.videoPlayer.releasePlayer(false);
             this.videoPlayer = null;
             ensurePlayerCreated(this.audioDisabled);
+            FileLog.d("videoplayerholderbase.setAudioEnabled(): repreparePlayer as audio track is enabled back uri=" + this.uri);
             this.videoPlayer.preparePlayer(this.uri, "other");
             this.videoPlayer.setWorkerQueue(this.dispatchQueue);
             if (!z2) {

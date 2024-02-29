@@ -31,7 +31,7 @@ import org.telegram.ui.Components.BackgroundGradientDrawable;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.MotionBackgroundDrawable;
 import org.telegram.ui.Components.RadialProgress2;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class PatternCell extends BackupImageView implements DownloadController.FileDownloadProgressListener {
     private int TAG;
     private MotionBackgroundDrawable backgroundDrawable;
@@ -49,7 +49,7 @@ public class PatternCell extends BackupImageView implements DownloadController.F
     private RadialProgress2 radialProgress;
     private RectF rect;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface PatternCellDelegate {
         int getBackgroundColor();
 

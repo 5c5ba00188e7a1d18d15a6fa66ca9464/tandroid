@@ -100,7 +100,7 @@ public class FileLoader extends BaseController {
     private static SparseArray<File> mediaDirs = null;
     private static final FileLoader[] Instance = new FileLoader[4];
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public interface FileLoaderDelegate {
         void fileDidFailedLoad(String str, int i);
 
@@ -115,7 +115,7 @@ public class FileLoader extends BaseController {
         void fileUploadProgressChanged(FileUploadOperation fileUploadOperation, String str, long j, long j2, boolean z);
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public interface FileResolver {
         File getFile();
     }
@@ -574,7 +574,7 @@ public class FileLoader extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public class 1 implements FileUploadOperation.FileUploadOperationDelegate {
         final /* synthetic */ boolean val$encrypted;
         final /* synthetic */ String val$location;
@@ -1256,7 +1256,7 @@ public class FileLoader extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public class 2 implements FileLoadOperation.FileLoadOperationDelegate {
         final /* synthetic */ TLRPC$Document val$document;
         final /* synthetic */ String val$fileName;
@@ -1632,8 +1632,8 @@ public class FileLoader extends BaseController {
         return getPathToAttach(tLObject, null, str, z, z2);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:110:0x0173  */
-    /* JADX WARN: Removed duplicated region for block: B:112:0x017b  */
+    /* JADX WARN: Removed duplicated region for block: B:110:0x0172  */
+    /* JADX WARN: Removed duplicated region for block: B:112:0x017a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2320,7 +2320,7 @@ public class FileLoader extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class LoadOperationUIObject {
         Runnable loadInternalRunnable;
 

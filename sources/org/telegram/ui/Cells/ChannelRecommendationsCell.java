@@ -42,7 +42,7 @@ import org.telegram.ui.Components.LoadingDrawable;
 import org.telegram.ui.Components.Scroller;
 import org.telegram.ui.Components.StaticLayoutEx;
 import org.telegram.ui.Components.Text;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ChannelRecommendationsCell {
     private ChatMessageCell cell;
     private float channelsScrollWidth;
@@ -316,7 +316,7 @@ public class ChannelRecommendationsCell {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class ChannelBlock {
         public final AvatarDrawable[] avatarDrawable;
         public final ImageReceiver[] avatarImageReceiver;

@@ -42,7 +42,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.WeakHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.telegram.messenger.LiteMode;
 @SuppressLint({"PrivateConstructorForUtilityClass"})
 /* loaded from: classes.dex */
 public class ViewCompat {
@@ -809,7 +808,7 @@ public class ViewCompat {
             boolean z = getAccessibilityPaneTitle(view) != null && view.isShown() && view.getWindowVisibility() == 0;
             if (getAccessibilityLiveRegion(view) != 0 || z) {
                 AccessibilityEvent obtain = AccessibilityEvent.obtain();
-                obtain.setEventType(z ? 32 : LiteMode.FLAG_AUTOPLAY_GIFS);
+                obtain.setEventType(z ? 32 : 2048);
                 Api19Impl.setContentChangeTypes(obtain, i);
                 if (z) {
                     obtain.getText().add(getAccessibilityPaneTitle(view));

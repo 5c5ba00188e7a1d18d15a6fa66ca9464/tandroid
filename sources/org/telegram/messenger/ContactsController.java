@@ -146,7 +146,7 @@ public class ContactsController extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public class MyContentObserver extends ContentObserver {
         private Runnable checkRunnable;
 
@@ -228,7 +228,7 @@ public class ContactsController extends BaseController {
         return cachedCollator;
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class Contact {
         public int contact_id;
         public String first_name;
@@ -768,9 +768,9 @@ public class ContactsController extends BaseController {
         return i > 3;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:252:0x058c A[Catch: all -> 0x05a4, TRY_LEAVE, TryCatch #5 {all -> 0x05a4, blocks: (B:250:0x0587, B:252:0x058c), top: B:284:0x0587 }] */
-    /* JADX WARN: Removed duplicated region for block: B:261:0x059e  */
-    /* JADX WARN: Removed duplicated region for block: B:288:0x0591 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:252:0x058b A[Catch: all -> 0x05a3, TRY_LEAVE, TryCatch #2 {all -> 0x05a3, blocks: (B:250:0x0586, B:252:0x058b), top: B:278:0x0586 }] */
+    /* JADX WARN: Removed duplicated region for block: B:261:0x059d  */
+    /* JADX WARN: Removed duplicated region for block: B:288:0x0590 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:330:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1345,19 +1345,19 @@ public class ContactsController extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:129:0x0309, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:129:0x0308, code lost:
         if (r0 != false) goto L137;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:131:0x0311, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:131:0x0310, code lost:
         if (r13.contactsByPhone.containsKey(r8) == false) goto L136;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:132:0x0313, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:132:0x0312, code lost:
         r16 = r16 + 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:133:0x0316, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:133:0x0315, code lost:
         r7 = r7 + 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:134:0x0318, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:134:0x0317, code lost:
         r8 = new org.telegram.tgnet.TLRPC$TL_inputPhoneContact();
         r14 = r4.contact_id;
         r8.client_id = r14;
@@ -1367,23 +1367,23 @@ public class ContactsController extends BaseController {
         r8.phone = r4.phones.get(r5);
         r9.add(r8);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:219:0x04c5, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:219:0x04c3, code lost:
         if ((r14.contactsByPhone.size() - r0) > ((r14.contactsByPhone.size() / 3) * 2)) goto L194;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:44:0x0135, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:44:0x0134, code lost:
         if (r2.first_name.equals(r4.first_name) != false) goto L146;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:50:0x014a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:50:0x0149, code lost:
         if (r2.last_name.equals(r4.last_name) == false) goto L50;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:51:0x014c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:51:0x014b, code lost:
         r0 = true;
      */
-    /* JADX WARN: Removed duplicated region for block: B:112:0x0274  */
-    /* JADX WARN: Removed duplicated region for block: B:224:0x04cd  */
-    /* JADX WARN: Removed duplicated region for block: B:226:0x04fa  */
-    /* JADX WARN: Removed duplicated region for block: B:228:0x050c  */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x01f1  */
+    /* JADX WARN: Removed duplicated region for block: B:112:0x0273  */
+    /* JADX WARN: Removed duplicated region for block: B:224:0x04cb  */
+    /* JADX WARN: Removed duplicated region for block: B:226:0x04f7  */
+    /* JADX WARN: Removed duplicated region for block: B:228:0x0509  */
+    /* JADX WARN: Removed duplicated region for block: B:84:0x01f0  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2732,19 +2732,19 @@ public class ContactsController extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:39:0x00f5, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:39:0x00f3, code lost:
         if (r3 != null) goto L49;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:50:0x0105, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:50:0x0103, code lost:
         if (r3 == null) goto L47;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:51:0x0107, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:51:0x0105, code lost:
         r3.close();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:52:0x010a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:52:0x0108, code lost:
         org.telegram.messenger.FileLog.d("performWriteContactsToPhoneBookInternal " + (java.lang.System.currentTimeMillis() - r1));
      */
-    /* JADX WARN: Code restructure failed: missing block: B:53:0x0124, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:53:0x0121, code lost:
         return;
      */
     /* renamed from: performWriteContactsToPhoneBookInternal */
@@ -3927,7 +3927,7 @@ public class ContactsController extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public class PhoneBookContact {
         String id;
         String lookup_key;

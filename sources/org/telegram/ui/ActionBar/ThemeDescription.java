@@ -52,7 +52,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.ScamDrawable;
 import org.telegram.ui.Components.SeekBarView;
 import org.telegram.ui.Components.TypefaceSpan;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class ThemeDescription {
     public static int FLAG_AB_AM_BACKGROUND = 1048576;
     public static int FLAG_AB_AM_ITEMSCOLOR = 512;
@@ -103,10 +103,10 @@ public class ThemeDescription {
     public Theme.ResourcesProvider resourcesProvider;
     private View viewToInvalidate;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public interface ThemeDescriptionDelegate {
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes.dex */
         public final /* synthetic */ class -CC {
             public static void $default$onAnimationProgress(ThemeDescriptionDelegate themeDescriptionDelegate, float f) {
             }

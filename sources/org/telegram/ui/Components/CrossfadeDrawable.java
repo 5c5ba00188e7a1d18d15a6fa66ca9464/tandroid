@@ -1,10 +1,12 @@
 package org.telegram.ui.Components;
 
+import android.animation.ValueAnimator;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.drawable.Drawable;
 /* loaded from: classes4.dex */
 public class CrossfadeDrawable extends Drawable {
+    private ValueAnimator animator;
     private final Drawable bottomDrawable;
     float globalAlpha = 255.0f;
     private float progress;
@@ -116,6 +118,30 @@ public class CrossfadeDrawable extends Drawable {
 
     public void setProgress(float f) {
         this.progress = f;
+        invalidateSelf();
+    }
+
+    public void animateToProgress(float f) {
+        ValueAnimator valueAnimator = this.animator;
+        if (valueAnimator != null) {
+            valueAnimator.cancel();
+        }
+        ValueAnimator ofFloat = ValueAnimator.ofFloat(getProgress(), f);
+        this.animator = ofFloat;
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.CrossfadeDrawable$$ExternalSyntheticLambda0
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                CrossfadeDrawable.this.lambda$animateToProgress$0(valueAnimator2);
+            }
+        });
+        this.animator.setDuration(Math.abs(getProgress() - f) * 200.0f);
+        this.animator.setInterpolator(CubicBezierInterpolator.DEFAULT);
+        this.animator.start();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$animateToProgress$0(ValueAnimator valueAnimator) {
+        setProgress(((Float) valueAnimator.getAnimatedValue()).floatValue());
         invalidateSelf();
     }
 }

@@ -2,7 +2,7 @@ package org.telegram.messenger;
 
 import java.util.Comparator;
 import org.telegram.tgnet.TLRPC$MessageEntity;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public final /* synthetic */ class MediaDataController$$ExternalSyntheticLambda170 implements Comparator {
     public static final /* synthetic */ MediaDataController$$ExternalSyntheticLambda170 INSTANCE = new MediaDataController$$ExternalSyntheticLambda170();
 

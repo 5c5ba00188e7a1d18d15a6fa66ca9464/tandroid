@@ -4854,9 +4854,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     /* JADX WARN: Removed duplicated region for block: B:42:0x00d6  */
     /* JADX WARN: Removed duplicated region for block: B:43:0x00de  */
     /* JADX WARN: Removed duplicated region for block: B:46:0x00e7  */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x0122  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x015c  */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x01ed  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x0123  */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x015d  */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x01ee  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -5937,10 +5937,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
         /* JADX INFO: Access modifiers changed from: private */
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Removed duplicated region for block: B:146:0x04e2  */
-        /* JADX WARN: Removed duplicated region for block: B:147:0x050c  */
-        /* JADX WARN: Removed duplicated region for block: B:154:0x052f  */
-        /* JADX WARN: Removed duplicated region for block: B:182:0x05a5 A[SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:146:0x04e3  */
+        /* JADX WARN: Removed duplicated region for block: B:147:0x050d  */
+        /* JADX WARN: Removed duplicated region for block: B:154:0x0530  */
+        /* JADX WARN: Removed duplicated region for block: B:182:0x05a6 A[SYNTHETIC] */
         /* JADX WARN: Type inference failed for: r1v14, types: [org.telegram.tgnet.TLRPC$PageBlock] */
         /* JADX WARN: Type inference failed for: r1v41, types: [org.telegram.tgnet.TLRPC$PageBlock] */
         /* JADX WARN: Type inference failed for: r24v0, types: [org.telegram.ui.ArticleViewer$WebpageAdapter] */
@@ -9096,8 +9096,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             /* JADX WARN: Removed duplicated region for block: B:26:0x008e  */
             /* JADX WARN: Removed duplicated region for block: B:27:0x0091  */
             /* JADX WARN: Removed duplicated region for block: B:30:0x009e  */
-            /* JADX WARN: Removed duplicated region for block: B:31:0x00a4  */
-            /* JADX WARN: Removed duplicated region for block: B:37:0x00bf  */
+            /* JADX WARN: Removed duplicated region for block: B:31:0x00a5  */
+            /* JADX WARN: Removed duplicated region for block: B:37:0x00c0  */
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */

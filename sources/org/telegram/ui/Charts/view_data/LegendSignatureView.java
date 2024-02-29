@@ -24,7 +24,7 @@ import org.telegram.ui.Charts.data.ChartData;
 import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RadialProgressView;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class LegendSignatureView extends FrameLayout {
     Drawable backgroundDrawable;
     public boolean canGoZoom;
@@ -248,7 +248,7 @@ public class LegendSignatureView extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class Holder {
         TextView percentage;
         final LinearLayout root;

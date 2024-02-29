@@ -112,7 +112,7 @@ import org.telegram.ui.Stories.StoriesUtilities;
 import org.telegram.ui.Stories.UploadingDotsSpannable;
 import org.telegram.ui.Stories.recorder.HintView2;
 import org.telegram.ui.Stories.recorder.PreviewView;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ChatActionCell extends BaseCell implements DownloadController.FileDownloadProgressListener, NotificationCenter.NotificationCenterDelegate {
     private static Map<Integer, String> monthsToEmoticon;
     private int TAG;
@@ -202,10 +202,10 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
     private Drawable wallpaperPreviewDrawable;
     private boolean wasLayout;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface ChatActionCellDelegate {
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public final /* synthetic */ class -CC {
             public static boolean $default$canDrawOutboundsContent(ChatActionCellDelegate chatActionCellDelegate) {
                 return true;

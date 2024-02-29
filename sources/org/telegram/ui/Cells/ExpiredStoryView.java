@@ -19,7 +19,7 @@ import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.TypefaceSpan;
 import org.telegram.ui.Stories.StoriesUtilities;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ExpiredStoryView {
     int height;
     float horizontalPadding;

@@ -25,7 +25,7 @@ import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.GroupCreateCheckBox;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Premium.PremiumGradient;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class DrawerUserCell extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private int accountNumber;
     private AvatarDrawable avatarDrawable;

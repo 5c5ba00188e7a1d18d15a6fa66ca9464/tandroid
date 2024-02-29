@@ -38,7 +38,7 @@ import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.CheckBox2;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.PhotoViewer;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class SharedPhotoVideoCell extends FrameLayout {
     private Paint backgroundPaint;
     private int currentAccount;
@@ -51,7 +51,7 @@ public class SharedPhotoVideoCell extends FrameLayout {
     private PhotoVideoView[] photoVideoViews;
     private int type;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface SharedPhotoVideoCellDelegate {
         void didClickItem(SharedPhotoVideoCell sharedPhotoVideoCell, int i, MessageObject messageObject, int i2);
 
@@ -62,7 +62,7 @@ public class SharedPhotoVideoCell extends FrameLayout {
         return this.delegate;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class PhotoVideoView extends FrameLayout {
         private AnimatorSet animator;
         private CheckBox2 checkBox;

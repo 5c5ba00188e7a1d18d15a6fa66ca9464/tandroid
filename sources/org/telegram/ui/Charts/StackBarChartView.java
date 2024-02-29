@@ -14,7 +14,7 @@ import org.telegram.ui.Charts.data.StackBarChartData;
 import org.telegram.ui.Charts.view_data.LineViewData;
 import org.telegram.ui.Charts.view_data.StackBarViewData;
 import org.telegram.ui.Charts.view_data.TransitionParams;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class StackBarChartView extends BaseChartView<StackBarChartData, StackBarViewData> {
     private int[] yMaxPoints;
 

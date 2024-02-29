@@ -5,7 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public abstract class BaseCell extends ViewGroup {
     private boolean checkingForLongPress;
     private CheckForLongPress pendingCheckForLongPress;
@@ -31,7 +31,7 @@ public abstract class BaseCell extends ViewGroup {
         return i;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private final class CheckForTap implements Runnable {
         private CheckForTap() {
         }
@@ -48,7 +48,7 @@ public abstract class BaseCell extends ViewGroup {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     class CheckForLongPress implements Runnable {
         public int currentPressCount;
 

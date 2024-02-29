@@ -241,6 +241,9 @@ public class RecyclerListView extends RecyclerView {
         return true;
     }
 
+    protected void emptyViewUpdated(boolean z, boolean z2) {
+    }
+
     public ViewParent getTouchParent() {
         return null;
     }
@@ -1592,10 +1595,13 @@ public class RecyclerListView extends RecyclerView {
                     recyclerListView.selectorRect.setEmpty();
                 }
                 RecyclerListView.this.checkSection(false);
-                if (i2 == 0 || RecyclerListView.this.fastScroll == null) {
-                    return;
+                if (i2 != 0 && RecyclerListView.this.fastScroll != null) {
+                    RecyclerListView.this.fastScroll.showFloatingDate();
                 }
-                RecyclerListView.this.fastScroll.showFloatingDate();
+                if (RecyclerListView.this.pendingHighlightPosition != null) {
+                    RecyclerListView recyclerListView3 = RecyclerListView.this;
+                    recyclerListView3.highlightRowInternal(recyclerListView3.pendingHighlightPosition, 700, false);
+                }
             }
         });
         addOnItemTouchListener(new RecyclerListViewItemClickListener(context));
@@ -1603,7 +1609,6 @@ public class RecyclerListView extends RecyclerView {
 
     /* JADX INFO: Access modifiers changed from: protected */
     public void drawSectionBackground(Canvas canvas, int i, int i2, int i3) {
-        int childAdapterPosition;
         if (i2 < i) {
             return;
         }
@@ -1611,9 +1616,13 @@ public class RecyclerListView extends RecyclerView {
         int i5 = Integer.MIN_VALUE;
         for (int i6 = 0; i6 < getChildCount(); i6++) {
             View childAt = getChildAt(i6);
-            if (childAt != null && (childAdapterPosition = getChildAdapterPosition(childAt)) >= i && childAdapterPosition <= i2) {
-                i4 = Math.min((int) childAt.getY(), i4);
-                i5 = Math.max(((int) childAt.getY()) + childAt.getHeight(), i5);
+            if (childAt != null) {
+                int childAdapterPosition = getChildAdapterPosition(childAt);
+                int top = childAt.getTop();
+                if (childAdapterPosition >= i && childAdapterPosition <= i2) {
+                    i4 = Math.min(top, i4);
+                    i5 = Math.max((int) (top + (childAt.getHeight() * childAt.getAlpha())), i5);
+                }
             }
         }
         if (i4 < i5) {
@@ -2130,7 +2139,8 @@ public class RecyclerListView extends RecyclerView {
         }
     }
 
-    private void highlightRowInternal(IntReturnCallback intReturnCallback, int i, boolean z) {
+    /* JADX INFO: Access modifiers changed from: private */
+    public void highlightRowInternal(IntReturnCallback intReturnCallback, int i, boolean z) {
         Runnable runnable = this.removeHighlighSelectionRunnable;
         if (runnable != null) {
             AndroidUtilities.cancelRunOnUIThread(runnable);
@@ -2146,7 +2156,7 @@ public class RecyclerListView extends RecyclerView {
         }
         int layoutPosition = findViewHolderForAdapterPosition.getLayoutPosition();
         this.highlightPosition = layoutPosition;
-        positionSelector(layoutPosition, findViewHolderForAdapterPosition.itemView);
+        positionSelector(layoutPosition, findViewHolderForAdapterPosition.itemView, false, -1.0f, -1.0f, true);
         Drawable drawable = this.selectorDrawable;
         if (drawable != null) {
             Drawable current = drawable.getCurrent();
@@ -2166,6 +2176,7 @@ public class RecyclerListView extends RecyclerView {
             invalidateDrawable(this.selectorDrawable);
         }
         if (i > 0) {
+            this.pendingHighlightPosition = null;
             Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.RecyclerListView$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
@@ -2239,7 +2250,9 @@ public class RecyclerListView extends RecyclerView {
         }
         boolean emptyViewIsVisible = emptyViewIsVisible();
         int i = emptyViewIsVisible ? 0 : 8;
-        if ((this.animateEmptyView && SharedConfig.animationsEnabled()) ? false : false) {
+        z = (this.animateEmptyView && SharedConfig.animationsEnabled()) ? false : false;
+        emptyViewUpdated(emptyViewIsVisible, z);
+        if (z) {
             if (this.emptyViewAnimateToVisibility != i) {
                 this.emptyViewAnimateToVisibility = i;
                 if (i == 0) {
@@ -2372,7 +2385,7 @@ public class RecyclerListView extends RecyclerView {
 
     /* JADX INFO: Access modifiers changed from: private */
     public void positionSelector(int i, View view) {
-        positionSelector(i, view, false, -1.0f, -1.0f);
+        positionSelector(i, view, false, -1.0f, -1.0f, false);
     }
 
     public void updateSelector() {
@@ -2385,7 +2398,7 @@ public class RecyclerListView extends RecyclerView {
         invalidate();
     }
 
-    private void positionSelector(int i, View view, boolean z, float f, float f2) {
+    private void positionSelector(int i, View view, boolean z, float f, float f2, boolean z2) {
         Runnable runnable = this.removeHighlighSelectionRunnable;
         if (runnable != null) {
             AndroidUtilities.cancelRunOnUIThread(runnable);
@@ -2395,7 +2408,7 @@ public class RecyclerListView extends RecyclerView {
         if (this.selectorDrawable == null) {
             return;
         }
-        boolean z2 = i != this.selectorPosition;
+        boolean z3 = i != this.selectorPosition;
         int selectionBottomPadding = getAdapter() instanceof SelectionAdapter ? ((SelectionAdapter) getAdapter()).getSelectionBottomPadding(view) : 0;
         if (i != -1) {
             this.selectorPosition = i;
@@ -2411,13 +2424,13 @@ public class RecyclerListView extends RecyclerView {
         if (this.isChildViewEnabled != isEnabled) {
             this.isChildViewEnabled = isEnabled;
         }
-        if (z2) {
+        if (z3) {
             this.selectorDrawable.setVisible(false, false);
             this.selectorDrawable.setState(StateSet.NOTHING);
         }
         setListSelectorColor(getSelectorColor(i));
         this.selectorDrawable.setBounds(this.selectorRect);
-        if (z2 && getVisibility() == 0) {
+        if (z3 && getVisibility() == 0) {
             this.selectorDrawable.setVisible(true, false);
         }
         if (Build.VERSION.SDK_INT < 21 || !z) {
@@ -2652,6 +2665,7 @@ public class RecyclerListView extends RecyclerView {
             }
             if (this.translateSelector && (view3 = this.selectorView) != null) {
                 canvas.translate(view3.getX() - this.selectorRect.left, this.selectorView.getY() - this.selectorRect.top);
+                this.selectorDrawable.setAlpha((int) (this.selectorView.getAlpha() * 255.0f));
             }
             this.selectorDrawable.draw(canvas);
             canvas.restore();
@@ -2665,6 +2679,7 @@ public class RecyclerListView extends RecyclerView {
             }
             if (this.translateSelector && (view2 = this.selectorView) != null) {
                 canvas.translate(view2.getX() - this.selectorRect.left, this.selectorView.getY() - this.selectorRect.top);
+                this.selectorDrawable.setAlpha((int) (this.selectorView.getAlpha() * 255.0f));
             }
             this.selectorDrawable.draw(canvas);
             canvas.restore();

@@ -5,7 +5,7 @@ import org.telegram.tgnet.NativeByteBuffer;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Message;
 import org.telegram.tgnet.TLRPC$TL_textWithEntities;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class MessageCustomParamsHelper {
     public static boolean isEmpty(TLRPC$Message tLRPC$Message) {
         return tLRPC$Message.voiceTranscription == null && !tLRPC$Message.voiceTranscriptionOpen && !tLRPC$Message.voiceTranscriptionFinal && !tLRPC$Message.voiceTranscriptionRated && !tLRPC$Message.voiceTranscriptionForce && tLRPC$Message.voiceTranscriptionId == 0 && !tLRPC$Message.premiumEffectWasPlayed && tLRPC$Message.originalLanguage == null && tLRPC$Message.translatedToLanguage == null && tLRPC$Message.translatedText == null;
@@ -51,7 +51,7 @@ public class MessageCustomParamsHelper {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class Params_v1 extends TLObject {
         private static final int VERSION = 1;
         int flags;

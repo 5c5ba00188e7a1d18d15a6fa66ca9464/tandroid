@@ -2,7 +2,7 @@ package org.telegram.messenger;
 
 import j$.util.function.ToLongFunction;
 import org.telegram.messenger.NotificationsController;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public final /* synthetic */ class NotificationsController$$ExternalSyntheticLambda47 implements ToLongFunction {
     public static final /* synthetic */ NotificationsController$$ExternalSyntheticLambda47 INSTANCE = new NotificationsController$$ExternalSyntheticLambda47();
 

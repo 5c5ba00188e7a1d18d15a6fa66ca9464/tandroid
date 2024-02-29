@@ -74,7 +74,7 @@ import org.telegram.tgnet.TLRPC$Updates;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$UserFull;
 import org.telegram.ui.GroupCallActivity;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class ChatObject {
     public static final int ACTION_ADD_ADMINS = 4;
     public static final int ACTION_BLOCK_USERS = 2;
@@ -249,7 +249,7 @@ public class ChatObject {
         return sb.toString();
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class Call {
         public static final int RECORD_TYPE_AUDIO = 0;
         public static final int RECORD_TYPE_VIDEO_LANDSCAPE = 2;
@@ -343,7 +343,7 @@ public class ChatObject {
             }
         };
 
-        /* loaded from: classes.dex */
+        /* loaded from: classes3.dex */
         public interface OnParticipantsLoad {
             void onLoad(ArrayList<Long> arrayList);
         }
@@ -1199,7 +1199,7 @@ public class ChatObject {
             }
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:392:0x03e8  */
+        /* JADX WARN: Removed duplicated region for block: B:392:0x03e3  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -2374,7 +2374,7 @@ public class ChatObject {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class VideoParticipant {
         public float aspectRatio;
         public int aspectRatioFromHeight;

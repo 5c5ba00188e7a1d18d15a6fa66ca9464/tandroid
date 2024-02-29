@@ -43,7 +43,7 @@ import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$UserProfilePhoto;
 import org.telegram.ui.LaunchActivity;
 @TargetApi(21)
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class MusicBrowserService extends MediaBrowserService implements NotificationCenter.NotificationCenterDelegate {
     public static final String ACTION_CMD = "com.example.android.mediabrowserservice.ACTION_CMD";
     public static final String CMD_NAME = "CMD_NAME";
@@ -374,7 +374,7 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public final class MediaSessionCallback extends MediaSession.Callback {
         private MediaSessionCallback() {
         }
@@ -590,7 +590,7 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class DelayedStopHandler extends Handler {
         private final WeakReference<MusicBrowserService> mWeakReference;
 

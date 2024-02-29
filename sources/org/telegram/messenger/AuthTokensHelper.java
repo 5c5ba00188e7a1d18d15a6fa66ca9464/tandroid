@@ -8,7 +8,7 @@ import org.telegram.tgnet.SerializedData;
 import org.telegram.tgnet.TLRPC$TL_auth_authorization;
 import org.telegram.tgnet.TLRPC$TL_auth_loggedOut;
 import org.telegram.tgnet.TLRPC$auth_Authorization;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class AuthTokensHelper {
     public static ArrayList<TLRPC$TL_auth_loggedOut> getSavedLogOutTokens() {
         SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("saved_tokens", 0);

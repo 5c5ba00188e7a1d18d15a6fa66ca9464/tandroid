@@ -42,7 +42,7 @@ import org.telegram.ui.Components.LinkPath;
 import org.telegram.ui.Components.LinkSpanDrawable;
 import org.telegram.ui.Components.TypefaceSpan;
 import org.telegram.ui.Components.URLSpanNoUnderline;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class BotHelpCell extends View {
     private boolean animating;
     private String currentPhotoKey;
@@ -64,7 +64,7 @@ public class BotHelpCell extends View {
     private int textY;
     private int width;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface BotHelpCellDelegate {
         void didPressUrl(String str);
     }

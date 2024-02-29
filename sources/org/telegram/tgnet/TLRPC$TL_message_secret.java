@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 
 import android.text.TextUtils;
-import org.telegram.messenger.LiteMode;
 /* loaded from: classes3.dex */
 public class TLRPC$TL_message_secret extends TLRPC$TL_message {
     @Override // org.telegram.tgnet.TLRPC$TL_message, org.telegram.tgnet.TLObject
@@ -40,7 +39,7 @@ public class TLRPC$TL_message_secret extends TLRPC$TL_message {
             }
             this.entities.add(TLdeserialize2);
         }
-        if ((this.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
+        if ((this.flags & 2048) != 0) {
             this.via_bot_name = abstractSerializedData.readString(z);
         }
         if ((this.flags & 8) != 0) {
@@ -78,7 +77,7 @@ public class TLRPC$TL_message_secret extends TLRPC$TL_message {
         for (int i5 = 0; i5 < size; i5++) {
             this.entities.get(i5).serializeToStream(abstractSerializedData);
         }
-        if ((this.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
+        if ((this.flags & 2048) != 0) {
             abstractSerializedData.writeString(this.via_bot_name);
         }
         if ((this.flags & 8) != 0) {

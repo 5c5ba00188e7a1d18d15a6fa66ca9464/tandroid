@@ -2270,7 +2270,7 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
             return;
         }
         AccessibilityEvent obtain = AccessibilityEvent.obtain();
-        obtain.setEventType(LiteMode.FLAG_AUTOPLAY_GIFS);
+        obtain.setEventType(2048);
         AccessibilityEventCompat.setContentChangeTypes(obtain, i);
         sendAccessibilityEventUnchecked(obtain);
     }
@@ -6756,7 +6756,7 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
             if ((i & 4) == 0) {
                 int oldPosition = viewHolder.getOldPosition();
                 int adapterPosition = viewHolder.getAdapterPosition();
-                return (oldPosition == -1 || adapterPosition == -1 || oldPosition == adapterPosition) ? i : i | LiteMode.FLAG_AUTOPLAY_GIFS;
+                return (oldPosition == -1 || adapterPosition == -1 || oldPosition == adapterPosition) ? i : i | 2048;
             }
             return i;
         }

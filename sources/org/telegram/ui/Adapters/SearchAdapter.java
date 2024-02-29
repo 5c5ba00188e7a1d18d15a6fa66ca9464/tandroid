@@ -35,7 +35,7 @@ import org.telegram.ui.Cells.TextCell;
 import org.telegram.ui.Cells.UserCell;
 import org.telegram.ui.Components.ForegroundColorSpanThemable;
 import org.telegram.ui.Components.RecyclerListView;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class SearchAdapter extends RecyclerListView.SelectionAdapter {
     private ArrayList<ContactEntry> allUnregistredContacts;
     private boolean allowBots;
@@ -514,7 +514,7 @@ public class SearchAdapter extends RecyclerListView.SelectionAdapter {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public static class ContactEntry {
         ContactsController.Contact contact;
         String q1;

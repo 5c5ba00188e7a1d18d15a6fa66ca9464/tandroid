@@ -275,7 +275,7 @@ import org.telegram.ui.Components.URLSpanReplacement;
 import org.telegram.ui.Components.URLSpanUserMention;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.Stories.StoriesStorage;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class MediaDataController extends BaseController {
     public static final String ATTACH_MENU_BOT_ANIMATED_ICON_KEY = "android_animated";
     public static final String ATTACH_MENU_BOT_COLOR_DARK_ICON = "dark_icon";
@@ -443,7 +443,7 @@ public class MediaDataController extends BaseController {
     private static volatile MediaDataController[] Instance = new MediaDataController[4];
     private static final Object[] lockObjects = new Object[4];
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public interface KeywordResultCallback {
         void run(ArrayList<KeywordResult> arrayList, String str);
     }
@@ -659,7 +659,7 @@ public class MediaDataController extends BaseController {
                     getMessagesStorage().checkSQLException(e);
                 }
             }
-            getMessagesStorage().loadReplyMessages(longSparseArray, longSparseArray2, arrayList2, arrayList3, false);
+            getMessagesStorage().loadReplyMessages(longSparseArray, longSparseArray2, arrayList2, arrayList3, 0);
         } catch (Exception e2) {
             FileLog.e(e2);
         }
@@ -2099,6 +2099,7 @@ public class MediaDataController extends BaseController {
         }
         if (tLRPC$Document != null) {
             backupImageView.setImage(ImageLocation.getForDocument(tLRPC$Document), str2, DocumentObject.getSvgThumb(tLRPC$Document, Theme.key_windowBackgroundWhiteGrayIcon, 0.2f, 1.0f, null), 0, tLRPC$Document);
+            backupImageView.invalidate();
         }
     }
 
@@ -5708,7 +5709,7 @@ public class MediaDataController extends BaseController {
                     }
                 };
                 if (z2) {
-                    loadReplyMessagesForMessages(arrayList, j2, false, this.lastReplyMessageId, runnable, i2);
+                    loadReplyMessagesForMessages(arrayList, j2, 0, this.lastReplyMessageId, runnable, i2);
                 } else {
                     runnable.run();
                 }
@@ -6502,7 +6503,7 @@ public class MediaDataController extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public class 1 implements Runnable {
         final /* synthetic */ int val$classGuid;
         final /* synthetic */ int val$count;
@@ -7066,14 +7067,14 @@ public class MediaDataController extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:101:0x01cd A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x0278  */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x028f  */
-    /* JADX WARN: Removed duplicated region for block: B:86:0x02ae A[Catch: all -> 0x02f4, TryCatch #1 {all -> 0x02f4, blocks: (B:3:0x0004, B:5:0x0009, B:6:0x002b, B:9:0x0040, B:33:0x00b8, B:35:0x00ff, B:41:0x011c, B:42:0x0127, B:44:0x012d, B:46:0x0148, B:49:0x0172, B:54:0x017e, B:56:0x018a, B:62:0x019d, B:81:0x027a, B:84:0x0291, B:86:0x02ae, B:88:0x02b3, B:91:0x02c8, B:92:0x02d2, B:94:0x02df, B:96:0x02ea, B:95:0x02e5, B:89:0x02bb, B:79:0x0274, B:57:0x018d, B:59:0x0193, B:47:0x015c, B:36:0x0105, B:38:0x010e, B:40:0x0119, B:39:0x0114, B:10:0x0047, B:12:0x004f, B:14:0x0055, B:15:0x0059, B:17:0x005f, B:19:0x0081, B:21:0x0087, B:23:0x0097, B:24:0x009a, B:25:0x00a0, B:27:0x00a6, B:30:0x00ad, B:32:0x00b3), top: B:103:0x0004 }] */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x02b3 A[Catch: all -> 0x02f4, TryCatch #1 {all -> 0x02f4, blocks: (B:3:0x0004, B:5:0x0009, B:6:0x002b, B:9:0x0040, B:33:0x00b8, B:35:0x00ff, B:41:0x011c, B:42:0x0127, B:44:0x012d, B:46:0x0148, B:49:0x0172, B:54:0x017e, B:56:0x018a, B:62:0x019d, B:81:0x027a, B:84:0x0291, B:86:0x02ae, B:88:0x02b3, B:91:0x02c8, B:92:0x02d2, B:94:0x02df, B:96:0x02ea, B:95:0x02e5, B:89:0x02bb, B:79:0x0274, B:57:0x018d, B:59:0x0193, B:47:0x015c, B:36:0x0105, B:38:0x010e, B:40:0x0119, B:39:0x0114, B:10:0x0047, B:12:0x004f, B:14:0x0055, B:15:0x0059, B:17:0x005f, B:19:0x0081, B:21:0x0087, B:23:0x0097, B:24:0x009a, B:25:0x00a0, B:27:0x00a6, B:30:0x00ad, B:32:0x00b3), top: B:103:0x0004 }] */
-    /* JADX WARN: Removed duplicated region for block: B:89:0x02bb A[Catch: all -> 0x02f4, TryCatch #1 {all -> 0x02f4, blocks: (B:3:0x0004, B:5:0x0009, B:6:0x002b, B:9:0x0040, B:33:0x00b8, B:35:0x00ff, B:41:0x011c, B:42:0x0127, B:44:0x012d, B:46:0x0148, B:49:0x0172, B:54:0x017e, B:56:0x018a, B:62:0x019d, B:81:0x027a, B:84:0x0291, B:86:0x02ae, B:88:0x02b3, B:91:0x02c8, B:92:0x02d2, B:94:0x02df, B:96:0x02ea, B:95:0x02e5, B:89:0x02bb, B:79:0x0274, B:57:0x018d, B:59:0x0193, B:47:0x015c, B:36:0x0105, B:38:0x010e, B:40:0x0119, B:39:0x0114, B:10:0x0047, B:12:0x004f, B:14:0x0055, B:15:0x0059, B:17:0x005f, B:19:0x0081, B:21:0x0087, B:23:0x0097, B:24:0x009a, B:25:0x00a0, B:27:0x00a6, B:30:0x00ad, B:32:0x00b3), top: B:103:0x0004 }] */
-    /* JADX WARN: Removed duplicated region for block: B:91:0x02c8 A[Catch: all -> 0x02f4, TryCatch #1 {all -> 0x02f4, blocks: (B:3:0x0004, B:5:0x0009, B:6:0x002b, B:9:0x0040, B:33:0x00b8, B:35:0x00ff, B:41:0x011c, B:42:0x0127, B:44:0x012d, B:46:0x0148, B:49:0x0172, B:54:0x017e, B:56:0x018a, B:62:0x019d, B:81:0x027a, B:84:0x0291, B:86:0x02ae, B:88:0x02b3, B:91:0x02c8, B:92:0x02d2, B:94:0x02df, B:96:0x02ea, B:95:0x02e5, B:89:0x02bb, B:79:0x0274, B:57:0x018d, B:59:0x0193, B:47:0x015c, B:36:0x0105, B:38:0x010e, B:40:0x0119, B:39:0x0114, B:10:0x0047, B:12:0x004f, B:14:0x0055, B:15:0x0059, B:17:0x005f, B:19:0x0081, B:21:0x0087, B:23:0x0097, B:24:0x009a, B:25:0x00a0, B:27:0x00a6, B:30:0x00ad, B:32:0x00b3), top: B:103:0x0004 }] */
-    /* JADX WARN: Removed duplicated region for block: B:92:0x02d2 A[Catch: all -> 0x02f4, TryCatch #1 {all -> 0x02f4, blocks: (B:3:0x0004, B:5:0x0009, B:6:0x002b, B:9:0x0040, B:33:0x00b8, B:35:0x00ff, B:41:0x011c, B:42:0x0127, B:44:0x012d, B:46:0x0148, B:49:0x0172, B:54:0x017e, B:56:0x018a, B:62:0x019d, B:81:0x027a, B:84:0x0291, B:86:0x02ae, B:88:0x02b3, B:91:0x02c8, B:92:0x02d2, B:94:0x02df, B:96:0x02ea, B:95:0x02e5, B:89:0x02bb, B:79:0x0274, B:57:0x018d, B:59:0x0193, B:47:0x015c, B:36:0x0105, B:38:0x010e, B:40:0x0119, B:39:0x0114, B:10:0x0047, B:12:0x004f, B:14:0x0055, B:15:0x0059, B:17:0x005f, B:19:0x0081, B:21:0x0087, B:23:0x0097, B:24:0x009a, B:25:0x00a0, B:27:0x00a6, B:30:0x00ad, B:32:0x00b3), top: B:103:0x0004 }] */
+    /* JADX WARN: Removed duplicated region for block: B:107:0x01cb A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x0276  */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x028d  */
+    /* JADX WARN: Removed duplicated region for block: B:86:0x02ac A[Catch: all -> 0x02f2, TryCatch #0 {all -> 0x02f2, blocks: (B:3:0x0004, B:5:0x0009, B:6:0x002a, B:9:0x003f, B:33:0x00b7, B:35:0x00fd, B:41:0x011a, B:42:0x0125, B:44:0x012b, B:46:0x0146, B:49:0x0170, B:54:0x017c, B:56:0x0188, B:62:0x019b, B:81:0x0278, B:84:0x028f, B:86:0x02ac, B:88:0x02b1, B:91:0x02c6, B:92:0x02d0, B:94:0x02dd, B:96:0x02e8, B:95:0x02e3, B:89:0x02b9, B:79:0x0272, B:57:0x018b, B:59:0x0191, B:47:0x015a, B:36:0x0103, B:38:0x010c, B:40:0x0117, B:39:0x0112, B:10:0x0046, B:12:0x004e, B:14:0x0054, B:15:0x0058, B:17:0x005e, B:19:0x0080, B:21:0x0086, B:23:0x0096, B:24:0x0099, B:25:0x009f, B:27:0x00a5, B:30:0x00ac, B:32:0x00b2), top: B:101:0x0004 }] */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x02b1 A[Catch: all -> 0x02f2, TryCatch #0 {all -> 0x02f2, blocks: (B:3:0x0004, B:5:0x0009, B:6:0x002a, B:9:0x003f, B:33:0x00b7, B:35:0x00fd, B:41:0x011a, B:42:0x0125, B:44:0x012b, B:46:0x0146, B:49:0x0170, B:54:0x017c, B:56:0x0188, B:62:0x019b, B:81:0x0278, B:84:0x028f, B:86:0x02ac, B:88:0x02b1, B:91:0x02c6, B:92:0x02d0, B:94:0x02dd, B:96:0x02e8, B:95:0x02e3, B:89:0x02b9, B:79:0x0272, B:57:0x018b, B:59:0x0191, B:47:0x015a, B:36:0x0103, B:38:0x010c, B:40:0x0117, B:39:0x0112, B:10:0x0046, B:12:0x004e, B:14:0x0054, B:15:0x0058, B:17:0x005e, B:19:0x0080, B:21:0x0086, B:23:0x0096, B:24:0x0099, B:25:0x009f, B:27:0x00a5, B:30:0x00ac, B:32:0x00b2), top: B:101:0x0004 }] */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x02b9 A[Catch: all -> 0x02f2, TryCatch #0 {all -> 0x02f2, blocks: (B:3:0x0004, B:5:0x0009, B:6:0x002a, B:9:0x003f, B:33:0x00b7, B:35:0x00fd, B:41:0x011a, B:42:0x0125, B:44:0x012b, B:46:0x0146, B:49:0x0170, B:54:0x017c, B:56:0x0188, B:62:0x019b, B:81:0x0278, B:84:0x028f, B:86:0x02ac, B:88:0x02b1, B:91:0x02c6, B:92:0x02d0, B:94:0x02dd, B:96:0x02e8, B:95:0x02e3, B:89:0x02b9, B:79:0x0272, B:57:0x018b, B:59:0x0191, B:47:0x015a, B:36:0x0103, B:38:0x010c, B:40:0x0117, B:39:0x0112, B:10:0x0046, B:12:0x004e, B:14:0x0054, B:15:0x0058, B:17:0x005e, B:19:0x0080, B:21:0x0086, B:23:0x0096, B:24:0x0099, B:25:0x009f, B:27:0x00a5, B:30:0x00ac, B:32:0x00b2), top: B:101:0x0004 }] */
+    /* JADX WARN: Removed duplicated region for block: B:91:0x02c6 A[Catch: all -> 0x02f2, TryCatch #0 {all -> 0x02f2, blocks: (B:3:0x0004, B:5:0x0009, B:6:0x002a, B:9:0x003f, B:33:0x00b7, B:35:0x00fd, B:41:0x011a, B:42:0x0125, B:44:0x012b, B:46:0x0146, B:49:0x0170, B:54:0x017c, B:56:0x0188, B:62:0x019b, B:81:0x0278, B:84:0x028f, B:86:0x02ac, B:88:0x02b1, B:91:0x02c6, B:92:0x02d0, B:94:0x02dd, B:96:0x02e8, B:95:0x02e3, B:89:0x02b9, B:79:0x0272, B:57:0x018b, B:59:0x0191, B:47:0x015a, B:36:0x0103, B:38:0x010c, B:40:0x0117, B:39:0x0112, B:10:0x0046, B:12:0x004e, B:14:0x0054, B:15:0x0058, B:17:0x005e, B:19:0x0080, B:21:0x0086, B:23:0x0096, B:24:0x0099, B:25:0x009f, B:27:0x00a5, B:30:0x00ac, B:32:0x00b2), top: B:101:0x0004 }] */
+    /* JADX WARN: Removed duplicated region for block: B:92:0x02d0 A[Catch: all -> 0x02f2, TryCatch #0 {all -> 0x02f2, blocks: (B:3:0x0004, B:5:0x0009, B:6:0x002a, B:9:0x003f, B:33:0x00b7, B:35:0x00fd, B:41:0x011a, B:42:0x0125, B:44:0x012b, B:46:0x0146, B:49:0x0170, B:54:0x017c, B:56:0x0188, B:62:0x019b, B:81:0x0278, B:84:0x028f, B:86:0x02ac, B:88:0x02b1, B:91:0x02c6, B:92:0x02d0, B:94:0x02dd, B:96:0x02e8, B:95:0x02e3, B:89:0x02b9, B:79:0x0272, B:57:0x018b, B:59:0x0191, B:47:0x015a, B:36:0x0103, B:38:0x010c, B:40:0x0117, B:39:0x0112, B:10:0x0046, B:12:0x004e, B:14:0x0054, B:15:0x0058, B:17:0x005e, B:19:0x0080, B:21:0x0086, B:23:0x0096, B:24:0x0099, B:25:0x009f, B:27:0x00a5, B:30:0x00ac, B:32:0x00b2), top: B:101:0x0004 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -7782,13 +7783,13 @@ public class MediaDataController extends BaseController {
         r0 = th;
      */
     /* JADX WARN: Removed duplicated region for block: B:108:0x00a6 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x0062 A[Catch: Exception -> 0x0255, TryCatch #2 {Exception -> 0x0255, blocks: (B:3:0x0002, B:5:0x000d, B:8:0x0020, B:21:0x0062, B:23:0x0068, B:66:0x0172, B:68:0x0178, B:70:0x019b, B:82:0x01e2, B:72:0x01a5, B:74:0x01a9, B:75:0x01b5, B:76:0x01c1, B:78:0x01c7, B:80:0x01cb, B:81:0x01d7, B:83:0x01ec, B:85:0x01f3, B:99:0x023a, B:89:0x01fd, B:91:0x0201, B:92:0x020d, B:93:0x0219, B:95:0x021f, B:97:0x0223, B:98:0x022f, B:65:0x016f, B:25:0x0073, B:27:0x0079, B:28:0x0082, B:30:0x008e, B:31:0x0091, B:33:0x0097, B:9:0x002f, B:11:0x0035, B:13:0x0044, B:15:0x004a), top: B:110:0x0002 }] */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x0091 A[Catch: Exception -> 0x0255, TryCatch #2 {Exception -> 0x0255, blocks: (B:3:0x0002, B:5:0x000d, B:8:0x0020, B:21:0x0062, B:23:0x0068, B:66:0x0172, B:68:0x0178, B:70:0x019b, B:82:0x01e2, B:72:0x01a5, B:74:0x01a9, B:75:0x01b5, B:76:0x01c1, B:78:0x01c7, B:80:0x01cb, B:81:0x01d7, B:83:0x01ec, B:85:0x01f3, B:99:0x023a, B:89:0x01fd, B:91:0x0201, B:92:0x020d, B:93:0x0219, B:95:0x021f, B:97:0x0223, B:98:0x022f, B:65:0x016f, B:25:0x0073, B:27:0x0079, B:28:0x0082, B:30:0x008e, B:31:0x0091, B:33:0x0097, B:9:0x002f, B:11:0x0035, B:13:0x0044, B:15:0x004a), top: B:110:0x0002 }] */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x0062 A[Catch: Exception -> 0x0254, TryCatch #2 {Exception -> 0x0254, blocks: (B:3:0x0002, B:5:0x000d, B:8:0x0020, B:21:0x0062, B:23:0x0068, B:66:0x0172, B:68:0x0178, B:70:0x019a, B:82:0x01e1, B:72:0x01a4, B:74:0x01a8, B:75:0x01b4, B:76:0x01c0, B:78:0x01c6, B:80:0x01ca, B:81:0x01d6, B:83:0x01eb, B:85:0x01f2, B:99:0x0239, B:89:0x01fc, B:91:0x0200, B:92:0x020c, B:93:0x0218, B:95:0x021e, B:97:0x0222, B:98:0x022e, B:65:0x016f, B:25:0x0073, B:27:0x0079, B:28:0x0082, B:30:0x008e, B:31:0x0091, B:33:0x0097, B:9:0x002f, B:11:0x0035, B:13:0x0044, B:15:0x004a), top: B:110:0x0002 }] */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x0091 A[Catch: Exception -> 0x0254, TryCatch #2 {Exception -> 0x0254, blocks: (B:3:0x0002, B:5:0x000d, B:8:0x0020, B:21:0x0062, B:23:0x0068, B:66:0x0172, B:68:0x0178, B:70:0x019a, B:82:0x01e1, B:72:0x01a4, B:74:0x01a8, B:75:0x01b4, B:76:0x01c0, B:78:0x01c6, B:80:0x01ca, B:81:0x01d6, B:83:0x01eb, B:85:0x01f2, B:99:0x0239, B:89:0x01fc, B:91:0x0200, B:92:0x020c, B:93:0x0218, B:95:0x021e, B:97:0x0222, B:98:0x022e, B:65:0x016f, B:25:0x0073, B:27:0x0079, B:28:0x0082, B:30:0x008e, B:31:0x0091, B:33:0x0097, B:9:0x002f, B:11:0x0035, B:13:0x0044, B:15:0x004a), top: B:110:0x0002 }] */
     /* JADX WARN: Removed duplicated region for block: B:46:0x00bb  */
     /* JADX WARN: Removed duplicated region for block: B:52:0x00d6 A[Catch: all -> 0x016e, TryCatch #3 {all -> 0x016e, blocks: (B:50:0x00c2, B:52:0x00d6, B:54:0x00e1, B:56:0x00ea, B:61:0x0140, B:62:0x0169, B:55:0x00e7, B:57:0x00f1, B:59:0x00fc, B:60:0x010a), top: B:111:0x00c2 }] */
     /* JADX WARN: Removed duplicated region for block: B:57:0x00f1 A[Catch: all -> 0x016e, TryCatch #3 {all -> 0x016e, blocks: (B:50:0x00c2, B:52:0x00d6, B:54:0x00e1, B:56:0x00ea, B:61:0x0140, B:62:0x0169, B:55:0x00e7, B:57:0x00f1, B:59:0x00fc, B:60:0x010a), top: B:111:0x00c2 }] */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x0178 A[Catch: Exception -> 0x0255, TryCatch #2 {Exception -> 0x0255, blocks: (B:3:0x0002, B:5:0x000d, B:8:0x0020, B:21:0x0062, B:23:0x0068, B:66:0x0172, B:68:0x0178, B:70:0x019b, B:82:0x01e2, B:72:0x01a5, B:74:0x01a9, B:75:0x01b5, B:76:0x01c1, B:78:0x01c7, B:80:0x01cb, B:81:0x01d7, B:83:0x01ec, B:85:0x01f3, B:99:0x023a, B:89:0x01fd, B:91:0x0201, B:92:0x020d, B:93:0x0219, B:95:0x021f, B:97:0x0223, B:98:0x022f, B:65:0x016f, B:25:0x0073, B:27:0x0079, B:28:0x0082, B:30:0x008e, B:31:0x0091, B:33:0x0097, B:9:0x002f, B:11:0x0035, B:13:0x0044, B:15:0x004a), top: B:110:0x0002 }] */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x01ec A[Catch: Exception -> 0x0255, TryCatch #2 {Exception -> 0x0255, blocks: (B:3:0x0002, B:5:0x000d, B:8:0x0020, B:21:0x0062, B:23:0x0068, B:66:0x0172, B:68:0x0178, B:70:0x019b, B:82:0x01e2, B:72:0x01a5, B:74:0x01a9, B:75:0x01b5, B:76:0x01c1, B:78:0x01c7, B:80:0x01cb, B:81:0x01d7, B:83:0x01ec, B:85:0x01f3, B:99:0x023a, B:89:0x01fd, B:91:0x0201, B:92:0x020d, B:93:0x0219, B:95:0x021f, B:97:0x0223, B:98:0x022f, B:65:0x016f, B:25:0x0073, B:27:0x0079, B:28:0x0082, B:30:0x008e, B:31:0x0091, B:33:0x0097, B:9:0x002f, B:11:0x0035, B:13:0x0044, B:15:0x004a), top: B:110:0x0002 }] */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x0178 A[Catch: Exception -> 0x0254, TryCatch #2 {Exception -> 0x0254, blocks: (B:3:0x0002, B:5:0x000d, B:8:0x0020, B:21:0x0062, B:23:0x0068, B:66:0x0172, B:68:0x0178, B:70:0x019a, B:82:0x01e1, B:72:0x01a4, B:74:0x01a8, B:75:0x01b4, B:76:0x01c0, B:78:0x01c6, B:80:0x01ca, B:81:0x01d6, B:83:0x01eb, B:85:0x01f2, B:99:0x0239, B:89:0x01fc, B:91:0x0200, B:92:0x020c, B:93:0x0218, B:95:0x021e, B:97:0x0222, B:98:0x022e, B:65:0x016f, B:25:0x0073, B:27:0x0079, B:28:0x0082, B:30:0x008e, B:31:0x0091, B:33:0x0097, B:9:0x002f, B:11:0x0035, B:13:0x0044, B:15:0x004a), top: B:110:0x0002 }] */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x01eb A[Catch: Exception -> 0x0254, TryCatch #2 {Exception -> 0x0254, blocks: (B:3:0x0002, B:5:0x000d, B:8:0x0020, B:21:0x0062, B:23:0x0068, B:66:0x0172, B:68:0x0178, B:70:0x019a, B:82:0x01e1, B:72:0x01a4, B:74:0x01a8, B:75:0x01b4, B:76:0x01c0, B:78:0x01c6, B:80:0x01ca, B:81:0x01d6, B:83:0x01eb, B:85:0x01f2, B:99:0x0239, B:89:0x01fc, B:91:0x0200, B:92:0x020c, B:93:0x0218, B:95:0x021e, B:97:0x0222, B:98:0x022e, B:65:0x016f, B:25:0x0073, B:27:0x0079, B:28:0x0082, B:30:0x008e, B:31:0x0091, B:33:0x0097, B:9:0x002f, B:11:0x0035, B:13:0x0044, B:15:0x004a), top: B:110:0x0002 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -7974,8 +7975,8 @@ public class MediaDataController extends BaseController {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:24:0x00a6 A[Catch: Exception -> 0x00d6, TryCatch #0 {Exception -> 0x00d6, blocks: (B:2:0x0000, B:4:0x0006, B:6:0x003e, B:7:0x004d, B:9:0x0054, B:12:0x0067, B:24:0x00a6, B:26:0x00b1, B:25:0x00af, B:13:0x0076, B:15:0x007c, B:17:0x008c, B:19:0x0092), top: B:32:0x0000 }] */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x00af A[Catch: Exception -> 0x00d6, TryCatch #0 {Exception -> 0x00d6, blocks: (B:2:0x0000, B:4:0x0006, B:6:0x003e, B:7:0x004d, B:9:0x0054, B:12:0x0067, B:24:0x00a6, B:26:0x00b1, B:25:0x00af, B:13:0x0076, B:15:0x007c, B:17:0x008c, B:19:0x0092), top: B:32:0x0000 }] */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x00a4 A[Catch: Exception -> 0x00d4, TryCatch #0 {Exception -> 0x00d4, blocks: (B:2:0x0000, B:4:0x0006, B:6:0x003c, B:7:0x004b, B:9:0x0052, B:12:0x0065, B:24:0x00a4, B:26:0x00af, B:25:0x00ad, B:13:0x0074, B:15:0x007a, B:17:0x008a, B:19:0x0090), top: B:32:0x0000 }] */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x00ad A[Catch: Exception -> 0x00d4, TryCatch #0 {Exception -> 0x00d4, blocks: (B:2:0x0000, B:4:0x0006, B:6:0x003c, B:7:0x004b, B:9:0x0052, B:12:0x0065, B:24:0x00a4, B:26:0x00af, B:25:0x00ad, B:13:0x0074, B:15:0x007a, B:17:0x008a, B:19:0x0090), top: B:32:0x0000 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -8464,141 +8465,141 @@ public class MediaDataController extends BaseController {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:100:0x01b2, code lost:
-        if (r1.contains(java.lang.Integer.valueOf(r12)) != false) goto L140;
+    /* JADX WARN: Code restructure failed: missing block: B:102:0x019d, code lost:
+        if (r1 != 0) goto L160;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:101:0x01b4, code lost:
-        r1.add(java.lang.Integer.valueOf(r12));
+    /* JADX WARN: Code restructure failed: missing block: B:105:0x01a8, code lost:
+        if (r1 != 0) goto L160;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:102:0x01bb, code lost:
-        r2.add(r4);
+    /* JADX WARN: Code restructure failed: missing block: B:107:0x01ab, code lost:
+        r1 = 0;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:62:0x0120, code lost:
-        if (r2 != 0) goto L109;
+    /* JADX WARN: Code restructure failed: missing block: B:108:0x01ac, code lost:
+        r12 = r4.replyMessageObject;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:65:0x012b, code lost:
-        if (r2 != 0) goto L109;
+    /* JADX WARN: Code restructure failed: missing block: B:109:0x01ae, code lost:
+        if (r12 == null) goto L170;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:67:0x012e, code lost:
-        r2 = 0;
+    /* JADX WARN: Code restructure failed: missing block: B:110:0x01b0, code lost:
+        r12 = r12.messageOwner;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:68:0x012f, code lost:
-        r8 = r4.replyMessageObject;
+    /* JADX WARN: Code restructure failed: missing block: B:111:0x01b2, code lost:
+        if (r12 == null) goto L90;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:69:0x0131, code lost:
-        if (r8 == null) goto L120;
+    /* JADX WARN: Code restructure failed: missing block: B:112:0x01b4, code lost:
+        r12 = r12.peer_id;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:70:0x0133, code lost:
-        r8 = r8.messageOwner;
+    /* JADX WARN: Code restructure failed: missing block: B:113:0x01b6, code lost:
+        if (r12 == null) goto L90;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:71:0x0135, code lost:
-        if (r8 == null) goto L119;
+    /* JADX WARN: Code restructure failed: missing block: B:115:0x01ba, code lost:
+        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageEmpty) == false) goto L168;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:72:0x0137, code lost:
-        r8 = r8.peer_id;
+    /* JADX WARN: Code restructure failed: missing block: B:118:0x01c2, code lost:
+        if (r12.channel_id != r1) goto L170;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:73:0x0139, code lost:
-        if (r8 == null) goto L119;
+    /* JADX WARN: Code restructure failed: missing block: B:121:0x01cb, code lost:
+        if (r20 == org.telegram.messenger.UserObject.REPLY_BOT) goto L191;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:75:0x013d, code lost:
-        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageEmpty) == false) goto L117;
+    /* JADX WARN: Code restructure failed: missing block: B:123:0x01d1, code lost:
+        if (r1 == 0) goto L191;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:78:0x0144, code lost:
-        if (r8.channel_id != r2) goto L120;
+    /* JADX WARN: Code restructure failed: missing block: B:124:0x01d3, code lost:
+        r5 = r3;
+        r12 = r4;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:79:0x0146, code lost:
-        r5 = r1;
+    /* JADX WARN: Code restructure failed: missing block: B:125:0x01dc, code lost:
+        if (r4.getDialogId() == (-r1)) goto L180;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:81:0x014d, code lost:
-        if (r19 == org.telegram.messenger.UserObject.REPLY_BOT) goto L141;
+    /* JADX WARN: Code restructure failed: missing block: B:126:0x01de, code lost:
+        r3 = org.telegram.messenger.MessagesController.getInstance(r18.currentAccount).getChat(java.lang.Long.valueOf(r1));
      */
-    /* JADX WARN: Code restructure failed: missing block: B:83:0x0153, code lost:
-        if (r2 == 0) goto L141;
+    /* JADX WARN: Code restructure failed: missing block: B:127:0x01ec, code lost:
+        if (r3 == null) goto L180;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:84:0x0155, code lost:
-        r5 = r1;
+    /* JADX WARN: Code restructure failed: missing block: B:129:0x01f2, code lost:
+        if (org.telegram.messenger.ChatObject.isPublic(r3) != false) goto L180;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:85:0x015d, code lost:
-        if (r4.getDialogId() == (-r2)) goto L130;
+    /* JADX WARN: Code restructure failed: missing block: B:131:0x01f8, code lost:
+        r5 = r3;
+        r12 = r4;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:86:0x015f, code lost:
-        r0 = org.telegram.messenger.MessagesController.getInstance(r17.currentAccount).getChat(java.lang.Long.valueOf(r2));
+    /* JADX WARN: Code restructure failed: missing block: B:132:0x01fa, code lost:
+        r3 = (android.util.SparseArray) r6.get(r20);
+        r4 = (java.util.ArrayList) r7.get(r1);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:87:0x016d, code lost:
-        if (r0 == null) goto L130;
+    /* JADX WARN: Code restructure failed: missing block: B:133:0x0206, code lost:
+        if (r3 != null) goto L183;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:89:0x0173, code lost:
-        if (org.telegram.messenger.ChatObject.isPublic(r0) != false) goto L130;
+    /* JADX WARN: Code restructure failed: missing block: B:134:0x0208, code lost:
+        r3 = new android.util.SparseArray();
+        r6.put(r20, r3);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:91:0x0179, code lost:
-        r5 = r1;
+    /* JADX WARN: Code restructure failed: missing block: B:135:0x0210, code lost:
+        if (r4 != null) goto L185;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:92:0x017a, code lost:
-        r0 = (android.util.SparseArray) r6.get(r19);
-        r1 = (java.util.ArrayList) r7.get(r2);
+    /* JADX WARN: Code restructure failed: missing block: B:136:0x0212, code lost:
+        r4 = new java.util.ArrayList();
+        r7.put(r1, r4);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:93:0x0186, code lost:
-        if (r0 != null) goto L133;
+    /* JADX WARN: Code restructure failed: missing block: B:137:0x021a, code lost:
+        r1 = (java.util.ArrayList) r3.get(r13);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:94:0x0188, code lost:
-        r0 = new android.util.SparseArray();
-        r6.put(r19, r0);
+    /* JADX WARN: Code restructure failed: missing block: B:138:0x0220, code lost:
+        if (r1 != null) goto L190;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:95:0x0190, code lost:
-        if (r1 != null) goto L135;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:96:0x0192, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:139:0x0222, code lost:
         r1 = new java.util.ArrayList();
-        r7.put(r2, r1);
+        r3.put(r13, r1);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:97:0x019a, code lost:
-        r2 = (java.util.ArrayList) r0.get(r12);
+    /* JADX WARN: Code restructure failed: missing block: B:140:0x0232, code lost:
+        if (r4.contains(java.lang.Integer.valueOf(r13)) != false) goto L190;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:98:0x01a0, code lost:
-        if (r2 != null) goto L140;
+    /* JADX WARN: Code restructure failed: missing block: B:141:0x0234, code lost:
+        r4.add(java.lang.Integer.valueOf(r13));
      */
-    /* JADX WARN: Code restructure failed: missing block: B:99:0x01a2, code lost:
-        r2 = new java.util.ArrayList();
-        r0.put(r12, r2);
+    /* JADX WARN: Code restructure failed: missing block: B:142:0x023b, code lost:
+        r4 = r12;
+        r1.add(r4);
      */
-    /* JADX WARN: Removed duplicated region for block: B:118:0x020d  */
-    /* JADX WARN: Removed duplicated region for block: B:129:0x022c  */
-    /* JADX WARN: Removed duplicated region for block: B:159:0x0278 A[ADDED_TO_REGION, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:158:0x028e  */
+    /* JADX WARN: Removed duplicated region for block: B:169:0x02ad  */
+    /* JADX WARN: Removed duplicated region for block: B:214:0x02f9 A[ADDED_TO_REGION, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void loadReplyMessagesForMessages(ArrayList<MessageObject> arrayList, final long j, final boolean z, long j2, final Runnable runnable, final int i) {
-        int i2;
+    public void loadReplyMessagesForMessages(ArrayList<MessageObject> arrayList, final long j, int i, long j2, final Runnable runnable, final int i2) {
         LongSparseArray longSparseArray;
+        int i3;
         TLRPC$Message tLRPC$Message;
         TLRPC$MessageMedia tLRPC$MessageMedia;
         TLRPC$WebPage tLRPC$WebPage;
-        int i3;
+        int i4;
         long j3;
-        ArrayList<MessageObject> arrayList2 = arrayList;
+        final boolean z = i == 1;
         if (DialogObject.isEncryptedDialog(j)) {
-            final ArrayList arrayList3 = new ArrayList();
+            final ArrayList arrayList2 = new ArrayList();
             final LongSparseArray longSparseArray2 = new LongSparseArray();
-            for (int i4 = 0; i4 < arrayList.size(); i4++) {
-                MessageObject messageObject = arrayList2.get(i4);
+            for (int i5 = 0; i5 < arrayList.size(); i5++) {
+                MessageObject messageObject = arrayList.get(i5);
                 if (messageObject != null && messageObject.isReply() && messageObject.replyMessageObject == null) {
                     long j4 = messageObject.messageOwner.reply_to.reply_to_random_id;
-                    ArrayList arrayList4 = (ArrayList) longSparseArray2.get(j4);
-                    if (arrayList4 == null) {
-                        arrayList4 = new ArrayList();
-                        longSparseArray2.put(j4, arrayList4);
+                    ArrayList arrayList3 = (ArrayList) longSparseArray2.get(j4);
+                    if (arrayList3 == null) {
+                        arrayList3 = new ArrayList();
+                        longSparseArray2.put(j4, arrayList3);
                     }
-                    arrayList4.add(messageObject);
-                    if (!arrayList3.contains(Long.valueOf(j4))) {
-                        arrayList3.add(Long.valueOf(j4));
+                    arrayList3.add(messageObject);
+                    if (!arrayList2.contains(Long.valueOf(j4))) {
+                        arrayList2.add(Long.valueOf(j4));
                     }
                 }
             }
-            if (!arrayList3.isEmpty()) {
+            if (!arrayList2.isEmpty()) {
                 getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda76
                     @Override // java.lang.Runnable
                     public final void run() {
-                        MediaDataController.this.lambda$loadReplyMessagesForMessages$163(arrayList3, j, longSparseArray2, runnable);
+                        MediaDataController.this.lambda$loadReplyMessagesForMessages$163(arrayList2, j, longSparseArray2, runnable);
                     }
                 });
                 return;
@@ -8611,28 +8612,57 @@ public class MediaDataController extends BaseController {
         }
         final LongSparseArray longSparseArray3 = new LongSparseArray();
         final LongSparseArray longSparseArray4 = new LongSparseArray();
+        for (int i6 = 0; i6 < arrayList.size(); i6++) {
+            MessageObject messageObject2 = arrayList.get(i6);
+            if (messageObject2 != null && !messageObject2.isReplyToStory() && messageObject2.isReply() && messageObject2.getId() > 0) {
+                TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader = messageObject2.messageOwner.reply_to;
+                if (tLRPC$MessageReplyHeader.reply_to_peer_id == null) {
+                    int i7 = tLRPC$MessageReplyHeader.reply_to_msg_id;
+                    int i8 = 0;
+                    while (true) {
+                        if (i8 >= arrayList.size()) {
+                            break;
+                        } else if (i6 == i8 || arrayList.get(i8) == null || arrayList.get(i8).getId() != i7) {
+                            i8++;
+                        } else {
+                            messageObject2.replyMessageObject = arrayList.get(i8);
+                            messageObject2.applyTimestampsHighlightForReplyMsg();
+                            TLRPC$MessageAction tLRPC$MessageAction = messageObject2.messageOwner.action;
+                            if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionPinMessage) {
+                                messageObject2.generatePinMessageText(null, null);
+                            } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionGameScore) {
+                                messageObject2.generateGameMessageText(null);
+                            } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionPaymentSent) {
+                                messageObject2.generatePaymentSentMessageText(null);
+                            }
+                        }
+                    }
+                }
+            }
+        }
         LongSparseArray longSparseArray5 = null;
-        int i5 = 0;
-        while (i5 < arrayList.size()) {
-            MessageObject messageObject2 = arrayList2.get(i5);
-            if (messageObject2 != null) {
-                int i6 = messageObject2.type;
-                if (i6 == 23 || i6 == 24) {
-                    i2 = i5;
+        int i9 = 0;
+        while (i9 < arrayList.size()) {
+            MessageObject messageObject3 = arrayList.get(i9);
+            if (messageObject3 != null) {
+                int i10 = messageObject3.type;
+                if (i10 == 23 || i10 == 24) {
                     longSparseArray = longSparseArray5;
-                    TLRPC$MessageMedia tLRPC$MessageMedia2 = messageObject2.messageOwner.media;
+                    i3 = i9;
+                    TLRPC$MessageMedia tLRPC$MessageMedia2 = messageObject3.messageOwner.media;
                     if (tLRPC$MessageMedia2.storyItem == null) {
                         long peerDialogId = DialogObject.getPeerDialogId(tLRPC$MessageMedia2.peer);
-                        longSparseArray5 = longSparseArray == null ? new LongSparseArray() : longSparseArray;
-                        ArrayList arrayList5 = (ArrayList) longSparseArray5.get(peerDialogId);
-                        if (arrayList5 == null) {
-                            arrayList5 = new ArrayList();
-                            longSparseArray5.put(peerDialogId, arrayList5);
+                        LongSparseArray longSparseArray6 = longSparseArray == null ? new LongSparseArray() : longSparseArray;
+                        ArrayList arrayList4 = (ArrayList) longSparseArray6.get(peerDialogId);
+                        if (arrayList4 == null) {
+                            arrayList4 = new ArrayList();
+                            longSparseArray6.put(peerDialogId, arrayList4);
                         }
-                        arrayList5.add(messageObject2);
-                        if (messageObject2.type == 0 && (tLRPC$Message = messageObject2.messageOwner) != null && (tLRPC$MessageMedia = tLRPC$Message.media) != null && (tLRPC$WebPage = tLRPC$MessageMedia.webpage) != null && tLRPC$WebPage.attributes != null) {
-                            for (i3 = 0; i3 < messageObject2.messageOwner.media.webpage.attributes.size(); i3++) {
-                                TLRPC$WebPageAttribute tLRPC$WebPageAttribute = messageObject2.messageOwner.media.webpage.attributes.get(i3);
+                        arrayList4.add(messageObject3);
+                        longSparseArray5 = longSparseArray6;
+                        if (messageObject3.type == 0 && (tLRPC$Message = messageObject3.messageOwner) != null && (tLRPC$MessageMedia = tLRPC$Message.media) != null && (tLRPC$WebPage = tLRPC$MessageMedia.webpage) != null && tLRPC$WebPage.attributes != null) {
+                            for (i4 = 0; i4 < messageObject3.messageOwner.media.webpage.attributes.size(); i4++) {
+                                TLRPC$WebPageAttribute tLRPC$WebPageAttribute = messageObject3.messageOwner.media.webpage.attributes.get(i4);
                                 if (tLRPC$WebPageAttribute instanceof TLRPC$TL_webPageAttributeStory) {
                                     TLRPC$TL_webPageAttributeStory tLRPC$TL_webPageAttributeStory = (TLRPC$TL_webPageAttributeStory) tLRPC$WebPageAttribute;
                                     if (tLRPC$TL_webPageAttributeStory.storyItem == null) {
@@ -8640,12 +8670,12 @@ public class MediaDataController extends BaseController {
                                         if (longSparseArray5 == null) {
                                             longSparseArray5 = new LongSparseArray();
                                         }
-                                        ArrayList arrayList6 = (ArrayList) longSparseArray5.get(peerDialogId2);
-                                        if (arrayList6 == null) {
-                                            arrayList6 = new ArrayList();
-                                            longSparseArray5.put(peerDialogId2, arrayList6);
+                                        ArrayList arrayList5 = (ArrayList) longSparseArray5.get(peerDialogId2);
+                                        if (arrayList5 == null) {
+                                            arrayList5 = new ArrayList();
+                                            longSparseArray5.put(peerDialogId2, arrayList5);
                                         }
-                                        arrayList6.add(messageObject2);
+                                        arrayList5.add(messageObject3);
                                     } else {
                                         tLRPC$TL_webPageAttributeStory.storyItem = StoriesStorage.checkExpiredStateLocal(this.currentAccount, DialogObject.getPeerDialogId(tLRPC$TL_webPageAttributeStory.peer), tLRPC$TL_webPageAttributeStory.storyItem);
                                     }
@@ -8654,42 +8684,42 @@ public class MediaDataController extends BaseController {
                         }
                     } else {
                         long peerDialogId3 = DialogObject.getPeerDialogId(tLRPC$MessageMedia2.peer);
-                        TLRPC$MessageMedia tLRPC$MessageMedia3 = messageObject2.messageOwner.media;
+                        TLRPC$MessageMedia tLRPC$MessageMedia3 = messageObject3.messageOwner.media;
                         tLRPC$MessageMedia3.storyItem = StoriesStorage.checkExpiredStateLocal(this.currentAccount, peerDialogId3, tLRPC$MessageMedia3.storyItem);
                         longSparseArray5 = longSparseArray;
-                        if (messageObject2.type == 0) {
-                            while (i3 < messageObject2.messageOwner.media.webpage.attributes.size()) {
+                        if (messageObject3.type == 0) {
+                            while (i4 < messageObject3.messageOwner.media.webpage.attributes.size()) {
                             }
                         }
                     }
                 } else {
-                    if (messageObject2.getId() > 0 && messageObject2.isReplyToStory()) {
-                        TLRPC$Message tLRPC$Message2 = messageObject2.messageOwner;
+                    if (messageObject3.getId() > 0 && messageObject3.isReplyToStory()) {
+                        TLRPC$Message tLRPC$Message2 = messageObject3.messageOwner;
                         if (tLRPC$Message2.replyStory == null) {
                             long peerDialogId4 = DialogObject.getPeerDialogId(tLRPC$Message2.reply_to.peer);
                             if (longSparseArray5 == null) {
                                 longSparseArray5 = new LongSparseArray();
                             }
-                            ArrayList arrayList7 = (ArrayList) longSparseArray5.get(peerDialogId4);
-                            if (arrayList7 == null) {
-                                arrayList7 = new ArrayList();
-                                longSparseArray5.put(peerDialogId4, arrayList7);
+                            ArrayList arrayList6 = (ArrayList) longSparseArray5.get(peerDialogId4);
+                            if (arrayList6 == null) {
+                                arrayList6 = new ArrayList();
+                                longSparseArray5.put(peerDialogId4, arrayList6);
                             }
-                            arrayList7.add(messageObject2);
-                            i2 = i5;
-                            if (messageObject2.type == 0) {
+                            arrayList6.add(messageObject3);
+                            i3 = i9;
+                            if (messageObject3.type == 0) {
                             }
                         } else {
                             long peerDialogId5 = DialogObject.getPeerDialogId(tLRPC$Message2.reply_to.peer);
-                            TLRPC$Message tLRPC$Message3 = messageObject2.messageOwner;
+                            TLRPC$Message tLRPC$Message3 = messageObject3.messageOwner;
                             tLRPC$Message3.replyStory = StoriesStorage.checkExpiredStateLocal(this.currentAccount, peerDialogId5, tLRPC$Message3.replyStory);
                         }
-                    } else if (messageObject2.getId() > 0 && messageObject2.isReply()) {
-                        TLRPC$Message tLRPC$Message4 = messageObject2.messageOwner;
-                        TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader = tLRPC$Message4.reply_to;
-                        int i7 = tLRPC$MessageReplyHeader.reply_to_msg_id;
-                        if (i7 != j2) {
-                            TLRPC$Peer tLRPC$Peer = tLRPC$MessageReplyHeader.reply_to_peer_id;
+                    } else if (messageObject3.getId() > 0 && messageObject3.isReply()) {
+                        TLRPC$Message tLRPC$Message4 = messageObject3.messageOwner;
+                        TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader2 = tLRPC$Message4.reply_to;
+                        int i11 = tLRPC$MessageReplyHeader2.reply_to_msg_id;
+                        if (i11 != j2) {
+                            TLRPC$Peer tLRPC$Peer = tLRPC$MessageReplyHeader2.reply_to_peer_id;
                             if (tLRPC$Peer != null) {
                                 longSparseArray = longSparseArray5;
                                 j3 = tLRPC$Peer.channel_id;
@@ -8699,28 +8729,26 @@ public class MediaDataController extends BaseController {
                             }
                         }
                     }
-                    i2 = i5;
                     longSparseArray = longSparseArray5;
+                    i3 = i9;
                     longSparseArray5 = longSparseArray;
-                    if (messageObject2.type == 0) {
+                    if (messageObject3.type == 0) {
                     }
                 }
-                i5 = i2 + 1;
-                arrayList2 = arrayList;
+                i9 = i3 + 1;
             }
-            i2 = i5;
             longSparseArray = longSparseArray5;
+            i3 = i9;
             longSparseArray5 = longSparseArray;
-            i5 = i2 + 1;
-            arrayList2 = arrayList;
+            i9 = i3 + 1;
         }
-        final LongSparseArray longSparseArray6 = longSparseArray5;
-        if (!longSparseArray3.isEmpty() || longSparseArray6 != null) {
+        final LongSparseArray longSparseArray7 = longSparseArray5;
+        if (!longSparseArray3.isEmpty() || longSparseArray7 != null) {
             final AtomicInteger atomicInteger = new AtomicInteger(2);
             getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda57
                 @Override // java.lang.Runnable
                 public final void run() {
-                    MediaDataController.this.lambda$loadReplyMessagesForMessages$169(longSparseArray6, atomicInteger, runnable, i, longSparseArray3, longSparseArray4, z, j);
+                    MediaDataController.this.lambda$loadReplyMessagesForMessages$169(longSparseArray7, atomicInteger, runnable, i2, longSparseArray3, longSparseArray4, z, j);
                 }
             });
         } else if (runnable != null) {
@@ -10290,7 +10318,7 @@ public class MediaDataController extends BaseController {
                     } catch (Exception e) {
                         getMessagesStorage().checkSQLException(e);
                     }
-                    getMessagesStorage().loadReplyMessages(longSparseArray, longSparseArray2, arrayList, arrayList2, false);
+                    getMessagesStorage().loadReplyMessages(longSparseArray, longSparseArray2, arrayList, arrayList2, 0);
                 }
                 tLRPC$Message = tLRPC$Message2;
             } else {
@@ -10964,7 +10992,7 @@ public class MediaDataController extends BaseController {
         return null;
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class KeywordResult {
         public String emoji;
         public String keyword;
@@ -11961,7 +11989,7 @@ public class MediaDataController extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public class 2 implements Runnable {
         final /* synthetic */ ArrayList val$previewItems;
 
@@ -12021,7 +12049,7 @@ public class MediaDataController extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public class 3 implements Runnable {
         final /* synthetic */ int val$currentAccount;
         final /* synthetic */ ArrayList val$previewItems;
@@ -12477,7 +12505,7 @@ public class MediaDataController extends BaseController {
         return arrayList;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:26:0x007b  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0079  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -12570,7 +12598,7 @@ public class MediaDataController extends BaseController {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:21:0x0068  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x0065  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -12646,7 +12674,7 @@ public class MediaDataController extends BaseController {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:19:0x0064  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x0061  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -12768,7 +12796,7 @@ public class MediaDataController extends BaseController {
         return this.draftVoices.get(Objects.hash(Long.valueOf(j), Long.valueOf(j2)));
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class DraftVoice {
         public long id;
         public boolean once;

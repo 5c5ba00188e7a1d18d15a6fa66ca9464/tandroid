@@ -46,7 +46,7 @@ import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 import org.telegram.ui.Components.RecyclerListView;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class FiltersView extends RecyclerListView {
     DiffUtil.Callback diffUtilsCallback;
     LinearLayoutManager layoutManager;
@@ -577,7 +577,7 @@ public class FiltersView extends RecyclerListView {
         setSelectorDrawableColor(getThemedColor(Theme.key_listSelector));
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     private class Adapter extends RecyclerListView.SelectionAdapter {
         @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
         public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {
@@ -607,7 +607,7 @@ public class FiltersView extends RecyclerListView {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public static class FilterView extends FrameLayout {
         BackupImageView avatarImageView;
         MediaFilterData data;
@@ -693,7 +693,7 @@ public class FiltersView extends RecyclerListView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public class ViewHolder extends RecyclerView.ViewHolder {
         FilterView filterView;
 
@@ -703,7 +703,7 @@ public class FiltersView extends RecyclerListView {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public static class MediaFilterData {
         public TLObject chat;
         public DateData dateData;
@@ -755,7 +755,7 @@ public class FiltersView extends RecyclerListView {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public static class DateData {
         public final long maxDate;
         public final long minDate;
@@ -792,7 +792,7 @@ public class FiltersView extends RecyclerListView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public static class UpdateCallback implements ListUpdateCallback {
         final RecyclerView.Adapter adapter;
         boolean changed;

@@ -16,7 +16,7 @@ import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Switch;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class CheckBoxUserCell extends FrameLayout {
     private static Drawable verifiedDrawable;
     private AvatarDrawable avatarDrawable;

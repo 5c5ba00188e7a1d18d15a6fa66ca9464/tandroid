@@ -1702,7 +1702,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
             case R.styleable.AppCompatTheme_colorAccent /* 50 */:
             case 'x':
             case 140:
-            case MessagesStorage.LAST_DB_VERSION /* 143 */:
+            case 143:
             case 170:
             case 193:
             case 223:
@@ -1951,7 +1951,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 return new int[]{3, 4, 1, 3, 3, 2};
             case 147:
                 return new int[]{4, 2, 3, 3, 2, 2};
-            case 148:
+            case MessagesStorage.LAST_DB_VERSION /* 148 */:
                 return new int[]{3, 4, 4, 4, 2, 2};
             case 149:
                 return new int[]{1, 0, 4, 1, 2, 2};

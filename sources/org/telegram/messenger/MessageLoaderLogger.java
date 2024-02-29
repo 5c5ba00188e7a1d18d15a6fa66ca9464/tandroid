@@ -1,5 +1,5 @@
 package org.telegram.messenger;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class MessageLoaderLogger {
     final int count;
     final long dialogId;

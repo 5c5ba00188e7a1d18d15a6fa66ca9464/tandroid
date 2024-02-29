@@ -23,7 +23,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.Premium.boosts.BoostRepository;
 import org.telegram.ui.LaunchActivity;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class ChannelBoostsController {
     public static final int BOOSTS_FOR_LEVEL_1 = 1;
     public static final int BOOSTS_FOR_LEVEL_2 = 1;
@@ -124,7 +124,7 @@ public class ChannelBoostsController {
         BoostRepository.applyBoost(-j, Arrays.asList(Integer.valueOf(i)), callback, callback2);
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class CanApplyBoost {
         public boolean alreadyActive;
         public int boostCount = 0;

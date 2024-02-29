@@ -1,7 +1,7 @@
 package org.telegram.messenger;
 
 import java.util.Comparator;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public final /* synthetic */ class Emoji$$ExternalSyntheticLambda2 implements Comparator {
     public static final /* synthetic */ Emoji$$ExternalSyntheticLambda2 INSTANCE = new Emoji$$ExternalSyntheticLambda2();
 

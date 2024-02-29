@@ -2,7 +2,7 @@ package org.telegram.ui.ActionBar;
 
 import android.view.MotionEvent;
 import android.view.View;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public final /* synthetic */ class BottomSheet$$ExternalSyntheticLambda7 implements View.OnTouchListener {
     public static final /* synthetic */ BottomSheet$$ExternalSyntheticLambda7 INSTANCE = new BottomSheet$$ExternalSyntheticLambda7();
 

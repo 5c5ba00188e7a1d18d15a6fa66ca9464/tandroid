@@ -24,7 +24,7 @@ import java.util.Locale;
 import java.util.Map;
 import org.telegram.messenger.CompoundEmoji;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class Emoji {
     private static String[] DEFAULT_RECENT = null;
     private static final int MAX_RECENT_EMOJI_COUNT = 48;
@@ -44,7 +44,7 @@ public class Emoji {
     private static HashMap<CharSequence, DrawableInfo> rects = new HashMap<>();
     private static boolean inited = false;
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static abstract class EmojiDrawable extends Drawable {
         boolean fullSize = false;
         int placeholderColor = 268435456;
@@ -276,7 +276,7 @@ public class Emoji {
         return compoundEmojiDrawable;
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class SimpleEmojiDrawable extends EmojiDrawable {
         private static Paint paint = new Paint(2);
         private static Rect rect = new Rect();
@@ -359,7 +359,7 @@ public class Emoji {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class DrawableInfo {
         public int emojiIndex;
         public byte page;
@@ -372,7 +372,7 @@ public class Emoji {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class EmojiSpanRange {
         public CharSequence code;
         public int end;
@@ -798,7 +798,7 @@ public class Emoji {
         return newSpannable;
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class EmojiSpan extends ImageSpan {
         public boolean drawn;
         public String emoji;

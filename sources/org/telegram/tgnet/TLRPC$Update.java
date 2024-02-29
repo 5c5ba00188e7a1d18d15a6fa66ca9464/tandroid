@@ -325,6 +325,9 @@ public abstract class TLRPC$Update extends TLObject {
             case -219423922:
                 tLRPC$TL_updateTheme = new TLRPC$TL_updateGroupCallParticipants();
                 break;
+            case -180508905:
+                tLRPC$TL_updateTheme = new TLRPC$TL_updateNewQuickReply();
+                break;
             case -145845461:
                 tLRPC$TL_updateTheme = new TL_stories$TL_updateReadStories();
                 break;
@@ -333,6 +336,9 @@ public abstract class TLRPC$Update extends TLObject {
                 break;
             case -124097970:
                 tLRPC$TL_updateTheme = new TLRPC$TL_updateChat();
+                break;
+            case -112784718:
+                tLRPC$TL_updateTheme = new TLRPC$TL_updateQuickReplies();
                 break;
             case -99664734:
                 tLRPC$TL_updateTheme = new TLRPC$TL_updatePinnedDialogs();
@@ -529,6 +535,9 @@ public abstract class TLRPC$Update extends TLObject {
             case 1037718609:
                 tLRPC$TL_updateTheme = new TLRPC$TL_updateChatParticipantAdd();
                 break;
+            case 1040518415:
+                tLRPC$TL_updateTheme = new TLRPC$TL_updateQuickReplyMessage();
+                break;
             case 1180041828:
                 tLRPC$TL_updateTheme = new TLRPC$TL_updateLangPackTooLong();
                 break;
@@ -537,6 +546,9 @@ public abstract class TLRPC$Update extends TLObject {
                 break;
             case 1318109142:
                 tLRPC$TL_updateTheme = new TLRPC$TL_updateMessageID();
+                break;
+            case 1407644140:
+                tLRPC$TL_updateTheme = new TLRPC$TL_updateDeleteQuickReply();
                 break;
             case 1421875280:
                 tLRPC$TL_updateTheme = new TLRPC$TL_updateChatDefaultBannedRights();
@@ -551,6 +563,9 @@ public abstract class TLRPC$Update extends TLObject {
                         abstractSerializedData2.writeInt32(1448076945);
                     }
                 };
+                break;
+            case 1450174413:
+                tLRPC$TL_updateTheme = new TLRPC$TL_updateDeleteQuickReplyMessages();
                 break;
             case 1461528386:
                 tLRPC$TL_updateTheme = new TLRPC$Update() { // from class: org.telegram.tgnet.TLRPC$TL_updateReadFeaturedStickers

@@ -2,7 +2,7 @@ package org.telegram.messenger;
 
 import java.util.Comparator;
 import org.telegram.messenger.SharedConfig;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public final /* synthetic */ class ProxyRotationController$$ExternalSyntheticLambda2 implements Comparator {
     public static final /* synthetic */ ProxyRotationController$$ExternalSyntheticLambda2 INSTANCE = new ProxyRotationController$$ExternalSyntheticLambda2();
 

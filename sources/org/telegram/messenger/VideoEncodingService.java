@@ -7,7 +7,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.NotificationCenter;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class VideoEncodingService extends Service implements NotificationCenter.NotificationCenterDelegate {
     private static VideoEncodingService instance;
     private NotificationCompat.Builder builder;

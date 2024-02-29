@@ -14,7 +14,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class EmuDetector {
     private static final String IP = "10.0.2.15";
     private static final int MIN_PROPERTIES_THRESHOLD = 5;
@@ -39,7 +39,7 @@ public class EmuDetector {
     private boolean isCheckPackage = true;
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public enum EmulatorTypes {
         GENY,
         ANDY,
@@ -49,13 +49,13 @@ public class EmuDetector {
         X86
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public interface OnEmulatorDetectorListener {
         void onResult(boolean z);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class Property {
         public String name;
         public String seek_value;
@@ -138,8 +138,8 @@ public class EmuDetector {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:42:0x00d3 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x00d4  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x00d0 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x00d1  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

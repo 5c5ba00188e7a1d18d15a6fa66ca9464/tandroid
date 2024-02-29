@@ -7,7 +7,7 @@ import androidx.core.graphics.ColorUtils;
 import org.telegram.ui.Charts.data.ChartData;
 import org.telegram.ui.Charts.view_data.BarViewData;
 import org.telegram.ui.Charts.view_data.TransitionParams;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class BarChartView extends BaseChartView<ChartData, BarViewData> {
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Charts.BaseChartView

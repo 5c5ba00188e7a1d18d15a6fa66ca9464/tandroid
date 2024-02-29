@@ -55,7 +55,7 @@ import org.telegram.ui.Components.AnimationProperties;
 import org.telegram.ui.Components.Bulletin;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class BottomSheet extends Dialog {
     private static final boolean AVOID_SYSTEM_CUTOUT_FULLSCREEN = false;
     private boolean allowCustomAnimation;
@@ -145,7 +145,7 @@ public class BottomSheet extends Dialog {
     protected boolean useSmoothKeyboard;
     protected boolean waitingKeyboard;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public static class BottomSheetDelegate implements BottomSheetDelegateInterface {
         @Override // org.telegram.ui.ActionBar.BottomSheet.BottomSheetDelegateInterface
         public boolean canDismiss() {
@@ -157,7 +157,7 @@ public class BottomSheet extends Dialog {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public interface BottomSheetDelegateInterface {
         boolean canDismiss();
 
@@ -265,7 +265,7 @@ public class BottomSheet extends Dialog {
         this.transitionFromRight = z;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public class ContainerView extends FrameLayout implements NestedScrollingParent {
         private boolean allowedSwipeToBack;
         private Paint backgroundPaint;
@@ -1180,10 +1180,12 @@ public class BottomSheet extends Dialog {
         this.drawNavigationBar = z;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public static class BottomSheetCell extends FrameLayout {
+        private boolean checked;
         int currentType;
         private ImageView imageView;
+        private ImageView imageView2;
         public boolean isSelected;
         private final Theme.ResourcesProvider resourcesProvider;
         private TextView textView;
@@ -1205,6 +1207,11 @@ public class BottomSheet extends Dialog {
             imageView.setScaleType(ImageView.ScaleType.CENTER);
             this.imageView.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_dialogIcon), PorterDuff.Mode.MULTIPLY));
             addView(this.imageView, LayoutHelper.createFrame(56, 48, (LocaleController.isRTL ? 5 : 3) | 16));
+            ImageView imageView2 = new ImageView(context);
+            this.imageView2 = imageView2;
+            imageView2.setScaleType(ImageView.ScaleType.CENTER);
+            this.imageView2.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_radioBackgroundChecked, resourcesProvider), PorterDuff.Mode.SRC_IN));
+            addView(this.imageView2, LayoutHelper.createFrame(56, 48, (LocaleController.isRTL ? 3 : 5) | 16));
             TextView textView = new TextView(context);
             this.textView = textView;
             textView.setLines(1);
@@ -1281,6 +1288,16 @@ public class BottomSheet extends Dialog {
             }
             this.imageView.setVisibility(4);
             this.textView.setPadding(AndroidUtilities.dp(z ? 21.0f : 16.0f), 0, AndroidUtilities.dp(z ? 21.0f : 16.0f), 0);
+        }
+
+        public void setChecked(boolean z) {
+            ImageView imageView = this.imageView2;
+            this.checked = z;
+            imageView.setImageResource(z ? R.drawable.checkbig : 0);
+        }
+
+        public boolean isChecked() {
+            return this.checked;
         }
 
         public TextView getTextView() {
@@ -2029,7 +2046,7 @@ public class BottomSheet extends Dialog {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public class 7 extends AnimatorListenerAdapter {
         final /* synthetic */ int val$item;
 
@@ -2216,7 +2233,7 @@ public class BottomSheet extends Dialog {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public class 8 extends AnimatorListenerAdapter {
         8() {
         }
@@ -2271,7 +2288,7 @@ public class BottomSheet extends Dialog {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public static class Builder {
         public static int CELL_TYPE_CALL = 4;
         private BottomSheet bottomSheet;

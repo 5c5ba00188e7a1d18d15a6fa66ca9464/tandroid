@@ -1,5 +1,5 @@
 package org.telegram.ui.ActionBar;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public final /* synthetic */ class AlertDialog$$ExternalSyntheticLambda6 implements Runnable {
     public final /* synthetic */ AlertDialog f$0;
 

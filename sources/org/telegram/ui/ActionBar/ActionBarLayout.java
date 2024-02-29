@@ -61,7 +61,7 @@ import org.telegram.ui.Components.GroupCallPip;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.Stories.StoryViewer;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class ActionBarLayout extends FrameLayout implements INavigationLayout, FloatingDebugProvider {
     private static Drawable headerShadowDrawable;
     private static Drawable layerShadowDrawable;
@@ -292,7 +292,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         return (baseFragment == null || (storyViewer = baseFragment.storyViewer) == null || !storyViewer.attachedToParent()) ? false : true;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public class LayoutContainer extends FrameLayout {
         private int backgroundColor;
         private Paint backgroundPaint;

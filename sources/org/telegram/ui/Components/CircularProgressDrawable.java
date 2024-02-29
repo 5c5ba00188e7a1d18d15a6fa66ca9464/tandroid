@@ -15,9 +15,9 @@ public class CircularProgressDrawable extends Drawable {
     private final RectF bounds;
     private final Paint paint;
     private float[] segment;
-    private float size;
+    public float size;
     private long start;
-    private float thickness;
+    public float thickness;
 
     @Override // android.graphics.drawable.Drawable
     public int getOpacity() {

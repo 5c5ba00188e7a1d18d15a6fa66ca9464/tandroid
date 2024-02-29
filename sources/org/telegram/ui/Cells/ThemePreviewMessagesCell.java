@@ -63,7 +63,7 @@ import org.telegram.ui.Components.Reactions.ReactionsEffectOverlay;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 import org.telegram.ui.PinchToZoomHelper;
 import org.telegram.ui.Stories.recorder.StoryEntry;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ThemePreviewMessagesCell extends LinearLayout {
     private Drawable backgroundDrawable;
     private BackgroundGradientDrawable.Disposable backgroundGradientDisposable;
@@ -361,7 +361,7 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                     final /* synthetic */ int val$type;
 
                     /* JADX INFO: Access modifiers changed from: package-private */
-                    /* loaded from: classes3.dex */
+                    /* loaded from: classes4.dex */
                     public class 1 extends GestureDetector.SimpleOnGestureListener {
                         1() {
                         }
@@ -387,7 +387,7 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                         }
 
                         /* JADX INFO: Access modifiers changed from: package-private */
-                        /* loaded from: classes3.dex */
+                        /* loaded from: classes4.dex */
                         public class 1 implements ViewTreeObserver.OnPreDrawListener {
                             1() {
                             }

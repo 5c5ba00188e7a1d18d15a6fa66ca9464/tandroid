@@ -1,17 +1,26 @@
 package j$.time.format;
 /* loaded from: classes2.dex */
-final class e implements g {
-    private final char a;
+abstract /* synthetic */ class e {
+    static final /* synthetic */ int[] a;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public e(char c) {
-        this.a = c;
-    }
-
-    public String toString() {
-        if (this.a == '\'') {
-            return "''";
+    static {
+        int[] iArr = new int[y.values().length];
+        a = iArr;
+        try {
+            iArr[y.EXCEEDS_PAD.ordinal()] = 1;
+        } catch (NoSuchFieldError unused) {
         }
-        return "'" + this.a + "'";
+        try {
+            a[y.ALWAYS.ordinal()] = 2;
+        } catch (NoSuchFieldError unused2) {
+        }
+        try {
+            a[y.NORMAL.ordinal()] = 3;
+        } catch (NoSuchFieldError unused3) {
+        }
+        try {
+            a[y.NOT_NEGATIVE.ordinal()] = 4;
+        } catch (NoSuchFieldError unused4) {
+        }
     }
 }

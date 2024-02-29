@@ -11,7 +11,7 @@ import java.security.KeyStoreException;
 import java.util.Locale;
 import javax.crypto.Cipher;
 import org.telegram.messenger.support.fingerprint.FingerprintManagerCompat;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class FingerprintController {
     private static final String KEY_ALIAS = "tmessages_passcode";
     private static Boolean hasChangedFingerprints;

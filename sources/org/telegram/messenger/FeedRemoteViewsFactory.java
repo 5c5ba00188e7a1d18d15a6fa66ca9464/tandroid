@@ -18,7 +18,7 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC$PhotoSize;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: FeedWidgetService.java */
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class FeedRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory, NotificationCenter.NotificationCenterDelegate {
     private AccountInstance accountInstance;
     private int classGuid;

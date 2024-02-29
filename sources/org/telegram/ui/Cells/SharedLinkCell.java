@@ -56,7 +56,7 @@ import org.telegram.ui.Components.LinkSpanDrawable;
 import org.telegram.ui.Components.TextStyleSpan;
 import org.telegram.ui.Components.spoilers.SpoilerEffect;
 import org.telegram.ui.FilteredSearchView;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class SharedLinkCell extends FrameLayout {
     private StaticLayout captionLayout;
     private TextPaint captionTextPaint;
@@ -105,7 +105,7 @@ public class SharedLinkCell extends FrameLayout {
     private int titleY;
     private int viewType;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface SharedLinkCellDelegate {
         boolean canPerformActions();
 
@@ -121,7 +121,7 @@ public class SharedLinkCell extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public final class CheckForTap implements Runnable {
         private CheckForTap() {
         }
@@ -139,7 +139,7 @@ public class SharedLinkCell extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class CheckForLongPress implements Runnable {
         public int currentPressCount;
 

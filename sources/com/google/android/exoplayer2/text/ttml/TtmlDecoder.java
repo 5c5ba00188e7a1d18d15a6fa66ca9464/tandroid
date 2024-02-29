@@ -230,10 +230,10 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:59:0x01ac, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:59:0x01a8, code lost:
         if (r0.equals("tb") == false) goto L40;
      */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x017c  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x017b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -386,7 +386,7 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:102:0x01eb, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:102:0x01e0, code lost:
         if (r3.equals("text") == false) goto L49;
      */
     /*
@@ -951,7 +951,7 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:23:0x00d2, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:23:0x00d1, code lost:
         if (r13.equals("ms") == false) goto L21;
      */
     /*

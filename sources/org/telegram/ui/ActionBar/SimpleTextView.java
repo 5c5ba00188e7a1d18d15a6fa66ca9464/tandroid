@@ -35,7 +35,7 @@ import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.EmptyStubSpan;
 import org.telegram.ui.Components.StaticLayoutEx;
 import org.telegram.ui.Components.spoilers.SpoilerEffect;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class SimpleTextView extends View {
     private boolean attachedToWindow;
     private boolean buildFullLayout;
@@ -105,7 +105,7 @@ public class SimpleTextView extends View {
     private boolean widthWrapContent;
     private Drawable wrapBackgroundDrawable;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public interface PressableDrawable {
         void setPressed(boolean z);
     }

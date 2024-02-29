@@ -47,7 +47,7 @@ import org.telegram.tgnet.TLRPC$messages_Messages;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.Components.Forum.ForumUtilities;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TopicsController extends BaseController {
     public static final int LOAD_TYPE_LOAD_NEXT = 1;
     public static final int LOAD_TYPE_LOAD_UNKNOWN = 2;
@@ -69,7 +69,7 @@ public class TopicsController extends BaseController {
     LongSparseIntArray topicsIsLoading;
     LongSparseArray<LongSparseArray<TLRPC$TL_forumTopic>> topicsMapByChatId;
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class TopicUpdate {
         long dialogId;
         ArrayList<MessageObject> groupedMessages;
@@ -232,7 +232,7 @@ public class TopicsController extends BaseController {
         getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.topicsDidLoaded, Long.valueOf(j), Boolean.FALSE);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:75:0x0187, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:75:0x0186, code lost:
         if (r23 == 1) goto L100;
      */
     /* JADX WARN: Multi-variable type inference failed */
@@ -1280,7 +1280,7 @@ public class TopicsController extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public class TopicsLoadOffset {
         int lastMessageDate;
         int lastMessageId;

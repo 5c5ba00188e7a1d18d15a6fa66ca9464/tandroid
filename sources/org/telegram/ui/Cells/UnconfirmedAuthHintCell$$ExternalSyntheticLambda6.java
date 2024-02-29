@@ -2,7 +2,7 @@ package org.telegram.ui.Cells;
 
 import java.util.ArrayList;
 import org.telegram.messenger.Utilities;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public final /* synthetic */ class UnconfirmedAuthHintCell$$ExternalSyntheticLambda6 implements Utilities.Callback {
     public static final /* synthetic */ UnconfirmedAuthHintCell$$ExternalSyntheticLambda6 INSTANCE = new UnconfirmedAuthHintCell$$ExternalSyntheticLambda6();
 

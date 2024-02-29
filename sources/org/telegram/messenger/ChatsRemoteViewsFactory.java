@@ -38,7 +38,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.ForegroundColorSpanThemable;
 /* compiled from: ChatsWidgetService.java */
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     private AccountInstance accountInstance;
     private int appWidgetId;

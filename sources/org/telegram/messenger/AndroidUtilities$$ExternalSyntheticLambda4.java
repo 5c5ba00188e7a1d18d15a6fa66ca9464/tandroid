@@ -1,7 +1,7 @@
 package org.telegram.messenger;
 
 import android.text.util.Linkify;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public final /* synthetic */ class AndroidUtilities$$ExternalSyntheticLambda4 implements Linkify.MatchFilter {
     public static final /* synthetic */ AndroidUtilities$$ExternalSyntheticLambda4 INSTANCE = new AndroidUtilities$$ExternalSyntheticLambda4();
 

@@ -39,7 +39,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.LauncherIconController;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class AppIconsSelectorCell extends RecyclerListView implements NotificationCenter.NotificationCenterDelegate {
     private List<LauncherIconController.LauncherIcon> availableIcons;
     private int currentAccount;
@@ -197,7 +197,7 @@ public class AppIconsSelectorCell extends RecyclerListView implements Notificati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static final class IconHolderView extends LinearLayout {
         private Paint fillPaint;
         private AdaptiveIconImageView iconView;
@@ -294,7 +294,7 @@ public class AppIconsSelectorCell extends RecyclerListView implements Notificati
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class AdaptiveIconImageView extends ImageView {
         private int backgroundOuterPadding;
         private Drawable foreground;

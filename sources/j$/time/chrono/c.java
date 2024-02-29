@@ -1,10 +1,6 @@
 package j$.time.chrono;
 
-import java.io.Serializable;
+import j$.time.temporal.k;
 /* loaded from: classes2.dex */
-public final class c extends a implements Serializable {
-    public static final c a = new c();
-
-    private c() {
-    }
+public interface c extends k, Comparable {
 }

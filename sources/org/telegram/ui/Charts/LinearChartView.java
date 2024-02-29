@@ -6,7 +6,7 @@ import android.graphics.Paint;
 import org.telegram.ui.Charts.data.ChartData;
 import org.telegram.ui.Charts.view_data.LineViewData;
 import org.telegram.ui.Charts.view_data.TransitionParams;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class LinearChartView extends BaseChartView<ChartData, LineViewData> {
     public LinearChartView(Context context) {
         super(context);

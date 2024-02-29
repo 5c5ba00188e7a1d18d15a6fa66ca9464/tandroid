@@ -5,7 +5,7 @@ import android.graphics.Rect;
 import android.view.MotionEvent;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.Charts.ChartPickerDelegate;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ChartPickerDelegate {
     public boolean disabled;
     ValueAnimator moveToAnimator;
@@ -24,7 +24,7 @@ public class ChartPickerDelegate {
     CapturesData[] capturedStates = {null, null};
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface Listener {
         void invalidate();
 
@@ -71,7 +71,7 @@ public class ChartPickerDelegate {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class CapturesData {
         ValueAnimator a;
         public float aValue = 0.0f;

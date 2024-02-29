@@ -249,19 +249,19 @@ public class EditWidgetActivity extends BaseFragment {
         /* JADX WARN: Code restructure failed: missing block: B:110:0x02a2, code lost:
             if ((r0 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChannelMigrateFrom) != false) goto L64;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:365:0x08fb, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:365:0x090c, code lost:
             r0 = th;
          */
-        /* JADX WARN: Removed duplicated region for block: B:338:0x0835  */
-        /* JADX WARN: Removed duplicated region for block: B:339:0x0838  */
-        /* JADX WARN: Removed duplicated region for block: B:343:0x0859  */
-        /* JADX WARN: Removed duplicated region for block: B:346:0x0871  */
-        /* JADX WARN: Removed duplicated region for block: B:355:0x08a3 A[Catch: all -> 0x0900, TRY_LEAVE, TryCatch #0 {all -> 0x0900, blocks: (B:342:0x0845, B:344:0x085a, B:347:0x0873, B:349:0x087e, B:354:0x0899, B:350:0x0884, B:352:0x088c, B:353:0x0891, B:355:0x08a3), top: B:399:0x0845 }] */
-        /* JADX WARN: Removed duplicated region for block: B:361:0x08ec A[Catch: all -> 0x08fb, TryCatch #2 {all -> 0x08fb, blocks: (B:359:0x08e3, B:361:0x08ec, B:363:0x08f1, B:362:0x08ef), top: B:403:0x08e3 }] */
-        /* JADX WARN: Removed duplicated region for block: B:362:0x08ef A[Catch: all -> 0x08fb, TryCatch #2 {all -> 0x08fb, blocks: (B:359:0x08e3, B:361:0x08ec, B:363:0x08f1, B:362:0x08ef), top: B:403:0x08e3 }] */
-        /* JADX WARN: Removed duplicated region for block: B:374:0x090a  */
-        /* JADX WARN: Removed duplicated region for block: B:387:0x0959  */
-        /* JADX WARN: Removed duplicated region for block: B:399:0x0845 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:338:0x0846  */
+        /* JADX WARN: Removed duplicated region for block: B:339:0x0849  */
+        /* JADX WARN: Removed duplicated region for block: B:343:0x086a  */
+        /* JADX WARN: Removed duplicated region for block: B:346:0x0882  */
+        /* JADX WARN: Removed duplicated region for block: B:355:0x08b4 A[Catch: all -> 0x0911, TRY_LEAVE, TryCatch #0 {all -> 0x0911, blocks: (B:342:0x0856, B:344:0x086b, B:347:0x0884, B:349:0x088f, B:354:0x08aa, B:350:0x0895, B:352:0x089d, B:353:0x08a2, B:355:0x08b4), top: B:399:0x0856 }] */
+        /* JADX WARN: Removed duplicated region for block: B:361:0x08fd A[Catch: all -> 0x090c, TryCatch #2 {all -> 0x090c, blocks: (B:359:0x08f4, B:361:0x08fd, B:363:0x0902, B:362:0x0900), top: B:403:0x08f4 }] */
+        /* JADX WARN: Removed duplicated region for block: B:362:0x0900 A[Catch: all -> 0x090c, TryCatch #2 {all -> 0x090c, blocks: (B:359:0x08f4, B:361:0x08fd, B:363:0x0902, B:362:0x0900), top: B:403:0x08f4 }] */
+        /* JADX WARN: Removed duplicated region for block: B:374:0x091b  */
+        /* JADX WARN: Removed duplicated region for block: B:387:0x096a  */
+        /* JADX WARN: Removed duplicated region for block: B:399:0x0856 A[EXC_TOP_SPLITTER, SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */

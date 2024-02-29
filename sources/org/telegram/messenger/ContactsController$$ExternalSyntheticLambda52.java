@@ -2,7 +2,7 @@ package org.telegram.messenger;
 
 import java.util.Comparator;
 import org.telegram.tgnet.TLRPC$TL_contact;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public final /* synthetic */ class ContactsController$$ExternalSyntheticLambda52 implements Comparator {
     public static final /* synthetic */ ContactsController$$ExternalSyntheticLambda52 INSTANCE = new ContactsController$$ExternalSyntheticLambda52();
 

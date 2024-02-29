@@ -36,7 +36,7 @@ import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.DotDividerSpan;
 import org.telegram.ui.Components.FlickerLoadingView;
 import org.telegram.ui.Components.LayoutHelper;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class SessionCell extends FrameLayout {
     private AvatarDrawable avatarDrawable;
     private int currentAccount;
@@ -381,7 +381,7 @@ public class SessionCell extends FrameLayout {
         return new CombinedDrawable(new CircleGradientDrawable(AndroidUtilities.dp(42.0f), Theme.getColor(i2), Theme.getColor(i3)), mutate);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class CircleGradientDrawable extends Drawable {
         private Paint paint;
         private int size;

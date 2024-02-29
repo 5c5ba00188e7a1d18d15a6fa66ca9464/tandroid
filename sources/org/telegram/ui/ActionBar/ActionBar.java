@@ -50,7 +50,7 @@ import org.telegram.ui.Components.FireworksEffect;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.Components.SnowflakesEffect;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class ActionBar extends FrameLayout {
     private int actionBarColor;
     public ActionBarMenuOnItemClick actionBarMenuOnItemClick;
@@ -127,7 +127,7 @@ public class ActionBar extends FrameLayout {
     private FrameLayout titlesContainer;
     private boolean useContainerForTitles;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public static class ActionBarMenuOnItemClick {
         public boolean canOpenMenu() {
             return true;

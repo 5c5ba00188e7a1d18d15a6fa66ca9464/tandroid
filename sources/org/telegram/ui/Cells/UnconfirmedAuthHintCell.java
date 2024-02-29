@@ -36,7 +36,7 @@ import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.Components.ScaleStateListAnimator;
 import org.telegram.ui.SessionsActivity;
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class UnconfirmedAuthHintCell extends FrameLayout {
     private final LinearLayout buttonsLayout;
     private int height;
@@ -201,7 +201,7 @@ public class UnconfirmedAuthHintCell extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class TextViewWithLoading extends TextView {
         private boolean loading;
         private final AnimatedFloat loadingT;

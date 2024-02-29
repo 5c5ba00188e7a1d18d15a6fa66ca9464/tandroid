@@ -3,7 +3,7 @@ package org.telegram.messenger;
 import android.os.Handler;
 import android.os.Looper;
 import org.telegram.messenger.NotificationCenter;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public final class ContactsLoadingObserver {
     private final Callback callback;
     private final ContactsController contactsController;
@@ -19,7 +19,7 @@ public final class ContactsLoadingObserver {
     private final Runnable releaseRunnable;
     private boolean released;
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public interface Callback {
         void onResult(boolean z);
     }

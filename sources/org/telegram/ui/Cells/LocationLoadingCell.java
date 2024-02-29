@@ -13,7 +13,7 @@ import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RadialProgressView;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class LocationLoadingCell extends FrameLayout {
     private ImageView imageView;
     private RadialProgressView progressBar;

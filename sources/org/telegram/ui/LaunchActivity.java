@@ -1996,69 +1996,69 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:1191:0x2597, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1191:0x261b, code lost:
         if (r2.checkCanOpenChat(r0, r3.get(r3.size() - 1)) != false) goto L129;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1208:0x261a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1208:0x269e, code lost:
         if (r2.checkCanOpenChat(r0, r3.get(r3.size() - 1)) != false) goto L147;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:181:0x034f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:181:0x0352, code lost:
         if (r96.sendingText == null) goto L343;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:454:0x0a94, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:454:0x0a9b, code lost:
         if (r4.longValue() == 0) goto L807;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:69:0x0160, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:69:0x0161, code lost:
         if (r7.equals(r0) != false) goto L47;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:926:0x1c23, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:926:0x1c91, code lost:
         if (r5.longValue() == 0) goto L1284;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:1003:0x2030  */
-    /* JADX WARN: Removed duplicated region for block: B:100:0x01f5  */
-    /* JADX WARN: Removed duplicated region for block: B:1015:0x2076  */
-    /* JADX WARN: Removed duplicated region for block: B:105:0x0203  */
-    /* JADX WARN: Removed duplicated region for block: B:1073:0x2155  */
-    /* JADX WARN: Removed duplicated region for block: B:1074:0x2159 A[Catch: all -> 0x2168, TRY_LEAVE, TryCatch #5 {all -> 0x2168, blocks: (B:1071:0x2143, B:1074:0x2159), top: B:1466:0x2143 }] */
-    /* JADX WARN: Removed duplicated region for block: B:1113:0x225d  */
-    /* JADX WARN: Removed duplicated region for block: B:1114:0x226f  */
-    /* JADX WARN: Removed duplicated region for block: B:1164:0x2516  */
-    /* JADX WARN: Removed duplicated region for block: B:1178:0x2544  */
-    /* JADX WARN: Removed duplicated region for block: B:1179:0x2558  */
-    /* JADX WARN: Removed duplicated region for block: B:1314:0x2837  */
-    /* JADX WARN: Removed duplicated region for block: B:1315:0x2849  */
-    /* JADX WARN: Removed duplicated region for block: B:1318:0x2858  */
-    /* JADX WARN: Removed duplicated region for block: B:1319:0x2869  */
-    /* JADX WARN: Removed duplicated region for block: B:1405:0x2b2d A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:1408:0x2b36  */
-    /* JADX WARN: Removed duplicated region for block: B:1419:0x2b86  */
-    /* JADX WARN: Removed duplicated region for block: B:1430:0x2bcd  */
-    /* JADX WARN: Removed duplicated region for block: B:1434:0x2be4  */
-    /* JADX WARN: Removed duplicated region for block: B:1436:0x2bec  */
-    /* JADX WARN: Removed duplicated region for block: B:1504:0x176c A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1508:0x2184 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:180:0x034d  */
-    /* JADX WARN: Removed duplicated region for block: B:185:0x0356  */
-    /* JADX WARN: Removed duplicated region for block: B:214:0x0411  */
-    /* JADX WARN: Removed duplicated region for block: B:281:0x053e  */
-    /* JADX WARN: Removed duplicated region for block: B:367:0x0771  */
-    /* JADX WARN: Removed duplicated region for block: B:521:0x0c6f  */
-    /* JADX WARN: Removed duplicated region for block: B:522:0x0c76  */
-    /* JADX WARN: Removed duplicated region for block: B:525:0x0cda  */
-    /* JADX WARN: Removed duplicated region for block: B:526:0x0ce9  */
-    /* JADX WARN: Removed duplicated region for block: B:529:0x0cf8  */
-    /* JADX WARN: Removed duplicated region for block: B:531:0x0cfb  */
-    /* JADX WARN: Removed duplicated region for block: B:535:0x0d10 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:543:0x0d47  */
-    /* JADX WARN: Removed duplicated region for block: B:544:0x0d71  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x015c  */
-    /* JADX WARN: Removed duplicated region for block: B:882:0x1aae  */
-    /* JADX WARN: Removed duplicated region for block: B:919:0x1b93 A[Catch: Exception -> 0x1ba2, TRY_LEAVE, TryCatch #19 {Exception -> 0x1ba2, blocks: (B:917:0x1b87, B:919:0x1b93), top: B:1491:0x1b87 }] */
-    /* JADX WARN: Removed duplicated region for block: B:921:0x1ba0  */
-    /* JADX WARN: Removed duplicated region for block: B:92:0x01ca  */
-    /* JADX WARN: Removed duplicated region for block: B:987:0x1f15  */
-    /* JADX WARN: Removed duplicated region for block: B:988:0x1f66  */
+    /* JADX WARN: Removed duplicated region for block: B:1003:0x20ad  */
+    /* JADX WARN: Removed duplicated region for block: B:100:0x01f7  */
+    /* JADX WARN: Removed duplicated region for block: B:1015:0x20f4  */
+    /* JADX WARN: Removed duplicated region for block: B:105:0x0205  */
+    /* JADX WARN: Removed duplicated region for block: B:1073:0x21d4  */
+    /* JADX WARN: Removed duplicated region for block: B:1074:0x21d8 A[Catch: all -> 0x21e8, TRY_LEAVE, TryCatch #1 {all -> 0x21e8, blocks: (B:1071:0x21c1, B:1074:0x21d8), top: B:1458:0x21c1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:1113:0x22dd  */
+    /* JADX WARN: Removed duplicated region for block: B:1114:0x22ef  */
+    /* JADX WARN: Removed duplicated region for block: B:1164:0x2599  */
+    /* JADX WARN: Removed duplicated region for block: B:1178:0x25c7  */
+    /* JADX WARN: Removed duplicated region for block: B:1179:0x25db  */
+    /* JADX WARN: Removed duplicated region for block: B:1314:0x28bf  */
+    /* JADX WARN: Removed duplicated region for block: B:1315:0x28d1  */
+    /* JADX WARN: Removed duplicated region for block: B:1318:0x28e0  */
+    /* JADX WARN: Removed duplicated region for block: B:1319:0x28f1  */
+    /* JADX WARN: Removed duplicated region for block: B:1405:0x2bbf A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:1408:0x2bc8  */
+    /* JADX WARN: Removed duplicated region for block: B:1419:0x2c18  */
+    /* JADX WARN: Removed duplicated region for block: B:1430:0x2c60  */
+    /* JADX WARN: Removed duplicated region for block: B:1434:0x2c77  */
+    /* JADX WARN: Removed duplicated region for block: B:1436:0x2c7f  */
+    /* JADX WARN: Removed duplicated region for block: B:1481:0x17c4 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1512:0x2204 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:180:0x0350  */
+    /* JADX WARN: Removed duplicated region for block: B:185:0x0359  */
+    /* JADX WARN: Removed duplicated region for block: B:214:0x0414  */
+    /* JADX WARN: Removed duplicated region for block: B:281:0x0541  */
+    /* JADX WARN: Removed duplicated region for block: B:367:0x0778  */
+    /* JADX WARN: Removed duplicated region for block: B:521:0x0c78  */
+    /* JADX WARN: Removed duplicated region for block: B:522:0x0c7f  */
+    /* JADX WARN: Removed duplicated region for block: B:525:0x0ce5  */
+    /* JADX WARN: Removed duplicated region for block: B:526:0x0cf4  */
+    /* JADX WARN: Removed duplicated region for block: B:529:0x0d03  */
+    /* JADX WARN: Removed duplicated region for block: B:531:0x0d06  */
+    /* JADX WARN: Removed duplicated region for block: B:535:0x0d1c A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:543:0x0d53  */
+    /* JADX WARN: Removed duplicated region for block: B:544:0x0d7d  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x015d  */
+    /* JADX WARN: Removed duplicated region for block: B:882:0x1b1a  */
+    /* JADX WARN: Removed duplicated region for block: B:919:0x1bff A[Catch: Exception -> 0x1c0e, TRY_LEAVE, TryCatch #18 {Exception -> 0x1c0e, blocks: (B:917:0x1bf3, B:919:0x1bff), top: B:1488:0x1bf3 }] */
+    /* JADX WARN: Removed duplicated region for block: B:921:0x1c0c  */
+    /* JADX WARN: Removed duplicated region for block: B:92:0x01cc  */
+    /* JADX WARN: Removed duplicated region for block: B:987:0x1f92  */
+    /* JADX WARN: Removed duplicated region for block: B:988:0x1fe3  */
     /* JADX WARN: Type inference failed for: r5v41 */
     /* JADX WARN: Type inference failed for: r5v42, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r5v43 */
@@ -8995,7 +8995,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX WARN: Code restructure failed: missing block: B:66:0x024f, code lost:
         if (r88[0] != 0) goto L7;
      */
-    /* JADX WARN: Removed duplicated region for block: B:232:0x05b5 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:230:0x05b8 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:239:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -11130,19 +11130,19 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         handleIntent(intent, true, false, false, progress);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:104:0x01e6  */
-    /* JADX WARN: Removed duplicated region for block: B:146:0x0263  */
-    /* JADX WARN: Removed duplicated region for block: B:178:0x0308  */
-    /* JADX WARN: Removed duplicated region for block: B:179:0x030d  */
-    /* JADX WARN: Removed duplicated region for block: B:182:0x0312  */
-    /* JADX WARN: Removed duplicated region for block: B:183:0x0317  */
-    /* JADX WARN: Removed duplicated region for block: B:186:0x031b  */
-    /* JADX WARN: Removed duplicated region for block: B:191:0x0349  */
-    /* JADX WARN: Removed duplicated region for block: B:202:0x03e8  */
-    /* JADX WARN: Removed duplicated region for block: B:205:0x03f9  */
-    /* JADX WARN: Removed duplicated region for block: B:210:0x0408 A[LOOP:2: B:208:0x0400->B:210:0x0408, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:213:0x0437 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:231:0x044c A[ADDED_TO_REGION, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:104:0x01e7  */
+    /* JADX WARN: Removed duplicated region for block: B:146:0x0264  */
+    /* JADX WARN: Removed duplicated region for block: B:176:0x0310  */
+    /* JADX WARN: Removed duplicated region for block: B:177:0x0315  */
+    /* JADX WARN: Removed duplicated region for block: B:180:0x031a  */
+    /* JADX WARN: Removed duplicated region for block: B:181:0x031f  */
+    /* JADX WARN: Removed duplicated region for block: B:184:0x0323  */
+    /* JADX WARN: Removed duplicated region for block: B:188:0x0355  */
+    /* JADX WARN: Removed duplicated region for block: B:199:0x03f2  */
+    /* JADX WARN: Removed duplicated region for block: B:202:0x0403  */
+    /* JADX WARN: Removed duplicated region for block: B:207:0x0412 A[LOOP:2: B:205:0x040a->B:207:0x0412, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:210:0x043c A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:228:0x0451 A[ADDED_TO_REGION, SYNTHETIC] */
     @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -11162,13 +11162,12 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         boolean z5;
         boolean z6;
         String str2;
-        String str3;
         int size;
         ArrayList<Uri> arrayList2;
-        String str4;
+        String str3;
         ArrayList<TLRPC$User> arrayList3;
         int i2;
-        String str5;
+        String str4;
         boolean z7;
         boolean z8;
         ArrayList<SendMessagesHelper.SendingMediaInfo> arrayList4;
@@ -11256,8 +11255,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     }
 
                     @Override // org.telegram.ui.Components.ChatAttachAlertContactsLayout.PhonebookShareAlertDelegate
-                    public /* synthetic */ void didSelectContacts(ArrayList arrayList12, String str6, boolean z11, int i4) {
-                        ChatAttachAlertContactsLayout.PhonebookShareAlertDelegate.-CC.$default$didSelectContacts(this, arrayList12, str6, z11, i4);
+                    public /* synthetic */ void didSelectContacts(ArrayList arrayList12, String str5, boolean z11, int i4) {
+                        ChatAttachAlertContactsLayout.PhonebookShareAlertDelegate.-CC.$default$didSelectContacts(this, arrayList12, str5, z11, i4);
                     }
                 });
                 ArrayList<BaseFragment> arrayList12 = mainFragmentsStack;
@@ -11267,7 +11266,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             } else {
                 int i4 = 0;
                 z2 = false;
-                String str6 = null;
+                String str5 = null;
                 while (i4 < arrayList.size()) {
                     long j4 = arrayList.get(i4).dialogId;
                     long j5 = arrayList.get(i4).topicId;
@@ -11285,9 +11284,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                 chatActivity3 = chatActivity;
                                 getActionBarLayout().presentFragment(chatActivity, dialogsActivity != null, dialogsActivity == null || this.videoPath != null || ((arrayList4 = this.photoPathsArray) != null && arrayList4.size() > 0), true, false);
                                 boolean z11 = dialogsActivity != null;
-                                String str7 = this.videoPath;
-                                if (str7 != null && j == 0) {
-                                    chatActivity3.openVideoEditor(str7, this.sendingText);
+                                String str6 = this.videoPath;
+                                if (str6 != null && j == 0) {
+                                    chatActivity3.openVideoEditor(str6, this.sendingText);
                                     this.sendingText = null;
                                     z7 = false;
                                     z8 = true;
@@ -11303,7 +11302,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                     }
                                     z8 = false;
                                 }
-                                str = str6;
+                                str = str5;
                                 z5 = z8;
                                 z6 = z11;
                                 z4 = z7;
@@ -11312,27 +11311,27 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                 j2 = j4;
                                 chatActivity3 = chatActivity;
                                 if (this.videoPath != null) {
-                                    String str8 = this.sendingText;
-                                    if (str8 != null && str8.length() <= 1024) {
-                                        str6 = this.sendingText;
+                                    String str7 = this.sendingText;
+                                    if (str7 != null && str7.length() <= 1024) {
+                                        str5 = this.sendingText;
                                         this.sendingText = null;
                                     }
                                     ArrayList arrayList14 = new ArrayList();
                                     arrayList14.add(this.videoPath);
-                                    SendMessagesHelper.prepareSendingDocuments(accountInstance, arrayList14, arrayList14, null, str6, null, j2, messageObject, messageObject, null, null, null, z10, 0, null);
+                                    SendMessagesHelper.prepareSendingDocuments(accountInstance, arrayList14, arrayList14, null, str5, null, j2, messageObject, messageObject, null, null, null, z10, 0, null, null, 0);
                                 }
-                                str = str6;
+                                str = str5;
                                 z4 = false;
                                 z5 = false;
                                 z6 = z3;
                             }
                             if (this.photoPathsArray != null && !z4) {
-                                str5 = this.sendingText;
-                                if (str5 != null && str5.length() <= 1024 && this.photoPathsArray.size() == z9) {
+                                str4 = this.sendingText;
+                                if (str4 != null && str4.length() <= 1024 && this.photoPathsArray.size() == z9) {
                                     this.photoPathsArray.get(0).caption = this.sendingText;
                                     this.sendingText = null;
                                 }
-                                SendMessagesHelper.prepareSendingMedia(accountInstance, this.photoPathsArray, j2, messageObject, messageObject, null, null, false, false, null, z10, 0, false, null);
+                                SendMessagesHelper.prepareSendingMedia(accountInstance, this.photoPathsArray, j2, messageObject, messageObject, null, null, false, false, null, z10, 0, 0, false, null, null, 0);
                             }
                             if (this.documentsPathsArray == null || this.documentsUrisArray != null) {
                                 str2 = this.sendingText;
@@ -11341,15 +11340,12 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                     size = arrayList15 == null ? arrayList15.size() : 0;
                                     arrayList2 = this.documentsUrisArray;
                                     if (size + (arrayList2 == null ? arrayList2.size() : 0) == z9) {
-                                        str3 = this.sendingText;
+                                        String str8 = this.sendingText;
                                         this.sendingText = null;
-                                        SendMessagesHelper.prepareSendingDocuments(accountInstance, this.documentsPathsArray, this.documentsOriginalPathsArray, this.documentsUrisArray, str3, this.documentsMimeType, j2, messageObject, messageObject, null, null, null, z10, 0, null);
+                                        str = str8;
                                     }
                                 }
-                                str3 = str;
-                                SendMessagesHelper.prepareSendingDocuments(accountInstance, this.documentsPathsArray, this.documentsOriginalPathsArray, this.documentsUrisArray, str3, this.documentsMimeType, j2, messageObject, messageObject, null, null, null, z10, 0, null);
-                            } else {
-                                str3 = str;
+                                SendMessagesHelper.prepareSendingDocuments(accountInstance, this.documentsPathsArray, this.documentsOriginalPathsArray, this.documentsUrisArray, str, this.documentsMimeType, j2, messageObject, messageObject, null, null, null, z10, 0, null, null, 0);
                             }
                             if (this.voicePath != null) {
                                 File file = new File(this.voicePath);
@@ -11374,48 +11370,42 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                     if (this.sendingText != null) {
                                         this.sendingText = null;
                                     }
-                                    str4 = this.sendingText;
-                                    if (str4 != null) {
-                                        SendMessagesHelper.prepareSendingText(accountInstance, str4, j2, j, z10, 0);
+                                    str3 = this.sendingText;
+                                    if (str3 != null) {
+                                        SendMessagesHelper.prepareSendingText(accountInstance, str3, j2, j, z10, 0);
                                     }
                                     arrayList3 = this.contactsToSend;
                                     if (arrayList3 != null && !arrayList3.isEmpty()) {
-                                        i2 = 0;
-                                        while (i2 < this.contactsToSend.size()) {
+                                        for (i2 = 0; i2 < this.contactsToSend.size(); i2++) {
                                             SendMessagesHelper.getInstance(currentAccount).sendMessage(SendMessagesHelper.SendMessageParams.of(this.contactsToSend.get(i2), j2, messageObject, messageObject, (TLRPC$ReplyMarkup) null, (HashMap<String, String>) null, z10, 0));
-                                            i2++;
-                                            str3 = str3;
                                         }
                                     }
-                                    String str9 = str3;
                                     if (TextUtils.isEmpty(charSequence) && !z5 && !z4) {
                                         SendMessagesHelper.prepareSendingText(accountInstance, charSequence.toString(), j2, j, z10, 0);
                                     }
                                     i4 = i + 1;
                                     z2 = z6;
                                     chatActivity = chatActivity3;
+                                    str5 = str;
                                     z9 = true;
-                                    str6 = str9;
                                 }
                             }
-                            str4 = this.sendingText;
-                            if (str4 != null) {
+                            str3 = this.sendingText;
+                            if (str3 != null) {
                             }
                             arrayList3 = this.contactsToSend;
                             if (arrayList3 != null) {
-                                i2 = 0;
                                 while (i2 < this.contactsToSend.size()) {
                                 }
                             }
-                            String str92 = str3;
                             if (TextUtils.isEmpty(charSequence)) {
                                 SendMessagesHelper.prepareSendingText(accountInstance, charSequence.toString(), j2, j, z10, 0);
                             }
                             i4 = i + 1;
                             z2 = z6;
                             chatActivity = chatActivity3;
+                            str5 = str;
                             z9 = true;
-                            str6 = str92;
                         }
                     } else {
                         i = i4;
@@ -11425,12 +11415,12 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     if (chatActivity == null) {
                     }
                     if (this.photoPathsArray != null) {
-                        str5 = this.sendingText;
-                        if (str5 != null) {
+                        str4 = this.sendingText;
+                        if (str4 != null) {
                             this.photoPathsArray.get(0).caption = this.sendingText;
                             this.sendingText = null;
                         }
-                        SendMessagesHelper.prepareSendingMedia(accountInstance, this.photoPathsArray, j2, messageObject, messageObject, null, null, false, false, null, z10, 0, false, null);
+                        SendMessagesHelper.prepareSendingMedia(accountInstance, this.photoPathsArray, j2, messageObject, messageObject, null, null, false, false, null, z10, 0, 0, false, null, null, 0);
                     }
                     if (this.documentsPathsArray == null) {
                     }
@@ -11443,24 +11433,22 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         if (size + (arrayList2 == null ? arrayList2.size() : 0) == z9) {
                         }
                     }
-                    str3 = str;
-                    SendMessagesHelper.prepareSendingDocuments(accountInstance, this.documentsPathsArray, this.documentsOriginalPathsArray, this.documentsUrisArray, str3, this.documentsMimeType, j2, messageObject, messageObject, null, null, null, z10, 0, null);
+                    SendMessagesHelper.prepareSendingDocuments(accountInstance, this.documentsPathsArray, this.documentsOriginalPathsArray, this.documentsUrisArray, str, this.documentsMimeType, j2, messageObject, messageObject, null, null, null, z10, 0, null, null, 0);
                     if (this.voicePath != null) {
                     }
-                    str4 = this.sendingText;
-                    if (str4 != null) {
+                    str3 = this.sendingText;
+                    if (str3 != null) {
                     }
                     arrayList3 = this.contactsToSend;
                     if (arrayList3 != null) {
                     }
-                    String str922 = str3;
                     if (TextUtils.isEmpty(charSequence)) {
                     }
                     i4 = i + 1;
                     z2 = z6;
                     chatActivity = chatActivity3;
+                    str5 = str;
                     z9 = true;
-                    str6 = str922;
                 }
                 chatActivity2 = chatActivity;
             }
@@ -12074,14 +12062,14 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         checkLayout();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:117:0x031d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:117:0x031e, code lost:
         if (((org.telegram.ui.ProfileActivity) r1.get(r1.size() - 1)).isSettings() == false) goto L132;
      */
-    /* JADX WARN: Removed duplicated region for block: B:116:0x030c  */
-    /* JADX WARN: Removed duplicated region for block: B:230:0x0680  */
-    /* JADX WARN: Removed duplicated region for block: B:231:0x0686  */
-    /* JADX WARN: Removed duplicated region for block: B:234:0x068b A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:235:0x068c  */
+    /* JADX WARN: Removed duplicated region for block: B:116:0x030d  */
+    /* JADX WARN: Removed duplicated region for block: B:230:0x0681  */
+    /* JADX WARN: Removed duplicated region for block: B:231:0x0687  */
+    /* JADX WARN: Removed duplicated region for block: B:234:0x068c A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:235:0x068d  */
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     /*
         Code decompiled incorrectly, please refer to instructions dump.

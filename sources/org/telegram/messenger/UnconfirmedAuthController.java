@@ -19,7 +19,7 @@ import org.telegram.tgnet.TLRPC$TL_account_resetAuthorization;
 import org.telegram.tgnet.TLRPC$TL_boolTrue;
 import org.telegram.tgnet.TLRPC$TL_error;
 import org.telegram.tgnet.TLRPC$TL_updateNewAuthorization;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class UnconfirmedAuthController {
     private final int currentAccount;
     private boolean fetchedCache;
@@ -354,7 +354,7 @@ public class UnconfirmedAuthController {
         updateList(false, arrayList, callback);
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public class UnconfirmedAuth extends TLObject {
         public int date;
         public String device;

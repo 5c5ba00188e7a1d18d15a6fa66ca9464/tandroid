@@ -2,7 +2,7 @@ package org.telegram.messenger;
 
 import android.graphics.Canvas;
 import android.graphics.PostProcessor;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public final /* synthetic */ class NotificationsController$$ExternalSyntheticLambda1 implements PostProcessor {
     public static final /* synthetic */ NotificationsController$$ExternalSyntheticLambda1 INSTANCE = new NotificationsController$$ExternalSyntheticLambda1();
 

@@ -556,7 +556,7 @@ public class LinkEditActivity extends BaseFragment {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$2(Context context, View view) {
-        AlertsCreator.createDatePickerDialog(context, -1L, new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.LinkEditActivity$$ExternalSyntheticLambda10
+        AlertsCreator.createDatePickerDialog(context, LocaleController.getString(R.string.ExpireAfter), LocaleController.getString(R.string.SetTimeLimit), -1L, new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.LinkEditActivity$$ExternalSyntheticLambda10
             @Override // org.telegram.ui.Components.AlertsCreator.ScheduleDatePickerDelegate
             public final void didSelectDate(boolean z, int i) {
                 LinkEditActivity.this.lambda$createView$1(z, i);
@@ -607,10 +607,10 @@ public class LinkEditActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x01b1  */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x01e5  */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x01f0  */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x020d  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x01b2  */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x01e6  */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x01f1  */
+    /* JADX WARN: Removed duplicated region for block: B:84:0x020e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

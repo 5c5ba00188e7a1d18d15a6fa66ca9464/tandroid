@@ -14,7 +14,7 @@ import org.telegram.tgnet.TLRPC$TL_emojiStatusUntil;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.BackupImageView;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class DialogObject {
     public static int getEncryptedChatId(long j) {
         return (int) (j & 4294967295L);

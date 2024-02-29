@@ -1,5 +1,5 @@
 package org.telegram.messenger;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public final /* synthetic */ class NotificationsController$$ExternalSyntheticLambda45 implements Runnable {
     public static final /* synthetic */ NotificationsController$$ExternalSyntheticLambda45 INSTANCE = new NotificationsController$$ExternalSyntheticLambda45();
 

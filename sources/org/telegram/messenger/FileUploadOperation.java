@@ -21,7 +21,7 @@ import org.telegram.tgnet.TLRPC$TL_inputFileBig;
 import org.telegram.tgnet.TLRPC$TL_upload_saveBigFilePart;
 import org.telegram.tgnet.TLRPC$TL_upload_saveFilePart;
 import org.telegram.tgnet.WriteToSocketDelegate;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class FileUploadOperation {
     private static final int initialRequestsCount = 8;
     private static final int initialRequestsSlowNetworkCount = 1;
@@ -72,7 +72,7 @@ public class FileUploadOperation {
     private SparseArray<UploadCachedResult> cachedResults = new SparseArray<>();
     private boolean[] recalculatedEstimatedSize = {false, false};
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public interface FileUploadOperationDelegate {
         void didChangedUploadProgress(FileUploadOperation fileUploadOperation, long j, long j2);
 
@@ -82,7 +82,7 @@ public class FileUploadOperation {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class UploadCachedResult {
         private long bytesOffset;
         private byte[] iv;
@@ -326,10 +326,10 @@ public class FileUploadOperation {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:126:0x02f8 A[Catch: Exception -> 0x0546, TryCatch #2 {Exception -> 0x0546, blocks: (B:5:0x0008, B:7:0x0015, B:13:0x004e, B:15:0x0054, B:17:0x005d, B:19:0x0061, B:21:0x006a, B:22:0x006c, B:24:0x0085, B:26:0x008e, B:27:0x0097, B:31:0x00a0, B:34:0x00bb, B:36:0x00bf, B:37:0x00c2, B:38:0x00c4, B:42:0x00cd, B:44:0x00da, B:45:0x00e4, B:47:0x00e8, B:48:0x00f2, B:52:0x0114, B:54:0x014a, B:56:0x014e, B:58:0x0156, B:60:0x015c, B:62:0x01b2, B:65:0x01ea, B:68:0x01fc, B:70:0x01ff, B:72:0x0202, B:77:0x0212, B:79:0x0216, B:89:0x0238, B:92:0x0245, B:94:0x0250, B:96:0x025c, B:98:0x0260, B:100:0x0268, B:102:0x0273, B:105:0x027c, B:109:0x0289, B:110:0x0290, B:111:0x02a7, B:104:0x027a, B:112:0x02b1, B:114:0x02ba, B:116:0x02d6, B:118:0x02de, B:126:0x02f8, B:128:0x02fc, B:129:0x031c, B:131:0x0328, B:133:0x032c, B:135:0x0334, B:136:0x0337, B:145:0x036e, B:147:0x037a, B:149:0x037e, B:151:0x0395, B:150:0x038c, B:155:0x03a2, B:157:0x03aa, B:160:0x03b7, B:162:0x03bb, B:164:0x03c6, B:166:0x03db, B:171:0x03eb, B:173:0x03ef, B:175:0x03f3, B:177:0x03fb, B:179:0x0406, B:181:0x040a, B:183:0x0412, B:189:0x0425, B:193:0x0432, B:194:0x0439, B:196:0x0466, B:198:0x046a, B:200:0x047f, B:202:0x0486, B:204:0x049e, B:206:0x04a2, B:208:0x04a6, B:209:0x04b5, B:201:0x0482, B:203:0x048c, B:185:0x0419, B:187:0x041d, B:188:0x0423, B:165:0x03d0, B:167:0x03de, B:144:0x036b, B:120:0x02e1, B:121:0x02e9, B:83:0x0222, B:16:0x0057, B:152:0x0398, B:153:0x03a0, B:138:0x033b, B:141:0x0356, B:8:0x0026), top: B:228:0x0008, inners: #0 }] */
-    /* JADX WARN: Removed duplicated region for block: B:147:0x037a A[Catch: Exception -> 0x0546, TryCatch #2 {Exception -> 0x0546, blocks: (B:5:0x0008, B:7:0x0015, B:13:0x004e, B:15:0x0054, B:17:0x005d, B:19:0x0061, B:21:0x006a, B:22:0x006c, B:24:0x0085, B:26:0x008e, B:27:0x0097, B:31:0x00a0, B:34:0x00bb, B:36:0x00bf, B:37:0x00c2, B:38:0x00c4, B:42:0x00cd, B:44:0x00da, B:45:0x00e4, B:47:0x00e8, B:48:0x00f2, B:52:0x0114, B:54:0x014a, B:56:0x014e, B:58:0x0156, B:60:0x015c, B:62:0x01b2, B:65:0x01ea, B:68:0x01fc, B:70:0x01ff, B:72:0x0202, B:77:0x0212, B:79:0x0216, B:89:0x0238, B:92:0x0245, B:94:0x0250, B:96:0x025c, B:98:0x0260, B:100:0x0268, B:102:0x0273, B:105:0x027c, B:109:0x0289, B:110:0x0290, B:111:0x02a7, B:104:0x027a, B:112:0x02b1, B:114:0x02ba, B:116:0x02d6, B:118:0x02de, B:126:0x02f8, B:128:0x02fc, B:129:0x031c, B:131:0x0328, B:133:0x032c, B:135:0x0334, B:136:0x0337, B:145:0x036e, B:147:0x037a, B:149:0x037e, B:151:0x0395, B:150:0x038c, B:155:0x03a2, B:157:0x03aa, B:160:0x03b7, B:162:0x03bb, B:164:0x03c6, B:166:0x03db, B:171:0x03eb, B:173:0x03ef, B:175:0x03f3, B:177:0x03fb, B:179:0x0406, B:181:0x040a, B:183:0x0412, B:189:0x0425, B:193:0x0432, B:194:0x0439, B:196:0x0466, B:198:0x046a, B:200:0x047f, B:202:0x0486, B:204:0x049e, B:206:0x04a2, B:208:0x04a6, B:209:0x04b5, B:201:0x0482, B:203:0x048c, B:185:0x0419, B:187:0x041d, B:188:0x0423, B:165:0x03d0, B:167:0x03de, B:144:0x036b, B:120:0x02e1, B:121:0x02e9, B:83:0x0222, B:16:0x0057, B:152:0x0398, B:153:0x03a0, B:138:0x033b, B:141:0x0356, B:8:0x0026), top: B:228:0x0008, inners: #0 }] */
-    /* JADX WARN: Removed duplicated region for block: B:226:0x033b A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x0232  */
+    /* JADX WARN: Removed duplicated region for block: B:126:0x02f7 A[Catch: Exception -> 0x0545, TryCatch #2 {Exception -> 0x0545, blocks: (B:5:0x0008, B:7:0x0015, B:13:0x004d, B:15:0x0053, B:17:0x005c, B:19:0x0060, B:21:0x0069, B:22:0x006b, B:24:0x0084, B:26:0x008d, B:27:0x0096, B:31:0x009f, B:34:0x00ba, B:36:0x00be, B:37:0x00c1, B:38:0x00c3, B:42:0x00cc, B:44:0x00d9, B:45:0x00e3, B:47:0x00e7, B:48:0x00f1, B:52:0x0113, B:54:0x0149, B:56:0x014d, B:58:0x0155, B:60:0x015b, B:62:0x01b1, B:65:0x01e9, B:68:0x01fb, B:70:0x01fe, B:72:0x0201, B:77:0x0211, B:79:0x0215, B:89:0x0237, B:92:0x0244, B:94:0x024f, B:96:0x025b, B:98:0x025f, B:100:0x0267, B:102:0x0272, B:105:0x027b, B:109:0x0288, B:110:0x028f, B:111:0x02a6, B:104:0x0279, B:112:0x02b0, B:114:0x02b9, B:116:0x02d5, B:118:0x02dd, B:126:0x02f7, B:128:0x02fb, B:129:0x031b, B:131:0x0327, B:133:0x032b, B:135:0x0333, B:136:0x0336, B:145:0x036d, B:147:0x0379, B:149:0x037d, B:151:0x0394, B:150:0x038b, B:155:0x03a1, B:157:0x03a9, B:160:0x03b6, B:162:0x03ba, B:164:0x03c5, B:166:0x03da, B:171:0x03ea, B:173:0x03ee, B:175:0x03f2, B:177:0x03fa, B:179:0x0405, B:181:0x0409, B:183:0x0411, B:189:0x0424, B:193:0x0431, B:194:0x0438, B:196:0x0465, B:198:0x0469, B:200:0x047e, B:202:0x0485, B:204:0x049d, B:206:0x04a1, B:208:0x04a5, B:209:0x04b4, B:201:0x0481, B:203:0x048b, B:185:0x0418, B:187:0x041c, B:188:0x0422, B:165:0x03cf, B:167:0x03dd, B:144:0x036a, B:120:0x02e0, B:121:0x02e8, B:83:0x0221, B:16:0x0056, B:152:0x0397, B:153:0x039f, B:8:0x0025, B:138:0x033a, B:141:0x0355), top: B:228:0x0008, inners: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:147:0x0379 A[Catch: Exception -> 0x0545, TryCatch #2 {Exception -> 0x0545, blocks: (B:5:0x0008, B:7:0x0015, B:13:0x004d, B:15:0x0053, B:17:0x005c, B:19:0x0060, B:21:0x0069, B:22:0x006b, B:24:0x0084, B:26:0x008d, B:27:0x0096, B:31:0x009f, B:34:0x00ba, B:36:0x00be, B:37:0x00c1, B:38:0x00c3, B:42:0x00cc, B:44:0x00d9, B:45:0x00e3, B:47:0x00e7, B:48:0x00f1, B:52:0x0113, B:54:0x0149, B:56:0x014d, B:58:0x0155, B:60:0x015b, B:62:0x01b1, B:65:0x01e9, B:68:0x01fb, B:70:0x01fe, B:72:0x0201, B:77:0x0211, B:79:0x0215, B:89:0x0237, B:92:0x0244, B:94:0x024f, B:96:0x025b, B:98:0x025f, B:100:0x0267, B:102:0x0272, B:105:0x027b, B:109:0x0288, B:110:0x028f, B:111:0x02a6, B:104:0x0279, B:112:0x02b0, B:114:0x02b9, B:116:0x02d5, B:118:0x02dd, B:126:0x02f7, B:128:0x02fb, B:129:0x031b, B:131:0x0327, B:133:0x032b, B:135:0x0333, B:136:0x0336, B:145:0x036d, B:147:0x0379, B:149:0x037d, B:151:0x0394, B:150:0x038b, B:155:0x03a1, B:157:0x03a9, B:160:0x03b6, B:162:0x03ba, B:164:0x03c5, B:166:0x03da, B:171:0x03ea, B:173:0x03ee, B:175:0x03f2, B:177:0x03fa, B:179:0x0405, B:181:0x0409, B:183:0x0411, B:189:0x0424, B:193:0x0431, B:194:0x0438, B:196:0x0465, B:198:0x0469, B:200:0x047e, B:202:0x0485, B:204:0x049d, B:206:0x04a1, B:208:0x04a5, B:209:0x04b4, B:201:0x0481, B:203:0x048b, B:185:0x0418, B:187:0x041c, B:188:0x0422, B:165:0x03cf, B:167:0x03dd, B:144:0x036a, B:120:0x02e0, B:121:0x02e8, B:83:0x0221, B:16:0x0056, B:152:0x0397, B:153:0x039f, B:8:0x0025, B:138:0x033a, B:141:0x0355), top: B:228:0x0008, inners: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:226:0x033a A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:87:0x0231  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -679,12 +679,12 @@ public class FileUploadOperation {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:26:0x009a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:26:0x0099, code lost:
         if (r21.uploadingFilePath.toLowerCase().endsWith(r9) != false) goto L117;
      */
-    /* JADX WARN: Removed duplicated region for block: B:111:0x02bd  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x00ba  */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x00ca  */
+    /* JADX WARN: Removed duplicated region for block: B:111:0x02bc  */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x00b9  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x00c9  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

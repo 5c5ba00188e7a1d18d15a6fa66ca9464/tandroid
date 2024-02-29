@@ -1268,7 +1268,7 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
             return new RecyclerListView.Holder(headerCell);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:82:0x0281  */
+        /* JADX WARN: Removed duplicated region for block: B:82:0x0282  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.

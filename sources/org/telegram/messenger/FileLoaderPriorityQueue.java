@@ -1,7 +1,7 @@
 package org.telegram.messenger;
 
 import java.util.ArrayList;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class FileLoaderPriorityQueue {
     public static final int PRIORITY_VALUE_LOW = 0;
     public static final int PRIORITY_VALUE_MAX = 1048576;
@@ -99,7 +99,7 @@ public class FileLoaderPriorityQueue {
             FileLoadOperation fileLoadOperation = i3 > 0 ? this.allOperations.get(i3 - 1) : null;
             FileLoadOperation fileLoadOperation2 = this.allOperations.get(i3);
             if (i3 > 0 && !z) {
-                if (this.type == i && fileLoadOperation != null && fileLoadOperation.isStory && fileLoadOperation.getPriority() >= 1048576) {
+                if (this.type == i && fileLoadOperation != null && fileLoadOperation.isStory && fileLoadOperation.getPriority() >= 1048576 && fileLoadOperation2.getPriority() <= 0) {
                     z = true;
                 }
                 if (i4 > 0 && fileLoadOperation2.getPriority() == 0) {

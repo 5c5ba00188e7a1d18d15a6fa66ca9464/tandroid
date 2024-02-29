@@ -1,5 +1,5 @@
 package org.telegram.messenger;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public final /* synthetic */ class MediaDataController$$ExternalSyntheticLambda166 implements Runnable {
     public static final /* synthetic */ MediaDataController$$ExternalSyntheticLambda166 INSTANCE = new MediaDataController$$ExternalSyntheticLambda166();
 

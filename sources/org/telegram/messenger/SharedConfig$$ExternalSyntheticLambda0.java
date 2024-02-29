@@ -1,7 +1,7 @@
 package org.telegram.messenger;
 
 import android.content.DialogInterface;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public final /* synthetic */ class SharedConfig$$ExternalSyntheticLambda0 implements DialogInterface.OnClickListener {
     public static final /* synthetic */ SharedConfig$$ExternalSyntheticLambda0 INSTANCE = new SharedConfig$$ExternalSyntheticLambda0();
 

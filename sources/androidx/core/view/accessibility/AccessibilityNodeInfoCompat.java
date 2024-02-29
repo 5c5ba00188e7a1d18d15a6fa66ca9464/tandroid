@@ -49,7 +49,7 @@ public class AccessibilityNodeInfoCompat {
                         return "ACTION_PREVIOUS_AT_MOVEMENT_GRANULARITY";
                     case 1024:
                         return "ACTION_NEXT_HTML_ELEMENT";
-                    case LiteMode.FLAG_AUTOPLAY_GIFS /* 2048 */:
+                    case 2048:
                         return "ACTION_PREVIOUS_HTML_ELEMENT";
                     case LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM /* 4096 */:
                         return "ACTION_SCROLL_FORWARD";
@@ -155,7 +155,7 @@ public class AccessibilityNodeInfoCompat {
             new AccessibilityActionCompat(LiteMode.FLAG_CHAT_BLUR, null, AccessibilityViewCommand.MoveAtGranularityArguments.class);
             new AccessibilityActionCompat(LiteMode.FLAG_CALLS_ANIMATIONS, null, AccessibilityViewCommand.MoveAtGranularityArguments.class);
             new AccessibilityActionCompat(1024, null, AccessibilityViewCommand.MoveHtmlArguments.class);
-            new AccessibilityActionCompat(LiteMode.FLAG_AUTOPLAY_GIFS, null, AccessibilityViewCommand.MoveHtmlArguments.class);
+            new AccessibilityActionCompat(2048, null, AccessibilityViewCommand.MoveHtmlArguments.class);
             ACTION_SCROLL_FORWARD = new AccessibilityActionCompat(LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM, null);
             ACTION_SCROLL_BACKWARD = new AccessibilityActionCompat(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM, null);
             new AccessibilityActionCompat(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM, null);

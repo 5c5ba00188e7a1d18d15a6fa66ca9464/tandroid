@@ -8,7 +8,7 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.HashSet;
 import org.telegram.tgnet.TLRPC$Chat;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class CacheByChatsController {
     public static int KEEP_MEDIA_DELETE = 4;
     public static int KEEP_MEDIA_FOREVER = 2;
@@ -183,7 +183,7 @@ public class CacheByChatsController {
         return longSparseArray;
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class KeepMediaException {
         public final long dialogId;
         public int keepMedia;
@@ -194,7 +194,7 @@ public class CacheByChatsController {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class KeepMediaFile {
         final File file;
         boolean isStory;

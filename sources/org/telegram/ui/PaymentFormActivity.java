@@ -4619,23 +4619,23 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 } else if ("smartglocal".equals(this.paymentForm.native_provider)) {
                     new AsyncTask<Object, Object, String>() { // from class: org.telegram.ui.PaymentFormActivity.26
                         /* JADX INFO: Access modifiers changed from: protected */
-                        /* JADX WARN: Can't wrap try/catch for region: R(9:3|4|(9:(12:45|46|(3:48|49|(1:51))|(1:8)(2:41|(1:43)(1:44))|9|10|11|12|13|14|15|(4:23|(1:25)|26|27)(3:19|20|21))|13|14|15|(1:17)|23|(0)|26|27)|6|(0)(0)|9|10|11|12) */
-                        /* JADX WARN: Code restructure failed: missing block: B:10:0x009b, code lost:
+                        /* JADX WARN: Can't wrap try/catch for region: R(17:3|4|(12:45|46|(3:48|49|(1:51))|(1:8)(2:41|(1:43)(1:44))|9|10|11|12|13|14|15|(4:23|(1:25)|26|27)(3:19|20|21))|6|(0)(0)|9|10|11|12|13|14|15|(1:17)|23|(0)|26|27) */
+                        /* JADX WARN: Code restructure failed: missing block: B:10:0x009d, code lost:
                             if (r4.endsWith(".smart-glocal.com/cds/v1/tokenize/card") != false) goto L6;
                          */
-                        /* JADX WARN: Code restructure failed: missing block: B:42:0x0169, code lost:
+                        /* JADX WARN: Code restructure failed: missing block: B:42:0x016c, code lost:
                             r13 = e;
                          */
-                        /* JADX WARN: Code restructure failed: missing block: B:48:0x016f, code lost:
+                        /* JADX WARN: Code restructure failed: missing block: B:48:0x0172, code lost:
                             org.telegram.messenger.FileLog.e(r13);
                          */
-                        /* JADX WARN: Code restructure failed: missing block: B:49:0x0172, code lost:
+                        /* JADX WARN: Code restructure failed: missing block: B:49:0x0175, code lost:
                             if (r4 == null) goto L27;
                          */
-                        /* JADX WARN: Not initialized variable reg: 4, insn: 0x0179: MOVE  (r2 I:??[OBJECT, ARRAY]) = (r4 I:??[OBJECT, ARRAY]), block:B:53:0x0179 */
-                        /* JADX WARN: Removed duplicated region for block: B:15:0x00a3 A[Catch: all -> 0x016b, Exception -> 0x016d, TRY_ENTER, TryCatch #2 {Exception -> 0x016d, blocks: (B:3:0x0007, B:15:0x00a3, B:20:0x00c4, B:16:0x00a9, B:18:0x00b5, B:19:0x00bd), top: B:62:0x0007 }] */
-                        /* JADX WARN: Removed duplicated region for block: B:16:0x00a9 A[Catch: all -> 0x016b, Exception -> 0x016d, TryCatch #2 {Exception -> 0x016d, blocks: (B:3:0x0007, B:15:0x00a3, B:20:0x00c4, B:16:0x00a9, B:18:0x00b5, B:19:0x00bd), top: B:62:0x0007 }] */
-                        /* JADX WARN: Removed duplicated region for block: B:33:0x0142 A[Catch: Exception -> 0x0169, all -> 0x0178, TRY_LEAVE, TryCatch #4 {Exception -> 0x0169, blocks: (B:22:0x00cc, B:24:0x0103, B:28:0x0112, B:31:0x013e, B:33:0x0142, B:41:0x0168, B:40:0x0165), top: B:66:0x00cc }] */
+                        /* JADX WARN: Not initialized variable reg: 4, insn: 0x017c: MOVE  (r2 I:??[OBJECT, ARRAY]) = (r4 I:??[OBJECT, ARRAY]), block:B:53:0x017c */
+                        /* JADX WARN: Removed duplicated region for block: B:15:0x00a5 A[Catch: all -> 0x016e, Exception -> 0x0170, TRY_ENTER, TryCatch #2 {Exception -> 0x0170, blocks: (B:3:0x0008, B:15:0x00a5, B:20:0x00c6, B:16:0x00ab, B:18:0x00b7, B:19:0x00bf), top: B:62:0x0008 }] */
+                        /* JADX WARN: Removed duplicated region for block: B:16:0x00ab A[Catch: all -> 0x016e, Exception -> 0x0170, TryCatch #2 {Exception -> 0x0170, blocks: (B:3:0x0008, B:15:0x00a5, B:20:0x00c6, B:16:0x00ab, B:18:0x00b7, B:19:0x00bf), top: B:62:0x0008 }] */
+                        /* JADX WARN: Removed duplicated region for block: B:33:0x0145 A[Catch: Exception -> 0x016c, all -> 0x017b, TRY_LEAVE, TryCatch #3 {Exception -> 0x016c, blocks: (B:22:0x00ce, B:24:0x0105, B:28:0x0114, B:31:0x0141, B:33:0x0145, B:41:0x016b, B:40:0x0168), top: B:64:0x00ce }] */
                         @Override // android.os.AsyncTask
                         /*
                             Code decompiled incorrectly, please refer to instructions dump.

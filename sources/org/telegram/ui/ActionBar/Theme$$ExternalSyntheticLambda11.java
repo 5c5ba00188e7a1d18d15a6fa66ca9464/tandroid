@@ -2,7 +2,7 @@ package org.telegram.ui.ActionBar;
 
 import java.util.Comparator;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public final /* synthetic */ class Theme$$ExternalSyntheticLambda11 implements Comparator {
     public static final /* synthetic */ Theme$$ExternalSyntheticLambda11 INSTANCE = new Theme$$ExternalSyntheticLambda11();
 

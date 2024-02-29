@@ -2,7 +2,7 @@ package org.telegram.messenger;
 
 import com.android.billingclient.api.BillingResult;
 import com.android.billingclient.api.ConsumeResponseListener;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public final /* synthetic */ class BillingController$$ExternalSyntheticLambda1 implements ConsumeResponseListener {
     public static final /* synthetic */ BillingController$$ExternalSyntheticLambda1 INSTANCE = new BillingController$$ExternalSyntheticLambda1();
 

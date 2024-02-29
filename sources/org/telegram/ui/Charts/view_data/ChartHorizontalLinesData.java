@@ -1,7 +1,7 @@
 package org.telegram.ui.Charts.view_data;
 
 import org.telegram.messenger.AndroidUtilities;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ChartHorizontalLinesData {
     public int alpha;
     public int fixedAlpha;

@@ -68,18 +68,18 @@ public class GroupCreateSpan extends View {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:27:0x00aa, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:33:0x00c1, code lost:
         if (r1.equals("non_contacts") != false) goto L11;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x0283  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x0285  */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x0292  */
-    /* JADX WARN: Removed duplicated region for block: B:77:0x0295  */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x029f  */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x02b1  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x02c3  */
-    /* JADX WARN: Removed duplicated region for block: B:95:0x0315  */
+    /* JADX WARN: Removed duplicated region for block: B:103:0x0357  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x02c5  */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x02c7  */
+    /* JADX WARN: Removed duplicated region for block: B:84:0x02d4  */
+    /* JADX WARN: Removed duplicated region for block: B:85:0x02d7  */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x02e1  */
+    /* JADX WARN: Removed duplicated region for block: B:92:0x02f3  */
+    /* JADX WARN: Removed duplicated region for block: B:96:0x0305  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -110,7 +110,7 @@ public class GroupCreateSpan extends View {
             switch (str2.hashCode()) {
                 case -1716307998:
                     if (str2.equals("archived")) {
-                        c = 7;
+                        c = '\t';
                         break;
                     }
                     c = 65535;
@@ -127,6 +127,13 @@ public class GroupCreateSpan extends View {
                 case -567451565:
                     if (str2.equals("contacts")) {
                         c = 0;
+                        break;
+                    }
+                    c = 65535;
+                    break;
+                case -268161860:
+                    if (str2.equals("new_chats")) {
+                        c = '\b';
                         break;
                     }
                     c = 65535;
@@ -148,6 +155,13 @@ public class GroupCreateSpan extends View {
                 case 104264043:
                     if (str2.equals("muted")) {
                         c = 5;
+                        break;
+                    }
+                    c = 65535;
+                    break;
+                case 151051367:
+                    if (str2.equals("existing_chats")) {
+                        c = 7;
                         break;
                     }
                     c = 65535;
@@ -198,6 +212,16 @@ public class GroupCreateSpan extends View {
                     this.avatarDrawable.setAvatarType(10);
                     this.uid = -9223372036854775802L;
                     str = LocaleController.getString("FilterRead", R.string.FilterRead);
+                    break;
+                case 7:
+                    this.avatarDrawable.setAvatarType(23);
+                    this.uid = -9223372036854775800L;
+                    str = LocaleController.getString(R.string.FilterExistingChats);
+                    break;
+                case '\b':
+                    this.avatarDrawable.setAvatarType(24);
+                    this.uid = -9223372036854775799L;
+                    str = LocaleController.getString(R.string.FilterNewChats);
                     break;
                 default:
                     this.avatarDrawable.setAvatarType(11);

@@ -1,5 +1,5 @@
 package org.telegram.messenger;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public final /* synthetic */ class MessagesController$$ExternalSyntheticBackport3 {
     public static /* synthetic */ long m(CharSequence charSequence, int i, int i2, int i3) {
         int i4 = i2 - i;

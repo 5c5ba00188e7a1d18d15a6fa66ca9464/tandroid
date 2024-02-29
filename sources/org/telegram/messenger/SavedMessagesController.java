@@ -43,7 +43,7 @@ import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.LaunchActivity;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class SavedMessagesController {
     private final int currentAccount;
     private int dialogsCount;
@@ -1374,7 +1374,7 @@ public class SavedMessagesController {
         this.loadedCache = false;
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class SavedDialog {
         public long dialogId;
         private int localDate;

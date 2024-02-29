@@ -57,7 +57,7 @@ import org.telegram.ui.Components.CornerPath;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.RestrictedLanguagesSelectActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public abstract class TextSelectionHelper<Cell extends SelectableView> {
     private ActionMode actionMode;
     protected boolean actionsIsShowing;
@@ -134,12 +134,12 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
     private boolean tryCapture;
     public boolean useMovingOffset;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface ArticleSelectableView extends SelectableView {
         void fillTextLayoutBlocks(ArrayList<TextLayoutBlock> arrayList);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class Callback {
         public void onStateChanged(boolean z) {
             throw null;
@@ -149,11 +149,11 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class IgnoreCopySpannable {
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class LayoutBlock {
         public int charOffset;
         public Layout layout;
@@ -161,12 +161,12 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
         public float yOffset;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface OnTranslateListener {
         void run(CharSequence charSequence, String str, String str2, Runnable runnable);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface SelectableView {
         int getBottom();
 
@@ -181,14 +181,14 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
         void invalidate();
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface SimpleSelectabeleView extends SelectableView {
         Layout getStaticTextLayout();
 
         CharSequence getText();
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface TextLayoutBlock {
         StaticLayout getLayout();
 
@@ -923,7 +923,7 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
         this.topOffset = i;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class TextSelectionOverlay extends View {
         float cancelPressedX;
         float cancelPressedY;
@@ -1671,7 +1671,7 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 4 implements ActionMode.Callback {
         private String translateFromLanguage = null;
 
@@ -2065,7 +2065,7 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
         fillLayoutForOffset(i, layoutBlock, false);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class SimpleTextSelectionHelper extends TextSelectionHelper<SimpleSelectabeleView> {
         SimpleSelectabeleView selectabeleView;
 
@@ -2173,7 +2173,7 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class ChatListTextSelectionHelper extends TextSelectionHelper<ChatMessageCell> {
         public static int TYPE_CAPTION = 1;
         public static int TYPE_DESCRIPTION = 2;
@@ -2716,7 +2716,7 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class ArticleTextSelectionHelper extends TextSelectionHelper<ArticleSelectableView> {
         int endViewOffset;
         public LinearLayoutManager layoutManager;
@@ -3445,7 +3445,7 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private static class PathCopyTo extends Path {
         private Path destination;
 
@@ -3464,7 +3464,7 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private static class PathWithSavedBottom extends Path {
         float lastBottom;
 
@@ -3488,7 +3488,7 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class ScalablePath extends Path {
         private static ArrayList<RectF> recycled;
         float lastBottom;

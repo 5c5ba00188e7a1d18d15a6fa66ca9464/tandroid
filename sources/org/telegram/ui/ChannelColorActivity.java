@@ -2789,13 +2789,13 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:25:0x0061  */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x0066  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x0077  */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x007c  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x008d  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x009d  */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x00e4  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x0062  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0067  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x0078  */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x007d  */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x008e  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x009e  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x00e5  */
     /* JADX WARN: Removed duplicated region for block: B:51:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

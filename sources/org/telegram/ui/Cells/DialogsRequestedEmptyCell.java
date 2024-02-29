@@ -26,7 +26,7 @@ import org.telegram.tgnet.TLRPC$TL_requestPeerTypeChat;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.LayoutHelper;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class DialogsRequestedEmptyCell extends LinearLayout implements NotificationCenter.NotificationCenterDelegate {
     TextView buttonView;
     int currentAccount;

@@ -34,7 +34,7 @@ public class TLRPC$TL_message extends TLRPC$Message {
         if ((this.flags & 4) != 0) {
             this.fwd_from = TLRPC$MessageFwdHeader.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
         }
-        if ((this.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
+        if ((this.flags & 2048) != 0) {
             this.via_bot_id = abstractSerializedData.readInt64(z);
         }
         if ((this.flags & 8) != 0) {
@@ -113,11 +113,14 @@ public class TLRPC$TL_message extends TLRPC$Message {
         if ((this.flags & ConnectionsManager.FileTypeVideo) != 0) {
             this.ttl_period = abstractSerializedData.readInt32(z);
         }
+        if ((this.flags & 1073741824) != 0) {
+            this.quick_reply_shortcut_id = abstractSerializedData.readInt32(z);
+        }
     }
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(508332649);
+        abstractSerializedData.writeInt32(-1502839044);
         int i = this.out ? this.flags | 2 : this.flags & (-3);
         this.flags = i;
         int i2 = this.mentioned ? i | 16 : i & (-17);
@@ -155,7 +158,7 @@ public class TLRPC$TL_message extends TLRPC$Message {
         if ((this.flags & 4) != 0) {
             this.fwd_from.serializeToStream(abstractSerializedData);
         }
-        if ((this.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
+        if ((this.flags & 2048) != 0) {
             abstractSerializedData.writeInt64(this.via_bot_id);
         }
         if ((this.flags & 8) != 0) {
@@ -208,6 +211,9 @@ public class TLRPC$TL_message extends TLRPC$Message {
         }
         if ((this.flags & ConnectionsManager.FileTypeVideo) != 0) {
             abstractSerializedData.writeInt32(this.ttl_period);
+        }
+        if ((this.flags & 1073741824) != 0) {
+            abstractSerializedData.writeInt32(this.quick_reply_shortcut_id);
         }
         writeAttachPath(abstractSerializedData);
     }

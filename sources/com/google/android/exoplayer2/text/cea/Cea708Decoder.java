@@ -306,7 +306,7 @@ public final class Cea708Decoder extends CeaDecoder {
                 return;
             case 142:
                 return;
-            case MessagesStorage.LAST_DB_VERSION /* 143 */:
+            case 143:
                 resetCueBuilders();
                 return;
             case 144:
@@ -334,7 +334,7 @@ public final class Cea708Decoder extends CeaDecoder {
                     return;
                 }
             case 147:
-            case 148:
+            case MessagesStorage.LAST_DB_VERSION /* 148 */:
             case 149:
             case ImageReceiver.DEFAULT_CROSSFADE_DURATION /* 150 */:
             default:

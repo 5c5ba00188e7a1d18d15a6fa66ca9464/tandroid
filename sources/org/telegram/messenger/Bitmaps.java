@@ -8,7 +8,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Build;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class Bitmaps {
     private static volatile Matrix sScaleMatrix;
     private static final ThreadLocal<byte[]> jpegData = new ThreadLocal<byte[]>() { // from class: org.telegram.messenger.Bitmaps.1
@@ -137,7 +137,7 @@ public class Bitmaps {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static /* synthetic */ class 2 {
         static final /* synthetic */ int[] $SwitchMap$android$graphics$Bitmap$Config;
 

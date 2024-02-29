@@ -16,7 +16,7 @@ import org.telegram.messenger.SharedConfig;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RadioButton;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ChatListCell extends LinearLayout {
     private ListView[] listView;
 
@@ -24,7 +24,7 @@ public class ChatListCell extends LinearLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ListView extends FrameLayout {
         private RadioButton button;
         private boolean isThreeLines;

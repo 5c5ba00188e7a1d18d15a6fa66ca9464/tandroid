@@ -5,7 +5,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.os.SystemClock;
 import java.util.ArrayList;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class DispatchQueueMainThreadSync extends Thread {
     private static int indexPointer;
     private volatile Handler handler;
@@ -164,7 +164,7 @@ public class DispatchQueueMainThreadSync extends Thread {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public class PostponedTask {
         long delay;
         Message message;

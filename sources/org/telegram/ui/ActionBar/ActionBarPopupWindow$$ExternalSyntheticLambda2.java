@@ -1,7 +1,7 @@
 package org.telegram.ui.ActionBar;
 
 import android.view.ViewTreeObserver;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public final /* synthetic */ class ActionBarPopupWindow$$ExternalSyntheticLambda2 implements ViewTreeObserver.OnScrollChangedListener {
     public static final /* synthetic */ ActionBarPopupWindow$$ExternalSyntheticLambda2 INSTANCE = new ActionBarPopupWindow$$ExternalSyntheticLambda2();
 

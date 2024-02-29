@@ -30,7 +30,7 @@ import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Stories.StoriesUtilities;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ManageChatUserCell extends FrameLayout {
     private final AvatarDrawable avatarDrawable;
     private final BackupImageView avatarImageView;
@@ -56,7 +56,7 @@ public class ManageChatUserCell extends FrameLayout {
     private final StoriesUtilities.AvatarStoryParams storyAvatarParams;
     private TL_stories$StoryItem storyItem;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface ManageChatUserCellDelegate {
         boolean onOptionsButtonCheck(ManageChatUserCell manageChatUserCell, boolean z);
     }

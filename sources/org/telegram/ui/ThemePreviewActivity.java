@@ -790,26 +790,26 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     /* JADX WARN: Removed duplicated region for block: B:162:0x066d A[ADDED_TO_REGION] */
     /* JADX WARN: Removed duplicated region for block: B:166:0x0675  */
     /* JADX WARN: Removed duplicated region for block: B:202:0x086e  */
-    /* JADX WARN: Removed duplicated region for block: B:221:0x08a7  */
+    /* JADX WARN: Removed duplicated region for block: B:221:0x08a8  */
     /* JADX WARN: Removed duplicated region for block: B:22:0x005d  */
-    /* JADX WARN: Removed duplicated region for block: B:252:0x098e  */
-    /* JADX WARN: Removed duplicated region for block: B:255:0x0992  */
+    /* JADX WARN: Removed duplicated region for block: B:252:0x098f  */
+    /* JADX WARN: Removed duplicated region for block: B:255:0x0993  */
     /* JADX WARN: Removed duplicated region for block: B:29:0x006f  */
-    /* JADX WARN: Removed duplicated region for block: B:304:0x0a7f  */
-    /* JADX WARN: Removed duplicated region for block: B:343:0x0bb6  */
-    /* JADX WARN: Removed duplicated region for block: B:348:0x0bc2  */
+    /* JADX WARN: Removed duplicated region for block: B:304:0x0a80  */
+    /* JADX WARN: Removed duplicated region for block: B:343:0x0bb7  */
+    /* JADX WARN: Removed duplicated region for block: B:348:0x0bc3  */
     /* JADX WARN: Removed duplicated region for block: B:37:0x0112  */
     /* JADX WARN: Removed duplicated region for block: B:38:0x0114  */
-    /* JADX WARN: Removed duplicated region for block: B:412:0x0f6c  */
-    /* JADX WARN: Removed duplicated region for block: B:415:0x0f77  */
+    /* JADX WARN: Removed duplicated region for block: B:412:0x0f6d  */
+    /* JADX WARN: Removed duplicated region for block: B:415:0x0f78  */
     /* JADX WARN: Removed duplicated region for block: B:41:0x0120  */
-    /* JADX WARN: Removed duplicated region for block: B:420:0x0fdf  */
-    /* JADX WARN: Removed duplicated region for block: B:421:0x0fe4  */
-    /* JADX WARN: Removed duplicated region for block: B:424:0x101a  */
-    /* JADX WARN: Removed duplicated region for block: B:427:0x114d  */
+    /* JADX WARN: Removed duplicated region for block: B:420:0x0fe0  */
+    /* JADX WARN: Removed duplicated region for block: B:421:0x0fe5  */
+    /* JADX WARN: Removed duplicated region for block: B:424:0x101b  */
+    /* JADX WARN: Removed duplicated region for block: B:427:0x114e  */
     /* JADX WARN: Removed duplicated region for block: B:42:0x0123  */
-    /* JADX WARN: Removed duplicated region for block: B:436:0x1176  */
-    /* JADX WARN: Removed duplicated region for block: B:439:0x1188  */
+    /* JADX WARN: Removed duplicated region for block: B:436:0x1177  */
+    /* JADX WARN: Removed duplicated region for block: B:439:0x1189  */
     /* JADX WARN: Removed duplicated region for block: B:45:0x0167  */
     /* JADX WARN: Removed duplicated region for block: B:48:0x01b6  */
     /* JADX WARN: Removed duplicated region for block: B:51:0x021f  */
@@ -3764,18 +3764,18 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         return getMessagesController().groupCustomWallpaperLevelMin;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:129:0x02a8  */
-    /* JADX WARN: Removed duplicated region for block: B:130:0x02ba  */
-    /* JADX WARN: Removed duplicated region for block: B:156:0x035c  */
-    /* JADX WARN: Removed duplicated region for block: B:162:0x0370  */
-    /* JADX WARN: Removed duplicated region for block: B:196:0x03e2  */
-    /* JADX WARN: Removed duplicated region for block: B:201:0x03fc  */
-    /* JADX WARN: Removed duplicated region for block: B:207:0x0414  */
-    /* JADX WARN: Removed duplicated region for block: B:237:0x0597  */
-    /* JADX WARN: Removed duplicated region for block: B:240:0x059d  */
-    /* JADX WARN: Removed duplicated region for block: B:257:0x027d A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:129:0x02a9  */
+    /* JADX WARN: Removed duplicated region for block: B:130:0x02bb  */
+    /* JADX WARN: Removed duplicated region for block: B:156:0x035d  */
+    /* JADX WARN: Removed duplicated region for block: B:162:0x0371  */
+    /* JADX WARN: Removed duplicated region for block: B:196:0x03e3  */
+    /* JADX WARN: Removed duplicated region for block: B:201:0x03fd  */
+    /* JADX WARN: Removed duplicated region for block: B:207:0x0415  */
+    /* JADX WARN: Removed duplicated region for block: B:237:0x0598  */
+    /* JADX WARN: Removed duplicated region for block: B:240:0x059e  */
+    /* JADX WARN: Removed duplicated region for block: B:257:0x027e A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:263:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x00d0  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x00d1  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -8191,7 +8191,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         ArrayList<MessageObject> arrayList = new ArrayList<>();
         arrayList.add(new MessageObject(this.currentAccount, tLRPC$TL_messageService, false, false));
         new ArrayList().add(tLRPC$TL_messageService);
-        MessagesController.getInstance(this.currentAccount).updateInterfaceWithMessages(this.dialogId, arrayList, false);
+        MessagesController.getInstance(this.currentAccount).updateInterfaceWithMessages(this.dialogId, arrayList, 0);
     }
 
     /* loaded from: classes3.dex */

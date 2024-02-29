@@ -19,7 +19,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class SettingsSearchCell extends FrameLayout {
     private ImageView imageView;
     private int left;
@@ -27,7 +27,7 @@ public class SettingsSearchCell extends FrameLayout {
     private TextView textView;
     private TextView valueTextView;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class VerticalImageSpan extends ImageSpan {
         public VerticalImageSpan(Drawable drawable) {
             super(drawable);

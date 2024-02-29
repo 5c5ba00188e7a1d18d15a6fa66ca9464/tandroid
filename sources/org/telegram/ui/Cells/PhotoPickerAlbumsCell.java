@@ -16,7 +16,7 @@ import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.LayoutHelper;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class PhotoPickerAlbumsCell extends FrameLayout {
     private MediaController.AlbumEntry[] albumEntries;
     private AlbumView[] albumViews;
@@ -24,12 +24,12 @@ public class PhotoPickerAlbumsCell extends FrameLayout {
     private Paint backgroundPaint;
     private PhotoPickerAlbumsCellDelegate delegate;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface PhotoPickerAlbumsCellDelegate {
         void didSelectAlbum(MediaController.AlbumEntry albumEntry);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private class AlbumView extends FrameLayout {
         private TextView countTextView;
         private BackupImageView imageView;

@@ -7,7 +7,7 @@ import java.io.FileInputStream;
 import java.io.RandomAccessFile;
 import org.telegram.messenger.audioinfo.m4a.M4AInfo;
 import org.telegram.messenger.audioinfo.mp3.MP3Info;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public abstract class AudioInfo {
     protected String album;
     protected String albumArtist;

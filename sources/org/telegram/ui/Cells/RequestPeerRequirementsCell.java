@@ -22,7 +22,7 @@ import org.telegram.tgnet.TLRPC$TL_requestPeerTypeBroadcast;
 import org.telegram.tgnet.TLRPC$TL_requestPeerTypeUser;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class RequestPeerRequirementsCell extends LinearLayout {
     private TLRPC$RequestPeerType requestPeerType;
     private ArrayList<Requirement> requirements;
@@ -253,7 +253,7 @@ public class RequestPeerRequirementsCell extends LinearLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class RequirementCell extends LinearLayout {
         private ImageView imageView;
         private TextView textView;

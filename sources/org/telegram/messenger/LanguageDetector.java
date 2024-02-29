@@ -5,15 +5,15 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.mlkit.common.sdkinternal.MlKitContext;
 import com.google.mlkit.nl.languageid.LanguageIdentification;
 import org.telegram.messenger.LanguageDetector;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class LanguageDetector {
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public interface ExceptionCallback {
         void run(Exception exc);
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public interface StringCallback {
         void run(String str);
     }

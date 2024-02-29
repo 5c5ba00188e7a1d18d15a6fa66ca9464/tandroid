@@ -164,15 +164,15 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
     /* JADX WARN: Removed duplicated region for block: B:64:0x03eb A[LOOP:0: B:63:0x03e9->B:64:0x03eb, LOOP_END] */
     /* JADX WARN: Removed duplicated region for block: B:67:0x0442  */
     /* JADX WARN: Removed duplicated region for block: B:70:0x0456  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x04c7  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x04cc  */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x04d2  */
-    /* JADX WARN: Removed duplicated region for block: B:77:0x04d5  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x0523  */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x0526  */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x052a  */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x052d  */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x054c  */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x04c8  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x04cd  */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x04d3  */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x04d6  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x0524  */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x0527  */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x052b  */
+    /* JADX WARN: Removed duplicated region for block: B:84:0x052e  */
+    /* JADX WARN: Removed duplicated region for block: B:87:0x054d  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.

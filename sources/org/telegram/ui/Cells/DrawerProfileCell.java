@@ -57,7 +57,7 @@ import org.telegram.ui.Components.Reactions.HwEmojis;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 import org.telegram.ui.Components.SnowflakesEffect;
 import org.telegram.ui.ThemeActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class DrawerProfileCell extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private static RLottieDrawable sunDrawable;
     public static boolean switchingTheme;
@@ -337,7 +337,7 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         return false;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class AnimatedStatusView extends View {
         private int animationUniq;
         private ArrayList<Object> animations;

@@ -24,7 +24,7 @@ import org.telegram.tgnet.TLRPC$UserProfilePhoto;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AvatarDrawable;
 /* compiled from: ContactsWidgetService.java */
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 class ContactsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     private AccountInstance accountInstance;
     private int appWidgetId;

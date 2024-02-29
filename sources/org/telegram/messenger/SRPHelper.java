@@ -3,7 +3,7 @@ package org.telegram.messenger;
 import java.math.BigInteger;
 import org.telegram.tgnet.TLRPC$TL_inputCheckPasswordSRP;
 import org.telegram.tgnet.TLRPC$TL_passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class SRPHelper {
     public static byte[] getBigIntegerBytes(BigInteger bigInteger) {
         byte[] byteArray = bigInteger.toByteArray();

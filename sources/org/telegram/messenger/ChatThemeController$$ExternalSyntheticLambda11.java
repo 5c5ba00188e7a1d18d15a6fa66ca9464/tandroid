@@ -3,7 +3,7 @@ package org.telegram.messenger;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$TL_error;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public final /* synthetic */ class ChatThemeController$$ExternalSyntheticLambda11 implements RequestDelegate {
     public static final /* synthetic */ ChatThemeController$$ExternalSyntheticLambda11 INSTANCE = new ChatThemeController$$ExternalSyntheticLambda11();
 

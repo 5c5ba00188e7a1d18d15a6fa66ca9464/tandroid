@@ -133,11 +133,11 @@ public class DatabasePersistence extends Persistence {
                     }
                 }
                 return put;
-            } catch (IOException e2) {
-                throw new Persistence.PersistenceException("Cannot save large payload in a file.", e2);
+            } catch (JSONException e2) {
+                throw new Persistence.PersistenceException("Cannot convert to JSON string.", e2);
             }
-        } catch (JSONException e3) {
-            throw new Persistence.PersistenceException("Cannot convert to JSON string.", e3);
+        } catch (IOException e3) {
+            throw new Persistence.PersistenceException("Cannot save large payload in a file.", e3);
         }
     }
 

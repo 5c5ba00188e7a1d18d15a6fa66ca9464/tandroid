@@ -1,7 +1,7 @@
 package org.telegram.messenger;
 
 import com.google.android.gms.tasks.OnSuccessListener;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public final /* synthetic */ class AndroidUtilities$$ExternalSyntheticLambda10 implements OnSuccessListener {
     public static final /* synthetic */ AndroidUtilities$$ExternalSyntheticLambda10 INSTANCE = new AndroidUtilities$$ExternalSyntheticLambda10();
 

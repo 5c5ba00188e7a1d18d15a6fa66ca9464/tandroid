@@ -66,22 +66,25 @@ import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.ColoredImageSpan;
 import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.EditTextBoldCursor;
-import org.telegram.ui.Components.EmptyTextProgressView;
+import org.telegram.ui.Components.FlickerLoadingView;
 import org.telegram.ui.Components.GroupCreateSpan;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Premium.LimitReachedBottomSheet;
 import org.telegram.ui.Components.RecyclerListView;
+import org.telegram.ui.Components.StickerEmptyView;
 import org.telegram.ui.UsersSelectActivity;
 /* loaded from: classes3.dex */
 public class UsersSelectActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate, View.OnClickListener {
     private GroupCreateAdapter adapter;
     private ArrayList<GroupCreateSpan> allSpans;
+    public boolean allowSelf;
     AnimatedAvatarContainer animatedAvatarContainer;
     private int containerHeight;
     private GroupCreateSpan currentDeletingSpan;
     private FilterUsersActivityDelegate delegate;
+    public boolean doNotNewChats;
     private EditTextBoldCursor editText;
-    private EmptyTextProgressView emptyView;
+    private StickerEmptyView emptyView;
     private int fieldY;
     private int filterFlags;
     private ImageView floatingButton;
@@ -90,6 +93,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
     private boolean isInclude;
     private RecyclerListView listView;
     public boolean noChatTypes;
+    private FlickerLoadingView progressView;
     private ScrollView scrollView;
     private boolean searchWas;
     private boolean searching;
@@ -104,7 +108,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         void didSelectChats(ArrayList<Long> arrayList, int i);
     }
 
-    static /* synthetic */ int access$1972(UsersSelectActivity usersSelectActivity, int i) {
+    static /* synthetic */ int access$2172(UsersSelectActivity usersSelectActivity, int i) {
         int i2 = i & usersSelectActivity.filterFlags;
         usersSelectActivity.filterFlags = i2;
         return i2;
@@ -356,12 +360,20 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         this.filterFlags = i;
         this.initialIds = arrayList;
         this.type = 0;
+        this.allowSelf = true;
+    }
+
+    public UsersSelectActivity asPrivateChats() {
+        this.type = 2;
+        this.allowSelf = false;
+        return this;
     }
 
     public UsersSelectActivity(int i) {
         this.selectedContacts = new LongSparseArray<>();
         this.allSpans = new ArrayList<>();
         this.type = i;
+        this.allowSelf = i != 1;
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -386,7 +398,17 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         if (groupCreateSpan.isDeleting()) {
             this.currentDeletingSpan = null;
             this.spansContainer.removeSpan(groupCreateSpan);
-            if (groupCreateSpan.getUid() == Long.MIN_VALUE) {
+            if (this.type == 2) {
+                if (groupCreateSpan.getUid() == -9223372036854775800L) {
+                    this.filterFlags &= -2;
+                } else if (groupCreateSpan.getUid() == -9223372036854775799L) {
+                    this.filterFlags &= -3;
+                } else if (groupCreateSpan.getUid() == Long.MIN_VALUE) {
+                    this.filterFlags &= -5;
+                } else if (groupCreateSpan.getUid() == -9223372036854775807L) {
+                    this.filterFlags &= -9;
+                }
+            } else if (groupCreateSpan.getUid() == Long.MIN_VALUE) {
                 this.filterFlags &= MessagesController.DIALOG_FILTER_FLAG_CONTACTS ^ (-1);
             } else if (groupCreateSpan.getUid() == -9223372036854775807L) {
                 this.filterFlags &= MessagesController.DIALOG_FILTER_FLAG_NON_CONTACTS ^ (-1);
@@ -418,8 +440,6 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(final Context context) {
         Object chat;
-        int i;
-        String str;
         this.searching = false;
         this.searchWas = false;
         this.allSpans.clear();
@@ -435,32 +455,32 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         }
         this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
         this.actionBar.setAllowOverlayTitle(true);
-        int i2 = this.type;
-        if (i2 == 0) {
+        int i = this.type;
+        if (i == 0 || i == 2) {
             if (this.isInclude) {
                 this.actionBar.setTitle(LocaleController.getString("FilterAlwaysShow", R.string.FilterAlwaysShow));
             } else {
                 this.actionBar.setTitle(LocaleController.getString("FilterNeverShow", R.string.FilterNeverShow));
             }
-        } else if (i2 == 1) {
+        } else if (i == 1) {
             updateHint();
         }
         this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.UsersSelectActivity.1
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
-            public void onItemClick(int i3) {
-                if (i3 == -1) {
+            public void onItemClick(int i2) {
+                if (i2 == -1) {
                     UsersSelectActivity.this.finishFragment();
-                } else if (i3 == 1) {
+                } else if (i2 == 1) {
                     UsersSelectActivity.this.onDonePressed(true);
                 }
             }
         });
         ViewGroup viewGroup = new ViewGroup(context) { // from class: org.telegram.ui.UsersSelectActivity.2
             @Override // android.view.View
-            protected void onMeasure(int i3, int i4) {
+            protected void onMeasure(int i2, int i3) {
                 int dp;
-                int size = View.MeasureSpec.getSize(i3);
-                int size2 = View.MeasureSpec.getSize(i4);
+                int size = View.MeasureSpec.getSize(i2);
+                int size2 = View.MeasureSpec.getSize(i3);
                 setMeasuredDimension(size, size2);
                 if (AndroidUtilities.isTablet() || size2 > size) {
                     dp = AndroidUtilities.dp(144.0f);
@@ -470,6 +490,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                 UsersSelectActivity.this.scrollView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(dp, Integer.MIN_VALUE));
                 UsersSelectActivity.this.listView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(size2 - UsersSelectActivity.this.scrollView.getMeasuredHeight(), 1073741824));
                 UsersSelectActivity.this.emptyView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(size2 - UsersSelectActivity.this.scrollView.getMeasuredHeight(), 1073741824));
+                UsersSelectActivity.this.progressView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(size2 - UsersSelectActivity.this.scrollView.getMeasuredHeight(), 1073741824));
                 if (UsersSelectActivity.this.floatingButton != null) {
                     int dp2 = AndroidUtilities.dp(Build.VERSION.SDK_INT < 21 ? 60.0f : 56.0f);
                     UsersSelectActivity.this.floatingButton.measure(View.MeasureSpec.makeMeasureSpec(dp2, 1073741824), View.MeasureSpec.makeMeasureSpec(dp2, 1073741824));
@@ -477,13 +498,14 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
             }
 
             @Override // android.view.ViewGroup, android.view.View
-            protected void onLayout(boolean z2, int i3, int i4, int i5, int i6) {
+            protected void onLayout(boolean z2, int i2, int i3, int i4, int i5) {
                 UsersSelectActivity.this.scrollView.layout(0, 0, UsersSelectActivity.this.scrollView.getMeasuredWidth(), UsersSelectActivity.this.scrollView.getMeasuredHeight());
                 UsersSelectActivity.this.listView.layout(0, UsersSelectActivity.this.scrollView.getMeasuredHeight(), UsersSelectActivity.this.listView.getMeasuredWidth(), UsersSelectActivity.this.scrollView.getMeasuredHeight() + UsersSelectActivity.this.listView.getMeasuredHeight());
                 UsersSelectActivity.this.emptyView.layout(0, UsersSelectActivity.this.scrollView.getMeasuredHeight(), UsersSelectActivity.this.emptyView.getMeasuredWidth(), UsersSelectActivity.this.scrollView.getMeasuredHeight() + UsersSelectActivity.this.emptyView.getMeasuredHeight());
+                UsersSelectActivity.this.progressView.layout(0, UsersSelectActivity.this.scrollView.getMeasuredHeight(), UsersSelectActivity.this.emptyView.getMeasuredWidth(), UsersSelectActivity.this.scrollView.getMeasuredHeight() + UsersSelectActivity.this.progressView.getMeasuredHeight());
                 if (UsersSelectActivity.this.floatingButton != null) {
-                    int dp = LocaleController.isRTL ? AndroidUtilities.dp(14.0f) : ((i5 - i3) - AndroidUtilities.dp(14.0f)) - UsersSelectActivity.this.floatingButton.getMeasuredWidth();
-                    int dp2 = ((i6 - i4) - AndroidUtilities.dp(14.0f)) - UsersSelectActivity.this.floatingButton.getMeasuredHeight();
+                    int dp = LocaleController.isRTL ? AndroidUtilities.dp(14.0f) : ((i4 - i2) - AndroidUtilities.dp(14.0f)) - UsersSelectActivity.this.floatingButton.getMeasuredWidth();
+                    int dp2 = ((i5 - i3) - AndroidUtilities.dp(14.0f)) - UsersSelectActivity.this.floatingButton.getMeasuredHeight();
                     UsersSelectActivity.this.floatingButton.layout(dp, dp2, UsersSelectActivity.this.floatingButton.getMeasuredWidth() + dp, UsersSelectActivity.this.floatingButton.getMeasuredHeight() + dp2);
                 }
             }
@@ -580,29 +602,39 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
             private boolean wasEmpty;
 
             @Override // android.view.View.OnKeyListener
-            public boolean onKey(View view, int i3, KeyEvent keyEvent) {
-                if (i3 == 67) {
+            public boolean onKey(View view, int i2, KeyEvent keyEvent) {
+                if (i2 == 67) {
                     if (keyEvent.getAction() == 0) {
                         this.wasEmpty = UsersSelectActivity.this.editText.length() == 0;
                     } else if (keyEvent.getAction() == 1 && this.wasEmpty && !UsersSelectActivity.this.allSpans.isEmpty()) {
                         GroupCreateSpan groupCreateSpan = (GroupCreateSpan) UsersSelectActivity.this.allSpans.get(UsersSelectActivity.this.allSpans.size() - 1);
                         UsersSelectActivity.this.spansContainer.removeSpan(groupCreateSpan);
-                        if (groupCreateSpan.getUid() == Long.MIN_VALUE) {
-                            UsersSelectActivity.access$1972(UsersSelectActivity.this, MessagesController.DIALOG_FILTER_FLAG_CONTACTS ^ (-1));
+                        if (UsersSelectActivity.this.type == 2) {
+                            if (groupCreateSpan.getUid() == -9223372036854775800L) {
+                                UsersSelectActivity.access$2172(UsersSelectActivity.this, -2);
+                            } else if (groupCreateSpan.getUid() == -9223372036854775799L) {
+                                UsersSelectActivity.access$2172(UsersSelectActivity.this, -3);
+                            } else if (groupCreateSpan.getUid() == Long.MIN_VALUE) {
+                                UsersSelectActivity.access$2172(UsersSelectActivity.this, -5);
+                            } else if (groupCreateSpan.getUid() == -9223372036854775807L) {
+                                UsersSelectActivity.access$2172(UsersSelectActivity.this, -9);
+                            }
+                        } else if (groupCreateSpan.getUid() == Long.MIN_VALUE) {
+                            UsersSelectActivity.access$2172(UsersSelectActivity.this, MessagesController.DIALOG_FILTER_FLAG_CONTACTS ^ (-1));
                         } else if (groupCreateSpan.getUid() == -9223372036854775807L) {
-                            UsersSelectActivity.access$1972(UsersSelectActivity.this, MessagesController.DIALOG_FILTER_FLAG_NON_CONTACTS ^ (-1));
+                            UsersSelectActivity.access$2172(UsersSelectActivity.this, MessagesController.DIALOG_FILTER_FLAG_NON_CONTACTS ^ (-1));
                         } else if (groupCreateSpan.getUid() == -9223372036854775806L) {
-                            UsersSelectActivity.access$1972(UsersSelectActivity.this, MessagesController.DIALOG_FILTER_FLAG_GROUPS ^ (-1));
+                            UsersSelectActivity.access$2172(UsersSelectActivity.this, MessagesController.DIALOG_FILTER_FLAG_GROUPS ^ (-1));
                         } else if (groupCreateSpan.getUid() == -9223372036854775805L) {
-                            UsersSelectActivity.access$1972(UsersSelectActivity.this, MessagesController.DIALOG_FILTER_FLAG_CHANNELS ^ (-1));
+                            UsersSelectActivity.access$2172(UsersSelectActivity.this, MessagesController.DIALOG_FILTER_FLAG_CHANNELS ^ (-1));
                         } else if (groupCreateSpan.getUid() == -9223372036854775804L) {
-                            UsersSelectActivity.access$1972(UsersSelectActivity.this, MessagesController.DIALOG_FILTER_FLAG_BOTS ^ (-1));
+                            UsersSelectActivity.access$2172(UsersSelectActivity.this, MessagesController.DIALOG_FILTER_FLAG_BOTS ^ (-1));
                         } else if (groupCreateSpan.getUid() == -9223372036854775803L) {
-                            UsersSelectActivity.access$1972(UsersSelectActivity.this, MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_MUTED ^ (-1));
+                            UsersSelectActivity.access$2172(UsersSelectActivity.this, MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_MUTED ^ (-1));
                         } else if (groupCreateSpan.getUid() == -9223372036854775802L) {
-                            UsersSelectActivity.access$1972(UsersSelectActivity.this, MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_READ ^ (-1));
+                            UsersSelectActivity.access$2172(UsersSelectActivity.this, MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_READ ^ (-1));
                         } else if (groupCreateSpan.getUid() == -9223372036854775801L) {
-                            UsersSelectActivity.access$1972(UsersSelectActivity.this, MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_ARCHIVED ^ (-1));
+                            UsersSelectActivity.access$2172(UsersSelectActivity.this, MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_ARCHIVED ^ (-1));
                         }
                         UsersSelectActivity.this.updateHint();
                         UsersSelectActivity.this.checkVisibleRows();
@@ -614,11 +646,11 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         });
         this.editText.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.UsersSelectActivity.7
             @Override // android.text.TextWatcher
-            public void beforeTextChanged(CharSequence charSequence, int i3, int i4, int i5) {
+            public void beforeTextChanged(CharSequence charSequence, int i2, int i3, int i4) {
             }
 
             @Override // android.text.TextWatcher
-            public void onTextChanged(CharSequence charSequence, int i3, int i4, int i5) {
+            public void onTextChanged(CharSequence charSequence, int i2, int i3, int i4) {
             }
 
             @Override // android.text.TextWatcher
@@ -633,20 +665,34 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                     UsersSelectActivity.this.adapter.setSearching(true);
                     UsersSelectActivity.this.listView.setFastScrollVisible(false);
                     UsersSelectActivity.this.listView.setVerticalScrollBarEnabled(true);
-                    UsersSelectActivity.this.emptyView.setText(LocaleController.getString("NoResult", R.string.NoResult));
-                    UsersSelectActivity.this.emptyView.showProgress();
+                    UsersSelectActivity.this.emptyView.title.setText(LocaleController.getString("NoResult", R.string.NoResult));
                 }
+                UsersSelectActivity.this.emptyView.showProgress(true);
                 UsersSelectActivity.this.adapter.searchDialogs(UsersSelectActivity.this.editText.getText().toString());
             }
         });
-        this.emptyView = new EmptyTextProgressView(context);
-        if (ContactsController.getInstance(this.currentAccount).isLoadingContacts()) {
-            this.emptyView.showProgress();
-        } else {
-            this.emptyView.showTextView();
-        }
-        this.emptyView.setShowAtCenter(true);
-        this.emptyView.setText(LocaleController.getString("NoContacts", R.string.NoContacts));
+        FlickerLoadingView flickerLoadingView = new FlickerLoadingView(context);
+        this.progressView = flickerLoadingView;
+        flickerLoadingView.setViewType(10);
+        this.progressView.showDate(false);
+        this.progressView.setItemsCount(3);
+        FlickerLoadingView flickerLoadingView2 = this.progressView;
+        int i2 = Theme.key_actionBarDefaultSubmenuBackground;
+        int i3 = Theme.key_listSelector;
+        flickerLoadingView2.setColors(i2, i3, i3);
+        viewGroup2.addView(this.progressView);
+        StickerEmptyView stickerEmptyView = new StickerEmptyView(this, context, this.progressView, 1) { // from class: org.telegram.ui.UsersSelectActivity.8
+            @Override // org.telegram.ui.Components.StickerEmptyView, android.view.View
+            public void setVisibility(int i4) {
+                super.setVisibility(i4);
+                if (i4 != 0) {
+                    showProgress(false, false);
+                }
+            }
+        };
+        this.emptyView = stickerEmptyView;
+        stickerEmptyView.showProgress(ContactsController.getInstance(this.currentAccount).isLoadingContacts());
+        this.emptyView.title.setText(LocaleController.getString("NoContacts", R.string.NoContacts));
         viewGroup2.addView(this.emptyView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, 1, false);
         RecyclerListView recyclerListView = new RecyclerListView(context);
@@ -664,14 +710,14 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         viewGroup2.addView(this.listView);
         this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.UsersSelectActivity$$ExternalSyntheticLambda3
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-            public final void onItemClick(View view, int i3) {
-                UsersSelectActivity.this.lambda$createView$1(context, view, i3);
+            public final void onItemClick(View view, int i4) {
+                UsersSelectActivity.this.lambda$createView$1(context, view, i4);
             }
         });
-        this.listView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.UsersSelectActivity.8
+        this.listView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.UsersSelectActivity.9
             @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-            public void onScrollStateChanged(RecyclerView recyclerView, int i3) {
-                if (i3 == 1) {
+            public void onScrollStateChanged(RecyclerView recyclerView, int i4) {
+                if (i4 == 1) {
                     AndroidUtilities.hideKeyboard(UsersSelectActivity.this.editText);
                 }
             }
@@ -680,8 +726,8 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         this.floatingButton = imageView;
         imageView.setScaleType(ImageView.ScaleType.CENTER);
         Drawable createSimpleSelectorCircleDrawable = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(56.0f), Theme.getColor(Theme.key_chats_actionBackground), Theme.getColor(Theme.key_chats_actionPressedBackground));
-        int i3 = Build.VERSION.SDK_INT;
-        if (i3 < 21) {
+        int i4 = Build.VERSION.SDK_INT;
+        if (i4 < 21) {
             Drawable mutate = context.getResources().getDrawable(R.drawable.floating_shadow).mutate();
             mutate.setColorFilter(new PorterDuffColorFilter(-16777216, PorterDuff.Mode.MULTIPLY));
             CombinedDrawable combinedDrawable = new CombinedDrawable(mutate, createSimpleSelectorCircleDrawable, 0, 0);
@@ -691,14 +737,14 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         this.floatingButton.setBackgroundDrawable(createSimpleSelectorCircleDrawable);
         this.floatingButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chats_actionIcon), PorterDuff.Mode.MULTIPLY));
         this.floatingButton.setImageResource(R.drawable.floating_check);
-        if (i3 >= 21) {
+        if (i4 >= 21) {
             StateListAnimator stateListAnimator = new StateListAnimator();
             ImageView imageView2 = this.floatingButton;
             Property property = View.TRANSLATION_Z;
             stateListAnimator.addState(new int[]{16842919}, ObjectAnimator.ofFloat(imageView2, property, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(4.0f)).setDuration(200L));
             stateListAnimator.addState(new int[0], ObjectAnimator.ofFloat(this.floatingButton, property, AndroidUtilities.dp(4.0f), AndroidUtilities.dp(2.0f)).setDuration(200L));
             this.floatingButton.setStateListAnimator(stateListAnimator);
-            this.floatingButton.setOutlineProvider(new ViewOutlineProvider(this) { // from class: org.telegram.ui.UsersSelectActivity.9
+            this.floatingButton.setOutlineProvider(new ViewOutlineProvider(this) { // from class: org.telegram.ui.UsersSelectActivity.10
                 @Override // android.view.ViewOutlineProvider
                 @SuppressLint({"NewApi"})
                 public void getOutline(View view, Outline outline) {
@@ -714,36 +760,50 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
             }
         });
         this.floatingButton.setContentDescription(LocaleController.getString("Next", R.string.Next));
-        int i4 = this.isInclude ? 5 : 3;
-        for (int i5 = 1; i5 <= i4; i5++) {
-            if (this.isInclude) {
-                if (i5 == 1) {
-                    i = MessagesController.DIALOG_FILTER_FLAG_CONTACTS;
+        int i5 = this.isInclude ? 5 : 3;
+        for (int i6 = 1; i6 <= i5; i6++) {
+            int i7 = 4;
+            String str = "non_contacts";
+            if (this.type == 2) {
+                if (i6 == 1) {
+                    str = "existing_chats";
+                    i7 = 1;
+                } else if (i6 != 2 || this.doNotNewChats) {
+                    if (i6 != (!this.doNotNewChats ? 1 : 0) + 2) {
+                        i7 = 8;
+                    }
                     str = "contacts";
-                } else if (i5 == 2) {
-                    i = MessagesController.DIALOG_FILTER_FLAG_NON_CONTACTS;
-                    str = "non_contacts";
-                } else if (i5 == 3) {
-                    i = MessagesController.DIALOG_FILTER_FLAG_GROUPS;
+                } else {
+                    str = "new_chats";
+                    i7 = 2;
+                }
+            } else if (this.isInclude) {
+                if (i6 == 1) {
+                    i7 = MessagesController.DIALOG_FILTER_FLAG_CONTACTS;
+                    str = "contacts";
+                } else if (i6 == 2) {
+                    i7 = MessagesController.DIALOG_FILTER_FLAG_NON_CONTACTS;
+                } else if (i6 == 3) {
+                    i7 = MessagesController.DIALOG_FILTER_FLAG_GROUPS;
                     str = "groups";
-                } else if (i5 == 4) {
-                    i = MessagesController.DIALOG_FILTER_FLAG_CHANNELS;
+                } else if (i6 == 4) {
+                    i7 = MessagesController.DIALOG_FILTER_FLAG_CHANNELS;
                     str = "channels";
                 } else {
-                    i = MessagesController.DIALOG_FILTER_FLAG_BOTS;
+                    i7 = MessagesController.DIALOG_FILTER_FLAG_BOTS;
                     str = "bots";
                 }
-            } else if (i5 == 1) {
-                i = MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_MUTED;
+            } else if (i6 == 1) {
+                i7 = MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_MUTED;
                 str = "muted";
-            } else if (i5 == 2) {
-                i = MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_READ;
+            } else if (i6 == 2) {
+                i7 = MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_READ;
                 str = "read";
             } else {
-                i = MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_ARCHIVED;
+                i7 = MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_ARCHIVED;
                 str = "archived";
             }
-            if ((i & this.filterFlags) != 0) {
+            if ((this.filterFlags & i7) != 0) {
                 GroupCreateSpan groupCreateSpan = new GroupCreateSpan(this.editText.getContext(), str);
                 this.spansContainer.addSpan(groupCreateSpan, false);
                 groupCreateSpan.setOnClickListener(this);
@@ -752,8 +812,8 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         ArrayList<Long> arrayList = this.initialIds;
         if (arrayList != null && !arrayList.isEmpty()) {
             int size = this.initialIds.size();
-            for (int i6 = 0; i6 < size; i6++) {
-                Long l = this.initialIds.get(i6);
+            for (int i8 = 0; i8 < size; i8++) {
+                Long l = this.initialIds.get(i8);
                 if (l.longValue() > 0) {
                     chat = getMessagesController().getUser(l);
                 } else {
@@ -778,45 +838,67 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
     }
 
     /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x008a  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x0092  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public /* synthetic */ void lambda$createView$1(Context context, View view, int i) {
         long j;
-        int i2;
         if (view instanceof GroupCreateUserCell) {
             GroupCreateUserCell groupCreateUserCell = (GroupCreateUserCell) view;
             Object object = groupCreateUserCell.getObject();
             boolean z = object instanceof String;
             if (z) {
-                if (this.isInclude) {
-                    if (i == 1) {
-                        i2 = MessagesController.DIALOG_FILTER_FLAG_CONTACTS;
-                        j = Long.MIN_VALUE;
+                int i2 = 4;
+                j = -9223372036854775807L;
+                if (this.type != 2) {
+                    if (this.isInclude) {
+                        if (i == 1) {
+                            i2 = MessagesController.DIALOG_FILTER_FLAG_CONTACTS;
+                            j = Long.MIN_VALUE;
+                        } else if (i == 2) {
+                            i2 = MessagesController.DIALOG_FILTER_FLAG_NON_CONTACTS;
+                        } else if (i == 3) {
+                            i2 = MessagesController.DIALOG_FILTER_FLAG_GROUPS;
+                            j = -9223372036854775806L;
+                        } else if (i == 4) {
+                            i2 = MessagesController.DIALOG_FILTER_FLAG_CHANNELS;
+                            j = -9223372036854775805L;
+                        } else {
+                            i2 = MessagesController.DIALOG_FILTER_FLAG_BOTS;
+                            j = -9223372036854775804L;
+                        }
+                    } else if (i == 1) {
+                        i2 = MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_MUTED;
+                        j = -9223372036854775803L;
                     } else if (i == 2) {
-                        i2 = MessagesController.DIALOG_FILTER_FLAG_NON_CONTACTS;
-                        j = -9223372036854775807L;
-                    } else if (i == 3) {
-                        i2 = MessagesController.DIALOG_FILTER_FLAG_GROUPS;
-                        j = -9223372036854775806L;
-                    } else if (i == 4) {
-                        i2 = MessagesController.DIALOG_FILTER_FLAG_CHANNELS;
-                        j = -9223372036854775805L;
+                        i2 = MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_READ;
+                        j = -9223372036854775802L;
                     } else {
-                        i2 = MessagesController.DIALOG_FILTER_FLAG_BOTS;
-                        j = -9223372036854775804L;
+                        i2 = MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_ARCHIVED;
+                        j = -9223372036854775801L;
                     }
-                } else if (i == 1) {
-                    i2 = MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_MUTED;
-                    j = -9223372036854775803L;
-                } else if (i == 2) {
-                    i2 = MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_READ;
-                    j = -9223372036854775802L;
+                    if (!groupCreateUserCell.isChecked()) {
+                    }
                 } else {
-                    i2 = MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_ARCHIVED;
-                    j = -9223372036854775801L;
-                }
-                if (groupCreateUserCell.isChecked()) {
-                    this.filterFlags = (i2 ^ (-1)) & this.filterFlags;
-                } else {
-                    this.filterFlags = i2 | this.filterFlags;
+                    if (i == 1) {
+                        j = -9223372036854775800L;
+                        i2 = 1;
+                    } else if (i != 2 || this.doNotNewChats) {
+                        if (i != (!this.doNotNewChats ? 1 : 0) + 2) {
+                            i2 = 8;
+                        }
+                        j = Long.MIN_VALUE;
+                    } else {
+                        j = -9223372036854775799L;
+                        i2 = 2;
+                    }
+                    if (!groupCreateUserCell.isChecked()) {
+                        this.filterFlags &= i2 ^ (-1);
+                    } else {
+                        this.filterFlags |= i2;
+                    }
                 }
             } else if (object instanceof TLRPC$User) {
                 j = ((TLRPC$User) object).id;
@@ -878,9 +960,9 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     public void didReceivedNotification(int i, int i2, Object... objArr) {
         if (i == NotificationCenter.contactsDidLoad) {
-            EmptyTextProgressView emptyTextProgressView = this.emptyView;
-            if (emptyTextProgressView != null) {
-                emptyTextProgressView.showTextView();
+            StickerEmptyView stickerEmptyView = this.emptyView;
+            if (stickerEmptyView != null) {
+                stickerEmptyView.showProgress(false);
             }
             GroupCreateAdapter groupCreateAdapter = this.adapter;
             if (groupCreateAdapter != null) {
@@ -934,7 +1016,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                     switch (str.hashCode()) {
                         case -1716307998:
                             if (str.equals("archived")) {
-                                c = 7;
+                                c = '\t';
                                 break;
                             }
                             break;
@@ -956,6 +1038,12 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                                 break;
                             }
                             break;
+                        case -268161860:
+                            if (str.equals("new_chats")) {
+                                c = '\b';
+                                break;
+                            }
+                            break;
                         case 3029900:
                             if (str.equals("bots")) {
                                 c = 4;
@@ -974,6 +1062,12 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                                 break;
                             }
                             break;
+                        case 151051367:
+                            if (str.equals("existing_chats")) {
+                                c = 7;
+                                break;
+                            }
+                            break;
                         case 1432626128:
                             if (str.equals("channels")) {
                                 c = 3;
@@ -981,6 +1075,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                             }
                             break;
                     }
+                    j = -9223372036854775800L;
                     switch (c) {
                         case 0:
                             j = Long.MIN_VALUE;
@@ -1003,6 +1098,9 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                         case 6:
                             j = -9223372036854775802L;
                             break;
+                        case 7:
+                        case '\b':
+                            break;
                         default:
                             j = -9223372036854775801L;
                             break;
@@ -1024,7 +1122,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
     public boolean onDonePressed(boolean z) {
         ArrayList<Long> arrayList = new ArrayList<>();
         for (int i = 0; i < this.selectedContacts.size(); i++) {
-            if (this.selectedContacts.keyAt(i) > -9223372036854775801L) {
+            if (this.selectedContacts.keyAt(i) > -9223372036854775799L) {
                 arrayList.add(Long.valueOf(this.selectedContacts.keyAt(i)));
             }
         }
@@ -1044,7 +1142,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         this.adapter.searchDialogs(null);
         this.listView.setFastScrollVisible(true);
         this.listView.setVerticalScrollBarEnabled(false);
-        this.emptyView.setText(LocaleController.getString("NoContacts", R.string.NoContacts));
+        this.emptyView.title.setText(LocaleController.getString("NoContacts", R.string.NoContacts));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1103,37 +1201,47 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         }
 
         public GroupCreateAdapter(Context context) {
-            int i;
-            if (UsersSelectActivity.this.type != 0 || UsersSelectActivity.this.noChatTypes) {
-                i = 0;
-            } else {
-                i = UsersSelectActivity.this.isInclude ? 7 : 5;
-            }
-            this.usersStartRow = i;
             this.context = context;
+            if (UsersSelectActivity.this.type == 2) {
+                this.usersStartRow = (!UsersSelectActivity.this.doNotNewChats ? 1 : 0) + 5;
+            } else if (UsersSelectActivity.this.type == 0) {
+                if (!UsersSelectActivity.this.noChatTypes) {
+                    if (UsersSelectActivity.this.isInclude) {
+                        this.usersStartRow = 7;
+                    } else {
+                        this.usersStartRow = 5;
+                    }
+                } else {
+                    this.usersStartRow = 0;
+                }
+            } else {
+                this.usersStartRow = 0;
+            }
+            boolean z = UsersSelectActivity.this.type != 2;
+            boolean z2 = UsersSelectActivity.this.type != 2;
             ArrayList<TLRPC$Dialog> allDialogs = UsersSelectActivity.this.getMessagesController().getAllDialogs();
             int size = allDialogs.size();
-            boolean z = false;
-            for (int i2 = 0; i2 < size; i2++) {
-                TLRPC$Dialog tLRPC$Dialog = allDialogs.get(i2);
+            boolean z3 = false;
+            for (int i = 0; i < size; i++) {
+                TLRPC$Dialog tLRPC$Dialog = allDialogs.get(i);
                 if (!DialogObject.isEncryptedDialog(tLRPC$Dialog.id)) {
                     if (DialogObject.isUserDialog(tLRPC$Dialog.id)) {
                         TLRPC$User user = UsersSelectActivity.this.getMessagesController().getUser(Long.valueOf(tLRPC$Dialog.id));
-                        if (user != null && (UsersSelectActivity.this.type != 1 || !UserObject.isUserSelf(user))) {
+                        if (user != null && ((UsersSelectActivity.this.allowSelf || !UserObject.isUserSelf(user)) && (!user.bot || z))) {
                             this.contacts.add(user);
                             if (UserObject.isUserSelf(user)) {
-                                z = true;
+                                z3 = true;
                             }
                         }
                     } else {
                         TLRPC$Chat chat = UsersSelectActivity.this.getMessagesController().getChat(Long.valueOf(-tLRPC$Dialog.id));
-                        if (chat != null) {
+                        if (z2 && chat != null) {
                             this.contacts.add(chat);
                         }
                     }
                 }
             }
-            if (!z && UsersSelectActivity.this.type != 1) {
+            if (!z3 && UsersSelectActivity.this.allowSelf) {
                 this.contacts.add(0, UsersSelectActivity.this.getMessagesController().getUser(Long.valueOf(UsersSelectActivity.this.getUserConfig().clientUserId)));
             }
             SearchAdapterHelper searchAdapterHelper = new SearchAdapterHelper(false);
@@ -1141,8 +1249,8 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
             searchAdapterHelper.setAllowGlobalResults(false);
             this.searchAdapterHelper.setDelegate(new SearchAdapterHelper.SearchAdapterHelperDelegate() { // from class: org.telegram.ui.UsersSelectActivity$GroupCreateAdapter$$ExternalSyntheticLambda4
                 @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
-                public /* synthetic */ boolean canApplySearchResults(int i3) {
-                    return SearchAdapterHelper.SearchAdapterHelperDelegate.-CC.$default$canApplySearchResults(this, i3);
+                public /* synthetic */ boolean canApplySearchResults(int i2) {
+                    return SearchAdapterHelper.SearchAdapterHelperDelegate.-CC.$default$canApplySearchResults(this, i2);
                 }
 
                 @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
@@ -1156,8 +1264,8 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                 }
 
                 @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
-                public final void onDataSetChanged(int i3) {
-                    UsersSelectActivity.GroupCreateAdapter.this.lambda$new$0(i3);
+                public final void onDataSetChanged(int i2) {
+                    UsersSelectActivity.GroupCreateAdapter.this.lambda$new$0(i2);
                 }
 
                 @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
@@ -1170,7 +1278,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$0(int i) {
             if (this.searchRunnable == null && !this.searchAdapterHelper.isSearchInProgress()) {
-                UsersSelectActivity.this.emptyView.showTextView();
+                UsersSelectActivity.this.emptyView.showProgress(false);
             }
             notifyDataSetChanged();
         }
@@ -1187,7 +1295,9 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         public int getItemCount() {
             if (!this.searching) {
                 int i = 0;
-                if (UsersSelectActivity.this.type == 0) {
+                if (UsersSelectActivity.this.type == 2) {
+                    i = (!UsersSelectActivity.this.doNotNewChats ? 1 : 0) + 3;
+                } else if (UsersSelectActivity.this.type == 0) {
                     UsersSelectActivity usersSelectActivity = UsersSelectActivity.this;
                     if (!usersSelectActivity.noChatTypes) {
                         i = usersSelectActivity.isInclude ? 7 : 5;
@@ -1210,26 +1320,25 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         }
 
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Removed duplicated region for block: B:107:0x0226  */
-        /* JADX WARN: Removed duplicated region for block: B:119:0x02a6  */
-        /* JADX WARN: Removed duplicated region for block: B:120:0x02ac  */
-        /* JADX WARN: Removed duplicated region for block: B:123:0x02ba  */
-        /* JADX WARN: Removed duplicated region for block: B:124:0x02bd  */
-        /* JADX WARN: Removed duplicated region for block: B:127:0x02ca  */
-        /* JADX WARN: Removed duplicated region for block: B:140:? A[RETURN, SYNTHETIC] */
-        /* JADX WARN: Removed duplicated region for block: B:87:0x01cb  */
-        /* JADX WARN: Removed duplicated region for block: B:88:0x01d1  */
-        /* JADX WARN: Removed duplicated region for block: B:94:0x01e5  */
+        /* JADX WARN: Removed duplicated region for block: B:106:0x022a  */
+        /* JADX WARN: Removed duplicated region for block: B:133:0x02f2  */
+        /* JADX WARN: Removed duplicated region for block: B:134:0x02f8  */
+        /* JADX WARN: Removed duplicated region for block: B:137:0x0306  */
+        /* JADX WARN: Removed duplicated region for block: B:138:0x0309  */
+        /* JADX WARN: Removed duplicated region for block: B:141:0x0316  */
+        /* JADX WARN: Removed duplicated region for block: B:154:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:98:0x020f  */
+        /* JADX WARN: Removed duplicated region for block: B:99:0x0215  */
         /* JADX WARN: Type inference failed for: r6v0 */
         /* JADX WARN: Type inference failed for: r6v1 */
+        /* JADX WARN: Type inference failed for: r6v10, types: [java.lang.StringBuilder] */
+        /* JADX WARN: Type inference failed for: r6v11 */
+        /* JADX WARN: Type inference failed for: r6v12 */
         /* JADX WARN: Type inference failed for: r6v13 */
-        /* JADX WARN: Type inference failed for: r6v14, types: [java.lang.StringBuilder] */
+        /* JADX WARN: Type inference failed for: r6v14 */
         /* JADX WARN: Type inference failed for: r6v15 */
         /* JADX WARN: Type inference failed for: r6v16 */
-        /* JADX WARN: Type inference failed for: r6v17 */
-        /* JADX WARN: Type inference failed for: r6v18 */
-        /* JADX WARN: Type inference failed for: r6v19 */
-        /* JADX WARN: Type inference failed for: r6v20 */
+        /* JADX WARN: Type inference failed for: r6v2 */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1237,16 +1346,17 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
             TLObject tLObject;
             String string;
-            int i2;
-            String str;
             CharSequence charSequence;
             TLObject tLObject2;
             long j;
-            SpannableStringBuilder spannableStringBuilder;
             boolean z;
-            boolean canUserDoAdminAction;
+            SpannableStringBuilder spannableStringBuilder;
+            boolean z2;
+            SpannableStringBuilder spannableStringBuilder2;
+            SpannableStringBuilder spannableStringBuilder3;
             String publicUsername;
             int itemViewType = viewHolder.getItemViewType();
+            int i2 = 2;
             if (itemViewType != 1) {
                 if (itemViewType != 2) {
                     return;
@@ -1302,9 +1412,9 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                             lastFoundUsername = lastFoundUsername.substring(1);
                         }
                         try {
-                            SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder();
-                            spannableStringBuilder2.append((CharSequence) "@");
-                            spannableStringBuilder2.append((CharSequence) publicUsername);
+                            SpannableStringBuilder spannableStringBuilder4 = new SpannableStringBuilder();
+                            spannableStringBuilder4.append((CharSequence) "@");
+                            spannableStringBuilder4.append((CharSequence) publicUsername);
                             int indexOfIgnoreCase = AndroidUtilities.indexOfIgnoreCase(publicUsername, lastFoundUsername);
                             if (indexOfIgnoreCase != -1) {
                                 int length = lastFoundUsername.length();
@@ -1313,10 +1423,10 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                                 } else {
                                     indexOfIgnoreCase++;
                                 }
-                                spannableStringBuilder2.setSpan(new ForegroundColorSpan(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText4)), indexOfIgnoreCase, length + indexOfIgnoreCase, 33);
+                                spannableStringBuilder4.setSpan(new ForegroundColorSpan(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText4)), indexOfIgnoreCase, length + indexOfIgnoreCase, 33);
                             }
                             charSequence = null;
-                            r6 = spannableStringBuilder2;
+                            r6 = spannableStringBuilder4;
                             tLObject2 = tLObject;
                         } catch (Exception unused) {
                             charSequence = null;
@@ -1329,70 +1439,98 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                     } else {
                         j = tLObject2 instanceof TLRPC$Chat ? -((TLRPC$Chat) tLObject2).id : 0L;
                     }
-                    if (UsersSelectActivity.this.type != 0) {
-                        if (!this.searching) {
-                            r6 = new StringBuilder();
-                            ArrayList<MessagesController.DialogFilter> arrayList = UsersSelectActivity.this.getMessagesController().dialogFilters;
-                            int size4 = arrayList.size();
-                            for (int i3 = 0; i3 < size4; i3++) {
-                                MessagesController.DialogFilter dialogFilter = arrayList.get(i3);
-                                if (dialogFilter.includesDialog(UsersSelectActivity.this.getAccountInstance(), j)) {
-                                    if (r6.length() > 0) {
-                                        r6.append(", ");
+                    if (UsersSelectActivity.this.type != 2) {
+                        if (UsersSelectActivity.this.type == 0) {
+                            if (!this.searching) {
+                                r6 = new StringBuilder();
+                                ArrayList<MessagesController.DialogFilter> arrayList = UsersSelectActivity.this.getMessagesController().dialogFilters;
+                                int size4 = arrayList.size();
+                                for (int i3 = 0; i3 < size4; i3++) {
+                                    MessagesController.DialogFilter dialogFilter = arrayList.get(i3);
+                                    if (dialogFilter.includesDialog(UsersSelectActivity.this.getAccountInstance(), j)) {
+                                        if (r6.length() > 0) {
+                                            r6.append(", ");
+                                        }
+                                        r6.append(dialogFilter.name);
                                     }
-                                    r6.append(dialogFilter.name);
                                 }
                             }
-                        }
-                        z = false;
-                        spannableStringBuilder = r6;
-                    } else {
-                        int i4 = UsersSelectActivity.this.getMessagesController().dialogs_dict.get(j) != null ? UsersSelectActivity.this.getMessagesController().dialogs_dict.get(j).ttl_period : 0;
-                        if (i4 > 0) {
-                            SpannableStringBuilder spannableStringBuilder3 = new SpannableStringBuilder();
-                            spannableStringBuilder3.append((CharSequence) "d");
-                            spannableStringBuilder3.setSpan(new ColoredImageSpan(R.drawable.msg_mini_fireon), 0, 1, 0);
-                            spannableStringBuilder3.append((CharSequence) LocaleController.formatString("AutoDeleteAfter", R.string.AutoDeleteAfter, LocaleController.formatTTLString(i4)).toLowerCase());
-                            spannableStringBuilder = spannableStringBuilder3;
-                            z = true;
                         } else {
-                            SpannableStringBuilder spannableStringBuilder4 = new SpannableStringBuilder();
-                            spannableStringBuilder4.append((CharSequence) "d");
-                            spannableStringBuilder4.setSpan(new ColoredImageSpan(R.drawable.msg_mini_fireoff), 0, 1, 0);
-                            spannableStringBuilder4.append((CharSequence) LocaleController.formatString("AutoDeleteDisabled", R.string.AutoDeleteDisabled, new Object[0]));
-                            spannableStringBuilder = spannableStringBuilder4;
-                            z = false;
-                        }
-                        spannableStringBuilder = spannableStringBuilder;
-                        if (tLObject2 instanceof TLRPC$Chat) {
-                            canUserDoAdminAction = ChatObject.canUserDoAdminAction((TLRPC$Chat) tLObject2, 13);
-                            if (canUserDoAdminAction) {
-                                groupCreateUserCell.setAlpha(1.0f);
+                            int i4 = UsersSelectActivity.this.getMessagesController().dialogs_dict.get(j) != null ? UsersSelectActivity.this.getMessagesController().dialogs_dict.get(j).ttl_period : 0;
+                            if (i4 > 0) {
+                                spannableStringBuilder3 = new SpannableStringBuilder();
+                                spannableStringBuilder3.append((CharSequence) "d");
+                                spannableStringBuilder3.setSpan(new ColoredImageSpan(R.drawable.msg_mini_fireon), 0, 1, 0);
+                                spannableStringBuilder3.append((CharSequence) LocaleController.formatString("AutoDeleteAfter", R.string.AutoDeleteAfter, LocaleController.formatTTLString(i4)).toLowerCase());
+                                z = true;
                             } else {
-                                groupCreateUserCell.setAlpha(0.5f);
+                                SpannableStringBuilder spannableStringBuilder5 = new SpannableStringBuilder();
+                                spannableStringBuilder5.append((CharSequence) "d");
+                                spannableStringBuilder5.setSpan(new ColoredImageSpan(R.drawable.msg_mini_fireoff), 0, 1, 0);
+                                spannableStringBuilder5.append((CharSequence) LocaleController.formatString("AutoDeleteDisabled", R.string.AutoDeleteDisabled, new Object[0]));
+                                spannableStringBuilder3 = spannableStringBuilder5;
+                                z = false;
                             }
-                            groupCreateUserCell.setObject(tLObject2, charSequence, spannableStringBuilder);
-                            groupCreateUserCell.getStatusTextView().setTextColor(Theme.getColor(z ? Theme.key_windowBackgroundWhiteBlueText : Theme.key_windowBackgroundWhiteGrayText));
-                            if (j != 0) {
-                                groupCreateUserCell.setChecked(UsersSelectActivity.this.selectedContacts.indexOfKey(j) >= 0, false);
-                                groupCreateUserCell.setCheckBoxEnabled(true);
+                            spannableStringBuilder2 = spannableStringBuilder3;
+                            if (tLObject2 instanceof TLRPC$Chat) {
+                                z2 = ChatObject.canUserDoAdminAction((TLRPC$Chat) tLObject2, 13);
+                                spannableStringBuilder = spannableStringBuilder3;
+                                if (!z2) {
+                                    groupCreateUserCell.setAlpha(1.0f);
+                                } else {
+                                    groupCreateUserCell.setAlpha(0.5f);
+                                }
+                                groupCreateUserCell.setObject(tLObject2, charSequence, spannableStringBuilder);
+                                groupCreateUserCell.getStatusTextView().setTextColor(Theme.getColor(!z ? Theme.key_windowBackgroundWhiteBlueText : Theme.key_windowBackgroundWhiteGrayText));
+                                if (j == 0) {
+                                    groupCreateUserCell.setChecked(UsersSelectActivity.this.selectedContacts.indexOfKey(j) >= 0, false);
+                                    groupCreateUserCell.setCheckBoxEnabled(true);
+                                    return;
+                                }
                                 return;
                             }
-                            return;
+                            z2 = true;
+                            spannableStringBuilder = spannableStringBuilder2;
+                            if (!z2) {
+                            }
+                            groupCreateUserCell.setObject(tLObject2, charSequence, spannableStringBuilder);
+                            groupCreateUserCell.getStatusTextView().setTextColor(Theme.getColor(!z ? Theme.key_windowBackgroundWhiteBlueText : Theme.key_windowBackgroundWhiteGrayText));
+                            if (j == 0) {
+                            }
                         }
                     }
-                    canUserDoAdminAction = true;
-                    if (canUserDoAdminAction) {
+                    z = false;
+                    spannableStringBuilder2 = r6;
+                    z2 = true;
+                    spannableStringBuilder = spannableStringBuilder2;
+                    if (!z2) {
                     }
                     groupCreateUserCell.setObject(tLObject2, charSequence, spannableStringBuilder);
-                    groupCreateUserCell.getStatusTextView().setTextColor(Theme.getColor(z ? Theme.key_windowBackgroundWhiteBlueText : Theme.key_windowBackgroundWhiteGrayText));
-                    if (j != 0) {
+                    groupCreateUserCell.getStatusTextView().setTextColor(Theme.getColor(!z ? Theme.key_windowBackgroundWhiteBlueText : Theme.key_windowBackgroundWhiteGrayText));
+                    if (j == 0) {
                     }
                 }
             } else {
                 int i5 = this.usersStartRow;
                 if (i < i5) {
-                    if (UsersSelectActivity.this.isInclude) {
+                    String str = "non_contacts";
+                    if (UsersSelectActivity.this.type == 2) {
+                        if (i == 1) {
+                            string = LocaleController.getString(R.string.FilterExistingChats);
+                            str = "existing_chats";
+                            i2 = 1;
+                        } else if (i == 2 && !UsersSelectActivity.this.doNotNewChats) {
+                            string = LocaleController.getString(R.string.FilterNewChats);
+                            str = "new_chats";
+                        } else if (i == (!UsersSelectActivity.this.doNotNewChats ? 1 : 0) + 2) {
+                            string = LocaleController.getString(R.string.FilterContacts);
+                            str = "contacts";
+                            i2 = 4;
+                        } else {
+                            string = LocaleController.getString(R.string.FilterNonContacts);
+                            i2 = 8;
+                        }
+                    } else if (UsersSelectActivity.this.isInclude) {
                         if (i == 1) {
                             string = LocaleController.getString("FilterContacts", R.string.FilterContacts);
                             i2 = MessagesController.DIALOG_FILTER_FLAG_CONTACTS;
@@ -1400,7 +1538,6 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                         } else if (i == 2) {
                             string = LocaleController.getString("FilterNonContacts", R.string.FilterNonContacts);
                             i2 = MessagesController.DIALOG_FILTER_FLAG_NON_CONTACTS;
-                            str = "non_contacts";
                         } else if (i == 3) {
                             string = LocaleController.getString("FilterGroups", R.string.FilterGroups);
                             i2 = MessagesController.DIALOG_FILTER_FLAG_GROUPS;
@@ -1438,20 +1575,30 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
             tLObject2 = tLObject;
             if (!(tLObject2 instanceof TLRPC$User)) {
             }
-            if (UsersSelectActivity.this.type != 0) {
+            if (UsersSelectActivity.this.type != 2) {
             }
-            canUserDoAdminAction = true;
-            if (canUserDoAdminAction) {
+            z = false;
+            spannableStringBuilder2 = r6;
+            z2 = true;
+            spannableStringBuilder = spannableStringBuilder2;
+            if (!z2) {
             }
             groupCreateUserCell.setObject(tLObject2, charSequence, spannableStringBuilder);
-            groupCreateUserCell.getStatusTextView().setTextColor(Theme.getColor(z ? Theme.key_windowBackgroundWhiteBlueText : Theme.key_windowBackgroundWhiteGrayText));
-            if (j != 0) {
+            groupCreateUserCell.getStatusTextView().setTextColor(Theme.getColor(!z ? Theme.key_windowBackgroundWhiteBlueText : Theme.key_windowBackgroundWhiteGrayText));
+            if (j == 0) {
             }
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public int getItemViewType(int i) {
-            if (!this.searching && UsersSelectActivity.this.type == 0) {
+            if (this.searching) {
+                return 1;
+            }
+            if (UsersSelectActivity.this.type == 2) {
+                if (i == 0 || i == (!UsersSelectActivity.this.doNotNewChats ? 1 : 0) + 4) {
+                    return 2;
+                }
+            } else if (UsersSelectActivity.this.type == 0) {
                 UsersSelectActivity usersSelectActivity = UsersSelectActivity.this;
                 if (usersSelectActivity.noChatTypes) {
                     if (i == 0) {
@@ -1492,19 +1639,21 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                 Utilities.searchQueue.cancelRunnable(this.searchRunnable);
                 this.searchRunnable = null;
             }
+            final boolean z = UsersSelectActivity.this.type != 2;
+            final boolean z2 = UsersSelectActivity.this.type != 2;
             if (str == null) {
                 this.searchResult.clear();
                 this.searchResultNames.clear();
                 this.searchAdapterHelper.mergeResults(null);
-                this.searchAdapterHelper.queryServerSearch(null, true, true, false, false, false, 0L, false, 0, 0);
+                this.searchAdapterHelper.queryServerSearch(null, true, false, false, false, false, 0L, false, 0, 0);
                 notifyDataSetChanged();
                 return;
             }
             DispatchQueue dispatchQueue = Utilities.searchQueue;
-            Runnable runnable = new Runnable() { // from class: org.telegram.ui.UsersSelectActivity$GroupCreateAdapter$$ExternalSyntheticLambda2
+            Runnable runnable = new Runnable() { // from class: org.telegram.ui.UsersSelectActivity$GroupCreateAdapter$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
-                    UsersSelectActivity.GroupCreateAdapter.this.lambda$searchDialogs$3(str, r3);
+                    UsersSelectActivity.GroupCreateAdapter.this.lambda$searchDialogs$3(str, z2, z);
                 }
             };
             this.searchRunnable = runnable;
@@ -1512,23 +1661,23 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$searchDialogs$3(final String str, final boolean z) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.UsersSelectActivity$GroupCreateAdapter$$ExternalSyntheticLambda1
+        public /* synthetic */ void lambda$searchDialogs$3(final String str, final boolean z, final boolean z2) {
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.UsersSelectActivity$GroupCreateAdapter$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    UsersSelectActivity.GroupCreateAdapter.this.lambda$searchDialogs$2(str, z);
+                    UsersSelectActivity.GroupCreateAdapter.this.lambda$searchDialogs$2(str, z, z2);
                 }
             });
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$searchDialogs$2(final String str, boolean z) {
-            this.searchAdapterHelper.queryServerSearch(str, true, z, true, UsersSelectActivity.this.type != 1, false, 0L, false, 0, 0);
+        public /* synthetic */ void lambda$searchDialogs$2(final String str, final boolean z, final boolean z2) {
+            this.searchAdapterHelper.queryServerSearch(str, true, z, z, UsersSelectActivity.this.allowSelf, false, 0L, false, 0, 0);
             DispatchQueue dispatchQueue = Utilities.searchQueue;
-            Runnable runnable = new Runnable() { // from class: org.telegram.ui.UsersSelectActivity$GroupCreateAdapter$$ExternalSyntheticLambda0
+            Runnable runnable = new Runnable() { // from class: org.telegram.ui.UsersSelectActivity$GroupCreateAdapter$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
-                    UsersSelectActivity.GroupCreateAdapter.this.lambda$searchDialogs$1(str);
+                    UsersSelectActivity.GroupCreateAdapter.this.lambda$searchDialogs$1(str, z2, z);
                 }
             };
             this.searchRunnable = runnable;
@@ -1536,7 +1685,16 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$searchDialogs$1(String str) {
+        /* JADX WARN: Code restructure failed: missing block: B:34:0x00b1, code lost:
+            if (r20 == false) goto L67;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:37:0x00c1, code lost:
+            if (r21 == false) goto L67;
+         */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+        */
+        public /* synthetic */ void lambda$searchDialogs$1(String str, boolean z, boolean z2) {
             String str2;
             int i;
             String str3;
@@ -1564,78 +1722,80 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
             while (i3 < this.contacts.size()) {
                 TLObject tLObject = this.contacts.get(i3);
                 String[] strArr2 = new String[3];
-                boolean z = tLObject instanceof TLRPC$User;
-                if (z) {
+                boolean z3 = tLObject instanceof TLRPC$User;
+                if (z3) {
                     TLRPC$User tLRPC$User = (TLRPC$User) tLObject;
                     strArr2[c] = ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name).toLowerCase();
                     str2 = UserObject.getPublicUsername(tLRPC$User);
                     if (UserObject.isReplyUser(tLRPC$User)) {
                         strArr2[2] = LocaleController.getString("RepliesTitle", R.string.RepliesTitle).toLowerCase();
-                    } else if (tLRPC$User.self) {
-                        strArr2[2] = LocaleController.getString("SavedMessages", R.string.SavedMessages).toLowerCase();
+                    } else if (UserObject.isUserSelf(tLRPC$User)) {
+                        if (UsersSelectActivity.this.allowSelf) {
+                            strArr2[2] = LocaleController.getString("SavedMessages", R.string.SavedMessages).toLowerCase();
+                        }
+                        i = i2;
+                        str3 = str4;
+                    } else if (tLRPC$User.bot) {
                     }
+                    strArr2[c2] = LocaleController.getInstance().getTranslitString(strArr2[c]);
+                    if (strArr2[c].equals(strArr2[c2])) {
+                        strArr2[c2] = str4;
+                    }
+                    int i4 = 0;
+                    char c3 = 0;
+                    while (i4 < i2) {
+                        String str5 = strArr[i4];
+                        int i5 = 0;
+                        while (i5 < 3) {
+                            String str6 = strArr2[i5];
+                            if (str6 != null) {
+                                if (str6.startsWith(str5)) {
+                                    i = i2;
+                                } else {
+                                    StringBuilder sb = new StringBuilder();
+                                    i = i2;
+                                    sb.append(" ");
+                                    sb.append(str5);
+                                    if (str6.contains(sb.toString())) {
+                                    }
+                                }
+                                c3 = 1;
+                                break;
+                            }
+                            i = i2;
+                            i5++;
+                            i2 = i;
+                        }
+                        i = i2;
+                        if (c3 == 0 && str2 != null && str2.toLowerCase().startsWith(str5)) {
+                            c3 = 2;
+                        }
+                        if (c3 != 0) {
+                            if (c3 == 1) {
+                                if (z3) {
+                                    TLRPC$User tLRPC$User2 = (TLRPC$User) tLObject;
+                                    arrayList2.add(AndroidUtilities.generateSearchName(tLRPC$User2.first_name, tLRPC$User2.last_name, str5));
+                                } else {
+                                    arrayList2.add(AndroidUtilities.generateSearchName(((TLRPC$Chat) tLObject).title, null, str5));
+                                }
+                                str3 = null;
+                            } else {
+                                str3 = null;
+                                arrayList2.add(AndroidUtilities.generateSearchName("@" + str2, null, "@" + str5));
+                            }
+                            arrayList.add(tLObject);
+                        } else {
+                            i4++;
+                            str4 = null;
+                            i2 = i;
+                        }
+                    }
+                    i = i2;
+                    str3 = str4;
                 } else {
                     TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) tLObject;
                     strArr2[c] = tLRPC$Chat.title.toLowerCase();
                     str2 = tLRPC$Chat.username;
-                }
-                strArr2[c2] = LocaleController.getInstance().getTranslitString(strArr2[c]);
-                if (strArr2[c].equals(strArr2[c2])) {
-                    strArr2[c2] = str4;
-                }
-                int i4 = 0;
-                char c3 = 0;
-                while (true) {
-                    if (i4 >= i2) {
-                        i = i2;
-                        str3 = str4;
-                        break;
-                    }
-                    String str5 = strArr[i4];
-                    int i5 = 0;
-                    while (i5 < 3) {
-                        String str6 = strArr2[i5];
-                        if (str6 != null) {
-                            if (str6.startsWith(str5)) {
-                                i = i2;
-                            } else {
-                                StringBuilder sb = new StringBuilder();
-                                i = i2;
-                                sb.append(" ");
-                                sb.append(str5);
-                                if (str6.contains(sb.toString())) {
-                                }
-                            }
-                            c3 = 1;
-                            break;
-                        }
-                        i = i2;
-                        i5++;
-                        i2 = i;
-                    }
-                    i = i2;
-                    if (c3 == 0 && str2 != null && str2.toLowerCase().startsWith(str5)) {
-                        c3 = 2;
-                    }
-                    if (c3 != 0) {
-                        if (c3 == 1) {
-                            if (z) {
-                                TLRPC$User tLRPC$User2 = (TLRPC$User) tLObject;
-                                arrayList2.add(AndroidUtilities.generateSearchName(tLRPC$User2.first_name, tLRPC$User2.last_name, str5));
-                            } else {
-                                arrayList2.add(AndroidUtilities.generateSearchName(((TLRPC$Chat) tLObject).title, null, str5));
-                            }
-                            str3 = null;
-                        } else {
-                            str3 = null;
-                            arrayList2.add(AndroidUtilities.generateSearchName("@" + str2, null, "@" + str5));
-                        }
-                        arrayList.add(tLObject);
-                    } else {
-                        i4++;
-                        str4 = null;
-                        i2 = i;
-                    }
                 }
                 i3++;
                 str4 = str3;
@@ -1663,7 +1823,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                 this.searchResultNames = arrayList2;
                 this.searchAdapterHelper.mergeResults(arrayList);
                 if (this.searching && !this.searchAdapterHelper.isSearchInProgress()) {
-                    UsersSelectActivity.this.emptyView.showTextView();
+                    UsersSelectActivity.this.emptyView.showProgress(false);
                 }
                 notifyDataSetChanged();
             }

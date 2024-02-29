@@ -51,7 +51,7 @@ import org.telegram.ui.Components.Forum.ForumUtilities;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Premium.PremiumGradient;
 import org.telegram.ui.Components.RLottieDrawable;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ShareDialogCell extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private final AvatarDrawable avatarDrawable;
     private final CheckBox2 checkBox;
@@ -439,7 +439,7 @@ public class ShareDialogCell extends FrameLayout implements NotificationCenter.N
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class RepostStoryDrawable extends Drawable {
         int alpha;
         private final Drawable drawable;

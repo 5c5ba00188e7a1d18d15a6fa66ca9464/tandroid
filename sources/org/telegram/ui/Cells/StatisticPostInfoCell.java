@@ -38,7 +38,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.StatisticActivity;
 import org.telegram.ui.Stories.StoriesUtilities;
 @SuppressLint({"ViewConstructor"})
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class StatisticPostInfoCell extends FrameLayout {
     private final AvatarDrawable avatarDrawable;
     private final TLRPC$ChatFull chat;

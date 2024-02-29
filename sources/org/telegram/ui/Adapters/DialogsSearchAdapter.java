@@ -69,7 +69,7 @@ import org.telegram.ui.Components.ForegroundColorSpanThemable;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.DialogsActivity;
 import org.telegram.ui.FilteredSearchView;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
     private Runnable cancelShowMoreAnimation;
     private int currentItemCount;
@@ -125,14 +125,14 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
     boolean globalSearchCollapsed = true;
     boolean phoneCollapsed = true;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public static class DialogSearchResult {
         public int date;
         public CharSequence name;
         public TLObject object;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public interface DialogsSearchAdapterDelegate {
         void didPressedBlockedDialog(View view, long j);
 
@@ -151,12 +151,12 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         void searchStateChanged(boolean z, boolean z2);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public interface OnRecentSearchLoaded {
         void setRecentSearch(ArrayList<RecentSearchObject> arrayList, LongSparseArray<RecentSearchObject> longSparseArray);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public static class RecentSearchObject {
         public int date;
         public long did;
@@ -176,7 +176,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         return this.waitingResponseCount > 0;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public static class CategoryAdapterRecycler extends RecyclerListView.SelectionAdapter {
         private final int currentAccount;
         private boolean drawChecked;

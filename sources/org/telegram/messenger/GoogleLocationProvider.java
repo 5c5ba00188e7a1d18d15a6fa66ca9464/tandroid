@@ -126,7 +126,7 @@ public class GoogleLocationProvider implements ILocationServiceProvider {
         return PushListenerController.GooglePushListenerServiceProvider.INSTANCE.hasServices();
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static final class GoogleLocationRequest implements ILocationServiceProvider.ILocationRequest {
         private LocationRequest request;
 
@@ -150,7 +150,7 @@ public class GoogleLocationProvider implements ILocationServiceProvider {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static final class GoogleApiClientImpl implements ILocationServiceProvider.IMapApiClient {
         private GoogleApiClient apiClient;
 

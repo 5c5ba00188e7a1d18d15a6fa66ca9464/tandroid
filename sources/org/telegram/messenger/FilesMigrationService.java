@@ -30,7 +30,7 @@ import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.StickerImageView;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class FilesMigrationService extends Service {
     public static FilesMigrationBottomSheet filesMigrationBottomSheet = null;
     public static boolean hasOldFolder = false;
@@ -60,7 +60,7 @@ public class FilesMigrationService extends Service {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public class 1 extends Thread {
         1() {
         }
@@ -228,7 +228,7 @@ public class FilesMigrationService extends Service {
         sharedPreferences.edit().putBoolean("migration_to_scoped_storage_finished", true).apply();
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class FilesMigrationBottomSheet extends BottomSheet {
         BaseFragment fragment;
 

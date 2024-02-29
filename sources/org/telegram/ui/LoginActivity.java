@@ -394,22 +394,22 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         return super.onFragmentCreate();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:114:0x044e A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:127:0x0481  */
-    /* JADX WARN: Removed duplicated region for block: B:133:0x0476 A[EDGE_INSN: B:133:0x0476->B:125:0x0476 ?: BREAK  , SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x020a  */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x020c  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x0219  */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x028c  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x0291  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0297  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x029c  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x039c  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x039f  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x03a3  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x03a6  */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x03e4  */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x03ec  */
+    /* JADX WARN: Removed duplicated region for block: B:114:0x0451 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:127:0x0484  */
+    /* JADX WARN: Removed duplicated region for block: B:133:0x0479 A[EDGE_INSN: B:133:0x0479->B:125:0x0479 ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x020b  */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x020d  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x021a  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x028f  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x0294  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x029a  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x029f  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x039f  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x03a2  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x03a6  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x03a9  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x03e7  */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x03ef  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -4654,8 +4654,8 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             return LocaleController.getString("YourCode", R.string.YourCode);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:132:0x0383  */
-        /* JADX WARN: Removed duplicated region for block: B:133:0x038d  */
+        /* JADX WARN: Removed duplicated region for block: B:132:0x0387  */
+        /* JADX WARN: Removed duplicated region for block: B:133:0x0391  */
         @Override // org.telegram.ui.Components.SlideView
         /*
             Code decompiled incorrectly, please refer to instructions dump.

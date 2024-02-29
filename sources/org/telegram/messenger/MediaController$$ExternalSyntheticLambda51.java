@@ -2,7 +2,7 @@ package org.telegram.messenger;
 
 import java.util.Comparator;
 import org.telegram.messenger.MediaController;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public final /* synthetic */ class MediaController$$ExternalSyntheticLambda51 implements Comparator {
     public static final /* synthetic */ MediaController$$ExternalSyntheticLambda51 INSTANCE = new MediaController$$ExternalSyntheticLambda51();
 

@@ -14,7 +14,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.PhotoEditorSeekBar;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class PhotoEditToolCell extends FrameLayout {
     private Runnable hideValueRunnable;
     private TextView nameTextView;

@@ -3,7 +3,7 @@ package org.telegram.ui.Cells;
 import j$.util.function.ToIntFunction;
 import org.telegram.tgnet.TLRPC$TL_forumTopic;
 import org.telegram.ui.Cells.DialogCell;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public final /* synthetic */ class DialogCell$ForumFormattedNames$$ExternalSyntheticLambda0 implements ToIntFunction {
     public static final /* synthetic */ DialogCell$ForumFormattedNames$$ExternalSyntheticLambda0 INSTANCE = new DialogCell$ForumFormattedNames$$ExternalSyntheticLambda0();
 

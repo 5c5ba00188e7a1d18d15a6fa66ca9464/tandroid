@@ -9,6 +9,7 @@ import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import androidx.core.util.Consumer;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -93,7 +94,7 @@ public class GoogleMapsProvider implements IMapsProvider {
         return new GoogleCircleOptions();
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static final class GoogleMapImpl implements IMapsProvider.IMap {
         private GoogleMap googleMap;
         private Map<Circle, GoogleCircle> implToAbsCircleMap;
@@ -307,7 +308,7 @@ public class GoogleMapsProvider implements IMapsProvider {
             this.googleMap.moveCamera(((GoogleCameraUpdate) iCameraUpdate).cameraUpdate);
         }
 
-        /* loaded from: classes.dex */
+        /* loaded from: classes3.dex */
         public final class GoogleMarker implements IMapsProvider.IMarker {
             private Marker marker;
 
@@ -358,7 +359,7 @@ public class GoogleMapsProvider implements IMapsProvider {
             }
         }
 
-        /* loaded from: classes.dex */
+        /* loaded from: classes3.dex */
         public final class GoogleCircle implements IMapsProvider.ICircle {
             private Circle circle;
 
@@ -399,7 +400,7 @@ public class GoogleMapsProvider implements IMapsProvider {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static final class GoogleProjection implements IMapsProvider.IProjection {
         private Projection projection;
 
@@ -413,7 +414,7 @@ public class GoogleMapsProvider implements IMapsProvider {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static final class GoogleUISettings implements IMapsProvider.IUISettings {
         private UiSettings uiSettings;
 
@@ -437,7 +438,7 @@ public class GoogleMapsProvider implements IMapsProvider {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static final class GoogleCircleOptions implements IMapsProvider.ICircleOptions {
         private CircleOptions circleOptions;
 
@@ -490,7 +491,7 @@ public class GoogleMapsProvider implements IMapsProvider {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static final class GoogleMarkerOptions implements IMapsProvider.IMarkerOptions {
         private MarkerOptions markerOptions;
 
@@ -541,7 +542,7 @@ public class GoogleMapsProvider implements IMapsProvider {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static final class GoogleLatLngBoundsBuilder implements IMapsProvider.ILatLngBoundsBuilder {
         private LatLngBounds.Builder builder;
 
@@ -561,7 +562,7 @@ public class GoogleMapsProvider implements IMapsProvider {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static final class GoogleLatLngBounds implements IMapsProvider.ILatLngBounds {
         private LatLngBounds bounds;
 
@@ -576,20 +577,16 @@ public class GoogleMapsProvider implements IMapsProvider {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static final class GoogleMapView implements IMapsProvider.IMapView {
         private IMapsProvider.ITouchInterceptor dispatchInterceptor;
+        private GLSurfaceView glSurfaceView;
         private IMapsProvider.ITouchInterceptor interceptInterceptor;
         private MapView mapView;
         private Runnable onLayoutListener;
 
-        @Override // org.telegram.messenger.IMapsProvider.IMapView
-        public /* synthetic */ GLSurfaceView getGlSurfaceView() {
-            return IMapsProvider.IMapView.-CC.$default$getGlSurfaceView(this);
-        }
-
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes.dex */
+        /* loaded from: classes3.dex */
         public class 1 extends MapView {
             1(Context context) {
                 super(context);
@@ -668,19 +665,37 @@ public class GoogleMapsProvider implements IMapsProvider {
             return this.mapView;
         }
 
-        /* JADX INFO: Access modifiers changed from: private */
-        public static /* synthetic */ void lambda$getMapAsync$0(Consumer consumer, GoogleMap googleMap) {
-            consumer.accept(new GoogleMapImpl(googleMap));
-        }
-
         @Override // org.telegram.messenger.IMapsProvider.IMapView
         public void getMapAsync(final Consumer<IMapsProvider.IMap> consumer) {
             this.mapView.getMapAsync(new OnMapReadyCallback() { // from class: org.telegram.messenger.GoogleMapsProvider$GoogleMapView$$ExternalSyntheticLambda0
                 @Override // com.google.android.gms.maps.OnMapReadyCallback
                 public final void onMapReady(GoogleMap googleMap) {
-                    GoogleMapsProvider.GoogleMapView.lambda$getMapAsync$0(Consumer.this, googleMap);
+                    GoogleMapsProvider.GoogleMapView.this.lambda$getMapAsync$0(consumer, googleMap);
                 }
             });
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$getMapAsync$0(Consumer consumer, GoogleMap googleMap) {
+            consumer.accept(new GoogleMapImpl(googleMap));
+            findGlSurfaceView(this.mapView);
+        }
+
+        @Override // org.telegram.messenger.IMapsProvider.IMapView
+        public GLSurfaceView getGlSurfaceView() {
+            return this.glSurfaceView;
+        }
+
+        private void findGlSurfaceView(View view) {
+            if (view instanceof GLSurfaceView) {
+                this.glSurfaceView = (GLSurfaceView) view;
+            }
+            if (view instanceof ViewGroup) {
+                ViewGroup viewGroup = (ViewGroup) view;
+                for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                    findGlSurfaceView(viewGroup.getChildAt(i));
+                }
+            }
         }
 
         @Override // org.telegram.messenger.IMapsProvider.IMapView
@@ -709,7 +724,7 @@ public class GoogleMapsProvider implements IMapsProvider {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static final class GoogleCameraUpdate implements IMapsProvider.ICameraUpdate {
         private CameraUpdate cameraUpdate;
 
@@ -718,7 +733,7 @@ public class GoogleMapsProvider implements IMapsProvider {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static final class GoogleMapStyleOptions implements IMapsProvider.IMapStyleOptions {
         private MapStyleOptions mapStyleOptions;
 

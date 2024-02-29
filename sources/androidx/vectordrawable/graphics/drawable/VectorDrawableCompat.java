@@ -31,7 +31,6 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import org.telegram.messenger.LiteMode;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 /* loaded from: classes.dex */
@@ -116,8 +115,8 @@ public class VectorDrawableCompat extends VectorDrawableCommon {
             abs = 1.0f;
             abs2 = 1.0f;
         }
-        int min = Math.min((int) LiteMode.FLAG_AUTOPLAY_GIFS, (int) (this.mTmpBounds.width() * abs));
-        int min2 = Math.min((int) LiteMode.FLAG_AUTOPLAY_GIFS, (int) (this.mTmpBounds.height() * abs2));
+        int min = Math.min(2048, (int) (this.mTmpBounds.width() * abs));
+        int min2 = Math.min(2048, (int) (this.mTmpBounds.height() * abs2));
         if (min <= 0 || min2 <= 0) {
             return;
         }

@@ -13,7 +13,7 @@ import org.telegram.ui.Charts.data.DoubleLinearChartData;
 import org.telegram.ui.Charts.view_data.ChartHorizontalLinesData;
 import org.telegram.ui.Charts.view_data.LineViewData;
 import org.telegram.ui.Charts.view_data.TransitionParams;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class DoubleLinearChartView extends BaseChartView<DoubleLinearChartData, LineViewData> {
     public DoubleLinearChartView(Context context, Theme.ResourcesProvider resourcesProvider) {
         super(context, resourcesProvider);

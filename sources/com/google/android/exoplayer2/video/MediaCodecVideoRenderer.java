@@ -1154,7 +1154,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:537:0x0735, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:537:0x0727, code lost:
         if (r0.equals("ELUGA_Ray_X") == false) goto L46;
      */
     /*

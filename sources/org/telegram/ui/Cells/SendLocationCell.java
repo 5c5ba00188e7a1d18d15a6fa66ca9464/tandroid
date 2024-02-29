@@ -21,7 +21,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.ShareLocationDrawable;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class SendLocationCell extends FrameLayout {
     private SimpleTextView accurateTextView;
     private int currentAccount;

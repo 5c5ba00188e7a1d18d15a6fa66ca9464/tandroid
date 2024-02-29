@@ -89,7 +89,7 @@ public class SessionBottomSheet extends BottomSheet {
         if ((tLRPC$TL_authorization.flags & 1) != 0) {
             formatDateTime = LocaleController.getString("Online", R.string.Online);
         } else {
-            formatDateTime = LocaleController.formatDateTime(tLRPC$TL_authorization.date_active);
+            formatDateTime = LocaleController.formatDateTime(tLRPC$TL_authorization.date_active, true);
         }
         textView2.setText(formatDateTime);
         StringBuilder sb = new StringBuilder();
@@ -306,8 +306,8 @@ public class SessionBottomSheet extends BottomSheet {
         BulletinFactory.of(getContainer(), null).createCopyBulletin(LocaleController.getString("TextCopied", R.string.TextCopied)).show();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:55:0x0105  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x0116  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x0108  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x0119  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

@@ -26,7 +26,7 @@ import org.telegram.ui.Components.Easings;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.Components.TextViewSwitcher;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class DialogsEmptyCell extends LinearLayout {
     private int currentAccount;
     private int currentType;

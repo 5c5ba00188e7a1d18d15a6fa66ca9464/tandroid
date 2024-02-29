@@ -73,7 +73,7 @@ public class TLRPC$TL_groupCallParticipant extends TLObject {
         if ((this.flags & 128) != 0) {
             this.volume = abstractSerializedData.readInt32(z);
         }
-        if ((this.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
+        if ((this.flags & 2048) != 0) {
             this.about = abstractSerializedData.readString(z);
         }
         if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0) {
@@ -120,7 +120,7 @@ public class TLRPC$TL_groupCallParticipant extends TLObject {
         if ((this.flags & 128) != 0) {
             abstractSerializedData.writeInt32(this.volume);
         }
-        if ((this.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
+        if ((this.flags & 2048) != 0) {
             abstractSerializedData.writeString(this.about);
         }
         if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0) {

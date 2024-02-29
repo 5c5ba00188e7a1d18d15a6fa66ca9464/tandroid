@@ -1,5 +1,5 @@
 package org.telegram.messenger;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public abstract class FourierTransform {
     protected static final int LINAVG = 1;
     protected static final int LOGAVG = 2;
@@ -198,7 +198,7 @@ public abstract class FourierTransform {
         inverse(fArr3);
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class FFT extends FourierTransform {
         private float[] coslookup;
         private int[] reverse;

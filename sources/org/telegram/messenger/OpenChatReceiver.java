@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import org.telegram.ui.LaunchActivity;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class OpenChatReceiver extends Activity {
     @Override // android.app.Activity
     protected void onCreate(Bundle bundle) {

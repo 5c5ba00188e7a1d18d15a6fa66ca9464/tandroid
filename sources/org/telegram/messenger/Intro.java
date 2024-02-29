@@ -1,7 +1,7 @@
 package org.telegram.messenger;
 
 import android.graphics.Color;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class Intro {
     public static native void onDrawFrame(int i);
 

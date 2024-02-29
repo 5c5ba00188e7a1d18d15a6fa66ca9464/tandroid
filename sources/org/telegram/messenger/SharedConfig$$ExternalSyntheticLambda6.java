@@ -2,7 +2,7 @@ package org.telegram.messenger;
 
 import java.util.Comparator;
 import org.telegram.messenger.SharedConfig;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public final /* synthetic */ class SharedConfig$$ExternalSyntheticLambda6 implements Comparator {
     public static final /* synthetic */ SharedConfig$$ExternalSyntheticLambda6 INSTANCE = new SharedConfig$$ExternalSyntheticLambda6();
 

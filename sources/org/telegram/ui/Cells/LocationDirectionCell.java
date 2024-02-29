@@ -9,7 +9,7 @@ import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class LocationDirectionCell extends FrameLayout {
     private SimpleTextView buttonTextView;
     private FrameLayout frameLayout;

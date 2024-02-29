@@ -4,7 +4,7 @@ import j$.util.concurrent.ConcurrentHashMap;
 import java.util.Locale;
 import java.util.Objects;
 /* loaded from: classes2.dex */
-public abstract class a implements b {
+public abstract class a implements g {
     static {
         new ConcurrentHashMap();
         new ConcurrentHashMap();
@@ -13,7 +13,7 @@ public abstract class a implements b {
 
     @Override // java.lang.Comparable
     public int compareTo(Object obj) {
-        Objects.requireNonNull((b) obj);
+        Objects.requireNonNull((g) obj);
         return 0;
     }
 

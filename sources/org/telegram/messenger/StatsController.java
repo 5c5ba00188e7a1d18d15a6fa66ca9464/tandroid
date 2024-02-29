@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.RandomAccessFile;
 import java.lang.reflect.Array;
 import org.telegram.messenger.utils.ImmutableByteArrayOutputStream;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class StatsController extends BaseController {
     private static final int OLD_TYPES_COUNT = 7;
     private static final int TYPES_COUNT = 8;
@@ -90,7 +90,7 @@ public class StatsController extends BaseController {
         return statsController;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:28:0x018d  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x018b  */
     /* JADX WARN: Removed duplicated region for block: B:57:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

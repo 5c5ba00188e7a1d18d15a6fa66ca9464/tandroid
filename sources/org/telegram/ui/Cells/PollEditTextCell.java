@@ -27,7 +27,7 @@ import org.telegram.ui.Components.CheckBox2;
 import org.telegram.ui.Components.EditTextBoldCursor;
 import org.telegram.ui.Components.EditTextCaption;
 import org.telegram.ui.Components.LayoutHelper;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class PollEditTextCell extends FrameLayout {
     private boolean alwaysShowText2;
     private CheckBox2 checkBox;

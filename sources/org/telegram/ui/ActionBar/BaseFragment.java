@@ -59,7 +59,7 @@ public abstract class BaseFragment {
     protected boolean inBubbleMode;
     protected boolean inMenuMode;
     protected boolean inPreviewMode;
-    private boolean isFinished;
+    protected boolean isFinished;
     public StoryViewer overlayStoryViewer;
     protected Dialog parentDialog;
     protected INavigationLayout parentLayout;
@@ -74,7 +74,7 @@ public abstract class BaseFragment {
     protected boolean inTransitionAnimation = false;
     protected int classGuid = ConnectionsManager.generateClassGuid();
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public static class BottomSheetParams {
         public boolean allowNestedScroll;
         public boolean occupyNavigationBar;
@@ -84,7 +84,7 @@ public abstract class BaseFragment {
         public boolean transitionFromLeft;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public interface PreviewDelegate {
         void finishFragment();
     }
@@ -856,7 +856,7 @@ public abstract class BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public class 1 extends BottomSheet {
         final /* synthetic */ INavigationLayout[] val$actionBarLayout;
         final /* synthetic */ BottomSheet[] val$bottomSheet;

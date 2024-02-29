@@ -1104,8 +1104,8 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
         1() {
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:50:0x0156  */
-        /* JADX WARN: Removed duplicated region for block: B:51:0x015b  */
+        /* JADX WARN: Removed duplicated region for block: B:50:0x0157  */
+        /* JADX WARN: Removed duplicated region for block: B:51:0x015c  */
         @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -2053,7 +2053,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
         /* JADX INFO: Access modifiers changed from: private */
         /* JADX WARN: Removed duplicated region for block: B:50:0x00f3  */
         /* JADX WARN: Removed duplicated region for block: B:54:0x0116 A[RETURN] */
-        /* JADX WARN: Removed duplicated region for block: B:55:0x0117 A[Catch: Exception -> 0x0175, TRY_LEAVE, TryCatch #4 {Exception -> 0x0175, blocks: (B:52:0x0110, B:55:0x0117, B:62:0x0160, B:61:0x0159, B:60:0x0151, B:58:0x012b), top: B:85:0x0110, inners: #7 }] */
+        /* JADX WARN: Removed duplicated region for block: B:55:0x0117 A[Catch: Exception -> 0x0176, TRY_LEAVE, TryCatch #4 {Exception -> 0x0176, blocks: (B:52:0x0110, B:55:0x0117, B:62:0x0161, B:61:0x015a, B:60:0x0152, B:58:0x012c), top: B:85:0x0110, inners: #7 }] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */

@@ -23,7 +23,7 @@ import org.telegram.ui.Components.PhotoFilterView;
 import org.telegram.ui.Components.Point;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 import org.telegram.ui.Stories.recorder.StoryEntry;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class VideoEditedInfo {
     public int account;
     public boolean alreadyScheduledConverting;
@@ -77,7 +77,7 @@ public class VideoEditedInfo {
     public boolean tryUseHevc = false;
     public ArrayList<MediaCodecVideoConvertor.MixedSoundInfo> mixedSoundInfos = new ArrayList<>();
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class EmojiEntity extends TLRPC$TL_messageEntityCustomEmoji {
         public String documentAbsolutePath;
         public MediaEntity entity;
@@ -107,7 +107,7 @@ public class VideoEditedInfo {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class MediaEntity {
         public static final byte TYPE_LOCATION = 3;
         public static final byte TYPE_MESSAGE = 6;

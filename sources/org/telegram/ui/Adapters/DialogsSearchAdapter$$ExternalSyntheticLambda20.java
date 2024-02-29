@@ -2,7 +2,7 @@ package org.telegram.ui.Adapters;
 
 import java.util.Comparator;
 import org.telegram.ui.Adapters.DialogsSearchAdapter;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public final /* synthetic */ class DialogsSearchAdapter$$ExternalSyntheticLambda20 implements Comparator {
     public static final /* synthetic */ DialogsSearchAdapter$$ExternalSyntheticLambda20 INSTANCE = new DialogsSearchAdapter$$ExternalSyntheticLambda20();
 

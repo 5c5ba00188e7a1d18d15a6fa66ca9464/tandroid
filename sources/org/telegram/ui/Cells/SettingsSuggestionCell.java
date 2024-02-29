@@ -17,7 +17,7 @@ import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.URLSpanNoUnderline;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class SettingsSuggestionCell extends LinearLayout {
     private int currentAccount;
     private int currentType;

@@ -37,7 +37,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.ProgressButton;
 import org.telegram.ui.Components.ViewHelper;
 @SuppressLint({"ViewConstructor"})
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ArchivedStickerSetCell extends FrameLayout implements Checkable {
     private final ProgressButton addButton;
     private AnimatorSet animatorSet;
@@ -52,7 +52,7 @@ public class ArchivedStickerSetCell extends FrameLayout implements Checkable {
     private final TextView textView;
     private final TextView valueTextView;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface OnCheckedChangeListener {
         void onCheckedChanged(ArchivedStickerSetCell archivedStickerSetCell, boolean z);
     }

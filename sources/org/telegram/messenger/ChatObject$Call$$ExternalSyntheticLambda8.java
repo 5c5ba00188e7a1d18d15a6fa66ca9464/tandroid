@@ -3,7 +3,7 @@ package org.telegram.messenger;
 import java.util.Comparator;
 import org.telegram.messenger.ChatObject;
 import org.telegram.tgnet.TLRPC$TL_updateGroupCallParticipants;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public final /* synthetic */ class ChatObject$Call$$ExternalSyntheticLambda8 implements Comparator {
     public static final /* synthetic */ ChatObject$Call$$ExternalSyntheticLambda8 INSTANCE = new ChatObject$Call$$ExternalSyntheticLambda8();
 

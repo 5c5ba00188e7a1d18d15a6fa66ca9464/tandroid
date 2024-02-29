@@ -42,7 +42,7 @@ import org.telegram.ui.Components.CheckBox2;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Premium.PremiumGradient;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class GroupCreateUserCell extends FrameLayout {
     private ValueAnimator animator;
     private AvatarDrawable avatarDrawable;
@@ -340,27 +340,39 @@ public class GroupCreateUserCell extends FrameLayout {
                         break;
                     }
                     break;
+                case -268161860:
+                    if (str4.equals("new_chats")) {
+                        c = 4;
+                        break;
+                    }
+                    break;
                 case 3029900:
                     if (str4.equals("bots")) {
-                        c = 4;
+                        c = 5;
                         break;
                     }
                     break;
                 case 3496342:
                     if (str4.equals("read")) {
-                        c = 5;
+                        c = 6;
                         break;
                     }
                     break;
                 case 104264043:
                     if (str4.equals("muted")) {
-                        c = 6;
+                        c = 7;
+                        break;
+                    }
+                    break;
+                case 151051367:
+                    if (str4.equals("existing_chats")) {
+                        c = '\b';
                         break;
                     }
                     break;
                 case 1432626128:
                     if (str4.equals("channels")) {
-                        c = 7;
+                        c = '\t';
                         break;
                     }
                     break;
@@ -379,15 +391,21 @@ public class GroupCreateUserCell extends FrameLayout {
                     this.avatarDrawable.setAvatarType(4);
                     break;
                 case 4:
-                    this.avatarDrawable.setAvatarType(8);
+                    this.avatarDrawable.setAvatarType(24);
                     break;
                 case 5:
-                    this.avatarDrawable.setAvatarType(10);
+                    this.avatarDrawable.setAvatarType(8);
                     break;
                 case 6:
-                    this.avatarDrawable.setAvatarType(9);
+                    this.avatarDrawable.setAvatarType(10);
                     break;
                 case 7:
+                    this.avatarDrawable.setAvatarType(9);
+                    break;
+                case '\b':
+                    this.avatarDrawable.setAvatarType(23);
+                    break;
+                case '\t':
                     this.avatarDrawable.setAvatarType(7);
                     break;
             }

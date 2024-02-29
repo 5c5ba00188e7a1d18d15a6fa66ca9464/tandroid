@@ -2,7 +2,7 @@ package org.telegram.ui.Cells;
 
 import java.util.Comparator;
 import org.telegram.ui.Cells.ChatMessageCell;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public final /* synthetic */ class ChatMessageCell$$ExternalSyntheticLambda11 implements Comparator {
     public static final /* synthetic */ ChatMessageCell$$ExternalSyntheticLambda11 INSTANCE = new ChatMessageCell$$ExternalSyntheticLambda11();
 

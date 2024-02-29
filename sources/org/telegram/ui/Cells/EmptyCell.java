@@ -3,7 +3,7 @@ package org.telegram.ui.Cells;
 import android.content.Context;
 import android.view.View;
 import android.widget.FrameLayout;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class EmptyCell extends FrameLayout {
     private int cellHeight;
 

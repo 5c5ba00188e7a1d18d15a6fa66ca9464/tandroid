@@ -4,7 +4,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
 import org.telegram.ui.Components.RecyclerListView;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class PaddedListAdapter extends RecyclerListView.SelectionAdapter {
     private GetPaddingRunnable getPaddingRunnable;
     private int lastPadding;
@@ -14,7 +14,7 @@ public class PaddedListAdapter extends RecyclerListView.SelectionAdapter {
     private Integer padding = null;
     public boolean paddingViewAttached = false;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public interface GetPaddingRunnable {
         int run(int i);
     }

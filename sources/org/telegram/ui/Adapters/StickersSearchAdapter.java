@@ -46,7 +46,7 @@ import org.telegram.ui.Cells.StickerEmojiCell;
 import org.telegram.ui.Cells.StickerSetNameCell;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
     boolean cleared;
     private final Context context;
@@ -77,7 +77,7 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
     private SparseArray<TLRPC$StickerSetCovered> positionsToSets = new SparseArray<>();
     private Runnable searchRunnable = new 1();
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public interface Delegate {
         String[] getLastSearchKeyboardLanguage();
 
@@ -108,7 +108,7 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public class 1 implements Runnable {
         1() {
         }

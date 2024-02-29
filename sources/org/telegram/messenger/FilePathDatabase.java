@@ -13,7 +13,7 @@ import org.telegram.SQLite.SQLiteException;
 import org.telegram.SQLite.SQLitePreparedStatement;
 import org.telegram.messenger.CacheByChatsController;
 import org.telegram.ui.Storage.CacheModel;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class FilePathDatabase {
     private static final String DATABASE_BACKUP_NAME = "file_to_path_backup";
     private static final String DATABASE_NAME = "file_to_path";
@@ -28,7 +28,7 @@ public class FilePathDatabase {
     private final FileMeta metaTmp = new FileMeta();
     private File shmCacheFile;
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class FileMeta {
         public long dialogId;
         public int messageId;
@@ -280,8 +280,8 @@ public class FilePathDatabase {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x00c6  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x00cb  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x00c5  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x00ca  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -692,7 +692,7 @@ public class FilePathDatabase {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class PathData {
         public final int dc;
         public final long id;

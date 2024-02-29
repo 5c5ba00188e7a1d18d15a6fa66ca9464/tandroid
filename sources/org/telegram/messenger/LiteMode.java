@@ -16,7 +16,7 @@ import org.telegram.tgnet.TLRPC$TL_jsonObject;
 import org.telegram.tgnet.TLRPC$TL_jsonObjectValue;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class LiteMode {
     private static int BATTERY_HIGH = 10;
     private static int BATTERY_LOW = 10;
@@ -209,7 +209,7 @@ public class LiteMode {
                     i = (globalMainSettings.getBoolean("autoplay_video", true) || globalMainSettings.getBoolean("autoplay_video_liteforce", false)) ? true : true ? i | 1024 : i & (-1025);
                 }
                 if (globalMainSettings.contains("autoplay_gif")) {
-                    i = globalMainSettings.getBoolean("autoplay_gif", true) ? i | FLAG_AUTOPLAY_GIFS : i & (-2049);
+                    i = globalMainSettings.getBoolean("autoplay_gif", true) ? i | 2048 : i & (-2049);
                 }
                 if (globalMainSettings.contains("chatBlur")) {
                     i = globalMainSettings.getBoolean("chatBlur", true) ? i | FLAG_CHAT_BLUR : i & (-257);

@@ -2,7 +2,7 @@ package org.telegram.messenger;
 
 import java.util.Comparator;
 import org.telegram.messenger.SavedMessagesController;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public final /* synthetic */ class SavedMessagesController$$ExternalSyntheticLambda13 implements Comparator {
     public static final /* synthetic */ SavedMessagesController$$ExternalSyntheticLambda13 INSTANCE = new SavedMessagesController$$ExternalSyntheticLambda13();
 

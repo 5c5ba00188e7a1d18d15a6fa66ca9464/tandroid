@@ -30,7 +30,7 @@ import org.telegram.ui.Components.ColorSpanUnderline;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.ProgressButton;
 import org.telegram.ui.Components.RecyclerListView;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class FeaturedStickerSetInfoCell extends FrameLayout {
     private ProgressButton addButton;
     private AnimatorSet animatorSet;

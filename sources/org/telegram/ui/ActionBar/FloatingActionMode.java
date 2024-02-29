@@ -17,7 +17,7 @@ import android.widget.PopupMenu;
 import java.util.Arrays;
 import org.telegram.messenger.AndroidUtilities;
 @TargetApi(23)
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public final class FloatingActionMode extends ActionMode {
     private final int mBottomAllowance;
     private final ActionMode.Callback2 mCallback;
@@ -276,7 +276,7 @@ public final class FloatingActionMode extends ActionMode {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public static final class FloatingToolbarVisibilityHelper {
         private boolean mActive;
         private boolean mHideRequested;

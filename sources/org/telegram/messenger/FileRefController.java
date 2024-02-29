@@ -114,7 +114,7 @@ import org.telegram.tgnet.tl.TL_stories$TL_storyItem;
 import org.telegram.tgnet.tl.TL_stories$TL_storyItemDeleted;
 import org.telegram.tgnet.tl.TL_stories$TL_updateStory;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class FileRefController extends BaseController {
     private static volatile FileRefController[] Instance = new FileRefController[4];
     private ArrayList<Waiter> favStickersWaiter;
@@ -140,7 +140,7 @@ public class FileRefController extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class Requester {
         private Object[] args;
         private boolean completed;
@@ -152,7 +152,7 @@ public class FileRefController extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class CachedResult {
         private long firstQueryTime;
         private TLObject response;
@@ -162,7 +162,7 @@ public class FileRefController extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class Waiter {
         private String locationKey;
         private String parentKey;
@@ -255,11 +255,11 @@ public class FileRefController extends BaseController {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:118:0x03a0, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:118:0x039c, code lost:
         if ("update".equals(r1) != false) goto L37;
      */
-    /* JADX WARN: Removed duplicated region for block: B:123:0x03ad  */
-    /* JADX WARN: Removed duplicated region for block: B:127:0x03c4  */
+    /* JADX WARN: Removed duplicated region for block: B:123:0x03a9  */
+    /* JADX WARN: Removed duplicated region for block: B:127:0x03c0  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1152,12 +1152,12 @@ public class FileRefController extends BaseController {
         getSendMessagesHelper().performSendMessageRequest((TLObject) objArr[0], (MessageObject) objArr[1], (String) objArr[2], (SendMessagesHelper.DelayedMessage) objArr[3], ((Boolean) objArr[4]).booleanValue(), (SendMessagesHelper.DelayedMessage) objArr[5], null, null, ((Boolean) objArr[6]).booleanValue());
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:334:0x076a  */
-    /* JADX WARN: Removed duplicated region for block: B:342:0x0782  */
-    /* JADX WARN: Removed duplicated region for block: B:364:0x01ac A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x00a1 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x00a2  */
-    /* JADX WARN: Removed duplicated region for block: B:92:0x01bd A[LOOP:2: B:65:0x013b->B:92:0x01bd, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:334:0x0768  */
+    /* JADX WARN: Removed duplicated region for block: B:342:0x0780  */
+    /* JADX WARN: Removed duplicated region for block: B:364:0x01aa A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x009f A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x00a0  */
+    /* JADX WARN: Removed duplicated region for block: B:92:0x01bb A[LOOP:2: B:65:0x0139->B:92:0x01bb, LOOP_END] */
     /* JADX WARN: Type inference failed for: r15v0 */
     /* JADX WARN: Type inference failed for: r15v13 */
     /*

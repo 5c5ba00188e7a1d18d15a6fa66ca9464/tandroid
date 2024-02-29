@@ -16,13 +16,13 @@ public final class DebugKt {
     /* JADX WARN: Code restructure failed: missing block: B:13:0x0024, code lost:
         if (r0.equals("auto") != false) goto L31;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:19:0x0039, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:19:0x0037, code lost:
         if (r0.equals("on") != false) goto L28;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:22:0x0042, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:22:0x0040, code lost:
         if (r0.equals("") != false) goto L28;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:23:0x0044, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:23:0x0042, code lost:
         r0 = true;
      */
     static {

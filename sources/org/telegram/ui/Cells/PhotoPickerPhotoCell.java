@@ -22,7 +22,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.CheckBox2;
 import org.telegram.ui.Components.LayoutHelper;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class PhotoPickerPhotoCell extends FrameLayout {
     public CheckBox2 checkBox;
     public FrameLayout checkFrame;

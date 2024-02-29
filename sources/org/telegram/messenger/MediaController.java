@@ -215,6 +215,8 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     private int raisedToTopSign;
     private long recordDialogId;
     private DispatchQueue recordQueue;
+    private String recordQuickReplyShortcut;
+    private int recordQuickReplyShortcutId;
     private MessageObject recordReplyingMsg;
     private TL_stories$StoryItem recordReplyingStory;
     private MessageObject recordReplyingTopMsg;
@@ -304,7 +306,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         }
     };
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class AudioEntry {
         public String author;
         public int duration;
@@ -315,7 +317,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         public String title;
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public interface VideoConvertorListener {
         boolean checkConversionCanceled();
 
@@ -371,7 +373,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         return this.currentForegroundConvertingVideo;
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     private static class AudioBuffer {
         ByteBuffer buffer;
         byte[] bufferBytes;
@@ -414,7 +416,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         allPhotoAlbums = new ArrayList<>();
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class AlbumEntry {
         public int bucketId;
         public String bucketName;
@@ -435,7 +437,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class SavedFilterState {
         public float blurAngle;
         public float blurExcludeBlurSize;
@@ -523,7 +525,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class CropState {
         public float cropPx;
         public float cropPy;
@@ -576,7 +578,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class MediaEditState {
         public long averageDuration;
         public CharSequence caption;
@@ -644,7 +646,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class PhotoEntry extends MediaEditState {
         public int bucketId;
         public boolean canDeleteAfter;
@@ -736,7 +738,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class SearchImage extends MediaEditState {
         public CharSequence caption;
         public int date;
@@ -820,7 +822,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class VideoConvertMessage {
         public int currentAccount;
         public boolean foreground;
@@ -836,7 +838,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public class 2 implements Runnable {
         2() {
         }
@@ -992,7 +994,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public class InternalObserver extends ContentObserver {
         public InternalObserver() {
             super(null);
@@ -1006,7 +1008,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public class ExternalObserver extends ContentObserver {
         public ExternalObserver() {
             super(null);
@@ -1020,7 +1022,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class GalleryObserverInternal extends ContentObserver {
         public GalleryObserverInternal() {
             super(null);
@@ -1056,7 +1058,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class GalleryObserverExternal extends ContentObserver {
         public GalleryObserverExternal() {
             super(null);
@@ -1198,7 +1200,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public final class StopMediaObserverRunnable implements Runnable {
         public int currentObserverToken;
 
@@ -1357,7 +1359,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public class 4 extends PhoneStateListener {
         4() {
         }
@@ -1504,7 +1506,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public class 5 extends TimerTask {
         final /* synthetic */ MessageObject val$currentPlayingMessageObject;
 
@@ -1665,7 +1667,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:22:0x007b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:22:0x007a, code lost:
         if (r10 != 0) goto L15;
      */
     /*
@@ -2186,7 +2188,12 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         if (this.recordingAudio != null) {
             toggleRecordingPause(false);
         } else if (z) {
-            startRecording(this.raiseChat.getCurrentAccount(), this.raiseChat.getDialogId(), null, this.raiseChat.getThreadMessage(), null, this.raiseChat.getClassGuid(), false);
+            int currentAccount = this.raiseChat.getCurrentAccount();
+            long dialogId = this.raiseChat.getDialogId();
+            MessageObject threadMessage = this.raiseChat.getThreadMessage();
+            int classGuid = this.raiseChat.getClassGuid();
+            ChatActivity chatActivity = this.raiseChat;
+            startRecording(currentAccount, dialogId, null, threadMessage, null, classGuid, false, chatActivity != null ? chatActivity.quickReplyShortcut : null, chatActivity != null ? chatActivity.getQuickReplyId() : 0);
         } else {
             stopRecording(2, false, 0, false);
         }
@@ -2206,7 +2213,12 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     public void startRecordingIfFromSpeaker() {
         if (this.useFrontSpeaker && this.raiseChat != null && this.allowStartRecord && SharedConfig.enabledRaiseTo(true)) {
             this.raiseToEarRecord = true;
-            startRecording(this.raiseChat.getCurrentAccount(), this.raiseChat.getDialogId(), null, this.raiseChat.getThreadMessage(), null, this.raiseChat.getClassGuid(), false);
+            int currentAccount = this.raiseChat.getCurrentAccount();
+            long dialogId = this.raiseChat.getDialogId();
+            MessageObject threadMessage = this.raiseChat.getThreadMessage();
+            int classGuid = this.raiseChat.getClassGuid();
+            ChatActivity chatActivity = this.raiseChat;
+            startRecording(currentAccount, dialogId, null, threadMessage, null, classGuid, false, chatActivity != null ? chatActivity.quickReplyShortcut : null, chatActivity != null ? chatActivity.getQuickReplyId() : 0);
             this.ignoreOnPause = true;
         }
     }
@@ -3380,7 +3392,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public class 7 implements VideoPlayer.VideoPlayerDelegate {
         final /* synthetic */ boolean val$destroyAtEnd;
         final /* synthetic */ MessageObject val$messageObject;
@@ -3572,7 +3584,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public class 8 implements VideoPlayer.VideoPlayerDelegate {
         final /* synthetic */ int val$tag;
 
@@ -3702,12 +3714,12 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         return playMessage(messageObject, false);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:188:0x0498  */
-    /* JADX WARN: Removed duplicated region for block: B:190:0x04a3  */
-    /* JADX WARN: Removed duplicated region for block: B:205:0x056a  */
-    /* JADX WARN: Removed duplicated region for block: B:215:0x05a3  */
-    /* JADX WARN: Removed duplicated region for block: B:269:0x04bc A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:282:0x047f A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:188:0x0495  */
+    /* JADX WARN: Removed duplicated region for block: B:190:0x04a0  */
+    /* JADX WARN: Removed duplicated region for block: B:205:0x0566  */
+    /* JADX WARN: Removed duplicated region for block: B:215:0x059f  */
+    /* JADX WARN: Removed duplicated region for block: B:269:0x047c A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:271:0x04b9 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -4196,7 +4208,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public class 9 implements VideoPlayer.VideoPlayerDelegate {
         final /* synthetic */ boolean val$destroyAtEnd;
         final /* synthetic */ MessageObject val$messageObject;
@@ -4541,20 +4553,20 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         }
     }
 
-    public void prepareResumedRecording(final int i, final MediaDataController.DraftVoice draftVoice, final long j, final MessageObject messageObject, final MessageObject messageObject2, final TL_stories$StoryItem tL_stories$StoryItem, final int i2, boolean z) {
+    public void prepareResumedRecording(final int i, final MediaDataController.DraftVoice draftVoice, final long j, final MessageObject messageObject, final MessageObject messageObject2, final TL_stories$StoryItem tL_stories$StoryItem, final int i2, boolean z, final String str, final int i3) {
         this.manualRecording = z;
         requestAudioFocus(true);
         this.recordQueue.cancelRunnable(this.recordStartRunnable);
         this.recordQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda27
             @Override // java.lang.Runnable
             public final void run() {
-                MediaController.this.lambda$prepareResumedRecording$25(i2, draftVoice, i, j, messageObject2, messageObject, tL_stories$StoryItem);
+                MediaController.this.lambda$prepareResumedRecording$25(i2, draftVoice, i, j, messageObject2, messageObject, tL_stories$StoryItem, str, i3);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$prepareResumedRecording$25(int i, MediaDataController.DraftVoice draftVoice, final int i2, final long j, MessageObject messageObject, MessageObject messageObject2, TL_stories$StoryItem tL_stories$StoryItem) {
+    public /* synthetic */ void lambda$prepareResumedRecording$25(int i, MediaDataController.DraftVoice draftVoice, final int i2, final long j, MessageObject messageObject, MessageObject messageObject2, TL_stories$StoryItem tL_stories$StoryItem, String str, int i3) {
         setBluetoothScoOn(true);
         this.sendAfterDone = 0;
         TLRPC$TL_document tLRPC$TL_document = new TLRPC$TL_document();
@@ -4593,6 +4605,8 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             this.recordReplyingMsg = messageObject2;
             this.recordReplyingTopMsg = messageObject;
             this.recordReplyingStory = tL_stories$StoryItem;
+            this.recordQuickReplyShortcut = str;
+            this.recordQuickReplyShortcutId = i3;
             final TLRPC$TL_document tLRPC$TL_document3 = this.recordingAudio;
             final File file = this.recordingAudioFile;
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda31
@@ -4779,7 +4793,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         NotificationCenter.getInstance(this.recordingCurrentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.recordResumed, new Object[0]);
     }
 
-    public void startRecording(final int i, final long j, final MessageObject messageObject, final MessageObject messageObject2, final TL_stories$StoryItem tL_stories$StoryItem, final int i2, boolean z) {
+    public void startRecording(final int i, final long j, final MessageObject messageObject, final MessageObject messageObject2, final TL_stories$StoryItem tL_stories$StoryItem, final int i2, boolean z, final String str, final int i3) {
         boolean z2;
         boolean z3;
         MessageObject messageObject3 = this.playingMessageObject;
@@ -4800,7 +4814,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         Runnable runnable = new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda25
             @Override // java.lang.Runnable
             public final void run() {
-                MediaController.this.lambda$startRecording$36(i, i2, j, messageObject2, messageObject, tL_stories$StoryItem);
+                MediaController.this.lambda$startRecording$36(i, i2, j, messageObject2, messageObject, tL_stories$StoryItem, str, i3);
             }
         };
         this.recordStartRunnable = runnable;
@@ -4808,7 +4822,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$startRecording$36(final int i, final int i2, long j, MessageObject messageObject, MessageObject messageObject2, TL_stories$StoryItem tL_stories$StoryItem) {
+    public /* synthetic */ void lambda$startRecording$36(final int i, final int i2, long j, MessageObject messageObject, MessageObject messageObject2, TL_stories$StoryItem tL_stories$StoryItem, String str, int i3) {
         if (this.audioRecorder != null) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda22
                 @Override // java.lang.Runnable
@@ -4876,6 +4890,8 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             this.recordReplyingMsg = messageObject2;
             this.recordReplyingTopMsg = messageObject;
             this.recordReplyingStory = tL_stories$StoryItem;
+            this.recordQuickReplyShortcut = str;
+            this.recordQuickReplyShortcutId = i3;
             this.fileBuffer.rewind();
             this.audioRecorder.startRecording();
             this.recordQueue.postRunnable(this.recordRunnable);
@@ -5073,6 +5089,8 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 c = 1;
                 SendMessagesHelper.SendMessageParams of = SendMessagesHelper.SendMessageParams.of(tLRPC$TL_document, null, file.getAbsolutePath(), this.recordDialogId, this.recordReplyingMsg, this.recordReplyingTopMsg, null, null, null, null, z, i2, z2 ? ConnectionsManager.DEFAULT_DATACENTER_ID : 0, null, null, false);
                 of.replyToStoryItem = this.recordReplyingStory;
+                of.quick_reply_shortcut = this.recordQuickReplyShortcut;
+                of.quick_reply_shortcut_id = this.recordQuickReplyShortcutId;
                 SendMessagesHelper.getInstance(this.recordingCurrentAccount).sendMessage(of);
             } else {
                 c = 1;
@@ -5165,7 +5183,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class MediaLoader implements NotificationCenter.NotificationCenterDelegate {
         private boolean cancelled;
         private int copiedFiles;
@@ -6089,7 +6107,8 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:74:0x00c7 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x00c4 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:65:0x00be -> B:76:0x00c1). Please submit an issue!!! */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -6152,22 +6171,22 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                     }
                 }
                 fileInputStream.close();
-            } catch (Exception e5) {
-                FileLog.e(e5);
-            }
-            return null;
-        } catch (Throwable th2) {
-            th = th2;
-            inputStream = fileInputStream;
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (Exception e6) {
-                    FileLog.e(e6);
+            } catch (Throwable th2) {
+                th = th2;
+                inputStream = fileInputStream;
+                if (inputStream != null) {
+                    try {
+                        inputStream.close();
+                    } catch (Exception e5) {
+                        FileLog.e(e5);
+                    }
                 }
+                throw th;
             }
-            throw th;
+        } catch (Exception e6) {
+            FileLog.e(e6);
         }
+        return null;
     }
 
     public static boolean isWebp(Uri uri) {
@@ -6193,12 +6212,12 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                     inputStream.close();
                 } catch (Exception e2) {
                     FileLog.e(e2);
+                    if (inputStream != null) {
+                        inputStream.close();
+                    }
                 }
             } catch (Exception e3) {
                 FileLog.e(e3);
-                if (inputStream != null) {
-                    inputStream.close();
-                }
             }
             return false;
         } catch (Throwable th) {
@@ -6540,25 +6559,25 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:182:0x03c8, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:182:0x03c7, code lost:
         if (r0.checkSelfPermission("android.permission.READ_EXTERNAL_STORAGE") != 0) goto L38;
      */
     /* JADX WARN: Code restructure failed: missing block: B:31:0x00b4, code lost:
         if (r0.checkSelfPermission("android.permission.READ_MEDIA_AUDIO") == 0) goto L197;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:157:0x0345  */
+    /* JADX WARN: Removed duplicated region for block: B:157:0x0344  */
     /* JADX WARN: Removed duplicated region for block: B:16:0x0072  */
-    /* JADX WARN: Removed duplicated region for block: B:179:0x03c0  */
-    /* JADX WARN: Removed duplicated region for block: B:195:0x03f9  */
-    /* JADX WARN: Removed duplicated region for block: B:196:0x03fc  */
-    /* JADX WARN: Removed duplicated region for block: B:199:0x0410  */
-    /* JADX WARN: Removed duplicated region for block: B:277:0x056c A[LOOP:0: B:275:0x0566->B:277:0x056c, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:300:0x0367 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:179:0x03bf  */
+    /* JADX WARN: Removed duplicated region for block: B:195:0x03f8  */
+    /* JADX WARN: Removed duplicated region for block: B:196:0x03fb  */
+    /* JADX WARN: Removed duplicated region for block: B:199:0x040f  */
+    /* JADX WARN: Removed duplicated region for block: B:277:0x056b A[LOOP:0: B:275:0x0565->B:277:0x056b, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:300:0x03ac A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:302:0x0103 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:310:0x03ad A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:328:0x0556 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:344:0x0548 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:304:0x0366 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:328:0x0555 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:344:0x0547 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:37:0x00ee  */
     /* JADX WARN: Removed duplicated region for block: B:38:0x00f1  */
     /*
@@ -7885,7 +7904,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class VideoConvertRunnable implements Runnable {
         private VideoConvertMessage convertMessage;
 
@@ -7925,7 +7944,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     /* JADX WARN: Removed duplicated region for block: B:60:0x0138  */
     /* JADX WARN: Removed duplicated region for block: B:82:0x01b7  */
     /* JADX WARN: Removed duplicated region for block: B:92:0x01c5  */
-    /* JADX WARN: Removed duplicated region for block: B:95:0x0201 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:95:0x0200 A[ADDED_TO_REGION] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -8277,7 +8296,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         return integer2;
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class PlaylistGlobalSearchParams {
         final long dialogId;
         public boolean endReached;

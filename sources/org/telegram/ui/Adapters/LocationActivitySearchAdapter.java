@@ -12,7 +12,7 @@ import org.telegram.ui.Cells.GraySectionCell;
 import org.telegram.ui.Cells.LocationCell;
 import org.telegram.ui.Components.FlickerLoadingView;
 import org.telegram.ui.Components.RecyclerListView;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class LocationActivitySearchAdapter extends BaseLocationAdapter {
     private FlickerLoadingView globalGradientView;
     private Context mContext;
@@ -31,8 +31,8 @@ public class LocationActivitySearchAdapter extends BaseLocationAdapter {
         this.myLocationDenied = z;
     }
 
-    public LocationActivitySearchAdapter(Context context, Theme.ResourcesProvider resourcesProvider, boolean z) {
-        super(z);
+    public LocationActivitySearchAdapter(Context context, Theme.ResourcesProvider resourcesProvider, boolean z, boolean z2) {
+        super(z, z2);
         this.myLocationDenied = false;
         this.mContext = context;
         this.resourcesProvider = resourcesProvider;

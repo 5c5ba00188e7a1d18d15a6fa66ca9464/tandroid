@@ -17,7 +17,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RadioButton;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class RadioCell extends FrameLayout {
     private boolean needDivider;
     private RadioButton radioButton;
@@ -83,8 +83,8 @@ public class RadioCell extends FrameLayout {
         this.textView.setTextColor(i);
     }
 
-    public void setText(String str, boolean z, boolean z2) {
-        this.textView.setText(str);
+    public void setText(CharSequence charSequence, boolean z, boolean z2) {
+        this.textView.setText(charSequence);
         this.radioButton.setChecked(z, false);
         this.needDivider = z2;
         setWillNotDraw(!z2);

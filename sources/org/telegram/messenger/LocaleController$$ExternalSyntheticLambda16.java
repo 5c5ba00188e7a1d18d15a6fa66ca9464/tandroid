@@ -1,5 +1,5 @@
 package org.telegram.messenger;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public final /* synthetic */ class LocaleController$$ExternalSyntheticLambda16 implements Runnable {
     public static final /* synthetic */ LocaleController$$ExternalSyntheticLambda16 INSTANCE = new LocaleController$$ExternalSyntheticLambda16();
 

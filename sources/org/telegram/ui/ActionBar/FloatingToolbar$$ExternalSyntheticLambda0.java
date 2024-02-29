@@ -1,7 +1,7 @@
 package org.telegram.ui.ActionBar;
 
 import android.view.MenuItem;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public final /* synthetic */ class FloatingToolbar$$ExternalSyntheticLambda0 implements MenuItem.OnMenuItemClickListener {
     public static final /* synthetic */ FloatingToolbar$$ExternalSyntheticLambda0 INSTANCE = new FloatingToolbar$$ExternalSyntheticLambda0();
 

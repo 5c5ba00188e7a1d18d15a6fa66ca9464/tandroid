@@ -4,7 +4,7 @@ import android.content.SharedPreferences;
 import android.util.LongSparseArray;
 import org.telegram.messenger.FilePathDatabase;
 import org.telegram.messenger.NotificationBadge;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class SaveToGallerySettingsHelper {
     public static String CHANNELS_PREF_NAME = "channels_save_gallery_exceptions";
     public static final long DEFAULT_VIDEO_LIMIT = 104857600;
@@ -120,7 +120,7 @@ public class SaveToGallerySettingsHelper {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static abstract class Settings {
         public long limitVideo = SaveToGallerySettingsHelper.DEFAULT_VIDEO_LIMIT;
         public boolean savePhoto;
@@ -143,7 +143,7 @@ public class SaveToGallerySettingsHelper {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class SharedSettings extends Settings {
         private int type;
 
@@ -229,7 +229,7 @@ public class SaveToGallerySettingsHelper {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class DialogException extends Settings {
         public long dialogId;
 

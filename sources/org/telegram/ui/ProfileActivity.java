@@ -89,6 +89,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+import j$.time.DayOfWeek;
+import j$.time.format.TextStyle;
 import j$.util.Comparator$-CC;
 import j$.util.Comparator$-EL;
 import j$.util.function.Consumer;
@@ -100,6 +102,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -183,6 +186,8 @@ import org.telegram.tgnet.TLRPC$ReplyMarkup;
 import org.telegram.tgnet.TLRPC$TL_account_getPassword;
 import org.telegram.tgnet.TLRPC$TL_account_password;
 import org.telegram.tgnet.TLRPC$TL_account_updateEmojiStatus;
+import org.telegram.tgnet.TLRPC$TL_businessLocation;
+import org.telegram.tgnet.TLRPC$TL_businessWorkHours;
 import org.telegram.tgnet.TLRPC$TL_channelFull;
 import org.telegram.tgnet.TLRPC$TL_channelLocation;
 import org.telegram.tgnet.TLRPC$TL_channelParticipant;
@@ -215,7 +220,9 @@ import org.telegram.tgnet.TLRPC$TL_help_dismissSuggestion;
 import org.telegram.tgnet.TLRPC$TL_inputGroupCall;
 import org.telegram.tgnet.TLRPC$TL_inputPeerEmpty;
 import org.telegram.tgnet.TLRPC$TL_inputPhoto;
+import org.telegram.tgnet.TLRPC$TL_message;
 import org.telegram.tgnet.TLRPC$TL_messageEncryptedAction;
+import org.telegram.tgnet.TLRPC$TL_messageMediaGeo;
 import org.telegram.tgnet.TLRPC$TL_messages_getWebPage;
 import org.telegram.tgnet.TLRPC$TL_messages_reportReaction;
 import org.telegram.tgnet.TLRPC$TL_messages_webPage;
@@ -229,6 +236,7 @@ import org.telegram.tgnet.TLRPC$TL_photo;
 import org.telegram.tgnet.TLRPC$TL_photos_photo;
 import org.telegram.tgnet.TLRPC$TL_photos_updateProfilePhoto;
 import org.telegram.tgnet.TLRPC$TL_photos_uploadProfilePhoto;
+import org.telegram.tgnet.TLRPC$TL_timezone;
 import org.telegram.tgnet.TLRPC$TL_userEmpty;
 import org.telegram.tgnet.TLRPC$TL_userProfilePhoto;
 import org.telegram.tgnet.TLRPC$TL_userProfilePhotoEmpty;
@@ -257,6 +265,10 @@ import org.telegram.ui.ActionBar.OKLCH;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ActionBar.ThemeDescription;
+import org.telegram.ui.Business.OpeningHoursActivity;
+import org.telegram.ui.Business.ProfileHoursCell;
+import org.telegram.ui.Business.ProfileLocationCell;
+import org.telegram.ui.Business.TimezonesController;
 import org.telegram.ui.Cells.AboutLinkCell;
 import org.telegram.ui.Cells.CheckBoxCell;
 import org.telegram.ui.Cells.DividerCell;
@@ -391,10 +403,13 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     private PagerIndicatorView avatarsViewPagerIndicatorView;
     private long banFromGroup;
     private int bioRow;
+    private int bizHoursRow;
+    private int bizLocationRow;
     private int blockedUsersRow;
     private View blurredView;
     private TLRPC$BotInfo botInfo;
     private int bottomPaddingRow;
+    private int businessRow;
     private ActionBarMenuItem callItem;
     private boolean callItemVisible;
     private RLottieDrawable cameraDrawable;
@@ -454,9 +469,13 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     private AnimatorSet headerShadowAnimatorSet;
     private int helpHeaderRow;
     private int helpSectionCell;
+    private boolean hoursExpanded;
+    private boolean hoursShownMine;
     private ImageUpdater imageUpdater;
+    private int infoEndRow;
     private int infoHeaderRow;
     private int infoSectionRow;
+    private int infoStartRow;
     private float initialAnimationExtraHeight;
     private boolean invalidateScroll;
     private boolean isBot;
@@ -651,7 +670,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* synthetic */ void access$31200(ProfileActivity profileActivity, View view) {
+    public static /* synthetic */ void access$31900(ProfileActivity profileActivity, View view) {
         profileActivity.onTextDetailCellImageClicked(view);
     }
 
@@ -1923,7 +1942,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             }
         };
         this.floatingInterpolator = new AccelerateDecelerateInterpolator();
-        this.ACTIONBAR_HEADER_PROGRESS = new AnimationProperties.FloatProperty<ActionBar>("avatarAnimationProgress") { // from class: org.telegram.ui.ProfileActivity.41
+        this.ACTIONBAR_HEADER_PROGRESS = new AnimationProperties.FloatProperty<ActionBar>("avatarAnimationProgress") { // from class: org.telegram.ui.ProfileActivity.43
             @Override // org.telegram.ui.Components.AnimationProperties.FloatProperty
             public void setValue(ActionBar actionBar, float f) {
                 int themedColor;
@@ -2085,7 +2104,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             this.currentChat = chat;
             if (chat == null) {
                 final CountDownLatch countDownLatch = new CountDownLatch(1);
-                getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda44
+                getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda45
                     @Override // java.lang.Runnable
                     public final void run() {
                         ProfileActivity.this.lambda$onFragmentCreate$0(countDownLatch);
@@ -2150,7 +2169,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             getMessagesController().ensureMessagesLoaded(this.userId, 0, null);
         }
         if (this.userId != 0 && UserObject.isUserSelf(getMessagesController().getUser(Long.valueOf(this.userId)))) {
-            getConnectionsManager().sendRequest(new TLRPC$TL_account_getPassword(), new RequestDelegate() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda65
+            getConnectionsManager().sendRequest(new TLRPC$TL_account_getPassword(), new RequestDelegate() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda66
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     ProfileActivity.this.lambda$onFragmentCreate$1(tLObject, tLRPC$TL_error);
@@ -2178,7 +2197,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         if (this.isTopic || !ChatObject.isForum(this.currentChat)) {
             return;
         }
-        getNotificationsController().loadTopicsNotificationsExceptions(-this.chatId, new Consumer() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda54
+        getNotificationsController().loadTopicsNotificationsExceptions(-this.chatId, new Consumer() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda55
             @Override // j$.util.function.Consumer
             public final void accept(Object obj) {
                 ProfileActivity.this.lambda$updateExceptions$2((HashSet) obj);
@@ -2319,7 +2338,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         actionBar.setClipContent(true);
         actionBar.setOccupyStatusBar((Build.VERSION.SDK_INT < 21 || AndroidUtilities.isTablet() || this.inBubbleMode) ? false : false);
         final ImageView backButton = actionBar.getBackButton();
-        backButton.setOnLongClickListener(new View.OnLongClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda25
+        backButton.setOnLongClickListener(new View.OnLongClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda26
             @Override // android.view.View.OnLongClickListener
             public final boolean onLongClick(View view) {
                 boolean lambda$createActionBar$4;
@@ -2334,7 +2353,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     public /* synthetic */ boolean lambda$createActionBar$4(ImageView imageView, View view) {
         ActionBarPopupWindow show = BackButtonMenu.show(this, imageView, getDialogId(), getTopicId(), this.resourcesProvider);
         if (show != null) {
-            show.setOnDismissListener(new PopupWindow.OnDismissListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda26
+            show.setOnDismissListener(new PopupWindow.OnDismissListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda27
                 @Override // android.widget.PopupWindow.OnDismissListener
                 public final void onDismiss() {
                     ProfileActivity.this.lambda$createActionBar$3();
@@ -2366,7 +2385,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         if (iNavigationLayout == null || iNavigationLayout.getParentActivity() == null) {
             return;
         }
-        this.flagSecure = new FlagSecureReason(iNavigationLayout.getParentActivity().getWindow(), new FlagSecureReason.FlagSecureCondition() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda56
+        this.flagSecure = new FlagSecureReason(iNavigationLayout.getParentActivity().getWindow(), new FlagSecureReason.FlagSecureCondition() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda57
             @Override // org.telegram.messenger.FlagSecureReason.FlagSecureCondition
             public final boolean run() {
                 boolean lambda$setParentLayout$5;
@@ -2680,6 +2699,15 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
                 return super.drawChild(canvas, view2, j3);
             }
+
+            /* JADX INFO: Access modifiers changed from: protected */
+            @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
+            public void dispatchDraw(Canvas canvas) {
+                if (ProfileActivity.this.bizHoursRow >= 0 && ProfileActivity.this.infoStartRow >= 0 && ProfileActivity.this.infoEndRow >= 0) {
+                    drawSectionBackground(canvas, ProfileActivity.this.infoStartRow, ProfileActivity.this.infoEndRow, getThemedColor(Theme.key_windowBackgroundWhite));
+                }
+                super.dispatchDraw(canvas);
+            }
         };
         this.listView = clippedListView;
         clippedListView.setVerticalScrollBarEnabled(r12);
@@ -2730,7 +2758,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         this.listView.setGlowColor(r12);
         this.listView.setAdapter(this.listAdapter);
         frameLayout2.addView(this.listView, LayoutHelper.createFrame(-1, -1, 51));
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda70
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda71
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
             public /* synthetic */ boolean hasDoubleTap(View view2, int i3) {
                 return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view2, i3);
@@ -2746,7 +2774,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 ProfileActivity.this.lambda$createView$10(j2, context, lastFragment, view2, i3, f5, f6);
             }
         });
-        this.listView.setOnItemLongClickListener(new 15(context));
+        this.listView.setOnItemLongClickListener(new 16(context));
         if (this.openSimilar) {
             updateRowsIds();
             scrollToSharedMedia();
@@ -2768,13 +2796,13 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             this.searchListView.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
             frameLayout = frameLayout2;
             frameLayout.addView(this.searchListView, LayoutHelper.createFrame(-1, -1, 51));
-            this.searchListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda69
+            this.searchListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda70
                 @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
                 public final void onItemClick(View view2, int i3) {
                     ProfileActivity.this.lambda$createView$11(view2, i3);
                 }
             });
-            this.searchListView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda71
+            this.searchListView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda72
                 @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListener
                 public final boolean onItemClick(View view2, int i3) {
                     boolean lambda$createView$13;
@@ -2782,7 +2810,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     return lambda$createView$13;
                 }
             });
-            this.searchListView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.ProfileActivity.16
+            this.searchListView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.ProfileActivity.17
                 @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
                 public void onScrollStateChanged(RecyclerView recyclerView, int i3) {
                     if (i3 == 1) {
@@ -2808,14 +2836,14 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 TLRPC$TL_channels_getParticipant tLRPC$TL_channels_getParticipant = new TLRPC$TL_channels_getParticipant();
                 tLRPC$TL_channels_getParticipant.channel = MessagesController.getInputChannel(chat);
                 tLRPC$TL_channels_getParticipant.participant = getMessagesController().getInputPeer(this.userId);
-                getConnectionsManager().sendRequest(tLRPC$TL_channels_getParticipant, new RequestDelegate() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda64
+                getConnectionsManager().sendRequest(tLRPC$TL_channels_getParticipant, new RequestDelegate() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda65
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                         ProfileActivity.this.lambda$createView$15(tLObject, tLRPC$TL_error);
                     }
                 });
             }
-            FrameLayout frameLayout3 = new FrameLayout(this, context) { // from class: org.telegram.ui.ProfileActivity.17
+            FrameLayout frameLayout3 = new FrameLayout(this, context) { // from class: org.telegram.ui.ProfileActivity.18
                 @Override // android.view.View
                 protected void onDraw(Canvas canvas) {
                     int intrinsicHeight = Theme.chat_composeShadowDrawable.getIntrinsicHeight();
@@ -2826,7 +2854,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             };
             frameLayout3.setWillNotDraw(r12);
             frameLayout.addView(frameLayout3, LayoutHelper.createFrame(-1, 51, 83));
-            frameLayout3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda20
+            frameLayout3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda21
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view2) {
                     ProfileActivity.this.lambda$createView$16(chat, view2);
@@ -2855,7 +2883,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         animatedStatusView.setPivotX(AndroidUtilities.dp(30.0f));
         this.animatedStatusView.setPivotY(AndroidUtilities.dp(30.0f));
         this.avatarContainer = new FrameLayout(context);
-        this.avatarContainer2 = new 19(context);
+        this.avatarContainer2 = new 20(context);
         ImageReceiver imageReceiver = new ImageReceiver(this.avatarContainer2);
         this.fallbackImage = imageReceiver;
         imageReceiver.setRoundRadius(AndroidUtilities.dp(11.0f));
@@ -2864,7 +2892,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         this.avatarContainer.setPivotX(0.0f);
         this.avatarContainer.setPivotY(0.0f);
         this.avatarContainer2.addView(this.avatarContainer, LayoutHelper.createFrame(42, 42.0f, 51, 64.0f, 0.0f, 0.0f, 0.0f));
-        AvatarImageView avatarImageView = new AvatarImageView(this, context) { // from class: org.telegram.ui.ProfileActivity.20
+        AvatarImageView avatarImageView = new AvatarImageView(this, context) { // from class: org.telegram.ui.ProfileActivity.21
             @Override // android.view.View
             public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
                 super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
@@ -2896,14 +2924,14 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         this.avatarImage.setPivotX(0.0f);
         this.avatarImage.setPivotY(0.0f);
         this.avatarContainer.addView(this.avatarImage, LayoutHelper.createFrame(-1, -1.0f));
-        this.avatarImage.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda12
+        this.avatarImage.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda11
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
                 ProfileActivity.this.lambda$createView$18(view2);
             }
         });
         this.avatarImage.setHasStories(needInsetForStories());
-        this.avatarImage.setOnLongClickListener(new View.OnLongClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda24
+        this.avatarImage.setOnLongClickListener(new View.OnLongClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda25
             @Override // android.view.View.OnLongClickListener
             public final boolean onLongClick(View view2) {
                 boolean lambda$createView$19;
@@ -2911,7 +2939,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 return lambda$createView$19;
             }
         });
-        RadialProgressView radialProgressView = new RadialProgressView(context) { // from class: org.telegram.ui.ProfileActivity.21
+        RadialProgressView radialProgressView = new RadialProgressView(context) { // from class: org.telegram.ui.ProfileActivity.22
             private Paint paint;
 
             {
@@ -2958,7 +2986,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
         int i3 = i;
         FrameLayout frameLayout4 = frameLayout;
-        this.avatarsViewPager = new ProfileGalleryView(context, j3, this.actionBar, this.listView, this.avatarImage, getClassGuid(), this.overlaysView) { // from class: org.telegram.ui.ProfileActivity.22
+        this.avatarsViewPager = new ProfileGalleryView(context, j3, this.actionBar, this.listView, this.avatarImage, getClassGuid(), this.overlaysView) { // from class: org.telegram.ui.ProfileActivity.23
             @Override // org.telegram.ui.Components.ProfileGalleryView
             protected void setCustomAvatarProgress(float f5) {
                 ProfileActivity.this.customAvatarProgress = f5;
@@ -2995,7 +3023,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 break;
             }
             if (this.playProfileAnimation != 0 || i4 != 0) {
-                simpleTextViewArr[i4] = new SimpleTextView(context) { // from class: org.telegram.ui.ProfileActivity.23
+                simpleTextViewArr[i4] = new SimpleTextView(context) { // from class: org.telegram.ui.ProfileActivity.24
                     @Override // org.telegram.ui.ActionBar.SimpleTextView, android.view.View
                     public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
                         super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
@@ -3058,7 +3086,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 break;
             }
             if (i5 == 1) {
-                simpleTextViewArr2[i5] = new LinkSpanDrawable.ClickableSmallTextView(context) { // from class: org.telegram.ui.ProfileActivity.24
+                simpleTextViewArr2[i5] = new LinkSpanDrawable.ClickableSmallTextView(context) { // from class: org.telegram.ui.ProfileActivity.25
                     @Override // android.view.View
                     public void setAlpha(float f6) {
                         super.setAlpha(f6);
@@ -3121,7 +3149,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
         checkPhotoDescriptionAlpha();
         this.avatarContainer2.addView(this.animatedStatusView);
-        AudioPlayerAlert.ClippingTextViewSwitcher clippingTextViewSwitcher = new AudioPlayerAlert.ClippingTextViewSwitcher(context) { // from class: org.telegram.ui.ProfileActivity.25
+        AudioPlayerAlert.ClippingTextViewSwitcher clippingTextViewSwitcher = new AudioPlayerAlert.ClippingTextViewSwitcher(context) { // from class: org.telegram.ui.ProfileActivity.26
             @Override // org.telegram.ui.Components.AudioPlayerAlert.ClippingTextViewSwitcher
             protected TextView createTextView() {
                 TextView textView2 = new TextView(context);
@@ -3136,7 +3164,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         this.mediaCounterTextView = clippingTextViewSwitcher;
         clippingTextViewSwitcher.setAlpha(0.0f);
         this.avatarContainer2.addView(this.mediaCounterTextView, LayoutHelper.createFrame(-2, -2.0f, 51, 118.33f, -2.0f, 8.0f, 0.0f));
-        this.storyView = new ProfileStoriesView(context, this.currentAccount, getDialogId(), this.isTopic, this.avatarContainer, this.avatarImage, this.resourcesProvider) { // from class: org.telegram.ui.ProfileActivity.26
+        this.storyView = new ProfileStoriesView(context, this.currentAccount, getDialogId(), this.isTopic, this.avatarContainer, this.avatarImage, this.resourcesProvider) { // from class: org.telegram.ui.ProfileActivity.27
             @Override // org.telegram.ui.Stories.ProfileStoriesView
             protected void onTap(StoryViewer.PlaceProvider placeProvider) {
                 long dialogId = ProfileActivity.this.getDialogId();
@@ -3198,7 +3226,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
         this.writeButton.setScaleType(ImageView.ScaleType.CENTER);
         frameLayout4.addView(this.writeButton, LayoutHelper.createFrame(60, 60.0f, 53, 0.0f, 0.0f, 16.0f, 0.0f));
-        this.writeButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda11
+        this.writeButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda10
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
                 ProfileActivity.this.lambda$createView$20(view2);
@@ -3214,7 +3242,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             f2 = 0.0f;
             this.writeButton.setAlpha(0.0f);
         }
-        this.listView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.ProfileActivity.27
+        this.listView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.ProfileActivity.28
             @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
             public void onScrollStateChanged(RecyclerView recyclerView, int i7) {
                 boolean z2 = true;
@@ -3255,7 +3283,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             }
         });
         this.expandAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
-        this.expandAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ProfileActivity.28
+        this.expandAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ProfileActivity.29
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationStart(Animator animator) {
             }
@@ -3283,7 +3311,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         frameLayout4.addView(this.fwdRestrictedHint, LayoutHelper.createFrame(-2, -2.0f, 51, 12.0f, 0.0f, 12.0f, 0.0f));
         this.sharedMediaLayout.setForwardRestrictedHint(this.fwdRestrictedHint);
         int i7 = Build.VERSION.SDK_INT;
-        PinchToZoomHelper pinchToZoomHelper = new PinchToZoomHelper(i7 >= 21 ? (ViewGroup) getParentActivity().getWindow().getDecorView() : frameLayout4, frameLayout4) { // from class: org.telegram.ui.ProfileActivity.29
+        PinchToZoomHelper pinchToZoomHelper = new PinchToZoomHelper(i7 >= 21 ? (ViewGroup) getParentActivity().getWindow().getDecorView() : frameLayout4, frameLayout4) { // from class: org.telegram.ui.ProfileActivity.30
             @Override // org.telegram.ui.PinchToZoomHelper
             protected void invalidateViews() {
                 super.invalidateViews();
@@ -3326,7 +3354,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             }
         };
         this.pinchToZoomHelper = pinchToZoomHelper;
-        pinchToZoomHelper.setCallback(new PinchToZoomHelper.Callback() { // from class: org.telegram.ui.ProfileActivity.30
+        pinchToZoomHelper.setCallback(new PinchToZoomHelper.Callback() { // from class: org.telegram.ui.ProfileActivity.31
             @Override // org.telegram.ui.PinchToZoomHelper.Callback
             public /* synthetic */ TextureView getCurrentTextureView() {
                 return PinchToZoomHelper.Callback.-CC.$default$getCurrentTextureView(this);
@@ -3353,7 +3381,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         this.actionBarBackgroundPaint.setColor(getThemedColor(Theme.key_listSelector));
         this.contentView.blurBehindViews.add(this.sharedMediaLayout);
         updateTtlIcon();
-        View view2 = new View(context) { // from class: org.telegram.ui.ProfileActivity.31
+        View view2 = new View(context) { // from class: org.telegram.ui.ProfileActivity.32
             @Override // android.view.View
             public void setAlpha(float f8) {
                 super.setAlpha(f8);
@@ -3369,7 +3397,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
         this.blurredView.setFocusable(false);
         this.blurredView.setImportantForAccessibility(2);
-        this.blurredView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda15
+        this.blurredView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda14
             @Override // android.view.View.OnClickListener
             public final void onClick(View view3) {
                 ProfileActivity.this.lambda$createView$22(view3);
@@ -4576,17 +4604,17 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x0179  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x0191  */
-    /* JADX WARN: Type inference failed for: r14v7 */
-    /* JADX WARN: Type inference failed for: r14v8 */
-    /* JADX WARN: Type inference failed for: r14v9 */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
+    /* JADX WARN: Type inference failed for: r15v0 */
+    /* JADX WARN: Type inference failed for: r15v1, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r15v4 */
+    /* JADX WARN: Type inference failed for: r15v5 */
+    /* JADX WARN: Type inference failed for: r15v6 */
+    /* JADX WARN: Type inference failed for: r15v7 */
+    /* JADX WARN: Type inference failed for: r15v8 */
+    /* JADX WARN: Type inference failed for: r15v9 */
     public /* synthetic */ void lambda$createView$10(final long j, final Context context, final BaseFragment baseFragment, View view, int i, float f, float f2) {
-        boolean z;
-        int i2;
+        ?? r15;
+        TLRPC$TL_businessLocation tLRPC$TL_businessLocation;
         TLRPC$ChatParticipant tLRPC$ChatParticipant;
         long j2;
         ListAdapter listAdapter;
@@ -4598,385 +4626,386 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         this.listView.stopScroll();
         if (i == this.notificationsSimpleRow) {
             boolean isDialogMuted = getMessagesController().isDialogMuted(j, this.topicId);
+            r15 = 1;
+            r15 = 1;
+            r15 = 1;
             getNotificationsController().muteDialog(j, this.topicId, !isDialogMuted);
             BulletinFactory.createMuteBulletin(this, !isDialogMuted, null).show();
             updateExceptions();
-            int i3 = this.notificationsSimpleRow;
-            if (i3 >= 0 && (listAdapter = this.listAdapter) != null) {
-                listAdapter.notifyItemChanged(i3);
+            int i2 = this.notificationsSimpleRow;
+            if (i2 >= 0 && (listAdapter = this.listAdapter) != null) {
+                listAdapter.notifyItemChanged(i2);
             }
-        } else if (i == this.addToContactsRow) {
-            TLRPC$User user = getMessagesController().getUser(Long.valueOf(this.userId));
-            Bundle bundle = new Bundle();
-            bundle.putLong("user_id", user.id);
-            bundle.putBoolean("addContact", true);
-            bundle.putString("phone", this.vcardPhone);
-            bundle.putString("first_name_card", this.vcardFirstName);
-            bundle.putString("last_name_card", this.vcardLastName);
-            openAddToContact(user, bundle);
-        } else if (i == this.reportReactionRow) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity(), this.resourcesProvider);
-            builder.setTitle(LocaleController.getString("ReportReaction", R.string.ReportReaction));
-            builder.setMessage(LocaleController.getString("ReportAlertReaction", R.string.ReportAlertReaction));
-            TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(-this.reportReactionFromDialogId));
-            final CheckBoxCell[] checkBoxCellArr = new CheckBoxCell[1];
-            if (chat == null || !ChatObject.canBlockUsers(chat)) {
-                z = false;
-            } else {
-                LinearLayout linearLayout = new LinearLayout(getParentActivity());
-                linearLayout.setOrientation(1);
-                z = false;
-                checkBoxCellArr[0] = new CheckBoxCell(getParentActivity(), 1, this.resourcesProvider);
-                checkBoxCellArr[0].setBackgroundDrawable(Theme.getSelectorDrawable(false));
-                checkBoxCellArr[0].setText(LocaleController.getString("BanUser", R.string.BanUser), "", true, false);
-                checkBoxCellArr[0].setPadding(LocaleController.isRTL ? AndroidUtilities.dp(16.0f) : AndroidUtilities.dp(8.0f), 0, LocaleController.isRTL ? AndroidUtilities.dp(8.0f) : AndroidUtilities.dp(16.0f), 0);
-                linearLayout.addView(checkBoxCellArr[0], LayoutHelper.createLinear(-1, -2));
-                checkBoxCellArr[0].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda22
-                    @Override // android.view.View.OnClickListener
-                    public final void onClick(View view2) {
-                        ProfileActivity.lambda$createView$6(checkBoxCellArr, view2);
-                    }
-                });
-                builder.setView(linearLayout);
-            }
-            builder.setPositiveButton(LocaleController.getString("ReportChat", R.string.ReportChat), new 12(checkBoxCellArr));
-            builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener(this) { // from class: org.telegram.ui.ProfileActivity.13
-                @Override // android.content.DialogInterface.OnClickListener
-                public void onClick(DialogInterface dialogInterface, int i4) {
-                    dialogInterface.dismiss();
+        } else {
+            r15 = 1;
+            r15 = 1;
+            r15 = 1;
+            r15 = 1;
+            if (i == this.addToContactsRow) {
+                TLRPC$User user = getMessagesController().getUser(Long.valueOf(this.userId));
+                Bundle bundle = new Bundle();
+                bundle.putLong("user_id", user.id);
+                bundle.putBoolean("addContact", true);
+                bundle.putString("phone", this.vcardPhone);
+                bundle.putString("first_name_card", this.vcardFirstName);
+                bundle.putString("last_name_card", this.vcardLastName);
+                openAddToContact(user, bundle);
+            } else if (i == this.reportReactionRow) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity(), this.resourcesProvider);
+                builder.setTitle(LocaleController.getString("ReportReaction", R.string.ReportReaction));
+                builder.setMessage(LocaleController.getString("ReportAlertReaction", R.string.ReportAlertReaction));
+                TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(-this.reportReactionFromDialogId));
+                final CheckBoxCell[] checkBoxCellArr = new CheckBoxCell[1];
+                if (chat != null && ChatObject.canBlockUsers(chat)) {
+                    LinearLayout linearLayout = new LinearLayout(getParentActivity());
+                    linearLayout.setOrientation(1);
+                    checkBoxCellArr[0] = new CheckBoxCell(getParentActivity(), 1, this.resourcesProvider);
+                    checkBoxCellArr[0].setBackgroundDrawable(Theme.getSelectorDrawable(false));
+                    checkBoxCellArr[0].setText(LocaleController.getString("BanUser", R.string.BanUser), "", true, false);
+                    checkBoxCellArr[0].setPadding(LocaleController.isRTL ? AndroidUtilities.dp(16.0f) : AndroidUtilities.dp(8.0f), 0, LocaleController.isRTL ? AndroidUtilities.dp(8.0f) : AndroidUtilities.dp(16.0f), 0);
+                    linearLayout.addView(checkBoxCellArr[0], LayoutHelper.createLinear(-1, -2));
+                    checkBoxCellArr[0].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda23
+                        @Override // android.view.View.OnClickListener
+                        public final void onClick(View view2) {
+                            ProfileActivity.lambda$createView$6(checkBoxCellArr, view2);
+                        }
+                    });
+                    builder.setView(linearLayout);
                 }
-            });
-            TextView textView = (TextView) builder.show().getButton(-1);
-            i2 = z;
-            if (textView != null) {
-                textView.setTextColor(Theme.getColor(Theme.key_text_RedBold));
-                i2 = z;
-            }
-            if (i != this.settingsKeyRow) {
-                Bundle bundle2 = new Bundle();
-                bundle2.putInt("chat_id", DialogObject.getEncryptedChatId(this.dialogId));
-                presentFragment(new IdenticonActivity(bundle2));
-                return;
-            } else if (i == this.settingsTimerRow) {
-                showDialog(AlertsCreator.createTTLAlert(getParentActivity(), this.currentEncryptedChat, this.resourcesProvider).create());
-                return;
-            } else if (i == this.notificationsRow) {
-                if ((LocaleController.isRTL && f3 <= AndroidUtilities.dp(76.0f)) || (!LocaleController.isRTL && f3 >= view.getMeasuredWidth() - AndroidUtilities.dp(76.0f))) {
-                    NotificationsCheckCell notificationsCheckCell = (NotificationsCheckCell) view;
-                    boolean z2 = !notificationsCheckCell.isChecked();
-                    boolean isGlobalNotificationsEnabled = getNotificationsController().isGlobalNotificationsEnabled(j);
-                    String sharedPrefKey = NotificationsController.getSharedPrefKey(j, this.topicId);
-                    if (z2) {
-                        SharedPreferences.Editor edit = MessagesController.getNotificationsSettings(this.currentAccount).edit();
-                        if (isGlobalNotificationsEnabled) {
-                            edit.remove(NotificationsSettingsFacade.PROPERTY_NOTIFY + sharedPrefKey);
-                        } else {
-                            edit.putInt(NotificationsSettingsFacade.PROPERTY_NOTIFY + sharedPrefKey, i2);
-                        }
-                        if (this.topicId == 0) {
-                            getMessagesStorage().setDialogFlags(j, 0L);
-                            TLRPC$Dialog tLRPC$Dialog = getMessagesController().dialogs_dict.get(j);
-                            if (tLRPC$Dialog != null) {
-                                tLRPC$Dialog.notify_settings = new TLRPC$TL_peerNotifySettings();
-                            }
-                        }
-                        edit.apply();
-                    } else {
-                        SharedPreferences.Editor edit2 = MessagesController.getNotificationsSettings(this.currentAccount).edit();
-                        if (!isGlobalNotificationsEnabled) {
-                            edit2.remove(NotificationsSettingsFacade.PROPERTY_NOTIFY + sharedPrefKey);
-                            j2 = 0L;
-                        } else {
-                            edit2.putInt(NotificationsSettingsFacade.PROPERTY_NOTIFY + sharedPrefKey, 2);
-                            j2 = 1;
-                        }
-                        getNotificationsController().removeNotificationsForDialog(j);
-                        if (this.topicId == 0) {
-                            getMessagesStorage().setDialogFlags(j, j2);
-                            TLRPC$Dialog tLRPC$Dialog2 = getMessagesController().dialogs_dict.get(j);
-                            if (tLRPC$Dialog2 != null) {
-                                TLRPC$TL_peerNotifySettings tLRPC$TL_peerNotifySettings = new TLRPC$TL_peerNotifySettings();
-                                tLRPC$Dialog2.notify_settings = tLRPC$TL_peerNotifySettings;
-                                if (isGlobalNotificationsEnabled) {
-                                    tLRPC$TL_peerNotifySettings.mute_until = ConnectionsManager.DEFAULT_DATACENTER_ID;
-                                }
-                            }
-                        }
-                        edit2.apply();
-                    }
-                    updateExceptions();
-                    getNotificationsController().updateServerNotificationsSettings(j, this.topicId);
-                    notificationsCheckCell.setChecked(z2);
-                    RecyclerListView.Holder holder = (RecyclerListView.Holder) this.listView.findViewHolderForPosition(this.notificationsRow);
-                    if (holder != null) {
-                        this.listAdapter.onBindViewHolder(holder, this.notificationsRow);
-                        return;
-                    }
-                    return;
-                }
-                ChatNotificationsPopupWrapper chatNotificationsPopupWrapper = new ChatNotificationsPopupWrapper(context, this.currentAccount, null, true, true, new ChatNotificationsPopupWrapper.Callback() { // from class: org.telegram.ui.ProfileActivity.14
-                    @Override // org.telegram.ui.Components.ChatNotificationsPopupWrapper.Callback
-                    public /* synthetic */ void dismiss() {
-                        ChatNotificationsPopupWrapper.Callback.-CC.$default$dismiss(this);
-                    }
-
-                    @Override // org.telegram.ui.Components.ChatNotificationsPopupWrapper.Callback
-                    public void toggleSound() {
-                        SharedPreferences notificationsSettings = MessagesController.getNotificationsSettings(((BaseFragment) ProfileActivity.this).currentAccount);
-                        boolean z3 = !notificationsSettings.getBoolean("sound_enabled_" + NotificationsController.getSharedPrefKey(j, ProfileActivity.this.topicId), true);
-                        notificationsSettings.edit().putBoolean("sound_enabled_" + NotificationsController.getSharedPrefKey(j, ProfileActivity.this.topicId), z3).apply();
-                        if (BulletinFactory.canShowBulletin(ProfileActivity.this)) {
-                            ProfileActivity profileActivity = ProfileActivity.this;
-                            BulletinFactory.createSoundEnabledBulletin(profileActivity, !z3, profileActivity.getResourceProvider()).show();
-                        }
-                    }
-
-                    @Override // org.telegram.ui.Components.ChatNotificationsPopupWrapper.Callback
-                    public void muteFor(int i4) {
-                        if (i4 == 0) {
-                            if (ProfileActivity.this.getMessagesController().isDialogMuted(j, ProfileActivity.this.topicId)) {
-                                toggleMute();
-                            }
-                            if (BulletinFactory.canShowBulletin(ProfileActivity.this)) {
-                                ProfileActivity profileActivity = ProfileActivity.this;
-                                BulletinFactory.createMuteBulletin(profileActivity, 4, i4, profileActivity.getResourceProvider()).show();
-                                return;
-                            }
-                            return;
-                        }
-                        ProfileActivity.this.getNotificationsController().muteUntil(j, ProfileActivity.this.topicId, i4);
-                        if (BulletinFactory.canShowBulletin(ProfileActivity.this)) {
-                            ProfileActivity profileActivity2 = ProfileActivity.this;
-                            BulletinFactory.createMuteBulletin(profileActivity2, 5, i4, profileActivity2.getResourceProvider()).show();
-                        }
-                        ProfileActivity.this.updateExceptions();
-                        if (ProfileActivity.this.notificationsRow < 0 || ProfileActivity.this.listAdapter == null) {
-                            return;
-                        }
-                        ProfileActivity.this.listAdapter.notifyItemChanged(ProfileActivity.this.notificationsRow);
-                    }
-
-                    @Override // org.telegram.ui.Components.ChatNotificationsPopupWrapper.Callback
-                    public void showCustomize() {
-                        if (j != 0) {
-                            Bundle bundle3 = new Bundle();
-                            bundle3.putLong("dialog_id", j);
-                            bundle3.putLong("topic_id", ProfileActivity.this.topicId);
-                            ProfileActivity profileActivity = ProfileActivity.this;
-                            profileActivity.presentFragment(new ProfileNotificationsActivity(bundle3, profileActivity.resourcesProvider));
-                        }
-                    }
-
-                    @Override // org.telegram.ui.Components.ChatNotificationsPopupWrapper.Callback
-                    public void toggleMute() {
-                        boolean isDialogMuted2 = ProfileActivity.this.getMessagesController().isDialogMuted(j, ProfileActivity.this.topicId);
-                        ProfileActivity.this.getNotificationsController().muteDialog(j, ProfileActivity.this.topicId, !isDialogMuted2);
-                        ProfileActivity profileActivity = ProfileActivity.this;
-                        if (profileActivity.fragmentView != null) {
-                            BulletinFactory.createMuteBulletin(profileActivity, !isDialogMuted2, null).show();
-                        }
-                        ProfileActivity.this.updateExceptions();
-                        if (ProfileActivity.this.notificationsRow < 0 || ProfileActivity.this.listAdapter == null) {
-                            return;
-                        }
-                        ProfileActivity.this.listAdapter.notifyItemChanged(ProfileActivity.this.notificationsRow);
-                    }
-
-                    @Override // org.telegram.ui.Components.ChatNotificationsPopupWrapper.Callback
-                    public void openExceptions() {
-                        Bundle bundle3 = new Bundle();
-                        bundle3.putLong("dialog_id", j);
-                        TopicsNotifySettingsFragments topicsNotifySettingsFragments = new TopicsNotifySettingsFragments(bundle3);
-                        topicsNotifySettingsFragments.setExceptions(ProfileActivity.this.notificationsExceptionTopics);
-                        ProfileActivity.this.presentFragment(topicsNotifySettingsFragments);
-                    }
-                }, getResourceProvider());
-                chatNotificationsPopupWrapper.lambda$update$11(j, this.topicId, this.notificationsExceptionTopics);
-                if (AndroidUtilities.isTablet()) {
-                    ViewGroup view2 = this.parentLayout.getView();
-                    f4 += view2.getY() + view2.getPaddingTop();
-                    f3 = view2.getX() + view2.getPaddingLeft() + f3;
-                }
-                chatNotificationsPopupWrapper.showAsOptions(this, view, f3, f4);
-                return;
-            } else if (i == this.unblockRow) {
-                getMessagesController().unblockPeer(this.userId);
-                if (BulletinFactory.canShowBulletin(this)) {
-                    BulletinFactory.createBanBulletin(this, i2).show();
-                    return;
-                }
-                return;
-            } else if (i == this.addToGroupButtonRow) {
-                try {
-                    this.actionBar.getActionBarMenuOnItemClick().onItemClick(9);
-                    return;
-                } catch (Exception e) {
-                    FileLog.e(e);
-                    return;
-                }
-            } else if (i == this.sendMessageRow) {
-                onWriteButtonClick();
-                return;
-            } else if (i == this.reportRow) {
-                AlertsCreator.createReportAlert(getParentActivity(), getDialogId(), 0, 0, this, this.resourcesProvider, null);
-                return;
-            } else if (i >= this.membersStartRow && i < this.membersEndRow) {
-                if (!this.sortedUsers.isEmpty()) {
-                    tLRPC$ChatParticipant = this.chatInfo.participants.participants.get(this.sortedUsers.get(i - this.membersStartRow).intValue());
-                } else {
-                    tLRPC$ChatParticipant = this.chatInfo.participants.participants.get(i - this.membersStartRow);
-                }
-                onMemberClick(tLRPC$ChatParticipant, i2, view);
-                return;
-            } else if (i == this.addMemberRow) {
-                openAddMember();
-                return;
-            } else if (i == this.usernameRow) {
-                processOnClickOrPress(i, view, f3, f4);
-                return;
-            } else if (i == this.locationRow) {
-                if (this.chatInfo.location instanceof TLRPC$TL_channelLocation) {
-                    LocationActivity locationActivity = new LocationActivity(5);
-                    locationActivity.setChatLocation(this.chatId, (TLRPC$TL_channelLocation) this.chatInfo.location);
-                    presentFragment(locationActivity);
-                    return;
-                }
-                return;
-            } else if (i == this.joinRow) {
-                getMessagesController().addUserToChat(this.currentChat.id, getUserConfig().getCurrentUser(), 0, null, this, true, new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda38
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        ProfileActivity.this.lambda$createView$7();
-                    }
-                }, new MessagesController.ErrorDelegate() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda59
-                    @Override // org.telegram.messenger.MessagesController.ErrorDelegate
-                    public final boolean run(TLRPC$TL_error tLRPC$TL_error) {
-                        boolean lambda$createView$8;
-                        lambda$createView$8 = ProfileActivity.this.lambda$createView$8(context, baseFragment, tLRPC$TL_error);
-                        return lambda$createView$8;
-                    }
-                });
-                NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.closeSearchByActiveAction, new Object[i2]);
-                return;
-            } else if (i == this.subscribersRow) {
-                Bundle bundle3 = new Bundle();
-                bundle3.putLong("chat_id", this.chatId);
-                bundle3.putInt("type", 2);
-                ChatUsersActivity chatUsersActivity = new ChatUsersActivity(bundle3);
-                chatUsersActivity.setInfo(this.chatInfo);
-                presentFragment(chatUsersActivity);
-                return;
-            } else if (i == this.subscribersRequestsRow) {
-                presentFragment(new MemberRequestsActivity(this.chatId));
-                return;
-            } else if (i == this.administratorsRow) {
-                Bundle bundle4 = new Bundle();
-                bundle4.putLong("chat_id", this.chatId);
-                bundle4.putInt("type", 1);
-                ChatUsersActivity chatUsersActivity2 = new ChatUsersActivity(bundle4);
-                chatUsersActivity2.setInfo(this.chatInfo);
-                presentFragment(chatUsersActivity2);
-                return;
-            } else if (i == this.settingsRow) {
-                this.editItem.performClick();
-                return;
-            } else if (i == this.blockedUsersRow) {
-                Bundle bundle5 = new Bundle();
-                bundle5.putLong("chat_id", this.chatId);
-                bundle5.putInt("type", i2);
-                ChatUsersActivity chatUsersActivity3 = new ChatUsersActivity(bundle5);
-                chatUsersActivity3.setInfo(this.chatInfo);
-                presentFragment(chatUsersActivity3);
-                return;
-            } else if (i == this.notificationRow) {
-                presentFragment(new NotificationsSettingsActivity());
-                return;
-            } else if (i == this.privacyRow) {
-                presentFragment(new PrivacySettingsActivity().setCurrentPassword(this.currentPassword));
-                return;
-            } else if (i == this.dataRow) {
-                presentFragment(new DataSettingsActivity());
-                return;
-            } else if (i == this.chatRow) {
-                presentFragment(new ThemeActivity(i2));
-                return;
-            } else if (i == this.filtersRow) {
-                presentFragment(new FiltersSetupActivity());
-                return;
-            } else if (i == this.stickersRow) {
-                presentFragment(new StickersActivity(i2, null));
-                return;
-            } else if (i == this.liteModeRow) {
-                presentFragment(new LiteModeSettingsActivity());
-                return;
-            } else if (i == this.devicesRow) {
-                presentFragment(new SessionsActivity(i2));
-                return;
-            } else if (i == this.questionRow) {
-                showDialog(AlertsCreator.createSupportAlert(this, this.resourcesProvider));
-                return;
-            } else if (i == this.faqRow) {
-                Browser.openUrl(getParentActivity(), LocaleController.getString("TelegramFaqUrl", R.string.TelegramFaqUrl));
-                return;
-            } else if (i == this.policyRow) {
-                Browser.openUrl(getParentActivity(), LocaleController.getString("PrivacyPolicyUrl", R.string.PrivacyPolicyUrl));
-                return;
-            } else if (i == this.sendLogsRow) {
-                sendLogs(getParentActivity(), i2);
-                return;
-            } else if (i == this.sendLastLogsRow) {
-                sendLogs(getParentActivity(), true);
-                return;
-            } else if (i == this.clearLogsRow) {
-                FileLog.cleanupLogs();
-                return;
-            } else if (i == this.switchBackendRow) {
-                if (getParentActivity() == null) {
-                    return;
-                }
-                AlertDialog.Builder builder2 = new AlertDialog.Builder(getParentActivity(), this.resourcesProvider);
-                builder2.setMessage(LocaleController.getString("AreYouSure", R.string.AreYouSure));
-                builder2.setTitle(LocaleController.getString("AppName", R.string.AppName));
-                builder2.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda7
+                builder.setPositiveButton(LocaleController.getString("ReportChat", R.string.ReportChat), new 12(checkBoxCellArr));
+                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener(this) { // from class: org.telegram.ui.ProfileActivity.13
                     @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i4) {
-                        ProfileActivity.this.lambda$createView$9(dialogInterface, i4);
+                    public void onClick(DialogInterface dialogInterface, int i3) {
+                        dialogInterface.dismiss();
                     }
                 });
-                builder2.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-                showDialog(builder2.create());
-                return;
-            } else if (i == this.languageRow) {
-                presentFragment(new LanguageSelectActivity());
-                return;
-            } else if (i == this.setUsernameRow) {
-                presentFragment(new ChangeUsernameActivity());
-                return;
-            } else if (i == this.bioRow) {
-                if (this.userInfo != null) {
-                    presentFragment(new ChangeBioActivity());
-                    return;
+                TextView textView = (TextView) builder.show().getButton(-1);
+                if (textView != null) {
+                    textView.setTextColor(Theme.getColor(Theme.key_text_RedBold));
                 }
-                return;
-            } else if (i == this.numberRow) {
-                presentFragment(new ActionIntroActivity(3));
-                return;
-            } else if (i == this.setAvatarRow) {
-                onWriteButtonClick();
-                return;
-            } else if (i == this.premiumRow) {
-                presentFragment(new PremiumPreviewFragment("settings"));
-                return;
-            } else if (i == this.premiumGiftingRow) {
-                UserSelectorBottomSheet.open();
-                return;
-            } else {
-                processOnClickOrPress(i, view, f3, f4);
-                return;
             }
         }
-        i2 = 0;
-        if (i != this.settingsKeyRow) {
+        if (i == this.settingsKeyRow) {
+            Bundle bundle2 = new Bundle();
+            bundle2.putInt("chat_id", DialogObject.getEncryptedChatId(this.dialogId));
+            presentFragment(new IdenticonActivity(bundle2));
+        } else if (i == this.settingsTimerRow) {
+            showDialog(AlertsCreator.createTTLAlert(getParentActivity(), this.currentEncryptedChat, this.resourcesProvider).create());
+        } else if (i == this.notificationsRow) {
+            if ((LocaleController.isRTL && f3 <= AndroidUtilities.dp(76.0f)) || (!LocaleController.isRTL && f3 >= view.getMeasuredWidth() - AndroidUtilities.dp(76.0f))) {
+                NotificationsCheckCell notificationsCheckCell = (NotificationsCheckCell) view;
+                boolean z = (notificationsCheckCell.isChecked() ? 1 : 0) ^ r15;
+                boolean isGlobalNotificationsEnabled = getNotificationsController().isGlobalNotificationsEnabled(j);
+                String sharedPrefKey = NotificationsController.getSharedPrefKey(j, this.topicId);
+                if (z) {
+                    SharedPreferences.Editor edit = MessagesController.getNotificationsSettings(this.currentAccount).edit();
+                    if (isGlobalNotificationsEnabled) {
+                        edit.remove(NotificationsSettingsFacade.PROPERTY_NOTIFY + sharedPrefKey);
+                    } else {
+                        edit.putInt(NotificationsSettingsFacade.PROPERTY_NOTIFY + sharedPrefKey, 0);
+                    }
+                    if (this.topicId == 0) {
+                        getMessagesStorage().setDialogFlags(j, 0L);
+                        TLRPC$Dialog tLRPC$Dialog = getMessagesController().dialogs_dict.get(j);
+                        if (tLRPC$Dialog != null) {
+                            tLRPC$Dialog.notify_settings = new TLRPC$TL_peerNotifySettings();
+                        }
+                    }
+                    edit.apply();
+                } else {
+                    SharedPreferences.Editor edit2 = MessagesController.getNotificationsSettings(this.currentAccount).edit();
+                    if (!isGlobalNotificationsEnabled) {
+                        edit2.remove(NotificationsSettingsFacade.PROPERTY_NOTIFY + sharedPrefKey);
+                        j2 = 0L;
+                    } else {
+                        edit2.putInt(NotificationsSettingsFacade.PROPERTY_NOTIFY + sharedPrefKey, 2);
+                        j2 = 1;
+                    }
+                    getNotificationsController().removeNotificationsForDialog(j);
+                    if (this.topicId == 0) {
+                        getMessagesStorage().setDialogFlags(j, j2);
+                        TLRPC$Dialog tLRPC$Dialog2 = getMessagesController().dialogs_dict.get(j);
+                        if (tLRPC$Dialog2 != null) {
+                            TLRPC$TL_peerNotifySettings tLRPC$TL_peerNotifySettings = new TLRPC$TL_peerNotifySettings();
+                            tLRPC$Dialog2.notify_settings = tLRPC$TL_peerNotifySettings;
+                            if (isGlobalNotificationsEnabled) {
+                                tLRPC$TL_peerNotifySettings.mute_until = ConnectionsManager.DEFAULT_DATACENTER_ID;
+                            }
+                        }
+                    }
+                    edit2.apply();
+                }
+                updateExceptions();
+                getNotificationsController().updateServerNotificationsSettings(j, this.topicId);
+                notificationsCheckCell.setChecked(z);
+                RecyclerListView.Holder holder = (RecyclerListView.Holder) this.listView.findViewHolderForPosition(this.notificationsRow);
+                if (holder != null) {
+                    this.listAdapter.onBindViewHolder(holder, this.notificationsRow);
+                    return;
+                }
+                return;
+            }
+            ChatNotificationsPopupWrapper chatNotificationsPopupWrapper = new ChatNotificationsPopupWrapper(context, this.currentAccount, null, true, true, new ChatNotificationsPopupWrapper.Callback() { // from class: org.telegram.ui.ProfileActivity.14
+                @Override // org.telegram.ui.Components.ChatNotificationsPopupWrapper.Callback
+                public /* synthetic */ void dismiss() {
+                    ChatNotificationsPopupWrapper.Callback.-CC.$default$dismiss(this);
+                }
+
+                @Override // org.telegram.ui.Components.ChatNotificationsPopupWrapper.Callback
+                public void toggleSound() {
+                    SharedPreferences notificationsSettings = MessagesController.getNotificationsSettings(((BaseFragment) ProfileActivity.this).currentAccount);
+                    boolean z2 = !notificationsSettings.getBoolean("sound_enabled_" + NotificationsController.getSharedPrefKey(j, ProfileActivity.this.topicId), true);
+                    notificationsSettings.edit().putBoolean("sound_enabled_" + NotificationsController.getSharedPrefKey(j, ProfileActivity.this.topicId), z2).apply();
+                    if (BulletinFactory.canShowBulletin(ProfileActivity.this)) {
+                        ProfileActivity profileActivity = ProfileActivity.this;
+                        BulletinFactory.createSoundEnabledBulletin(profileActivity, !z2, profileActivity.getResourceProvider()).show();
+                    }
+                }
+
+                @Override // org.telegram.ui.Components.ChatNotificationsPopupWrapper.Callback
+                public void muteFor(int i3) {
+                    if (i3 == 0) {
+                        if (ProfileActivity.this.getMessagesController().isDialogMuted(j, ProfileActivity.this.topicId)) {
+                            toggleMute();
+                        }
+                        if (BulletinFactory.canShowBulletin(ProfileActivity.this)) {
+                            ProfileActivity profileActivity = ProfileActivity.this;
+                            BulletinFactory.createMuteBulletin(profileActivity, 4, i3, profileActivity.getResourceProvider()).show();
+                            return;
+                        }
+                        return;
+                    }
+                    ProfileActivity.this.getNotificationsController().muteUntil(j, ProfileActivity.this.topicId, i3);
+                    if (BulletinFactory.canShowBulletin(ProfileActivity.this)) {
+                        ProfileActivity profileActivity2 = ProfileActivity.this;
+                        BulletinFactory.createMuteBulletin(profileActivity2, 5, i3, profileActivity2.getResourceProvider()).show();
+                    }
+                    ProfileActivity.this.updateExceptions();
+                    if (ProfileActivity.this.notificationsRow < 0 || ProfileActivity.this.listAdapter == null) {
+                        return;
+                    }
+                    ProfileActivity.this.listAdapter.notifyItemChanged(ProfileActivity.this.notificationsRow);
+                }
+
+                @Override // org.telegram.ui.Components.ChatNotificationsPopupWrapper.Callback
+                public void showCustomize() {
+                    if (j != 0) {
+                        Bundle bundle3 = new Bundle();
+                        bundle3.putLong("dialog_id", j);
+                        bundle3.putLong("topic_id", ProfileActivity.this.topicId);
+                        ProfileActivity profileActivity = ProfileActivity.this;
+                        profileActivity.presentFragment(new ProfileNotificationsActivity(bundle3, profileActivity.resourcesProvider));
+                    }
+                }
+
+                @Override // org.telegram.ui.Components.ChatNotificationsPopupWrapper.Callback
+                public void toggleMute() {
+                    boolean isDialogMuted2 = ProfileActivity.this.getMessagesController().isDialogMuted(j, ProfileActivity.this.topicId);
+                    ProfileActivity.this.getNotificationsController().muteDialog(j, ProfileActivity.this.topicId, !isDialogMuted2);
+                    ProfileActivity profileActivity = ProfileActivity.this;
+                    if (profileActivity.fragmentView != null) {
+                        BulletinFactory.createMuteBulletin(profileActivity, !isDialogMuted2, null).show();
+                    }
+                    ProfileActivity.this.updateExceptions();
+                    if (ProfileActivity.this.notificationsRow < 0 || ProfileActivity.this.listAdapter == null) {
+                        return;
+                    }
+                    ProfileActivity.this.listAdapter.notifyItemChanged(ProfileActivity.this.notificationsRow);
+                }
+
+                @Override // org.telegram.ui.Components.ChatNotificationsPopupWrapper.Callback
+                public void openExceptions() {
+                    Bundle bundle3 = new Bundle();
+                    bundle3.putLong("dialog_id", j);
+                    TopicsNotifySettingsFragments topicsNotifySettingsFragments = new TopicsNotifySettingsFragments(bundle3);
+                    topicsNotifySettingsFragments.setExceptions(ProfileActivity.this.notificationsExceptionTopics);
+                    ProfileActivity.this.presentFragment(topicsNotifySettingsFragments);
+                }
+            }, getResourceProvider());
+            chatNotificationsPopupWrapper.lambda$update$11(j, this.topicId, this.notificationsExceptionTopics);
+            if (AndroidUtilities.isTablet()) {
+                ViewGroup view2 = this.parentLayout.getView();
+                f4 += view2.getY() + view2.getPaddingTop();
+                f3 = view2.getX() + view2.getPaddingLeft() + f3;
+            }
+            chatNotificationsPopupWrapper.showAsOptions(this, view, f3, f4);
+        } else if (i == this.unblockRow) {
+            getMessagesController().unblockPeer(this.userId);
+            if (BulletinFactory.canShowBulletin(this)) {
+                BulletinFactory.createBanBulletin(this, false).show();
+            }
+        } else if (i == this.addToGroupButtonRow) {
+            try {
+                this.actionBar.getActionBarMenuOnItemClick().onItemClick(9);
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+        } else if (i == this.sendMessageRow) {
+            onWriteButtonClick();
+        } else if (i == this.reportRow) {
+            AlertsCreator.createReportAlert(getParentActivity(), getDialogId(), 0, 0, this, this.resourcesProvider, null);
+        } else if (i >= this.membersStartRow && i < this.membersEndRow) {
+            if (!this.sortedUsers.isEmpty()) {
+                tLRPC$ChatParticipant = this.chatInfo.participants.participants.get(this.sortedUsers.get(i - this.membersStartRow).intValue());
+            } else {
+                tLRPC$ChatParticipant = this.chatInfo.participants.participants.get(i - this.membersStartRow);
+            }
+            onMemberClick(tLRPC$ChatParticipant, false, view);
+        } else if (i == this.addMemberRow) {
+            openAddMember();
+        } else if (i == this.usernameRow) {
+            processOnClickOrPress(i, view, f3, f4);
+        } else if (i == this.locationRow) {
+            if (this.chatInfo.location instanceof TLRPC$TL_channelLocation) {
+                LocationActivity locationActivity = new LocationActivity(5);
+                locationActivity.setChatLocation(this.chatId, (TLRPC$TL_channelLocation) this.chatInfo.location);
+                presentFragment(locationActivity);
+            }
+        } else if (i == this.joinRow) {
+            getMessagesController().addUserToChat(this.currentChat.id, getUserConfig().getCurrentUser(), 0, null, this, true, new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda39
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ProfileActivity.this.lambda$createView$7();
+                }
+            }, new MessagesController.ErrorDelegate() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda60
+                @Override // org.telegram.messenger.MessagesController.ErrorDelegate
+                public final boolean run(TLRPC$TL_error tLRPC$TL_error) {
+                    boolean lambda$createView$8;
+                    lambda$createView$8 = ProfileActivity.this.lambda$createView$8(context, baseFragment, tLRPC$TL_error);
+                    return lambda$createView$8;
+                }
+            });
+            NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.closeSearchByActiveAction, new Object[0]);
+        } else if (i == this.subscribersRow) {
+            Bundle bundle3 = new Bundle();
+            bundle3.putLong("chat_id", this.chatId);
+            bundle3.putInt("type", 2);
+            ChatUsersActivity chatUsersActivity = new ChatUsersActivity(bundle3);
+            chatUsersActivity.setInfo(this.chatInfo);
+            presentFragment(chatUsersActivity);
+        } else if (i == this.subscribersRequestsRow) {
+            presentFragment(new MemberRequestsActivity(this.chatId));
+        } else if (i == this.administratorsRow) {
+            Bundle bundle4 = new Bundle();
+            bundle4.putLong("chat_id", this.chatId);
+            bundle4.putInt("type", r15);
+            ChatUsersActivity chatUsersActivity2 = new ChatUsersActivity(bundle4);
+            chatUsersActivity2.setInfo(this.chatInfo);
+            presentFragment(chatUsersActivity2);
+        } else if (i == this.settingsRow) {
+            this.editItem.performClick();
+        } else if (i == this.blockedUsersRow) {
+            Bundle bundle5 = new Bundle();
+            bundle5.putLong("chat_id", this.chatId);
+            bundle5.putInt("type", 0);
+            ChatUsersActivity chatUsersActivity3 = new ChatUsersActivity(bundle5);
+            chatUsersActivity3.setInfo(this.chatInfo);
+            presentFragment(chatUsersActivity3);
+        } else if (i == this.notificationRow) {
+            presentFragment(new NotificationsSettingsActivity());
+        } else if (i == this.privacyRow) {
+            presentFragment(new PrivacySettingsActivity().setCurrentPassword(this.currentPassword));
+        } else if (i == this.dataRow) {
+            presentFragment(new DataSettingsActivity());
+        } else if (i == this.chatRow) {
+            presentFragment(new ThemeActivity(0));
+        } else if (i == this.filtersRow) {
+            presentFragment(new FiltersSetupActivity());
+        } else if (i == this.stickersRow) {
+            presentFragment(new StickersActivity(0, null));
+        } else if (i == this.liteModeRow) {
+            presentFragment(new LiteModeSettingsActivity());
+        } else if (i == this.devicesRow) {
+            presentFragment(new SessionsActivity(0));
+        } else if (i == this.questionRow) {
+            showDialog(AlertsCreator.createSupportAlert(this, this.resourcesProvider));
+        } else if (i == this.faqRow) {
+            Browser.openUrl(getParentActivity(), LocaleController.getString("TelegramFaqUrl", R.string.TelegramFaqUrl));
+        } else if (i == this.policyRow) {
+            Browser.openUrl(getParentActivity(), LocaleController.getString("PrivacyPolicyUrl", R.string.PrivacyPolicyUrl));
+        } else if (i == this.sendLogsRow) {
+            sendLogs(getParentActivity(), false);
+        } else if (i == this.sendLastLogsRow) {
+            sendLogs(getParentActivity(), r15);
+        } else if (i == this.clearLogsRow) {
+            FileLog.cleanupLogs();
+        } else if (i == this.switchBackendRow) {
+            if (getParentActivity() == null) {
+                return;
+            }
+            AlertDialog.Builder builder2 = new AlertDialog.Builder(getParentActivity(), this.resourcesProvider);
+            builder2.setMessage(LocaleController.getString("AreYouSure", R.string.AreYouSure));
+            builder2.setTitle(LocaleController.getString("AppName", R.string.AppName));
+            builder2.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda7
+                @Override // android.content.DialogInterface.OnClickListener
+                public final void onClick(DialogInterface dialogInterface, int i3) {
+                    ProfileActivity.this.lambda$createView$9(dialogInterface, i3);
+                }
+            });
+            builder2.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+            showDialog(builder2.create());
+        } else if (i == this.languageRow) {
+            presentFragment(new LanguageSelectActivity());
+        } else if (i == this.setUsernameRow) {
+            presentFragment(new ChangeUsernameActivity());
+        } else if (i == this.bioRow) {
+            if (this.userInfo != null) {
+                presentFragment(new ChangeBioActivity());
+            }
+        } else if (i == this.numberRow) {
+            presentFragment(new ActionIntroActivity(3));
+        } else if (i == this.setAvatarRow) {
+            onWriteButtonClick();
+        } else if (i == this.premiumRow) {
+            presentFragment(new PremiumPreviewFragment("settings"));
+        } else if (i == this.businessRow) {
+            presentFragment(new PremiumPreviewFragment(r15, "settings"));
+        } else if (i == this.premiumGiftingRow) {
+            UserSelectorBottomSheet.open();
+        } else if (i == this.bizHoursRow) {
+            this.hoursExpanded = (this.hoursExpanded ? 1 : 0) ^ r15;
+            saveScrollPosition();
+            view.requestLayout();
+            this.listAdapter.notifyItemChanged(this.bizHoursRow);
+            int i3 = this.savedScrollPosition;
+            if (i3 >= 0) {
+                this.layoutManager.scrollToPositionWithOffset(i3, this.savedScrollOffset - this.listView.getPaddingTop());
+            }
+        } else if (i == this.bizLocationRow) {
+            TLRPC$UserFull tLRPC$UserFull = this.userInfo;
+            if (tLRPC$UserFull == null || (tLRPC$TL_businessLocation = tLRPC$UserFull.business_location) == null) {
+                return;
+            }
+            if (tLRPC$TL_businessLocation.geo_point != null) {
+                LocationActivity locationActivity2 = new LocationActivity(this, 3) { // from class: org.telegram.ui.ProfileActivity.15
+                    @Override // org.telegram.ui.LocationActivity
+                    protected boolean disablePermissionCheck() {
+                        return true;
+                    }
+                };
+                locationActivity2.setResourceProvider(this.resourcesProvider);
+                TLRPC$TL_message tLRPC$TL_message = new TLRPC$TL_message();
+                tLRPC$TL_message.local_id = -1;
+                tLRPC$TL_message.peer_id = getMessagesController().getPeer(this.dialogId);
+                TLRPC$TL_messageMediaGeo tLRPC$TL_messageMediaGeo = new TLRPC$TL_messageMediaGeo();
+                TLRPC$TL_businessLocation tLRPC$TL_businessLocation2 = this.userInfo.business_location;
+                tLRPC$TL_messageMediaGeo.geo = tLRPC$TL_businessLocation2.geo_point;
+                tLRPC$TL_messageMediaGeo.address = tLRPC$TL_businessLocation2.address;
+                tLRPC$TL_message.media = tLRPC$TL_messageMediaGeo;
+                locationActivity2.setSharingAllowed(false);
+                locationActivity2.setMessageObject(new MessageObject(UserConfig.selectedAccount, tLRPC$TL_message, false, false));
+                presentFragment(locationActivity2);
+                return;
+            }
+            String str = BuildVars.isHuaweiStoreApp() ? "mapapp://navigation" : "http://maps.google.com/maps";
+            try {
+                Locale locale = Locale.US;
+                getParentActivity().startActivity(new Intent("android.intent.action.VIEW", Uri.parse(String.format(locale, str + "?q=" + this.userInfo.business_location.address, new Object[0]))));
+            } catch (Exception e2) {
+                FileLog.e(e2);
+            }
+        } else {
+            processOnClickOrPress(i, view, f3, f4);
         }
     }
 
@@ -5053,11 +5082,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
-    public class 15 implements RecyclerListView.OnItemLongClickListener {
+    public class 16 implements RecyclerListView.OnItemLongClickListener {
         private int pressCount = 0;
         final /* synthetic */ Context val$context;
 
-        15(Context context) {
+        16(Context context) {
             this.val$context = context;
         }
 
@@ -5070,6 +5099,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             String str2;
             String str3;
             String str4;
+            String str5;
             if (i != ProfileActivity.this.versionRow) {
                 if (i < ProfileActivity.this.membersStartRow || i >= ProfileActivity.this.membersEndRow) {
                     return ProfileActivity.this.processOnClickOrPress(i, view, view.getWidth() / 2.0f, (int) (view.getHeight() * 0.75f));
@@ -5117,7 +5147,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 charSequenceArr[12] = z ? "Clean app update" : null;
                 charSequenceArr[13] = z ? "Reset suggestions" : null;
                 charSequenceArr[14] = z ? LocaleController.getString(R.string.DebugMenuClearWebViewCache) : null;
-                if (Build.VERSION.SDK_INT >= 19) {
+                int i5 = Build.VERSION.SDK_INT;
+                if (i5 >= 19) {
                     str3 = LocaleController.getString(SharedConfig.debugWebView ? R.string.DebugMenuDisableWebViewDebug : R.string.DebugMenuEnableWebViewDebug);
                 } else {
                     str3 = null;
@@ -5140,12 +5171,17 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 charSequenceArr[24] = BuildVars.DEBUG_PRIVATE_VERSION ? SharedConfig.photoViewerBlur ? "do not blur in photoviewer" : "blur in photoviewer" : null;
                 charSequenceArr[25] = !SharedConfig.payByInvoice ? "Enable Invoice Payment" : "Disable Invoice Payment";
                 charSequenceArr[26] = BuildVars.DEBUG_PRIVATE_VERSION ? "Update Attach Bots" : null;
-                charSequenceArr[27] = null;
+                if (i5 >= 21) {
+                    str5 = !SharedConfig.useCamera2 ? "Use Camera 2 API" : "Use old Camera 1 API";
+                } else {
+                    str5 = null;
+                }
+                charSequenceArr[27] = str5;
                 final Context context = this.val$context;
-                builder.setItems(charSequenceArr, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$15$$ExternalSyntheticLambda1
+                builder.setItems(charSequenceArr, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$16$$ExternalSyntheticLambda1
                     @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i5) {
-                        ProfileActivity.15.this.lambda$onItemClick$3(context, dialogInterface, i5);
+                    public final void onClick(DialogInterface dialogInterface, int i6) {
+                        ProfileActivity.16.this.lambda$onItemClick$3(context, dialogInterface, i6);
                     }
                 });
                 builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -5254,10 +5290,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 TLRPC$TL_help_dismissSuggestion tLRPC$TL_help_dismissSuggestion = new TLRPC$TL_help_dismissSuggestion();
                 tLRPC$TL_help_dismissSuggestion.suggestion = "VALIDATE_PHONE_NUMBER";
                 tLRPC$TL_help_dismissSuggestion.peer = new TLRPC$TL_inputPeerEmpty();
-                ProfileActivity.this.getConnectionsManager().sendRequest(tLRPC$TL_help_dismissSuggestion, new RequestDelegate() { // from class: org.telegram.ui.ProfileActivity$15$$ExternalSyntheticLambda3
+                ProfileActivity.this.getConnectionsManager().sendRequest(tLRPC$TL_help_dismissSuggestion, new RequestDelegate() { // from class: org.telegram.ui.ProfileActivity$16$$ExternalSyntheticLambda2
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                        ProfileActivity.15.this.lambda$onItemClick$1(tLObject, tLRPC$TL_error);
+                        ProfileActivity.16.this.lambda$onItemClick$1(tLObject, tLRPC$TL_error);
                     }
                 });
             } else if (i != 19) {
@@ -5279,10 +5315,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     sb3.append(devicePerformanceClass == 0 ? "**LOW**" : "LOW");
                     sb3.append(measureDevicePerformanceClass != 0 ? "" : " (measured)");
                     charSequenceArr[2] = AndroidUtilities.replaceTags(sb3.toString());
-                    builder.setItems(charSequenceArr, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$15$$ExternalSyntheticLambda0
+                    builder.setItems(charSequenceArr, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$16$$ExternalSyntheticLambda0
                         @Override // android.content.DialogInterface.OnClickListener
                         public final void onClick(DialogInterface dialogInterface2, int i3) {
-                            ProfileActivity.15.lambda$onItemClick$2(measureDevicePerformanceClass, dialogInterface2, i3);
+                            ProfileActivity.16.lambda$onItemClick$2(measureDevicePerformanceClass, dialogInterface2, i3);
                         }
                     });
                     builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -5492,10 +5528,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             TLRPC$TL_help_dismissSuggestion tLRPC$TL_help_dismissSuggestion = new TLRPC$TL_help_dismissSuggestion();
             tLRPC$TL_help_dismissSuggestion.suggestion = "VALIDATE_PASSWORD";
             tLRPC$TL_help_dismissSuggestion.peer = new TLRPC$TL_inputPeerEmpty();
-            ProfileActivity.this.getConnectionsManager().sendRequest(tLRPC$TL_help_dismissSuggestion, new RequestDelegate() { // from class: org.telegram.ui.ProfileActivity$15$$ExternalSyntheticLambda2
+            ProfileActivity.this.getConnectionsManager().sendRequest(tLRPC$TL_help_dismissSuggestion, new RequestDelegate() { // from class: org.telegram.ui.ProfileActivity$16$$ExternalSyntheticLambda3
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error2) {
-                    ProfileActivity.15.this.lambda$onItemClick$0(tLObject2, tLRPC$TL_error2);
+                    ProfileActivity.16.this.lambda$onItemClick$0(tLObject2, tLRPC$TL_error2);
                 }
             });
         }
@@ -5514,10 +5550,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
             @Override // org.telegram.ui.Components.ShareAlert
             protected void onSend(final LongSparseArray<TLRPC$Dialog> longSparseArray, final int i, TLRPC$TL_forumTopic tLRPC$TL_forumTopic) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ProfileActivity$15$1$$ExternalSyntheticLambda0
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ProfileActivity$16$1$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        ProfileActivity.15.1.this.lambda$onSend$0(longSparseArray, i);
+                        ProfileActivity.16.1.this.lambda$onSend$0(longSparseArray, i);
                     }
                 }, 250L);
             }
@@ -5630,7 +5666,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$15(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject != null) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda45
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda46
                 @Override // java.lang.Runnable
                 public final void run() {
                     ProfileActivity.this.lambda$createView$14(tLObject);
@@ -5646,7 +5682,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights = tLRPC$Chat.default_banned_rights;
         TLRPC$ChannelParticipant tLRPC$ChannelParticipant = this.currentChannelParticipant;
         ChatRightsEditActivity chatRightsEditActivity = new ChatRightsEditActivity(j, j2, null, tLRPC$TL_chatBannedRights, tLRPC$ChannelParticipant != null ? tLRPC$ChannelParticipant.banned_rights : null, "", 1, true, false, null);
-        chatRightsEditActivity.setDelegate(new ChatRightsEditActivity.ChatRightsEditActivityDelegate() { // from class: org.telegram.ui.ProfileActivity.18
+        chatRightsEditActivity.setDelegate(new ChatRightsEditActivity.ChatRightsEditActivityDelegate() { // from class: org.telegram.ui.ProfileActivity.19
             @Override // org.telegram.ui.ChatRightsEditActivity.ChatRightsEditActivityDelegate
             public void didSetRights(int i, TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights, TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights2, String str) {
                 ProfileActivity.this.removeSelfFromStack();
@@ -5662,10 +5698,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
-    public class 19 extends FrameLayout {
+    public class 20 extends FrameLayout {
         CanvasButton canvasButton;
 
-        19(Context context) {
+        20(Context context) {
             super(context);
         }
 
@@ -5701,10 +5737,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     if (this.canvasButton == null) {
                         CanvasButton canvasButton = new CanvasButton(this);
                         this.canvasButton = canvasButton;
-                        canvasButton.setDelegate(new Runnable() { // from class: org.telegram.ui.ProfileActivity$19$$ExternalSyntheticLambda0
+                        canvasButton.setDelegate(new Runnable() { // from class: org.telegram.ui.ProfileActivity$20$$ExternalSyntheticLambda0
                             @Override // java.lang.Runnable
                             public final void run() {
-                                ProfileActivity.19.this.lambda$dispatchDraw$0();
+                                ProfileActivity.20.this.lambda$dispatchDraw$0();
                             }
                         });
                     }
@@ -5774,7 +5810,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
                 if (tLRPC$TL_forumTopic != null) {
                     long j = tLRPC$TL_forumTopic.icon_emoji_id;
-                    if (j == 0 || (findDocument = AnimatedEmojiDrawable.findDocument(this.currentAccount, j)) == null || (createContainsEmojiBulletin = BulletinFactory.of(this).createContainsEmojiBulletin(findDocument, 1, new Utilities.Callback() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda61
+                    if (j == 0 || (findDocument = AnimatedEmojiDrawable.findDocument(this.currentAccount, j)) == null || (createContainsEmojiBulletin = BulletinFactory.of(this).createContainsEmojiBulletin(findDocument, 1, new Utilities.Callback() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda62
                         @Override // org.telegram.messenger.Utilities.Callback
                         public final void run(Object obj) {
                             ProfileActivity.this.lambda$createView$17((TLRPC$InputStickerSet) obj);
@@ -5827,7 +5863,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         if (ChatObject.isBoostSupported(MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(this.chatId)))) {
             StoriesController storiesController = getMessagesController().getStoriesController();
             this.waitCanSendStoryRequest = true;
-            storiesController.canSendStoryFor(getDialogId(), new com.google.android.exoplayer2.util.Consumer() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda30
+            storiesController.canSendStoryFor(getDialogId(), new com.google.android.exoplayer2.util.Consumer() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda31
                 @Override // com.google.android.exoplayer2.util.Consumer
                 public final void accept(Object obj) {
                     ProfileActivity.this.lambda$checkCanSendStoryForPosting$23((Boolean) obj);
@@ -5881,7 +5917,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     stateListAnimator.addState(new int[]{16842919}, ObjectAnimator.ofFloat(frameLayout3, property, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(4.0f)).setDuration(200L));
                     stateListAnimator.addState(new int[0], ObjectAnimator.ofFloat(this.floatingButtonContainer, property, AndroidUtilities.dp(4.0f), AndroidUtilities.dp(2.0f)).setDuration(200L));
                     this.floatingButtonContainer.setStateListAnimator(stateListAnimator);
-                    this.floatingButtonContainer.setOutlineProvider(new ViewOutlineProvider(this) { // from class: org.telegram.ui.ProfileActivity.33
+                    this.floatingButtonContainer.setOutlineProvider(new ViewOutlineProvider(this) { // from class: org.telegram.ui.ProfileActivity.34
                         @Override // android.view.ViewOutlineProvider
                         @SuppressLint({"NewApi"})
                         public void getOutline(View view, Outline outline) {
@@ -5905,7 +5941,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             }
             final MessagesController messagesController = MessagesController.getInstance(this.currentAccount);
             this.loadingBoostsStats = true;
-            messagesController.getBoostsController().getBoostsStats(j, new com.google.android.exoplayer2.util.Consumer() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda32
+            messagesController.getBoostsController().getBoostsStats(j, new com.google.android.exoplayer2.util.Consumer() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda33
                 @Override // com.google.android.exoplayer2.util.Consumer
                 public final void accept(Object obj) {
                     ProfileActivity.this.lambda$createFloatingActionButton$26(messagesController, j, (TL_stories$TL_premium_boostsStatus) obj);
@@ -5913,7 +5949,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             });
             return;
         }
-        StoryRecorder.getInstance(getParentActivity(), this.currentAccount).selectedPeerId(getDialogId()).canChangePeer(false).closeToWhenSent(new StoryRecorder.ClosingViewProvider() { // from class: org.telegram.ui.ProfileActivity.32
+        StoryRecorder.getInstance(getParentActivity(), this.currentAccount).selectedPeerId(getDialogId()).canChangePeer(false).closeToWhenSent(new StoryRecorder.ClosingViewProvider() { // from class: org.telegram.ui.ProfileActivity.33
             @Override // org.telegram.ui.Stories.recorder.StoryRecorder.ClosingViewProvider
             public void preLayout(long j2, Runnable runnable) {
                 ProfileActivity.this.avatarImage.setHasStories(ProfileActivity.this.needInsetForStories());
@@ -5940,7 +5976,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         if (tL_stories$TL_premium_boostsStatus == null) {
             return;
         }
-        messagesController.getBoostsController().userCanBoostChannel(j, tL_stories$TL_premium_boostsStatus, new com.google.android.exoplayer2.util.Consumer() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda31
+        messagesController.getBoostsController().userCanBoostChannel(j, tL_stories$TL_premium_boostsStatus, new com.google.android.exoplayer2.util.Consumer() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda32
             @Override // com.google.android.exoplayer2.util.Consumer
             public final void accept(Object obj) {
                 ProfileActivity.this.lambda$createFloatingActionButton$25(j, tL_stories$TL_premium_boostsStatus, (ChannelBoostsController.CanApplyBoost) obj);
@@ -5953,7 +5989,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         if (canApplyBoost == null) {
             return;
         }
-        LimitReachedBottomSheet.openBoostsForPostingStories(LaunchActivity.getLastFragment(), j, canApplyBoost, tL_stories$TL_premium_boostsStatus, new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda41
+        LimitReachedBottomSheet.openBoostsForPostingStories(LaunchActivity.getLastFragment(), j, canApplyBoost, tL_stories$TL_premium_boostsStatus, new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda42
             @Override // java.lang.Runnable
             public final void run() {
                 ProfileActivity.this.lambda$createFloatingActionButton$24();
@@ -5972,7 +6008,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             return;
         }
         this.layoutManager.scrollToPositionWithOffset(0, AndroidUtilities.dp(88.0f) - this.listView.getPaddingTop());
-        this.listView.post(new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda42
+        this.listView.post(new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda43
             @Override // java.lang.Runnable
             public final void run() {
                 ProfileActivity.this.lambda$collapseAvatarInstant$28();
@@ -6312,7 +6348,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         if (swapAnimatedEmojiDrawableArr[1] != null) {
             boolean z = swapAnimatedEmojiDrawableArr[1].getDrawable() instanceof AnimatedEmojiDrawable;
         }
-        SelectAnimatedEmojiDialog selectAnimatedEmojiDialog = new SelectAnimatedEmojiDialog(this, getContext(), true, Integer.valueOf(Math.max(0, i2)), this.currentChat == null ? 0 : 9, true, this.resourcesProvider, i) { // from class: org.telegram.ui.ProfileActivity.34
+        SelectAnimatedEmojiDialog selectAnimatedEmojiDialog = new SelectAnimatedEmojiDialog(this, getContext(), true, Integer.valueOf(Math.max(0, i2)), this.currentChat == null ? 0 : 9, true, this.resourcesProvider, i) { // from class: org.telegram.ui.ProfileActivity.35
             /* JADX WARN: Multi-variable type inference failed */
             @Override // org.telegram.ui.SelectAnimatedEmojiDialog
             protected void onEmojiSelected(View view, Long l, TLRPC$Document tLRPC$Document, Integer num) {
@@ -6393,7 +6429,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         selectAnimatedEmojiDialog.setSelected((swapAnimatedEmojiDrawableArr2[1] == null || !(swapAnimatedEmojiDrawableArr2[1].getDrawable() instanceof AnimatedEmojiDrawable)) ? null : Long.valueOf(((AnimatedEmojiDrawable) this.emojiStatusDrawable[1].getDrawable()).getDocumentId()));
         selectAnimatedEmojiDialog.setSaveState(3);
         selectAnimatedEmojiDialog.setScrimDrawable(this.emojiStatusDrawable[1], this.nameTextView[1]);
-        SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow selectAnimatedEmojiDialogWindow = new SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow(selectAnimatedEmojiDialog, -2, -2) { // from class: org.telegram.ui.ProfileActivity.35
+        SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow selectAnimatedEmojiDialogWindow = new SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow(selectAnimatedEmojiDialog, -2, -2) { // from class: org.telegram.ui.ProfileActivity.36
             @Override // org.telegram.ui.SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow, android.widget.PopupWindow
             public void dismiss() {
                 super.dismiss();
@@ -6481,7 +6517,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
                 ImageUpdater imageUpdater = this.imageUpdater;
                 TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto = user.photo;
-                imageUpdater.openMenu((tLRPC$UserProfilePhoto == null || tLRPC$UserProfilePhoto.photo_big == null || (tLRPC$UserProfilePhoto instanceof TLRPC$TL_userProfilePhotoEmpty)) ? false : false, new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda37
+                imageUpdater.openMenu((tLRPC$UserProfilePhoto == null || tLRPC$UserProfilePhoto.photo_big == null || (tLRPC$UserProfilePhoto instanceof TLRPC$TL_userProfilePhotoEmpty)) ? false : false, new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda38
                     @Override // java.lang.Runnable
                     public final void run() {
                         ProfileActivity.this.lambda$onWriteButtonClick$30();
@@ -6624,7 +6660,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 z7 = (z4 || z5 || z6) ? true : true;
                 if (!z2 && z7) {
                     final TLRPC$ChannelParticipant tLRPC$ChannelParticipant3 = tLRPC$ChannelParticipant;
-                    final Utilities.Callback callback = new Utilities.Callback() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda62
+                    final Utilities.Callback callback = new Utilities.Callback() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda63
                         @Override // org.telegram.messenger.Utilities.Callback
                         public final void run(Object obj) {
                             ProfileActivity.this.lambda$onMemberClick$32(tLRPC$ChannelParticipant3, user, tLRPC$ChatParticipant, z10, (Integer) obj);
@@ -6640,17 +6676,17 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         str = "SetAsAdmin";
                     }
                     final TLRPC$ChannelParticipant tLRPC$ChannelParticipant4 = tLRPC$ChannelParticipant;
-                    scrimViewBackground.addIf(z4, i2, LocaleController.getString(str, i), new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda34
+                    scrimViewBackground.addIf(z4, i2, LocaleController.getString(str, i), new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda35
                         @Override // java.lang.Runnable
                         public final void run() {
                             ProfileActivity.lambda$onMemberClick$33(Utilities.Callback.this);
                         }
-                    }).addIf(z5, R.drawable.msg_permissions, LocaleController.getString("ChangePermissions", R.string.ChangePermissions), new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda46
+                    }).addIf(z5, R.drawable.msg_permissions, LocaleController.getString("ChangePermissions", R.string.ChangePermissions), new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda47
                         @Override // java.lang.Runnable
                         public final void run() {
                             ProfileActivity.this.lambda$onMemberClick$35(tLRPC$ChannelParticipant4, tLRPC$ChatParticipant, user, callback);
                         }
-                    }).addIf(z6, R.drawable.msg_remove, LocaleController.getString("KickFromGroup", R.string.KickFromGroup), true, new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda47
+                    }).addIf(z6, R.drawable.msg_remove, LocaleController.getString("KickFromGroup", R.string.KickFromGroup), true, new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda48
                         @Override // java.lang.Runnable
                         public final void run() {
                             ProfileActivity.this.lambda$onMemberClick$36(tLRPC$ChatParticipant);
@@ -6710,7 +6746,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
     private void openRightsEdit(final int i, final TLRPC$User tLRPC$User, final TLRPC$ChatParticipant tLRPC$ChatParticipant, TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights, TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights, String str, final boolean z) {
         final boolean[] zArr = new boolean[1];
-        ChatRightsEditActivity chatRightsEditActivity = new ChatRightsEditActivity(tLRPC$User.id, this.chatId, tLRPC$TL_chatAdminRights, this.currentChat.default_banned_rights, tLRPC$TL_chatBannedRights, str, i, true, false, null) { // from class: org.telegram.ui.ProfileActivity.36
+        ChatRightsEditActivity chatRightsEditActivity = new ChatRightsEditActivity(tLRPC$User.id, this.chatId, tLRPC$TL_chatAdminRights, this.currentChat.default_banned_rights, tLRPC$TL_chatBannedRights, str, i, true, false, null) { // from class: org.telegram.ui.ProfileActivity.37
             @Override // org.telegram.ui.ActionBar.BaseFragment
             public void onTransitionAnimationEnd(boolean z2, boolean z3) {
                 if (!z2 && z3 && zArr[0] && BulletinFactory.canShowBulletin(ProfileActivity.this)) {
@@ -6718,7 +6754,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
             }
         };
-        chatRightsEditActivity.setDelegate(new ChatRightsEditActivity.ChatRightsEditActivityDelegate() { // from class: org.telegram.ui.ProfileActivity.37
+        chatRightsEditActivity.setDelegate(new ChatRightsEditActivity.ChatRightsEditActivityDelegate() { // from class: org.telegram.ui.ProfileActivity.38
             @Override // org.telegram.ui.ChatRightsEditActivity.ChatRightsEditActivityDelegate
             public void didSetRights(int i2, TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights2, TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights2, String str2) {
                 boolean z2;
@@ -6819,7 +6855,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         String publicUsername;
         String sb;
         String str;
+        int i2;
         TLRPC$UserFull tLRPC$UserFull;
+        TLRPC$UserFull tLRPC$UserFull2;
+        final String str2;
         View view2 = view;
         if (i == this.usernameRow || i == this.setUsernameRow) {
             if (this.userId != 0) {
@@ -6852,8 +6891,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     sb3.append(this.topicId != 0 ? "/" + this.topicId : "");
                     sb = sb3.toString();
                 }
-                String str2 = sb;
-                showDialog(new 38(getParentActivity(), null, str2, false, str2, false));
+                String str3 = sb;
+                showDialog(new 39(getParentActivity(), null, str3, false, str3, false));
                 return true;
             }
             try {
@@ -6873,8 +6912,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             ArrayList arrayList2 = new ArrayList();
             ArrayList arrayList3 = new ArrayList();
             if (i == this.phoneRow) {
-                TLRPC$UserFull tLRPC$UserFull2 = this.userInfo;
-                if (tLRPC$UserFull2 != null && tLRPC$UserFull2.phone_calls_available) {
+                TLRPC$UserFull tLRPC$UserFull3 = this.userInfo;
+                if (tLRPC$UserFull3 != null && tLRPC$UserFull3.phone_calls_available) {
                     arrayList3.add(Integer.valueOf(R.drawable.msg_calls));
                     arrayList.add(LocaleController.getString("CallViaTelegram", R.string.CallViaTelegram));
                     arrayList2.add(2);
@@ -6894,7 +6933,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             arrayList.add(LocaleController.getString("Copy", R.string.Copy));
             arrayList2.add(1);
             final AtomicReference atomicReference = new AtomicReference();
-            ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(this, getContext(), R.drawable.popup_fixed_alert, this.resourcesProvider) { // from class: org.telegram.ui.ProfileActivity.39
+            ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(this, getContext(), R.drawable.popup_fixed_alert, this.resourcesProvider) { // from class: org.telegram.ui.ProfileActivity.40
                 Path path = new Path();
 
                 @Override // android.view.ViewGroup
@@ -6911,9 +6950,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
             };
             actionBarPopupWindowLayout.setFitItems(true);
-            for (int i2 = 0; i2 < arrayList3.size(); i2++) {
-                final int intValue = ((Integer) arrayList2.get(i2)).intValue();
-                ActionBarMenuItem.addItem(actionBarPopupWindowLayout, ((Integer) arrayList3.get(i2)).intValue(), (CharSequence) arrayList.get(i2), false, this.resourcesProvider).setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda19
+            for (int i3 = 0; i3 < arrayList3.size(); i3++) {
+                final int intValue = ((Integer) arrayList2.get(i3)).intValue();
+                ActionBarMenuItem.addItem(actionBarPopupWindowLayout, ((Integer) arrayList3.get(i3)).intValue(), (CharSequence) arrayList.get(i3), false, this.resourcesProvider).setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda19
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view3) {
                         ProfileActivity.this.lambda$processOnClickOrPress$37(atomicReference, intValue, user2, view3);
@@ -6936,18 +6975,21 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 if (indexOf != -1 && lastIndexOf != -1 && indexOf != lastIndexOf) {
                     spannableStringBuilder.replace(lastIndexOf, lastIndexOf + 1, (CharSequence) "");
                     spannableStringBuilder.replace(indexOf, indexOf + 1, (CharSequence) "");
-                    int i3 = lastIndexOf - 1;
-                    spannableStringBuilder.setSpan(new TypefaceSpan(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM)), indexOf, i3, 33);
-                    spannableStringBuilder.setSpan(new ForegroundColorSpan(textView.getLinkTextColors().getDefaultColor()), indexOf, i3, 33);
+                    int i4 = lastIndexOf - 1;
+                    spannableStringBuilder.setSpan(new TypefaceSpan(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM)), indexOf, i4, 33);
+                    spannableStringBuilder.setSpan(new ForegroundColorSpan(textView.getLinkTextColors().getDefaultColor()), indexOf, i4, 33);
                 }
                 textView.setText(spannableStringBuilder);
-                textView.setOnClickListener(ProfileActivity$$ExternalSyntheticLambda23.INSTANCE);
-                int i4 = R.id.fit_width_tag;
-                frameLayout.setTag(i4, 1);
-                textView.setTag(i4, 1);
+                textView.setOnClickListener(ProfileActivity$$ExternalSyntheticLambda24.INSTANCE);
+                int i5 = R.id.fit_width_tag;
+                frameLayout.setTag(i5, 1);
+                textView.setTag(i5, 1);
+                i2 = -2;
                 actionBarPopupWindowLayout.addView((View) textView, LayoutHelper.createLinear(-2, -2));
+            } else {
+                i2 = -2;
             }
-            ActionBarPopupWindow actionBarPopupWindow = new ActionBarPopupWindow(actionBarPopupWindowLayout, -2, -2);
+            ActionBarPopupWindow actionBarPopupWindow = new ActionBarPopupWindow(actionBarPopupWindowLayout, i2, i2);
             actionBarPopupWindow.setPauseNotifications(true);
             actionBarPopupWindow.setDismissAnimationDuration(220);
             actionBarPopupWindow.setOutsideTouchable(true);
@@ -6980,28 +7022,28 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             if ((view2 instanceof AboutLinkCell) && ((AboutLinkCell) view2).onClick()) {
                 return false;
             }
-            String str3 = null;
+            String str4 = null;
             if (i == this.locationRow) {
                 TLRPC$ChatFull tLRPC$ChatFull = this.chatInfo;
                 if (tLRPC$ChatFull != null) {
                     TLRPC$ChannelLocation tLRPC$ChannelLocation = tLRPC$ChatFull.location;
                     if (tLRPC$ChannelLocation instanceof TLRPC$TL_channelLocation) {
-                        str3 = ((TLRPC$TL_channelLocation) tLRPC$ChannelLocation).address;
+                        str4 = ((TLRPC$TL_channelLocation) tLRPC$ChannelLocation).address;
                     }
                 }
             } else if (i == this.channelInfoRow) {
                 TLRPC$ChatFull tLRPC$ChatFull2 = this.chatInfo;
                 if (tLRPC$ChatFull2 != null) {
-                    str3 = tLRPC$ChatFull2.about;
+                    str4 = tLRPC$ChatFull2.about;
                 }
             } else {
-                TLRPC$UserFull tLRPC$UserFull3 = this.userInfo;
-                if (tLRPC$UserFull3 != null) {
-                    str3 = tLRPC$UserFull3.about;
+                TLRPC$UserFull tLRPC$UserFull4 = this.userInfo;
+                if (tLRPC$UserFull4 != null) {
+                    str4 = tLRPC$UserFull4.about;
                 }
             }
-            final String str4 = str3;
-            if (TextUtils.isEmpty(str4)) {
+            final String str5 = str4;
+            if (TextUtils.isEmpty(str5)) {
                 return false;
             }
             final String[] strArr = {TranslateController.UNKNOWN_LANGUAGE};
@@ -7009,20 +7051,20 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             final boolean[] zArr = new boolean[1];
             zArr[0] = i == this.bioRow || i == this.channelInfoRow || i == this.userInfoRow;
             final String language = LocaleController.getInstance().getCurrentLocale().getLanguage();
-            final Runnable runnable = new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda53
+            final Runnable runnable = new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda54
                 @Override // java.lang.Runnable
                 public final void run() {
-                    ProfileActivity.this.lambda$processOnClickOrPress$41(zArr, str4, i, strArr, language, f, f2, view);
+                    ProfileActivity.this.lambda$processOnClickOrPress$41(zArr, str5, i, strArr, language, f, f2, view);
                 }
             };
             if (zArr[0]) {
                 if (LanguageDetector.hasSupport()) {
-                    LanguageDetector.detectLanguage(str4, new LanguageDetector.StringCallback() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda58
+                    LanguageDetector.detectLanguage(str5, new LanguageDetector.StringCallback() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda59
                         @Override // org.telegram.messenger.LanguageDetector.StringCallback
-                        public final void run(String str5) {
-                            ProfileActivity.this.lambda$processOnClickOrPress$42(strArr, zArr, language, isContextTranslateEnabled, runnable, str5);
+                        public final void run(String str6) {
+                            ProfileActivity.this.lambda$processOnClickOrPress$42(strArr, zArr, language, isContextTranslateEnabled, runnable, str6);
                         }
-                    }, new LanguageDetector.ExceptionCallback() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda57
+                    }, new LanguageDetector.ExceptionCallback() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda58
                         @Override // org.telegram.messenger.LanguageDetector.ExceptionCallback
                         public final void run(Exception exc) {
                             ProfileActivity.lambda$processOnClickOrPress$43(runnable, exc);
@@ -7035,24 +7077,124 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 runnable.run();
             }
             return true;
-        } else {
+        } else if (!(i == this.bizHoursRow || i == this.bizLocationRow) || getParentActivity() == null || (tLRPC$UserFull2 = this.userInfo) == null) {
             return false;
+        } else {
+            if (i == this.bizHoursRow) {
+                TLRPC$TL_businessWorkHours tLRPC$TL_businessWorkHours = tLRPC$UserFull2.business_work_hours;
+                if (tLRPC$TL_businessWorkHours == null) {
+                    return false;
+                }
+                ArrayList<OpeningHoursActivity.Period>[] daysHours = OpeningHoursActivity.getDaysHours(tLRPC$TL_businessWorkHours.weekly_open);
+                StringBuilder sb4 = new StringBuilder();
+                TLRPC$User tLRPC$User = this.userInfo.user;
+                if (tLRPC$User != null) {
+                    sb4.append(LocaleController.formatString(R.string.BusinessHoursCopyHeader, UserObject.getUserName(tLRPC$User)));
+                    sb4.append("\n");
+                }
+                for (int i6 = 0; i6 < daysHours.length; i6++) {
+                    ArrayList<OpeningHoursActivity.Period> arrayList4 = daysHours[i6];
+                    String displayName = DayOfWeek.values()[i6].getDisplayName(TextStyle.FULL, LocaleController.getInstance().getCurrentLocale());
+                    sb4.append(displayName.substring(0, 1).toUpperCase() + displayName.substring(1));
+                    sb4.append(": ");
+                    if (OpeningHoursActivity.isFull(arrayList4)) {
+                        sb4.append(LocaleController.getString(R.string.BusinessHoursProfileOpen));
+                    } else if (arrayList4.isEmpty()) {
+                        sb4.append(LocaleController.getString(R.string.BusinessHoursProfileClose));
+                    } else {
+                        for (int i7 = 0; i7 < arrayList4.size(); i7++) {
+                            if (i7 > 0) {
+                                sb4.append(", ");
+                            }
+                            OpeningHoursActivity.Period period = arrayList4.get(i7);
+                            sb4.append(OpeningHoursActivity.Period.timeToString(period.start));
+                            sb4.append(" - ");
+                            sb4.append(OpeningHoursActivity.Period.timeToString(period.end));
+                        }
+                    }
+                    sb4.append("\n");
+                }
+                TLRPC$TL_timezone findTimezone = TimezonesController.getInstance(this.currentAccount).findTimezone(this.userInfo.business_work_hours.timezone_id);
+                if (((Calendar.getInstance().getTimeZone().getRawOffset() / 1000) - (findTimezone == null ? 0 : findTimezone.utc_offset)) / 60 != 0 && findTimezone != null) {
+                    sb4.append(LocaleController.formatString(R.string.BusinessHoursCopyFooter, TimezonesController.getInstance(this.currentAccount).getTimezoneName(findTimezone, true)));
+                }
+                str2 = sb4.toString();
+            } else {
+                if (i == this.bizLocationRow) {
+                    TLRPC$TL_businessLocation tLRPC$TL_businessLocation = tLRPC$UserFull2.business_location;
+                    if (tLRPC$TL_businessLocation == null) {
+                        return false;
+                    }
+                    str2 = tLRPC$TL_businessLocation.address;
+                }
+                return true;
+            }
+            final AtomicReference atomicReference2 = new AtomicReference();
+            ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout2 = new ActionBarPopupWindow.ActionBarPopupWindowLayout(this, getContext(), R.drawable.popup_fixed_alert, this.resourcesProvider) { // from class: org.telegram.ui.ProfileActivity.42
+                Path path = new Path();
+
+                @Override // android.view.ViewGroup
+                protected boolean drawChild(Canvas canvas, View view4, long j) {
+                    canvas.save();
+                    this.path.rewind();
+                    RectF rectF = AndroidUtilities.rectTmp;
+                    rectF.set(view4.getLeft(), view4.getTop(), view4.getRight(), view4.getBottom());
+                    this.path.addRoundRect(rectF, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), Path.Direction.CW);
+                    canvas.clipPath(this.path);
+                    boolean drawChild = super.drawChild(canvas, view4, j);
+                    canvas.restore();
+                    return drawChild;
+                }
+            };
+            actionBarPopupWindowLayout2.setFitItems(true);
+            ActionBarMenuItem.addItem(actionBarPopupWindowLayout2, R.drawable.msg_copy, LocaleController.getString(R.string.Copy), false, this.resourcesProvider).setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda20
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view4) {
+                    ProfileActivity.this.lambda$processOnClickOrPress$44(atomicReference2, str2, i, view4);
+                }
+            });
+            ActionBarPopupWindow actionBarPopupWindow2 = new ActionBarPopupWindow(actionBarPopupWindowLayout2, -2, -2);
+            actionBarPopupWindow2.setPauseNotifications(true);
+            actionBarPopupWindow2.setDismissAnimationDuration(220);
+            actionBarPopupWindow2.setOutsideTouchable(true);
+            actionBarPopupWindow2.setClippingEnabled(true);
+            actionBarPopupWindow2.setAnimationStyle(R.style.PopupContextAnimation);
+            actionBarPopupWindow2.setFocusable(true);
+            actionBarPopupWindowLayout2.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(1000.0f), Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(1000.0f), Integer.MIN_VALUE));
+            actionBarPopupWindow2.setInputMethodMode(2);
+            actionBarPopupWindow2.getContentView().setFocusableInTouchMode(true);
+            atomicReference2.set(actionBarPopupWindow2);
+            float f5 = f;
+            float f6 = f2;
+            while (view2 != getFragmentView()) {
+                f5 += view2.getX();
+                f6 += view2.getY();
+                view2 = (View) view2.getParent();
+            }
+            if (AndroidUtilities.isTablet()) {
+                ViewGroup view4 = this.parentLayout.getView();
+                f5 += view4.getX() + view4.getPaddingLeft();
+                f6 += view4.getY() + view4.getPaddingTop();
+            }
+            actionBarPopupWindow2.showAtLocation(getFragmentView(), 0, (int) (f5 - (actionBarPopupWindowLayout2.getMeasuredWidth() / 2.0f)), (int) f6);
+            actionBarPopupWindow2.dimBehind();
+            return true;
         }
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
-    public class 38 extends ShareAlert {
-        38(Context context, ArrayList arrayList, String str, boolean z, String str2, boolean z2) {
+    public class 39 extends ShareAlert {
+        39(Context context, ArrayList arrayList, String str, boolean z, String str2, boolean z2) {
             super(context, arrayList, str, z, str2, z2);
         }
 
         @Override // org.telegram.ui.Components.ShareAlert
         protected void onSend(final LongSparseArray<TLRPC$Dialog> longSparseArray, final int i, TLRPC$TL_forumTopic tLRPC$TL_forumTopic) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ProfileActivity$38$$ExternalSyntheticLambda0
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ProfileActivity$39$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    ProfileActivity.38.this.lambda$onSend$0(longSparseArray, i);
+                    ProfileActivity.39.this.lambda$onSend$0(longSparseArray, i);
                 }
             }, 250L);
         }
@@ -7108,7 +7250,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         CharSequence[] charSequenceArr = zArr[0] ? new CharSequence[]{LocaleController.getString("Copy", R.string.Copy), LocaleController.getString("TranslateMessage", R.string.TranslateMessage)} : new CharSequence[]{LocaleController.getString("Copy", R.string.Copy)};
         int[] iArr = zArr[0] ? new int[]{R.drawable.msg_copy, R.drawable.msg_translate} : new int[]{R.drawable.msg_copy};
         final AtomicReference atomicReference = new AtomicReference();
-        ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(this, getContext(), R.drawable.popup_fixed_alert, this.resourcesProvider) { // from class: org.telegram.ui.ProfileActivity.40
+        ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(this, getContext(), R.drawable.popup_fixed_alert, this.resourcesProvider) { // from class: org.telegram.ui.ProfileActivity.41
             Path path = new Path();
 
             @Override // android.view.ViewGroup
@@ -7176,7 +7318,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
             } else if (i != 1) {
             } else {
-                TranslateAlert2.showAlert(this.fragmentView.getContext(), this, this.currentAccount, strArr[0], str2, str, null, false, new Utilities.CallbackReturn() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda63
+                TranslateAlert2.showAlert(this.fragmentView.getContext(), this, this.currentAccount, strArr[0], str2, str, null, false, new Utilities.CallbackReturn() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda64
                     @Override // org.telegram.messenger.Utilities.CallbackReturn
                     public final Object run(Object obj) {
                         Boolean lambda$processOnClickOrPress$39;
@@ -7214,18 +7356,33 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$processOnClickOrPress$44(AtomicReference atomicReference, String str, int i, View view) {
+        ((ActionBarPopupWindow) atomicReference.get()).dismiss();
+        try {
+            AndroidUtilities.addToClipboard(str);
+            if (i == this.bizHoursRow) {
+                BulletinFactory.of(this).createCopyBulletin(LocaleController.getString(R.string.BusinessHoursCopied)).show();
+            } else {
+                BulletinFactory.of(this).createCopyBulletin(LocaleController.getString(R.string.BusinessLocationCopied)).show();
+            }
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
     public void leaveChatPressed() {
         boolean isForum = ChatObject.isForum(this.currentChat);
-        AlertsCreator.createClearOrDeleteDialogAlert(this, false, this.currentChat, null, false, isForum, !isForum, new MessagesStorage.BooleanCallback() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda60
+        AlertsCreator.createClearOrDeleteDialogAlert(this, false, this.currentChat, null, false, isForum, !isForum, new MessagesStorage.BooleanCallback() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda61
             @Override // org.telegram.messenger.MessagesStorage.BooleanCallback
             public final void run(boolean z) {
-                ProfileActivity.this.lambda$leaveChatPressed$44(z);
+                ProfileActivity.this.lambda$leaveChatPressed$45(z);
             }
         }, this.resourcesProvider);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$leaveChatPressed$44(boolean z) {
+    public /* synthetic */ void lambda$leaveChatPressed$45(boolean z) {
         this.playProfileAnimation = 0;
         NotificationCenter notificationCenter = getNotificationCenter();
         int i = NotificationCenter.closeChats;
@@ -7248,36 +7405,36 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         tLRPC$TL_channels_getParticipants.filter = new TLRPC$TL_channelParticipantsRecent();
         tLRPC$TL_channels_getParticipants.offset = z ? 0 : this.participantsMap.size();
         tLRPC$TL_channels_getParticipants.limit = 200;
-        getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tLRPC$TL_channels_getParticipants, new RequestDelegate() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda67
+        getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tLRPC$TL_channels_getParticipants, new RequestDelegate() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda68
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                ProfileActivity.this.lambda$getChannelParticipants$47(tLRPC$TL_channels_getParticipants, i, tLObject, tLRPC$TL_error);
+                ProfileActivity.this.lambda$getChannelParticipants$48(tLRPC$TL_channels_getParticipants, i, tLObject, tLRPC$TL_error);
             }
         }), this.classGuid);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$getChannelParticipants$46(final TLRPC$TL_error tLRPC$TL_error, final TLObject tLObject, final TLRPC$TL_channels_getParticipants tLRPC$TL_channels_getParticipants) {
-        getNotificationCenter().doOnIdle(new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda50
+    public /* synthetic */ void lambda$getChannelParticipants$47(final TLRPC$TL_error tLRPC$TL_error, final TLObject tLObject, final TLRPC$TL_channels_getParticipants tLRPC$TL_channels_getParticipants) {
+        getNotificationCenter().doOnIdle(new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda52
             @Override // java.lang.Runnable
             public final void run() {
-                ProfileActivity.this.lambda$getChannelParticipants$45(tLRPC$TL_error, tLObject, tLRPC$TL_channels_getParticipants);
+                ProfileActivity.this.lambda$getChannelParticipants$46(tLRPC$TL_error, tLObject, tLRPC$TL_channels_getParticipants);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$getChannelParticipants$47(final TLRPC$TL_channels_getParticipants tLRPC$TL_channels_getParticipants, int i, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$getChannelParticipants$48(final TLRPC$TL_channels_getParticipants tLRPC$TL_channels_getParticipants, int i, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda51
             @Override // java.lang.Runnable
             public final void run() {
-                ProfileActivity.this.lambda$getChannelParticipants$46(tLRPC$TL_error, tLObject, tLRPC$TL_channels_getParticipants);
+                ProfileActivity.this.lambda$getChannelParticipants$47(tLRPC$TL_error, tLObject, tLRPC$TL_channels_getParticipants);
             }
         }, i);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$getChannelParticipants$45(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, TLRPC$TL_channels_getParticipants tLRPC$TL_channels_getParticipants) {
+    public /* synthetic */ void lambda$getChannelParticipants$46(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, TLRPC$TL_channels_getParticipants tLRPC$TL_channels_getParticipants) {
         if (tLRPC$TL_error == null) {
             TLRPC$TL_channels_channelParticipants tLRPC$TL_channels_channelParticipants = (TLRPC$TL_channels_channelParticipants) tLObject;
             getMessagesController().putUsers(tLRPC$TL_channels_channelParticipants.users, false);
@@ -7442,10 +7599,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
         if (this.storyView != null) {
             ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda1
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda2
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    ProfileActivity.this.lambda$setMediaHeaderVisible$48(valueAnimator);
+                    ProfileActivity.this.lambda$setMediaHeaderVisible$49(valueAnimator);
                 }
             });
             arrayList.add(ofFloat);
@@ -7454,7 +7611,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         this.headerAnimatorSet = animatorSet3;
         animatorSet3.playTogether(arrayList);
         this.headerAnimatorSet.setInterpolator(CubicBezierInterpolator.DEFAULT);
-        this.headerAnimatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ProfileActivity.42
+        this.headerAnimatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ProfileActivity.44
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
                 if (ProfileActivity.this.headerAnimatorSet != null) {
@@ -7479,7 +7636,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         ProfileActivity profileActivity = ProfileActivity.this;
                         animatorSet4.playTogether(ObjectAnimator.ofFloat(profileActivity, profileActivity.HEADER_SHADOW, 1.0f));
                         ProfileActivity.this.headerShadowAnimatorSet.setDuration(100L);
-                        ProfileActivity.this.headerShadowAnimatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ProfileActivity.42.1
+                        ProfileActivity.this.headerShadowAnimatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ProfileActivity.44.1
                             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                             public void onAnimationEnd(Animator animator2) {
                                 ProfileActivity.this.headerShadowAnimatorSet = null;
@@ -7503,7 +7660,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$setMediaHeaderVisible$48(ValueAnimator valueAnimator) {
+    public /* synthetic */ void lambda$setMediaHeaderVisible$49(ValueAnimator valueAnimator) {
         updateStoriesViewBounds(true);
     }
 
@@ -7522,10 +7679,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             }
             groupCreateActivity.setIgnoreUsers(longSparseArray);
         }
-        groupCreateActivity.setDelegate(new GroupCreateActivity.ContactsAddActivityDelegate() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda73
+        groupCreateActivity.setDelegate(new GroupCreateActivity.ContactsAddActivityDelegate() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda74
             @Override // org.telegram.ui.GroupCreateActivity.ContactsAddActivityDelegate
             public final void didSelectUsers(ArrayList arrayList, int i2) {
-                ProfileActivity.this.lambda$openAddMember$52(arrayList, i2);
+                ProfileActivity.this.lambda$openAddMember$53(arrayList, i2);
             }
 
             @Override // org.telegram.ui.GroupCreateActivity.ContactsAddActivityDelegate
@@ -7537,7 +7694,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$openAddMember$52(ArrayList arrayList, int i) {
+    public /* synthetic */ void lambda$openAddMember$53(ArrayList arrayList, int i) {
         TLRPC$ChatParticipants tLRPC$ChatParticipants;
         final HashSet hashSet = new HashSet();
         final ArrayList arrayList2 = new ArrayList();
@@ -7547,26 +7704,26 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 hashSet.add(Long.valueOf(this.chatInfo.participants.participants.get(i2).user_id));
             }
         }
-        getMessagesController().addUsersToChat(this.currentChat, this, arrayList, i, new androidx.core.util.Consumer() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda27
+        getMessagesController().addUsersToChat(this.currentChat, this, arrayList, i, new androidx.core.util.Consumer() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda28
             @Override // androidx.core.util.Consumer
             public final void accept(Object obj) {
                 arrayList2.add((TLRPC$User) obj);
             }
-        }, new androidx.core.util.Consumer() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda28
+        }, new androidx.core.util.Consumer() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda29
             @Override // androidx.core.util.Consumer
             public final void accept(Object obj) {
-                ProfileActivity.this.lambda$openAddMember$50((TLRPC$User) obj);
+                ProfileActivity.this.lambda$openAddMember$51((TLRPC$User) obj);
             }
-        }, new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda43
+        }, new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda44
             @Override // java.lang.Runnable
             public final void run() {
-                ProfileActivity.this.lambda$openAddMember$51(arrayList2, hashSet);
+                ProfileActivity.this.lambda$openAddMember$52(arrayList2, hashSet);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$openAddMember$50(TLRPC$User tLRPC$User) {
+    public /* synthetic */ void lambda$openAddMember$51(TLRPC$User tLRPC$User) {
         for (int i = 0; i < this.chatInfo.participants.participants.size(); i++) {
             if (this.chatInfo.participants.participants.get(i).user_id == tLRPC$User.id) {
                 this.chatInfo.participants.participants.remove(i);
@@ -7577,7 +7734,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$openAddMember$51(ArrayList arrayList, HashSet hashSet) {
+    public /* synthetic */ void lambda$openAddMember$52(ArrayList arrayList, HashSet hashSet) {
         int size = arrayList.size();
         for (int i = 0; i < size; i++) {
             TLRPC$User tLRPC$User = (TLRPC$User) arrayList.get(i);
@@ -7773,7 +7930,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                 this.writeButtonAnimation.playTogether(ObjectAnimator.ofFloat(this.writeButton, View.SCALE_X, 0.2f), ObjectAnimator.ofFloat(this.writeButton, View.SCALE_Y, 0.2f), ObjectAnimator.ofFloat(this.writeButton, View.ALPHA, 0.0f));
                             }
                             this.writeButtonAnimation.setDuration(150L);
-                            this.writeButtonAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ProfileActivity.43
+                            this.writeButtonAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ProfileActivity.45
                                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                                 public void onAnimationEnd(Animator animator) {
                                     if (ProfileActivity.this.writeButtonAnimation == null || !ProfileActivity.this.writeButtonAnimation.equals(animator)) {
@@ -7858,7 +8015,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             this.expandAnimator.setInterpolator(CubicBezierInterpolator.EASE_BOTH);
                             this.expandAnimator.setDuration(((1.0f - lerp) * 250.0f) / min2);
                         }
-                        this.expandAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ProfileActivity.44
+                        this.expandAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ProfileActivity.46
                             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                             public void onAnimationStart(Animator animator) {
                                 ProfileActivity.this.setForegroundImage(false);
@@ -8092,7 +8249,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     this.qrItemAnimation.playTogether(ObjectAnimator.ofFloat(this.qrItem, View.ALPHA, 0.0f), ObjectAnimator.ofFloat(this.qrItem, View.SCALE_Y, 0.0f), ObjectAnimator.ofFloat(this.avatarsViewPagerIndicatorView, View.TRANSLATION_X, 0.0f));
                 }
                 this.qrItemAnimation.setDuration(150L);
-                this.qrItemAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ProfileActivity.45
+                this.qrItemAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ProfileActivity.47
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                     public void onAnimationEnd(Animator animator) {
                         ProfileActivity.this.qrItemAnimation = null;
@@ -8213,7 +8370,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         if (view == null) {
             return;
         }
-        view.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() { // from class: org.telegram.ui.ProfileActivity.46
+        view.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() { // from class: org.telegram.ui.ProfileActivity.48
             @Override // android.view.ViewTreeObserver.OnPreDrawListener
             public boolean onPreDraw() {
                 ProfileActivity profileActivity = ProfileActivity.this;
@@ -8307,10 +8464,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             createActionBarMenu(true);
         } else if (i == NotificationCenter.encryptedChatCreated) {
             if (this.creatingChat) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda52
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda53
                     @Override // java.lang.Runnable
                     public final void run() {
-                        ProfileActivity.this.lambda$didReceivedNotification$53(objArr);
+                        ProfileActivity.this.lambda$didReceivedNotification$54(objArr);
                     }
                 });
             }
@@ -8534,7 +8691,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$didReceivedNotification$53(Object[] objArr) {
+    public /* synthetic */ void lambda$didReceivedNotification$54(Object[] objArr) {
         NotificationCenter notificationCenter = getNotificationCenter();
         int i = NotificationCenter.closeChats;
         notificationCenter.removeObserver(this, i);
@@ -9161,14 +9318,14 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
         this.profileTransitionInProgress = true;
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda2
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda1
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                ProfileActivity.this.lambda$onCustomTransitionAnimation$54(valueAnimator);
+                ProfileActivity.this.lambda$onCustomTransitionAnimation$55(valueAnimator);
             }
         });
         animatorSet.playTogether(ofFloat);
-        animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ProfileActivity.47
+        animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ProfileActivity.49
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
                 ProfileActivity profileActivity = ProfileActivity.this;
@@ -9199,7 +9356,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             }
         });
         animatorSet.setInterpolator(this.playProfileAnimation == 2 ? CubicBezierInterpolator.DEFAULT : new DecelerateInterpolator());
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda33
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda34
             @Override // java.lang.Runnable
             public final void run() {
                 animatorSet.start();
@@ -9209,7 +9366,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onCustomTransitionAnimation$54(ValueAnimator valueAnimator) {
+    public /* synthetic */ void lambda$onCustomTransitionAnimation$55(ValueAnimator valueAnimator) {
         View view = this.fragmentView;
         if (view != null) {
             view.invalidate();
@@ -9241,12 +9398,12 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 this.sortedUsers.add(Integer.valueOf(i));
             }
             try {
-                Collections.sort(this.sortedUsers, Comparator$-EL.reversed(Comparator$-CC.comparingInt(new ToIntFunction() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda55
+                Collections.sort(this.sortedUsers, Comparator$-EL.reversed(Comparator$-CC.comparingInt(new ToIntFunction() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda56
                     @Override // j$.util.function.ToIntFunction
                     public final int applyAsInt(Object obj) {
-                        int lambda$updateOnlineCount$55;
-                        lambda$updateOnlineCount$55 = ProfileActivity.this.lambda$updateOnlineCount$55(currentTime, obj);
-                        return lambda$updateOnlineCount$55;
+                        int lambda$updateOnlineCount$56;
+                        lambda$updateOnlineCount$56 = ProfileActivity.this.lambda$updateOnlineCount$56(currentTime, obj);
+                        return lambda$updateOnlineCount$56;
                     }
                 })));
             } catch (Exception e) {
@@ -9267,7 +9424,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ int lambda$updateOnlineCount$55(int i, Object obj) {
+    public /* synthetic */ int lambda$updateOnlineCount$56(int i, Object obj) {
         TLRPC$User user = getMessagesController().getUser(Long.valueOf(this.chatInfo.participants.participants.get(((Integer) obj).intValue()).user_id));
         if (user != null) {
             if (user.bot) {
@@ -9386,7 +9543,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:41:0x0114, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:41:0x011e, code lost:
         if ((r3 instanceof org.telegram.tgnet.TLRPC$TL_fileLocationToBeDeprecated) == false) goto L40;
      */
     /*
@@ -9425,6 +9582,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         this.notificationRow = -1;
         this.languageRow = -1;
         this.premiumRow = -1;
+        this.businessRow = -1;
         this.premiumGiftingRow = -1;
         this.premiumSectionsRow = -1;
         this.privacyRow = -1;
@@ -9462,11 +9620,15 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         this.notificationsDividerRow = -1;
         this.reportDividerRow = -1;
         this.notificationsRow = -1;
+        this.bizLocationRow = -1;
+        this.bizHoursRow = -1;
         this.infoSectionRow = -1;
         this.secretSettingsSectionRow = -1;
         this.bottomPaddingRow = -1;
         this.addToGroupButtonRow = -1;
         this.addToGroupInfoRow = -1;
+        this.infoStartRow = -1;
+        this.infoEndRow = -1;
         this.membersHeaderRow = -1;
         this.membersStartRow = -1;
         this.membersEndRow = -1;
@@ -9607,269 +9769,287 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 this.devicesSectionRow = i26;
                 if (!getMessagesController().premiumFeaturesBlocked()) {
                     int i27 = this.rowCount;
-                    this.rowCount = i27 + 1;
+                    int i28 = i27 + 1;
+                    this.rowCount = i28;
                     this.premiumRow = i27;
+                    this.rowCount = i28 + 1;
+                    this.businessRow = i28;
                 }
                 if (!getMessagesController().premiumPurchaseBlocked()) {
-                    int i28 = this.rowCount;
-                    this.rowCount = i28 + 1;
-                    this.premiumGiftingRow = i28;
-                }
-                if (this.premiumRow >= 0 || this.premiumGiftingRow >= 0) {
                     int i29 = this.rowCount;
                     this.rowCount = i29 + 1;
-                    this.premiumSectionsRow = i29;
+                    this.premiumGiftingRow = i29;
                 }
-                int i30 = this.rowCount;
-                int i31 = i30 + 1;
-                this.rowCount = i31;
-                this.helpHeaderRow = i30;
+                if (this.premiumRow >= 0 || this.premiumGiftingRow >= 0) {
+                    int i30 = this.rowCount;
+                    this.rowCount = i30 + 1;
+                    this.premiumSectionsRow = i30;
+                }
+                int i31 = this.rowCount;
                 int i32 = i31 + 1;
                 this.rowCount = i32;
-                this.questionRow = i31;
+                this.helpHeaderRow = i31;
                 int i33 = i32 + 1;
                 this.rowCount = i33;
-                this.faqRow = i32;
+                this.questionRow = i32;
                 int i34 = i33 + 1;
                 this.rowCount = i34;
-                this.policyRow = i33;
+                this.faqRow = i33;
+                int i35 = i34 + 1;
+                this.rowCount = i35;
+                this.policyRow = i34;
                 if (BuildVars.LOGS_ENABLED || BuildVars.DEBUG_PRIVATE_VERSION) {
-                    int i35 = i34 + 1;
-                    this.rowCount = i35;
-                    this.helpSectionCell = i34;
-                    this.rowCount = i35 + 1;
-                    this.debugHeaderRow = i35;
+                    int i36 = i35 + 1;
+                    this.rowCount = i36;
+                    this.helpSectionCell = i35;
+                    this.rowCount = i36 + 1;
+                    this.debugHeaderRow = i36;
                 }
                 if (BuildVars.LOGS_ENABLED) {
-                    int i36 = this.rowCount;
-                    int i37 = i36 + 1;
-                    this.rowCount = i37;
-                    this.sendLogsRow = i36;
+                    int i37 = this.rowCount;
                     int i38 = i37 + 1;
                     this.rowCount = i38;
-                    this.sendLastLogsRow = i37;
-                    this.rowCount = i38 + 1;
-                    this.clearLogsRow = i38;
+                    this.sendLogsRow = i37;
+                    int i39 = i38 + 1;
+                    this.rowCount = i39;
+                    this.sendLastLogsRow = i38;
+                    this.rowCount = i39 + 1;
+                    this.clearLogsRow = i39;
                 }
                 if (BuildVars.DEBUG_VERSION) {
-                    int i39 = this.rowCount;
-                    this.rowCount = i39 + 1;
-                    this.switchBackendRow = i39;
+                    int i40 = this.rowCount;
+                    this.rowCount = i40 + 1;
+                    this.switchBackendRow = i40;
                 }
-                int i40 = this.rowCount;
-                this.rowCount = i40 + 1;
-                this.versionRow = i40;
+                int i41 = this.rowCount;
+                this.rowCount = i41 + 1;
+                this.versionRow = i41;
             } else {
                 String publicUsername = UserObject.getPublicUsername(user);
                 TLRPC$UserFull tLRPC$UserFull3 = this.userInfo;
                 boolean z4 = ((tLRPC$UserFull3 == null || TextUtils.isEmpty(tLRPC$UserFull3.about)) && (user == null || TextUtils.isEmpty(publicUsername))) ? false : true;
                 boolean z5 = (user == null || (TextUtils.isEmpty(user.phone) && TextUtils.isEmpty(this.vcardPhone))) ? false : true;
-                int i41 = this.rowCount;
-                int i42 = i41 + 1;
-                this.rowCount = i42;
-                this.infoHeaderRow = i41;
+                int i42 = this.rowCount;
+                this.infoStartRow = i42;
+                int i43 = i42 + 1;
+                this.rowCount = i43;
+                this.infoHeaderRow = i42;
                 if (!this.isBot && (z5 || !z4)) {
-                    this.rowCount = i42 + 1;
-                    this.phoneRow = i42;
+                    this.rowCount = i43 + 1;
+                    this.phoneRow = i43;
                 }
                 TLRPC$UserFull tLRPC$UserFull4 = this.userInfo;
                 if (tLRPC$UserFull4 != null && !TextUtils.isEmpty(tLRPC$UserFull4.about)) {
-                    int i43 = this.rowCount;
-                    this.rowCount = i43 + 1;
-                    this.userInfoRow = i43;
-                }
-                if (user != null && publicUsername != null) {
                     int i44 = this.rowCount;
                     this.rowCount = i44 + 1;
-                    this.usernameRow = i44;
+                    this.userInfoRow = i44;
                 }
-                if (this.phoneRow != -1 || this.userInfoRow != -1 || this.usernameRow != -1) {
+                if (user != null && publicUsername != null) {
                     int i45 = this.rowCount;
                     this.rowCount = i45 + 1;
-                    this.notificationsDividerRow = i45;
+                    this.usernameRow = i45;
                 }
-                if (this.userId != getUserConfig().getClientUserId()) {
+                if (this.phoneRow != -1 || this.userInfoRow != -1 || this.usernameRow != -1) {
                     int i46 = this.rowCount;
                     this.rowCount = i46 + 1;
-                    this.notificationsRow = i46;
+                    this.notificationsDividerRow = i46;
                 }
-                int i47 = this.rowCount;
-                int i48 = i47 + 1;
-                this.rowCount = i48;
-                this.infoSectionRow = i47;
+                TLRPC$UserFull tLRPC$UserFull5 = this.userInfo;
+                if (tLRPC$UserFull5 != null) {
+                    if (tLRPC$UserFull5.business_work_hours != null) {
+                        int i47 = this.rowCount;
+                        this.rowCount = i47 + 1;
+                        this.bizHoursRow = i47;
+                    }
+                    if (tLRPC$UserFull5.business_location != null) {
+                        int i48 = this.rowCount;
+                        this.rowCount = i48 + 1;
+                        this.bizLocationRow = i48;
+                    }
+                }
+                if (this.userId != getUserConfig().getClientUserId()) {
+                    int i49 = this.rowCount;
+                    this.rowCount = i49 + 1;
+                    this.notificationsRow = i49;
+                }
+                int i50 = this.rowCount;
+                this.infoEndRow = i50 - 1;
+                int i51 = i50 + 1;
+                this.rowCount = i51;
+                this.infoSectionRow = i50;
                 TLRPC$EncryptedChat tLRPC$EncryptedChat = this.currentEncryptedChat;
                 if (tLRPC$EncryptedChat instanceof TLRPC$TL_encryptedChat) {
-                    int i49 = i48 + 1;
-                    this.rowCount = i49;
-                    this.settingsTimerRow = i48;
-                    int i50 = i49 + 1;
-                    this.rowCount = i50;
-                    this.settingsKeyRow = i49;
-                    this.rowCount = i50 + 1;
-                    this.secretSettingsSectionRow = i50;
-                }
-                if (user != null && !this.isBot && tLRPC$EncryptedChat == null && user.id != getUserConfig().getClientUserId() && this.userBlocked) {
-                    int i51 = this.rowCount;
                     int i52 = i51 + 1;
                     this.rowCount = i52;
-                    this.unblockRow = i51;
-                    this.rowCount = i52 + 1;
-                    this.lastSectionRow = i52;
+                    this.settingsTimerRow = i51;
+                    int i53 = i52 + 1;
+                    this.rowCount = i53;
+                    this.settingsKeyRow = i52;
+                    this.rowCount = i53 + 1;
+                    this.secretSettingsSectionRow = i53;
+                }
+                if (user != null && !this.isBot && tLRPC$EncryptedChat == null && user.id != getUserConfig().getClientUserId() && this.userBlocked) {
+                    int i54 = this.rowCount;
+                    int i55 = i54 + 1;
+                    this.rowCount = i55;
+                    this.unblockRow = i54;
+                    this.rowCount = i55 + 1;
+                    this.lastSectionRow = i55;
                 }
                 if (user != null && this.isBot && !user.bot_nochats) {
-                    int i53 = this.rowCount;
-                    int i54 = i53 + 1;
-                    this.rowCount = i54;
-                    this.addToGroupButtonRow = i53;
-                    this.rowCount = i54 + 1;
-                    this.addToGroupInfoRow = i54;
+                    int i56 = this.rowCount;
+                    int i57 = i56 + 1;
+                    this.rowCount = i57;
+                    this.addToGroupButtonRow = i56;
+                    this.rowCount = i57 + 1;
+                    this.addToGroupInfoRow = i57;
                 }
                 if (!this.showAddToContacts || user == null || user.contact || user.bot || UserObject.isService(user.id)) {
                     z2 = false;
                 } else {
-                    int i55 = this.rowCount;
-                    this.rowCount = i55 + 1;
-                    this.addToContactsRow = i55;
+                    int i58 = this.rowCount;
+                    this.rowCount = i58 + 1;
+                    this.addToContactsRow = i58;
                     z2 = true;
                 }
                 if (this.reportReactionMessageId == 0 || ContactsController.getInstance(this.currentAccount).isContact(this.userId)) {
                     z3 = z2;
                 } else {
-                    int i56 = this.rowCount;
-                    this.rowCount = i56 + 1;
-                    this.reportReactionRow = i56;
+                    int i59 = this.rowCount;
+                    this.rowCount = i59 + 1;
+                    this.reportReactionRow = i59;
                 }
                 if (z3) {
-                    int i57 = this.rowCount;
-                    this.rowCount = i57 + 1;
-                    this.reportDividerRow = i57;
+                    int i60 = this.rowCount;
+                    this.rowCount = i60 + 1;
+                    this.reportDividerRow = i60;
                 }
                 if (z || ((tLRPC$UserFull = this.userInfo) != null && tLRPC$UserFull.common_chats_count != 0)) {
-                    int i58 = this.rowCount;
-                    this.rowCount = i58 + 1;
-                    this.sharedMediaRow = i58;
-                } else if (this.lastSectionRow == -1 && this.needSendMessage) {
-                    int i59 = this.rowCount;
-                    int i60 = i59 + 1;
-                    this.rowCount = i60;
-                    this.sendMessageRow = i59;
-                    int i61 = i60 + 1;
-                    this.rowCount = i61;
-                    this.reportRow = i60;
+                    int i61 = this.rowCount;
                     this.rowCount = i61 + 1;
-                    this.lastSectionRow = i61;
+                    this.sharedMediaRow = i61;
+                } else if (this.lastSectionRow == -1 && this.needSendMessage) {
+                    int i62 = this.rowCount;
+                    int i63 = i62 + 1;
+                    this.rowCount = i63;
+                    this.sendMessageRow = i62;
+                    int i64 = i63 + 1;
+                    this.rowCount = i64;
+                    this.reportRow = i63;
+                    this.rowCount = i64 + 1;
+                    this.lastSectionRow = i64;
                 }
             }
         } else if (this.isTopic) {
-            int i62 = this.rowCount;
-            int i63 = i62 + 1;
-            this.rowCount = i63;
-            this.infoHeaderRow = i62;
-            int i64 = i63 + 1;
-            this.rowCount = i64;
-            this.usernameRow = i63;
-            int i65 = i64 + 1;
-            this.rowCount = i65;
-            this.notificationsSimpleRow = i64;
+            int i65 = this.rowCount;
             int i66 = i65 + 1;
             this.rowCount = i66;
-            this.infoSectionRow = i65;
+            this.infoHeaderRow = i65;
+            int i67 = i66 + 1;
+            this.rowCount = i67;
+            this.usernameRow = i66;
+            int i68 = i67 + 1;
+            this.rowCount = i68;
+            this.notificationsSimpleRow = i67;
+            int i69 = i68 + 1;
+            this.rowCount = i69;
+            this.infoSectionRow = i68;
             if (z) {
-                this.rowCount = i66 + 1;
-                this.sharedMediaRow = i66;
+                this.rowCount = i69 + 1;
+                this.sharedMediaRow = i69;
             }
         } else if (this.chatId != 0) {
             TLRPC$ChatFull tLRPC$ChatFull6 = this.chatInfo;
             if ((tLRPC$ChatFull6 != null && (!TextUtils.isEmpty(tLRPC$ChatFull6.about) || (this.chatInfo.location instanceof TLRPC$TL_channelLocation))) || ChatObject.isPublic(this.currentChat)) {
                 if (LocaleController.isRTL && ChatObject.isChannel(this.currentChat) && (tLRPC$ChatFull4 = this.chatInfo) != null && !this.currentChat.megagroup && tLRPC$ChatFull4.linked_chat_id != 0) {
-                    int i67 = this.rowCount;
-                    this.rowCount = i67 + 1;
-                    this.emptyRow = i67;
+                    int i70 = this.rowCount;
+                    this.rowCount = i70 + 1;
+                    this.emptyRow = i70;
                 }
-                int i68 = this.rowCount;
-                this.rowCount = i68 + 1;
-                this.infoHeaderRow = i68;
+                int i71 = this.rowCount;
+                this.rowCount = i71 + 1;
+                this.infoHeaderRow = i71;
                 TLRPC$ChatFull tLRPC$ChatFull7 = this.chatInfo;
                 if (tLRPC$ChatFull7 != null) {
                     if (!TextUtils.isEmpty(tLRPC$ChatFull7.about)) {
-                        int i69 = this.rowCount;
-                        this.rowCount = i69 + 1;
-                        this.channelInfoRow = i69;
+                        int i72 = this.rowCount;
+                        this.rowCount = i72 + 1;
+                        this.channelInfoRow = i72;
                     }
                     if (this.chatInfo.location instanceof TLRPC$TL_channelLocation) {
-                        int i70 = this.rowCount;
-                        this.rowCount = i70 + 1;
-                        this.locationRow = i70;
+                        int i73 = this.rowCount;
+                        this.rowCount = i73 + 1;
+                        this.locationRow = i73;
                     }
                 }
                 if (ChatObject.isPublic(this.currentChat)) {
-                    int i71 = this.rowCount;
-                    this.rowCount = i71 + 1;
-                    this.usernameRow = i71;
+                    int i74 = this.rowCount;
+                    this.rowCount = i74 + 1;
+                    this.usernameRow = i74;
                 }
             }
             if (this.infoHeaderRow != -1) {
-                int i72 = this.rowCount;
-                this.rowCount = i72 + 1;
-                this.notificationsDividerRow = i72;
+                int i75 = this.rowCount;
+                this.rowCount = i75 + 1;
+                this.notificationsDividerRow = i75;
             }
-            int i73 = this.rowCount;
-            int i74 = i73 + 1;
-            this.rowCount = i74;
-            this.notificationsRow = i73;
-            this.rowCount = i74 + 1;
-            this.infoSectionRow = i74;
+            int i76 = this.rowCount;
+            int i77 = i76 + 1;
+            this.rowCount = i77;
+            this.notificationsRow = i76;
+            this.rowCount = i77 + 1;
+            this.infoSectionRow = i77;
             if (ChatObject.isChannel(this.currentChat)) {
                 TLRPC$Chat tLRPC$Chat = this.currentChat;
                 if (!tLRPC$Chat.megagroup && (tLRPC$ChatFull3 = this.chatInfo) != null && (tLRPC$Chat.creator || tLRPC$ChatFull3.can_view_participants)) {
-                    int i75 = this.rowCount;
-                    int i76 = i75 + 1;
-                    this.rowCount = i76;
-                    this.membersHeaderRow = i75;
-                    int i77 = i76 + 1;
-                    this.rowCount = i77;
-                    this.subscribersRow = i76;
-                    if (tLRPC$ChatFull3.requests_pending > 0) {
-                        this.rowCount = i77 + 1;
-                        this.subscribersRequestsRow = i77;
-                    }
                     int i78 = this.rowCount;
                     int i79 = i78 + 1;
                     this.rowCount = i79;
-                    this.administratorsRow = i78;
-                    if (tLRPC$ChatFull3.banned_count != 0 || tLRPC$ChatFull3.kicked_count != 0) {
-                        this.rowCount = i79 + 1;
-                        this.blockedUsersRow = i79;
+                    this.membersHeaderRow = i78;
+                    int i80 = i79 + 1;
+                    this.rowCount = i80;
+                    this.subscribersRow = i79;
+                    if (tLRPC$ChatFull3.requests_pending > 0) {
+                        this.rowCount = i80 + 1;
+                        this.subscribersRequestsRow = i80;
                     }
-                    int i80 = this.rowCount;
-                    int i81 = i80 + 1;
-                    this.rowCount = i81;
-                    this.settingsRow = i80;
-                    this.rowCount = i81 + 1;
-                    this.membersSectionRow = i81;
+                    int i81 = this.rowCount;
+                    int i82 = i81 + 1;
+                    this.rowCount = i82;
+                    this.administratorsRow = i81;
+                    if (tLRPC$ChatFull3.banned_count != 0 || tLRPC$ChatFull3.kicked_count != 0) {
+                        this.rowCount = i82 + 1;
+                        this.blockedUsersRow = i82;
+                    }
+                    int i83 = this.rowCount;
+                    int i84 = i83 + 1;
+                    this.rowCount = i84;
+                    this.settingsRow = i83;
+                    this.rowCount = i84 + 1;
+                    this.membersSectionRow = i84;
                 }
             }
             if (ChatObject.isChannel(this.currentChat)) {
                 if (!this.isTopic && (tLRPC$ChatFull2 = this.chatInfo) != null && this.currentChat.megagroup && (tLRPC$ChatParticipants2 = tLRPC$ChatFull2.participants) != null && (arrayList = tLRPC$ChatParticipants2.participants) != null && !arrayList.isEmpty()) {
                     if (!ChatObject.isNotInChat(this.currentChat) && ChatObject.canAddUsers(this.currentChat) && this.chatInfo.participants_count < getMessagesController().maxMegagroupCount) {
-                        int i82 = this.rowCount;
-                        this.rowCount = i82 + 1;
-                        this.addMemberRow = i82;
+                        int i85 = this.rowCount;
+                        this.rowCount = i85 + 1;
+                        this.addMemberRow = i85;
                     }
                     int size = this.chatInfo.participants.participants.size();
                     if ((size <= 5 || !z || this.usersForceShowingIn == 1) && this.usersForceShowingIn != 2) {
                         if (this.addMemberRow == -1) {
-                            int i83 = this.rowCount;
-                            this.rowCount = i83 + 1;
-                            this.membersHeaderRow = i83;
+                            int i86 = this.rowCount;
+                            this.rowCount = i86 + 1;
+                            this.membersHeaderRow = i86;
                         }
-                        int i84 = this.rowCount;
-                        this.membersStartRow = i84;
-                        int i85 = i84 + size;
-                        this.rowCount = i85;
-                        this.membersEndRow = i85;
-                        this.rowCount = i85 + 1;
-                        this.membersSectionRow = i85;
+                        int i87 = this.rowCount;
+                        this.membersStartRow = i87;
+                        int i88 = i87 + size;
+                        this.rowCount = i88;
+                        this.membersEndRow = i88;
+                        this.rowCount = i88 + 1;
+                        this.membersSectionRow = i88;
                         this.visibleChatParticipants.addAll(this.chatInfo.participants.participants);
                         ArrayList<Integer> arrayList2 = this.sortedUsers;
                         if (arrayList2 != null) {
@@ -9882,9 +10062,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         }
                     } else {
                         if (this.addMemberRow != -1) {
-                            int i86 = this.rowCount;
-                            this.rowCount = i86 + 1;
-                            this.membersSectionRow = i86;
+                            int i89 = this.rowCount;
+                            this.rowCount = i89 + 1;
+                            this.membersSectionRow = i89;
                         }
                         if (this.sharedMediaLayout != null) {
                             if (!this.sortedUsers.isEmpty()) {
@@ -9895,12 +10075,12 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     }
                 } else {
                     if (!ChatObject.isNotInChat(this.currentChat) && ChatObject.canAddUsers(this.currentChat) && (tLRPC$ChatFull = this.chatInfo) != null && tLRPC$ChatFull.participants_hidden) {
-                        int i87 = this.rowCount;
-                        int i88 = i87 + 1;
-                        this.rowCount = i88;
-                        this.addMemberRow = i87;
-                        this.rowCount = i88 + 1;
-                        this.membersSectionRow = i88;
+                        int i90 = this.rowCount;
+                        int i91 = i90 + 1;
+                        this.rowCount = i91;
+                        this.addMemberRow = i90;
+                        this.rowCount = i91 + 1;
+                        this.membersSectionRow = i91;
                     }
                     SharedMediaLayout sharedMediaLayout2 = this.sharedMediaLayout;
                     if (sharedMediaLayout2 != null) {
@@ -9913,12 +10093,12 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         SharedPreferences notificationsSettings = MessagesController.getNotificationsSettings(this.currentAccount);
                         long j = notificationsSettings.getLong("dialog_join_requested_time_" + this.dialogId, -1L);
                         if (j <= 0 || System.currentTimeMillis() - j >= 120000) {
-                            int i89 = this.rowCount;
-                            int i90 = i89 + 1;
-                            this.rowCount = i90;
-                            this.joinRow = i89;
-                            this.rowCount = i90 + 1;
-                            this.lastSectionRow = i90;
+                            int i92 = this.rowCount;
+                            int i93 = i92 + 1;
+                            this.rowCount = i93;
+                            this.joinRow = i92;
+                            this.rowCount = i93 + 1;
+                            this.lastSectionRow = i93;
                         }
                     }
                 }
@@ -9927,19 +10107,19 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 if (tLRPC$ChatFull8 != null) {
                     if (!this.isTopic && (tLRPC$ChatParticipants = tLRPC$ChatFull8.participants) != null && tLRPC$ChatParticipants.participants != null && !(tLRPC$ChatParticipants instanceof TLRPC$TL_chatParticipantsForbidden)) {
                         if (ChatObject.canAddUsers(this.currentChat) || (tLRPC$TL_chatBannedRights = this.currentChat.default_banned_rights) == null || !tLRPC$TL_chatBannedRights.invite_users) {
-                            int i91 = this.rowCount;
-                            this.rowCount = i91 + 1;
-                            this.addMemberRow = i91;
+                            int i94 = this.rowCount;
+                            this.rowCount = i94 + 1;
+                            this.addMemberRow = i94;
                         }
                         if (this.chatInfo.participants.participants.size() <= 5 || !z) {
                             if (this.addMemberRow == -1) {
-                                int i92 = this.rowCount;
-                                this.rowCount = i92 + 1;
-                                this.membersHeaderRow = i92;
+                                int i95 = this.rowCount;
+                                this.rowCount = i95 + 1;
+                                this.membersHeaderRow = i95;
                             }
-                            int i93 = this.rowCount;
-                            this.membersStartRow = i93;
-                            int size2 = i93 + this.chatInfo.participants.participants.size();
+                            int i96 = this.rowCount;
+                            this.membersStartRow = i96;
+                            int size2 = i96 + this.chatInfo.participants.participants.size();
                             this.rowCount = size2;
                             this.membersEndRow = size2;
                             this.rowCount = size2 + 1;
@@ -9955,9 +10135,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             }
                         } else {
                             if (this.addMemberRow != -1) {
-                                int i94 = this.rowCount;
-                                this.rowCount = i94 + 1;
-                                this.membersSectionRow = i94;
+                                int i97 = this.rowCount;
+                                this.rowCount = i97 + 1;
+                                this.membersSectionRow = i97;
                             }
                             SharedMediaLayout sharedMediaLayout4 = this.sharedMediaLayout;
                             if (sharedMediaLayout4 != null) {
@@ -9966,12 +10146,12 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         }
                     } else {
                         if (!ChatObject.isNotInChat(this.currentChat) && ChatObject.canAddUsers(this.currentChat) && this.chatInfo.participants_hidden) {
-                            int i95 = this.rowCount;
-                            int i96 = i95 + 1;
-                            this.rowCount = i96;
-                            this.addMemberRow = i95;
-                            this.rowCount = i96 + 1;
-                            this.membersSectionRow = i96;
+                            int i98 = this.rowCount;
+                            int i99 = i98 + 1;
+                            this.rowCount = i99;
+                            this.addMemberRow = i98;
+                            this.rowCount = i99 + 1;
+                            this.membersSectionRow = i99;
                         }
                         SharedMediaLayout sharedMediaLayout5 = this.sharedMediaLayout;
                         if (sharedMediaLayout5 != null) {
@@ -9981,15 +10161,15 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
             }
             if (z) {
-                int i97 = this.rowCount;
-                this.rowCount = i97 + 1;
-                this.sharedMediaRow = i97;
+                int i100 = this.rowCount;
+                this.rowCount = i100 + 1;
+                this.sharedMediaRow = i100;
             }
         }
         if (this.sharedMediaRow == -1) {
-            int i98 = this.rowCount;
-            this.rowCount = i98 + 1;
-            this.bottomPaddingRow = i98;
+            int i101 = this.rowCount;
+            this.rowCount = i101 + 1;
+            this.bottomPaddingRow = i101;
         }
         if (this.actionBar != null) {
             i = ActionBar.getCurrentActionBarHeight() + (this.actionBar.getOccupyStatusBar() ? AndroidUtilities.statusBarHeight : 0);
@@ -10311,10 +10491,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                             this.onlineTextView[i6].setDrawablePadding(AndroidUtilities.dp(9.0f));
                                             this.onlineTextView[i6].setRightDrawableInside(z9);
                                             this.onlineTextView[i6].setRightDrawable((i6 == z9 || !z5) ? null : getShowStatusButton());
-                                            this.onlineTextView[i6].setRightDrawableOnClick((i6 == z9 || !z5) ? null : new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda10
+                                            this.onlineTextView[i6].setRightDrawableOnClick((i6 == z9 || !z5) ? null : new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda15
                                                 @Override // android.view.View.OnClickListener
                                                 public final void onClick(View view) {
-                                                    ProfileActivity.this.lambda$updateProfileData$57(view);
+                                                    ProfileActivity.this.lambda$updateProfileData$58(view);
                                                 }
                                             });
                                             Drawable lockIconDrawable = this.currentEncryptedChat == null ? getLockIconDrawable() : null;
@@ -10364,17 +10544,17 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                                     this.nameTextView[i6].setRightDrawableOnClick(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda16
                                                         @Override // android.view.View.OnClickListener
                                                         public final void onClick(View view) {
-                                                            ProfileActivity.this.lambda$updateProfileData$58(view);
+                                                            ProfileActivity.this.lambda$updateProfileData$59(view);
                                                         }
                                                     });
                                                 }
                                                 if (!user.self && getMessagesController().isPremiumUser(user)) {
                                                     SimpleTextView[] simpleTextViewArr2 = this.nameTextView;
                                                     final SimpleTextView simpleTextView = simpleTextViewArr2[i6];
-                                                    simpleTextViewArr2[i6].setRightDrawableOnClick(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda21
+                                                    simpleTextViewArr2[i6].setRightDrawableOnClick(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda22
                                                         @Override // android.view.View.OnClickListener
                                                         public final void onClick(View view) {
-                                                            ProfileActivity.this.lambda$updateProfileData$59(user, simpleTextView, view);
+                                                            ProfileActivity.this.lambda$updateProfileData$60(user, simpleTextView, view);
                                                         }
                                                     });
                                                 }
@@ -10406,17 +10586,17 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                                             this.nameTextView[i6].setRightDrawableOnClick(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda16
                                                                 @Override // android.view.View.OnClickListener
                                                                 public final void onClick(View view) {
-                                                                    ProfileActivity.this.lambda$updateProfileData$58(view);
+                                                                    ProfileActivity.this.lambda$updateProfileData$59(view);
                                                                 }
                                                             });
                                                         }
                                                         if (!user.self) {
                                                             SimpleTextView[] simpleTextViewArr22 = this.nameTextView;
                                                             final SimpleTextView simpleTextView2 = simpleTextViewArr22[i6];
-                                                            simpleTextViewArr22[i6].setRightDrawableOnClick(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda21
+                                                            simpleTextViewArr22[i6].setRightDrawableOnClick(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda22
                                                                 @Override // android.view.View.OnClickListener
                                                                 public final void onClick(View view) {
-                                                                    ProfileActivity.this.lambda$updateProfileData$59(user, simpleTextView2, view);
+                                                                    ProfileActivity.this.lambda$updateProfileData$60(user, simpleTextView2, view);
                                                                 }
                                                             });
                                                         }
@@ -10446,10 +10626,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                     this.onlineTextView[i6].setDrawablePadding(AndroidUtilities.dp(9.0f));
                                     this.onlineTextView[i6].setRightDrawableInside(z9);
                                     this.onlineTextView[i6].setRightDrawable((i6 == z9 || !z5) ? null : getShowStatusButton());
-                                    this.onlineTextView[i6].setRightDrawableOnClick((i6 == z9 || !z5) ? null : new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda10
+                                    this.onlineTextView[i6].setRightDrawableOnClick((i6 == z9 || !z5) ? null : new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda15
                                         @Override // android.view.View.OnClickListener
                                         public final void onClick(View view) {
-                                            ProfileActivity.this.lambda$updateProfileData$57(view);
+                                            ProfileActivity.this.lambda$updateProfileData$58(view);
                                         }
                                     });
                                     if (this.currentEncryptedChat == null) {
@@ -10801,10 +10981,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                 this.nameTextView[i].setRightDrawableOutside(true);
                                 this.nameTextViewRightDrawableContentDescription = null;
                                 if (ChatObject.canChangeChatInfo(tLRPC$Chat)) {
-                                    this.nameTextView[i].setRightDrawableOnClick(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda14
+                                    this.nameTextView[i].setRightDrawableOnClick(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda13
                                         @Override // android.view.View.OnClickListener
                                         public final void onClick(View view) {
-                                            ProfileActivity.this.lambda$updateProfileData$60(view);
+                                            ProfileActivity.this.lambda$updateProfileData$61(view);
                                         }
                                     });
                                     if (this.preloadedChannelEmojiStatuses) {
@@ -10887,10 +11067,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                         }
                                         if (i == 1 && this.isTopic) {
                                             if (!z3) {
-                                                this.onlineTextView[i].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda13
+                                                this.onlineTextView[i].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda12
                                                     @Override // android.view.View.OnClickListener
                                                     public final void onClick(View view) {
-                                                        ProfileActivity.this.lambda$updateProfileData$61(view);
+                                                        ProfileActivity.this.lambda$updateProfileData$62(view);
                                                     }
                                                 });
                                             } else {
@@ -10979,27 +11159,27 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$updateProfileData$57(View view) {
-        MessagePrivateSeenView.showSheet(getContext(), this.currentAccount, this.dialogId, true, null, new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda39
+    public /* synthetic */ void lambda$updateProfileData$58(View view) {
+        MessagePrivateSeenView.showSheet(getContext(), this.currentAccount, this.dialogId, true, null, new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda41
             @Override // java.lang.Runnable
             public final void run() {
-                ProfileActivity.this.lambda$updateProfileData$56();
+                ProfileActivity.this.lambda$updateProfileData$57();
             }
         }, this.resourcesProvider);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$updateProfileData$56() {
+    public /* synthetic */ void lambda$updateProfileData$57() {
         getMessagesController().reloadUser(this.dialogId);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$updateProfileData$58(View view) {
+    public /* synthetic */ void lambda$updateProfileData$59(View view) {
         showStatusSelect();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$updateProfileData$59(TLRPC$User tLRPC$User, SimpleTextView simpleTextView, View view) {
+    public /* synthetic */ void lambda$updateProfileData$60(TLRPC$User tLRPC$User, SimpleTextView simpleTextView, View view) {
         ImageLocation forDocument;
         PremiumPreviewBottomSheet premiumPreviewBottomSheet = new PremiumPreviewBottomSheet(this, this.currentAccount, tLRPC$User, this.resourcesProvider);
         simpleTextView.getLocationOnScreen(new int[2]);
@@ -11049,12 +11229,12 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$updateProfileData$60(View view) {
+    public /* synthetic */ void lambda$updateProfileData$61(View view) {
         showStatusSelect();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$updateProfileData$61(View view) {
+    public /* synthetic */ void lambda$updateProfileData$62(View view) {
         goToForum();
     }
 
@@ -11106,10 +11286,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         if (autoDeletePopupWrapper != null && (textView = autoDeletePopupWrapper.textView) != null) {
             textView.invalidate();
         }
-        AndroidUtilities.forEachViews((RecyclerView) this.listView, (com.google.android.exoplayer2.util.Consumer<View>) new com.google.android.exoplayer2.util.Consumer() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda29
+        AndroidUtilities.forEachViews((RecyclerView) this.listView, (com.google.android.exoplayer2.util.Consumer<View>) new com.google.android.exoplayer2.util.Consumer() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda30
             @Override // com.google.android.exoplayer2.util.Consumer
             public final void accept(Object obj) {
-                ProfileActivity.this.lambda$updatedPeerColor$62((View) obj);
+                ProfileActivity.this.lambda$updatedPeerColor$63((View) obj);
             }
         });
         SharedMediaLayout sharedMediaLayout = this.sharedMediaLayout;
@@ -11121,7 +11301,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$updatedPeerColor$62(View view) {
+    public /* synthetic */ void lambda$updatedPeerColor$63(View view) {
         if (view instanceof HeaderCell) {
             ((HeaderCell) view).setTextColor(applyPeerColor(getThemedColor(Theme.key_windowBackgroundWhiteBlueHeader), false));
         } else if (view instanceof TextDetailCell) {
@@ -11498,7 +11678,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
     private void createAutoDeleteItem(Context context) {
         int i;
-        this.autoDeletePopupWrapper = new AutoDeletePopupWrapper(context, this.otherItem.getPopupLayout().getSwipeBack(), new AutoDeletePopupWrapper.Callback() { // from class: org.telegram.ui.ProfileActivity.48
+        this.autoDeletePopupWrapper = new AutoDeletePopupWrapper(context, this.otherItem.getPopupLayout().getSwipeBack(), new AutoDeletePopupWrapper.Callback() { // from class: org.telegram.ui.ProfileActivity.50
             @Override // org.telegram.ui.Components.AutoDeletePopupWrapper.Callback
             public void dismiss() {
                 ProfileActivity.this.otherItem.toggleSubMenu();
@@ -11707,10 +11887,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda5
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                ProfileActivity.this.lambda$searchExpandTransition$63(ofFloat, f, z, valueAnimator);
+                ProfileActivity.this.lambda$searchExpandTransition$64(ofFloat, f, z, valueAnimator);
             }
         });
-        ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ProfileActivity.49
+        ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ProfileActivity.51
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator2) {
                 ProfileActivity.this.updateSearchViewState(z);
@@ -11742,7 +11922,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$searchExpandTransition$63(ValueAnimator valueAnimator, float f, boolean z, ValueAnimator valueAnimator2) {
+    public /* synthetic */ void lambda$searchExpandTransition$64(ValueAnimator valueAnimator, float f, boolean z, ValueAnimator valueAnimator2) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.searchTransitionProgress = floatValue;
         float f2 = (floatValue - 0.5f) / 0.5f;
@@ -11872,26 +12052,26 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
     @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
     public void didUploadPhoto(final TLRPC$InputFile tLRPC$InputFile, final TLRPC$InputFile tLRPC$InputFile2, final double d, final String str, final TLRPC$PhotoSize tLRPC$PhotoSize, final TLRPC$PhotoSize tLRPC$PhotoSize2, boolean z, final TLRPC$VideoSize tLRPC$VideoSize) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda48
-            @Override // java.lang.Runnable
-            public final void run() {
-                ProfileActivity.this.lambda$didUploadPhoto$66(tLRPC$InputFile, tLRPC$InputFile2, tLRPC$VideoSize, d, str, tLRPC$PhotoSize2, tLRPC$PhotoSize);
-            }
-        });
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$didUploadPhoto$65(final String str, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda49
             @Override // java.lang.Runnable
             public final void run() {
-                ProfileActivity.this.lambda$didUploadPhoto$64(tLRPC$TL_error, tLObject, str);
+                ProfileActivity.this.lambda$didUploadPhoto$67(tLRPC$InputFile, tLRPC$InputFile2, tLRPC$VideoSize, d, str, tLRPC$PhotoSize2, tLRPC$PhotoSize);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$didUploadPhoto$64(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, String str) {
+    public /* synthetic */ void lambda$didUploadPhoto$66(final String str, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda50
+            @Override // java.lang.Runnable
+            public final void run() {
+                ProfileActivity.this.lambda$didUploadPhoto$65(tLRPC$TL_error, tLObject, str);
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$didUploadPhoto$65(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, String str) {
         if (tLRPC$TL_error == null) {
             TLRPC$User user = getMessagesController().getUser(Long.valueOf(getUserConfig().getClientUserId()));
             if (user == null) {
@@ -11949,7 +12129,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$didUploadPhoto$66(TLRPC$InputFile tLRPC$InputFile, TLRPC$InputFile tLRPC$InputFile2, TLRPC$VideoSize tLRPC$VideoSize, double d, final String str, TLRPC$PhotoSize tLRPC$PhotoSize, TLRPC$PhotoSize tLRPC$PhotoSize2) {
+    public /* synthetic */ void lambda$didUploadPhoto$67(TLRPC$InputFile tLRPC$InputFile, TLRPC$InputFile tLRPC$InputFile2, TLRPC$VideoSize tLRPC$VideoSize, double d, final String str, TLRPC$PhotoSize tLRPC$PhotoSize, TLRPC$PhotoSize tLRPC$PhotoSize2) {
         if (tLRPC$InputFile != null || tLRPC$InputFile2 != null || tLRPC$VideoSize != null) {
             if (this.avatar == null) {
                 return;
@@ -11970,10 +12150,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 tLRPC$TL_photos_uploadProfilePhoto.video_emoji_markup = tLRPC$VideoSize;
                 tLRPC$TL_photos_uploadProfilePhoto.flags |= 16;
             }
-            this.avatarUploadingRequest = getConnectionsManager().sendRequest(tLRPC$TL_photos_uploadProfilePhoto, new RequestDelegate() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda66
+            this.avatarUploadingRequest = getConnectionsManager().sendRequest(tLRPC$TL_photos_uploadProfilePhoto, new RequestDelegate() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda67
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    ProfileActivity.this.lambda$didUploadPhoto$65(str, tLObject, tLRPC$TL_error);
+                    ProfileActivity.this.lambda$didUploadPhoto$66(str, tLObject, tLRPC$TL_error);
                 }
             });
         } else {
@@ -12027,7 +12207,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             animatorSet2.playTogether(ObjectAnimator.ofFloat(this.avatarProgressView, View.ALPHA, 0.0f));
         }
         this.avatarAnimation.setDuration(180L);
-        this.avatarAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ProfileActivity.50
+        this.avatarAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ProfileActivity.52
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
                 if (ProfileActivity.this.avatarAnimation == null || ProfileActivity.this.avatarProgressView == null) {
@@ -12079,16 +12259,16 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         final AlertDialog alertDialog = new AlertDialog(activity, 3);
         alertDialog.setCanCancel(false);
         alertDialog.show();
-        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda35
+        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda36
             @Override // java.lang.Runnable
             public final void run() {
-                ProfileActivity.lambda$sendLogs$68(AlertDialog.this, z, activity);
+                ProfileActivity.lambda$sendLogs$69(AlertDialog.this, z, activity);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$sendLogs$68(final AlertDialog alertDialog, boolean z, final Activity activity) {
+    public static /* synthetic */ void lambda$sendLogs$69(final AlertDialog alertDialog, boolean z, final Activity activity) {
         ZipOutputStream zipOutputStream;
         try {
             File logsDir = AndroidUtilities.getLogsDir();
@@ -12143,10 +12323,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                     if (zipOutputStream != null) {
                                         zipOutputStream.close();
                                     }
-                                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda36
+                                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda37
                                         @Override // java.lang.Runnable
                                         public final void run() {
-                                            ProfileActivity.lambda$sendLogs$67(AlertDialog.this, zArr, activity, file);
+                                            ProfileActivity.lambda$sendLogs$68(AlertDialog.this, zArr, activity, file);
                                         }
                                     });
                                 } catch (Throwable th) {
@@ -12177,10 +12357,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 zipOutputStream = null;
             }
             zipOutputStream.close();
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda36
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda37
                 @Override // java.lang.Runnable
                 public final void run() {
-                    ProfileActivity.lambda$sendLogs$67(AlertDialog.this, zArr, activity, file);
+                    ProfileActivity.lambda$sendLogs$68(AlertDialog.this, zArr, activity, file);
                 }
             });
         } catch (Exception e4) {
@@ -12189,7 +12369,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$sendLogs$67(AlertDialog alertDialog, boolean[] zArr, Activity activity, File file) {
+    public static /* synthetic */ void lambda$sendLogs$68(AlertDialog alertDialog, boolean[] zArr, Activity activity, File file) {
         Uri fromFile;
         try {
             alertDialog.dismiss();
@@ -12420,6 +12600,13 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 case 20:
                     headerCell = new TextCheckCell(this.mContext, ProfileActivity.this.resourcesProvider);
                     break;
+                case 21:
+                    headerCell = new ProfileLocationCell(this.mContext, ProfileActivity.this.resourcesProvider);
+                    break;
+                case 22:
+                    headerCell = new ProfileHoursCell(this.mContext, ProfileActivity.this.resourcesProvider);
+                    headerCell.setBackgroundColor(ProfileActivity.this.getThemedColor(Theme.key_windowBackgroundWhite));
+                    break;
             }
             if (i != 13) {
                 headerCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
@@ -12442,11 +12629,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
 
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Removed duplicated region for block: B:122:0x0324 A[ADDED_TO_REGION] */
-        /* JADX WARN: Removed duplicated region for block: B:125:0x0331  */
-        /* JADX WARN: Removed duplicated region for block: B:126:0x0336  */
-        /* JADX WARN: Removed duplicated region for block: B:497:0x0dc4  */
-        /* JADX WARN: Removed duplicated region for block: B:498:0x0dfa  */
+        /* JADX WARN: Removed duplicated region for block: B:132:0x036e A[ADDED_TO_REGION] */
+        /* JADX WARN: Removed duplicated region for block: B:135:0x037b  */
+        /* JADX WARN: Removed duplicated region for block: B:136:0x0380  */
+        /* JADX WARN: Removed duplicated region for block: B:510:0x0e25  */
+        /* JADX WARN: Removed duplicated region for block: B:511:0x0e5b  */
         /* JADX WARN: Type inference failed for: r0v27, types: [org.telegram.tgnet.TLRPC$ChatParticipant] */
         /* JADX WARN: Type inference failed for: r0v32, types: [org.telegram.tgnet.TLRPC$ChatParticipant] */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -12698,6 +12885,19 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             case 20:
                                 ((TextCheckCell) viewHolder.itemView).setTextAndCheck(LocaleController.getString("Notifications", R.string.Notifications), !ProfileActivity.this.getMessagesController().isDialogMuted(ProfileActivity.this.getDialogId(), ProfileActivity.this.topicId), false);
                                 return;
+                            case 21:
+                                ((ProfileLocationCell) viewHolder.itemView).set(ProfileActivity.this.userInfo != null ? ProfileActivity.this.userInfo.business_location : null, true);
+                                return;
+                            case 22:
+                                ProfileHoursCell profileHoursCell = (ProfileHoursCell) viewHolder.itemView;
+                                profileHoursCell.setOnTimezoneSwitchClick(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$ListAdapter$$ExternalSyntheticLambda0
+                                    @Override // android.view.View.OnClickListener
+                                    public final void onClick(View view2) {
+                                        ProfileActivity.ListAdapter.this.lambda$onBindViewHolder$1(view2);
+                                    }
+                                });
+                                profileHoursCell.set(ProfileActivity.this.userInfo != null ? ProfileActivity.this.userInfo.business_work_hours : null, ProfileActivity.this.hoursExpanded, ProfileActivity.this.hoursShownMine, true);
+                                return;
                             default:
                                 return;
                         }
@@ -12784,8 +12984,13 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                                                                                                 ProfileActivity.this.setAvatarCell = textCell;
                                                                                                             } else if (i != ProfileActivity.this.addToGroupButtonRow) {
                                                                                                                 if (i != ProfileActivity.this.premiumRow) {
-                                                                                                                    if (i == ProfileActivity.this.premiumGiftingRow) {
-                                                                                                                        textCell.setTextAndIcon(TextCell.applyNewSpan(LocaleController.getString("GiftPremiumGifting", R.string.GiftPremiumGifting)), R.drawable.menu_gift, false);
+                                                                                                                    if (i != ProfileActivity.this.businessRow) {
+                                                                                                                        if (i == ProfileActivity.this.premiumGiftingRow) {
+                                                                                                                            textCell.setTextAndIcon((CharSequence) LocaleController.getString("GiftPremiumGifting", R.string.GiftPremiumGifting), R.drawable.menu_gift, false);
+                                                                                                                            textCell.setImageLeft(23);
+                                                                                                                        }
+                                                                                                                    } else {
+                                                                                                                        textCell.setTextAndIcon(TextCell.applyNewSpan(LocaleController.getString(R.string.TelegramBusiness)), R.drawable.menu_shop, true);
                                                                                                                         textCell.setImageLeft(23);
                                                                                                                     }
                                                                                                                 } else {
@@ -12824,7 +13029,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                                                             textCell.setTextAndIcon((CharSequence) LocaleController.getString(R.string.StickersName), R.drawable.msg2_sticker, true);
                                                                         }
                                                                     } else {
-                                                                        textCell.setTextAndIcon((CharSequence) LocaleController.getString("Filters", R.string.Filters), R.drawable.msg2_folder, true);
+                                                                        textCell.setTextAndIcon((CharSequence) LocaleController.getString(R.string.Filters), R.drawable.msg2_folder, true);
                                                                     }
                                                                 } else {
                                                                     textCell.setTextAndIcon((CharSequence) LocaleController.getString("ChatSettings", R.string.ChatSettings), R.drawable.msg2_discussion, true);
@@ -13039,10 +13244,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     drawable.setColorFilter(new PorterDuffColorFilter(profileActivity4.applyPeerColor(profileActivity4.getThemedColor(Theme.key_switch2TrackChecked), false), PorterDuff.Mode.MULTIPLY));
                     textDetailCell.setImage(drawable, LocaleController.getString("GetQRCode", R.string.GetQRCode));
                     final ProfileActivity profileActivity5 = ProfileActivity.this;
-                    textDetailCell.setImageClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$ListAdapter$$ExternalSyntheticLambda0
+                    textDetailCell.setImageClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$ListAdapter$$ExternalSyntheticLambda1
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view2) {
-                            ProfileActivity.access$31200(ProfileActivity.this, view2);
+                            ProfileActivity.access$31900(ProfileActivity.this, view2);
                         }
                     });
                 } else {
@@ -13055,6 +13260,21 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             if (!r7) {
             }
             textDetailCell.setTag(Integer.valueOf(i));
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onBindViewHolder$1(View view) {
+            ProfileActivity profileActivity = ProfileActivity.this;
+            profileActivity.hoursShownMine = !profileActivity.hoursShownMine;
+            ProfileActivity.this.saveScrollPosition();
+            view.requestLayout();
+            ProfileActivity.this.listAdapter.notifyItemChanged(ProfileActivity.this.bizHoursRow);
+            ProfileActivity profileActivity2 = ProfileActivity.this;
+            if (profileActivity2.savedScrollPosition >= 0) {
+                LinearLayoutManager linearLayoutManager = profileActivity2.layoutManager;
+                ProfileActivity profileActivity3 = ProfileActivity.this;
+                linearLayoutManager.scrollToPositionWithOffset(profileActivity3.savedScrollPosition, profileActivity3.savedScrollOffset - profileActivity3.listView.getPaddingTop());
+            }
         }
 
         private CharSequence alsoUsernamesString(String str, ArrayList<TLRPC$TL_username> arrayList, CharSequence charSequence) {
@@ -13121,7 +13341,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {
             if (ProfileActivity.this.notificationRow != -1) {
                 int adapterPosition = viewHolder.getAdapterPosition();
-                return adapterPosition == ProfileActivity.this.notificationRow || adapterPosition == ProfileActivity.this.numberRow || adapterPosition == ProfileActivity.this.privacyRow || adapterPosition == ProfileActivity.this.languageRow || adapterPosition == ProfileActivity.this.setUsernameRow || adapterPosition == ProfileActivity.this.bioRow || adapterPosition == ProfileActivity.this.versionRow || adapterPosition == ProfileActivity.this.dataRow || adapterPosition == ProfileActivity.this.chatRow || adapterPosition == ProfileActivity.this.questionRow || adapterPosition == ProfileActivity.this.devicesRow || adapterPosition == ProfileActivity.this.filtersRow || adapterPosition == ProfileActivity.this.stickersRow || adapterPosition == ProfileActivity.this.faqRow || adapterPosition == ProfileActivity.this.policyRow || adapterPosition == ProfileActivity.this.sendLogsRow || adapterPosition == ProfileActivity.this.sendLastLogsRow || adapterPosition == ProfileActivity.this.clearLogsRow || adapterPosition == ProfileActivity.this.switchBackendRow || adapterPosition == ProfileActivity.this.setAvatarRow || adapterPosition == ProfileActivity.this.addToGroupButtonRow || adapterPosition == ProfileActivity.this.premiumRow || adapterPosition == ProfileActivity.this.premiumGiftingRow || adapterPosition == ProfileActivity.this.liteModeRow;
+                return adapterPosition == ProfileActivity.this.notificationRow || adapterPosition == ProfileActivity.this.numberRow || adapterPosition == ProfileActivity.this.privacyRow || adapterPosition == ProfileActivity.this.languageRow || adapterPosition == ProfileActivity.this.setUsernameRow || adapterPosition == ProfileActivity.this.bioRow || adapterPosition == ProfileActivity.this.versionRow || adapterPosition == ProfileActivity.this.dataRow || adapterPosition == ProfileActivity.this.chatRow || adapterPosition == ProfileActivity.this.questionRow || adapterPosition == ProfileActivity.this.devicesRow || adapterPosition == ProfileActivity.this.filtersRow || adapterPosition == ProfileActivity.this.stickersRow || adapterPosition == ProfileActivity.this.faqRow || adapterPosition == ProfileActivity.this.policyRow || adapterPosition == ProfileActivity.this.sendLogsRow || adapterPosition == ProfileActivity.this.sendLastLogsRow || adapterPosition == ProfileActivity.this.clearLogsRow || adapterPosition == ProfileActivity.this.switchBackendRow || adapterPosition == ProfileActivity.this.setAvatarRow || adapterPosition == ProfileActivity.this.addToGroupButtonRow || adapterPosition == ProfileActivity.this.premiumRow || adapterPosition == ProfileActivity.this.premiumGiftingRow || adapterPosition == ProfileActivity.this.businessRow || adapterPosition == ProfileActivity.this.liteModeRow;
             }
             View view = viewHolder.itemView;
             if (view instanceof UserCell) {
@@ -13153,7 +13373,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             if (i == ProfileActivity.this.userInfoRow || i == ProfileActivity.this.channelInfoRow || i == ProfileActivity.this.bioRow) {
                 return 3;
             }
-            if (i == ProfileActivity.this.settingsTimerRow || i == ProfileActivity.this.settingsKeyRow || i == ProfileActivity.this.reportRow || i == ProfileActivity.this.reportReactionRow || i == ProfileActivity.this.subscribersRow || i == ProfileActivity.this.subscribersRequestsRow || i == ProfileActivity.this.administratorsRow || i == ProfileActivity.this.settingsRow || i == ProfileActivity.this.blockedUsersRow || i == ProfileActivity.this.addMemberRow || i == ProfileActivity.this.joinRow || i == ProfileActivity.this.unblockRow || i == ProfileActivity.this.sendMessageRow || i == ProfileActivity.this.notificationRow || i == ProfileActivity.this.privacyRow || i == ProfileActivity.this.languageRow || i == ProfileActivity.this.dataRow || i == ProfileActivity.this.chatRow || i == ProfileActivity.this.questionRow || i == ProfileActivity.this.devicesRow || i == ProfileActivity.this.filtersRow || i == ProfileActivity.this.stickersRow || i == ProfileActivity.this.faqRow || i == ProfileActivity.this.policyRow || i == ProfileActivity.this.sendLogsRow || i == ProfileActivity.this.sendLastLogsRow || i == ProfileActivity.this.clearLogsRow || i == ProfileActivity.this.switchBackendRow || i == ProfileActivity.this.setAvatarRow || i == ProfileActivity.this.addToGroupButtonRow || i == ProfileActivity.this.addToContactsRow || i == ProfileActivity.this.liteModeRow || i == ProfileActivity.this.premiumGiftingRow) {
+            if (i == ProfileActivity.this.settingsTimerRow || i == ProfileActivity.this.settingsKeyRow || i == ProfileActivity.this.reportRow || i == ProfileActivity.this.reportReactionRow || i == ProfileActivity.this.subscribersRow || i == ProfileActivity.this.subscribersRequestsRow || i == ProfileActivity.this.administratorsRow || i == ProfileActivity.this.settingsRow || i == ProfileActivity.this.blockedUsersRow || i == ProfileActivity.this.addMemberRow || i == ProfileActivity.this.joinRow || i == ProfileActivity.this.unblockRow || i == ProfileActivity.this.sendMessageRow || i == ProfileActivity.this.notificationRow || i == ProfileActivity.this.privacyRow || i == ProfileActivity.this.languageRow || i == ProfileActivity.this.dataRow || i == ProfileActivity.this.chatRow || i == ProfileActivity.this.questionRow || i == ProfileActivity.this.devicesRow || i == ProfileActivity.this.filtersRow || i == ProfileActivity.this.stickersRow || i == ProfileActivity.this.faqRow || i == ProfileActivity.this.policyRow || i == ProfileActivity.this.sendLogsRow || i == ProfileActivity.this.sendLastLogsRow || i == ProfileActivity.this.clearLogsRow || i == ProfileActivity.this.switchBackendRow || i == ProfileActivity.this.setAvatarRow || i == ProfileActivity.this.addToGroupButtonRow || i == ProfileActivity.this.addToContactsRow || i == ProfileActivity.this.liteModeRow || i == ProfileActivity.this.premiumGiftingRow || i == ProfileActivity.this.businessRow) {
                 return 4;
             }
             if (i == ProfileActivity.this.notificationsDividerRow) {
@@ -13187,7 +13407,13 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 if (i == ProfileActivity.this.addToGroupInfoRow) {
                     return 17;
                 }
-                return i == ProfileActivity.this.premiumRow ? 18 : 0;
+                if (i == ProfileActivity.this.premiumRow) {
+                    return 18;
+                }
+                if (i == ProfileActivity.this.bizLocationRow) {
+                    return 21;
+                }
+                return i == ProfileActivity.this.bizHoursRow ? 22 : 0;
             }
             return 8;
         }
@@ -13336,7 +13562,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
         /* JADX INFO: Access modifiers changed from: private */
         public SearchResult[] onCreateSearchArray() {
-            SearchResult[] searchResultArr = new SearchResult[MessagesStorage.LAST_DB_VERSION];
+            SearchResult[] searchResultArr = new SearchResult[143];
             searchResultArr[0] = new SearchResult(this, 500, LocaleController.getString("EditName", R.string.EditName), 0, new Runnable() { // from class: org.telegram.ui.ProfileActivity$SearchAdapter$$ExternalSyntheticLambda59
                 @Override // java.lang.Runnable
                 public final void run() {
@@ -14992,7 +15218,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         public /* synthetic */ void lambda$onCreateSearchArray$136() {
             LiteModeSettingsActivity liteModeSettingsActivity = new LiteModeSettingsActivity();
             ProfileActivity.this.presentFragment(liteModeSettingsActivity);
-            liteModeSettingsActivity.scrollToFlags(LiteMode.FLAG_AUTOPLAY_GIFS);
+            liteModeSettingsActivity.scrollToFlags(2048);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -15482,13 +15708,13 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda0
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                ProfileActivity.this.lambda$dimBehindView$69(valueAnimator);
+                ProfileActivity.this.lambda$dimBehindView$70(valueAnimator);
             }
         });
         this.scrimAnimatorSet.playTogether(arrayList);
         this.scrimAnimatorSet.setDuration(z ? 150L : 220L);
         if (!z) {
-            this.scrimAnimatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ProfileActivity.51
+            this.scrimAnimatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ProfileActivity.53
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
                     ProfileActivity.this.scrimView = null;
@@ -15500,7 +15726,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$dimBehindView$69(ValueAnimator valueAnimator) {
+    public /* synthetic */ void lambda$dimBehindView$70(ValueAnimator valueAnimator) {
         this.scrimPaint.setAlpha((int) (((Float) valueAnimator.getAnimatedValue()).floatValue() * 255.0f));
     }
 
@@ -15509,10 +15735,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         if (this.resourcesProvider != null) {
             return null;
         }
-        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda68
+        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda69
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
-                ProfileActivity.this.lambda$getThemeDescriptions$70();
+                ProfileActivity.this.lambda$getThemeDescriptions$71();
             }
 
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
@@ -15639,7 +15865,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$getThemeDescriptions$70() {
+    public /* synthetic */ void lambda$getThemeDescriptions$71() {
         RecyclerListView recyclerListView = this.listView;
         if (recyclerListView != null) {
             int childCount = recyclerListView.getChildCount();
@@ -15798,17 +16024,17 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     @SuppressLint({"NotifyDataSetChanged"})
     public void openAddToContact(final TLRPC$User tLRPC$User, Bundle bundle) {
         ContactAddActivity contactAddActivity = new ContactAddActivity(bundle, this.resourcesProvider);
-        contactAddActivity.setDelegate(new ContactAddActivity.ContactAddActivityDelegate() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda72
+        contactAddActivity.setDelegate(new ContactAddActivity.ContactAddActivityDelegate() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda73
             @Override // org.telegram.ui.ContactAddActivity.ContactAddActivityDelegate
             public final void didAddToContacts() {
-                ProfileActivity.this.lambda$openAddToContact$71(tLRPC$User);
+                ProfileActivity.this.lambda$openAddToContact$72(tLRPC$User);
             }
         });
         presentFragment(contactAddActivity);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$openAddToContact$71(TLRPC$User tLRPC$User) {
+    public /* synthetic */ void lambda$openAddToContact$72(TLRPC$User tLRPC$User) {
         if (this.addToContactsRow >= 0) {
             if (this.sharedMediaRow == -1) {
                 updateRowsIds();
@@ -15911,61 +16137,64 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             put(13, ProfileActivity.this.notificationRow, sparseIntArray);
             put(14, ProfileActivity.this.languageRow, sparseIntArray);
             put(15, ProfileActivity.this.premiumRow, sparseIntArray);
-            put(16, ProfileActivity.this.premiumSectionsRow, sparseIntArray);
-            put(17, ProfileActivity.this.premiumGiftingRow, sparseIntArray);
-            put(18, ProfileActivity.this.privacyRow, sparseIntArray);
-            put(19, ProfileActivity.this.dataRow, sparseIntArray);
-            put(20, ProfileActivity.this.liteModeRow, sparseIntArray);
-            put(21, ProfileActivity.this.chatRow, sparseIntArray);
-            put(22, ProfileActivity.this.filtersRow, sparseIntArray);
-            put(23, ProfileActivity.this.stickersRow, sparseIntArray);
-            put(24, ProfileActivity.this.devicesRow, sparseIntArray);
-            put(25, ProfileActivity.this.devicesSectionRow, sparseIntArray);
-            put(26, ProfileActivity.this.helpHeaderRow, sparseIntArray);
-            put(27, ProfileActivity.this.questionRow, sparseIntArray);
-            put(28, ProfileActivity.this.faqRow, sparseIntArray);
-            put(29, ProfileActivity.this.policyRow, sparseIntArray);
-            put(30, ProfileActivity.this.helpSectionCell, sparseIntArray);
-            put(31, ProfileActivity.this.debugHeaderRow, sparseIntArray);
-            put(32, ProfileActivity.this.sendLogsRow, sparseIntArray);
-            put(33, ProfileActivity.this.sendLastLogsRow, sparseIntArray);
-            put(34, ProfileActivity.this.clearLogsRow, sparseIntArray);
-            put(35, ProfileActivity.this.switchBackendRow, sparseIntArray);
-            put(36, ProfileActivity.this.versionRow, sparseIntArray);
-            put(37, ProfileActivity.this.emptyRow, sparseIntArray);
-            put(38, ProfileActivity.this.bottomPaddingRow, sparseIntArray);
-            put(39, ProfileActivity.this.infoHeaderRow, sparseIntArray);
-            put(40, ProfileActivity.this.phoneRow, sparseIntArray);
-            put(41, ProfileActivity.this.locationRow, sparseIntArray);
-            put(42, ProfileActivity.this.userInfoRow, sparseIntArray);
-            put(43, ProfileActivity.this.channelInfoRow, sparseIntArray);
-            put(44, ProfileActivity.this.usernameRow, sparseIntArray);
-            put(45, ProfileActivity.this.notificationsDividerRow, sparseIntArray);
-            put(46, ProfileActivity.this.reportDividerRow, sparseIntArray);
-            put(47, ProfileActivity.this.notificationsRow, sparseIntArray);
-            put(48, ProfileActivity.this.infoSectionRow, sparseIntArray);
-            put(49, ProfileActivity.this.sendMessageRow, sparseIntArray);
-            put(50, ProfileActivity.this.reportRow, sparseIntArray);
-            put(51, ProfileActivity.this.reportReactionRow, sparseIntArray);
-            put(52, ProfileActivity.this.addToContactsRow, sparseIntArray);
-            put(53, ProfileActivity.this.settingsTimerRow, sparseIntArray);
-            put(54, ProfileActivity.this.settingsKeyRow, sparseIntArray);
-            put(55, ProfileActivity.this.secretSettingsSectionRow, sparseIntArray);
-            put(56, ProfileActivity.this.membersHeaderRow, sparseIntArray);
-            put(57, ProfileActivity.this.addMemberRow, sparseIntArray);
-            put(58, ProfileActivity.this.subscribersRow, sparseIntArray);
-            put(59, ProfileActivity.this.subscribersRequestsRow, sparseIntArray);
-            put(60, ProfileActivity.this.administratorsRow, sparseIntArray);
-            put(61, ProfileActivity.this.settingsRow, sparseIntArray);
-            put(62, ProfileActivity.this.blockedUsersRow, sparseIntArray);
-            put(63, ProfileActivity.this.membersSectionRow, sparseIntArray);
-            put(64, ProfileActivity.this.sharedMediaRow, sparseIntArray);
-            put(65, ProfileActivity.this.unblockRow, sparseIntArray);
-            put(66, ProfileActivity.this.addToGroupButtonRow, sparseIntArray);
-            put(67, ProfileActivity.this.addToGroupInfoRow, sparseIntArray);
-            put(68, ProfileActivity.this.joinRow, sparseIntArray);
-            put(69, ProfileActivity.this.lastSectionRow, sparseIntArray);
-            put(70, ProfileActivity.this.notificationsSimpleRow, sparseIntArray);
+            put(16, ProfileActivity.this.businessRow, sparseIntArray);
+            put(17, ProfileActivity.this.premiumSectionsRow, sparseIntArray);
+            put(18, ProfileActivity.this.premiumGiftingRow, sparseIntArray);
+            put(19, ProfileActivity.this.privacyRow, sparseIntArray);
+            put(20, ProfileActivity.this.dataRow, sparseIntArray);
+            put(21, ProfileActivity.this.liteModeRow, sparseIntArray);
+            put(22, ProfileActivity.this.chatRow, sparseIntArray);
+            put(23, ProfileActivity.this.filtersRow, sparseIntArray);
+            put(24, ProfileActivity.this.stickersRow, sparseIntArray);
+            put(25, ProfileActivity.this.devicesRow, sparseIntArray);
+            put(26, ProfileActivity.this.devicesSectionRow, sparseIntArray);
+            put(27, ProfileActivity.this.helpHeaderRow, sparseIntArray);
+            put(28, ProfileActivity.this.questionRow, sparseIntArray);
+            put(29, ProfileActivity.this.faqRow, sparseIntArray);
+            put(30, ProfileActivity.this.policyRow, sparseIntArray);
+            put(31, ProfileActivity.this.helpSectionCell, sparseIntArray);
+            put(32, ProfileActivity.this.debugHeaderRow, sparseIntArray);
+            put(33, ProfileActivity.this.sendLogsRow, sparseIntArray);
+            put(34, ProfileActivity.this.sendLastLogsRow, sparseIntArray);
+            put(35, ProfileActivity.this.clearLogsRow, sparseIntArray);
+            put(36, ProfileActivity.this.switchBackendRow, sparseIntArray);
+            put(37, ProfileActivity.this.versionRow, sparseIntArray);
+            put(38, ProfileActivity.this.emptyRow, sparseIntArray);
+            put(39, ProfileActivity.this.bottomPaddingRow, sparseIntArray);
+            put(40, ProfileActivity.this.infoHeaderRow, sparseIntArray);
+            put(41, ProfileActivity.this.phoneRow, sparseIntArray);
+            put(42, ProfileActivity.this.locationRow, sparseIntArray);
+            put(43, ProfileActivity.this.userInfoRow, sparseIntArray);
+            put(44, ProfileActivity.this.channelInfoRow, sparseIntArray);
+            put(45, ProfileActivity.this.usernameRow, sparseIntArray);
+            put(46, ProfileActivity.this.notificationsDividerRow, sparseIntArray);
+            put(47, ProfileActivity.this.reportDividerRow, sparseIntArray);
+            put(48, ProfileActivity.this.notificationsRow, sparseIntArray);
+            put(49, ProfileActivity.this.infoSectionRow, sparseIntArray);
+            put(50, ProfileActivity.this.sendMessageRow, sparseIntArray);
+            put(51, ProfileActivity.this.reportRow, sparseIntArray);
+            put(52, ProfileActivity.this.reportReactionRow, sparseIntArray);
+            put(53, ProfileActivity.this.addToContactsRow, sparseIntArray);
+            put(54, ProfileActivity.this.settingsTimerRow, sparseIntArray);
+            put(55, ProfileActivity.this.settingsKeyRow, sparseIntArray);
+            put(56, ProfileActivity.this.secretSettingsSectionRow, sparseIntArray);
+            put(57, ProfileActivity.this.membersHeaderRow, sparseIntArray);
+            put(58, ProfileActivity.this.addMemberRow, sparseIntArray);
+            put(59, ProfileActivity.this.subscribersRow, sparseIntArray);
+            put(60, ProfileActivity.this.subscribersRequestsRow, sparseIntArray);
+            put(61, ProfileActivity.this.administratorsRow, sparseIntArray);
+            put(62, ProfileActivity.this.settingsRow, sparseIntArray);
+            put(63, ProfileActivity.this.blockedUsersRow, sparseIntArray);
+            put(64, ProfileActivity.this.membersSectionRow, sparseIntArray);
+            put(65, ProfileActivity.this.sharedMediaRow, sparseIntArray);
+            put(66, ProfileActivity.this.unblockRow, sparseIntArray);
+            put(67, ProfileActivity.this.addToGroupButtonRow, sparseIntArray);
+            put(68, ProfileActivity.this.addToGroupInfoRow, sparseIntArray);
+            put(69, ProfileActivity.this.joinRow, sparseIntArray);
+            put(70, ProfileActivity.this.lastSectionRow, sparseIntArray);
+            put(71, ProfileActivity.this.notificationsSimpleRow, sparseIntArray);
+            put(72, ProfileActivity.this.bizHoursRow, sparseIntArray);
+            put(73, ProfileActivity.this.bizLocationRow, sparseIntArray);
         }
 
         private void put(int i, int i2, SparseIntArray sparseIntArray) {

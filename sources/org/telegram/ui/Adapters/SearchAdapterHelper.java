@@ -41,7 +41,7 @@ import org.telegram.tgnet.TLRPC$TL_groupCallParticipant;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.Adapters.DialogsSearchAdapter;
 import org.telegram.ui.Components.ShareAlert;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class SearchAdapterHelper {
     private boolean allResultsAreGlobal;
     private SearchAdapterHelperDelegate delegate;
@@ -63,16 +63,16 @@ public class SearchAdapterHelper {
     private boolean allowGlobalResults = true;
     private boolean hashtagsLoadedFromDb = false;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public static class HashtagObject {
         int date;
         String hashtag;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public interface SearchAdapterHelperDelegate {
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes.dex */
         public final /* synthetic */ class -CC {
             public static boolean $default$canApplySearchResults(SearchAdapterHelperDelegate searchAdapterHelperDelegate, int i) {
                 return true;

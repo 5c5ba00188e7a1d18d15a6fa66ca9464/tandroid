@@ -16,7 +16,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.CheckBox2;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RLottieImageView;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class ActionBarMenuSubItem extends FrameLayout {
     boolean bottom;
     private CheckBox2 checkView;
@@ -175,7 +175,7 @@ public class ActionBarMenuSubItem extends FrameLayout {
                 this.imageView.setImageResource(i);
             }
             this.imageView.setVisibility(0);
-            this.textView.setPadding(LocaleController.isRTL ? 0 : AndroidUtilities.dp(43.0f), 0, LocaleController.isRTL ? AndroidUtilities.dp(43.0f) : 0, 0);
+            this.textView.setPadding(LocaleController.isRTL ? this.checkView != null ? AndroidUtilities.dp(34.0f) : 0 : AndroidUtilities.dp(43.0f), 0, LocaleController.isRTL ? AndroidUtilities.dp(43.0f) : this.checkView != null ? AndroidUtilities.dp(34.0f) : 0, 0);
             return;
         }
         this.imageView.setVisibility(4);

@@ -27,7 +27,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Premium.PremiumLockIconView;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class StickerCell extends FrameLayout {
     private boolean clearsInputField;
     private BackupImageView imageView;

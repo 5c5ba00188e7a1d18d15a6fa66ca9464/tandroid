@@ -1,7 +1,7 @@
 package org.telegram.messenger;
 
 import java.util.Comparator;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public final /* synthetic */ class MessageObject$$ExternalSyntheticLambda1 implements Comparator {
     public static final /* synthetic */ MessageObject$$ExternalSyntheticLambda1 INSTANCE = new MessageObject$$ExternalSyntheticLambda1();
 

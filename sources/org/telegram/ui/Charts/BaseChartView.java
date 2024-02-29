@@ -36,7 +36,7 @@ import org.telegram.ui.Charts.view_data.LegendSignatureView;
 import org.telegram.ui.Charts.view_data.LineViewData;
 import org.telegram.ui.Charts.view_data.TransitionParams;
 import org.telegram.ui.Components.CubicBezierInterpolator;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public abstract class BaseChartView<T extends ChartData, L extends LineViewData> extends View implements ChartPickerDelegate.Listener {
     protected static final boolean ANIMATE_PICKER_SIZES;
     public static FastOutSlowInInterpolator INTERPOLATOR;
@@ -152,7 +152,7 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
     private static final int DP_2 = AndroidUtilities.dp(2.0f);
     private static final int DP_1 = AndroidUtilities.dp(1.0f);
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface DateSelectionListener {
         void onDateSelected(long j);
     }
@@ -1725,7 +1725,7 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
         this.dateSelectionListener = dateSelectionListener;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class SharedUiComponents {
         private Canvas canvas;
         private boolean invalidate;

@@ -67,7 +67,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class ActionBarMenuItem extends FrameLayout {
     private int additionalXOffset;
     private int additionalYOffset;
@@ -124,12 +124,12 @@ public class ActionBarMenuItem extends FrameLayout {
     private FrameLayout wrappedSearchFrameLayout;
     private int yOffset;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public interface ActionBarMenuItemDelegate {
         void onItemClick(int i);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public static class ActionBarMenuItemSearchListener {
         public boolean canCollapseSearch() {
             return true;
@@ -172,7 +172,7 @@ public class ActionBarMenuItem extends FrameLayout {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public interface ActionBarSubMenuItemDelegate {
         void onHideSubMenu();
 
@@ -2175,7 +2175,7 @@ public class ActionBarMenuItem extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public static class ReactionFilterView extends SearchFilterView {
         private boolean attached;
         private ReactionsLayoutInBubble.ReactionButton reactionButton;
@@ -2255,7 +2255,7 @@ public class ActionBarMenuItem extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public static class SearchFilterView extends FrameLayout {
         BackupImageView avatarImageView;
         ImageView closeIconView;
@@ -2439,7 +2439,7 @@ public class ActionBarMenuItem extends FrameLayout {
         return gapView;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public static class Item {
         public boolean dismiss;
         public int icon;

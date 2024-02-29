@@ -73,7 +73,7 @@ import org.telegram.ui.Components.LetterDrawable;
 import org.telegram.ui.Components.RadialProgress2;
 import org.telegram.ui.PhotoViewer;
 import org.webrtc.MediaStreamTrack;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ContextLinkCell extends FrameLayout implements DownloadController.FileDownloadProgressListener {
     public final Property<ContextLinkCell, Float> IMAGE_SCALE;
     private int TAG;
@@ -119,7 +119,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
     private StaticLayout titleLayout;
     private int titleY;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface ContextLinkCellDelegate {
         void didPressedImage(ContextLinkCell contextLinkCell);
     }
@@ -1288,7 +1288,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 1 implements Runnable {
         final /* synthetic */ boolean val$ifSame;
         final /* synthetic */ int val$localId;

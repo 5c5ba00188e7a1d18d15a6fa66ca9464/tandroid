@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.telephony.TelephonyManager;
 import org.telegram.PhoneFormat.PhoneFormat;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class CallReceiver extends BroadcastReceiver {
     @Override // android.content.BroadcastReceiver
     public void onReceive(Context context, Intent intent) {
