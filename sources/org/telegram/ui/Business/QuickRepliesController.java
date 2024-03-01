@@ -200,7 +200,7 @@ public class QuickRepliesController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0135  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x013c  */
     /* JADX WARN: Type inference failed for: r8v0 */
     /* JADX WARN: Type inference failed for: r8v1, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r8v3 */
@@ -284,6 +284,7 @@ public class QuickRepliesController {
                     sQLiteDatabase = database;
                     MessageObject messageObject = new MessageObject(quickRepliesController.currentAccount, TLdeserialize, false, true);
                     quickReply2.topMessage = messageObject;
+                    quickReply2.topMessageId = TLdeserialize.id;
                     messageObject.generateThumbs(false);
                     quickReply2.topMessage.applyQuickReply(quickReply2.name, quickReply2.id);
                 }
@@ -358,6 +359,7 @@ public class QuickRepliesController {
                 quickReply.id = tLRPC$TL_quickReply.shortcut_id;
                 quickReply.name = tLRPC$TL_quickReply.shortcut;
                 quickReply.messagesCount = tLRPC$TL_quickReply.count;
+                quickReply.topMessageId = tLRPC$TL_quickReply.top_message;
                 quickReply.order = i;
                 int i2 = 0;
                 while (true) {
@@ -797,6 +799,7 @@ public class QuickRepliesController {
             if (findReply == null) {
                 QuickReply quickReply = new QuickReply(this);
                 quickReply.id = tLRPC$Message.quick_reply_shortcut_id;
+                quickReply.topMessageId = tLRPC$Message.id;
                 MessageObject messageObject = new MessageObject(this.currentAccount, tLRPC$Message, false, true);
                 quickReply.topMessage = messageObject;
                 messageObject.generateThumbs(false);
@@ -809,16 +812,21 @@ public class QuickRepliesController {
                 this.replies.add(0, quickReply);
                 updateOrder();
                 addReply(quickReply);
-            } else if (findReply.topMessageId == tLRPC$Message.id) {
-                MessageObject messageObject2 = new MessageObject(this.currentAccount, tLRPC$Message, false, true);
-                findReply.topMessage = messageObject2;
-                messageObject2.generateThumbs(false);
-                saveToCache();
-                NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.quickRepliesUpdated, new Object[0]);
             } else {
-                findReply.messagesCount++;
-                saveToCache();
-                NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.quickRepliesUpdated, new Object[0]);
+                int i2 = findReply.topMessageId;
+                int i3 = tLRPC$Message.id;
+                if (i2 == i3) {
+                    findReply.topMessageId = i3;
+                    MessageObject messageObject2 = new MessageObject(this.currentAccount, tLRPC$Message, false, true);
+                    findReply.topMessage = messageObject2;
+                    messageObject2.generateThumbs(false);
+                    saveToCache();
+                    NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.quickRepliesUpdated, new Object[0]);
+                } else if ((tLRPC$Message.flags & LiteMode.FLAG_CHAT_SCALE) == 0) {
+                    findReply.messagesCount++;
+                    saveToCache();
+                    NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.quickRepliesUpdated, new Object[0]);
+                }
             }
         }
         if (str == null && i == 0) {
@@ -961,6 +969,7 @@ public class QuickRepliesController {
                     findLocalReply.name = next.getQuickReplyName();
                     findLocalReply.id = -1;
                     findLocalReply.topMessage = next;
+                    findLocalReply.topMessageId = next.getId();
                     this.localReplies.add(findLocalReply);
                 }
                 findLocalReply.localIds.add(Integer.valueOf(next.getId()));

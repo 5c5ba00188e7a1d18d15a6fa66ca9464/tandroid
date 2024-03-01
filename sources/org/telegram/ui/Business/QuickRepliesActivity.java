@@ -641,7 +641,9 @@ public class QuickRepliesActivity extends BaseFragment implements NotificationCe
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$openRenameReplyAlert$8(View view, DialogInterface dialogInterface) {
         currentDialog = null;
-        view.requestFocus();
+        if (view != null) {
+            view.requestFocus();
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */

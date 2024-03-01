@@ -2710,7 +2710,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             }
         };
         this.listView = clippedListView;
-        clippedListView.setVerticalScrollBarEnabled(r12);
+        clippedListView.setTranslateSelector(r14);
+        this.listView.setVerticalScrollBarEnabled(r12);
         10 r0 = new 10();
         this.listView.setItemAnimator(r0);
         r0.setMoveDelay(0L);
