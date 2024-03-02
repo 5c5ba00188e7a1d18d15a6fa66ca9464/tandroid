@@ -530,12 +530,6 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
             this.animatorSet.cancel();
             this.animatorSet = null;
         }
-        GLIconRenderer gLIconRenderer = this.mRenderer;
-        if (gLIconRenderer != null) {
-            gLIconRenderer.angleX = 0.0f;
-            gLIconRenderer.angleY = 0.0f;
-            gLIconRenderer.angleX2 = 0.0f;
-        }
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -552,6 +546,12 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
     public void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         cancelAnimatons();
+        GLIconRenderer gLIconRenderer = this.mRenderer;
+        if (gLIconRenderer != null) {
+            gLIconRenderer.angleX = 0.0f;
+            gLIconRenderer.angleY = 0.0f;
+            gLIconRenderer.angleX2 = 0.0f;
+        }
         this.attached = false;
     }
 

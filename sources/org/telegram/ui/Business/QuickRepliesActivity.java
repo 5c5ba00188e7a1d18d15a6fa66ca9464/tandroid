@@ -212,14 +212,10 @@ public class QuickRepliesActivity extends BaseFragment implements NotificationCe
         if (QuickRepliesController.getInstance(this.currentAccount).canAddNew()) {
             arrayList.add(UItem.asButton(1, R.drawable.msg_viewintopic, LocaleController.getString(R.string.BusinessRepliesAdd)).accent());
         }
-        Iterator<QuickRepliesController.QuickReply> it = QuickRepliesController.getInstance(this.currentAccount).localReplies.iterator();
-        while (it.hasNext()) {
-            arrayList.add(UItem.asQuickReply(it.next()).setChecked(false));
-        }
         this.repliesOrderId = universalAdapter.reorderSectionStart();
-        Iterator<QuickRepliesController.QuickReply> it2 = QuickRepliesController.getInstance(this.currentAccount).replies.iterator();
-        while (it2.hasNext()) {
-            QuickRepliesController.QuickReply next = it2.next();
+        Iterator<QuickRepliesController.QuickReply> it = QuickRepliesController.getInstance(this.currentAccount).replies.iterator();
+        while (it.hasNext()) {
+            QuickRepliesController.QuickReply next = it.next();
             arrayList.add(UItem.asQuickReply(next).setChecked(this.selected.contains(Integer.valueOf(next.id))));
         }
         universalAdapter.reorderSectionEnd();
@@ -442,7 +438,7 @@ public class QuickRepliesActivity extends BaseFragment implements NotificationCe
         editTextBoldCursor.setFilters(new InputFilter[]{new InputFilter() { // from class: org.telegram.ui.Business.QuickRepliesActivity.4
             @Override // android.text.InputFilter
             public CharSequence filter(CharSequence charSequence, int i3, int i4, Spanned spanned, int i5, int i6) {
-                return String.valueOf(charSequence).replace(" ", "").replace("/", "").toLowerCase();
+                return String.valueOf(charSequence).replaceAll("[^\\d_\\p{L}\\x{200c}\\x{00b7}\\x{0d80}-\\x{0dff}]", "");
             }
         }});
         ?? linearLayout = new LinearLayout(context);
@@ -724,7 +720,7 @@ public class QuickRepliesActivity extends BaseFragment implements NotificationCe
             int i6 = Theme.key_windowBackgroundWhiteGrayText2;
             paint2.setColor(Theme.multAlpha(Theme.getColor(i6), 0.15f));
             canvas.drawRoundRect(rectF, AndroidUtilities.dp(4.0f), AndroidUtilities.dp(4.0f), this.backgroundPaint);
-            this.text.draw(canvas, f + AndroidUtilities.dp(5.0f), f2, Theme.getColor(i6), (paint.getAlpha() * 2) / 255.0f);
+            this.text.draw(canvas, f + AndroidUtilities.dp(5.0f), f2, Theme.getColor(i6), Utilities.clamp((paint.getAlpha() * 2) / 255.0f, 1.0f, 0.0f));
         }
     }
 

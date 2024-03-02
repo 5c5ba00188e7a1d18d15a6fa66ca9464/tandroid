@@ -266,6 +266,7 @@ public class AboutLinkCell extends FrameLayout {
 
     @Override // android.view.View
     public void draw(Canvas canvas) {
+        super.draw(canvas);
         View view = (View) getParent();
         float pow = view == null ? 1.0f : (float) Math.pow(view.getAlpha(), 2.0d);
         drawText(canvas);
@@ -287,7 +288,6 @@ public class AboutLinkCell extends FrameLayout {
             canvas.restore();
         }
         this.container.draw(canvas);
-        super.draw(canvas);
     }
 
     private void drawText(Canvas canvas) {

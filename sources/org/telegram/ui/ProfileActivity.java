@@ -2710,8 +2710,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             }
         };
         this.listView = clippedListView;
-        clippedListView.setTranslateSelector(r14);
-        this.listView.setVerticalScrollBarEnabled(r12);
+        clippedListView.setVerticalScrollBarEnabled(r12);
         10 r0 = new 10();
         this.listView.setItemAnimator(r0);
         r0.setMoveDelay(0L);
@@ -9850,23 +9849,23 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     this.rowCount = i45 + 1;
                     this.usernameRow = i45;
                 }
-                if (this.phoneRow != -1 || this.userInfoRow != -1 || this.usernameRow != -1) {
-                    int i46 = this.rowCount;
-                    this.rowCount = i46 + 1;
-                    this.notificationsDividerRow = i46;
-                }
                 TLRPC$UserFull tLRPC$UserFull5 = this.userInfo;
                 if (tLRPC$UserFull5 != null) {
                     if (tLRPC$UserFull5.business_work_hours != null) {
-                        int i47 = this.rowCount;
-                        this.rowCount = i47 + 1;
-                        this.bizHoursRow = i47;
+                        int i46 = this.rowCount;
+                        this.rowCount = i46 + 1;
+                        this.bizHoursRow = i46;
                     }
                     if (tLRPC$UserFull5.business_location != null) {
-                        int i48 = this.rowCount;
-                        this.rowCount = i48 + 1;
-                        this.bizLocationRow = i48;
+                        int i47 = this.rowCount;
+                        this.rowCount = i47 + 1;
+                        this.bizLocationRow = i47;
                     }
+                }
+                if (this.phoneRow != -1 || this.userInfoRow != -1 || this.usernameRow != -1 || this.bizHoursRow != -1 || this.bizLocationRow != -1) {
+                    int i48 = this.rowCount;
+                    this.rowCount = i48 + 1;
+                    this.notificationsDividerRow = i48;
                 }
                 if (this.userId != getUserConfig().getClientUserId()) {
                     int i49 = this.rowCount;
@@ -10179,6 +10178,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
         if (this.listView == null || i3 > this.rowCount || ((i2 = this.listContentHeight) != 0 && i2 + i + AndroidUtilities.dp(88.0f) < this.listView.getMeasuredHeight())) {
             this.lastMeasuredContentWidth = 0;
+        }
+        RecyclerListView recyclerListView = this.listView;
+        if (recyclerListView != null) {
+            recyclerListView.setTranslateSelectorPosition(this.bizHoursRow);
         }
     }
 
@@ -12424,11 +12427,13 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             switch (i) {
                 case 1:
                     headerCell = new HeaderCell(this.mContext, 23, ProfileActivity.this.resourcesProvider);
+                    headerCell.setBackgroundColor(ProfileActivity.this.getThemedColor(Theme.key_windowBackgroundWhite));
                     break;
                 case 2:
                 case 19:
                     TextDetailCell textDetailCell2 = new TextDetailCell(this.mContext, ProfileActivity.this.resourcesProvider, i == 19);
                     textDetailCell2.setContentDescriptionValueFirst(true);
+                    textDetailCell2.setBackgroundColor(ProfileActivity.this.getThemedColor(Theme.key_windowBackgroundWhite));
                     textDetailCell = textDetailCell2;
                     headerCell = textDetailCell;
                     break;
@@ -12457,6 +12462,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             return ProfileActivity.this.applyPeerColor(i2, false);
                         }
                     };
+                    headerCell.setBackgroundColor(ProfileActivity.this.getThemedColor(Theme.key_windowBackgroundWhite));
                     break;
                 case 4:
                     headerCell = new TextCell(this.mContext, ProfileActivity.this.resourcesProvider) { // from class: org.telegram.ui.ProfileActivity.ListAdapter.2
@@ -12465,9 +12471,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             return ProfileActivity.this.applyPeerColor(i2, false);
                         }
                     };
+                    headerCell.setBackgroundColor(ProfileActivity.this.getThemedColor(Theme.key_windowBackgroundWhite));
                     break;
                 case 5:
                     headerCell = new DividerCell(this.mContext, ProfileActivity.this.resourcesProvider);
+                    headerCell.setBackgroundColor(ProfileActivity.this.getThemedColor(Theme.key_windowBackgroundWhite));
                     headerCell.setPadding(AndroidUtilities.dp(20.0f), AndroidUtilities.dp(4.0f), 0, 0);
                     break;
                 case 6:
@@ -12477,12 +12485,14 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             return ProfileActivity.this.applyPeerColor(i2, false);
                         }
                     };
+                    headerCell.setBackgroundColor(ProfileActivity.this.getThemedColor(Theme.key_windowBackgroundWhite));
                     break;
                 case 7:
                     headerCell = new ShadowSectionCell(this.mContext, ProfileActivity.this.resourcesProvider);
                     break;
                 case 8:
                     headerCell = new UserCell(this.mContext, ProfileActivity.this.addMemberRow == -1 ? 9 : 6, 0, true, ProfileActivity.this.resourcesProvider);
+                    headerCell.setBackgroundColor(ProfileActivity.this.getThemedColor(Theme.key_windowBackgroundWhite));
                     break;
                 case 9:
                 case 10:
@@ -12594,15 +12604,19 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     break;
                 case 17:
                     headerCell = new TextInfoPrivacyCell(this.mContext, ProfileActivity.this.resourcesProvider);
+                    headerCell.setBackgroundColor(ProfileActivity.this.getThemedColor(Theme.key_windowBackgroundWhite));
                     break;
                 case 18:
                     headerCell = new ProfilePremiumCell(this.mContext, ProfileActivity.this.resourcesProvider);
+                    headerCell.setBackgroundColor(ProfileActivity.this.getThemedColor(Theme.key_windowBackgroundWhite));
                     break;
                 case 20:
                     headerCell = new TextCheckCell(this.mContext, ProfileActivity.this.resourcesProvider);
+                    headerCell.setBackgroundColor(ProfileActivity.this.getThemedColor(Theme.key_windowBackgroundWhite));
                     break;
                 case 21:
                     headerCell = new ProfileLocationCell(this.mContext, ProfileActivity.this.resourcesProvider);
+                    headerCell.setBackgroundColor(ProfileActivity.this.getThemedColor(Theme.key_windowBackgroundWhite));
                     break;
                 case 22:
                     headerCell = new ProfileHoursCell(this.mContext, ProfileActivity.this.resourcesProvider);
@@ -12630,11 +12644,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
 
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Removed duplicated region for block: B:132:0x036e A[ADDED_TO_REGION] */
-        /* JADX WARN: Removed duplicated region for block: B:135:0x037b  */
-        /* JADX WARN: Removed duplicated region for block: B:136:0x0380  */
-        /* JADX WARN: Removed duplicated region for block: B:510:0x0e25  */
-        /* JADX WARN: Removed duplicated region for block: B:511:0x0e5b  */
+        /* JADX WARN: Removed duplicated region for block: B:140:0x0388 A[ADDED_TO_REGION] */
+        /* JADX WARN: Removed duplicated region for block: B:143:0x0395  */
+        /* JADX WARN: Removed duplicated region for block: B:144:0x039a  */
+        /* JADX WARN: Removed duplicated region for block: B:527:0x0e52  */
+        /* JADX WARN: Removed duplicated region for block: B:528:0x0e88  */
         /* JADX WARN: Type inference failed for: r0v27, types: [org.telegram.tgnet.TLRPC$ChatParticipant] */
         /* JADX WARN: Type inference failed for: r0v32, types: [org.telegram.tgnet.TLRPC$ChatParticipant] */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -12648,14 +12662,16 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             String str2;
             String str3;
             String str4;
+            boolean z;
             ArrayList<TLRPC$TL_username> arrayList;
             String str5;
             String sb;
             String string3;
+            boolean z2;
             String string4;
             String str6;
             String formatTTLString;
-            boolean z;
+            boolean z3;
             int i2;
             String str7;
             String string5;
@@ -12665,11 +12681,12 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             String string7;
             String string8;
             int itemViewType = viewHolder.getItemViewType();
-            boolean z2 = false;
+            boolean z4 = false;
+            boolean z5 = false;
             r6 = false;
             r6 = false;
-            boolean z3 = false;
-            z2 = false;
+            boolean z6 = false;
+            z4 = false;
             if (itemViewType == 1) {
                 HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
                 if (i == ProfileActivity.this.infoHeaderRow) {
@@ -12707,9 +12724,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     if (i == ProfileActivity.this.userInfoRow) {
                         TLRPC$User user = ProfileActivity.this.userInfo.user != null ? ProfileActivity.this.userInfo.user : ProfileActivity.this.getMessagesController().getUser(Long.valueOf(ProfileActivity.this.userInfo.id));
                         if (ProfileActivity.this.isBot || (user != null && user.premium && ProfileActivity.this.userInfo.about != null)) {
-                            z3 = true;
+                            z6 = true;
                         }
-                        aboutLinkCell.setTextAndValue(ProfileActivity.this.userInfo.about, LocaleController.getString("UserBio", R.string.UserBio), z3);
+                        aboutLinkCell.setTextAndValue(ProfileActivity.this.userInfo.about, LocaleController.getString("UserBio", R.string.UserBio), z6);
                         return;
                     } else if (i == ProfileActivity.this.channelInfoRow) {
                         String str8 = ProfileActivity.this.chatInfo.about;
@@ -12717,9 +12734,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             str8 = str8.replace("\n\n\n", "\n\n");
                         }
                         if (ChatObject.isChannel(ProfileActivity.this.currentChat) && !ProfileActivity.this.currentChat.megagroup) {
-                            z2 = true;
+                            z4 = true;
                         }
-                        aboutLinkCell.setText(str8, z2);
+                        aboutLinkCell.setText(str8, z4);
                         return;
                     } else if (i == ProfileActivity.this.bioRow) {
                         if (ProfileActivity.this.userInfo == null || !TextUtils.isEmpty(ProfileActivity.this.userInfo.about)) {
@@ -12743,20 +12760,20 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             SharedPreferences notificationsSettings = MessagesController.getNotificationsSettings(((BaseFragment) ProfileActivity.this).currentAccount);
                             long j = ProfileActivity.this.dialogId != 0 ? ProfileActivity.this.dialogId : ProfileActivity.this.userId != 0 ? ProfileActivity.this.userId : -ProfileActivity.this.chatId;
                             String sharedPrefKey = NotificationsController.getSharedPrefKey(j, ProfileActivity.this.topicId);
-                            boolean z4 = notificationsSettings.getBoolean(NotificationsSettingsFacade.PROPERTY_CUSTOM + sharedPrefKey, false);
+                            boolean z7 = notificationsSettings.getBoolean(NotificationsSettingsFacade.PROPERTY_CUSTOM + sharedPrefKey, false);
                             boolean contains = notificationsSettings.contains(NotificationsSettingsFacade.PROPERTY_NOTIFY + sharedPrefKey);
                             int i3 = notificationsSettings.getInt(NotificationsSettingsFacade.PROPERTY_NOTIFY + sharedPrefKey, 0);
                             int i4 = notificationsSettings.getInt(NotificationsSettingsFacade.PROPERTY_NOTIFY_UNTIL + sharedPrefKey, 0);
                             if (i3 == 3 && i4 != Integer.MAX_VALUE) {
                                 int currentTime = i4 - ProfileActivity.this.getConnectionsManager().getCurrentTime();
                                 if (currentTime <= 0) {
-                                    if (z4) {
+                                    if (z7) {
                                         string6 = LocaleController.getString("NotificationsCustom", R.string.NotificationsCustom);
                                     } else {
                                         string6 = LocaleController.getString("NotificationsOn", R.string.NotificationsOn);
                                     }
                                     string5 = string6;
-                                    z = true;
+                                    z3 = true;
                                 } else {
                                     if (currentTime < 3600) {
                                         formatString = LocaleController.formatString("WillUnmuteIn", R.string.WillUnmuteIn, LocaleController.formatPluralString("Minutes", currentTime / 60, new Object[0]));
@@ -12765,17 +12782,17 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                     } else if (currentTime < 31536000) {
                                         formatString = LocaleController.formatString("WillUnmuteIn", R.string.WillUnmuteIn, LocaleController.formatPluralString("Days", (int) Math.ceil(((currentTime / 60.0f) / 60.0f) / 24.0f), new Object[0]));
                                     } else {
-                                        z = false;
+                                        z3 = false;
                                         string5 = null;
                                     }
                                     string5 = formatString;
-                                    z = false;
+                                    z3 = false;
                                 }
                             } else if (i3 == 0) {
                                 if (!contains) {
-                                    z = ProfileActivity.this.getNotificationsController().isGlobalNotificationsEnabled(j);
-                                    if (z || !z4) {
-                                        if (z) {
+                                    z3 = ProfileActivity.this.getNotificationsController().isGlobalNotificationsEnabled(j);
+                                    if (z3 || !z7) {
+                                        if (z3) {
                                             i2 = R.string.NotificationsOff;
                                             str7 = "NotificationsOff";
                                         } else {
@@ -12787,25 +12804,25 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                         string5 = LocaleController.getString("NotificationsCustom", R.string.NotificationsCustom);
                                     }
                                 }
-                                z = true;
-                                if (z) {
+                                z3 = true;
+                                if (z3) {
                                 }
-                                if (z) {
+                                if (z3) {
                                 }
                                 string5 = LocaleController.getString(str7, i2);
                             } else {
                                 if (i3 != 1) {
-                                    z = false;
-                                    if (z) {
+                                    z3 = false;
+                                    if (z3) {
                                     }
-                                    if (z) {
+                                    if (z3) {
                                     }
                                     string5 = LocaleController.getString(str7, i2);
                                 }
-                                z = true;
-                                if (z) {
+                                z3 = true;
+                                if (z3) {
                                 }
-                                if (z) {
+                                if (z3) {
                                 }
                                 string5 = LocaleController.getString(str7, i2);
                             }
@@ -12817,7 +12834,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                 string5 = String.format(Locale.US, LocaleController.getPluralString("NotificationTopicExceptionsDesctription", ProfileActivity.this.notificationsExceptionTopics.size()), string5, Integer.valueOf(ProfileActivity.this.notificationsExceptionTopics.size()));
                             }
                             notificationsCheckCell.setAnimationsEnabled(ProfileActivity.this.fragmentOpened);
-                            notificationsCheckCell.setTextAndValueAndCheck(LocaleController.getString("Notifications", R.string.Notifications), string5, z, false);
+                            notificationsCheckCell.setTextAndValueAndCheck(LocaleController.getString("Notifications", R.string.Notifications), string5, z3, false);
                             return;
                         }
                         return;
@@ -12887,7 +12904,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                 ((TextCheckCell) viewHolder.itemView).setTextAndCheck(LocaleController.getString("Notifications", R.string.Notifications), !ProfileActivity.this.getMessagesController().isDialogMuted(ProfileActivity.this.getDialogId(), ProfileActivity.this.topicId), false);
                                 return;
                             case 21:
-                                ((ProfileLocationCell) viewHolder.itemView).set(ProfileActivity.this.userInfo != null ? ProfileActivity.this.userInfo.business_location : null, true);
+                                ((ProfileLocationCell) viewHolder.itemView).set(ProfileActivity.this.userInfo != null ? ProfileActivity.this.userInfo.business_location : null, ProfileActivity.this.notificationsDividerRow < 0);
                                 return;
                             case 22:
                                 ProfileHoursCell profileHoursCell = (ProfileHoursCell) viewHolder.itemView;
@@ -12897,7 +12914,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                         ProfileActivity.ListAdapter.this.lambda$onBindViewHolder$1(view2);
                                     }
                                 });
-                                profileHoursCell.set(ProfileActivity.this.userInfo != null ? ProfileActivity.this.userInfo.business_work_hours : null, ProfileActivity.this.hoursExpanded, ProfileActivity.this.hoursShownMine, true);
+                                profileHoursCell.set(ProfileActivity.this.userInfo != null ? ProfileActivity.this.userInfo.business_work_hours : null, ProfileActivity.this.hoursExpanded, ProfileActivity.this.hoursShownMine, (ProfileActivity.this.notificationsDividerRow < 0 || ProfileActivity.this.bizLocationRow >= 0) ? true : true);
                                 return;
                             default:
                                 return;
@@ -13064,10 +13081,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                 } else {
                                     textCell.setColors(Theme.key_windowBackgroundWhiteBlueIcon, Theme.key_windowBackgroundWhiteBlueButton);
                                     int i10 = i + 1;
-                                    boolean z5 = i10 >= ProfileActivity.this.membersStartRow && i10 < ProfileActivity.this.membersEndRow;
+                                    boolean z8 = i10 >= ProfileActivity.this.membersStartRow && i10 < ProfileActivity.this.membersEndRow;
                                     String string9 = LocaleController.getString("AddMember", R.string.AddMember);
                                     int i11 = R.drawable.msg_contact_add;
-                                    if (ProfileActivity.this.membersSectionRow != -1 && !z5) {
+                                    if (ProfileActivity.this.membersSectionRow != -1 && !z8) {
                                         r7 = false;
                                     }
                                     textCell.setTextAndIcon(string9, i11, r7);
@@ -13198,6 +13215,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     } else {
                         str3 = "—";
                     }
+                    z = true;
                 } else if (ProfileActivity.this.currentChat != null) {
                     TLRPC$Chat chat2 = ProfileActivity.this.getMessagesController().getChat(Long.valueOf(ProfileActivity.this.chatId));
                     String publicUsername2 = ChatObject.getPublicUsername(chat2);
@@ -13213,6 +13231,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         sb2.append(str9);
                         sb = sb2.toString();
                         string3 = LocaleController.getString("InviteLink", R.string.InviteLink);
+                        z2 = true;
                     } else {
                         StringBuilder sb3 = new StringBuilder();
                         sb3.append(ProfileActivity.this.getMessagesController().linkPrefix);
@@ -13224,22 +13243,26 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         sb3.append(str9);
                         sb = sb3.toString();
                         string3 = LocaleController.getString("InviteLinkPrivate", R.string.InviteLinkPrivate);
-                        r7 = false;
+                        z2 = false;
                     }
-                    String str10 = sb;
+                    z = z2;
+                    str4 = string3;
+                    str3 = sb;
                     arrayList = arrayList2;
                     str5 = publicUsername2;
-                    str4 = string3;
-                    str3 = str10;
                 } else {
                     str3 = "";
                     str4 = str3;
-                    r7 = false;
+                    z = false;
                     arrayList = new ArrayList<>();
                     str5 = null;
                 }
-                textDetailCell.setTextAndValue(str3, alsoUsernamesString(str5, arrayList, str4), ProfileActivity.this.isTopic);
-                if (!r7) {
+                CharSequence alsoUsernamesString = alsoUsernamesString(str5, arrayList, str4);
+                if (!ProfileActivity.this.isTopic && ProfileActivity.this.bizHoursRow == -1 && ProfileActivity.this.bizLocationRow == -1) {
+                    r7 = false;
+                }
+                textDetailCell.setTextAndValue(str3, alsoUsernamesString, r7);
+                if (!z) {
                     Drawable drawable = ContextCompat.getDrawable(textDetailCell.getContext(), R.drawable.msg_qr_mini);
                     ProfileActivity profileActivity4 = ProfileActivity.this;
                     drawable.setColorFilter(new PorterDuffColorFilter(profileActivity4.applyPeerColor(profileActivity4.getThemedColor(Theme.key_switch2TrackChecked), false), PorterDuff.Mode.MULTIPLY));
@@ -13257,8 +13280,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
                 textDetailCell.setTag(Integer.valueOf(i));
             }
-            r7 = false;
-            if (!r7) {
+            z = false;
+            if (!z) {
             }
             textDetailCell.setTag(Integer.valueOf(i));
         }
@@ -13267,6 +13290,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         public /* synthetic */ void lambda$onBindViewHolder$1(View view) {
             ProfileActivity profileActivity = ProfileActivity.this;
             profileActivity.hoursShownMine = !profileActivity.hoursShownMine;
+            if (!ProfileActivity.this.hoursExpanded) {
+                ProfileActivity.this.hoursExpanded = true;
+            }
             ProfileActivity.this.saveScrollPosition();
             view.requestLayout();
             ProfileActivity.this.listAdapter.notifyItemChanged(ProfileActivity.this.bizHoursRow);

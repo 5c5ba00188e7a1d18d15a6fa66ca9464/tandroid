@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
+import android.widget.TextView;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BuildVars;
@@ -35,19 +36,19 @@ public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
         this(context, tLObject, 1, i, tLRPC$Document, resourcesProvider);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:105:0x036d  */
-    /* JADX WARN: Removed duplicated region for block: B:137:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:103:0x0315  */
+    /* JADX WARN: Removed duplicated region for block: B:111:0x0385  */
+    /* JADX WARN: Removed duplicated region for block: B:143:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:29:0x0075 A[ADDED_TO_REGION] */
     /* JADX WARN: Removed duplicated region for block: B:35:0x008c  */
     /* JADX WARN: Removed duplicated region for block: B:66:0x0114  */
     /* JADX WARN: Removed duplicated region for block: B:69:0x0126  */
     /* JADX WARN: Removed duplicated region for block: B:73:0x013a  */
-    /* JADX WARN: Removed duplicated region for block: B:77:0x01b7  */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x0240  */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x0254  */
-    /* JADX WARN: Removed duplicated region for block: B:85:0x0268  */
-    /* JADX WARN: Removed duplicated region for block: B:86:0x027c  */
-    /* JADX WARN: Removed duplicated region for block: B:97:0x02fd  */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x01cf  */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x0258  */
+    /* JADX WARN: Removed duplicated region for block: B:90:0x026c  */
+    /* JADX WARN: Removed duplicated region for block: B:91:0x0280  */
+    /* JADX WARN: Removed duplicated region for block: B:92:0x0294  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -189,7 +190,8 @@ public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
                         this.subtitleTextView.setText(LocaleController.formatString("LimitReachedFavoriteStickersSubtitlePremium", R.string.LimitReachedFavoriteStickersSubtitlePremium, new Object[0]));
                         return;
                     case 7:
-                        if (!MessagesController.getInstance(UserConfig.selectedAccount).premiumFeaturesBlocked()) {
+                        boolean isPremium = UserConfig.getInstance(UserConfig.selectedAccount).isPremium();
+                        if (!MessagesController.getInstance(UserConfig.selectedAccount).premiumFeaturesBlocked() || !isPremium) {
                             this.titleTextView.setText(LocaleController.formatString("LimitReachedFavoriteGifs", R.string.LimitReachedFavoriteGifs, Integer.valueOf(MessagesController.getInstance(UserConfig.selectedAccount).savedGifsLimitDefault)));
                             this.subtitleTextView.setText(AndroidUtilities.premiumText(LocaleController.formatString("LimitReachedFavoriteGifsSubtitle", R.string.LimitReachedFavoriteGifsSubtitle, Integer.valueOf(MessagesController.getInstance(UserConfig.selectedAccount).savedGifsLimitPremium)), new Runnable() { // from class: org.telegram.ui.Components.StickerSetBulletinLayout$$ExternalSyntheticLambda1
                                 @Override // java.lang.Runnable
@@ -199,7 +201,11 @@ public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
                             }));
                             return;
                         }
-                        this.titleTextView.setText(LocaleController.formatString("LimitReachedFavoriteGifs", R.string.LimitReachedFavoriteGifs, Integer.valueOf(MessagesController.getInstance(UserConfig.selectedAccount).savedGifsLimitPremium)));
+                        TextView textView = this.titleTextView;
+                        int i4 = R.string.LimitReachedFavoriteGifs;
+                        Object[] objArr = new Object[1];
+                        objArr[0] = Integer.valueOf(isPremium ? MessagesController.getInstance(UserConfig.selectedAccount).savedGifsLimitPremium : MessagesController.getInstance(UserConfig.selectedAccount).savedGifsLimitDefault);
+                        textView.setText(LocaleController.formatString("LimitReachedFavoriteGifs", i4, objArr));
                         this.subtitleTextView.setText(LocaleController.formatString("LimitReachedFavoriteGifsSubtitlePremium", R.string.LimitReachedFavoriteGifsSubtitlePremium, new Object[0]));
                         return;
                     default:

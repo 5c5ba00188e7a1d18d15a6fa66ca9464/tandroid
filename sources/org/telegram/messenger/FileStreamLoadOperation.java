@@ -122,7 +122,6 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
                 }
             }
         }
-        FileLog.e("FileStreamLoadOperation " + this.document.id + " open operation=" + this.loadOperation + " currentFile=" + this.currentFile + " file=" + this.file + " bytesRemaining=" + this.bytesRemaining + " me=" + this);
         return this.bytesRemaining;
     }
 
@@ -134,8 +133,8 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
         return 3;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:16:0x0054, code lost:
-        if (r14.opened == false) goto L15;
+    /* JADX WARN: Code restructure failed: missing block: B:16:0x001e, code lost:
+        if (r14.opened == false) goto L14;
      */
     @Override // com.google.android.exoplayer2.upstream.DataReader
     /*
@@ -145,12 +144,10 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
         RandomAccessFile randomAccessFile;
         int i3 = i2;
         if (i3 == 0) {
-            FileLog.e("FileStreamLoadOperation " + this.document.id + " read 0 return");
             return 0;
         }
         long j = this.bytesRemaining;
         if (j == 0) {
-            FileLog.e("FileStreamLoadOperation " + this.document.id + " read RESULT_END_OF_INPUT");
             return -1;
         }
         if (j < i3) {
@@ -172,19 +169,17 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
             if (i5 == 0) {
                 this.countDownLatch = new CountDownLatch(1);
                 FileLoadOperation loadStreamFile = FileLoader.getInstance(this.currentAccount).loadStreamFile(this, this.document, null, this.parentObject, this.currentOffset, false, getCurrentPriority());
-                if (this.loadOperation != loadStreamFile) {
-                    FileLog.e("FileStreamLoadOperation " + this.document.id + " read: changed operation!");
-                    this.loadOperation.removeStreamListener(this);
+                FileLoadOperation fileLoadOperation = this.loadOperation;
+                if (fileLoadOperation != loadStreamFile) {
+                    fileLoadOperation.removeStreamListener(this);
                     this.loadOperation = loadStreamFile;
                 }
-                FileLog.e("FileStreamLoadOperation " + this.document.id + " read sleeping.... Zzz");
                 CountDownLatch countDownLatch = this.countDownLatch;
                 if (countDownLatch != null) {
                     countDownLatch.await();
                     this.countDownLatch = null;
                 }
             }
-            FileLog.e("FileStreamLoadOperation " + this.document.id + " read availableLength=" + i5);
             File currentFileFast = this.loadOperation.getCurrentFileFast();
             if (this.file != null && Objects.equals(this.currentFile, currentFileFast)) {
                 FileLog.e("FileStreamLoadOperation " + this.document.id + " read have exact same file");
@@ -200,7 +195,6 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
                 } catch (Exception unused) {
                 }
             }
-            FileLog.e("FileStreamLoadOperation " + this.document.id + " read update file from " + this.currentFile + " to " + currentFileFast + " me=" + this);
             this.currentFile = currentFileFast;
             if (currentFileFast != null) {
                 try {
