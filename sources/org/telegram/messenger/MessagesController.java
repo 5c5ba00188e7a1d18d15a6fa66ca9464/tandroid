@@ -14591,8 +14591,8 @@ public class MessagesController extends BaseController implements NotificationCe
         getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.dialogsNeedReload, Boolean.TRUE);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:406:0x03fd  */
-    /* JADX WARN: Removed duplicated region for block: B:416:0x0436  */
+    /* JADX WARN: Removed duplicated region for block: B:406:0x03ff  */
+    /* JADX WARN: Removed duplicated region for block: B:416:0x0438  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -14651,7 +14651,7 @@ public class MessagesController extends BaseController implements NotificationCe
             return;
         }
         if (i2 == 0 || i2 == 3) {
-            getMediaDataController().uninstallShortcut(j);
+            getMediaDataController().uninstallShortcut(j, MediaDataController.SHORTCUT_TYPE_USER_OR_CHAT);
         }
         if (i != 0) {
             if (BuildVars.LOGS_ENABLED) {

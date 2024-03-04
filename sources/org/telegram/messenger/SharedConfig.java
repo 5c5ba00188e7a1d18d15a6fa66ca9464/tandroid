@@ -491,15 +491,15 @@ public class SharedConfig {
         return i;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:38:0x0174 A[Catch: Exception -> 0x0198, all -> 0x0450, TryCatch #4 {Exception -> 0x0198, blocks: (B:22:0x0123, B:24:0x012b, B:26:0x013d, B:27:0x0151, B:38:0x0174, B:40:0x017a, B:41:0x017c, B:43:0x0180, B:45:0x0186, B:47:0x018c, B:49:0x0190, B:36:0x016e), top: B:94:0x0123, outer: #0 }] */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x017a A[Catch: Exception -> 0x0198, all -> 0x0450, TryCatch #4 {Exception -> 0x0198, blocks: (B:22:0x0123, B:24:0x012b, B:26:0x013d, B:27:0x0151, B:38:0x0174, B:40:0x017a, B:41:0x017c, B:43:0x0180, B:45:0x0186, B:47:0x018c, B:49:0x0190, B:36:0x016e), top: B:94:0x0123, outer: #0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0174 A[Catch: Exception -> 0x0198, all -> 0x0452, TryCatch #4 {Exception -> 0x0198, blocks: (B:22:0x0123, B:24:0x012b, B:26:0x013d, B:27:0x0151, B:38:0x0174, B:40:0x017a, B:41:0x017c, B:43:0x0180, B:45:0x0186, B:47:0x018c, B:49:0x0190, B:36:0x016e), top: B:94:0x0123, outer: #0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x017a A[Catch: Exception -> 0x0198, all -> 0x0452, TryCatch #4 {Exception -> 0x0198, blocks: (B:22:0x0123, B:24:0x012b, B:26:0x013d, B:27:0x0151, B:38:0x0174, B:40:0x017a, B:41:0x017c, B:43:0x0180, B:45:0x0186, B:47:0x018c, B:49:0x0190, B:36:0x016e), top: B:94:0x0123, outer: #0 }] */
     /* JADX WARN: Removed duplicated region for block: B:61:0x0218  */
     /* JADX WARN: Removed duplicated region for block: B:62:0x021b  */
     /* JADX WARN: Removed duplicated region for block: B:65:0x022b  */
     /* JADX WARN: Removed duplicated region for block: B:66:0x022d  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x03fe  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x0400  */
-    /* JADX WARN: Removed duplicated region for block: B:92:0x0440 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x0400  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x0402  */
+    /* JADX WARN: Removed duplicated region for block: B:90:0x0442 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -652,7 +652,7 @@ public class SharedConfig {
                             updateStickersOrderOnSend = sharedPreferences2.getBoolean("updateStickersOrderOnSend", true);
                             dayNightWallpaperSwitchHint = sharedPreferences2.getInt("dayNightWallpaperSwitchHint", 0);
                             bigCameraForRound = sharedPreferences2.getBoolean("bigCameraForRound", false);
-                            useCamera2 = sharedPreferences2.getBoolean("useCamera2", false);
+                            useCamera2 = sharedPreferences2.getBoolean("useCamera2", BuildVars.DEBUG_VERSION);
                             i = Build.VERSION.SDK_INT;
                             useSurfaceInStories = sharedPreferences2.getBoolean("useSurfaceInStories", i < 30);
                             payByInvoice = sharedPreferences2.getBoolean("payByInvoice", false);
@@ -751,7 +751,7 @@ public class SharedConfig {
                 updateStickersOrderOnSend = sharedPreferences22.getBoolean("updateStickersOrderOnSend", true);
                 dayNightWallpaperSwitchHint = sharedPreferences22.getInt("dayNightWallpaperSwitchHint", 0);
                 bigCameraForRound = sharedPreferences22.getBoolean("bigCameraForRound", false);
-                useCamera2 = sharedPreferences22.getBoolean("useCamera2", false);
+                useCamera2 = sharedPreferences22.getBoolean("useCamera2", BuildVars.DEBUG_VERSION);
                 i = Build.VERSION.SDK_INT;
                 useSurfaceInStories = sharedPreferences22.getBoolean("useSurfaceInStories", i < 30);
                 payByInvoice = sharedPreferences22.getBoolean("payByInvoice", false);

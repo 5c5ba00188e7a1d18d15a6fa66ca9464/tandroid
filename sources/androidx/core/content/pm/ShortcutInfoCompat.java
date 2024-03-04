@@ -15,6 +15,7 @@ import androidx.core.app.Person;
 import androidx.core.content.LocusIdCompat;
 import androidx.core.graphics.drawable.IconCompat;
 import androidx.core.net.UriCompat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -214,6 +215,15 @@ public class ShortcutInfoCompat {
             i2 = i3;
         }
         return personArr;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static List<ShortcutInfoCompat> fromShortcuts(Context context, List<ShortcutInfo> list) {
+        ArrayList arrayList = new ArrayList(list.size());
+        for (ShortcutInfo shortcutInfo : list) {
+            arrayList.add(new Builder(context, shortcutInfo).build());
+        }
+        return arrayList;
     }
 
     static LocusIdCompat getLocusId(ShortcutInfo shortcutInfo) {

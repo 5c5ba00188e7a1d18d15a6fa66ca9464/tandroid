@@ -334,8 +334,8 @@ public final class Cea708Decoder extends CeaDecoder {
                     return;
                 }
             case 147:
-            case MessagesStorage.LAST_DB_VERSION /* 148 */:
-            case 149:
+            case 148:
+            case MessagesStorage.LAST_DB_VERSION /* 149 */:
             case ImageReceiver.DEFAULT_CROSSFADE_DURATION /* 150 */:
             default:
                 Log.w("Cea708Decoder", "Invalid C1 command: " + i);

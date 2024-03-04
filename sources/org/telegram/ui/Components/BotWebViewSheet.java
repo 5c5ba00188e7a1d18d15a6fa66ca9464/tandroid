@@ -41,8 +41,10 @@ import org.telegram.messenger.AnimationNotificationsLocker;
 import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.Emoji;
+import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.GenericProvider;
+import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
@@ -1108,10 +1110,14 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         if (tLRPC$TL_attachMenuBot != null && (tLRPC$TL_attachMenuBot.show_in_side_menu || tLRPC$TL_attachMenuBot.show_in_attach_menu)) {
             addItem.addSubItem(R.id.menu_delete_bot, R.drawable.msg_delete, LocaleController.getString(R.string.BotWebViewDeleteBot));
         }
+        if (tLRPC$TL_attachMenuBot != null && tLRPC$TL_attachMenuBot.show_in_side_menu && !MediaDataController.getInstance(i).isShortcutAdded(j2, MediaDataController.SHORTCUT_TYPE_ATTACHED_BOT)) {
+            addItem.addSubItem(R.id.menu_add_to_home_screen_bot, R.drawable.msg_home, LocaleController.getString(R.string.AddShortcut));
+        }
         this.actionBar.setActionBarMenuOnItemClick(new 11(j2, i));
         JSONObject makeThemeParams = makeThemeParams(this.resourcesProvider);
         this.webViewContainer.setBotUser(MessagesController.getInstance(i).getUser(Long.valueOf(j2)));
         this.webViewContainer.loadFlickerAndSettingsItem(i, j2, this.settingsItem);
+        preloadShortcutBotIcon(tLRPC$User, tLRPC$TL_attachMenuBot);
         if (i2 == 0) {
             TLRPC$TL_messages_requestWebView tLRPC$TL_messages_requestWebView = new TLRPC$TL_messages_requestWebView();
             tLRPC$TL_messages_requestWebView.peer = MessagesController.getInstance(i).getInputPeer(j);
@@ -1264,6 +1270,8 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
                         BotWebViewSheet.11.this.lambda$onItemClick$0();
                     }
                 });
+            } else if (i == R.id.menu_add_to_home_screen_bot) {
+                MediaDataController.getInstance(this.val$currentAccount).installShortcut(this.val$botId, MediaDataController.SHORTCUT_TYPE_ATTACHED_BOT);
             }
         }
 
@@ -1350,6 +1358,19 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         }
     }
 
+    private void preloadShortcutBotIcon(TLRPC$User tLRPC$User, TLRPC$TL_attachMenuBot tLRPC$TL_attachMenuBot) {
+        if (tLRPC$TL_attachMenuBot == null || !tLRPC$TL_attachMenuBot.show_in_side_menu || MediaDataController.getInstance(this.currentAccount).isShortcutAdded(this.botId, MediaDataController.SHORTCUT_TYPE_ATTACHED_BOT)) {
+            return;
+        }
+        if (tLRPC$User == null) {
+            tLRPC$User = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(this.botId));
+        }
+        if (tLRPC$User == null || tLRPC$User.photo == null || FileLoader.getInstance(this.currentAccount).getPathToAttach(tLRPC$User.photo.photo_small, true).exists()) {
+            return;
+        }
+        MediaDataController.getInstance(this.currentAccount).preloadImage(ImageLocation.getForUser(tLRPC$User, 1), 0);
+    }
+
     public static void deleteBot(final int i, final long j, final Runnable runnable) {
         final TLRPC$TL_attachMenuBot tLRPC$TL_attachMenuBot;
         Iterator<TLRPC$TL_attachMenuBot> it = MediaDataController.getInstance(i).getAttachMenuBots().bots.iterator();
@@ -1388,6 +1409,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         }, 66);
         tLRPC$TL_attachMenuBot.show_in_side_menu = false;
         NotificationCenter.getInstance(i).lambda$postNotificationNameOnUIThread$1(NotificationCenter.attachMenuBotsDidLoad, new Object[0]);
+        MediaDataController.getInstance(i).uninstallShortcut(j, MediaDataController.SHORTCUT_TYPE_ATTACHED_BOT);
         if (runnable != null) {
             runnable.run();
         }
@@ -1440,6 +1462,10 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         this.frameLayout.setAlpha(0.0f);
         this.frameLayout.addOnLayoutChangeListener(new 12());
         super.show();
+    }
+
+    public long getBotId() {
+        return this.botId;
     }
 
     @Override // android.app.Dialog

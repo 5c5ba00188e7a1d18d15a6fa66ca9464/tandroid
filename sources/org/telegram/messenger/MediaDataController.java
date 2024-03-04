@@ -296,6 +296,8 @@ public class MediaDataController extends BaseController {
     public static final int MEDIA_TYPES_COUNT = 8;
     public static final int MEDIA_URL = 3;
     public static final int MEDIA_VIDEOS_ONLY = 7;
+    public static int SHORTCUT_TYPE_ATTACHED_BOT = 0;
+    public static int SHORTCUT_TYPE_USER_OR_CHAT = 0;
     public static final int TYPE_EMOJI = 4;
     public static final int TYPE_EMOJIPACKS = 5;
     public static final int TYPE_FAVE = 2;
@@ -478,6 +480,8 @@ public class MediaDataController extends BaseController {
         for (int i = 0; i < 4; i++) {
             lockObjects[i] = new Object();
         }
+        SHORTCUT_TYPE_USER_OR_CHAT = 0;
+        SHORTCUT_TYPE_ATTACHED_BOT = 1;
         entityComparator = MediaDataController$$ExternalSyntheticLambda170.INSTANCE;
     }
 
@@ -1102,6 +1106,10 @@ public class MediaDataController extends BaseController {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$processLoadedMenuBots$5() {
         NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.attachMenuBotsDidLoad, new Object[0]);
+    }
+
+    public boolean isMenuBotsUpdatedLocal() {
+        return this.menuBotsUpdatedLocal;
     }
 
     public void updateAttachMenuBotsInCache() {
@@ -7777,23 +7785,38 @@ public class MediaDataController extends BaseController {
         return intent;
     }
 
-    /* JADX WARN: Can't wrap try/catch for region: R(20:2|3|(2:5|(1:7)(1:9))(2:99|(1:101)(2:102|(2:104|(5:14|(3:16|(1:18)(2:88|(1:90)(4:91|(2:93|94)|95|94))|19)(4:96|(2:98|94)|95|94)|(2:(2:83|84)(1:59)|(8:62|63|64|(3:66|(1:68)(1:76)|69)(3:77|(1:79)|80)|70|71|72|73))(1:22)|23|(4:25|(1:27)(1:(2:31|(1:33)(1:34))(2:35|(1:40)(1:39)))|28|29)(4:41|(1:43)(2:46|(2:48|(1:50)(1:51))(2:52|(1:57)(1:56)))|44|45))(1:13))(1:105)))|10|(0)|14|(0)(0)|(0)|(0)(0)|(0)|62|63|64|(0)(0)|70|71|72|73|23|(0)(0)) */
-    /* JADX WARN: Can't wrap try/catch for region: R(22:1|2|3|(2:5|(1:7)(1:9))(2:99|(1:101)(2:102|(2:104|(5:14|(3:16|(1:18)(2:88|(1:90)(4:91|(2:93|94)|95|94))|19)(4:96|(2:98|94)|95|94)|(2:(2:83|84)(1:59)|(8:62|63|64|(3:66|(1:68)(1:76)|69)(3:77|(1:79)|80)|70|71|72|73))(1:22)|23|(4:25|(1:27)(1:(2:31|(1:33)(1:34))(2:35|(1:40)(1:39)))|28|29)(4:41|(1:43)(2:46|(2:48|(1:50)(1:51))(2:52|(1:57)(1:56)))|44|45))(1:13))(1:105)))|10|(0)|14|(0)(0)|(0)|(0)(0)|(0)|62|63|64|(0)(0)|70|71|72|73|23|(0)(0)|(1:(0))) */
-    /* JADX WARN: Code restructure failed: missing block: B:64:0x016e, code lost:
+    private Intent createIntrnalAttachedBotShortcutIntent(long j, int i) {
+        if (j != 0 && i == 3) {
+            Intent intent = new Intent(ApplicationLoader.applicationContext, OpenAttachedMenuBotReceiver.class);
+            if (DialogObject.isUserDialog(j)) {
+                intent.putExtra("botId", j);
+                intent.putExtra("currentAccount", this.currentAccount);
+                intent.setAction(OpenAttachedMenuBotReceiver.ACTION + j);
+                intent.addFlags(ConnectionsManager.FileTypeFile);
+                return intent;
+            }
+        }
+        return null;
+    }
+
+    /* JADX WARN: Can't wrap try/catch for region: R(19:24|(5:26|27|(3:(2:97|98)(1:71)|(9:75|76|77|(3:79|(1:81)(1:90)|82)(3:91|(1:93)|94)|83|84|85|86|87)|74)(1:30)|31|(6:33|(1:35)(1:52)|36|(1:38)(1:(2:42|(1:44)(1:45))(2:46|(1:51)(1:50)))|39|40)(4:53|(1:55)(2:58|(2:60|(1:62)(1:63))(2:64|(1:69)(1:68)))|56|57))|102|27|(0)|(0)(0)|(0)|75|76|77|(0)(0)|83|84|85|86|87|74|31|(0)(0)) */
+    /* JADX WARN: Code restructure failed: missing block: B:78:0x019e, code lost:
         r0 = th;
      */
-    /* JADX WARN: Removed duplicated region for block: B:108:0x00a6 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x0062 A[Catch: Exception -> 0x0254, TryCatch #2 {Exception -> 0x0254, blocks: (B:3:0x0002, B:5:0x000d, B:8:0x0020, B:21:0x0062, B:23:0x0068, B:66:0x0172, B:68:0x0178, B:70:0x019a, B:82:0x01e1, B:72:0x01a4, B:74:0x01a8, B:75:0x01b4, B:76:0x01c0, B:78:0x01c6, B:80:0x01ca, B:81:0x01d6, B:83:0x01eb, B:85:0x01f2, B:99:0x0239, B:89:0x01fc, B:91:0x0200, B:92:0x020c, B:93:0x0218, B:95:0x021e, B:97:0x0222, B:98:0x022e, B:65:0x016f, B:25:0x0073, B:27:0x0079, B:28:0x0082, B:30:0x008e, B:31:0x0091, B:33:0x0097, B:9:0x002f, B:11:0x0035, B:13:0x0044, B:15:0x004a), top: B:110:0x0002 }] */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x0091 A[Catch: Exception -> 0x0254, TryCatch #2 {Exception -> 0x0254, blocks: (B:3:0x0002, B:5:0x000d, B:8:0x0020, B:21:0x0062, B:23:0x0068, B:66:0x0172, B:68:0x0178, B:70:0x019a, B:82:0x01e1, B:72:0x01a4, B:74:0x01a8, B:75:0x01b4, B:76:0x01c0, B:78:0x01c6, B:80:0x01ca, B:81:0x01d6, B:83:0x01eb, B:85:0x01f2, B:99:0x0239, B:89:0x01fc, B:91:0x0200, B:92:0x020c, B:93:0x0218, B:95:0x021e, B:97:0x0222, B:98:0x022e, B:65:0x016f, B:25:0x0073, B:27:0x0079, B:28:0x0082, B:30:0x008e, B:31:0x0091, B:33:0x0097, B:9:0x002f, B:11:0x0035, B:13:0x0044, B:15:0x004a), top: B:110:0x0002 }] */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x00bb  */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x00d6 A[Catch: all -> 0x016e, TryCatch #3 {all -> 0x016e, blocks: (B:50:0x00c2, B:52:0x00d6, B:54:0x00e1, B:56:0x00ea, B:61:0x0140, B:62:0x0169, B:55:0x00e7, B:57:0x00f1, B:59:0x00fc, B:60:0x010a), top: B:111:0x00c2 }] */
-    /* JADX WARN: Removed duplicated region for block: B:57:0x00f1 A[Catch: all -> 0x016e, TryCatch #3 {all -> 0x016e, blocks: (B:50:0x00c2, B:52:0x00d6, B:54:0x00e1, B:56:0x00ea, B:61:0x0140, B:62:0x0169, B:55:0x00e7, B:57:0x00f1, B:59:0x00fc, B:60:0x010a), top: B:111:0x00c2 }] */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x0178 A[Catch: Exception -> 0x0254, TryCatch #2 {Exception -> 0x0254, blocks: (B:3:0x0002, B:5:0x000d, B:8:0x0020, B:21:0x0062, B:23:0x0068, B:66:0x0172, B:68:0x0178, B:70:0x019a, B:82:0x01e1, B:72:0x01a4, B:74:0x01a8, B:75:0x01b4, B:76:0x01c0, B:78:0x01c6, B:80:0x01ca, B:81:0x01d6, B:83:0x01eb, B:85:0x01f2, B:99:0x0239, B:89:0x01fc, B:91:0x0200, B:92:0x020c, B:93:0x0218, B:95:0x021e, B:97:0x0222, B:98:0x022e, B:65:0x016f, B:25:0x0073, B:27:0x0079, B:28:0x0082, B:30:0x008e, B:31:0x0091, B:33:0x0097, B:9:0x002f, B:11:0x0035, B:13:0x0044, B:15:0x004a), top: B:110:0x0002 }] */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x01eb A[Catch: Exception -> 0x0254, TryCatch #2 {Exception -> 0x0254, blocks: (B:3:0x0002, B:5:0x000d, B:8:0x0020, B:21:0x0062, B:23:0x0068, B:66:0x0172, B:68:0x0178, B:70:0x019a, B:82:0x01e1, B:72:0x01a4, B:74:0x01a8, B:75:0x01b4, B:76:0x01c0, B:78:0x01c6, B:80:0x01ca, B:81:0x01d6, B:83:0x01eb, B:85:0x01f2, B:99:0x0239, B:89:0x01fc, B:91:0x0200, B:92:0x020c, B:93:0x0218, B:95:0x021e, B:97:0x0222, B:98:0x022e, B:65:0x016f, B:25:0x0073, B:27:0x0079, B:28:0x0082, B:30:0x008e, B:31:0x0091, B:33:0x0097, B:9:0x002f, B:11:0x0035, B:13:0x0044, B:15:0x004a), top: B:110:0x0002 }] */
+    /* JADX WARN: Removed duplicated region for block: B:101:0x0225 A[Catch: Exception -> 0x028f, TryCatch #0 {Exception -> 0x028f, blocks: (B:3:0x0006, B:5:0x000a, B:10:0x0018, B:12:0x001e, B:15:0x0031, B:28:0x0073, B:30:0x0077, B:32:0x008d, B:80:0x01a3, B:82:0x01a9, B:86:0x01b2, B:88:0x01d2, B:100:0x0219, B:90:0x01dc, B:92:0x01e0, B:93:0x01ec, B:94:0x01f8, B:96:0x01fe, B:98:0x0202, B:99:0x020e, B:101:0x0225, B:103:0x022c, B:117:0x0273, B:107:0x0236, B:109:0x023a, B:110:0x0246, B:111:0x0252, B:113:0x0258, B:115:0x025c, B:116:0x0268, B:79:0x019f, B:33:0x0090, B:35:0x0096, B:37:0x00a1, B:39:0x00a7, B:40:0x00b0, B:42:0x00bc, B:43:0x00bf, B:45:0x00c5, B:16:0x0040, B:18:0x0046, B:20:0x0055, B:22:0x005b, B:6:0x000f), top: B:124:0x0006 }] */
+    /* JADX WARN: Removed duplicated region for block: B:127:0x00d4 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x0073 A[Catch: Exception -> 0x028f, TryCatch #0 {Exception -> 0x028f, blocks: (B:3:0x0006, B:5:0x000a, B:10:0x0018, B:12:0x001e, B:15:0x0031, B:28:0x0073, B:30:0x0077, B:32:0x008d, B:80:0x01a3, B:82:0x01a9, B:86:0x01b2, B:88:0x01d2, B:100:0x0219, B:90:0x01dc, B:92:0x01e0, B:93:0x01ec, B:94:0x01f8, B:96:0x01fe, B:98:0x0202, B:99:0x020e, B:101:0x0225, B:103:0x022c, B:117:0x0273, B:107:0x0236, B:109:0x023a, B:110:0x0246, B:111:0x0252, B:113:0x0258, B:115:0x025c, B:116:0x0268, B:79:0x019f, B:33:0x0090, B:35:0x0096, B:37:0x00a1, B:39:0x00a7, B:40:0x00b0, B:42:0x00bc, B:43:0x00bf, B:45:0x00c5, B:16:0x0040, B:18:0x0046, B:20:0x0055, B:22:0x005b, B:6:0x000f), top: B:124:0x0006 }] */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x00bf A[Catch: Exception -> 0x028f, TryCatch #0 {Exception -> 0x028f, blocks: (B:3:0x0006, B:5:0x000a, B:10:0x0018, B:12:0x001e, B:15:0x0031, B:28:0x0073, B:30:0x0077, B:32:0x008d, B:80:0x01a3, B:82:0x01a9, B:86:0x01b2, B:88:0x01d2, B:100:0x0219, B:90:0x01dc, B:92:0x01e0, B:93:0x01ec, B:94:0x01f8, B:96:0x01fe, B:98:0x0202, B:99:0x020e, B:101:0x0225, B:103:0x022c, B:117:0x0273, B:107:0x0236, B:109:0x023a, B:110:0x0246, B:111:0x0252, B:113:0x0258, B:115:0x025c, B:116:0x0268, B:79:0x019f, B:33:0x0090, B:35:0x0096, B:37:0x00a1, B:39:0x00a7, B:40:0x00b0, B:42:0x00bc, B:43:0x00bf, B:45:0x00c5, B:16:0x0040, B:18:0x0046, B:20:0x0055, B:22:0x005b, B:6:0x000f), top: B:124:0x0006 }] */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x00cc A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x00e9  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x00ec A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x0104 A[Catch: all -> 0x019e, TryCatch #3 {all -> 0x019e, blocks: (B:62:0x00f0, B:64:0x0104, B:66:0x010f, B:68:0x0118, B:73:0x016e, B:75:0x0198, B:67:0x0115, B:69:0x011f, B:71:0x012a, B:72:0x0138), top: B:129:0x00f0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x011f A[Catch: all -> 0x019e, TryCatch #3 {all -> 0x019e, blocks: (B:62:0x00f0, B:64:0x0104, B:66:0x010f, B:68:0x0118, B:73:0x016e, B:75:0x0198, B:67:0x0115, B:69:0x011f, B:71:0x012a, B:72:0x0138), top: B:129:0x00f0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:82:0x01a9 A[Catch: Exception -> 0x028f, TryCatch #0 {Exception -> 0x028f, blocks: (B:3:0x0006, B:5:0x000a, B:10:0x0018, B:12:0x001e, B:15:0x0031, B:28:0x0073, B:30:0x0077, B:32:0x008d, B:80:0x01a3, B:82:0x01a9, B:86:0x01b2, B:88:0x01d2, B:100:0x0219, B:90:0x01dc, B:92:0x01e0, B:93:0x01ec, B:94:0x01f8, B:96:0x01fe, B:98:0x0202, B:99:0x020e, B:101:0x0225, B:103:0x022c, B:117:0x0273, B:107:0x0236, B:109:0x023a, B:110:0x0246, B:111:0x0252, B:113:0x0258, B:115:0x025c, B:116:0x0268, B:79:0x019f, B:33:0x0090, B:35:0x0096, B:37:0x00a1, B:39:0x00a7, B:40:0x00b0, B:42:0x00bc, B:43:0x00bf, B:45:0x00c5, B:16:0x0040, B:18:0x0046, B:20:0x0055, B:22:0x005b, B:6:0x000f), top: B:124:0x0006 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void installShortcut(long j) {
+    public void installShortcut(long j, int i) {
         TLRPC$Chat chat;
         TLRPC$User tLRPC$User;
         TLRPC$User user;
@@ -7801,8 +7824,12 @@ public class MediaDataController extends BaseController {
         TLRPC$FileLocation tLRPC$FileLocation;
         boolean z;
         Bitmap bitmap;
+        Bitmap bitmap2;
         try {
-            Intent createIntrnalShortcutIntent = createIntrnalShortcutIntent(j);
+            Intent createIntrnalShortcutIntent = i == SHORTCUT_TYPE_USER_OR_CHAT ? createIntrnalShortcutIntent(j) : createIntrnalAttachedBotShortcutIntent(j, 3);
+            if (createIntrnalShortcutIntent == null) {
+                return;
+            }
             if (DialogObject.isEncryptedDialog(j)) {
                 TLRPC$EncryptedChat encryptedChat = getMessagesController().getEncryptedChat(Integer.valueOf(DialogObject.getEncryptedChatId(j)));
                 if (encryptedChat == null) {
@@ -7811,187 +7838,330 @@ public class MediaDataController extends BaseController {
                 user = getMessagesController().getUser(Long.valueOf(encryptedChat.user_id));
             } else if (DialogObject.isUserDialog(j)) {
                 user = getMessagesController().getUser(Long.valueOf(j));
-            } else if (DialogObject.isChatDialog(j)) {
+            } else if (!DialogObject.isChatDialog(j)) {
+                return;
+            } else {
                 chat = getMessagesController().getChat(Long.valueOf(-j));
                 tLRPC$User = null;
-                if (tLRPC$User == null || chat != null) {
-                    if (tLRPC$User == null) {
+                if (tLRPC$User != null && chat == null) {
+                    return;
+                }
+                if (tLRPC$User == null) {
+                    if (i == SHORTCUT_TYPE_ATTACHED_BOT) {
+                        str = UserObject.getUserName(MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(j)));
+                        TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto = tLRPC$User.photo;
+                        if (tLRPC$UserProfilePhoto != null) {
+                            tLRPC$FileLocation = tLRPC$UserProfilePhoto.photo_small;
+                            z = false;
+                            if (z && tLRPC$FileLocation == null) {
+                                bitmap2 = null;
+                            } else {
+                                if (z) {
+                                    bitmap = null;
+                                } else {
+                                    try {
+                                        bitmap = BitmapFactory.decodeFile(getFileLoader().getPathToAttach(tLRPC$FileLocation, true).toString());
+                                    } catch (Throwable th) {
+                                        th = th;
+                                        bitmap = null;
+                                        FileLog.e(th);
+                                        bitmap2 = bitmap;
+                                        if (Build.VERSION.SDK_INT >= 26) {
+                                        }
+                                    }
+                                }
+                                if (!z || bitmap != null) {
+                                    int dp = AndroidUtilities.dp(58.0f);
+                                    Bitmap createBitmap = Bitmap.createBitmap(dp, dp, Bitmap.Config.ARGB_8888);
+                                    createBitmap.eraseColor(0);
+                                    Canvas canvas = new Canvas(createBitmap);
+                                    if (z) {
+                                        AvatarDrawable avatarDrawable = new AvatarDrawable(tLRPC$User);
+                                        if (UserObject.isReplyUser(tLRPC$User)) {
+                                            avatarDrawable.setAvatarType(12);
+                                        } else {
+                                            avatarDrawable.setAvatarType(1);
+                                        }
+                                        avatarDrawable.setBounds(0, 0, dp, dp);
+                                        avatarDrawable.draw(canvas);
+                                    } else {
+                                        Shader.TileMode tileMode = Shader.TileMode.CLAMP;
+                                        BitmapShader bitmapShader = new BitmapShader(bitmap, tileMode, tileMode);
+                                        if (roundPaint == null) {
+                                            roundPaint = new Paint(1);
+                                            bitmapRect = new RectF();
+                                        }
+                                        float width = dp / bitmap.getWidth();
+                                        canvas.save();
+                                        canvas.scale(width, width);
+                                        roundPaint.setShader(bitmapShader);
+                                        bitmapRect.set(0.0f, 0.0f, bitmap.getWidth(), bitmap.getHeight());
+                                        canvas.drawRoundRect(bitmapRect, bitmap.getWidth(), bitmap.getHeight(), roundPaint);
+                                        canvas.restore();
+                                    }
+                                    Drawable drawable = ApplicationLoader.applicationContext.getResources().getDrawable(R.drawable.book_logo);
+                                    int dp2 = AndroidUtilities.dp(15.0f);
+                                    int i2 = dp - dp2;
+                                    int dp3 = i2 - AndroidUtilities.dp(2.0f);
+                                    int dp4 = i2 - AndroidUtilities.dp(2.0f);
+                                    drawable.setBounds(dp3, dp4, dp3 + dp2, dp2 + dp4);
+                                    drawable.draw(canvas);
+                                    canvas.setBitmap(null);
+                                    bitmap = createBitmap;
+                                }
+                                bitmap2 = bitmap;
+                            }
+                            if (Build.VERSION.SDK_INT >= 26) {
+                                String str2 = i == SHORTCUT_TYPE_USER_OR_CHAT ? "sdid_" : "bdid_";
+                                Context context = ApplicationLoader.applicationContext;
+                                ShortcutInfoCompat.Builder intent = new ShortcutInfoCompat.Builder(context, str2 + j).setShortLabel(str).setIntent(createIntrnalShortcutIntent);
+                                if (bitmap2 != null) {
+                                    intent.setIcon(IconCompat.createWithBitmap(bitmap2));
+                                } else if (tLRPC$User != null) {
+                                    if (tLRPC$User.bot) {
+                                        intent.setIcon(IconCompat.createWithResource(ApplicationLoader.applicationContext, R.drawable.book_bot));
+                                    } else {
+                                        intent.setIcon(IconCompat.createWithResource(ApplicationLoader.applicationContext, R.drawable.book_user));
+                                    }
+                                } else if (ChatObject.isChannel(chat) && !chat.megagroup) {
+                                    intent.setIcon(IconCompat.createWithResource(ApplicationLoader.applicationContext, R.drawable.book_channel));
+                                } else {
+                                    intent.setIcon(IconCompat.createWithResource(ApplicationLoader.applicationContext, R.drawable.book_group));
+                                }
+                                ShortcutManagerCompat.requestPinShortcut(ApplicationLoader.applicationContext, intent.build(), null);
+                                return;
+                            }
+                            Intent intent2 = new Intent();
+                            if (bitmap2 != null) {
+                                intent2.putExtra("android.intent.extra.shortcut.ICON", bitmap2);
+                            } else if (tLRPC$User != null) {
+                                if (tLRPC$User.bot) {
+                                    intent2.putExtra("android.intent.extra.shortcut.ICON_RESOURCE", Intent.ShortcutIconResource.fromContext(ApplicationLoader.applicationContext, R.drawable.book_bot));
+                                } else {
+                                    intent2.putExtra("android.intent.extra.shortcut.ICON_RESOURCE", Intent.ShortcutIconResource.fromContext(ApplicationLoader.applicationContext, R.drawable.book_user));
+                                }
+                            } else if (ChatObject.isChannel(chat) && !chat.megagroup) {
+                                intent2.putExtra("android.intent.extra.shortcut.ICON_RESOURCE", Intent.ShortcutIconResource.fromContext(ApplicationLoader.applicationContext, R.drawable.book_channel));
+                            } else {
+                                intent2.putExtra("android.intent.extra.shortcut.ICON_RESOURCE", Intent.ShortcutIconResource.fromContext(ApplicationLoader.applicationContext, R.drawable.book_group));
+                            }
+                            intent2.putExtra("android.intent.extra.shortcut.INTENT", createIntrnalShortcutIntent);
+                            intent2.putExtra("android.intent.extra.shortcut.NAME", str);
+                            intent2.putExtra("duplicate", false);
+                            intent2.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+                            ApplicationLoader.applicationContext.sendBroadcast(intent2);
+                            return;
+                        }
+                        tLRPC$FileLocation = null;
+                        z = false;
+                        if (z) {
+                        }
+                        if (z) {
+                        }
+                        if (!z) {
+                        }
+                        int dp5 = AndroidUtilities.dp(58.0f);
+                        Bitmap createBitmap2 = Bitmap.createBitmap(dp5, dp5, Bitmap.Config.ARGB_8888);
+                        createBitmap2.eraseColor(0);
+                        Canvas canvas2 = new Canvas(createBitmap2);
+                        if (z) {
+                        }
+                        Drawable drawable2 = ApplicationLoader.applicationContext.getResources().getDrawable(R.drawable.book_logo);
+                        int dp22 = AndroidUtilities.dp(15.0f);
+                        int i22 = dp5 - dp22;
+                        int dp32 = i22 - AndroidUtilities.dp(2.0f);
+                        int dp42 = i22 - AndroidUtilities.dp(2.0f);
+                        drawable2.setBounds(dp32, dp42, dp32 + dp22, dp22 + dp42);
+                        drawable2.draw(canvas2);
+                        canvas2.setBitmap(null);
+                        bitmap = createBitmap2;
+                        bitmap2 = bitmap;
+                        if (Build.VERSION.SDK_INT >= 26) {
+                        }
+                    } else {
                         if (UserObject.isReplyUser(tLRPC$User)) {
                             str = LocaleController.getString("RepliesTitle", R.string.RepliesTitle);
                         } else if (UserObject.isUserSelf(tLRPC$User)) {
                             str = LocaleController.getString("SavedMessages", R.string.SavedMessages);
                         } else {
                             str = ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name);
-                            TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto = tLRPC$User.photo;
-                            if (tLRPC$UserProfilePhoto != null) {
-                                tLRPC$FileLocation = tLRPC$UserProfilePhoto.photo_small;
+                            TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto2 = tLRPC$User.photo;
+                            if (tLRPC$UserProfilePhoto2 != null) {
+                                tLRPC$FileLocation = tLRPC$UserProfilePhoto2.photo_small;
                                 z = false;
+                                if (z) {
+                                }
+                                if (z) {
+                                }
+                                if (!z) {
+                                }
+                                int dp52 = AndroidUtilities.dp(58.0f);
+                                Bitmap createBitmap22 = Bitmap.createBitmap(dp52, dp52, Bitmap.Config.ARGB_8888);
+                                createBitmap22.eraseColor(0);
+                                Canvas canvas22 = new Canvas(createBitmap22);
+                                if (z) {
+                                }
+                                Drawable drawable22 = ApplicationLoader.applicationContext.getResources().getDrawable(R.drawable.book_logo);
+                                int dp222 = AndroidUtilities.dp(15.0f);
+                                int i222 = dp52 - dp222;
+                                int dp322 = i222 - AndroidUtilities.dp(2.0f);
+                                int dp422 = i222 - AndroidUtilities.dp(2.0f);
+                                drawable22.setBounds(dp322, dp422, dp322 + dp222, dp222 + dp422);
+                                drawable22.draw(canvas22);
+                                canvas22.setBitmap(null);
+                                bitmap = createBitmap22;
+                                bitmap2 = bitmap;
+                                if (Build.VERSION.SDK_INT >= 26) {
+                                }
                             }
                             tLRPC$FileLocation = null;
                             z = false;
+                            if (z) {
+                            }
+                            if (z) {
+                            }
+                            if (!z) {
+                            }
+                            int dp522 = AndroidUtilities.dp(58.0f);
+                            Bitmap createBitmap222 = Bitmap.createBitmap(dp522, dp522, Bitmap.Config.ARGB_8888);
+                            createBitmap222.eraseColor(0);
+                            Canvas canvas222 = new Canvas(createBitmap222);
+                            if (z) {
+                            }
+                            Drawable drawable222 = ApplicationLoader.applicationContext.getResources().getDrawable(R.drawable.book_logo);
+                            int dp2222 = AndroidUtilities.dp(15.0f);
+                            int i2222 = dp522 - dp2222;
+                            int dp3222 = i2222 - AndroidUtilities.dp(2.0f);
+                            int dp4222 = i2222 - AndroidUtilities.dp(2.0f);
+                            drawable222.setBounds(dp3222, dp4222, dp3222 + dp2222, dp2222 + dp4222);
+                            drawable222.draw(canvas222);
+                            canvas222.setBitmap(null);
+                            bitmap = createBitmap222;
+                            bitmap2 = bitmap;
+                            if (Build.VERSION.SDK_INT >= 26) {
+                            }
                         }
                         tLRPC$FileLocation = null;
                         z = true;
-                    } else {
-                        str = chat.title;
-                        TLRPC$ChatPhoto tLRPC$ChatPhoto = chat.photo;
-                        if (tLRPC$ChatPhoto != null) {
-                            tLRPC$FileLocation = tLRPC$ChatPhoto.photo_small;
-                            z = false;
-                        }
-                        tLRPC$FileLocation = null;
-                        z = false;
-                    }
-                    if (z && tLRPC$FileLocation == null) {
-                        bitmap = null;
-                    } else {
                         if (z) {
-                            try {
-                                bitmap = BitmapFactory.decodeFile(getFileLoader().getPathToAttach(tLRPC$FileLocation, true).toString());
-                            } catch (Throwable th) {
-                                th = th;
-                                bitmap = null;
-                                FileLog.e(th);
-                                if (Build.VERSION.SDK_INT < 26) {
-                                }
-                            }
-                        } else {
-                            bitmap = null;
                         }
-                        if (!z || bitmap != null) {
-                            int dp = AndroidUtilities.dp(58.0f);
-                            Bitmap createBitmap = Bitmap.createBitmap(dp, dp, Bitmap.Config.ARGB_8888);
-                            createBitmap.eraseColor(0);
-                            Canvas canvas = new Canvas(createBitmap);
-                            if (!z) {
-                                AvatarDrawable avatarDrawable = new AvatarDrawable(tLRPC$User);
-                                if (UserObject.isReplyUser(tLRPC$User)) {
-                                    avatarDrawable.setAvatarType(12);
-                                } else {
-                                    avatarDrawable.setAvatarType(1);
-                                }
-                                avatarDrawable.setBounds(0, 0, dp, dp);
-                                avatarDrawable.draw(canvas);
-                            } else {
-                                Shader.TileMode tileMode = Shader.TileMode.CLAMP;
-                                BitmapShader bitmapShader = new BitmapShader(bitmap, tileMode, tileMode);
-                                if (roundPaint == null) {
-                                    roundPaint = new Paint(1);
-                                    bitmapRect = new RectF();
-                                }
-                                float width = dp / bitmap.getWidth();
-                                canvas.save();
-                                canvas.scale(width, width);
-                                roundPaint.setShader(bitmapShader);
-                                bitmapRect.set(0.0f, 0.0f, bitmap.getWidth(), bitmap.getHeight());
-                                canvas.drawRoundRect(bitmapRect, bitmap.getWidth(), bitmap.getHeight(), roundPaint);
-                                canvas.restore();
-                            }
-                            Drawable drawable = ApplicationLoader.applicationContext.getResources().getDrawable(R.drawable.book_logo);
-                            int dp2 = AndroidUtilities.dp(15.0f);
-                            int i = dp - dp2;
-                            int dp3 = i - AndroidUtilities.dp(2.0f);
-                            int dp4 = i - AndroidUtilities.dp(2.0f);
-                            drawable.setBounds(dp3, dp4, dp3 + dp2, dp2 + dp4);
-                            drawable.draw(canvas);
-                            canvas.setBitmap(null);
-                            bitmap = createBitmap;
+                        if (z) {
+                        }
+                        if (!z) {
+                        }
+                        int dp5222 = AndroidUtilities.dp(58.0f);
+                        Bitmap createBitmap2222 = Bitmap.createBitmap(dp5222, dp5222, Bitmap.Config.ARGB_8888);
+                        createBitmap2222.eraseColor(0);
+                        Canvas canvas2222 = new Canvas(createBitmap2222);
+                        if (z) {
+                        }
+                        Drawable drawable2222 = ApplicationLoader.applicationContext.getResources().getDrawable(R.drawable.book_logo);
+                        int dp22222 = AndroidUtilities.dp(15.0f);
+                        int i22222 = dp5222 - dp22222;
+                        int dp32222 = i22222 - AndroidUtilities.dp(2.0f);
+                        int dp42222 = i22222 - AndroidUtilities.dp(2.0f);
+                        drawable2222.setBounds(dp32222, dp42222, dp32222 + dp22222, dp22222 + dp42222);
+                        drawable2222.draw(canvas2222);
+                        canvas2222.setBitmap(null);
+                        bitmap = createBitmap2222;
+                        bitmap2 = bitmap;
+                        if (Build.VERSION.SDK_INT >= 26) {
                         }
                     }
-                    if (Build.VERSION.SDK_INT < 26) {
-                        ShortcutInfoCompat.Builder intent = new ShortcutInfoCompat.Builder(ApplicationLoader.applicationContext, "sdid_" + j).setShortLabel(str).setIntent(createIntrnalShortcutIntent);
-                        if (bitmap != null) {
-                            intent.setIcon(IconCompat.createWithBitmap(bitmap));
-                        } else if (tLRPC$User != null) {
-                            if (tLRPC$User.bot) {
-                                intent.setIcon(IconCompat.createWithResource(ApplicationLoader.applicationContext, R.drawable.book_bot));
-                            } else {
-                                intent.setIcon(IconCompat.createWithResource(ApplicationLoader.applicationContext, R.drawable.book_user));
-                            }
-                        } else if (ChatObject.isChannel(chat) && !chat.megagroup) {
-                            intent.setIcon(IconCompat.createWithResource(ApplicationLoader.applicationContext, R.drawable.book_channel));
-                        } else {
-                            intent.setIcon(IconCompat.createWithResource(ApplicationLoader.applicationContext, R.drawable.book_group));
+                } else {
+                    str = chat.title;
+                    TLRPC$ChatPhoto tLRPC$ChatPhoto = chat.photo;
+                    if (tLRPC$ChatPhoto != null) {
+                        tLRPC$FileLocation = tLRPC$ChatPhoto.photo_small;
+                        z = false;
+                        if (z) {
                         }
-                        ShortcutManagerCompat.requestPinShortcut(ApplicationLoader.applicationContext, intent.build(), null);
-                        return;
-                    }
-                    Intent intent2 = new Intent();
-                    if (bitmap != null) {
-                        intent2.putExtra("android.intent.extra.shortcut.ICON", bitmap);
-                    } else if (tLRPC$User != null) {
-                        if (tLRPC$User.bot) {
-                            intent2.putExtra("android.intent.extra.shortcut.ICON_RESOURCE", Intent.ShortcutIconResource.fromContext(ApplicationLoader.applicationContext, R.drawable.book_bot));
-                        } else {
-                            intent2.putExtra("android.intent.extra.shortcut.ICON_RESOURCE", Intent.ShortcutIconResource.fromContext(ApplicationLoader.applicationContext, R.drawable.book_user));
+                        if (z) {
                         }
-                    } else if (ChatObject.isChannel(chat) && !chat.megagroup) {
-                        intent2.putExtra("android.intent.extra.shortcut.ICON_RESOURCE", Intent.ShortcutIconResource.fromContext(ApplicationLoader.applicationContext, R.drawable.book_channel));
-                    } else {
-                        intent2.putExtra("android.intent.extra.shortcut.ICON_RESOURCE", Intent.ShortcutIconResource.fromContext(ApplicationLoader.applicationContext, R.drawable.book_group));
+                        if (!z) {
+                        }
+                        int dp52222 = AndroidUtilities.dp(58.0f);
+                        Bitmap createBitmap22222 = Bitmap.createBitmap(dp52222, dp52222, Bitmap.Config.ARGB_8888);
+                        createBitmap22222.eraseColor(0);
+                        Canvas canvas22222 = new Canvas(createBitmap22222);
+                        if (z) {
+                        }
+                        Drawable drawable22222 = ApplicationLoader.applicationContext.getResources().getDrawable(R.drawable.book_logo);
+                        int dp222222 = AndroidUtilities.dp(15.0f);
+                        int i222222 = dp52222 - dp222222;
+                        int dp322222 = i222222 - AndroidUtilities.dp(2.0f);
+                        int dp422222 = i222222 - AndroidUtilities.dp(2.0f);
+                        drawable22222.setBounds(dp322222, dp422222, dp322222 + dp222222, dp222222 + dp422222);
+                        drawable22222.draw(canvas22222);
+                        canvas22222.setBitmap(null);
+                        bitmap = createBitmap22222;
+                        bitmap2 = bitmap;
+                        if (Build.VERSION.SDK_INT >= 26) {
+                        }
                     }
-                    intent2.putExtra("android.intent.extra.shortcut.INTENT", createIntrnalShortcutIntent);
-                    intent2.putExtra("android.intent.extra.shortcut.NAME", str);
-                    intent2.putExtra("duplicate", false);
-                    intent2.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
-                    ApplicationLoader.applicationContext.sendBroadcast(intent2);
-                    return;
+                    tLRPC$FileLocation = null;
+                    z = false;
+                    if (z) {
+                    }
+                    if (z) {
+                    }
+                    if (!z) {
+                    }
+                    int dp522222 = AndroidUtilities.dp(58.0f);
+                    Bitmap createBitmap222222 = Bitmap.createBitmap(dp522222, dp522222, Bitmap.Config.ARGB_8888);
+                    createBitmap222222.eraseColor(0);
+                    Canvas canvas222222 = new Canvas(createBitmap222222);
+                    if (z) {
+                    }
+                    Drawable drawable222222 = ApplicationLoader.applicationContext.getResources().getDrawable(R.drawable.book_logo);
+                    int dp2222222 = AndroidUtilities.dp(15.0f);
+                    int i2222222 = dp522222 - dp2222222;
+                    int dp3222222 = i2222222 - AndroidUtilities.dp(2.0f);
+                    int dp4222222 = i2222222 - AndroidUtilities.dp(2.0f);
+                    drawable222222.setBounds(dp3222222, dp4222222, dp3222222 + dp2222222, dp2222222 + dp4222222);
+                    drawable222222.draw(canvas222222);
+                    canvas222222.setBitmap(null);
+                    bitmap = createBitmap222222;
+                    bitmap2 = bitmap;
+                    if (Build.VERSION.SDK_INT >= 26) {
+                    }
                 }
-                return;
-            } else {
-                return;
             }
             tLRPC$User = user;
             chat = null;
-            if (tLRPC$User == null) {
+            if (tLRPC$User != null) {
             }
             if (tLRPC$User == null) {
-            }
-            if (z) {
-            }
-            if (z) {
-            }
-            if (!z) {
-            }
-            int dp5 = AndroidUtilities.dp(58.0f);
-            Bitmap createBitmap2 = Bitmap.createBitmap(dp5, dp5, Bitmap.Config.ARGB_8888);
-            createBitmap2.eraseColor(0);
-            Canvas canvas2 = new Canvas(createBitmap2);
-            if (!z) {
-            }
-            Drawable drawable2 = ApplicationLoader.applicationContext.getResources().getDrawable(R.drawable.book_logo);
-            int dp22 = AndroidUtilities.dp(15.0f);
-            int i2 = dp5 - dp22;
-            int dp32 = i2 - AndroidUtilities.dp(2.0f);
-            int dp42 = i2 - AndroidUtilities.dp(2.0f);
-            drawable2.setBounds(dp32, dp42, dp32 + dp22, dp22 + dp42);
-            drawable2.draw(canvas2);
-            canvas2.setBitmap(null);
-            bitmap = createBitmap2;
-            if (Build.VERSION.SDK_INT < 26) {
             }
         } catch (Exception e) {
             FileLog.e(e);
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:24:0x00a4 A[Catch: Exception -> 0x00d4, TryCatch #0 {Exception -> 0x00d4, blocks: (B:2:0x0000, B:4:0x0006, B:6:0x003c, B:7:0x004b, B:9:0x0052, B:12:0x0065, B:24:0x00a4, B:26:0x00af, B:25:0x00ad, B:13:0x0074, B:15:0x007a, B:17:0x008a, B:19:0x0090), top: B:32:0x0000 }] */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x00ad A[Catch: Exception -> 0x00d4, TryCatch #0 {Exception -> 0x00d4, blocks: (B:2:0x0000, B:4:0x0006, B:6:0x003c, B:7:0x004b, B:9:0x0052, B:12:0x0065, B:24:0x00a4, B:26:0x00af, B:25:0x00ad, B:13:0x0074, B:15:0x007a, B:17:0x008a, B:19:0x0090), top: B:32:0x0000 }] */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x00c0 A[Catch: Exception -> 0x0108, TryCatch #0 {Exception -> 0x0108, blocks: (B:2:0x0000, B:4:0x0006, B:6:0x000f, B:7:0x0037, B:9:0x003b, B:10:0x004f, B:12:0x0058, B:13:0x0067, B:15:0x006e, B:18:0x0081, B:30:0x00c0, B:32:0x00c4, B:38:0x00d9, B:40:0x00dd, B:42:0x00e7, B:41:0x00e2, B:33:0x00cd, B:35:0x00d1, B:37:0x00d7, B:19:0x0090, B:21:0x0096, B:23:0x00a6, B:25:0x00ac), top: B:48:0x0000 }] */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x00d7 A[Catch: Exception -> 0x0108, TryCatch #0 {Exception -> 0x0108, blocks: (B:2:0x0000, B:4:0x0006, B:6:0x000f, B:7:0x0037, B:9:0x003b, B:10:0x004f, B:12:0x0058, B:13:0x0067, B:15:0x006e, B:18:0x0081, B:30:0x00c0, B:32:0x00c4, B:38:0x00d9, B:40:0x00dd, B:42:0x00e7, B:41:0x00e2, B:33:0x00cd, B:35:0x00d1, B:37:0x00d7, B:19:0x0090, B:21:0x0096, B:23:0x00a6, B:25:0x00ac), top: B:48:0x0000 }] */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x00dd A[Catch: Exception -> 0x0108, TryCatch #0 {Exception -> 0x0108, blocks: (B:2:0x0000, B:4:0x0006, B:6:0x000f, B:7:0x0037, B:9:0x003b, B:10:0x004f, B:12:0x0058, B:13:0x0067, B:15:0x006e, B:18:0x0081, B:30:0x00c0, B:32:0x00c4, B:38:0x00d9, B:40:0x00dd, B:42:0x00e7, B:41:0x00e2, B:33:0x00cd, B:35:0x00d1, B:37:0x00d7, B:19:0x0090, B:21:0x0096, B:23:0x00a6, B:25:0x00ac), top: B:48:0x0000 }] */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x00e2 A[Catch: Exception -> 0x0108, TryCatch #0 {Exception -> 0x0108, blocks: (B:2:0x0000, B:4:0x0006, B:6:0x000f, B:7:0x0037, B:9:0x003b, B:10:0x004f, B:12:0x0058, B:13:0x0067, B:15:0x006e, B:18:0x0081, B:30:0x00c0, B:32:0x00c4, B:38:0x00d9, B:40:0x00dd, B:42:0x00e7, B:41:0x00e2, B:33:0x00cd, B:35:0x00d1, B:37:0x00d7, B:19:0x0090, B:21:0x0096, B:23:0x00a6, B:25:0x00ac), top: B:48:0x0000 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void uninstallShortcut(long j) {
+    public void uninstallShortcut(long j, int i) {
         TLRPC$Chat chat;
         TLRPC$User user;
         String str;
         try {
-            int i = Build.VERSION.SDK_INT;
-            if (i >= 26) {
+            int i2 = Build.VERSION.SDK_INT;
+            if (i2 >= 26) {
                 ArrayList arrayList = new ArrayList();
-                arrayList.add("sdid_" + j);
-                arrayList.add("ndid_" + j);
+                if (i == SHORTCUT_TYPE_USER_OR_CHAT) {
+                    arrayList.add("sdid_" + j);
+                    arrayList.add("ndid_" + j);
+                }
+                if (i == SHORTCUT_TYPE_ATTACHED_BOT) {
+                    arrayList.add("bdid_" + j);
+                }
                 ShortcutManagerCompat.removeDynamicShortcuts(ApplicationLoader.applicationContext, arrayList);
-                if (i >= 30) {
+                if (i2 >= 30) {
                     ((ShortcutManager) ApplicationLoader.applicationContext.getSystemService(ShortcutManager.class)).removeLongLivedShortcuts(arrayList);
                     return;
                 }
@@ -8010,12 +8180,17 @@ public class MediaDataController extends BaseController {
                 chat = getMessagesController().getChat(Long.valueOf(-j));
                 if (tLRPC$User == null || chat != null) {
                     if (tLRPC$User == null) {
-                        str = ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name);
+                        if (i == SHORTCUT_TYPE_USER_OR_CHAT) {
+                            str = ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name);
+                        } else {
+                            str = i == SHORTCUT_TYPE_ATTACHED_BOT ? tLRPC$User.first_name : "";
+                        }
                     } else {
                         str = chat.title;
                     }
+                    Intent createIntrnalShortcutIntent = i != SHORTCUT_TYPE_USER_OR_CHAT ? createIntrnalShortcutIntent(j) : createIntrnalAttachedBotShortcutIntent(j, 3);
                     Intent intent = new Intent();
-                    intent.putExtra("android.intent.extra.shortcut.INTENT", createIntrnalShortcutIntent(j));
+                    intent.putExtra("android.intent.extra.shortcut.INTENT", createIntrnalShortcutIntent);
                     intent.putExtra("android.intent.extra.shortcut.NAME", str);
                     intent.putExtra("duplicate", false);
                     intent.setAction("com.android.launcher.action.UNINSTALL_SHORTCUT");
@@ -8031,8 +8206,10 @@ public class MediaDataController extends BaseController {
             }
             if (tLRPC$User == null) {
             }
+            if (i != SHORTCUT_TYPE_USER_OR_CHAT) {
+            }
             Intent intent2 = new Intent();
-            intent2.putExtra("android.intent.extra.shortcut.INTENT", createIntrnalShortcutIntent(j));
+            intent2.putExtra("android.intent.extra.shortcut.INTENT", createIntrnalShortcutIntent);
             intent2.putExtra("android.intent.extra.shortcut.NAME", str);
             intent2.putExtra("duplicate", false);
             intent2.setAction("com.android.launcher.action.UNINSTALL_SHORTCUT");
@@ -8040,6 +8217,19 @@ public class MediaDataController extends BaseController {
         } catch (Exception e) {
             FileLog.e(e);
         }
+    }
+
+    public boolean isShortcutAdded(long j, int i) {
+        if (Build.VERSION.SDK_INT >= 26) {
+            String str = (i == SHORTCUT_TYPE_USER_OR_CHAT ? "sdid_" : "bdid_") + j;
+            List<ShortcutInfoCompat> shortcuts = ShortcutManagerCompat.getShortcuts(ApplicationLoader.applicationContext, 4);
+            for (int i2 = 0; i2 < shortcuts.size(); i2++) {
+                if (shortcuts.get(i2).getId().equals(str)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /* JADX INFO: Access modifiers changed from: private */

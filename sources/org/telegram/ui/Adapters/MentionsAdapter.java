@@ -1051,10 +1051,10 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:224:0x03d0, code lost:
-        if (r9.info != null) goto L477;
+        if (r9.info != null) goto L479;
      */
     /* JADX WARN: Code restructure failed: missing block: B:225:0x03d2, code lost:
-        if (r3 == 0) goto L477;
+        if (r3 == 0) goto L479;
      */
     /* JADX WARN: Code restructure failed: missing block: B:226:0x03d4, code lost:
         r9.lastText = r12;
@@ -1538,8 +1538,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                             }
                         }
                     }
-                    ChatActivity chatActivity2 = mentionsAdapter.parentFragment;
-                    if (chatActivity2 != null && chatActivity2.getChatMode() == 0 && mentionsAdapter.parentFragment.getCurrentUser() != null && !mentionsAdapter.parentFragment.getCurrentUser().bot && !UserObject.isReplyUser(mentionsAdapter.parentFragment.getCurrentUser()) && !UserObject.isService(mentionsAdapter.parentFragment.getCurrentUser().id)) {
+                    if (mentionsAdapter.parentFragment != null && !DialogObject.isEncryptedDialog(mentionsAdapter.dialog_id) && mentionsAdapter.parentFragment.getChatMode() == 0 && mentionsAdapter.parentFragment.getCurrentUser() != null && !mentionsAdapter.parentFragment.getCurrentUser().bot && !UserObject.isReplyUser(mentionsAdapter.parentFragment.getCurrentUser()) && !UserObject.isService(mentionsAdapter.parentFragment.getCurrentUser().id)) {
                         QuickRepliesController quickRepliesController = QuickRepliesController.getInstance(mentionsAdapter.currentAccount);
                         quickRepliesController.load();
                         mentionsAdapter.quickRepliesQuery = lowerCase2;
@@ -1619,9 +1618,9 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                     }
                 }
                 tLRPC$Chat = tLRPC$Chat4;
-                ChatActivity chatActivity3 = mentionsAdapter.parentFragment;
-                if (chatActivity3 != null) {
-                    chat = chatActivity3.getCurrentChat();
+                ChatActivity chatActivity2 = mentionsAdapter.parentFragment;
+                if (chatActivity2 != null) {
+                    chat = chatActivity2.getCurrentChat();
                     j = mentionsAdapter.parentFragment.getThreadId();
                 } else {
                     TLRPC$ChatFull tLRPC$ChatFull2 = mentionsAdapter.info;

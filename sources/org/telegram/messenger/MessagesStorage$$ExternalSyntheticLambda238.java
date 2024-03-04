@@ -11,8 +11,8 @@ public final /* synthetic */ class MessagesStorage$$ExternalSyntheticLambda238 i
 
     @Override // java.util.Comparator
     public final int compare(Object obj, Object obj2) {
-        int lambda$getMessagesInternal$150;
-        lambda$getMessagesInternal$150 = MessagesStorage.lambda$getMessagesInternal$150((TLRPC$Message) obj, (TLRPC$Message) obj2);
-        return lambda$getMessagesInternal$150;
+        int lambda$getMessagesInternal$151;
+        lambda$getMessagesInternal$151 = MessagesStorage.lambda$getMessagesInternal$151((TLRPC$Message) obj, (TLRPC$Message) obj2);
+        return lambda$getMessagesInternal$151;
     }
 }

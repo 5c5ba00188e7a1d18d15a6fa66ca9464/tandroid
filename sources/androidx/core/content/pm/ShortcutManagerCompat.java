@@ -83,6 +83,34 @@ public class ShortcutManagerCompat {
         return false;
     }
 
+    public static List<ShortcutInfoCompat> getShortcuts(Context context, int i) {
+        int i2 = Build.VERSION.SDK_INT;
+        if (i2 >= 30) {
+            return ShortcutInfoCompat.fromShortcuts(context, ((ShortcutManager) context.getSystemService(ShortcutManager.class)).getShortcuts(i));
+        }
+        if (i2 >= 25) {
+            ShortcutManager shortcutManager = (ShortcutManager) context.getSystemService(ShortcutManager.class);
+            ArrayList arrayList = new ArrayList();
+            if ((i & 1) != 0) {
+                arrayList.addAll(shortcutManager.getManifestShortcuts());
+            }
+            if ((i & 2) != 0) {
+                arrayList.addAll(shortcutManager.getDynamicShortcuts());
+            }
+            if ((i & 4) != 0) {
+                arrayList.addAll(shortcutManager.getPinnedShortcuts());
+            }
+            return ShortcutInfoCompat.fromShortcuts(context, arrayList);
+        }
+        if ((i & 2) != 0) {
+            try {
+                return getShortcutInfoSaverInstance(context).getShortcuts();
+            } catch (Exception unused) {
+            }
+        }
+        return Collections.emptyList();
+    }
+
     public static boolean addDynamicShortcuts(Context context, List<ShortcutInfoCompat> list) {
         List<ShortcutInfoCompat> removeShortcutsExcludedFromSurface = removeShortcutsExcludedFromSurface(list, 1);
         int i = Build.VERSION.SDK_INT;

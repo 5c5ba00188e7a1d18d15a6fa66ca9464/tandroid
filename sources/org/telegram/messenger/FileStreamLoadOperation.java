@@ -133,8 +133,8 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
         return 3;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:16:0x001e, code lost:
-        if (r14.opened == false) goto L14;
+    /* JADX WARN: Code restructure failed: missing block: B:15:0x0019, code lost:
+        if (r12.opened == false) goto L13;
      */
     @Override // com.google.android.exoplayer2.upstream.DataReader
     /*
@@ -142,20 +142,19 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
     */
     public int read(byte[] bArr, int i, int i2) throws IOException {
         RandomAccessFile randomAccessFile;
-        int i3 = i2;
-        if (i3 == 0) {
+        if (i2 == 0) {
             return 0;
         }
         long j = this.bytesRemaining;
         if (j == 0) {
             return -1;
         }
-        if (j < i3) {
-            i3 = (int) j;
+        if (j < i2) {
+            i2 = (int) j;
         }
-        int i4 = 0;
+        int i3 = 0;
         while (true) {
-            if (i4 == 0) {
+            if (i3 == 0) {
                 try {
                 } catch (Exception e) {
                     throw new IOException(e);
@@ -165,8 +164,8 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
             if (randomAccessFile != null) {
                 break;
             }
-            int i5 = (int) this.loadOperation.getDownloadedLengthFromOffset(this.currentOffset, i3)[0];
-            if (i5 == 0) {
+            i3 = (int) this.loadOperation.getDownloadedLengthFromOffset(this.currentOffset, i2)[0];
+            if (i3 == 0) {
                 this.countDownLatch = new CountDownLatch(1);
                 FileLoadOperation loadStreamFile = FileLoader.getInstance(this.currentAccount).loadStreamFile(this, this.document, null, this.parentObject, this.currentOffset, false, getCurrentPriority());
                 FileLoadOperation fileLoadOperation = this.loadOperation;
@@ -181,46 +180,42 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
                 }
             }
             File currentFileFast = this.loadOperation.getCurrentFileFast();
-            if (this.file != null && Objects.equals(this.currentFile, currentFileFast)) {
-                FileLog.e("FileStreamLoadOperation " + this.document.id + " read have exact same file");
-                i4 = i5;
-            }
-            if (BuildVars.LOGS_ENABLED) {
-                FileLog.d("check stream file " + currentFileFast);
-            }
-            RandomAccessFile randomAccessFile2 = this.file;
-            if (randomAccessFile2 != null) {
-                try {
-                    randomAccessFile2.close();
-                } catch (Exception unused) {
+            if (this.file == null || !Objects.equals(this.currentFile, currentFileFast)) {
+                if (BuildVars.LOGS_ENABLED) {
+                    FileLog.d("check stream file " + currentFileFast);
                 }
-            }
-            this.currentFile = currentFileFast;
-            if (currentFileFast != null) {
-                try {
-                    RandomAccessFile randomAccessFile3 = new RandomAccessFile(this.currentFile, "r");
-                    this.file = randomAccessFile3;
-                    randomAccessFile3.seek(this.currentOffset);
-                    if (this.loadOperation.isFinished()) {
-                        this.bytesRemaining = this.currentFile.length() - this.currentOffset;
+                RandomAccessFile randomAccessFile2 = this.file;
+                if (randomAccessFile2 != null) {
+                    try {
+                        randomAccessFile2.close();
+                    } catch (Exception unused) {
                     }
-                } catch (Throwable unused2) {
+                }
+                this.currentFile = currentFileFast;
+                if (currentFileFast != null) {
+                    try {
+                        RandomAccessFile randomAccessFile3 = new RandomAccessFile(this.currentFile, "r");
+                        this.file = randomAccessFile3;
+                        randomAccessFile3.seek(this.currentOffset);
+                        if (this.loadOperation.isFinished()) {
+                            this.bytesRemaining = this.currentFile.length() - this.currentOffset;
+                        }
+                    } catch (Throwable unused2) {
+                    }
                 }
             }
-            i4 = i5;
         }
-        if (!this.opened) {
-            FileLog.e("FileStreamLoadOperation " + this.document.id + " read return, not opened");
-            return 0;
+        if (this.opened) {
+            int read = randomAccessFile.read(bArr, i, i3);
+            if (read > 0) {
+                long j2 = read;
+                this.currentOffset += j2;
+                this.bytesRemaining -= j2;
+                bytesTransferred(read);
+            }
+            return read;
         }
-        int read = randomAccessFile.read(bArr, i, i4);
-        if (read > 0) {
-            long j2 = read;
-            this.currentOffset += j2;
-            this.bytesRemaining -= j2;
-            bytesTransferred(read);
-        }
-        return read;
+        return 0;
     }
 
     @Override // com.google.android.exoplayer2.upstream.DataSource
@@ -230,7 +225,6 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
 
     @Override // com.google.android.exoplayer2.upstream.DataSource
     public void close() {
-        FileLog.e("FileStreamLoadOperation " + this.document.id + " close me=" + this);
         FileLoadOperation fileLoadOperation = this.loadOperation;
         if (fileLoadOperation != null) {
             fileLoadOperation.removeStreamListener(this);
@@ -259,7 +253,6 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
 
     @Override // org.telegram.messenger.FileLoadOperationStream
     public void newDataAvailable() {
-        FileLog.e("FileStreamLoadOperation " + this.document.id + " newDataAvailable me=" + this);
         CountDownLatch countDownLatch = this.countDownLatch;
         if (countDownLatch != null) {
             countDownLatch.countDown();
