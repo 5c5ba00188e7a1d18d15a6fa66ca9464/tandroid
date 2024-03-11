@@ -429,10 +429,10 @@ public class DrawerLayoutContainer extends FrameLayout {
         return super.dispatchTouchEvent(motionEvent);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:101:0x01bb, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:101:0x01bf, code lost:
         if (r9 != r8.drawerLayout.getMeasuredWidth()) goto L119;
      */
-    /* JADX WARN: Removed duplicated region for block: B:131:0x0228  */
+    /* JADX WARN: Removed duplicated region for block: B:131:0x022c  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -449,7 +449,7 @@ public class DrawerLayoutContainer extends FrameLayout {
             }
             return true;
         }
-        if ((this.allowOpenDrawerBySwipe || this.drawerOpened) && this.allowOpenDrawer && this.parentActionBarLayout.getFragmentStack().size() == 1 && (this.parentActionBarLayout.getLastFragment().storyViewer == null || !this.parentActionBarLayout.getLastFragment().storyViewer.attachedToParent())) {
+        if ((this.allowOpenDrawerBySwipe || this.drawerOpened) && this.allowOpenDrawer && this.parentActionBarLayout.getFragmentStack().size() == 1 && (this.parentActionBarLayout.getLastFragment().getLastStoryViewer() == null || !this.parentActionBarLayout.getLastFragment().getLastStoryViewer().attachedToParent())) {
             if (motionEvent != null && ((motionEvent.getAction() == 0 || motionEvent.getAction() == 2) && !this.startedTracking && !this.maybeStartTracking)) {
                 if (findScrollingChild(this, motionEvent.getX(), motionEvent.getY()) != null) {
                     return false;

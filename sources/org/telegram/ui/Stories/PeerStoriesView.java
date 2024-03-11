@@ -1469,7 +1469,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                 storiesController.resolveStoryLink(longValue, intValue, new Consumer() { // from class: org.telegram.ui.Stories.PeerStoriesView$5$$ExternalSyntheticLambda2
                     @Override // com.google.android.exoplayer2.util.Consumer
                     public final void accept(Object obj) {
-                        PeerStoriesView.5.this.lambda$onReplyClick$3(storyViewer, reply, resourcesProvider, (TL_stories$StoryItem) obj);
+                        PeerStoriesView.5.this.lambda$onReplyClick$3(reply, storyViewer, resourcesProvider, (TL_stories$StoryItem) obj);
                     }
                 });
             } else {
@@ -1478,21 +1478,22 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onReplyClick$3(final StoryViewer storyViewer, StoryCaptionView.Reply reply, Theme.ResourcesProvider resourcesProvider, TL_stories$StoryItem tL_stories$StoryItem) {
+        public /* synthetic */ void lambda$onReplyClick$3(StoryCaptionView.Reply reply, final StoryViewer storyViewer, Theme.ResourcesProvider resourcesProvider, TL_stories$StoryItem tL_stories$StoryItem) {
             if (tL_stories$StoryItem != null) {
                 BaseFragment lastFragment = LaunchActivity.getLastFragment();
-                if (lastFragment == null || lastFragment.getOrCreateOverlayStoryViewer().isShowing) {
+                if (lastFragment == null) {
                     return;
                 }
-                storyViewer.setOverlayVisible(true);
                 tL_stories$StoryItem.dialogId = reply.peerId.longValue();
-                lastFragment.getOrCreateOverlayStoryViewer().open(getContext(), tL_stories$StoryItem, (StoryViewer.PlaceProvider) null);
-                lastFragment.getOrCreateOverlayStoryViewer().setOnCloseListener(new Runnable() { // from class: org.telegram.ui.Stories.PeerStoriesView$5$$ExternalSyntheticLambda3
+                StoryViewer createOverlayStoryViewer = lastFragment.createOverlayStoryViewer();
+                createOverlayStoryViewer.open(getContext(), tL_stories$StoryItem, (StoryViewer.PlaceProvider) null);
+                createOverlayStoryViewer.setOnCloseListener(new Runnable() { // from class: org.telegram.ui.Stories.PeerStoriesView$5$$ExternalSyntheticLambda3
                     @Override // java.lang.Runnable
                     public final void run() {
-                        StoryViewer.this.setOverlayVisible(false);
+                        StoryViewer.this.updatePlayingMode();
                     }
                 });
+                storyViewer.updatePlayingMode();
                 return;
             }
             BulletinFactory.of(PeerStoriesView.this.storyContainer, resourcesProvider).createSimpleBulletin(R.raw.story_bomb2, LocaleController.getString(R.string.StoryNotFound)).setTag(3).show(true);
@@ -4229,22 +4230,23 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
     }
 
     /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x0067  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public /* synthetic */ void lambda$openRepostStory$31(final StoryRecorder storyRecorder, Long l, final Runnable runnable, Boolean bool, final Long l2) {
         DialogStoriesCell dialogStoriesCell;
         BaseFragment baseFragment;
-        BaseFragment baseFragment2;
-        StoryViewer storyViewer;
-        StoryViewer storyViewer2;
         INavigationLayout parentLayout;
         if (bool.booleanValue()) {
-            BaseFragment baseFragment3 = this.storyViewer.fragment;
-            if (baseFragment3 != null && (parentLayout = baseFragment3.getParentLayout()) != null) {
+            BaseFragment baseFragment2 = this.storyViewer.fragment;
+            if (baseFragment2 != null && (parentLayout = baseFragment2.getParentLayout()) != null) {
                 List<BaseFragment> fragmentStack = parentLayout.getFragmentStack();
                 ArrayList arrayList = new ArrayList();
                 for (int size = fragmentStack.size() - 1; size >= 0; size--) {
-                    BaseFragment baseFragment4 = fragmentStack.get(size);
-                    if (baseFragment4 instanceof DialogsActivity) {
-                        DialogsActivity dialogsActivity = (DialogsActivity) baseFragment4;
+                    BaseFragment baseFragment3 = fragmentStack.get(size);
+                    if (baseFragment3 instanceof DialogsActivity) {
+                        DialogsActivity dialogsActivity = (DialogsActivity) baseFragment3;
                         dialogsActivity.closeSearching();
                         DialogStoriesCell dialogStoriesCell2 = dialogsActivity.dialogStoriesCell;
                         r7 = dialogStoriesCell2 != null ? dialogStoriesCell2.findStoryCell(l2.longValue()) : null;
@@ -4253,12 +4255,8 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                         }
                         dialogStoriesCell = dialogStoriesCell2;
                         baseFragment = this.storyViewer.fragment;
-                        if (baseFragment != null && (storyViewer2 = baseFragment.overlayStoryViewer) != null) {
-                            storyViewer2.instantClose();
-                        }
-                        baseFragment2 = this.storyViewer.fragment;
-                        if (baseFragment2 != null && (storyViewer = baseFragment2.storyViewer) != null) {
-                            storyViewer.instantClose();
+                        if (baseFragment != null) {
+                            baseFragment.clearStoryViewers();
                         }
                         this.storyViewer.instantClose();
                         this.editOpened = false;
@@ -4277,17 +4275,12 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                         AndroidUtilities.runOnUIThread(runnable, 400L);
                         return;
                     }
-                    arrayList.add(baseFragment4);
+                    arrayList.add(baseFragment3);
                 }
             }
             dialogStoriesCell = null;
             baseFragment = this.storyViewer.fragment;
             if (baseFragment != null) {
-                storyViewer2.instantClose();
-            }
-            baseFragment2 = this.storyViewer.fragment;
-            if (baseFragment2 != null) {
-                storyViewer.instantClose();
             }
             this.storyViewer.instantClose();
             this.editOpened = false;
@@ -7514,6 +7507,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
     private void updateViewOffsets() {
         float f;
         ReactionsContainerLayout reactionsContainerLayout;
+        Paint paint;
         float progressToDismiss = this.delegate.getProgressToDismiss();
         this.progressToHideInterface.set(this.isLongPressed ? 1.0f : 0.0f);
         int i = this.lastOpenedKeyboardHeight;
@@ -7539,16 +7533,16 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
             chatActivityEnterView3.checkAnimation();
         }
         ChatActivityEnterView chatActivityEnterView4 = this.chatActivityEnterView;
-        boolean z = chatActivityEnterView4 != null && chatActivityEnterView4.isPopupShowing();
+        boolean z = true;
+        boolean z2 = chatActivityEnterView4 != null && chatActivityEnterView4.isPopupShowing();
         float hideInterfaceAlpha = getHideInterfaceAlpha();
         if (this.BIG_SCREEN) {
             this.inputBackgroundPaint.setColor(ColorUtils.blendARGB(ColorUtils.blendARGB(-16777216, -1, 0.13f), ColorUtils.setAlphaComponent(-16777216, 170), this.progressToKeyboard));
-            Paint paint = this.inputBackgroundPaint;
-            paint.setAlpha((int) (paint.getAlpha() * (1.0f - this.progressToDismiss) * hideInterfaceAlpha * (1.0f - this.outT)));
+            this.inputBackgroundPaint.setAlpha((int) (paint.getAlpha() * (1.0f - this.progressToDismiss) * hideInterfaceAlpha * (1.0f - this.outT)));
         } else {
             this.inputBackgroundPaint.setColor(ColorUtils.setAlphaComponent(-16777216, (int) (140.0f * hideInterfaceAlpha * (1.0f - this.outT))));
         }
-        if (!this.forceUpdateOffsets && this.progressToReply == this.storyViewer.swipeToReplyProgress && this.progressToHideInterface.get() == this.prevToHideProgress && this.lastAnimatingKeyboardHeight == this.animatingKeyboardHeight && f == this.progressToKeyboard && progressToDismiss == this.progressToDismiss && f2 == this.progressToRecording.get() && !z && f4 == this.progressToStickerExpanded.get() && f3 == this.progressToTextA.get()) {
+        if (!this.forceUpdateOffsets && this.progressToReply == this.storyViewer.swipeToReplyProgress && this.progressToHideInterface.get() == this.prevToHideProgress && this.lastAnimatingKeyboardHeight == this.animatingKeyboardHeight && f == this.progressToKeyboard && progressToDismiss == this.progressToDismiss && f2 == this.progressToRecording.get() && !z2 && f4 == this.progressToStickerExpanded.get() && f3 == this.progressToTextA.get()) {
             return;
         }
         this.forceUpdateOffsets = false;
@@ -7640,7 +7634,12 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
         }
         ChatActivityEnterView chatActivityEnterView7 = this.chatActivityEnterView;
         if (chatActivityEnterView7 != null) {
-            chatActivityEnterView7.setHorizontalPadding(AndroidUtilities.dp(10.0f), this.progressToKeyboard, this.allowShare);
+            float dp2 = AndroidUtilities.dp(10.0f);
+            float f11 = this.progressToKeyboard;
+            if (!this.allowShare && !this.isGroup) {
+                z = false;
+            }
+            chatActivityEnterView7.setHorizontalPadding(dp2, f11, z);
             if (this.chatActivityEnterView.getEmojiView() != null) {
                 this.chatActivityEnterView.getEmojiView().setAlpha(this.progressToKeyboard);
             }
@@ -7654,6 +7653,8 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
 
     @Override // android.view.ViewGroup
     protected boolean drawChild(Canvas canvas, View view, long j) {
+        ReactionsContainerLayout reactionsContainerLayout;
+        ReactionsContainerLayout reactionsContainerLayout2;
         if (view == this.mentionContainer) {
             canvas.save();
             canvas.clipRect(0.0f, this.mentionContainer.getY(), getMeasuredWidth(), this.mentionContainer.getY() + this.mentionContainer.getMeasuredHeight());
@@ -7664,12 +7665,18 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
         ChatActivityEnterView chatActivityEnterView = this.chatActivityEnterView;
         if (view == chatActivityEnterView) {
             this.sharedResources.rect1.set(0.0f, this.chatActivityEnterView.getY() + this.chatActivityEnterView.getAnimatedTop(), getMeasuredWidth() + AndroidUtilities.dp(20.0f), getMeasuredHeight());
-            int i = 0;
-            int dp = this.allowShare ? AndroidUtilities.dp(46.0f) : 0;
-            if (this.allowRepost && this.isChannel) {
-                i = AndroidUtilities.dp(46.0f);
+            float dp = AndroidUtilities.dp(40.0f);
+            if (this.allowShare) {
+                dp += AndroidUtilities.dp(46.0f);
             }
-            this.sharedResources.rect2.set(AndroidUtilities.dp(10.0f), (this.chatActivityEnterView.getBottom() - AndroidUtilities.dp(48.0f)) + this.chatActivityEnterView.getTranslationY() + AndroidUtilities.dp(2.0f), (getMeasuredWidth() - AndroidUtilities.dp(10.0f)) - ((dp + i) + AndroidUtilities.dp(40.0f)), (this.chatActivityEnterView.getY() + this.chatActivityEnterView.getMeasuredHeight()) - AndroidUtilities.dp(2.0f));
+            if (this.allowRepost && this.isChannel) {
+                dp += AndroidUtilities.dp(46.0f);
+            }
+            FrameLayout frameLayout = this.likeButtonContainer;
+            if (frameLayout != null && frameLayout.getVisibility() == 0) {
+                dp = (dp - AndroidUtilities.dp(40.0f)) + this.likeButtonContainer.getLayoutParams().width;
+            }
+            this.sharedResources.rect2.set(AndroidUtilities.dp(10.0f), (this.chatActivityEnterView.getBottom() - AndroidUtilities.dp(48.0f)) + this.chatActivityEnterView.getTranslationY() + AndroidUtilities.dp(2.0f), (getMeasuredWidth() - AndroidUtilities.dp(10.0f)) - dp, (this.chatActivityEnterView.getY() + this.chatActivityEnterView.getMeasuredHeight()) - AndroidUtilities.dp(2.0f));
             if (this.chatActivityEnterView.getMeasuredHeight() > AndroidUtilities.dp(50.0f)) {
                 this.chatActivityEnterView.getEditField().setTranslationY((1.0f - this.progressToKeyboard) * (this.chatActivityEnterView.getMeasuredHeight() - AndroidUtilities.dp(50.0f)));
             } else {
@@ -7698,16 +7705,14 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
             canvas.restore();
             return drawChild3;
         } else {
-            ReactionsContainerLayout reactionsContainerLayout = this.reactionsContainerLayout;
-            if (view == reactionsContainerLayout && this.chatActivityEnterView != null) {
+            if (view == this.reactionsContainerLayout && this.chatActivityEnterView != null) {
                 view.setTranslationY(((-reactionsContainerLayout.getMeasuredHeight()) + (this.chatActivityEnterView.getY() + this.chatActivityEnterView.getAnimatedTop())) - AndroidUtilities.dp(18.0f));
                 if (this.progressToKeyboard > 0.0f) {
                     this.sharedResources.dimPaint.setAlpha((int) (this.progressToKeyboard * 125.0f));
                     canvas.drawRect(0.0f, 0.0f, getMeasuredWidth(), this.chatActivityEnterView.getY() + this.chatActivityEnterView.getAnimatedTop(), this.sharedResources.dimPaint);
                 }
             } else {
-                ReactionsContainerLayout reactionsContainerLayout2 = this.likesReactionLayout;
-                if (view == reactionsContainerLayout2) {
+                if (view == this.likesReactionLayout) {
                     view.setTranslationY((((-(reactionsContainerLayout2.getMeasuredHeight() - this.likesReactionLayout.getPaddingBottom())) + this.likeButtonContainer.getY()) + this.bottomActionsLinearLayout.getY()) - AndroidUtilities.dp(18.0f));
                 }
             }

@@ -35,6 +35,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.transition.ChangeBounds;
@@ -215,6 +216,7 @@ import org.telegram.ui.Components.FloatingDebug.FloatingDebugController;
 import org.telegram.ui.Components.FloatingDebug.FloatingDebugProvider;
 import org.telegram.ui.Components.FolderBottomSheet;
 import org.telegram.ui.Components.FolderDrawable;
+import org.telegram.ui.Components.ForegroundColorSpanThemable;
 import org.telegram.ui.Components.Forum.ForumUtilities;
 import org.telegram.ui.Components.FragmentContextView;
 import org.telegram.ui.Components.ItemOptions;
@@ -251,7 +253,6 @@ import org.telegram.ui.SelectAnimatedEmojiDialog;
 import org.telegram.ui.Stories.DialogStoriesCell;
 import org.telegram.ui.Stories.StoriesController;
 import org.telegram.ui.Stories.StoriesListPlaceProvider;
-import org.telegram.ui.Stories.StoryViewer;
 import org.telegram.ui.Stories.UserListPoller;
 import org.telegram.ui.Stories.recorder.HintView2;
 import org.telegram.ui.Stories.recorder.StoryRecorder;
@@ -9450,19 +9451,20 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:119:0x0213  */
-    /* JADX WARN: Removed duplicated region for block: B:178:0x0328  */
-    /* JADX WARN: Removed duplicated region for block: B:179:0x032e  */
-    /* JADX WARN: Removed duplicated region for block: B:186:0x0349  */
-    /* JADX WARN: Removed duplicated region for block: B:197:0x0370  */
-    /* JADX WARN: Removed duplicated region for block: B:222:0x03fe  */
-    /* JADX WARN: Removed duplicated region for block: B:225:0x040f  */
-    /* JADX WARN: Removed duplicated region for block: B:233:0x0454  */
-    /* JADX WARN: Removed duplicated region for block: B:236:0x0474  */
+    /* JADX WARN: Removed duplicated region for block: B:119:0x0214  */
+    /* JADX WARN: Removed duplicated region for block: B:177:0x032d  */
+    /* JADX WARN: Removed duplicated region for block: B:178:0x0333  */
+    /* JADX WARN: Removed duplicated region for block: B:185:0x034f  */
+    /* JADX WARN: Removed duplicated region for block: B:196:0x0376  */
+    /* JADX WARN: Removed duplicated region for block: B:221:0x0404  */
+    /* JADX WARN: Removed duplicated region for block: B:224:0x0415  */
+    /* JADX WARN: Removed duplicated region for block: B:232:0x045a  */
+    /* JADX WARN: Removed duplicated region for block: B:235:0x047e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private void onItemClick(View view, int i, RecyclerView.Adapter adapter, float f, float f2) {
+        MessageObject messageObject;
         boolean z;
         long j;
         int i2;
@@ -9471,6 +9473,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         int i4;
         long j3;
         RightSlidingDialogContainer rightSlidingDialogContainer;
+        MessageObject messageObject2;
         int id;
         int i5;
         long j4;
@@ -9510,12 +9513,13 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     showOrUpdateActionMode(j6, view);
                     return;
                 }
+                i3 = i6;
+                j2 = j6;
                 z = false;
                 j = 0;
                 i4 = 0;
                 j3 = 0;
-                i3 = i6;
-                j2 = j6;
+                messageObject = null;
             } else {
                 if (item instanceof TLRPC$TL_recentMeUrlChat) {
                     j5 = ((TLRPC$TL_recentMeUrlChat) item).chat_id;
@@ -9553,12 +9557,13 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 j6 = -j5;
             }
             i2 = 0;
+            i3 = i6;
+            j2 = j6;
             z = false;
             j = 0;
             i4 = 0;
             j3 = 0;
-            i3 = i6;
-            j2 = j6;
+            messageObject = null;
         } else {
             DialogsSearchAdapter dialogsSearchAdapter = this.searchViewPager.dialogsSearchAdapter;
             if (adapter == dialogsSearchAdapter) {
@@ -9586,10 +9591,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                         this.searchObject = tLRPC$EncryptedChat;
                     }
                 } else if (item2 instanceof MessageObject) {
-                    MessageObject messageObject = (MessageObject) item2;
-                    j2 = messageObject.getDialogId();
-                    id = messageObject.getId();
-                    j = ChatObject.isForum(getMessagesController().getChat(Long.valueOf(-j2))) ? MessageObject.getTopicId(messageObject.currentAccount, messageObject.messageOwner, true) : 0L;
+                    messageObject2 = (MessageObject) item2;
+                    j2 = messageObject2.getDialogId();
+                    id = messageObject2.getId();
+                    j = ChatObject.isForum(getMessagesController().getChat(Long.valueOf(-j2))) ? MessageObject.getTopicId(messageObject2.currentAccount, messageObject2.messageOwner, true) : 0L;
                     DialogsSearchAdapter dialogsSearchAdapter2 = this.searchViewPager.dialogsSearchAdapter;
                     dialogsSearchAdapter2.addHashtagsFromMessage(dialogsSearchAdapter2.getLastSearchString());
                     if (j2 == 0 && this.actionBar.isActionModeShowed()) {
@@ -9600,8 +9605,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                         return;
                     }
                     i4 = id;
-                    i2 = 0;
                     i3 = 0;
+                    j3 = 0;
+                    messageObject = messageObject2;
+                    i2 = 0;
                 } else {
                     if (item2 instanceof String) {
                         String str2 = (String) item2;
@@ -9618,38 +9625,48 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     } else if ((item2 instanceof TLRPC$TL_forumTopic) && (rightSlidingDialogContainer = this.rightSlidingDialogContainer) != null && (rightSlidingDialogContainer.getFragment() instanceof TopicsFragment)) {
                         j2 = ((TopicsFragment) this.rightSlidingDialogContainer.getFragment()).getDialogId();
                         j = ((TLRPC$TL_forumTopic) item2).id;
+                        messageObject2 = null;
                         id = 0;
                         if (j2 == 0) {
                         }
                         i4 = id;
-                        i2 = 0;
                         i3 = 0;
+                        j3 = 0;
+                        messageObject = messageObject2;
+                        i2 = 0;
                     }
+                    messageObject2 = null;
                     j = 0;
                     j2 = 0;
                     id = 0;
                     if (j2 == 0) {
                     }
                     i4 = id;
-                    i2 = 0;
                     i3 = 0;
+                    j3 = 0;
+                    messageObject = messageObject2;
+                    i2 = 0;
                 }
+                messageObject2 = null;
                 j = 0;
                 id = 0;
                 if (j2 == 0) {
                 }
                 i4 = id;
-                i2 = 0;
                 i3 = 0;
+                j3 = 0;
+                messageObject = messageObject2;
+                i2 = 0;
             } else {
+                messageObject = null;
                 z = false;
                 j = 0;
                 i2 = 0;
                 j2 = 0;
                 i3 = 0;
                 i4 = 0;
+                j3 = 0;
             }
-            j3 = 0;
         }
         if (j2 == j3) {
             return;
@@ -9752,7 +9769,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     } else if (this.searchString != null) {
                         if (getMessagesController().checkCanOpenChat(bundle3, this)) {
                             getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.closeChats, new Object[0]);
-                            presentFragment(new ChatActivity(bundle3));
+                            presentFragment(highlightFoundQuote(new ChatActivity(bundle3), messageObject));
                             return;
                         }
                         return;
@@ -9765,7 +9782,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                             if (chat2 != null && chat2.forum && j == 0) {
                                 if (!LiteMode.isEnabled(64)) {
                                     if (z5) {
-                                        presentFragment(new ChatActivity(bundle3));
+                                        presentFragment(highlightFoundQuote(new ChatActivity(bundle3), messageObject));
                                         return;
                                     } else {
                                         presentFragment(new TopicsFragment(bundle3));
@@ -9773,7 +9790,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                                     }
                                 } else if (!z4) {
                                     if (z5) {
-                                        presentFragment(new ChatActivity(bundle3));
+                                        presentFragment(highlightFoundQuote(new ChatActivity(bundle3), messageObject));
                                         return;
                                     } else {
                                         presentFragment(new TopicsFragment(bundle3));
@@ -9783,7 +9800,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                                     return;
                                 } else {
                                     if (z5) {
-                                        presentFragment(new ChatActivity(bundle3));
+                                        presentFragment(highlightFoundQuote(new ChatActivity(bundle3), messageObject));
                                         return;
                                     }
                                     BaseFragment baseFragment = this.rightSlidingDialogContainer.currentFragment;
@@ -9812,7 +9829,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                                     rightSlidingDialogContainer2.lambda$presentFragment$1();
                                 }
                             }
-                            presentFragment(chatActivity);
+                            presentFragment(highlightFoundQuote(chatActivity, messageObject));
                             return;
                         }
                         return;
@@ -9853,6 +9870,56 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
         if (this.searchString != null) {
         }
+    }
+
+    public ChatActivity highlightFoundQuote(ChatActivity chatActivity, MessageObject messageObject) {
+        CharSequence charSequence;
+        boolean z;
+        if (messageObject != null && messageObject.hasHighlightedWords()) {
+            try {
+                if (!TextUtils.isEmpty(messageObject.caption)) {
+                    charSequence = messageObject.caption;
+                } else {
+                    charSequence = messageObject.messageText;
+                }
+                CharSequence highlightText = AndroidUtilities.highlightText(charSequence, messageObject.highlightedWords, (Theme.ResourcesProvider) null);
+                if (highlightText instanceof SpannableStringBuilder) {
+                    SpannableStringBuilder spannableStringBuilder = (SpannableStringBuilder) highlightText;
+                    ForegroundColorSpanThemable[] foregroundColorSpanThemableArr = (ForegroundColorSpanThemable[]) spannableStringBuilder.getSpans(0, spannableStringBuilder.length(), ForegroundColorSpanThemable.class);
+                    if (foregroundColorSpanThemableArr.length > 0) {
+                        int spanStart = spannableStringBuilder.getSpanStart(foregroundColorSpanThemableArr[0]);
+                        int spanEnd = spannableStringBuilder.getSpanEnd(foregroundColorSpanThemableArr[0]);
+                        for (int i = 1; i < foregroundColorSpanThemableArr.length; i++) {
+                            int spanStart2 = spannableStringBuilder.getSpanStart(foregroundColorSpanThemableArr[i]);
+                            int spanStart3 = spannableStringBuilder.getSpanStart(foregroundColorSpanThemableArr[i]);
+                            if (spanStart2 != spanEnd) {
+                                if (spanStart2 > spanEnd) {
+                                    int i2 = spanEnd;
+                                    while (true) {
+                                        if (i2 > spanStart2) {
+                                            z = true;
+                                            break;
+                                        } else if (!Character.isWhitespace(spannableStringBuilder.charAt(i2))) {
+                                            z = false;
+                                            break;
+                                        } else {
+                                            i2++;
+                                        }
+                                    }
+                                    if (!z) {
+                                    }
+                                }
+                            }
+                            spanEnd = spanStart3;
+                        }
+                        chatActivity.setHighlightQuote(messageObject.getId(), charSequence.subSequence(spanStart, spanEnd).toString(), spanStart);
+                    }
+                }
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+        }
+        return chatActivity;
     }
 
     public void setOpenedDialogId(long j, long j2) {
@@ -15188,7 +15255,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
     public void updateStoriesVisibility(boolean z) {
         final boolean z2;
-        StoryViewer storyViewer;
         if (this.dialogStoriesCell == null || this.storiesVisibilityAnimator != null) {
             return;
         }
@@ -15197,7 +15263,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             return;
         }
         int i = 0;
-        if (StoryRecorder.isVisible() || ((storyViewer = this.storyViewer) != null && storyViewer.isFullyVisible())) {
+        if (StoryRecorder.isVisible() || (getLastStoryViewer() != null && getLastStoryViewer().isFullyVisible())) {
             z = false;
         }
         boolean z3 = !isArchive() && getStoriesController().hasOnlySelfStories();

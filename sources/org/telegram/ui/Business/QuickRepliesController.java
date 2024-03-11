@@ -809,7 +809,7 @@ public class QuickRepliesController {
                 }
                 quickReply.topMessage.applyQuickReply(str, i);
                 quickReply.messagesCount = 1;
-                this.replies.add(0, quickReply);
+                this.replies.add(quickReply);
                 updateOrder();
                 addReply(quickReply);
             } else {
@@ -900,7 +900,7 @@ public class QuickRepliesController {
             quickReply.messagesCount = tLRPC$TL_quickReply.count;
             quickReply.topMessageId = tLRPC$TL_quickReply.top_message;
             updateOrder();
-            this.replies.add(0, quickReply);
+            this.replies.add(quickReply);
             deleteLocalReply(quickReply.name);
         }
         saveToCache();

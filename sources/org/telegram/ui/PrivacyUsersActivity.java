@@ -72,6 +72,11 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
         this.blockedUsersActivity = true;
     }
 
+    public PrivacyUsersActivity loadBlocked() {
+        getMessagesController().getBlockedPeers(true);
+        return this;
+    }
+
     public PrivacyUsersActivity(int i, ArrayList<Long> arrayList, boolean z, boolean z2) {
         this.uidArray = arrayList;
         this.isAlwaysShare = z2;

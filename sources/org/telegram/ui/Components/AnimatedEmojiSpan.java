@@ -40,6 +40,7 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
     private Paint.FontMetricsInt fontMetrics;
     public boolean fromEmojiKeyboard;
     public boolean full;
+    public boolean invert;
     private boolean isAdded;
     private boolean isRemoved;
     float lastDrawnCx;
@@ -164,6 +165,7 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
         this.extraScale = 1.0f;
         this.full = false;
         this.top = false;
+        this.invert = false;
         this.size = AndroidUtilities.dp(20.0f);
         this.cacheType = -1;
         this.recordPositions = true;
@@ -468,9 +470,9 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
                 animatedEmojiDrawable.setColorFilter(colorFilter);
                 this.drawable.setTime(j);
                 float extraScale = this.span.getExtraScale();
-                if (extraScale != 1.0f) {
+                if (extraScale != 1.0f || this.span.invert) {
                     canvas.save();
-                    canvas.scale(extraScale, extraScale, this.drawableBounds.centerX(), this.drawableBounds.centerY());
+                    canvas.scale((this.span.invert ? -1 : 1) * extraScale, extraScale, this.drawableBounds.centerX(), this.drawableBounds.centerY());
                     this.drawable.draw(canvas, this.drawableBounds, f3 * this.alpha);
                     canvas.restore();
                 } else {

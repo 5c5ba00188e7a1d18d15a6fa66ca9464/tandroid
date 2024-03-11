@@ -185,6 +185,7 @@ import org.telegram.tgnet.TLRPC$FileLocation;
 import org.telegram.tgnet.TLRPC$InputDocument;
 import org.telegram.tgnet.TLRPC$Message;
 import org.telegram.tgnet.TLRPC$MessageAction;
+import org.telegram.tgnet.TLRPC$MessageEntity;
 import org.telegram.tgnet.TLRPC$MessageFwdHeader;
 import org.telegram.tgnet.TLRPC$MessageMedia;
 import org.telegram.tgnet.TLRPC$PageBlock;
@@ -308,7 +309,6 @@ import org.telegram.ui.Components.spoilers.SpoilersTextView;
 import org.telegram.ui.DialogsActivity;
 import org.telegram.ui.PhotoViewer;
 import org.telegram.ui.Stories.DarkThemeResourceProvider;
-import org.telegram.ui.Stories.StoryViewer;
 import org.telegram.ui.Stories.recorder.KeyboardNotifier;
 import org.webrtc.MediaStreamTrack;
 @SuppressLint({"WrongConstant"})
@@ -7352,97 +7352,97 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:187:0x00e4, code lost:
-        if (r13 != false) goto L35;
+    /* JADX WARN: Code restructure failed: missing block: B:183:0x00e0, code lost:
+        if (r13 != false) goto L33;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:191:0x00ed, code lost:
-        if (org.telegram.messenger.UserObject.isUserSelf(r2) != false) goto L35;
+    /* JADX WARN: Code restructure failed: missing block: B:187:0x00e9, code lost:
+        if (org.telegram.messenger.UserObject.isUserSelf(r2) != false) goto L33;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:194:0x00f2, code lost:
-        if (r11 == 3) goto L109;
+    /* JADX WARN: Code restructure failed: missing block: B:190:0x00ee, code lost:
+        if (r11 == 3) goto L107;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:195:0x00f4, code lost:
-        if (r5 == false) goto L35;
+    /* JADX WARN: Code restructure failed: missing block: B:191:0x00f0, code lost:
+        if (r5 == false) goto L33;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:197:0x00f7, code lost:
-        if (r11 != 4) goto L61;
+    /* JADX WARN: Code restructure failed: missing block: B:193:0x00f3, code lost:
+        if (r11 != 4) goto L59;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:199:0x00fb, code lost:
-        if (r16.isCurrentVideo == false) goto L107;
+    /* JADX WARN: Code restructure failed: missing block: B:195:0x00f7, code lost:
+        if (r16.isCurrentVideo == false) goto L105;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:201:0x0103, code lost:
-        if (r16.captionEdit.hasTimer() == false) goto L61;
+    /* JADX WARN: Code restructure failed: missing block: B:197:0x00ff, code lost:
+        if (r16.captionEdit.hasTimer() == false) goto L59;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:203:0x0106, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:199:0x0102, code lost:
         r14 = r16.parentActivity;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:204:0x010a, code lost:
-        if (r11 != 0) goto L88;
+    /* JADX WARN: Code restructure failed: missing block: B:200:0x0106, code lost:
+        if (r11 != 0) goto L86;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:205:0x010c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:201:0x0108, code lost:
         r15 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:206:0x010e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:202:0x010a, code lost:
         r15 = false;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:208:0x0111, code lost:
-        if (r11 != 3) goto L67;
+    /* JADX WARN: Code restructure failed: missing block: B:204:0x010d, code lost:
+        if (r11 != 3) goto L65;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:209:0x0113, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:205:0x010f, code lost:
         r3 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:210:0x0114, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:206:0x0110, code lost:
         r13 = new org.telegram.ui.ActionBar.ActionBarMenuSubItem(r14, r15, r3, r17);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:211:0x0117, code lost:
-        if (r11 != 0) goto L75;
+    /* JADX WARN: Code restructure failed: missing block: B:207:0x0113, code lost:
+        if (r11 != 0) goto L73;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:213:0x011d, code lost:
-        if (org.telegram.messenger.UserObject.isUserSelf(r2) == false) goto L74;
+    /* JADX WARN: Code restructure failed: missing block: B:209:0x0119, code lost:
+        if (org.telegram.messenger.UserObject.isUserSelf(r2) == false) goto L72;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:214:0x011f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:210:0x011b, code lost:
         r13.setTextAndIcon(org.telegram.messenger.LocaleController.getString("SetReminder", org.telegram.messenger.R.string.SetReminder), org.telegram.messenger.R.drawable.msg_calendar2);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:215:0x012d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:211:0x0129, code lost:
         r13.setTextAndIcon(org.telegram.messenger.LocaleController.getString("ScheduleMessage", org.telegram.messenger.R.string.ScheduleMessage), org.telegram.messenger.R.drawable.msg_calendar2);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:216:0x013b, code lost:
-        if (r11 != 1) goto L77;
+    /* JADX WARN: Code restructure failed: missing block: B:212:0x0137, code lost:
+        if (r11 != 1) goto L75;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:217:0x013d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:213:0x0139, code lost:
         r13.setTextAndIcon(org.telegram.messenger.LocaleController.getString("SendWithoutSound", org.telegram.messenger.R.string.SendWithoutSound), org.telegram.messenger.R.drawable.input_notify_off);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:218:0x014b, code lost:
-        if (r11 != 2) goto L79;
+    /* JADX WARN: Code restructure failed: missing block: B:214:0x0147, code lost:
+        if (r11 != 2) goto L77;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:219:0x014d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:215:0x0149, code lost:
         r13.setTextAndIcon(org.telegram.messenger.LocaleController.getString("ReplacePhoto", org.telegram.messenger.R.string.ReplacePhoto), org.telegram.messenger.R.drawable.msg_replace);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:220:0x015b, code lost:
-        if (r11 != 3) goto L81;
+    /* JADX WARN: Code restructure failed: missing block: B:216:0x0157, code lost:
+        if (r11 != 3) goto L79;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:221:0x015d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:217:0x0159, code lost:
         r13.setTextAndIcon(org.telegram.messenger.LocaleController.getString("SendAsNewPhoto", org.telegram.messenger.R.string.SendAsNewPhoto), org.telegram.messenger.R.drawable.msg_send);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:222:0x016b, code lost:
-        if (r11 != 4) goto L72;
+    /* JADX WARN: Code restructure failed: missing block: B:218:0x0167, code lost:
+        if (r11 != 4) goto L70;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:223:0x016d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:219:0x0169, code lost:
         r3 = r16.placeProvider;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:224:0x016f, code lost:
-        if (r3 == null) goto L87;
+    /* JADX WARN: Code restructure failed: missing block: B:220:0x016b, code lost:
+        if (r3 == null) goto L85;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:226:0x0175, code lost:
-        if (r3.getSelectedCount() <= 1) goto L87;
+    /* JADX WARN: Code restructure failed: missing block: B:222:0x0171, code lost:
+        if (r3.getSelectedCount() <= 1) goto L85;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:227:0x0177, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:223:0x0173, code lost:
         r13.setTextAndIcon(org.telegram.messenger.LocaleController.getString(org.telegram.messenger.R.string.SendAsFiles), org.telegram.messenger.R.drawable.msg_sendfile);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:228:0x0183, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:224:0x017f, code lost:
         r13.setTextAndIcon(org.telegram.messenger.LocaleController.getString(org.telegram.messenger.R.string.SendAsFile), org.telegram.messenger.R.drawable.msg_sendfile);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:229:0x018e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:225:0x018a, code lost:
         r13.setMinimumWidth(org.telegram.messenger.AndroidUtilities.dp(196.0f));
         r13.setColors(-1, -1);
         r16.sendPopupLayout.addView((android.view.View) r13, org.telegram.ui.Components.LayoutHelper.createLinear(-1, 48));
@@ -7455,12 +7455,11 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         PhotoViewerProvider photoViewerProvider;
         boolean z;
         ChatActivity chatActivity;
-        StoryViewer storyViewer;
         PhotoViewerProvider photoViewerProvider2 = this.placeProvider;
         boolean z2 = false;
         if (photoViewerProvider2 == null || photoViewerProvider2.allowSendingSubmenu()) {
             BaseFragment baseFragment = this.parentFragment;
-            if ((((baseFragment == null || (storyViewer = baseFragment.storyViewer) == null || !storyViewer.isShown()) ? false : true) || !((chatActivity = this.parentChatActivity) == null || chatActivity.isInScheduleMode())) && !this.captionEdit.isCaptionOverLimit()) {
+            if ((((baseFragment == null || baseFragment.getLastStoryViewer() == null) ? false : true) || !((chatActivity = this.parentChatActivity) == null || chatActivity.isInScheduleMode())) && !this.captionEdit.isCaptionOverLimit()) {
                 this.parentChatActivity.getCurrentChat();
                 TLRPC$User currentUser = this.parentChatActivity.getCurrentUser();
                 ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(this.parentActivity);
@@ -9526,14 +9525,20 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         }
         Object obj = this.imagesArrLocals.get(this.currentIndex);
         CharSequence text = this.captionEdit.getText();
+        CharSequence[] charSequenceArr = {text};
         if (this.hasCaptionForAllMedia && !TextUtils.equals(this.captionForAllMedia, text) && this.placeProvider.getPhotoIndex(this.currentIndex) != 0 && this.placeProvider.getSelectedCount() > 0) {
             this.hasCaptionForAllMedia = false;
         }
-        this.captionForAllMedia = text;
+        ArrayList<TLRPC$MessageEntity> entities = MediaDataController.getInstance(this.currentAccount).getEntities(charSequenceArr, supportsSendingNewEntities());
+        this.captionForAllMedia = charSequenceArr[0];
         if (obj instanceof MediaController.PhotoEntry) {
-            ((MediaController.PhotoEntry) obj).caption = text;
+            MediaController.PhotoEntry photoEntry = (MediaController.PhotoEntry) obj;
+            photoEntry.caption = charSequenceArr[0];
+            photoEntry.entities = entities;
         } else if (obj instanceof MediaController.SearchImage) {
-            ((MediaController.SearchImage) obj).caption = text;
+            MediaController.SearchImage searchImage = (MediaController.SearchImage) obj;
+            searchImage.caption = charSequenceArr[0];
+            searchImage.entities = entities;
         }
         if (text.length() != 0 && !this.placeProvider.isPhotoChecked(this.currentIndex)) {
             setPhotoChecked();
@@ -18900,7 +18905,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                             }
                                         }
                                         if (chatActivity2 != null) {
-                                            chatActivity2.lambda$openDiscussionMessageChat$298(PhotoViewer.this.animationEndRunnable);
+                                            chatActivity2.lambda$openDiscussionMessageChat$300(PhotoViewer.this.animationEndRunnable);
                                             return;
                                         }
                                         PhotoViewer.this.animationEndRunnable.run();

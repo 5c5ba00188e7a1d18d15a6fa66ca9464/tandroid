@@ -61,7 +61,6 @@ import org.telegram.ui.Components.FloatingDebug.FloatingDebugProvider;
 import org.telegram.ui.Components.Paint.ShapeDetector;
 import org.telegram.ui.Components.SharedMediaLayout;
 import org.telegram.ui.ProfileActivity;
-import org.telegram.ui.Stories.StoryViewer;
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
 /* loaded from: classes4.dex */
 public class MediaActivity extends BaseFragment implements SharedMediaLayout.SharedMediaPreloaderDelegate, FloatingDebugProvider, NotificationCenter.NotificationCenterDelegate {
@@ -1382,8 +1381,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean isLightStatusBar() {
-        StoryViewer storyViewer = this.storyViewer;
-        if (storyViewer == null || !storyViewer.isShown()) {
+        if (getLastStoryViewer() == null || !getLastStoryViewer().isShown()) {
             int color = Theme.getColor(Theme.key_windowBackgroundWhite);
             if (this.actionBar.isActionModeShowed()) {
                 color = Theme.getColor(Theme.key_actionBarActionModeDefault);
@@ -1431,7 +1429,6 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public int getNavigationBarColor() {
         int themedColor = getThemedColor(Theme.key_windowBackgroundWhite);
-        StoryViewer storyViewer = this.storyViewer;
-        return (storyViewer == null || !storyViewer.attachedToParent()) ? themedColor : this.storyViewer.getNavigationBarColor(themedColor);
+        return (getLastStoryViewer() == null || !getLastStoryViewer().attachedToParent()) ? themedColor : getLastStoryViewer().getNavigationBarColor(themedColor);
     }
 }

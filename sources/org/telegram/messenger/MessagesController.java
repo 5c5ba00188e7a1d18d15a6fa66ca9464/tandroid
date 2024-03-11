@@ -598,7 +598,6 @@ import org.telegram.ui.PremiumPreviewFragment;
 import org.telegram.ui.ProfileActivity;
 import org.telegram.ui.SecretMediaViewer;
 import org.telegram.ui.Stories.StoriesController;
-import org.telegram.ui.Stories.StoryViewer;
 import org.telegram.ui.TopicsFragment;
 /* loaded from: classes.dex */
 public class MessagesController extends BaseController implements NotificationCenter.NotificationCenterDelegate {
@@ -28817,7 +28816,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 if (longSparseArray10 != null) {
                     int size8 = longSparseArray4.size();
                     for (int i42 = 0; i42 < size8; i42++) {
-                        messagesController.updateInterfaceWithMessages(longSparseArray10.keyAt(i42), (ArrayList) longSparseArray10.valueAt(i42), 0);
+                        messagesController.updateInterfaceWithMessages(longSparseArray10.keyAt(i42), (ArrayList) longSparseArray10.valueAt(i42), 1);
                     }
                 }
                 if (longSparseArray5 != null) {
@@ -29746,10 +29745,10 @@ public class MessagesController extends BaseController implements NotificationCe
         return false;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:433:0x035d  */
-    /* JADX WARN: Removed duplicated region for block: B:451:0x03bd  */
-    /* JADX WARN: Removed duplicated region for block: B:504:0x04c3  */
-    /* JADX WARN: Removed duplicated region for block: B:506:0x04c8  */
+    /* JADX WARN: Removed duplicated region for block: B:433:0x035e  */
+    /* JADX WARN: Removed duplicated region for block: B:451:0x03be  */
+    /* JADX WARN: Removed duplicated region for block: B:504:0x04c4  */
+    /* JADX WARN: Removed duplicated region for block: B:506:0x04c9  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -29804,7 +29803,7 @@ public class MessagesController extends BaseController implements NotificationCe
                         if (MessageObject.isDocumentHasAttachedStickers(messageObject3.messageOwner.media.document) ? getMessagesController().saveGifsWithStickers : true) {
                             MediaDataController mediaDataController = getMediaDataController();
                             TLRPC$Message tLRPC$Message2 = messageObject3.messageOwner;
-                            mediaDataController.addRecentGif(tLRPC$Message2.media.document, tLRPC$Message2.date, true);
+                            mediaDataController.addRecentGif(tLRPC$Message2.media.document, tLRPC$Message2.date, messageObject3.wasJustSent);
                         }
                     } else if (!messageObject3.isAnimatedEmoji() && (messageObject3.isSticker() || messageObject3.isAnimatedSticker())) {
                         MediaDataController mediaDataController2 = getMediaDataController();
@@ -30525,8 +30524,7 @@ public class MessagesController extends BaseController implements NotificationCe
         } else {
             restrictionReason = getRestrictionReason(tLRPC$User.restriction_reason);
             if (i != 3 && tLRPC$User.bot) {
-                StoryViewer storyViewer = LaunchActivity.getLastFragment().storyViewer;
-                if (storyViewer == null || !storyViewer.isShown()) {
+                if (LaunchActivity.getLastFragment().getLastStoryViewer() == null) {
                     i = 1;
                     z = true;
                 } else {

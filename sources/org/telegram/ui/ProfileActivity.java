@@ -3723,6 +3723,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     }
                     final boolean z = imageLocation.imageType == 2;
                     File pathToAttach = FileLoader.getInstance(((BaseFragment) ProfileActivity.this).currentAccount).getPathToAttach(imageLocation.location, z ? "mp4" : null, true);
+                    if (z && !pathToAttach.exists()) {
+                        pathToAttach = new File(FileLoader.getDirectory(0), FileLoader.getAttachFileName(imageLocation.location, "mp4"));
+                    }
                     if (pathToAttach.exists()) {
                         MediaController.saveFile(pathToAttach.toString(), ProfileActivity.this.getParentActivity(), 0, null, null, new Utilities.Callback() { // from class: org.telegram.ui.ProfileActivity$5$$ExternalSyntheticLambda11
                             @Override // org.telegram.messenger.Utilities.Callback
@@ -5335,7 +5338,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 } else if (i == 23) {
                     SharedConfig.toggleSurfaceInStories();
                     while (i2 < ProfileActivity.this.getParentLayout().getFragmentStack().size()) {
-                        ProfileActivity.this.getParentLayout().getFragmentStack().get(i2).storyViewer = null;
+                        ProfileActivity.this.getParentLayout().getFragmentStack().get(i2).clearStoryViewers();
                         i2++;
                     }
                 } else if (i == 24) {
@@ -10287,17 +10290,17 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Can't wrap try/catch for region: R(46:16|(1:299)(1:20)|(1:22)(1:298)|23|(1:25)(1:297)|26|(1:28)|29|(1:31)|32|(4:34|(1:295)(1:38)|39|(33:41|42|(1:44)|45|(1:(1:48)(1:(1:53)(1:52)))|54|(1:58)|(1:64)|65|(2:67|(2:69|(1:71))(1:244))(2:245|(1:290)(2:251|(1:253)(2:254|(1:256)(27:257|(1:259)(1:289)|260|(1:288)(1:274)|275|(4:279|(1:287)(1:283)|284|(1:286))|73|(1:243)(1:77)|78|79|80|81|(4:84|(24:86|(2:90|(19:104|(1:199)(1:107)|108|(1:198)(1:111)|112|(1:197)(1:115)|116|(1:118)(1:196)|119|(1:121)(1:195)|122|(11:124|(1:173)(2:128|(1:130)(4:165|(1:167)(1:172)|168|(1:170)(1:171)))|131|(1:164)(2:137|(1:139)(3:160|161|162))|140|141|(1:145)|146|(1:150)|151|(2:155|156))(3:(4:175|(1:194)(2:179|(1:181)(1:193))|182|(1:192)(2:188|(7:190|141|(1:145)|146|(2:148|150)|151|(1:159)(3:153|155|156))(2:191|162)))|161|162)|163|141|(0)|146|(0)|151|(0)(0)))|200|(0)|199|108|(0)|198|112|(0)|197|116|(0)(0)|119|(0)(0)|122|(0)(0)|163|141|(0)|146|(0)|151|(0)(0))(1:201)|157|82)|202|203|(1:205)(2:233|(10:240|207|(1:209)|210|(1:212)|213|(1:232)(1:221)|222|(1:224)(1:231)|225)(1:239))|206|207|(0)|210|(0)|213|(3:215|217|219)|232|222|(0)(0)|225))))|72|73|(1:75)|243|78|79|80|81|(1:82)|202|203|(0)(0)|206|207|(0)|210|(0)|213|(0)|232|222|(0)(0)|225))(1:296)|294|42|(0)|45|(0)|54|(28:56|58|(2:60|64)|65|(0)(0)|72|73|(0)|243|78|79|80|81|(1:82)|202|203|(0)(0)|206|207|(0)|210|(0)|213|(0)|232|222|(0)(0)|225)|292|58|(0)|65|(0)(0)|72|73|(0)|243|78|79|80|81|(1:82)|202|203|(0)(0)|206|207|(0)|210|(0)|213|(0)|232|222|(0)(0)|225) */
-    /* JADX WARN: Code restructure failed: missing block: B:338:0x06c0, code lost:
-        if (r33.chatInfo.can_view_participants != false) goto L334;
+    /* JADX WARN: Can't wrap try/catch for region: R(46:16|(1:297)(1:20)|(1:22)(1:296)|23|(1:25)(1:295)|26|(1:28)|29|(1:31)|32|(4:34|(1:293)(1:38)|39|(33:41|42|(1:44)|45|(1:(1:48)(1:(1:53)(1:52)))|54|(1:58)|(1:64)|65|(2:67|(2:69|(1:71))(1:242))(2:243|(1:288)(2:249|(1:251)(2:252|(1:254)(27:255|(1:257)(1:287)|258|(1:286)(1:272)|273|(4:277|(1:285)(1:281)|282|(1:284))|73|(1:241)(1:77)|78|79|80|81|(4:84|(24:86|(2:90|(19:104|(1:199)(1:107)|108|(1:198)(1:111)|112|(1:197)(1:115)|116|(1:118)(1:196)|119|(1:121)(1:195)|122|(11:124|(1:173)(2:128|(1:130)(4:165|(1:167)(1:172)|168|(1:170)(1:171)))|131|(1:164)(2:137|(1:139)(3:160|161|162))|140|141|(1:145)|146|(1:150)|151|(2:155|156))(3:(4:175|(1:194)(2:179|(1:181)(1:193))|182|(1:192)(2:188|(7:190|141|(1:145)|146|(2:148|150)|151|(1:159)(3:153|155|156))(2:191|162)))|161|162)|163|141|(0)|146|(0)|151|(0)(0)))|200|(0)|199|108|(0)|198|112|(0)|197|116|(0)(0)|119|(0)(0)|122|(0)(0)|163|141|(0)|146|(0)|151|(0)(0))(1:201)|157|82)|202|203|(1:205)(2:231|(10:238|207|(1:209)|210|(1:212)|213|(1:230)(1:219)|220|(1:222)(1:229)|223)(1:237))|206|207|(0)|210|(0)|213|(2:215|217)|230|220|(0)(0)|223))))|72|73|(1:75)|241|78|79|80|81|(1:82)|202|203|(0)(0)|206|207|(0)|210|(0)|213|(0)|230|220|(0)(0)|223))(1:294)|292|42|(0)|45|(0)|54|(28:56|58|(2:60|64)|65|(0)(0)|72|73|(0)|241|78|79|80|81|(1:82)|202|203|(0)(0)|206|207|(0)|210|(0)|213|(0)|230|220|(0)(0)|223)|290|58|(0)|65|(0)(0)|72|73|(0)|241|78|79|80|81|(1:82)|202|203|(0)(0)|206|207|(0)|210|(0)|213|(0)|230|220|(0)(0)|223) */
+    /* JADX WARN: Code restructure failed: missing block: B:336:0x06be, code lost:
+        if (r33.chatInfo.can_view_participants != false) goto L332;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:418:0x08de, code lost:
-        if (r33.nameTextView[r15].setText(r3) != false) goto L458;
+    /* JADX WARN: Code restructure failed: missing block: B:416:0x08dc, code lost:
+        if (r33.nameTextView[r15].setText(r3) != false) goto L456;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:426:0x0908, code lost:
-        if (r33.nameTextView[r15].setText(r3) != false) goto L458;
+    /* JADX WARN: Code restructure failed: missing block: B:424:0x0906, code lost:
+        if (r33.nameTextView[r15].setText(r3) != false) goto L456;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:427:0x090a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:425:0x0908, code lost:
         r12 = true;
      */
     /* JADX WARN: Removed duplicated region for block: B:141:0x027a  */
@@ -10316,12 +10319,12 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     /* JADX WARN: Removed duplicated region for block: B:283:0x05ec  */
     /* JADX WARN: Removed duplicated region for block: B:286:0x05f7  */
     /* JADX WARN: Removed duplicated region for block: B:289:0x0606  */
-    /* JADX WARN: Removed duplicated region for block: B:299:0x0621  */
-    /* JADX WARN: Removed duplicated region for block: B:300:0x0623  */
-    /* JADX WARN: Removed duplicated region for block: B:521:0x0b67  */
-    /* JADX WARN: Removed duplicated region for block: B:524:0x0b6d  */
-    /* JADX WARN: Removed duplicated region for block: B:525:0x0b7a  */
-    /* JADX WARN: Removed duplicated region for block: B:599:0x0524 A[ADDED_TO_REGION, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:297:0x061f  */
+    /* JADX WARN: Removed duplicated region for block: B:298:0x0621  */
+    /* JADX WARN: Removed duplicated region for block: B:519:0x0b65  */
+    /* JADX WARN: Removed duplicated region for block: B:522:0x0b6b  */
+    /* JADX WARN: Removed duplicated region for block: B:523:0x0b78  */
+    /* JADX WARN: Removed duplicated region for block: B:595:0x0524 A[ADDED_TO_REGION, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:59:0x00e6  */
     /* JADX WARN: Removed duplicated region for block: B:62:0x00ef  */
     /* JADX WARN: Removed duplicated region for block: B:78:0x0146  */
@@ -10340,7 +10343,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         ImageLocation forUserOrChat;
         ImageLocation currentVideoLocation;
         ImageLocation imageLocation;
-        StoryViewer storyViewer;
         ImageLocation imageLocation2;
         String str;
         TLRPC$TL_forumTopic tLRPC$TL_forumTopic;
@@ -10369,7 +10371,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         char c;
         int i7;
         ChatActivityInterface chatActivityInterface;
-        StoryViewer storyViewer2;
         boolean z6;
         boolean z7;
         boolean z8;
@@ -10682,7 +10683,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                     if (chatActivityInterface != null) {
                                         chatActivityInterface.checkAndUpdateAvatar();
                                     }
-                                    this.avatarImage.getImageReceiver().setVisible(PhotoViewer.isShowingImage(tLRPC$FileLocation) && !((storyViewer2 = this.storyViewer) != null && storyViewer2.isShown() && this.storyViewer.transitionViewHolder.view == this.avatarImage), this.storyView != null);
+                                    this.avatarImage.getImageReceiver().setVisible(PhotoViewer.isShowingImage(tLRPC$FileLocation) && (getLastStoryViewer() == null || getLastStoryViewer().transitionViewHolder.view != this.avatarImage), this.storyView != null);
                                 }
                             }
                             c = 2;
@@ -10693,7 +10694,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             chatActivityInterface = this.previousTransitionFragment;
                             if (chatActivityInterface != null) {
                             }
-                            this.avatarImage.getImageReceiver().setVisible(PhotoViewer.isShowingImage(tLRPC$FileLocation) && !((storyViewer2 = this.storyViewer) != null && storyViewer2.isShown() && this.storyViewer.transitionViewHolder.view == this.avatarImage), this.storyView != null);
+                            this.avatarImage.getImageReceiver().setVisible(PhotoViewer.isShowingImage(tLRPC$FileLocation) && (getLastStoryViewer() == null || getLastStoryViewer().transitionViewHolder.view != this.avatarImage), this.storyView != null);
                         }
                     }
                     z5 = false;
@@ -10713,7 +10714,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     chatActivityInterface = this.previousTransitionFragment;
                     if (chatActivityInterface != null) {
                     }
-                    this.avatarImage.getImageReceiver().setVisible(PhotoViewer.isShowingImage(tLRPC$FileLocation) && !((storyViewer2 = this.storyViewer) != null && storyViewer2.isShown() && this.storyViewer.transitionViewHolder.view == this.avatarImage), this.storyView != null);
+                    this.avatarImage.getImageReceiver().setVisible(PhotoViewer.isShowingImage(tLRPC$FileLocation) && (getLastStoryViewer() == null || getLastStoryViewer().transitionViewHolder.view != this.avatarImage), this.storyView != null);
                 }
             } else {
                 tLRPC$VideoSize = null;
@@ -10751,7 +10752,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 chatActivityInterface = this.previousTransitionFragment;
                 if (chatActivityInterface != null) {
                 }
-                this.avatarImage.getImageReceiver().setVisible(PhotoViewer.isShowingImage(tLRPC$FileLocation) && !((storyViewer2 = this.storyViewer) != null && storyViewer2.isShown() && this.storyViewer.transitionViewHolder.view == this.avatarImage), this.storyView != null);
+                this.avatarImage.getImageReceiver().setVisible(PhotoViewer.isShowingImage(tLRPC$FileLocation) && (getLastStoryViewer() == null || getLastStoryViewer().transitionViewHolder.view != this.avatarImage), this.storyView != null);
             }
             updateListAnimated(false);
             needLayout(true);
@@ -10777,7 +10778,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             chatActivityInterface = this.previousTransitionFragment;
             if (chatActivityInterface != null) {
             }
-            this.avatarImage.getImageReceiver().setVisible(PhotoViewer.isShowingImage(tLRPC$FileLocation) && !((storyViewer2 = this.storyViewer) != null && storyViewer2.isShown() && this.storyViewer.transitionViewHolder.view == this.avatarImage), this.storyView != null);
+            this.avatarImage.getImageReceiver().setVisible(PhotoViewer.isShowingImage(tLRPC$FileLocation) && (getLastStoryViewer() == null || getLastStoryViewer().transitionViewHolder.view != this.avatarImage), this.storyView != null);
         } else if (this.chatId != 0) {
             TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(this.chatId));
             if (chat != null) {
@@ -11149,7 +11150,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 this.prevLoadedImageLocation = imageLocation;
                 getFileLoader().loadFile(imageLocation, tLRPC$Chat, null, 0, 1);
             }
-            this.avatarImage.getImageReceiver().setVisible((PhotoViewer.isShowingImage(tLRPC$FileLocation2) || ((storyViewer = this.storyViewer) != null && storyViewer.isShown() && this.storyViewer.transitionViewHolder.view == this.avatarImage)) ? false : true, this.storyView != null);
+            this.avatarImage.getImageReceiver().setVisible(!PhotoViewer.isShowingImage(tLRPC$FileLocation2) && (getLastStoryViewer() == null || getLastStoryViewer().transitionViewHolder.view != this.avatarImage), this.storyView != null);
         }
         if (this.qrItem != null) {
             updateQrItemVisibility(true);
@@ -14634,7 +14635,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onCreateSearchArray$24() {
-            ProfileActivity.this.presentFragment(new PrivacyUsersActivity());
+            ProfileActivity.this.presentFragment(new PrivacyUsersActivity().loadBlocked());
         }
 
         /* JADX INFO: Access modifiers changed from: private */

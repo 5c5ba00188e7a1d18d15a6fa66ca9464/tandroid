@@ -36,19 +36,19 @@ public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
         this(context, tLObject, 1, i, tLRPC$Document, resourcesProvider);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:103:0x0315  */
-    /* JADX WARN: Removed duplicated region for block: B:111:0x0385  */
-    /* JADX WARN: Removed duplicated region for block: B:143:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:102:0x030c  */
+    /* JADX WARN: Removed duplicated region for block: B:110:0x037c  */
+    /* JADX WARN: Removed duplicated region for block: B:142:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:29:0x0075 A[ADDED_TO_REGION] */
     /* JADX WARN: Removed duplicated region for block: B:35:0x008c  */
     /* JADX WARN: Removed duplicated region for block: B:66:0x0114  */
     /* JADX WARN: Removed duplicated region for block: B:69:0x0126  */
     /* JADX WARN: Removed duplicated region for block: B:73:0x013a  */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x01cf  */
-    /* JADX WARN: Removed duplicated region for block: B:89:0x0258  */
-    /* JADX WARN: Removed duplicated region for block: B:90:0x026c  */
-    /* JADX WARN: Removed duplicated region for block: B:91:0x0280  */
-    /* JADX WARN: Removed duplicated region for block: B:92:0x0294  */
+    /* JADX WARN: Removed duplicated region for block: B:82:0x01c6  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x024f  */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x0263  */
+    /* JADX WARN: Removed duplicated region for block: B:90:0x0277  */
+    /* JADX WARN: Removed duplicated region for block: B:91:0x028b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -191,9 +191,9 @@ public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
                         return;
                     case 7:
                         boolean isPremium = UserConfig.getInstance(UserConfig.selectedAccount).isPremium();
-                        if (!MessagesController.getInstance(UserConfig.selectedAccount).premiumFeaturesBlocked() || !isPremium) {
-                            this.titleTextView.setText(LocaleController.formatString("LimitReachedFavoriteGifs", R.string.LimitReachedFavoriteGifs, Integer.valueOf(MessagesController.getInstance(UserConfig.selectedAccount).savedGifsLimitDefault)));
-                            this.subtitleTextView.setText(AndroidUtilities.premiumText(LocaleController.formatString("LimitReachedFavoriteGifsSubtitle", R.string.LimitReachedFavoriteGifsSubtitle, Integer.valueOf(MessagesController.getInstance(UserConfig.selectedAccount).savedGifsLimitPremium)), new Runnable() { // from class: org.telegram.ui.Components.StickerSetBulletinLayout$$ExternalSyntheticLambda1
+                        if (!MessagesController.getInstance(UserConfig.selectedAccount).premiumFeaturesBlocked() && !isPremium) {
+                            this.titleTextView.setText(LocaleController.formatString(R.string.LimitReachedFavoriteGifs, Integer.valueOf(MessagesController.getInstance(UserConfig.selectedAccount).savedGifsLimitDefault)));
+                            this.subtitleTextView.setText(AndroidUtilities.premiumText(LocaleController.formatString(R.string.LimitReachedFavoriteGifsSubtitle, Integer.valueOf(MessagesController.getInstance(UserConfig.selectedAccount).savedGifsLimitPremium)), new Runnable() { // from class: org.telegram.ui.Components.StickerSetBulletinLayout$$ExternalSyntheticLambda1
                                 @Override // java.lang.Runnable
                                 public final void run() {
                                     StickerSetBulletinLayout.lambda$new$1(context);
@@ -205,8 +205,8 @@ public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
                         int i4 = R.string.LimitReachedFavoriteGifs;
                         Object[] objArr = new Object[1];
                         objArr[0] = Integer.valueOf(isPremium ? MessagesController.getInstance(UserConfig.selectedAccount).savedGifsLimitPremium : MessagesController.getInstance(UserConfig.selectedAccount).savedGifsLimitDefault);
-                        textView.setText(LocaleController.formatString("LimitReachedFavoriteGifs", i4, objArr));
-                        this.subtitleTextView.setText(LocaleController.formatString("LimitReachedFavoriteGifsSubtitlePremium", R.string.LimitReachedFavoriteGifsSubtitlePremium, new Object[0]));
+                        textView.setText(LocaleController.formatString(i4, objArr));
+                        this.subtitleTextView.setText(LocaleController.getString(R.string.LimitReachedFavoriteGifsSubtitlePremium));
                         return;
                     default:
                         return;
@@ -267,7 +267,7 @@ public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
     public static /* synthetic */ void lambda$new$0(Context context) {
         Activity findActivity = AndroidUtilities.findActivity(context);
         if (findActivity instanceof LaunchActivity) {
-            ((LaunchActivity) findActivity).lambda$runLinkRequest$87(new PremiumPreviewFragment(LimitReachedBottomSheet.limitTypeToServerString(10)));
+            ((LaunchActivity) findActivity).lambda$runLinkRequest$86(new PremiumPreviewFragment(LimitReachedBottomSheet.limitTypeToServerString(10)));
         }
     }
 
@@ -275,7 +275,7 @@ public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
     public static /* synthetic */ void lambda$new$1(Context context) {
         Activity findActivity = AndroidUtilities.findActivity(context);
         if (findActivity instanceof LaunchActivity) {
-            ((LaunchActivity) findActivity).lambda$runLinkRequest$87(new PremiumPreviewFragment(LimitReachedBottomSheet.limitTypeToServerString(9)));
+            ((LaunchActivity) findActivity).lambda$runLinkRequest$86(new PremiumPreviewFragment(LimitReachedBottomSheet.limitTypeToServerString(9)));
         }
     }
 }

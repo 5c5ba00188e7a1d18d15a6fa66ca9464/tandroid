@@ -48,7 +48,6 @@ import org.telegram.ui.Components.Premium.PremiumGradient;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PremiumPreviewFragment;
-import org.telegram.ui.Stories.StoryViewer;
 import org.telegram.ui.ThemePreviewActivity;
 /* loaded from: classes4.dex */
 public class PremiumFeatureBottomSheet extends BottomSheet implements NotificationCenter.NotificationCenterDelegate {
@@ -592,7 +591,6 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(BaseFragment baseFragment, boolean z, PremiumPreviewFragment.PremiumFeatureData premiumFeatureData, View view) {
-        StoryViewer storyViewer;
         if (baseFragment instanceof ChatActivity) {
             ChatActivity chatActivity = (ChatActivity) baseFragment;
             chatActivity.closeMenu();
@@ -605,8 +603,8 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
         int i = 0;
         while (i < 2) {
             BaseFragment baseFragment2 = i == 0 ? baseFragment : lastFragment;
-            if (baseFragment2 != null && (storyViewer = baseFragment2.storyViewer) != null && storyViewer.isShown()) {
-                baseFragment2.storyViewer.dismissVisibleDialogs();
+            if (baseFragment2 != null && baseFragment2.getLastStoryViewer() != null) {
+                baseFragment2.getLastStoryViewer().dismissVisibleDialogs();
             }
             if (baseFragment2 != null && baseFragment2.getVisibleDialog() != null) {
                 baseFragment2.getVisibleDialog().dismiss();
@@ -636,9 +634,8 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
 
     private static Theme.ResourcesProvider getResourceProvider(BaseFragment baseFragment) {
         if (baseFragment != null) {
-            StoryViewer storyViewer = baseFragment.storyViewer;
-            if (storyViewer != null && storyViewer.isShown()) {
-                return baseFragment.storyViewer.getResourceProvider();
+            if (baseFragment.getLastStoryViewer() != null && baseFragment.getLastStoryViewer().isShown()) {
+                return baseFragment.getLastStoryViewer().getResourceProvider();
             }
             return baseFragment.getResourceProvider();
         }

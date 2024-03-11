@@ -44,7 +44,6 @@ import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.Bulletin;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PremiumPreviewFragment;
-import org.telegram.ui.Stories.StoryViewer;
 import org.telegram.ui.Stories.recorder.HintView2;
 /* loaded from: classes4.dex */
 public final class BulletinFactory {
@@ -202,11 +201,10 @@ public final class BulletinFactory {
     }
 
     private BulletinFactory(BaseFragment baseFragment) {
-        StoryViewer storyViewer;
-        if (baseFragment != null && (storyViewer = baseFragment.storyViewer) != null && storyViewer.attachedToParent()) {
+        if (baseFragment != null && baseFragment.getLastStoryViewer() != null && baseFragment.getLastStoryViewer().attachedToParent()) {
             this.fragment = null;
-            this.containerLayout = baseFragment.storyViewer.getContainerForBulletin();
-            this.resourcesProvider = baseFragment.storyViewer.getResourceProvider();
+            this.containerLayout = baseFragment.getLastStoryViewer().getContainerForBulletin();
+            this.resourcesProvider = baseFragment.getLastStoryViewer().getResourceProvider();
             return;
         }
         this.fragment = baseFragment;

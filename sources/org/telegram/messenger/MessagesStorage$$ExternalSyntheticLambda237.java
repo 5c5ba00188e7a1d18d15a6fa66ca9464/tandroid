@@ -11,8 +11,8 @@ public final /* synthetic */ class MessagesStorage$$ExternalSyntheticLambda237 i
 
     @Override // java.util.Comparator
     public final int compare(Object obj, Object obj2) {
-        int lambda$loadDialogFilters$62;
-        lambda$loadDialogFilters$62 = MessagesStorage.lambda$loadDialogFilters$62((MessagesController.DialogFilter) obj, (MessagesController.DialogFilter) obj2);
-        return lambda$loadDialogFilters$62;
+        int lambda$processLoadedFilterPeersInternal$66;
+        lambda$processLoadedFilterPeersInternal$66 = MessagesStorage.lambda$processLoadedFilterPeersInternal$66((MessagesController.DialogFilter) obj, (MessagesController.DialogFilter) obj2);
+        return lambda$processLoadedFilterPeersInternal$66;
     }
 }

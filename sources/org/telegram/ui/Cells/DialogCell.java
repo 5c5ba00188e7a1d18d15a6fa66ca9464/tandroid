@@ -4185,34 +4185,35 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
     /* JADX WARN: Removed duplicated region for block: B:516:0x0f67  */
     /* JADX WARN: Removed duplicated region for block: B:558:0x0fd6  */
     /* JADX WARN: Removed duplicated region for block: B:559:0x0fd9  */
-    /* JADX WARN: Removed duplicated region for block: B:569:0x1004  */
-    /* JADX WARN: Removed duplicated region for block: B:574:0x1058  */
-    /* JADX WARN: Removed duplicated region for block: B:580:0x106e  */
-    /* JADX WARN: Removed duplicated region for block: B:597:0x10bf  */
-    /* JADX WARN: Removed duplicated region for block: B:660:0x11c4  */
-    /* JADX WARN: Removed duplicated region for block: B:662:0x1215  */
-    /* JADX WARN: Removed duplicated region for block: B:718:0x13bf  */
-    /* JADX WARN: Removed duplicated region for block: B:754:0x1555  */
-    /* JADX WARN: Removed duplicated region for block: B:759:0x1585  */
-    /* JADX WARN: Removed duplicated region for block: B:763:0x1595  */
-    /* JADX WARN: Removed duplicated region for block: B:778:0x15d1  */
-    /* JADX WARN: Removed duplicated region for block: B:779:0x15d3  */
-    /* JADX WARN: Removed duplicated region for block: B:783:0x15e1  */
-    /* JADX WARN: Removed duplicated region for block: B:795:0x1602  */
-    /* JADX WARN: Removed duplicated region for block: B:797:0x1606  */
-    /* JADX WARN: Removed duplicated region for block: B:811:0x1675  */
-    /* JADX WARN: Removed duplicated region for block: B:814:0x167e  */
-    /* JADX WARN: Removed duplicated region for block: B:832:0x16c8  */
-    /* JADX WARN: Removed duplicated region for block: B:861:0x1748  */
-    /* JADX WARN: Removed duplicated region for block: B:870:0x179f  */
-    /* JADX WARN: Removed duplicated region for block: B:875:0x17b2  */
-    /* JADX WARN: Removed duplicated region for block: B:883:0x17ca  */
-    /* JADX WARN: Removed duplicated region for block: B:891:0x17f3  */
-    /* JADX WARN: Removed duplicated region for block: B:902:0x1821  */
+    /* JADX WARN: Removed duplicated region for block: B:571:0x0ffb  */
+    /* JADX WARN: Removed duplicated region for block: B:575:0x1013  */
+    /* JADX WARN: Removed duplicated region for block: B:580:0x1067  */
+    /* JADX WARN: Removed duplicated region for block: B:586:0x107d  */
+    /* JADX WARN: Removed duplicated region for block: B:603:0x10d0  */
+    /* JADX WARN: Removed duplicated region for block: B:666:0x11d9  */
+    /* JADX WARN: Removed duplicated region for block: B:668:0x122a  */
+    /* JADX WARN: Removed duplicated region for block: B:724:0x13d4  */
+    /* JADX WARN: Removed duplicated region for block: B:760:0x156a  */
+    /* JADX WARN: Removed duplicated region for block: B:765:0x159a  */
+    /* JADX WARN: Removed duplicated region for block: B:769:0x15aa  */
+    /* JADX WARN: Removed duplicated region for block: B:784:0x15e6  */
+    /* JADX WARN: Removed duplicated region for block: B:785:0x15e8  */
+    /* JADX WARN: Removed duplicated region for block: B:789:0x15f6  */
+    /* JADX WARN: Removed duplicated region for block: B:801:0x1617  */
+    /* JADX WARN: Removed duplicated region for block: B:803:0x161b  */
+    /* JADX WARN: Removed duplicated region for block: B:817:0x168a  */
+    /* JADX WARN: Removed duplicated region for block: B:820:0x1693  */
+    /* JADX WARN: Removed duplicated region for block: B:838:0x16dd  */
+    /* JADX WARN: Removed duplicated region for block: B:867:0x175d  */
+    /* JADX WARN: Removed duplicated region for block: B:876:0x17b4  */
+    /* JADX WARN: Removed duplicated region for block: B:881:0x17c7  */
+    /* JADX WARN: Removed duplicated region for block: B:889:0x17df  */
+    /* JADX WARN: Removed duplicated region for block: B:897:0x1808  */
     /* JADX WARN: Removed duplicated region for block: B:908:0x1836  */
-    /* JADX WARN: Removed duplicated region for block: B:918:0x185d  */
-    /* JADX WARN: Removed duplicated region for block: B:928:0x187e  */
-    /* JADX WARN: Removed duplicated region for block: B:945:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:914:0x184b  */
+    /* JADX WARN: Removed duplicated region for block: B:924:0x1872  */
+    /* JADX WARN: Removed duplicated region for block: B:934:0x1893  */
+    /* JADX WARN: Removed duplicated region for block: B:951:? A[RETURN, SYNTHETIC] */
     @Override // android.view.View
     @SuppressLint({"DrawAllocation"})
     /*
@@ -4250,19 +4251,15 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
         int i10;
         int i11;
         int i12;
-        DialogCellTags dialogCellTags;
-        DialogCellTags dialogCellTags2;
-        DialogCellTags dialogCellTags3;
         boolean z3;
         int dp;
         int dp2;
         int i13;
-        DialogCellTags dialogCellTags4;
+        DialogCellTags dialogCellTags;
         int i14;
         float dp3;
         float f6;
         int i15;
-        float dp4;
         int i16;
         float f7;
         float f8;
@@ -4490,11 +4487,11 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
             canvas.save();
             canvas.translate(this.translationX, 0.0f);
         }
-        float dp5 = AndroidUtilities.dp(8.0f) * this.cornerProgress;
+        float dp4 = AndroidUtilities.dp(8.0f) * this.cornerProgress;
         if (this.isSelected) {
             this.rect.set(0.0f, 0.0f, getMeasuredWidth(), AndroidUtilities.lerp(getMeasuredHeight(), getCollapsedHeight(), this.rightFragmentOpenedProgress));
             this.rect.offset(0.0f, (-this.translateY) + this.collapseOffset);
-            canvas.drawRoundRect(this.rect, dp5, dp5, Theme.dialogs_tabletSeletedPaint);
+            canvas.drawRoundRect(this.rect, dp4, dp4, Theme.dialogs_tabletSeletedPaint);
         }
         canvas.save();
         canvas.translate(0.0f, (-this.rightFragmentOffset) * this.rightFragmentOpenedProgress);
@@ -4537,18 +4534,18 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 Theme.dialogs_pinnedPaint.setColor(Theme.getColor(Theme.key_windowBackgroundWhite, this.resourcesProvider));
                 this.rect.set(getMeasuredWidth() - AndroidUtilities.dp(64.0f), 0.0f, getMeasuredWidth(), getMeasuredHeight());
                 this.rect.offset(0.0f, -this.translateY);
-                canvas.drawRoundRect(this.rect, dp5, dp5, Theme.dialogs_pinnedPaint);
+                canvas.drawRoundRect(this.rect, dp4, dp4, Theme.dialogs_pinnedPaint);
                 if (this.isSelected) {
-                    canvas.drawRoundRect(this.rect, dp5, dp5, Theme.dialogs_tabletSeletedPaint);
+                    canvas.drawRoundRect(this.rect, dp4, dp4, Theme.dialogs_tabletSeletedPaint);
                 }
                 if (this.currentDialogFolderId != 0 && (!SharedConfig.archiveHidden || this.archiveBackgroundProgress != 0.0f)) {
                     Theme.dialogs_pinnedPaint.setColor(AndroidUtilities.getOffsetColor(0, Theme.getColor(Theme.key_chats_pinnedOverlay, this.resourcesProvider), this.archiveBackgroundProgress, f4));
                     Theme.dialogs_pinnedPaint.setAlpha((int) (paint3.getAlpha() * (f4 - this.rightFragmentOpenedProgress)));
-                    canvas.drawRoundRect(this.rect, dp5, dp5, Theme.dialogs_pinnedPaint);
+                    canvas.drawRoundRect(this.rect, dp4, dp4, Theme.dialogs_pinnedPaint);
                 } else if (getIsPinned() || this.drawPinBackground) {
                     Theme.dialogs_pinnedPaint.setColor(Theme.getColor(Theme.key_chats_pinnedOverlay, this.resourcesProvider));
                     Theme.dialogs_pinnedPaint.setAlpha((int) (paint2.getAlpha() * (f4 - this.rightFragmentOpenedProgress)));
-                    canvas.drawRoundRect(this.rect, dp5, dp5, Theme.dialogs_pinnedPaint);
+                    canvas.drawRoundRect(this.rect, dp4, dp4, Theme.dialogs_pinnedPaint);
                 }
                 canvas.restore();
             }
@@ -4579,9 +4576,9 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 BaseCell.setDrawableBounds(Theme.dialogs_lockDrawable, this.nameLockLeft, this.nameLockTop);
                 Theme.dialogs_lockDrawable.draw(canvas);
             }
-            int dp6 = AndroidUtilities.dp((this.useForceThreeLines || SharedConfig.useThreeLinesLayout) ? 10.0f : 13.0f);
+            int dp5 = AndroidUtilities.dp((this.useForceThreeLines || SharedConfig.useThreeLinesLayout) ? 10.0f : 13.0f);
             if (((!this.useForceThreeLines && !SharedConfig.useThreeLinesLayout) || isForumCell()) && hasTags()) {
-                dp6 -= AndroidUtilities.dp(isForumCell() ? 8.0f : 9.0f);
+                dp5 -= AndroidUtilities.dp(isForumCell() ? 8.0f : 9.0f);
             }
             if (this.nameLayout != null) {
                 if (this.nameLayoutEllipsizeByGradient && !this.nameLayoutFits) {
@@ -4626,7 +4623,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                     textPaint5.setColor(color6);
                 }
                 canvas.save();
-                canvas.translate(this.nameLeft + this.nameLayoutTranslateX, dp6);
+                canvas.translate(this.nameLeft + this.nameLayoutTranslateX, dp5);
                 SpoilerEffect.layoutDrawMaybe(this.nameLayout, canvas);
                 StaticLayout staticLayout3 = this.nameLayout;
                 i6 = i5;
@@ -4730,8 +4727,8 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                     if (this.thumbsCount > 0) {
                     }
                     i13 = -1;
-                    dialogCellTags4 = this.tags;
-                    if (dialogCellTags4 != null) {
+                    dialogCellTags = this.tags;
+                    if (dialogCellTags != null) {
                     }
                     i14 = i6;
                     if (i14 != i13) {
@@ -4810,12 +4807,12 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                     textPaint15.linkColor = color12;
                     textPaint14.setColor(color12);
                 }
-                float dp7 = AndroidUtilities.dp(14.0f);
+                float dp6 = AndroidUtilities.dp(14.0f);
                 DialogUpdateHelper dialogUpdateHelper = this.updateHelper;
                 if (dialogUpdateHelper.typingOutToTop) {
-                    f7 = this.messageTop - (dialogUpdateHelper.typingProgres * dp7);
+                    f7 = this.messageTop - (dialogUpdateHelper.typingProgres * dp6);
                 } else {
-                    f7 = this.messageTop + (dialogUpdateHelper.typingProgres * dp7);
+                    f7 = this.messageTop + (dialogUpdateHelper.typingProgres * dp6);
                 }
                 if (((!this.useForceThreeLines && !SharedConfig.useThreeLinesLayout) || isForumCell()) && hasTags()) {
                     f7 -= AndroidUtilities.dp(isForumCell() ? 10.0f : 11.0f);
@@ -4852,9 +4849,9 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 canvas.save();
                 DialogUpdateHelper dialogUpdateHelper2 = this.updateHelper;
                 if (dialogUpdateHelper2.typingOutToTop) {
-                    f8 = this.messageTop + ((1.0f - dialogUpdateHelper2.typingProgres) * dp7);
+                    f8 = this.messageTop + ((1.0f - dialogUpdateHelper2.typingProgres) * dp6);
                 } else {
-                    f8 = this.messageTop - ((1.0f - dialogUpdateHelper2.typingProgres) * dp7);
+                    f8 = this.messageTop - ((1.0f - dialogUpdateHelper2.typingProgres) * dp6);
                 }
                 if (((!this.useForceThreeLines && !SharedConfig.useThreeLinesLayout) || isForumCell()) && hasTags()) {
                     f8 -= AndroidUtilities.dp(isForumCell() ? 10.0f : 11.0f);
@@ -4884,9 +4881,9 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                         chatStatusDrawable.setColor(ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_chats_actionMessage), (int) (Color.alpha(color3) * this.updateHelper.typingProgres)));
                         DialogUpdateHelper dialogUpdateHelper4 = this.updateHelper;
                         if (dialogUpdateHelper4.typingOutToTop) {
-                            f9 = this.messageTop + (dp7 * (1.0f - dialogUpdateHelper4.typingProgres));
+                            f9 = this.messageTop + (dp6 * (1.0f - dialogUpdateHelper4.typingProgres));
                         } else {
-                            f9 = this.messageTop - (dp7 * (1.0f - dialogUpdateHelper4.typingProgres));
+                            f9 = this.messageTop - (dp6 * (1.0f - dialogUpdateHelper4.typingProgres));
                         }
                         if (((!this.useForceThreeLines && !SharedConfig.useThreeLinesLayout) || isForumCell()) && hasTags()) {
                             f9 -= AndroidUtilities.dp(isForumCell() ? 10.0f : 11.0f);
@@ -5043,14 +5040,14 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                         } else {
                             invalidate();
                         }
-                        float dp8 = this.nameMuteLeft - AndroidUtilities.dp((!this.useForceThreeLines || SharedConfig.useThreeLinesLayout) ? 0.0f : 1.0f);
-                        dp4 = AndroidUtilities.dp(!SharedConfig.useThreeLinesLayout ? 13.5f : 17.5f);
-                        if (!this.useForceThreeLines && !SharedConfig.useThreeLinesLayout && hasTags()) {
-                            dp4 -= AndroidUtilities.dp(9.0f);
+                        float dp7 = this.nameMuteLeft - AndroidUtilities.dp((!this.useForceThreeLines || SharedConfig.useThreeLinesLayout) ? 0.0f : 1.0f);
+                        float dp8 = AndroidUtilities.dp(!SharedConfig.useThreeLinesLayout ? 13.5f : 17.5f);
+                        if (((!this.useForceThreeLines && !SharedConfig.useThreeLinesLayout) || isForumCell()) && hasTags()) {
+                            dp8 -= AndroidUtilities.dp(isForumCell() ? 8.0f : 9.0f);
                         }
-                        BaseCell.setDrawableBounds(Theme.dialogs_muteDrawable, dp8, dp4);
-                        BaseCell.setDrawableBounds(Theme.dialogs_unmuteDrawable, dp8, dp4);
-                        if (this.dialogMutedProgress == f3) {
+                        BaseCell.setDrawableBounds(Theme.dialogs_muteDrawable, dp7, dp8);
+                        BaseCell.setDrawableBounds(Theme.dialogs_unmuteDrawable, dp7, dp8);
+                        if (this.dialogMutedProgress != f3) {
                             canvas.save();
                             float f19 = this.dialogMutedProgress;
                             canvas.scale(f19, f19, Theme.dialogs_muteDrawable.getBounds().centerX(), Theme.dialogs_muteDrawable.getBounds().centerY());
@@ -5083,18 +5080,23 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                         }
                     }
                 }
-                float dp82 = this.nameMuteLeft - AndroidUtilities.dp((!this.useForceThreeLines || SharedConfig.useThreeLinesLayout) ? 0.0f : 1.0f);
-                dp4 = AndroidUtilities.dp(!SharedConfig.useThreeLinesLayout ? 13.5f : 17.5f);
+                float dp72 = this.nameMuteLeft - AndroidUtilities.dp((!this.useForceThreeLines || SharedConfig.useThreeLinesLayout) ? 0.0f : 1.0f);
+                float dp82 = AndroidUtilities.dp(!SharedConfig.useThreeLinesLayout ? 13.5f : 17.5f);
                 if (!this.useForceThreeLines) {
-                    dp4 -= AndroidUtilities.dp(9.0f);
+                    dp82 -= AndroidUtilities.dp(isForumCell() ? 8.0f : 9.0f);
+                    BaseCell.setDrawableBounds(Theme.dialogs_muteDrawable, dp72, dp82);
+                    BaseCell.setDrawableBounds(Theme.dialogs_unmuteDrawable, dp72, dp82);
+                    if (this.dialogMutedProgress != f3) {
+                    }
                 }
-                BaseCell.setDrawableBounds(Theme.dialogs_muteDrawable, dp82, dp4);
-                BaseCell.setDrawableBounds(Theme.dialogs_unmuteDrawable, dp82, dp4);
-                if (this.dialogMutedProgress == f3) {
+                dp82 -= AndroidUtilities.dp(isForumCell() ? 8.0f : 9.0f);
+                BaseCell.setDrawableBounds(Theme.dialogs_muteDrawable, dp72, dp82);
+                BaseCell.setDrawableBounds(Theme.dialogs_unmuteDrawable, dp72, dp82);
+                if (this.dialogMutedProgress != f3) {
                 }
             } else if (!this.drawVerified) {
                 float dp9 = AndroidUtilities.dp((this.useForceThreeLines || SharedConfig.useThreeLinesLayout) ? 13.5f : 16.5f);
-                if (!this.useForceThreeLines && !SharedConfig.useThreeLinesLayout && (dialogCellTags3 = this.tags) != null && !dialogCellTags3.isEmpty()) {
+                if (((!this.useForceThreeLines && !SharedConfig.useThreeLinesLayout) || isForumCell()) && hasTags()) {
                     dp9 -= AndroidUtilities.dp(9.0f);
                 }
                 BaseCell.setDrawableBounds(Theme.dialogs_verifiedDrawable, this.nameMuteLeft - AndroidUtilities.dp(f3), dp9);
@@ -5103,7 +5105,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 Theme.dialogs_verifiedCheckDrawable.draw(canvas);
             } else if (this.drawPremium) {
                 int dp10 = AndroidUtilities.dp((this.useForceThreeLines || SharedConfig.useThreeLinesLayout) ? 12.5f : 15.5f);
-                if (!this.useForceThreeLines && !SharedConfig.useThreeLinesLayout && (dialogCellTags2 = this.tags) != null && !dialogCellTags2.isEmpty()) {
+                if (((!this.useForceThreeLines && !SharedConfig.useThreeLinesLayout) || isForumCell()) && hasTags()) {
                     dp10 -= AndroidUtilities.dp(9.0f);
                 }
                 AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = this.emojiStatus;
@@ -5118,7 +5120,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 }
             } else if (this.drawScam != 0) {
                 int dp11 = AndroidUtilities.dp((this.useForceThreeLines || SharedConfig.useThreeLinesLayout) ? 12.0f : 15.0f);
-                if (!this.useForceThreeLines && !SharedConfig.useThreeLinesLayout && (dialogCellTags = this.tags) != null && !dialogCellTags.isEmpty()) {
+                if (((!this.useForceThreeLines && !SharedConfig.useThreeLinesLayout) || isForumCell()) && hasTags()) {
                     dp11 -= AndroidUtilities.dp(9.0f);
                 }
                 BaseCell.setDrawableBounds((Drawable) (this.drawScam == i18 ? Theme.dialogs_scamDrawable : Theme.dialogs_fakeDrawable), this.nameMuteLeft, dp11);
@@ -5240,8 +5242,8 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                         if (this.updateHelper.typingProgres > f2) {
                             canvas.restore();
                         }
-                        dialogCellTags4 = this.tags;
-                        if (dialogCellTags4 != null && !dialogCellTags4.isEmpty()) {
+                        dialogCellTags = this.tags;
+                        if (dialogCellTags != null && !dialogCellTags.isEmpty()) {
                             canvas.save();
                             canvas2.translate(this.tagsLeft, (getMeasuredHeight() - AndroidUtilities.dp(21.66f)) - (this.useSeparator ? 1 : 0));
                             this.tags.draw(canvas2, this.tagsRight - this.tagsLeft);
@@ -5254,8 +5256,8 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                     }
                 }
                 i13 = -1;
-                dialogCellTags4 = this.tags;
-                if (dialogCellTags4 != null) {
+                dialogCellTags = this.tags;
+                if (dialogCellTags != null) {
                     canvas.save();
                     canvas2.translate(this.tagsLeft, (getMeasuredHeight() - AndroidUtilities.dp(21.66f)) - (this.useSeparator ? 1 : 0));
                     this.tags.draw(canvas2, this.tagsRight - this.tagsLeft);
@@ -5273,8 +5275,8 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
             if (this.thumbsCount > 0) {
             }
             i13 = -1;
-            dialogCellTags4 = this.tags;
-            if (dialogCellTags4 != null) {
+            dialogCellTags = this.tags;
+            if (dialogCellTags != null) {
             }
             i14 = i6;
             if (i14 != i13) {

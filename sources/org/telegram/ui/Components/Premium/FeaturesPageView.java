@@ -10,6 +10,7 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
+import android.util.SparseIntArray;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -46,11 +47,17 @@ public class FeaturesPageView extends BaseListPageView {
     ArrayList<Item> items;
     public final int type;
 
+    /* JADX WARN: Removed duplicated region for block: B:9:0x01b9  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public FeaturesPageView(Context context, int i, Theme.ResourcesProvider resourcesProvider) {
         super(context, resourcesProvider);
+        final SparseIntArray sparseIntArray;
         this.items = new ArrayList<>();
         this.type = i;
         ArrayList arrayList = new ArrayList();
+        MessagesController messagesController = MessagesController.getInstance(UserConfig.selectedAccount);
         if (i == 0) {
             arrayList.add(new Item(this, 1, R.drawable.msg_stories_order, LocaleController.getString("PremiumStoriesPriority", R.string.PremiumStoriesPriority), LocaleController.getString("PremiumStoriesPriorityDescription", R.string.PremiumStoriesPriorityDescription), 20));
             arrayList.add(new Item(this, 1, R.drawable.msg_stories_stealth, LocaleController.getString("PremiumStoriesStealth", R.string.PremiumStoriesStealth), LocaleController.getString("PremiumStoriesStealthDescription", R.string.PremiumStoriesStealthDescription), 15));
@@ -61,35 +68,48 @@ public class FeaturesPageView extends BaseListPageView {
             arrayList.add(new Item(this, 1, R.drawable.msg_stories_caption, LocaleController.getString("PremiumStoriesCaption", R.string.PremiumStoriesCaption), LocaleController.getString("PremiumStoriesCaptionDescription", R.string.PremiumStoriesCaptionDescription), 21));
             arrayList.add(new Item(this, 1, R.drawable.msg_stories_link, LocaleController.getString("PremiumStoriesFormatting", R.string.PremiumStoriesFormatting), LocaleController.getString("PremiumStoriesFormattingDescription", R.string.PremiumStoriesFormattingDescription), 19));
         } else if (i == 1) {
+            sparseIntArray = messagesController.businessFeaturesTypesToPosition;
             arrayList.add(new Item(this, 1, R.drawable.menu_premium_location, LocaleController.getString(R.string.PremiumBusinessLocation), LocaleController.getString(R.string.PremiumBusinessLocationDescription), 29));
             arrayList.add(new Item(this, 1, R.drawable.menu_premium_clock, LocaleController.getString(R.string.PremiumBusinessOpeningHours), LocaleController.getString(R.string.PremiumBusinessOpeningHoursDescription), 30));
             arrayList.add(new Item(this, 1, R.drawable.menu_quickreply, LocaleController.getString(R.string.PremiumBusinessQuickReplies), LocaleController.getString(R.string.PremiumBusinessQuickRepliesDescription), 31));
             arrayList.add(new Item(this, 1, R.drawable.menu_feature_status, LocaleController.getString(R.string.PremiumBusinessGreetingMessages), LocaleController.getString(R.string.PremiumBusinessGreetingMessagesDescription), 32));
             arrayList.add(new Item(this, 1, R.drawable.menu_premium_away, LocaleController.getString(R.string.PremiumBusinessAwayMessages), LocaleController.getString(R.string.PremiumBusinessAwayMessagesDescription), 33));
             arrayList.add(new Item(this, 1, R.drawable.menu_premium_chatbot, LocaleController.getString(R.string.PremiumBusinessChatbots), LocaleController.getString(R.string.PremiumBusinessChatbotsDescription), 34));
-        }
-        final MessagesController messagesController = MessagesController.getInstance(UserConfig.selectedAccount);
-        Collections.sort(arrayList, new Comparator() { // from class: org.telegram.ui.Components.Premium.FeaturesPageView$$ExternalSyntheticLambda0
-            @Override // java.util.Comparator
-            public final int compare(Object obj, Object obj2) {
-                int lambda$new$0;
-                lambda$new$0 = FeaturesPageView.lambda$new$0(MessagesController.this, (FeaturesPageView.Item) obj, (FeaturesPageView.Item) obj2);
-                return lambda$new$0;
+            if (sparseIntArray != null) {
+                Collections.sort(arrayList, new Comparator() { // from class: org.telegram.ui.Components.Premium.FeaturesPageView$$ExternalSyntheticLambda0
+                    @Override // java.util.Comparator
+                    public final int compare(Object obj, Object obj2) {
+                        int lambda$new$0;
+                        lambda$new$0 = FeaturesPageView.lambda$new$0(sparseIntArray, (FeaturesPageView.Item) obj, (FeaturesPageView.Item) obj2);
+                        return lambda$new$0;
+                    }
+                });
             }
-        });
+            this.items.add(new Item(0));
+            this.items.addAll(arrayList);
+            this.items.add(new Item(2));
+            this.bitmap = Bitmap.createBitmap(this.items.size(), 1, Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(this.bitmap);
+            Paint paint = new Paint();
+            paint.setShader(new LinearGradient(0.0f, 0.0f, this.bitmap.getWidth(), 0.0f, new int[]{Theme.getColor(Theme.key_premiumGradient1), Theme.getColor(Theme.key_premiumGradient2), Theme.getColor(Theme.key_premiumGradient3), Theme.getColor(Theme.key_premiumGradient4)}, (float[]) null, Shader.TileMode.CLAMP));
+            canvas.drawRect(0.0f, 0.0f, this.bitmap.getWidth(), this.bitmap.getHeight(), paint);
+        }
+        sparseIntArray = null;
+        if (sparseIntArray != null) {
+        }
         this.items.add(new Item(0));
         this.items.addAll(arrayList);
         this.items.add(new Item(2));
         this.bitmap = Bitmap.createBitmap(this.items.size(), 1, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(this.bitmap);
-        Paint paint = new Paint();
-        paint.setShader(new LinearGradient(0.0f, 0.0f, this.bitmap.getWidth(), 0.0f, new int[]{Theme.getColor(Theme.key_premiumGradient1), Theme.getColor(Theme.key_premiumGradient2), Theme.getColor(Theme.key_premiumGradient3), Theme.getColor(Theme.key_premiumGradient4)}, (float[]) null, Shader.TileMode.CLAMP));
-        canvas.drawRect(0.0f, 0.0f, this.bitmap.getWidth(), this.bitmap.getHeight(), paint);
+        Canvas canvas2 = new Canvas(this.bitmap);
+        Paint paint2 = new Paint();
+        paint2.setShader(new LinearGradient(0.0f, 0.0f, this.bitmap.getWidth(), 0.0f, new int[]{Theme.getColor(Theme.key_premiumGradient1), Theme.getColor(Theme.key_premiumGradient2), Theme.getColor(Theme.key_premiumGradient3), Theme.getColor(Theme.key_premiumGradient4)}, (float[]) null, Shader.TileMode.CLAMP));
+        canvas2.drawRect(0.0f, 0.0f, this.bitmap.getWidth(), this.bitmap.getHeight(), paint2);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ int lambda$new$0(MessagesController messagesController, Item item, Item item2) {
-        return messagesController.premiumFeaturesTypesToPosition.get(item.order, ConnectionsManager.DEFAULT_DATACENTER_ID) - messagesController.premiumFeaturesTypesToPosition.get(item2.order, ConnectionsManager.DEFAULT_DATACENTER_ID);
+    public static /* synthetic */ int lambda$new$0(SparseIntArray sparseIntArray, Item item, Item item2) {
+        return sparseIntArray.get(item.order, ConnectionsManager.DEFAULT_DATACENTER_ID) - sparseIntArray.get(item2.order, ConnectionsManager.DEFAULT_DATACENTER_ID);
     }
 
     @Override // org.telegram.ui.Components.Premium.BaseListPageView

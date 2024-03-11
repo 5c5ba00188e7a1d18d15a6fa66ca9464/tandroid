@@ -8,6 +8,6 @@ public final /* synthetic */ class ChatThemeBottomSheet$$ExternalSyntheticLambda
 
     @Override // java.lang.Runnable
     public final void run() {
-        ChatThemeBottomSheet.lambda$showAsSheet$17();
+        ChatThemeBottomSheet.lambda$showAsSheet$16();
     }
 }

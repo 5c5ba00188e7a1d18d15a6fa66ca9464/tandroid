@@ -2870,6 +2870,15 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         return -compare;
     }
 
+    public boolean hasNoNextVoiceOrRoundVideoMessage() {
+        ArrayList<MessageObject> arrayList;
+        MessageObject messageObject = this.playingMessageObject;
+        if (messageObject != null) {
+            return !(messageObject.isVoice() || this.playingMessageObject.isRoundVideo()) || (arrayList = this.voiceMessagesPlaylist) == null || arrayList.size() <= 1 || !this.voiceMessagesPlaylist.contains(this.playingMessageObject) || this.voiceMessagesPlaylist.indexOf(this.playingMessageObject) >= this.voiceMessagesPlaylist.size() - 1;
+        }
+        return true;
+    }
+
     public void playNextMessage() {
         playNextMessageWithoutOrder(false);
     }
@@ -3357,7 +3366,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 }
                 return;
             }
-            cleanupPlayer(true, true, true, false);
+            cleanupPlayer(true, hasNoNextVoiceOrRoundVideoMessage(), true, false);
         }
     }
 
@@ -3780,7 +3789,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             this.lastProgress = 0L;
             this.audioInfo = null;
             this.playingMessageObject = messageObject;
-            if (messageObject.isMusic()) {
+            if (canStartMusicPlayerService()) {
                 try {
                     ApplicationLoader.applicationContext.startService(new Intent(ApplicationLoader.applicationContext, MusicPlayerService.class));
                 } catch (Throwable th) {
@@ -3996,9 +4005,10 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                         NotificationCenter.getInstance(messageObject3.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.messagePlayingProgressDidChanged, Integer.valueOf(messageObject.getId()), 0);
                         if (!MediaController.this.playlist.isEmpty() && (MediaController.this.playlist.size() > 1 || !messageObject.isVoice())) {
                             MediaController.this.playNextMessageWithoutOrder(true);
-                        } else {
-                            MediaController.this.cleanupPlayer(true, true, messageObject.isVoice(), false);
+                            return;
                         }
+                        MediaController mediaController = MediaController.this;
+                        mediaController.cleanupPlayer(true, mediaController.hasNoNextVoiceOrRoundVideoMessage(), messageObject.isVoice(), false);
                     }
                 });
                 this.audioPlayer.setAudioVisualizerDelegate(new VideoPlayer.AudioVisualizerDelegate() { // from class: org.telegram.messenger.MediaController.11
@@ -4193,8 +4203,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 }
             }
         }
-        MessageObject messageObject6 = this.playingMessageObject;
-        if (messageObject6 != null && messageObject6.isMusic()) {
+        if (canStartMusicPlayerService()) {
             try {
                 ApplicationLoader.applicationContext.startService(new Intent(ApplicationLoader.applicationContext, MusicPlayerService.class));
                 return true;
@@ -4348,6 +4357,11 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$playMessage$22(MessageObject messageObject, File file) {
         NotificationCenter.getInstance(messageObject.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.fileLoaded, FileLoader.getAttachFileName(messageObject.getDocument()), file);
+    }
+
+    private boolean canStartMusicPlayerService() {
+        MessageObject messageObject = this.playingMessageObject;
+        return (messageObject == null || (!messageObject.isMusic() && !this.playingMessageObject.isVoice() && !this.playingMessageObject.isRoundVideo()) || this.playingMessageObject.isVoiceOnce() || this.playingMessageObject.isRoundOnce()) ? false : true;
     }
 
     public void updateSilent(boolean z) {
