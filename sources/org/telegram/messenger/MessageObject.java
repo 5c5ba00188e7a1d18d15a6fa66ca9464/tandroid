@@ -11322,8 +11322,8 @@ public class MessageObject {
         return isForwardedMessage(this.messageOwner);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:43:0x0080, code lost:
-        if (r3.channel_id == r0.channel_id) goto L44;
+    /* JADX WARN: Code restructure failed: missing block: B:45:0x0084, code lost:
+        if (r3.channel_id == r0.channel_id) goto L46;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -11342,7 +11342,7 @@ public class MessageObject {
                 if (peerDialogId >= 0) {
                     peerDialogId = DialogObject.getPeerDialogId(this.messageOwner.fwd_from.from_id);
                 }
-                return peerDialogId == 0 ? savedDialogId != UserObject.ANONYMOUS : (savedDialogId == peerDialogId || peerDialogId == clientUserId) ? false : true;
+                return peerDialogId == 0 ? savedDialogId >= 0 && savedDialogId != UserObject.ANONYMOUS : (savedDialogId == peerDialogId || peerDialogId == clientUserId) ? false : true;
             }
             TLRPC$Message tLRPC$Message2 = this.messageOwner;
             if ((tLRPC$Message2.flags & 4) != 0 && (tLRPC$MessageFwdHeader = tLRPC$Message2.fwd_from) != null && !tLRPC$MessageFwdHeader.imported) {

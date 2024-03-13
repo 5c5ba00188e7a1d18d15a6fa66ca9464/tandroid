@@ -23565,14 +23565,14 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     /*  JADX ERROR: JadxRuntimeException in pass: BlockProcessor
-        jadx.core.utils.exceptions.JadxRuntimeException: CFG modification limit reached, blocks count: 3686
+        jadx.core.utils.exceptions.JadxRuntimeException: CFG modification limit reached, blocks count: 3685
         	at jadx.core.dex.visitors.blocks.BlockProcessor.processBlocksTree(BlockProcessor.java:59)
         	at jadx.core.dex.visitors.blocks.BlockProcessor.visit(BlockProcessor.java:39)
         */
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     public void didReceivedNotification(int r62, int r63, java.lang.Object... r64) {
         /*
-            Method dump skipped, instructions count: 16683
+            Method dump skipped, instructions count: 16679
             To view this dump add '--comments-level debug' option
         */
         throw new UnsupportedOperationException("Method not decompiled: org.telegram.ui.ChatActivity.didReceivedNotification(int, int, java.lang.Object[]):void");
@@ -24452,8 +24452,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         motionBackgroundDrawable.switchToNextPosition();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:370:0x0614, code lost:
-        if (r11.quick_reply_shortcut_id != r33.threadMessageId) goto L428;
+    /* JADX WARN: Code restructure failed: missing block: B:368:0x060c, code lost:
+        if (r11.quick_reply_shortcut_id != r33.threadMessageId) goto L426;
      */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:125:0x024f  */
@@ -24466,31 +24466,31 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Removed duplicated region for block: B:237:0x042e  */
     /* JADX WARN: Removed duplicated region for block: B:243:0x043c  */
     /* JADX WARN: Removed duplicated region for block: B:248:0x044a  */
-    /* JADX WARN: Removed duplicated region for block: B:394:0x068a  */
-    /* JADX WARN: Removed duplicated region for block: B:399:0x06a5  */
-    /* JADX WARN: Removed duplicated region for block: B:403:0x06c3  */
-    /* JADX WARN: Removed duplicated region for block: B:421:0x072f  */
-    /* JADX WARN: Removed duplicated region for block: B:424:0x0737  */
-    /* JADX WARN: Removed duplicated region for block: B:435:0x0758  */
-    /* JADX WARN: Removed duplicated region for block: B:441:0x0766  */
-    /* JADX WARN: Removed duplicated region for block: B:444:0x0770  */
-    /* JADX WARN: Removed duplicated region for block: B:512:0x087d  */
-    /* JADX WARN: Removed duplicated region for block: B:556:0x0930  */
-    /* JADX WARN: Removed duplicated region for block: B:561:0x093c  */
-    /* JADX WARN: Removed duplicated region for block: B:562:0x093f  */
-    /* JADX WARN: Removed duplicated region for block: B:588:0x09a4  */
-    /* JADX WARN: Removed duplicated region for block: B:607:0x09fd  */
-    /* JADX WARN: Removed duplicated region for block: B:718:0x0c89  */
-    /* JADX WARN: Removed duplicated region for block: B:725:0x0ca6  */
-    /* JADX WARN: Removed duplicated region for block: B:728:0x0cb0  */
-    /* JADX WARN: Removed duplicated region for block: B:742:0x0cdb  */
-    /* JADX WARN: Removed duplicated region for block: B:749:0x0cf4  */
+    /* JADX WARN: Removed duplicated region for block: B:392:0x0682  */
+    /* JADX WARN: Removed duplicated region for block: B:397:0x069d  */
+    /* JADX WARN: Removed duplicated region for block: B:401:0x06bb  */
+    /* JADX WARN: Removed duplicated region for block: B:419:0x0727  */
+    /* JADX WARN: Removed duplicated region for block: B:422:0x072f  */
+    /* JADX WARN: Removed duplicated region for block: B:433:0x0750  */
+    /* JADX WARN: Removed duplicated region for block: B:439:0x075e  */
+    /* JADX WARN: Removed duplicated region for block: B:442:0x0768  */
+    /* JADX WARN: Removed duplicated region for block: B:508:0x086d  */
+    /* JADX WARN: Removed duplicated region for block: B:552:0x0920  */
+    /* JADX WARN: Removed duplicated region for block: B:557:0x092c  */
+    /* JADX WARN: Removed duplicated region for block: B:558:0x092f  */
+    /* JADX WARN: Removed duplicated region for block: B:584:0x0994  */
+    /* JADX WARN: Removed duplicated region for block: B:603:0x09ed  */
+    /* JADX WARN: Removed duplicated region for block: B:714:0x0c79  */
+    /* JADX WARN: Removed duplicated region for block: B:721:0x0c96  */
+    /* JADX WARN: Removed duplicated region for block: B:724:0x0ca0  */
+    /* JADX WARN: Removed duplicated region for block: B:738:0x0ccb  */
+    /* JADX WARN: Removed duplicated region for block: B:745:0x0ce4  */
     /* JADX WARN: Removed duplicated region for block: B:77:0x016c  */
     /* JADX WARN: Removed duplicated region for block: B:80:0x017a  */
     /* JADX WARN: Removed duplicated region for block: B:84:0x0193  */
-    /* JADX WARN: Removed duplicated region for block: B:873:0x0345 A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:882:0x0446 A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:898:0x09e4 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:869:0x0345 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:878:0x0446 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:894:0x09d4 A[SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r3v143 */
     /* JADX WARN: Type inference failed for: r3v144 */
     /* JADX WARN: Type inference failed for: r3v145 */
@@ -24852,7 +24852,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     if (messageObject8.isOut() && messageObject8.wasJustSent) {
                         scrollToLastMessage(z7, false);
                         return;
-                    } else if (messageObject8.type >= 0 && this.messagesDict[0].indexOfKey(id3) < 0 && (((tLRPC$Chat3 = this.currentChat) == null || !tLRPC$Chat3.creator || ((ChatObject.isChannel(tLRPC$Chat3) && !this.currentChat.megagroup) || (!(tLRPC$MessageAction2 instanceof TLRPC$TL_messageActionChatCreate) && (!(tLRPC$MessageAction2 instanceof TLRPC$TL_messageActionChatEditPhoto) || this.messages.size() >= 2)))) && !(tLRPC$MessageAction2 instanceof TLRPC$TL_messageActionChannelMigrateFrom) && (this.threadMessageId == 0 || !(messageObject8.messageOwner instanceof TLRPC$TL_messageEmpty)))) {
+                    } else if (messageObject8.type >= 0 && this.messagesDict[0].indexOfKey(id3) < 0 && (((tLRPC$Chat3 = this.currentChat) == null || !tLRPC$Chat3.creator || ((ChatObject.isChannel(tLRPC$Chat3) && !this.currentChat.megagroup) || (!(tLRPC$MessageAction2 instanceof TLRPC$TL_messageActionChatCreate) && (!(tLRPC$MessageAction2 instanceof TLRPC$TL_messageActionChatEditPhoto) || this.messages.size() >= 2)))) && !(tLRPC$MessageAction2 instanceof TLRPC$TL_messageActionChannelMigrateFrom) && !(messageObject8.messageOwner instanceof TLRPC$TL_messageEmpty))) {
                         if (!this.isTopic && this.threadMessageObject != null && messageObject8.isReply() && !(messageObject8.messageOwner.action instanceof TLRPC$TL_messageActionPinMessage) && this.threadMessageObject.getId() == messageObject8.getReplyAnyMsgId()) {
                             this.threadMessageObject.messageOwner.replies.replies++;
                         }
@@ -25030,7 +25030,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 chatAvatarContainer.setTime(tLRPC$DecryptedMessageAction.ttl_seconds, true);
                             }
                         }
-                        if (messageObject10.type >= 0 || this.messagesDict[0].indexOfKey(id) >= 0 || (((tLRPC$Chat = this.currentChat) != null && tLRPC$Chat.creator && ((!ChatObject.isChannel(tLRPC$Chat) || this.currentChat.megagroup) && ((tLRPC$MessageAction instanceof TLRPC$TL_messageActionChatCreate) || ((tLRPC$MessageAction instanceof TLRPC$TL_messageActionChatEditPhoto) && this.messages.size() < 2)))) || (tLRPC$MessageAction instanceof TLRPC$TL_messageActionChannelMigrateFrom) || (this.threadMessageId != 0 && (messageObject10.messageOwner instanceof TLRPC$TL_messageEmpty)))) {
+                        if (messageObject10.type >= 0 || this.messagesDict[0].indexOfKey(id) >= 0 || (((tLRPC$Chat = this.currentChat) != null && tLRPC$Chat.creator && ((!ChatObject.isChannel(tLRPC$Chat) || this.currentChat.megagroup) && ((tLRPC$MessageAction instanceof TLRPC$TL_messageActionChatCreate) || ((tLRPC$MessageAction instanceof TLRPC$TL_messageActionChatEditPhoto) && this.messages.size() < 2)))) || (tLRPC$MessageAction instanceof TLRPC$TL_messageActionChannelMigrateFrom) || (messageObject10.messageOwner instanceof TLRPC$TL_messageEmpty))) {
                             j = clientUserId;
                             str = str3;
                             z14 = z4;
