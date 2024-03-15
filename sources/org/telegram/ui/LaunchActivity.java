@@ -12244,10 +12244,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         if (((org.telegram.ui.ProfileActivity) r1.get(r1.size() - 1)).isSettings() == false) goto L132;
      */
     /* JADX WARN: Removed duplicated region for block: B:116:0x030d  */
-    /* JADX WARN: Removed duplicated region for block: B:230:0x0681  */
-    /* JADX WARN: Removed duplicated region for block: B:231:0x0687  */
-    /* JADX WARN: Removed duplicated region for block: B:234:0x068c A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:235:0x068d  */
+    /* JADX WARN: Removed duplicated region for block: B:237:0x069a  */
+    /* JADX WARN: Removed duplicated region for block: B:238:0x06a0  */
+    /* JADX WARN: Removed duplicated region for block: B:241:0x06a5 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:242:0x06a6  */
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -12549,6 +12549,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         this.themeSwitchSunView.setVisibility(0);
                         this.themeSwitchSunView.invalidate();
                     }
+                    RecyclerListView recyclerListView3 = this.sideMenu;
+                    if (recyclerListView3 != null && recyclerListView3.getChildCount() > 0) {
+                        View childAt2 = this.sideMenu.getChildAt(0);
+                        if (childAt2 instanceof DrawerProfileCell) {
+                            ((DrawerProfileCell) childAt2).updateSunDrawable(booleanValue4);
+                        }
+                    }
                     this.themeSwitchImageView.setImageBitmap(snapshotView);
                     this.themeSwitchImageView.setVisibility(0);
                     this.themeSwitchSunDrawable = rLottieImageView.getAnimatedDrawable();
@@ -12642,14 +12649,14 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             if (iNavigationLayout != null) {
             }
         } else if (i == NotificationCenter.notificationsCountUpdated) {
-            RecyclerListView recyclerListView3 = this.sideMenu;
-            if (recyclerListView3 != null) {
+            RecyclerListView recyclerListView4 = this.sideMenu;
+            if (recyclerListView4 != null) {
                 Integer num2 = (Integer) objArr[0];
-                int childCount = recyclerListView3.getChildCount();
+                int childCount = recyclerListView4.getChildCount();
                 for (int i10 = 0; i10 < childCount; i10++) {
-                    View childAt2 = this.sideMenu.getChildAt(i10);
-                    if ((childAt2 instanceof DrawerUserCell) && ((DrawerUserCell) childAt2).getAccountNumber() == num2.intValue()) {
-                        childAt2.invalidate();
+                    View childAt3 = this.sideMenu.getChildAt(i10);
+                    if ((childAt3 instanceof DrawerUserCell) && ((DrawerUserCell) childAt3).getAccountNumber() == num2.intValue()) {
+                        childAt3.invalidate();
                         return;
                     }
                 }
