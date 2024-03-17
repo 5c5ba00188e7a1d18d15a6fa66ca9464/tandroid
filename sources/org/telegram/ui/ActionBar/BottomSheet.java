@@ -1586,7 +1586,14 @@ public class BottomSheet extends Dialog {
             }
             this.titleView.setGravity(16);
             this.containerView.addView(this.titleView, LayoutHelper.createFrame(-1, this.multipleLinesTitle ? -2.0f : 48));
-            this.titleView.setOnTouchListener(BottomSheet$$ExternalSyntheticLambda7.INSTANCE);
+            this.titleView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ActionBar.BottomSheet$$ExternalSyntheticLambda7
+                @Override // android.view.View.OnTouchListener
+                public final boolean onTouch(View view, MotionEvent motionEvent) {
+                    boolean lambda$onCreate$2;
+                    lambda$onCreate$2 = BottomSheet.lambda$onCreate$2(view, motionEvent);
+                    return lambda$onCreate$2;
+                }
+            });
         } else {
             i = 0;
         }

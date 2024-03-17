@@ -1,9 +1,16 @@
 package j$.util.stream;
 
 import java.security.AccessController;
+import java.security.PrivilegedAction;
 /* loaded from: classes2.dex */
 abstract class Q4 {
-    static final boolean a = ((Boolean) AccessController.doPrivileged(P4.a)).booleanValue();
+    static final boolean a = ((Boolean) AccessController.doPrivileged(new PrivilegedAction() { // from class: j$.util.stream.P4
+        @Override // java.security.PrivilegedAction
+        public final Object run() {
+            boolean z = Q4.a;
+            return Boolean.valueOf(Boolean.getBoolean("org.openjdk.java.util.stream.tripwire"));
+        }
+    })).booleanValue();
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static void a(Class cls, String str) {

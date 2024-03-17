@@ -1923,7 +1923,14 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 this.inputFields[i18].setCursorSize(AndroidUtilities.dp(20.0f));
                 this.inputFields[i18].setCursorWidth(1.5f);
                 if (i18 == 0) {
-                    this.inputFields[i18].setOnTouchListener(PaymentFormActivity$$ExternalSyntheticLambda24.INSTANCE);
+                    this.inputFields[i18].setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.PaymentFormActivity$$ExternalSyntheticLambda24
+                        @Override // android.view.View.OnTouchListener
+                        public final boolean onTouch(View view4, MotionEvent motionEvent) {
+                            boolean lambda$createView$10;
+                            lambda$createView$10 = PaymentFormActivity.lambda$createView$10(view4, motionEvent);
+                            return lambda$createView$10;
+                        }
+                    });
                     this.inputFields[i18].setInputType(0);
                 } else {
                     this.inputFields[i18].setInputType(129);
@@ -2194,7 +2201,14 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                         PaymentFormActivity.this.ignoreOnTextChange = false;
                     }
                 });
-                this.inputFields[0].setOnEditorActionListener(PaymentFormActivity$$ExternalSyntheticLambda30.INSTANCE);
+                this.inputFields[0].setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.PaymentFormActivity$$ExternalSyntheticLambda30
+                    @Override // android.widget.TextView.OnEditorActionListener
+                    public final boolean onEditorAction(TextView textView2, int i28, KeyEvent keyEvent) {
+                        boolean lambda$createView$14;
+                        lambda$createView$14 = PaymentFormActivity.lambda$createView$14(textView2, i28, keyEvent);
+                        return lambda$createView$14;
+                    }
+                });
                 this.inputFields[0].requestFocus();
                 if (!this.paymentForm.invoice.suggested_tip_amounts.isEmpty()) {
                     HorizontalScrollView horizontalScrollView = new HorizontalScrollView(context);
@@ -3238,7 +3252,12 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$27(View view) {
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLRPC$TL_account_resendPasswordEmail(), PaymentFormActivity$$ExternalSyntheticLambda64.INSTANCE);
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLRPC$TL_account_resendPasswordEmail(), new RequestDelegate() { // from class: org.telegram.ui.PaymentFormActivity$$ExternalSyntheticLambda64
+            @Override // org.telegram.tgnet.RequestDelegate
+            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                PaymentFormActivity.lambda$createView$26(tLObject, tLRPC$TL_error);
+            }
+        });
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
         builder.setMessage(LocaleController.getString("ResendCodeInfo", R.string.ResendCodeInfo));
         builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
@@ -4982,7 +5001,12 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         if (this.paymentForm.saved_info != null && !this.saveShippingInfo) {
             TLRPC$TL_payments_clearSavedInfo tLRPC$TL_payments_clearSavedInfo = new TLRPC$TL_payments_clearSavedInfo();
             tLRPC$TL_payments_clearSavedInfo.info = true;
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_payments_clearSavedInfo, PaymentFormActivity$$ExternalSyntheticLambda65.INSTANCE);
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_payments_clearSavedInfo, new RequestDelegate() { // from class: org.telegram.ui.PaymentFormActivity$$ExternalSyntheticLambda65
+                @Override // org.telegram.tgnet.RequestDelegate
+                public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error) {
+                    PaymentFormActivity.lambda$sendForm$52(tLObject2, tLRPC$TL_error);
+                }
+            });
         }
         goToNextStep();
         setDonePressed(false);

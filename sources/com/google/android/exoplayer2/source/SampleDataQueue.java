@@ -14,8 +14,9 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-class SampleDataQueue {
+public class SampleDataQueue {
     private final int allocationLength;
     private final Allocator allocator;
     private AllocationNode firstAllocationNode;

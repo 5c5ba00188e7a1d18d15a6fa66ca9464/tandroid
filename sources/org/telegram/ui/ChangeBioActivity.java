@@ -78,7 +78,14 @@ public class ChangeBioActivity extends BaseFragment {
         this.fragmentView = linearLayout;
         LinearLayout linearLayout2 = linearLayout;
         linearLayout2.setOrientation(1);
-        this.fragmentView.setOnTouchListener(ChangeBioActivity$$ExternalSyntheticLambda1.INSTANCE);
+        this.fragmentView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ChangeBioActivity$$ExternalSyntheticLambda1
+            @Override // android.view.View.OnTouchListener
+            public final boolean onTouch(View view, MotionEvent motionEvent) {
+                boolean lambda$createView$0;
+                lambda$createView$0 = ChangeBioActivity.lambda$createView$0(view, motionEvent);
+                return lambda$createView$0;
+            }
+        });
         FrameLayout frameLayout = new FrameLayout(context);
         linearLayout2.addView(frameLayout, LayoutHelper.createLinear(-1, -2, 24.0f, 24.0f, 20.0f, 0.0f));
         EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(context) { // from class: org.telegram.ui.ChangeBioActivity.2

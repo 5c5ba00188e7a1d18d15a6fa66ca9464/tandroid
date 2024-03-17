@@ -2758,7 +2758,14 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
             }
         };
         this.changeDayNightView = view;
-        view.setOnTouchListener(PeerColorActivity$$ExternalSyntheticLambda4.INSTANCE);
+        view.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.PeerColorActivity$$ExternalSyntheticLambda4
+            @Override // android.view.View.OnTouchListener
+            public final boolean onTouch(View view2, MotionEvent motionEvent) {
+                boolean lambda$toggleTheme$5;
+                lambda$toggleTheme$5 = PeerColorActivity.lambda$toggleTheme$5(view2, motionEvent);
+                return lambda$toggleTheme$5;
+            }
+        });
         this.changeDayNightViewProgress = 0.0f;
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
         this.changeDayNightViewAnimator = ofFloat;

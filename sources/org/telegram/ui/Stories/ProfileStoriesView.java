@@ -23,6 +23,7 @@ import androidx.core.graphics.ColorUtils;
 import com.google.zxing.common.detector.MathUtils;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.ImageReceiver;
@@ -607,7 +608,14 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
             i3++;
         }
         if (z) {
-            Collections.sort(this.circles, ProfileStoriesView$$ExternalSyntheticLambda4.INSTANCE);
+            Collections.sort(this.circles, new Comparator() { // from class: org.telegram.ui.Stories.ProfileStoriesView$$ExternalSyntheticLambda4
+                @Override // java.util.Comparator
+                public final int compare(Object obj, Object obj2) {
+                    int lambda$dispatchDraw$2;
+                    lambda$dispatchDraw$2 = ProfileStoriesView.lambda$dispatchDraw$2((ProfileStoriesView.StoryCircle) obj, (ProfileStoriesView.StoryCircle) obj2);
+                    return lambda$dispatchDraw$2;
+                }
+            });
         }
         float clamp2 = Utilities.clamp(1.0f - (this.expandProgress / 0.2f), 1.0f, 0.0f);
         boolean isLastUploadingFailed = this.storiesController.isLastUploadingFailed(this.dialogId);

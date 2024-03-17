@@ -21,8 +21,9 @@ final class OpusReader extends StreamReader {
         return peekPacketStartsWith(parsableByteArray, OPUS_ID_HEADER_SIGNATURE);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.extractor.ogg.StreamReader
-    protected void reset(boolean z) {
+    public void reset(boolean z) {
         super.reset(z);
         if (z) {
             this.firstCommentHeaderSeen = false;

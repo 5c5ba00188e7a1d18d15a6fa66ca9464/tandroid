@@ -133,7 +133,14 @@ public class CameraController implements MediaRecorder.OnInfoListener {
             if (cameraController.cameraInfos == null) {
                 SharedPreferences globalMainSettings = MessagesController.getGlobalMainSettings();
                 String string = globalMainSettings.getString("cameraCache", null);
-                CameraController$$ExternalSyntheticLambda18 cameraController$$ExternalSyntheticLambda18 = CameraController$$ExternalSyntheticLambda18.INSTANCE;
+                CameraController$$ExternalSyntheticLambda18 cameraController$$ExternalSyntheticLambda18 = new Comparator() { // from class: org.telegram.messenger.camera.CameraController$$ExternalSyntheticLambda18
+                    @Override // java.util.Comparator
+                    public final int compare(Object obj, Object obj2) {
+                        int lambda$initCamera$0;
+                        lambda$initCamera$0 = CameraController.lambda$initCamera$0((Size) obj, (Size) obj2);
+                        return lambda$initCamera$0;
+                    }
+                };
                 ArrayList<CameraInfo> arrayList = new ArrayList<>();
                 if (string != null) {
                     SerializedData serializedData = new SerializedData(Base64.decode(string, 0));

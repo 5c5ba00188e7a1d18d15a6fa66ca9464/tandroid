@@ -70,7 +70,14 @@ public class ViewCompat {
         new AtomicInteger(1);
         sViewPropertyAnimatorMap = null;
         sAccessibilityDelegateCheckFailed = false;
-        NO_OP_ON_RECEIVE_CONTENT_VIEW_BEHAVIOR = ViewCompat$$ExternalSyntheticLambda0.INSTANCE;
+        NO_OP_ON_RECEIVE_CONTENT_VIEW_BEHAVIOR = new OnReceiveContentViewBehavior() { // from class: androidx.core.view.ViewCompat$$ExternalSyntheticLambda0
+            @Override // androidx.core.view.OnReceiveContentViewBehavior
+            public final ContentInfoCompat onReceiveContent(ContentInfoCompat contentInfoCompat) {
+                ContentInfoCompat lambda$static$0;
+                lambda$static$0 = ViewCompat.lambda$static$0(contentInfoCompat);
+                return lambda$static$0;
+            }
+        };
         sAccessibilityPaneVisibilityManager = new AccessibilityPaneVisibilityManager();
     }
 

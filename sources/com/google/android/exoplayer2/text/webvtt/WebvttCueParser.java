@@ -17,6 +17,7 @@ import com.google.android.exoplayer2.text.Cue;
 import com.google.android.exoplayer2.text.span.HorizontalTextInVerticalContextSpan;
 import com.google.android.exoplayer2.text.span.RubySpan;
 import com.google.android.exoplayer2.text.span.SpanUtil;
+import com.google.android.exoplayer2.text.webvtt.WebvttCueParser;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.ParsableByteArray;
@@ -890,7 +891,14 @@ public final class WebvttCueParser {
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class Element {
-        private static final Comparator<Element> BY_START_POSITION_ASC = WebvttCueParser$Element$$ExternalSyntheticLambda0.INSTANCE;
+        private static final Comparator<Element> BY_START_POSITION_ASC = new Comparator() { // from class: com.google.android.exoplayer2.text.webvtt.WebvttCueParser$Element$$ExternalSyntheticLambda0
+            @Override // java.util.Comparator
+            public final int compare(Object obj, Object obj2) {
+                int lambda$static$0;
+                lambda$static$0 = WebvttCueParser.Element.lambda$static$0((WebvttCueParser.Element) obj, (WebvttCueParser.Element) obj2);
+                return lambda$static$0;
+            }
+        };
         private final int endPosition;
         private final StartTag startTag;
 

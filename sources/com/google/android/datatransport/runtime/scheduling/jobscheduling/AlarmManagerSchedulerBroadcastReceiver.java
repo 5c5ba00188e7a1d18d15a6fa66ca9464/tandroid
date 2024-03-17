@@ -24,6 +24,11 @@ public class AlarmManagerSchedulerBroadcastReceiver extends BroadcastReceiver {
         if (queryParameter2 != null) {
             priority.setExtras(Base64.decode(queryParameter2, 0));
         }
-        TransportRuntime.getInstance().getUploader().upload(priority.build(), i, AlarmManagerSchedulerBroadcastReceiver$$ExternalSyntheticLambda0.INSTANCE);
+        TransportRuntime.getInstance().getUploader().upload(priority.build(), i, new Runnable() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                AlarmManagerSchedulerBroadcastReceiver.lambda$onReceive$0();
+            }
+        });
     }
 }

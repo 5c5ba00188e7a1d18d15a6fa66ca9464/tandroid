@@ -194,7 +194,12 @@ public class ChatGreetingsView extends LinearLayout {
             }
             this.premiumButtonView.setText(LocaleController.getString(R.string.MessagePremiumUnlock));
             this.premiumButtonView.setTextColor(getThemedColor(i));
-            this.premiumButtonView.setOnClickListener(ChatGreetingsView$$ExternalSyntheticLambda3.INSTANCE);
+            this.premiumButtonView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatGreetingsView$$ExternalSyntheticLambda3
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view) {
+                    ChatGreetingsView.lambda$setPremiumLock$1(view);
+                }
+            });
         }
         updateLayout();
     }

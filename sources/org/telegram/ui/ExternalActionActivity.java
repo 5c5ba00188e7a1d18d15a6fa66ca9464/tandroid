@@ -151,7 +151,12 @@ public class ExternalActionActivity extends Activity implements INavigationLayou
                     return lambda$onCreate$0;
                 }
             });
-            frameLayout.setOnClickListener(ExternalActionActivity$$ExternalSyntheticLambda3.INSTANCE);
+            frameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ExternalActionActivity$$ExternalSyntheticLambda3
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view) {
+                    ExternalActionActivity.lambda$onCreate$1(view);
+                }
+            });
             INavigationLayout newLayout = INavigationLayout.-CC.newLayout(this);
             this.layersActionBarLayout = newLayout;
             newLayout.setRemoveActionBarExtraHeight(true);

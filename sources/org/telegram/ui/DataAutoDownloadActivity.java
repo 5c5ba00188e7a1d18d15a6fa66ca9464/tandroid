@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.DownloadController;
 import org.telegram.messenger.LocaleController;
@@ -675,7 +676,14 @@ public class DataAutoDownloadActivity extends BaseFragment {
         if (!this.typePreset.equals(this.lowPreset) && !this.typePreset.equals(this.mediumPreset) && !this.typePreset.equals(this.highPreset)) {
             this.presets.add(this.typePreset);
         }
-        Collections.sort(this.presets, DataAutoDownloadActivity$$ExternalSyntheticLambda4.INSTANCE);
+        Collections.sort(this.presets, new Comparator() { // from class: org.telegram.ui.DataAutoDownloadActivity$$ExternalSyntheticLambda4
+            @Override // java.util.Comparator
+            public final int compare(Object obj, Object obj2) {
+                int lambda$fillPresets$5;
+                lambda$fillPresets$5 = DataAutoDownloadActivity.lambda$fillPresets$5((DownloadController.Preset) obj, (DownloadController.Preset) obj2);
+                return lambda$fillPresets$5;
+            }
+        });
         int i = this.currentPresetNum;
         if (i == 0 || (i == 3 && this.typePreset.equals(this.lowPreset))) {
             this.selectedPreset = this.presets.indexOf(this.lowPreset);

@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.BiConsumer;
+import j$.util.function.ToLongFunction;
 import j$.util.t;
 import java.util.Iterator;
 import java.util.Objects;
@@ -95,7 +96,32 @@ public abstract class d1 extends c implements e1 {
 
     @Override // j$.util.stream.e1
     public final j$.util.j average() {
-        long[] jArr = (long[]) f0(P0.a, O0.a, R0.a);
+        long[] jArr = (long[]) f0(new j$.util.function.y() { // from class: j$.util.stream.P0
+            @Override // j$.util.function.y
+            public final Object get() {
+                return new long[2];
+            }
+        }, new j$.util.function.w() { // from class: j$.util.stream.O0
+            @Override // j$.util.function.w
+            public final void accept(Object obj, long j) {
+                long[] jArr2 = (long[]) obj;
+                jArr2[0] = jArr2[0] + 1;
+                jArr2[1] = jArr2[1] + j;
+            }
+        }, new BiConsumer() { // from class: j$.util.stream.R0
+            @Override // j$.util.function.BiConsumer
+            public final void accept(Object obj, Object obj2) {
+                long[] jArr2 = (long[]) obj;
+                long[] jArr3 = (long[]) obj2;
+                jArr2[0] = jArr2[0] + jArr3[0];
+                jArr2[1] = jArr2[1] + jArr3[1];
+            }
+
+            @Override // j$.util.function.BiConsumer
+            public /* synthetic */ BiConsumer andThen(BiConsumer biConsumer) {
+                return BiConsumer.-CC.$default$andThen(this, biConsumer);
+            }
+        });
         if (jArr[0] > 0) {
             double d = jArr[1];
             double d2 = jArr[0];
@@ -113,7 +139,24 @@ public abstract class d1 extends c implements e1 {
 
     @Override // j$.util.stream.e1
     public final long count() {
-        return ((d1) z(Y0.a)).sum();
+        return ((d1) z(new j$.util.function.t() { // from class: j$.util.stream.Y0
+            @Override // j$.util.function.t
+            public j$.util.function.t a(j$.util.function.t tVar) {
+                Objects.requireNonNull(tVar);
+                return new j$.util.function.s(this, tVar, 0);
+            }
+
+            @Override // j$.util.function.t
+            public final long applyAsLong(long j) {
+                return 1L;
+            }
+
+            @Override // j$.util.function.t
+            public j$.util.function.t b(j$.util.function.t tVar) {
+                Objects.requireNonNull(tVar);
+                return new j$.util.function.s(this, tVar, 1);
+            }
+        })).sum();
     }
 
     public void d(j$.util.function.q qVar) {
@@ -123,7 +166,12 @@ public abstract class d1 extends c implements e1 {
 
     @Override // j$.util.stream.e1
     public final e1 distinct() {
-        return ((e3) Q(X0.a)).distinct().g0(Q0.a);
+        return ((e3) Q(X0.a)).distinct().g0(new ToLongFunction() { // from class: j$.util.stream.Q0
+            @Override // j$.util.function.ToLongFunction
+            public final long applyAsLong(Object obj) {
+                return ((Long) obj).longValue();
+            }
+        });
     }
 
     @Override // j$.util.stream.e1
@@ -181,12 +229,22 @@ public abstract class d1 extends c implements e1 {
 
     @Override // j$.util.stream.e1
     public final j$.util.l max() {
-        return g(U0.a);
+        return g(new j$.util.function.o() { // from class: j$.util.stream.U0
+            @Override // j$.util.function.o
+            public final long applyAsLong(long j, long j2) {
+                return Math.max(j, j2);
+            }
+        });
     }
 
     @Override // j$.util.stream.e1
     public final j$.util.l min() {
-        return g(V0.a);
+        return g(new j$.util.function.o() { // from class: j$.util.stream.V0
+            @Override // j$.util.function.o
+            public final long applyAsLong(long j, long j2) {
+                return Math.min(j, j2);
+            }
+        });
     }
 
     @Override // j$.util.stream.e1
@@ -221,12 +279,37 @@ public abstract class d1 extends c implements e1 {
 
     @Override // j$.util.stream.e1
     public final long sum() {
-        return ((Long) x0(new P2(e4.LONG_VALUE, T0.a, 0L))).longValue();
+        return ((Long) x0(new P2(e4.LONG_VALUE, new j$.util.function.o() { // from class: j$.util.stream.T0
+            @Override // j$.util.function.o
+            public final long applyAsLong(long j, long j2) {
+                return j + j2;
+            }
+        }, 0L))).longValue();
     }
 
     @Override // j$.util.stream.e1
     public final j$.util.i summaryStatistics() {
-        return (j$.util.i) f0(k.a, N0.a, M0.a);
+        return (j$.util.i) f0(new j$.util.function.y() { // from class: j$.util.stream.k
+            @Override // j$.util.function.y
+            public final Object get() {
+                return new j$.util.i();
+            }
+        }, new j$.util.function.w() { // from class: j$.util.stream.N0
+            @Override // j$.util.function.w
+            public final void accept(Object obj, long j) {
+                ((j$.util.i) obj).accept(j);
+            }
+        }, new BiConsumer() { // from class: j$.util.stream.M0
+            @Override // j$.util.function.BiConsumer
+            public final void accept(Object obj, Object obj2) {
+                ((j$.util.i) obj).b((j$.util.i) obj2);
+            }
+
+            @Override // j$.util.function.BiConsumer
+            public /* synthetic */ BiConsumer andThen(BiConsumer biConsumer) {
+                return BiConsumer.-CC.$default$andThen(this, biConsumer);
+            }
+        });
     }
 
     @Override // j$.util.stream.y2
@@ -236,7 +319,12 @@ public abstract class d1 extends c implements e1 {
 
     @Override // j$.util.stream.e1
     public final long[] toArray() {
-        return (long[]) x2.o((y1) y0(S0.a)).e();
+        return (long[]) x2.o((y1) y0(new j$.util.function.m() { // from class: j$.util.stream.S0
+            @Override // j$.util.function.m
+            public final Object apply(int i) {
+                return new Long[i];
+            }
+        })).e();
     }
 
     @Override // j$.util.stream.e1

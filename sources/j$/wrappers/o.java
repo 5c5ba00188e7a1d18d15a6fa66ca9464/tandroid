@@ -63,7 +63,7 @@ public final /* synthetic */ class o implements j$.util.u {
         return this.a.tryAdvance((Spliterator.OfPrimitive) obj);
     }
 
-    @Override // j$.util.u, j$.util.t
+    @Override // j$.util.t
     public /* synthetic */ j$.util.t trySplit() {
         return g.a(this.a.trySplit());
     }

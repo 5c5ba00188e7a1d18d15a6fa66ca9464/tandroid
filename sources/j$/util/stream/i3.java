@@ -31,7 +31,7 @@ public abstract class i3 implements m3 {
 
     @Override // j$.util.function.Consumer
     public /* synthetic */ Consumer andThen(Consumer consumer) {
-        return Objects.requireNonNull(consumer);
+        return Consumer.-CC.$default$andThen(this, consumer);
     }
 
     @Override // j$.util.stream.m3

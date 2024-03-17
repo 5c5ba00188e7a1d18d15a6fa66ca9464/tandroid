@@ -21,7 +21,14 @@ import java.util.List;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class FontProvider {
-    private static final Comparator<byte[]> sByteArrayComparator = FontProvider$$ExternalSyntheticLambda0.INSTANCE;
+    private static final Comparator<byte[]> sByteArrayComparator = new Comparator() { // from class: androidx.core.provider.FontProvider$$ExternalSyntheticLambda0
+        @Override // java.util.Comparator
+        public final int compare(Object obj, Object obj2) {
+            int lambda$static$0;
+            lambda$static$0 = FontProvider.lambda$static$0((byte[]) obj, (byte[]) obj2);
+            return lambda$static$0;
+        }
+    };
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static FontsContractCompat.FontFamilyResult getFontFamilyResult(Context context, FontRequest fontRequest, CancellationSignal cancellationSignal) throws PackageManager.NameNotFoundException {

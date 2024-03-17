@@ -158,7 +158,12 @@ public class UnconfirmedAuthHintCell extends FrameLayout {
         spannableString.setSpan(coloredImageSpan, 0, spannableString.length(), 33);
         AndroidUtilities.replaceCharSequence(">", replaceSingleTag, spannableString);
         BulletinFactory.of(baseFragment).createSimpleBulletin(R.raw.contact_check, LocaleController.getString(R.string.UnconfirmedAuthConfirmed), replaceSingleTag).show();
-        MessagesController.getInstance(i).getUnconfirmedAuthController().confirm(arrayList, UnconfirmedAuthHintCell$$ExternalSyntheticLambda6.INSTANCE);
+        MessagesController.getInstance(i).getUnconfirmedAuthController().confirm(arrayList, new Utilities.Callback() { // from class: org.telegram.ui.Cells.UnconfirmedAuthHintCell$$ExternalSyntheticLambda6
+            @Override // org.telegram.messenger.Utilities.Callback
+            public final void run(Object obj) {
+                UnconfirmedAuthHintCell.lambda$set$1((ArrayList) obj);
+            }
+        });
         MessagesController.getInstance(i).getUnconfirmedAuthController().cleanup();
     }
 

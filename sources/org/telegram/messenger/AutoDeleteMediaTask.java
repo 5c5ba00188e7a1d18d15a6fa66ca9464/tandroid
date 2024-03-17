@@ -5,7 +5,9 @@ import j$.util.concurrent.ConcurrentHashMap;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Set;
+import org.telegram.messenger.AutoDeleteMediaTask;
 import org.telegram.messenger.CacheByChatsController;
 import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes3.dex */
@@ -242,7 +244,14 @@ public class AutoDeleteMediaTask {
                 for (int i18 = 0; i18 < arrayList2.size(); i18++) {
                     ((CacheByChatsController) arrayList2.get(i18)).lookupFiles(arrayList4);
                 }
-                Collections.sort(arrayList4, AutoDeleteMediaTask$$ExternalSyntheticLambda1.INSTANCE);
+                Collections.sort(arrayList4, new Comparator() { // from class: org.telegram.messenger.AutoDeleteMediaTask$$ExternalSyntheticLambda1
+                    @Override // java.util.Comparator
+                    public final int compare(Object obj, Object obj2) {
+                        int lambda$run$0;
+                        lambda$run$0 = AutoDeleteMediaTask.lambda$run$0((AutoDeleteMediaTask.FileInfoInternal) obj, (AutoDeleteMediaTask.FileInfoInternal) obj2);
+                        return lambda$run$0;
+                    }
+                });
                 int i19 = 0;
                 i4 = 0;
                 j = 0;

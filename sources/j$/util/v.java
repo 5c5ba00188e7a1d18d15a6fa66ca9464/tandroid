@@ -2,7 +2,6 @@ package j$.util;
 
 import j$.util.function.Consumer;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 /* loaded from: classes2.dex */
 class v implements java.util.Iterator, Consumer {
     boolean a = false;
@@ -22,7 +21,7 @@ class v implements java.util.Iterator, Consumer {
 
     @Override // j$.util.function.Consumer
     public /* synthetic */ Consumer andThen(Consumer consumer) {
-        return Objects.requireNonNull(consumer);
+        return Consumer.-CC.$default$andThen(this, consumer);
     }
 
     @Override // java.util.Iterator

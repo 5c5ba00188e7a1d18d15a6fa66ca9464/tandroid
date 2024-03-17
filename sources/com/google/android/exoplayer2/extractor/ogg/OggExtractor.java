@@ -1,14 +1,17 @@
 package com.google.android.exoplayer2.extractor.ogg;
 
+import android.net.Uri;
 import com.google.android.exoplayer2.ParserException;
 import com.google.android.exoplayer2.extractor.Extractor;
 import com.google.android.exoplayer2.extractor.ExtractorInput;
 import com.google.android.exoplayer2.extractor.ExtractorOutput;
+import com.google.android.exoplayer2.extractor.ExtractorsFactory;
 import com.google.android.exoplayer2.extractor.PositionHolder;
 import com.google.android.exoplayer2.extractor.TrackOutput;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.io.IOException;
+import java.util.Map;
 /* loaded from: classes.dex */
 public class OggExtractor implements Extractor {
     private ExtractorOutput output;
@@ -20,7 +23,21 @@ public class OggExtractor implements Extractor {
     }
 
     static {
-        OggExtractor$$ExternalSyntheticLambda0 oggExtractor$$ExternalSyntheticLambda0 = OggExtractor$$ExternalSyntheticLambda0.INSTANCE;
+        OggExtractor$$ExternalSyntheticLambda0 oggExtractor$$ExternalSyntheticLambda0 = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.ogg.OggExtractor$$ExternalSyntheticLambda0
+            @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
+            public final Extractor[] createExtractors() {
+                Extractor[] lambda$static$0;
+                lambda$static$0 = OggExtractor.lambda$static$0();
+                return lambda$static$0;
+            }
+
+            @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
+            public /* synthetic */ Extractor[] createExtractors(Uri uri, Map map) {
+                Extractor[] createExtractors;
+                createExtractors = createExtractors();
+                return createExtractors;
+            }
+        };
     }
 
     /* JADX INFO: Access modifiers changed from: private */

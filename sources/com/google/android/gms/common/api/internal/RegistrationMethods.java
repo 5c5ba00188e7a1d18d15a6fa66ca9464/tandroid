@@ -21,7 +21,11 @@ public class RegistrationMethods<A extends Api.AnyClient, L> {
         private ListenerHolder zad;
         private Feature[] zae;
         private int zag;
-        private Runnable zac = zacj.zaa;
+        private Runnable zac = new Runnable() { // from class: com.google.android.gms.common.api.internal.zacj
+            @Override // java.lang.Runnable
+            public final void run() {
+            }
+        };
         private boolean zaf = true;
 
         /* synthetic */ Builder(zacm zacmVar) {

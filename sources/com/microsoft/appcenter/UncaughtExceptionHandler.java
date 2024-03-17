@@ -7,9 +7,8 @@ import com.microsoft.appcenter.utils.ShutdownHelper;
 import java.lang.Thread;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class UncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
+class UncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
     private final Channel mChannel;
     private Thread.UncaughtExceptionHandler mDefaultUncaughtExceptionHandler;
     private final Handler mHandler;

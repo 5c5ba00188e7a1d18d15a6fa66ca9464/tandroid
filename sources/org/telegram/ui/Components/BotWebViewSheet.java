@@ -91,6 +91,7 @@ import org.telegram.ui.Components.BotWebViewMenuContainer;
 import org.telegram.ui.Components.BotWebViewSheet;
 import org.telegram.ui.Components.Bulletin;
 import org.telegram.ui.Components.ChatAttachAlertBotWebViewLayout;
+import org.telegram.ui.Components.SimpleFloatPropertyCompat;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.DialogsActivity;
 import org.telegram.ui.LaunchActivity;
@@ -98,7 +99,19 @@ import org.telegram.ui.PaymentFormActivity;
 import org.telegram.ui.TopicsFragment;
 /* loaded from: classes4.dex */
 public class BotWebViewSheet extends Dialog implements NotificationCenter.NotificationCenterDelegate {
-    private static final SimpleFloatPropertyCompat<BotWebViewSheet> ACTION_BAR_TRANSITION_PROGRESS_VALUE = new SimpleFloatPropertyCompat("actionBarTransitionProgress", BotWebViewSheet$$ExternalSyntheticLambda25.INSTANCE, BotWebViewSheet$$ExternalSyntheticLambda26.INSTANCE).setMultiplier(100.0f);
+    private static final SimpleFloatPropertyCompat<BotWebViewSheet> ACTION_BAR_TRANSITION_PROGRESS_VALUE = new SimpleFloatPropertyCompat("actionBarTransitionProgress", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.Components.BotWebViewSheet$$ExternalSyntheticLambda25
+        @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Getter
+        public final float get(Object obj) {
+            float f;
+            f = ((BotWebViewSheet) obj).actionBarTransitionProgress;
+            return f;
+        }
+    }, new SimpleFloatPropertyCompat.Setter() { // from class: org.telegram.ui.Components.BotWebViewSheet$$ExternalSyntheticLambda26
+        @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Setter
+        public final void set(Object obj, float f) {
+            BotWebViewSheet.lambda$static$2((BotWebViewSheet) obj, f);
+        }
+    }).setMultiplier(100.0f);
     private ActionBar actionBar;
     private int actionBarColor;
     private boolean actionBarIsLight;
@@ -1003,7 +1016,14 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         }
         this.frameLayout.setSystemUiVisibility(1280);
         if (i >= 21) {
-            this.frameLayout.setOnApplyWindowInsetsListener(BotWebViewSheet$$ExternalSyntheticLambda3.INSTANCE);
+            this.frameLayout.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() { // from class: org.telegram.ui.Components.BotWebViewSheet$$ExternalSyntheticLambda3
+                @Override // android.view.View.OnApplyWindowInsetsListener
+                public final WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
+                    WindowInsets lambda$onCreate$14;
+                    lambda$onCreate$14 = BotWebViewSheet.lambda$onCreate$14(view, windowInsets);
+                    return lambda$onCreate$14;
+                }
+            });
         }
         if (i >= 26) {
             AndroidUtilities.setLightNavigationBar(window, ColorUtils.calculateLuminance(Theme.getColor(Theme.key_windowBackgroundWhite, null, true)) >= 0.9d);

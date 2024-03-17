@@ -44,13 +44,38 @@ import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.GestureDetectorFixDoubleTap;
 import org.telegram.ui.Components.PipVideoOverlay;
+import org.telegram.ui.Components.SimpleFloatPropertyCompat;
 import org.telegram.ui.Components.VideoForwardDrawable;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PhotoViewer;
 /* loaded from: classes4.dex */
 public class PipVideoOverlay {
-    private static final FloatPropertyCompat<PipVideoOverlay> PIP_X_PROPERTY = new SimpleFloatPropertyCompat("pipX", PipVideoOverlay$$ExternalSyntheticLambda11.INSTANCE, PipVideoOverlay$$ExternalSyntheticLambda13.INSTANCE);
-    private static final FloatPropertyCompat<PipVideoOverlay> PIP_Y_PROPERTY = new SimpleFloatPropertyCompat("pipY", PipVideoOverlay$$ExternalSyntheticLambda10.INSTANCE, PipVideoOverlay$$ExternalSyntheticLambda12.INSTANCE);
+    private static final FloatPropertyCompat<PipVideoOverlay> PIP_X_PROPERTY = new SimpleFloatPropertyCompat("pipX", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda11
+        @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Getter
+        public final float get(Object obj) {
+            float f;
+            f = ((PipVideoOverlay) obj).pipX;
+            return f;
+        }
+    }, new SimpleFloatPropertyCompat.Setter() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda13
+        @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Setter
+        public final void set(Object obj, float f) {
+            PipVideoOverlay.lambda$static$1((PipVideoOverlay) obj, f);
+        }
+    });
+    private static final FloatPropertyCompat<PipVideoOverlay> PIP_Y_PROPERTY = new SimpleFloatPropertyCompat("pipY", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda10
+        @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Getter
+        public final float get(Object obj) {
+            float f;
+            f = ((PipVideoOverlay) obj).pipY;
+            return f;
+        }
+    }, new SimpleFloatPropertyCompat.Setter() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda12
+        @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Setter
+        public final void set(Object obj, float f) {
+            PipVideoOverlay.lambda$static$3((PipVideoOverlay) obj, f);
+        }
+    });
     @SuppressLint({"StaticFieldLeak"})
     private static PipVideoOverlay instance = new PipVideoOverlay();
     private Float aspectRatio;
@@ -826,7 +851,12 @@ public class PipVideoOverlay {
         int i6 = Theme.key_listSelector;
         imageView.setBackground(Theme.createSelectorDrawable(Theme.getColor(i6)));
         imageView.setPadding(dp, dp, dp, dp);
-        imageView.setOnClickListener(PipVideoOverlay$$ExternalSyntheticLambda3.INSTANCE);
+        imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda3
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view3) {
+                PipVideoOverlay.dismissAndDestroy();
+            }
+        });
         float f = 38;
         float f2 = 4;
         this.controlsView.addView(imageView, LayoutHelper.createFrame(38, f, 5, 0.0f, f2, f2, 0.0f));

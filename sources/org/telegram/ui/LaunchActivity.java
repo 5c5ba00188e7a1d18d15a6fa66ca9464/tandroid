@@ -74,7 +74,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -384,7 +383,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     private Consumer<Boolean> blurListener = new Consumer<Boolean>(this) { // from class: org.telegram.ui.LaunchActivity.1
         @Override // j$.util.function.Consumer
         public /* synthetic */ Consumer<Boolean> andThen(Consumer<? super Boolean> consumer) {
-            return Objects.requireNonNull(consumer);
+            return Consumer.-CC.$default$andThen(this, consumer);
         }
 
         @Override // j$.util.function.Consumer
@@ -456,7 +455,14 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             }
         }
         getWindow().setBackgroundDrawableResource(R.drawable.transparent);
-        FlagSecureReason flagSecureReason = new FlagSecureReason(getWindow(), LaunchActivity$$ExternalSyntheticLambda104.INSTANCE);
+        FlagSecureReason flagSecureReason = new FlagSecureReason(getWindow(), new FlagSecureReason.FlagSecureCondition() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda104
+            @Override // org.telegram.messenger.FlagSecureReason.FlagSecureCondition
+            public final boolean run() {
+                boolean lambda$onCreate$0;
+                lambda$onCreate$0 = LaunchActivity.lambda$onCreate$0();
+                return lambda$onCreate$0;
+            }
+        });
         this.flagSecureReason = flagSecureReason;
         flagSecureReason.attach();
         super.onCreate(bundle);
@@ -1340,7 +1346,12 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     return lambda$setupActionBarLayout$10;
                 }
             });
-            this.shadowTablet.setOnClickListener(LaunchActivity$$ExternalSyntheticLambda19.INSTANCE);
+            this.shadowTablet.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda19
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view2) {
+                    LaunchActivity.lambda$setupActionBarLayout$11(view2);
+                }
+            });
             INavigationLayout newLayout2 = INavigationLayout.-CC.newLayout(this);
             this.layersActionBarLayout = newLayout2;
             newLayout2.setRemoveActionBarExtraHeight(true);
@@ -1600,7 +1611,14 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     public void switchToAccount(int i, boolean z) {
-        switchToAccount(i, z, LaunchActivity$$ExternalSyntheticLambda105.INSTANCE);
+        switchToAccount(i, z, new GenericProvider() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda105
+            @Override // org.telegram.messenger.GenericProvider
+            public final Object provide(Object obj) {
+                DialogsActivity lambda$switchToAccount$12;
+                lambda$switchToAccount$12 = LaunchActivity.lambda$switchToAccount$12((Void) obj);
+                return lambda$switchToAccount$12;
+            }
+        });
     }
 
     public void switchToAccount(int i, boolean z, GenericProvider<Void, DialogsActivity> genericProvider) {
@@ -12069,7 +12087,12 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         ApplicationLoader.mainInterfacePaused = false;
         MessagesController.getInstance(this.currentAccount).sortDialogs(null);
         showLanguageAlert(false);
-        Utilities.stageQueue.postRunnable(LaunchActivity$$ExternalSyntheticLambda102.INSTANCE);
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda102
+            @Override // java.lang.Runnable
+            public final void run() {
+                LaunchActivity.lambda$onResume$128();
+            }
+        });
         checkFreeDiscSpace(0);
         MediaController.checkGallery();
         onPasscodeResume();

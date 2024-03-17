@@ -47,10 +47,58 @@ public class CodeNumberField extends EditTextBoldCursor {
     private float successScaleProgress;
     private SpringAnimation successScaleSpringAnimation;
     private SpringAnimation successSpringAnimation;
-    private static final FloatPropertyCompat<CodeNumberField> FOCUSED_PROGRESS = new SimpleFloatPropertyCompat("focusedProgress", CodeNumberField$$ExternalSyntheticLambda4.INSTANCE, CodeNumberField$$ExternalSyntheticLambda6.INSTANCE).setMultiplier(100.0f);
-    private static final FloatPropertyCompat<CodeNumberField> ERROR_PROGRESS = new SimpleFloatPropertyCompat("errorProgress", CodeNumberField$$ExternalSyntheticLambda3.INSTANCE, CodeNumberField$$ExternalSyntheticLambda9.INSTANCE).setMultiplier(100.0f);
-    private static final FloatPropertyCompat<CodeNumberField> SUCCESS_PROGRESS = new SimpleFloatPropertyCompat("successProgress", CodeNumberField$$ExternalSyntheticLambda2.INSTANCE, CodeNumberField$$ExternalSyntheticLambda7.INSTANCE).setMultiplier(100.0f);
-    private static final FloatPropertyCompat<CodeNumberField> SUCCESS_SCALE_PROGRESS = new SimpleFloatPropertyCompat("successScaleProgress", CodeNumberField$$ExternalSyntheticLambda5.INSTANCE, CodeNumberField$$ExternalSyntheticLambda8.INSTANCE).setMultiplier(100.0f);
+    private static final FloatPropertyCompat<CodeNumberField> FOCUSED_PROGRESS = new SimpleFloatPropertyCompat("focusedProgress", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda4
+        @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Getter
+        public final float get(Object obj) {
+            float f;
+            f = ((CodeNumberField) obj).focusedProgress;
+            return f;
+        }
+    }, new SimpleFloatPropertyCompat.Setter() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda6
+        @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Setter
+        public final void set(Object obj, float f) {
+            CodeNumberField.lambda$static$1((CodeNumberField) obj, f);
+        }
+    }).setMultiplier(100.0f);
+    private static final FloatPropertyCompat<CodeNumberField> ERROR_PROGRESS = new SimpleFloatPropertyCompat("errorProgress", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda3
+        @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Getter
+        public final float get(Object obj) {
+            float f;
+            f = ((CodeNumberField) obj).errorProgress;
+            return f;
+        }
+    }, new SimpleFloatPropertyCompat.Setter() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda9
+        @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Setter
+        public final void set(Object obj, float f) {
+            CodeNumberField.lambda$static$3((CodeNumberField) obj, f);
+        }
+    }).setMultiplier(100.0f);
+    private static final FloatPropertyCompat<CodeNumberField> SUCCESS_PROGRESS = new SimpleFloatPropertyCompat("successProgress", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda2
+        @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Getter
+        public final float get(Object obj) {
+            float f;
+            f = ((CodeNumberField) obj).successProgress;
+            return f;
+        }
+    }, new SimpleFloatPropertyCompat.Setter() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda7
+        @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Setter
+        public final void set(Object obj, float f) {
+            CodeNumberField.lambda$static$5((CodeNumberField) obj, f);
+        }
+    }).setMultiplier(100.0f);
+    private static final FloatPropertyCompat<CodeNumberField> SUCCESS_SCALE_PROGRESS = new SimpleFloatPropertyCompat("successScaleProgress", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda5
+        @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Getter
+        public final float get(Object obj) {
+            float f;
+            f = ((CodeNumberField) obj).successScaleProgress;
+            return f;
+        }
+    }, new SimpleFloatPropertyCompat.Setter() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda8
+        @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Setter
+        public final void set(Object obj, float f) {
+            CodeNumberField.lambda$static$7((CodeNumberField) obj, f);
+        }
+    }).setMultiplier(100.0f);
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$static$1(CodeNumberField codeNumberField, float f) {

@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.BiConsumer;
+import j$.util.function.ToIntFunction;
 import j$.util.p;
 import j$.util.t;
 import java.util.Iterator;
@@ -117,7 +118,32 @@ public abstract class L0 extends c implements IntStream {
 
     @Override // j$.util.stream.IntStream
     public final j$.util.j average() {
-        long[] jArr = (long[]) k0(v0.a, u0.a, x0.a);
+        long[] jArr = (long[]) k0(new j$.util.function.y() { // from class: j$.util.stream.v0
+            @Override // j$.util.function.y
+            public final Object get() {
+                return new long[2];
+            }
+        }, new j$.util.function.v() { // from class: j$.util.stream.u0
+            @Override // j$.util.function.v
+            public final void accept(Object obj, int i) {
+                long[] jArr2 = (long[]) obj;
+                jArr2[0] = jArr2[0] + 1;
+                jArr2[1] = jArr2[1] + i;
+            }
+        }, new BiConsumer() { // from class: j$.util.stream.x0
+            @Override // j$.util.function.BiConsumer
+            public final void accept(Object obj, Object obj2) {
+                long[] jArr2 = (long[]) obj;
+                long[] jArr3 = (long[]) obj2;
+                jArr2[0] = jArr2[0] + jArr3[0];
+                jArr2[1] = jArr2[1] + jArr3[1];
+            }
+
+            @Override // j$.util.function.BiConsumer
+            public /* synthetic */ BiConsumer andThen(BiConsumer biConsumer) {
+                return BiConsumer.-CC.$default$andThen(this, biConsumer);
+            }
+        });
         if (jArr[0] > 0) {
             double d = jArr[1];
             double d2 = jArr[0];
@@ -141,12 +167,22 @@ public abstract class L0 extends c implements IntStream {
 
     @Override // j$.util.stream.IntStream
     public final long count() {
-        return ((d1) f(E0.a)).sum();
+        return ((d1) f(new j$.util.function.n() { // from class: j$.util.stream.E0
+            @Override // j$.util.function.n
+            public final long applyAsLong(int i) {
+                return 1L;
+            }
+        })).sum();
     }
 
     @Override // j$.util.stream.IntStream
     public final IntStream distinct() {
-        return ((e3) J(C0.a)).distinct().m(w0.a);
+        return ((e3) J(C0.a)).distinct().m(new ToIntFunction() { // from class: j$.util.stream.w0
+            @Override // j$.util.function.ToIntFunction
+            public final int applyAsInt(Object obj) {
+                return ((Integer) obj).intValue();
+            }
+        });
     }
 
     @Override // j$.util.stream.IntStream
@@ -199,12 +235,22 @@ public abstract class L0 extends c implements IntStream {
 
     @Override // j$.util.stream.IntStream
     public final j$.util.k max() {
-        return a0(z0.a);
+        return a0(new j$.util.function.j() { // from class: j$.util.stream.z0
+            @Override // j$.util.function.j
+            public final int applyAsInt(int i, int i2) {
+                return Math.max(i, i2);
+            }
+        });
     }
 
     @Override // j$.util.stream.IntStream
     public final j$.util.k min() {
-        return a0(A0.a);
+        return a0(new j$.util.function.j() { // from class: j$.util.stream.A0
+            @Override // j$.util.function.j
+            public final int applyAsInt(int i, int i2) {
+                return Math.min(i, i2);
+            }
+        });
     }
 
     @Override // j$.util.stream.IntStream
@@ -234,12 +280,37 @@ public abstract class L0 extends c implements IntStream {
 
     @Override // j$.util.stream.IntStream
     public final int sum() {
-        return ((Integer) x0(new L2(e4.INT_VALUE, y0.a, 0))).intValue();
+        return ((Integer) x0(new L2(e4.INT_VALUE, new j$.util.function.j() { // from class: j$.util.stream.y0
+            @Override // j$.util.function.j
+            public final int applyAsInt(int i, int i2) {
+                return i + i2;
+            }
+        }, 0))).intValue();
     }
 
     @Override // j$.util.stream.IntStream
     public final j$.util.h summaryStatistics() {
-        return (j$.util.h) k0(j.a, t0.a, s0.a);
+        return (j$.util.h) k0(new j$.util.function.y() { // from class: j$.util.stream.j
+            @Override // j$.util.function.y
+            public final Object get() {
+                return new j$.util.h();
+            }
+        }, new j$.util.function.v() { // from class: j$.util.stream.t0
+            @Override // j$.util.function.v
+            public final void accept(Object obj, int i) {
+                ((j$.util.h) obj).accept(i);
+            }
+        }, new BiConsumer() { // from class: j$.util.stream.s0
+            @Override // j$.util.function.BiConsumer
+            public final void accept(Object obj, Object obj2) {
+                ((j$.util.h) obj).b((j$.util.h) obj2);
+            }
+
+            @Override // j$.util.function.BiConsumer
+            public /* synthetic */ BiConsumer andThen(BiConsumer biConsumer) {
+                return BiConsumer.-CC.$default$andThen(this, biConsumer);
+            }
+        });
     }
 
     @Override // j$.util.stream.y2
@@ -249,7 +320,12 @@ public abstract class L0 extends c implements IntStream {
 
     @Override // j$.util.stream.IntStream
     public final int[] toArray() {
-        return (int[]) x2.n((w1) y0(D0.a)).e();
+        return (int[]) x2.n((w1) y0(new j$.util.function.m() { // from class: j$.util.stream.D0
+            @Override // j$.util.function.m
+            public final Object apply(int i) {
+                return new Integer[i];
+            }
+        })).e();
     }
 
     @Override // j$.util.stream.g

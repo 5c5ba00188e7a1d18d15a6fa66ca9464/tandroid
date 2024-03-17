@@ -5,6 +5,7 @@ import androidx.savedstate.SavedStateRegistry;
 import java.util.Map;
 import kotlin.Lazy;
 import kotlin.LazyKt__LazyJVMKt;
+import kotlin.jvm.functions.Function0;
 import kotlin.jvm.internal.Intrinsics;
 /* compiled from: SavedStateHandleSupport.kt */
 /* loaded from: classes.dex */
@@ -14,12 +15,22 @@ public final class SavedStateHandlesProvider implements SavedStateRegistry.Saved
     private final SavedStateRegistry savedStateRegistry;
     private final Lazy viewModel$delegate;
 
-    public SavedStateHandlesProvider(SavedStateRegistry savedStateRegistry, ViewModelStoreOwner viewModelStoreOwner) {
+    public SavedStateHandlesProvider(SavedStateRegistry savedStateRegistry, final ViewModelStoreOwner viewModelStoreOwner) {
         Lazy lazy;
         Intrinsics.checkNotNullParameter(savedStateRegistry, "savedStateRegistry");
         Intrinsics.checkNotNullParameter(viewModelStoreOwner, "viewModelStoreOwner");
         this.savedStateRegistry = savedStateRegistry;
-        lazy = LazyKt__LazyJVMKt.lazy(new SavedStateHandlesProvider$viewModel$2(viewModelStoreOwner));
+        lazy = LazyKt__LazyJVMKt.lazy(new Function0<SavedStateHandlesVM>() { // from class: androidx.lifecycle.SavedStateHandlesProvider$viewModel$2
+            /* JADX INFO: Access modifiers changed from: package-private */
+            {
+                super(0);
+            }
+
+            @Override // kotlin.jvm.functions.Function0
+            public final SavedStateHandlesVM invoke() {
+                return SavedStateHandleSupport.getSavedStateHandlesVM(ViewModelStoreOwner.this);
+            }
+        });
         this.viewModel$delegate = lazy;
     }
 

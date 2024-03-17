@@ -1,12 +1,27 @@
 package com.google.android.exoplayer2.upstream;
 
+import com.google.android.exoplayer2.upstream.SlidingPercentile;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 /* loaded from: classes.dex */
 public class SlidingPercentile {
-    private static final Comparator<Sample> INDEX_COMPARATOR = SlidingPercentile$$ExternalSyntheticLambda1.INSTANCE;
-    private static final Comparator<Sample> VALUE_COMPARATOR = SlidingPercentile$$ExternalSyntheticLambda0.INSTANCE;
+    private static final Comparator<Sample> INDEX_COMPARATOR = new Comparator() { // from class: com.google.android.exoplayer2.upstream.SlidingPercentile$$ExternalSyntheticLambda1
+        @Override // java.util.Comparator
+        public final int compare(Object obj, Object obj2) {
+            int lambda$static$0;
+            lambda$static$0 = SlidingPercentile.lambda$static$0((SlidingPercentile.Sample) obj, (SlidingPercentile.Sample) obj2);
+            return lambda$static$0;
+        }
+    };
+    private static final Comparator<Sample> VALUE_COMPARATOR = new Comparator() { // from class: com.google.android.exoplayer2.upstream.SlidingPercentile$$ExternalSyntheticLambda0
+        @Override // java.util.Comparator
+        public final int compare(Object obj, Object obj2) {
+            int lambda$static$1;
+            lambda$static$1 = SlidingPercentile.lambda$static$1((SlidingPercentile.Sample) obj, (SlidingPercentile.Sample) obj2);
+            return lambda$static$1;
+        }
+    };
     private final int maxWeight;
     private int nextSampleIndex;
     private int recycledSampleCount;

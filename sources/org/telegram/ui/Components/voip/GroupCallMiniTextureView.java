@@ -221,9 +221,8 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                 this.overlayIconAlphaFrom = GroupCallMiniTextureView.this.overlayIconAlpha;
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.voip.VoIPTextureView
-            public void updateRendererSize() {
+            protected void updateRendererSize() {
                 super.updateRendererSize();
                 ImageView imageView = GroupCallMiniTextureView.this.blurredFlippingStub;
                 if (imageView == null || imageView.getParent() == null) {
@@ -233,9 +232,8 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                 GroupCallMiniTextureView.this.blurredFlippingStub.getLayoutParams().height = GroupCallMiniTextureView.this.textureView.renderer.getMeasuredHeight();
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.voip.VoIPTextureView, android.view.ViewGroup, android.view.View
-            public void dispatchDraw(Canvas canvas) {
+            protected void dispatchDraw(Canvas canvas) {
                 float f;
                 float dp;
                 float f2;
@@ -452,9 +450,8 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                 GroupCallMiniTextureView.this.invalidateFromChild = false;
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.voip.VoIPTextureView, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-            public void onLayout(boolean z, int i, int i2, int i3, int i4) {
+            protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
                 int i5;
                 ChatObject.VideoParticipant videoParticipant;
                 GroupCallMiniTextureView groupCallMiniTextureView = GroupCallMiniTextureView.this;

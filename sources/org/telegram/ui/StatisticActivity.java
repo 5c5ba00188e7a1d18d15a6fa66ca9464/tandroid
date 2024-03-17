@@ -29,6 +29,7 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import j$.util.Comparator$-CC;
+import j$.util.function.ToLongFunction;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -267,7 +268,12 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
         this.recentAllSortedDataLoaded.clear();
         this.recentAllSortedDataLoaded.addAll(this.recentPostsLoaded);
         this.recentAllSortedDataLoaded.addAll(this.recentStoriesLoaded);
-        Collections.sort(this.recentAllSortedDataLoaded, Collections.reverseOrder(Comparator$-CC.comparingLong(StatisticActivity$$ExternalSyntheticLambda5.INSTANCE)));
+        Collections.sort(this.recentAllSortedDataLoaded, Collections.reverseOrder(Comparator$-CC.comparingLong(new ToLongFunction() { // from class: org.telegram.ui.StatisticActivity$$ExternalSyntheticLambda5
+            @Override // j$.util.function.ToLongFunction
+            public final long applyAsLong(Object obj) {
+                return ((StatisticActivity.RecentPostInfo) obj).getDate();
+            }
+        })));
     }
 
     /* JADX WARN: Multi-variable type inference failed */

@@ -44,7 +44,14 @@ import org.telegram.ui.ContactsActivity;
 import org.telegram.ui.DialogsActivity;
 /* loaded from: classes3.dex */
 public class DialogOrContactPickerActivity extends BaseFragment {
-    private static final Interpolator interpolator = DialogOrContactPickerActivity$$ExternalSyntheticLambda1.INSTANCE;
+    private static final Interpolator interpolator = new Interpolator() { // from class: org.telegram.ui.DialogOrContactPickerActivity$$ExternalSyntheticLambda1
+        @Override // android.animation.TimeInterpolator
+        public final float getInterpolation(float f) {
+            float lambda$static$0;
+            lambda$static$0 = DialogOrContactPickerActivity.lambda$static$0(f);
+            return lambda$static$0;
+        }
+    };
     private boolean animatingForward;
     private boolean backAnimation;
     private ContactsActivity contactsActivity;

@@ -71,6 +71,7 @@ import androidx.core.math.MathUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -11797,7 +11798,14 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                     i187 = 2;
                                                 }
                                                 if (z71 && i195 != 0) {
-                                                    Collections.sort(arrayList10, ChatMessageCell$$ExternalSyntheticLambda11.INSTANCE);
+                                                    Collections.sort(arrayList10, new Comparator() { // from class: org.telegram.ui.Cells.ChatMessageCell$$ExternalSyntheticLambda11
+                                                        @Override // java.util.Comparator
+                                                        public final int compare(Object obj2, Object obj3) {
+                                                            int lambda$setMessageContent$8;
+                                                            lambda$setMessageContent$8 = ChatMessageCell.lambda$setMessageContent$8((ChatMessageCell.PollButton) obj2, (ChatMessageCell.PollButton) obj3);
+                                                            return lambda$setMessageContent$8;
+                                                        }
+                                                    });
                                                     int min4 = Math.min(i195, arrayList10.size());
                                                     int i202 = 0;
                                                     while (i202 < min4) {

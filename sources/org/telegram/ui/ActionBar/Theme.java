@@ -70,6 +70,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
@@ -1261,6 +1262,10 @@ public class Theme {
             return 0;
         }
         return i | (-16777216);
+    }
+
+    static /* synthetic */ long access$3000() {
+        return getAutoNightSwitchThemeDelay();
     }
 
     /* JADX WARN: Multi-variable type inference failed */
@@ -4348,7 +4353,7 @@ public class Theme {
                             return;
                         }
                         boolean unused4 = Theme.switchDayRunnableScheduled = true;
-                        AndroidUtilities.runOnUIThread(Theme.switchDayBrightnessRunnable, Theme.getAutoNightSwitchThemeDelay());
+                        AndroidUtilities.runOnUIThread(Theme.switchDayBrightnessRunnable, Theme.access$3000());
                     } else if (MediaController.getInstance().isRecordingOrListeningByProximity()) {
                     } else {
                         if (Theme.switchDayRunnableScheduled) {
@@ -4359,7 +4364,7 @@ public class Theme {
                             return;
                         }
                         boolean unused6 = Theme.switchNightRunnableScheduled = true;
-                        AndroidUtilities.runOnUIThread(Theme.switchNightBrightnessRunnable, Theme.getAutoNightSwitchThemeDelay());
+                        AndroidUtilities.runOnUIThread(Theme.switchNightBrightnessRunnable, Theme.access$3000());
                     }
                 }
             };
@@ -7295,7 +7300,14 @@ public class Theme {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static void sortAccents(ThemeInfo themeInfo) {
-        Collections.sort(themeInfo.themeAccents, Theme$$ExternalSyntheticLambda10.INSTANCE);
+        Collections.sort(themeInfo.themeAccents, new Comparator() { // from class: org.telegram.ui.ActionBar.Theme$$ExternalSyntheticLambda10
+            @Override // java.util.Comparator
+            public final int compare(Object obj, Object obj2) {
+                int lambda$sortAccents$0;
+                lambda$sortAccents$0 = Theme.lambda$sortAccents$0((Theme.ThemeAccent) obj, (Theme.ThemeAccent) obj2);
+                return lambda$sortAccents$0;
+            }
+        });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -8261,7 +8273,14 @@ public class Theme {
     }
 
     private static void sortThemes() {
-        Collections.sort(themes, Theme$$ExternalSyntheticLambda11.INSTANCE);
+        Collections.sort(themes, new Comparator() { // from class: org.telegram.ui.ActionBar.Theme$$ExternalSyntheticLambda11
+            @Override // java.util.Comparator
+            public final int compare(Object obj, Object obj2) {
+                int lambda$sortThemes$1;
+                lambda$sortThemes$1 = Theme.lambda$sortThemes$1((Theme.ThemeInfo) obj, (Theme.ThemeInfo) obj2);
+                return lambda$sortThemes$1;
+            }
+        });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -9087,8 +9106,7 @@ public class Theme {
         return currentTheme;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public static long getAutoNightSwitchThemeDelay() {
+    private static long getAutoNightSwitchThemeDelay() {
         return Math.abs(lastThemeSwitchTime - SystemClock.elapsedRealtime()) >= 12000 ? 1800L : 12000L;
     }
 

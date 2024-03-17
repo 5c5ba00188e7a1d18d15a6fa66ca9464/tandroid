@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.BiConsumer;
+import j$.util.function.ToDoubleFunction;
 import j$.util.t;
 import java.util.Iterator;
 import java.util.Objects;
@@ -94,7 +95,35 @@ public abstract class T extends c implements U {
 
     @Override // j$.util.stream.U
     public final j$.util.j average() {
-        double[] dArr = (double[]) H(x.a, v.a, A.a);
+        double[] dArr = (double[]) H(new j$.util.function.y() { // from class: j$.util.stream.x
+            @Override // j$.util.function.y
+            public final Object get() {
+                return new double[4];
+            }
+        }, new j$.util.function.u() { // from class: j$.util.stream.v
+            @Override // j$.util.function.u
+            public final void accept(Object obj, double d) {
+                double[] dArr2 = (double[]) obj;
+                dArr2[2] = dArr2[2] + 1.0d;
+                l.b(dArr2, d);
+                dArr2[3] = dArr2[3] + d;
+            }
+        }, new BiConsumer() { // from class: j$.util.stream.A
+            @Override // j$.util.function.BiConsumer
+            public final void accept(Object obj, Object obj2) {
+                double[] dArr2 = (double[]) obj;
+                double[] dArr3 = (double[]) obj2;
+                l.b(dArr2, dArr3[0]);
+                l.b(dArr2, dArr3[1]);
+                dArr2[2] = dArr2[2] + dArr3[2];
+                dArr2[3] = dArr2[3] + dArr3[3];
+            }
+
+            @Override // j$.util.function.BiConsumer
+            public /* synthetic */ BiConsumer andThen(BiConsumer biConsumer) {
+                return BiConsumer.-CC.$default$andThen(this, biConsumer);
+            }
+        });
         return dArr[2] > 0.0d ? j$.util.j.d(l.a(dArr) / dArr[2]) : j$.util.j.a();
     }
 
@@ -111,12 +140,22 @@ public abstract class T extends c implements U {
 
     @Override // j$.util.stream.U
     public final long count() {
-        return ((d1) x(H.a)).sum();
+        return ((d1) x(new j$.util.function.h() { // from class: j$.util.stream.H
+            @Override // j$.util.function.h
+            public final long applyAsLong(double d) {
+                return 1L;
+            }
+        })).sum();
     }
 
     @Override // j$.util.stream.U
     public final U distinct() {
-        return ((e3) M(G.a)).distinct().j0(z.a);
+        return ((e3) M(G.a)).distinct().j0(new ToDoubleFunction() { // from class: j$.util.stream.z
+            @Override // j$.util.function.ToDoubleFunction
+            public final double applyAsDouble(Object obj) {
+                return ((Double) obj).doubleValue();
+            }
+        });
     }
 
     @Override // j$.util.stream.U
@@ -169,12 +208,22 @@ public abstract class T extends c implements U {
 
     @Override // j$.util.stream.U
     public final j$.util.j max() {
-        return G(D.a);
+        return G(new j$.util.function.d() { // from class: j$.util.stream.D
+            @Override // j$.util.function.d
+            public final double applyAsDouble(double d, double d2) {
+                return Math.max(d, d2);
+            }
+        });
     }
 
     @Override // j$.util.stream.U
     public final j$.util.j min() {
-        return G(E.a);
+        return G(new j$.util.function.d() { // from class: j$.util.stream.E
+            @Override // j$.util.function.d
+            public final double applyAsDouble(double d, double d2) {
+                return Math.min(d, d2);
+            }
+        });
     }
 
     @Override // j$.util.stream.U
@@ -204,12 +253,58 @@ public abstract class T extends c implements U {
 
     @Override // j$.util.stream.U
     public final double sum() {
-        return l.a((double[]) H(y.a, w.a, B.a));
+        return l.a((double[]) H(new j$.util.function.y() { // from class: j$.util.stream.y
+            @Override // j$.util.function.y
+            public final Object get() {
+                return new double[3];
+            }
+        }, new j$.util.function.u() { // from class: j$.util.stream.w
+            @Override // j$.util.function.u
+            public final void accept(Object obj, double d) {
+                double[] dArr = (double[]) obj;
+                l.b(dArr, d);
+                dArr[2] = dArr[2] + d;
+            }
+        }, new BiConsumer() { // from class: j$.util.stream.B
+            @Override // j$.util.function.BiConsumer
+            public final void accept(Object obj, Object obj2) {
+                double[] dArr = (double[]) obj;
+                double[] dArr2 = (double[]) obj2;
+                l.b(dArr, dArr2[0]);
+                l.b(dArr, dArr2[1]);
+                dArr[2] = dArr[2] + dArr2[2];
+            }
+
+            @Override // j$.util.function.BiConsumer
+            public /* synthetic */ BiConsumer andThen(BiConsumer biConsumer) {
+                return BiConsumer.-CC.$default$andThen(this, biConsumer);
+            }
+        }));
     }
 
     @Override // j$.util.stream.U
     public final j$.util.g summaryStatistics() {
-        return (j$.util.g) H(i.a, u.a, t.a);
+        return (j$.util.g) H(new j$.util.function.y() { // from class: j$.util.stream.i
+            @Override // j$.util.function.y
+            public final Object get() {
+                return new j$.util.g();
+            }
+        }, new j$.util.function.u() { // from class: j$.util.stream.u
+            @Override // j$.util.function.u
+            public final void accept(Object obj, double d) {
+                ((j$.util.g) obj).accept(d);
+            }
+        }, new BiConsumer() { // from class: j$.util.stream.t
+            @Override // j$.util.function.BiConsumer
+            public final void accept(Object obj, Object obj2) {
+                ((j$.util.g) obj).b((j$.util.g) obj2);
+            }
+
+            @Override // j$.util.function.BiConsumer
+            public /* synthetic */ BiConsumer andThen(BiConsumer biConsumer) {
+                return BiConsumer.-CC.$default$andThen(this, biConsumer);
+            }
+        });
     }
 
     @Override // j$.util.stream.y2
@@ -219,7 +314,12 @@ public abstract class T extends c implements U {
 
     @Override // j$.util.stream.U
     public final double[] toArray() {
-        return (double[]) x2.m((u1) y0(I.a)).e();
+        return (double[]) x2.m((u1) y0(new j$.util.function.m() { // from class: j$.util.stream.I
+            @Override // j$.util.function.m
+            public final Object apply(int i) {
+                return new Double[i];
+            }
+        })).e();
     }
 
     @Override // j$.util.stream.g

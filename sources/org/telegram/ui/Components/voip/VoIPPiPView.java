@@ -321,7 +321,12 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
             this.enlargeIcon.setPadding(AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f));
             this.enlargeIcon.setContentDescription(LocaleController.getString("Open", R.string.Open));
             this.floatingView.addView(this.enlargeIcon, LayoutHelper.createFrame(40, 40.0f, 51, 4.0f, 4.0f, 4.0f, 0.0f));
-            this.closeIcon.setOnClickListener(VoIPPiPView$$ExternalSyntheticLambda2.INSTANCE);
+            this.closeIcon.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.voip.VoIPPiPView$$ExternalSyntheticLambda2
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view2) {
+                    VoIPPiPView.lambda$new$1(view2);
+                }
+            });
             this.enlargeIcon.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.voip.VoIPPiPView$$ExternalSyntheticLambda1
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view2) {
@@ -383,7 +388,12 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
     @Override // org.telegram.messenger.voip.VoIPService.StateListener
     public void onStateChanged(int i) {
         if (i == 11 || i == 17 || i == 4 || i == 10) {
-            AndroidUtilities.runOnUIThread(VoIPPiPView$$ExternalSyntheticLambda3.INSTANCE, 200L);
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.voip.VoIPPiPView$$ExternalSyntheticLambda3
+                @Override // java.lang.Runnable
+                public final void run() {
+                    VoIPPiPView.finish();
+                }
+            }, 200L);
         }
         VoIPService sharedInstance = VoIPService.getSharedInstance();
         if (sharedInstance == null) {

@@ -8,6 +8,7 @@ import com.google.android.gms.common.moduleinstall.ModuleAvailabilityResponse;
 import com.google.android.gms.common.moduleinstall.ModuleInstall;
 import com.google.android.gms.common.moduleinstall.ModuleInstallRequest;
 import com.google.android.gms.internal.mlkit_common.zzas;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Tasks;
 import java.util.concurrent.ExecutionException;
 /* compiled from: com.google.mlkit:common@@18.10.0 */
@@ -95,7 +96,12 @@ public class OptionalModuleUtils {
                     Feature[] featureArr2 = OptionalModuleUtils.EMPTY_FEATURES;
                     return featureArr;
                 }
-            }).addOnFailureListener(zzr.zza))).areModulesAvailable();
+            }).addOnFailureListener(new OnFailureListener() { // from class: com.google.mlkit.common.sdkinternal.zzr
+                @Override // com.google.android.gms.tasks.OnFailureListener
+                public final void onFailure(Exception exc) {
+                    Log.e("OptionalModuleUtils", "Failed to check feature availability", exc);
+                }
+            }))).areModulesAvailable();
         } catch (InterruptedException | ExecutionException e) {
             Log.e("OptionalModuleUtils", "Failed to complete the task of features availability check", e);
             return false;
@@ -109,6 +115,11 @@ public class OptionalModuleUtils {
                 Feature[] featureArr2 = OptionalModuleUtils.EMPTY_FEATURES;
                 return featureArr;
             }
-        }).build()).addOnFailureListener(zzp.zza);
+        }).build()).addOnFailureListener(new OnFailureListener() { // from class: com.google.mlkit.common.sdkinternal.zzp
+            @Override // com.google.android.gms.tasks.OnFailureListener
+            public final void onFailure(Exception exc) {
+                Log.e("OptionalModuleUtils", "Failed to request modules install request", exc);
+            }
+        });
     }
 }

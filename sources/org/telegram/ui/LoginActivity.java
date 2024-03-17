@@ -81,6 +81,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import j$.util.Comparator$-CC;
+import j$.util.function.Function;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -2632,7 +2633,24 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             } catch (Exception e) {
                 FileLog.e(e);
             }
-            Collections.sort(this.countriesArray, Comparator$-CC.comparing(LoginActivity$PhoneView$$ExternalSyntheticLambda17.INSTANCE));
+            Collections.sort(this.countriesArray, Comparator$-CC.comparing(new Function() { // from class: org.telegram.ui.LoginActivity$PhoneView$$ExternalSyntheticLambda17
+                @Override // j$.util.function.Function
+                public /* synthetic */ Function andThen(Function function) {
+                    return Function.-CC.$default$andThen(this, function);
+                }
+
+                @Override // j$.util.function.Function
+                public final Object apply(Object obj) {
+                    String str2;
+                    str2 = ((CountrySelectActivity.Country) obj).name;
+                    return str2;
+                }
+
+                @Override // j$.util.function.Function
+                public /* synthetic */ Function compose(Function function) {
+                    return Function.-CC.$default$compose(this, function);
+                }
+            }));
             try {
                 TelephonyManager telephonyManager = (TelephonyManager) ApplicationLoader.applicationContext.getSystemService("phone");
             } catch (Exception e2) {
@@ -4680,7 +4698,12 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 AndroidUtilities.setWaitingForCall(true);
                 NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.didReceiveCall);
                 if (z) {
-                    AndroidUtilities.runOnUIThread(LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda36.INSTANCE);
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda36
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            CallReceiver.checkLastReceivedCall();
+                        }
+                    });
                 }
             }
             this.currentParams = bundle;
@@ -5519,7 +5542,12 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                     } else if (i4 == 3) {
                         AndroidUtilities.setWaitingForCall(true);
                         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.didReceiveCall);
-                        AndroidUtilities.runOnUIThread(LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda35.INSTANCE);
+                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda35
+                            @Override // java.lang.Runnable
+                            public final void run() {
+                                CallReceiver.checkLastReceivedCall();
+                            }
+                        });
                     }
                     this.waitingForEvent = true;
                     if (this.currentType != 3) {
@@ -5749,7 +5777,12 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 TLRPC$TL_auth_cancelCode tLRPC$TL_auth_cancelCode = new TLRPC$TL_auth_cancelCode();
                 tLRPC$TL_auth_cancelCode.phone_number = this.requestPhone;
                 tLRPC$TL_auth_cancelCode.phone_code_hash = this.phoneHash;
-                ConnectionsManager.getInstance(((BaseFragment) LoginActivity.this).currentAccount).sendRequest(tLRPC$TL_auth_cancelCode, LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda43.INSTANCE, 10);
+                ConnectionsManager.getInstance(((BaseFragment) LoginActivity.this).currentAccount).sendRequest(tLRPC$TL_auth_cancelCode, new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda43
+                    @Override // org.telegram.tgnet.RequestDelegate
+                    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                        LoginActivity.LoginActivitySmsView.lambda$onBackPressed$42(tLObject, tLRPC$TL_error);
+                    }
+                }, 10);
                 destroyTimer();
                 destroyCodeTimer();
                 this.currentParams = null;

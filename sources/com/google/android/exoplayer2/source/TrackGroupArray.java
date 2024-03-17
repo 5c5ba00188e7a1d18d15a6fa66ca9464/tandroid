@@ -14,7 +14,14 @@ public final class TrackGroupArray implements Bundleable {
     private final ImmutableList<TrackGroup> trackGroups;
     public static final TrackGroupArray EMPTY = new TrackGroupArray(new TrackGroup[0]);
     private static final String FIELD_TRACK_GROUPS = Util.intToStringMaxRadix(0);
-    public static final Bundleable.Creator<TrackGroupArray> CREATOR = TrackGroupArray$$ExternalSyntheticLambda0.INSTANCE;
+    public static final Bundleable.Creator<TrackGroupArray> CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.source.TrackGroupArray$$ExternalSyntheticLambda0
+        @Override // com.google.android.exoplayer2.Bundleable.Creator
+        public final Bundleable fromBundle(Bundle bundle) {
+            TrackGroupArray lambda$static$0;
+            lambda$static$0 = TrackGroupArray.lambda$static$0(bundle);
+            return lambda$static$0;
+        }
+    };
 
     public TrackGroupArray(TrackGroup... trackGroupArr) {
         this.trackGroups = ImmutableList.copyOf(trackGroupArr);

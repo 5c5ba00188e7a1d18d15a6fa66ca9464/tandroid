@@ -137,7 +137,7 @@ public final /* synthetic */ class $r8$wrapper$java$util$stream$IntStream$-V-WRP
         return c.a(this.a.iterator());
     }
 
-    @Override // j$.util.stream.IntStream, j$.util.stream.g
+    @Override // j$.util.stream.g
     public /* synthetic */ Iterator iterator() {
         return this.a.iterator();
     }
@@ -172,7 +172,7 @@ public final /* synthetic */ class $r8$wrapper$java$util$stream$IntStream$-V-WRP
         return convert(this.a.parallel());
     }
 
-    @Override // j$.util.stream.IntStream
+    @Override // j$.util.stream.g, j$.util.stream.IntStream
     public /* synthetic */ j$.util.stream.g parallel() {
         return G0.n0(this.a.parallel());
     }
@@ -187,7 +187,7 @@ public final /* synthetic */ class $r8$wrapper$java$util$stream$IntStream$-V-WRP
         return convert(this.a.sequential());
     }
 
-    @Override // j$.util.stream.IntStream
+    @Override // j$.util.stream.g, j$.util.stream.IntStream
     public /* synthetic */ j$.util.stream.g sequential() {
         return G0.n0(this.a.sequential());
     }
@@ -207,7 +207,7 @@ public final /* synthetic */ class $r8$wrapper$java$util$stream$IntStream$-V-WRP
         return k.a(this.a.spliterator());
     }
 
-    @Override // j$.util.stream.IntStream, j$.util.stream.g
+    @Override // j$.util.stream.g
     public /* synthetic */ j$.util.t spliterator() {
         return g.a(this.a.spliterator());
     }

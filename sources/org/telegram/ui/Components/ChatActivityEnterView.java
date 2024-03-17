@@ -3374,7 +3374,17 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                         ChatActivityEnterView.this.startedDraggingX = -1.0f;
                         if (!ChatActivityEnterView.this.hasRecordVideo || !ChatActivityEnterView.this.isInVideoMode()) {
                             if (ChatActivityEnterView.this.recordingAudioVideo && ChatActivityEnterView.this.isInScheduleMode()) {
-                                AlertsCreator.createScheduleDatePickerDialog(ChatActivityEnterView.this.parentActivity, ChatActivityEnterView.this.parentFragment.getDialogId(), ChatActivityEnterView$20$$ExternalSyntheticLambda5.INSTANCE, ChatActivityEnterView$20$$ExternalSyntheticLambda2.INSTANCE, this.val$resourcesProvider);
+                                AlertsCreator.createScheduleDatePickerDialog(ChatActivityEnterView.this.parentActivity, ChatActivityEnterView.this.parentFragment.getDialogId(), new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.Components.ChatActivityEnterView$20$$ExternalSyntheticLambda5
+                                    @Override // org.telegram.ui.Components.AlertsCreator.ScheduleDatePickerDelegate
+                                    public final void didSelectDate(boolean z, int i2) {
+                                        ChatActivityEnterView.20.lambda$onTouchEvent$0(z, i2);
+                                    }
+                                }, new Runnable() { // from class: org.telegram.ui.Components.ChatActivityEnterView$20$$ExternalSyntheticLambda2
+                                    @Override // java.lang.Runnable
+                                    public final void run() {
+                                        ChatActivityEnterView.20.lambda$onTouchEvent$1();
+                                    }
+                                }, this.val$resourcesProvider);
                             }
                             MediaController.getInstance().stopRecording(ChatActivityEnterView.this.isInScheduleMode() ? 3 : 1, true, 0, ChatActivityEnterView.this.voiceOnce);
                             ChatActivityEnterView.this.delegate.needStartRecordAudio(0);
@@ -3448,7 +3458,17 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                                     ChatActivityEnterView.this.delegate.needShowMediaBanHint();
                                 } else {
                                     if (ChatActivityEnterView.this.recordingAudioVideo && ChatActivityEnterView.this.isInScheduleMode()) {
-                                        AlertsCreator.createScheduleDatePickerDialog(ChatActivityEnterView.this.parentActivity, ChatActivityEnterView.this.parentFragment.getDialogId(), ChatActivityEnterView$20$$ExternalSyntheticLambda4.INSTANCE, ChatActivityEnterView$20$$ExternalSyntheticLambda3.INSTANCE, this.val$resourcesProvider);
+                                        AlertsCreator.createScheduleDatePickerDialog(ChatActivityEnterView.this.parentActivity, ChatActivityEnterView.this.parentFragment.getDialogId(), new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.Components.ChatActivityEnterView$20$$ExternalSyntheticLambda4
+                                            @Override // org.telegram.ui.Components.AlertsCreator.ScheduleDatePickerDelegate
+                                            public final void didSelectDate(boolean z, int i2) {
+                                                ChatActivityEnterView.20.lambda$onTouchEvent$3(z, i2);
+                                            }
+                                        }, new Runnable() { // from class: org.telegram.ui.Components.ChatActivityEnterView$20$$ExternalSyntheticLambda3
+                                            @Override // java.lang.Runnable
+                                            public final void run() {
+                                                ChatActivityEnterView.20.lambda$onTouchEvent$4();
+                                            }
+                                        }, this.val$resourcesProvider);
                                     }
                                     ChatActivityEnterView.this.delegate.needStartRecordAudio(0);
                                     MediaController.getInstance().stopRecording(ChatActivityEnterView.this.isInScheduleMode() ? 3 : 1, true, 0, ChatActivityEnterView.this.voiceOnce);
@@ -9465,7 +9485,14 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         frameLayout.setClipChildren(false);
         this.recordPanel.setVisibility(8);
         this.messageEditTextContainer.addView(this.recordPanel, LayoutHelper.createFrame(-1, 48.0f));
-        this.recordPanel.setOnTouchListener(ChatActivityEnterView$$ExternalSyntheticLambda28.INSTANCE);
+        this.recordPanel.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.ChatActivityEnterView$$ExternalSyntheticLambda28
+            @Override // android.view.View.OnTouchListener
+            public final boolean onTouch(View view, MotionEvent motionEvent) {
+                boolean lambda$createRecordPanel$42;
+                lambda$createRecordPanel$42 = ChatActivityEnterView.lambda$createRecordPanel$42(view, motionEvent);
+                return lambda$createRecordPanel$42;
+            }
+        });
         FrameLayout frameLayout2 = this.recordPanel;
         SlideTextView slideTextView = new SlideTextView(getContext());
         this.slideText = slideTextView;

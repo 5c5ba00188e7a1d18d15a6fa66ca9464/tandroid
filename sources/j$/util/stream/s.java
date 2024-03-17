@@ -1,8 +1,10 @@
 package j$.util.stream;
 
 import j$.util.concurrent.ConcurrentHashMap;
+import j$.util.function.BiConsumer;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 /* loaded from: classes2.dex */
@@ -45,8 +47,33 @@ class s extends c3 {
     }
 
     A1 L0(y2 y2Var, j$.util.t tVar) {
-        p pVar = p.a;
-        m mVar = m.a;
-        return new E1((Collection) new z2(e4.REFERENCE, n.a, mVar, pVar).c(y2Var, tVar));
+        p pVar = new j$.util.function.y() { // from class: j$.util.stream.p
+            @Override // j$.util.function.y
+            public final Object get() {
+                return new LinkedHashSet();
+            }
+        };
+        m mVar = new BiConsumer() { // from class: j$.util.stream.m
+            @Override // j$.util.function.BiConsumer
+            public final void accept(Object obj, Object obj2) {
+                ((LinkedHashSet) obj).add(obj2);
+            }
+
+            @Override // j$.util.function.BiConsumer
+            public /* synthetic */ BiConsumer andThen(BiConsumer biConsumer) {
+                return BiConsumer.-CC.$default$andThen(this, biConsumer);
+            }
+        };
+        return new E1((Collection) new z2(e4.REFERENCE, new BiConsumer() { // from class: j$.util.stream.n
+            @Override // j$.util.function.BiConsumer
+            public final void accept(Object obj, Object obj2) {
+                ((LinkedHashSet) obj).addAll((LinkedHashSet) obj2);
+            }
+
+            @Override // j$.util.function.BiConsumer
+            public /* synthetic */ BiConsumer andThen(BiConsumer biConsumer) {
+                return BiConsumer.-CC.$default$andThen(this, biConsumer);
+            }
+        }, mVar, pVar).c(y2Var, tVar));
     }
 }

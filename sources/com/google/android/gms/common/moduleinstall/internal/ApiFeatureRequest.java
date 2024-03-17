@@ -19,7 +19,18 @@ import java.util.TreeSet;
 /* loaded from: classes.dex */
 public class ApiFeatureRequest extends AbstractSafeParcelable {
     public static final Parcelable.Creator<ApiFeatureRequest> CREATOR = new zac();
-    private static final Comparator zaa = zab.zaa;
+    private static final Comparator zaa = new Comparator() { // from class: com.google.android.gms.common.moduleinstall.internal.zab
+        @Override // java.util.Comparator
+        public final int compare(Object obj, Object obj2) {
+            Feature feature = (Feature) obj;
+            Feature feature2 = (Feature) obj2;
+            Parcelable.Creator<ApiFeatureRequest> creator = ApiFeatureRequest.CREATOR;
+            if (!feature.getName().equals(feature2.getName())) {
+                return feature.getName().compareTo(feature2.getName());
+            }
+            return (feature.getVersion() > feature2.getVersion() ? 1 : (feature.getVersion() == feature2.getVersion() ? 0 : -1));
+        }
+    };
     private final List zab;
     private final boolean zac;
     private final String zad;

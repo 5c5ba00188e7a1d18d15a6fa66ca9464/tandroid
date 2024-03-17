@@ -5,11 +5,13 @@ import android.text.TextUtils;
 import androidx.collection.LongSparseArray;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Objects;
 import org.telegram.SQLite.SQLiteCursor;
 import org.telegram.SQLite.SQLiteDatabase;
 import org.telegram.SQLite.SQLitePreparedStatement;
+import org.telegram.messenger.SavedMessagesController;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.NativeByteBuffer;
@@ -119,7 +121,14 @@ public class SavedMessagesController {
                 }
             }
         }
-        Collections.sort(arrayList, SavedMessagesController$$ExternalSyntheticLambda13.INSTANCE);
+        Collections.sort(arrayList, new Comparator() { // from class: org.telegram.messenger.SavedMessagesController$$ExternalSyntheticLambda13
+            @Override // java.util.Comparator
+            public final int compare(Object obj, Object obj2) {
+                int lambda$updateAllDialogs$0;
+                lambda$updateAllDialogs$0 = SavedMessagesController.lambda$updateAllDialogs$0((SavedMessagesController.SavedDialog) obj, (SavedMessagesController.SavedDialog) obj2);
+                return lambda$updateAllDialogs$0;
+            }
+        });
         this.allDialogs.addAll(arrayList);
         if (z) {
             NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.savedMessagesDialogsUpdate, new Object[0]);
@@ -897,8 +906,22 @@ public class SavedMessagesController {
             }
             i2++;
         }
-        Collections.sort(arrayList, SavedMessagesController$$ExternalSyntheticLambda15.INSTANCE);
-        Collections.sort(arrayList4, SavedMessagesController$$ExternalSyntheticLambda14.INSTANCE);
+        Collections.sort(arrayList, new Comparator() { // from class: org.telegram.messenger.SavedMessagesController$$ExternalSyntheticLambda15
+            @Override // java.util.Comparator
+            public final int compare(Object obj, Object obj2) {
+                int lambda$updatePinnedOrder$4;
+                lambda$updatePinnedOrder$4 = SavedMessagesController.lambda$updatePinnedOrder$4((SavedMessagesController.SavedDialog) obj, (SavedMessagesController.SavedDialog) obj2);
+                return lambda$updatePinnedOrder$4;
+            }
+        });
+        Collections.sort(arrayList4, new Comparator() { // from class: org.telegram.messenger.SavedMessagesController$$ExternalSyntheticLambda14
+            @Override // java.util.Comparator
+            public final int compare(Object obj, Object obj2) {
+                int lambda$updatePinnedOrder$5;
+                lambda$updatePinnedOrder$5 = SavedMessagesController.lambda$updatePinnedOrder$5((SavedMessagesController.SavedDialog) obj, (SavedMessagesController.SavedDialog) obj2);
+                return lambda$updatePinnedOrder$5;
+            }
+        });
         arrayList.addAll(0, arrayList4);
         return true;
     }

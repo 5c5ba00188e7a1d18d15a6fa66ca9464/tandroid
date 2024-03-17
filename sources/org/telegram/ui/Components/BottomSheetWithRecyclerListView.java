@@ -76,8 +76,9 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
         this.headerShadowDrawable = ContextCompat.getDrawable(context, R.drawable.header_shadow).mutate();
         if (z3) {
             NestedSizeNotifierLayout nestedSizeNotifierLayout = new NestedSizeNotifierLayout(context) { // from class: org.telegram.ui.Components.BottomSheetWithRecyclerListView.1
+                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.NestedSizeNotifierLayout, android.widget.FrameLayout, android.view.View
-                protected void onMeasure(int i, int i2) {
+                public void onMeasure(int i, int i2) {
                     BottomSheetWithRecyclerListView.this.contentHeight = View.MeasureSpec.getSize(i2);
                     BottomSheetWithRecyclerListView.this.onPreMeasure(i, i2);
                     super.onMeasure(i, i2);

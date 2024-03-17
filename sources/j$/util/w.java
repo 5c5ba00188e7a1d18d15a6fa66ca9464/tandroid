@@ -63,7 +63,7 @@ class w implements p.a, j$.util.function.l, Iterator {
         return new j$.util.function.k(this, lVar);
     }
 
-    @Override // j$.util.p.a, java.util.Iterator
+    @Override // java.util.Iterator, j$.util.Iterator
     public Integer next() {
         if (L.a) {
             L.a(w.class, "{0} calling PrimitiveIterator.OfInt.nextInt()");

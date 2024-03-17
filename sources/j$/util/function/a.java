@@ -15,7 +15,7 @@ public final /* synthetic */ class a implements b, Predicate {
 
     @Override // j$.util.function.Predicate
     public /* synthetic */ Predicate and(Predicate predicate) {
-        return Objects.requireNonNull(predicate);
+        return Predicate.-CC.$default$and(this, predicate);
     }
 
     @Override // j$.util.function.BiFunction
@@ -47,7 +47,7 @@ public final /* synthetic */ class a implements b, Predicate {
 
     @Override // j$.util.function.Predicate
     public /* synthetic */ Predicate or(Predicate predicate) {
-        return Objects.requireNonNull(predicate);
+        return Predicate.-CC.$default$or(this, predicate);
     }
 
     @Override // j$.util.function.Predicate

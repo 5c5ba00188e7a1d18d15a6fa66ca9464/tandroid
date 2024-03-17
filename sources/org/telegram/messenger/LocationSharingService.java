@@ -44,7 +44,12 @@ public class LocationSharingService extends Service implements NotificationCente
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onCreate$1() {
         this.handler.postDelayed(this.runnable, 1000L);
-        Utilities.stageQueue.postRunnable(LocationSharingService$$ExternalSyntheticLambda2.INSTANCE);
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.LocationSharingService$$ExternalSyntheticLambda2
+            @Override // java.lang.Runnable
+            public final void run() {
+                LocationSharingService.lambda$onCreate$0();
+            }
+        });
     }
 
     /* JADX INFO: Access modifiers changed from: private */

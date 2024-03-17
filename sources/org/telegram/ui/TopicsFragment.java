@@ -1819,9 +1819,8 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             super.onDraw(canvas);
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.BlurredRecyclerView, org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
-        public void dispatchDraw(Canvas canvas) {
+        protected void dispatchDraw(Canvas canvas) {
             if (TopicsFragment.this.generalTopicViewMoving != null) {
                 canvas.save();
                 canvas.translate(TopicsFragment.this.generalTopicViewMoving.getLeft(), TopicsFragment.this.generalTopicViewMoving.getY());
@@ -1884,9 +1883,8 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             this.ignoreLayout = false;
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.BlurredRecyclerView, org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
-        public void onMeasure(int i, int i2) {
+        protected void onMeasure(int i, int i2) {
             if (this.firstLayout && TopicsFragment.this.getMessagesController().dialogsLoaded) {
                 if (TopicsFragment.this.hiddenCount > 0) {
                     this.ignoreLayout = true;
@@ -2047,7 +2045,12 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         this.dialogRemoveFinished = 0;
         this.dialogInsertFinished = 0;
         this.dialogChangeFinished = 0;
-        AndroidUtilities.runOnUIThread(TopicsFragment$$ExternalSyntheticLambda16.INSTANCE);
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.TopicsFragment$$ExternalSyntheticLambda16
+            @Override // java.lang.Runnable
+            public final void run() {
+                TopicsFragment.lambda$onDialogAnimationFinished$8();
+            }
+        });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2665,7 +2668,14 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         this.selectedDialogsCountTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.selectedDialogsCountTextView.setTextColor(Theme.getColor(Theme.key_actionBarActionModeDefaultIcon));
         createActionMode.addView(this.selectedDialogsCountTextView, LayoutHelper.createLinear(0, -1, 1.0f, 72, 0, 0, 0));
-        this.selectedDialogsCountTextView.setOnTouchListener(TopicsFragment$$ExternalSyntheticLambda11.INSTANCE);
+        this.selectedDialogsCountTextView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.TopicsFragment$$ExternalSyntheticLambda11
+            @Override // android.view.View.OnTouchListener
+            public final boolean onTouch(View view, MotionEvent motionEvent) {
+                boolean lambda$chekActionMode$17;
+                lambda$chekActionMode$17 = TopicsFragment.lambda$chekActionMode$17(view, motionEvent);
+                return lambda$chekActionMode$17;
+            }
+        });
         this.pinItem = createActionMode.addItemWithWidth(4, R.drawable.msg_pin, AndroidUtilities.dp(54.0f));
         this.unpinItem = createActionMode.addItemWithWidth(5, R.drawable.msg_unpin, AndroidUtilities.dp(54.0f));
         this.muteItem = createActionMode.addItemWithWidth(6, R.drawable.msg_mute, AndroidUtilities.dp(54.0f));

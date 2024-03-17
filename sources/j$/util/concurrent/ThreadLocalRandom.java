@@ -56,7 +56,7 @@ public class ThreadLocalRandom extends Random {
             this.d = d2;
         }
 
-        @Override // j$.util.t.a, j$.util.u, j$.util.t
+        @Override // j$.util.u, j$.util.t
         /* renamed from: a */
         public b trySplit() {
             long j = this.a;
@@ -149,7 +149,7 @@ public class ThreadLocalRandom extends Random {
             this.d = i2;
         }
 
-        @Override // j$.util.t.b, j$.util.u, j$.util.t
+        @Override // j$.util.u, j$.util.t
         /* renamed from: a */
         public c trySplit() {
             long j = this.a;
@@ -242,7 +242,7 @@ public class ThreadLocalRandom extends Random {
             this.d = j4;
         }
 
-        @Override // j$.util.t.c, j$.util.u, j$.util.t
+        @Override // j$.util.u, j$.util.t
         /* renamed from: a */
         public d trySplit() {
             long j = this.a;

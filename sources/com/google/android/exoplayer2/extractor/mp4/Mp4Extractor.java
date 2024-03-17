@@ -1,5 +1,6 @@
 package com.google.android.exoplayer2.extractor.mp4;
 
+import android.net.Uri;
 import android.util.Pair;
 import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.ParserException;
@@ -7,6 +8,7 @@ import com.google.android.exoplayer2.audio.Ac4Util;
 import com.google.android.exoplayer2.extractor.Extractor;
 import com.google.android.exoplayer2.extractor.ExtractorInput;
 import com.google.android.exoplayer2.extractor.ExtractorOutput;
+import com.google.android.exoplayer2.extractor.ExtractorsFactory;
 import com.google.android.exoplayer2.extractor.GaplessInfoHolder;
 import com.google.android.exoplayer2.extractor.PositionHolder;
 import com.google.android.exoplayer2.extractor.SeekMap;
@@ -21,10 +23,12 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.NalUnitUtil;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
+import com.google.common.base.Function;
 import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 /* loaded from: classes.dex */
 public final class Mp4Extractor implements Extractor, SeekMap {
     private long[][] accumulatedSampleSizes;
@@ -82,7 +86,21 @@ public final class Mp4Extractor implements Extractor, SeekMap {
     }
 
     static {
-        Mp4Extractor$$ExternalSyntheticLambda0 mp4Extractor$$ExternalSyntheticLambda0 = Mp4Extractor$$ExternalSyntheticLambda0.INSTANCE;
+        Mp4Extractor$$ExternalSyntheticLambda0 mp4Extractor$$ExternalSyntheticLambda0 = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.mp4.Mp4Extractor$$ExternalSyntheticLambda0
+            @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
+            public final Extractor[] createExtractors() {
+                Extractor[] lambda$static$0;
+                lambda$static$0 = Mp4Extractor.lambda$static$0();
+                return lambda$static$0;
+            }
+
+            @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
+            public /* synthetic */ Extractor[] createExtractors(Uri uri, Map map) {
+                Extractor[] createExtractors;
+                createExtractors = createExtractors();
+                return createExtractors;
+            }
+        };
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -382,7 +400,14 @@ public final class Mp4Extractor implements Extractor, SeekMap {
         Atom.ContainerAtom containerAtomOfType = containerAtom.getContainerAtomOfType(1835365473);
         long j = -9223372036854775807L;
         Metadata parseMdtaFromMeta = containerAtomOfType != null ? AtomParsers.parseMdtaFromMeta(containerAtomOfType) : null;
-        List<TrackSampleTable> parseTraks = AtomParsers.parseTraks(containerAtom, gaplessInfoHolder, -9223372036854775807L, null, (this.flags & 1) != 0, z, Mp4Extractor$$ExternalSyntheticLambda1.INSTANCE);
+        List<TrackSampleTable> parseTraks = AtomParsers.parseTraks(containerAtom, gaplessInfoHolder, -9223372036854775807L, null, (this.flags & 1) != 0, z, new Function() { // from class: com.google.android.exoplayer2.extractor.mp4.Mp4Extractor$$ExternalSyntheticLambda1
+            @Override // com.google.common.base.Function
+            public final Object apply(Object obj) {
+                Track lambda$processMoovAtom$1;
+                lambda$processMoovAtom$1 = Mp4Extractor.lambda$processMoovAtom$1((Track) obj);
+                return lambda$processMoovAtom$1;
+            }
+        });
         int size = parseTraks.size();
         long j2 = -9223372036854775807L;
         int i4 = 0;

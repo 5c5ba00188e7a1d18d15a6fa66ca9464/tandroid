@@ -7,6 +7,7 @@ import com.google.android.gms.common.internal.GmsLogger;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.internal.mlkit_vision_common.zzlx;
 import com.google.android.gms.tasks.CancellationTokenSource;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.mlkit.common.MlKitException;
@@ -32,7 +33,18 @@ public class MobileVisionBase<DetectionResultT> implements Closeable, LifecycleO
         this.zze = cancellationTokenSource;
         this.zzf = executor;
         mLTask.pin();
-        mLTask.callAfterLoad(executor, zzb.zza, cancellationTokenSource.getToken()).addOnFailureListener(zzc.zza);
+        mLTask.callAfterLoad(executor, new Callable() { // from class: com.google.mlkit.vision.common.internal.zzb
+            @Override // java.util.concurrent.Callable
+            public final Object call() {
+                int i = MobileVisionBase.zza;
+                return null;
+            }
+        }, cancellationTokenSource.getToken()).addOnFailureListener(new OnFailureListener() { // from class: com.google.mlkit.vision.common.internal.zzc
+            @Override // com.google.android.gms.tasks.OnFailureListener
+            public final void onFailure(Exception exc) {
+                MobileVisionBase.zzb.e("MobileVisionBase", "Error preloading model resource", exc);
+            }
+        });
     }
 
     @Override // java.io.Closeable, java.lang.AutoCloseable

@@ -3,6 +3,7 @@ package com.google.firebase.remoteconfig;
 import android.content.Context;
 import android.util.Log;
 import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.SuccessContinuation;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.FirebaseApp;
@@ -89,7 +90,19 @@ public class FirebaseRemoteConfig {
     }
 
     public Task<Void> fetch(long j) {
-        return this.fetchHandler.fetch(j).onSuccessTask(FirebaseRemoteConfig$$ExternalSyntheticLambda2.INSTANCE);
+        return this.fetchHandler.fetch(j).onSuccessTask(new SuccessContinuation() { // from class: com.google.firebase.remoteconfig.FirebaseRemoteConfig$$ExternalSyntheticLambda2
+            @Override // com.google.android.gms.tasks.SuccessContinuation
+            public final Task then(Object obj) {
+                Task lambda$fetch$4;
+                lambda$fetch$4 = FirebaseRemoteConfig.lambda$fetch$4((ConfigFetchHandler.FetchResponse) obj);
+                return lambda$fetch$4;
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ Task lambda$fetch$4(ConfigFetchHandler.FetchResponse fetchResponse) throws Exception {
+        return Tasks.forResult(null);
     }
 
     public String getString(String str) {

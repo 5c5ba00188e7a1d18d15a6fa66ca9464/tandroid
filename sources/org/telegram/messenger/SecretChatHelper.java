@@ -13,8 +13,10 @@ import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Locale;
 import org.telegram.SQLite.SQLiteCursor;
+import org.telegram.messenger.SecretChatHelper;
 import org.telegram.messenger.SendMessagesHelper;
 import org.telegram.messenger.support.LongSparseIntArray;
 import org.telegram.tgnet.AbstractSerializedData;
@@ -1701,7 +1703,14 @@ public class SecretChatHelper extends BaseController {
                 }
                 getUserConfig().saveConfig(false);
             }
-            Collections.sort(arrayList3, SecretChatHelper$$ExternalSyntheticLambda25.INSTANCE);
+            Collections.sort(arrayList3, new Comparator() { // from class: org.telegram.messenger.SecretChatHelper$$ExternalSyntheticLambda25
+                @Override // java.util.Comparator
+                public final int compare(Object obj, Object obj2) {
+                    int lambda$resendMessages$13;
+                    lambda$resendMessages$13 = SecretChatHelper.lambda$resendMessages$13((TLRPC$Message) obj, (TLRPC$Message) obj2);
+                    return lambda$resendMessages$13;
+                }
+            });
             ArrayList<TLRPC$EncryptedChat> arrayList4 = new ArrayList<>();
             arrayList4.add(tLRPC$EncryptedChat);
             try {
@@ -1745,7 +1754,14 @@ public class SecretChatHelper extends BaseController {
         if (arrayList2 == null) {
             return;
         }
-        Collections.sort(arrayList2, SecretChatHelper$$ExternalSyntheticLambda24.INSTANCE);
+        Collections.sort(arrayList2, new Comparator() { // from class: org.telegram.messenger.SecretChatHelper$$ExternalSyntheticLambda24
+            @Override // java.util.Comparator
+            public final int compare(Object obj, Object obj2) {
+                int lambda$checkSecretHoles$16;
+                lambda$checkSecretHoles$16 = SecretChatHelper.lambda$checkSecretHoles$16((SecretChatHelper.TL_decryptedMessageHolder) obj, (SecretChatHelper.TL_decryptedMessageHolder) obj2);
+                return lambda$checkSecretHoles$16;
+            }
+        });
         boolean z = false;
         while (arrayList2.size() > 0 && ((i = (tLRPC$TL_decryptedMessageLayer = (tL_decryptedMessageHolder = arrayList2.get(0)).layer).out_seq_no) == (i2 = tLRPC$EncryptedChat.seq_in) || i2 == i - 2)) {
             applyPeerLayer(tLRPC$EncryptedChat, tLRPC$TL_decryptedMessageLayer.layer);

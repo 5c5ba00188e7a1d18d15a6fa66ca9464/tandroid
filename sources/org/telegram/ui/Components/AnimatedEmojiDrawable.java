@@ -595,9 +595,8 @@ public class AnimatedEmojiDrawable extends Drawable {
                             super.invalidate();
                         }
 
-                        /* JADX INFO: Access modifiers changed from: protected */
                         @Override // org.telegram.messenger.ImageReceiver
-                        public boolean setImageBitmapByKey(Drawable drawable, String str2, int i2, boolean z2, int i3) {
+                        protected boolean setImageBitmapByKey(Drawable drawable, String str2, int i2, boolean z2, int i3) {
                             AnimatedEmojiDrawable.this.invalidate();
                             return super.setImageBitmapByKey(drawable, str2, i2, z2, i3);
                         }

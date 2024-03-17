@@ -150,6 +150,10 @@ public class Bulletin {
         void onTextLoaded(CharSequence charSequence);
     }
 
+    static /* synthetic */ boolean access$900() {
+        return isTransitionsEnabled();
+    }
+
     public static Bulletin make(FrameLayout frameLayout, Layout layout, int i) {
         return new Bulletin(null, frameLayout, layout, i);
     }
@@ -386,7 +390,7 @@ public class Bulletin {
                 if (Bulletin.this.currentDelegate != null) {
                     Bulletin.this.currentDelegate.onShow(Bulletin.this);
                 }
-                if (Bulletin.isTransitionsEnabled()) {
+                if (Bulletin.access$900()) {
                     Bulletin.this.ensureLayoutTransitionCreated();
                     Bulletin.this.layout.transitionRunningEnter = true;
                     Bulletin.this.layout.delegate = Bulletin.this.currentDelegate;
@@ -581,7 +585,7 @@ public class Bulletin {
         return this.layout;
     }
 
-    public static boolean isTransitionsEnabled() {
+    private static boolean isTransitionsEnabled() {
         return MessagesController.getGlobalMainSettings().getBoolean("view_animations", true) && Build.VERSION.SDK_INT >= 18;
     }
 
@@ -687,7 +691,12 @@ public class Bulletin {
                                 Bulletin.ParentLayout.1.this.lambda$onFling$2(dynamicAnimation, z2, f3, f4);
                             }
                         });
-                        springAnimation2.addUpdateListener(Bulletin$ParentLayout$1$$ExternalSyntheticLambda3.INSTANCE);
+                        springAnimation2.addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.Bulletin$ParentLayout$1$$ExternalSyntheticLambda3
+                            @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
+                            public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f3, float f4) {
+                                Bulletin.ParentLayout.1.lambda$onFling$3(dynamicAnimation, f3, f4);
+                            }
+                        });
                         springAnimation.getSpring().setDampingRatio(1.0f);
                         springAnimation.getSpring().setStiffness(10.0f);
                         springAnimation.setStartVelocity(f);

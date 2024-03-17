@@ -3,6 +3,7 @@ package com.google.android.gms.internal.mlkit_vision_common;
 import android.content.Context;
 import com.google.android.datatransport.Encoding;
 import com.google.android.datatransport.Event;
+import com.google.android.datatransport.Transformer;
 import com.google.android.datatransport.Transport;
 import com.google.android.datatransport.TransportFactory;
 import com.google.android.datatransport.cct.CCTDestination;
@@ -25,14 +26,24 @@ public final class zzmp implements zzmc {
             this.zza = new Lazy(new Provider() { // from class: com.google.android.gms.internal.mlkit_vision_common.zzmm
                 @Override // com.google.firebase.inject.Provider
                 public final Object get() {
-                    return TransportFactory.this.getTransport("FIREBASE_ML_SDK", byte[].class, Encoding.of("json"), zzmo.zza);
+                    return TransportFactory.this.getTransport("FIREBASE_ML_SDK", byte[].class, Encoding.of("json"), new Transformer() { // from class: com.google.android.gms.internal.mlkit_vision_common.zzmo
+                        @Override // com.google.android.datatransport.Transformer
+                        public final Object apply(Object obj) {
+                            return (byte[]) obj;
+                        }
+                    });
                 }
             });
         }
         this.zzb = new Lazy(new Provider() { // from class: com.google.android.gms.internal.mlkit_vision_common.zzmn
             @Override // com.google.firebase.inject.Provider
             public final Object get() {
-                return TransportFactory.this.getTransport("FIREBASE_ML_SDK", byte[].class, Encoding.of("proto"), zzml.zza);
+                return TransportFactory.this.getTransport("FIREBASE_ML_SDK", byte[].class, Encoding.of("proto"), new Transformer() { // from class: com.google.android.gms.internal.mlkit_vision_common.zzml
+                    @Override // com.google.android.datatransport.Transformer
+                    public final Object apply(Object obj) {
+                        return (byte[]) obj;
+                    }
+                });
             }
         });
     }

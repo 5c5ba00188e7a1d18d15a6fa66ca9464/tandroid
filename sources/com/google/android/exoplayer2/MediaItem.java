@@ -3,6 +3,7 @@ package com.google.android.exoplayer2;
 import android.net.Uri;
 import android.os.Bundle;
 import com.google.android.exoplayer2.Bundleable;
+import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.offline.StreamKey;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
@@ -27,7 +28,14 @@ public final class MediaItem implements Bundleable {
     private static final String FIELD_MEDIA_METADATA = Util.intToStringMaxRadix(2);
     private static final String FIELD_CLIPPING_PROPERTIES = Util.intToStringMaxRadix(3);
     private static final String FIELD_REQUEST_METADATA = Util.intToStringMaxRadix(4);
-    public static final Bundleable.Creator<MediaItem> CREATOR = MediaItem$$ExternalSyntheticLambda0.INSTANCE;
+    public static final Bundleable.Creator<MediaItem> CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.MediaItem$$ExternalSyntheticLambda0
+        @Override // com.google.android.exoplayer2.Bundleable.Creator
+        public final Bundleable fromBundle(Bundle bundle) {
+            MediaItem fromBundle;
+            fromBundle = MediaItem.fromBundle(bundle);
+            return fromBundle;
+        }
+    };
 
     /* loaded from: classes.dex */
     public static final class AdsConfiguration {
@@ -305,7 +313,14 @@ public final class MediaItem implements Bundleable {
         private static final String FIELD_MAX_OFFSET_MS = Util.intToStringMaxRadix(2);
         private static final String FIELD_MIN_PLAYBACK_SPEED = Util.intToStringMaxRadix(3);
         private static final String FIELD_MAX_PLAYBACK_SPEED = Util.intToStringMaxRadix(4);
-        public static final Bundleable.Creator<LiveConfiguration> CREATOR = MediaItem$LiveConfiguration$$ExternalSyntheticLambda0.INSTANCE;
+        public static final Bundleable.Creator<LiveConfiguration> CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.MediaItem$LiveConfiguration$$ExternalSyntheticLambda0
+            @Override // com.google.android.exoplayer2.Bundleable.Creator
+            public final Bundleable fromBundle(Bundle bundle) {
+                MediaItem.LiveConfiguration lambda$static$0;
+                lambda$static$0 = MediaItem.LiveConfiguration.lambda$static$0(bundle);
+                return lambda$static$0;
+            }
+        };
 
         /* loaded from: classes.dex */
         public static final class Builder {
@@ -530,7 +545,14 @@ public final class MediaItem implements Bundleable {
         private static final String FIELD_RELATIVE_TO_LIVE_WINDOW = Util.intToStringMaxRadix(2);
         private static final String FIELD_RELATIVE_TO_DEFAULT_POSITION = Util.intToStringMaxRadix(3);
         private static final String FIELD_STARTS_AT_KEY_FRAME = Util.intToStringMaxRadix(4);
-        public static final Bundleable.Creator<ClippingProperties> CREATOR = MediaItem$ClippingConfiguration$$ExternalSyntheticLambda0.INSTANCE;
+        public static final Bundleable.Creator<ClippingProperties> CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.MediaItem$ClippingConfiguration$$ExternalSyntheticLambda0
+            @Override // com.google.android.exoplayer2.Bundleable.Creator
+            public final Bundleable fromBundle(Bundle bundle) {
+                MediaItem.ClippingProperties lambda$static$0;
+                lambda$static$0 = MediaItem.ClippingConfiguration.lambda$static$0(bundle);
+                return lambda$static$0;
+            }
+        };
 
         /* loaded from: classes.dex */
         public static final class Builder {
@@ -673,7 +695,14 @@ public final class MediaItem implements Bundleable {
         private static final String FIELD_MEDIA_URI = Util.intToStringMaxRadix(0);
         private static final String FIELD_SEARCH_QUERY = Util.intToStringMaxRadix(1);
         private static final String FIELD_EXTRAS = Util.intToStringMaxRadix(2);
-        public static final Bundleable.Creator<RequestMetadata> CREATOR = MediaItem$RequestMetadata$$ExternalSyntheticLambda0.INSTANCE;
+        public static final Bundleable.Creator<RequestMetadata> CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.MediaItem$RequestMetadata$$ExternalSyntheticLambda0
+            @Override // com.google.android.exoplayer2.Bundleable.Creator
+            public final Bundleable fromBundle(Bundle bundle) {
+                MediaItem.RequestMetadata lambda$static$0;
+                lambda$static$0 = MediaItem.RequestMetadata.lambda$static$0(bundle);
+                return lambda$static$0;
+            }
+        };
 
         /* loaded from: classes.dex */
         public static final class Builder {

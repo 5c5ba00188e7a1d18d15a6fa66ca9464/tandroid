@@ -2,6 +2,7 @@ package com.google.android.exoplayer2;
 
 import android.os.Bundle;
 import com.google.android.exoplayer2.Bundleable;
+import com.google.android.exoplayer2.Tracks;
 import com.google.android.exoplayer2.source.TrackGroup;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.BundleableUtil;
@@ -29,7 +30,14 @@ public final class Tracks implements Bundleable {
         private static final String FIELD_TRACK_SUPPORT = Util.intToStringMaxRadix(1);
         private static final String FIELD_TRACK_SELECTED = Util.intToStringMaxRadix(3);
         private static final String FIELD_ADAPTIVE_SUPPORTED = Util.intToStringMaxRadix(4);
-        public static final Bundleable.Creator<Group> CREATOR = Tracks$Group$$ExternalSyntheticLambda0.INSTANCE;
+        public static final Bundleable.Creator<Group> CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.Tracks$Group$$ExternalSyntheticLambda0
+            @Override // com.google.android.exoplayer2.Bundleable.Creator
+            public final Bundleable fromBundle(Bundle bundle) {
+                Tracks.Group lambda$static$0;
+                lambda$static$0 = Tracks.Group.lambda$static$0(bundle);
+                return lambda$static$0;
+            }
+        };
 
         public Group(TrackGroup trackGroup, boolean z, int[] iArr, boolean[] zArr) {
             int i = trackGroup.length;

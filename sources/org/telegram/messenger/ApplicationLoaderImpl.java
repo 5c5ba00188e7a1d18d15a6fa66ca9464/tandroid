@@ -14,6 +14,7 @@ import com.microsoft.appcenter.analytics.Analytics;
 import com.microsoft.appcenter.analytics.EventProperties;
 import com.microsoft.appcenter.crashes.Crashes;
 import com.microsoft.appcenter.distribute.Distribute;
+import com.microsoft.appcenter.utils.async.AppCenterConsumer;
 import java.io.File;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.ui.Components.AlertsCreator;
@@ -35,7 +36,12 @@ public class ApplicationLoaderImpl extends ApplicationLoader {
                     throw new RuntimeException("App Center hash is empty. add to local.properties field APP_CENTER_HASH_PRIVATE and APP_CENTER_HASH_PUBLIC");
                 }
                 AppCenter.start(activity.getApplication(), BuildConfig.APP_CENTER_HASH, Distribute.class, Crashes.class, Analytics.class);
-                Crashes.getMinidumpDirectory().thenAccept(ApplicationLoaderImpl$$ExternalSyntheticLambda0.INSTANCE);
+                Crashes.getMinidumpDirectory().thenAccept(new AppCenterConsumer() { // from class: org.telegram.messenger.ApplicationLoaderImpl$$ExternalSyntheticLambda0
+                    @Override // com.microsoft.appcenter.utils.async.AppCenterConsumer
+                    public final void accept(Object obj) {
+                        ApplicationLoaderImpl.lambda$startAppCenterInternal$0((String) obj);
+                    }
+                });
                 CustomProperties customProperties = new CustomProperties();
                 customProperties.set("model", Build.MODEL);
                 customProperties.set("manufacturer", Build.MANUFACTURER);

@@ -4,10 +4,12 @@ import android.util.LongSparseArray;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import org.telegram.messenger.MessageObject;
 import org.telegram.ui.CacheControlActivity;
+import org.telegram.ui.Storage.CacheModel;
 /* loaded from: classes4.dex */
 public class CacheModel {
     public boolean allDocumentsSelected;
@@ -84,7 +86,14 @@ public class CacheModel {
     }
 
     private void sort(ArrayList<FileInfo> arrayList) {
-        Collections.sort(arrayList, CacheModel$$ExternalSyntheticLambda0.INSTANCE);
+        Collections.sort(arrayList, new Comparator() { // from class: org.telegram.ui.Storage.CacheModel$$ExternalSyntheticLambda0
+            @Override // java.util.Comparator
+            public final int compare(Object obj, Object obj2) {
+                int lambda$sort$0;
+                lambda$sort$0 = CacheModel.lambda$sort$0((CacheModel.FileInfo) obj, (CacheModel.FileInfo) obj2);
+                return lambda$sort$0;
+            }
+        });
     }
 
     /* JADX INFO: Access modifiers changed from: private */

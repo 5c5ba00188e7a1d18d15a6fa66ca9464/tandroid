@@ -309,7 +309,12 @@ public class DefaultDrmSession implements DrmSession {
                     return;
                 }
                 this.state = 4;
-                dispatchEvent(DefaultDrmSession$$ExternalSyntheticLambda4.INSTANCE);
+                dispatchEvent(new Consumer() { // from class: com.google.android.exoplayer2.drm.DefaultDrmSession$$ExternalSyntheticLambda4
+                    @Override // com.google.android.exoplayer2.util.Consumer
+                    public final void accept(Object obj) {
+                        ((DrmSessionEventListener.EventDispatcher) obj).drmKeysRestored();
+                    }
+                });
                 return;
             }
             Log.d("DefaultDrmSession", "Offline license has expired or will expire soon. Remaining seconds: " + licenseDurationRemainingSec);
@@ -356,7 +361,12 @@ public class DefaultDrmSession implements DrmSession {
                 byte[] bArr = (byte[]) obj2;
                 if (this.mode == 3) {
                     this.mediaDrm.provideKeyResponse((byte[]) Util.castNonNull(this.offlineLicenseKeySetId), bArr);
-                    dispatchEvent(DefaultDrmSession$$ExternalSyntheticLambda3.INSTANCE);
+                    dispatchEvent(new Consumer() { // from class: com.google.android.exoplayer2.drm.DefaultDrmSession$$ExternalSyntheticLambda3
+                        @Override // com.google.android.exoplayer2.util.Consumer
+                        public final void accept(Object obj3) {
+                            ((DrmSessionEventListener.EventDispatcher) obj3).drmKeysRemoved();
+                        }
+                    });
                     return;
                 }
                 byte[] provideKeyResponse = this.mediaDrm.provideKeyResponse(this.sessionId, bArr);
@@ -365,7 +375,12 @@ public class DefaultDrmSession implements DrmSession {
                     this.offlineLicenseKeySetId = provideKeyResponse;
                 }
                 this.state = 4;
-                dispatchEvent(DefaultDrmSession$$ExternalSyntheticLambda2.INSTANCE);
+                dispatchEvent(new Consumer() { // from class: com.google.android.exoplayer2.drm.DefaultDrmSession$$ExternalSyntheticLambda2
+                    @Override // com.google.android.exoplayer2.util.Consumer
+                    public final void accept(Object obj3) {
+                        ((DrmSessionEventListener.EventDispatcher) obj3).drmKeysLoaded();
+                    }
+                });
             } catch (Exception e) {
                 onKeysError(e, true);
             }

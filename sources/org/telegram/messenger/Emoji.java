@@ -19,6 +19,7 @@ import android.widget.TextView;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -65,7 +66,12 @@ public class Emoji {
         emojiUseHistory = new HashMap<>();
         recentEmoji = new ArrayList<>();
         emojiColor = new HashMap<>();
-        invalidateUiRunnable = Emoji$$ExternalSyntheticLambda1.INSTANCE;
+        invalidateUiRunnable = new Runnable() { // from class: org.telegram.messenger.Emoji$$ExternalSyntheticLambda1
+            @Override // java.lang.Runnable
+            public final void run() {
+                Emoji.lambda$static$0();
+            }
+        };
         emojiDrawingUseAlpha = true;
         DEFAULT_RECENT = new String[]{"😂", "😘", "❤", "😍", "😊", "😁", "👍", "☺", "😔", "😄", "😭", "💋", "😒", "😳", "😜", "🙈", "😉", "😃", "😢", "😝", "😱", "😡", "😏", "😞", "😅", "😚", "🙊", "😌", "😀", "😋", "😆", "👌", "😐", "😕"};
         drawImgSize = AndroidUtilities.dp(20.0f);
@@ -951,7 +957,14 @@ public class Emoji {
         for (Map.Entry<String, Integer> entry : emojiUseHistory.entrySet()) {
             recentEmoji.add(entry.getKey());
         }
-        Collections.sort(recentEmoji, Emoji$$ExternalSyntheticLambda2.INSTANCE);
+        Collections.sort(recentEmoji, new Comparator() { // from class: org.telegram.messenger.Emoji$$ExternalSyntheticLambda2
+            @Override // java.util.Comparator
+            public final int compare(Object obj, Object obj2) {
+                int lambda$sortEmoji$2;
+                lambda$sortEmoji$2 = Emoji.lambda$sortEmoji$2((String) obj, (String) obj2);
+                return lambda$sortEmoji$2;
+            }
+        });
         while (recentEmoji.size() > 48) {
             ArrayList<String> arrayList = recentEmoji;
             arrayList.remove(arrayList.size() - 1);

@@ -1,11 +1,13 @@
 package com.google.android.exoplayer2.extractor.amr;
 
+import android.net.Uri;
 import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.ParserException;
 import com.google.android.exoplayer2.extractor.ConstantBitrateSeekMap;
 import com.google.android.exoplayer2.extractor.Extractor;
 import com.google.android.exoplayer2.extractor.ExtractorInput;
 import com.google.android.exoplayer2.extractor.ExtractorOutput;
+import com.google.android.exoplayer2.extractor.ExtractorsFactory;
 import com.google.android.exoplayer2.extractor.PositionHolder;
 import com.google.android.exoplayer2.extractor.SeekMap;
 import com.google.android.exoplayer2.extractor.TrackOutput;
@@ -15,6 +17,7 @@ import com.google.android.exoplayer2.util.Util;
 import java.io.EOFException;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Map;
 /* loaded from: classes.dex */
 public final class AmrExtractor implements Extractor {
     private static final int MAX_FRAME_SIZE_BYTES;
@@ -43,7 +46,21 @@ public final class AmrExtractor implements Extractor {
     }
 
     static {
-        AmrExtractor$$ExternalSyntheticLambda0 amrExtractor$$ExternalSyntheticLambda0 = AmrExtractor$$ExternalSyntheticLambda0.INSTANCE;
+        AmrExtractor$$ExternalSyntheticLambda0 amrExtractor$$ExternalSyntheticLambda0 = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.amr.AmrExtractor$$ExternalSyntheticLambda0
+            @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
+            public final Extractor[] createExtractors() {
+                Extractor[] lambda$static$0;
+                lambda$static$0 = AmrExtractor.lambda$static$0();
+                return lambda$static$0;
+            }
+
+            @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
+            public /* synthetic */ Extractor[] createExtractors(Uri uri, Map map) {
+                Extractor[] createExtractors;
+                createExtractors = createExtractors();
+                return createExtractors;
+            }
+        };
         frameSizeBytesByTypeNb = new int[]{13, 14, 16, 18, 20, 21, 27, 32, 6, 7, 6, 6, 1, 1, 1, 1};
         int[] iArr = {18, 24, 33, 37, 41, 47, 51, 59, 61, 6, 1, 1, 1, 1, 1, 1};
         frameSizeBytesByTypeWb = iArr;

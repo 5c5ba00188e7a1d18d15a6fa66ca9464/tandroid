@@ -27,9 +27,9 @@ public final /* synthetic */ class n4 implements j3 {
     public /* synthetic */ Consumer andThen(Consumer consumer) {
         switch (this.a) {
             case 0:
-                return Objects.requireNonNull(consumer);
+                return Consumer.-CC.$default$andThen(this, consumer);
             default:
-                return Objects.requireNonNull(consumer);
+                return Consumer.-CC.$default$andThen(this, consumer);
         }
     }
 

@@ -23,7 +23,14 @@ public final class TrackGroup implements Bundleable {
     public final int type;
     private static final String FIELD_FORMATS = Util.intToStringMaxRadix(0);
     private static final String FIELD_ID = Util.intToStringMaxRadix(1);
-    public static final Bundleable.Creator<TrackGroup> CREATOR = TrackGroup$$ExternalSyntheticLambda0.INSTANCE;
+    public static final Bundleable.Creator<TrackGroup> CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.source.TrackGroup$$ExternalSyntheticLambda0
+        @Override // com.google.android.exoplayer2.Bundleable.Creator
+        public final Bundleable fromBundle(Bundle bundle) {
+            TrackGroup lambda$static$0;
+            lambda$static$0 = TrackGroup.lambda$static$0(bundle);
+            return lambda$static$0;
+        }
+    };
 
     private static int normalizeRoleFlags(int i) {
         return i | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM;

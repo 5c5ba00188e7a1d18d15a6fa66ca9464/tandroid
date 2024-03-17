@@ -1114,7 +1114,14 @@ public class PollVotesAlert extends BottomSheet {
         if (!z || i == 0) {
             return;
         }
-        Collections.sort(arrayList, PollVotesAlert$$ExternalSyntheticLambda2.INSTANCE);
+        Collections.sort(arrayList, new Comparator() { // from class: org.telegram.ui.Components.PollVotesAlert$$ExternalSyntheticLambda2
+            @Override // java.util.Comparator
+            public final int compare(Object obj, Object obj2) {
+                int lambda$updateButtons$5;
+                lambda$updateButtons$5 = PollVotesAlert.lambda$updateButtons$5((PollVotesAlert.Button) obj, (PollVotesAlert.Button) obj2);
+                return lambda$updateButtons$5;
+            }
+        });
         int min = Math.min(i, arrayList.size());
         for (int i6 = 0; i6 < min; i6++) {
             Button.access$4112((Button) arrayList.get(i6), 1);

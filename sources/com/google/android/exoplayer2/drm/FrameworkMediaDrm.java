@@ -29,7 +29,14 @@ import java.util.Map;
 import java.util.UUID;
 /* loaded from: classes.dex */
 public final class FrameworkMediaDrm implements ExoMediaDrm {
-    public static final ExoMediaDrm.Provider DEFAULT_PROVIDER = FrameworkMediaDrm$$ExternalSyntheticLambda1.INSTANCE;
+    public static final ExoMediaDrm.Provider DEFAULT_PROVIDER = new ExoMediaDrm.Provider() { // from class: com.google.android.exoplayer2.drm.FrameworkMediaDrm$$ExternalSyntheticLambda1
+        @Override // com.google.android.exoplayer2.drm.ExoMediaDrm.Provider
+        public final ExoMediaDrm acquireExoMediaDrm(UUID uuid) {
+            ExoMediaDrm lambda$static$0;
+            lambda$static$0 = FrameworkMediaDrm.lambda$static$0(uuid);
+            return lambda$static$0;
+        }
+    };
     private final MediaDrm mediaDrm;
     private int referenceCount;
     private final UUID uuid;

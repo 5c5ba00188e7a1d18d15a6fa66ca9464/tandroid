@@ -6,6 +6,7 @@ import com.google.android.exoplayer2.DefaultLivePlaybackSpeedControl;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.analytics.AnalyticsCollector;
 import com.google.android.exoplayer2.analytics.AnalyticsListener;
+import com.google.android.exoplayer2.analytics.DefaultAnalyticsCollector;
 import com.google.android.exoplayer2.audio.AudioAttributes;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.source.DefaultMediaSourceFactory;
@@ -135,14 +136,24 @@ public interface ExoPlayer extends Player {
                     lambda$new$14 = ExoPlayer.Builder.lambda$new$14(context);
                     return lambda$new$14;
                 }
-            }, ExoPlayer$Builder$$ExternalSyntheticLambda8.INSTANCE, new Supplier() { // from class: com.google.android.exoplayer2.ExoPlayer$Builder$$ExternalSyntheticLambda1
+            }, new Supplier() { // from class: com.google.android.exoplayer2.ExoPlayer$Builder$$ExternalSyntheticLambda8
+                @Override // com.google.common.base.Supplier
+                public final Object get() {
+                    return new DefaultLoadControl();
+                }
+            }, new Supplier() { // from class: com.google.android.exoplayer2.ExoPlayer$Builder$$ExternalSyntheticLambda1
                 @Override // com.google.common.base.Supplier
                 public final Object get() {
                     BandwidthMeter singletonInstance;
                     singletonInstance = DefaultBandwidthMeter.getSingletonInstance(context);
                     return singletonInstance;
                 }
-            }, ExoPlayer$Builder$$ExternalSyntheticLambda0.INSTANCE);
+            }, new Function() { // from class: com.google.android.exoplayer2.ExoPlayer$Builder$$ExternalSyntheticLambda0
+                @Override // com.google.common.base.Function
+                public final Object apply(Object obj) {
+                    return new DefaultAnalyticsCollector((Clock) obj);
+                }
+            });
         }
 
         /* JADX INFO: Access modifiers changed from: private */

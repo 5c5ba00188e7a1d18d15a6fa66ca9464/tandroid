@@ -90,13 +90,13 @@ public class l2 implements y1 {
         return String.format("LongArrayNode[%d][%s]", Integer.valueOf(this.a.length - this.b), Arrays.toString(this.a));
     }
 
-    @Override // j$.util.stream.z1, j$.util.stream.A1
+    @Override // j$.util.stream.A1
     public /* bridge */ /* synthetic */ A1 b(int i) {
         b(i);
         throw null;
     }
 
-    @Override // j$.util.stream.z1, j$.util.stream.A1
+    @Override // j$.util.stream.A1
     public j$.util.t spliterator() {
         return j$.util.J.l(this.a, 0, this.b, 1040);
     }

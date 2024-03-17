@@ -71,8 +71,9 @@ public class BotCommandsMenuView extends View {
                 BotCommandsMenuView.this.invalidate();
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RLottieDrawable
-            protected void invalidateInternal() {
+            public void invalidateInternal() {
                 super.invalidateInternal();
                 BotCommandsMenuView.this.invalidate();
             }

@@ -1,14 +1,17 @@
 package com.google.android.exoplayer2.extractor.ts;
 
+import android.net.Uri;
 import com.google.android.exoplayer2.audio.Ac3Util;
 import com.google.android.exoplayer2.extractor.Extractor;
 import com.google.android.exoplayer2.extractor.ExtractorInput;
 import com.google.android.exoplayer2.extractor.ExtractorOutput;
+import com.google.android.exoplayer2.extractor.ExtractorsFactory;
 import com.google.android.exoplayer2.extractor.PositionHolder;
 import com.google.android.exoplayer2.extractor.SeekMap;
 import com.google.android.exoplayer2.extractor.ts.TsPayloadReader;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.io.IOException;
+import java.util.Map;
 /* loaded from: classes.dex */
 public final class Ac3Extractor implements Extractor {
     private final Ac3Reader reader = new Ac3Reader();
@@ -20,7 +23,21 @@ public final class Ac3Extractor implements Extractor {
     }
 
     static {
-        Ac3Extractor$$ExternalSyntheticLambda0 ac3Extractor$$ExternalSyntheticLambda0 = Ac3Extractor$$ExternalSyntheticLambda0.INSTANCE;
+        Ac3Extractor$$ExternalSyntheticLambda0 ac3Extractor$$ExternalSyntheticLambda0 = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.ts.Ac3Extractor$$ExternalSyntheticLambda0
+            @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
+            public final Extractor[] createExtractors() {
+                Extractor[] lambda$static$0;
+                lambda$static$0 = Ac3Extractor.lambda$static$0();
+                return lambda$static$0;
+            }
+
+            @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
+            public /* synthetic */ Extractor[] createExtractors(Uri uri, Map map) {
+                Extractor[] createExtractors;
+                createExtractors = createExtractors();
+                return createExtractors;
+            }
+        };
     }
 
     /* JADX INFO: Access modifiers changed from: private */

@@ -675,7 +675,7 @@ public final class MenuItemImpl implements SupportMenuItem {
         return this;
     }
 
-    @Override // androidx.core.internal.view.SupportMenuItem, android.view.MenuItem
+    @Override // android.view.MenuItem
     public SupportMenuItem setContentDescription(CharSequence charSequence) {
         this.mContentDescription = charSequence;
         this.mMenu.onItemsChanged(false);
@@ -687,7 +687,7 @@ public final class MenuItemImpl implements SupportMenuItem {
         return this.mContentDescription;
     }
 
-    @Override // androidx.core.internal.view.SupportMenuItem, android.view.MenuItem
+    @Override // android.view.MenuItem
     public SupportMenuItem setTooltipText(CharSequence charSequence) {
         this.mTooltipText = charSequence;
         this.mMenu.onItemsChanged(false);

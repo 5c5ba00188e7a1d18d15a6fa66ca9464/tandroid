@@ -452,9 +452,9 @@ public class ItemOptions {
                     this.preDrawListener = new ViewTreeObserver.OnPreDrawListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda2
                         @Override // android.view.ViewTreeObserver.OnPreDrawListener
                         public final boolean onPreDraw() {
-                            boolean invalidate;
-                            invalidate = dimView.invalidate();
-                            return invalidate;
+                            boolean lambda$show$4;
+                            lambda$show$4 = ItemOptions.lambda$show$4(dimView);
+                            return lambda$show$4;
                         }
                     };
                     viewGroup.getViewTreeObserver().addOnPreDrawListener(this.preDrawListener);
@@ -531,6 +531,12 @@ public class ItemOptions {
             return this;
         }
         return this;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ boolean lambda$show$4(View view) {
+        view.invalidate();
+        return true;
     }
 
     public ItemOptions setBackgroundColor(int i) {

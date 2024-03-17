@@ -2,9 +2,8 @@ package com.microsoft.appcenter.crashes;
 
 import com.microsoft.appcenter.utils.ShutdownHelper;
 import java.lang.Thread;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class UncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
+class UncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
     private Thread.UncaughtExceptionHandler mDefaultUncaughtExceptionHandler;
     private boolean mIgnoreDefaultExceptionHandler = false;
 

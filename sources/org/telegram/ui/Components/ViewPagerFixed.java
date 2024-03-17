@@ -44,6 +44,7 @@ import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
+import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$TL_error;
 import org.telegram.tgnet.TLRPC$TL_messages_updateDialogFiltersOrder;
@@ -52,7 +53,14 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.ViewPagerFixed;
 /* loaded from: classes4.dex */
 public class ViewPagerFixed extends FrameLayout {
-    private static final Interpolator interpolator = ViewPagerFixed$$ExternalSyntheticLambda3.INSTANCE;
+    private static final Interpolator interpolator = new Interpolator() { // from class: org.telegram.ui.Components.ViewPagerFixed$$ExternalSyntheticLambda3
+        @Override // android.animation.TimeInterpolator
+        public final float getInterpolation(float f) {
+            float lambda$static$0;
+            lambda$static$0 = ViewPagerFixed.lambda$static$0(f);
+            return lambda$static$0;
+        }
+    };
     private Adapter adapter;
     private float additionalOffset;
     private boolean allowDisallowInterceptTouch;
@@ -1867,7 +1875,12 @@ public class ViewPagerFixed extends FrameLayout {
                 arrayList.get(i);
                 tLRPC$TL_messages_updateDialogFiltersOrder.order.add(Integer.valueOf(arrayList.get(i).id));
             }
-            ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_messages_updateDialogFiltersOrder, ViewPagerFixed$TabsView$$ExternalSyntheticLambda0.INSTANCE);
+            ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_messages_updateDialogFiltersOrder, new RequestDelegate() { // from class: org.telegram.ui.Components.ViewPagerFixed$TabsView$$ExternalSyntheticLambda0
+                @Override // org.telegram.tgnet.RequestDelegate
+                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                    ViewPagerFixed.TabsView.lambda$setIsEditing$1(tLObject, tLRPC$TL_error);
+                }
+            });
             this.orderChanged = false;
         }
 

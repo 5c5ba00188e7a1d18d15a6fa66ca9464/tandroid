@@ -42,7 +42,14 @@ import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.PhotoPickerActivity;
 /* loaded from: classes3.dex */
 public class PhotoPickerSearchActivity extends BaseFragment {
-    private static final Interpolator interpolator = PhotoPickerSearchActivity$$ExternalSyntheticLambda0.INSTANCE;
+    private static final Interpolator interpolator = new Interpolator() { // from class: org.telegram.ui.PhotoPickerSearchActivity$$ExternalSyntheticLambda0
+        @Override // android.animation.TimeInterpolator
+        public final float getInterpolation(float f) {
+            float lambda$static$0;
+            lambda$static$0 = PhotoPickerSearchActivity.lambda$static$0(f);
+            return lambda$static$0;
+        }
+    };
     private boolean animatingForward;
     private boolean backAnimation;
     private EditTextEmoji commentTextView;

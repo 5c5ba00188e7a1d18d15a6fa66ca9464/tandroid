@@ -2,10 +2,11 @@ package com.google.android.gms.internal.mlkit_language_id;
 
 import java.util.Map;
 /* JADX INFO: Access modifiers changed from: package-private */
+/* JADX INFO: Add missing generic type declarations: [V, K] */
 /* JADX WARN: Incorrect field signature: TK; */
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
-public final class zzgz implements Comparable<zzgz>, Map.Entry<K, V> {
+public final class zzgz<K, V> implements Comparable<zzgz>, Map.Entry<K, V> {
     private final Comparable zza;
     private V zzb;
     private final /* synthetic */ zzgq zzc;
@@ -53,7 +54,7 @@ public final class zzgz implements Comparable<zzgz>, Map.Entry<K, V> {
         Comparable comparable = this.zza;
         int hashCode = comparable == null ? 0 : comparable.hashCode();
         V v = this.zzb;
-        return hashCode ^ (v != 0 ? v.hashCode() : 0);
+        return hashCode ^ (v != null ? v.hashCode() : 0);
     }
 
     public final String toString() {

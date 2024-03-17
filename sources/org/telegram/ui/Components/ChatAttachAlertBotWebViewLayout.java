@@ -63,6 +63,7 @@ import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.BotWebViewContainer;
 import org.telegram.ui.Components.ChatAttachAlert;
 import org.telegram.ui.Components.ChatAttachAlertBotWebViewLayout;
+import org.telegram.ui.Components.SimpleFloatPropertyCompat;
 /* loaded from: classes4.dex */
 public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlertLayout implements NotificationCenter.NotificationCenterDelegate {
     private long botId;
@@ -794,7 +795,17 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
 
     /* loaded from: classes4.dex */
     public static class WebViewSwipeContainer extends FrameLayout {
-        public static final SimpleFloatPropertyCompat<WebViewSwipeContainer> SWIPE_OFFSET_Y = new SimpleFloatPropertyCompat<>("swipeOffsetY", ChatAttachAlertBotWebViewLayout$WebViewSwipeContainer$$ExternalSyntheticLambda4.INSTANCE, ChatAttachAlertBotWebViewLayout$WebViewSwipeContainer$$ExternalSyntheticLambda5.INSTANCE);
+        public static final SimpleFloatPropertyCompat<WebViewSwipeContainer> SWIPE_OFFSET_Y = new SimpleFloatPropertyCompat<>("swipeOffsetY", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.Components.ChatAttachAlertBotWebViewLayout$WebViewSwipeContainer$$ExternalSyntheticLambda4
+            @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Getter
+            public final float get(Object obj) {
+                return ((ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer) obj).getSwipeOffsetY();
+            }
+        }, new SimpleFloatPropertyCompat.Setter() { // from class: org.telegram.ui.Components.ChatAttachAlertBotWebViewLayout$WebViewSwipeContainer$$ExternalSyntheticLambda5
+            @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Setter
+            public final void set(Object obj, float f) {
+                ((ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer) obj).setSwipeOffsetY(f);
+            }
+        });
         private Delegate delegate;
         private boolean flingInProgress;
         private GestureDetectorCompat gestureDetector;
@@ -825,13 +836,25 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
             return f2;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
+        public static /* synthetic */ Boolean lambda$new$0(Void r0) {
+            return Boolean.FALSE;
+        }
+
         public WebViewSwipeContainer(Context context) {
             super(context);
             this.topActionBarOffsetY = ActionBar.getCurrentActionBarHeight();
             this.offsetY = 0.0f;
             this.pendingOffsetY = -1.0f;
             this.pendingSwipeOffsetY = -2.14748365E9f;
-            this.isKeyboardVisible = ChatAttachAlertBotWebViewLayout$WebViewSwipeContainer$$ExternalSyntheticLambda3.INSTANCE;
+            this.isKeyboardVisible = new GenericProvider() { // from class: org.telegram.ui.Components.ChatAttachAlertBotWebViewLayout$WebViewSwipeContainer$$ExternalSyntheticLambda3
+                @Override // org.telegram.messenger.GenericProvider
+                public final Object provide(Object obj) {
+                    Boolean lambda$new$0;
+                    lambda$new$0 = ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer.lambda$new$0((Void) obj);
+                    return lambda$new$0;
+                }
+            };
             final int scaledTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
             this.gestureDetector = new GestureDetectorCompat(context, new GestureDetector.SimpleOnGestureListener() { // from class: org.telegram.ui.Components.ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer.1
                 @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnGestureListener
@@ -1175,7 +1198,19 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
 
         public WebProgressView(Context context, Theme.ResourcesProvider resourcesProvider) {
             super(context);
-            this.LOAD_PROGRESS_PROPERTY = new SimpleFloatPropertyCompat("loadProgress", ChatAttachAlertBotWebViewLayout$WebProgressView$$ExternalSyntheticLambda0.INSTANCE, ChatAttachAlertBotWebViewLayout$WebProgressView$$ExternalSyntheticLambda1.INSTANCE).setMultiplier(100.0f);
+            this.LOAD_PROGRESS_PROPERTY = new SimpleFloatPropertyCompat("loadProgress", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.Components.ChatAttachAlertBotWebViewLayout$WebProgressView$$ExternalSyntheticLambda0
+                @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Getter
+                public final float get(Object obj) {
+                    float f;
+                    f = ((ChatAttachAlertBotWebViewLayout.WebProgressView) obj).loadProgress;
+                    return f;
+                }
+            }, new SimpleFloatPropertyCompat.Setter() { // from class: org.telegram.ui.Components.ChatAttachAlertBotWebViewLayout$WebProgressView$$ExternalSyntheticLambda1
+                @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Setter
+                public final void set(Object obj, float f) {
+                    ((ChatAttachAlertBotWebViewLayout.WebProgressView) obj).setLoadProgress(f);
+                }
+            }).setMultiplier(100.0f);
             Paint paint = new Paint(1);
             this.bluePaint = paint;
             this.resourcesProvider = resourcesProvider;

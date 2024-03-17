@@ -6,6 +6,7 @@ import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.concurrent.CountDownLatch;
@@ -726,7 +727,14 @@ public class FileLoadOperation {
             z = true;
         }
         z = false;
-        Collections.sort(arrayList, FileLoadOperation$$ExternalSyntheticLambda22.INSTANCE);
+        Collections.sort(arrayList, new Comparator() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda22
+            @Override // java.util.Comparator
+            public final int compare(Object obj, Object obj2) {
+                int lambda$removePart$1;
+                lambda$removePart$1 = FileLoadOperation.lambda$removePart$1((FileLoadOperation.Range) obj, (FileLoadOperation.Range) obj2);
+                return lambda$removePart$1;
+            }
+        });
         while (i < arrayList.size() - 1) {
             Range range2 = arrayList.get(i);
             int i3 = i + 1;

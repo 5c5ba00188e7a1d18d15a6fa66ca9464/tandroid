@@ -34,6 +34,7 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -7703,7 +7704,14 @@ public class MessageObject {
             byte b = z3 ? (byte) 2 : z ? (byte) 1 : (byte) 0;
             ArrayList arrayList2 = new ArrayList();
             ArrayList arrayList3 = new ArrayList(arrayList);
-            Collections.sort(arrayList3, MessageObject$$ExternalSyntheticLambda2.INSTANCE);
+            Collections.sort(arrayList3, new Comparator() { // from class: org.telegram.messenger.MessageObject$$ExternalSyntheticLambda2
+                @Override // java.util.Comparator
+                public final int compare(Object obj, Object obj2) {
+                    int lambda$addEntitiesToText$2;
+                    lambda$addEntitiesToText$2 = MessageObject.lambda$addEntitiesToText$2((TLRPC$MessageEntity) obj, (TLRPC$MessageEntity) obj2);
+                    return lambda$addEntitiesToText$2;
+                }
+            });
             int size2 = arrayList3.size();
             int i6 = 0;
             while (true) {
@@ -11954,7 +11962,14 @@ public class MessageObject {
                 i3++;
             }
             if (arrayList.size() > 0) {
-                Collections.sort(arrayList, MessageObject$$ExternalSyntheticLambda1.INSTANCE);
+                Collections.sort(arrayList, new Comparator() { // from class: org.telegram.messenger.MessageObject$$ExternalSyntheticLambda1
+                    @Override // java.util.Comparator
+                    public final int compare(Object obj, Object obj2) {
+                        int lambda$handleFoundWords$3;
+                        lambda$handleFoundWords$3 = MessageObject.lambda$handleFoundWords$3((String) obj, (String) obj2);
+                        return lambda$handleFoundWords$3;
+                    }
+                });
                 arrayList.clear();
                 arrayList.add(arrayList.get(0));
             }

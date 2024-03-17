@@ -465,7 +465,12 @@ public final class ExoPlayerImpl extends BasePlayer implements ExoPlayer {
         this.wifiLockManager.setStayAwake(false);
         this.audioFocusManager.release();
         if (!this.internalPlayer.release()) {
-            this.listeners.sendEvent(10, ExoPlayerImpl$$ExternalSyntheticLambda21.INSTANCE);
+            this.listeners.sendEvent(10, new ListenerSet.Event() { // from class: com.google.android.exoplayer2.ExoPlayerImpl$$ExternalSyntheticLambda21
+                @Override // com.google.android.exoplayer2.util.ListenerSet.Event
+                public final void invoke(Object obj) {
+                    ExoPlayerImpl.lambda$release$5((Player.Listener) obj);
+                }
+            });
         }
         this.listeners.release();
         this.playbackInfoUpdateHandler.removeCallbacksAndMessages(null);
@@ -1020,7 +1025,12 @@ public final class ExoPlayerImpl extends BasePlayer implements ExoPlayer {
             });
         }
         if (z) {
-            this.listeners.queueEvent(-1, ExoPlayerImpl$$ExternalSyntheticLambda22.INSTANCE);
+            this.listeners.queueEvent(-1, new ListenerSet.Event() { // from class: com.google.android.exoplayer2.ExoPlayerImpl$$ExternalSyntheticLambda22
+                @Override // com.google.android.exoplayer2.util.ListenerSet.Event
+                public final void invoke(Object obj) {
+                    ((Player.Listener) obj).onSeekProcessed();
+                }
+            });
         }
         updateAvailableCommands();
         this.listeners.flushEvents();
@@ -1712,7 +1722,12 @@ public final class ExoPlayerImpl extends BasePlayer implements ExoPlayer {
         public void onRenderedFirstFrame(Object obj, long j) {
             ExoPlayerImpl.this.analyticsCollector.onRenderedFirstFrame(obj, j);
             if (ExoPlayerImpl.this.videoOutput == obj) {
-                ExoPlayerImpl.this.listeners.sendEvent(26, ExoPlayerImpl$ComponentListener$$ExternalSyntheticLambda8.INSTANCE);
+                ExoPlayerImpl.this.listeners.sendEvent(26, new ListenerSet.Event() { // from class: com.google.android.exoplayer2.ExoPlayerImpl$ComponentListener$$ExternalSyntheticLambda8
+                    @Override // com.google.android.exoplayer2.util.ListenerSet.Event
+                    public final void invoke(Object obj2) {
+                        ((Player.Listener) obj2).onRenderedFirstFrame();
+                    }
+                });
             }
         }
 

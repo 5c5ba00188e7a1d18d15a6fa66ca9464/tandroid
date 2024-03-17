@@ -1,11 +1,20 @@
 package com.google.android.exoplayer2.source.rtsp;
 
+import com.google.android.exoplayer2.source.rtsp.RtpPacketReorderingQueue;
+import java.util.Comparator;
 import java.util.TreeSet;
 /* loaded from: classes.dex */
 final class RtpPacketReorderingQueue {
     private int lastDequeuedSequenceNumber;
     private int lastReceivedSequenceNumber;
-    private final TreeSet<RtpPacketContainer> packetQueue = new TreeSet<>(RtpPacketReorderingQueue$$ExternalSyntheticLambda0.INSTANCE);
+    private final TreeSet<RtpPacketContainer> packetQueue = new TreeSet<>(new Comparator() { // from class: com.google.android.exoplayer2.source.rtsp.RtpPacketReorderingQueue$$ExternalSyntheticLambda0
+        @Override // java.util.Comparator
+        public final int compare(Object obj, Object obj2) {
+            int lambda$new$0;
+            lambda$new$0 = RtpPacketReorderingQueue.lambda$new$0((RtpPacketReorderingQueue.RtpPacketContainer) obj, (RtpPacketReorderingQueue.RtpPacketContainer) obj2);
+            return lambda$new$0;
+        }
+    });
     private boolean started;
 
     public RtpPacketReorderingQueue() {

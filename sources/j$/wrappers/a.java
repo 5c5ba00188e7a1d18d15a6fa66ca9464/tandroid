@@ -42,7 +42,7 @@ public final /* synthetic */ class a implements j$.util.n {
         return this.a.next();
     }
 
-    @Override // j$.util.n, java.util.Iterator
+    @Override // java.util.Iterator
     public /* synthetic */ Object next() {
         return this.a.next();
     }

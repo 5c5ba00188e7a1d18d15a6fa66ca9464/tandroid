@@ -3,7 +3,6 @@ package j$.util.stream;
 import j$.util.concurrent.ConcurrentHashMap;
 import j$.util.function.Consumer;
 import java.util.Comparator;
-import java.util.Objects;
 /* loaded from: classes2.dex */
 final class m4 implements j$.util.t, Consumer {
     private static final Object d = new Object();
@@ -30,7 +29,7 @@ final class m4 implements j$.util.t, Consumer {
 
     @Override // j$.util.function.Consumer
     public /* synthetic */ Consumer andThen(Consumer consumer) {
-        return Objects.requireNonNull(consumer);
+        return Consumer.-CC.$default$andThen(this, consumer);
     }
 
     @Override // j$.util.t

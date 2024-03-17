@@ -107,7 +107,7 @@ public final class RuntimeClassNameTypeAdapterFactory<T> implements TypeAdapterF
             public void write(JsonWriter jsonWriter, R r) throws IOException {
                 Class<?> cls = r.getClass();
                 String simpleName = cls.getSimpleName();
-                TypeAdapter delegate = getDelegate(cls);
+                TypeAdapter<R> delegate = getDelegate(cls);
                 if (delegate == null) {
                     throw new JsonParseException("cannot serialize " + cls.getSimpleName() + "; did you forget to register a subtype?");
                 }
@@ -130,7 +130,7 @@ public final class RuntimeClassNameTypeAdapterFactory<T> implements TypeAdapterF
 
             private TypeAdapter<R> getDelegate(Class<?> cls) {
                 TypeAdapter<R> typeAdapter = (TypeAdapter) linkedHashMap2.get(cls);
-                if (typeAdapter != 0) {
+                if (typeAdapter != null) {
                     return typeAdapter;
                 }
                 for (Map.Entry entry : linkedHashMap2.entrySet()) {

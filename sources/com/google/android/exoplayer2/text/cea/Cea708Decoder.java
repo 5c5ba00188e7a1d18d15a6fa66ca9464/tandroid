@@ -11,6 +11,7 @@ import android.text.style.UnderlineSpan;
 import com.google.android.exoplayer2.text.Cue;
 import com.google.android.exoplayer2.text.Subtitle;
 import com.google.android.exoplayer2.text.SubtitleInputBuffer;
+import com.google.android.exoplayer2.text.cea.Cea708Decoder;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.CodecSpecificDataUtil;
 import com.google.android.exoplayer2.util.Log;
@@ -925,7 +926,14 @@ public final class Cea708Decoder extends CeaDecoder {
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class Cea708CueInfo {
-        private static final Comparator<Cea708CueInfo> LEAST_IMPORTANT_FIRST = Cea708Decoder$Cea708CueInfo$$ExternalSyntheticLambda0.INSTANCE;
+        private static final Comparator<Cea708CueInfo> LEAST_IMPORTANT_FIRST = new Comparator() { // from class: com.google.android.exoplayer2.text.cea.Cea708Decoder$Cea708CueInfo$$ExternalSyntheticLambda0
+            @Override // java.util.Comparator
+            public final int compare(Object obj, Object obj2) {
+                int lambda$static$0;
+                lambda$static$0 = Cea708Decoder.Cea708CueInfo.lambda$static$0((Cea708Decoder.Cea708CueInfo) obj, (Cea708Decoder.Cea708CueInfo) obj2);
+                return lambda$static$0;
+            }
+        };
         public final Cue cue;
         public final int priority;
 

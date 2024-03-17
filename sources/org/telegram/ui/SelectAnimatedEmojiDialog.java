@@ -345,7 +345,12 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
 
     /* loaded from: classes3.dex */
     public static class SelectAnimatedEmojiDialogWindow extends PopupWindow {
-        private static final ViewTreeObserver.OnScrollChangedListener NOP = SelectAnimatedEmojiDialog$SelectAnimatedEmojiDialogWindow$$ExternalSyntheticLambda0.INSTANCE;
+        private static final ViewTreeObserver.OnScrollChangedListener NOP = new ViewTreeObserver.OnScrollChangedListener() { // from class: org.telegram.ui.SelectAnimatedEmojiDialog$SelectAnimatedEmojiDialogWindow$$ExternalSyntheticLambda0
+            @Override // android.view.ViewTreeObserver.OnScrollChangedListener
+            public final void onScrollChanged() {
+                SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow.lambda$static$0();
+            }
+        };
         private static final Field superListenerField;
         private ViewTreeObserver.OnScrollChangedListener mSuperScrollListener;
         private ViewTreeObserver mViewTreeObserver;
@@ -7355,7 +7360,12 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             if (z) {
                 return;
             }
-            AndroidUtilities.forEachViews((RecyclerView) this.emojiGridView, (com.google.android.exoplayer2.util.Consumer<View>) SelectAnimatedEmojiDialog$$ExternalSyntheticLambda11.INSTANCE);
+            AndroidUtilities.forEachViews((RecyclerView) this.emojiGridView, (com.google.android.exoplayer2.util.Consumer<View>) new com.google.android.exoplayer2.util.Consumer() { // from class: org.telegram.ui.SelectAnimatedEmojiDialog$$ExternalSyntheticLambda11
+                @Override // com.google.android.exoplayer2.util.Consumer
+                public final void accept(Object obj) {
+                    SelectAnimatedEmojiDialog.lambda$setEnterAnimationInProgress$35((View) obj);
+                }
+            });
             for (int i = 0; i < this.emojiTabs.contentView.getChildCount(); i++) {
                 View childAt = this.emojiTabs.contentView.getChildAt(i);
                 childAt.setScaleX(1.0f);

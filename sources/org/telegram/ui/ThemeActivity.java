@@ -40,6 +40,7 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicReference;
@@ -566,7 +567,14 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             }
             i10++;
         }
-        Collections.sort(this.defaultThemes, ThemeActivity$$ExternalSyntheticLambda10.INSTANCE);
+        Collections.sort(this.defaultThemes, new Comparator() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda10
+            @Override // java.util.Comparator
+            public final int compare(Object obj, Object obj2) {
+                int lambda$updateRows$0;
+                lambda$updateRows$0 = ThemeActivity.lambda$updateRows$0((Theme.ThemeInfo) obj, (Theme.ThemeInfo) obj2);
+                return lambda$updateRows$0;
+            }
+        });
         int i12 = this.currentType;
         if (i12 == 3) {
             int i13 = this.rowCount;

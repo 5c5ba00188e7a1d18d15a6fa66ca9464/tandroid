@@ -1,6 +1,6 @@
 package j$.util.function;
 
-import java.util.Objects;
+import j$.util.function.Function;
 /* loaded from: classes2.dex */
 public final /* synthetic */ class i implements Function {
     public final /* synthetic */ int a;
@@ -22,9 +22,9 @@ public final /* synthetic */ class i implements Function {
     public /* synthetic */ Function andThen(Function function) {
         switch (this.a) {
             case 0:
-                return Objects.requireNonNull(function);
+                return Function.-CC.$default$andThen(this, function);
             default:
-                return Objects.requireNonNull(function);
+                return Function.-CC.$default$andThen(this, function);
         }
     }
 
@@ -42,9 +42,9 @@ public final /* synthetic */ class i implements Function {
     public /* synthetic */ Function compose(Function function) {
         switch (this.a) {
             case 0:
-                return Objects.requireNonNull(function);
+                return Function.-CC.$default$compose(this, function);
             default:
-                return Objects.requireNonNull(function);
+                return Function.-CC.$default$compose(this, function);
         }
     }
 }

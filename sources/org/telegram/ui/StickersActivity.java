@@ -286,7 +286,14 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
         this.selectedCountTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.selectedCountTextView.setTextColor(Theme.getColor(Theme.key_actionBarActionModeDefaultIcon));
         createActionMode.addView(this.selectedCountTextView, LayoutHelper.createLinear(0, -1, 1.0f, 72, 0, 0, 0));
-        this.selectedCountTextView.setOnTouchListener(StickersActivity$$ExternalSyntheticLambda1.INSTANCE);
+        this.selectedCountTextView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.StickersActivity$$ExternalSyntheticLambda1
+            @Override // android.view.View.OnTouchListener
+            public final boolean onTouch(View view, MotionEvent motionEvent) {
+                boolean lambda$createView$0;
+                lambda$createView$0 = StickersActivity.lambda$createView$0(view, motionEvent);
+                return lambda$createView$0;
+            }
+        });
         createActionMode.addItemWithWidth(2, R.drawable.msg_share, AndroidUtilities.dp(54.0f));
         createActionMode.addItemWithWidth(0, R.drawable.msg_archive, AndroidUtilities.dp(54.0f));
         this.deleteMenuItem = createActionMode.addItemWithWidth(1, R.drawable.msg_delete, AndroidUtilities.dp(54.0f));
@@ -312,8 +319,9 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
         recyclerListView.setFocusable(true);
         this.listView.setTag(7);
         DefaultItemAnimator defaultItemAnimator = new DefaultItemAnimator() { // from class: org.telegram.ui.StickersActivity.3
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.recyclerview.widget.DefaultItemAnimator
-            protected void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
+            public void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
                 super.onMoveAnimationUpdate(viewHolder);
                 StickersActivity.this.listView.invalidate();
             }

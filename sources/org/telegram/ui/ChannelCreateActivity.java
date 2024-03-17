@@ -545,7 +545,14 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
                     super.requestLayout();
                 }
             };
-            sizeNotifierFrameLayout.setOnTouchListener(ChannelCreateActivity$$ExternalSyntheticLambda8.INSTANCE);
+            sizeNotifierFrameLayout.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda8
+                @Override // android.view.View.OnTouchListener
+                public final boolean onTouch(View view, MotionEvent motionEvent) {
+                    boolean lambda$createView$5;
+                    lambda$createView$5 = ChannelCreateActivity.lambda$createView$5(view, motionEvent);
+                    return lambda$createView$5;
+                }
+            });
             this.fragmentView = sizeNotifierFrameLayout;
             int i5 = Theme.key_windowBackgroundWhite;
             sizeNotifierFrameLayout.setTag(Integer.valueOf(i5));

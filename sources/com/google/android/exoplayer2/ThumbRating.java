@@ -11,7 +11,14 @@ public final class ThumbRating extends Rating {
     private final boolean rated;
     private static final String FIELD_RATED = Util.intToStringMaxRadix(1);
     private static final String FIELD_IS_THUMBS_UP = Util.intToStringMaxRadix(2);
-    public static final Bundleable.Creator<ThumbRating> CREATOR = ThumbRating$$ExternalSyntheticLambda0.INSTANCE;
+    public static final Bundleable.Creator<ThumbRating> CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.ThumbRating$$ExternalSyntheticLambda0
+        @Override // com.google.android.exoplayer2.Bundleable.Creator
+        public final Bundleable fromBundle(Bundle bundle) {
+            ThumbRating fromBundle;
+            fromBundle = ThumbRating.fromBundle(bundle);
+            return fromBundle;
+        }
+    };
 
     public ThumbRating() {
         this.rated = false;

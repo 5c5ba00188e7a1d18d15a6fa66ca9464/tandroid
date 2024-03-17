@@ -733,9 +733,8 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
         Context context = getContext();
         int i = this.currentStyle;
         EmojiView emojiView2 = new EmojiView(baseFragment, z, false, false, context, false, null, null, (i == 2 || i == 3) ? false : true, this.resourcesProvider, false) { // from class: org.telegram.ui.Components.EditTextEmoji.6
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EmojiView, android.view.ViewGroup, android.view.View
-            public void dispatchDraw(Canvas canvas) {
+            protected void dispatchDraw(Canvas canvas) {
                 if (EditTextEmoji.this.currentStyle == 2 || EditTextEmoji.this.currentStyle == 3) {
                     EditTextEmoji.this.drawEmojiBackground(canvas, this);
                 }

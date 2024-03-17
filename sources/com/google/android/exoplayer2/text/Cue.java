@@ -47,7 +47,14 @@ public final class Cue implements Bundleable {
     private static final String FIELD_WINDOW_COLOR_SET = Util.intToStringMaxRadix(14);
     private static final String FIELD_VERTICAL_TYPE = Util.intToStringMaxRadix(15);
     private static final String FIELD_SHEAR_DEGREES = Util.intToStringMaxRadix(16);
-    public static final Bundleable.Creator<Cue> CREATOR = Cue$$ExternalSyntheticLambda0.INSTANCE;
+    public static final Bundleable.Creator<Cue> CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.text.Cue$$ExternalSyntheticLambda0
+        @Override // com.google.android.exoplayer2.Bundleable.Creator
+        public final Bundleable fromBundle(Bundle bundle) {
+            Cue fromBundle;
+            fromBundle = Cue.fromBundle(bundle);
+            return fromBundle;
+        }
+    };
 
     private Cue(CharSequence charSequence, Layout.Alignment alignment, Layout.Alignment alignment2, Bitmap bitmap, float f, int i, int i2, float f2, int i3, int i4, float f3, float f4, float f5, boolean z, int i5, int i6, float f6) {
         if (charSequence == null) {

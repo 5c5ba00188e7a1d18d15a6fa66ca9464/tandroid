@@ -24,6 +24,7 @@ import com.google.android.datatransport.runtime.backends.TransportBackend;
 import com.google.android.datatransport.runtime.logging.Logging;
 import com.google.android.datatransport.runtime.retries.Function;
 import com.google.android.datatransport.runtime.retries.Retries;
+import com.google.android.datatransport.runtime.retries.RetryStrategy;
 import com.google.android.datatransport.runtime.time.Clock;
 import com.google.firebase.encoders.DataEncoder;
 import com.google.firebase.encoders.EncodingException;
@@ -282,7 +283,14 @@ public final class CctTransportBackend implements TransportBackend {
                     doSend = CctTransportBackend.this.doSend((CctTransportBackend.HttpRequest) obj);
                     return doSend;
                 }
-            }, CctTransportBackend$$ExternalSyntheticLambda1.INSTANCE);
+            }, new RetryStrategy() { // from class: com.google.android.datatransport.cct.CctTransportBackend$$ExternalSyntheticLambda1
+                @Override // com.google.android.datatransport.runtime.retries.RetryStrategy
+                public final Object shouldRetry(Object obj, Object obj2) {
+                    CctTransportBackend.HttpRequest lambda$send$0;
+                    lambda$send$0 = CctTransportBackend.lambda$send$0((CctTransportBackend.HttpRequest) obj, (CctTransportBackend.HttpResponse) obj2);
+                    return lambda$send$0;
+                }
+            });
             int i = httpResponse.code;
             if (i == 200) {
                 return BackendResponse.ok(httpResponse.nextRequestMillis);

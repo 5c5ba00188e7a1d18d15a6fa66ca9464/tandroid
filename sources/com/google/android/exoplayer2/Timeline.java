@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Pair;
 import com.google.android.exoplayer2.Bundleable;
 import com.google.android.exoplayer2.MediaItem;
+import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.source.ads.AdPlaybackState;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.BundleUtil;
@@ -94,7 +95,14 @@ public abstract class Timeline implements Bundleable {
         private static final String FIELD_FIRST_PERIOD_INDEX = Util.intToStringMaxRadix(11);
         private static final String FIELD_LAST_PERIOD_INDEX = Util.intToStringMaxRadix(12);
         private static final String FIELD_POSITION_IN_FIRST_PERIOD_US = Util.intToStringMaxRadix(13);
-        public static final Bundleable.Creator<Window> CREATOR = Timeline$Window$$ExternalSyntheticLambda0.INSTANCE;
+        public static final Bundleable.Creator<Window> CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.Timeline$Window$$ExternalSyntheticLambda0
+            @Override // com.google.android.exoplayer2.Bundleable.Creator
+            public final Bundleable fromBundle(Bundle bundle) {
+                Timeline.Window fromBundle;
+                fromBundle = Timeline.Window.fromBundle(bundle);
+                return fromBundle;
+            }
+        };
         public Object uid = SINGLE_WINDOW_UID;
         public MediaItem mediaItem = PLACEHOLDER_MEDIA_ITEM;
 
@@ -266,7 +274,14 @@ public abstract class Timeline implements Bundleable {
         private static final String FIELD_POSITION_IN_WINDOW_US = Util.intToStringMaxRadix(2);
         private static final String FIELD_PLACEHOLDER = Util.intToStringMaxRadix(3);
         private static final String FIELD_AD_PLAYBACK_STATE = Util.intToStringMaxRadix(4);
-        public static final Bundleable.Creator<Period> CREATOR = Timeline$Period$$ExternalSyntheticLambda0.INSTANCE;
+        public static final Bundleable.Creator<Period> CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.Timeline$Period$$ExternalSyntheticLambda0
+            @Override // com.google.android.exoplayer2.Bundleable.Creator
+            public final Bundleable fromBundle(Bundle bundle) {
+                Timeline.Period fromBundle;
+                fromBundle = Timeline.Period.fromBundle(bundle);
+                return fromBundle;
+            }
+        };
 
         public Period set(Object obj, Object obj2, int i, long j, long j2) {
             return set(obj, obj2, i, j, j2, AdPlaybackState.NONE, false);

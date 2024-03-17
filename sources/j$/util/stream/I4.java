@@ -23,7 +23,7 @@ final class I4 extends J4 implements j$.util.t, Consumer {
 
     @Override // j$.util.function.Consumer
     public /* synthetic */ Consumer andThen(Consumer consumer) {
-        return Objects.requireNonNull(consumer);
+        return Consumer.-CC.$default$andThen(this, consumer);
     }
 
     @Override // j$.util.t

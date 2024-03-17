@@ -541,7 +541,12 @@ public class LocationController extends BaseController implements NotificationCe
             tLRPC$TL_inputGeoPoint.lat = this.lastKnownLocation.getLatitude();
             tLRPC$TL_contacts_getLocated.geo_point._long = this.lastKnownLocation.getLongitude();
             tLRPC$TL_contacts_getLocated.background = true;
-            getConnectionsManager().sendRequest(tLRPC$TL_contacts_getLocated, LocationController$$ExternalSyntheticLambda32.INSTANCE);
+            getConnectionsManager().sendRequest(tLRPC$TL_contacts_getLocated, new RequestDelegate() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda32
+                @Override // org.telegram.tgnet.RequestDelegate
+                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                    LocationController.lambda$broadcastLastKnownLocation$8(tLObject, tLRPC$TL_error);
+                }
+            });
         }
         getConnectionsManager().resumeNetworkMaybe();
         if (shouldStopGps() || this.shareMyCurrentLocation) {
@@ -700,7 +705,12 @@ public class LocationController extends BaseController implements NotificationCe
         if (location == null || Build.VERSION.SDK_INT < 17 || (SystemClock.elapsedRealtimeNanos() - location.getElapsedRealtimeNanos()) / 1000000000 <= 300) {
             this.lastKnownLocation = location;
             if (location != null) {
-                AndroidUtilities.runOnUIThread(LocationController$$ExternalSyntheticLambda26.INSTANCE);
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda26
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        LocationController.lambda$setLastKnownLocation$11();
+                    }
+                });
             }
         }
     }

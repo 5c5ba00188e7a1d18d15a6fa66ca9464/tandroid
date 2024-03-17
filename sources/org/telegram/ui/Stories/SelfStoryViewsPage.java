@@ -26,6 +26,7 @@ import androidx.core.graphics.ColorUtils;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.exoplayer2.util.Consumer;
 import j$.util.Comparator$-CC;
+import j$.util.function.ToIntFunction;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -1592,7 +1593,14 @@ public class SelfStoryViewsPage extends FrameLayout implements NotificationCente
             if (this.state.sortByReactions) {
                 return;
             }
-            Collections.sort(this.views, Comparator$-CC.comparingInt(SelfStoryViewsPage$ViewsModel$$ExternalSyntheticLambda2.INSTANCE));
+            Collections.sort(this.views, Comparator$-CC.comparingInt(new ToIntFunction() { // from class: org.telegram.ui.Stories.SelfStoryViewsPage$ViewsModel$$ExternalSyntheticLambda2
+                @Override // j$.util.function.ToIntFunction
+                public final int applyAsInt(Object obj) {
+                    int lambda$applyLocalFilter$4;
+                    lambda$applyLocalFilter$4 = SelfStoryViewsPage.ViewsModel.lambda$applyLocalFilter$4((TL_stories$StoryView) obj);
+                    return lambda$applyLocalFilter$4;
+                }
+            }));
         }
 
         /* JADX INFO: Access modifiers changed from: private */

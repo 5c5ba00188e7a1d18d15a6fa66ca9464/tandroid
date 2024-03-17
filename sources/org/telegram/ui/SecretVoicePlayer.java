@@ -1226,7 +1226,12 @@ public class SecretVoicePlayer extends Dialog {
             }
             AndroidUtilities.runOnUIThread(runnable);
             this.closeAction = null;
-            this.myCell.setInvalidateCallback(SecretVoicePlayer$$ExternalSyntheticLambda10.INSTANCE);
+            this.myCell.setInvalidateCallback(new Runnable() { // from class: org.telegram.ui.SecretVoicePlayer$$ExternalSyntheticLambda10
+                @Override // java.lang.Runnable
+                public final void run() {
+                    SecretVoicePlayer.lambda$dismiss$7();
+                }
+            });
             ThanosEffect thanosEffect = new ThanosEffect(this.context, null);
             this.thanosEffect = thanosEffect;
             this.windowView.addView(thanosEffect, LayoutHelper.createFrame(-1, -1, 119));

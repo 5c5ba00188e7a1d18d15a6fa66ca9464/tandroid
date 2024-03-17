@@ -482,7 +482,14 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
         };
         this.fragmentView = sizeNotifierFrameLayout2;
         sizeNotifierFrameLayout2.setLayoutParams(new ViewGroup.LayoutParams(-1, -1));
-        this.fragmentView.setOnTouchListener(GroupCreateFinalActivity$$ExternalSyntheticLambda3.INSTANCE);
+        this.fragmentView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.GroupCreateFinalActivity$$ExternalSyntheticLambda3
+            @Override // android.view.View.OnTouchListener
+            public final boolean onTouch(View view, MotionEvent motionEvent) {
+                boolean lambda$createView$1;
+                lambda$createView$1 = GroupCreateFinalActivity.lambda$createView$1(view, motionEvent);
+                return lambda$createView$1;
+            }
+        });
         this.shadowDrawable = context.getResources().getDrawable(R.drawable.greydivider_top).mutate();
         LinearLayout linearLayout = new LinearLayout(context) { // from class: org.telegram.ui.GroupCreateFinalActivity.3
             @Override // android.view.ViewGroup

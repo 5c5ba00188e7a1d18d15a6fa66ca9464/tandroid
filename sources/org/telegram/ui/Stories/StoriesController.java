@@ -8,6 +8,7 @@ import android.webkit.MimeTypeMap;
 import androidx.collection.LongSparseArray;
 import com.google.android.exoplayer2.util.Consumer;
 import j$.util.Comparator$-CC;
+import j$.util.function.ToIntFunction;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -157,7 +158,14 @@ import org.telegram.ui.Stories.recorder.StoryRecorder;
 import org.telegram.ui.Stories.recorder.StoryUploadingService;
 /* loaded from: classes4.dex */
 public class StoriesController {
-    public static final Comparator<TL_stories$StoryItem> storiesComparator = Comparator$-CC.comparingInt(StoriesController$$ExternalSyntheticLambda22.INSTANCE);
+    public static final Comparator<TL_stories$StoryItem> storiesComparator = Comparator$-CC.comparingInt(new ToIntFunction() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda22
+        @Override // j$.util.function.ToIntFunction
+        public final int applyAsInt(Object obj) {
+            int i;
+            i = ((TL_stories$StoryItem) obj).date;
+            return i;
+        }
+    });
     private int blocklistCount;
     private int blocklistReqId;
     private final int currentAccount;
@@ -516,7 +524,12 @@ public class StoriesController {
             TL_stories$TL_stories_togglePeerStoriesHidden tL_stories$TL_stories_togglePeerStoriesHidden = new TL_stories$TL_stories_togglePeerStoriesHidden();
             tL_stories$TL_stories_togglePeerStoriesHidden.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(j);
             tL_stories$TL_stories_togglePeerStoriesHidden.hidden = z;
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_stories$TL_stories_togglePeerStoriesHidden, StoriesController$$ExternalSyntheticLambda37.INSTANCE);
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_stories$TL_stories_togglePeerStoriesHidden, new RequestDelegate() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda37
+                @Override // org.telegram.tgnet.RequestDelegate
+                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                    StoriesController.lambda$toggleHidden$6(tLObject, tLRPC$TL_error);
+                }
+            });
         }
     }
 
@@ -678,7 +691,12 @@ public class StoriesController {
             }
         }
         if (!z2) {
-            this.storiesStorage.saveAllStories(tL_stories$TL_stories_allStories.peer_stories, z3, z, StoriesController$$ExternalSyntheticLambda20.INSTANCE);
+            this.storiesStorage.saveAllStories(tL_stories$TL_stories_allStories.peer_stories, z3, z, new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda20
+                @Override // java.lang.Runnable
+                public final void run() {
+                    StoriesController.lambda$processAllStoriesResponse$9();
+                }
+            });
         }
         sortUserStories();
     }
@@ -1501,7 +1519,12 @@ public class StoriesController {
                 TL_stories$TL_stories_readStories tL_stories$TL_stories_readStories = new TL_stories$TL_stories_readStories();
                 tL_stories$TL_stories_readStories.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(peerDialogId);
                 tL_stories$TL_stories_readStories.max_id = tL_stories$StoryItem.id;
-                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_stories$TL_stories_readStories, StoriesController$$ExternalSyntheticLambda38.INSTANCE);
+                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_stories$TL_stories_readStories, new RequestDelegate() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda38
+                    @Override // org.telegram.tgnet.RequestDelegate
+                    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                        StoriesController.lambda$markStoryAsRead$17(tLObject, tLRPC$TL_error);
+                    }
+                });
                 NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.storiesReadUpdated, new Object[0]);
                 return true;
             }
@@ -1958,7 +1981,12 @@ public class StoriesController {
             tL_stories$StoryItem.sent_reaction = tLRPC$TL_reactionEmoji;
         }
         updateStoryItem(j, tL_stories$StoryItem);
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_stories$TL_stories_sendReaction, StoriesController$$ExternalSyntheticLambda36.INSTANCE);
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_stories$TL_stories_sendReaction, new RequestDelegate() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda36
+            @Override // org.telegram.tgnet.RequestDelegate
+            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                StoriesController.lambda$setStoryReaction$21(tLObject, tLRPC$TL_error);
+            }
+        });
     }
 
     public void updateStoryReaction(long j, int i, TLRPC$Reaction tLRPC$Reaction) {
@@ -3106,7 +3134,14 @@ public class StoriesController {
 
         public ArrayList<ArrayList<Integer>> getDays() {
             ArrayList arrayList = new ArrayList(this.groupedByDay.keySet());
-            Collections.sort(arrayList, StoriesController$StoriesList$$ExternalSyntheticLambda10.INSTANCE);
+            Collections.sort(arrayList, new Comparator() { // from class: org.telegram.ui.Stories.StoriesController$StoriesList$$ExternalSyntheticLambda10
+                @Override // java.util.Comparator
+                public final int compare(Object obj, Object obj2) {
+                    int lambda$getDays$4;
+                    lambda$getDays$4 = StoriesController.StoriesList.lambda$getDays$4((Long) obj, (Long) obj2);
+                    return lambda$getDays$4;
+                }
+            });
             ArrayList<ArrayList<Integer>> arrayList2 = new ArrayList<>();
             Iterator it = arrayList.iterator();
             while (it.hasNext()) {

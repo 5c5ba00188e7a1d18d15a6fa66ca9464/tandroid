@@ -105,7 +105,12 @@ public abstract class e3 extends c implements Stream {
 
     @Override // j$.util.stream.Stream
     public final long count() {
-        return ((d1) g0(X2.a)).sum();
+        return ((d1) g0(new ToLongFunction() { // from class: j$.util.stream.X2
+            @Override // j$.util.function.ToLongFunction
+            public final long applyAsLong(Object obj) {
+                return 1L;
+            }
+        })).sum();
     }
 
     @Override // j$.util.stream.Stream
@@ -240,7 +245,12 @@ public abstract class e3 extends c implements Stream {
 
     @Override // j$.util.stream.Stream
     public final Object[] toArray() {
-        W2 w2 = W2.a;
+        W2 w2 = new j$.util.function.m() { // from class: j$.util.stream.W2
+            @Override // j$.util.function.m
+            public final Object apply(int i) {
+                return new Object[i];
+            }
+        };
         return x2.l(y0(w2), w2).q(w2);
     }
 

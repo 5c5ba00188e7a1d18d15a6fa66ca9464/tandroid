@@ -21,7 +21,11 @@ public class Cleaner {
 
     public static Cleaner create() {
         Cleaner cleaner = new Cleaner();
-        cleaner.register(cleaner, zza.zza);
+        cleaner.register(cleaner, new Runnable() { // from class: com.google.mlkit.common.sdkinternal.zza
+            @Override // java.lang.Runnable
+            public final void run() {
+            }
+        });
         final ReferenceQueue referenceQueue = cleaner.zza;
         final Set set = cleaner.zzb;
         Thread thread = new Thread(new Runnable() { // from class: com.google.mlkit.common.sdkinternal.zzb

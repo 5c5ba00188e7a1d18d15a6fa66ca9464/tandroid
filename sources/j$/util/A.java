@@ -91,7 +91,7 @@ final class A implements t.a {
         return true;
     }
 
-    @Override // j$.util.t.a, j$.util.u, j$.util.t
+    @Override // j$.util.u, j$.util.t
     public t.a trySplit() {
         int i = this.b;
         int i2 = (this.c + i) >>> 1;

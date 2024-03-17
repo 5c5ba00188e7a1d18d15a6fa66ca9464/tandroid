@@ -322,7 +322,12 @@ public class ApplicationLoader extends Application {
                 FileLog.d("load libs time = " + (SystemClock.elapsedRealtime() - startTime));
             }
             applicationHandler = new Handler(applicationContext.getMainLooper());
-            AndroidUtilities.runOnUIThread(ApplicationLoader$$ExternalSyntheticLambda1.INSTANCE);
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ApplicationLoader$$ExternalSyntheticLambda1
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ApplicationLoader.startPushService();
+                }
+            });
             LauncherIconController.tryFixLauncherIconIfNeeded();
             ProxyRotationController.init();
         } catch (UnsatisfiedLinkError unused2) {
@@ -363,7 +368,12 @@ public class ApplicationLoader extends Application {
     }
 
     private void initPushServices() {
-        AndroidUtilities.runOnUIThread(ApplicationLoader$$ExternalSyntheticLambda0.INSTANCE, 1000L);
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ApplicationLoader$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                ApplicationLoader.lambda$initPushServices$0();
+            }
+        }, 1000L);
     }
 
     /* JADX INFO: Access modifiers changed from: private */

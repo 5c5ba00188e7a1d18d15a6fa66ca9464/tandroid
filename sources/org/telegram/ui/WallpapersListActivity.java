@@ -407,7 +407,14 @@ public class WallpapersListActivity extends BaseFragment implements Notification
             numberTextView.setTextSize(18);
             this.selectedMessagesCountTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             this.selectedMessagesCountTextView.setTextColor(Theme.getColor(i2));
-            this.selectedMessagesCountTextView.setOnTouchListener(WallpapersListActivity$$ExternalSyntheticLambda1.INSTANCE);
+            this.selectedMessagesCountTextView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.WallpapersListActivity$$ExternalSyntheticLambda1
+                @Override // android.view.View.OnTouchListener
+                public final boolean onTouch(View view, MotionEvent motionEvent) {
+                    boolean lambda$createView$0;
+                    lambda$createView$0 = WallpapersListActivity.lambda$createView$0(view, motionEvent);
+                    return lambda$createView$0;
+                }
+            });
             createActionMode.addView(this.selectedMessagesCountTextView, LayoutHelper.createLinear(0, -1, 1.0f, 65, 0, 0, 0));
             this.actionModeViews.add(createActionMode.addItemWithWidth(3, R.drawable.msg_forward, AndroidUtilities.dp(54.0f), LocaleController.getString("Forward", R.string.Forward)));
             this.actionModeViews.add(createActionMode.addItemWithWidth(4, R.drawable.msg_delete, AndroidUtilities.dp(54.0f), LocaleController.getString("Delete", R.string.Delete)));
@@ -1004,7 +1011,12 @@ public class WallpapersListActivity extends BaseFragment implements Notification
         bottomSheetParams.transitionFromLeft = true;
         bottomSheetParams.allowNestedScroll = false;
         themePreviewActivity.setResourceProvider(this.resourceProvider);
-        bottomSheetParams.onOpenAnimationFinished = WallpapersListActivity$$ExternalSyntheticLambda4.INSTANCE;
+        bottomSheetParams.onOpenAnimationFinished = new Runnable() { // from class: org.telegram.ui.WallpapersListActivity$$ExternalSyntheticLambda4
+            @Override // java.lang.Runnable
+            public final void run() {
+                WallpapersListActivity.lambda$showAsSheet$6();
+            }
+        };
         bottomSheetParams.occupyNavigationBar = true;
         showAsSheet(themePreviewActivity, bottomSheetParams);
     }

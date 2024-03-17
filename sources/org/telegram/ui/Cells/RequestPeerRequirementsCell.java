@@ -252,9 +252,8 @@ public class RequestPeerRequirementsCell extends LinearLayout {
         checkAdminRights(tLRPC$TL_chatAdminRights, z, AndroidUtilities.replaceTags(LocaleController.getString(i)), AndroidUtilities.replaceTags(LocaleController.getString(i2)));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes4.dex */
-    public class RequirementCell extends LinearLayout {
+    class RequirementCell extends LinearLayout {
         private ImageView imageView;
         private TextView textView;
 

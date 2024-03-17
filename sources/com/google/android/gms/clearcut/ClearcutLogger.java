@@ -82,7 +82,7 @@ public final class ClearcutLogger {
                 throw new IllegalStateException("do not reuse LogEventBuilder");
             }
             this.zzab = true;
-            zze zzeVar = new zze(new zzr(ClearcutLogger.this.packageName, ClearcutLogger.this.zzi, this.zzk, this.zzj, this.zzl, this.zzm, ClearcutLogger.this.zzn, this.zzo), this.zzaa, null, null, ClearcutLogger.zza((ArrayList<Integer>) null), null, ClearcutLogger.zza((ArrayList<Integer>) null), null, null, this.zzz);
+            zze zzeVar = new zze(new zzr(ClearcutLogger.this.packageName, ClearcutLogger.this.zzi, this.zzk, this.zzj, this.zzl, this.zzm, ClearcutLogger.this.zzn, this.zzo), this.zzaa, null, null, ClearcutLogger.zzb((ArrayList) null), null, ClearcutLogger.zzb((ArrayList) null), null, null, this.zzz);
             if (ClearcutLogger.this.zzs.zza(zzeVar)) {
                 ClearcutLogger.this.zzp.zzb(zzeVar);
             } else {
@@ -156,8 +156,7 @@ public final class ClearcutLogger {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public static int[] zza(ArrayList<Integer> arrayList) {
+    private static int[] zza(ArrayList<Integer> arrayList) {
         if (arrayList == null) {
             return null;
         }
@@ -172,6 +171,10 @@ public final class ClearcutLogger {
             i2++;
         }
         return iArr;
+    }
+
+    static /* synthetic */ int[] zzb(ArrayList arrayList) {
+        return zza((ArrayList<Integer>) null);
     }
 
     public final LogEventBuilder newEvent(byte[] bArr) {

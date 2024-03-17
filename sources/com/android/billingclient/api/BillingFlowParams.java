@@ -125,7 +125,7 @@ public class BillingFlowParams {
 
         /* synthetic */ Builder(zzav zzavVar) {
             SubscriptionUpdateParams.Builder newBuilder = SubscriptionUpdateParams.newBuilder();
-            newBuilder.zzb = true;
+            SubscriptionUpdateParams.Builder.zza(newBuilder);
             this.zzf = newBuilder;
         }
     }
@@ -198,6 +198,11 @@ public class BillingFlowParams {
             private int zzc = 0;
 
             /* synthetic */ Builder(zzay zzayVar) {
+            }
+
+            static /* synthetic */ Builder zza(Builder builder) {
+                builder.zzb = true;
+                return builder;
             }
 
             public SubscriptionUpdateParams build() {

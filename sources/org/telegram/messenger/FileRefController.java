@@ -982,21 +982,36 @@ public class FileRefController extends BaseController {
                             return false;
                         }
                         tLRPC$TL_messages_saveGif.id.file_reference = bArr;
-                        getConnectionsManager().sendRequest(tLRPC$TL_messages_saveGif, FileRefController$$ExternalSyntheticLambda38.INSTANCE);
+                        getConnectionsManager().sendRequest(tLRPC$TL_messages_saveGif, new RequestDelegate() { // from class: org.telegram.messenger.FileRefController$$ExternalSyntheticLambda38
+                            @Override // org.telegram.tgnet.RequestDelegate
+                            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                                FileRefController.lambda$onUpdateObjectReference$29(tLObject, tLRPC$TL_error);
+                            }
+                        });
                     } else if (requester.args[0] instanceof TLRPC$TL_messages_saveRecentSticker) {
                         TLRPC$TL_messages_saveRecentSticker tLRPC$TL_messages_saveRecentSticker = (TLRPC$TL_messages_saveRecentSticker) requester.args[0];
                         if (z && isSameReference(tLRPC$TL_messages_saveRecentSticker.id.file_reference, bArr)) {
                             return false;
                         }
                         tLRPC$TL_messages_saveRecentSticker.id.file_reference = bArr;
-                        getConnectionsManager().sendRequest(tLRPC$TL_messages_saveRecentSticker, FileRefController$$ExternalSyntheticLambda36.INSTANCE);
+                        getConnectionsManager().sendRequest(tLRPC$TL_messages_saveRecentSticker, new RequestDelegate() { // from class: org.telegram.messenger.FileRefController$$ExternalSyntheticLambda36
+                            @Override // org.telegram.tgnet.RequestDelegate
+                            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                                FileRefController.lambda$onUpdateObjectReference$30(tLObject, tLRPC$TL_error);
+                            }
+                        });
                     } else if (requester.args[0] instanceof TLRPC$TL_messages_faveSticker) {
                         TLRPC$TL_messages_faveSticker tLRPC$TL_messages_faveSticker = (TLRPC$TL_messages_faveSticker) requester.args[0];
                         if (z && isSameReference(tLRPC$TL_messages_faveSticker.id.file_reference, bArr)) {
                             return false;
                         }
                         tLRPC$TL_messages_faveSticker.id.file_reference = bArr;
-                        getConnectionsManager().sendRequest(tLRPC$TL_messages_faveSticker, FileRefController$$ExternalSyntheticLambda37.INSTANCE);
+                        getConnectionsManager().sendRequest(tLRPC$TL_messages_faveSticker, new RequestDelegate() { // from class: org.telegram.messenger.FileRefController$$ExternalSyntheticLambda37
+                            @Override // org.telegram.tgnet.RequestDelegate
+                            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                                FileRefController.lambda$onUpdateObjectReference$31(tLObject, tLRPC$TL_error);
+                            }
+                        });
                     } else if (requester.args[0] instanceof TLRPC$TL_messages_getAttachedStickers) {
                         TLRPC$TL_messages_getAttachedStickers tLRPC$TL_messages_getAttachedStickers = (TLRPC$TL_messages_getAttachedStickers) requester.args[0];
                         TLRPC$InputStickeredMedia tLRPC$InputStickeredMedia = tLRPC$TL_messages_getAttachedStickers.media;

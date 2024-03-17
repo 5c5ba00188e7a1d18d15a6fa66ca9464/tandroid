@@ -450,7 +450,14 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
         this.fragmentView = viewGroup;
         viewGroup.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
         ViewGroup viewGroup2 = (ViewGroup) this.fragmentView;
-        viewGroup2.setOnTouchListener(ActionIntroActivity$$ExternalSyntheticLambda6.INSTANCE);
+        viewGroup2.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ActionIntroActivity$$ExternalSyntheticLambda6
+            @Override // android.view.View.OnTouchListener
+            public final boolean onTouch(View view, MotionEvent motionEvent) {
+                boolean lambda$createView$0;
+                lambda$createView$0 = ActionIntroActivity.lambda$createView$0(view, motionEvent);
+                return lambda$createView$0;
+            }
+        });
         ActionBar actionBar2 = this.actionBar;
         if (actionBar2 != null) {
             viewGroup2.addView(actionBar2);

@@ -1981,7 +1981,12 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                 groupCallInstance = new GroupCallActivity(launchActivity, accountInstance, call, chat, null, z, str);
             }
             groupCallInstance.parentActivity = launchActivity;
-            AndroidUtilities.runOnUIThread(GroupCallActivity$$ExternalSyntheticLambda49.INSTANCE);
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.GroupCallActivity$$ExternalSyntheticLambda49
+                @Override // java.lang.Runnable
+                public final void run() {
+                    GroupCallActivity.lambda$create$9();
+                }
+            });
         }
     }
 
@@ -2061,7 +2066,12 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                 AndroidUtilities.runOnUIThread(GroupCallActivity.this.updateSchedeulRunnable, 1000L);
             }
         };
-        this.unmuteRunnable = GroupCallActivity$$ExternalSyntheticLambda48.INSTANCE;
+        this.unmuteRunnable = new Runnable() { // from class: org.telegram.ui.GroupCallActivity$$ExternalSyntheticLambda48
+            @Override // java.lang.Runnable
+            public final void run() {
+                GroupCallActivity.lambda$new$0();
+            }
+        };
         this.pressRunnable = new Runnable() { // from class: org.telegram.ui.GroupCallActivity$$ExternalSyntheticLambda36
             @Override // java.lang.Runnable
             public final void run() {
@@ -4146,12 +4156,26 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             numberPicker2.setMinValue(0);
             numberPicker2.setMaxValue(23);
             this.scheduleTimerContainer.addView(numberPicker2, LayoutHelper.createLinear(0, 270, 0.2f));
-            numberPicker2.setFormatter(GroupCallActivity$$ExternalSyntheticLambda60.INSTANCE);
+            numberPicker2.setFormatter(new NumberPicker.Formatter() { // from class: org.telegram.ui.GroupCallActivity$$ExternalSyntheticLambda60
+                @Override // org.telegram.ui.Components.NumberPicker.Formatter
+                public final String format(int i24) {
+                    String lambda$new$33;
+                    lambda$new$33 = GroupCallActivity.lambda$new$33(i24);
+                    return lambda$new$33;
+                }
+            });
             numberPicker2.setOnValueChangedListener(onValueChangeListener);
             numberPicker3.setMinValue(0);
             numberPicker3.setMaxValue(59);
             numberPicker3.setValue(0);
-            numberPicker3.setFormatter(GroupCallActivity$$ExternalSyntheticLambda59.INSTANCE);
+            numberPicker3.setFormatter(new NumberPicker.Formatter() { // from class: org.telegram.ui.GroupCallActivity$$ExternalSyntheticLambda59
+                @Override // org.telegram.ui.Components.NumberPicker.Formatter
+                public final String format(int i24) {
+                    String lambda$new$34;
+                    lambda$new$34 = GroupCallActivity.lambda$new$34(i24);
+                    return lambda$new$34;
+                }
+            });
             this.scheduleTimerContainer.addView(numberPicker3, LayoutHelper.createLinear(0, 270, 0.3f));
             numberPicker3.setOnValueChangedListener(onValueChangeListener);
             calendar.setTimeInMillis(currentTimeMillis + 10800000);
@@ -4724,7 +4748,12 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                 TLRPC$TL_phone_saveDefaultGroupCallJoinAs tLRPC$TL_phone_saveDefaultGroupCallJoinAs = new TLRPC$TL_phone_saveDefaultGroupCallJoinAs();
                 tLRPC$TL_phone_saveDefaultGroupCallJoinAs.peer = MessagesController.getInputPeer(GroupCallActivity.this.currentChat);
                 tLRPC$TL_phone_saveDefaultGroupCallJoinAs.join_as = tLRPC$InputPeer;
-                GroupCallActivity.this.accountInstance.getConnectionsManager().sendRequest(tLRPC$TL_phone_saveDefaultGroupCallJoinAs, GroupCallActivity$6$$ExternalSyntheticLambda9.INSTANCE);
+                GroupCallActivity.this.accountInstance.getConnectionsManager().sendRequest(tLRPC$TL_phone_saveDefaultGroupCallJoinAs, new RequestDelegate() { // from class: org.telegram.ui.GroupCallActivity$6$$ExternalSyntheticLambda9
+                    @Override // org.telegram.tgnet.RequestDelegate
+                    public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error) {
+                        GroupCallActivity.6.lambda$onItemClick$8(tLObject2, tLRPC$TL_error);
+                    }
+                });
                 GroupCallActivity.this.updateItems();
             } else if (VoIPService.getSharedInstance() == null || !z) {
             } else {
@@ -8459,7 +8488,12 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                     public final void run() {
                         GroupCallActivity.this.lambda$processSelectedOption$58();
                     }
-                }, GroupCallActivity$$ExternalSyntheticLambda13.INSTANCE, 0);
+                }, new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.GroupCallActivity$$ExternalSyntheticLambda13
+                    @Override // android.content.DialogInterface.OnDismissListener
+                    public final void onDismiss(DialogInterface dialogInterface) {
+                        GroupCallActivity.lambda$processSelectedOption$59(dialogInterface);
+                    }
+                }, 0);
             }
         } else if (i == 10) {
             AlertsCreator.createChangeBioAlert(tLRPC$TL_groupCallParticipant.about, j, getContext(), this.currentAccount);
@@ -10204,7 +10238,12 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
     public void onUserLeaveHint() {
         if (isRtmpStream() && AndroidUtilities.checkInlinePermissions(this.parentActivity) && !RTMPStreamPipOverlay.isVisible()) {
             dismiss();
-            AndroidUtilities.runOnUIThread(GroupCallActivity$$ExternalSyntheticLambda47.INSTANCE, 100L);
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.GroupCallActivity$$ExternalSyntheticLambda47
+                @Override // java.lang.Runnable
+                public final void run() {
+                    RTMPStreamPipOverlay.show();
+                }
+            }, 100L);
         }
     }
 

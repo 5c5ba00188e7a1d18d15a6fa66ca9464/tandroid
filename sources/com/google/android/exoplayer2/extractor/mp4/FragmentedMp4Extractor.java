@@ -1,5 +1,6 @@
 package com.google.android.exoplayer2.extractor.mp4;
 
+import android.net.Uri;
 import android.util.Pair;
 import android.util.SparseArray;
 import com.google.android.exoplayer2.Format;
@@ -11,6 +12,7 @@ import com.google.android.exoplayer2.extractor.ChunkIndex;
 import com.google.android.exoplayer2.extractor.Extractor;
 import com.google.android.exoplayer2.extractor.ExtractorInput;
 import com.google.android.exoplayer2.extractor.ExtractorOutput;
+import com.google.android.exoplayer2.extractor.ExtractorsFactory;
 import com.google.android.exoplayer2.extractor.GaplessInfoHolder;
 import com.google.android.exoplayer2.extractor.PositionHolder;
 import com.google.android.exoplayer2.extractor.SeekMap;
@@ -32,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import org.telegram.messenger.LiteMode;
 import org.telegram.tgnet.ConnectionsManager;
@@ -92,7 +95,21 @@ public class FragmentedMp4Extractor implements Extractor {
     }
 
     static {
-        FragmentedMp4Extractor$$ExternalSyntheticLambda0 fragmentedMp4Extractor$$ExternalSyntheticLambda0 = FragmentedMp4Extractor$$ExternalSyntheticLambda0.INSTANCE;
+        FragmentedMp4Extractor$$ExternalSyntheticLambda0 fragmentedMp4Extractor$$ExternalSyntheticLambda0 = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.mp4.FragmentedMp4Extractor$$ExternalSyntheticLambda0
+            @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
+            public final Extractor[] createExtractors() {
+                Extractor[] lambda$static$0;
+                lambda$static$0 = FragmentedMp4Extractor.lambda$static$0();
+                return lambda$static$0;
+            }
+
+            @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
+            public /* synthetic */ Extractor[] createExtractors(Uri uri, Map map) {
+                Extractor[] createExtractors;
+                createExtractors = createExtractors();
+                return createExtractors;
+            }
+        };
         PIFF_SAMPLE_ENCRYPTION_BOX_EXTENDED_TYPE = new byte[]{-94, 57, 79, 82, 90, -101, 79, 20, -94, 68, 108, 66, 124, 100, -115, -12};
         EMSG_FORMAT = new Format.Builder().setSampleMimeType("application/x-emsg").build();
     }

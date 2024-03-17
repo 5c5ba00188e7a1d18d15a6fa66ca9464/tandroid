@@ -7,6 +7,7 @@ import com.google.android.exoplayer2.util.Util;
 import com.google.common.collect.Iterables;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -44,7 +45,14 @@ public final class BaseUrlExclusionList {
         if (applyExclusions.size() < 2) {
             return (BaseUrl) Iterables.getFirst(applyExclusions, null);
         }
-        Collections.sort(applyExclusions, BaseUrlExclusionList$$ExternalSyntheticLambda0.INSTANCE);
+        Collections.sort(applyExclusions, new Comparator() { // from class: com.google.android.exoplayer2.source.dash.BaseUrlExclusionList$$ExternalSyntheticLambda0
+            @Override // java.util.Comparator
+            public final int compare(Object obj, Object obj2) {
+                int compareBaseUrl;
+                compareBaseUrl = BaseUrlExclusionList.compareBaseUrl((BaseUrl) obj, (BaseUrl) obj2);
+                return compareBaseUrl;
+            }
+        });
         ArrayList arrayList = new ArrayList();
         int i = applyExclusions.get(0).priority;
         int i2 = 0;

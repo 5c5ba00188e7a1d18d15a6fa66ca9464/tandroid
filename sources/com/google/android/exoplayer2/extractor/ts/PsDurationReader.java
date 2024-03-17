@@ -7,9 +7,8 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.TimestampAdjuster;
 import com.google.android.exoplayer2.util.Util;
 import java.io.IOException;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class PsDurationReader {
+final class PsDurationReader {
     private boolean isDurationRead;
     private boolean isFirstScrValueRead;
     private boolean isLastScrValueRead;

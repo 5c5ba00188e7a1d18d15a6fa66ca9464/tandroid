@@ -131,7 +131,7 @@ public abstract class zzat implements Map, Serializable, j$.util.Map {
 
     @Override // java.util.Map, j$.util.Map
     public /* synthetic */ Object replace(Object obj, Object obj2) {
-        return get(obj);
+        return Map.-CC.$default$replace(this, obj, obj2);
     }
 
     @Override // java.util.Map, j$.util.Map

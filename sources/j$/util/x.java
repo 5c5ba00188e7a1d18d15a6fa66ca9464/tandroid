@@ -62,7 +62,7 @@ class x implements r, j$.util.function.q, Iterator {
         return this.a;
     }
 
-    @Override // j$.util.r, java.util.Iterator
+    @Override // java.util.Iterator, j$.util.Iterator
     public Long next() {
         if (L.a) {
             L.a(x.class, "{0} calling PrimitiveIterator.OfLong.nextLong()");

@@ -51,7 +51,12 @@ public final class ExceptionsConstructorKt {
     /* JADX INFO: Access modifiers changed from: private */
     public static final <E extends Throwable> Function1<Throwable, Throwable> createConstructor(Class<E> cls) {
         List<Constructor> sortedWith;
-        ExceptionsConstructorKt$createConstructor$nullResult$1 exceptionsConstructorKt$createConstructor$nullResult$1 = ExceptionsConstructorKt$createConstructor$nullResult$1.INSTANCE;
+        ExceptionsConstructorKt$createConstructor$nullResult$1 exceptionsConstructorKt$createConstructor$nullResult$1 = new Function1() { // from class: kotlinx.coroutines.internal.ExceptionsConstructorKt$createConstructor$nullResult$1
+            @Override // kotlin.jvm.functions.Function1
+            public final Void invoke(Throwable th) {
+                return null;
+            }
+        };
         if (throwableFields != fieldsCountOrDefault(cls, 0)) {
             return exceptionsConstructorKt$createConstructor$nullResult$1;
         }
@@ -72,26 +77,134 @@ public final class ExceptionsConstructorKt {
         return exceptionsConstructorKt$createConstructor$nullResult$1;
     }
 
-    private static final Function1<Throwable, Throwable> createSafeConstructor(Constructor<?> constructor) {
+    private static final Function1<Throwable, Throwable> createSafeConstructor(final Constructor<?> constructor) {
         Class<?>[] parameterTypes = constructor.getParameterTypes();
         int length = parameterTypes.length;
         if (length != 0) {
             if (length != 1) {
                 if (length == 2 && Intrinsics.areEqual(parameterTypes[0], String.class) && Intrinsics.areEqual(parameterTypes[1], Throwable.class)) {
-                    return new ExceptionsConstructorKt$createSafeConstructor$$inlined$safeCtor$1(constructor);
+                    return new Function1<Throwable, Throwable>() { // from class: kotlinx.coroutines.internal.ExceptionsConstructorKt$createSafeConstructor$$inlined$safeCtor$1
+                        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+                        {
+                            super(1);
+                        }
+
+                        @Override // kotlin.jvm.functions.Function1
+                        public final Throwable invoke(Throwable th) {
+                            Object obj;
+                            Object newInstance;
+                            try {
+                                Result.Companion companion = Result.Companion;
+                                newInstance = constructor.newInstance(th.getMessage(), th);
+                            } catch (Throwable th2) {
+                                Result.Companion companion2 = Result.Companion;
+                                obj = Result.constructor-impl(ResultKt.createFailure(th2));
+                            }
+                            if (newInstance == null) {
+                                throw new NullPointerException("null cannot be cast to non-null type kotlin.Throwable");
+                            }
+                            obj = Result.constructor-impl((Throwable) newInstance);
+                            if (Result.isFailure-impl(obj)) {
+                                obj = null;
+                            }
+                            return (Throwable) obj;
+                        }
+                    };
                 }
                 return null;
             }
             Class<?> cls = parameterTypes[0];
             if (Intrinsics.areEqual(cls, Throwable.class)) {
-                return new ExceptionsConstructorKt$createSafeConstructor$$inlined$safeCtor$2(constructor);
+                return new Function1<Throwable, Throwable>() { // from class: kotlinx.coroutines.internal.ExceptionsConstructorKt$createSafeConstructor$$inlined$safeCtor$2
+                    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+                    {
+                        super(1);
+                    }
+
+                    @Override // kotlin.jvm.functions.Function1
+                    public final Throwable invoke(Throwable th) {
+                        Object obj;
+                        Object newInstance;
+                        try {
+                            Result.Companion companion = Result.Companion;
+                            newInstance = constructor.newInstance(th);
+                        } catch (Throwable th2) {
+                            Result.Companion companion2 = Result.Companion;
+                            obj = Result.constructor-impl(ResultKt.createFailure(th2));
+                        }
+                        if (newInstance == null) {
+                            throw new NullPointerException("null cannot be cast to non-null type kotlin.Throwable");
+                        }
+                        obj = Result.constructor-impl((Throwable) newInstance);
+                        if (Result.isFailure-impl(obj)) {
+                            obj = null;
+                        }
+                        return (Throwable) obj;
+                    }
+                };
             }
             if (Intrinsics.areEqual(cls, String.class)) {
-                return new ExceptionsConstructorKt$createSafeConstructor$$inlined$safeCtor$3(constructor);
+                return new Function1<Throwable, Throwable>() { // from class: kotlinx.coroutines.internal.ExceptionsConstructorKt$createSafeConstructor$$inlined$safeCtor$3
+                    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+                    {
+                        super(1);
+                    }
+
+                    @Override // kotlin.jvm.functions.Function1
+                    public final Throwable invoke(Throwable th) {
+                        Object obj;
+                        Object newInstance;
+                        try {
+                            Result.Companion companion = Result.Companion;
+                            newInstance = constructor.newInstance(th.getMessage());
+                        } catch (Throwable th2) {
+                            Result.Companion companion2 = Result.Companion;
+                            obj = Result.constructor-impl(ResultKt.createFailure(th2));
+                        }
+                        if (newInstance == null) {
+                            throw new NullPointerException("null cannot be cast to non-null type kotlin.Throwable");
+                        }
+                        Throwable th3 = (Throwable) newInstance;
+                        th3.initCause(th);
+                        obj = Result.constructor-impl(th3);
+                        if (Result.isFailure-impl(obj)) {
+                            obj = null;
+                        }
+                        return (Throwable) obj;
+                    }
+                };
             }
             return null;
         }
-        return new ExceptionsConstructorKt$createSafeConstructor$$inlined$safeCtor$4(constructor);
+        return new Function1<Throwable, Throwable>() { // from class: kotlinx.coroutines.internal.ExceptionsConstructorKt$createSafeConstructor$$inlined$safeCtor$4
+            /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+            {
+                super(1);
+            }
+
+            @Override // kotlin.jvm.functions.Function1
+            public final Throwable invoke(Throwable th) {
+                Object obj;
+                Object newInstance;
+                try {
+                    Result.Companion companion = Result.Companion;
+                    newInstance = constructor.newInstance(new Object[0]);
+                } catch (Throwable th2) {
+                    Result.Companion companion2 = Result.Companion;
+                    obj = Result.constructor-impl(ResultKt.createFailure(th2));
+                }
+                if (newInstance == null) {
+                    throw new NullPointerException("null cannot be cast to non-null type kotlin.Throwable");
+                }
+                Throwable th3 = (Throwable) newInstance;
+                th3.initCause(th);
+                obj = Result.constructor-impl(th3);
+                if (Result.isFailure-impl(obj)) {
+                    obj = null;
+                }
+                return (Throwable) obj;
+            }
+        };
     }
 
     private static final int fieldsCountOrDefault(Class<?> cls, int i) {

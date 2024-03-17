@@ -1,5 +1,6 @@
 package com.google.android.exoplayer2.extractor.mp3;
 
+import android.net.Uri;
 import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.ParserException;
 import com.google.android.exoplayer2.audio.MpegAudioUtil;
@@ -7,6 +8,7 @@ import com.google.android.exoplayer2.extractor.DummyTrackOutput;
 import com.google.android.exoplayer2.extractor.Extractor;
 import com.google.android.exoplayer2.extractor.ExtractorInput;
 import com.google.android.exoplayer2.extractor.ExtractorOutput;
+import com.google.android.exoplayer2.extractor.ExtractorsFactory;
 import com.google.android.exoplayer2.extractor.GaplessInfoHolder;
 import com.google.android.exoplayer2.extractor.Id3Peeker;
 import com.google.android.exoplayer2.extractor.PositionHolder;
@@ -22,6 +24,7 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
 import java.io.EOFException;
 import java.io.IOException;
+import java.util.Map;
 import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public final class Mp3Extractor implements Extractor {
@@ -61,8 +64,29 @@ public final class Mp3Extractor implements Extractor {
     }
 
     static {
-        Mp3Extractor$$ExternalSyntheticLambda0 mp3Extractor$$ExternalSyntheticLambda0 = Mp3Extractor$$ExternalSyntheticLambda0.INSTANCE;
-        REQUIRED_ID3_FRAME_PREDICATE = Mp3Extractor$$ExternalSyntheticLambda1.INSTANCE;
+        Mp3Extractor$$ExternalSyntheticLambda0 mp3Extractor$$ExternalSyntheticLambda0 = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.mp3.Mp3Extractor$$ExternalSyntheticLambda0
+            @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
+            public final Extractor[] createExtractors() {
+                Extractor[] lambda$static$0;
+                lambda$static$0 = Mp3Extractor.lambda$static$0();
+                return lambda$static$0;
+            }
+
+            @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
+            public /* synthetic */ Extractor[] createExtractors(Uri uri, Map map) {
+                Extractor[] createExtractors;
+                createExtractors = createExtractors();
+                return createExtractors;
+            }
+        };
+        REQUIRED_ID3_FRAME_PREDICATE = new Id3Decoder.FramePredicate() { // from class: com.google.android.exoplayer2.extractor.mp3.Mp3Extractor$$ExternalSyntheticLambda1
+            @Override // com.google.android.exoplayer2.metadata.id3.Id3Decoder.FramePredicate
+            public final boolean evaluate(int i, int i2, int i3, int i4, int i5) {
+                boolean lambda$static$1;
+                lambda$static$1 = Mp3Extractor.lambda$static$1(i, i2, i3, i4, i5);
+                return lambda$static$1;
+            }
+        };
     }
 
     /* JADX INFO: Access modifiers changed from: private */

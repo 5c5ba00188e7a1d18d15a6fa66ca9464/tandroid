@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.LocaleController;
@@ -217,7 +218,14 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
                 this.accountNumbers.add(Integer.valueOf(i9));
             }
         }
-        Collections.sort(this.accountNumbers, DrawerLayoutAdapter$$ExternalSyntheticLambda0.INSTANCE);
+        Collections.sort(this.accountNumbers, new Comparator() { // from class: org.telegram.ui.Adapters.DrawerLayoutAdapter$$ExternalSyntheticLambda0
+            @Override // java.util.Comparator
+            public final int compare(Object obj, Object obj2) {
+                int lambda$resetItems$0;
+                lambda$resetItems$0 = DrawerLayoutAdapter.lambda$resetItems$0((Integer) obj, (Integer) obj2);
+                return lambda$resetItems$0;
+            }
+        });
         this.items.clear();
         if (UserConfig.getInstance(UserConfig.selectedAccount).isClientActivated()) {
             int eventType = Theme.getEventType();

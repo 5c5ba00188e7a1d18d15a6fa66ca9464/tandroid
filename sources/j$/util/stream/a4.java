@@ -4,11 +4,9 @@ import j$.util.function.Consumer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.Objects;
 import java.util.Spliterator;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public class a4 extends e implements Consumer, Iterable, j$.lang.e {
+class a4 extends e implements Consumer, Iterable, j$.lang.e {
     protected Object[] e = new Object[16];
     protected Object[][] f;
 
@@ -44,7 +42,7 @@ public class a4 extends e implements Consumer, Iterable, j$.lang.e {
 
     @Override // j$.util.function.Consumer
     public /* synthetic */ Consumer andThen(Consumer consumer) {
-        return Objects.requireNonNull(consumer);
+        return Consumer.-CC.$default$andThen(this, consumer);
     }
 
     @Override // j$.util.stream.e
@@ -120,7 +118,7 @@ public class a4 extends e implements Consumer, Iterable, j$.lang.e {
         return new S3(this, 0, this.c, 0, this.b);
     }
 
-    @Override // java.lang.Iterable, j$.lang.e
+    @Override // java.lang.Iterable
     public /* synthetic */ Spliterator spliterator() {
         return j$.wrappers.h.a(spliterator());
     }

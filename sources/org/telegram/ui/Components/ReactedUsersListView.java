@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import j$.util.Comparator$-CC;
+import j$.util.function.ToIntFunction;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -264,7 +265,14 @@ public class ReactedUsersListView extends FrameLayout {
         }
         this.userReactions.isEmpty();
         this.userReactions.addAll(arrayList);
-        Collections.sort(this.userReactions, Comparator$-CC.comparingInt(ReactedUsersListView$$ExternalSyntheticLambda3.INSTANCE));
+        Collections.sort(this.userReactions, Comparator$-CC.comparingInt(new ToIntFunction() { // from class: org.telegram.ui.Components.ReactedUsersListView$$ExternalSyntheticLambda3
+            @Override // j$.util.function.ToIntFunction
+            public final int applyAsInt(Object obj) {
+                int lambda$setSeenUsers$1;
+                lambda$setSeenUsers$1 = ReactedUsersListView.lambda$setSeenUsers$1((TLRPC$MessagePeerReaction) obj);
+                return lambda$setSeenUsers$1;
+            }
+        }));
         this.adapter.notifyDataSetChanged();
         updateHeight();
         return this;
@@ -371,7 +379,14 @@ public class ReactedUsersListView extends FrameLayout {
                 this.customReactionsEmoji.addAll(hashSet);
                 updateCustomReactionsButton();
             }
-            Collections.sort(this.userReactions, Comparator$-CC.comparingInt(ReactedUsersListView$$ExternalSyntheticLambda4.INSTANCE));
+            Collections.sort(this.userReactions, Comparator$-CC.comparingInt(new ToIntFunction() { // from class: org.telegram.ui.Components.ReactedUsersListView$$ExternalSyntheticLambda4
+                @Override // j$.util.function.ToIntFunction
+                public final int applyAsInt(Object obj) {
+                    int lambda$load$2;
+                    lambda$load$2 = ReactedUsersListView.lambda$load$2((TLRPC$MessagePeerReaction) obj);
+                    return lambda$load$2;
+                }
+            }));
             this.adapter.notifyDataSetChanged();
             if (!this.isLoaded) {
                 ValueAnimator duration = ValueAnimator.ofFloat(0.0f, 1.0f).setDuration(150L);

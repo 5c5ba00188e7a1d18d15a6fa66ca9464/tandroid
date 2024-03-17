@@ -543,7 +543,12 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
                         LimitReachedBottomSheet.this.lambda$onViewCreated$7(dialogInterface, i2);
                     }
                 });
-                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), LimitReachedBottomSheet$$ExternalSyntheticLambda4.INSTANCE);
+                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda4
+                    @Override // android.content.DialogInterface.OnClickListener
+                    public final void onClick(DialogInterface dialogInterface, int i2) {
+                        dialogInterface.dismiss();
+                    }
+                });
                 builder.show();
                 return;
             }
@@ -620,7 +625,12 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
                         LimitReachedBottomSheet.this.lambda$onViewCreated$10(dialogInterface, i2);
                     }
                 });
-                builder2.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), LimitReachedBottomSheet$$ExternalSyntheticLambda5.INSTANCE);
+                builder2.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda5
+                    @Override // android.content.DialogInterface.OnClickListener
+                    public final void onClick(DialogInterface dialogInterface, int i2) {
+                        dialogInterface.dismiss();
+                    }
+                });
                 builder2.show();
                 return;
             } else {

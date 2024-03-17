@@ -727,7 +727,12 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         this.zoomOutButton.addView(this.zoomOutImage, LayoutHelper.createLinear(24, 24, 16, 0, 0, 8, 0));
         this.zoomOutButton.addView(this.zoomOutText, LayoutHelper.createLinear(-2, -2, 16));
         this.zoomOutButton.setAlpha(0.0f);
-        this.zoomOutButton.setOnClickListener(LPhotoPaintView$$ExternalSyntheticLambda22.INSTANCE);
+        this.zoomOutButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda22
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view2) {
+                LPhotoPaintView.lambda$new$3(view2);
+            }
+        });
         this.topLayout.addView(this.zoomOutButton, LayoutHelper.createFrame(-2, 32, 17));
         TextView textView2 = new TextView(context);
         this.undoAllButton = textView2;
@@ -1879,7 +1884,12 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
                 }
             }
         });
-        chatAttachAlert.setOnDismissListener(LPhotoPaintView$$ExternalSyntheticLambda7.INSTANCE);
+        chatAttachAlert.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda7
+            @Override // android.content.DialogInterface.OnDismissListener
+            public final void onDismiss(DialogInterface dialogInterface) {
+                MediaController.forceBroadcastNewPhotos = false;
+            }
+        });
         chatAttachAlert.setMaxSelectedPhotos(1, false);
         chatAttachAlert.init();
         MediaController.forceBroadcastNewPhotos = true;
@@ -2163,7 +2173,12 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         this.renderView.shutdown();
         this.entitiesView.setVisibility(8);
         this.selectionContainerView.setVisibility(8);
-        this.queue.postRunnable(LPhotoPaintView$$ExternalSyntheticLambda44.INSTANCE);
+        this.queue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda44
+            @Override // java.lang.Runnable
+            public final void run() {
+                LPhotoPaintView.lambda$shutdown$25();
+            }
+        });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -4329,6 +4344,11 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
             public final void run() {
                 PhotoView.this.onSwitchSegmentedAnimationStarted(true);
             }
-        }, LPhotoPaintView$$ExternalSyntheticLambda43.INSTANCE);
+        }, new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda43
+            @Override // java.lang.Runnable
+            public final void run() {
+                LPhotoPaintView.lambda$onSwitchSegmentedAnimation$50();
+            }
+        });
     }
 }

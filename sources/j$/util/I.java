@@ -91,7 +91,7 @@ final class I implements t.c {
         return true;
     }
 
-    @Override // j$.util.t.c, j$.util.u, j$.util.t
+    @Override // j$.util.u, j$.util.t
     public t.c trySplit() {
         int i = this.b;
         int i2 = (this.c + i) >>> 1;

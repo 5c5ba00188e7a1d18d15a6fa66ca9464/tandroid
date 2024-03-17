@@ -66,7 +66,12 @@ public class BackSpaceButtonView extends FrameLayout {
         imageView.setScaleType(ImageView.ScaleType.CENTER);
         imageView.setContentDescription(LocaleController.getString("AccDescrBackspace", R.string.AccDescrBackspace));
         imageView.setFocusable(true);
-        imageView.setOnClickListener(BackSpaceButtonView$$ExternalSyntheticLambda0.INSTANCE);
+        imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Reactions.BackSpaceButtonView$$ExternalSyntheticLambda0
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view) {
+                BackSpaceButtonView.lambda$new$0(view);
+            }
+        });
         addView(imageView, LayoutHelper.createFrame(36, 36, 17));
         Drawable createSimpleSelectorCircleDrawable = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(36.0f), getThemedColor(Theme.key_windowBackgroundWhite), Theme.getColor(Theme.key_listSelector));
         if (Build.VERSION.SDK_INT >= 21) {

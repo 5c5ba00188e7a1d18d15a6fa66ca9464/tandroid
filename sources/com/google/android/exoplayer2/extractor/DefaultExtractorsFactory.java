@@ -33,8 +33,22 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /* loaded from: classes.dex */
 public final class DefaultExtractorsFactory implements ExtractorsFactory {
     private static final int[] DEFAULT_EXTRACTOR_ORDER = {5, 4, 12, 8, 3, 10, 9, 11, 6, 2, 0, 1, 7, 16, 15, 14};
-    private static final ExtensionLoader FLAC_EXTENSION_LOADER = new ExtensionLoader(DefaultExtractorsFactory$$ExternalSyntheticLambda1.INSTANCE);
-    private static final ExtensionLoader MIDI_EXTENSION_LOADER = new ExtensionLoader(DefaultExtractorsFactory$$ExternalSyntheticLambda0.INSTANCE);
+    private static final ExtensionLoader FLAC_EXTENSION_LOADER = new ExtensionLoader(new ExtensionLoader.ConstructorSupplier() { // from class: com.google.android.exoplayer2.extractor.DefaultExtractorsFactory$$ExternalSyntheticLambda1
+        @Override // com.google.android.exoplayer2.extractor.DefaultExtractorsFactory.ExtensionLoader.ConstructorSupplier
+        public final Constructor getConstructor() {
+            Constructor flacExtractorConstructor;
+            flacExtractorConstructor = DefaultExtractorsFactory.getFlacExtractorConstructor();
+            return flacExtractorConstructor;
+        }
+    });
+    private static final ExtensionLoader MIDI_EXTENSION_LOADER = new ExtensionLoader(new ExtensionLoader.ConstructorSupplier() { // from class: com.google.android.exoplayer2.extractor.DefaultExtractorsFactory$$ExternalSyntheticLambda0
+        @Override // com.google.android.exoplayer2.extractor.DefaultExtractorsFactory.ExtensionLoader.ConstructorSupplier
+        public final Constructor getConstructor() {
+            Constructor midiExtractorConstructor;
+            midiExtractorConstructor = DefaultExtractorsFactory.getMidiExtractorConstructor();
+            return midiExtractorConstructor;
+        }
+    });
     private int adtsFlags;
     private int amrFlags;
     private boolean constantBitrateSeekingAlwaysEnabled;

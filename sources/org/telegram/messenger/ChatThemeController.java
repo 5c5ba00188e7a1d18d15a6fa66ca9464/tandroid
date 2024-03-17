@@ -623,7 +623,12 @@ public class ChatThemeController extends BaseController {
                 notificationCenter.lambda$postNotificationNameOnUIThread$1(i, chatFull, 0, bool, bool);
             }
         }
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_setChatWallPaper, ChatThemeController$$ExternalSyntheticLambda11.INSTANCE);
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_setChatWallPaper, new RequestDelegate() { // from class: org.telegram.messenger.ChatThemeController$$ExternalSyntheticLambda11
+            @Override // org.telegram.tgnet.RequestDelegate
+            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                ChatThemeController.lambda$clearWallpaper$10(tLObject, tLRPC$TL_error);
+            }
+        });
     }
 
     public int setWallpaperToPeer(final long j, final String str, Theme.OverrideWallpaperInfo overrideWallpaperInfo, MessageObject messageObject, final Runnable runnable) {

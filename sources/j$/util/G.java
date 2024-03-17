@@ -91,7 +91,7 @@ final class G implements t.b {
         return a.f(this, i);
     }
 
-    @Override // j$.util.t.b, j$.util.u, j$.util.t
+    @Override // j$.util.u, j$.util.t
     public t.b trySplit() {
         int i = this.b;
         int i2 = (this.c + i) >>> 1;

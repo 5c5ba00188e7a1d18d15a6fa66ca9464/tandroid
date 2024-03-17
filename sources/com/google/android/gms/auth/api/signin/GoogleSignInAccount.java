@@ -14,6 +14,7 @@ import com.google.android.gms.common.util.DefaultClock;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -200,7 +201,13 @@ public class GoogleSignInAccount extends AbstractSafeParcelable implements Refle
             JSONArray jSONArray = new JSONArray();
             List list = this.zac;
             Scope[] scopeArr = (Scope[]) list.toArray(new Scope[list.size()]);
-            Arrays.sort(scopeArr, zaa.zaa);
+            Arrays.sort(scopeArr, new Comparator() { // from class: com.google.android.gms.auth.api.signin.zaa
+                @Override // java.util.Comparator
+                public final int compare(Object obj, Object obj2) {
+                    Parcelable.Creator<GoogleSignInAccount> creator = GoogleSignInAccount.CREATOR;
+                    return ((Scope) obj).getScopeUri().compareTo(((Scope) obj2).getScopeUri());
+                }
+            });
             for (Scope scope : scopeArr) {
                 jSONArray.put(scope.getScopeUri());
             }

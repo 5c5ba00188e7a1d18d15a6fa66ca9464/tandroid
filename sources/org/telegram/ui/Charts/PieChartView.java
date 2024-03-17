@@ -540,8 +540,9 @@ public class PieChartView extends StackLinearChartView<PieChartViewData> {
         moveLegend();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Charts.StackLinearChartView, org.telegram.ui.Charts.BaseChartView, android.view.View
-    protected void onDraw(Canvas canvas) {
+    public void onDraw(Canvas canvas) {
         if (this.chartData != 0) {
             for (int i = 0; i < this.lines.size(); i++) {
                 if (i == this.currentSelection) {

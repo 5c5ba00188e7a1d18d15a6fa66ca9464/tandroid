@@ -4086,7 +4086,14 @@ public class MessagesStorage extends BaseController {
                     throw th;
                 }
             }
-            Collections.sort(this.dialogFilters, MessagesStorage$$ExternalSyntheticLambda238.INSTANCE);
+            Collections.sort(this.dialogFilters, new Comparator() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda238
+                @Override // java.util.Comparator
+                public final int compare(Object obj, Object obj2) {
+                    int lambda$loadDialogFilters$62;
+                    lambda$loadDialogFilters$62 = MessagesStorage.lambda$loadDialogFilters$62((MessagesController.DialogFilter) obj, (MessagesController.DialogFilter) obj2);
+                    return lambda$loadDialogFilters$62;
+                }
+            });
             if (z2) {
                 calcUnreadCounters(true);
             }
@@ -5510,7 +5517,14 @@ public class MessagesStorage extends BaseController {
             }
         }
         if (z2) {
-            Collections.sort(this.dialogFilters, MessagesStorage$$ExternalSyntheticLambda237.INSTANCE);
+            Collections.sort(this.dialogFilters, new Comparator() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda237
+                @Override // java.util.Comparator
+                public final int compare(Object obj, Object obj2) {
+                    int lambda$processLoadedFilterPeersInternal$66;
+                    lambda$processLoadedFilterPeersInternal$66 = MessagesStorage.lambda$processLoadedFilterPeersInternal$66((MessagesController.DialogFilter) obj, (MessagesController.DialogFilter) obj2);
+                    return lambda$processLoadedFilterPeersInternal$66;
+                }
+            });
             saveDialogFiltersOrderInternal();
         }
         int i4 = z ? 1 : 2;
@@ -36600,7 +36614,14 @@ public class MessagesStorage extends BaseController {
                         longSparseArray3 = longSparseArray10;
                     }
                     LongSparseArray longSparseArray11 = longSparseArray3;
-                    Collections.sort(arrayList6, MessagesStorage$$ExternalSyntheticLambda240.INSTANCE);
+                    Collections.sort(arrayList6, new Comparator() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda240
+                        @Override // java.util.Comparator
+                        public final int compare(Object obj2, Object obj3) {
+                            int lambda$localSearch$238;
+                            lambda$localSearch$238 = MessagesStorage.lambda$localSearch$238((DialogsSearchAdapter.DialogSearchResult) obj2, (DialogsSearchAdapter.DialogSearchResult) obj3);
+                            return lambda$localSearch$238;
+                        }
+                    });
                     i7 = 0;
                     while (i7 < arrayList6.size()) {
                         DialogsSearchAdapter.DialogSearchResult dialogSearchResult6 = (DialogsSearchAdapter.DialogSearchResult) arrayList6.get(i7);
@@ -36704,7 +36725,14 @@ public class MessagesStorage extends BaseController {
                     while (i6 < longSparseArray3.size()) {
                     }
                     LongSparseArray longSparseArray112 = longSparseArray3;
-                    Collections.sort(arrayList6, MessagesStorage$$ExternalSyntheticLambda240.INSTANCE);
+                    Collections.sort(arrayList6, new Comparator() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda240
+                        @Override // java.util.Comparator
+                        public final int compare(Object obj2, Object obj3) {
+                            int lambda$localSearch$238;
+                            lambda$localSearch$238 = MessagesStorage.lambda$localSearch$238((DialogsSearchAdapter.DialogSearchResult) obj2, (DialogsSearchAdapter.DialogSearchResult) obj3);
+                            return lambda$localSearch$238;
+                        }
+                    });
                     i7 = 0;
                     while (i7 < arrayList6.size()) {
                     }
@@ -36735,7 +36763,14 @@ public class MessagesStorage extends BaseController {
                 while (i6 < longSparseArray3.size()) {
                 }
                 LongSparseArray longSparseArray1122 = longSparseArray3;
-                Collections.sort(arrayList6, MessagesStorage$$ExternalSyntheticLambda240.INSTANCE);
+                Collections.sort(arrayList6, new Comparator() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda240
+                    @Override // java.util.Comparator
+                    public final int compare(Object obj2, Object obj3) {
+                        int lambda$localSearch$238;
+                        lambda$localSearch$238 = MessagesStorage.lambda$localSearch$238((DialogsSearchAdapter.DialogSearchResult) obj2, (DialogsSearchAdapter.DialogSearchResult) obj3);
+                        return lambda$localSearch$238;
+                    }
+                });
                 i7 = 0;
                 while (i7 < arrayList6.size()) {
                 }

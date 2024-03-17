@@ -2,9 +2,10 @@ package com.google.android.gms.internal.clearcut;
 
 import java.util.Map;
 /* JADX INFO: Access modifiers changed from: package-private */
+/* JADX INFO: Add missing generic type declarations: [V, K] */
 /* JADX WARN: Incorrect field signature: TK; */
 /* loaded from: classes.dex */
-public final class zzep implements Comparable<zzep>, Map.Entry<K, V> {
+public final class zzep<K, V> implements Comparable<zzep>, Map.Entry<K, V> {
     private V value;
     private final /* synthetic */ zzei zzos;
     private final Comparable zzov;
@@ -58,7 +59,7 @@ public final class zzep implements Comparable<zzep>, Map.Entry<K, V> {
         Comparable comparable = this.zzov;
         int hashCode = comparable == null ? 0 : comparable.hashCode();
         V v = this.value;
-        return hashCode ^ (v != 0 ? v.hashCode() : 0);
+        return hashCode ^ (v != null ? v.hashCode() : 0);
     }
 
     @Override // java.util.Map.Entry

@@ -22,6 +22,7 @@ import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.camera.CameraSessionWrapper;
 import org.telegram.messenger.camera.CameraView;
 import org.telegram.tgnet.ConnectionsManager;
+import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$TL_error;
 import org.telegram.tgnet.TLRPC$TL_help_saveAppLog;
@@ -159,7 +160,12 @@ public class DualCameraView extends CameraView {
                 tLRPC$TL_inputAppEvent.data = tLRPC$TL_jsonObject;
                 tLRPC$TL_inputAppEvent.peer = (dualAvailableDefault ? 2 : 0) | (z ? 1 : 0);
                 tLRPC$TL_help_saveAppLog.events.add(tLRPC$TL_inputAppEvent);
-                ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_help_saveAppLog, DualCameraView$$ExternalSyntheticLambda2.INSTANCE);
+                ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_help_saveAppLog, new RequestDelegate() { // from class: org.telegram.ui.Stories.recorder.DualCameraView$$ExternalSyntheticLambda2
+                    @Override // org.telegram.tgnet.RequestDelegate
+                    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                        DualCameraView.lambda$log$0(tLObject, tLRPC$TL_error);
+                    }
+                });
             } catch (Exception unused) {
             }
         }

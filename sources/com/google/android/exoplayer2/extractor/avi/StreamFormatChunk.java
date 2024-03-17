@@ -6,9 +6,8 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
 import com.google.common.collect.ImmutableList;
 import org.telegram.messenger.MediaController;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class StreamFormatChunk implements AviChunk {
+final class StreamFormatChunk implements AviChunk {
     public final Format format;
 
     private static String getMimeTypeFromCompression(int i) {

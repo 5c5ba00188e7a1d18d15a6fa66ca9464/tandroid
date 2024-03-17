@@ -10,12 +10,12 @@ import j$.util.function.Consumer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 import org.telegram.SQLite.SQLiteCursor;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.support.LongSparseIntArray;
@@ -124,7 +124,7 @@ public class TopicsController extends BaseController {
 
                 @Override // j$.util.function.Consumer
                 public /* synthetic */ Consumer andThen(Consumer consumer) {
-                    return Objects.requireNonNull(consumer);
+                    return Consumer.-CC.$default$andThen(this, consumer);
                 }
             });
             return;
@@ -394,7 +394,14 @@ public class TopicsController extends BaseController {
         ArrayList<TLRPC$TL_forumTopic> arrayList = this.topicsByChatId.get(j);
         if (arrayList != null) {
             if (this.openedTopicsBuChatId.get(j, 0) > 0) {
-                Collections.sort(arrayList, TopicsController$$ExternalSyntheticLambda19.INSTANCE);
+                Collections.sort(arrayList, new Comparator() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda19
+                    @Override // java.util.Comparator
+                    public final int compare(Object obj, Object obj2) {
+                        int lambda$sortTopics$6;
+                        lambda$sortTopics$6 = TopicsController.lambda$sortTopics$6((TLRPC$TL_forumTopic) obj, (TLRPC$TL_forumTopic) obj2);
+                        return lambda$sortTopics$6;
+                    }
+                });
             }
             if (z) {
                 getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.topicsDidLoaded, Long.valueOf(j), Boolean.TRUE);
@@ -1249,7 +1256,7 @@ public class TopicsController extends BaseController {
 
             @Override // j$.util.function.Consumer
             public /* synthetic */ Consumer andThen(Consumer consumer) {
-                return Objects.requireNonNull(consumer);
+                return Consumer.-CC.$default$andThen(this, consumer);
             }
         });
     }

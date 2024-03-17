@@ -104,12 +104,12 @@ public class ClearHistoryAlert extends BottomSheet {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:132:0x00d8  */
-    /* JADX WARN: Removed duplicated region for block: B:133:0x00e1  */
-    /* JADX WARN: Removed duplicated region for block: B:142:0x0101  */
-    /* JADX WARN: Removed duplicated region for block: B:178:0x02ea  */
-    /* JADX WARN: Removed duplicated region for block: B:190:0x045b  */
-    /* JADX WARN: Removed duplicated region for block: B:191:0x0469  */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x00d8  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x00e1  */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x0101  */
+    /* JADX WARN: Removed duplicated region for block: B:79:0x02ea  */
+    /* JADX WARN: Removed duplicated region for block: B:91:0x045b  */
+    /* JADX WARN: Removed duplicated region for block: B:92:0x0469  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -155,10 +155,6 @@ public class ClearHistoryAlert extends BottomSheet {
         NestedScrollView nestedScrollView2 = new NestedScrollView(context) { // from class: org.telegram.ui.Components.ClearHistoryAlert.1
             private boolean ignoreLayout;
 
-            {
-                ClearHistoryAlert.this = this;
-            }
-
             @Override // androidx.core.widget.NestedScrollView, android.view.ViewGroup
             public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
                 if (motionEvent.getAction() == 0 && ClearHistoryAlert.this.scrollOffsetY != 0 && motionEvent.getY() < ClearHistoryAlert.this.scrollOffsetY) {
@@ -179,6 +175,7 @@ public class ClearHistoryAlert extends BottomSheet {
                 ClearHistoryAlert.this.updateLayout();
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.core.widget.NestedScrollView, android.widget.FrameLayout, android.view.View
             public void onMeasure(int i4, int i5) {
                 int size = View.MeasureSpec.getSize(i5);
@@ -197,6 +194,7 @@ public class ClearHistoryAlert extends BottomSheet {
                 super.onMeasure(i4, View.MeasureSpec.makeMeasureSpec(size, 1073741824));
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.core.widget.NestedScrollView, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
             public void onLayout(boolean z3, int i4, int i5, int i6, int i7) {
                 super.onLayout(z3, i4, i5, i6, i7);
@@ -218,6 +216,7 @@ public class ClearHistoryAlert extends BottomSheet {
                 ClearHistoryAlert.this.shadowDrawable.draw(canvas);
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.core.widget.NestedScrollView, android.view.View
             public void onScrollChanged(int i4, int i5, int i6, int i7) {
                 super.onScrollChanged(i4, i5, i6, i7);
@@ -231,10 +230,6 @@ public class ClearHistoryAlert extends BottomSheet {
         nestedScrollView2.setPadding(i4, 0, i4, 0);
         this.containerView = nestedScrollView2;
         LinearLayout linearLayout = new LinearLayout(context) { // from class: org.telegram.ui.Components.ClearHistoryAlert.2
-            {
-                ClearHistoryAlert.this = this;
-            }
-
             @Override // android.widget.LinearLayout, android.view.ViewGroup, android.view.View
             protected void onLayout(boolean z3, int i5, int i6, int i7, int i8) {
                 super.onLayout(z3, i5, i6, i7, i8);
@@ -346,10 +341,6 @@ public class ClearHistoryAlert extends BottomSheet {
                 SlideChooseView slideChooseView = new SlideChooseView(context, resourcesProvider);
                 final NestedScrollView nestedScrollView3 = nestedScrollView;
                 slideChooseView.setCallback(new SlideChooseView.Callback() { // from class: org.telegram.ui.Components.ClearHistoryAlert.3
-                    {
-                        ClearHistoryAlert.this = this;
-                    }
-
                     @Override // org.telegram.ui.Components.SlideChooseView.Callback
                     public void onOptionSelected(int i6) {
                         ClearHistoryAlert.this.newTimer = i6;
@@ -402,10 +393,6 @@ public class ClearHistoryAlert extends BottomSheet {
         SlideChooseView slideChooseView2 = new SlideChooseView(context, resourcesProvider);
         final NestedScrollView nestedScrollView32 = nestedScrollView;
         slideChooseView2.setCallback(new SlideChooseView.Callback() { // from class: org.telegram.ui.Components.ClearHistoryAlert.3
-            {
-                ClearHistoryAlert.this = this;
-            }
-
             @Override // org.telegram.ui.Components.SlideChooseView.Callback
             public void onOptionSelected(int i6) {
                 ClearHistoryAlert.this.newTimer = i6;
@@ -442,11 +429,13 @@ public class ClearHistoryAlert extends BottomSheet {
         updateTimerButton(false);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$new$0(boolean[] zArr, View view) {
         zArr[0] = !zArr[0];
         ((CheckBoxCell) view).setChecked(zArr[0], true);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(View view) {
         if (this.dismissedDelayed) {
             return;
@@ -457,6 +446,7 @@ public class ClearHistoryAlert extends BottomSheet {
         dismiss();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2(View view) {
         int i;
         if (this.dismissedDelayed) {
@@ -490,6 +480,7 @@ public class ClearHistoryAlert extends BottomSheet {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateTimerButton(boolean z) {
         if (this.currentTimer != this.newTimer || this.autoDeleteOnly) {
             this.setTimerButton.setVisibility(0);
@@ -506,6 +497,7 @@ public class ClearHistoryAlert extends BottomSheet {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateLayout() {
         this.linearLayout.getChildAt(0).getLocationInWindow(this.location);
         int max = Math.max(this.location[1] - AndroidUtilities.dp(this.autoDeleteOnly ? 6.0f : 19.0f), 0);

@@ -676,7 +676,12 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
                             }
                         });
                     }
-                    this.listViewTranslationAnimator.addEndListener(MentionsContainerView$$ExternalSyntheticLambda2.INSTANCE);
+                    this.listViewTranslationAnimator.addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda2
+                        @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
+                        public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z3, float f6, float f7) {
+                            MentionsContainerView.lambda$updateListViewTranslation$3(dynamicAnimation, z3, f6, f7);
+                        }
+                    });
                     this.listViewTranslationAnimator.start();
                 }
             } else {
@@ -990,7 +995,12 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     public void didReceivedNotification(int i, int i2, Object... objArr) {
         if (i == NotificationCenter.emojiLoaded) {
-            AndroidUtilities.forEachViews((RecyclerView) this.listView, (Consumer<View>) MentionsContainerView$$ExternalSyntheticLambda4.INSTANCE);
+            AndroidUtilities.forEachViews((RecyclerView) this.listView, (Consumer<View>) new Consumer() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda4
+                @Override // com.google.android.exoplayer2.util.Consumer
+                public final void accept(Object obj) {
+                    MentionsContainerView.lambda$didReceivedNotification$6((View) obj);
+                }
+            });
         }
     }
 

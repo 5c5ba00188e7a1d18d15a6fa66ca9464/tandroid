@@ -1113,8 +1113,9 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.UsersAlertBase
-    protected void search(String str) {
+    public void search(String str) {
         this.searchAdapter.searchUsers(str);
     }
 

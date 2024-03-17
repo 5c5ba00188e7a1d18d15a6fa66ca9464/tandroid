@@ -1,8 +1,10 @@
 package com.google.android.exoplayer2.extractor.flac;
 
+import android.net.Uri;
 import com.google.android.exoplayer2.extractor.Extractor;
 import com.google.android.exoplayer2.extractor.ExtractorInput;
 import com.google.android.exoplayer2.extractor.ExtractorOutput;
+import com.google.android.exoplayer2.extractor.ExtractorsFactory;
 import com.google.android.exoplayer2.extractor.FlacFrameReader;
 import com.google.android.exoplayer2.extractor.FlacMetadataReader;
 import com.google.android.exoplayer2.extractor.FlacSeekTableSeekMap;
@@ -15,6 +17,7 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
 import java.io.IOException;
+import java.util.Map;
 import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public final class FlacExtractor implements Extractor {
@@ -38,7 +41,21 @@ public final class FlacExtractor implements Extractor {
     }
 
     static {
-        FlacExtractor$$ExternalSyntheticLambda0 flacExtractor$$ExternalSyntheticLambda0 = FlacExtractor$$ExternalSyntheticLambda0.INSTANCE;
+        FlacExtractor$$ExternalSyntheticLambda0 flacExtractor$$ExternalSyntheticLambda0 = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.flac.FlacExtractor$$ExternalSyntheticLambda0
+            @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
+            public final Extractor[] createExtractors() {
+                Extractor[] lambda$static$0;
+                lambda$static$0 = FlacExtractor.lambda$static$0();
+                return lambda$static$0;
+            }
+
+            @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
+            public /* synthetic */ Extractor[] createExtractors(Uri uri, Map map) {
+                Extractor[] createExtractors;
+                createExtractors = createExtractors();
+                return createExtractors;
+            }
+        };
     }
 
     /* JADX INFO: Access modifiers changed from: private */

@@ -393,7 +393,12 @@ public class ThanosEffect extends TextureView {
                     i++;
                 }
                 this.toAddAnimations.clear();
-                AndroidUtilities.runOnUIThread(ThanosEffect$DrawingThread$$ExternalSyntheticLambda5.INSTANCE);
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ThanosEffect$DrawingThread$$ExternalSyntheticLambda5
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        ThanosEffect.DrawingThread.lambda$run$0();
+                    }
+                });
                 killInternal();
             }
         }
@@ -611,7 +616,12 @@ public class ThanosEffect extends TextureView {
                         i++;
                     }
                     this.pendingAnimations.clear();
-                    AndroidUtilities.runOnUIThread(ThanosEffect$DrawingThread$$ExternalSyntheticLambda4.INSTANCE);
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ThanosEffect$DrawingThread$$ExternalSyntheticLambda4
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            ThanosEffect.DrawingThread.lambda$draw$1();
+                        }
+                    });
                     killInternal();
                 }
             }

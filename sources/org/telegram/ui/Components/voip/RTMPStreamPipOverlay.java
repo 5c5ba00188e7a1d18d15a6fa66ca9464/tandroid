@@ -61,8 +61,32 @@ import org.telegram.ui.LaunchActivity;
 import org.webrtc.RendererCommon;
 /* loaded from: classes4.dex */
 public class RTMPStreamPipOverlay implements NotificationCenter.NotificationCenterDelegate {
-    private static final FloatPropertyCompat<RTMPStreamPipOverlay> PIP_X_PROPERTY = new SimpleFloatPropertyCompat("pipX", RTMPStreamPipOverlay$$ExternalSyntheticLambda6.INSTANCE, RTMPStreamPipOverlay$$ExternalSyntheticLambda8.INSTANCE);
-    private static final FloatPropertyCompat<RTMPStreamPipOverlay> PIP_Y_PROPERTY = new SimpleFloatPropertyCompat("pipY", RTMPStreamPipOverlay$$ExternalSyntheticLambda5.INSTANCE, RTMPStreamPipOverlay$$ExternalSyntheticLambda7.INSTANCE);
+    private static final FloatPropertyCompat<RTMPStreamPipOverlay> PIP_X_PROPERTY = new SimpleFloatPropertyCompat("pipX", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.Components.voip.RTMPStreamPipOverlay$$ExternalSyntheticLambda6
+        @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Getter
+        public final float get(Object obj) {
+            float f;
+            f = ((RTMPStreamPipOverlay) obj).pipX;
+            return f;
+        }
+    }, new SimpleFloatPropertyCompat.Setter() { // from class: org.telegram.ui.Components.voip.RTMPStreamPipOverlay$$ExternalSyntheticLambda8
+        @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Setter
+        public final void set(Object obj, float f) {
+            RTMPStreamPipOverlay.lambda$static$1((RTMPStreamPipOverlay) obj, f);
+        }
+    });
+    private static final FloatPropertyCompat<RTMPStreamPipOverlay> PIP_Y_PROPERTY = new SimpleFloatPropertyCompat("pipY", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.Components.voip.RTMPStreamPipOverlay$$ExternalSyntheticLambda5
+        @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Getter
+        public final float get(Object obj) {
+            float f;
+            f = ((RTMPStreamPipOverlay) obj).pipY;
+            return f;
+        }
+    }, new SimpleFloatPropertyCompat.Setter() { // from class: org.telegram.ui.Components.voip.RTMPStreamPipOverlay$$ExternalSyntheticLambda7
+        @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Setter
+        public final void set(Object obj, float f) {
+            RTMPStreamPipOverlay.lambda$static$3((RTMPStreamPipOverlay) obj, f);
+        }
+    });
     @SuppressLint({"StaticFieldLeak"})
     private static RTMPStreamPipOverlay instance = new RTMPStreamPipOverlay();
     private AccountInstance accountInstance;
@@ -204,7 +228,12 @@ public class RTMPStreamPipOverlay implements NotificationCenter.NotificationCent
     private void dismissInternal() {
         if (this.isVisible) {
             this.isVisible = false;
-            AndroidUtilities.runOnUIThread(RTMPStreamPipOverlay$$ExternalSyntheticLambda4.INSTANCE, 100L);
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.voip.RTMPStreamPipOverlay$$ExternalSyntheticLambda4
+                @Override // java.lang.Runnable
+                public final void run() {
+                    RTMPStreamPipOverlay.lambda$dismissInternal$6();
+                }
+            }, 100L);
             this.accountInstance.getNotificationCenter().removeObserver(this, NotificationCenter.groupCallUpdated);
             this.accountInstance.getNotificationCenter().removeObserver(this, NotificationCenter.applyGroupCallVisibleParticipants);
             NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.didEndCall);
@@ -483,7 +512,12 @@ public class RTMPStreamPipOverlay implements NotificationCenter.NotificationCent
         int i3 = Theme.key_listSelector;
         imageView.setBackground(Theme.createSelectorDrawable(Theme.getColor(i3)));
         imageView.setPadding(dp, dp, dp, dp);
-        imageView.setOnClickListener(RTMPStreamPipOverlay$$ExternalSyntheticLambda2.INSTANCE);
+        imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.voip.RTMPStreamPipOverlay$$ExternalSyntheticLambda2
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view3) {
+                RTMPStreamPipOverlay.dismiss();
+            }
+        });
         float f = 38;
         float f2 = 4;
         this.controlsView.addView(imageView, LayoutHelper.createFrame(38, f, 5, 0.0f, f2, f2, 0.0f));

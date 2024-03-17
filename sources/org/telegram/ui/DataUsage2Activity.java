@@ -28,6 +28,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
@@ -291,7 +292,14 @@ public class DataUsage2Activity extends BaseFragment {
                 sizeArr[i] = size;
                 this.tempSizes[i] = ((float) bytesCount) / ((float) this.totalSize);
             }
-            Arrays.sort(this.segments, DataUsage2Activity$ListView$$ExternalSyntheticLambda1.INSTANCE);
+            Arrays.sort(this.segments, new Comparator() { // from class: org.telegram.ui.DataUsage2Activity$ListView$$ExternalSyntheticLambda1
+                @Override // java.util.Comparator
+                public final int compare(Object obj, Object obj2) {
+                    int lambda$setup$2;
+                    lambda$setup$2 = DataUsage2Activity.ListView.lambda$setup$2((DataUsage2Activity.ListView.Size) obj, (DataUsage2Activity.ListView.Size) obj2);
+                    return lambda$setup$2;
+                }
+            });
             AndroidUtilities.roundPercents(this.tempSizes, this.tempPercents);
             Arrays.fill(this.collapsed, true);
         }

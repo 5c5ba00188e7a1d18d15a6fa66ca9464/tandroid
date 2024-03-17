@@ -22,6 +22,10 @@ public final class SntpClient {
         void onInitialized();
     }
 
+    static /* synthetic */ long access$400() throws IOException {
+        return loadNtpTimeOffsetMs();
+    }
+
     public static String getNtpHost() {
         String str;
         synchronized (valueLock) {
@@ -60,8 +64,7 @@ public final class SntpClient {
         loader.startLoading(new NtpTimeLoadable(), new NtpTimeCallback(initializationCallback), 1);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public static long loadNtpTimeOffsetMs() throws IOException {
+    private static long loadNtpTimeOffsetMs() throws IOException {
         InetAddress byName = InetAddress.getByName(getNtpHost());
         DatagramSocket datagramSocket = new DatagramSocket();
         try {
@@ -178,9 +181,9 @@ public final class SntpClient {
                     if (SntpClient.isInitialized) {
                         return;
                     }
-                    long loadNtpTimeOffsetMs = SntpClient.loadNtpTimeOffsetMs();
+                    long access$400 = SntpClient.access$400();
                     synchronized (SntpClient.valueLock) {
-                        long unused = SntpClient.elapsedRealtimeOffsetMs = loadNtpTimeOffsetMs;
+                        long unused = SntpClient.elapsedRealtimeOffsetMs = access$400;
                         boolean unused2 = SntpClient.isInitialized = true;
                     }
                 }

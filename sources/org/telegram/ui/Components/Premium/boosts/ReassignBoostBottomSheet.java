@@ -435,7 +435,12 @@ public class ReassignBoostBottomSheet extends BottomSheetWithRecyclerListView {
         public static /* synthetic */ void lambda$setData$0(BottomSheet bottomSheet) {
             bottomSheet.dismiss();
             NotificationCenter.getInstance(UserConfig.selectedAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.didStartedMultiGiftsSelector, new Object[0]);
-            AndroidUtilities.runOnUIThread(ReassignBoostBottomSheet$TopCell$$ExternalSyntheticLambda2.INSTANCE, 220L);
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.ReassignBoostBottomSheet$TopCell$$ExternalSyntheticLambda2
+                @Override // java.lang.Runnable
+                public final void run() {
+                    UserSelectorBottomSheet.open();
+                }
+            }, 220L);
         }
 
         /* JADX INFO: Access modifiers changed from: private */

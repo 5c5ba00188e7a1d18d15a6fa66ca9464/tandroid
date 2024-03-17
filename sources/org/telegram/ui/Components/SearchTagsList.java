@@ -23,11 +23,11 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.core.graphics.ColorUtils;
+import androidx.core.util.Consumer;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.google.android.exoplayer2.util.Consumer;
 import java.util.ArrayList;
 import java.util.HashSet;
 import org.telegram.messenger.AndroidUtilities;
@@ -334,7 +334,12 @@ public class SearchTagsList extends BlurredFrameLayout implements NotificationCe
                 }
                 i3++;
             }
-            this.listView.forAllChild(SearchTagsList$$ExternalSyntheticLambda9.INSTANCE);
+            this.listView.forAllChild(new Consumer() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda9
+                @Override // androidx.core.util.Consumer
+                public final void accept(Object obj) {
+                    SearchTagsList.lambda$new$1((View) obj);
+                }
+            });
             if (this.chosen == hash) {
                 this.chosen = 0L;
                 return;
@@ -539,7 +544,12 @@ public class SearchTagsList extends BlurredFrameLayout implements NotificationCe
                 SearchTagsList.lambda$openRenameTagAlert$5(EditTextBoldCursor.this, i, tLRPC$Reaction, dialogInterface, i3);
             }
         });
-        r15.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), SearchTagsList$$ExternalSyntheticLambda2.INSTANCE);
+        r15.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda2
+            @Override // android.content.DialogInterface.OnClickListener
+            public final void onClick(DialogInterface dialogInterface, int i3) {
+                dialogInterface.dismiss();
+            }
+        });
         if (z2) {
             AlertDialog create = r15.create();
             currentDialog = create;
@@ -613,7 +623,12 @@ public class SearchTagsList extends BlurredFrameLayout implements NotificationCe
     }
 
     public void clear() {
-        this.listView.forAllChild(SearchTagsList$$ExternalSyntheticLambda8.INSTANCE);
+        this.listView.forAllChild(new Consumer() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda8
+            @Override // androidx.core.util.Consumer
+            public final void accept(Object obj) {
+                SearchTagsList.lambda$clear$11((View) obj);
+            }
+        });
         this.chosen = 0L;
     }
 
@@ -643,7 +658,7 @@ public class SearchTagsList extends BlurredFrameLayout implements NotificationCe
             }
         } else if (i == NotificationCenter.emojiLoaded) {
             invalidate();
-            AndroidUtilities.forEachViews((RecyclerView) this.listView, (Consumer<View>) FloatingDebugView$$ExternalSyntheticLambda3.INSTANCE);
+            AndroidUtilities.forEachViews((RecyclerView) this.listView, (com.google.android.exoplayer2.util.Consumer<View>) FloatingDebugView$$ExternalSyntheticLambda3.INSTANCE);
         }
     }
 

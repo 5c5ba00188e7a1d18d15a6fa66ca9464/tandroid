@@ -3181,7 +3181,12 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
                 this.windowView.finish();
                 return;
             } else if (iArr.length > 0 && iArr[0] == 0) {
-                runAcceptCallAnimation(VoIPFragment$$ExternalSyntheticLambda37.INSTANCE);
+                runAcceptCallAnimation(new Runnable() { // from class: org.telegram.ui.VoIPFragment$$ExternalSyntheticLambda37
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        VoIPFragment.lambda$onRequestPermissionsResultInternal$39();
+                    }
+                });
             } else if (!this.activity.shouldShowRequestPermissionRationale("android.permission.RECORD_AUDIO")) {
                 VoIPService.getSharedInstance().declineIncomingCall();
                 VoIPHelper.permissionDenied(this.activity, new Runnable() { // from class: org.telegram.ui.VoIPFragment$$ExternalSyntheticLambda26

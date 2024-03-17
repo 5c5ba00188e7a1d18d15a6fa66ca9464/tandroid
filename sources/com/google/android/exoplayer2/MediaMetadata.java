@@ -80,7 +80,14 @@ public final class MediaMetadata implements Bundleable {
     private static final String FIELD_MEDIA_TYPE = Util.intToStringMaxRadix(31);
     private static final String FIELD_IS_BROWSABLE = Util.intToStringMaxRadix(32);
     private static final String FIELD_EXTRAS = Util.intToStringMaxRadix(1000);
-    public static final Bundleable.Creator<MediaMetadata> CREATOR = MediaMetadata$$ExternalSyntheticLambda0.INSTANCE;
+    public static final Bundleable.Creator<MediaMetadata> CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.MediaMetadata$$ExternalSyntheticLambda0
+        @Override // com.google.android.exoplayer2.Bundleable.Creator
+        public final Bundleable fromBundle(Bundle bundle) {
+            MediaMetadata fromBundle;
+            fromBundle = MediaMetadata.fromBundle(bundle);
+            return fromBundle;
+        }
+    };
 
     private static int getFolderTypeFromMediaType(int i) {
         switch (i) {

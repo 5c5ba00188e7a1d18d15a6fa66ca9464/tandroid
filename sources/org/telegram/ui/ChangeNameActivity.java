@@ -15,6 +15,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.ConnectionsManager;
+import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$TL_account_updateProfile;
 import org.telegram.tgnet.TLRPC$TL_error;
@@ -75,7 +76,14 @@ public class ChangeNameActivity extends BaseFragment {
         this.fragmentView = linearLayout;
         linearLayout.setLayoutParams(new ViewGroup.LayoutParams(-1, -1));
         ((LinearLayout) this.fragmentView).setOrientation(1);
-        this.fragmentView.setOnTouchListener(ChangeNameActivity$$ExternalSyntheticLambda0.INSTANCE);
+        this.fragmentView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ChangeNameActivity$$ExternalSyntheticLambda0
+            @Override // android.view.View.OnTouchListener
+            public final boolean onTouch(View view, MotionEvent motionEvent) {
+                boolean lambda$createView$0;
+                lambda$createView$0 = ChangeNameActivity.lambda$createView$0(view, motionEvent);
+                return lambda$createView$0;
+            }
+        });
         EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(context) { // from class: org.telegram.ui.ChangeNameActivity.2
             @Override // org.telegram.ui.Components.EditTextBoldCursor
             protected Theme.ResourcesProvider getResourcesProvider() {
@@ -212,7 +220,12 @@ public class ChangeNameActivity extends BaseFragment {
             UserConfig.getInstance(this.currentAccount).saveConfig(true);
             NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.mainUserInfoChanged, new Object[0]);
             NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.updateInterfaces, Integer.valueOf(MessagesController.UPDATE_MASK_NAME));
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_updateProfile, ChangeNameActivity$$ExternalSyntheticLambda4.INSTANCE);
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_updateProfile, new RequestDelegate() { // from class: org.telegram.ui.ChangeNameActivity$$ExternalSyntheticLambda4
+                @Override // org.telegram.tgnet.RequestDelegate
+                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                    ChangeNameActivity.lambda$saveName$3(tLObject, tLRPC$TL_error);
+                }
+            });
         }
     }
 

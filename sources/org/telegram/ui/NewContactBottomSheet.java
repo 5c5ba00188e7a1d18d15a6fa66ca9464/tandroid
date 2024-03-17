@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import j$.util.Comparator$-CC;
+import j$.util.function.Function;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -133,7 +134,14 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
         linearLayout.setPadding(AndroidUtilities.dp(20.0f), 0, AndroidUtilities.dp(20.0f), 0);
         this.contentLayout.setOrientation(1);
         scrollView.addView(this.contentLayout, LayoutHelper.createScroll(-1, -2, 51));
-        this.contentLayout.setOnTouchListener(NewContactBottomSheet$$ExternalSyntheticLambda2.INSTANCE);
+        this.contentLayout.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.NewContactBottomSheet$$ExternalSyntheticLambda2
+            @Override // android.view.View.OnTouchListener
+            public final boolean onTouch(View view, MotionEvent motionEvent) {
+                boolean lambda$createView$0;
+                lambda$createView$0 = NewContactBottomSheet.lambda$createView$0(view, motionEvent);
+                return lambda$createView$0;
+            }
+        });
         FrameLayout frameLayout = new FrameLayout(context);
         this.contentLayout.addView(frameLayout, LayoutHelper.createLinear(-1, -2, 0.0f, 0.0f, 0.0f, 0.0f));
         OutlineEditText outlineEditText = new OutlineEditText(context);
@@ -523,7 +531,24 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
         } catch (Exception e) {
             FileLog.e(e);
         }
-        Collections.sort(this.countriesArray, Comparator$-CC.comparing(NewContactBottomSheet$$ExternalSyntheticLambda10.INSTANCE));
+        Collections.sort(this.countriesArray, Comparator$-CC.comparing(new Function() { // from class: org.telegram.ui.NewContactBottomSheet$$ExternalSyntheticLambda10
+            @Override // j$.util.function.Function
+            public /* synthetic */ Function andThen(Function function) {
+                return Function.-CC.$default$andThen(this, function);
+            }
+
+            @Override // j$.util.function.Function
+            public final Object apply(Object obj) {
+                String str4;
+                str4 = ((CountrySelectActivity.Country) obj).name;
+                return str4;
+            }
+
+            @Override // j$.util.function.Function
+            public /* synthetic */ Function compose(Function function) {
+                return Function.-CC.$default$compose(this, function);
+            }
+        }));
         if (!TextUtils.isEmpty(this.initialPhoneNumber)) {
             TLRPC$User currentUser = this.parentFragment.getUserConfig().getCurrentUser();
             if (this.initialPhoneNumber.startsWith("+")) {

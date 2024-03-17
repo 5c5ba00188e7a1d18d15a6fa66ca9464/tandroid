@@ -26,6 +26,11 @@ public final class zzo extends BroadcastReceiver {
         this.zzc = null;
     }
 
+    public static /* bridge */ /* synthetic */ zzbf zza(zzo zzoVar) {
+        zzbf zzbfVar = zzoVar.zzc;
+        return null;
+    }
+
     @Override // android.content.BroadcastReceiver
     public final void onReceive(Context context, Intent intent) {
         Bundle extras = intent.getExtras();

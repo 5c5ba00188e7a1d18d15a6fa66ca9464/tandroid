@@ -82,7 +82,12 @@ public class ActionBarPopupWindow extends PopupWindow {
         } catch (NoSuchFieldException unused) {
         }
         superListenerField = field;
-        NOP = ActionBarPopupWindow$$ExternalSyntheticLambda2.INSTANCE;
+        NOP = new ViewTreeObserver.OnScrollChangedListener() { // from class: org.telegram.ui.ActionBar.ActionBarPopupWindow$$ExternalSyntheticLambda2
+            @Override // android.view.ViewTreeObserver.OnScrollChangedListener
+            public final void onScrollChanged() {
+                ActionBarPopupWindow.lambda$static$0();
+            }
+        };
     }
 
     public void setScaleOut(boolean z) {

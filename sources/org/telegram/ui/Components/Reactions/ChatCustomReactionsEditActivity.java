@@ -599,7 +599,12 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
             return;
         }
         initSelectAnimatedEmojiDialog();
-        AndroidUtilities.runOnUIThread(ChatCustomReactionsEditActivity$$ExternalSyntheticLambda14.INSTANCE, 200L);
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda14
+            @Override // java.lang.Runnable
+            public final void run() {
+                ChatCustomReactionsEditActivity.lambda$onTransitionAnimationEnd$9();
+            }
+        }, 200L);
     }
 
     /* JADX INFO: Access modifiers changed from: private */

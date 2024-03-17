@@ -1006,15 +1006,13 @@ public final class TypeAdapters {
                             typeAdapter.write(jsonWriter, t1);
                         }
 
-                        /* JADX WARN: Multi-variable type inference failed */
-                        /* JADX WARN: Type inference failed for: r0v2, types: [java.lang.Object, T1] */
                         @Override // com.google.gson.TypeAdapter
                         public T1 read(JsonReader jsonReader) throws IOException {
-                            ?? read = typeAdapter.read(jsonReader);
-                            if (read == 0 || rawType.isInstance(read)) {
-                                return read;
+                            T1 t1 = (T1) typeAdapter.read(jsonReader);
+                            if (t1 == null || rawType.isInstance(t1)) {
+                                return t1;
                             }
-                            throw new JsonSyntaxException("Expected a " + rawType.getName() + " but was " + read.getClass().getName() + "; at path " + jsonReader.getPreviousPath());
+                            throw new JsonSyntaxException("Expected a " + rawType.getName() + " but was " + t1.getClass().getName() + "; at path " + jsonReader.getPreviousPath());
                         }
                     };
                 }

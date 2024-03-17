@@ -1014,7 +1014,12 @@ public class ChatRightsEditActivity extends BaseFragment {
                 calendar2.set(14, calendar2.getMaximum(14));
                 datePicker.setMaxDate(calendar2.getTimeInMillis());
                 datePickerDialog.setButton(-1, LocaleController.getString("Set", R.string.Set), datePickerDialog);
-                datePickerDialog.setButton(-2, LocaleController.getString("Cancel", R.string.Cancel), ChatRightsEditActivity$$ExternalSyntheticLambda10.INSTANCE);
+                datePickerDialog.setButton(-2, LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChatRightsEditActivity$$ExternalSyntheticLambda10
+                    @Override // android.content.DialogInterface.OnClickListener
+                    public final void onClick(DialogInterface dialogInterface, int i) {
+                        ChatRightsEditActivity.lambda$createView$3(dialogInterface, i);
+                    }
+                });
                 if (Build.VERSION.SDK_INT >= 21) {
                     datePickerDialog.setOnShowListener(new DialogInterface.OnShowListener() { // from class: org.telegram.ui.ChatRightsEditActivity$$ExternalSyntheticLambda11
                         @Override // android.content.DialogInterface.OnShowListener
@@ -1045,7 +1050,12 @@ public class ChatRightsEditActivity extends BaseFragment {
                 }
             }, 0, 0, true);
             timePickerDialog.setButton(-1, LocaleController.getString("Set", R.string.Set), timePickerDialog);
-            timePickerDialog.setButton(-2, LocaleController.getString("Cancel", R.string.Cancel), ChatRightsEditActivity$$ExternalSyntheticLambda9.INSTANCE);
+            timePickerDialog.setButton(-2, LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChatRightsEditActivity$$ExternalSyntheticLambda9
+                @Override // android.content.DialogInterface.OnClickListener
+                public final void onClick(DialogInterface dialogInterface, int i4) {
+                    ChatRightsEditActivity.lambda$createView$1(dialogInterface, i4);
+                }
+            });
             showDialog(timePickerDialog);
         } catch (Exception e) {
             FileLog.e(e);

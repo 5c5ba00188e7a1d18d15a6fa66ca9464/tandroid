@@ -148,7 +148,14 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
         this.emptyView.setGravity(17);
         this.emptyView.setVisibility(8);
         addView(this.emptyView, LayoutHelper.createFrame(-1, -1.0f));
-        this.emptyView.setOnTouchListener(ChatAttachAlertAudioLayout$$ExternalSyntheticLambda0.INSTANCE);
+        this.emptyView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.ChatAttachAlertAudioLayout$$ExternalSyntheticLambda0
+            @Override // android.view.View.OnTouchListener
+            public final boolean onTouch(View view, MotionEvent motionEvent) {
+                boolean lambda$new$0;
+                lambda$new$0 = ChatAttachAlertAudioLayout.lambda$new$0(view, motionEvent);
+                return lambda$new$0;
+            }
+        });
         ImageView imageView = new ImageView(context);
         this.emptyImageView = imageView;
         imageView.setImageResource(R.drawable.music_empty);

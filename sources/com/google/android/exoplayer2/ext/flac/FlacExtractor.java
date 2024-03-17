@@ -1,5 +1,6 @@
 package com.google.android.exoplayer2.ext.flac;
 
+import android.net.Uri;
 import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.ext.flac.FlacBinarySearchSeeker;
 import com.google.android.exoplayer2.ext.flac.FlacDecoderJni;
@@ -24,9 +25,24 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.nio.ByteBuffer;
+import java.util.Map;
 /* loaded from: classes.dex */
 public final class FlacExtractor implements Extractor {
-    public static final ExtractorsFactory FACTORY = FlacExtractor$$ExternalSyntheticLambda0.INSTANCE;
+    public static final ExtractorsFactory FACTORY = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.ext.flac.FlacExtractor$$ExternalSyntheticLambda0
+        @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
+        public final Extractor[] createExtractors() {
+            Extractor[] lambda$static$0;
+            lambda$static$0 = FlacExtractor.lambda$static$0();
+            return lambda$static$0;
+        }
+
+        @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
+        public /* synthetic */ Extractor[] createExtractors(Uri uri, Map map) {
+            Extractor[] createExtractors;
+            createExtractors = createExtractors();
+            return createExtractors;
+        }
+    };
     public static final int FLAG_DISABLE_ID3_METADATA = 1;
     private FlacBinarySearchSeeker binarySearchSeeker;
     private FlacDecoderJni decoderJni;

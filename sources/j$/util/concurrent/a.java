@@ -27,9 +27,9 @@ public final /* synthetic */ class a implements BiConsumer, BiFunction, Consumer
     public /* synthetic */ BiConsumer andThen(BiConsumer biConsumer) {
         switch (this.a) {
             case 0:
-                return Objects.requireNonNull(biConsumer);
+                return BiConsumer.-CC.$default$andThen(this, biConsumer);
             default:
-                return Objects.requireNonNull(biConsumer);
+                return BiConsumer.-CC.$default$andThen(this, biConsumer);
         }
     }
 

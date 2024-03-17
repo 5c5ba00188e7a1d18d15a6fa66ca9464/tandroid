@@ -10,7 +10,12 @@ public class AppStartReceiver extends BroadcastReceiver {
         if (intent == null || !"android.intent.action.BOOT_COMPLETED".equals(intent.getAction())) {
             return;
         }
-        AndroidUtilities.runOnUIThread(AppStartReceiver$$ExternalSyntheticLambda0.INSTANCE);
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.AppStartReceiver$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                AppStartReceiver.lambda$onReceive$0();
+            }
+        });
     }
 
     /* JADX INFO: Access modifiers changed from: private */

@@ -936,7 +936,12 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 this.listView.setLayoutManager(new LinearLayoutManager(context, 1, false));
                 this.listView.setVerticalScrollbarPosition(!LocaleController.isRTL ? 1 : 2);
                 this.listView.setPadding(0, 0, 0, AndroidUtilities.dp(this.screenType == 0 ? 12.0f : 0.0f));
-                this.listView.setOnItemClickListener(ThemePreviewActivity$$ExternalSyntheticLambda34.INSTANCE);
+                this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda34
+                    @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
+                    public final void onItemClick(View view, int i12) {
+                        ThemePreviewActivity.lambda$createView$3(view, i12);
+                    }
+                });
                 this.page1.addView(this.listView, LayoutHelper.createFrame(-1, -1, 51));
                 ImageView imageView = new ImageView(context);
                 this.floatingButton = imageView;
@@ -2655,7 +2660,12 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         this.listView.setLayoutManager(new LinearLayoutManager(context, 1, false));
         this.listView.setVerticalScrollbarPosition(!LocaleController.isRTL ? 1 : 2);
         this.listView.setPadding(0, 0, 0, AndroidUtilities.dp(this.screenType == 0 ? 12.0f : 0.0f));
-        this.listView.setOnItemClickListener(ThemePreviewActivity$$ExternalSyntheticLambda34.INSTANCE);
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda34
+            @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
+            public final void onItemClick(View view3, int i122) {
+                ThemePreviewActivity.lambda$createView$3(view3, i122);
+            }
+        });
         this.page1.addView(this.listView, LayoutHelper.createFrame(-1, -1, 51));
         ImageView imageView6 = new ImageView(context);
         this.floatingButton = imageView6;
@@ -4072,7 +4082,12 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                         }
                                         tLRPC$TL_wallPaper2 = tLRPC$TL_wallPaper5;
                                     } else {
-                                        ChatThemeController.getInstance(this.currentAccount).setWallpaperToPeer(this.dialogId, null, overrideWallpaperInfo, this.serverWallpaper, ThemePreviewActivity$$ExternalSyntheticLambda26.INSTANCE);
+                                        ChatThemeController.getInstance(this.currentAccount).setWallpaperToPeer(this.dialogId, null, overrideWallpaperInfo, this.serverWallpaper, new Runnable() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda26
+                                            @Override // java.lang.Runnable
+                                            public final void run() {
+                                                ThemePreviewActivity.lambda$applyWallpaperBackground$21();
+                                            }
+                                        });
                                         tLRPC$TL_wallPaper2 = tLRPC$TL_wallPaper;
                                     }
                                     this.setupFinished = true;
@@ -4949,7 +4964,12 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         }
         int i = this.screenType;
         if ((i == 2 || i == 1) && this.onSwitchDayNightDelegate == null) {
-            AndroidUtilities.runOnUIThread(ThemePreviewActivity$$ExternalSyntheticLambda27.INSTANCE);
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda27
+                @Override // java.lang.Runnable
+                public final void run() {
+                    Theme.setChangingWallpaper(false);
+                }
+            });
         }
         int i2 = this.screenType;
         if (i2 == 2) {
@@ -8775,7 +8795,14 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             }
         };
         this.changeDayNightView = view;
-        view.setOnTouchListener(ThemePreviewActivity$$ExternalSyntheticLambda15.INSTANCE);
+        view.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda15
+            @Override // android.view.View.OnTouchListener
+            public final boolean onTouch(View view2, MotionEvent motionEvent) {
+                boolean lambda$toggleTheme$34;
+                lambda$toggleTheme$34 = ThemePreviewActivity.lambda$toggleTheme$34(view2, motionEvent);
+                return lambda$toggleTheme$34;
+            }
+        });
         this.changeDayNightViewProgress = 0.0f;
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
         this.changeDayNightViewAnimator = ofFloat;

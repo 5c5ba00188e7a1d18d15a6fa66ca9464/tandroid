@@ -9,9 +9,39 @@ import kotlinx.coroutines.ThreadContextElement;
 /* loaded from: classes.dex */
 public final class ThreadContextKt {
     public static final Symbol NO_THREAD_ELEMENTS = new Symbol("NO_THREAD_ELEMENTS");
-    private static final Function2<Object, CoroutineContext.Element, Object> countAll = ThreadContextKt$countAll$1.INSTANCE;
-    private static final Function2<ThreadContextElement<?>, CoroutineContext.Element, ThreadContextElement<?>> findOne = ThreadContextKt$findOne$1.INSTANCE;
-    private static final Function2<ThreadState, CoroutineContext.Element, ThreadState> updateState = ThreadContextKt$updateState$1.INSTANCE;
+    private static final Function2<Object, CoroutineContext.Element, Object> countAll = new Function2<Object, CoroutineContext.Element, Object>() { // from class: kotlinx.coroutines.internal.ThreadContextKt$countAll$1
+        @Override // kotlin.jvm.functions.Function2
+        public final Object invoke(Object obj, CoroutineContext.Element element) {
+            if (element instanceof ThreadContextElement) {
+                Integer num = obj instanceof Integer ? (Integer) obj : null;
+                int intValue = num == null ? 1 : num.intValue();
+                return intValue == 0 ? element : Integer.valueOf(intValue + 1);
+            }
+            return obj;
+        }
+    };
+    private static final Function2<ThreadContextElement<?>, CoroutineContext.Element, ThreadContextElement<?>> findOne = new Function2<ThreadContextElement<?>, CoroutineContext.Element, ThreadContextElement<?>>() { // from class: kotlinx.coroutines.internal.ThreadContextKt$findOne$1
+        @Override // kotlin.jvm.functions.Function2
+        public final ThreadContextElement<?> invoke(ThreadContextElement<?> threadContextElement, CoroutineContext.Element element) {
+            if (threadContextElement != null) {
+                return threadContextElement;
+            }
+            if (element instanceof ThreadContextElement) {
+                return (ThreadContextElement) element;
+            }
+            return null;
+        }
+    };
+    private static final Function2<ThreadState, CoroutineContext.Element, ThreadState> updateState = new Function2<ThreadState, CoroutineContext.Element, ThreadState>() { // from class: kotlinx.coroutines.internal.ThreadContextKt$updateState$1
+        @Override // kotlin.jvm.functions.Function2
+        public final ThreadState invoke(ThreadState threadState, CoroutineContext.Element element) {
+            if (element instanceof ThreadContextElement) {
+                ThreadContextElement<?> threadContextElement = (ThreadContextElement) element;
+                threadState.append(threadContextElement, threadContextElement.updateThreadContext(threadState.context));
+            }
+            return threadState;
+        }
+    };
 
     public static final Object threadContextElements(CoroutineContext coroutineContext) {
         Object fold = coroutineContext.fold(0, countAll);

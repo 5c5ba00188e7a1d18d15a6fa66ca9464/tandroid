@@ -5,6 +5,7 @@ import android.os.SystemClock;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.SharedConfig;
@@ -80,7 +81,14 @@ public class ProxyRotationController implements NotificationCenter.NotificationC
         this.isCurrentlyChecking = false;
         if (SharedConfig.proxyRotationEnabled) {
             ArrayList<SharedConfig.ProxyInfo> arrayList = new ArrayList(SharedConfig.proxyList);
-            Collections.sort(arrayList, ProxyRotationController$$ExternalSyntheticLambda2.INSTANCE);
+            Collections.sort(arrayList, new Comparator() { // from class: org.telegram.messenger.ProxyRotationController$$ExternalSyntheticLambda2
+                @Override // java.util.Comparator
+                public final int compare(Object obj, Object obj2) {
+                    int lambda$switchToAvailable$3;
+                    lambda$switchToAvailable$3 = ProxyRotationController.lambda$switchToAvailable$3((SharedConfig.ProxyInfo) obj, (SharedConfig.ProxyInfo) obj2);
+                    return lambda$switchToAvailable$3;
+                }
+            });
             for (SharedConfig.ProxyInfo proxyInfo : arrayList) {
                 if (proxyInfo != SharedConfig.currentProxy && !proxyInfo.checking && proxyInfo.available) {
                     SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();

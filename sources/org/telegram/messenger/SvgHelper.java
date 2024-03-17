@@ -26,6 +26,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.xml.parsers.SAXParserFactory;
+import org.telegram.messenger.SvgHelper;
 import org.telegram.ui.ActionBar.Theme;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
@@ -205,7 +206,12 @@ public class SvgHelper {
                         if (runnable != null) {
                             AndroidUtilities.cancelRunOnUIThread(runnable);
                         }
-                        SvgHelper$SvgDrawable$$ExternalSyntheticLambda0 svgHelper$SvgDrawable$$ExternalSyntheticLambda0 = SvgHelper$SvgDrawable$$ExternalSyntheticLambda0.INSTANCE;
+                        SvgHelper$SvgDrawable$$ExternalSyntheticLambda0 svgHelper$SvgDrawable$$ExternalSyntheticLambda0 = new Runnable() { // from class: org.telegram.messenger.SvgHelper$SvgDrawable$$ExternalSyntheticLambda0
+                            @Override // java.lang.Runnable
+                            public final void run() {
+                                SvgHelper.SvgDrawable.shiftRunnable = null;
+                            }
+                        };
                         shiftRunnable = svgHelper$SvgDrawable$$ExternalSyntheticLambda0;
                         AndroidUtilities.runOnUIThread(svgHelper$SvgDrawable$$ExternalSyntheticLambda0, ((int) (1000.0f / AndroidUtilities.screenRefreshRate)) - 1);
                     }

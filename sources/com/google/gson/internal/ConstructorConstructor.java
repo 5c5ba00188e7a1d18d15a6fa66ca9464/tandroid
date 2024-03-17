@@ -59,20 +59,18 @@ public final class ConstructorConstructor {
         final InstanceCreator<?> instanceCreator = this.instanceCreators.get(type);
         if (instanceCreator != null) {
             return new ObjectConstructor<T>(this) { // from class: com.google.gson.internal.ConstructorConstructor.1
-                /* JADX WARN: Type inference failed for: r0v1, types: [T, java.lang.Object] */
                 @Override // com.google.gson.internal.ObjectConstructor
                 public T construct() {
-                    return instanceCreator.createInstance(type);
+                    return (T) instanceCreator.createInstance(type);
                 }
             };
         }
         final InstanceCreator<?> instanceCreator2 = this.instanceCreators.get(rawType);
         if (instanceCreator2 != null) {
             return new ObjectConstructor<T>(this) { // from class: com.google.gson.internal.ConstructorConstructor.2
-                /* JADX WARN: Type inference failed for: r0v1, types: [T, java.lang.Object] */
                 @Override // com.google.gson.internal.ObjectConstructor
                 public T construct() {
-                    return instanceCreator2.createInstance(type);
+                    return (T) instanceCreator2.createInstance(type);
                 }
             };
         }
@@ -113,14 +111,13 @@ public final class ConstructorConstructor {
     private static <T> ObjectConstructor<T> newSpecialCollectionConstructor(final Type type, Class<? super T> cls) {
         if (EnumSet.class.isAssignableFrom(cls)) {
             return new ObjectConstructor<T>() { // from class: com.google.gson.internal.ConstructorConstructor.5
-                /* JADX WARN: Type inference failed for: r0v7, types: [T, java.util.EnumSet] */
                 @Override // com.google.gson.internal.ObjectConstructor
                 public T construct() {
                     Type type2 = type;
                     if (type2 instanceof ParameterizedType) {
                         Type type3 = ((ParameterizedType) type2).getActualTypeArguments()[0];
                         if (type3 instanceof Class) {
-                            return EnumSet.noneOf((Class) type3);
+                            return (T) EnumSet.noneOf((Class) type3);
                         }
                         throw new JsonIOException("Invalid EnumSet type: " + type.toString());
                     }
@@ -130,14 +127,13 @@ public final class ConstructorConstructor {
         }
         if (cls == EnumMap.class) {
             return new ObjectConstructor<T>() { // from class: com.google.gson.internal.ConstructorConstructor.6
-                /* JADX WARN: Type inference failed for: r1v7, types: [T, java.util.EnumMap] */
                 @Override // com.google.gson.internal.ObjectConstructor
                 public T construct() {
                     Type type2 = type;
                     if (type2 instanceof ParameterizedType) {
                         Type type3 = ((ParameterizedType) type2).getActualTypeArguments()[0];
                         if (type3 instanceof Class) {
-                            return new EnumMap((Class) type3);
+                            return (T) new EnumMap((Class) type3);
                         }
                         throw new JsonIOException("Invalid EnumMap type: " + type.toString());
                     }
@@ -170,11 +166,10 @@ public final class ConstructorConstructor {
                     };
                 }
                 return new ObjectConstructor<T>() { // from class: com.google.gson.internal.ConstructorConstructor.9
-                    /* JADX WARN: Type inference failed for: r0v7, types: [T, java.lang.Object] */
                     @Override // com.google.gson.internal.ObjectConstructor
                     public T construct() {
                         try {
-                            return declaredConstructor.newInstance(new Object[0]);
+                            return (T) declaredConstructor.newInstance(new Object[0]);
                         } catch (IllegalAccessException e) {
                             throw ReflectionHelper.createExceptionForUnexpectedIllegalAccess(e);
                         } catch (InstantiationException e2) {
@@ -201,80 +196,71 @@ public final class ConstructorConstructor {
         if (Collection.class.isAssignableFrom(cls)) {
             if (SortedSet.class.isAssignableFrom(cls)) {
                 return new ObjectConstructor<T>() { // from class: com.google.gson.internal.ConstructorConstructor.10
-                    /* JADX WARN: Type inference failed for: r0v0, types: [T, java.util.TreeSet] */
                     @Override // com.google.gson.internal.ObjectConstructor
                     public T construct() {
-                        return new TreeSet();
+                        return (T) new TreeSet();
                     }
                 };
             }
             if (Set.class.isAssignableFrom(cls)) {
                 return new ObjectConstructor<T>() { // from class: com.google.gson.internal.ConstructorConstructor.11
-                    /* JADX WARN: Type inference failed for: r0v0, types: [T, java.util.LinkedHashSet] */
                     @Override // com.google.gson.internal.ObjectConstructor
                     public T construct() {
-                        return new LinkedHashSet();
+                        return (T) new LinkedHashSet();
                     }
                 };
             }
             if (Queue.class.isAssignableFrom(cls)) {
                 return new ObjectConstructor<T>() { // from class: com.google.gson.internal.ConstructorConstructor.12
-                    /* JADX WARN: Type inference failed for: r0v0, types: [T, java.util.ArrayDeque] */
                     @Override // com.google.gson.internal.ObjectConstructor
                     public T construct() {
-                        return new ArrayDeque();
+                        return (T) new ArrayDeque();
                     }
                 };
             }
             return new ObjectConstructor<T>() { // from class: com.google.gson.internal.ConstructorConstructor.13
-                /* JADX WARN: Type inference failed for: r0v0, types: [T, java.util.ArrayList] */
                 @Override // com.google.gson.internal.ObjectConstructor
                 public T construct() {
-                    return new ArrayList();
+                    return (T) new ArrayList();
                 }
             };
         } else if (Map.class.isAssignableFrom(cls)) {
             if (ConcurrentNavigableMap.class.isAssignableFrom(cls)) {
                 return new ObjectConstructor<T>() { // from class: com.google.gson.internal.ConstructorConstructor.14
-                    /* JADX WARN: Type inference failed for: r0v0, types: [java.util.concurrent.ConcurrentSkipListMap, T] */
                     @Override // com.google.gson.internal.ObjectConstructor
                     public T construct() {
-                        return new ConcurrentSkipListMap();
+                        return (T) new ConcurrentSkipListMap();
                     }
                 };
             }
             if (ConcurrentMap.class.isAssignableFrom(cls)) {
                 return new ObjectConstructor<T>() { // from class: com.google.gson.internal.ConstructorConstructor.15
-                    /* JADX WARN: Type inference failed for: r0v0, types: [T, j$.util.concurrent.ConcurrentHashMap] */
                     @Override // com.google.gson.internal.ObjectConstructor
                     public T construct() {
-                        return new ConcurrentHashMap();
+                        return (T) new ConcurrentHashMap();
                     }
                 };
             }
             if (SortedMap.class.isAssignableFrom(cls)) {
                 return new ObjectConstructor<T>() { // from class: com.google.gson.internal.ConstructorConstructor.16
-                    /* JADX WARN: Type inference failed for: r0v0, types: [java.util.TreeMap, T] */
                     @Override // com.google.gson.internal.ObjectConstructor
                     public T construct() {
-                        return new TreeMap();
+                        return (T) new TreeMap();
                     }
                 };
             }
             if ((type instanceof ParameterizedType) && !String.class.isAssignableFrom(TypeToken.get(((ParameterizedType) type).getActualTypeArguments()[0]).getRawType())) {
                 return new ObjectConstructor<T>() { // from class: com.google.gson.internal.ConstructorConstructor.17
-                    /* JADX WARN: Type inference failed for: r0v0, types: [java.util.LinkedHashMap, T] */
                     @Override // com.google.gson.internal.ObjectConstructor
                     public T construct() {
-                        return new LinkedHashMap();
+                        return (T) new LinkedHashMap();
                     }
                 };
             }
             return new ObjectConstructor<T>() { // from class: com.google.gson.internal.ConstructorConstructor.18
-                /* JADX WARN: Type inference failed for: r0v0, types: [T, com.google.gson.internal.LinkedTreeMap] */
                 @Override // com.google.gson.internal.ObjectConstructor
                 public T construct() {
-                    return new LinkedTreeMap();
+                    return (T) new LinkedTreeMap();
                 }
             };
         } else {
@@ -285,11 +271,10 @@ public final class ConstructorConstructor {
     private <T> ObjectConstructor<T> newUnsafeAllocator(final Class<? super T> cls) {
         if (this.useJdkUnsafe) {
             return new ObjectConstructor<T>(this) { // from class: com.google.gson.internal.ConstructorConstructor.19
-                /* JADX WARN: Type inference failed for: r0v2, types: [T, java.lang.Object] */
                 @Override // com.google.gson.internal.ObjectConstructor
                 public T construct() {
                     try {
-                        return UnsafeAllocator.INSTANCE.newInstance(cls);
+                        return (T) UnsafeAllocator.INSTANCE.newInstance(cls);
                     } catch (Exception e) {
                         throw new RuntimeException("Unable to create instance of " + cls + ". Registering an InstanceCreator or a TypeAdapter for this type, or adding a no-args constructor may fix this problem.", e);
                     }

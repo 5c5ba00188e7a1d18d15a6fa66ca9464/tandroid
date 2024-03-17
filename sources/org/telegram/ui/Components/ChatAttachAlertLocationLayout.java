@@ -649,7 +649,14 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
         this.emptyView.setPadding(0, AndroidUtilities.dp(160.0f), 0, 0);
         this.emptyView.setVisibility(8);
         addView(this.emptyView, LayoutHelper.createFrame(-1, -1.0f));
-        this.emptyView.setOnTouchListener(ChatAttachAlertLocationLayout$$ExternalSyntheticLambda4.INSTANCE);
+        this.emptyView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.ChatAttachAlertLocationLayout$$ExternalSyntheticLambda4
+            @Override // android.view.View.OnTouchListener
+            public final boolean onTouch(View view2, MotionEvent motionEvent) {
+                boolean lambda$new$4;
+                lambda$new$4 = ChatAttachAlertLocationLayout.lambda$new$4(view2, motionEvent);
+                return lambda$new$4;
+            }
+        });
         ImageView imageView2 = new ImageView(context);
         this.emptyImageView = imageView2;
         imageView2.setImageResource(R.drawable.location_empty);

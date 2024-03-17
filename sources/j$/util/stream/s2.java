@@ -52,7 +52,7 @@ abstract class s2 extends CountedCompleter implements m3 {
 
     @Override // j$.util.function.Consumer
     public /* synthetic */ Consumer andThen(Consumer consumer) {
-        return Objects.requireNonNull(consumer);
+        return Consumer.-CC.$default$andThen(this, consumer);
     }
 
     abstract s2 b(j$.util.t tVar, long j, long j2);

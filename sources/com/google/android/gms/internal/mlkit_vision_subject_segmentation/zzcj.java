@@ -4,9 +4,10 @@ import com.google.firebase.encoders.EncodingException;
 import com.google.firebase.encoders.FieldDescriptor;
 import com.google.firebase.encoders.ValueEncoderContext;
 import java.io.IOException;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
 /* loaded from: classes.dex */
-final class zzcj implements ValueEncoderContext {
+public final class zzcj implements ValueEncoderContext {
     private boolean zza = false;
     private boolean zzb = false;
     private FieldDescriptor zzc;

@@ -323,7 +323,14 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
         this.emptyView = stickerEmptyView;
         addView(stickerEmptyView, LayoutHelper.createFrame(-1, -1.0f));
         this.emptyView.setVisibility(8);
-        this.emptyView.setOnTouchListener(ChatAttachAlertDocumentLayout$$ExternalSyntheticLambda1.INSTANCE);
+        this.emptyView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.ChatAttachAlertDocumentLayout$$ExternalSyntheticLambda1
+            @Override // android.view.View.OnTouchListener
+            public final boolean onTouch(View view, MotionEvent motionEvent) {
+                boolean lambda$new$0;
+                lambda$new$0 = ChatAttachAlertDocumentLayout.lambda$new$0(view, motionEvent);
+                return lambda$new$0;
+            }
+        });
         RecyclerListView recyclerListView = new RecyclerListView(context, resourcesProvider) { // from class: org.telegram.ui.Components.ChatAttachAlertDocumentLayout.4
             Paint paint = new Paint();
 

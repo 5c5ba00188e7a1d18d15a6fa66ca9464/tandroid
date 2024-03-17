@@ -125,6 +125,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -6558,7 +6559,12 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     public final void onClick(DialogInterface dialogInterface, int i4) {
                         PhotoViewer.15.this.lambda$onItemClick$5(z5, arrayList2, dialogInterface, i4);
                     }
-                }).setNeutralButton(LocaleController.getString("Cancel", R.string.Cancel), PhotoViewer$15$$ExternalSyntheticLambda5.INSTANCE).create();
+                }).setNeutralButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PhotoViewer$15$$ExternalSyntheticLambda5
+                    @Override // android.content.DialogInterface.OnClickListener
+                    public final void onClick(DialogInterface dialogInterface, int i4) {
+                        dialogInterface.dismiss();
+                    }
+                }).create();
                 create.setBackgroundColor(PhotoViewer.this.getThemedColor(Theme.key_voipgroup_dialogBackground));
                 create.show();
                 View button = create.getButton(-3);
@@ -6652,7 +6658,12 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                 public final void onClick(DialogInterface dialogInterface, int i6) {
                                     PhotoViewer.15.this.lambda$onItemClick$8(arrayList, dialogInterface, i6);
                                 }
-                            }).setNeutralButton(LocaleController.getString("Cancel", R.string.Cancel), PhotoViewer$15$$ExternalSyntheticLambda6.INSTANCE).create();
+                            }).setNeutralButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PhotoViewer$15$$ExternalSyntheticLambda6
+                                @Override // android.content.DialogInterface.OnClickListener
+                                public final void onClick(DialogInterface dialogInterface, int i6) {
+                                    dialogInterface.dismiss();
+                                }
+                            }).create();
                             create2.setBackgroundColor(PhotoViewer.this.getThemedColor(Theme.key_voipgroup_dialogBackground));
                             create2.show();
                             View button2 = create2.getButton(-3);
@@ -7887,7 +7898,12 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     }
                     string = LocaleController.getString("SuggestPhotoShort", R.string.SuggestPhotoShort);
                 }
-                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), PhotoViewer$$ExternalSyntheticLambda22.INSTANCE);
+                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda22
+                    @Override // android.content.DialogInterface.OnClickListener
+                    public final void onClick(DialogInterface dialogInterface, int i3) {
+                        PhotoViewer.lambda$sendPressed$40(dialogInterface, i3);
+                    }
+                });
                 builder.setPositiveButton(string, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda21
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i3) {
@@ -14226,7 +14242,14 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                         this.imagesByIds[0].put(messageObject4.getId(), messageObject4);
                                     }
                                 }
-                                Collections.sort(this.imagesArr, PhotoViewer$$ExternalSyntheticLambda82.INSTANCE);
+                                Collections.sort(this.imagesArr, new Comparator() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda82
+                                    @Override // java.util.Comparator
+                                    public final int compare(Object obj, Object obj2) {
+                                        int lambda$onPhotoShow$74;
+                                        lambda$onPhotoShow$74 = PhotoViewer.lambda$onPhotoShow$74((MessageObject) obj, (MessageObject) obj2);
+                                        return lambda$onPhotoShow$74;
+                                    }
+                                });
                                 this.currentIndex = -1;
                                 for (int i9 = 0; i9 < this.imagesArr.size(); i9++) {
                                     if (this.imagesArr.get(i9) == this.currentMessageObject || this.imagesArr.get(i9).getId() == this.currentMessageObject.getId()) {

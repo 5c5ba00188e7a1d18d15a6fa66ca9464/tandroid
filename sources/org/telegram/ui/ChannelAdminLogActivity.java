@@ -807,7 +807,14 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         this.emptyViewContainer = frameLayout;
         frameLayout.setVisibility(4);
         this.contentView.addView(this.emptyViewContainer, LayoutHelper.createFrame(-1, -2, 17));
-        this.emptyViewContainer.setOnTouchListener(ChannelAdminLogActivity$$ExternalSyntheticLambda5.INSTANCE);
+        this.emptyViewContainer.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda5
+            @Override // android.view.View.OnTouchListener
+            public final boolean onTouch(View view, MotionEvent motionEvent) {
+                boolean lambda$createView$2;
+                lambda$createView$2 = ChannelAdminLogActivity.lambda$createView$2(view, motionEvent);
+                return lambda$createView$2;
+            }
+        });
         TextView textView = new TextView(context);
         this.emptyView = textView;
         textView.setTextSize(1, 14.0f);

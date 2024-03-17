@@ -23,7 +23,6 @@ import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Objects;
 import org.telegram.messenger.FilesMigrationService;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.BottomSheet;
@@ -138,7 +137,7 @@ public class FilesMigrationService extends Service {
 
                         @Override // j$.util.function.Consumer
                         public /* synthetic */ Consumer andThen(Consumer consumer) {
-                            return Objects.requireNonNull(consumer);
+                            return Consumer.-CC.$default$andThen(this, consumer);
                         }
                     });
                     convert.close();

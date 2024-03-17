@@ -54,7 +54,12 @@ public class WebAppDisclaimerAlert {
                 WebAppDisclaimerAlert.lambda$show$1(Consumer.this, dialogInterface, i);
             }
         });
-        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), WebAppDisclaimerAlert$$ExternalSyntheticLambda1.INSTANCE);
+        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.WebAppDisclaimerAlert$$ExternalSyntheticLambda1
+            @Override // android.content.DialogInterface.OnClickListener
+            public final void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
         AlertDialog create = builder.create();
         webAppDisclaimerAlert.alert = create;
         create.show();

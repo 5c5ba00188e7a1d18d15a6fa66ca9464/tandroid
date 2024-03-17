@@ -20,7 +20,6 @@ import j$.util.Collection$-EL;
 import j$.util.function.Predicate;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
@@ -244,7 +243,7 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
             Collection$-EL.removeIf(this.selectedLanguages, new Predicate() { // from class: org.telegram.ui.RestrictedLanguagesSelectActivity$$ExternalSyntheticLambda0
                 @Override // j$.util.function.Predicate
                 public /* synthetic */ Predicate and(Predicate predicate) {
-                    return Objects.requireNonNull(predicate);
+                    return Predicate.-CC.$default$and(this, predicate);
                 }
 
                 @Override // j$.util.function.Predicate
@@ -254,7 +253,7 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
 
                 @Override // j$.util.function.Predicate
                 public /* synthetic */ Predicate or(Predicate predicate) {
-                    return Objects.requireNonNull(predicate);
+                    return Predicate.-CC.$default$or(this, predicate);
                 }
 
                 @Override // j$.util.function.Predicate
@@ -525,7 +524,12 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
     public static void checkRestrictedLanguages(boolean z) {
         boolean z2 = MessagesController.getGlobalMainSettings().getBoolean("translate_button_restricted_languages_changed", false);
         if (MessagesController.getGlobalMainSettings().getInt("translate_button_restricted_languages_version", 0) != 2 || (z && !z2)) {
-            getExtendedDoNotTranslate(RestrictedLanguagesSelectActivity$$ExternalSyntheticLambda5.INSTANCE);
+            getExtendedDoNotTranslate(new Utilities.Callback() { // from class: org.telegram.ui.RestrictedLanguagesSelectActivity$$ExternalSyntheticLambda5
+                @Override // org.telegram.messenger.Utilities.Callback
+                public final void run(Object obj) {
+                    RestrictedLanguagesSelectActivity.lambda$checkRestrictedLanguages$2((HashSet) obj);
+                }
+            });
         }
     }
 

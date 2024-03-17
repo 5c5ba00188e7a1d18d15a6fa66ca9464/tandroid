@@ -55,6 +55,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -313,7 +314,14 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     private final int viewType;
     private SharedDocumentsAdapter voiceAdapter;
     private static final int[] supportedFastScrollTypes = {0, 1, 2, 4};
-    private static final Interpolator interpolator = SharedMediaLayout$$ExternalSyntheticLambda12.INSTANCE;
+    private static final Interpolator interpolator = new Interpolator() { // from class: org.telegram.ui.Components.SharedMediaLayout$$ExternalSyntheticLambda12
+        @Override // android.animation.TimeInterpolator
+        public final float getInterpolation(float f) {
+            float lambda$static$2;
+            lambda$static$2 = SharedMediaLayout.lambda$static$2(f);
+            return lambda$static$2;
+        }
+    };
 
     /* loaded from: classes4.dex */
     public interface Delegate {
@@ -3063,7 +3071,14 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             this.mediaPages[i15].emptyView.setAnimateLayoutChange(true);
             MediaPage[] mediaPageArr7 = this.mediaPages;
             mediaPageArr7[i15].addView(mediaPageArr7[i15].emptyView, LayoutHelper.createFrame(-1, -1.0f));
-            this.mediaPages[i15].emptyView.setOnTouchListener(SharedMediaLayout$$ExternalSyntheticLambda11.INSTANCE);
+            this.mediaPages[i15].emptyView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.SharedMediaLayout$$ExternalSyntheticLambda11
+                @Override // android.view.View.OnTouchListener
+                public final boolean onTouch(View view, MotionEvent motionEvent) {
+                    boolean lambda$new$12;
+                    lambda$new$12 = SharedMediaLayout.lambda$new$12(view, motionEvent);
+                    return lambda$new$12;
+                }
+            });
             this.mediaPages[i15].emptyView.showProgress(true, false);
             this.mediaPages[i15].emptyView.title.setText(LocaleController.getString("NoResult", R.string.NoResult));
             this.mediaPages[i15].emptyView.button.setVisibility(i5);
@@ -4978,7 +4993,14 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                 this.sharedMediaData[i2].fastScrollPeriods.add(new Period(tLRPC$TL_searchResultPosition));
             }
         }
-        Collections.sort(this.sharedMediaData[i2].fastScrollPeriods, SharedMediaLayout$$ExternalSyntheticLambda20.INSTANCE);
+        Collections.sort(this.sharedMediaData[i2].fastScrollPeriods, new Comparator() { // from class: org.telegram.ui.Components.SharedMediaLayout$$ExternalSyntheticLambda20
+            @Override // java.util.Comparator
+            public final int compare(Object obj, Object obj2) {
+                int lambda$loadFastScrollData$15;
+                lambda$loadFastScrollData$15 = SharedMediaLayout.lambda$loadFastScrollData$15((SharedMediaLayout.Period) obj, (SharedMediaLayout.Period) obj2);
+                return lambda$loadFastScrollData$15;
+            }
+        });
         this.sharedMediaData[i2].setTotalCount(tLRPC$TL_messages_searchResultsPositions.count);
         SharedMediaData[] sharedMediaDataArr2 = this.sharedMediaData;
         sharedMediaDataArr2[i2].fastScrollDataLoaded = true;

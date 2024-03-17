@@ -28,7 +28,12 @@ final class TransportImpl<T> implements Transport<T> {
 
     @Override // com.google.android.datatransport.Transport
     public void send(Event<T> event) {
-        schedule(event, TransportImpl$$ExternalSyntheticLambda0.INSTANCE);
+        schedule(event, new TransportScheduleCallback() { // from class: com.google.android.datatransport.runtime.TransportImpl$$ExternalSyntheticLambda0
+            @Override // com.google.android.datatransport.TransportScheduleCallback
+            public final void onSchedule(Exception exc) {
+                TransportImpl.lambda$send$0(exc);
+            }
+        });
     }
 
     public void schedule(Event<T> event, TransportScheduleCallback transportScheduleCallback) {

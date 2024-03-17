@@ -385,7 +385,12 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         if (listAdapter != null) {
             listAdapter.notifyDataSetChanged();
         }
-        getConnectionsManager().sendRequest(tLRPC$TL_account_setAuthorizationTTL, SessionsActivity$$ExternalSyntheticLambda19.INSTANCE);
+        getConnectionsManager().sendRequest(tLRPC$TL_account_setAuthorizationTTL, new RequestDelegate() { // from class: org.telegram.ui.SessionsActivity$$ExternalSyntheticLambda19
+            @Override // org.telegram.tgnet.RequestDelegate
+            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                SessionsActivity.lambda$createView$0(tLObject, tLRPC$TL_error);
+            }
+        });
     }
 
     /* JADX INFO: Access modifiers changed from: private */

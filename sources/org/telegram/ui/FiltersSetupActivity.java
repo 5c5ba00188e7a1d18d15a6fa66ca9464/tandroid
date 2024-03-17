@@ -708,7 +708,12 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             for (int i2 = 0; i2 < size; i2++) {
                 tLRPC$TL_messages_updateDialogFiltersOrder.order.add(Integer.valueOf(dialogFilters.get(i2).id));
             }
-            getConnectionsManager().sendRequest(tLRPC$TL_messages_updateDialogFiltersOrder, FiltersSetupActivity$$ExternalSyntheticLambda6.INSTANCE);
+            getConnectionsManager().sendRequest(tLRPC$TL_messages_updateDialogFiltersOrder, new RequestDelegate() { // from class: org.telegram.ui.FiltersSetupActivity$$ExternalSyntheticLambda6
+                @Override // org.telegram.tgnet.RequestDelegate
+                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                    FiltersSetupActivity.lambda$onFragmentDestroy$1(tLObject, tLRPC$TL_error);
+                }
+            });
         }
         super.onFragmentDestroy();
     }

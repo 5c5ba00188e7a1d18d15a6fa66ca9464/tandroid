@@ -1549,7 +1549,12 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
             TLRPC$TL_account_passwordInputSettings tLRPC$TL_account_passwordInputSettings2 = tLRPC$TL_account_updatePasswordSettings.new_settings;
             tLRPC$TL_account_passwordInputSettings2.new_secure_settings.secure_secret_id = 0L;
             tLRPC$TL_account_passwordInputSettings2.flags |= 4;
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_updatePasswordSettings, TwoStepVerificationActivity$$ExternalSyntheticLambda37.INSTANCE);
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_updatePasswordSettings, new RequestDelegate() { // from class: org.telegram.ui.TwoStepVerificationActivity$$ExternalSyntheticLambda37
+                @Override // org.telegram.tgnet.RequestDelegate
+                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                    TwoStepVerificationActivity.lambda$checkSecretValues$28(tLObject, tLRPC$TL_error);
+                }
+            });
             this.currentSecret = null;
             this.currentSecretId = 0L;
             return true;

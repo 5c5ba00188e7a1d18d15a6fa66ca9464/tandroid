@@ -7,7 +7,6 @@ import kotlin.coroutines.ContinuationInterceptor;
 import kotlin.coroutines.CoroutineContext;
 import kotlin.jvm.functions.Function1;
 import kotlin.jvm.internal.DefaultConstructorMarker;
-import kotlin.jvm.internal.Lambda;
 import kotlinx.coroutines.internal.DispatchedContinuation;
 import kotlinx.coroutines.internal.LimitedDispatcher;
 import kotlinx.coroutines.internal.LimitedDispatcherKt;
@@ -43,26 +42,16 @@ public abstract class CoroutineDispatcher extends AbstractCoroutineContextElemen
             this();
         }
 
-        /* compiled from: CoroutineDispatcher.kt */
-        /* loaded from: classes.dex */
-        static final class 1 extends Lambda implements Function1<CoroutineContext.Element, CoroutineDispatcher> {
-            public static final 1 INSTANCE = new 1();
-
-            1() {
-                super(1);
-            }
-
-            @Override // kotlin.jvm.functions.Function1
-            public final CoroutineDispatcher invoke(CoroutineContext.Element element) {
-                if (element instanceof CoroutineDispatcher) {
-                    return (CoroutineDispatcher) element;
-                }
-                return null;
-            }
-        }
-
         private Key() {
-            super(ContinuationInterceptor.Key, 1.INSTANCE);
+            super(ContinuationInterceptor.Key, new Function1<CoroutineContext.Element, CoroutineDispatcher>() { // from class: kotlinx.coroutines.CoroutineDispatcher.Key.1
+                @Override // kotlin.jvm.functions.Function1
+                public final CoroutineDispatcher invoke(CoroutineContext.Element element) {
+                    if (element instanceof CoroutineDispatcher) {
+                        return (CoroutineDispatcher) element;
+                    }
+                    return null;
+                }
+            });
         }
     }
 

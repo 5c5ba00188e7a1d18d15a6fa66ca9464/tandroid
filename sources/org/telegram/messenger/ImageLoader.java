@@ -73,6 +73,7 @@ import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.secretmedia.EncryptedFileInputStream;
 import org.telegram.messenger.utils.BitmapsCache;
 import org.telegram.tgnet.ConnectionsManager;
+import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$FileLocation;
@@ -815,7 +816,12 @@ public class ImageLoader {
                         tLRPC$TL_upload_getWebFile.location = webFile.location;
                         tLRPC$TL_upload_getWebFile.offset = 0;
                         tLRPC$TL_upload_getWebFile.limit = 0;
-                        ConnectionsManager.getInstance(this.cacheImage.currentAccount).sendRequest(tLRPC$TL_upload_getWebFile, ImageLoader$HttpImageTask$$ExternalSyntheticLambda8.INSTANCE);
+                        ConnectionsManager.getInstance(this.cacheImage.currentAccount).sendRequest(tLRPC$TL_upload_getWebFile, new RequestDelegate() { // from class: org.telegram.messenger.ImageLoader$HttpImageTask$$ExternalSyntheticLambda8
+                            @Override // org.telegram.tgnet.RequestDelegate
+                            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                                ImageLoader.HttpImageTask.lambda$doInBackground$2(tLObject, tLRPC$TL_error);
+                            }
+                        });
                     }
                     String str3 = this.overrideUrl;
                     if (str3 != null) {
@@ -4103,7 +4109,7 @@ public class ImageLoader {
 
                         @Override // j$.util.function.Consumer
                         public /* synthetic */ Consumer andThen(Consumer consumer) {
-                            return Objects.requireNonNull(consumer);
+                            return Consumer.-CC.$default$andThen(this, consumer);
                         }
                     });
                     convert.close();

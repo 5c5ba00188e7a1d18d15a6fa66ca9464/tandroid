@@ -24,6 +24,7 @@ import android.widget.FrameLayout;
 import androidx.core.graphics.ColorUtils;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLog;
@@ -598,7 +599,14 @@ public class SeekBarView extends FrameLayout {
                     this.timestamps.add(new Pair<>(Float.valueOf(intValue), spannableStringBuilder));
                 }
             }
-            Collections.sort(this.timestamps, SeekBarView$$ExternalSyntheticLambda1.INSTANCE);
+            Collections.sort(this.timestamps, new Comparator() { // from class: org.telegram.ui.Components.SeekBarView$$ExternalSyntheticLambda1
+                @Override // java.util.Comparator
+                public final int compare(Object obj, Object obj2) {
+                    int lambda$updateTimestamps$1;
+                    lambda$updateTimestamps$1 = SeekBarView.lambda$updateTimestamps$1((Pair) obj, (Pair) obj2);
+                    return lambda$updateTimestamps$1;
+                }
+            });
         } catch (Exception e) {
             FileLog.e(e);
             this.timestamps = null;

@@ -2,10 +2,11 @@ package com.google.android.gms.internal.vision;
 
 import java.util.Map;
 /* JADX INFO: Access modifiers changed from: package-private */
+/* JADX INFO: Add missing generic type declarations: [V, K] */
 /* JADX WARN: Incorrect field signature: TK; */
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
-public final class zzlm implements Comparable<zzlm>, Map.Entry<K, V> {
+public final class zzlm<K, V> implements Comparable<zzlm>, Map.Entry<K, V> {
     private final Comparable zza;
     private V zzb;
     private final /* synthetic */ zzlh zzc;
@@ -53,7 +54,7 @@ public final class zzlm implements Comparable<zzlm>, Map.Entry<K, V> {
         Comparable comparable = this.zza;
         int hashCode = comparable == null ? 0 : comparable.hashCode();
         V v = this.zzb;
-        return hashCode ^ (v != 0 ? v.hashCode() : 0);
+        return hashCode ^ (v != null ? v.hashCode() : 0);
     }
 
     public final String toString() {

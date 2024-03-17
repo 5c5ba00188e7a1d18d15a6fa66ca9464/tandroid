@@ -115,7 +115,14 @@ public class SpoilerEffect extends Drawable {
         this.rippleProgress = -1.0f;
         this.spaces = new ArrayList();
         this.mAlpha = 255;
-        this.rippleInterpolator = SpoilerEffect$$ExternalSyntheticLambda0.INSTANCE;
+        this.rippleInterpolator = new TimeInterpolator() { // from class: org.telegram.ui.Components.spoilers.SpoilerEffect$$ExternalSyntheticLambda0
+            @Override // android.animation.TimeInterpolator
+            public final float getInterpolation(float f) {
+                float lambda$new$0;
+                lambda$new$0 = SpoilerEffect.lambda$new$0(f);
+                return lambda$new$0;
+            }
+        };
         for (int i = 0; i < ALPHAS.length; i++) {
             this.particlePaints[i] = new Paint();
             if (i == 0) {

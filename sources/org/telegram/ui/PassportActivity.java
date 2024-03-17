@@ -1068,7 +1068,12 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             }
             TLRPC$TL_help_getPassportConfig tLRPC$TL_help_getPassportConfig = new TLRPC$TL_help_getPassportConfig();
             tLRPC$TL_help_getPassportConfig.hash = SharedConfig.passportConfigHash;
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_help_getPassportConfig, PassportActivity$$ExternalSyntheticLambda68.INSTANCE);
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_help_getPassportConfig, new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda68
+                @Override // org.telegram.tgnet.RequestDelegate
+                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                    PassportActivity.lambda$new$1(tLObject, tLRPC$TL_error);
+                }
+            });
         }
     }
 
@@ -9982,7 +9987,12 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             TLRPC$TL_auth_cancelCode tLRPC$TL_auth_cancelCode = new TLRPC$TL_auth_cancelCode();
             tLRPC$TL_auth_cancelCode.phone_number = this.phone;
             tLRPC$TL_auth_cancelCode.phone_code_hash = this.phoneHash;
-            ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).sendRequest(tLRPC$TL_auth_cancelCode, PassportActivity$PhoneConfirmationView$$ExternalSyntheticLambda10.INSTANCE, 2);
+            ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).sendRequest(tLRPC$TL_auth_cancelCode, new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$PhoneConfirmationView$$ExternalSyntheticLambda10
+                @Override // org.telegram.tgnet.RequestDelegate
+                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                    PassportActivity.PhoneConfirmationView.lambda$onBackPressed$9(tLObject, tLRPC$TL_error);
+                }
+            }, 2);
             destroyTimer();
             destroyCodeTimer();
             int i = this.verificationType;

@@ -48,6 +48,7 @@ import java.util.Iterator;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.DispatchQueue;
 import org.telegram.messenger.FileLoader;
+import org.telegram.messenger.GenericProvider;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaController;
@@ -118,10 +119,6 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
     public MediaController.AlbumEntry selectedAlbum;
     public ArrayList<MediaController.PhotoEntry> selectedPhotos;
 
-    public static /* synthetic */ Integer $r8$lambda$NmdviOjcrk6Z-c1MyzyeuWfdM7I(Integer num) {
-        return 0;
-    }
-
     protected void firstLayout() {
     }
 
@@ -162,7 +159,14 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
             }
         };
         this.listView = recyclerListView;
-        recyclerListView.setItemSelectorColorProvider(GalleryListView$$ExternalSyntheticLambda3.INSTANCE);
+        recyclerListView.setItemSelectorColorProvider(new GenericProvider() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$$ExternalSyntheticLambda3
+            @Override // org.telegram.messenger.GenericProvider
+            public final Object provide(Object obj) {
+                Integer lambda$new$0;
+                lambda$new$0 = GalleryListView.lambda$new$0((Integer) obj);
+                return lambda$new$0;
+            }
+        });
         Adapter adapter = new Adapter();
         this.adapter = adapter;
         recyclerListView.setAdapter(adapter);
@@ -388,6 +392,11 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
         } else {
             this.dropDown.setText(albumEntry2.bucketName);
         }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ Integer lambda$new$0(Integer num) {
+        return 0;
     }
 
     /* JADX INFO: Access modifiers changed from: private */

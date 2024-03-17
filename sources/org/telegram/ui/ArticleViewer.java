@@ -442,6 +442,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         return i;
     }
 
+    static /* synthetic */ int access$20500() {
+        return getGrayTextColor();
+    }
+
     static /* synthetic */ int access$2104(ArticleViewer articleViewer) {
         int i = articleViewer.pressCount + 1;
         articleViewer.pressCount = i;
@@ -2447,8 +2451,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         return Theme.getColor(Theme.key_windowBackgroundWhiteLinkText);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public static int getGrayTextColor() {
+    private static int getGrayTextColor() {
         return Theme.getColor(Theme.key_windowBackgroundWhiteGrayText);
     }
 
@@ -3528,7 +3531,14 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         this.windowView.addView(frameLayout, LayoutHelper.createFrame(-1, -1, 51));
         if (Build.VERSION.SDK_INT >= 21) {
             this.windowView.setFitsSystemWindows(true);
-            this.containerView.setOnApplyWindowInsetsListener(ArticleViewer$$ExternalSyntheticLambda4.INSTANCE);
+            this.containerView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda4
+                @Override // android.view.View.OnApplyWindowInsetsListener
+                public final WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
+                    WindowInsets lambda$setParentActivity$8;
+                    lambda$setParentActivity$8 = ArticleViewer.lambda$setParentActivity$8(view, windowInsets);
+                    return lambda$setParentActivity$8;
+                }
+            });
         }
         FrameLayout frameLayout2 = new FrameLayout(activity);
         this.fullscreenVideoContainer = frameLayout2;
@@ -3550,9 +3560,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             final WebpageAdapter webpageAdapter = new WebpageAdapter(this.parentActivity);
             webpageAdapterArr[i2] = webpageAdapter;
             this.listView[i2] = new RecyclerListView(activity) { // from class: org.telegram.ui.ArticleViewer.8
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
-                public void onLayout(boolean z, int i3, int i4, int i5, int i6) {
+                protected void onLayout(boolean z, int i3, int i4, int i5, int i6) {
                     super.onLayout(z, i3, i4, i5, i6);
                     int childCount = getChildCount();
                     for (int i7 = 0; i7 < childCount; i7++) {
@@ -3601,9 +3610,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     }
                 }
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
-                public void dispatchDraw(Canvas canvas) {
+                protected void dispatchDraw(Canvas canvas) {
                     ArticleViewer.this.checkVideoPlayer();
                     super.dispatchDraw(canvas);
                 }
@@ -3902,7 +3910,14 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             }
         };
         this.searchPanel = frameLayout6;
-        frameLayout6.setOnTouchListener(ArticleViewer$$ExternalSyntheticLambda14.INSTANCE);
+        frameLayout6.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda14
+            @Override // android.view.View.OnTouchListener
+            public final boolean onTouch(View view2, MotionEvent motionEvent) {
+                boolean lambda$setParentActivity$21;
+                lambda$setParentActivity$21 = ArticleViewer.lambda$setParentActivity$21(view2, motionEvent);
+                return lambda$setParentActivity$21;
+            }
+        });
         this.searchPanel.setWillNotDraw(false);
         this.searchPanel.setVisibility(4);
         this.searchPanel.setFocusable(true);
@@ -10629,7 +10644,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             this.textX = AndroidUtilities.dp(50.0f);
             this.textY = AndroidUtilities.dp(11.0f) + 1;
             this.parentAdapter = webpageAdapter;
-            this.arrow = new AnimatedArrowDrawable(ArticleViewer.getGrayTextColor(), true);
+            this.arrow = new AnimatedArrowDrawable(ArticleViewer.access$20500(), true);
         }
 
         @Override // android.view.View, android.graphics.drawable.Drawable.Callback
@@ -12204,7 +12219,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 int blue = Color.blue(color);
                 this.textView.setTextColor(ArticleViewer.this.getLinkTextColor());
                 this.backgroundPaint.setColor(Color.argb(34, red, green, blue));
-                this.imageView.setColorFilter(new PorterDuffColorFilter(ArticleViewer.getGrayTextColor(), PorterDuff.Mode.MULTIPLY));
+                this.imageView.setColorFilter(new PorterDuffColorFilter(ArticleViewer.access$20500(), PorterDuff.Mode.MULTIPLY));
             } else {
                 this.textView.setTextColor(-1);
                 this.backgroundPaint.setColor(2130706432);
@@ -13004,8 +13019,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 this.viewsTextView.setText(LocaleController.formatPluralStringComma("Views", i));
             }
             int color = Theme.getColor(Theme.key_switchTrack);
-            this.textView.setTextColor(ArticleViewer.getGrayTextColor());
-            this.viewsTextView.setTextColor(ArticleViewer.getGrayTextColor());
+            this.textView.setTextColor(ArticleViewer.access$20500());
+            this.viewsTextView.setTextColor(ArticleViewer.access$20500());
             this.textView.setBackgroundColor(Color.argb(34, Color.red(color), Color.green(color), Color.blue(color)));
         }
     }

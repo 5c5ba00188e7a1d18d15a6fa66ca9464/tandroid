@@ -175,7 +175,17 @@ public class PaintingOverlay extends FrameLayout {
                     imageReceiver.setAllowDecodeSingleFrame(true);
                     imageReceiver.setAllowStartLottieAnimation(false);
                     if (z2) {
-                        imageReceiver.setDelegate(PaintingOverlay$$ExternalSyntheticLambda0.INSTANCE);
+                        imageReceiver.setDelegate(new ImageReceiver.ImageReceiverDelegate() { // from class: org.telegram.ui.Components.PaintingOverlay$$ExternalSyntheticLambda0
+                            @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
+                            public final void didSetImage(ImageReceiver imageReceiver2, boolean z3, boolean z4, boolean z5) {
+                                PaintingOverlay.lambda$setEntities$0(imageReceiver2, z3, z4, z5);
+                            }
+
+                            @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
+                            public /* synthetic */ void onAnimationReady(ImageReceiver imageReceiver2) {
+                                ImageReceiver.ImageReceiverDelegate.-CC.$default$onAnimationReady(this, imageReceiver2);
+                            }
+                        });
                     }
                 }
                 imageReceiver.setImage(ImageLocation.getForDocument(mediaEntity.document), (String) null, ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(mediaEntity.document.thumbs, 90), mediaEntity.document), (String) null, "webp", mediaEntity.parentObject, 1);

@@ -304,7 +304,14 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         this.selectedContactsCountTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.selectedContactsCountTextView.setTextColor(Theme.getColor(Theme.key_actionBarActionModeDefaultIcon));
         createActionMode.addView(this.selectedContactsCountTextView, LayoutHelper.createLinear(0, -1, 1.0f, 72, 0, 0, 0));
-        this.selectedContactsCountTextView.setOnTouchListener(ContactsActivity$$ExternalSyntheticLambda7.INSTANCE);
+        this.selectedContactsCountTextView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ContactsActivity$$ExternalSyntheticLambda7
+            @Override // android.view.View.OnTouchListener
+            public final boolean onTouch(View view, MotionEvent motionEvent) {
+                boolean lambda$createView$0;
+                lambda$createView$0 = ContactsActivity.lambda$createView$0(view, motionEvent);
+                return lambda$createView$0;
+            }
+        });
         createActionMode.addItemWithWidth(100, R.drawable.msg_delete, AndroidUtilities.dp(54.0f), LocaleController.getString("Delete", R.string.Delete));
         this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.ContactsActivity.1
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
@@ -1260,7 +1267,12 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 ContactsActivity.this.lambda$performSelectedContactsDelete$4(dialogInterface, i);
             }
         });
-        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), ContactsActivity$$ExternalSyntheticLambda5.INSTANCE);
+        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ContactsActivity$$ExternalSyntheticLambda5
+            @Override // android.content.DialogInterface.OnClickListener
+            public final void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
         AlertDialog create = builder.create();
         create.show();
         create.redPositive();

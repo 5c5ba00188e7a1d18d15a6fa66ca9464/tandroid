@@ -40,6 +40,10 @@ public class CustomPhoneKeyboardView extends ViewGroup {
         return true;
     }
 
+    static /* synthetic */ Drawable access$500() {
+        return getButtonDrawable();
+    }
+
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0() {
         checkFindEditText();
@@ -149,7 +153,12 @@ public class CustomPhoneKeyboardView extends ViewGroup {
         this.backButton.setBackground(getButtonDrawable());
         int dp = AndroidUtilities.dp(11.0f);
         this.backButton.setPadding(dp, dp, dp, dp);
-        this.backButton.setOnClickListener(CustomPhoneKeyboardView$$ExternalSyntheticLambda1.INSTANCE);
+        this.backButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.CustomPhoneKeyboardView$$ExternalSyntheticLambda1
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view) {
+                CustomPhoneKeyboardView.lambda$new$3(view);
+            }
+        });
         View[] viewArr = this.views;
         ImageView imageView2 = this.backButton;
         viewArr[11] = imageView2;
@@ -270,8 +279,7 @@ public class CustomPhoneKeyboardView extends ViewGroup {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public static Drawable getButtonDrawable() {
+    private static Drawable getButtonDrawable() {
         int dp = AndroidUtilities.dp(6.0f);
         int i = Theme.key_listSelector;
         return Theme.createSimpleSelectorRoundRectDrawable(dp, Theme.getColor(i), ColorUtils.setAlphaComponent(Theme.getColor(i), 60));
@@ -307,7 +315,7 @@ public class CustomPhoneKeyboardView extends ViewGroup {
             this.mSymbols = str2;
             this.numberTextPaint.setTextSize(AndroidUtilities.dp(24.0f));
             this.symbolsTextPaint.setTextSize(AndroidUtilities.dp(14.0f));
-            setBackground(CustomPhoneKeyboardView.getButtonDrawable());
+            setBackground(CustomPhoneKeyboardView.access$500());
             updateColors();
         }
 

@@ -25,6 +25,7 @@ import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.graphics.PostProcessor;
 import android.graphics.Rect;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
@@ -54,6 +55,7 @@ import androidx.core.graphics.ColorUtils;
 import androidx.core.graphics.drawable.IconCompat;
 import j$.util.Comparator$-CC;
 import j$.util.function.Consumer;
+import j$.util.function.ToLongFunction;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
@@ -67,8 +69,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
+import org.telegram.messenger.NotificationsController;
 import org.telegram.messenger.support.LongSparseIntArray;
 import org.telegram.tgnet.ConnectionsManager;
+import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$ChatPhoto;
@@ -1288,7 +1292,14 @@ public class NotificationsController extends BaseController {
                         z11 = true;
                         z14 = true;
                     }
-                    Collections.sort(this.storyPushMessages, Comparator$-CC.comparingLong(NotificationsController$$ExternalSyntheticLambda47.INSTANCE));
+                    Collections.sort(this.storyPushMessages, Comparator$-CC.comparingLong(new ToLongFunction() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda47
+                        @Override // j$.util.function.ToLongFunction
+                        public final long applyAsLong(Object obj) {
+                            long j8;
+                            j8 = ((NotificationsController.StoryNotification) obj).date;
+                            return j8;
+                        }
+                    }));
                     z4 = z10;
                     i3 = i6;
                 } else {
@@ -2006,7 +2017,14 @@ public class NotificationsController extends BaseController {
                     this.storyPushMessagesDict.put(j13, storyNotification);
                 }
             }
-            Collections.sort(this.storyPushMessages, Comparator$-CC.comparingLong(NotificationsController$$ExternalSyntheticLambda46.INSTANCE));
+            Collections.sort(this.storyPushMessages, Comparator$-CC.comparingLong(new ToLongFunction() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda46
+                @Override // j$.util.function.ToLongFunction
+                public final long applyAsLong(Object obj) {
+                    long j14;
+                    j14 = ((NotificationsController.StoryNotification) obj).date;
+                    return j14;
+                }
+            }));
         }
         final int size = this.pushDialogs.size();
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda18
@@ -5051,7 +5069,12 @@ public class NotificationsController extends BaseController {
                 }
             }
             this.wearNotificationsIds.clear();
-            AndroidUtilities.runOnUIThread(NotificationsController$$ExternalSyntheticLambda45.INSTANCE);
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda45
+                @Override // java.lang.Runnable
+                public final void run() {
+                    NotificationsController.lambda$dismissNotification$33();
+                }
+            });
         } catch (Exception e) {
             FileLog.e(e);
         }
@@ -5097,7 +5120,12 @@ public class NotificationsController extends BaseController {
             if (this.soundPool == null) {
                 SoundPool soundPool = new SoundPool(3, 1, 0);
                 this.soundPool = soundPool;
-                soundPool.setOnLoadCompleteListener(NotificationsController$$ExternalSyntheticLambda3.INSTANCE);
+                soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda3
+                    @Override // android.media.SoundPool.OnLoadCompleteListener
+                    public final void onLoadComplete(SoundPool soundPool2, int i, int i2) {
+                        NotificationsController.lambda$playInChatSound$34(soundPool2, i, i2);
+                    }
+                });
             }
             if (this.soundIn == 0 && !this.soundInLoaded) {
                 this.soundInLoaded = true;
@@ -9972,7 +10000,12 @@ public class NotificationsController extends BaseController {
     public static Person.Builder loadRoundAvatar(File file, Person.Builder builder) {
         if (file != null && Build.VERSION.SDK_INT >= 28) {
             try {
-                builder.setIcon(IconCompat.createWithBitmap(ImageDecoder.decodeBitmap(ImageDecoder.createSource(file), NotificationsController$$ExternalSyntheticLambda0.INSTANCE)));
+                builder.setIcon(IconCompat.createWithBitmap(ImageDecoder.decodeBitmap(ImageDecoder.createSource(file), new ImageDecoder.OnHeaderDecodedListener() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda0
+                    @Override // android.graphics.ImageDecoder.OnHeaderDecodedListener
+                    public final void onHeaderDecoded(ImageDecoder imageDecoder, ImageDecoder.ImageInfo imageInfo, ImageDecoder.Source source) {
+                        NotificationsController.lambda$loadRoundAvatar$42(imageDecoder, imageInfo, source);
+                    }
+                })));
             } catch (Throwable unused) {
             }
         }
@@ -9981,7 +10014,14 @@ public class NotificationsController extends BaseController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$loadRoundAvatar$42(ImageDecoder imageDecoder, ImageDecoder.ImageInfo imageInfo, ImageDecoder.Source source) {
-        imageDecoder.setPostProcessor(NotificationsController$$ExternalSyntheticLambda1.INSTANCE);
+        imageDecoder.setPostProcessor(new PostProcessor() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda1
+            @Override // android.graphics.PostProcessor
+            public final int onPostProcess(Canvas canvas) {
+                int lambda$loadRoundAvatar$41;
+                lambda$loadRoundAvatar$41 = NotificationsController.lambda$loadRoundAvatar$41(canvas);
+                return lambda$loadRoundAvatar$41;
+            }
+        });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -10229,7 +10269,12 @@ public class NotificationsController extends BaseController {
             if (this.soundPool == null) {
                 SoundPool soundPool = new SoundPool(3, 1, 0);
                 this.soundPool = soundPool;
-                soundPool.setOnLoadCompleteListener(NotificationsController$$ExternalSyntheticLambda2.INSTANCE);
+                soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda2
+                    @Override // android.media.SoundPool.OnLoadCompleteListener
+                    public final void onLoadComplete(SoundPool soundPool2, int i, int i2) {
+                        NotificationsController.lambda$playOutChatSound$43(soundPool2, i, i2);
+                    }
+                });
             }
             if (this.soundOut == 0 && !this.soundOutLoaded) {
                 this.soundOutLoaded = true;
@@ -10383,7 +10428,12 @@ public class NotificationsController extends BaseController {
             tLRPC$TL_account_updateNotifySettings.peer = tLRPC$TL_inputNotifyPeer;
             tLRPC$TL_inputNotifyPeer.peer = getMessagesController().getInputPeer(j);
         }
-        getConnectionsManager().sendRequest(tLRPC$TL_account_updateNotifySettings, NotificationsController$$ExternalSyntheticLambda49.INSTANCE);
+        getConnectionsManager().sendRequest(tLRPC$TL_account_updateNotifySettings, new RequestDelegate() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda49
+            @Override // org.telegram.tgnet.RequestDelegate
+            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                NotificationsController.lambda$updateServerNotificationsSettings$45(tLObject, tLRPC$TL_error);
+            }
+        });
     }
 
     public void updateServerNotificationsSettings(int i) {
@@ -10425,7 +10475,12 @@ public class NotificationsController extends BaseController {
             tLRPC$TL_inputPeerNotifySettings7.flags |= 8;
             tLRPC$TL_inputPeerNotifySettings7.sound = getInputSound(notificationsSettings, "ChannelSound", "ChannelSoundDocId", "ChannelSoundPath");
         }
-        getConnectionsManager().sendRequest(tLRPC$TL_account_updateNotifySettings, NotificationsController$$ExternalSyntheticLambda48.INSTANCE);
+        getConnectionsManager().sendRequest(tLRPC$TL_account_updateNotifySettings, new RequestDelegate() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda48
+            @Override // org.telegram.tgnet.RequestDelegate
+            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                NotificationsController.lambda$updateServerNotificationsSettings$46(tLObject, tLRPC$TL_error);
+            }
+        });
     }
 
     private TLRPC$NotificationSound getInputSound(SharedPreferences sharedPreferences, String str, String str2, String str3) {

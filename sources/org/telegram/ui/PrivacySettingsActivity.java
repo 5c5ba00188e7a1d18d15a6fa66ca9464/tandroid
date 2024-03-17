@@ -247,7 +247,12 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
             getUserConfig().suggestContacts = this.newSuggest;
             TLRPC$TL_contacts_toggleTopPeers tLRPC$TL_contacts_toggleTopPeers = new TLRPC$TL_contacts_toggleTopPeers();
             tLRPC$TL_contacts_toggleTopPeers.enabled = this.newSuggest;
-            getConnectionsManager().sendRequest(tLRPC$TL_contacts_toggleTopPeers, PrivacySettingsActivity$$ExternalSyntheticLambda18.INSTANCE);
+            getConnectionsManager().sendRequest(tLRPC$TL_contacts_toggleTopPeers, new RequestDelegate() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda18
+                @Override // org.telegram.tgnet.RequestDelegate
+                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                    PrivacySettingsActivity.lambda$onFragmentDestroy$2(tLObject, tLRPC$TL_error);
+                }
+            });
             z = true;
         }
         TLRPC$TL_globalPrivacySettings globalPrivacySettings = getContactsController().getGlobalPrivacySettings();
@@ -263,7 +268,12 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
                     tLRPC$TL_account_setGlobalPrivacySettings.settings = new TLRPC$TL_globalPrivacySettings();
                 }
                 tLRPC$TL_account_setGlobalPrivacySettings.settings.archive_and_mute_new_noncontact_peers = this.archiveChats;
-                getConnectionsManager().sendRequest(tLRPC$TL_account_setGlobalPrivacySettings, PrivacySettingsActivity$$ExternalSyntheticLambda17.INSTANCE);
+                getConnectionsManager().sendRequest(tLRPC$TL_account_setGlobalPrivacySettings, new RequestDelegate() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda17
+                    @Override // org.telegram.tgnet.RequestDelegate
+                    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                        PrivacySettingsActivity.lambda$onFragmentDestroy$3(tLObject, tLRPC$TL_error);
+                    }
+                });
                 if (z2) {
                     return;
                 }
@@ -726,7 +736,12 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
         tLRPC$TL_payments_clearSavedInfo.info = zArr[0];
         getUserConfig().tmpPassword = null;
         getUserConfig().saveConfig(false);
-        getConnectionsManager().sendRequest(tLRPC$TL_payments_clearSavedInfo, PrivacySettingsActivity$$ExternalSyntheticLambda16.INSTANCE);
+        getConnectionsManager().sendRequest(tLRPC$TL_payments_clearSavedInfo, new RequestDelegate() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda16
+            @Override // org.telegram.tgnet.RequestDelegate
+            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                PrivacySettingsActivity.lambda$createView$16(tLObject, tLRPC$TL_error);
+            }
+        });
         boolean[] zArr2 = this.clear;
         if (zArr2[0] && zArr2[1]) {
             string = LocaleController.getString("PrivacyPaymentsPaymentShippingCleared", R.string.PrivacyPaymentsPaymentShippingCleared);

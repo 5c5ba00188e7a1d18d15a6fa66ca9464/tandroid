@@ -11,7 +11,7 @@ public final class U1 extends T1 implements p1 {
         super(j);
     }
 
-    @Override // j$.util.stream.p1, j$.util.stream.s1
+    @Override // j$.util.stream.s1
     public /* bridge */ /* synthetic */ A1 a() {
         a();
         return this;
@@ -50,7 +50,7 @@ public final class U1 extends T1 implements p1 {
 
     @Override // j$.util.function.Consumer
     public /* synthetic */ Consumer andThen(Consumer consumer) {
-        return Objects.requireNonNull(consumer);
+        return Consumer.-CC.$default$andThen(this, consumer);
     }
 
     @Override // j$.util.function.f

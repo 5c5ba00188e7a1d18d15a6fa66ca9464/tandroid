@@ -23,7 +23,12 @@ public class ConfigCacheClient {
     private final ExecutorService executorService;
     private final ConfigStorageClient storageClient;
     private static final Map<String, ConfigCacheClient> clientInstances = new HashMap();
-    private static final Executor DIRECT_EXECUTOR = ConfigCacheClient$$ExternalSyntheticLambda3.INSTANCE;
+    private static final Executor DIRECT_EXECUTOR = new Executor() { // from class: com.google.firebase.remoteconfig.internal.ConfigCacheClient$$ExternalSyntheticLambda3
+        @Override // java.util.concurrent.Executor
+        public final void execute(Runnable runnable) {
+            runnable.run();
+        }
+    };
 
     private ConfigCacheClient(ExecutorService executorService, ConfigStorageClient configStorageClient) {
         this.executorService = executorService;

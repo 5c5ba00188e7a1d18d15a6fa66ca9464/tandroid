@@ -422,7 +422,14 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
         this.selectedCountTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.selectedCountTextView.setTextColor(Theme.getColor(Theme.key_actionBarActionModeDefaultIcon));
         createActionMode.addView(this.selectedCountTextView, LayoutHelper.createLinear(0, -1, 1.0f, 72, 0, 0, 0));
-        this.selectedCountTextView.setOnTouchListener(ProxyListActivity$$ExternalSyntheticLambda1.INSTANCE);
+        this.selectedCountTextView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ProxyListActivity$$ExternalSyntheticLambda1
+            @Override // android.view.View.OnTouchListener
+            public final boolean onTouch(View view, MotionEvent motionEvent) {
+                boolean lambda$createView$3;
+                lambda$createView$3 = ProxyListActivity.lambda$createView$3(view, motionEvent);
+                return lambda$createView$3;
+            }
+        });
         createActionMode.addItemWithWidth(1, R.drawable.msg_share, AndroidUtilities.dp(54.0f));
         createActionMode.addItemWithWidth(0, R.drawable.msg_delete, AndroidUtilities.dp(54.0f));
         this.actionBar.setActionBarMenuOnItemClick(new 3(context));
@@ -1057,7 +1064,17 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
                         for (int i2 = 0; i2 < arrayList.size(); i2++) {
                             strArr[i2] = LocaleController.formatString(R.string.ProxyRotationTimeoutSeconds, arrayList.get(i2));
                         }
-                        slideChooseView.setCallback(ProxyListActivity$ListAdapter$$ExternalSyntheticLambda0.INSTANCE);
+                        slideChooseView.setCallback(new SlideChooseView.Callback() { // from class: org.telegram.ui.ProxyListActivity$ListAdapter$$ExternalSyntheticLambda0
+                            @Override // org.telegram.ui.Components.SlideChooseView.Callback
+                            public final void onOptionSelected(int i3) {
+                                ProxyListActivity.ListAdapter.lambda$onBindViewHolder$0(i3);
+                            }
+
+                            @Override // org.telegram.ui.Components.SlideChooseView.Callback
+                            public /* synthetic */ void onTouchEnd() {
+                                SlideChooseView.Callback.-CC.$default$onTouchEnd(this);
+                            }
+                        });
                         slideChooseView.setOptions(SharedConfig.proxyRotationTimeout, strArr);
                         return;
                     }

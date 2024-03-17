@@ -1,7 +1,6 @@
 package j$.util.function;
 
 import j$.util.function.Predicate;
-import java.util.Objects;
 /* loaded from: classes2.dex */
 public final /* synthetic */ class x implements Predicate {
     public final /* synthetic */ int a;
@@ -23,9 +22,9 @@ public final /* synthetic */ class x implements Predicate {
     public /* synthetic */ Predicate and(Predicate predicate) {
         switch (this.a) {
             case 0:
-                return Objects.requireNonNull(predicate);
+                return Predicate.-CC.$default$and(this, predicate);
             default:
-                return Objects.requireNonNull(predicate);
+                return Predicate.-CC.$default$and(this, predicate);
         }
     }
 
@@ -43,9 +42,9 @@ public final /* synthetic */ class x implements Predicate {
     public /* synthetic */ Predicate or(Predicate predicate) {
         switch (this.a) {
             case 0:
-                return Objects.requireNonNull(predicate);
+                return Predicate.-CC.$default$or(this, predicate);
             default:
-                return Objects.requireNonNull(predicate);
+                return Predicate.-CC.$default$or(this, predicate);
         }
     }
 

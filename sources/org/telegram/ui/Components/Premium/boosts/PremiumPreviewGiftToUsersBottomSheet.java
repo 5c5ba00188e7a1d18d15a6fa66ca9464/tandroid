@@ -15,6 +15,7 @@ import android.view.ViewOutlineProvider;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import j$.util.Comparator$-CC;
+import j$.util.function.ToLongFunction;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -78,7 +79,14 @@ public class PremiumPreviewGiftToUsersBottomSheet extends PremiumPreviewBottomSh
         this.selectedMonths = 3;
         arrayList.addAll(list);
         arrayList2.addAll(list2);
-        Collections.sort(list2, Comparator$-CC.comparingLong(PremiumPreviewGiftToUsersBottomSheet$$ExternalSyntheticLambda2.INSTANCE));
+        Collections.sort(list2, Comparator$-CC.comparingLong(new ToLongFunction() { // from class: org.telegram.ui.Components.Premium.boosts.PremiumPreviewGiftToUsersBottomSheet$$ExternalSyntheticLambda2
+            @Override // j$.util.function.ToLongFunction
+            public final long applyAsLong(Object obj) {
+                long j;
+                j = ((TLRPC$TL_premiumGiftCodeOption) obj).amount;
+                return j;
+            }
+        }));
         init();
     }
 

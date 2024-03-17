@@ -3,9 +3,8 @@ package com.google.android.exoplayer2.extractor.avi;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.UnmodifiableIterator;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class ListChunk implements AviChunk {
+final class ListChunk implements AviChunk {
     public final ImmutableList<AviChunk> children;
     private final int type;
 

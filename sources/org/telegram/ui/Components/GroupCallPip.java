@@ -280,7 +280,12 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
                     }
                 }
             };
-            this.micRunnable = GroupCallPip$3$$ExternalSyntheticLambda0.INSTANCE;
+            this.micRunnable = new Runnable() { // from class: org.telegram.ui.Components.GroupCallPip$3$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    GroupCallPip.3.lambda$$0();
+                }
+            };
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -662,7 +667,12 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
         ofFloat3.setStartDelay(0.7f * f);
         ofFloat3.setDuration(f * 0.3f);
         animatorSet.playTogether(ofFloat3);
-        AndroidUtilities.runOnUIThread(GroupCallPip$$ExternalSyntheticLambda3.INSTANCE, 370L);
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.GroupCallPip$$ExternalSyntheticLambda3
+            @Override // java.lang.Runnable
+            public final void run() {
+                GroupCallPip.lambda$remove$2();
+            }
+        }, 370L);
         long j = 350 + currentFrame + 180;
         ObjectAnimator ofFloat4 = ObjectAnimator.ofFloat(this.removeTooltipView, View.SCALE_X, 1.0f, 1.05f);
         ofFloat4.setDuration(j);

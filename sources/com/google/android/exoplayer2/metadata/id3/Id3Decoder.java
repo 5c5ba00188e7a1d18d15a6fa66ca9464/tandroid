@@ -17,7 +17,14 @@ import java.util.Arrays;
 import java.util.Locale;
 /* loaded from: classes.dex */
 public final class Id3Decoder extends SimpleMetadataDecoder {
-    public static final FramePredicate NO_FRAMES_PREDICATE = Id3Decoder$$ExternalSyntheticLambda0.INSTANCE;
+    public static final FramePredicate NO_FRAMES_PREDICATE = new FramePredicate() { // from class: com.google.android.exoplayer2.metadata.id3.Id3Decoder$$ExternalSyntheticLambda0
+        @Override // com.google.android.exoplayer2.metadata.id3.Id3Decoder.FramePredicate
+        public final boolean evaluate(int i, int i2, int i3, int i4, int i5) {
+            boolean lambda$static$0;
+            lambda$static$0 = Id3Decoder.lambda$static$0(i, i2, i3, i4, i5);
+            return lambda$static$0;
+        }
+    };
     private final FramePredicate framePredicate;
 
     /* loaded from: classes.dex */

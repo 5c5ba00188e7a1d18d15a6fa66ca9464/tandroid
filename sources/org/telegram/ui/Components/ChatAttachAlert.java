@@ -1096,7 +1096,17 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             1(Context context, ChatAttachAlert chatAttachAlert) {
                 super(context);
                 AttachBotButton.this = r1;
-                this.imageReceiver.setDelegate(ChatAttachAlert$AttachBotButton$1$$ExternalSyntheticLambda0.INSTANCE);
+                this.imageReceiver.setDelegate(new ImageReceiver.ImageReceiverDelegate() { // from class: org.telegram.ui.Components.ChatAttachAlert$AttachBotButton$1$$ExternalSyntheticLambda0
+                    @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
+                    public final void didSetImage(ImageReceiver imageReceiver, boolean z, boolean z2, boolean z3) {
+                        ChatAttachAlert.AttachBotButton.1.lambda$new$0(imageReceiver, z, z2, z3);
+                    }
+
+                    @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
+                    public /* synthetic */ void onAnimationReady(ImageReceiver imageReceiver) {
+                        ImageReceiver.ImageReceiverDelegate.-CC.$default$onAnimationReady(this, imageReceiver);
+                    }
+                });
             }
 
             public static /* synthetic */ void lambda$new$0(ImageReceiver imageReceiver, boolean z, boolean z2, boolean z3) {
@@ -1810,7 +1820,14 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         this.frameLayout2.setVisibility(4);
         this.frameLayout2.setAlpha(0.0f);
         this.containerView.addView(this.frameLayout2, LayoutHelper.createFrame(-1, -2, 83));
-        this.frameLayout2.setOnTouchListener(ChatAttachAlert$$ExternalSyntheticLambda14.INSTANCE);
+        this.frameLayout2.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.ChatAttachAlert$$ExternalSyntheticLambda14
+            @Override // android.view.View.OnTouchListener
+            public final boolean onTouch(View view3, MotionEvent motionEvent) {
+                boolean lambda$new$13;
+                lambda$new$13 = ChatAttachAlert.lambda$new$13(view3, motionEvent);
+                return lambda$new$13;
+            }
+        });
         NumberTextView numberTextView = new NumberTextView(context);
         this.captionLimitView = numberTextView;
         numberTextView.setVisibility(8);

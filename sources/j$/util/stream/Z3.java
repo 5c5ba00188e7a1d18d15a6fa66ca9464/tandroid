@@ -132,7 +132,7 @@ public abstract class Z3 extends e implements Iterable, j$.lang.e {
             return (t.c) trySplit();
         }
 
-        @Override // j$.util.u, j$.util.t
+        @Override // j$.util.t
         public j$.util.u trySplit() {
             int i = this.a;
             int i2 = this.b;
@@ -253,7 +253,7 @@ public abstract class Z3 extends e implements Iterable, j$.lang.e {
 
     public abstract j$.util.t spliterator();
 
-    @Override // java.lang.Iterable, j$.lang.e
+    @Override // java.lang.Iterable
     public /* synthetic */ Spliterator spliterator() {
         return j$.wrappers.h.a(spliterator());
     }

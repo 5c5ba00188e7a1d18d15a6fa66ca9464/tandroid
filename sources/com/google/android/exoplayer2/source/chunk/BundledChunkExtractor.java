@@ -23,7 +23,14 @@ import java.io.IOException;
 import java.util.List;
 /* loaded from: classes.dex */
 public final class BundledChunkExtractor implements ExtractorOutput, ChunkExtractor {
-    public static final ChunkExtractor.Factory FACTORY = BundledChunkExtractor$$ExternalSyntheticLambda0.INSTANCE;
+    public static final ChunkExtractor.Factory FACTORY = new ChunkExtractor.Factory() { // from class: com.google.android.exoplayer2.source.chunk.BundledChunkExtractor$$ExternalSyntheticLambda0
+        @Override // com.google.android.exoplayer2.source.chunk.ChunkExtractor.Factory
+        public final ChunkExtractor createProgressiveMediaExtractor(int i, Format format, boolean z, List list, TrackOutput trackOutput, PlayerId playerId) {
+            ChunkExtractor lambda$static$0;
+            lambda$static$0 = BundledChunkExtractor.lambda$static$0(i, format, z, list, trackOutput, playerId);
+            return lambda$static$0;
+        }
+    };
     private static final PositionHolder POSITION_HOLDER = new PositionHolder();
     private final SparseArray<BindingTrackOutput> bindingTrackOutputs = new SparseArray<>();
     private long endTimeUs;

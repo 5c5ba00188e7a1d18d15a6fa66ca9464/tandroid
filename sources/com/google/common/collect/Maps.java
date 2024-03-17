@@ -55,10 +55,9 @@ public final class Maps {
         return new TransformedIterator<Map.Entry<K, V>, V>(it) { // from class: com.google.common.collect.Maps.2
             @Override // com.google.common.collect.TransformedIterator
             /* bridge */ /* synthetic */ Object transform(Object obj) {
-                return transform((Map.Entry<K, Object>) obj);
+                return transform((Map.Entry) ((Map.Entry) obj));
             }
 
-            /* JADX WARN: Type inference failed for: r1v1, types: [V, java.lang.Object] */
             V transform(Map.Entry<K, V> entry) {
                 return entry.getValue();
             }

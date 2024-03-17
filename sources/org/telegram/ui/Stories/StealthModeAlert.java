@@ -17,6 +17,7 @@ import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.ConnectionsManager;
+import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$TL_error;
 import org.telegram.tgnet.TLRPC$User;
@@ -194,7 +195,12 @@ public class StealthModeAlert extends BottomSheet {
                 tL_stories$TL_storiesStealthMode.cooldown_until_date = ConnectionsManager.getInstance(this.currentAccount).getCurrentTime() + MessagesController.getInstance(this.currentAccount).stealthModeCooldown;
                 tL_stories$TL_storiesStealthMode.active_until_date = ConnectionsManager.getInstance(this.currentAccount).getCurrentTime() + MessagesController.getInstance(this.currentAccount).stealthModeFuture;
                 storiesController.setStealthMode(tL_stories$TL_storiesStealthMode);
-                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_stories$TL_stories_activateStealthMode, StealthModeAlert$$ExternalSyntheticLambda4.INSTANCE);
+                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_stories$TL_stories_activateStealthMode, new RequestDelegate() { // from class: org.telegram.ui.Stories.StealthModeAlert$$ExternalSyntheticLambda4
+                    @Override // org.telegram.tgnet.RequestDelegate
+                    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                        StealthModeAlert.lambda$new$2(tLObject, tLRPC$TL_error);
+                    }
+                });
                 this.containerView.performHapticFeedback(3);
                 dismiss();
                 showStealthModeEnabledBulletin();
@@ -211,7 +217,12 @@ public class StealthModeAlert extends BottomSheet {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$new$2(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(StealthModeAlert$$ExternalSyntheticLambda3.INSTANCE);
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StealthModeAlert$$ExternalSyntheticLambda3
+            @Override // java.lang.Runnable
+            public final void run() {
+                StealthModeAlert.lambda$new$1();
+            }
+        });
     }
 
     public static void showStealthModeEnabledBulletin() {

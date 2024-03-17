@@ -5,8 +5,9 @@ import android.util.Base64;
 import android.util.Log;
 import java.io.IOException;
 /* JADX INFO: Access modifiers changed from: package-private */
+/* JADX INFO: Add missing generic type declarations: [T] */
 /* loaded from: classes.dex */
-public final class zzal extends zzae<T> {
+public final class zzal<T> extends zzae<T> {
     private final Object lock;
     private String zzec;
     private T zzed;
@@ -32,16 +33,14 @@ public final class zzal extends zzae<T> {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Type inference failed for: r1v6, types: [T, java.lang.Object] */
     @Override // com.google.android.gms.internal.clearcut.zzae
     public final T zzb(String str) {
         T t;
         try {
             synchronized (this.lock) {
                 if (!str.equals(this.zzec)) {
-                    ?? zzb = this.zzee.zzb(Base64.decode(str, 3));
                     this.zzec = str;
-                    this.zzed = zzb;
+                    this.zzed = (T) this.zzee.zzb(Base64.decode(str, 3));
                 }
                 t = this.zzed;
             }

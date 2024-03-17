@@ -904,7 +904,14 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                         TwoStepVerificationSetupActivity.this.buttonTextView.layout(measuredWidth3, measuredHeight4, TwoStepVerificationSetupActivity.this.buttonTextView.getMeasuredWidth() + measuredWidth3, TwoStepVerificationSetupActivity.this.buttonTextView.getMeasuredHeight() + measuredHeight4);
                     }
                 };
-                viewGroup2.setOnTouchListener(TwoStepVerificationSetupActivity$$ExternalSyntheticLambda16.INSTANCE);
+                viewGroup2.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda16
+                    @Override // android.view.View.OnTouchListener
+                    public final boolean onTouch(View view2, MotionEvent motionEvent) {
+                        boolean lambda$createView$10;
+                        lambda$createView$10 = TwoStepVerificationSetupActivity.lambda$createView$10(view2, motionEvent);
+                        return lambda$createView$10;
+                    }
+                });
                 viewGroup2.addView(this.actionBar);
                 viewGroup2.addView(this.imageView);
                 viewGroup2.addView(this.titleTextView);
@@ -1452,7 +1459,12 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$20(View view) {
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLRPC$TL_account_resendPasswordEmail(), TwoStepVerificationSetupActivity$$ExternalSyntheticLambda51.INSTANCE);
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLRPC$TL_account_resendPasswordEmail(), new RequestDelegate() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda51
+            @Override // org.telegram.tgnet.RequestDelegate
+            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                TwoStepVerificationSetupActivity.lambda$createView$19(tLObject, tLRPC$TL_error);
+            }
+        });
         showDialog(new AlertDialog.Builder(getParentActivity()).setMessage(LocaleController.getString("ResendCodeInfo", R.string.ResendCodeInfo)).setTitle(LocaleController.getString("TwoStepVerificationTitle", R.string.TwoStepVerificationTitle)).setPositiveButton(LocaleController.getString("OK", R.string.OK), null).create());
     }
 

@@ -1,5 +1,6 @@
 package com.google.android.exoplayer2.extractor.wav;
 
+import android.net.Uri;
 import android.util.Pair;
 import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.ParserException;
@@ -7,6 +8,7 @@ import com.google.android.exoplayer2.audio.WavUtil;
 import com.google.android.exoplayer2.extractor.Extractor;
 import com.google.android.exoplayer2.extractor.ExtractorInput;
 import com.google.android.exoplayer2.extractor.ExtractorOutput;
+import com.google.android.exoplayer2.extractor.ExtractorsFactory;
 import com.google.android.exoplayer2.extractor.PositionHolder;
 import com.google.android.exoplayer2.extractor.TrackOutput;
 import com.google.android.exoplayer2.upstream.DataReader;
@@ -15,6 +17,7 @@ import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
 import java.io.IOException;
+import java.util.Map;
 import org.telegram.messenger.R;
 /* loaded from: classes.dex */
 public final class WavExtractor implements Extractor {
@@ -41,7 +44,21 @@ public final class WavExtractor implements Extractor {
     }
 
     static {
-        WavExtractor$$ExternalSyntheticLambda0 wavExtractor$$ExternalSyntheticLambda0 = WavExtractor$$ExternalSyntheticLambda0.INSTANCE;
+        WavExtractor$$ExternalSyntheticLambda0 wavExtractor$$ExternalSyntheticLambda0 = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.wav.WavExtractor$$ExternalSyntheticLambda0
+            @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
+            public final Extractor[] createExtractors() {
+                Extractor[] lambda$static$0;
+                lambda$static$0 = WavExtractor.lambda$static$0();
+                return lambda$static$0;
+            }
+
+            @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
+            public /* synthetic */ Extractor[] createExtractors(Uri uri, Map map) {
+                Extractor[] createExtractors;
+                createExtractors = createExtractors();
+                return createExtractors;
+            }
+        };
     }
 
     /* JADX INFO: Access modifiers changed from: private */

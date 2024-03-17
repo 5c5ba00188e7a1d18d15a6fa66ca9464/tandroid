@@ -43,6 +43,7 @@ import androidx.dynamicanimation.animation.SpringAnimation;
 import androidx.dynamicanimation.animation.SpringForce;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.Locale;
 import org.telegram.messenger.AndroidUtilities;
@@ -940,7 +941,14 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
                 for (Runnable runnable2 : arrayList) {
                     this.backgroundSpringQueue.remove(runnable2);
                 }
-                Collections.sort(arrayList2, PasscodeView$$ExternalSyntheticLambda12.INSTANCE);
+                Collections.sort(arrayList2, new Comparator() { // from class: org.telegram.ui.Components.PasscodeView$$ExternalSyntheticLambda12
+                    @Override // java.util.Comparator
+                    public final int compare(Object obj, Object obj2) {
+                        int lambda$new$5;
+                        lambda$new$5 = PasscodeView.lambda$new$5((Integer) obj, (Integer) obj2);
+                        return lambda$new$5;
+                    }
+                });
                 for (Integer num : arrayList2) {
                     this.backgroundSpringNextQueue.remove(num.intValue());
                 }
@@ -1520,7 +1528,14 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
                 runnable.run();
             }
         }
-        setOnTouchListener(PasscodeView$$ExternalSyntheticLambda5.INSTANCE);
+        setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.PasscodeView$$ExternalSyntheticLambda5
+            @Override // android.view.View.OnTouchListener
+            public final boolean onTouch(View view, MotionEvent motionEvent) {
+                boolean lambda$onShow$13;
+                lambda$onShow$13 = PasscodeView.lambda$onShow$13(view, motionEvent);
+                return lambda$onShow$13;
+            }
+        });
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

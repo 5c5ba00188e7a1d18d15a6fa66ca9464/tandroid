@@ -948,7 +948,14 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                                 linearLayout.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
                                 linearLayout.setWeightSum(100.0f);
                                 linearLayout.setTag("b");
-                                linearLayout.setOnTouchListener(PopupNotificationActivity$$ExternalSyntheticLambda5.INSTANCE);
+                                linearLayout.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.PopupNotificationActivity$$ExternalSyntheticLambda5
+                                    @Override // android.view.View.OnTouchListener
+                                    public final boolean onTouch(View view, MotionEvent motionEvent) {
+                                        boolean lambda$getButtonsViewForMessage$4;
+                                        lambda$getButtonsViewForMessage$4 = PopupNotificationActivity.lambda$getButtonsViewForMessage$4(view, motionEvent);
+                                        return lambda$getButtonsViewForMessage$4;
+                                    }
+                                });
                             }
                             TextView textView = new TextView(this);
                             textView.setTextSize(1, 16.0f);

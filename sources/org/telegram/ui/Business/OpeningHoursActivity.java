@@ -12,6 +12,7 @@ import j$.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
@@ -269,7 +270,14 @@ public class OpeningHoursActivity extends BaseFragment implements NotificationCe
                 }
             }
         }
-        Collections.sort(arrayList3, OpeningHoursActivity$$ExternalSyntheticLambda3.INSTANCE);
+        Collections.sort(arrayList3, new Comparator() { // from class: org.telegram.ui.Business.OpeningHoursActivity$$ExternalSyntheticLambda3
+            @Override // java.util.Comparator
+            public final int compare(Object obj, Object obj2) {
+                int lambda$adaptWeeklyOpen$0;
+                lambda$adaptWeeklyOpen$0 = OpeningHoursActivity.lambda$adaptWeeklyOpen$0((TLRPC$TL_businessWeeklyOpen) obj, (TLRPC$TL_businessWeeklyOpen) obj2);
+                return lambda$adaptWeeklyOpen$0;
+            }
+        });
         return arrayList3;
     }
 

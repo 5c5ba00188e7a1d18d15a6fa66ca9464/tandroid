@@ -25,6 +25,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -993,7 +994,12 @@ public class ConnectionsManager extends BaseController {
     }
 
     public static void onProxyError() {
-        AndroidUtilities.runOnUIThread(ConnectionsManager$$ExternalSyntheticLambda17.INSTANCE);
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.tgnet.ConnectionsManager$$ExternalSyntheticLambda17
+            @Override // java.lang.Runnable
+            public final void run() {
+                ConnectionsManager.lambda$onProxyError$15();
+            }
+        });
     }
 
     public static void getHostByName(final String str, final long j) {
@@ -1394,7 +1400,14 @@ public class ConnectionsManager extends BaseController {
                                 arrayList.add(jSONObject.getString("data"));
                             }
                         }
-                        Collections.sort(arrayList, ConnectionsManager$DnsTxtLoadTask$$ExternalSyntheticLambda1.INSTANCE);
+                        Collections.sort(arrayList, new Comparator() { // from class: org.telegram.tgnet.ConnectionsManager$DnsTxtLoadTask$$ExternalSyntheticLambda1
+                            @Override // java.util.Comparator
+                            public final int compare(Object obj, Object obj2) {
+                                int lambda$doInBackground$0;
+                                lambda$doInBackground$0 = ConnectionsManager.DnsTxtLoadTask.lambda$doInBackground$0((String) obj, (String) obj2);
+                                return lambda$doInBackground$0;
+                            }
+                        });
                         StringBuilder sb2 = new StringBuilder();
                         for (int i4 = 0; i4 < arrayList.size(); i4++) {
                             sb2.append(((String) arrayList.get(i4)).replace("\"", ""));
@@ -1547,7 +1560,14 @@ public class ConnectionsManager extends BaseController {
                         arrayList.add(jSONObject.getString("data"));
                     }
                 }
-                Collections.sort(arrayList, ConnectionsManager$GoogleDnsLoadTask$$ExternalSyntheticLambda1.INSTANCE);
+                Collections.sort(arrayList, new Comparator() { // from class: org.telegram.tgnet.ConnectionsManager$GoogleDnsLoadTask$$ExternalSyntheticLambda1
+                    @Override // java.util.Comparator
+                    public final int compare(Object obj, Object obj2) {
+                        int lambda$doInBackground$0;
+                        lambda$doInBackground$0 = ConnectionsManager.GoogleDnsLoadTask.lambda$doInBackground$0((String) obj, (String) obj2);
+                        return lambda$doInBackground$0;
+                    }
+                });
                 StringBuilder sb2 = new StringBuilder();
                 for (int i3 = 0; i3 < arrayList.size(); i3++) {
                     sb2.append(((String) arrayList.get(i3)).replace("\"", ""));
@@ -1695,7 +1715,14 @@ public class ConnectionsManager extends BaseController {
                                 arrayList.add(jSONObject.getString("data"));
                             }
                         }
-                        Collections.sort(arrayList, ConnectionsManager$MozillaDnsLoadTask$$ExternalSyntheticLambda1.INSTANCE);
+                        Collections.sort(arrayList, new Comparator() { // from class: org.telegram.tgnet.ConnectionsManager$MozillaDnsLoadTask$$ExternalSyntheticLambda1
+                            @Override // java.util.Comparator
+                            public final int compare(Object obj, Object obj2) {
+                                int lambda$doInBackground$0;
+                                lambda$doInBackground$0 = ConnectionsManager.MozillaDnsLoadTask.lambda$doInBackground$0((String) obj, (String) obj2);
+                                return lambda$doInBackground$0;
+                            }
+                        });
                         StringBuilder sb2 = new StringBuilder();
                         for (int i3 = 0; i3 < arrayList.size(); i3++) {
                             sb2.append(((String) arrayList.get(i3)).replace("\"", ""));

@@ -159,7 +159,14 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
         this.afterNextLayout = new ArrayList<>();
         this.collapsedProgress1 = -1.0f;
         this.allowGlobalUpdates = true;
-        this.comparator = DialogStoriesCell$$ExternalSyntheticLambda10.INSTANCE;
+        this.comparator = new Comparator() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda10
+            @Override // java.util.Comparator
+            public final int compare(Object obj, Object obj2) {
+                int lambda$new$6;
+                lambda$new$6 = DialogStoriesCell.lambda$new$6((DialogStoriesCell.StoryCell) obj, (DialogStoriesCell.StoryCell) obj2);
+                return lambda$new$6;
+            }
+        };
         this.K = 0.3f;
         this.ellipsizeSpanAnimator = new EllipsizeSpanAnimator(this);
         this.type = i2;
@@ -913,7 +920,12 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
                 DialogStoriesCell.lambda$updateColors$9(textColor, (View) obj);
             }
         });
-        AndroidUtilities.forEachViews((RecyclerView) this.listViewMini, (Consumer<View>) DialogStoriesCell$$ExternalSyntheticLambda2.INSTANCE);
+        AndroidUtilities.forEachViews((RecyclerView) this.listViewMini, (Consumer<View>) new Consumer() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda2
+            @Override // com.google.android.exoplayer2.util.Consumer
+            public final void accept(Object obj) {
+                DialogStoriesCell.lambda$updateColors$10((View) obj);
+            }
+        });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1865,7 +1877,12 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
         }
         int i2 = this.currentState;
         if (i2 == 0) {
-            AndroidUtilities.forEachViews((RecyclerView) this.recyclerListView, (Consumer<View>) DialogStoriesCell$$ExternalSyntheticLambda3.INSTANCE);
+            AndroidUtilities.forEachViews((RecyclerView) this.recyclerListView, (Consumer<View>) new Consumer() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda3
+                @Override // com.google.android.exoplayer2.util.Consumer
+                public final void accept(Object obj) {
+                    DialogStoriesCell.lambda$updateCurrentState$12((View) obj);
+                }
+            });
             this.listViewMini.setVisibility(4);
             this.recyclerListView.setVisibility(0);
             checkExpanded();

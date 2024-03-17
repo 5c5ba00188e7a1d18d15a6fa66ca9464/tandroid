@@ -665,7 +665,12 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
         VideoPlayerHolderBase videoPlayerHolderBase = this.videoPlayerBase;
         if (videoPlayerHolderBase != null) {
             this.lastFrameTime = videoPlayerHolderBase.getCurrentPosition();
-            this.videoPlayerBase.release(VideoScreenPreview$$ExternalSyntheticLambda3.INSTANCE);
+            this.videoPlayerBase.release(new Runnable() { // from class: org.telegram.ui.Components.Premium.VideoScreenPreview$$ExternalSyntheticLambda3
+                @Override // java.lang.Runnable
+                public final void run() {
+                    VideoScreenPreview.lambda$stopVideoPlayer$2();
+                }
+            });
             this.videoPlayerBase = null;
         }
     }

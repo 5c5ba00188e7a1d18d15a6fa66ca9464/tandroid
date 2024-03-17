@@ -151,7 +151,14 @@ public final class zzj extends MLTask {
             this.zzi = null;
         }
         this.zzg = true;
-        this.zze.zzf(zzf.zza, zzob.zzez);
+        this.zze.zzf(new zztk() { // from class: com.google.mlkit.vision.segmentation.subject.internal.zzf
+            @Override // com.google.android.gms.internal.mlkit_vision_subject_segmentation.zztk
+            public final zzta zza() {
+                zzoc zzocVar = new zzoc();
+                zzocVar.zze(zznz.zzb);
+                return zzto.zzf(zzocVar);
+            }
+        }, zzob.zzez);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

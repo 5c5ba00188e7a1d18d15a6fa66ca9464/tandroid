@@ -132,7 +132,17 @@ public abstract /* synthetic */ class o1 {
         t.a aVar = (t.a) u1Var.spliterator();
         p1 j4 = x2.j(j3);
         j4.n(j3);
-        for (int i = 0; i < j && aVar.k(t1.a); i++) {
+        for (int i = 0; i < j && aVar.k(new j$.util.function.f() { // from class: j$.util.stream.t1
+            @Override // j$.util.function.f
+            public final void accept(double d) {
+            }
+
+            @Override // j$.util.function.f
+            public j$.util.function.f j(j$.util.function.f fVar) {
+                Objects.requireNonNull(fVar);
+                return new j$.util.function.e(this, fVar);
+            }
+        }); i++) {
         }
         for (int i2 = 0; i2 < j3 && aVar.k(j4); i2++) {
         }
@@ -148,7 +158,17 @@ public abstract /* synthetic */ class o1 {
         t.b bVar = (t.b) w1Var.spliterator();
         q1 p = x2.p(j3);
         p.n(j3);
-        for (int i = 0; i < j && bVar.g(v1.a); i++) {
+        for (int i = 0; i < j && bVar.g(new j$.util.function.l() { // from class: j$.util.stream.v1
+            @Override // j$.util.function.l
+            public final void accept(int i2) {
+            }
+
+            @Override // j$.util.function.l
+            public j$.util.function.l l(j$.util.function.l lVar) {
+                Objects.requireNonNull(lVar);
+                return new j$.util.function.k(this, lVar);
+            }
+        }); i++) {
         }
         for (int i2 = 0; i2 < j3 && bVar.g(p); i2++) {
         }
@@ -164,7 +184,17 @@ public abstract /* synthetic */ class o1 {
         t.c cVar = (t.c) y1Var.spliterator();
         r1 q = x2.q(j3);
         q.n(j3);
-        for (int i = 0; i < j && cVar.i(x1.a); i++) {
+        for (int i = 0; i < j && cVar.i(new j$.util.function.q() { // from class: j$.util.stream.x1
+            @Override // j$.util.function.q
+            public final void accept(long j4) {
+            }
+
+            @Override // j$.util.function.q
+            public j$.util.function.q f(j$.util.function.q qVar) {
+                Objects.requireNonNull(qVar);
+                return new j$.util.function.p(this, qVar);
+            }
+        }); i++) {
         }
         for (int i2 = 0; i2 < j3 && cVar.i(q); i2++) {
         }
@@ -180,7 +210,16 @@ public abstract /* synthetic */ class o1 {
         long j3 = j2 - j;
         s1 d = x2.d(j3, mVar);
         d.n(j3);
-        for (int i = 0; i < j && spliterator.b(n1.a); i++) {
+        for (int i = 0; i < j && spliterator.b(new Consumer() { // from class: j$.util.stream.n1
+            @Override // j$.util.function.Consumer
+            public final void accept(Object obj) {
+            }
+
+            @Override // j$.util.function.Consumer
+            public /* synthetic */ Consumer andThen(Consumer consumer) {
+                return Consumer.-CC.$default$andThen(this, consumer);
+            }
+        }); i++) {
         }
         for (int i2 = 0; i2 < j3 && spliterator.b(d); i2++) {
         }

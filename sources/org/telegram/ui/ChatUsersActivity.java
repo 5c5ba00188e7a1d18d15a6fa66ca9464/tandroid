@@ -1699,7 +1699,12 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 public final void accept(Object obj) {
                     ChatUsersActivity.9.this.lambda$didSelectUsers$0((TLRPC$User) obj);
                 }
-            }, ChatUsersActivity$9$$ExternalSyntheticLambda1.INSTANCE, null);
+            }, new Consumer() { // from class: org.telegram.ui.ChatUsersActivity$9$$ExternalSyntheticLambda1
+                @Override // androidx.core.util.Consumer
+                public final void accept(Object obj) {
+                    ChatUsersActivity.9.lambda$didSelectUsers$1((TLRPC$User) obj);
+                }
+            }, null);
         }
 
         /* JADX INFO: Access modifiers changed from: private */

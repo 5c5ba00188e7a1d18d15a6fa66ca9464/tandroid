@@ -41,7 +41,12 @@ public class CameraSession {
     public ArrayList<String> availableFlashModes = new ArrayList<>();
     private int infoCameraId = -1;
     Camera.CameraInfo info = new Camera.CameraInfo();
-    private Camera.AutoFocusCallback autoFocusCallback = CameraSession$$ExternalSyntheticLambda0.INSTANCE;
+    private Camera.AutoFocusCallback autoFocusCallback = new Camera.AutoFocusCallback() { // from class: org.telegram.messenger.camera.CameraSession$$ExternalSyntheticLambda0
+        @Override // android.hardware.Camera.AutoFocusCallback
+        public final void onAutoFocus(boolean z, Camera camera) {
+            CameraSession.lambda$new$0(z, camera);
+        }
+    };
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$new$0(boolean z, Camera camera) {

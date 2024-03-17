@@ -443,9 +443,8 @@ public class AdminLogFilterAlert extends BottomSheet {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes4.dex */
-    public class ListAdapter extends RecyclerListView.SelectionAdapter {
+    private class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context context;
 
         public ListAdapter(Context context) {

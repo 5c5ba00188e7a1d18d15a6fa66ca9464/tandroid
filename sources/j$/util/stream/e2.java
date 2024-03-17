@@ -2,7 +2,6 @@ package j$.util.stream;
 
 import j$.util.function.Consumer;
 import j$.util.t;
-import java.util.Objects;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class e2 extends W3 implements w1, q1 {
@@ -29,7 +28,7 @@ public final class e2 extends W3 implements w1, q1 {
         return o1.o(this, j, j2, mVar);
     }
 
-    @Override // j$.util.stream.q1, j$.util.stream.s1
+    @Override // j$.util.stream.s1
     public A1 a() {
         return this;
     }
@@ -58,7 +57,7 @@ public final class e2 extends W3 implements w1, q1 {
 
     @Override // j$.util.function.Consumer
     public /* synthetic */ Consumer andThen(Consumer consumer) {
-        return Objects.requireNonNull(consumer);
+        return Consumer.-CC.$default$andThen(this, consumer);
     }
 
     @Override // j$.util.stream.z1, j$.util.stream.A1
@@ -111,7 +110,7 @@ public final class e2 extends W3 implements w1, q1 {
         return super.spliterator();
     }
 
-    @Override // j$.util.stream.z1, j$.util.stream.A1
+    @Override // j$.util.stream.A1
     public /* bridge */ /* synthetic */ A1 b(int i) {
         b(i);
         throw null;

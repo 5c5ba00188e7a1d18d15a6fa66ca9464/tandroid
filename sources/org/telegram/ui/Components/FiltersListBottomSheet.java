@@ -370,7 +370,12 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     public void didReceivedNotification(int i, int i2, Object... objArr) {
         if (i == NotificationCenter.emojiLoaded) {
-            AndroidUtilities.forEachViews((RecyclerView) this.listView, (Consumer<View>) FiltersListBottomSheet$$ExternalSyntheticLambda0.INSTANCE);
+            AndroidUtilities.forEachViews((RecyclerView) this.listView, (Consumer<View>) new Consumer() { // from class: org.telegram.ui.Components.FiltersListBottomSheet$$ExternalSyntheticLambda0
+                @Override // com.google.android.exoplayer2.util.Consumer
+                public final void accept(Object obj) {
+                    FiltersListBottomSheet.lambda$didReceivedNotification$1((View) obj);
+                }
+            });
         }
     }
 

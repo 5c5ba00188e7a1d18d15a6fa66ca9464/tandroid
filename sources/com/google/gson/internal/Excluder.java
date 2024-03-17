@@ -60,7 +60,6 @@ public final class Excluder implements TypeAdapterFactory, Cloneable {
             return new TypeAdapter<T>() { // from class: com.google.gson.internal.Excluder.1
                 private TypeAdapter<T> delegate;
 
-                /* JADX WARN: Type inference failed for: r2v1, types: [T, java.lang.Object] */
                 @Override // com.google.gson.TypeAdapter
                 public T read(JsonReader jsonReader) throws IOException {
                     if (z2) {
@@ -81,7 +80,7 @@ public final class Excluder implements TypeAdapterFactory, Cloneable {
 
                 private TypeAdapter<T> delegate() {
                     TypeAdapter<T> typeAdapter = this.delegate;
-                    if (typeAdapter != 0) {
+                    if (typeAdapter != null) {
                         return typeAdapter;
                     }
                     TypeAdapter<T> delegateAdapter = gson.getDelegateAdapter(Excluder.this, typeToken);

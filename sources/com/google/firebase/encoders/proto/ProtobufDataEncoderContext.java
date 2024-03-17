@@ -23,7 +23,12 @@ final class ProtobufDataEncoderContext implements ObjectEncoderContext {
     private static final Charset UTF_8 = Charset.forName("UTF-8");
     private static final FieldDescriptor MAP_KEY_DESC = FieldDescriptor.builder("key").withProperty(AtProtobuf.builder().tag(1).build()).build();
     private static final FieldDescriptor MAP_VALUE_DESC = FieldDescriptor.builder("value").withProperty(AtProtobuf.builder().tag(2).build()).build();
-    private static final ObjectEncoder<Map.Entry<Object, Object>> DEFAULT_MAP_ENCODER = ProtobufDataEncoderContext$$ExternalSyntheticLambda0.INSTANCE;
+    private static final ObjectEncoder<Map.Entry<Object, Object>> DEFAULT_MAP_ENCODER = new ObjectEncoder() { // from class: com.google.firebase.encoders.proto.ProtobufDataEncoderContext$$ExternalSyntheticLambda0
+        @Override // com.google.firebase.encoders.ObjectEncoder
+        public final void encode(Object obj, Object obj2) {
+            ProtobufDataEncoderContext.lambda$static$0((Map.Entry) obj, (ObjectEncoderContext) obj2);
+        }
+    };
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$static$0(Map.Entry entry, ObjectEncoderContext objectEncoderContext) throws IOException {

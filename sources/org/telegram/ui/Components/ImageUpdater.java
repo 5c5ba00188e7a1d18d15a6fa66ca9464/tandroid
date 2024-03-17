@@ -274,6 +274,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$openMenu$0(ArrayList arrayList, Runnable runnable, DialogInterface dialogInterface, int i) {
         int intValue = ((Integer) arrayList.get(i)).intValue();
         if (intValue == 0) {
@@ -354,10 +355,6 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
 
             @Override // org.telegram.ui.PhotoPickerActivity.PhotoPickerActivityDelegate
             public void selectedPhotosChanged() {
-            }
-
-            {
-                ImageUpdater.this = this;
             }
 
             @Override // org.telegram.ui.PhotoPickerActivity.PhotoPickerActivityDelegate
@@ -463,10 +460,6 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
                     ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$sendAudio(this, arrayList, charSequence, z, i);
                 }
 
-                {
-                    ImageUpdater.this = this;
-                }
-
                 @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
                 public void didPressedButton(int i, boolean z, boolean z2, int i2, boolean z3) {
                     BaseFragment baseFragment2 = ImageUpdater.this.parentFragment;
@@ -563,6 +556,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void didSelectPhotos(ArrayList<SendMessagesHelper.SendingMediaInfo> arrayList) {
         MessageObject messageObject;
         Bitmap loadBitmap;
@@ -728,10 +722,6 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
         PhotoAlbumPickerActivity photoAlbumPickerActivity = new PhotoAlbumPickerActivity(this.canSelectVideo ? PhotoAlbumPickerActivity.SELECT_TYPE_AVATAR_VIDEO : PhotoAlbumPickerActivity.SELECT_TYPE_AVATAR, false, false, null);
         photoAlbumPickerActivity.setAllowSearchImages(this.searchAvailable);
         photoAlbumPickerActivity.setDelegate(new PhotoAlbumPickerActivity.PhotoAlbumPickerActivityDelegate() { // from class: org.telegram.ui.Components.ImageUpdater.3
-            {
-                ImageUpdater.this = this;
-            }
-
             @Override // org.telegram.ui.PhotoAlbumPickerActivity.PhotoAlbumPickerActivityDelegate
             public void didSelectPhotos(ArrayList<SendMessagesHelper.SendingMediaInfo> arrayList, boolean z, int i2) {
                 ImageUpdater.this.didSelectPhotos(arrayList);
@@ -760,6 +750,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$startCrop$1(String str, Uri uri) {
         try {
             LaunchActivity launchActivity = (LaunchActivity) this.parentFragment.getParentActivity();
@@ -801,10 +792,6 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
             @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
             public boolean canScrollAway() {
                 return false;
-            }
-
-            {
-                ImageUpdater.this = this;
             }
 
             @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider

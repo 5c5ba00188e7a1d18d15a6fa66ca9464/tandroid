@@ -953,7 +953,14 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         this.emptyView.setVisibility(8);
         FrameLayout frameLayout6 = frameLayout2;
         frameLayout6.addView(this.emptyView, LayoutHelper.createFrame(-1, -1.0f));
-        this.emptyView.setOnTouchListener(LocationActivity$$ExternalSyntheticLambda10.INSTANCE);
+        this.emptyView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.LocationActivity$$ExternalSyntheticLambda10
+            @Override // android.view.View.OnTouchListener
+            public final boolean onTouch(View view, MotionEvent motionEvent) {
+                boolean lambda$createView$8;
+                lambda$createView$8 = LocationActivity.lambda$createView$8(view, motionEvent);
+                return lambda$createView$8;
+            }
+        });
         ImageView imageView4 = new ImageView(context);
         this.emptyImageView = imageView4;
         imageView4.setImageResource(R.drawable.location_empty);

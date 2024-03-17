@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat;
 import java.lang.reflect.GenericDeclaration;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -31,6 +32,7 @@ import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.INavigationLayout;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ChatActivity;
+import org.telegram.ui.Components.BackButtonMenu;
 import org.telegram.ui.DialogsActivity;
 import org.telegram.ui.ProfileActivity;
 import org.telegram.ui.TopicsFragment;
@@ -447,7 +449,14 @@ public class BackButtonMenu {
                 }
             }
         }
-        Collections.sort(arrayList, BackButtonMenu$$ExternalSyntheticLambda1.INSTANCE);
+        Collections.sort(arrayList, new Comparator() { // from class: org.telegram.ui.Components.BackButtonMenu$$ExternalSyntheticLambda1
+            @Override // java.util.Comparator
+            public final int compare(Object obj, Object obj2) {
+                int lambda$getStackedHistoryDialogs$1;
+                lambda$getStackedHistoryDialogs$1 = BackButtonMenu.lambda$getStackedHistoryDialogs$1((BackButtonMenu.PulledDialog) obj, (BackButtonMenu.PulledDialog) obj2);
+                return lambda$getStackedHistoryDialogs$1;
+            }
+        });
         return arrayList;
     }
 

@@ -62,6 +62,7 @@ import java.nio.ByteOrder;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Timer;
@@ -993,9 +994,8 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public class InternalObserver extends ContentObserver {
+    private class InternalObserver extends ContentObserver {
         public InternalObserver() {
             super(null);
         }
@@ -1007,9 +1007,8 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public class ExternalObserver extends ContentObserver {
+    private class ExternalObserver extends ContentObserver {
         public ExternalObserver() {
             super(null);
         }
@@ -1057,9 +1056,8 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public static class GalleryObserverExternal extends ContentObserver {
+    private static class GalleryObserverExternal extends ContentObserver {
         public GalleryObserverExternal() {
             super(null);
         }
@@ -1070,7 +1068,12 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             if (MediaController.refreshGalleryRunnable != null) {
                 AndroidUtilities.cancelRunOnUIThread(MediaController.refreshGalleryRunnable);
             }
-            AndroidUtilities.runOnUIThread(MediaController.refreshGalleryRunnable = MediaController$GalleryObserverExternal$$ExternalSyntheticLambda0.INSTANCE, 2000L);
+            AndroidUtilities.runOnUIThread(MediaController.refreshGalleryRunnable = new Runnable() { // from class: org.telegram.messenger.MediaController$GalleryObserverExternal$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    MediaController.GalleryObserverExternal.lambda$onChange$0();
+                }
+            }, 2000L);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -1199,9 +1202,8 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         i2 = i3;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public final class StopMediaObserverRunnable implements Runnable {
+    private final class StopMediaObserverRunnable implements Runnable {
         public int currentObserverToken;
 
         private StopMediaObserverRunnable() {
@@ -2846,7 +2848,14 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     private void sortPlaylist() {
-        Collections.sort(this.playlist, MediaController$$ExternalSyntheticLambda52.INSTANCE);
+        Collections.sort(this.playlist, new Comparator() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda52
+            @Override // java.util.Comparator
+            public final int compare(Object obj, Object obj2) {
+                int lambda$sortPlaylist$13;
+                lambda$sortPlaylist$13 = MediaController.lambda$sortPlaylist$13((MessageObject) obj, (MessageObject) obj2);
+                return lambda$sortPlaylist$13;
+            }
+        });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -6885,7 +6894,14 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 AlbumEntry albumEntry112222 = obj3;
                 Integer num2222 = obj2;
                 for (i2 = 0; i2 < arrayList.size(); i2++) {
-                    Collections.sort(((AlbumEntry) arrayList.get(i2)).photos, MediaController$$ExternalSyntheticLambda51.INSTANCE);
+                    Collections.sort(((AlbumEntry) arrayList.get(i2)).photos, new Comparator() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda51
+                        @Override // java.util.Comparator
+                        public final int compare(Object obj5, Object obj6) {
+                            int lambda$loadGalleryPhotosAlbums$50;
+                            lambda$loadGalleryPhotosAlbums$50 = MediaController.lambda$loadGalleryPhotosAlbums$50((MediaController.PhotoEntry) obj5, (MediaController.PhotoEntry) obj6);
+                            return lambda$loadGalleryPhotosAlbums$50;
+                        }
+                    });
                 }
                 broadcastNewPhotos(i, arrayList, arrayList3, num2222, albumEntry112222, albumEntry9222, albumEntry102222, 0);
             }

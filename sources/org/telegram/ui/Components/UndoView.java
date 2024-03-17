@@ -250,7 +250,14 @@ public class UndoView extends FrameLayout {
         this.textPaint.setColor(getThemedColor(i));
         setWillNotDraw(false);
         this.backgroundDrawable = Theme.createRoundRectDrawable(AndroidUtilities.dp(10.0f), getThemedColor(i3));
-        setOnTouchListener(UndoView$$ExternalSyntheticLambda3.INSTANCE);
+        setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.UndoView$$ExternalSyntheticLambda3
+            @Override // android.view.View.OnTouchListener
+            public final boolean onTouch(View view, MotionEvent motionEvent) {
+                boolean lambda$new$1;
+                lambda$new$1 = UndoView.lambda$new$1(view, motionEvent);
+                return lambda$new$1;
+            }
+        });
         setVisibility(4);
     }
 
@@ -463,7 +470,14 @@ public class UndoView extends FrameLayout {
             setOnTouchListener(null);
         } else {
             setOnClickListener(null);
-            setOnTouchListener(UndoView$$ExternalSyntheticLambda4.INSTANCE);
+            setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.UndoView$$ExternalSyntheticLambda4
+                @Override // android.view.View.OnTouchListener
+                public final boolean onTouch(View view, MotionEvent motionEvent) {
+                    boolean lambda$showWithAction$3;
+                    lambda$showWithAction$3 = UndoView.lambda$showWithAction$3(view, motionEvent);
+                    return lambda$showWithAction$3;
+                }
+            });
         }
         this.infoTextView.setMovementMethod(null);
         int i9 = 36;

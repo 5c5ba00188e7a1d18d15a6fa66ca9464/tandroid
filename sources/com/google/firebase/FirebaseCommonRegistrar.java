@@ -23,10 +23,38 @@ public class FirebaseCommonRegistrar implements ComponentRegistrar {
         arrayList.add(LibraryVersionComponent.create("device-name", safeValue(Build.PRODUCT)));
         arrayList.add(LibraryVersionComponent.create("device-model", safeValue(Build.DEVICE)));
         arrayList.add(LibraryVersionComponent.create("device-brand", safeValue(Build.BRAND)));
-        arrayList.add(LibraryVersionComponent.fromContext("android-target-sdk", FirebaseCommonRegistrar$$ExternalSyntheticLambda1.INSTANCE));
-        arrayList.add(LibraryVersionComponent.fromContext("android-min-sdk", FirebaseCommonRegistrar$$ExternalSyntheticLambda2.INSTANCE));
-        arrayList.add(LibraryVersionComponent.fromContext("android-platform", FirebaseCommonRegistrar$$ExternalSyntheticLambda3.INSTANCE));
-        arrayList.add(LibraryVersionComponent.fromContext("android-installer", FirebaseCommonRegistrar$$ExternalSyntheticLambda0.INSTANCE));
+        arrayList.add(LibraryVersionComponent.fromContext("android-target-sdk", new LibraryVersionComponent.VersionExtractor() { // from class: com.google.firebase.FirebaseCommonRegistrar$$ExternalSyntheticLambda1
+            @Override // com.google.firebase.platforminfo.LibraryVersionComponent.VersionExtractor
+            public final String extract(Object obj) {
+                String lambda$getComponents$0;
+                lambda$getComponents$0 = FirebaseCommonRegistrar.lambda$getComponents$0((Context) obj);
+                return lambda$getComponents$0;
+            }
+        }));
+        arrayList.add(LibraryVersionComponent.fromContext("android-min-sdk", new LibraryVersionComponent.VersionExtractor() { // from class: com.google.firebase.FirebaseCommonRegistrar$$ExternalSyntheticLambda2
+            @Override // com.google.firebase.platforminfo.LibraryVersionComponent.VersionExtractor
+            public final String extract(Object obj) {
+                String lambda$getComponents$1;
+                lambda$getComponents$1 = FirebaseCommonRegistrar.lambda$getComponents$1((Context) obj);
+                return lambda$getComponents$1;
+            }
+        }));
+        arrayList.add(LibraryVersionComponent.fromContext("android-platform", new LibraryVersionComponent.VersionExtractor() { // from class: com.google.firebase.FirebaseCommonRegistrar$$ExternalSyntheticLambda3
+            @Override // com.google.firebase.platforminfo.LibraryVersionComponent.VersionExtractor
+            public final String extract(Object obj) {
+                String lambda$getComponents$2;
+                lambda$getComponents$2 = FirebaseCommonRegistrar.lambda$getComponents$2((Context) obj);
+                return lambda$getComponents$2;
+            }
+        }));
+        arrayList.add(LibraryVersionComponent.fromContext("android-installer", new LibraryVersionComponent.VersionExtractor() { // from class: com.google.firebase.FirebaseCommonRegistrar$$ExternalSyntheticLambda0
+            @Override // com.google.firebase.platforminfo.LibraryVersionComponent.VersionExtractor
+            public final String extract(Object obj) {
+                String lambda$getComponents$3;
+                lambda$getComponents$3 = FirebaseCommonRegistrar.lambda$getComponents$3((Context) obj);
+                return lambda$getComponents$3;
+            }
+        }));
         String detectVersion = KotlinDetector.detectVersion();
         if (detectVersion != null) {
             arrayList.add(LibraryVersionComponent.create("kotlin", detectVersion));

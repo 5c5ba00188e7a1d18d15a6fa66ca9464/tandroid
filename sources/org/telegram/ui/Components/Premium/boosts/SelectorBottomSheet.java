@@ -23,7 +23,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.DialogObject;
@@ -480,7 +479,7 @@ public class SelectorBottomSheet extends BottomSheetWithRecyclerListView {
 
                 @Override // j$.util.function.BiConsumer
                 public /* synthetic */ BiConsumer andThen(BiConsumer biConsumer) {
-                    return Objects.requireNonNull(biConsumer);
+                    return BiConsumer.-CC.$default$andThen(this, biConsumer);
                 }
             });
         }

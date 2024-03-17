@@ -98,6 +98,16 @@ public final class CombinedContext implements CoroutineContext, Serializable {
     }
 
     public String toString() {
-        return '[' + ((String) fold("", CombinedContext$toString$1.INSTANCE)) + ']';
+        return '[' + ((String) fold("", new Function2<String, CoroutineContext.Element, String>() { // from class: kotlin.coroutines.CombinedContext$toString$1
+            @Override // kotlin.jvm.functions.Function2
+            public final String invoke(String acc, CoroutineContext.Element element) {
+                Intrinsics.checkNotNullParameter(acc, "acc");
+                Intrinsics.checkNotNullParameter(element, "element");
+                if (acc.length() == 0) {
+                    return element.toString();
+                }
+                return acc + ", " + element;
+            }
+        })) + ']';
     }
 }

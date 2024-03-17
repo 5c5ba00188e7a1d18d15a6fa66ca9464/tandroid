@@ -20,8 +20,9 @@ final class FlacReader extends StreamReader {
         return parsableByteArray.bytesLeft() >= 5 && parsableByteArray.readUnsignedByte() == 127 && parsableByteArray.readUnsignedInt() == 1179402563;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.extractor.ogg.StreamReader
-    protected void reset(boolean z) {
+    public void reset(boolean z) {
         super.reset(z);
         if (z) {
             this.streamMetadata = null;

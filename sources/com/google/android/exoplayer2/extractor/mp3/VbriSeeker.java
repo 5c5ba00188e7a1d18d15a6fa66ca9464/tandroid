@@ -6,9 +6,8 @@ import com.google.android.exoplayer2.extractor.SeekPoint;
 import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class VbriSeeker implements Seeker {
+final class VbriSeeker implements Seeker {
     private final long dataEndPosition;
     private final long durationUs;
     private final long[] positions;

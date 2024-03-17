@@ -731,7 +731,14 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                 super.requestLayout();
             }
         };
-        sizeNotifierFrameLayout.setOnTouchListener(ChatEditActivity$$ExternalSyntheticLambda34.INSTANCE);
+        sizeNotifierFrameLayout.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda34
+            @Override // android.view.View.OnTouchListener
+            public final boolean onTouch(View view, MotionEvent motionEvent) {
+                boolean lambda$createView$2;
+                lambda$createView$2 = ChatEditActivity.lambda$createView$2(view, motionEvent);
+                return lambda$createView$2;
+            }
+        });
         this.fragmentView = sizeNotifierFrameLayout;
         int i2 = Theme.key_windowBackgroundGray;
         sizeNotifierFrameLayout.setBackgroundColor(Theme.getColor(i2));

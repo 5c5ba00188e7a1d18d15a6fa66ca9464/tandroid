@@ -45,6 +45,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -1551,7 +1552,12 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                 };
             }
         }, 14, false);
-        premiumFeatureBottomSheet.setOnDismissListener(EmojiBottomSheet$$ExternalSyntheticLambda0.INSTANCE);
+        premiumFeatureBottomSheet.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet$$ExternalSyntheticLambda0
+            @Override // android.content.DialogInterface.OnDismissListener
+            public final void onDismiss(DialogInterface dialogInterface) {
+                EmojiBottomSheet.lambda$openPremium$0(dialogInterface);
+            }
+        });
         premiumFeatureBottomSheet.show();
     }
 
@@ -3041,7 +3047,14 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                 for (int i = 0; i < Math.min(reactionsList.size(), 8); i++) {
                     this.visibleReactions.add(ReactionsLayoutInBubble.VisibleReaction.fromEmojicon(reactionsList.get(i)));
                 }
-                Collections.sort(this.visibleReactions, EmojiBottomSheet$StoryWidgetsCell$ReactionWidget$$ExternalSyntheticLambda0.INSTANCE);
+                Collections.sort(this.visibleReactions, new Comparator() { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet$StoryWidgetsCell$ReactionWidget$$ExternalSyntheticLambda0
+                    @Override // java.util.Comparator
+                    public final int compare(Object obj, Object obj2) {
+                        int lambda$new$0;
+                        lambda$new$0 = EmojiBottomSheet.StoryWidgetsCell.ReactionWidget.lambda$new$0((ReactionsLayoutInBubble.VisibleReaction) obj, (ReactionsLayoutInBubble.VisibleReaction) obj2);
+                        return lambda$new$0;
+                    }
+                });
                 if (!this.visibleReactions.isEmpty()) {
                     this.reactionHolder.setVisibleReaction(this.visibleReactions.get(this.currentIndex));
                 }

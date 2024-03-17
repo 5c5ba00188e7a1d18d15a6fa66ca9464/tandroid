@@ -250,7 +250,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
             return new f(lVarArr, length, 0, length, m >= 0 ? m : 0L, concurrentHashMap);
         }
 
-        @Override // java.util.Collection, java.lang.Iterable, java.util.Set, j$.util.b, j$.lang.e
+        @Override // java.util.Collection, java.lang.Iterable, java.util.Set
         public /* synthetic */ Spliterator spliterator() {
             return j$.wrappers.h.a(spliterator());
         }
@@ -260,7 +260,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
             return j$.util.a.i(this);
         }
 
-        @Override // java.util.Collection, j$.util.b
+        @Override // java.util.Collection
         public /* synthetic */ Stream stream() {
             return O0.n0(j$.util.a.i(this));
         }
@@ -526,7 +526,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
             return new j(lVarArr, length, 0, length, m >= 0 ? m : 0L);
         }
 
-        @Override // java.util.Collection, java.lang.Iterable, java.util.Set, j$.util.b, j$.lang.e
+        @Override // java.util.Collection, java.lang.Iterable, java.util.Set
         public /* synthetic */ Spliterator spliterator() {
             return j$.wrappers.h.a(spliterator());
         }
@@ -536,7 +536,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
             return j$.util.a.i(this);
         }
 
-        @Override // java.util.Collection, j$.util.b
+        @Override // java.util.Collection
         public /* synthetic */ Stream stream() {
             return O0.n0(j$.util.a.i(this));
         }
@@ -1694,7 +1694,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
             return new t(lVarArr, length, 0, length, m >= 0 ? m : 0L);
         }
 
-        @Override // java.util.Collection, java.lang.Iterable, j$.util.b, j$.lang.e
+        @Override // java.util.Collection, java.lang.Iterable
         public /* synthetic */ Spliterator spliterator() {
             return j$.wrappers.h.a(spliterator());
         }
@@ -1704,7 +1704,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
             return j$.util.a.i(this);
         }
 
-        @Override // java.util.Collection, j$.util.b
+        @Override // java.util.Collection
         public /* synthetic */ Stream stream() {
             return O0.n0(j$.util.a.i(this));
         }

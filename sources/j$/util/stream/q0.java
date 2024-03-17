@@ -67,7 +67,13 @@ final class q0 extends CountedCompleter {
             q0Var2.fork();
         }
         if (q0Var.getPendingCount() > 0) {
-            p0 p0Var = p0.a;
+            p0 p0Var = new j$.util.function.m() { // from class: j$.util.stream.p0
+                @Override // j$.util.function.m
+                public final Object apply(int i) {
+                    int i2 = q0.h;
+                    return new Object[i];
+                }
+            };
             y2 y2Var = q0Var.a;
             s1 t0 = y2Var.t0(y2Var.q0(tVar), p0Var);
             c cVar = (c) q0Var.a;

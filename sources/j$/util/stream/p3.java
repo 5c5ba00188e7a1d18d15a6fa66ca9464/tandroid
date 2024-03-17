@@ -34,7 +34,12 @@ public class p3 extends c3 {
             d = B3.d(j, this.m);
             return new C4(w0, j, d);
         }
-        return !d4.ORDERED.d(y2Var.s0()) ? L0(y2Var.w0(tVar), this.l, this.m, q0) : ((A1) new A3(this, y2Var, tVar, n3.a, this.l, this.m).invoke()).spliterator();
+        return !d4.ORDERED.d(y2Var.s0()) ? L0(y2Var.w0(tVar), this.l, this.m, q0) : ((A1) new A3(this, y2Var, tVar, new j$.util.function.m() { // from class: j$.util.stream.n3
+            @Override // j$.util.function.m
+            public final Object apply(int i) {
+                return new Object[i];
+            }
+        }, this.l, this.m).invoke()).spliterator();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

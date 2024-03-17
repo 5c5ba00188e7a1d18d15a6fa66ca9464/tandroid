@@ -9,6 +9,7 @@ import com.google.android.exoplayer2.trackselection.ExoTrackSelection;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 /* loaded from: classes.dex */
 public abstract class BaseTrackSelection implements ExoTrackSelection {
@@ -65,7 +66,14 @@ public abstract class BaseTrackSelection implements ExoTrackSelection {
         for (int i3 = 0; i3 < iArr.length; i3++) {
             this.formats[i3] = trackGroup.getFormat(iArr[i3]);
         }
-        Arrays.sort(this.formats, BaseTrackSelection$$ExternalSyntheticLambda0.INSTANCE);
+        Arrays.sort(this.formats, new Comparator() { // from class: com.google.android.exoplayer2.trackselection.BaseTrackSelection$$ExternalSyntheticLambda0
+            @Override // java.util.Comparator
+            public final int compare(Object obj, Object obj2) {
+                int lambda$new$0;
+                lambda$new$0 = BaseTrackSelection.lambda$new$0((Format) obj, (Format) obj2);
+                return lambda$new$0;
+            }
+        });
         this.tracks = new int[this.length];
         while (true) {
             int i4 = this.length;

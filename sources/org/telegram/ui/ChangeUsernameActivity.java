@@ -260,7 +260,14 @@ public class ChangeUsernameActivity extends BaseFragment {
         this.itemTouchHelper = itemTouchHelper;
         itemTouchHelper.attachToRecyclerView(this.listView);
         ((FrameLayout) this.fragmentView).addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
-        this.fragmentView.setOnTouchListener(ChangeUsernameActivity$$ExternalSyntheticLambda1.INSTANCE);
+        this.fragmentView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ChangeUsernameActivity$$ExternalSyntheticLambda1
+            @Override // android.view.View.OnTouchListener
+            public final boolean onTouch(View view, MotionEvent motionEvent) {
+                boolean lambda$createView$0;
+                lambda$createView$0 = ChangeUsernameActivity.lambda$createView$0(view, motionEvent);
+                return lambda$createView$0;
+            }
+        });
         this.listView.setOnItemClickListener(new 3());
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChangeUsernameActivity$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
@@ -328,7 +335,12 @@ public class ChangeUsernameActivity extends BaseFragment {
                     public final void onClick(DialogInterface dialogInterface, int i5) {
                         ChangeUsernameActivity.3.this.lambda$onItemClick$3(tLRPC$TL_username, i, view, dialogInterface, i5);
                     }
-                }).setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), ChangeUsernameActivity$3$$ExternalSyntheticLambda2.INSTANCE).show();
+                }).setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChangeUsernameActivity$3$$ExternalSyntheticLambda2
+                    @Override // android.content.DialogInterface.OnClickListener
+                    public final void onClick(DialogInterface dialogInterface, int i5) {
+                        dialogInterface.dismiss();
+                    }
+                }).show();
             } else if (view instanceof InputCell) {
                 ChangeUsernameActivity.this.focusUsernameField(true);
             }
@@ -672,7 +684,12 @@ public class ChangeUsernameActivity extends BaseFragment {
                 tLRPC$TL_bots_reorderUsernames2.order = arrayList;
                 tLRPC$TL_bots_reorderUsernames = tLRPC$TL_bots_reorderUsernames2;
             }
-            getConnectionsManager().sendRequest(tLRPC$TL_bots_reorderUsernames, ChangeUsernameActivity$$ExternalSyntheticLambda11.INSTANCE);
+            getConnectionsManager().sendRequest(tLRPC$TL_bots_reorderUsernames, new RequestDelegate() { // from class: org.telegram.ui.ChangeUsernameActivity$$ExternalSyntheticLambda11
+                @Override // org.telegram.tgnet.RequestDelegate
+                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                    ChangeUsernameActivity.lambda$sendReorder$2(tLObject, tLRPC$TL_error);
+                }
+            });
             updateUser();
         }
     }

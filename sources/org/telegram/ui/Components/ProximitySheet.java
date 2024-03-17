@@ -158,7 +158,14 @@ public class ProximitySheet extends FrameLayout {
         textView.setTextSize(1, 20.0f);
         textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         frameLayout2.addView(textView, LayoutHelper.createFrame(-2, -2.0f, 51, 0.0f, 12.0f, 0.0f, 0.0f));
-        textView.setOnTouchListener(ProximitySheet$$ExternalSyntheticLambda1.INSTANCE);
+        textView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.ProximitySheet$$ExternalSyntheticLambda1
+            @Override // android.view.View.OnTouchListener
+            public final boolean onTouch(View view, MotionEvent motionEvent) {
+                boolean lambda$new$0;
+                lambda$new$0 = ProximitySheet.lambda$new$0(view, motionEvent);
+                return lambda$new$0;
+            }
+        });
         LinearLayout linearLayout2 = new LinearLayout(context);
         linearLayout2.setOrientation(0);
         linearLayout2.setWeightSum(1.0f);

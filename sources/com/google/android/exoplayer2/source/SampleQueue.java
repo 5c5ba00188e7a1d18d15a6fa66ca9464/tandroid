@@ -8,9 +8,11 @@ import com.google.android.exoplayer2.drm.DrmSession;
 import com.google.android.exoplayer2.drm.DrmSessionEventListener;
 import com.google.android.exoplayer2.drm.DrmSessionManager;
 import com.google.android.exoplayer2.extractor.TrackOutput;
+import com.google.android.exoplayer2.source.SampleQueue;
 import com.google.android.exoplayer2.upstream.Allocator;
 import com.google.android.exoplayer2.upstream.DataReader;
 import com.google.android.exoplayer2.util.Assertions;
+import com.google.android.exoplayer2.util.Consumer;
 import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.MimeTypes;
 import com.google.android.exoplayer2.util.ParsableByteArray;
@@ -45,7 +47,12 @@ public class SampleQueue implements TrackOutput {
     private int[] flags = new int[1000];
     private int[] sizes = new int[1000];
     private TrackOutput.CryptoData[] cryptoDatas = new TrackOutput.CryptoData[1000];
-    private final SpannedData<SharedSampleMetadata> sharedSampleMetadata = new SpannedData<>(SampleQueue$$ExternalSyntheticLambda0.INSTANCE);
+    private final SpannedData<SharedSampleMetadata> sharedSampleMetadata = new SpannedData<>(new Consumer() { // from class: com.google.android.exoplayer2.source.SampleQueue$$ExternalSyntheticLambda0
+        @Override // com.google.android.exoplayer2.util.Consumer
+        public final void accept(Object obj) {
+            SampleQueue.lambda$new$0((SampleQueue.SharedSampleMetadata) obj);
+        }
+    });
     private long startTimeUs = Long.MIN_VALUE;
     private long largestDiscardedTimestampUs = Long.MIN_VALUE;
     private long largestQueuedTimestampUs = Long.MIN_VALUE;

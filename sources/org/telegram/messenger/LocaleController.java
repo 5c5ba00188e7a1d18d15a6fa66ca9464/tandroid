@@ -1295,7 +1295,12 @@ public class LocaleController {
             }
             if (!z5) {
                 if (z2) {
-                    AndroidUtilities.runOnUIThread(LocaleController$$ExternalSyntheticLambda16.INSTANCE);
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocaleController$$ExternalSyntheticLambda16
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            LocaleController.lambda$applyLanguage$9();
+                        }
+                    });
                 } else {
                     NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.reloadInterface, new Object[0]);
                 }

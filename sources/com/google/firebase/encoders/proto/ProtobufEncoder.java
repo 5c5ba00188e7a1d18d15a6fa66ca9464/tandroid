@@ -6,6 +6,7 @@ import com.google.firebase.encoders.ObjectEncoderContext;
 import com.google.firebase.encoders.ValueEncoder;
 import com.google.firebase.encoders.config.Configurator;
 import com.google.firebase.encoders.config.EncoderConfig;
+import com.google.firebase.encoders.proto.ProtobufEncoder;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -42,7 +43,12 @@ public class ProtobufEncoder {
 
     /* loaded from: classes.dex */
     public static final class Builder implements EncoderConfig<Builder> {
-        private static final ObjectEncoder<Object> DEFAULT_FALLBACK_ENCODER = ProtobufEncoder$Builder$$ExternalSyntheticLambda0.INSTANCE;
+        private static final ObjectEncoder<Object> DEFAULT_FALLBACK_ENCODER = new ObjectEncoder() { // from class: com.google.firebase.encoders.proto.ProtobufEncoder$Builder$$ExternalSyntheticLambda0
+            @Override // com.google.firebase.encoders.ObjectEncoder
+            public final void encode(Object obj, Object obj2) {
+                ProtobufEncoder.Builder.lambda$static$0(obj, (ObjectEncoderContext) obj2);
+            }
+        };
         private final Map<Class<?>, ObjectEncoder<?>> objectEncoders = new HashMap();
         private final Map<Class<?>, ValueEncoder<?>> valueEncoders = new HashMap();
         private ObjectEncoder<Object> fallbackEncoder = DEFAULT_FALLBACK_ENCODER;

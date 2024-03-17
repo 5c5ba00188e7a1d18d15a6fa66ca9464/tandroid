@@ -495,7 +495,12 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
             this.silentButton.setBackground(Theme.createSelectorDrawable(getThemedColor(i3) & 436207615, 1, AndroidUtilities.dp(14.0f)));
         }
         this.silentButton.setContentDescription(LocaleController.getString("Unmute", R.string.Unmute));
-        this.silentButton.setOnClickListener(FragmentContextView$$ExternalSyntheticLambda8.INSTANCE);
+        this.silentButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.FragmentContextView$$ExternalSyntheticLambda8
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view3) {
+                FragmentContextView.lambda$checkCreateView$2(view3);
+            }
+        });
         this.silentButton.setVisibility(8);
         addView(this.silentButton, LayoutHelper.createFrame(36, 36.0f, 53, 0.0f, 0.0f, 36.0f, 0.0f));
         if (!this.isLocation) {

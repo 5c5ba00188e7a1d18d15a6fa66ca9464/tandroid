@@ -36,6 +36,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Objects;
@@ -631,7 +632,14 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
     }
 
     private void sort(ArrayList<DialogFileEntities> arrayList) {
-        Collections.sort(arrayList, CacheControlActivity$$ExternalSyntheticLambda20.INSTANCE);
+        Collections.sort(arrayList, new Comparator() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda20
+            @Override // java.util.Comparator
+            public final int compare(Object obj, Object obj2) {
+                int lambda$sort$9;
+                lambda$sort$9 = CacheControlActivity.lambda$sort$9((CacheControlActivity.DialogFileEntities) obj, (CacheControlActivity.DialogFileEntities) obj2);
+                return lambda$sort$9;
+            }
+        });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -803,7 +811,14 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                 arrayList.add(ItemInner.asCheckBox(LocaleController.getString(R.string.LocalMiscellaneousCache), 8, this.cacheTempSize, Theme.key_statisticChartLine_purple));
             }
             if (!arrayList.isEmpty()) {
-                Collections.sort(arrayList, CacheControlActivity$$ExternalSyntheticLambda21.INSTANCE);
+                Collections.sort(arrayList, new Comparator() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda21
+                    @Override // java.util.Comparator
+                    public final int compare(Object obj, Object obj2) {
+                        int lambda$updateRows$10;
+                        lambda$updateRows$10 = CacheControlActivity.lambda$updateRows$10((CacheControlActivity.ItemInner) obj, (CacheControlActivity.ItemInner) obj2);
+                        return lambda$updateRows$10;
+                    }
+                });
                 ((ItemInner) arrayList.get(arrayList.size() - 1)).last = true;
                 if (this.tempSizes == null) {
                     this.tempSizes = new float[10];
@@ -1488,8 +1503,9 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         updateDatabaseItemSize();
         this.listAdapter = new ListAdapter(context);
         NestedSizeNotifierLayout nestedSizeNotifierLayout = new NestedSizeNotifierLayout(context) { // from class: org.telegram.ui.CacheControlActivity.2
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
-            protected void dispatchDraw(Canvas canvas) {
+            public void dispatchDraw(Canvas canvas) {
                 super.dispatchDraw(canvas);
                 boolean z = !isPinnedToTop();
                 if (z || CacheControlActivity.this.actionBarShadowAlpha == 0.0f) {
@@ -1512,16 +1528,18 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         this.fragmentView = nestedSizeNotifierLayout;
         nestedSizeNotifierLayout.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
         RecyclerListView recyclerListView = new RecyclerListView(context) { // from class: org.telegram.ui.CacheControlActivity.3
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
-            protected void dispatchDraw(Canvas canvas) {
+            public void dispatchDraw(Canvas canvas) {
                 if (CacheControlActivity.this.sectionsStartRow >= 0 && CacheControlActivity.this.sectionsEndRow >= 0) {
                     drawSectionBackgroundExclusive(canvas, CacheControlActivity.this.sectionsStartRow - 1, CacheControlActivity.this.sectionsEndRow, Theme.getColor(Theme.key_windowBackgroundWhite));
                 }
                 super.dispatchDraw(canvas);
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView
-            protected boolean allowSelectChildAtPosition(View view) {
+            public boolean allowSelectChildAtPosition(View view) {
                 return view != CacheControlActivity.this.cacheChart;
             }
         };
@@ -1536,8 +1554,9 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         nestedSizeNotifierLayout.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
         this.listView.setAdapter(this.listAdapter);
         DefaultItemAnimator defaultItemAnimator = new DefaultItemAnimator() { // from class: org.telegram.ui.CacheControlActivity.4
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.recyclerview.widget.DefaultItemAnimator
-            protected void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
+            public void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
                 CacheControlActivity.this.listView.invalidate();
             }
         };
@@ -2795,7 +2814,17 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                     case 4:
                         slideChooseView = new SlideChooseView(this.mContext);
                         slideChooseView.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                        slideChooseView.setCallback(CacheControlActivity$ListAdapter$$ExternalSyntheticLambda3.INSTANCE);
+                        slideChooseView.setCallback(new SlideChooseView.Callback() { // from class: org.telegram.ui.CacheControlActivity$ListAdapter$$ExternalSyntheticLambda3
+                            @Override // org.telegram.ui.Components.SlideChooseView.Callback
+                            public final void onOptionSelected(int i2) {
+                                CacheControlActivity.ListAdapter.lambda$onCreateViewHolder$0(i2);
+                            }
+
+                            @Override // org.telegram.ui.Components.SlideChooseView.Callback
+                            public /* synthetic */ void onTouchEnd() {
+                                SlideChooseView.Callback.-CC.$default$onTouchEnd(this);
+                            }
+                        });
                         int i2 = SharedConfig.keepMedia;
                         slideChooseView.setOptions(i2 == 3 ? 0 : i2 + 1, LocaleController.formatPluralString("Days", 3, new Object[0]), LocaleController.formatPluralString("Weeks", 1, new Object[0]), LocaleController.formatPluralString("Months", 1, new Object[0]), LocaleController.getString("KeepMediaForever", R.string.KeepMediaForever));
                         flickerLoadingView = slideChooseView;

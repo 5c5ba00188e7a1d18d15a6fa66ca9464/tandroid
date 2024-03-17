@@ -119,13 +119,12 @@ public final class Iterators {
         Preconditions.checkNotNull(it);
         Preconditions.checkNotNull(predicate);
         return new AbstractIterator<T>() { // from class: com.google.common.collect.Iterators.5
-            /* JADX WARN: Type inference failed for: r0v4, types: [T, java.lang.Object] */
             @Override // com.google.common.collect.AbstractIterator
             protected T computeNext() {
                 while (it.hasNext()) {
-                    ?? next = it.next();
-                    if (predicate.apply(next)) {
-                        return next;
+                    T t = (T) it.next();
+                    if (predicate.apply(t)) {
+                        return t;
                     }
                 }
                 return endOfData();
@@ -224,14 +223,13 @@ public final class Iterators {
                 return !this.done;
             }
 
-            /* JADX WARN: Type inference failed for: r0v3, types: [T, java.lang.Object] */
             @Override // java.util.Iterator, j$.util.Iterator
             public T next() {
                 if (this.done) {
                     throw new NoSuchElementException();
                 }
                 this.done = true;
-                return t;
+                return (T) t;
             }
         };
     }

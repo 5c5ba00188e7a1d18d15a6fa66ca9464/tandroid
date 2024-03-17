@@ -506,7 +506,12 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
     private List<FloatingDebugController.DebugItem> getBuiltInDebugItems() {
         ArrayList arrayList = new ArrayList();
         arrayList.add(new FloatingDebugController.DebugItem("Theme"));
-        arrayList.add(new FloatingDebugController.DebugItem("Draw action bar shadow", FloatingDebugView$$ExternalSyntheticLambda9.INSTANCE));
+        arrayList.add(new FloatingDebugController.DebugItem("Draw action bar shadow", new Runnable() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda9
+            @Override // java.lang.Runnable
+            public final void run() {
+                FloatingDebugView.lambda$getBuiltInDebugItems$4();
+            }
+        }));
         arrayList.add(new FloatingDebugController.DebugItem("Show blur settings", new Runnable() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
@@ -522,7 +527,12 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
                 }
             }));
         }
-        arrayList.add(new FloatingDebugController.DebugItem(Theme.isCurrentThemeDark() ? "Switch to day theme" : "Switch to dark theme", FloatingDebugView$$ExternalSyntheticLambda10.INSTANCE));
+        arrayList.add(new FloatingDebugController.DebugItem(Theme.isCurrentThemeDark() ? "Switch to day theme" : "Switch to dark theme", new Runnable() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda10
+            @Override // java.lang.Runnable
+            public final void run() {
+                FloatingDebugView.lambda$getBuiltInDebugItems$8();
+            }
+        }));
         arrayList.add(new FloatingDebugController.DebugItem(LocaleController.getString(R.string.DebugSendLogs), new Runnable() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {

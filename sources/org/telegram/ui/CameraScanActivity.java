@@ -502,7 +502,14 @@ public class CameraScanActivity extends BaseFragment {
                 return rectF;
             }
         };
-        viewGroup.setOnTouchListener(CameraScanActivity$$ExternalSyntheticLambda4.INSTANCE);
+        viewGroup.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda4
+            @Override // android.view.View.OnTouchListener
+            public final boolean onTouch(View view, MotionEvent motionEvent) {
+                boolean lambda$createView$1;
+                lambda$createView$1 = CameraScanActivity.lambda$createView$1(view, motionEvent);
+                return lambda$createView$1;
+            }
+        });
         this.fragmentView = viewGroup;
         if (isQr()) {
             this.fragmentView.postDelayed(new Runnable() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda9

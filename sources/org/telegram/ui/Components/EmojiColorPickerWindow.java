@@ -22,7 +22,12 @@ import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes4.dex */
 public class EmojiColorPickerWindow extends PopupWindow {
-    private static final ViewTreeObserver.OnScrollChangedListener NOP = EmojiColorPickerWindow$$ExternalSyntheticLambda1.INSTANCE;
+    private static final ViewTreeObserver.OnScrollChangedListener NOP = new ViewTreeObserver.OnScrollChangedListener() { // from class: org.telegram.ui.Components.EmojiColorPickerWindow$$ExternalSyntheticLambda1
+        @Override // android.view.ViewTreeObserver.OnScrollChangedListener
+        public final void onScrollChanged() {
+            EmojiColorPickerWindow.lambda$static$0();
+        }
+    };
     private static Field superListenerField;
     private final int emojiSize;
     private boolean isCompound;

@@ -200,7 +200,6 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         void shouldSearchText(String str);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$createView$3(View view, MotionEvent motionEvent) {
         return true;
     }
@@ -220,6 +219,10 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
             @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
             public boolean scaleToFill() {
                 return false;
+            }
+
+            {
+                PhotoPickerActivity.this = this;
             }
 
             @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
@@ -500,6 +503,10 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
             }
         }
         this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.PhotoPickerActivity.2
+            {
+                PhotoPickerActivity.this = this;
+            }
+
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i3) {
                 if (i3 == -1) {
@@ -530,6 +537,10 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
             addItem.setSubMenuDelegate(new ActionBarMenuItem.ActionBarSubMenuItemDelegate() { // from class: org.telegram.ui.PhotoPickerActivity.3
                 @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarSubMenuItemDelegate
                 public void onHideSubMenu() {
+                }
+
+                {
+                    PhotoPickerActivity.this = this;
                 }
 
                 @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarSubMenuItemDelegate
@@ -579,6 +590,10 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         this.layoutManager = gridLayoutManager;
         recyclerListView2.setLayoutManager(gridLayoutManager);
         this.layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() { // from class: org.telegram.ui.PhotoPickerActivity.7
+            {
+                PhotoPickerActivity.this = this;
+            }
+
             @Override // androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
             public int getSpanSize(int i4) {
                 if (PhotoPickerActivity.this.listAdapter.getItemViewType(i4) == 1 || PhotoPickerActivity.this.listSort || (PhotoPickerActivity.this.selectedAlbum == null && TextUtils.isEmpty(PhotoPickerActivity.this.lastSearchString))) {
@@ -610,6 +625,10 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
             });
         }
         RecyclerViewItemRangeSelector recyclerViewItemRangeSelector = new RecyclerViewItemRangeSelector(new RecyclerViewItemRangeSelector.RecyclerViewItemRangeSelectorDelegate() { // from class: org.telegram.ui.PhotoPickerActivity.8
+            {
+                PhotoPickerActivity.this = this;
+            }
+
             @Override // org.telegram.ui.Components.RecyclerViewItemRangeSelector.RecyclerViewItemRangeSelectorDelegate
             public void setSelected(View view, int i4, boolean z) {
                 if (z == PhotoPickerActivity.this.shouldSelect && (view instanceof PhotoAttachPhotoCell)) {
@@ -675,6 +694,10 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         this.emptyView.showProgress(false, false);
         this.sizeNotifierFrameLayout.addView(this.emptyView, LayoutHelper.createFrame(-1, -1.0f, 51, 0.0f, 126.0f, 0.0f, 0.0f));
         this.listView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.PhotoPickerActivity.10
+            {
+                PhotoPickerActivity.this = this;
+            }
+
             @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
             public void onScrollStateChanged(RecyclerView recyclerView, int i4) {
                 if (i4 == 1) {
@@ -710,7 +733,14 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
             this.frameLayout2.setVisibility(4);
             this.frameLayout2.setTranslationY(AndroidUtilities.dp(48.0f));
             this.sizeNotifierFrameLayout.addView(this.frameLayout2, LayoutHelper.createFrame(-1, 48, 83));
-            this.frameLayout2.setOnTouchListener(PhotoPickerActivity$$ExternalSyntheticLambda4.INSTANCE);
+            this.frameLayout2.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.PhotoPickerActivity$$ExternalSyntheticLambda4
+                @Override // android.view.View.OnTouchListener
+                public final boolean onTouch(View view2, MotionEvent motionEvent) {
+                    boolean lambda$createView$3;
+                    lambda$createView$3 = PhotoPickerActivity.lambda$createView$3(view2, motionEvent);
+                    return lambda$createView$3;
+                }
+            });
             EditTextEmoji editTextEmoji = this.commentTextView;
             if (editTextEmoji != null) {
                 editTextEmoji.onDestroy();
@@ -736,6 +766,10 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                 public void onTextChanged(CharSequence charSequence2, int i4, int i5, int i6) {
                 }
 
+                {
+                    PhotoPickerActivity.this = this;
+                }
+
                 @Override // android.text.TextWatcher
                 public void afterTextChanged(Editable editable) {
                     if (PhotoPickerActivity.this.delegate != null) {
@@ -744,6 +778,10 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                 }
             });
             FrameLayout frameLayout2 = new FrameLayout(context) { // from class: org.telegram.ui.PhotoPickerActivity.12
+                {
+                    PhotoPickerActivity.this = this;
+                }
+
                 @Override // android.view.View
                 public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
                     super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
@@ -809,6 +847,10 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
             this.textPaint.setTextSize(AndroidUtilities.dp(12.0f));
             this.textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             View view2 = new View(context) { // from class: org.telegram.ui.PhotoPickerActivity.15
+                {
+                    PhotoPickerActivity.this = this;
+                }
+
                 @Override // android.view.View
                 protected void onDraw(Canvas canvas) {
                     String format = String.format("%d", Integer.valueOf(Math.max(1, PhotoPickerActivity.this.selectedPhotosOrder.size())));
@@ -845,7 +887,6 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         return this.fragmentView;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
     public class 4 extends ActionBarMenuItem.ActionBarMenuItemSearchListener {
         Runnable updateSearch = new Runnable() { // from class: org.telegram.ui.PhotoPickerActivity$4$$ExternalSyntheticLambda0
@@ -860,6 +901,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         }
 
         4() {
+            PhotoPickerActivity.this = r1;
         }
 
         @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemSearchListener
@@ -889,7 +931,6 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
             AndroidUtilities.runOnUIThread(this.updateSearch, 1200L);
         }
 
-        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$$0() {
             PhotoPickerActivity photoPickerActivity = PhotoPickerActivity.this;
             photoPickerActivity.processSearch(photoPickerActivity.searchItem.getSearchField());
@@ -901,15 +942,16 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
     public class 5 extends SizeNotifierFrameLayout {
         private boolean ignoreLayout;
         private int lastItemSize;
         private int lastNotifyWidth;
 
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         5(Context context) {
             super(context);
+            PhotoPickerActivity.this = r1;
         }
 
         @Override // android.widget.FrameLayout, android.view.View
@@ -946,7 +988,6 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
             onMeasureInternal(i, View.MeasureSpec.makeMeasureSpec(size, 1073741824));
         }
 
-        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onMeasure$0() {
             PhotoPickerActivity.this.listAdapter.notifyDataSetChanged();
         }
@@ -997,12 +1038,11 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
-        /* JADX WARN: Removed duplicated region for block: B:42:0x00b9  */
-        /* JADX WARN: Removed duplicated region for block: B:49:0x00d3  */
-        /* JADX WARN: Removed duplicated region for block: B:53:0x00e6  */
-        /* JADX WARN: Removed duplicated region for block: B:57:0x00f2  */
-        /* JADX WARN: Removed duplicated region for block: B:58:0x00fb  */
+        /* JADX WARN: Removed duplicated region for block: B:109:0x00b9  */
+        /* JADX WARN: Removed duplicated region for block: B:116:0x00d3  */
+        /* JADX WARN: Removed duplicated region for block: B:120:0x00e6  */
+        /* JADX WARN: Removed duplicated region for block: B:124:0x00f2  */
+        /* JADX WARN: Removed duplicated region for block: B:125:0x00fb  */
         @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1108,7 +1148,6 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$1(View view, int i) {
         ArrayList<Object> arrayList;
         int i2;
@@ -1180,7 +1219,6 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         PhotoViewer.getInstance().openPhotoForSelect(arrayList2, i, i2, this.isDocumentsPicker, this.provider, this.chatActivity);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$0(DialogInterface dialogInterface, int i) {
         PhotoPickerActivitySearchDelegate photoPickerActivitySearchDelegate = this.searchDelegate;
         if (photoPickerActivitySearchDelegate != null) {
@@ -1190,7 +1228,6 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createView$2(View view, int i) {
         if (this.listSort) {
             onListItemClick(view, this.selectedAlbum.photos.get(i));
@@ -1206,7 +1243,6 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$4(View view) {
         ChatActivity chatActivity = this.chatActivity;
         if (chatActivity != null && chatActivity.isInScheduleMode()) {
@@ -1216,7 +1252,6 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createView$7(View view) {
         ChatActivity chatActivity = this.chatActivity;
         if (chatActivity != null && this.maxSelectedPhotos != 1) {
@@ -1228,6 +1263,10 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                 actionBarPopupWindowLayout.setAnimationEnabled(false);
                 this.sendPopupLayout.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.PhotoPickerActivity.14
                     private Rect popupRect = new Rect();
+
+                    {
+                        PhotoPickerActivity.this = this;
+                    }
 
                     @Override // android.view.View.OnTouchListener
                     public boolean onTouch(View view2, MotionEvent motionEvent) {
@@ -1296,7 +1335,6 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         return false;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$5(KeyEvent keyEvent) {
         ActionBarPopupWindow actionBarPopupWindow;
         if (keyEvent.getKeyCode() == 4 && keyEvent.getRepeatCount() == 0 && (actionBarPopupWindow = this.sendPopupWindow) != null && actionBarPopupWindow.isShowing()) {
@@ -1304,7 +1342,6 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$6(int i, View view) {
         ActionBarPopupWindow actionBarPopupWindow = this.sendPopupWindow;
         if (actionBarPopupWindow != null && actionBarPopupWindow.isShowing()) {
@@ -1453,7 +1490,6 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         saveRecentSearch();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public void processSearch(EditText editText) {
         if (editText.getText().length() == 0) {
             return;
@@ -1540,6 +1576,10 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
             this.animatorSet.setInterpolator(new DecelerateInterpolator());
             this.animatorSet.setDuration(180L);
             this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.PhotoPickerActivity.16
+                {
+                    PhotoPickerActivity.this = this;
+                }
+
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
                     if (animator.equals(PhotoPickerActivity.this.animatorSet)) {
@@ -1585,7 +1625,6 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         this.maxSelectedPhotos = 1;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public void updateCheckedPhotoIndices() {
         if (this.allowIndices) {
             int childCount = this.listView.getChildCount();
@@ -1607,7 +1646,6 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public PhotoAttachPhotoCell getCellForIndex(int i) {
         int childCount = this.listView.getChildCount();
         for (int i2 = 0; i2 < childCount; i2++) {
@@ -1626,7 +1664,6 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         return null;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public int addToSelectedPhotos(Object obj, int i) {
         Object obj2;
         boolean z = obj instanceof MediaController.PhotoEntry;
@@ -1716,7 +1753,6 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         this.selectedCountView.setPivotY(0.0f);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public void updateSearchInterface() {
         String str;
         ListAdapter listAdapter = this.listAdapter;
@@ -1746,7 +1782,6 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         });
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$searchBotUser$9(final boolean z, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject != null) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PhotoPickerActivity$$ExternalSyntheticLambda6
@@ -1758,7 +1793,6 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$searchBotUser$8(TLObject tLObject, boolean z) {
         TLRPC$TL_contacts_resolvedPeer tLRPC$TL_contacts_resolvedPeer = (TLRPC$TL_contacts_resolvedPeer) tLObject;
         MessagesController.getInstance(this.currentAccount).putUsers(tLRPC$TL_contacts_resolvedPeer.users, false);
@@ -1769,7 +1803,6 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         searchImages(z, str, "", false);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public void searchImages(final boolean z, final String str, String str2, boolean z2) {
         if (this.searching) {
             this.searching = false;
@@ -1817,7 +1850,6 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         ConnectionsManager.getInstance(this.currentAccount).bindRequestToGuid(this.imageReqId, this.classGuid);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$searchImages$11(final String str, final int i, final boolean z, final TLRPC$User tLRPC$User, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PhotoPickerActivity$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
@@ -1827,7 +1859,6 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         });
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$searchImages$10(String str, int i, TLObject tLObject, boolean z, TLRPC$User tLRPC$User) {
         int i2;
         TLRPC$Photo tLRPC$Photo;
@@ -1933,7 +1964,6 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         this.searchDelegate = photoPickerActivitySearchDelegate;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public void sendSelectedPhotos(boolean z, int i) {
         if (this.selectedPhotos.isEmpty() || this.delegate == null || this.sendPressed) {
             return;
@@ -1949,7 +1979,6 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
@@ -1960,6 +1989,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         }
 
         public ListAdapter(Context context) {
+            PhotoPickerActivity.this = r1;
             this.mContext = context;
         }
 
@@ -2018,6 +2048,10 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
             } else {
                 PhotoAttachPhotoCell photoAttachPhotoCell = new PhotoAttachPhotoCell(this.mContext, null);
                 photoAttachPhotoCell.setDelegate(new PhotoAttachPhotoCell.PhotoAttachPhotoCellDelegate() { // from class: org.telegram.ui.PhotoPickerActivity.ListAdapter.1
+                    {
+                        ListAdapter.this = this;
+                    }
+
                     private void checkSlowMode() {
                         TLRPC$Chat currentChat;
                         if (!PhotoPickerActivity.this.allowOrder || PhotoPickerActivity.this.chatActivity == null || (currentChat = PhotoPickerActivity.this.chatActivity.getCurrentChat()) == null || ChatObject.hasAdminRights(currentChat) || !currentChat.slowmode_enabled || PhotoPickerActivity.this.alertOnlyOnce == 2) {

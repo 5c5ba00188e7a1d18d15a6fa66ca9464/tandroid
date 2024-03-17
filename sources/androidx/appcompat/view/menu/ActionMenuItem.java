@@ -310,7 +310,7 @@ public class ActionMenuItem implements SupportMenuItem {
         throw new UnsupportedOperationException();
     }
 
-    @Override // androidx.core.internal.view.SupportMenuItem, android.view.MenuItem
+    @Override // android.view.MenuItem
     public SupportMenuItem setContentDescription(CharSequence charSequence) {
         this.mContentDescription = charSequence;
         return this;
@@ -321,7 +321,7 @@ public class ActionMenuItem implements SupportMenuItem {
         return this.mContentDescription;
     }
 
-    @Override // androidx.core.internal.view.SupportMenuItem, android.view.MenuItem
+    @Override // android.view.MenuItem
     public SupportMenuItem setTooltipText(CharSequence charSequence) {
         this.mTooltipText = charSequence;
         return this;

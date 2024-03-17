@@ -114,12 +114,10 @@ public final class Sets {
                         this.itr = set.iterator();
                     }
 
-                    /* JADX WARN: Multi-variable type inference failed */
-                    /* JADX WARN: Type inference failed for: r0v4, types: [E, java.lang.Object] */
                     @Override // com.google.common.collect.AbstractIterator
                     protected E computeNext() {
                         while (this.itr.hasNext()) {
-                            ?? next = this.itr.next();
+                            E next = this.itr.next();
                             if (set2.contains(next)) {
                                 return next;
                             }
@@ -132,8 +130,8 @@ public final class Sets {
             @Override // java.util.AbstractCollection, java.util.Collection, java.util.Set
             public int size() {
                 int i = 0;
-                for (Object obj : set) {
-                    if (set2.contains(obj)) {
+                for (E e : set) {
+                    if (set2.contains(e)) {
                         i++;
                     }
                 }

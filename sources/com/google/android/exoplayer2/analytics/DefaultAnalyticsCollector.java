@@ -77,7 +77,12 @@ public class DefaultAnalyticsCollector implements AnalyticsCollector {
 
     public DefaultAnalyticsCollector(Clock clock) {
         this.clock = (Clock) Assertions.checkNotNull(clock);
-        this.listeners = new ListenerSet<>(Util.getCurrentOrMainLooper(), clock, DefaultAnalyticsCollector$$ExternalSyntheticLambda61.INSTANCE);
+        this.listeners = new ListenerSet<>(Util.getCurrentOrMainLooper(), clock, new ListenerSet.IterationFinishedEvent() { // from class: com.google.android.exoplayer2.analytics.DefaultAnalyticsCollector$$ExternalSyntheticLambda61
+            @Override // com.google.android.exoplayer2.util.ListenerSet.IterationFinishedEvent
+            public final void invoke(Object obj, FlagSet flagSet) {
+                DefaultAnalyticsCollector.lambda$new$0((AnalyticsListener) obj, flagSet);
+            }
+        });
         Timeline.Period period = new Timeline.Period();
         this.period = period;
         this.window = new Timeline.Window();

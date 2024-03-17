@@ -2456,6 +2456,10 @@ public class ActionBarMenuItem extends FrameLayout {
         private int visibility = 0;
         private int rightIconVisibility = 0;
 
+        static /* synthetic */ Item access$2900() {
+            return asColoredGap();
+        }
+
         private Item(int i) {
             this.viewType = i;
         }
@@ -2472,8 +2476,7 @@ public class ActionBarMenuItem extends FrameLayout {
             return item;
         }
 
-        /* JADX INFO: Access modifiers changed from: private */
-        public static Item asColoredGap() {
+        private static Item asColoredGap() {
             return new Item(1);
         }
 
@@ -2673,7 +2676,7 @@ public class ActionBarMenuItem extends FrameLayout {
     }
 
     public Item lazilyAddColoredGap() {
-        return putLazyItem(Item.asColoredGap());
+        return putLazyItem(Item.access$2900());
     }
 
     private Item putLazyItem(Item item) {

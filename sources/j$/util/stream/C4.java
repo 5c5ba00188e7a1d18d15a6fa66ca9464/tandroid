@@ -32,7 +32,16 @@ final class C4 extends D4 implements j$.util.t {
             if (j2 <= j) {
                 break;
             }
-            this.c.b(B4.a);
+            this.c.b(new Consumer() { // from class: j$.util.stream.B4
+                @Override // j$.util.function.Consumer
+                public final void accept(Object obj) {
+                }
+
+                @Override // j$.util.function.Consumer
+                public /* synthetic */ Consumer andThen(Consumer consumer2) {
+                    return Consumer.-CC.$default$andThen(this, consumer2);
+                }
+            });
             this.d++;
         }
         if (j >= this.e) {
@@ -60,7 +69,16 @@ final class C4 extends D4 implements j$.util.t {
             return;
         }
         while (this.a > this.d) {
-            this.c.b(A4.a);
+            this.c.b(new Consumer() { // from class: j$.util.stream.A4
+                @Override // j$.util.function.Consumer
+                public final void accept(Object obj) {
+                }
+
+                @Override // j$.util.function.Consumer
+                public /* synthetic */ Consumer andThen(Consumer consumer2) {
+                    return Consumer.-CC.$default$andThen(this, consumer2);
+                }
+            });
             this.d++;
         }
         while (this.d < this.e) {

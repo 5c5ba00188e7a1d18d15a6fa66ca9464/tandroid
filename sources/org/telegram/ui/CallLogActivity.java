@@ -187,7 +187,14 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
             this.imageView.setAlpha(0.0f);
             this.emptyTextView1.setAlpha(0.0f);
             this.emptyTextView2.setAlpha(0.0f);
-            setOnTouchListener(CallLogActivity$EmptyTextProgressView$$ExternalSyntheticLambda1.INSTANCE);
+            setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.CallLogActivity$EmptyTextProgressView$$ExternalSyntheticLambda1
+                @Override // android.view.View.OnTouchListener
+                public final boolean onTouch(View view2, MotionEvent motionEvent) {
+                    boolean lambda$new$1;
+                    lambda$new$1 = CallLogActivity.EmptyTextProgressView.lambda$new$1(view2, motionEvent);
+                    return lambda$new$1;
+                }
+            });
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -800,7 +807,14 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
         this.selectedDialogsCountTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.selectedDialogsCountTextView.setTextColor(Theme.getColor(Theme.key_actionBarActionModeDefaultIcon));
         createActionMode.addView(this.selectedDialogsCountTextView, LayoutHelper.createLinear(0, -1, 1.0f, 72, 0, 0, 0));
-        this.selectedDialogsCountTextView.setOnTouchListener(CallLogActivity$$ExternalSyntheticLambda3.INSTANCE);
+        this.selectedDialogsCountTextView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.CallLogActivity$$ExternalSyntheticLambda3
+            @Override // android.view.View.OnTouchListener
+            public final boolean onTouch(View view, MotionEvent motionEvent) {
+                boolean lambda$createActionMode$7;
+                lambda$createActionMode$7 = CallLogActivity.lambda$createActionMode$7(view, motionEvent);
+                return lambda$createActionMode$7;
+            }
+        });
         this.actionModeViews.add(createActionMode.addItemWithWidth(2, R.drawable.msg_delete, AndroidUtilities.dp(54.0f), LocaleController.getString("Delete", R.string.Delete)));
     }
 

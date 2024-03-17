@@ -1061,7 +1061,14 @@ public class ChatObject {
         }
 
         private void processUpdatesQueue() {
-            Collections.sort(this.updatesQueue, ChatObject$Call$$ExternalSyntheticLambda8.INSTANCE);
+            Collections.sort(this.updatesQueue, new Comparator() { // from class: org.telegram.messenger.ChatObject$Call$$ExternalSyntheticLambda8
+                @Override // java.util.Comparator
+                public final int compare(Object obj, Object obj2) {
+                    int lambda$processUpdatesQueue$7;
+                    lambda$processUpdatesQueue$7 = ChatObject.Call.lambda$processUpdatesQueue$7((TLRPC$TL_updateGroupCallParticipants) obj, (TLRPC$TL_updateGroupCallParticipants) obj2);
+                    return lambda$processUpdatesQueue$7;
+                }
+            });
             ArrayList<TLRPC$TL_updateGroupCallParticipants> arrayList = this.updatesQueue;
             if (arrayList != null && !arrayList.isEmpty()) {
                 boolean z = false;

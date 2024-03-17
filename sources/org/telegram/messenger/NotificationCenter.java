@@ -1557,7 +1557,12 @@ public class NotificationCenter {
 
     public Runnable listen(final View view, final int i, final Utilities.Callback<Object[]> callback) {
         if (view == null || callback == null) {
-            return NotificationCenter$$ExternalSyntheticLambda5.INSTANCE;
+            return new Runnable() { // from class: org.telegram.messenger.NotificationCenter$$ExternalSyntheticLambda5
+                @Override // java.lang.Runnable
+                public final void run() {
+                    NotificationCenter.lambda$listen$3();
+                }
+            };
         }
         final NotificationCenterDelegate notificationCenterDelegate = new NotificationCenterDelegate() { // from class: org.telegram.messenger.NotificationCenter$$ExternalSyntheticLambda6
             @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate

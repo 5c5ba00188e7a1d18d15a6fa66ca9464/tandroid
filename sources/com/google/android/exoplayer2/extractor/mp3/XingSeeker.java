@@ -7,9 +7,8 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class XingSeeker implements Seeker {
+final class XingSeeker implements Seeker {
     private final long dataEndPosition;
     private final long dataSize;
     private final long dataStartPosition;

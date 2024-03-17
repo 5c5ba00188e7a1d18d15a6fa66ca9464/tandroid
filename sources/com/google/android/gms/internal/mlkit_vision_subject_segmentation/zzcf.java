@@ -12,10 +12,9 @@ import java.nio.ByteOrder;
 import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.Map;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
 /* loaded from: classes.dex */
-public final class zzcf implements ObjectEncoderContext {
+final class zzcf implements ObjectEncoderContext {
     private static final Charset zza = Charset.forName("UTF-8");
     private static final FieldDescriptor zzb;
     private static final FieldDescriptor zzc;
@@ -35,7 +34,12 @@ public final class zzcf implements ObjectEncoderContext {
         zzbz zzbzVar2 = new zzbz();
         zzbzVar2.zza(2);
         zzc = builder2.withProperty(zzbzVar2.zzb()).build();
-        zzd = zzce.zza;
+        zzd = new ObjectEncoder() { // from class: com.google.android.gms.internal.mlkit_vision_subject_segmentation.zzce
+            @Override // com.google.firebase.encoders.ObjectEncoder
+            public final void encode(Object obj, Object obj2) {
+                zzcf.zzg((Map.Entry) obj, (ObjectEncoderContext) obj2);
+            }
+        };
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

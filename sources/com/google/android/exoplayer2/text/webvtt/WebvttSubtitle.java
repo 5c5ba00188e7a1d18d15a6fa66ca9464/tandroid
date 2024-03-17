@@ -7,6 +7,7 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 /* loaded from: classes.dex */
 final class WebvttSubtitle implements Subtitle {
@@ -68,7 +69,14 @@ final class WebvttSubtitle implements Subtitle {
                 }
             }
         }
-        Collections.sort(arrayList2, WebvttSubtitle$$ExternalSyntheticLambda0.INSTANCE);
+        Collections.sort(arrayList2, new Comparator() { // from class: com.google.android.exoplayer2.text.webvtt.WebvttSubtitle$$ExternalSyntheticLambda0
+            @Override // java.util.Comparator
+            public final int compare(Object obj, Object obj2) {
+                int lambda$getCues$0;
+                lambda$getCues$0 = WebvttSubtitle.lambda$getCues$0((WebvttCueInfo) obj, (WebvttCueInfo) obj2);
+                return lambda$getCues$0;
+            }
+        });
         for (int i3 = 0; i3 < arrayList2.size(); i3++) {
             arrayList.add(((WebvttCueInfo) arrayList2.get(i3)).cue.buildUpon().setLine((-1) - i3, 1).build());
         }

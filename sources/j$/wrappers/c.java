@@ -43,7 +43,7 @@ public final /* synthetic */ class c implements p.a {
         return this.a.next();
     }
 
-    @Override // j$.util.p.a, java.util.Iterator
+    @Override // java.util.Iterator
     public /* synthetic */ Object next() {
         return this.a.next();
     }

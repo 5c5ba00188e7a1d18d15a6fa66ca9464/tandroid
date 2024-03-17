@@ -83,8 +83,9 @@ public class ThemesHorizontalListCell extends RecyclerListView implements Notifi
     protected void updateRows() {
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes4.dex */
-    private class ThemesListAdapter extends RecyclerListView.SelectionAdapter {
+    public class ThemesListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
         @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter

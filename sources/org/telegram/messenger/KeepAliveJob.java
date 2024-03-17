@@ -11,7 +11,12 @@ public class KeepAliveJob extends JobIntentService {
     private static Runnable finishJobByTimeoutRunnable = KeepAliveJob$$ExternalSyntheticLambda0.INSTANCE;
 
     public static void startJob() {
-        Utilities.globalQueue.postRunnable(KeepAliveJob$$ExternalSyntheticLambda1.INSTANCE);
+        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.KeepAliveJob$$ExternalSyntheticLambda1
+            @Override // java.lang.Runnable
+            public final void run() {
+                KeepAliveJob.lambda$startJob$0();
+            }
+        });
     }
 
     /* JADX INFO: Access modifiers changed from: private */

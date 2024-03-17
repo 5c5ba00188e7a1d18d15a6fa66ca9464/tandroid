@@ -51,8 +51,9 @@ public class CheckBoxCell extends FrameLayout {
         this.resourcesProvider = resourcesProvider;
         this.currentType = i;
         LinkSpanDrawable.LinksTextView linksTextView = new LinkSpanDrawable.LinksTextView(context) { // from class: org.telegram.ui.Cells.CheckBoxCell.1
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.LinkSpanDrawable.LinksTextView, android.widget.TextView, android.view.View
-            protected void onDraw(Canvas canvas) {
+            public void onDraw(Canvas canvas) {
                 super.onDraw(canvas);
                 CheckBoxCell.this.updateCollapseArrowTranslation();
             }

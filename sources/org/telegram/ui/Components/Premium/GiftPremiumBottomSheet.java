@@ -292,7 +292,12 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView impl
             z = false;
         }
         if (!BuildVars.useInvoiceBilling() && (!BillingController.getInstance().isReady() || this.giftTiers.get(this.selectedTierIndex).googlePlayProductDetails == null)) {
-            this.premiumButtonView.setButton(LocaleController.getString(R.string.Loading), GiftPremiumBottomSheet$$ExternalSyntheticLambda1.INSTANCE, !LocaleController.isRTL);
+            this.premiumButtonView.setButton(LocaleController.getString(R.string.Loading), new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda1
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view) {
+                    GiftPremiumBottomSheet.lambda$updateButtonText$4(view);
+                }
+            }, !LocaleController.isRTL);
             this.premiumButtonView.setFlickerDisabled(true);
             return;
         }
@@ -483,8 +488,9 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView impl
             if (i == 1) {
                 final AtomicReference atomicReference = new AtomicReference(Float.valueOf(0.0f));
                 final PremiumGiftTierCell premiumGiftTierCell2 = new PremiumGiftTierCell(GiftPremiumBottomSheet.this.getContext()) { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet.1.1
+                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.Components.Premium.PremiumGiftTierCell, android.view.ViewGroup, android.view.View
-                    protected void dispatchDraw(Canvas canvas) {
+                    public void dispatchDraw(Canvas canvas) {
                         if (this.discountView.getVisibility() == 0) {
                             RectF rectF = AndroidUtilities.rectTmp;
                             rectF.set(this.discountView.getLeft(), this.discountView.getTop(), this.discountView.getRight(), this.discountView.getBottom());

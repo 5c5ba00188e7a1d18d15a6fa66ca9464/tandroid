@@ -21,11 +21,13 @@ import java.lang.annotation.RetentionPolicy;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Locale;
 import org.json.JSONObject;
+import org.telegram.messenger.SharedConfig;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.SerializedData;
 import org.telegram.tgnet.TLRPC$TL_help_appUpdate;
@@ -202,7 +204,12 @@ public class SharedConfig {
         if (file == null || storageCacheDir == null || readOnlyStorageDirAlertShowed || !file.getPath().startsWith(storageCacheDir)) {
             return;
         }
-        AndroidUtilities.runOnUIThread(SharedConfig$$ExternalSyntheticLambda3.INSTANCE);
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SharedConfig$$ExternalSyntheticLambda3
+            @Override // java.lang.Runnable
+            public final void run() {
+                SharedConfig.lambda$checkSdCard$2();
+            }
+        });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -213,12 +220,22 @@ public class SharedConfig {
         }
         storageCacheDir = null;
         saveConfig();
-        ImageLoader.getInstance().checkMediaPaths(SharedConfig$$ExternalSyntheticLambda2.INSTANCE);
+        ImageLoader.getInstance().checkMediaPaths(new Runnable() { // from class: org.telegram.messenger.SharedConfig$$ExternalSyntheticLambda2
+            @Override // java.lang.Runnable
+            public final void run() {
+                SharedConfig.lambda$checkSdCard$0();
+            }
+        });
         readOnlyStorageDirAlertShowed = true;
         AlertDialog.Builder builder = new AlertDialog.Builder(lastFragment.getParentActivity());
         builder.setTitle(LocaleController.getString("SdCardError", R.string.SdCardError));
         builder.setSubtitle(LocaleController.getString("SdCardErrorDescription", R.string.SdCardErrorDescription));
-        builder.setPositiveButton(LocaleController.getString("DoNotUseSDCard", R.string.DoNotUseSDCard), SharedConfig$$ExternalSyntheticLambda0.INSTANCE);
+        builder.setPositiveButton(LocaleController.getString("DoNotUseSDCard", R.string.DoNotUseSDCard), new DialogInterface.OnClickListener() { // from class: org.telegram.messenger.SharedConfig$$ExternalSyntheticLambda0
+            @Override // android.content.DialogInterface.OnClickListener
+            public final void onClick(DialogInterface dialogInterface, int i) {
+                SharedConfig.lambda$checkSdCard$1(dialogInterface, i);
+            }
+        });
         AlertDialog create = builder.create();
         create.setCanceledOnTouchOutside(false);
         create.show();
@@ -579,7 +596,12 @@ public class SharedConfig {
                             if (pendingAppUpdateBuildVersion == i2) {
                             }
                             pendingAppUpdate = null;
-                            AndroidUtilities.runOnUIThread(SharedConfig$$ExternalSyntheticLambda5.INSTANCE);
+                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SharedConfig$$ExternalSyntheticLambda5
+                                @Override // java.lang.Runnable
+                                public final void run() {
+                                    SharedConfig.saveConfig();
+                                }
+                            });
                             SharedPreferences sharedPreferences2 = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0);
                             SaveToGallerySettingsHelper.load(sharedPreferences2);
                             mapPreviewType = sharedPreferences2.getInt("mapPreviewType", 2);
@@ -673,7 +695,12 @@ public class SharedConfig {
                         }
                         if (pendingAppUpdateBuildVersion == i2 || (str2 = pendingAppUpdate.version) == null || str.compareTo(str2) >= 0 || BuildVars.DEBUG_PRIVATE_VERSION) {
                             pendingAppUpdate = null;
-                            AndroidUtilities.runOnUIThread(SharedConfig$$ExternalSyntheticLambda5.INSTANCE);
+                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SharedConfig$$ExternalSyntheticLambda5
+                                @Override // java.lang.Runnable
+                                public final void run() {
+                                    SharedConfig.saveConfig();
+                                }
+                            });
                         }
                     }
                 } catch (Exception e3) {
@@ -1483,7 +1510,14 @@ public class SharedConfig {
 
     public static void saveProxyList() {
         ArrayList arrayList = new ArrayList(proxyList);
-        Collections.sort(arrayList, SharedConfig$$ExternalSyntheticLambda6.INSTANCE);
+        Collections.sort(arrayList, new Comparator() { // from class: org.telegram.messenger.SharedConfig$$ExternalSyntheticLambda6
+            @Override // java.util.Comparator
+            public final int compare(Object obj, Object obj2) {
+                int lambda$saveProxyList$4;
+                lambda$saveProxyList$4 = SharedConfig.lambda$saveProxyList$4((SharedConfig.ProxyInfo) obj, (SharedConfig.ProxyInfo) obj2);
+                return lambda$saveProxyList$4;
+            }
+        });
         SerializedData serializedData = new SerializedData();
         serializedData.writeInt32(-1);
         serializedData.writeByte(2);
@@ -1575,7 +1609,12 @@ public class SharedConfig {
     }
 
     public static void checkSaveToGalleryFiles() {
-        Utilities.globalQueue.postRunnable(SharedConfig$$ExternalSyntheticLambda4.INSTANCE);
+        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.SharedConfig$$ExternalSyntheticLambda4
+            @Override // java.lang.Runnable
+            public final void run() {
+                SharedConfig.lambda$checkSaveToGalleryFiles$5();
+            }
+        });
     }
 
     /* JADX INFO: Access modifiers changed from: private */

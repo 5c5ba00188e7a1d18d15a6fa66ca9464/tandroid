@@ -12,9 +12,22 @@ import android.widget.TextView;
 import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Components.SimpleFloatPropertyCompat;
 /* loaded from: classes4.dex */
 public class ChatActivityBotWebViewButton extends FrameLayout {
-    public static final SimpleFloatPropertyCompat<ChatActivityBotWebViewButton> PROGRESS_PROPERTY = new SimpleFloatPropertyCompat("progress", ChatActivityBotWebViewButton$$ExternalSyntheticLambda0.INSTANCE, ChatActivityBotWebViewButton$$ExternalSyntheticLambda1.INSTANCE).setMultiplier(100.0f);
+    public static final SimpleFloatPropertyCompat<ChatActivityBotWebViewButton> PROGRESS_PROPERTY = new SimpleFloatPropertyCompat("progress", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.Components.ChatActivityBotWebViewButton$$ExternalSyntheticLambda0
+        @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Getter
+        public final float get(Object obj) {
+            float f;
+            f = ((ChatActivityBotWebViewButton) obj).progress;
+            return f;
+        }
+    }, new SimpleFloatPropertyCompat.Setter() { // from class: org.telegram.ui.Components.ChatActivityBotWebViewButton$$ExternalSyntheticLambda1
+        @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Setter
+        public final void set(Object obj, float f) {
+            ((ChatActivityBotWebViewButton) obj).setProgress(f);
+        }
+    }).setMultiplier(100.0f);
     private int backgroundColor;
     private int buttonColor;
     private BotCommandsMenuView menuButton;

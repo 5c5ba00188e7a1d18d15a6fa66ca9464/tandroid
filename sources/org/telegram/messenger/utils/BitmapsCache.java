@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import j$.util.Comparator$-CC;
 import j$.util.concurrent.ConcurrentHashMap;
+import j$.util.function.ToIntFunction;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -196,7 +197,12 @@ public class BitmapsCache {
         taskCounter = i;
         if (i <= 0) {
             taskCounter = 0;
-            RLottieDrawable.lottieCacheGenerateQueue.postRunnable(BitmapsCache$$ExternalSyntheticLambda1.INSTANCE);
+            RLottieDrawable.lottieCacheGenerateQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.utils.BitmapsCache$$ExternalSyntheticLambda1
+                @Override // java.lang.Runnable
+                public final void run() {
+                    BitmapsCache.lambda$decrementTaskCounter$0();
+                }
+            });
         }
     }
 
@@ -388,7 +394,14 @@ public class BitmapsCache {
                             }
                         }
                         int length = (int) randomAccessFile2.length();
-                        Collections.sort(arrayList, Comparator$-CC.comparingInt(BitmapsCache$$ExternalSyntheticLambda2.INSTANCE));
+                        Collections.sort(arrayList, Comparator$-CC.comparingInt(new ToIntFunction() { // from class: org.telegram.messenger.utils.BitmapsCache$$ExternalSyntheticLambda2
+                            @Override // j$.util.function.ToIntFunction
+                            public final int applyAsInt(Object obj) {
+                                int i9;
+                                i9 = ((BitmapsCache.FrameOffset) obj).index;
+                                return i9;
+                            }
+                        }));
                         immutableByteArrayOutputStreamArr[i3].reset();
                         int size = arrayList.size();
                         immutableByteArrayOutputStreamArr[i3].writeInt(size);

@@ -187,7 +187,14 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
         linearLayout.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
         LinearLayout linearLayout2 = (LinearLayout) this.fragmentView;
         linearLayout2.setOrientation(1);
-        this.fragmentView.setOnTouchListener(ThemeSetUrlActivity$$ExternalSyntheticLambda5.INSTANCE);
+        this.fragmentView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ThemeSetUrlActivity$$ExternalSyntheticLambda5
+            @Override // android.view.View.OnTouchListener
+            public final boolean onTouch(View view, MotionEvent motionEvent) {
+                boolean lambda$createView$0;
+                lambda$createView$0 = ThemeSetUrlActivity.lambda$createView$0(view, motionEvent);
+                return lambda$createView$0;
+            }
+        });
         LinearLayout linearLayout3 = new LinearLayout(context);
         this.linearLayoutTypeContainer = linearLayout3;
         linearLayout3.setOrientation(1);
@@ -422,7 +429,14 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
         textView.setTextSize(1, 20.0f);
         textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         linearLayout.addView(textView, LayoutHelper.createLinear(-1, -2, 51, 22, 12, 22, 4));
-        textView.setOnTouchListener(ThemeSetUrlActivity$$ExternalSyntheticLambda4.INSTANCE);
+        textView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ThemeSetUrlActivity$$ExternalSyntheticLambda4
+            @Override // android.view.View.OnTouchListener
+            public final boolean onTouch(View view2, MotionEvent motionEvent) {
+                boolean lambda$createView$4;
+                lambda$createView$4 = ThemeSetUrlActivity.lambda$createView$4(view2, motionEvent);
+                return lambda$createView$4;
+            }
+        });
         builder.setCustomView(linearLayout);
         ArrayList arrayList = new ArrayList();
         int size = Theme.themes.size();
@@ -628,7 +642,12 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
                 String str2 = tLRPC$TL_theme.slug;
                 AlertDialog alertDialog = new AlertDialog(getParentActivity(), 3);
                 this.progressDialog = alertDialog;
-                alertDialog.setOnCancelListener(ThemeSetUrlActivity$$ExternalSyntheticLambda1.INSTANCE);
+                alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.ThemeSetUrlActivity$$ExternalSyntheticLambda1
+                    @Override // android.content.DialogInterface.OnCancelListener
+                    public final void onCancel(DialogInterface dialogInterface) {
+                        ThemeSetUrlActivity.lambda$saveTheme$9(dialogInterface);
+                    }
+                });
                 this.progressDialog.show();
                 Theme.ThemeInfo themeInfo = this.themeInfo;
                 TLRPC$TL_theme tLRPC$TL_theme2 = this.info;

@@ -102,7 +102,14 @@ public class ReactionsLayoutInBubble {
     private static TextPaint textPaint = new TextPaint(1);
     private static final ButtonsComparator comparator = new ButtonsComparator();
     private static int pointer = 1;
-    private static final Comparator<TLObject> usersComparator = ReactionsLayoutInBubble$$ExternalSyntheticLambda1.INSTANCE;
+    private static final Comparator<TLObject> usersComparator = new Comparator() { // from class: org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble$$ExternalSyntheticLambda1
+        @Override // java.util.Comparator
+        public final int compare(Object obj, Object obj2) {
+            int lambda$static$0;
+            lambda$static$0 = ReactionsLayoutInBubble.lambda$static$0((TLObject) obj, (TLObject) obj2);
+            return lambda$static$0;
+        }
+    };
     public ArrayList<ReactionButton> reactionButtons = new ArrayList<>();
     ArrayList<ReactionButton> outButtons = new ArrayList<>();
     HashMap<String, ReactionButton> lastDrawingReactionButtons = new HashMap<>();

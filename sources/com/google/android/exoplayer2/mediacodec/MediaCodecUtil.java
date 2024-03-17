@@ -716,13 +716,27 @@ public final class MediaCodecUtil {
             if (Util.SDK_INT < 26 && Util.DEVICE.equals("R9") && list.size() == 1 && list.get(0).name.equals("OMX.MTK.AUDIO.DECODER.RAW")) {
                 list.add(MediaCodecInfo.newInstance("OMX.google.raw.decoder", "audio/raw", "audio/raw", null, false, true, false, false, false));
             }
-            sortByScore(list, MediaCodecUtil$$ExternalSyntheticLambda1.INSTANCE);
+            sortByScore(list, new ScoreProvider() { // from class: com.google.android.exoplayer2.mediacodec.MediaCodecUtil$$ExternalSyntheticLambda1
+                @Override // com.google.android.exoplayer2.mediacodec.MediaCodecUtil.ScoreProvider
+                public final int getScore(Object obj) {
+                    int lambda$applyWorkarounds$1;
+                    lambda$applyWorkarounds$1 = MediaCodecUtil.lambda$applyWorkarounds$1((MediaCodecInfo) obj);
+                    return lambda$applyWorkarounds$1;
+                }
+            });
         }
         int i = Util.SDK_INT;
         if (i < 21 && list.size() > 1) {
             String str2 = list.get(0).name;
             if ("OMX.SEC.mp3.dec".equals(str2) || "OMX.SEC.MP3.Decoder".equals(str2) || "OMX.brcm.audio.mp3.decoder".equals(str2)) {
-                sortByScore(list, MediaCodecUtil$$ExternalSyntheticLambda2.INSTANCE);
+                sortByScore(list, new ScoreProvider() { // from class: com.google.android.exoplayer2.mediacodec.MediaCodecUtil$$ExternalSyntheticLambda2
+                    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecUtil.ScoreProvider
+                    public final int getScore(Object obj) {
+                        int lambda$applyWorkarounds$2;
+                        lambda$applyWorkarounds$2 = MediaCodecUtil.lambda$applyWorkarounds$2((MediaCodecInfo) obj);
+                        return lambda$applyWorkarounds$2;
+                    }
+                });
             }
         }
         if (i >= 32 || list.size() <= 1 || !"OMX.qti.audio.decoder.flac".equals(list.get(0).name)) {

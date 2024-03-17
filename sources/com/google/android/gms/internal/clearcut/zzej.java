@@ -1,12 +1,12 @@
 package com.google.android.gms.internal.clearcut;
 
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 /* JADX INFO: Access modifiers changed from: package-private */
+/* JADX INFO: Add missing generic type declarations: [FieldDescriptorType] */
 /* loaded from: classes.dex */
-public final class zzej extends zzei<FieldDescriptorType, Object> {
+public final class zzej<FieldDescriptorType> extends zzei<FieldDescriptorType, Object> {
     /* JADX INFO: Access modifiers changed from: package-private */
     public zzej(int i) {
         super(i, null);
@@ -21,9 +21,7 @@ public final class zzej extends zzei<FieldDescriptorType, Object> {
                     zzak.setValue(Collections.unmodifiableList((List) zzak.getValue()));
                 }
             }
-            Iterator it = zzds().iterator();
-            while (it.hasNext()) {
-                Map.Entry entry = (Map.Entry) it.next();
+            for (Map.Entry<FieldDescriptorType, Object> entry : zzds()) {
                 if (((zzca) entry.getKey()).zzaw()) {
                     entry.setValue(Collections.unmodifiableList((List) entry.getValue()));
                 }

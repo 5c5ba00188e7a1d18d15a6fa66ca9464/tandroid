@@ -11,7 +11,14 @@ public final class HeartRating extends Rating {
     private final boolean rated;
     private static final String FIELD_RATED = Util.intToStringMaxRadix(1);
     private static final String FIELD_IS_HEART = Util.intToStringMaxRadix(2);
-    public static final Bundleable.Creator<HeartRating> CREATOR = HeartRating$$ExternalSyntheticLambda0.INSTANCE;
+    public static final Bundleable.Creator<HeartRating> CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.HeartRating$$ExternalSyntheticLambda0
+        @Override // com.google.android.exoplayer2.Bundleable.Creator
+        public final Bundleable fromBundle(Bundle bundle) {
+            HeartRating fromBundle;
+            fromBundle = HeartRating.fromBundle(bundle);
+            return fromBundle;
+        }
+    };
 
     public HeartRating() {
         this.rated = false;

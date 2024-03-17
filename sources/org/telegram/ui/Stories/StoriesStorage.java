@@ -4,6 +4,7 @@ import android.text.TextUtils;
 import androidx.collection.LongSparseArray;
 import com.google.android.exoplayer2.util.Consumer;
 import j$.util.Comparator$-CC;
+import j$.util.function.ToIntFunction;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -230,7 +231,14 @@ public class StoriesStorage {
             Collections.sort(tL_stories$PeerStories.stories, StoriesController.storiesComparator);
             i8++;
         }
-        Collections.sort(tL_stories$TL_stories_allStories.peer_stories, Comparator$-CC.comparingInt(StoriesStorage$$ExternalSyntheticLambda15.INSTANCE));
+        Collections.sort(tL_stories$TL_stories_allStories.peer_stories, Comparator$-CC.comparingInt(new ToIntFunction() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda15
+            @Override // j$.util.function.ToIntFunction
+            public final int applyAsInt(Object obj) {
+                int lambda$getAllStories$1;
+                lambda$getAllStories$1 = StoriesStorage.lambda$getAllStories$1((TL_stories$PeerStories) obj);
+                return lambda$getAllStories$1;
+            }
+        }));
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {

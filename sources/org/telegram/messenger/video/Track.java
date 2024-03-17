@@ -19,12 +19,14 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.R;
+import org.telegram.messenger.video.Track;
 /* loaded from: classes3.dex */
 public class Track {
     private static Map<Integer, Integer> samplingFrequencyIndexMap;
@@ -311,7 +313,14 @@ public class Track {
         int i;
         this.duration = 0L;
         ArrayList arrayList = new ArrayList(this.samplePresentationTimes);
-        Collections.sort(this.samplePresentationTimes, Track$$ExternalSyntheticLambda0.INSTANCE);
+        Collections.sort(this.samplePresentationTimes, new Comparator() { // from class: org.telegram.messenger.video.Track$$ExternalSyntheticLambda0
+            @Override // java.util.Comparator
+            public final int compare(Object obj, Object obj2) {
+                int lambda$prepare$0;
+                lambda$prepare$0 = Track.lambda$prepare$0((Track.SamplePresentationTime) obj, (Track.SamplePresentationTime) obj2);
+                return lambda$prepare$0;
+            }
+        });
         this.sampleDurations = new long[this.samplePresentationTimes.size()];
         long j = Long.MAX_VALUE;
         long j2 = 0;

@@ -2000,9 +2000,8 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
                             return LocaleController.getString(R.string.ChannelNoWallpaper);
                         }
 
-                        /* JADX INFO: Access modifiers changed from: protected */
                         @Override // org.telegram.ui.Components.ThemeSmallPreviewView
-                        public int noThemeStringTextSize() {
+                        protected int noThemeStringTextSize() {
                             if (z) {
                                 return super.noThemeStringTextSize();
                             }
@@ -2710,7 +2709,14 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
             }
         };
         this.changeDayNightView = view;
-        view.setOnTouchListener(ChannelColorActivity$$ExternalSyntheticLambda3.INSTANCE);
+        view.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda3
+            @Override // android.view.View.OnTouchListener
+            public final boolean onTouch(View view2, MotionEvent motionEvent) {
+                boolean lambda$toggleTheme$16;
+                lambda$toggleTheme$16 = ChannelColorActivity.lambda$toggleTheme$16(view2, motionEvent);
+                return lambda$toggleTheme$16;
+            }
+        });
         this.changeDayNightViewProgress = 0.0f;
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
         this.changeDayNightViewAnimator = ofFloat;

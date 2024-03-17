@@ -2,6 +2,7 @@ package com.google.android.gms.internal.mlkit_common;
 
 import android.content.Context;
 import com.google.android.datatransport.Encoding;
+import com.google.android.datatransport.Transformer;
 import com.google.android.datatransport.TransportFactory;
 import com.google.android.datatransport.cct.CCTDestination;
 import com.google.android.datatransport.runtime.TransportRuntime;
@@ -18,14 +19,24 @@ public final class zzta implements zzsk {
             new Lazy(new Provider() { // from class: com.google.android.gms.internal.mlkit_common.zzsx
                 @Override // com.google.firebase.inject.Provider
                 public final Object get() {
-                    return TransportFactory.this.getTransport("FIREBASE_ML_SDK", byte[].class, Encoding.of("json"), zzsz.zza);
+                    return TransportFactory.this.getTransport("FIREBASE_ML_SDK", byte[].class, Encoding.of("json"), new Transformer() { // from class: com.google.android.gms.internal.mlkit_common.zzsz
+                        @Override // com.google.android.datatransport.Transformer
+                        public final Object apply(Object obj) {
+                            return (byte[]) obj;
+                        }
+                    });
                 }
             });
         }
         new Lazy(new Provider() { // from class: com.google.android.gms.internal.mlkit_common.zzsy
             @Override // com.google.firebase.inject.Provider
             public final Object get() {
-                return TransportFactory.this.getTransport("FIREBASE_ML_SDK", byte[].class, Encoding.of("proto"), zzsw.zza);
+                return TransportFactory.this.getTransport("FIREBASE_ML_SDK", byte[].class, Encoding.of("proto"), new Transformer() { // from class: com.google.android.gms.internal.mlkit_common.zzsw
+                    @Override // com.google.android.datatransport.Transformer
+                    public final Object apply(Object obj) {
+                        return (byte[]) obj;
+                    }
+                });
             }
         });
     }

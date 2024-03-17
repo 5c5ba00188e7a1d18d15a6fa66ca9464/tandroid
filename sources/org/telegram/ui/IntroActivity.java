@@ -644,7 +644,14 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         public EGLThread(SurfaceTexture surfaceTexture) {
             super("EGLThread");
             this.textures = new int[24];
-            this.telegramMaskProvider = IntroActivity$EGLThread$$ExternalSyntheticLambda2.INSTANCE;
+            this.telegramMaskProvider = new GenericProvider() { // from class: org.telegram.ui.IntroActivity$EGLThread$$ExternalSyntheticLambda2
+                @Override // org.telegram.messenger.GenericProvider
+                public final Object provide(Object obj) {
+                    Bitmap lambda$new$0;
+                    lambda$new$0 = IntroActivity.EGLThread.lambda$new$0((Void) obj);
+                    return lambda$new$0;
+                }
+            };
             this.drawRunnable = new Runnable() { // from class: org.telegram.ui.IntroActivity.EGLThread.1
                 @Override // java.lang.Runnable
                 public void run() {
@@ -762,7 +769,14 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
                         loadTexture(R.drawable.intro_private_door, 19);
                         loadTexture(R.drawable.intro_private_screw, 20);
                         loadTexture(R.drawable.intro_tg_plane, 21);
-                        loadTexture(IntroActivity$EGLThread$$ExternalSyntheticLambda1.INSTANCE, 22);
+                        loadTexture(new GenericProvider() { // from class: org.telegram.ui.IntroActivity$EGLThread$$ExternalSyntheticLambda1
+                            @Override // org.telegram.messenger.GenericProvider
+                            public final Object provide(Object obj) {
+                                Bitmap lambda$initGL$1;
+                                lambda$initGL$1 = IntroActivity.EGLThread.lambda$initGL$1((Void) obj);
+                                return lambda$initGL$1;
+                            }
+                        }, 22);
                         loadTexture(this.telegramMaskProvider, 23);
                         updateTelegramTextures();
                         updatePowerfulTextures();

@@ -40,6 +40,7 @@ import androidx.collection.LongSparseArray;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.ColorUtils;
 import j$.util.Comparator$-CC;
+import j$.util.function.ToIntFunction;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -118,6 +119,7 @@ import org.telegram.tgnet.TLRPC$UserStatus;
 import org.telegram.tgnet.tl.TL_stories$StoryItem;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Adapters.DialogsAdapter;
+import org.telegram.ui.Cells.DialogCell;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.AnimatedFloat;
@@ -6405,7 +6407,12 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
         if (arrayList != null && arrayList.size() > 1 && TextUtils.isEmpty(restrictionReason) && this.currentDialogFolderId == 0 && this.encryptedChat == null) {
             this.thumbsCount = 0;
             this.hasVideoThumb = false;
-            Collections.sort(this.groupMessages, Comparator$-CC.comparingInt(DialogCell$$ExternalSyntheticLambda5.INSTANCE));
+            Collections.sort(this.groupMessages, Comparator$-CC.comparingInt(new ToIntFunction() { // from class: org.telegram.ui.Cells.DialogCell$$ExternalSyntheticLambda5
+                @Override // j$.util.function.ToIntFunction
+                public final int applyAsInt(Object obj) {
+                    return ((MessageObject) obj).getId();
+                }
+            }));
             for (int i = 0; i < Math.min(3, this.groupMessages.size()); i++) {
                 MessageObject messageObject2 = this.groupMessages.get(i);
                 if (messageObject2 != null && !messageObject2.needDrawBluredPreview() && (messageObject2.isPhoto() || messageObject2.isNewGif() || messageObject2.isVideo() || messageObject2.isRoundVideo() || messageObject2.isStoryMedia())) {
@@ -7088,7 +7095,14 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                     boolean z2 = true;
                     if (topics != null && !topics.isEmpty()) {
                         ArrayList arrayList = new ArrayList(topics);
-                        Collections.sort(arrayList, Comparator$-CC.comparingInt(DialogCell$ForumFormattedNames$$ExternalSyntheticLambda0.INSTANCE));
+                        Collections.sort(arrayList, Comparator$-CC.comparingInt(new ToIntFunction() { // from class: org.telegram.ui.Cells.DialogCell$ForumFormattedNames$$ExternalSyntheticLambda0
+                            @Override // j$.util.function.ToIntFunction
+                            public final int applyAsInt(Object obj) {
+                                int lambda$formatTopicsNames$0;
+                                lambda$formatTopicsNames$0 = DialogCell.ForumFormattedNames.lambda$formatTopicsNames$0((TLRPC$TL_forumTopic) obj);
+                                return lambda$formatTopicsNames$0;
+                            }
+                        }));
                         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
                         long j = 0;
                         if (messageObject != null) {

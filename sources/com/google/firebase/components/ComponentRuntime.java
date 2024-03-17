@@ -19,7 +19,12 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicReference;
 /* loaded from: classes.dex */
 public class ComponentRuntime extends AbstractComponentContainer implements ComponentLoader {
-    private static final Provider<Set<Object>> EMPTY_PROVIDER = ComponentRuntime$$ExternalSyntheticLambda1.INSTANCE;
+    private static final Provider<Set<Object>> EMPTY_PROVIDER = new Provider() { // from class: com.google.firebase.components.ComponentRuntime$$ExternalSyntheticLambda1
+        @Override // com.google.firebase.inject.Provider
+        public final Object get() {
+            return Collections.emptySet();
+        }
+    };
     private final Map<Component<?>, Provider<?>> components;
     private final AtomicReference<Boolean> eagerComponentsInitializedWith;
     private final EventBus eventBus;

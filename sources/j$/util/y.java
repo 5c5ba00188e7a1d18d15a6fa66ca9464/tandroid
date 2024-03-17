@@ -62,7 +62,7 @@ class y implements n, j$.util.function.f, Iterator {
         return new j$.util.function.e(this, fVar);
     }
 
-    @Override // j$.util.n, java.util.Iterator
+    @Override // java.util.Iterator, j$.util.Iterator
     public Double next() {
         if (L.a) {
             L.a(y.class, "{0} calling PrimitiveIterator.OfDouble.nextLong()");

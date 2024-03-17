@@ -607,9 +607,8 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         this.authorTextView = r1;
         this.playerLayout.addView(r1, LayoutHelper.createFrame(-1, -2.0f, 51, 14.0f, 47.0f, 72.0f, 0.0f));
         SeekBarView seekBarView = new SeekBarView(context, resourcesProvider) { // from class: org.telegram.ui.Components.AudioPlayerAlert.10
-            /* JADX INFO: Access modifiers changed from: package-private */
             @Override // org.telegram.ui.Components.SeekBarView
-            public boolean onTouch(MotionEvent motionEvent) {
+            boolean onTouch(MotionEvent motionEvent) {
                 if (AudioPlayerAlert.this.rewindingState != 0) {
                     return false;
                 }
@@ -804,7 +803,12 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
             this.playButton.setBackgroundDrawable(Theme.createSelectorDrawable(getThemedColor(Theme.key_listSelector), 1, AndroidUtilities.dp(24.0f)));
         }
         frameLayout2.addView(this.playButton, LayoutHelper.createFrame(48, 48, 51));
-        this.playButton.setOnClickListener(AudioPlayerAlert$$ExternalSyntheticLambda3.INSTANCE);
+        this.playButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AudioPlayerAlert$$ExternalSyntheticLambda3
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view3) {
+                AudioPlayerAlert.lambda$new$7(view3);
+            }
+        });
         View[] viewArr4 = this.buttons;
         14 r3 = new 14(context, scaledTouchSlop);
         this.nextButton = r3;
@@ -857,7 +861,14 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         this.emptyView.setGravity(17);
         this.emptyView.setVisibility(8);
         this.containerView.addView(this.emptyView, LayoutHelper.createFrame(-1, -1.0f));
-        this.emptyView.setOnTouchListener(AudioPlayerAlert$$ExternalSyntheticLambda5.INSTANCE);
+        this.emptyView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.AudioPlayerAlert$$ExternalSyntheticLambda5
+            @Override // android.view.View.OnTouchListener
+            public final boolean onTouch(View view3, MotionEvent motionEvent) {
+                boolean lambda$new$9;
+                lambda$new$9 = AudioPlayerAlert.lambda$new$9(view3, motionEvent);
+                return lambda$new$9;
+            }
+        });
         ImageView imageView3 = new ImageView(context);
         this.emptyImageView = imageView3;
         imageView3.setImageResource(R.drawable.music_empty);
@@ -933,7 +944,12 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         this.listAdapter = listAdapter;
         recyclerListView3.setAdapter(listAdapter);
         this.listView.setGlowColor(getThemedColor(Theme.key_dialogScrollGlow));
-        this.listView.setOnItemClickListener(AudioPlayerAlert$$ExternalSyntheticLambda13.INSTANCE);
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.AudioPlayerAlert$$ExternalSyntheticLambda13
+            @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
+            public final void onItemClick(View view3, int i9) {
+                AudioPlayerAlert.lambda$new$10(view3, i9);
+            }
+        });
         this.listView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.Components.AudioPlayerAlert.16
             @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
             public void onScrollStateChanged(RecyclerView recyclerView, int i9) {

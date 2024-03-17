@@ -108,7 +108,14 @@ public class QuickRepliesActivity extends BaseFragment implements NotificationCe
         this.countText.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.countText.setTextColor(Theme.getColor(Theme.key_actionBarActionModeDefaultIcon));
         createActionMode.addView(this.countText, LayoutHelper.createLinear(0, -1, 1.0f, 72, 0, 0, 0));
-        this.countText.setOnTouchListener(QuickRepliesActivity$$ExternalSyntheticLambda7.INSTANCE);
+        this.countText.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Business.QuickRepliesActivity$$ExternalSyntheticLambda7
+            @Override // android.view.View.OnTouchListener
+            public final boolean onTouch(View view, MotionEvent motionEvent) {
+                boolean lambda$createView$0;
+                lambda$createView$0 = QuickRepliesActivity.lambda$createView$0(view, motionEvent);
+                return lambda$createView$0;
+            }
+        });
         ActionBarMenuItem addItem = createActionMode.addItem(1, R.drawable.msg_edit);
         this.editItem = addItem;
         addItem.setContentDescription(LocaleController.getString(R.string.Edit));
@@ -316,7 +323,12 @@ public class QuickRepliesActivity extends BaseFragment implements NotificationCe
     /* JADX INFO: Access modifiers changed from: private */
     public void clearSelection() {
         this.selected.clear();
-        AndroidUtilities.forEachViews((RecyclerView) this.listView, (Consumer<View>) QuickRepliesActivity$$ExternalSyntheticLambda8.INSTANCE);
+        AndroidUtilities.forEachViews((RecyclerView) this.listView, (Consumer<View>) new Consumer() { // from class: org.telegram.ui.Business.QuickRepliesActivity$$ExternalSyntheticLambda8
+            @Override // com.google.android.exoplayer2.util.Consumer
+            public final void accept(Object obj) {
+                QuickRepliesActivity.lambda$clearSelection$2((View) obj);
+            }
+        });
         this.actionBar.hideActionMode();
         this.listView.allowReorder(false);
     }
@@ -533,7 +545,12 @@ public class QuickRepliesActivity extends BaseFragment implements NotificationCe
                 QuickRepliesActivity.lambda$openRenameReplyAlert$6(EditTextBoldCursor.this, callback2, i, quickReply, textView2, callback, dialogInterface, i3);
             }
         });
-        r14.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), QuickRepliesActivity$$ExternalSyntheticLambda2.INSTANCE);
+        r14.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.QuickRepliesActivity$$ExternalSyntheticLambda2
+            @Override // android.content.DialogInterface.OnClickListener
+            public final void onClick(DialogInterface dialogInterface, int i3) {
+                dialogInterface.dismiss();
+            }
+        });
         if (z2) {
             AlertDialog create = r14.create();
             currentDialog = create;

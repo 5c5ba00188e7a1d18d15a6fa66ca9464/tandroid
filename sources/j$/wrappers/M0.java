@@ -122,7 +122,7 @@ public final /* synthetic */ class M0 implements e1 {
         return e.a(this.a.iterator());
     }
 
-    @Override // j$.util.stream.e1, j$.util.stream.g
+    @Override // j$.util.stream.g
     public /* synthetic */ Iterator iterator() {
         return this.a.iterator();
     }
@@ -162,7 +162,7 @@ public final /* synthetic */ class M0 implements e1 {
         return n0(this.a.parallel());
     }
 
-    @Override // j$.util.stream.e1, j$.util.stream.g, j$.util.stream.IntStream
+    @Override // j$.util.stream.g, j$.util.stream.IntStream
     public /* synthetic */ j$.util.stream.g parallel() {
         return G0.n0(this.a.parallel());
     }
@@ -177,7 +177,7 @@ public final /* synthetic */ class M0 implements e1 {
         return n0(this.a.sequential());
     }
 
-    @Override // j$.util.stream.e1, j$.util.stream.g, j$.util.stream.IntStream
+    @Override // j$.util.stream.g, j$.util.stream.IntStream
     public /* synthetic */ j$.util.stream.g sequential() {
         return G0.n0(this.a.sequential());
     }
@@ -197,7 +197,7 @@ public final /* synthetic */ class M0 implements e1 {
         return m.a(this.a.spliterator());
     }
 
-    @Override // j$.util.stream.e1, j$.util.stream.g
+    @Override // j$.util.stream.g
     public /* synthetic */ j$.util.t spliterator() {
         return g.a(this.a.spliterator());
     }

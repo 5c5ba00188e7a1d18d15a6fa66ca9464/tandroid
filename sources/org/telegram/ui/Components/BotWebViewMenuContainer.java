@@ -62,12 +62,25 @@ import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.BotWebViewContainer;
 import org.telegram.ui.Components.BotWebViewMenuContainer;
 import org.telegram.ui.Components.ChatAttachAlertBotWebViewLayout;
+import org.telegram.ui.Components.SimpleFloatPropertyCompat;
 import org.telegram.ui.DialogsActivity;
 import org.telegram.ui.PaymentFormActivity;
 import org.telegram.ui.TopicsFragment;
 /* loaded from: classes4.dex */
 public class BotWebViewMenuContainer extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
-    private static final SimpleFloatPropertyCompat<BotWebViewMenuContainer> ACTION_BAR_TRANSITION_PROGRESS_VALUE = new SimpleFloatPropertyCompat("actionBarTransitionProgress", BotWebViewMenuContainer$$ExternalSyntheticLambda21.INSTANCE, BotWebViewMenuContainer$$ExternalSyntheticLambda22.INSTANCE).setMultiplier(100.0f);
+    private static final SimpleFloatPropertyCompat<BotWebViewMenuContainer> ACTION_BAR_TRANSITION_PROGRESS_VALUE = new SimpleFloatPropertyCompat("actionBarTransitionProgress", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.Components.BotWebViewMenuContainer$$ExternalSyntheticLambda21
+        @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Getter
+        public final float get(Object obj) {
+            float f;
+            f = ((BotWebViewMenuContainer) obj).actionBarTransitionProgress;
+            return f;
+        }
+    }, new SimpleFloatPropertyCompat.Setter() { // from class: org.telegram.ui.Components.BotWebViewMenuContainer$$ExternalSyntheticLambda22
+        @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Setter
+        public final void set(Object obj, float f) {
+            BotWebViewMenuContainer.lambda$static$1((BotWebViewMenuContainer) obj, f);
+        }
+    }).setMultiplier(100.0f);
     ActionBarColorsAnimating actionBarColors;
     private boolean actionBarIsLight;
     private ActionBar.ActionBarMenuOnItemClick actionBarOnItemClick;

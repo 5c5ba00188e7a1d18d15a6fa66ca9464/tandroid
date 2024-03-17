@@ -20,6 +20,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import com.google.zxing.common.detector.MathUtils;
 import java.util.Arrays;
+import java.util.Comparator;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.R;
@@ -27,6 +28,7 @@ import org.telegram.messenger.SvgHelper;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedTextView;
+import org.telegram.ui.Components.CacheChart;
 import org.telegram.ui.Components.Premium.StarParticlesView;
 /* loaded from: classes4.dex */
 public class CacheChart extends View {
@@ -723,7 +725,14 @@ public class CacheChart extends View {
                 }
                 AndroidUtilities.roundPercents(this.tempFloat, this.tempPercents);
                 if (this.type == 0) {
-                    Arrays.sort(segmentSizeArr2, CacheChart$$ExternalSyntheticLambda0.INSTANCE);
+                    Arrays.sort(segmentSizeArr2, new Comparator() { // from class: org.telegram.ui.Components.CacheChart$$ExternalSyntheticLambda0
+                        @Override // java.util.Comparator
+                        public final int compare(Object obj, Object obj2) {
+                            int lambda$setSegments$0;
+                            lambda$setSegments$0 = CacheChart.lambda$setSegments$0((CacheChart.SegmentSize) obj, (CacheChart.SegmentSize) obj2);
+                            return lambda$setSegments$0;
+                        }
+                    });
                     int i7 = 0;
                     while (true) {
                         if (i7 > segmentSizeArr2.length) {

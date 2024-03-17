@@ -14,6 +14,7 @@ import android.util.Pair;
 import android.view.View;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLog;
@@ -360,7 +361,14 @@ public class SeekBar {
                     FileLog.e(e);
                 }
             }
-            Collections.sort(this.timestamps, SeekBar$$ExternalSyntheticLambda0.INSTANCE);
+            Collections.sort(this.timestamps, new Comparator() { // from class: org.telegram.ui.Components.SeekBar$$ExternalSyntheticLambda0
+                @Override // java.util.Comparator
+                public final int compare(Object obj, Object obj2) {
+                    int lambda$updateTimestamps$0;
+                    lambda$updateTimestamps$0 = SeekBar.lambda$updateTimestamps$0((Pair) obj, (Pair) obj2);
+                    return lambda$updateTimestamps$0;
+                }
+            });
         } catch (Exception e2) {
             FileLog.e(e2);
             this.timestamps = null;

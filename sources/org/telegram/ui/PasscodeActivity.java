@@ -827,7 +827,14 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
                 } else if (i2 == 18000) {
                     numberPicker.setValue(4);
                 }
-                numberPicker.setFormatter(PasscodeActivity$$ExternalSyntheticLambda21.INSTANCE);
+                numberPicker.setFormatter(new NumberPicker.Formatter() { // from class: org.telegram.ui.PasscodeActivity$$ExternalSyntheticLambda21
+                    @Override // org.telegram.ui.Components.NumberPicker.Formatter
+                    public final String format(int i3) {
+                        String lambda$createView$3;
+                        lambda$createView$3 = PasscodeActivity.lambda$createView$3(i3);
+                        return lambda$createView$3;
+                    }
+                });
                 builder.setView(numberPicker);
                 builder.setNegativeButton(LocaleController.getString("Done", R.string.Done), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PasscodeActivity$$ExternalSyntheticLambda3
                     @Override // android.content.DialogInterface.OnClickListener

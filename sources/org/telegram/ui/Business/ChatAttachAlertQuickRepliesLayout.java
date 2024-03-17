@@ -378,7 +378,12 @@ public class ChatAttachAlertQuickRepliesLayout extends ChatAttachAlert.AttachAle
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(Object[] objArr) {
-        AndroidUtilities.forEachViews((RecyclerView) this.listView, (Consumer<View>) ChatAttachAlertQuickRepliesLayout$$ExternalSyntheticLambda0.INSTANCE);
+        AndroidUtilities.forEachViews((RecyclerView) this.listView, (Consumer<View>) new Consumer() { // from class: org.telegram.ui.Business.ChatAttachAlertQuickRepliesLayout$$ExternalSyntheticLambda0
+            @Override // com.google.android.exoplayer2.util.Consumer
+            public final void accept(Object obj) {
+                ChatAttachAlertQuickRepliesLayout.lambda$new$0((View) obj);
+            }
+        });
     }
 
     /* JADX INFO: Access modifiers changed from: private */

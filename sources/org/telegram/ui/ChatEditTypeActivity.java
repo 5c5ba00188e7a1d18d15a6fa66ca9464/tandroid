@@ -944,7 +944,12 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
                     public final void onClick(DialogInterface dialogInterface, int i5) {
                         ChatEditTypeActivity.UsernamesListView.1.this.lambda$onItemClick$4(tLRPC$TL_username, view, dialogInterface, i5);
                     }
-                }).setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), ChatEditTypeActivity$UsernamesListView$1$$ExternalSyntheticLambda2.INSTANCE).show();
+                }).setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChatEditTypeActivity$UsernamesListView$1$$ExternalSyntheticLambda2
+                    @Override // android.content.DialogInterface.OnClickListener
+                    public final void onClick(DialogInterface dialogInterface, int i5) {
+                        dialogInterface.dismiss();
+                    }
+                }).show();
             }
 
             /* JADX INFO: Access modifiers changed from: private */
@@ -1190,7 +1195,12 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
                 }
             }
             tLRPC$TL_channels_reorderUsernames.order = arrayList;
-            ChatEditTypeActivity.this.getConnectionsManager().sendRequest(tLRPC$TL_channels_reorderUsernames, ChatEditTypeActivity$UsernamesListView$$ExternalSyntheticLambda0.INSTANCE);
+            ChatEditTypeActivity.this.getConnectionsManager().sendRequest(tLRPC$TL_channels_reorderUsernames, new RequestDelegate() { // from class: org.telegram.ui.ChatEditTypeActivity$UsernamesListView$$ExternalSyntheticLambda0
+                @Override // org.telegram.tgnet.RequestDelegate
+                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                    ChatEditTypeActivity.UsernamesListView.lambda$sendReorder$0(tLObject, tLRPC$TL_error);
+                }
+            });
             updateChat();
         }
 

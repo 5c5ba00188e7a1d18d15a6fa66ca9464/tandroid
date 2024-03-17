@@ -167,7 +167,12 @@ public class ContactsController extends BaseController {
 
         public MyContentObserver() {
             super(null);
-            this.checkRunnable = ContactsController$MyContentObserver$$ExternalSyntheticLambda0.INSTANCE;
+            this.checkRunnable = new Runnable() { // from class: org.telegram.messenger.ContactsController$MyContentObserver$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ContactsController.MyContentObserver.lambda$new$0();
+                }
+            };
         }
 
         @Override // android.database.ContentObserver
@@ -693,7 +698,12 @@ public class ContactsController extends BaseController {
             public void serializeToStream(AbstractSerializedData abstractSerializedData) {
                 abstractSerializedData.writeInt32(-2020263951);
             }
-        }, ContactsController$$ExternalSyntheticLambda63.INSTANCE);
+        }, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda63
+            @Override // org.telegram.tgnet.RequestDelegate
+            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                ContactsController.lambda$resetImportedContacts$9(tLObject, tLRPC$TL_error);
+            }
+        });
     }
 
     private boolean checkContactsInternal() {
@@ -2063,7 +2073,14 @@ public class ContactsController extends BaseController {
 
     private long getContactsHash(ArrayList<TLRPC$TL_contact> arrayList) {
         ArrayList arrayList2 = new ArrayList(arrayList);
-        Collections.sort(arrayList2, ContactsController$$ExternalSyntheticLambda52.INSTANCE);
+        Collections.sort(arrayList2, new Comparator() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda52
+            @Override // java.util.Comparator
+            public final int compare(Object obj, Object obj2) {
+                int lambda$getContactsHash$25;
+                lambda$getContactsHash$25 = ContactsController.lambda$getContactsHash$25((TLRPC$TL_contact) obj, (TLRPC$TL_contact) obj2);
+                return lambda$getContactsHash$25;
+            }
+        });
         int size = arrayList2.size();
         long j = 0;
         for (int i = -1; i < size; i++) {

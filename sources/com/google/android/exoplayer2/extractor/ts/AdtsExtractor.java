@@ -1,10 +1,12 @@
 package com.google.android.exoplayer2.extractor.ts;
 
+import android.net.Uri;
 import com.google.android.exoplayer2.ParserException;
 import com.google.android.exoplayer2.extractor.ConstantBitrateSeekMap;
 import com.google.android.exoplayer2.extractor.Extractor;
 import com.google.android.exoplayer2.extractor.ExtractorInput;
 import com.google.android.exoplayer2.extractor.ExtractorOutput;
+import com.google.android.exoplayer2.extractor.ExtractorsFactory;
 import com.google.android.exoplayer2.extractor.PositionHolder;
 import com.google.android.exoplayer2.extractor.SeekMap;
 import com.google.android.exoplayer2.extractor.ts.TsPayloadReader;
@@ -13,6 +15,7 @@ import com.google.android.exoplayer2.util.ParsableBitArray;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.io.EOFException;
 import java.io.IOException;
+import java.util.Map;
 /* loaded from: classes.dex */
 public final class AdtsExtractor implements Extractor {
     private int averageFrameSize;
@@ -33,7 +36,21 @@ public final class AdtsExtractor implements Extractor {
     }
 
     static {
-        AdtsExtractor$$ExternalSyntheticLambda0 adtsExtractor$$ExternalSyntheticLambda0 = AdtsExtractor$$ExternalSyntheticLambda0.INSTANCE;
+        AdtsExtractor$$ExternalSyntheticLambda0 adtsExtractor$$ExternalSyntheticLambda0 = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.ts.AdtsExtractor$$ExternalSyntheticLambda0
+            @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
+            public final Extractor[] createExtractors() {
+                Extractor[] lambda$static$0;
+                lambda$static$0 = AdtsExtractor.lambda$static$0();
+                return lambda$static$0;
+            }
+
+            @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
+            public /* synthetic */ Extractor[] createExtractors(Uri uri, Map map) {
+                Extractor[] createExtractors;
+                createExtractors = createExtractors();
+                return createExtractors;
+            }
+        };
     }
 
     /* JADX INFO: Access modifiers changed from: private */

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -256,7 +257,14 @@ public class ChatListItemAnimator extends DefaultItemAnimator {
                 ArrayList arrayList6 = new ArrayList();
                 arrayList6.addAll(this.mPendingAdditions);
                 this.mPendingAdditions.clear();
-                Collections.sort(arrayList6, ChatListItemAnimator$$ExternalSyntheticLambda9.INSTANCE);
+                Collections.sort(arrayList6, new Comparator() { // from class: androidx.recyclerview.widget.ChatListItemAnimator$$ExternalSyntheticLambda9
+                    @Override // java.util.Comparator
+                    public final int compare(Object obj, Object obj2) {
+                        int lambda$runAlphaEnterTransition$1;
+                        lambda$runAlphaEnterTransition$1 = ChatListItemAnimator.lambda$runAlphaEnterTransition$1((RecyclerView.ViewHolder) obj, (RecyclerView.ViewHolder) obj2);
+                        return lambda$runAlphaEnterTransition$1;
+                    }
+                });
                 Iterator it2 = arrayList6.iterator();
                 while (it2.hasNext()) {
                     animateAddImpl((RecyclerView.ViewHolder) it2.next());

@@ -13,7 +13,14 @@ import java.util.Iterator;
 import java.util.Random;
 /* loaded from: classes.dex */
 public final class DefaultPlaybackSessionManager implements PlaybackSessionManager {
-    public static final Supplier<String> DEFAULT_SESSION_ID_GENERATOR = DefaultPlaybackSessionManager$$ExternalSyntheticLambda0.INSTANCE;
+    public static final Supplier<String> DEFAULT_SESSION_ID_GENERATOR = new Supplier() { // from class: com.google.android.exoplayer2.analytics.DefaultPlaybackSessionManager$$ExternalSyntheticLambda0
+        @Override // com.google.common.base.Supplier
+        public final Object get() {
+            String generateDefaultSessionId;
+            generateDefaultSessionId = DefaultPlaybackSessionManager.generateDefaultSessionId();
+            return generateDefaultSessionId;
+        }
+    };
     private static final Random RANDOM = new Random();
     private String currentSessionId;
     private Timeline currentTimeline;

@@ -28,6 +28,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import j$.util.Comparator$-CC;
+import j$.util.function.ToDoubleFunction;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -181,7 +182,14 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
 
     private static boolean isTop5Peer(int i, long j) {
         ArrayList arrayList = new ArrayList(MediaDataController.getInstance(i).hints);
-        Collections.sort(arrayList, Comparator$-CC.comparingDouble(NotificationsCustomSettingsActivity$$ExternalSyntheticLambda13.INSTANCE));
+        Collections.sort(arrayList, Comparator$-CC.comparingDouble(new ToDoubleFunction() { // from class: org.telegram.ui.NotificationsCustomSettingsActivity$$ExternalSyntheticLambda13
+            @Override // j$.util.function.ToDoubleFunction
+            public final double applyAsDouble(Object obj) {
+                double d;
+                d = ((TLRPC$TL_topPeer) obj).rating;
+                return d;
+            }
+        }));
         int i2 = -1;
         for (int i3 = 0; i3 < arrayList.size(); i3++) {
             if (DialogObject.getPeerDialogId(((TLRPC$TL_topPeer) arrayList.get(i3)).peer) == j) {
@@ -1411,7 +1419,14 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
         }
         final ArrayList arrayList29 = arrayList25;
         if (arrayList != null) {
-            Collections.sort(arrayList, Comparator$-CC.comparingDouble(NotificationsCustomSettingsActivity$$ExternalSyntheticLambda14.INSTANCE));
+            Collections.sort(arrayList, Comparator$-CC.comparingDouble(new ToDoubleFunction() { // from class: org.telegram.ui.NotificationsCustomSettingsActivity$$ExternalSyntheticLambda14
+                @Override // j$.util.function.ToDoubleFunction
+                public final double applyAsDouble(Object obj) {
+                    double d;
+                    d = ((TLRPC$TL_topPeer) obj).rating;
+                    return d;
+                }
+            }));
             int max = Math.max(0, arrayList.size() - 6);
             while (max < arrayList.size()) {
                 long peerDialogId = DialogObject.getPeerDialogId(((TLRPC$TL_topPeer) arrayList.get(max)).peer);

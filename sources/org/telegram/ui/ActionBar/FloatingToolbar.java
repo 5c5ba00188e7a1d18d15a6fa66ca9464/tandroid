@@ -65,7 +65,14 @@ import org.telegram.ui.Components.LayoutHelper;
 @TargetApi(23)
 /* loaded from: classes.dex */
 public final class FloatingToolbar {
-    private static final MenuItem.OnMenuItemClickListener NO_OP_MENUITEM_CLICK_LISTENER = FloatingToolbar$$ExternalSyntheticLambda0.INSTANCE;
+    private static final MenuItem.OnMenuItemClickListener NO_OP_MENUITEM_CLICK_LISTENER = new MenuItem.OnMenuItemClickListener() { // from class: org.telegram.ui.ActionBar.FloatingToolbar$$ExternalSyntheticLambda0
+        @Override // android.view.MenuItem.OnMenuItemClickListener
+        public final boolean onMenuItemClick(MenuItem menuItem) {
+            boolean lambda$static$0;
+            lambda$static$0 = FloatingToolbar.lambda$static$0(menuItem);
+            return lambda$static$0;
+        }
+    };
     public static final List<Integer> premiumOptions = Arrays.asList(Integer.valueOf(R.id.menu_bold), Integer.valueOf(R.id.menu_italic), Integer.valueOf(R.id.menu_strike), Integer.valueOf(R.id.menu_link), Integer.valueOf(R.id.menu_mono), Integer.valueOf(R.id.menu_underline), Integer.valueOf(R.id.menu_spoiler), Integer.valueOf(R.id.menu_quote));
     private int currentStyle;
     private Menu mMenu;
@@ -95,7 +102,14 @@ public final class FloatingToolbar {
             FloatingToolbar.this.updateLayout();
         }
     };
-    private final Comparator<MenuItem> mMenuItemComparator = FloatingToolbar$$ExternalSyntheticLambda1.INSTANCE;
+    private final Comparator<MenuItem> mMenuItemComparator = new Comparator() { // from class: org.telegram.ui.ActionBar.FloatingToolbar$$ExternalSyntheticLambda1
+        @Override // java.util.Comparator
+        public final int compare(Object obj, Object obj2) {
+            int lambda$new$1;
+            lambda$new$1 = FloatingToolbar.lambda$new$1((MenuItem) obj, (MenuItem) obj2);
+            return lambda$new$1;
+        }
+    };
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$static$0(MenuItem menuItem) {
@@ -975,7 +989,14 @@ public final class FloatingToolbar {
             ArrayAdapter arrayAdapter = (ArrayAdapter) this.mOverflowPanel.getAdapter();
             arrayAdapter.clear();
             if (FloatingToolbar.this.premiumLockClickListener != null) {
-                Collections.sort(list, FloatingToolbar$FloatingToolbarPopup$$ExternalSyntheticLambda4.INSTANCE);
+                Collections.sort(list, new Comparator() { // from class: org.telegram.ui.ActionBar.FloatingToolbar$FloatingToolbarPopup$$ExternalSyntheticLambda4
+                    @Override // java.util.Comparator
+                    public final int compare(Object obj, Object obj2) {
+                        int lambda$layoutOverflowPanelItems$3;
+                        lambda$layoutOverflowPanelItems$3 = FloatingToolbar.FloatingToolbarPopup.lambda$layoutOverflowPanelItems$3((MenuItem) obj, (MenuItem) obj2);
+                        return lambda$layoutOverflowPanelItems$3;
+                    }
+                });
             }
             int size = list.size();
             boolean premiumFeaturesBlocked = MessagesController.getInstance(UserConfig.selectedAccount).premiumFeaturesBlocked();

@@ -22,9 +22,22 @@ import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$ChatInvite;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Components.SimpleFloatPropertyCompat;
 /* loaded from: classes4.dex */
 public class SenderSelectView extends View {
-    private static final FloatPropertyCompat<SenderSelectView> MENU_PROGRESS = new SimpleFloatPropertyCompat("menuProgress", SenderSelectView$$ExternalSyntheticLambda3.INSTANCE, SenderSelectView$$ExternalSyntheticLambda4.INSTANCE).setMultiplier(100.0f);
+    private static final FloatPropertyCompat<SenderSelectView> MENU_PROGRESS = new SimpleFloatPropertyCompat("menuProgress", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.Components.SenderSelectView$$ExternalSyntheticLambda3
+        @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Getter
+        public final float get(Object obj) {
+            float f;
+            f = ((SenderSelectView) obj).menuProgress;
+            return f;
+        }
+    }, new SimpleFloatPropertyCompat.Setter() { // from class: org.telegram.ui.Components.SenderSelectView$$ExternalSyntheticLambda4
+        @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Setter
+        public final void set(Object obj, float f) {
+            SenderSelectView.lambda$static$1((SenderSelectView) obj, f);
+        }
+    }).setMultiplier(100.0f);
     private AvatarDrawable avatarDrawable;
     private ImageReceiver avatarImage;
     private Paint backgroundPaint;

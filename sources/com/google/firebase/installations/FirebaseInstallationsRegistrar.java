@@ -4,6 +4,7 @@ import androidx.annotation.Keep;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.components.Component;
 import com.google.firebase.components.ComponentContainer;
+import com.google.firebase.components.ComponentFactory;
 import com.google.firebase.components.ComponentRegistrar;
 import com.google.firebase.components.Dependency;
 import com.google.firebase.heartbeatinfo.HeartBeatInfo;
@@ -16,7 +17,14 @@ import java.util.List;
 public class FirebaseInstallationsRegistrar implements ComponentRegistrar {
     @Override // com.google.firebase.components.ComponentRegistrar
     public List<Component<?>> getComponents() {
-        return Arrays.asList(Component.builder(FirebaseInstallationsApi.class).add(Dependency.required(FirebaseApp.class)).add(Dependency.optionalProvider(HeartBeatInfo.class)).add(Dependency.optionalProvider(UserAgentPublisher.class)).factory(FirebaseInstallationsRegistrar$$ExternalSyntheticLambda0.INSTANCE).build(), LibraryVersionComponent.create("fire-installations", "17.0.0"));
+        return Arrays.asList(Component.builder(FirebaseInstallationsApi.class).add(Dependency.required(FirebaseApp.class)).add(Dependency.optionalProvider(HeartBeatInfo.class)).add(Dependency.optionalProvider(UserAgentPublisher.class)).factory(new ComponentFactory() { // from class: com.google.firebase.installations.FirebaseInstallationsRegistrar$$ExternalSyntheticLambda0
+            @Override // com.google.firebase.components.ComponentFactory
+            public final Object create(ComponentContainer componentContainer) {
+                FirebaseInstallationsApi lambda$getComponents$0;
+                lambda$getComponents$0 = FirebaseInstallationsRegistrar.lambda$getComponents$0(componentContainer);
+                return lambda$getComponents$0;
+            }
+        }).build(), LibraryVersionComponent.create("fire-installations", "17.0.0"));
     }
 
     /* JADX INFO: Access modifiers changed from: private */

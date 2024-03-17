@@ -492,7 +492,7 @@ public class DesugarCollections {
             synchronized (this.b) {
                 try {
                     java.util.Map map = this.a;
-                    replace = map instanceof Map ? ((Map) map).replace(obj, obj2) : map.get(obj);
+                    replace = map instanceof Map ? ((Map) map).replace(obj, obj2) : Map.-CC.$default$replace(map, obj, obj2);
                 } catch (Throwable th) {
                     throw th;
                 }

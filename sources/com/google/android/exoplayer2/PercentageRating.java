@@ -9,7 +9,14 @@ import com.google.common.base.Objects;
 public final class PercentageRating extends Rating {
     private final float percent;
     private static final String FIELD_PERCENT = Util.intToStringMaxRadix(1);
-    public static final Bundleable.Creator<PercentageRating> CREATOR = PercentageRating$$ExternalSyntheticLambda0.INSTANCE;
+    public static final Bundleable.Creator<PercentageRating> CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.PercentageRating$$ExternalSyntheticLambda0
+        @Override // com.google.android.exoplayer2.Bundleable.Creator
+        public final Bundleable fromBundle(Bundle bundle) {
+            PercentageRating fromBundle;
+            fromBundle = PercentageRating.fromBundle(bundle);
+            return fromBundle;
+        }
+    };
 
     public PercentageRating() {
         this.percent = -1.0f;

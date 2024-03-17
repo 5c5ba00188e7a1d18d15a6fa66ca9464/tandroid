@@ -240,8 +240,9 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                 }
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.BackupImageView, android.view.View
-            protected void onDraw(Canvas canvas) {
+            public void onDraw(Canvas canvas) {
                 if (BotWebViewContainer.this.isFlickeringCenter) {
                     super.onDraw(canvas);
                     return;
@@ -1126,7 +1127,12 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
             return;
         }
         if (Build.VERSION.SDK_INT >= 19) {
-            webView.evaluateJavascript(str, BotWebViewContainer$$ExternalSyntheticLambda9.INSTANCE);
+            webView.evaluateJavascript(str, new ValueCallback() { // from class: org.telegram.ui.Components.BotWebViewContainer$$ExternalSyntheticLambda9
+                @Override // android.webkit.ValueCallback
+                public final void onReceiveValue(Object obj) {
+                    BotWebViewContainer.lambda$evaluateJs$5((String) obj);
+                }
+            });
             return;
         }
         try {
@@ -1609,7 +1615,12 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                         BotWebViewContainer.this.lambda$onEventReceived$23(strArr, z, dialogInterface, i4);
                     }
                 });
-                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), BotWebViewContainer$$ExternalSyntheticLambda5.INSTANCE);
+                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.BotWebViewContainer$$ExternalSyntheticLambda5
+                    @Override // android.content.DialogInterface.OnClickListener
+                    public final void onClick(DialogInterface dialogInterface, int i4) {
+                        dialogInterface.dismiss();
+                    }
+                });
                 showDialog(4, builder.create(), new Runnable() { // from class: org.telegram.ui.Components.BotWebViewContainer$$ExternalSyntheticLambda20
                     @Override // java.lang.Runnable
                     public final void run() {
@@ -2041,7 +2052,12 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                 public final void onClick(DialogInterface dialogInterface, int i) {
                     BotWebViewContainer.this.lambda$onEventReceived$15(strArr, dialogInterface, i);
                 }
-            }).setNegativeButton(LocaleController.getString(R.string.BotWebViewRequestDontAllow), BotWebViewContainer$$ExternalSyntheticLambda6.INSTANCE).create(), new Runnable() { // from class: org.telegram.ui.Components.BotWebViewContainer$$ExternalSyntheticLambda21
+            }).setNegativeButton(LocaleController.getString(R.string.BotWebViewRequestDontAllow), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.BotWebViewContainer$$ExternalSyntheticLambda6
+                @Override // android.content.DialogInterface.OnClickListener
+                public final void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            }).create(), new Runnable() { // from class: org.telegram.ui.Components.BotWebViewContainer$$ExternalSyntheticLambda21
                 @Override // java.lang.Runnable
                 public final void run() {
                     BotWebViewContainer.this.lambda$onEventReceived$17(strArr);

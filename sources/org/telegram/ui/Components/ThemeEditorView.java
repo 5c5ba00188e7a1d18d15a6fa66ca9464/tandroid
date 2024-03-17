@@ -418,7 +418,14 @@ public class ThemeEditorView {
                             EditorAlert.this.ignoreTextChange = false;
                         }
                     });
-                    this.colorEditText[i].setOnEditorActionListener(ThemeEditorView$EditorAlert$ColorPicker$$ExternalSyntheticLambda0.INSTANCE);
+                    this.colorEditText[i].setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.Components.ThemeEditorView$EditorAlert$ColorPicker$$ExternalSyntheticLambda0
+                        @Override // android.widget.TextView.OnEditorActionListener
+                        public final boolean onEditorAction(TextView textView, int i2, KeyEvent keyEvent) {
+                            boolean lambda$new$0;
+                            lambda$new$0 = ThemeEditorView.EditorAlert.ColorPicker.lambda$new$0(textView, i2, keyEvent);
+                            return lambda$new$0;
+                        }
+                    });
                     i++;
                 }
             }
@@ -1704,7 +1711,12 @@ public class ThemeEditorView {
                             ThemeEditorView themeEditorView = ThemeEditorView.this;
                             ThemeEditorView themeEditorView2 = ThemeEditorView.this;
                             themeEditorView.editorAlert = new EditorAlert(themeEditorView2.parentActivity, themeDescriptions);
-                            ThemeEditorView.this.editorAlert.setOnDismissListener(ThemeEditorView$1$$ExternalSyntheticLambda1.INSTANCE);
+                            ThemeEditorView.this.editorAlert.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.ThemeEditorView$1$$ExternalSyntheticLambda1
+                                @Override // android.content.DialogInterface.OnDismissListener
+                                public final void onDismiss(DialogInterface dialogInterface) {
+                                    ThemeEditorView.1.lambda$onTouchEvent$0(dialogInterface);
+                                }
+                            });
                             ThemeEditorView.this.editorAlert.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.ThemeEditorView$1$$ExternalSyntheticLambda0
                                 @Override // android.content.DialogInterface.OnDismissListener
                                 public final void onDismiss(DialogInterface dialogInterface) {

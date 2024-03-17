@@ -11,7 +11,14 @@ public final class StarRating extends Rating {
     private final float starRating;
     private static final String FIELD_MAX_STARS = Util.intToStringMaxRadix(1);
     private static final String FIELD_STAR_RATING = Util.intToStringMaxRadix(2);
-    public static final Bundleable.Creator<StarRating> CREATOR = StarRating$$ExternalSyntheticLambda0.INSTANCE;
+    public static final Bundleable.Creator<StarRating> CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.StarRating$$ExternalSyntheticLambda0
+        @Override // com.google.android.exoplayer2.Bundleable.Creator
+        public final Bundleable fromBundle(Bundle bundle) {
+            StarRating fromBundle;
+            fromBundle = StarRating.fromBundle(bundle);
+            return fromBundle;
+        }
+    };
 
     public StarRating(int i) {
         Assertions.checkArgument(i > 0, "maxStars must be a positive integer");

@@ -51,7 +51,14 @@ public class DialogsEmptyCell extends LinearLayout {
         this.currentAccount = UserConfig.selectedAccount;
         setGravity(17);
         setOrientation(1);
-        setOnTouchListener(DialogsEmptyCell$$ExternalSyntheticLambda3.INSTANCE);
+        setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Cells.DialogsEmptyCell$$ExternalSyntheticLambda3
+            @Override // android.view.View.OnTouchListener
+            public final boolean onTouch(View view, MotionEvent motionEvent) {
+                boolean lambda$new$0;
+                lambda$new$0 = DialogsEmptyCell.lambda$new$0(view, motionEvent);
+                return lambda$new$0;
+            }
+        });
         RLottieImageView rLottieImageView = new RLottieImageView(context);
         this.imageView = rLottieImageView;
         rLottieImageView.setScaleType(ImageView.ScaleType.CENTER);

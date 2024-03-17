@@ -12,10 +12,9 @@ import java.nio.ByteOrder;
 import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.Map;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.mlkit:vision-common@@17.3.0 */
 /* loaded from: classes.dex */
-public final class zzak implements ObjectEncoderContext {
+final class zzak implements ObjectEncoderContext {
     private static final Charset zza = Charset.forName("UTF-8");
     private static final FieldDescriptor zzb;
     private static final FieldDescriptor zzc;
@@ -35,7 +34,12 @@ public final class zzak implements ObjectEncoderContext {
         zzae zzaeVar2 = new zzae();
         zzaeVar2.zza(2);
         zzc = builder2.withProperty(zzaeVar2.zzb()).build();
-        zzd = zzaj.zza;
+        zzd = new ObjectEncoder() { // from class: com.google.android.gms.internal.mlkit_vision_common.zzaj
+            @Override // com.google.firebase.encoders.ObjectEncoder
+            public final void encode(Object obj, Object obj2) {
+                zzak.zzg((Map.Entry) obj, (ObjectEncoderContext) obj2);
+            }
+        };
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

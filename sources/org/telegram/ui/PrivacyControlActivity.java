@@ -914,7 +914,12 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
         if (i == this.photoForRestRow) {
             ImageUpdater imageUpdater = this.imageUpdater;
             if (imageUpdater != null) {
-                imageUpdater.openMenu(false, PrivacyControlActivity$$ExternalSyntheticLambda13.INSTANCE, new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda3
+                imageUpdater.openMenu(false, new Runnable() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda13
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        PrivacyControlActivity.lambda$createView$4();
+                    }
+                }, new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda3
                     @Override // android.content.DialogInterface.OnDismissListener
                     public final void onDismiss(DialogInterface dialogInterface) {
                         PrivacyControlActivity.this.lambda$createView$5(dialogInterface);

@@ -107,7 +107,12 @@ abstract class c extends y2 implements g {
     }
 
     j$.util.t F0(y2 y2Var, j$.util.t tVar) {
-        return E0(y2Var, tVar, a.a).spliterator();
+        return E0(y2Var, tVar, new j$.util.function.m() { // from class: j$.util.stream.a
+            @Override // j$.util.function.m
+            public final Object apply(int i) {
+                return new Object[i];
+            }
+        }).spliterator();
     }
 
     abstract boolean G0();

@@ -4,6 +4,7 @@ import android.util.Pair;
 import androidx.collection.LongSparseArray;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -40,6 +41,7 @@ import org.telegram.tgnet.TLRPC$TL_error;
 import org.telegram.tgnet.TLRPC$TL_groupCallParticipant;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.Adapters.DialogsSearchAdapter;
+import org.telegram.ui.Adapters.SearchAdapterHelper;
 import org.telegram.ui.Components.ShareAlert;
 /* loaded from: classes.dex */
 public class SearchAdapterHelper {
@@ -125,11 +127,11 @@ public class SearchAdapterHelper {
         queryServerSearch(str, z, z2, z3, z4, z5, j, z6, i, i2, j2, null);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0150  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x0195  */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x01a4  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x01ac  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x01c0 A[LOOP:2: B:61:0x01ba->B:63:0x01c0, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:112:0x0150  */
+    /* JADX WARN: Removed duplicated region for block: B:127:0x0195  */
+    /* JADX WARN: Removed duplicated region for block: B:130:0x01a4  */
+    /* JADX WARN: Removed duplicated region for block: B:131:0x01ac  */
+    /* JADX WARN: Removed duplicated region for block: B:135:0x01c0 A[LOOP:2: B:133:0x01ba->B:135:0x01c0, LOOP_END] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -269,7 +271,6 @@ public class SearchAdapterHelper {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$queryServerSearch$0(String str, boolean z, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLRPC$TL_error == null) {
             TLRPC$TL_channels_channelParticipants tLRPC$TL_channels_channelParticipants = (TLRPC$TL_channels_channelParticipants) tLObject;
@@ -293,7 +294,6 @@ public class SearchAdapterHelper {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$queryServerSearch$1(int i, boolean z, boolean z2, boolean z3, boolean z4, long j, String str, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         TLRPC$Chat tLRPC$Chat;
         TLRPC$User tLRPC$User;
@@ -395,7 +395,6 @@ public class SearchAdapterHelper {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$queryServerSearch$3(final ArrayList arrayList, final int i, final AtomicInteger atomicInteger, final AtomicInteger atomicInteger2, final ArrayList arrayList2, final int i2, final Runnable runnable, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.SearchAdapterHelper$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
@@ -405,7 +404,6 @@ public class SearchAdapterHelper {
         });
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$queryServerSearch$2(ArrayList arrayList, int i, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error, AtomicInteger atomicInteger, AtomicInteger atomicInteger2, ArrayList arrayList2, int i2, Runnable runnable) {
         arrayList.set(i, new Pair(tLObject, tLRPC$TL_error));
         Integer valueOf = Integer.valueOf(atomicInteger.get());
@@ -471,7 +469,6 @@ public class SearchAdapterHelper {
         return false;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadRecentHashtags$6() {
         try {
             SQLiteCursor queryFinalized = MessagesStorage.getInstance(this.currentAccount).getDatabase().queryFinalized("SELECT id, date FROM hashtag_recent_v2 WHERE 1", new Object[0]);
@@ -485,7 +482,14 @@ public class SearchAdapterHelper {
                 hashMap.put(hashtagObject.hashtag, hashtagObject);
             }
             queryFinalized.dispose();
-            Collections.sort(arrayList, SearchAdapterHelper$$ExternalSyntheticLambda5.INSTANCE);
+            Collections.sort(arrayList, new Comparator() { // from class: org.telegram.ui.Adapters.SearchAdapterHelper$$ExternalSyntheticLambda5
+                @Override // java.util.Comparator
+                public final int compare(Object obj, Object obj2) {
+                    int lambda$loadRecentHashtags$4;
+                    lambda$loadRecentHashtags$4 = SearchAdapterHelper.lambda$loadRecentHashtags$4((SearchAdapterHelper.HashtagObject) obj, (SearchAdapterHelper.HashtagObject) obj2);
+                    return lambda$loadRecentHashtags$4;
+                }
+            });
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.SearchAdapterHelper$$ExternalSyntheticLambda4
                 @Override // java.lang.Runnable
                 public final void run() {
@@ -497,7 +501,6 @@ public class SearchAdapterHelper {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ int lambda$loadRecentHashtags$4(HashtagObject hashtagObject, HashtagObject hashtagObject2) {
         int i = hashtagObject.date;
         int i2 = hashtagObject2.date;
@@ -651,7 +654,6 @@ public class SearchAdapterHelper {
         });
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$putRecentHashtags$7(ArrayList arrayList) {
         int i;
         try {
@@ -735,7 +737,6 @@ public class SearchAdapterHelper {
         });
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$clearRecentHashtags$8() {
         try {
             MessagesStorage.getInstance(this.currentAccount).getDatabase().executeFast("DELETE FROM hashtag_recent_v2 WHERE 1").stepThis().dispose();

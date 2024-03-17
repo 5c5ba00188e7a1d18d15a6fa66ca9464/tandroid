@@ -3,6 +3,7 @@ package com.google.android.gms.internal.mlkit_vision_subject_segmentation;
 import android.content.Context;
 import com.google.android.datatransport.Encoding;
 import com.google.android.datatransport.Event;
+import com.google.android.datatransport.Transformer;
 import com.google.android.datatransport.Transport;
 import com.google.android.datatransport.TransportFactory;
 import com.google.android.datatransport.cct.CCTDestination;
@@ -25,14 +26,24 @@ public final class zztt implements zztb {
             this.zza = new Lazy(new Provider() { // from class: com.google.android.gms.internal.mlkit_vision_subject_segmentation.zztq
                 @Override // com.google.firebase.inject.Provider
                 public final Object get() {
-                    return TransportFactory.this.getTransport("FIREBASE_ML_SDK", byte[].class, Encoding.of("json"), zzts.zza);
+                    return TransportFactory.this.getTransport("FIREBASE_ML_SDK", byte[].class, Encoding.of("json"), new Transformer() { // from class: com.google.android.gms.internal.mlkit_vision_subject_segmentation.zzts
+                        @Override // com.google.android.datatransport.Transformer
+                        public final Object apply(Object obj) {
+                            return (byte[]) obj;
+                        }
+                    });
                 }
             });
         }
         this.zzb = new Lazy(new Provider() { // from class: com.google.android.gms.internal.mlkit_vision_subject_segmentation.zztr
             @Override // com.google.firebase.inject.Provider
             public final Object get() {
-                return TransportFactory.this.getTransport("FIREBASE_ML_SDK", byte[].class, Encoding.of("proto"), zztp.zza);
+                return TransportFactory.this.getTransport("FIREBASE_ML_SDK", byte[].class, Encoding.of("proto"), new Transformer() { // from class: com.google.android.gms.internal.mlkit_vision_subject_segmentation.zztp
+                    @Override // com.google.android.datatransport.Transformer
+                    public final Object apply(Object obj) {
+                        return (byte[]) obj;
+                    }
+                });
             }
         });
     }

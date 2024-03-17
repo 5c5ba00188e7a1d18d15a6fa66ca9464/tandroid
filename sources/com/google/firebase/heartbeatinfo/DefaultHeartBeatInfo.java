@@ -3,6 +3,7 @@ package com.google.firebase.heartbeatinfo;
 import android.content.Context;
 import com.google.firebase.components.Component;
 import com.google.firebase.components.ComponentContainer;
+import com.google.firebase.components.ComponentFactory;
 import com.google.firebase.components.Dependency;
 import com.google.firebase.components.Lazy;
 import com.google.firebase.heartbeatinfo.HeartBeatInfo;
@@ -15,7 +16,14 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 /* loaded from: classes.dex */
 public class DefaultHeartBeatInfo implements HeartBeatInfo {
-    private static final ThreadFactory THREAD_FACTORY = DefaultHeartBeatInfo$$ExternalSyntheticLambda2.INSTANCE;
+    private static final ThreadFactory THREAD_FACTORY = new ThreadFactory() { // from class: com.google.firebase.heartbeatinfo.DefaultHeartBeatInfo$$ExternalSyntheticLambda2
+        @Override // java.util.concurrent.ThreadFactory
+        public final Thread newThread(Runnable runnable) {
+            Thread lambda$static$0;
+            lambda$static$0 = DefaultHeartBeatInfo.lambda$static$0(runnable);
+            return lambda$static$0;
+        }
+    };
     private Provider<HeartBeatInfoStorage> storageProvider;
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -56,7 +64,14 @@ public class DefaultHeartBeatInfo implements HeartBeatInfo {
     }
 
     public static Component<HeartBeatInfo> component() {
-        return Component.builder(HeartBeatInfo.class).add(Dependency.required(Context.class)).add(Dependency.setOf(HeartBeatConsumer.class)).factory(DefaultHeartBeatInfo$$ExternalSyntheticLambda0.INSTANCE).build();
+        return Component.builder(HeartBeatInfo.class).add(Dependency.required(Context.class)).add(Dependency.setOf(HeartBeatConsumer.class)).factory(new ComponentFactory() { // from class: com.google.firebase.heartbeatinfo.DefaultHeartBeatInfo$$ExternalSyntheticLambda0
+            @Override // com.google.firebase.components.ComponentFactory
+            public final Object create(ComponentContainer componentContainer) {
+                HeartBeatInfo lambda$component$4;
+                lambda$component$4 = DefaultHeartBeatInfo.lambda$component$4(componentContainer);
+                return lambda$component$4;
+            }
+        }).build();
     }
 
     /* JADX INFO: Access modifiers changed from: private */

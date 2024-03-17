@@ -1,14 +1,17 @@
 package com.google.android.exoplayer2.extractor.flv;
 
+import android.net.Uri;
 import com.google.android.exoplayer2.extractor.Extractor;
 import com.google.android.exoplayer2.extractor.ExtractorInput;
 import com.google.android.exoplayer2.extractor.ExtractorOutput;
+import com.google.android.exoplayer2.extractor.ExtractorsFactory;
 import com.google.android.exoplayer2.extractor.IndexSeekMap;
 import com.google.android.exoplayer2.extractor.PositionHolder;
 import com.google.android.exoplayer2.extractor.SeekMap;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.io.IOException;
+import java.util.Map;
 /* loaded from: classes.dex */
 public final class FlvExtractor implements Extractor {
     private AudioTagPayloadReader audioReader;
@@ -33,7 +36,21 @@ public final class FlvExtractor implements Extractor {
     }
 
     static {
-        FlvExtractor$$ExternalSyntheticLambda0 flvExtractor$$ExternalSyntheticLambda0 = FlvExtractor$$ExternalSyntheticLambda0.INSTANCE;
+        FlvExtractor$$ExternalSyntheticLambda0 flvExtractor$$ExternalSyntheticLambda0 = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.flv.FlvExtractor$$ExternalSyntheticLambda0
+            @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
+            public final Extractor[] createExtractors() {
+                Extractor[] lambda$static$0;
+                lambda$static$0 = FlvExtractor.lambda$static$0();
+                return lambda$static$0;
+            }
+
+            @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
+            public /* synthetic */ Extractor[] createExtractors(Uri uri, Map map) {
+                Extractor[] createExtractors;
+                createExtractors = createExtractors();
+                return createExtractors;
+            }
+        };
     }
 
     /* JADX INFO: Access modifiers changed from: private */

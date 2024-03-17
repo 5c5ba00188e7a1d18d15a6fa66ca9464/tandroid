@@ -9,6 +9,7 @@ import android.view.inputmethod.InputMethodInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.view.inputmethod.InputMethodSubtype;
 import j$.util.Comparator$-CC;
+import j$.util.function.Function;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -345,7 +346,24 @@ public class TranslateController extends BaseController {
                 }
             });
         } else {
-            Collections.sort(arrayList, Comparator$-CC.comparing(TranslateController$$ExternalSyntheticLambda23.INSTANCE));
+            Collections.sort(arrayList, Comparator$-CC.comparing(new Function() { // from class: org.telegram.messenger.TranslateController$$ExternalSyntheticLambda23
+                @Override // j$.util.function.Function
+                public /* synthetic */ Function andThen(Function function) {
+                    return Function.-CC.$default$andThen(this, function);
+                }
+
+                @Override // j$.util.function.Function
+                public final Object apply(Object obj) {
+                    String str3;
+                    str3 = ((TranslateController.Language) obj).displayName;
+                    return str3;
+                }
+
+                @Override // j$.util.function.Function
+                public /* synthetic */ Function compose(Function function) {
+                    return Function.-CC.$default$compose(this, function);
+                }
+            }));
         }
         return arrayList;
     }

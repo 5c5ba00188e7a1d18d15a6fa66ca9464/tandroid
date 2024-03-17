@@ -1715,8 +1715,9 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
             super(context, arrayList, str, z, str2, z2, resourcesProvider);
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.ShareAlert
-        protected void onSend(final androidx.collection.LongSparseArray<TLRPC$Dialog> longSparseArray, final int i, TLRPC$TL_forumTopic tLRPC$TL_forumTopic) {
+        public void onSend(final androidx.collection.LongSparseArray<TLRPC$Dialog> longSparseArray, final int i, TLRPC$TL_forumTopic tLRPC$TL_forumTopic) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.EmojiPacksAlert$8$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {

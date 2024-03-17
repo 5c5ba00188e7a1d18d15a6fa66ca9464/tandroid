@@ -2289,7 +2289,12 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
                         }
                     }, z);
                 } else if (!BuildVars.useInvoiceBilling() && (!BillingController.getInstance().isReady() || this.subscriptionTiers.isEmpty() || this.selectedTierIndex >= this.subscriptionTiers.size() || this.subscriptionTiers.get(this.selectedTierIndex).googlePlayProductDetails == null)) {
-                    this.premiumButtonView.setButton(LocaleController.getString(R.string.Loading), PremiumPreviewFragment$$ExternalSyntheticLambda2.INSTANCE, z);
+                    this.premiumButtonView.setButton(LocaleController.getString(R.string.Loading), new View.OnClickListener() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda2
+                        @Override // android.view.View.OnClickListener
+                        public final void onClick(View view) {
+                            PremiumPreviewFragment.lambda$updateButtonText$14(view);
+                        }
+                    }, z);
                     this.premiumButtonView.setFlickerDisabled(true);
                 } else if (this.subscriptionTiers.isEmpty()) {
                 } else {
@@ -2453,7 +2458,12 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         tLRPC$TL_jsonObjectValue.value = tLRPC$TL_jsonNull;
         tLRPC$TL_jsonObject.value.add(tLRPC$TL_jsonObjectValue);
         tLRPC$TL_help_saveAppLog.events.add(tLRPC$TL_inputAppEvent);
-        connectionsManager.sendRequest(tLRPC$TL_help_saveAppLog, PremiumPreviewFragment$$ExternalSyntheticLambda15.INSTANCE);
+        connectionsManager.sendRequest(tLRPC$TL_help_saveAppLog, new RequestDelegate() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda15
+            @Override // org.telegram.tgnet.RequestDelegate
+            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                PremiumPreviewFragment.lambda$sentShowScreenStat$16(tLObject, tLRPC$TL_error);
+            }
+        });
     }
 
     public static void sentPremiumButtonClick() {
@@ -2463,7 +2473,12 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         tLRPC$TL_inputAppEvent.type = "premium.promo_screen_accept";
         tLRPC$TL_inputAppEvent.data = new TLRPC$TL_jsonNull();
         tLRPC$TL_help_saveAppLog.events.add(tLRPC$TL_inputAppEvent);
-        ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_help_saveAppLog, PremiumPreviewFragment$$ExternalSyntheticLambda17.INSTANCE);
+        ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_help_saveAppLog, new RequestDelegate() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda17
+            @Override // org.telegram.tgnet.RequestDelegate
+            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                PremiumPreviewFragment.lambda$sentPremiumButtonClick$17(tLObject, tLRPC$TL_error);
+            }
+        });
     }
 
     public static void sentPremiumBuyCanceled() {
@@ -2473,7 +2488,12 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         tLRPC$TL_inputAppEvent.type = "premium.promo_screen_fail";
         tLRPC$TL_inputAppEvent.data = new TLRPC$TL_jsonNull();
         tLRPC$TL_help_saveAppLog.events.add(tLRPC$TL_inputAppEvent);
-        ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_help_saveAppLog, PremiumPreviewFragment$$ExternalSyntheticLambda16.INSTANCE);
+        ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_help_saveAppLog, new RequestDelegate() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda16
+            @Override // org.telegram.tgnet.RequestDelegate
+            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                PremiumPreviewFragment.lambda$sentPremiumBuyCanceled$18(tLObject, tLRPC$TL_error);
+            }
+        });
     }
 
     public static void sentShowFeaturePreview(int i, int i2) {
@@ -2495,7 +2515,12 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         tLRPC$TL_jsonObjectValue.key = "item";
         tLRPC$TL_jsonObject.value.add(tLRPC$TL_jsonObjectValue);
         tLRPC$TL_help_saveAppLog.events.add(tLRPC$TL_inputAppEvent);
-        ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_help_saveAppLog, PremiumPreviewFragment$$ExternalSyntheticLambda18.INSTANCE);
+        ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_help_saveAppLog, new RequestDelegate() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda18
+            @Override // org.telegram.tgnet.RequestDelegate
+            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                PremiumPreviewFragment.lambda$sentShowFeaturePreview$19(tLObject, tLRPC$TL_error);
+            }
+        });
     }
 
     /* loaded from: classes3.dex */

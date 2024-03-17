@@ -22,6 +22,7 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import j$.util.Comparator$-CC;
+import j$.util.function.ToDoubleFunction;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -470,7 +471,14 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
         ArrayList arrayList24 = arrayList;
         final ArrayList arrayList25 = arrayList22;
         if (arrayList24 != null) {
-            Collections.sort(arrayList24, Comparator$-CC.comparingDouble(NotificationsSettingsActivity$$ExternalSyntheticLambda9.INSTANCE));
+            Collections.sort(arrayList24, Comparator$-CC.comparingDouble(new ToDoubleFunction() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda9
+                @Override // j$.util.function.ToDoubleFunction
+                public final double applyAsDouble(Object obj) {
+                    double d;
+                    d = ((TLRPC$TL_topPeer) obj).rating;
+                    return d;
+                }
+            }));
             int max = Math.max(0, arrayList.size() - 5);
             while (max < arrayList.size()) {
                 long peerDialogId = DialogObject.getPeerDialogId(((TLRPC$TL_topPeer) arrayList24.get(max)).peer);
@@ -923,7 +931,12 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
             edit6.commit();
             TLRPC$TL_account_setContactSignUpNotification tLRPC$TL_account_setContactSignUpNotification = new TLRPC$TL_account_setContactSignUpNotification();
             tLRPC$TL_account_setContactSignUpNotification.silent = z;
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_setContactSignUpNotification, NotificationsSettingsActivity$$ExternalSyntheticLambda11.INSTANCE);
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_setContactSignUpNotification, new RequestDelegate() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda11
+                @Override // org.telegram.tgnet.RequestDelegate
+                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                    NotificationsSettingsActivity.lambda$createView$7(tLObject, tLRPC$TL_error);
+                }
+            });
         } else if (i == this.pinnedMessageRow) {
             SharedPreferences notificationsSettings8 = MessagesController.getNotificationsSettings(this.currentAccount);
             SharedPreferences.Editor edit7 = notificationsSettings8.edit();

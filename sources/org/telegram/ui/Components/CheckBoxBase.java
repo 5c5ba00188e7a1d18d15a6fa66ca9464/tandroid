@@ -65,12 +65,24 @@ public class CheckBoxBase {
         invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ Paint lambda$new$0(Void r0) {
+        return paint;
+    }
+
     public CheckBoxBase(View view, int i, Theme.ResourcesProvider resourcesProvider) {
         int i2 = Theme.key_chat_serviceBackground;
         this.backgroundColorKey = i2;
         this.background2ColorKey = i2;
         this.drawUnchecked = true;
-        this.circlePaintProvider = CheckBoxBase$$ExternalSyntheticLambda0.INSTANCE;
+        this.circlePaintProvider = new GenericProvider() { // from class: org.telegram.ui.Components.CheckBoxBase$$ExternalSyntheticLambda0
+            @Override // org.telegram.messenger.GenericProvider
+            public final Object provide(Object obj) {
+                Paint lambda$new$0;
+                lambda$new$0 = CheckBoxBase.lambda$new$0((Void) obj);
+                return lambda$new$0;
+            }
+        };
         this.animationDuration = 200L;
         this.resourcesProvider = resourcesProvider;
         this.parentView = view;

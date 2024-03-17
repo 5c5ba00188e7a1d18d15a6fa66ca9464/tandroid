@@ -2409,7 +2409,12 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         this.dualButton.setVisibility(DualCameraView.dualAvailableStatic(context) ? 0 : 8);
         this.flashViews.add(this.dualButton);
         this.actionBarContainer.addView(this.dualButton, LayoutHelper.createFrame(56, 56, 53));
-        HintView2 onHiddenListener = new HintView2(this.activity, 1).setJoint(1.0f, -20.0f).setDuration(5000L).setCloseButton(true).setText(LocaleController.getString(R.string.StoryCameraDualHint)).setOnHiddenListener(StoryRecorder$$ExternalSyntheticLambda60.INSTANCE);
+        HintView2 onHiddenListener = new HintView2(this.activity, 1).setJoint(1.0f, -20.0f).setDuration(5000L).setCloseButton(true).setText(LocaleController.getString(R.string.StoryCameraDualHint)).setOnHiddenListener(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda60
+            @Override // java.lang.Runnable
+            public final void run() {
+                StoryRecorder.lambda$initViews$21();
+            }
+        });
         this.dualHint = onHiddenListener;
         onHiddenListener.setPadding(AndroidUtilities.dp(8.0f), 0, AndroidUtilities.dp(8.0f), 0);
         this.actionBarContainer.addView(this.dualHint, LayoutHelper.createFrame(-1, -1.0f, 48, 0.0f, 52.0f, 0.0f, 0.0f));
@@ -5650,7 +5655,12 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                 public final void run() {
                     PhotoView.this.onSwitchSegmentedAnimationStarted(true);
                 }
-            }, StoryRecorder$22$$ExternalSyntheticLambda3.INSTANCE);
+            }, new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$22$$ExternalSyntheticLambda3
+                @Override // java.lang.Runnable
+                public final void run() {
+                    StoryRecorder.22.lambda$onSwitchSegmentedAnimation$3();
+                }
+            });
         }
 
         @Override // org.telegram.ui.Stories.recorder.PaintView
@@ -7573,7 +7583,14 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                 }
             };
             this.changeDayNightView = view;
-            view.setOnTouchListener(StoryRecorder$$ExternalSyntheticLambda22.INSTANCE);
+            view.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda22
+                @Override // android.view.View.OnTouchListener
+                public final boolean onTouch(View view2, MotionEvent motionEvent) {
+                    boolean lambda$toggleTheme$71;
+                    lambda$toggleTheme$71 = StoryRecorder.lambda$toggleTheme$71(view2, motionEvent);
+                    return lambda$toggleTheme$71;
+                }
+            });
             this.changeDayNightViewProgress = 0.0f;
             ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
             this.changeDayNightViewAnimator = ofFloat;

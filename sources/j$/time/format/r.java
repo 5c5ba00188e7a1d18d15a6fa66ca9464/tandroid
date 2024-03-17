@@ -1,5 +1,7 @@
 package j$.time.format;
 
+import j$.time.ZoneId;
+import j$.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -185,7 +187,18 @@ public final class r {
     }
 
     public r n() {
-        d(new p(b.a, "ZoneRegionId()"));
+        d(new p(new j$.time.temporal.u() { // from class: j$.time.format.b
+            @Override // j$.time.temporal.u
+            public final Object a(j$.time.temporal.k kVar) {
+                int i = r.f;
+                int i2 = j$.time.temporal.t.a;
+                ZoneId zoneId = (ZoneId) kVar.d(j$.time.temporal.m.a);
+                if (zoneId == null || (zoneId instanceof ZoneOffset)) {
+                    return null;
+                }
+                return zoneId;
+            }
+        }, "ZoneRegionId()"));
         return this;
     }
 

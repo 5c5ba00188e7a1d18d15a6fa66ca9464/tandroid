@@ -490,9 +490,8 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
         }, 0, getResourceProvider()) { // from class: org.telegram.ui.Components.MediaActivity.6
             private AnimatorSet actionModeAnimation;
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.SharedMediaLayout
-            public void onSelectedTabChanged() {
+            protected void onSelectedTabChanged() {
                 super.onSelectedTabChanged();
                 MediaActivity.this.updateMediaCount();
             }
@@ -543,9 +542,8 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
                 return MediaActivity.this.initialTab;
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.SharedMediaLayout
-            public void showActionMode(final boolean z2) {
+            protected void showActionMode(final boolean z2) {
                 if (MediaActivity.this.type == 0) {
                     super.showActionMode(z2);
                 } else if (this.isActionModeShowed == z2) {
@@ -675,9 +673,8 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
                 }
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.SharedMediaLayout
-            public void onTabProgress(float f) {
+            protected void onTabProgress(float f) {
                 if (MediaActivity.this.type != 1) {
                     return;
                 }
@@ -947,7 +944,12 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
                         MediaActivity.this.sharedMediaLayout.closeActionMode(false);
                     }
                 });
-                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), MediaActivity$1$$ExternalSyntheticLambda0.INSTANCE);
+                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.MediaActivity$1$$ExternalSyntheticLambda0
+                    @Override // android.content.DialogInterface.OnClickListener
+                    public final void onClick(DialogInterface dialogInterface, int i4) {
+                        dialogInterface.dismiss();
+                    }
+                });
                 AlertDialog create = builder.create();
                 create.show();
                 create.redPositive();

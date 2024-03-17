@@ -7,8 +7,20 @@ import com.google.firebase.inject.Provider;
 public class OptionalProvider<T> implements Provider<T> {
     private volatile Provider<T> delegate;
     private Deferred$DeferredHandler<T> handler;
-    private static final Deferred$DeferredHandler<Object> NOOP_HANDLER = OptionalProvider$$ExternalSyntheticLambda0.INSTANCE;
-    private static final Provider<Object> EMPTY_PROVIDER = OptionalProvider$$ExternalSyntheticLambda1.INSTANCE;
+    private static final Deferred$DeferredHandler<Object> NOOP_HANDLER = new Deferred$DeferredHandler() { // from class: com.google.firebase.components.OptionalProvider$$ExternalSyntheticLambda0
+        @Override // com.google.firebase.inject.Deferred$DeferredHandler
+        public final void handle(Provider provider) {
+            OptionalProvider.lambda$static$0(provider);
+        }
+    };
+    private static final Provider<Object> EMPTY_PROVIDER = new Provider() { // from class: com.google.firebase.components.OptionalProvider$$ExternalSyntheticLambda1
+        @Override // com.google.firebase.inject.Provider
+        public final Object get() {
+            Object lambda$static$1;
+            lambda$static$1 = OptionalProvider.lambda$static$1();
+            return lambda$static$1;
+        }
+    };
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$static$0(Provider provider) {

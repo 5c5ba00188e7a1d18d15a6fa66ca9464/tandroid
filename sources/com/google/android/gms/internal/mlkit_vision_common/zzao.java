@@ -4,9 +4,10 @@ import com.google.firebase.encoders.EncodingException;
 import com.google.firebase.encoders.FieldDescriptor;
 import com.google.firebase.encoders.ValueEncoderContext;
 import java.io.IOException;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.mlkit:vision-common@@17.3.0 */
 /* loaded from: classes.dex */
-final class zzao implements ValueEncoderContext {
+public final class zzao implements ValueEncoderContext {
     private boolean zza = false;
     private boolean zzb = false;
     private FieldDescriptor zzc;

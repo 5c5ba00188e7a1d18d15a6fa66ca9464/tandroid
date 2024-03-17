@@ -226,7 +226,12 @@ public class TermsOfServiceView extends FrameLayout {
         this.delegate.onAcceptTerms(this.currentAccount);
         TLRPC$TL_help_acceptTermsOfService tLRPC$TL_help_acceptTermsOfService = new TLRPC$TL_help_acceptTermsOfService();
         tLRPC$TL_help_acceptTermsOfService.id = this.currentTos.id;
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_help_acceptTermsOfService, TermsOfServiceView$$ExternalSyntheticLambda7.INSTANCE);
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_help_acceptTermsOfService, new RequestDelegate() { // from class: org.telegram.ui.Components.TermsOfServiceView$$ExternalSyntheticLambda7
+            @Override // org.telegram.tgnet.RequestDelegate
+            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                TermsOfServiceView.lambda$accept$7(tLObject, tLRPC$TL_error);
+            }
+        });
     }
 
     public void show(int i, TLRPC$TL_help_termsOfService tLRPC$TL_help_termsOfService) {

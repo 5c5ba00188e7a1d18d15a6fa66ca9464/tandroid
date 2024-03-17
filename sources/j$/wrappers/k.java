@@ -79,12 +79,12 @@ public final /* synthetic */ class k implements t.b {
         return a(this.a.trySplit());
     }
 
-    @Override // j$.util.t.b, j$.util.u, j$.util.t
+    @Override // j$.util.t
     public /* synthetic */ j$.util.t trySplit() {
         return g.a(this.a.trySplit());
     }
 
-    @Override // j$.util.t.b, j$.util.u, j$.util.t
+    @Override // j$.util.u, j$.util.t
     public /* synthetic */ j$.util.u trySplit() {
         return o.a(this.a.trySplit());
     }

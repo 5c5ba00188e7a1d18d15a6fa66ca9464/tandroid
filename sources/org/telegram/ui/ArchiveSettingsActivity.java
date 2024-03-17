@@ -15,6 +15,7 @@ import org.telegram.messenger.BotWebViewVibrationEffect;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
+import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$TL_account_setGlobalPrivacySettings;
 import org.telegram.tgnet.TLRPC$TL_error;
@@ -299,7 +300,12 @@ public class ArchiveSettingsActivity extends BaseFragment implements Notificatio
         if (this.changed) {
             TLRPC$TL_account_setGlobalPrivacySettings tLRPC$TL_account_setGlobalPrivacySettings = new TLRPC$TL_account_setGlobalPrivacySettings();
             tLRPC$TL_account_setGlobalPrivacySettings.settings = this.settings;
-            getConnectionsManager().sendRequest(tLRPC$TL_account_setGlobalPrivacySettings, ArchiveSettingsActivity$$ExternalSyntheticLambda1.INSTANCE);
+            getConnectionsManager().sendRequest(tLRPC$TL_account_setGlobalPrivacySettings, new RequestDelegate() { // from class: org.telegram.ui.ArchiveSettingsActivity$$ExternalSyntheticLambda1
+                @Override // org.telegram.tgnet.RequestDelegate
+                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                    ArchiveSettingsActivity.lambda$onFragmentDestroy$2(tLObject, tLRPC$TL_error);
+                }
+            });
             this.changed = false;
         }
     }

@@ -837,7 +837,12 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
         this.zoomOutButton.addView(this.zoomOutImage, LayoutHelper.createLinear(24, 24, 16, 0, 0, 8, 0));
         this.zoomOutButton.addView(this.zoomOutText, LayoutHelper.createLinear(-2, -2, 16));
         this.zoomOutButton.setAlpha(0.0f);
-        this.zoomOutButton.setOnClickListener(PaintView$$ExternalSyntheticLambda26.INSTANCE);
+        this.zoomOutButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda26
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view3) {
+                PaintView.lambda$new$2(view3);
+            }
+        });
         this.topLayout.addView(this.zoomOutButton, LayoutHelper.createFrame(-2, 32, 17));
         TextView textView2 = new TextView(context);
         this.undoAllButton = textView2;
@@ -2832,7 +2837,12 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
         this.renderView.shutdown();
         this.entitiesView.setVisibility(8);
         this.selectionContainerView.setVisibility(8);
-        this.queue.postRunnable(PaintView$$ExternalSyntheticLambda49.INSTANCE);
+        this.queue.postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda49
+            @Override // java.lang.Runnable
+            public final void run() {
+                PaintView.lambda$shutdown$29();
+            }
+        });
         EmojiBottomSheet emojiBottomSheet = this.emojiPopup;
         if (emojiBottomSheet != null) {
             emojiBottomSheet.dismiss();

@@ -2,6 +2,7 @@ package j$.util.stream;
 
 import j$.util.function.Consumer;
 import j$.util.t;
+import java.util.Objects;
 /* loaded from: classes2.dex */
 final class y4 extends z4 implements t.c {
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -25,7 +26,17 @@ final class y4 extends z4 implements t.c {
 
     @Override // j$.util.stream.z4
     protected /* bridge */ /* synthetic */ Object f() {
-        return x4.a;
+        return new j$.util.function.q() { // from class: j$.util.stream.x4
+            @Override // j$.util.function.q
+            public final void accept(long j) {
+            }
+
+            @Override // j$.util.function.q
+            public j$.util.function.q f(j$.util.function.q qVar) {
+                Objects.requireNonNull(qVar);
+                return new j$.util.function.p(this, qVar);
+            }
+        };
     }
 
     @Override // j$.util.t
