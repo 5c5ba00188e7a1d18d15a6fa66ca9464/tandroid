@@ -9,7 +9,7 @@ import android.text.style.ImageSpan;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.DialogCell;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class MessageSeenCheckDrawable {
     private int colorKey;
     private Drawable drawable;

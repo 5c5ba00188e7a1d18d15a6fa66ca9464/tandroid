@@ -5,7 +5,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import org.telegram.messenger.AndroidUtilities;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class InfiniteProgress {
     private RectF cicleRect = new RectF();
     private float currentCircleLength;

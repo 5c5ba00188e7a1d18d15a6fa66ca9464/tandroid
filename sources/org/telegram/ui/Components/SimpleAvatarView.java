@@ -13,7 +13,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.tgnet.TLObject;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class SimpleAvatarView extends View {
     private ValueAnimator animator;
     private AvatarDrawable avatarDrawable;

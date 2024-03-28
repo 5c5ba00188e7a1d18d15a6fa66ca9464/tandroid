@@ -55,7 +55,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.ContentPreviewViewer;
 import org.telegram.ui.PhotoViewer;
 import org.webrtc.MediaStreamTrack;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class MentionsContainerView extends BlurredFrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private MentionsAdapter adapter;
     private boolean allowBlur;
@@ -89,10 +89,10 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
     private boolean switchLayoutManagerOnEnd;
     private Runnable updateVisibilityRunnable;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface Delegate {
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public final /* synthetic */ class -CC {
             public static void $default$addEmojiToRecent(Delegate delegate, String str) {
             }
@@ -820,7 +820,7 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
         return ContentPreviewViewer.getInstance().onTouch(motionEvent, getListView(), 0, this.mentionsOnItemClickListener, null, this.resourcesProvider);
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class MentionsListView extends RecyclerListView {
         private boolean isDragging;
         private boolean isScrolling;

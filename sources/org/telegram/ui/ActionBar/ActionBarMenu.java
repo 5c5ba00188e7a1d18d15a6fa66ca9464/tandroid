@@ -11,7 +11,7 @@ import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Adapters.FiltersView;
 import org.telegram.ui.Components.RLottieDrawable;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class ActionBarMenu extends LinearLayout {
     public boolean drawBlur;
     private ArrayList<Integer> ids;
@@ -156,7 +156,7 @@ public class ActionBarMenu extends LinearLayout {
         return new LazyItem(this, i, i2, charSequence, i3, drawable, i4, charSequence2, resourcesProvider);
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class LazyItem {
         Boolean allowCloseAnimation;
         int backgroundColor;

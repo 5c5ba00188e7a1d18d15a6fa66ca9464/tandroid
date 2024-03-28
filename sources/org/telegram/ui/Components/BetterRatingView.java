@@ -10,7 +10,7 @@ import android.view.View;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class BetterRatingView extends View {
     private Bitmap filledStar;
     private Bitmap hollowStar;
@@ -19,7 +19,7 @@ public class BetterRatingView extends View {
     private Paint paint;
     private int selectedRating;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface OnRatingChangeListener {
         void onRatingChanged(int i);
     }

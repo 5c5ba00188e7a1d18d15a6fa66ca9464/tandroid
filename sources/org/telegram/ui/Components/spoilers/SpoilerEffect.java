@@ -47,7 +47,7 @@ import org.telegram.ui.Components.Easings;
 import org.telegram.ui.Components.QuoteSpan;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.Components.TextStyleSpan;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class SpoilerEffect extends Drawable {
     private static WeakHashMap<Layout, ArrayList<RectF>> lazyLayoutLines;
     private static Paint xRefPaint;
@@ -769,7 +769,7 @@ public class SpoilerEffect extends Drawable {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class Particle {
         private int alpha;
         private float currentTime;

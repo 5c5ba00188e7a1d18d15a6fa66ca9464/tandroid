@@ -1,5 +1,5 @@
 package org.telegram.ui.Components;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class IntSize {
     public int height;
     public int width;

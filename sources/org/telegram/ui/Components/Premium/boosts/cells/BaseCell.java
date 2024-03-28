@@ -23,7 +23,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RadioButton;
 import org.telegram.ui.Components.RecyclerListView;
 @SuppressLint({"ViewConstructor"})
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public abstract class BaseCell extends FrameLayout {
     protected final AvatarDrawable avatarDrawable;
     protected View backgroundView;

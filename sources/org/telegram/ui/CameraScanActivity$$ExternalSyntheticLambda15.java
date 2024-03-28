@@ -1,5 +1,5 @@
 package org.telegram.ui;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public final /* synthetic */ class CameraScanActivity$$ExternalSyntheticLambda15 implements Runnable {
     public final /* synthetic */ CameraScanActivity f$0;
 

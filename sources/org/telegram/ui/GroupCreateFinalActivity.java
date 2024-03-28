@@ -77,7 +77,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.Components.VerticalPositionAutoAnimator;
 import org.telegram.ui.LocationActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class GroupCreateFinalActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate, ImageUpdater.ImageUpdaterDelegate {
     private GroupCreateAdapter adapter;
     private TLRPC$FileLocation avatar;
@@ -118,7 +118,7 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
     private int ttlPeriod;
     private double videoTimestamp;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface GroupCreateFinalActivityDelegate {
         void didFailChatCreation();
 
@@ -1092,7 +1092,7 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
         this.doneItemAnimation.start();
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class GroupCreateAdapter extends RecyclerListView.SelectionAdapter {
         private Context context;
         ArrayList<InnerItem> items = new ArrayList<>();
@@ -1236,7 +1236,7 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class InnerItem extends AdapterWithDiffUtils.Item {
             String string;
 

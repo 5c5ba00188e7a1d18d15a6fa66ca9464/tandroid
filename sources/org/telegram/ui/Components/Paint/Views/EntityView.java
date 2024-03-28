@@ -25,7 +25,7 @@ import org.telegram.ui.Components.ButtonBounce;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.Point;
 import org.telegram.ui.Components.Rect;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class EntityView extends FrameLayout {
     private static final List<Integer> STICKY_ANGLES = Arrays.asList(-90, 0, 90, 180);
     private float angle;
@@ -79,10 +79,10 @@ public class EntityView extends FrameLayout {
     private final float[] xy;
     private final float[] xy2;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface EntityViewDelegate {
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public final /* synthetic */ class -CC {
             public static boolean $default$isEntityDeletable(EntityViewDelegate entityViewDelegate) {
                 return true;
@@ -1003,7 +1003,7 @@ public class EntityView extends FrameLayout {
         selectionView.setVisibility(z ? 0 : 8);
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class SelectionView extends FrameLayout {
         private int currentHandle;
         protected Paint dotPaint;

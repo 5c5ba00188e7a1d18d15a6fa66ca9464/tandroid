@@ -88,7 +88,7 @@ import org.telegram.ui.Components.TrendingStickersAlert;
 import org.telegram.ui.Components.TrendingStickersLayout;
 import org.telegram.ui.Components.URLSpanNoUnderline;
 import org.telegram.ui.StickersActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class StickersActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private int activeReorderingRequests;
     private int archivedInfoRow;
@@ -154,7 +154,7 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
         return mediaDataController.getFeaturedStickerSets();
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class TouchHelperCallback extends ItemTouchHelper.Callback {
         @Override // androidx.recyclerview.widget.ItemTouchHelper.Callback
         public void onSwiped(RecyclerView.ViewHolder viewHolder, int i) {
@@ -936,7 +936,7 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
         private final LongSparseArray<Boolean> selectedItems = new LongSparseArray<>();
@@ -1116,7 +1116,7 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
             }
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:158:0x04b0, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:158:0x04af, code lost:
             if (r6 == false) goto L188;
          */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter

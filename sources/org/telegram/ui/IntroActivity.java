@@ -70,7 +70,7 @@ import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.Components.SimpleThemeDescription;
 import org.telegram.ui.Components.voip.CellFlickerDrawable;
 import org.telegram.ui.IntroActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class IntroActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private BottomPagesView bottomPages;
     private long currentDate;
@@ -302,7 +302,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 2 implements TextureView.SurfaceTextureListener {
         @Override // android.view.TextureView.SurfaceTextureListener
         public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
@@ -383,7 +383,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 5 implements NotificationCenter.NotificationCenterDelegate {
         final /* synthetic */ AlertDialog val$loaderDialog;
 
@@ -544,7 +544,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         return null;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private class IntroAdapter extends PagerAdapter {
         @Override // androidx.viewpager.widget.PagerAdapter
         public void restoreState(Parcelable parcelable, ClassLoader classLoader) {
@@ -614,7 +614,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class EGLThread extends DispatchQueue {
         private Runnable drawRunnable;
         private EGL10 egl10;

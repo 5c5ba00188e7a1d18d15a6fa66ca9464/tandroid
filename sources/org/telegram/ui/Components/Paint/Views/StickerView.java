@@ -3,6 +3,7 @@ package org.telegram.ui.Components.Paint.Views;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.RectF;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -23,7 +24,7 @@ import org.telegram.ui.Components.Point;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.Rect;
 import org.telegram.ui.Components.Size;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class StickerView extends EntityView {
     private int anchor;
     private Size baseSize;
@@ -38,7 +39,7 @@ public class StickerView extends EntityView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class FrameLayoutDrawer extends FrameLayout {
         public FrameLayoutDrawer(Context context) {
             super(context);
@@ -88,6 +89,11 @@ public class StickerView extends EntityView {
             @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
             public final void didSetImage(ImageReceiver imageReceiver, boolean z, boolean z2, boolean z3) {
                 StickerView.this.lambda$new$0(imageReceiver, z, z2, z3);
+            }
+
+            @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
+            public /* synthetic */ void didSetImageBitmap(int i2, String str, Drawable drawable) {
+                ImageReceiver.ImageReceiverDelegate.-CC.$default$didSetImageBitmap(this, i2, str, drawable);
             }
 
             @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
@@ -218,7 +224,7 @@ public class StickerView extends EntityView {
         return this.baseSize;
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class StickerViewSelectionView extends EntityView.SelectionView {
         private RectF arcRect;
 

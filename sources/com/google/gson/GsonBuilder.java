@@ -1,7 +1,10 @@
 package com.google.gson;
 
+import com.google.gson.internal.$Gson$Preconditions;
 import com.google.gson.internal.Excluder;
 import com.google.gson.internal.bind.DefaultDateTypeAdapter;
+import com.google.gson.internal.bind.TreeTypeAdapter;
+import com.google.gson.internal.bind.TypeAdapters;
 import com.google.gson.internal.sql.SqlTypesSupport;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -43,6 +46,19 @@ public final class GsonBuilder {
     public GsonBuilder registerTypeAdapterFactory(TypeAdapterFactory typeAdapterFactory) {
         Objects.requireNonNull(typeAdapterFactory);
         this.factories.add(typeAdapterFactory);
+        return this;
+    }
+
+    public GsonBuilder registerTypeHierarchyAdapter(Class<?> cls, Object obj) {
+        Objects.requireNonNull(cls);
+        boolean z = obj instanceof JsonSerializer;
+        $Gson$Preconditions.checkArgument(z || (obj instanceof JsonDeserializer) || (obj instanceof TypeAdapter));
+        if ((obj instanceof JsonDeserializer) || z) {
+            this.hierarchyFactories.add(TreeTypeAdapter.newTypeHierarchyFactory(cls, obj));
+        }
+        if (obj instanceof TypeAdapter) {
+            this.factories.add(TypeAdapters.newTypeHierarchyFactory(cls, (TypeAdapter) obj));
+        }
         return this;
     }
 

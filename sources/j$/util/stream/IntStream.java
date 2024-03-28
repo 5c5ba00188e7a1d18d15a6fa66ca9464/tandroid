@@ -1,11 +1,12 @@
 package j$.util.stream;
 
 import j$.util.function.BiConsumer;
+import j$.util.function.Supplier;
 import j$.util.p;
 import j$.util.t;
 /* loaded from: classes2.dex */
 public interface IntStream extends g {
-    U A(j$.wrappers.W w);
+    V A(j$.wrappers.W w);
 
     boolean C(j$.wrappers.U u);
 
@@ -19,25 +20,25 @@ public interface IntStream extends g {
 
     IntStream P(j$.util.function.m mVar);
 
-    void U(j$.util.function.l lVar);
+    void T(j$.util.function.l lVar);
 
-    j$.util.k a0(j$.util.function.j jVar);
+    j$.util.k Z(j$.util.function.j jVar);
 
-    U asDoubleStream();
+    IntStream a0(j$.util.function.l lVar);
 
-    e1 asLongStream();
+    V asDoubleStream();
+
+    f1 asLongStream();
 
     j$.util.j average();
 
     Stream boxed();
 
-    IntStream c0(j$.util.function.l lVar);
-
     long count();
 
     IntStream distinct();
 
-    e1 f(j$.util.function.n nVar);
+    f1 f(j$.util.function.n nVar);
 
     j$.util.k findAny();
 
@@ -45,10 +46,10 @@ public interface IntStream extends g {
 
     IntStream h(j$.wrappers.U u);
 
+    Object i0(Supplier supplier, j$.util.function.v vVar, BiConsumer biConsumer);
+
     @Override // j$.util.stream.g
     p.a iterator();
-
-    Object k0(j$.util.function.y yVar, j$.util.function.v vVar, BiConsumer biConsumer);
 
     IntStream limit(long j);
 
@@ -56,12 +57,12 @@ public interface IntStream extends g {
 
     j$.util.k min();
 
-    @Override // 
+    @Override // j$.util.stream.g
     IntStream parallel();
 
     IntStream q(j$.wrappers.a0 a0Var);
 
-    @Override // 
+    @Override // j$.util.stream.g
     IntStream sequential();
 
     IntStream skip(long j);

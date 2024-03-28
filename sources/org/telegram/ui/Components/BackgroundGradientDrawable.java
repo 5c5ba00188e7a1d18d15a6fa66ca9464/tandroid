@@ -14,7 +14,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.DispatchQueue;
 import org.telegram.messenger.Utilities;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class BackgroundGradientDrawable extends GradientDrawable {
     private final Paint bitmapPaint;
     private final ArrayMap<IntSize, Bitmap> bitmaps;
@@ -24,19 +24,19 @@ public class BackgroundGradientDrawable extends GradientDrawable {
     private final List<Runnable[]> ditheringRunnables;
     private final ArrayMap<IntSize, Boolean> isForExactBounds;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface Disposable {
         void dispose();
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface Listener {
         void onAllSizesReady();
 
         void onSizeReady(int i, int i2);
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class ListenerAdapter implements Listener {
         @Override // org.telegram.ui.Components.BackgroundGradientDrawable.Listener
         public void onAllSizesReady() {
@@ -47,11 +47,11 @@ public class BackgroundGradientDrawable extends GradientDrawable {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class Sizes {
         private final IntSize[] arr;
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public enum Orientation {
             PORTRAIT,
             LANDSCAPE,
@@ -372,7 +372,7 @@ public class BackgroundGradientDrawable extends GradientDrawable {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static /* synthetic */ class 2 {
         static final /* synthetic */ int[] $SwitchMap$android$graphics$drawable$GradientDrawable$Orientation;
 

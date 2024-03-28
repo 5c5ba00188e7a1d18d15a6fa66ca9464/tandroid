@@ -73,7 +73,7 @@ import org.telegram.ui.Components.NumberTextView;
 import org.telegram.ui.Components.RadioButton;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.NotificationsSoundActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class NotificationsSoundActivity extends BaseFragment implements ChatAttachAlertDocumentLayout.DocumentSelectActivityDelegate, NotificationCenter.NotificationCenterDelegate {
     Adapter adapter;
     ChatAvatarContainer avatarContainer;
@@ -275,7 +275,7 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 1 extends ActionBar.ActionBarMenuOnItemClick {
         final /* synthetic */ Context val$context;
 
@@ -670,7 +670,7 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class Adapter extends RecyclerListView.SelectionAdapter {
         private Adapter() {
         }
@@ -824,7 +824,7 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class ToneCell extends FrameLayout {
         private CheckBox2 checkBox;
         private boolean needDivider;
@@ -1076,7 +1076,7 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class Tone {
         TLRPC$Document document;
         public boolean fromServer;

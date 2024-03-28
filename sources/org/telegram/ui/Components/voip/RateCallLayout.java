@@ -22,14 +22,14 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.Components.voip.RateCallLayout;
 @SuppressLint({"ViewConstructor"})
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class RateCallLayout extends FrameLayout {
     private OnRateSelected onRateSelected;
     private final RateCallContainer rateCallContainer;
     private final FrameLayout starsContainer;
     private final StarContainer[] startsViews;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface OnRateSelected {
         void onRateSelected(int i);
     }
@@ -142,7 +142,7 @@ public class RateCallLayout extends FrameLayout {
         animatorSet.start();
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class StarContainer extends FrameLayout {
         private AllStarsProvider allStarsProvider;
         public RLottieImageView defaultStar;
@@ -152,13 +152,13 @@ public class RateCallLayout extends FrameLayout {
         public RLottieImageView selectedStar;
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public interface AllStarsProvider {
             StarContainer[] getAllStartsViews();
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public interface OnSelectedStar {
             void onSelected(float f, float f2, int i);
         }
@@ -279,7 +279,7 @@ public class RateCallLayout extends FrameLayout {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class RateCallContainer extends FrameLayout {
         private final VoIPBackgroundProvider backgroundProvider;
         private final RectF bgRect;

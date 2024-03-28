@@ -1,17 +1,6 @@
 package j$.util.stream;
-
-import j$.util.function.Consumer;
 /* loaded from: classes2.dex */
-interface m3 extends Consumer {
-    void accept(double d);
-
-    void accept(int i);
-
+public interface m3 extends n3, j$.util.function.q {
+    @Override // j$.util.function.q
     void accept(long j);
-
-    void m();
-
-    void n(long j);
-
-    boolean o();
 }

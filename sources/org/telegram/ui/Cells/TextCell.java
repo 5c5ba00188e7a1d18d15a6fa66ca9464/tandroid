@@ -17,8 +17,10 @@ import android.widget.ImageView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
+import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.AnimatedTextView;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RLottieDrawable;
@@ -28,10 +30,12 @@ import org.telegram.ui.FilterCreateActivity;
 import org.telegram.ui.PeerColorActivity;
 /* loaded from: classes4.dex */
 public class TextCell extends FrameLayout {
+    private boolean attached;
     private int changeProgressStartDelay;
     private Switch checkBox;
     private boolean drawLoading;
     private float drawLoadingProgress;
+    private AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable emojiDrawable;
     public int heightDp;
     public int imageLeft;
     public final RLottieImageView imageView;
@@ -215,6 +219,14 @@ public class TextCell extends FrameLayout {
         }
     }
 
+    public void updateEmojiBounds() {
+        AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = this.emojiDrawable;
+        if (swapAnimatedEmojiDrawable == null) {
+            return;
+        }
+        swapAnimatedEmojiDrawable.setBounds((getWidth() - this.emojiDrawable.getIntrinsicWidth()) - AndroidUtilities.dp(18.0f), (getHeight() - this.emojiDrawable.getIntrinsicHeight()) / 2, getWidth() - AndroidUtilities.dp(18.0f), (getHeight() + this.emojiDrawable.getIntrinsicHeight()) / 2);
+    }
+
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
     public void onLayout(boolean z, int i, int i2, int i3, int i4) {
@@ -276,9 +288,19 @@ public class TextCell extends FrameLayout {
     }
 
     public void updateColors() {
-        this.textView.setTextColor(processColor(Theme.getColor(this.textView.getTag() instanceof Integer ? ((Integer) this.textView.getTag()).intValue() : Theme.key_windowBackgroundWhiteBlackText, this.resourcesProvider)));
+        int intValue = this.textView.getTag() instanceof Integer ? ((Integer) this.textView.getTag()).intValue() : Theme.key_windowBackgroundWhiteBlackText;
+        int color = Theme.getColor(intValue, this.resourcesProvider);
+        if (intValue != Theme.key_dialogTextBlack && intValue != Theme.key_windowBackgroundWhiteBlackText) {
+            color = processColor(color);
+        }
+        this.textView.setTextColor(color);
         if (this.imageView.getTag() instanceof Integer) {
-            this.imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(((Integer) this.imageView.getTag()).intValue(), this.resourcesProvider), PorterDuff.Mode.MULTIPLY));
+            int intValue2 = ((Integer) this.imageView.getTag()).intValue();
+            int color2 = Theme.getColor(intValue2, this.resourcesProvider);
+            if (intValue2 != Theme.key_dialogIcon && intValue2 != Theme.key_windowBackgroundWhiteGrayIcon) {
+                color2 = processColor(color2);
+            }
+            this.imageView.setColorFilter(new PorterDuffColorFilter(color2, PorterDuff.Mode.MULTIPLY));
         }
         this.subtitleView.setTextColor(processColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText, this.resourcesProvider)));
         AnimatedTextView animatedTextView = this.valueTextView;
@@ -288,12 +310,13 @@ public class TextCell extends FrameLayout {
     }
 
     public void setColors(int i, int i2) {
-        this.textView.setTextColor(processColor(Theme.getColor(i2, this.resourcesProvider)));
+        this.textView.setTextColor(Theme.getColor(i2, this.resourcesProvider));
         this.textView.setTag(Integer.valueOf(i2));
         if (i >= 0) {
             this.imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i, this.resourcesProvider), PorterDuff.Mode.MULTIPLY));
             this.imageView.setTag(Integer.valueOf(i));
         }
+        updateColors();
     }
 
     public void setText(CharSequence charSequence, boolean z) {
@@ -309,6 +332,10 @@ public class TextCell extends FrameLayout {
         this.valueImageView.setVisibility(8);
         this.needDivider = z;
         setWillNotDraw(!z);
+        AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = this.emojiDrawable;
+        if (swapAnimatedEmojiDrawable != null) {
+            swapAnimatedEmojiDrawable.set((Drawable) null, false);
+        }
     }
 
     public void setLockLevel(boolean z, int i) {
@@ -336,6 +363,10 @@ public class TextCell extends FrameLayout {
         this.imageView.setPadding(0, AndroidUtilities.dp(7.0f), 0, 0);
         this.needDivider = z;
         setWillNotDraw(!z);
+        AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = this.emojiDrawable;
+        if (swapAnimatedEmojiDrawable != null) {
+            swapAnimatedEmojiDrawable.set((Drawable) null, false);
+        }
     }
 
     public void setTextAndIcon(String str, Drawable drawable, boolean z) {
@@ -358,6 +389,10 @@ public class TextCell extends FrameLayout {
         this.imageView.setPadding(0, AndroidUtilities.dp(6.0f), 0, 0);
         this.needDivider = z;
         setWillNotDraw(!z);
+        AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = this.emojiDrawable;
+        if (swapAnimatedEmojiDrawable != null) {
+            swapAnimatedEmojiDrawable.set((Drawable) null, false);
+        }
     }
 
     public void setOffsetFromImage(int i) {
@@ -386,9 +421,13 @@ public class TextCell extends FrameLayout {
         this.valueImageView.setVisibility(8);
         this.needDivider = z2;
         setWillNotDraw(!z2);
-        Switch r5 = this.checkBox;
-        if (r5 != null) {
-            r5.setVisibility(8);
+        Switch r6 = this.checkBox;
+        if (r6 != null) {
+            r6.setVisibility(8);
+        }
+        AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = this.emojiDrawable;
+        if (swapAnimatedEmojiDrawable != null) {
+            swapAnimatedEmojiDrawable.set((Drawable) null, false);
         }
     }
 
@@ -424,9 +463,13 @@ public class TextCell extends FrameLayout {
         this.valueImageView.setVisibility(8);
         this.needDivider = z2;
         setWillNotDraw(!z2);
-        Switch r5 = this.checkBox;
-        if (r5 != null) {
-            r5.setVisibility(8);
+        Switch r6 = this.checkBox;
+        if (r6 != null) {
+            r6.setVisibility(8);
+        }
+        AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = this.emojiDrawable;
+        if (swapAnimatedEmojiDrawable != null) {
+            swapAnimatedEmojiDrawable.set((Drawable) null, false);
         }
     }
 
@@ -446,9 +489,13 @@ public class TextCell extends FrameLayout {
         this.imageView.setImageResource(i);
         this.needDivider = z;
         setWillNotDraw(!z);
-        Switch r3 = this.checkBox;
-        if (r3 != null) {
-            r3.setVisibility(8);
+        Switch r4 = this.checkBox;
+        if (r4 != null) {
+            r4.setVisibility(8);
+        }
+        AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = this.emojiDrawable;
+        if (swapAnimatedEmojiDrawable != null) {
+            swapAnimatedEmojiDrawable.set((Drawable) null, false);
         }
     }
 
@@ -480,9 +527,13 @@ public class TextCell extends FrameLayout {
         this.imageView.setImageResource(i);
         this.needDivider = z2;
         setWillNotDraw(!z2);
-        Switch r5 = this.checkBox;
-        if (r5 != null) {
-            r5.setVisibility(8);
+        Switch r6 = this.checkBox;
+        if (r6 != null) {
+            r6.setVisibility(8);
+        }
+        AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = this.emojiDrawable;
+        if (swapAnimatedEmojiDrawable != null) {
+            swapAnimatedEmojiDrawable.set((Drawable) null, false);
         }
     }
 
@@ -513,12 +564,16 @@ public class TextCell extends FrameLayout {
         this.imageView.setVisibility(8);
         this.valueImageView.setVisibility(8);
         this.needDivider = z2;
-        Switch r3 = this.checkBox;
-        if (r3 != null) {
-            r3.setVisibility(0);
+        Switch r4 = this.checkBox;
+        if (r4 != null) {
+            r4.setVisibility(0);
             this.checkBox.setChecked(z, false);
         }
         setWillNotDraw(!this.needDivider);
+        AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = this.emojiDrawable;
+        if (swapAnimatedEmojiDrawable != null) {
+            swapAnimatedEmojiDrawable.set((Drawable) null, false);
+        }
     }
 
     public void setTextAndCheckAndIcon(CharSequence charSequence, boolean z, int i, boolean z2) {
@@ -529,9 +584,9 @@ public class TextCell extends FrameLayout {
         this.valueTextView.setVisibility(8);
         this.valueSpoilersTextView.setVisibility(8);
         this.valueImageView.setVisibility(8);
-        Switch r3 = this.checkBox;
-        if (r3 != null) {
-            r3.setVisibility(0);
+        Switch r4 = this.checkBox;
+        if (r4 != null) {
+            r4.setVisibility(0);
             this.checkBox.setChecked(z, false);
         }
         this.imageView.setVisibility(0);
@@ -539,6 +594,10 @@ public class TextCell extends FrameLayout {
         this.imageView.setImageResource(i);
         this.needDivider = z2;
         setWillNotDraw(!z2);
+        AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = this.emojiDrawable;
+        if (swapAnimatedEmojiDrawable != null) {
+            swapAnimatedEmojiDrawable.set((Drawable) null, false);
+        }
     }
 
     public void setTextAndValueDrawable(String str, Drawable drawable, boolean z) {
@@ -557,10 +616,48 @@ public class TextCell extends FrameLayout {
         this.imageView.setPadding(0, AndroidUtilities.dp(7.0f), 0, 0);
         this.needDivider = z;
         setWillNotDraw(!z);
-        Switch r3 = this.checkBox;
-        if (r3 != null) {
-            r3.setVisibility(8);
+        Switch r4 = this.checkBox;
+        if (r4 != null) {
+            r4.setVisibility(8);
         }
+        AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = this.emojiDrawable;
+        if (swapAnimatedEmojiDrawable != null) {
+            swapAnimatedEmojiDrawable.set((Drawable) null, false);
+        }
+    }
+
+    public void setTextAndSticker(CharSequence charSequence, TLRPC$Document tLRPC$Document, boolean z) {
+        this.imageLeft = 21;
+        this.offsetFromImage = getOffsetFromImage(false);
+        this.textView.setText(charSequence);
+        this.textView.setRightDrawable((Drawable) null);
+        AnimatedTextView animatedTextView = this.valueTextView;
+        this.valueText = null;
+        animatedTextView.setText(null, false);
+        this.valueImageView.setVisibility(8);
+        this.valueTextView.setVisibility(8);
+        this.valueSpoilersTextView.setVisibility(8);
+        this.imageView.setVisibility(8);
+        this.imageView.setPadding(0, AndroidUtilities.dp(7.0f), 0, 0);
+        this.needDivider = z;
+        setWillNotDraw(!z);
+        Switch r4 = this.checkBox;
+        if (r4 != null) {
+            r4.setVisibility(8);
+        }
+        setValueSticker(tLRPC$Document);
+    }
+
+    public void setValueSticker(TLRPC$Document tLRPC$Document) {
+        if (this.emojiDrawable == null) {
+            AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(this, AndroidUtilities.dp(30.0f));
+            this.emojiDrawable = swapAnimatedEmojiDrawable;
+            if (this.attached) {
+                swapAnimatedEmojiDrawable.attach();
+            }
+        }
+        this.emojiDrawable.set(tLRPC$Document, 1, true);
+        invalidate();
     }
 
     @Override // android.view.View
@@ -642,11 +739,21 @@ public class TextCell extends FrameLayout {
     @Override // android.view.ViewGroup, android.view.View
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
+        this.attached = true;
+        AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = this.emojiDrawable;
+        if (swapAnimatedEmojiDrawable != null) {
+            swapAnimatedEmojiDrawable.attach();
+        }
     }
 
     @Override // android.view.ViewGroup, android.view.View
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
+        this.attached = false;
+        AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = this.emojiDrawable;
+        if (swapAnimatedEmojiDrawable != null) {
+            swapAnimatedEmojiDrawable.detach();
+        }
     }
 
     public void setDrawLoading(boolean z, int i, boolean z2) {
@@ -719,9 +826,19 @@ public class TextCell extends FrameLayout {
             canvas.drawRoundRect(rectF, AndroidUtilities.dp(3.0f), AndroidUtilities.dp(3.0f), this.paint);
             invalidate();
         }
-        this.valueTextView.setAlpha(1.0f - this.drawLoadingProgress);
-        this.valueSpoilersTextView.setAlpha(1.0f - this.drawLoadingProgress);
+        AnimatedTextView animatedTextView = this.valueTextView;
+        float f7 = 1.0f - this.drawLoadingProgress;
+        AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = this.emojiDrawable;
+        animatedTextView.setAlpha(f7 * (swapAnimatedEmojiDrawable == null ? 1.0f : 1.0f - swapAnimatedEmojiDrawable.isNotEmpty()));
+        SimpleTextView simpleTextView = this.valueSpoilersTextView;
+        float f8 = 1.0f - this.drawLoadingProgress;
+        AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable2 = this.emojiDrawable;
+        simpleTextView.setAlpha(f8 * (swapAnimatedEmojiDrawable2 != null ? 1.0f - swapAnimatedEmojiDrawable2.isNotEmpty() : 1.0f));
         super.dispatchDraw(canvas);
+        if (this.emojiDrawable != null) {
+            updateEmojiBounds();
+            this.emojiDrawable.draw(canvas);
+        }
     }
 
     public void setSubtitle(CharSequence charSequence) {

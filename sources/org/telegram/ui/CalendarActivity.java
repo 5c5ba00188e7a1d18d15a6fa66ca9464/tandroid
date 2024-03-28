@@ -75,7 +75,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.spoilers.SpoilerEffect;
 import org.telegram.ui.Stories.StoriesController;
 import org.telegram.ui.Stories.StoryViewer;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class CalendarActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     TextPaint activeTextPaint;
     CalendarAdapter adapter;
@@ -126,7 +126,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
     TextPaint textPaint2;
     private long topicId;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface Callback {
         void onDateSelected(int i, int i2);
     }
@@ -186,7 +186,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 1 implements StoryViewer.PlaceProvider {
         @Override // org.telegram.ui.Stories.StoryViewer.PlaceProvider
         public /* synthetic */ void loadNext(boolean z) {
@@ -712,7 +712,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class CalendarAdapter extends RecyclerView.Adapter {
         private CalendarAdapter() {
         }
@@ -755,7 +755,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class MonthView extends FrameLayout {
         int cellCount;
         int currentMonthInYear;
@@ -859,7 +859,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class 2 extends GestureDetector.SimpleOnGestureListener {
             final /* synthetic */ Context val$context;
 
@@ -1633,7 +1633,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class PeriodDay {
         int date;
         float enterAlpha;
@@ -1813,7 +1813,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static final class RowAnimationValue {
         float alpha;
         float endX;

@@ -192,11 +192,16 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
 
         /* loaded from: classes3.dex */
         public final /* synthetic */ class -CC {
+            public static void $default$didSetImageBitmap(ImageReceiverDelegate imageReceiverDelegate, int i, String str, Drawable drawable) {
+            }
+
             public static void $default$onAnimationReady(ImageReceiverDelegate imageReceiverDelegate, ImageReceiver imageReceiver) {
             }
         }
 
         void didSetImage(ImageReceiver imageReceiver, boolean z, boolean z2, boolean z3);
+
+        void didSetImageBitmap(int i, String str, Drawable drawable);
 
         void onAnimationReady(ImageReceiver imageReceiver);
     }
@@ -2651,6 +2656,10 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         return (this.currentImageDrawable == null && this.currentMediaDrawable == null && this.currentThumbDrawable == null && this.staticThumbDrawable == null && this.currentImageKey == null && this.currentMediaKey == null) ? false : true;
     }
 
+    public boolean hasMediaSet() {
+        return this.currentMediaDrawable != null;
+    }
+
     public boolean hasBitmapImage() {
         return (this.currentImageDrawable == null && this.currentThumbDrawable == null && this.staticThumbDrawable == null && this.currentMediaDrawable == null) ? false : true;
     }
@@ -3127,11 +3136,11 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Code restructure failed: missing block: B:61:0x00b7, code lost:
-        if ((r9 instanceof org.telegram.messenger.Emoji.EmojiDrawable) == false) goto L37;
+    /* JADX WARN: Code restructure failed: missing block: B:64:0x00be, code lost:
+        if ((r9 instanceof org.telegram.messenger.Emoji.EmojiDrawable) == false) goto L40;
      */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x0060  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x0074  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x0067  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x007b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3146,6 +3155,10 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         if (i == 0) {
             if (!str.equals(this.currentImageKey)) {
                 return false;
+            }
+            ImageReceiverDelegate imageReceiverDelegate = this.delegate;
+            if (imageReceiverDelegate != null) {
+                imageReceiverDelegate.didSetImageBitmap(i, str, drawable);
             }
             if (!(drawable instanceof AnimatedFileDrawable)) {
                 ImageLoader.getInstance().incrementUseCount(this.currentImageKey);
@@ -3237,6 +3250,10 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
             if (!str.equals(this.currentMediaKey)) {
                 return false;
             }
+            ImageReceiverDelegate imageReceiverDelegate2 = this.delegate;
+            if (imageReceiverDelegate2 != null) {
+                imageReceiverDelegate2.didSetImageBitmap(i, str, drawable);
+            }
             if (!(drawable instanceof AnimatedFileDrawable)) {
                 ImageLoader.getInstance().incrementUseCount(this.currentMediaKey);
             } else {
@@ -3289,6 +3306,10 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
             if (!str.equals(this.currentThumbKey)) {
                 return false;
             }
+            ImageReceiverDelegate imageReceiverDelegate3 = this.delegate;
+            if (imageReceiverDelegate3 != null) {
+                imageReceiverDelegate3.didSetImageBitmap(i, str, drawable);
+            }
             ImageLoader.getInstance().incrementUseCount(this.currentThumbKey);
             this.currentThumbDrawable = drawable;
             if (drawable instanceof ExtendedBitmapDrawable) {
@@ -3313,10 +3334,10 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
                 this.previousAlpha = 1.0f;
             }
         }
-        ImageReceiverDelegate imageReceiverDelegate = this.delegate;
-        if (imageReceiverDelegate != null) {
+        ImageReceiverDelegate imageReceiverDelegate4 = this.delegate;
+        if (imageReceiverDelegate4 != null) {
             Drawable drawable10 = this.currentImageDrawable;
-            imageReceiverDelegate.didSetImage(this, (drawable10 == null && this.currentThumbDrawable == null && this.staticThumbDrawable == null && this.currentMediaDrawable == null) ? false : true, drawable10 == null && this.currentMediaDrawable == null, z);
+            imageReceiverDelegate4.didSetImage(this, (drawable10 == null && this.currentThumbDrawable == null && this.staticThumbDrawable == null && this.currentMediaDrawable == null) ? false : true, drawable10 == null && this.currentMediaDrawable == null, z);
         }
         if (drawable instanceof AnimatedFileDrawable) {
             AnimatedFileDrawable animatedFileDrawable3 = (AnimatedFileDrawable) drawable;

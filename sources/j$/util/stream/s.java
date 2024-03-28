@@ -1,79 +1,147 @@
 package j$.util.stream;
 
-import j$.util.concurrent.ConcurrentHashMap;
-import j$.util.function.BiConsumer;
-import java.util.Collection;
+import j$.util.function.Function;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.Set;
 /* loaded from: classes2.dex */
-class s extends c3 {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public s(c cVar, e4 e4Var, int i) {
-        super(cVar, e4Var, i);
+class s extends j3 {
+    public final /* synthetic */ int b = 3;
+    Object c;
+    final /* synthetic */ Object d;
+
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public s(t tVar, n3 n3Var) {
+        super(n3Var);
+        this.d = tVar;
     }
 
-    @Override // j$.util.stream.c
-    A1 E0(y2 y2Var, j$.util.t tVar, j$.util.function.m mVar) {
-        if (d4.DISTINCT.d(y2Var.s0())) {
-            return y2Var.p0(tVar, false, mVar);
+    @Override // j$.util.function.Consumer
+    public void accept(Object obj) {
+        switch (this.b) {
+            case 0:
+                if (((Set) this.c).contains(obj)) {
+                    return;
+                }
+                ((Set) this.c).add(obj);
+                this.a.accept((n3) obj);
+                return;
+            case 1:
+                f1 f1Var = (f1) ((Function) ((O) this.d).m).apply(obj);
+                if (f1Var != null) {
+                    try {
+                        f1Var.sequential().d((j$.util.function.q) this.c);
+                    } catch (Throwable th) {
+                        try {
+                            f1Var.close();
+                        } catch (Throwable th2) {
+                            th.addSuppressed(th2);
+                        }
+                        throw th;
+                    }
+                }
+                if (f1Var != null) {
+                    f1Var.close();
+                    return;
+                }
+                return;
+            case 2:
+                IntStream intStream = (IntStream) ((Function) ((N) this.d).m).apply(obj);
+                if (intStream != null) {
+                    try {
+                        intStream.sequential().T((j$.util.function.l) this.c);
+                    } catch (Throwable th3) {
+                        try {
+                            intStream.close();
+                        } catch (Throwable th4) {
+                            th3.addSuppressed(th4);
+                        }
+                        throw th3;
+                    }
+                }
+                if (intStream != null) {
+                    intStream.close();
+                    return;
+                }
+                return;
+            default:
+                V v = (V) ((Function) ((L) this.d).m).apply(obj);
+                if (v != null) {
+                    try {
+                        v.sequential().j((j$.util.function.f) this.c);
+                    } catch (Throwable th5) {
+                        try {
+                            v.close();
+                        } catch (Throwable th6) {
+                            th5.addSuppressed(th6);
+                        }
+                        throw th5;
+                    }
+                }
+                if (v != null) {
+                    v.close();
+                    return;
+                }
+                return;
         }
-        if (d4.ORDERED.d(y2Var.s0())) {
-            return L0(y2Var, tVar);
+    }
+
+    @Override // j$.util.stream.j3, j$.util.stream.n3
+    public void m() {
+        switch (this.b) {
+            case 0:
+                this.c = null;
+                this.a.m();
+                return;
+            default:
+                this.a.m();
+                return;
         }
-        AtomicBoolean atomicBoolean = new AtomicBoolean(false);
-        ConcurrentHashMap concurrentHashMap = new ConcurrentHashMap();
-        new n0(new o(atomicBoolean, concurrentHashMap), false).c(y2Var, tVar);
-        Collection keySet = concurrentHashMap.keySet();
-        if (atomicBoolean.get()) {
-            HashSet hashSet = new HashSet(keySet);
-            hashSet.add(null);
-            keySet = hashSet;
+    }
+
+    @Override // j$.util.stream.n3
+    public void n(long j) {
+        switch (this.b) {
+            case 0:
+                this.c = new HashSet();
+                this.a.n(-1L);
+                return;
+            case 1:
+                this.a.n(-1L);
+                return;
+            case 2:
+                this.a.n(-1L);
+                return;
+            default:
+                this.a.n(-1L);
+                return;
         }
-        return new E1(keySet);
     }
 
-    @Override // j$.util.stream.c
-    j$.util.t F0(y2 y2Var, j$.util.t tVar) {
-        return d4.DISTINCT.d(y2Var.s0()) ? y2Var.w0(tVar) : d4.ORDERED.d(y2Var.s0()) ? ((E1) L0(y2Var, tVar)).spliterator() : new m4(y2Var.w0(tVar));
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public s(L l, n3 n3Var) {
+        super(n3Var);
+        this.d = l;
+        n3 n3Var2 = this.a;
+        Objects.requireNonNull(n3Var2);
+        this.c = new G(n3Var2);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // j$.util.stream.c
-    public m3 H0(int i, m3 m3Var) {
-        Objects.requireNonNull(m3Var);
-        return d4.DISTINCT.d(i) ? m3Var : d4.SORTED.d(i) ? new q(this, m3Var) : new r(this, m3Var);
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public s(N n, n3 n3Var) {
+        super(n3Var);
+        this.d = n;
+        n3 n3Var2 = this.a;
+        Objects.requireNonNull(n3Var2);
+        this.c = new C0(n3Var2);
     }
 
-    A1 L0(y2 y2Var, j$.util.t tVar) {
-        p pVar = new j$.util.function.y() { // from class: j$.util.stream.p
-            @Override // j$.util.function.y
-            public final Object get() {
-                return new LinkedHashSet();
-            }
-        };
-        m mVar = new BiConsumer() { // from class: j$.util.stream.m
-            @Override // j$.util.function.BiConsumer
-            public final void accept(Object obj, Object obj2) {
-                ((LinkedHashSet) obj).add(obj2);
-            }
-
-            @Override // j$.util.function.BiConsumer
-            public /* synthetic */ BiConsumer andThen(BiConsumer biConsumer) {
-                return BiConsumer.-CC.$default$andThen(this, biConsumer);
-            }
-        };
-        return new E1((Collection) new z2(e4.REFERENCE, new BiConsumer() { // from class: j$.util.stream.n
-            @Override // j$.util.function.BiConsumer
-            public final void accept(Object obj, Object obj2) {
-                ((LinkedHashSet) obj).addAll((LinkedHashSet) obj2);
-            }
-
-            @Override // j$.util.function.BiConsumer
-            public /* synthetic */ BiConsumer andThen(BiConsumer biConsumer) {
-                return BiConsumer.-CC.$default$andThen(this, biConsumer);
-            }
-        }, mVar, pVar).c(y2Var, tVar));
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public s(O o, n3 n3Var) {
+        super(n3Var);
+        this.d = o;
+        n3 n3Var2 = this.a;
+        Objects.requireNonNull(n3Var2);
+        this.c = new X0(n3Var2);
     }
 }

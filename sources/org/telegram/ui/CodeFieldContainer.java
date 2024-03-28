@@ -15,7 +15,7 @@ import org.telegram.PhoneFormat.PhoneFormat;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class CodeFieldContainer extends LinearLayout {
     Paint bitmapPaint;
     public CodeNumberField[] codeField;

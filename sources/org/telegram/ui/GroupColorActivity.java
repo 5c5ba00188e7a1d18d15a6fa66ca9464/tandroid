@@ -25,7 +25,7 @@ import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.Premium.LimitReachedBottomSheet;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.GroupColorActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class GroupColorActivity extends ChannelColorActivity {
     private boolean isLoading;
     private ChannelColorActivity.ProfilePreview profilePreview;
@@ -189,7 +189,7 @@ public class GroupColorActivity extends ChannelColorActivity {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 1 implements ViewTreeObserver.OnGlobalLayoutListener {
         final /* synthetic */ View val$view;
 

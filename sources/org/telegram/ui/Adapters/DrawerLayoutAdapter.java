@@ -26,7 +26,7 @@ import org.telegram.ui.Cells.DrawerUserCell;
 import org.telegram.ui.Cells.EmptyCell;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.SideMenultItemAnimator;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
     private boolean accountsShown;
     private boolean hasGps;
@@ -373,7 +373,7 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
         return item.bot;
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class Item {
         TLRPC$TL_attachMenuBot bot;
         public boolean error;

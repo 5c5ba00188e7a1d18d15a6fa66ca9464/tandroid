@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class RadialProgress {
     private static DecelerateInterpolator decelerateInterpolator;
     private Drawable checkBackgroundDrawable;

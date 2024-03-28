@@ -93,7 +93,7 @@ import org.telegram.ui.PeerColorActivity;
 import org.telegram.ui.SelectAnimatedEmojiDialog;
 import org.telegram.ui.Stories.StoriesUtilities;
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class PeerColorActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private static final float[] particles = {-18.0f, -24.66f, 24.0f, 0.4f, 5.33f, -53.0f, 28.0f, 0.38f, -4.0f, -86.0f, 19.0f, 0.18f, 31.0f, -30.0f, 21.0f, 0.35f, 12.0f, -3.0f, 24.0f, 0.18f, 30.0f, -73.0f, 19.0f, 0.3f, 43.0f, -101.0f, 16.0f, 0.1f, -50.0f, 1.33f, 20.0f, 0.22f, -58.0f, -33.0f, 24.0f, 0.22f, -35.0f, -62.0f, 25.0f, 0.22f, -59.0f, -88.0f, 19.0f, 0.18f, -86.0f, -61.0f, 19.0f, 0.1f, -90.0f, -14.33f, 19.66f, 0.18f};
     private FrameLayout actionBarContainer;
@@ -135,7 +135,7 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class Page extends FrameLayout {
         private int actionBarHeight;
         private ButtonWithCounterView button;
@@ -268,7 +268,7 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class 2 extends RecyclerListView.SelectionAdapter {
             final /* synthetic */ int val$type;
 
@@ -527,7 +527,7 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class SetReplyIconCell extends FrameLayout {
             private AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable imageDrawable;
             private Text offText;
@@ -808,13 +808,13 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:25:0x0062  */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x0067  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x0078  */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x007d  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x008e  */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x00a3 A[LOOP:1: B:38:0x009d->B:40:0x00a3, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x00b9  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x0061  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0066  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x0077  */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x007c  */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x008d  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x00a2 A[LOOP:1: B:38:0x009c->B:40:0x00a2, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x00b8  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1457,7 +1457,7 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class LevelLock extends Drawable {
         private final PremiumGradient.PremiumGradientTools gradientTools;
         private final Drawable lock;
@@ -1515,7 +1515,20 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
         }
     }
 
-    /* loaded from: classes3.dex */
+    public static CharSequence withLevelLock(CharSequence charSequence, int i) {
+        if (i <= 0) {
+            return charSequence;
+        }
+        Context context = ApplicationLoader.applicationContext;
+        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(charSequence);
+        spannableStringBuilder.append((CharSequence) "  L");
+        ColoredImageSpan coloredImageSpan = new ColoredImageSpan(new LevelLock(context, i, null));
+        coloredImageSpan.setTranslateY(AndroidUtilities.dp(1.0f));
+        spannableStringBuilder.setSpan(coloredImageSpan, spannableStringBuilder.length() - 1, spannableStringBuilder.length(), 33);
+        return spannableStringBuilder;
+    }
+
+    /* loaded from: classes4.dex */
     public static class ChangeNameColorCell extends View {
         private final Text buttonText;
         private PeerColorDrawable color1Drawable;
@@ -1733,7 +1746,7 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class PeerColorGrid extends View {
         private final Paint backgroundPaint;
         private ColorButton[] buttons;
@@ -1748,7 +1761,7 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
         private int selectedColorId;
         private final int type;
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class ColorButton {
             private final ButtonBounce bounce;
             private Paint closePaint;
@@ -2152,7 +2165,7 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class PeerColorSpan extends ReplacementSpan {
         public PeerColorDrawable drawable;
         private int size = AndroidUtilities.dp(21.0f);
@@ -2188,7 +2201,7 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class PeerColorDrawable extends Drawable {
         private final Path clipCirclePath;
         private final Paint color1Paint;
@@ -2312,7 +2325,7 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class ColoredActionBar extends View {
         private LinearGradient backgroundGradient;
         private int backgroundGradientColor1;
@@ -2446,7 +2459,7 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class ProfilePreview extends FrameLayout {
         protected final AvatarDrawable avatarDrawable;
         private final int currentAccount;

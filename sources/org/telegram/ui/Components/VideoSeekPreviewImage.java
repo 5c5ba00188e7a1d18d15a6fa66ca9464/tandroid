@@ -25,7 +25,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLRPC$TL_document;
 import org.telegram.tgnet.TLRPC$TL_documentAttributeFilename;
 import org.telegram.tgnet.TLRPC$TL_documentAttributeVideo;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class VideoSeekPreviewImage extends View {
     private Paint bitmapPaint;
     private RectF bitmapRect;
@@ -59,7 +59,7 @@ public class VideoSeekPreviewImage extends View {
     private int ytImageY;
     private Path ytPath;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface VideoSeekPreviewImageDelegate {
         void onReady();
     }
@@ -86,6 +86,11 @@ public class VideoSeekPreviewImage extends View {
             @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
             public final void didSetImage(ImageReceiver imageReceiver2, boolean z, boolean z2, boolean z3) {
                 VideoSeekPreviewImage.this.lambda$new$0(imageReceiver2, z, z2, z3);
+            }
+
+            @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
+            public /* synthetic */ void didSetImageBitmap(int i, String str, Drawable drawable) {
+                ImageReceiver.ImageReceiverDelegate.-CC.$default$didSetImageBitmap(this, i, str, drawable);
             }
 
             @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate

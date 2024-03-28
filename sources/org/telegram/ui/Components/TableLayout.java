@@ -17,7 +17,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.tgnet.TLRPC$TL_pageTableCell;
 import org.telegram.ui.ArticleViewer;
 import org.telegram.ui.Cells.TextSelectionHelper;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class TableLayout extends View {
     public static final Alignment BASELINE;
     public static final Alignment END;
@@ -58,7 +58,7 @@ public class TableLayout extends View {
     private ArrayList<Point> rowSpans;
     private TextSelectionHelper.ArticleTextSelectionHelper textSelectionHelper;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface TableLayoutDelegate {
         ArticleViewer.DrawingText createTextLayout(TLRPC$TL_pageTableCell tLRPC$TL_pageTableCell, int i);
 
@@ -75,7 +75,7 @@ public class TableLayout extends View {
         return (i & 2) != 0;
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class Child {
         private TLRPC$TL_pageTableCell cell;
         private int fixedHeight;
@@ -995,7 +995,7 @@ public class TableLayout extends View {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public final class Axis {
         public Arc[] arcs;
         public boolean arcsValid;
@@ -1573,7 +1573,7 @@ public class TableLayout extends View {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class LayoutParams extends ViewGroup.MarginLayoutParams {
         private static final Interval DEFAULT_SPAN;
         public Spec columnSpec;
@@ -1633,7 +1633,7 @@ public class TableLayout extends View {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static final class Arc {
         public final Interval span;
         public boolean valid = true;
@@ -1646,7 +1646,7 @@ public class TableLayout extends View {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static final class MutableInt {
         public int value;
 
@@ -1664,7 +1664,7 @@ public class TableLayout extends View {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static final class Assoc<K, V> extends ArrayList<Pair<K, V>> {
         private final Class<K> keyType;
         private final Class<V> valueType;
@@ -1695,7 +1695,7 @@ public class TableLayout extends View {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static final class PackedMap<K, V> {
         public final int[] index;
         public final K[] keys;
@@ -1739,7 +1739,7 @@ public class TableLayout extends View {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class Bounds {
         public int after;
         public int before;
@@ -1779,7 +1779,7 @@ public class TableLayout extends View {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static final class Interval {
         public final int max;
         public final int min;
@@ -1813,7 +1813,7 @@ public class TableLayout extends View {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class Spec {
         static final Spec UNDEFINED = TableLayout.spec(Integer.MIN_VALUE);
         final Alignment alignment;
@@ -1884,7 +1884,7 @@ public class TableLayout extends View {
         return spec(i, 1);
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static abstract class Alignment {
         abstract int getAlignmentValue(Child child, int i);
 

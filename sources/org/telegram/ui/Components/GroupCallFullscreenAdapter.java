@@ -37,7 +37,7 @@ import org.telegram.ui.Components.voip.GroupCallMiniTextureView;
 import org.telegram.ui.Components.voip.GroupCallRenderersContainer;
 import org.telegram.ui.Components.voip.GroupCallStatusIcon;
 import org.telegram.ui.GroupCallActivity;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class GroupCallFullscreenAdapter extends RecyclerListView.SelectionAdapter {
     private final GroupCallActivity activity;
     private ArrayList<GroupCallMiniTextureView> attachedRenderers;
@@ -135,7 +135,7 @@ public class GroupCallFullscreenAdapter extends RecyclerListView.SelectionAdapte
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class GroupCallUserCell extends FrameLayout implements GroupCallStatusIcon.Callback {
         boolean attached;
         AvatarDrawable avatarDrawable;

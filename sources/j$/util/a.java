@@ -3,7 +3,7 @@ package j$.util;
 import j$.util.function.Consumer;
 import j$.util.function.Predicate;
 import j$.util.stream.Stream;
-import j$.util.stream.o1;
+import j$.util.stream.p1;
 import j$.util.t;
 import java.util.Arrays;
 import java.util.Collection;
@@ -71,7 +71,7 @@ public abstract /* synthetic */ class a {
     }
 
     public static Stream g(Collection collection) {
-        return o1.y(Collection$-EL.b(collection), true);
+        return p1.y(Collection$-EL.b(collection), true);
     }
 
     public static boolean h(Collection collection, Predicate predicate) {
@@ -91,7 +91,7 @@ public abstract /* synthetic */ class a {
     }
 
     public static Stream i(Collection collection) {
-        return o1.y(Collection$-EL.b(collection), false);
+        return p1.y(Collection$-EL.b(collection), false);
     }
 
     public static boolean j(t.a aVar, Consumer consumer) {

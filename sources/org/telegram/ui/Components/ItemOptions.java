@@ -30,7 +30,7 @@ import org.telegram.ui.Cells.UserCell;
 import org.telegram.ui.Components.BlurringShader;
 import org.telegram.ui.ProfileActivity;
 import org.telegram.ui.Stories.recorder.HintView2;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class ItemOptions {
     private ActionBarPopupWindow actionBarPopupWindow;
     private ViewGroup container;
@@ -612,7 +612,7 @@ public class ItemOptions {
         return this;
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class DimView extends View {
         private final Bitmap cachedBitmap;
         private final Paint cachedBitmapPaint;

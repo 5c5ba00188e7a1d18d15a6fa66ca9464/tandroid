@@ -40,6 +40,7 @@ import org.telegram.messenger.UserObject;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$EmojiStatus;
 import org.telegram.tgnet.TLRPC$InputStickerSet;
+import org.telegram.tgnet.TLRPC$StickerSet;
 import org.telegram.tgnet.TLRPC$TL_emojiStatus;
 import org.telegram.tgnet.TLRPC$TL_emojiStatusEmpty;
 import org.telegram.tgnet.TLRPC$TL_emojiStatusUntil;
@@ -50,7 +51,7 @@ import org.telegram.ui.Components.Bulletin;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.SuggestEmojiView;
 import org.telegram.ui.ContentPreviewViewer;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class SuggestEmojiView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private Adapter adapter;
     private Integer arrowToEnd;
@@ -87,16 +88,36 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
     private Runnable updateRunnable;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class 1 implements ContentPreviewViewer.ContentPreviewViewerDelegate {
+        @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+        public /* synthetic */ void addToFavoriteSelected(String str) {
+            ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$addToFavoriteSelected(this, str);
+        }
+
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
         public boolean can() {
             return true;
         }
 
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+        public /* synthetic */ boolean canEditSticker() {
+            return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$canEditSticker(this);
+        }
+
+        @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
         public boolean canSchedule() {
             return false;
+        }
+
+        @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+        public /* synthetic */ void deleteSticker(TLRPC$Document tLRPC$Document) {
+            ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$deleteSticker(this, tLRPC$Document);
+        }
+
+        @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+        public /* synthetic */ void editSticker(TLRPC$Document tLRPC$Document) {
+            ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$editSticker(this, tLRPC$Document);
         }
 
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
@@ -120,6 +141,16 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
         }
 
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+        public /* synthetic */ boolean isReplacedSticker() {
+            return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$isReplacedSticker(this);
+        }
+
+        @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+        public /* synthetic */ boolean isStickerEditor() {
+            return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$isStickerEditor(this);
+        }
+
+        @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
         public /* synthetic */ boolean needMenu() {
             return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$needMenu(this);
         }
@@ -137,6 +168,11 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
         public /* synthetic */ boolean needRemoveFromRecent(TLRPC$Document tLRPC$Document) {
             return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$needRemoveFromRecent(this, tLRPC$Document);
+        }
+
+        @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+        public /* synthetic */ void newStickerPackSelected(CharSequence charSequence, String str) {
+            ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$newStickerPackSelected(this, charSequence, str);
         }
 
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
@@ -164,8 +200,18 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
         }
 
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+        public /* synthetic */ void sendSticker() {
+            ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$sendSticker(this);
+        }
+
+        @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
         public /* synthetic */ void sendSticker(TLRPC$Document tLRPC$Document, String str, Object obj, boolean z, int i) {
             ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$sendSticker(this, tLRPC$Document, str, obj, z, i);
+        }
+
+        @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+        public /* synthetic */ void stickerSetSelected(TLRPC$StickerSet tLRPC$StickerSet, String str) {
+            ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$stickerSetSelected(this, tLRPC$StickerSet, str);
         }
 
         1() {
@@ -988,7 +1034,7 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class EmojiImageView extends View {
         private boolean attached;
         public Drawable drawable;
@@ -1087,7 +1133,7 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class Adapter extends RecyclerListView.SelectionAdapter {
         SuggestEmojiView suggestEmojiView;
 

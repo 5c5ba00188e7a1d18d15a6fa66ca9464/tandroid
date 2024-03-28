@@ -4,22 +4,22 @@ import j$.util.function.Consumer;
 import java.util.Objects;
 /* loaded from: classes2.dex */
 public abstract class h3 implements l3 {
-    protected final m3 a;
+    protected final n3 a;
 
-    public h3(m3 m3Var) {
-        Objects.requireNonNull(m3Var);
-        this.a = m3Var;
+    public h3(n3 n3Var) {
+        Objects.requireNonNull(n3Var);
+        this.a = n3Var;
     }
 
-    @Override // j$.util.stream.m3
+    @Override // j$.util.stream.n3
     public /* synthetic */ void accept(double d) {
-        o1.f(this);
+        p1.f(this);
         throw null;
     }
 
-    @Override // j$.util.stream.m3
-    public /* synthetic */ void accept(int i) {
-        o1.d(this);
+    @Override // j$.util.stream.n3, j$.util.stream.m3, j$.util.function.q
+    public /* synthetic */ void accept(long j) {
+        p1.e(this);
         throw null;
     }
 
@@ -30,22 +30,22 @@ public abstract class h3 implements l3 {
 
     @Override // j$.util.function.Consumer
     /* renamed from: b */
-    public /* synthetic */ void accept(Long l) {
-        o1.c(this, l);
+    public /* synthetic */ void accept(Integer num) {
+        p1.b(this, num);
     }
 
-    @Override // j$.util.function.q
-    public j$.util.function.q f(j$.util.function.q qVar) {
-        Objects.requireNonNull(qVar);
-        return new j$.util.function.p(this, qVar);
+    @Override // j$.util.function.l
+    public j$.util.function.l l(j$.util.function.l lVar) {
+        Objects.requireNonNull(lVar);
+        return new j$.util.function.k(this, lVar);
     }
 
-    @Override // j$.util.stream.m3
+    @Override // j$.util.stream.n3
     public void m() {
         this.a.m();
     }
 
-    @Override // j$.util.stream.m3
+    @Override // j$.util.stream.n3
     public boolean o() {
         return this.a.o();
     }

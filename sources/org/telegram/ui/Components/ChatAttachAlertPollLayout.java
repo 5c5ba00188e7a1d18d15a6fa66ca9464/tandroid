@@ -56,7 +56,7 @@ import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.ChatAttachAlert;
 import org.telegram.ui.Components.ChatAttachAlertPollLayout;
 import org.telegram.ui.Components.RecyclerListView;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class ChatAttachAlertPollLayout extends ChatAttachAlert.AttachAlertLayout {
     private int addAnswerRow;
     private boolean allowNesterScroll;
@@ -96,7 +96,7 @@ public class ChatAttachAlertPollLayout extends ChatAttachAlert.AttachAlertLayout
     private CharSequence solutionString;
     private int topPadding;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface PollCreateActivityDelegate {
         void sendPoll(TLRPC$TL_messageMediaPoll tLRPC$TL_messageMediaPoll, HashMap<String, String> hashMap, boolean z, int i);
     }
@@ -112,14 +112,14 @@ public class ChatAttachAlertPollLayout extends ChatAttachAlert.AttachAlertLayout
         return i;
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     private static class EmptyView extends View {
         public EmptyView(Context context) {
             super(context);
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class TouchHelperCallback extends ItemTouchHelper.Callback {
         @Override // androidx.recyclerview.widget.ItemTouchHelper.Callback
         public boolean isLongPressDragEnabled() {
@@ -840,7 +840,7 @@ public class ChatAttachAlertPollLayout extends ChatAttachAlert.AttachAlertLayout
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 

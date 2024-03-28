@@ -33,7 +33,7 @@ import org.telegram.tgnet.TLRPC$TL_groupCallParticipant;
 import org.telegram.ui.Components.GroupCallPip;
 import org.telegram.ui.Components.voip.RTMPStreamPipOverlay;
 import org.telegram.ui.GroupCallActivity;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class GroupCallPip implements NotificationCenter.NotificationCenterDelegate {
     private static boolean forceRemoved = true;
     private static GroupCallPip instance;
@@ -251,7 +251,7 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
         frameLayout2.addView(groupCallPipAlertView, LayoutHelper.createFrame(-2, -2.0f));
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     class 3 extends FrameLayout {
         Runnable micRunnable;
         AnimatorSet moveToBoundsAnimator;
@@ -717,7 +717,7 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class 9 extends AnimatorListenerAdapter {
         final /* synthetic */ View val$alert;
         final /* synthetic */ WindowManager val$windowManager;

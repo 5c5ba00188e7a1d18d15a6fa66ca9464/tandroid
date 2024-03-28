@@ -18,7 +18,7 @@ import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.LayoutHelper;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class CreateTopicEmptyView extends LinearLayout {
     BackupImageView backupImageView;
     private final Theme.ResourcesProvider resourcesProvider;

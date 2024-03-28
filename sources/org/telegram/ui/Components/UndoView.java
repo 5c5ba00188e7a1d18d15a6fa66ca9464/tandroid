@@ -61,7 +61,7 @@ import org.telegram.ui.Components.LinkSpanDrawable;
 import org.telegram.ui.Components.Premium.boosts.BoostRepository;
 import org.telegram.ui.PaymentFormActivity;
 @Deprecated
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class UndoView extends FrameLayout {
     public static int ACTION_RINGTONE_ADDED = 83;
     private float additionalTranslationY;
@@ -121,7 +121,7 @@ public class UndoView extends FrameLayout {
     protected void onRemoveDialogAction(long j, int i) {
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class LinkMovementMethodMy extends LinkMovementMethod {
         public LinkMovementMethodMy() {
         }
@@ -387,11 +387,11 @@ public class UndoView extends FrameLayout {
         showWithAction(arrayList, i, obj, obj2, runnable, runnable2);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:627:0x187d  */
-    /* JADX WARN: Removed duplicated region for block: B:630:0x189d  */
-    /* JADX WARN: Removed duplicated region for block: B:633:0x18c4  */
-    /* JADX WARN: Removed duplicated region for block: B:637:0x1909  */
-    /* JADX WARN: Removed duplicated region for block: B:668:0x19bb  */
+    /* JADX WARN: Removed duplicated region for block: B:627:0x1880  */
+    /* JADX WARN: Removed duplicated region for block: B:630:0x18a0  */
+    /* JADX WARN: Removed duplicated region for block: B:633:0x18c7  */
+    /* JADX WARN: Removed duplicated region for block: B:637:0x190c  */
+    /* JADX WARN: Removed duplicated region for block: B:668:0x19be  */
     /* JADX WARN: Removed duplicated region for block: B:694:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

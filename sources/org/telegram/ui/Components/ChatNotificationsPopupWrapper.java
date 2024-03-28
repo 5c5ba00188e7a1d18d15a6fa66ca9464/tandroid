@@ -20,7 +20,7 @@ import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.ChatNotificationsPopupWrapper;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class ChatNotificationsPopupWrapper {
     View backItem;
     Callback callback;
@@ -38,10 +38,10 @@ public class ChatNotificationsPopupWrapper {
     public int type;
     public ActionBarPopupWindow.ActionBarPopupWindowLayout windowLayout;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface Callback {
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public final /* synthetic */ class -CC {
             public static void $default$dismiss(Callback callback) {
             }

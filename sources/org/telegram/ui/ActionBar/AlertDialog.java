@@ -60,7 +60,7 @@ import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.Components.RadialProgressView;
 import org.telegram.ui.Components.spoilers.SpoilersTextView;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class AlertDialog extends Dialog implements Drawable.Callback, NotificationCenter.NotificationCenterDelegate {
     private View aboveMessageView;
     private int additioanalHorizontalPadding;
@@ -181,7 +181,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class AlertDialogCell extends FrameLayout {
         private ImageView imageView;
         private final Theme.ResourcesProvider resourcesProvider;
@@ -307,7 +307,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public class 1 extends LinearLayout {
         private Paint backgroundPaint;
         private AnimatedFloat blurPaintAlpha;
@@ -1583,7 +1583,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
         return this.buttonsLayout;
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class Builder {
         private AlertDialog alertDialog;
 

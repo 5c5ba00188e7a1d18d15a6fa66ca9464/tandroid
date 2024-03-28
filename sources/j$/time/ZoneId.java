@@ -49,7 +49,7 @@ public abstract class ZoneId implements Serializable {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public ZoneId() {
-        if (getClass() != ZoneOffset.class && getClass() != m.class) {
+        if (getClass() != ZoneOffset.class && getClass() != k.class) {
             throw new AssertionError("Invalid subclass");
         }
     }
@@ -64,7 +64,7 @@ public abstract class ZoneId implements Serializable {
             if (zoneOffset.getTotalSeconds() != 0) {
                 str = str.concat(zoneOffset.getId());
             }
-            return new m(str, ZoneRules.e(zoneOffset));
+            return new k(str, ZoneRules.e(zoneOffset));
         }
         throw new IllegalArgumentException("prefix should be GMT, UTC or UT, is: " + str);
     }
@@ -82,7 +82,7 @@ public abstract class ZoneId implements Serializable {
                 throw new c("Invalid ID for offset-based ZoneId: " + str, e);
             }
         }
-        return m.h(str, z);
+        return k.h(str, z);
     }
 
     public static ZoneId of(String str) {
@@ -94,7 +94,7 @@ public abstract class ZoneId implements Serializable {
         if (str.startsWith("UTC") || str.startsWith("GMT")) {
             i = 3;
         } else if (!str.startsWith("UT")) {
-            return m.h(str, true);
+            return k.h(str, true);
         } else {
             i = 2;
         }
@@ -126,7 +126,7 @@ public abstract class ZoneId implements Serializable {
     public String getDisplayName(TextStyle textStyle, Locale locale) {
         r rVar = new r();
         rVar.o(textStyle);
-        return rVar.u(locale).a(new l(this));
+        return rVar.u(locale).a(new j(this));
     }
 
     public abstract String getId();

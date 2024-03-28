@@ -105,7 +105,7 @@ import org.telegram.ui.Components.UndoView;
 import org.telegram.ui.DilogCacheBottomSheet;
 import org.telegram.ui.KeepMediaPopupView;
 import org.telegram.ui.Storage.CacheModel;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class CacheControlActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private static int LISTDIR_DOCTYPE2_EMOJI = 3;
     private static int LISTDIR_DOCTYPE2_OTHER = 5;
@@ -168,7 +168,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
     private ArrayList<ItemInner> itemInners = new ArrayList<>();
     private float actionBarShadowAlpha = 1.0f;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class FileEntities {
         public int count;
         public ArrayList<CacheModel.FileInfo> files = new ArrayList<>();
@@ -1948,7 +1948,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class CacheChartHeader extends FrameLayout {
         View bottomImage;
         boolean firstSet;
@@ -2211,7 +2211,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ClearingCacheView extends FrameLayout {
         RLottieImageView imageView;
         AnimatedTextView percentsTextView;
@@ -2270,7 +2270,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class ProgressView extends View {
             Paint in;
             Paint out;
@@ -2306,7 +2306,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ClearCacheButtonInternal extends ClearCacheButton {
         public ClearCacheButtonInternal(Context context) {
             super(context);
@@ -2461,7 +2461,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         return true;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class ClearCacheButton extends FrameLayout {
         FrameLayout button;
         TextView rtlTextView;
@@ -2707,7 +2707,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ListAdapter extends AdapterWithDiffUtils {
         private Context mContext;
 
@@ -2738,7 +2738,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             }
         }
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         class 1 extends CacheChart {
             /* JADX INFO: Access modifiers changed from: private */
             public static /* synthetic */ int lambda$onSectionDown$0(int i) {
@@ -3207,7 +3207,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class UserCell extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
         private boolean canDisable;
         protected CheckBox2 checkBox;
@@ -3409,7 +3409,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class DialogFileEntities {
         public long dialogId;
         public final SparseArray<FileEntities> entitiesByType = new SparseArray<>();
@@ -3490,7 +3490,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class ItemInner extends AdapterWithDiffUtils.Item {
         int colorKey;
         DialogFileEntities entities;

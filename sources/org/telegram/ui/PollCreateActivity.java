@@ -58,7 +58,7 @@ import org.telegram.ui.Components.HintView;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.PollCreateActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class PollCreateActivity extends BaseFragment {
     private int addAnswerRow;
     private int anonymousRow;
@@ -93,7 +93,7 @@ public class PollCreateActivity extends BaseFragment {
     private boolean anonymousPoll = true;
     private int requestFieldFocusAtPosition = -1;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface PollCreateActivityDelegate {
         void sendPoll(TLRPC$TL_messageMediaPoll tLRPC$TL_messageMediaPoll, HashMap<String, String> hashMap, boolean z, int i);
     }
@@ -104,7 +104,7 @@ public class PollCreateActivity extends BaseFragment {
         return i;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class TouchHelperCallback extends ItemTouchHelper.Callback {
         @Override // androidx.recyclerview.widget.ItemTouchHelper.Callback
         public boolean isLongPressDragEnabled() {
@@ -243,7 +243,7 @@ public class PollCreateActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 1 extends ActionBar.ActionBarMenuOnItemClick {
         1() {
         }
@@ -656,7 +656,7 @@ public class PollCreateActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 

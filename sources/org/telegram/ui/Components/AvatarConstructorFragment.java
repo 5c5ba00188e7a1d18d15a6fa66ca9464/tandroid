@@ -57,7 +57,7 @@ import org.telegram.ui.Components.ColorPicker;
 import org.telegram.ui.Components.ImageUpdater;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.SelectAnimatedEmojiDialog;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class AvatarConstructorFragment extends BaseFragment {
     public static final int[][] defaultColors = {new int[]{-11694593, -13910017, -14622003, -15801871}, new int[]{-10569989, -14692629, -12191817, -14683687}, new int[]{-16133536, -10560448, -4070106, -8331477}, new int[]{-693938, -690388, -11246, -22717}, new int[]{-636796, -1090751, -612560, -35006}, new int[]{-439392, -304000, -19910, -98718}, new int[]{-8160001, -5217281, -36183, -1938945}};
     CanvasButton avatarClickableArea;
@@ -96,7 +96,7 @@ public class AvatarConstructorFragment extends BaseFragment {
     boolean isLightInternal = false;
     float progressToLightStatusBar = 0.0f;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface Delegate {
         void onDone(BackgroundGradient backgroundGradient, long j, TLRPC$Document tLRPC$Document, PreviewView previewView);
     }
@@ -725,7 +725,7 @@ public class AvatarConstructorFragment extends BaseFragment {
         this.selectAnimatedEmojiDialog.setForUser(true);
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class PreviewView extends FrameLayout {
         BackgroundGradient backgroundGradient;
         BackupImageView backupImageView;
@@ -936,7 +936,7 @@ public class AvatarConstructorFragment extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class BackgroundSelectView extends RecyclerListView {
         RecyclerView.Adapter adapter;
         BackgroundGradient customSelectedGradient;
@@ -1268,7 +1268,7 @@ public class AvatarConstructorFragment extends BaseFragment {
         this.bottomSheet.dismiss();
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class BackgroundGradient {
         int color1;
         int color2;
@@ -1326,7 +1326,7 @@ public class AvatarConstructorFragment extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class GradientSelectorView extends View {
         Drawable addIcon;
         BackgroundGradient backgroundGradient;
@@ -1492,7 +1492,7 @@ public class AvatarConstructorFragment extends BaseFragment {
         setExpanded(!this.previewView.expanded, true, false);
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     private class ContainerLayout extends SizeNotifierFrameLayout implements NestedScrollingParent {
         private NestedScrollingParentHelper nestedScrollingParentHelper;
 

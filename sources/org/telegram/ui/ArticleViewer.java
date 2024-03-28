@@ -259,7 +259,7 @@ import org.telegram.ui.Components.VideoPlayer;
 import org.telegram.ui.Components.WebPlayerView;
 import org.telegram.ui.PhotoViewer;
 import org.telegram.ui.PinchToZoomHelper;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ArticleViewer implements NotificationCenter.NotificationCenterDelegate {
     @SuppressLint({"StaticFieldLeak"})
     private static volatile ArticleViewer Instance;
@@ -471,7 +471,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class TL_pageBlockRelatedArticlesChild extends TLRPC$PageBlock {
         private int num;
         private TLRPC$TL_pageBlockRelatedArticles parent;
@@ -481,7 +481,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class TL_pageBlockRelatedArticlesShadow extends TLRPC$PageBlock {
         private TLRPC$TL_pageBlockRelatedArticles parent;
 
@@ -490,7 +490,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class TL_pageBlockDetailsChild extends TLRPC$PageBlock {
         private TLRPC$PageBlock block;
         private TLRPC$PageBlock parent;
@@ -500,7 +500,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class TL_pageBlockListParent extends TLRPC$PageBlock {
         private ArrayList<TL_pageBlockListItem> items;
         private int lastFontSize;
@@ -515,7 +515,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class TL_pageBlockListItem extends TLRPC$PageBlock {
         private TLRPC$PageBlock blockItem;
         private int index;
@@ -530,7 +530,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class TL_pageBlockOrderedListParent extends TLRPC$PageBlock {
         private ArrayList<TL_pageBlockOrderedListItem> items;
         private int lastFontSize;
@@ -545,7 +545,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class TL_pageBlockOrderedListItem extends TLRPC$PageBlock {
         private TLRPC$PageBlock blockItem;
         private int index;
@@ -560,7 +560,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class TL_pageBlockEmbedPostCaption extends TLRPC$TL_pageBlockEmbedPost {
         private TLRPC$TL_pageBlockEmbedPost parent;
 
@@ -568,7 +568,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class DrawingText implements TextSelectionHelper.TextLayoutBlock {
         private boolean isDrawing;
         private View latestParentView;
@@ -701,7 +701,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class TextSizeCell extends FrameLayout {
         private int endFontSize;
         private int lastWidth;
@@ -779,7 +779,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class FontCell extends FrameLayout {
         private RadioButton radioButton;
         private TextView textView;
@@ -833,7 +833,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public final class CheckForTap implements Runnable {
         private CheckForTap() {
         }
@@ -852,7 +852,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class WindowView extends FrameLayout {
         private float alpha;
         private int bHeight;
@@ -1287,7 +1287,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class CheckForLongPress implements Runnable {
         public int currentPressCount;
 
@@ -4192,7 +4192,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 13 implements TextWatcher {
         @Override // android.text.TextWatcher
         public void afterTextChanged(Editable editable) {
@@ -4559,7 +4559,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class SearchResult {
         private TLRPC$PageBlock block;
         private int index;
@@ -4869,9 +4869,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     /* JADX WARN: Removed duplicated region for block: B:42:0x00d6  */
     /* JADX WARN: Removed duplicated region for block: B:43:0x00de  */
     /* JADX WARN: Removed duplicated region for block: B:46:0x00e7  */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x0123  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x015d  */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x01ee  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x0122  */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x015c  */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x01ed  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -5143,7 +5143,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 22 extends AnimatorListenerAdapter {
         22() {
         }
@@ -5633,7 +5633,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static final class WebPageUtils {
         public static TLRPC$Photo getPhotoWithId(TLRPC$WebPage tLRPC$WebPage, long j) {
             if (tLRPC$WebPage != null && tLRPC$WebPage.cached_page != null) {
@@ -5703,7 +5703,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class WebpageAdapter extends RecyclerListView.SelectionAdapter {
         private TLRPC$TL_pageBlockChannel channelBlock;
         private Context context;
@@ -5952,10 +5952,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
         /* JADX INFO: Access modifiers changed from: private */
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Removed duplicated region for block: B:146:0x04e3  */
-        /* JADX WARN: Removed duplicated region for block: B:147:0x050d  */
-        /* JADX WARN: Removed duplicated region for block: B:154:0x0530  */
-        /* JADX WARN: Removed duplicated region for block: B:182:0x05a6 A[SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:146:0x04e2  */
+        /* JADX WARN: Removed duplicated region for block: B:147:0x050c  */
+        /* JADX WARN: Removed duplicated region for block: B:154:0x052f  */
+        /* JADX WARN: Removed duplicated region for block: B:182:0x05a5 A[SYNTHETIC] */
         /* JADX WARN: Type inference failed for: r1v14, types: [org.telegram.tgnet.TLRPC$PageBlock] */
         /* JADX WARN: Type inference failed for: r1v41, types: [org.telegram.tgnet.TLRPC$PageBlock] */
         /* JADX WARN: Type inference failed for: r24v0, types: [org.telegram.ui.ArticleViewer$WebpageAdapter] */
@@ -6800,7 +6800,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class BlockVideoCellState {
         Bitmap lastFrameBitmap;
         long playFrom;
@@ -6855,7 +6855,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class BlockVideoCell extends FrameLayout implements DownloadController.FileDownloadProgressListener, TextSelectionHelper.ArticleSelectableView {
         private int TAG;
         private AspectRatioFrameLayout aspectRatioFrameLayout;
@@ -7492,7 +7492,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class BlockAudioCell extends View implements DownloadController.FileDownloadProgressListener, TextSelectionHelper.ArticleSelectableView {
         private int TAG;
         private int buttonPressed;
@@ -7944,7 +7944,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class BlockEmbedPostCell extends View implements TextSelectionHelper.ArticleSelectableView {
         private AvatarDrawable avatarDrawable;
         private ImageReceiver avatarImageView;
@@ -8151,7 +8151,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class BlockParagraphCell extends View implements TextSelectionHelper.ArticleSelectableView {
         private TLRPC$TL_pageBlockParagraph currentBlock;
         private WebpageAdapter parentAdapter;
@@ -8248,7 +8248,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class BlockEmbedCell extends FrameLayout implements TextSelectionHelper.ArticleSelectableView {
         private DrawingText captionLayout;
         private DrawingText creditLayout;
@@ -8264,7 +8264,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         private TouchyWebView webView;
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class TelegramWebviewProxy {
             private TelegramWebviewProxy() {
             }
@@ -8292,7 +8292,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             }
         }
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class TouchyWebView extends WebView {
             public TouchyWebView(Context context) {
                 super(context);
@@ -8451,7 +8451,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class 2 extends WebChromeClient {
             2(ArticleViewer articleViewer) {
             }
@@ -8741,7 +8741,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class BlockTableCell extends FrameLayout implements TableLayout.TableLayoutDelegate, TextSelectionHelper.ArticleSelectableView {
         private TLRPC$TL_pageBlockTable currentBlock;
         private boolean firstLayout;
@@ -9051,7 +9051,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class BlockCollageCell extends FrameLayout implements TextSelectionHelper.ArticleSelectableView {
         private DrawingText captionLayout;
         private DrawingText creditLayout;
@@ -9066,7 +9066,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         private int textX;
         private int textY;
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class GroupedMessages {
             public ArrayList<MessageObject.GroupedMessagePosition> posArray = new ArrayList<>();
             public HashMap<TLObject, MessageObject.GroupedMessagePosition> positions = new HashMap<>();
@@ -9076,7 +9076,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             }
 
             /* JADX INFO: Access modifiers changed from: private */
-            /* loaded from: classes3.dex */
+            /* loaded from: classes4.dex */
             public class MessageGroupedLayoutAttempt {
                 public float[] heights;
                 public int[] lineCounts;
@@ -9111,8 +9111,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             /* JADX WARN: Removed duplicated region for block: B:26:0x008e  */
             /* JADX WARN: Removed duplicated region for block: B:27:0x0091  */
             /* JADX WARN: Removed duplicated region for block: B:30:0x009e  */
-            /* JADX WARN: Removed duplicated region for block: B:31:0x00a5  */
-            /* JADX WARN: Removed duplicated region for block: B:37:0x00c0  */
+            /* JADX WARN: Removed duplicated region for block: B:31:0x00a4  */
+            /* JADX WARN: Removed duplicated region for block: B:37:0x00bf  */
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
@@ -9755,7 +9755,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class BlockSlideshowCell extends FrameLayout implements TextSelectionHelper.ArticleSelectableView {
         private DrawingText captionLayout;
         private DrawingText creditLayout;
@@ -9817,7 +9817,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             ViewPager viewPager2 = this.innerListView;
             PagerAdapter pagerAdapter = new PagerAdapter(ArticleViewer.this) { // from class: org.telegram.ui.ArticleViewer.BlockSlideshowCell.3
 
-                /* loaded from: classes3.dex */
+                /* loaded from: classes4.dex */
                 class ObjectContainer {
                     private TLRPC$PageBlock block;
                     private View view;
@@ -10026,7 +10026,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class BlockListItemCell extends ViewGroup implements TextSelectionHelper.ArticleSelectableView {
         private RecyclerView.ViewHolder blockLayout;
         private int blockX;
@@ -10326,7 +10326,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class BlockOrderedListItemCell extends ViewGroup implements TextSelectionHelper.ArticleSelectableView {
         private RecyclerView.ViewHolder blockLayout;
         private int blockX;
@@ -10622,7 +10622,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class BlockDetailsCell extends View implements TextSelectionHelper.ArticleSelectableView {
         private AnimatedArrowDrawable arrow;
         private TLRPC$TL_pageBlockDetails currentBlock;
@@ -10715,7 +10715,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class BlockDetailsBottomCell extends View {
         public BlockDetailsBottomCell(Context context) {
             super(context);
@@ -10734,7 +10734,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class BlockRelatedArticlesShadowCell extends View {
         private CombinedDrawable shadowDrawable;
 
@@ -10754,7 +10754,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class BlockRelatedArticlesHeaderCell extends View implements TextSelectionHelper.ArticleSelectableView {
         private TLRPC$TL_pageBlockRelatedArticles currentBlock;
         private WebpageAdapter parentAdapter;
@@ -10821,7 +10821,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class BlockRelatedArticlesCell extends View implements TextSelectionHelper.ArticleSelectableView {
         private TL_pageBlockRelatedArticlesChild currentBlock;
         private boolean divider;
@@ -10982,7 +10982,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class BlockHeaderCell extends View implements TextSelectionHelper.ArticleSelectableView {
         private TLRPC$TL_pageBlockHeader currentBlock;
         private WebpageAdapter parentAdapter;
@@ -11060,7 +11060,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class BlockDividerCell extends View {
         private RectF rect;
 
@@ -11083,7 +11083,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class BlockSubtitleCell extends View implements TextSelectionHelper.ArticleSelectableView {
         private TLRPC$TL_pageBlockSubtitle currentBlock;
         private WebpageAdapter parentAdapter;
@@ -11161,7 +11161,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class BlockPullquoteCell extends View implements TextSelectionHelper.ArticleSelectableView {
         private TLRPC$TL_pageBlockPullquote currentBlock;
         private WebpageAdapter parentAdapter;
@@ -11258,7 +11258,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class BlockBlockquoteCell extends View implements TextSelectionHelper.ArticleSelectableView {
         private TLRPC$TL_pageBlockBlockquote currentBlock;
         private WebpageAdapter parentAdapter;
@@ -11386,7 +11386,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class BlockPhotoCell extends FrameLayout implements DownloadController.FileDownloadProgressListener, TextSelectionHelper.ArticleSelectableView {
         private int TAG;
         boolean autoDownload;
@@ -11880,7 +11880,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class BlockMapCell extends FrameLayout implements TextSelectionHelper.ArticleSelectableView {
         private DrawingText captionLayout;
         private DrawingText creditLayout;
@@ -12152,7 +12152,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class BlockChannelCell extends FrameLayout implements TextSelectionHelper.ArticleSelectableView {
         private Paint backgroundPaint;
         private int buttonWidth;
@@ -12386,7 +12386,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class BlockAuthorDateCell extends View implements TextSelectionHelper.ArticleSelectableView {
         private TLRPC$TL_pageBlockAuthorDate currentBlock;
         private WebpageAdapter parentAdapter;
@@ -12512,7 +12512,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class BlockTitleCell extends View implements TextSelectionHelper.ArticleSelectableView {
         private TLRPC$TL_pageBlockTitle currentBlock;
         private WebpageAdapter parentAdapter;
@@ -12596,7 +12596,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class BlockKickerCell extends View implements TextSelectionHelper.ArticleSelectableView {
         private TLRPC$TL_pageBlockKicker currentBlock;
         private WebpageAdapter parentAdapter;
@@ -12670,7 +12670,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class BlockFooterCell extends View implements TextSelectionHelper.ArticleSelectableView {
         private TLRPC$TL_pageBlockFooter currentBlock;
         private WebpageAdapter parentAdapter;
@@ -12758,7 +12758,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class BlockPreformattedCell extends FrameLayout implements TextSelectionHelper.ArticleSelectableView {
         private TLRPC$TL_pageBlockPreformatted currentBlock;
         private WebpageAdapter parentAdapter;
@@ -12900,7 +12900,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class BlockSubheaderCell extends View implements TextSelectionHelper.ArticleSelectableView {
         private TLRPC$TL_pageBlockSubheader currentBlock;
         private WebpageAdapter parentAdapter;
@@ -12978,7 +12978,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class ReportCell extends FrameLayout {
         private boolean hasViews;
         private TextView textView;
@@ -13066,7 +13066,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class RealPageBlocksAdapter implements PhotoViewer.PageBlocksAdapter {
         private final TLRPC$WebPage page;
         private final List<TLRPC$PageBlock> pageBlocks;
@@ -13222,7 +13222,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class PageBlocksPhotoViewerProvider extends PhotoViewer.EmptyPhotoViewerProvider {
         private final List<TLRPC$PageBlock> pageBlocks;
         private final int[] tempArr = new int[2];

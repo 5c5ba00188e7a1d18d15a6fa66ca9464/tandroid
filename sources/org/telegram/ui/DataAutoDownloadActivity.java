@@ -42,7 +42,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.SlideChooseView;
 import org.telegram.ui.DataAutoDownloadActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class DataAutoDownloadActivity extends BaseFragment {
     private boolean animateChecked;
     private int autoDownloadRow;
@@ -815,7 +815,7 @@ public class DataAutoDownloadActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 

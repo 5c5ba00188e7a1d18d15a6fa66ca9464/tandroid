@@ -11,7 +11,7 @@ import android.view.View;
 import java.util.ArrayList;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.ui.Components.Reactions.HwEmojis;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class EllipsizeSpanAnimator {
     boolean attachedToWindow;
     private final AnimatorSet ellAnimator;
@@ -112,7 +112,7 @@ public class EllipsizeSpanAnimator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class TextAlphaSpan extends CharacterStyle {
         private int alpha = 0;
 

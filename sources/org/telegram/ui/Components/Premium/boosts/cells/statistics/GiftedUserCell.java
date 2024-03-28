@@ -18,7 +18,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.UserCell;
 import org.telegram.ui.Components.LayoutHelper;
 @SuppressLint({"ViewConstructor"})
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class GiftedUserCell extends UserCell {
     private FrameLayout badgeLayout;
     private TextView badgeTextView;

@@ -49,7 +49,7 @@ public class LauncherIconController {
     	at jadx.core.dex.visitors.EnumVisitor.visit(EnumVisitor.java:100)
      */
     /* JADX WARN: Failed to restore enum class, 'enum' modifier and super class removed */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static final class LauncherIcon {
         private static final /* synthetic */ LauncherIcon[] $VALUES;
         public static final LauncherIcon AQUA;

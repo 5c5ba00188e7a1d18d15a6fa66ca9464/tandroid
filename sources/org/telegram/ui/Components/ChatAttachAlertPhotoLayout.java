@@ -103,7 +103,7 @@ import org.telegram.ui.Components.ZoomControlView;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PhotoViewer;
 import org.telegram.ui.Stories.recorder.AlbumButton;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayout implements NotificationCenter.NotificationCenterDelegate {
     private static boolean mediaFromExternalCamera;
     private PhotoAttachAdapter adapter;
@@ -220,7 +220,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         this.showAvatarConstructor = (chatAttachAlert.avatarPicker == 0 || chatAttachAlert.isPhotoPicker) ? false : true;
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     private class BasePhotoProvider extends PhotoViewer.EmptyPhotoViewerProvider {
         private BasePhotoProvider() {
         }
@@ -348,7 +348,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class 1 extends BasePhotoProvider {
         @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
         public boolean cancelButtonPressed() {
@@ -1112,7 +1112,10 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 ChatAttachAlert chatAttachAlert2 = this.parentAlert;
                 photoViewer.setMaxSelectedPhotos(chatAttachAlert2.maxSelectedPhotos, chatAttachAlert2.allowOrder);
                 ChatAttachAlert chatAttachAlert3 = this.parentAlert;
-                if (chatAttachAlert3.avatarPicker != 0) {
+                if (chatAttachAlert3.isPhotoPicker && chatAttachAlert3.isStickerMode) {
+                    chatActivity = (ChatActivity) chatAttachAlert3.baseFragment;
+                    i2 = 11;
+                } else if (chatAttachAlert3.avatarPicker != 0) {
                     chatActivity = null;
                     i2 = 1;
                 } else {
@@ -1171,17 +1174,22 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2(int i, BaseFragment baseFragment, ArrayList arrayList, int i2, ChatActivity chatActivity) {
         int i3;
-        if (this.parentAlert.isPhotoPicker) {
+        ChatAttachAlert chatAttachAlert = this.parentAlert;
+        if (!chatAttachAlert.isPhotoPicker || chatAttachAlert.isStickerMode) {
+            i3 = i;
+        } else {
             PhotoViewer.getInstance().setParentActivity(baseFragment);
             PhotoViewer.getInstance().setMaxSelectedPhotos(0, false);
             i3 = 3;
-        } else {
-            i3 = i;
         }
         PhotoViewer.getInstance().openPhotoForSelect(arrayList, i2, i3, false, this.photoViewerProvider, chatActivity);
         PhotoViewer.getInstance().setAvatarFor(this.parentAlert.getAvatarFor());
-        if (this.parentAlert.isPhotoPicker) {
+        ChatAttachAlert chatAttachAlert2 = this.parentAlert;
+        if (chatAttachAlert2.isPhotoPicker && !chatAttachAlert2.isStickerMode) {
             PhotoViewer.getInstance().closePhotoAfterSelect = false;
+        }
+        if (this.parentAlert.isStickerMode) {
+            PhotoViewer.getInstance().enableStickerMode(null);
         }
         if (captionForAllMedia()) {
             PhotoViewer.getInstance().setCaption(this.parentAlert.getCommentTextView().getText());
@@ -1227,7 +1235,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class 10 implements ShutterButton.ShutterButtonDelegate {
         private File outputFile;
         final /* synthetic */ FrameLayout val$container;
@@ -2024,8 +2032,10 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             ChatAttachAlert chatAttachAlert = this.parentAlert;
             photoViewer.setMaxSelectedPhotos(chatAttachAlert.maxSelectedPhotos, chatAttachAlert.allowOrder);
             ChatAttachAlert chatAttachAlert2 = this.parentAlert;
-            int i2 = chatAttachAlert2.avatarPicker;
-            if (i2 != 0) {
+            if (chatAttachAlert2.isPhotoPicker && chatAttachAlert2.isStickerMode) {
+                chatActivity = (ChatActivity) chatAttachAlert2.baseFragment;
+                i = 11;
+            } else if (chatAttachAlert2.avatarPicker != 0) {
                 chatActivity = null;
                 i = 1;
             } else {
@@ -2038,7 +2048,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                     i = 5;
                 }
             }
-            if (i2 != 0) {
+            if (chatAttachAlert2.avatarPicker != 0) {
                 ArrayList<Object> arrayList = new ArrayList<>();
                 arrayList.add(photoEntry);
                 allPhotosArray = arrayList;
@@ -2052,11 +2062,15 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             }
             PhotoViewer.getInstance().openPhotoForSelect(allPhotosArray, size, i, false, new 15(z), chatActivity);
             PhotoViewer.getInstance().setAvatarFor(this.parentAlert.getAvatarFor());
+            if (this.parentAlert.isStickerMode) {
+                PhotoViewer.getInstance().enableStickerMode(null);
+                PhotoViewer.getInstance().prepareSegmentImage();
+            }
         }
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class 15 extends BasePhotoProvider {
         final /* synthetic */ boolean val$sameTakePictureOrientation;
 
@@ -2907,17 +2921,17 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     }
 
     /* JADX WARN: Can't wrap try/catch for region: R(15:22|(1:24)|25|(1:98)(1:30)|(6:32|(5:34|(1:36)|37|(1:39)|(1:41))|96|43|(1:95)|47)(1:97)|(1:94)|52|(3:53|54|55)|(4:57|58|(2:60|61)|63)|64|65|67|68|69|70) */
-    /* JADX WARN: Code restructure failed: missing block: B:37:0x00f6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:37:0x00f7, code lost:
         if (new java.io.File(r0).exists() != false) goto L43;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:75:0x0194, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:75:0x0195, code lost:
         r0 = move-exception;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:76:0x0195, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:76:0x0196, code lost:
         org.telegram.messenger.FileLog.e(r0);
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:61:0x0146 -> B:97:0x015f). Please submit an issue!!! */
+    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:61:0x0147 -> B:95:0x0160). Please submit an issue!!! */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -4588,7 +4602,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class PhotoAttachAdapter extends RecyclerListView.FastScrollAdapter {
         private int itemsCount;
         private Context mContext;
@@ -4719,7 +4733,9 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
             int itemViewType = viewHolder.getItemViewType();
-            int i2 = 0;
+            r1 = 1;
+            r1 = 1;
+            int i2 = 1;
             if (itemViewType != 0) {
                 if (itemViewType != 1) {
                     if (itemViewType != 3) {
@@ -4727,7 +4743,10 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                     }
                     PhotoAttachPermissionCell photoAttachPermissionCell = (PhotoAttachPermissionCell) viewHolder.itemView;
                     photoAttachPermissionCell.setItemSize(ChatAttachAlertPhotoLayout.this.itemSize);
-                    photoAttachPermissionCell.setType((this.needCamera && ChatAttachAlertPhotoLayout.this.noCameraPermissions && i == 0) ? 1 : 1);
+                    if (this.needCamera && ChatAttachAlertPhotoLayout.this.noCameraPermissions && i == 0) {
+                        i2 = 0;
+                    }
+                    photoAttachPermissionCell.setType(i2);
                     return;
                 }
                 ChatAttachAlertPhotoLayout chatAttachAlertPhotoLayout = ChatAttachAlertPhotoLayout.this;
@@ -4756,6 +4775,8 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             }
             if (ChatAttachAlertPhotoLayout.this.parentAlert.avatarPicker != 0) {
                 photoAttachPhotoCell.getCheckBox().setVisibility(8);
+            } else {
+                photoAttachPhotoCell.getCheckBox().setVisibility(0);
             }
             MediaController.PhotoEntry photoEntryAtPosition = ChatAttachAlertPhotoLayout.this.getPhotoEntryAtPosition(i);
             if (photoEntryAtPosition == null) {

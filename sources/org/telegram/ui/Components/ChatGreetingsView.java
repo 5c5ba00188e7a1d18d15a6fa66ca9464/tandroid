@@ -1,12 +1,20 @@
 package org.telegram.ui.Components;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.RectF;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,6 +23,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.DocumentObject;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.ImageLocation;
+import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
@@ -23,6 +32,7 @@ import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SvgHelper;
 import org.telegram.messenger.UserObject;
+import org.telegram.messenger.utils.BitmapsCache;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$DocumentAttribute;
 import org.telegram.tgnet.TLRPC$TL_documentAttributeImageSize;
@@ -30,28 +40,37 @@ import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Components.ChatGreetingsView;
 import org.telegram.ui.Components.Premium.PremiumButtonView;
 import org.telegram.ui.Components.Premium.StarParticlesView;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PremiumPreviewFragment;
 import org.telegram.ui.Stories.recorder.HintView2;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class ChatGreetingsView extends LinearLayout {
+    private int backgroundHeight;
     private final int currentAccount;
     private TextView descriptionView;
+    private boolean disableBackground;
     boolean ignoreLayot;
     private Listener listener;
+    public BackupImageView nextStickerToSendView;
     private TLRPC$Document preloadedGreetingsSticker;
     private TextView premiumButtonView;
     private RLottieImageView premiumIconView;
     private boolean premiumLock;
     private TextView premiumTextView;
+    public boolean preview;
     private final Theme.ResourcesProvider resourcesProvider;
+    public FrameLayout stickerContainer;
     public BackupImageView stickerToSendView;
     private TextView titleView;
+    private AnimatorSet togglingStickersAnimator;
+    private float viewTop;
+    private float viewTranslationX;
     boolean wasDraw;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface Listener {
         void onGreetings(TLRPC$Document tLRPC$Document);
     }
@@ -61,6 +80,7 @@ public class ChatGreetingsView extends LinearLayout {
         setOrientation(1);
         this.currentAccount = i2;
         this.resourcesProvider = resourcesProvider;
+        setPadding(0, AndroidUtilities.dp(8.0f), 0, 0);
         TextView textView = new TextView(context);
         this.titleView = textView;
         textView.setTextSize(1, 14.0f);
@@ -73,17 +93,27 @@ public class ChatGreetingsView extends LinearLayout {
         this.descriptionView.setGravity(17);
         this.descriptionView.setTextSize(1, 14.0f);
         this.descriptionView.setGravity(1);
+        this.stickerContainer = new FrameLayout(context);
         BackupImageView backupImageView = new BackupImageView(context);
         this.stickerToSendView = backupImageView;
-        ScaleStateListAnimator.apply(backupImageView);
+        backupImageView.getImageReceiver().setAspectFit(true);
+        this.stickerContainer.addView(this.stickerToSendView, LayoutHelper.createFrame(R.styleable.AppCompatTheme_toolbarNavigationButtonStyle, 112.0f));
+        ScaleStateListAnimator.apply(this.stickerToSendView);
+        BackupImageView backupImageView2 = new BackupImageView(context);
+        this.nextStickerToSendView = backupImageView2;
+        backupImageView2.getImageReceiver().setAspectFit(true);
+        this.stickerContainer.addView(this.nextStickerToSendView, LayoutHelper.createFrame(R.styleable.AppCompatTheme_toolbarNavigationButtonStyle, 112.0f));
+        this.nextStickerToSendView.setVisibility(8);
+        this.nextStickerToSendView.setAlpha(0.0f);
+        ScaleStateListAnimator.apply(this.nextStickerToSendView);
         updateLayout();
         updateColors();
         if (i <= 0) {
-            this.titleView.setText(LocaleController.getString("NoMessages", R.string.NoMessages));
-            this.descriptionView.setText(LocaleController.getString("NoMessagesGreetingsDescription", R.string.NoMessagesGreetingsDescription));
+            this.titleView.setText(LocaleController.getString(R.string.NoMessages));
+            this.descriptionView.setText(LocaleController.getString(R.string.NoMessagesGreetingsDescription));
         } else {
             this.titleView.setText(LocaleController.formatString("NearbyPeopleGreetingsMessage", R.string.NearbyPeopleGreetingsMessage, tLRPC$User.first_name, LocaleController.formatDistance(i, 1)));
-            this.descriptionView.setText(LocaleController.getString("NearbyPeopleGreetingsDescription", R.string.NearbyPeopleGreetingsDescription));
+            this.descriptionView.setText(LocaleController.getString(R.string.NearbyPeopleGreetingsDescription));
         }
         TextView textView3 = this.descriptionView;
         textView3.setMaxWidth(HintView2.cutInFancyHalf(textView3.getText(), this.descriptionView.getPaint()));
@@ -194,7 +224,7 @@ public class ChatGreetingsView extends LinearLayout {
             }
             this.premiumButtonView.setText(LocaleController.getString(R.string.MessagePremiumUnlock));
             this.premiumButtonView.setTextColor(getThemedColor(i));
-            this.premiumButtonView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatGreetingsView$$ExternalSyntheticLambda3
+            this.premiumButtonView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatGreetingsView$$ExternalSyntheticLambda4
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     ChatGreetingsView.lambda$setPremiumLock$1(view);
@@ -221,7 +251,7 @@ public class ChatGreetingsView extends LinearLayout {
     private void updateLayout() {
         removeAllViews();
         if (this.premiumLock) {
-            addView(this.premiumIconView, LayoutHelper.createLinear(78, 78, 49, 20, 17, 20, 9));
+            addView(this.premiumIconView, LayoutHelper.createLinear(78, 78, 49, 20, 9, 20, 9));
             boolean premiumFeaturesBlocked = MessagesController.getInstance(this.currentAccount).premiumFeaturesBlocked();
             addView(this.premiumTextView, LayoutHelper.createLinear(-2, -2, 49, 20, 0, 20, premiumFeaturesBlocked ? 13 : 9));
             if (premiumFeaturesBlocked) {
@@ -230,22 +260,24 @@ public class ChatGreetingsView extends LinearLayout {
             addView(this.premiumButtonView, LayoutHelper.createLinear(-2, 30, 49, 20, 2, 20, 13));
             return;
         }
-        addView(this.titleView, LayoutHelper.createLinear(-2, -2, 1, 20, 14, 20, 6));
-        addView(this.descriptionView, LayoutHelper.createLinear(-2, -2, 1, 20, 6, 20, 0));
-        addView(this.stickerToSendView, LayoutHelper.createLinear((int) R.styleable.AppCompatTheme_toolbarNavigationButtonStyle, (int) R.styleable.AppCompatTheme_toolbarNavigationButtonStyle, 1, 0, 16, 0, 16));
+        addView(this.titleView, LayoutHelper.createLinear(-2, -2, 1, 20, 6, 20, 6));
+        addView(this.descriptionView, LayoutHelper.createLinear(-2, -2, 1, 20, 6, 20, 6));
+        addView(this.stickerContainer, LayoutHelper.createLinear((int) R.styleable.AppCompatTheme_toolbarNavigationButtonStyle, (int) R.styleable.AppCompatTheme_toolbarNavigationButtonStyle, 1, 16, 10, 16, 16));
     }
 
-    private void setSticker(final TLRPC$Document tLRPC$Document) {
+    public void setSticker(final TLRPC$Document tLRPC$Document) {
         if (tLRPC$Document == null) {
             return;
         }
+        this.wasDraw = true;
+        this.nextStickerToSendView.clearImage();
         SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$Document, Theme.key_chat_serviceBackground, 1.0f);
         if (svgThumb != null) {
             this.stickerToSendView.setImage(ImageLocation.getForDocument(tLRPC$Document), createFilter(tLRPC$Document), svgThumb, 0, tLRPC$Document);
         } else {
             this.stickerToSendView.setImage(ImageLocation.getForDocument(tLRPC$Document), createFilter(tLRPC$Document), ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90), tLRPC$Document), (String) null, 0, tLRPC$Document);
         }
-        this.stickerToSendView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatGreetingsView$$ExternalSyntheticLambda2
+        this.stickerToSendView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatGreetingsView$$ExternalSyntheticLambda3
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ChatGreetingsView.this.lambda$setSticker$2(tLRPC$Document, view);
@@ -259,6 +291,132 @@ public class ChatGreetingsView extends LinearLayout {
         if (listener != null) {
             listener.onGreetings(tLRPC$Document);
         }
+    }
+
+    public void setNextSticker(final TLRPC$Document tLRPC$Document, Runnable runnable) {
+        if (tLRPC$Document == null) {
+            return;
+        }
+        AnimatorSet animatorSet = this.togglingStickersAnimator;
+        if (animatorSet != null) {
+            animatorSet.cancel();
+        }
+        this.nextStickerToSendView.getImageReceiver().setDelegate(new 2(runnable));
+        SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$Document, Theme.key_chat_serviceBackground, 1.0f);
+        if (svgThumb != null) {
+            this.nextStickerToSendView.setImage(ImageLocation.getForDocument(tLRPC$Document), createFilter(tLRPC$Document), svgThumb, 0, tLRPC$Document);
+        } else {
+            this.nextStickerToSendView.setImage(ImageLocation.getForDocument(tLRPC$Document), createFilter(tLRPC$Document), ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90), tLRPC$Document), (String) null, 0, tLRPC$Document);
+        }
+        this.nextStickerToSendView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatGreetingsView$$ExternalSyntheticLambda2
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view) {
+                ChatGreetingsView.this.lambda$setNextSticker$3(tLRPC$Document, view);
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes3.dex */
+    public class 2 implements ImageReceiver.ImageReceiverDelegate {
+        final /* synthetic */ Runnable val$whenDone;
+        private boolean waited;
+
+        @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
+        public void didSetImage(ImageReceiver imageReceiver, boolean z, boolean z2, boolean z3) {
+        }
+
+        @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
+        public /* synthetic */ void onAnimationReady(ImageReceiver imageReceiver) {
+            ImageReceiver.ImageReceiverDelegate.-CC.$default$onAnimationReady(this, imageReceiver);
+        }
+
+        2(Runnable runnable) {
+            this.val$whenDone = runnable;
+        }
+
+        @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
+        public void didSetImageBitmap(int i, String str, Drawable drawable) {
+            RLottieDrawable rLottieDrawable;
+            BitmapsCache bitmapsCache;
+            if (this.waited) {
+                return;
+            }
+            if ((i == 0 || i == 3) && drawable != null) {
+                this.waited = true;
+                if (!(drawable instanceof RLottieDrawable) || (bitmapsCache = (rLottieDrawable = (RLottieDrawable) drawable).bitmapsCache) == null || !bitmapsCache.needGenCache()) {
+                    ChatGreetingsView.this.toggleToNextSticker();
+                    Runnable runnable = this.val$whenDone;
+                    if (runnable != null) {
+                        runnable.run();
+                        return;
+                    }
+                    return;
+                }
+                final Runnable runnable2 = this.val$whenDone;
+                rLottieDrawable.whenCacheDone = new Runnable() { // from class: org.telegram.ui.Components.ChatGreetingsView$2$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        ChatGreetingsView.2.this.lambda$didSetImageBitmap$0(runnable2);
+                    }
+                };
+            }
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$didSetImageBitmap$0(Runnable runnable) {
+            ChatGreetingsView.this.toggleToNextSticker();
+            if (runnable != null) {
+                runnable.run();
+            }
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$setNextSticker$3(TLRPC$Document tLRPC$Document, View view) {
+        Listener listener = this.listener;
+        if (listener != null) {
+            listener.onGreetings(tLRPC$Document);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void toggleToNextSticker() {
+        AnimatorSet animatorSet = this.togglingStickersAnimator;
+        if (animatorSet != null) {
+            animatorSet.cancel();
+        }
+        this.nextStickerToSendView.setVisibility(0);
+        this.stickerToSendView.setVisibility(0);
+        AnimatorSet animatorSet2 = new AnimatorSet();
+        this.togglingStickersAnimator = animatorSet2;
+        animatorSet2.setDuration(420L);
+        this.togglingStickersAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
+        this.togglingStickersAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatGreetingsView.3
+            private boolean cancelled;
+
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                if (this.cancelled) {
+                    return;
+                }
+                ChatGreetingsView chatGreetingsView = ChatGreetingsView.this;
+                BackupImageView backupImageView = chatGreetingsView.stickerToSendView;
+                chatGreetingsView.stickerToSendView = chatGreetingsView.nextStickerToSendView;
+                chatGreetingsView.nextStickerToSendView = backupImageView;
+                backupImageView.setVisibility(8);
+                ChatGreetingsView.this.nextStickerToSendView.setAlpha(0.0f);
+                ChatGreetingsView.this.stickerToSendView.setVisibility(0);
+                ChatGreetingsView.this.stickerToSendView.setAlpha(1.0f);
+            }
+
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationCancel(Animator animator) {
+                this.cancelled = true;
+            }
+        });
+        this.togglingStickersAnimator.playTogether(ObjectAnimator.ofFloat(this.nextStickerToSendView, View.ALPHA, 0.0f, 1.0f), ObjectAnimator.ofFloat(this.nextStickerToSendView, View.SCALE_X, 0.7f, 1.0f), ObjectAnimator.ofFloat(this.nextStickerToSendView, View.SCALE_Y, 0.7f, 1.0f), ObjectAnimator.ofFloat(this.nextStickerToSendView, View.TRANSLATION_Y, -AndroidUtilities.dp(24.0f), 0.0f), ObjectAnimator.ofFloat(this.stickerToSendView, View.ALPHA, 1.0f, 0.0f), ObjectAnimator.ofFloat(this.stickerToSendView, View.SCALE_X, 1.0f, 0.7f), ObjectAnimator.ofFloat(this.stickerToSendView, View.SCALE_Y, 1.0f, 0.7f), ObjectAnimator.ofFloat(this.stickerToSendView, View.TRANSLATION_Y, 0.0f, AndroidUtilities.dp(24.0f)));
+        this.togglingStickersAnimator.start();
     }
 
     public static String createFilter(TLRPC$Document tLRPC$Document) {
@@ -321,25 +479,69 @@ public class ChatGreetingsView extends LinearLayout {
         this.listener = listener;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.LinearLayout, android.view.View
-    protected void onMeasure(int i, int i2) {
+    public void onMeasure(int i, int i2) {
         this.ignoreLayot = true;
-        this.descriptionView.setVisibility(0);
+        if (!this.preview) {
+            this.descriptionView.setVisibility(0);
+        }
         this.stickerToSendView.setVisibility(0);
         super.onMeasure(i, i2);
-        if (getMeasuredHeight() > View.MeasureSpec.getSize(i2)) {
+        if (getMeasuredHeight() > View.MeasureSpec.getSize(i2) && !this.preview) {
             this.descriptionView.setVisibility(8);
             this.stickerToSendView.setVisibility(8);
         } else {
-            this.descriptionView.setVisibility(0);
+            if (!this.preview) {
+                this.descriptionView.setVisibility(0);
+            }
             this.stickerToSendView.setVisibility(0);
         }
         this.ignoreLayot = false;
         super.onMeasure(i, i2);
     }
 
+    public void setPreview(CharSequence charSequence, CharSequence charSequence2) {
+        int i;
+        this.preview = true;
+        TextView textView = this.titleView;
+        if (TextUtils.isEmpty(charSequence == null ? null : charSequence.toString().trim())) {
+            charSequence = LocaleController.getString(R.string.NoMessages);
+        }
+        textView.setText(charSequence);
+        TextView textView2 = this.descriptionView;
+        if (TextUtils.isEmpty(charSequence2 != null ? charSequence2.toString().trim() : null)) {
+            charSequence2 = LocaleController.getString(R.string.NoMessagesGreetingsDescription);
+        }
+        textView2.setText(charSequence2);
+        TextView textView3 = this.descriptionView;
+        if (textView3.getText().length() > 60) {
+            i = Math.min((int) (AndroidUtilities.displaySize.x * 0.5f), HintView2.cutInFancyHalf(this.descriptionView.getText(), this.descriptionView.getPaint()));
+        } else {
+            i = (int) (AndroidUtilities.displaySize.x * 0.5f);
+        }
+        textView3.setMaxWidth(i);
+    }
+
+    public void setVisiblePart(float f, int i) {
+        this.backgroundHeight = i;
+        this.viewTop = f;
+        this.viewTranslationX = 0.0f;
+    }
+
     @Override // android.view.ViewGroup, android.view.View
     protected void dispatchDraw(Canvas canvas) {
+        if (!this.disableBackground) {
+            Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
+            if (resourcesProvider != null) {
+                resourcesProvider.applyServiceShaderMatrix(getMeasuredWidth(), this.backgroundHeight, this.viewTranslationX, this.viewTop + AndroidUtilities.dp(4.0f));
+            } else {
+                Theme.applyServiceShaderMatrix(getMeasuredWidth(), this.backgroundHeight, this.viewTranslationX, this.viewTop + AndroidUtilities.dp(4.0f));
+            }
+            if (Build.VERSION.SDK_INT >= 21) {
+                canvas.drawRoundRect(0.0f, 0.0f, getWidth(), getHeight(), AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f), Theme.getThemePaint("paintChatActionBackground", this.resourcesProvider));
+            }
+        }
         if (!this.wasDraw) {
             this.wasDraw = true;
             setSticker(this.preloadedGreetingsSticker);
@@ -374,6 +576,12 @@ public class ChatGreetingsView extends LinearLayout {
                 setSticker(greetingsSticker);
             }
         }
+    }
+
+    @Override // android.view.View
+    public void setBackground(Drawable drawable) {
+        super.setBackground(drawable);
+        this.disableBackground = true;
     }
 
     private int getThemedColor(int i) {
@@ -414,7 +622,7 @@ public class ChatGreetingsView extends LinearLayout {
             premiumButtonView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatGreetingsView$$ExternalSyntheticLambda0
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
-                    ChatGreetingsView.lambda$showPremiumSheet$3(BottomSheet.this, view);
+                    ChatGreetingsView.lambda$showPremiumSheet$4(BottomSheet.this, view);
                 }
             });
             premiumButtonView.setOverlayText(LocaleController.getString(R.string.PremiumMessageButton), false, false);
@@ -425,7 +633,7 @@ public class ChatGreetingsView extends LinearLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showPremiumSheet$3(BottomSheet bottomSheet, View view) {
+    public static /* synthetic */ void lambda$showPremiumSheet$4(BottomSheet bottomSheet, View view) {
         BaseFragment lastFragment = LaunchActivity.getLastFragment();
         if (lastFragment != null) {
             lastFragment.presentFragment(new PremiumPreviewFragment("contact"));

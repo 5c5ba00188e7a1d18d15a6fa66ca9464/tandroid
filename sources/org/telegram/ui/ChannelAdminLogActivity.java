@@ -177,7 +177,7 @@ import org.telegram.ui.Components.URLSpanReplacement;
 import org.telegram.ui.Components.URLSpanUserMention;
 import org.telegram.ui.Components.UndoView;
 import org.telegram.ui.PhotoViewer;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ChannelAdminLogActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private ArrayList<TLRPC$ChannelParticipant> admins;
     private Paint aspectPaint;
@@ -1107,7 +1107,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 8 extends ChatListItemAnimator {
         Runnable finishRunnable;
         int scrollAnimationIndex;
@@ -1714,7 +1714,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         return this.videoTextureView;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:117:0x0301, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:117:0x02ff, code lost:
         if (r12.exists() != false) goto L122;
      */
     /*
@@ -2440,7 +2440,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         Browser.openUrl((Context) getParentActivity(), str, true);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ChatActivityAdapter extends RecyclerView.Adapter {
         private int loadingUpRow;
         private Context mContext;
@@ -2519,7 +2519,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class 1 implements ChatMessageCell.ChatMessageCellDelegate {
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
             public boolean canDrawOutboundsContent() {
@@ -2539,6 +2539,11 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
             public /* synthetic */ boolean didLongPressChannelAvatar(ChatMessageCell chatMessageCell, TLRPC$Chat tLRPC$Chat, int i, float f, float f2) {
                 return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didLongPressChannelAvatar(this, chatMessageCell, tLRPC$Chat, i, f, f2);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ void didPressAboutRevenueSharingAds() {
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressAboutRevenueSharingAds(this);
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -2617,6 +2622,11 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
             public /* synthetic */ void didPressSponsoredClose() {
                 ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressSponsoredClose(this);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ void didPressSponsoredInfo(ChatMessageCell chatMessageCell, float f, float f2) {
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressSponsoredInfo(this, chatMessageCell, f, f2);
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -2960,7 +2970,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                 EmbedBottomSheet.show(channelAdminLogActivity, messageObject, channelAdminLogActivity.provider, str2, str3, str4, str, i, i2, false);
             }
 
-            /* JADX WARN: Code restructure failed: missing block: B:50:0x011d, code lost:
+            /* JADX WARN: Code restructure failed: missing block: B:50:0x011c, code lost:
                 if (r11.exists() != false) goto L36;
              */
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -3076,7 +3086,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class 3 implements ChatActionCell.ChatActionCellDelegate {
             @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
             public /* synthetic */ boolean canDrawOutboundsContent() {
@@ -3439,7 +3449,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static /* synthetic */ class 23 {
         static final /* synthetic */ int[] $SwitchMap$org$telegram$ui$AvatarPreviewer$MenuItem;
 

@@ -44,7 +44,7 @@ import org.telegram.ui.Components.GroupCreateSpan;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorSearchCell;
 @SuppressLint({"ViewConstructor"})
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class SelectorSearchCell extends ScrollView {
     public ArrayList<GroupCreateSpan> allSpans;
     private final LinearGradient bottomGradient;
@@ -343,7 +343,7 @@ public class SelectorSearchCell extends ScrollView {
         setContainerHeight(((Float) valueAnimator.getAnimatedValue()).floatValue());
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class SpansContainer extends ViewGroup {
         private View addingSpan;
         private ArrayList<View> animAddingSpans;

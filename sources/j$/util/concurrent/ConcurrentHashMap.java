@@ -225,7 +225,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
         @Override // java.util.Collection
         public /* synthetic */ Stream parallelStream() {
-            return O0.n0(j$.util.a.g(this));
+            return O0.l0(j$.util.a.g(this));
         }
 
         @Override // java.util.Collection, java.util.Set
@@ -262,7 +262,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
         @Override // java.util.Collection
         public /* synthetic */ Stream stream() {
-            return O0.n0(j$.util.a.i(this));
+            return O0.l0(j$.util.a.i(this));
         }
 
         public Object[] toArray(IntFunction intFunction) {
@@ -504,7 +504,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
         @Override // java.util.Collection
         public /* synthetic */ Stream parallelStream() {
-            return O0.n0(j$.util.a.g(this));
+            return O0.l0(j$.util.a.g(this));
         }
 
         @Override // java.util.Collection, java.util.Set
@@ -538,7 +538,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
         @Override // java.util.Collection
         public /* synthetic */ Stream stream() {
-            return O0.n0(j$.util.a.i(this));
+            return O0.l0(j$.util.a.i(this));
         }
 
         public Object[] toArray(IntFunction intFunction) {
@@ -1660,7 +1660,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
         @Override // java.util.Collection
         public /* synthetic */ Stream parallelStream() {
-            return O0.n0(j$.util.a.g(this));
+            return O0.l0(j$.util.a.g(this));
         }
 
         @Override // java.util.Collection
@@ -1706,7 +1706,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
         @Override // java.util.Collection
         public /* synthetic */ Stream stream() {
-            return O0.n0(j$.util.a.i(this));
+            return O0.l0(j$.util.a.i(this));
         }
 
         public Object[] toArray(IntFunction intFunction) {

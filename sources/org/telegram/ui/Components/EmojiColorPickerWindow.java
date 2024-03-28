@@ -20,7 +20,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class EmojiColorPickerWindow extends PopupWindow {
     private static final ViewTreeObserver.OnScrollChangedListener NOP = new ViewTreeObserver.OnScrollChangedListener() { // from class: org.telegram.ui.Components.EmojiColorPickerWindow$$ExternalSyntheticLambda1
         @Override // android.view.ViewTreeObserver.OnScrollChangedListener
@@ -102,10 +102,7 @@ public class EmojiColorPickerWindow extends PopupWindow {
         if (this.isCompound || getSelection() == (max = Math.max(0, Math.min(5, i / (this.emojiSize + AndroidUtilities.dp(4.0f)))))) {
             return;
         }
-        try {
-            this.pickerView.performHapticFeedback(9, 1);
-        } catch (Exception unused) {
-        }
+        AndroidUtilities.vibrateCursor(this.pickerView);
         setSelection(max);
     }
 
@@ -133,7 +130,7 @@ public class EmojiColorPickerWindow extends PopupWindow {
         this.pickerView.setOnSelectionUpdateListener(callback2);
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class EmojiColorPickerView extends View {
         private Drawable arrowDrawable;
         private int arrowX;
@@ -299,10 +296,7 @@ public class EmojiColorPickerWindow extends PopupWindow {
                     int i5 = iArr7[0];
                     int[] iArr8 = this.selection;
                     if (i5 != iArr8[0] || iArr7[1] != iArr8[1]) {
-                        try {
-                            performHapticFeedback(9, 1);
-                        } catch (Exception unused) {
-                        }
+                        AndroidUtilities.vibrateCursor(this);
                         Utilities.Callback2<Integer, Integer> callback2 = this.onSelectionUpdate;
                         if (callback2 != null) {
                             callback2.run(Integer.valueOf(this.selection[0]), Integer.valueOf(this.selection[1]));

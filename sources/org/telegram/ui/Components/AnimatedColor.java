@@ -5,7 +5,7 @@ import android.os.SystemClock;
 import android.view.View;
 import androidx.core.graphics.ColorUtils;
 import androidx.core.math.MathUtils;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class AnimatedColor {
     private boolean firstSet;
     private Runnable invalidate;

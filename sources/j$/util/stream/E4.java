@@ -1,54 +1,84 @@
 package j$.util.stream;
 
-import j$.util.function.Consumer;
 import j$.util.t;
-import java.util.Objects;
 /* loaded from: classes2.dex */
-final class E4 extends H4 implements t.a, j$.util.function.f {
-    double e;
+abstract class E4 {
+    final long a;
+    final long b;
+    j$.util.t c;
+    long d;
+    long e;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public E4(t.a aVar, long j, long j2) {
-        super(aVar, j, j2);
+    public E4(j$.util.t tVar, long j, long j2, long j3, long j4) {
+        this.c = tVar;
+        this.a = j;
+        this.b = j2;
+        this.d = j3;
+        this.e = j4;
     }
 
-    E4(t.a aVar, E4 e4) {
-        super(aVar, e4);
+    protected abstract j$.util.t a(j$.util.t tVar, long j, long j2, long j3, long j4);
+
+    public int characteristics() {
+        return this.c.characteristics();
     }
 
-    @Override // j$.util.function.f
-    public void accept(double d) {
-        this.e = d;
+    public long estimateSize() {
+        long j = this.a;
+        long j2 = this.e;
+        if (j < j2) {
+            return j2 - Math.max(j, this.d);
+        }
+        return 0L;
     }
 
-    @Override // j$.util.t
-    public /* synthetic */ boolean b(Consumer consumer) {
-        return j$.util.a.j(this, consumer);
+    public /* bridge */ /* synthetic */ t.a trySplit() {
+        return (t.a) trySplit();
     }
 
-    @Override // j$.util.t
-    public /* synthetic */ void forEachRemaining(Consumer consumer) {
-        j$.util.a.b(this, consumer);
+    public /* bridge */ /* synthetic */ t.b trySplit() {
+        return (t.b) trySplit();
     }
 
-    @Override // j$.util.function.f
-    public j$.util.function.f j(j$.util.function.f fVar) {
-        Objects.requireNonNull(fVar);
-        return new j$.util.function.e(this, fVar);
+    public /* bridge */ /* synthetic */ t.c trySplit() {
+        return (t.c) trySplit();
     }
 
-    @Override // j$.util.stream.J4
-    protected j$.util.t q(j$.util.t tVar) {
-        return new E4((t.a) tVar, this);
+    public j$.util.t trySplit() {
+        long j = this.a;
+        long j2 = this.e;
+        if (j >= j2 || this.d >= j2) {
+            return null;
+        }
+        while (true) {
+            j$.util.t trySplit = this.c.trySplit();
+            if (trySplit == null) {
+                return null;
+            }
+            long estimateSize = trySplit.estimateSize() + this.d;
+            long min = Math.min(estimateSize, this.b);
+            long j3 = this.a;
+            if (j3 >= min) {
+                this.d = min;
+            } else {
+                long j4 = this.b;
+                if (min < j4) {
+                    long j5 = this.d;
+                    if (j5 < j3 || estimateSize > j4) {
+                        this.d = min;
+                        return a(trySplit, j3, j4, j5, min);
+                    }
+                    this.d = min;
+                    return trySplit;
+                }
+                this.c = trySplit;
+                this.e = min;
+            }
+        }
     }
 
-    @Override // j$.util.stream.H4
-    protected void s(Object obj) {
-        ((j$.util.function.f) obj).accept(this.e);
-    }
-
-    @Override // j$.util.stream.H4
-    protected j4 t(int i) {
-        return new g4(i);
+    public /* bridge */ /* synthetic */ j$.util.u trySplit() {
+        return (j$.util.u) trySplit();
     }
 }

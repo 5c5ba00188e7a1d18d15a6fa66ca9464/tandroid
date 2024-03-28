@@ -73,7 +73,7 @@ import org.telegram.ui.Components.Premium.boosts.cells.statistics.GiveawayCell;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.ScrollSlidingTextTabStrip;
 import org.telegram.ui.StatisticActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class BoostsActivity extends GradientHeaderActivity implements NotificationCenter.NotificationCenterDelegate {
     private TL_stories$TL_premium_boostsStatus boostsStatus;
     private ScrollSlidingTextTabStrip boostsTabs;
@@ -708,7 +708,7 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ItemInternal extends AdapterWithDiffUtils.Item {
         TL_stories$TL_boost booster;
         boolean isLast;
@@ -821,7 +821,7 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 5 extends FrameLayout {
         private final HeaderButtonView buttonView1;
         private final HeaderButtonView buttonView2;
@@ -896,14 +896,14 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
             BoostsActivity boostsActivity = BoostsActivity.this;
             Context context = getContext();
             BoostsActivity boostsActivity2 = BoostsActivity.this;
-            LimitReachedBottomSheet limitReachedBottomSheet = new LimitReachedBottomSheet(boostsActivity, context, 30, boostsActivity2.currentAccount, boostsActivity2.getResourceProvider());
+            LimitReachedBottomSheet limitReachedBottomSheet = new LimitReachedBottomSheet(boostsActivity, context, 31, boostsActivity2.currentAccount, boostsActivity2.getResourceProvider());
             limitReachedBottomSheet.setBoostsStats(BoostsActivity.this.boostsStatus, true);
             limitReachedBottomSheet.setDialogId(BoostsActivity.this.dialogId);
             BoostsActivity.this.showDialog(limitReachedBottomSheet);
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private class HeaderButtonView extends FrameLayout {
         private final ImageView imageView;
         private final RectF rect;

@@ -58,7 +58,7 @@ import org.telegram.ui.Components.AvatarsDrawable;
 import org.telegram.ui.Components.CounterView;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.RLottieDrawable;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class ReactionsLayoutInBubble {
     private static int animationUniq;
     private int animateFromTotalHeight;
@@ -565,7 +565,7 @@ public class ReactionsLayoutInBubble {
         this.scrimViewReaction = num;
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class ReactionLayoutButton extends ReactionButton {
         public ReactionLayoutButton(ReactionButton reactionButton, TLRPC$ReactionCount tLRPC$ReactionCount, boolean z, boolean z2) {
             super(reactionButton, ReactionsLayoutInBubble.this.currentAccount, ReactionsLayoutInBubble.this.parentView, tLRPC$ReactionCount, z, z2, ReactionsLayoutInBubble.this.resourcesProvider);
@@ -601,7 +601,7 @@ public class ReactionsLayoutInBubble {
         return drawable instanceof AnimatedTextView.AnimatedTextDrawable;
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class ReactionButton {
         public int animateFromWidth;
         public int animateFromX;
@@ -1172,7 +1172,7 @@ public class ReactionsLayoutInBubble {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class ButtonsComparator implements Comparator<ReactionButton> {
         int currentAccount;
         long dialogId;
@@ -1253,7 +1253,7 @@ public class ReactionsLayoutInBubble {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class VisibleReaction {
         public long documentId;
         public String emojicon;

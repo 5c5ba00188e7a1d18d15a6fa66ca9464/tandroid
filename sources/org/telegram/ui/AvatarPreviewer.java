@@ -43,7 +43,7 @@ import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.AvatarPreviewer;
 import org.telegram.ui.Components.AnimatedFileDrawable;
 import org.telegram.ui.Components.RadialProgress2;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class AvatarPreviewer {
     private static AvatarPreviewer INSTANCE;
     private Layout layout;
@@ -51,7 +51,7 @@ public class AvatarPreviewer {
     private boolean visible;
     private WindowManager windowManager;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface Callback {
         void onMenuClick(MenuItem menuItem);
     }
@@ -138,7 +138,7 @@ public class AvatarPreviewer {
     	at jadx.core.dex.visitors.EnumVisitor.visit(EnumVisitor.java:100)
      */
     /* JADX WARN: Failed to restore enum class, 'enum' modifier and super class removed */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static final class MenuItem {
         private static final /* synthetic */ MenuItem[] $VALUES;
         public static final MenuItem MENTION;
@@ -178,7 +178,7 @@ public class AvatarPreviewer {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class Data {
         private final String imageFilter;
         private final ImageLocation imageLocation;
@@ -259,7 +259,7 @@ public class AvatarPreviewer {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class UserInfoLoadTask extends InfoLoadTask<TLRPC$User, TLRPC$UserFull> {
         public UserInfoLoadTask(TLRPC$User tLRPC$User, int i) {
             super(tLRPC$User, i, NotificationCenter.userInfoDidLoad);
@@ -279,7 +279,7 @@ public class AvatarPreviewer {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class ChatInfoLoadTask extends InfoLoadTask<TLRPC$Chat, TLRPC$ChatFull> {
         public ChatInfoLoadTask(TLRPC$Chat tLRPC$Chat, int i) {
             super(tLRPC$Chat, i, NotificationCenter.chatInfoDidLoad);
@@ -301,7 +301,7 @@ public class AvatarPreviewer {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static abstract class InfoLoadTask<A, B> {
         protected final A argument;
         protected final int classGuid;
@@ -354,7 +354,7 @@ public class AvatarPreviewer {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static abstract class Layout extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
         private final Drawable arrowDrawable;
         private final ColorDrawable backgroundDrawable;

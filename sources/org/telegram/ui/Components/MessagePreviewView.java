@@ -74,7 +74,7 @@ import org.telegram.ui.Components.MessagePreviewView;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.ViewPagerFixed;
 import org.telegram.ui.PinchToZoomHelper;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class MessagePreviewView extends FrameLayout {
     Runnable changeBoundsRunnable;
     final ChatActivity chatActivity;
@@ -93,7 +93,7 @@ public class MessagePreviewView extends FrameLayout {
     TabsView tabsView;
     ViewPagerFixed viewPager;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface ResourcesDelegate extends Theme.ResourcesProvider {
         Drawable getWallpaperDrawable();
 
@@ -144,7 +144,7 @@ public class MessagePreviewView extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class Page extends FrameLayout {
         ActionBar actionBar;
         Adapter adapter;
@@ -1122,7 +1122,7 @@ public class MessagePreviewView extends FrameLayout {
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public class 7 extends ChatListItemAnimator {
             Runnable finishRunnable;
             int scrollAnimationIndex;
@@ -1215,7 +1215,7 @@ public class MessagePreviewView extends FrameLayout {
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public class 10 extends GridLayoutManagerFixed {
             @Override // androidx.recyclerview.widget.GridLayoutManagerFixed
             public boolean shouldLayoutChildFromOpositeSide(View view) {
@@ -1887,7 +1887,7 @@ public class MessagePreviewView extends FrameLayout {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public class Adapter extends RecyclerView.Adapter {
             private Adapter() {
             }
@@ -1948,6 +1948,11 @@ public class MessagePreviewView extends FrameLayout {
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ boolean didLongPressUserAvatar(ChatMessageCell chatMessageCell2, TLRPC$User tLRPC$User, float f, float f2) {
                         return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didLongPressUserAvatar(this, chatMessageCell2, tLRPC$User, f, f2);
+                    }
+
+                    @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+                    public /* synthetic */ void didPressAboutRevenueSharingAds() {
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressAboutRevenueSharingAds(this);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -2053,6 +2058,11 @@ public class MessagePreviewView extends FrameLayout {
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ void didPressSponsoredClose() {
                         ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressSponsoredClose(this);
+                    }
+
+                    @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+                    public /* synthetic */ void didPressSponsoredInfo(ChatMessageCell chatMessageCell2, float f, float f2) {
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressSponsoredInfo(this, chatMessageCell2, f, f2);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -2314,6 +2324,11 @@ public class MessagePreviewView extends FrameLayout {
                         }
 
                         @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+                        public /* synthetic */ void didPressAboutRevenueSharingAds() {
+                            ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressAboutRevenueSharingAds(this);
+                        }
+
+                        @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                         public /* synthetic */ boolean didPressAnimatedEmoji(ChatMessageCell chatMessageCell2, AnimatedEmojiSpan animatedEmojiSpan) {
                             return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressAnimatedEmoji(this, chatMessageCell2, animatedEmojiSpan);
                         }
@@ -2416,6 +2431,11 @@ public class MessagePreviewView extends FrameLayout {
                         @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                         public /* synthetic */ void didPressSponsoredClose() {
                             ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressSponsoredClose(this);
+                        }
+
+                        @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+                        public /* synthetic */ void didPressSponsoredInfo(ChatMessageCell chatMessageCell2, float f, float f2) {
+                            ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressSponsoredInfo(this, chatMessageCell2, f, f2);
                         }
 
                         @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -2712,8 +2732,9 @@ public class MessagePreviewView extends FrameLayout {
         this.messagePreviewParams = messagePreviewParams;
         this.resourcesProvider = resourcesDelegate;
         this.viewPager = new ViewPagerFixed(context, resourcesDelegate) { // from class: org.telegram.ui.Components.MessagePreviewView.2
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.ViewPagerFixed
-            protected void onTabAnimationUpdate(boolean z2) {
+            public void onTabAnimationUpdate(boolean z2) {
                 MessagePreviewView messagePreviewView = MessagePreviewView.this;
                 messagePreviewView.tabsView.setSelectedTab(messagePreviewView.viewPager.getPositionAnimated());
                 View[] viewArr = this.viewPages;
@@ -2870,7 +2891,7 @@ public class MessagePreviewView extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class TabsView extends View {
         private final Paint bgPaint;
         private int color;
@@ -2884,7 +2905,7 @@ public class MessagePreviewView extends FrameLayout {
         public final ArrayList<Tab> tabs;
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public static class Tab {
             final RectF bounds = new RectF();
             final RectF clickBounds = new RectF();
@@ -3024,7 +3045,7 @@ public class MessagePreviewView extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class ActionBar extends FrameLayout {
         private Theme.ResourcesProvider resourcesProvider;
         private final AnimatedTextView.AnimatedTextDrawable subtitle;
@@ -3173,7 +3194,7 @@ public class MessagePreviewView extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class ToggleButton extends View {
         private boolean first;
         RLottieToggleDrawable iconDrawable;
@@ -3256,7 +3277,7 @@ public class MessagePreviewView extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class RLottieToggleDrawable extends Drawable {
         private RLottieDrawable currentState;
         private boolean detached;

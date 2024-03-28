@@ -47,7 +47,7 @@ import org.telegram.ui.Components.ShareLocationDrawable;
 import org.telegram.ui.Components.URLSpanNoUnderline;
 import org.telegram.ui.Components.voip.CellFlickerDrawable;
 @TargetApi(23)
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ActionIntroActivity extends BaseFragment implements LocationController.LocationFetchCallback {
     private TextView buttonTextView;
     private int[] colors;
@@ -67,7 +67,7 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
     private TextView subtitleTextView;
     private TextView titleTextView;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface ActionIntroQRLoginDelegate {
         void didFindQRCode(String str);
     }

@@ -1,178 +1,44 @@
 package j$.util.stream;
 
-import org.telegram.messenger.LiteMode;
-/* JADX INFO: Access modifiers changed from: package-private */
+import java.util.concurrent.CountedCompleter;
 /* loaded from: classes2.dex */
-public abstract class x2 {
-    private static final A1 a = new Z1(null);
-    private static final w1 b = new X1();
-    private static final y1 c = new Y1();
-    private static final u1 d = new W1();
-    private static final int[] e = new int[0];
-    private static final long[] f = new long[0];
-    private static final double[] g = new double[0];
+abstract class x2 extends CountedCompleter {
+    protected final B1 a;
+    protected final int b;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static s1 d(long j, j$.util.function.m mVar) {
-        return (j < 0 || j >= 2147483639) ? new t2() : new b2(j, mVar);
-    }
-
-    public static A1 e(y2 y2Var, j$.util.t tVar, boolean z, j$.util.function.m mVar) {
-        long q0 = y2Var.q0(tVar);
-        if (q0 < 0 || !tVar.hasCharacteristics(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) {
-            A1 a1 = (A1) new H1(y2Var, mVar, tVar).invoke();
-            return z ? l(a1, mVar) : a1;
-        } else if (q0 < 2147483639) {
-            Object[] objArr = (Object[]) mVar.apply((int) q0);
-            new r2(tVar, y2Var, objArr).invoke();
-            return new D1(objArr);
-        } else {
-            throw new IllegalArgumentException("Stream size exceeds max array size");
-        }
-    }
-
-    public static u1 f(y2 y2Var, j$.util.t tVar, boolean z) {
-        long q0 = y2Var.q0(tVar);
-        if (q0 < 0 || !tVar.hasCharacteristics(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) {
-            u1 u1Var = (u1) new H1(y2Var, tVar, 0).invoke();
-            return z ? m(u1Var) : u1Var;
-        } else if (q0 < 2147483639) {
-            double[] dArr = new double[(int) q0];
-            new o2(tVar, y2Var, dArr).invoke();
-            return new T1(dArr);
-        } else {
-            throw new IllegalArgumentException("Stream size exceeds max array size");
-        }
-    }
-
-    public static w1 g(y2 y2Var, j$.util.t tVar, boolean z) {
-        long q0 = y2Var.q0(tVar);
-        if (q0 < 0 || !tVar.hasCharacteristics(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) {
-            w1 w1Var = (w1) new H1(y2Var, tVar, 1).invoke();
-            return z ? n(w1Var) : w1Var;
-        } else if (q0 < 2147483639) {
-            int[] iArr = new int[(int) q0];
-            new p2(tVar, y2Var, iArr).invoke();
-            return new c2(iArr);
-        } else {
-            throw new IllegalArgumentException("Stream size exceeds max array size");
-        }
-    }
-
-    public static y1 h(y2 y2Var, j$.util.t tVar, boolean z) {
-        long q0 = y2Var.q0(tVar);
-        if (q0 < 0 || !tVar.hasCharacteristics(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) {
-            y1 y1Var = (y1) new H1(y2Var, tVar, 2).invoke();
-            return z ? o(y1Var) : y1Var;
-        } else if (q0 < 2147483639) {
-            long[] jArr = new long[(int) q0];
-            new q2(tVar, y2Var, jArr).invoke();
-            return new l2(jArr);
-        } else {
-            throw new IllegalArgumentException("Stream size exceeds max array size");
-        }
+    public x2(B1 b1, int i) {
+        this.a = b1;
+        this.b = i;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static A1 i(e4 e4Var, A1 a1, A1 a12) {
-        int i = B1.a[e4Var.ordinal()];
-        if (i != 1) {
-            if (i != 2) {
-                if (i != 3) {
-                    if (i == 4) {
-                        return new O1((u1) a1, (u1) a12);
-                    }
-                    throw new IllegalStateException("Unknown shape " + e4Var);
-                }
-                return new Q1((y1) a1, (y1) a12);
+    public x2(x2 x2Var, B1 b1, int i) {
+        super(x2Var);
+        this.a = b1;
+        this.b = i;
+    }
+
+    abstract void a();
+
+    abstract x2 b(int i, int i2);
+
+    @Override // java.util.concurrent.CountedCompleter
+    public void compute() {
+        x2 x2Var = this;
+        while (x2Var.a.p() != 0) {
+            x2Var.setPendingCount(x2Var.a.p() - 1);
+            int i = 0;
+            int i2 = 0;
+            while (i < x2Var.a.p() - 1) {
+                x2 b = x2Var.b(i, x2Var.b + i2);
+                i2 = (int) (i2 + b.a.count());
+                b.fork();
+                i++;
             }
-            return new P1((w1) a1, (w1) a12);
+            x2Var = x2Var.b(i, x2Var.b + i2);
         }
-        return new S1(a1, a12);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static p1 j(long j) {
-        return (j < 0 || j >= 2147483639) ? new V1() : new U1(j);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static A1 k(e4 e4Var) {
-        int i = B1.a[e4Var.ordinal()];
-        if (i != 1) {
-            if (i != 2) {
-                if (i != 3) {
-                    if (i == 4) {
-                        return d;
-                    }
-                    throw new IllegalStateException("Unknown shape " + e4Var);
-                }
-                return c;
-            }
-            return b;
-        }
-        return a;
-    }
-
-    public static A1 l(A1 a1, j$.util.function.m mVar) {
-        if (a1.p() > 0) {
-            long count = a1.count();
-            if (count < 2147483639) {
-                Object[] objArr = (Object[]) mVar.apply((int) count);
-                new v2(a1, objArr, 0, (B1) null).invoke();
-                return new D1(objArr);
-            }
-            throw new IllegalArgumentException("Stream size exceeds max array size");
-        }
-        return a1;
-    }
-
-    public static u1 m(u1 u1Var) {
-        if (u1Var.p() > 0) {
-            long count = u1Var.count();
-            if (count < 2147483639) {
-                double[] dArr = new double[(int) count];
-                new u2(u1Var, dArr, 0).invoke();
-                return new T1(dArr);
-            }
-            throw new IllegalArgumentException("Stream size exceeds max array size");
-        }
-        return u1Var;
-    }
-
-    public static w1 n(w1 w1Var) {
-        if (w1Var.p() > 0) {
-            long count = w1Var.count();
-            if (count < 2147483639) {
-                int[] iArr = new int[(int) count];
-                new u2(w1Var, iArr, 0).invoke();
-                return new c2(iArr);
-            }
-            throw new IllegalArgumentException("Stream size exceeds max array size");
-        }
-        return w1Var;
-    }
-
-    public static y1 o(y1 y1Var) {
-        if (y1Var.p() > 0) {
-            long count = y1Var.count();
-            if (count < 2147483639) {
-                long[] jArr = new long[(int) count];
-                new u2(y1Var, jArr, 0).invoke();
-                return new l2(jArr);
-            }
-            throw new IllegalArgumentException("Stream size exceeds max array size");
-        }
-        return y1Var;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static q1 p(long j) {
-        return (j < 0 || j >= 2147483639) ? new e2() : new d2(j);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static r1 q(long j) {
-        return (j < 0 || j >= 2147483639) ? new n2() : new m2(j);
+        x2Var.a();
+        x2Var.propagateCompletion();
     }
 }

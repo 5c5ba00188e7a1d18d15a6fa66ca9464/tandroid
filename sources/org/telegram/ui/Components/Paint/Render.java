@@ -8,7 +8,7 @@ import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class Render {
     public static RectF RenderPath(Path path, RenderState renderState, boolean z) {
         renderState.baseWeight = path.getBaseWeight();

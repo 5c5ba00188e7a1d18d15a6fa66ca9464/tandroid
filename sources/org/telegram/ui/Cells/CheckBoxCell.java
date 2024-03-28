@@ -58,7 +58,7 @@ public class CheckBoxCell extends FrameLayout {
                 CheckBoxCell.this.updateCollapseArrowTranslation();
             }
 
-            @Override // android.widget.TextView
+            @Override // org.telegram.ui.Components.LinkSpanDrawable.LinksTextView, android.widget.TextView
             public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
                 super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), false), bufferType);
             }

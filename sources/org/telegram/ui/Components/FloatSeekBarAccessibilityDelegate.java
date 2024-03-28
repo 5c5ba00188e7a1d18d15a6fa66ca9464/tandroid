@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public abstract class FloatSeekBarAccessibilityDelegate extends SeekBarAccessibilityDelegate {
     private final boolean setPercentsEnabled;
 

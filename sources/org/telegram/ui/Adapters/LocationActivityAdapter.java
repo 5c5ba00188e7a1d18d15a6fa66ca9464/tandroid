@@ -30,7 +30,7 @@ import org.telegram.ui.Cells.SharingLiveLocationCell;
 import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.LocationActivity;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class LocationActivityAdapter extends BaseLocationAdapter implements LocationController.LocationFetchCallback {
     private String addressName;
     public boolean animated;

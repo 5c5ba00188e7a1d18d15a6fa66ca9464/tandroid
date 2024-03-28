@@ -13,7 +13,7 @@ import android.view.View;
 import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.SvgHelper;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class CellFlickerDrawable {
     public float animationSpeedScale;
     public boolean drawFrame;
@@ -189,7 +189,7 @@ public class CellFlickerDrawable {
         this.paintOutline.setAlpha(i);
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class DrawableInterface extends Drawable {
         public float radius;
         SvgHelper.SvgDrawable svgDrawable;

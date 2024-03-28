@@ -9,7 +9,7 @@ import android.view.TextureView;
 import org.telegram.ui.Components.BlurringShader;
 import org.telegram.ui.Components.FilterGLThread;
 import org.telegram.ui.Stories.recorder.StoryEntry;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class VideoEditTextureView extends TextureView implements TextureView.SurfaceTextureListener {
     private VideoPlayer currentVideoPlayer;
     private VideoEditTextureViewDelegate delegate;
@@ -22,7 +22,7 @@ public class VideoEditTextureView extends TextureView implements TextureView.Sur
     private int videoWidth;
     private Rect viewRect;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface VideoEditTextureViewDelegate {
         void onEGLThreadAvailable(FilterGLThread filterGLThread);
     }

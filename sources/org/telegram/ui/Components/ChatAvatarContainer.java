@@ -54,6 +54,7 @@ import org.telegram.ui.ActionBar.ActionBarPopupWindow;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Business.BusinessLinksController;
 import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.AutoDeletePopupWrapper;
@@ -63,7 +64,7 @@ import org.telegram.ui.ProfileActivity;
 import org.telegram.ui.Stories.StoriesUtilities;
 import org.telegram.ui.Stories.StoryViewer;
 import org.telegram.ui.TopicsFragment;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class ChatAvatarContainer extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     public boolean allowDrawStories;
     public boolean allowShorterStatus;
@@ -130,7 +131,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         this.storiesForceState = num;
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     private class SimpleTextConnectedView extends SimpleTextView {
         private AtomicReference<SimpleTextView> reference;
 
@@ -201,11 +202,11 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         this.avatarImageView = new 1(context, baseFragment, z3, resourcesProvider);
         if (z2 || (baseFragment instanceof TopicsFragment)) {
             ChatActivity chatActivity2 = this.parentFragment;
-            if (chatActivity2 == null || chatActivity2.getChatMode() != 5) {
+            if (chatActivity2 == null || (chatActivity2.getChatMode() != 5 && this.parentFragment.getChatMode() != 6)) {
                 this.sharedMediaPreloader = new SharedMediaLayout.SharedMediaPreloader(baseFragment);
             }
             ChatActivity chatActivity3 = this.parentFragment;
-            if (chatActivity3 != null && (chatActivity3.isThreadChat() || this.parentFragment.getChatMode() == 2 || this.parentFragment.getChatMode() == 5)) {
+            if (chatActivity3 != null && (chatActivity3.isThreadChat() || this.parentFragment.getChatMode() == 2 || this.parentFragment.getChatMode() == 5 || this.parentFragment.getChatMode() == 6)) {
                 this.avatarImageView.setVisibility(8);
             }
         }
@@ -317,7 +318,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class 1 extends BackupImageView {
         StoriesUtilities.AvatarStoryParams params;
         final /* synthetic */ boolean val$avatarClickable;
@@ -334,7 +335,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public class 1 extends StoriesUtilities.AvatarStoryParams {
             1(boolean z) {
                 super(z);
@@ -660,7 +661,9 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         bundle2.putBoolean("reportSpam", this.parentFragment.hasReportSpam());
         bundle2.putInt("actionBarColor", getThemedColor(Theme.key_actionBarDefault));
         ProfileActivity profileActivity2 = new ProfileActivity(bundle2, this.sharedMediaPreloader);
-        profileActivity2.setUserInfo(this.parentFragment.getCurrentUserInfo());
+        TLRPC$UserFull currentUserInfo = this.parentFragment.getCurrentUserInfo();
+        ChatActivity chatActivity2 = this.parentFragment;
+        profileActivity2.setUserInfo(currentUserInfo, chatActivity2.profileChannelMessageFetcher, chatActivity2.birthdayAssetsFetcher);
         if (z2) {
             profileActivity2.setPlayProfileAnimation(z ? 2 : 1);
         }
@@ -1057,7 +1060,11 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         if (chatActivity == null) {
             return;
         }
-        TLRPC$User currentUser = chatActivity.getCurrentUser();
+        if (chatActivity.getChatMode() == 6) {
+            setSubtitle(BusinessLinksController.stripHttps(this.parentFragment.businessLink.link));
+            return;
+        }
+        TLRPC$User currentUser = this.parentFragment.getCurrentUser();
         if ((UserObject.isUserSelf(currentUser) || UserObject.isReplyUser(currentUser) || this.parentFragment.getChatMode() != 0) && this.parentFragment.getChatMode() != 3) {
             if (getSubtitleTextView().getVisibility() != 8) {
                 getSubtitleTextView().setVisibility(8);

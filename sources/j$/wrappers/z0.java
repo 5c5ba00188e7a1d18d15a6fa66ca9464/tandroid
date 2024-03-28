@@ -3,17 +3,17 @@ package j$.wrappers;
 import java.util.function.Supplier;
 /* loaded from: classes2.dex */
 public final /* synthetic */ class z0 implements Supplier {
-    final /* synthetic */ j$.util.function.y a;
+    final /* synthetic */ j$.util.function.Supplier a;
 
-    private /* synthetic */ z0(j$.util.function.y yVar) {
-        this.a = yVar;
+    private /* synthetic */ z0(j$.util.function.Supplier supplier) {
+        this.a = supplier;
     }
 
-    public static /* synthetic */ Supplier a(j$.util.function.y yVar) {
-        if (yVar == null) {
+    public static /* synthetic */ Supplier a(j$.util.function.Supplier supplier) {
+        if (supplier == null) {
             return null;
         }
-        return yVar instanceof y0 ? ((y0) yVar).a : new z0(yVar);
+        return supplier instanceof y0 ? ((y0) supplier).a : new z0(supplier);
     }
 
     @Override // java.util.function.Supplier

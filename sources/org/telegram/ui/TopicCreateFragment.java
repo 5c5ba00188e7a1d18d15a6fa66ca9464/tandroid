@@ -67,7 +67,7 @@ import org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet;
 import org.telegram.ui.Components.ReplaceableIconDrawable;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.TopicCreateFragment;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class TopicCreateFragment extends BaseFragment {
     BackupImageView[] backupImageView;
     long chatId;
@@ -302,7 +302,7 @@ public class TopicCreateFragment extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 1 extends ActionBar.ActionBarMenuOnItemClick {
         /* JADX INFO: Access modifiers changed from: private */
         public static /* synthetic */ void lambda$onItemClick$2(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
@@ -315,7 +315,7 @@ public class TopicCreateFragment extends BaseFragment {
         1() {
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:42:0x0101, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:42:0x0100, code lost:
             if (r13.topicForEdit.icon_emoji_id != r13.selectedEmojiDocumentId) goto L58;
          */
         @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
@@ -492,7 +492,7 @@ public class TopicCreateFragment extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 4 extends FrameLayout {
         ValueAnimator backAnimator;
         boolean pressed;

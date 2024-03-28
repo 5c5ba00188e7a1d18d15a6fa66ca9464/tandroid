@@ -26,7 +26,7 @@ import androidx.annotation.Keep;
 import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.BubbleActivity;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class CropAreaView extends ViewGroup {
     private Control activeControl;
     private RectF actualRect;
@@ -79,7 +79,7 @@ public class CropAreaView extends ViewGroup {
     public float tx;
     public float ty;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     interface AreaViewListener {
         void onAreaChange();
 
@@ -88,7 +88,7 @@ public class CropAreaView extends ViewGroup {
         void onAreaChangeEnded();
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     private enum Control {
         NONE,
         TOP_LEFT,
@@ -102,7 +102,7 @@ public class CropAreaView extends ViewGroup {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public enum GridType {
         NONE,
         MINOR,
@@ -988,7 +988,7 @@ public class CropAreaView extends ViewGroup {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     static /* synthetic */ class 3 {
         static final /* synthetic */ int[] $SwitchMap$org$telegram$ui$Components$Crop$CropAreaView$Control;
 

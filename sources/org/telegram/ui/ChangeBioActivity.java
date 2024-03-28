@@ -41,7 +41,7 @@ import org.telegram.ui.Components.CodepointsLengthInputFilter;
 import org.telegram.ui.Components.EditTextBoldCursor;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.NumberTextView;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ChangeBioActivity extends BaseFragment {
     private NumberTextView checkTextView;
     private View doneButton;

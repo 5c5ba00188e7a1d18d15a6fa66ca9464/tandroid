@@ -23,7 +23,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import androidx.annotation.Keep;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class Switch extends View {
     private boolean attachedToWindow;
     private boolean bitmapsCreated;
@@ -60,7 +60,7 @@ public class Switch extends View {
     private int trackCheckedColorKey;
     private int trackColorKey;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface OnCheckedChangeListener {
         void onCheckedChanged(Switch r1, boolean z);
     }

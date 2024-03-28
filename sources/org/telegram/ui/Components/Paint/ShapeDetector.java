@@ -15,7 +15,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.Components.Paint.Brush;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class ShapeDetector {
     private static final double diagonal;
     private static final double halfDiagonal;
@@ -45,7 +45,7 @@ public class ShapeDetector {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class Point {
         public double x;
         public double y;
@@ -69,7 +69,7 @@ public class ShapeDetector {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class RectD {
         public double bottom;
         public double left;
@@ -104,7 +104,7 @@ public class ShapeDetector {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class Template {
         public ArrayList<Point> points;
         public int score;

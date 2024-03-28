@@ -47,7 +47,7 @@ import org.telegram.ui.Components.MotionBackgroundDrawable;
 import org.telegram.ui.Components.voip.PrivateVideoPreviewDialogNew;
 import org.webrtc.RendererCommon;
 @TargetApi(21)
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public abstract class PrivateVideoPreviewDialogNew extends FrameLayout implements VoIPService.StateListener {
     private ActionBar actionBar;
     private final MotionBackgroundDrawable bgBlueViolet;
@@ -396,7 +396,7 @@ public abstract class PrivateVideoPreviewDialogNew extends FrameLayout implement
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class 1 extends GestureDetector.SimpleOnGestureListener {
         private boolean lockDragging;
         private boolean startDragging;

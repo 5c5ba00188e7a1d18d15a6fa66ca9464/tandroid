@@ -34,7 +34,7 @@ import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.Bulletin;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class JoinGroupAlert extends BottomSheet {
     private TLRPC$ChatInvite chatInvite;
     private TLRPC$Chat currentChat;

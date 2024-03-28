@@ -12,7 +12,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.BlurBehindDrawable;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class BlurBehindDrawable {
     private Bitmap[] backgroundBitmap;
     private Canvas[] backgroundBitmapCanvas;
@@ -369,7 +369,7 @@ public class BlurBehindDrawable {
         this.parentView.invalidate();
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class BlurBackgroundTask implements Runnable {
         boolean canceled;
         int height;

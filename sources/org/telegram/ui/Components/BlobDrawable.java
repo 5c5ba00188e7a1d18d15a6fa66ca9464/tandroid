@@ -6,7 +6,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import java.util.Random;
 import org.telegram.messenger.LiteMode;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class BlobDrawable {
     public static float AMPLITUDE_SPEED = 0.33f;
     public static float FORM_BIG_MAX = 0.6f;

@@ -37,13 +37,13 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.Components.Switch;
 import org.telegram.ui.SessionBottomSheet;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class SessionBottomSheet extends BottomSheet {
     RLottieImageView imageView;
     BaseFragment parentFragment;
     TLRPC$TL_authorization session;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface Callback {
         void onSessionTerminated(TLRPC$TL_authorization tLRPC$TL_authorization);
     }
@@ -231,7 +231,7 @@ public class SessionBottomSheet extends BottomSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 8 implements View.OnClickListener {
         final /* synthetic */ Callback val$callback;
         final /* synthetic */ BaseFragment val$fragment;
@@ -312,8 +312,8 @@ public class SessionBottomSheet extends BottomSheet {
         BulletinFactory.of(getContainer(), null).createCopyBulletin(LocaleController.getString("TextCopied", R.string.TextCopied)).show();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:55:0x0108  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x0119  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x0105  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x0116  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -392,7 +392,7 @@ public class SessionBottomSheet extends BottomSheet {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private static class ItemView extends FrameLayout {
         TextView descriptionText;
         ImageView iconView;

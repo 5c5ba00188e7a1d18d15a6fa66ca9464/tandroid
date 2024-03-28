@@ -40,7 +40,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.ScrollSlidingTextTabStrip;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.PhotoPickerActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class PhotoPickerSearchActivity extends BaseFragment {
     private static final Interpolator interpolator = new Interpolator() { // from class: org.telegram.ui.PhotoPickerSearchActivity$$ExternalSyntheticLambda0
         @Override // android.animation.TimeInterpolator
@@ -71,7 +71,7 @@ public class PhotoPickerSearchActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class ViewPage extends FrameLayout {
         private ActionBar actionBar;
         private FrameLayout fragmentView;

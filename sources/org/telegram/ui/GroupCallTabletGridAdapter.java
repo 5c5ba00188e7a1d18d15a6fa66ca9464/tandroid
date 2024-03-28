@@ -14,7 +14,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.voip.GroupCallGridCell;
 import org.telegram.ui.Components.voip.GroupCallMiniTextureView;
 import org.telegram.ui.Components.voip.GroupCallRenderersContainer;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class GroupCallTabletGridAdapter extends RecyclerListView.SelectionAdapter {
     private final GroupCallActivity activity;
     private ArrayList<GroupCallMiniTextureView> attachedRenderers;

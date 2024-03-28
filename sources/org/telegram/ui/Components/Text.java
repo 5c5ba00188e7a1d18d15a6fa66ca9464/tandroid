@@ -12,7 +12,7 @@ import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import org.telegram.messenger.AndroidUtilities;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class Text {
     private boolean doNotSave;
     private LinearGradient ellipsizeGradient;

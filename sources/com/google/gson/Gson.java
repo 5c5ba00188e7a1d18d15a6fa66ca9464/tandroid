@@ -9,6 +9,7 @@ import com.google.gson.internal.bind.ArrayTypeAdapter;
 import com.google.gson.internal.bind.CollectionTypeAdapterFactory;
 import com.google.gson.internal.bind.DateTypeAdapter;
 import com.google.gson.internal.bind.JsonAdapterAnnotationTypeAdapterFactory;
+import com.google.gson.internal.bind.JsonTreeWriter;
 import com.google.gson.internal.bind.MapTypeAdapterFactory;
 import com.google.gson.internal.bind.NumberTypeAdapter;
 import com.google.gson.internal.bind.ObjectTypeAdapter;
@@ -323,6 +324,19 @@ public final class Gson {
 
     public <T> TypeAdapter<T> getAdapter(Class<T> cls) {
         return getAdapter(TypeToken.get((Class) cls));
+    }
+
+    public JsonElement toJsonTree(Object obj) {
+        if (obj == null) {
+            return JsonNull.INSTANCE;
+        }
+        return toJsonTree(obj, obj.getClass());
+    }
+
+    public JsonElement toJsonTree(Object obj, Type type) {
+        JsonTreeWriter jsonTreeWriter = new JsonTreeWriter();
+        toJson(obj, type, jsonTreeWriter);
+        return jsonTreeWriter.get();
     }
 
     public String toJson(Object obj) {

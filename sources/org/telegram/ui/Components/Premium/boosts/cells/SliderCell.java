@@ -10,7 +10,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.SlideChooseView;
 @SuppressLint({"ViewConstructor"})
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class SliderCell extends FrameLayout {
     protected View backgroundView;
     private final Theme.ResourcesProvider resourcesProvider;

@@ -67,7 +67,7 @@ import org.telegram.ui.Components.Forum.ForumUtilities;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.NotificationsSettingsActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ProfileNotificationsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private ListAdapter adapter;
     private boolean addingException;
@@ -107,10 +107,10 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
     private long topicId;
     private int vibrateRow;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface ProfileNotificationsActivityDelegate {
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public final /* synthetic */ class -CC {
             public static void $default$didRemoveException(ProfileNotificationsActivityDelegate profileNotificationsActivityDelegate, long j) {
             }
@@ -753,7 +753,7 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context context;
 

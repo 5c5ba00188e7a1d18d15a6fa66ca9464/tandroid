@@ -105,7 +105,7 @@ import org.telegram.ui.PhotoViewer;
 import org.telegram.ui.SecretMediaViewer;
 import org.telegram.ui.Stories.DarkThemeResourceProvider;
 import org.telegram.ui.Stories.recorder.HintView2;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class SecretMediaViewer implements NotificationCenter.NotificationCenterDelegate, GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener {
     @SuppressLint({"StaticFieldLeak"})
     private static volatile SecretMediaViewer Instance;
@@ -287,7 +287,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class FrameLayoutDrawer extends FrameLayout {
         public FrameLayoutDrawer(Context context) {
             super(context);
@@ -324,7 +324,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class SecretDeleteTimer extends FrameLayout {
         private Paint afterDeleteProgressPaint;
         private Paint circlePaint;
@@ -454,7 +454,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class PhotoBackgroundDrawable extends ColorDrawable {
         private Runnable drawRunnable;
         private int frame;
@@ -601,7 +601,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 2 implements VideoPlayer.VideoPlayerDelegate {
         final /* synthetic */ File val$file;
 
@@ -1209,7 +1209,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 12 extends Fade {
         final /* synthetic */ boolean val$isCaptionEmpty;
         final /* synthetic */ boolean val$isCurrentCaptionEmpty;
@@ -1250,7 +1250,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 11 extends Fade {
         final /* synthetic */ boolean val$isCaptionEmpty;
         final /* synthetic */ boolean val$isCurrentCaptionEmpty;
@@ -1290,7 +1290,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 13 extends Transition {
         13() {
         }
@@ -2118,8 +2118,8 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
 
     /* JADX WARN: Removed duplicated region for block: B:33:0x0094  */
     /* JADX WARN: Removed duplicated region for block: B:36:0x009c  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x0317  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x03ce  */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x0316  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x03cd  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2300,7 +2300,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 16 extends AnimatorListenerAdapter {
         final /* synthetic */ PhotoViewer.PlaceProviderObject val$object;
 
@@ -2758,7 +2758,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class VideoPlayerControlFrameLayout extends FrameLayout {
         public final Property<VideoPlayerControlFrameLayout, Float> SEEKBAR_ALPHA;
         private boolean ignoreLayout;

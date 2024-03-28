@@ -47,7 +47,7 @@ import org.telegram.tgnet.TLRPC$WebPage;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.PhotoViewerWebView;
 import org.telegram.ui.PhotoViewer;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class PhotoViewerWebView extends FrameLayout {
     private float bufferedPosition;
     private int currentAccount;
@@ -95,7 +95,7 @@ public class PhotoViewerWebView extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class YoutubeProxy {
         private YoutubeProxy() {
         }
@@ -355,7 +355,7 @@ public class PhotoViewerWebView extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class 2 extends WebViewClient {
         2() {
         }
@@ -733,8 +733,8 @@ public class PhotoViewerWebView extends FrameLayout {
         this.setPlaybackSpeed = true;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:28:0x00aa A[Catch: Exception -> 0x00ef, LOOP:0: B:26:0x00a3->B:28:0x00aa, LOOP_END, TryCatch #0 {Exception -> 0x00ef, blocks: (B:3:0x0013, B:5:0x0017, B:7:0x0025, B:25:0x008c, B:26:0x00a3, B:28:0x00aa, B:29:0x00ae, B:23:0x0088, B:30:0x00db, B:9:0x0033, B:11:0x0039, B:13:0x004c, B:15:0x0054, B:17:0x005c, B:19:0x0062, B:20:0x007e), top: B:43:0x0013, inners: #1 }] */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x00ae A[EDGE_INSN: B:45:0x00ae->B:29:0x00ae ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x00ab A[Catch: Exception -> 0x00f0, LOOP:0: B:26:0x00a4->B:28:0x00ab, LOOP_END, TryCatch #0 {Exception -> 0x00f0, blocks: (B:3:0x0013, B:5:0x0017, B:7:0x0025, B:25:0x008c, B:26:0x00a4, B:28:0x00ab, B:29:0x00af, B:23:0x0088, B:30:0x00dc, B:9:0x0033, B:11:0x0039, B:13:0x004c, B:15:0x0054, B:17:0x005c, B:19:0x0062, B:20:0x007e), top: B:43:0x0013, inners: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x00af A[EDGE_INSN: B:45:0x00af->B:29:0x00af ?: BREAK  , SYNTHETIC] */
     @SuppressLint({"AddJavascriptInterface"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.

@@ -52,8 +52,9 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.VideoEditTextureView;
 import org.telegram.ui.Stories.recorder.StoryRecorder;
 @SuppressLint({"NewApi"})
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class PhotoFilterView extends FrameLayout implements FilterShaders.FilterShadersDelegate, StoryRecorder.Touchable {
+    private Bitmap bitmapMask;
     private Bitmap bitmapToEdit;
     private float blurAngle;
     private PhotoFilterBlurControl blurControl;
@@ -92,6 +93,9 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
     private boolean inBubbleMode;
     private boolean isMirrored;
     private MediaController.SavedFilterState lastState;
+    private final Matrix maskMatrix;
+    private final Paint maskPaint;
+    private final android.graphics.Rect maskRect;
     private int orientation;
     private boolean ownLayout;
     private boolean ownsTextureView;
@@ -121,7 +125,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
     private int warmthTool;
     private float warmthValue;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class CurvesValue {
         public float[] cachedDataPoints;
         public float blacksLevel = 0.0f;
@@ -226,7 +230,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class CurvesToolValue {
         public int activeType;
         public ByteBuffer curveBuffer;
@@ -275,14 +279,21 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:62:0x04ea  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x04ee  */
+    public PhotoFilterView(Context context, VideoEditTextureView videoEditTextureView, Bitmap bitmap, int i, MediaController.SavedFilterState savedFilterState, PaintingOverlay paintingOverlay, int i2, boolean z, boolean z2, BlurringShader.BlurManager blurManager, Theme.ResourcesProvider resourcesProvider) {
+        this(context, videoEditTextureView, bitmap, null, i, savedFilterState, paintingOverlay, i2, z, z2, blurManager, resourcesProvider);
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0503  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x0505  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public PhotoFilterView(Context context, VideoEditTextureView videoEditTextureView, Bitmap bitmap, int i, MediaController.SavedFilterState savedFilterState, PaintingOverlay paintingOverlay, int i2, boolean z, boolean z2, BlurringShader.BlurManager blurManager, Theme.ResourcesProvider resourcesProvider) {
+    public PhotoFilterView(Context context, VideoEditTextureView videoEditTextureView, Bitmap bitmap, Bitmap bitmap2, int i, MediaController.SavedFilterState savedFilterState, PaintingOverlay paintingOverlay, int i2, boolean z, boolean z2, BlurringShader.BlurManager blurManager, Theme.ResourcesProvider resourcesProvider) {
         super(context);
         this.curveRadioButton = new RadioButton[4];
+        this.maskRect = new android.graphics.Rect();
+        this.maskMatrix = new Matrix();
+        this.maskPaint = new Paint(2);
         this.ownLayout = z2;
         this.resourcesProvider = resourcesProvider;
         this.inBubbleMode = context instanceof BubbleActivity;
@@ -375,6 +386,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
             this.filtersEmpty = true;
         }
         this.bitmapToEdit = bitmap;
+        this.bitmapMask = bitmap2;
         this.orientation = i;
         if (videoEditTextureView != null) {
             this.textureView = videoEditTextureView;
@@ -623,7 +635,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class 2 implements TextureView.SurfaceTextureListener {
         final /* synthetic */ BlurringShader.BlurManager val$blurManager;
         final /* synthetic */ boolean val$ownLayout;
@@ -866,7 +878,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         return savedFilterState != null ? (this.enhanceValue == savedFilterState.enhanceValue && this.contrastValue == savedFilterState.contrastValue && this.highlightsValue == savedFilterState.highlightsValue && this.exposureValue == savedFilterState.exposureValue && this.warmthValue == savedFilterState.warmthValue && this.saturationValue == savedFilterState.saturationValue && this.vignetteValue == savedFilterState.vignetteValue && this.shadowsValue == savedFilterState.shadowsValue && this.grainValue == savedFilterState.grainValue && this.sharpenValue == savedFilterState.sharpenValue && this.fadeValue == savedFilterState.fadeValue && this.softenSkinValue == savedFilterState.softenSkinValue && this.tintHighlightsColor == savedFilterState.tintHighlightsColor && this.tintShadowsColor == savedFilterState.tintShadowsColor && this.curvesToolValue.shouldBeSkipped()) ? false : true : (this.enhanceValue == 0.0f && this.contrastValue == 0.0f && this.highlightsValue == 0.0f && this.exposureValue == 0.0f && this.warmthValue == 0.0f && this.saturationValue == 0.0f && this.vignetteValue == 0.0f && this.shadowsValue == 0.0f && this.grainValue == 0.0f && this.sharpenValue == 0.0f && this.fadeValue == 0.0f && this.softenSkinValue == 0.0f && this.tintHighlightsColor == 0 && this.tintShadowsColor == 0 && this.curvesToolValue.shouldBeSkipped()) ? false : true;
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     private static class RecyclerListViewWithShadows extends RecyclerListView {
         private boolean bottom;
         private AnimatedFloat bottomAlpha;
@@ -1099,6 +1111,19 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         if (this.paintingOverlay != null && view == this.textureView) {
             canvas.save();
             canvas.translate(this.textureView.getLeft(), this.textureView.getTop());
+            if (this.bitmapMask != null && this.textureView.getVisibility() == 0) {
+                this.maskRect.set(0, 0, this.textureView.getMeasuredWidth(), this.textureView.getMeasuredHeight());
+                if (this.orientation != 0) {
+                    this.maskMatrix.reset();
+                    this.maskMatrix.postRotate(this.orientation, this.bitmapMask.getWidth() / 2.0f, this.bitmapMask.getHeight() / 2.0f);
+                    float height = (this.bitmapMask.getHeight() - this.bitmapMask.getWidth()) / 2.0f;
+                    this.maskMatrix.postTranslate(height, -height);
+                    this.maskMatrix.postScale(this.maskRect.width() / this.bitmapMask.getHeight(), this.maskRect.height() / this.bitmapMask.getWidth());
+                    canvas.drawBitmap(this.bitmapMask, this.maskMatrix, this.maskPaint);
+                } else {
+                    canvas.drawBitmap(this.bitmapMask, (android.graphics.Rect) null, this.maskRect, this.maskPaint);
+                }
+            }
             float measuredWidth = this.textureView.getMeasuredWidth() / this.paintingOverlay.getMeasuredWidth();
             canvas.scale(measuredWidth, measuredWidth);
             this.paintingOverlay.draw(canvas);
@@ -1283,7 +1308,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class ToolsAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
@@ -1433,7 +1458,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class EnhanceView extends View {
         private boolean allowTouch;
         private StaticLayout bottomText;
@@ -1555,10 +1580,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
                             this.lastVibrateValue = clamp;
                         } else {
                             if (Math.abs(round - round3) > (SharedConfig.getDevicePerformanceClass() == 2 ? 5 : 10)) {
-                                try {
-                                    performHapticFeedback(9, 1);
-                                } catch (Exception unused2) {
-                                }
+                                AndroidUtilities.vibrateCursor(this);
                                 this.lastVibrateValue = clamp;
                             }
                         }

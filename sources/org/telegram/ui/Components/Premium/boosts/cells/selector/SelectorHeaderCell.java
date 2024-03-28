@@ -14,7 +14,7 @@ import org.telegram.ui.ActionBar.BackDrawable;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
 @SuppressLint({"ViewConstructor"})
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class SelectorHeaderCell extends FrameLayout {
     public BackDrawable backDrawable;
     private final ImageView closeView;

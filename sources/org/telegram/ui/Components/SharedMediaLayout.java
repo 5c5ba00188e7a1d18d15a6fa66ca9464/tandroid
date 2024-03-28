@@ -183,7 +183,7 @@ import org.telegram.ui.Stories.ViewsForPeerStoriesRequester;
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
 import org.telegram.ui.Stories.recorder.StoryRecorder;
 import org.telegram.ui.TopicsFragment;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class SharedMediaLayout extends FrameLayout implements NotificationCenter.NotificationCenterDelegate, DialogCell.DialogCellDelegate {
     private ActionBar actionBar;
     private AnimatorSet actionModeAnimation;
@@ -323,7 +323,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         }
     };
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface Delegate {
         boolean canSearchMembers();
 
@@ -340,7 +340,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         void updateSelectedMediaTabText();
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface SharedMediaPreloaderDelegate {
         void mediaCountUpdated();
     }
@@ -643,7 +643,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class MediaPage extends FrameLayout {
         private ClippingImageView animatingImageView;
         private GridLayoutManager animationSupportingLayoutManager;
@@ -818,7 +818,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         hideFloatingDateView(true);
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class SharedMediaPreloader implements NotificationCenter.NotificationCenterDelegate {
         private boolean checkedHasSavedMessages;
         private long dialogId;
@@ -1348,7 +1348,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class SharedMediaData {
         private int endLoadingStubs;
         public boolean fastScrollDataLoaded;
@@ -1497,7 +1497,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class Period {
         int date;
         public String formatedDate;
@@ -3177,7 +3177,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class 5 implements View.OnClickListener {
         final /* synthetic */ Context val$context;
         final /* synthetic */ Theme.ResourcesProvider val$resourcesProvider;
@@ -3579,7 +3579,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                                                         public void onTransitionAnimationStart(boolean z, boolean z2) {
                                                             if (this.firstCreateView) {
                                                                 if (this.searchItem != null) {
-                                                                    lambda$openSearchWithText$289("");
+                                                                    lambda$openSearchWithText$304("");
                                                                     this.searchItem.setSearchFieldText(SharedMediaLayout.this.savedMessagesSearchAdapter.lastQuery, false);
                                                                 }
                                                                 SearchTagsList searchTagsList = this.actionBarSearchTags;
@@ -5210,7 +5210,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                         }
                     }
                 } else {
-                    this.profileActivity.showDialog(new LimitReachedBottomSheet(this.profileActivity, getContext(), 28, this.profileActivity.getCurrentAccount(), null));
+                    this.profileActivity.showDialog(new LimitReachedBottomSheet(this.profileActivity, getContext(), 33, this.profileActivity.getCurrentAccount(), null));
                 }
                 closeActionMode(true);
             }
@@ -6319,7 +6319,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class 36 implements ViewTreeObserver.OnPreDrawListener {
         final /* synthetic */ SparseBooleanArray val$addedMesages;
         final /* synthetic */ RecyclerListView val$finalListView;
@@ -7570,7 +7570,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class 39 implements SharedLinkCell.SharedLinkCellDelegate {
         39() {
         }
@@ -7618,7 +7618,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class SharedLinksAdapter extends RecyclerListView.SectionsAdapter {
         private Context mContext;
 
@@ -7759,7 +7759,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class SharedDocumentsAdapter extends RecyclerListView.FastScrollAdapter {
         private int currentType;
         private boolean inFastScrollMode;
@@ -8009,7 +8009,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class EmptyStubView extends LinearLayout {
         final ImageView emptyImageView;
         final TextView emptyTextView;
@@ -8056,7 +8056,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class SharedPhotoVideoAdapter extends RecyclerListView.FastScrollAdapter {
         protected boolean inFastScrollMode;
         protected Context mContext;
@@ -8334,7 +8334,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class MediaSearchAdapter extends RecyclerListView.SelectionAdapter {
         private int currentType;
         private int lastReqId;
@@ -8716,7 +8716,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class GifAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
@@ -8796,7 +8796,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class SavedDialogsAdapter extends RecyclerListView.SelectionAdapter {
         public RecyclerListView attachedToRecyclerView;
         private final SavedMessagesController controller;
@@ -9061,7 +9061,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class SavedMessagesSearchAdapter extends RecyclerListView.SelectionAdapter {
         private final int currentAccount;
         private String lastQuery;
@@ -9343,7 +9343,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class ChannelRecommendationsAdapter extends RecyclerListView.SelectionAdapter {
         private final ArrayList<TLRPC$Chat> chats = new ArrayList<>();
         private final Context mContext;
@@ -9516,7 +9516,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     private static class MoreRecommendationsCell extends FrameLayout {
         private final ButtonWithCounterView button;
         public final ProfileSearchCell channelCell;
@@ -9594,7 +9594,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class CommonGroupsAdapter extends RecyclerListView.SelectionAdapter {
         private ArrayList<TLRPC$Chat> chats = new ArrayList<>();
         private boolean endReached;
@@ -9745,7 +9745,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class StoriesAdapter extends SharedPhotoVideoAdapter {
         private int id;
         private final boolean isArchive;
@@ -9950,7 +9950,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class ChatUsersAdapter extends RecyclerListView.SelectionAdapter {
         private TLRPC$ChatFull chatInfo;
         private Context mContext;
@@ -10033,7 +10033,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class GroupUsersSearchAdapter extends RecyclerListView.SelectionAdapter {
         private TLRPC$Chat currentChat;
         private Context mContext;
@@ -10677,7 +10677,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         return super.drawChild(canvas, view, j);
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class ScrollSlidingTextTabStripInner extends ScrollSlidingTextTabStrip {
         public int backgroundColor;
         protected Paint backgroundPaint;
@@ -10731,7 +10731,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class InternalListView extends BlurredRecyclerView implements StoriesListPlaceProvider.ClippedView {
         public int hintPaddingTop;
 

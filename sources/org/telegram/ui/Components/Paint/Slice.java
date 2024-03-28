@@ -11,7 +11,7 @@ import java.util.zip.Inflater;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.DispatchQueue;
 import org.telegram.messenger.FileLog;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class Slice {
     private final RectF bounds;
     private File file;

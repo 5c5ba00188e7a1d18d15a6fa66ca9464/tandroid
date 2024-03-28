@@ -90,7 +90,7 @@ import org.telegram.ui.Components.Premium.LimitReachedBottomSheet;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.FilteredSearchView;
 import org.telegram.ui.PhotoPickerActivity;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLayout {
     private float additionalTranslationY;
     private boolean allowMusic;
@@ -126,10 +126,10 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
     private boolean sortByName;
     private ActionBarMenuItem sortItem;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface DocumentSelectActivityDelegate {
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public final /* synthetic */ class -CC {
             public static void $default$didSelectPhotos(DocumentSelectActivityDelegate documentSelectActivityDelegate, ArrayList arrayList, boolean z, int i) {
             }
@@ -156,7 +156,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
         return 1;
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class ListItem {
         public String ext;
         public File file;
@@ -175,7 +175,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class HistoryEntry {
         File dir;
         String title;
@@ -188,7 +188,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class 1 extends BroadcastReceiver {
         1() {
             ChatAttachAlertDocumentLayout.this = r1;
@@ -1322,11 +1322,11 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
         new AlertDialog.Builder(getContext(), this.resourcesProvider).setTitle(LocaleController.getString("AppName", R.string.AppName)).setMessage(str).setPositiveButton(LocaleController.getString("OK", R.string.OK), null).show();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:205:0x01a2 A[Catch: Exception -> 0x01c3, TRY_LEAVE, TryCatch #4 {Exception -> 0x01c3, blocks: (B:203:0x0191, B:205:0x01a2), top: B:238:0x0191 }] */
-    /* JADX WARN: Removed duplicated region for block: B:211:0x01cb  */
-    /* JADX WARN: Removed duplicated region for block: B:214:0x01f7  */
-    /* JADX WARN: Removed duplicated region for block: B:217:0x022c  */
-    /* JADX WARN: Removed duplicated region for block: B:236:0x023f A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:205:0x01a3 A[Catch: Exception -> 0x01c4, TRY_LEAVE, TryCatch #4 {Exception -> 0x01c4, blocks: (B:203:0x0192, B:205:0x01a3), top: B:237:0x0192 }] */
+    /* JADX WARN: Removed duplicated region for block: B:211:0x01cc  */
+    /* JADX WARN: Removed duplicated region for block: B:214:0x01f8  */
+    /* JADX WARN: Removed duplicated region for block: B:217:0x022d  */
+    /* JADX WARN: Removed duplicated region for block: B:235:0x0240 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     @SuppressLint({"NewApi"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1482,7 +1482,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
         this.listAdapter.notifyDataSetChanged();
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
         private ArrayList<ListItem> items = new ArrayList<>();
@@ -1589,7 +1589,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class SearchAdapter extends RecyclerListView.SectionsAdapter {
         private String currentDataQuery;
         private long currentSearchDialogId;

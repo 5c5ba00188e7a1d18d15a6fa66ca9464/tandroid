@@ -3,25 +3,25 @@ package j$.util.stream;
 import java.util.Arrays;
 import java.util.Objects;
 /* loaded from: classes2.dex */
-final class K3 extends J0 {
+final class K3 extends S {
     /* JADX INFO: Access modifiers changed from: package-private */
     public K3(c cVar) {
-        super(cVar, e4.INT_VALUE, d4.q | d4.o);
+        super(cVar, f4.DOUBLE_VALUE, e4.q | e4.o);
     }
 
     @Override // j$.util.stream.c
-    public A1 E0(y2 y2Var, j$.util.t tVar, j$.util.function.m mVar) {
-        if (d4.SORTED.d(y2Var.s0())) {
-            return y2Var.p0(tVar, false, mVar);
+    public B1 C0(z2 z2Var, j$.util.t tVar, j$.util.function.m mVar) {
+        if (e4.SORTED.d(z2Var.q0())) {
+            return z2Var.n0(tVar, false, mVar);
         }
-        int[] iArr = (int[]) ((w1) y2Var.p0(tVar, true, mVar)).e();
-        Arrays.sort(iArr);
-        return new c2(iArr);
+        double[] dArr = (double[]) ((v1) z2Var.n0(tVar, true, mVar)).e();
+        Arrays.sort(dArr);
+        return new U1(dArr);
     }
 
     @Override // j$.util.stream.c
-    public m3 H0(int i, m3 m3Var) {
-        Objects.requireNonNull(m3Var);
-        return d4.SORTED.d(i) ? m3Var : d4.SIZED.d(i) ? new P3(m3Var) : new H3(m3Var);
+    public n3 F0(int i, n3 n3Var) {
+        Objects.requireNonNull(n3Var);
+        return e4.SORTED.d(i) ? n3Var : e4.SIZED.d(i) ? new P3(n3Var) : new H3(n3Var);
     }
 }

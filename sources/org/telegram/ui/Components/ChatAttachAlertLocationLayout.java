@@ -90,7 +90,7 @@ import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.ChatAttachAlert;
 import org.telegram.ui.Components.ChatAttachAlertLocationLayout;
 import org.telegram.ui.Components.RecyclerListView;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLayout implements NotificationCenter.NotificationCenterDelegate {
     private LocationActivityAdapter adapter;
     private AnimatorSet animatorSet;
@@ -152,17 +152,17 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
     private boolean userLocationMoved;
     private float yOffset;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class LiveLocation {
         public IMapsProvider.IMarker marker;
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface LocationActivityDelegate {
         void didSelectLocation(TLRPC$MessageMedia tLRPC$MessageMedia, int i, boolean z, int i2);
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class VenueLocation {
         public IMapsProvider.IMarker marker;
         public int num;
@@ -186,7 +186,7 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class SearchButton extends TextView {
         private float additionanTranslationY;
         private float currentTranslationY;
@@ -216,7 +216,7 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class MapOverlayView extends FrameLayout {
         private HashMap<IMapsProvider.IMarker, View> views;
 

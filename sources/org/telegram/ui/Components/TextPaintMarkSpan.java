@@ -2,7 +2,7 @@ package org.telegram.ui.Components;
 
 import android.text.TextPaint;
 import android.text.style.MetricAffectingSpan;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class TextPaintMarkSpan extends MetricAffectingSpan {
     private TextPaint textPaint;
 

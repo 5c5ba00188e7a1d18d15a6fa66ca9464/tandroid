@@ -1,52 +1,42 @@
 package j$.util.stream;
 
-import j$.util.Collection$-EL;
-import java.util.ArrayList;
+import j$.util.Comparator$-CC;
+import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.Objects;
 /* loaded from: classes2.dex */
-final class N3 extends F3 {
-    private ArrayList d;
+final class N3 extends d3 {
+    private final boolean l;
+    private final Comparator m;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public N3(m3 m3Var, Comparator comparator) {
-        super(m3Var, comparator);
+    public N3(c cVar) {
+        super(cVar, f4.REFERENCE, e4.q | e4.o);
+        this.l = true;
+        this.m = Comparator$-CC.a();
     }
 
-    @Override // j$.util.function.Consumer
-    public void accept(Object obj) {
-        this.d.add(obj);
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public N3(c cVar, Comparator comparator) {
+        super(cVar, f4.REFERENCE, e4.q | e4.p);
+        this.l = false;
+        Objects.requireNonNull(comparator);
+        this.m = comparator;
     }
 
-    @Override // j$.util.stream.i3, j$.util.stream.m3
-    public void m() {
-        j$.util.a.v(this.d, this.b);
-        this.a.n(this.d.size());
-        if (this.c) {
-            Iterator it = this.d.iterator();
-            while (it.hasNext()) {
-                Object next = it.next();
-                if (this.a.o()) {
-                    break;
-                }
-                this.a.accept((m3) next);
-            }
-        } else {
-            ArrayList arrayList = this.d;
-            m3 m3Var = this.a;
-            Objects.requireNonNull(m3Var);
-            Collection$-EL.a(arrayList, new b(m3Var));
+    @Override // j$.util.stream.c
+    public B1 C0(z2 z2Var, j$.util.t tVar, j$.util.function.m mVar) {
+        if (e4.SORTED.d(z2Var.q0()) && this.l) {
+            return z2Var.n0(tVar, false, mVar);
         }
-        this.a.m();
-        this.d = null;
+        Object[] q = z2Var.n0(tVar, true, mVar).q(mVar);
+        Arrays.sort(q, this.m);
+        return new E1(q);
     }
 
-    @Override // j$.util.stream.m3
-    public void n(long j) {
-        if (j >= 2147483639) {
-            throw new IllegalArgumentException("Stream size exceeds max array size");
-        }
-        this.d = j >= 0 ? new ArrayList((int) j) : new ArrayList();
+    @Override // j$.util.stream.c
+    public n3 F0(int i, n3 n3Var) {
+        Objects.requireNonNull(n3Var);
+        return (e4.SORTED.d(i) && this.l) ? n3Var : e4.SIZED.d(i) ? new S3(n3Var, this.m) : new O3(n3Var, this.m);
     }
 }

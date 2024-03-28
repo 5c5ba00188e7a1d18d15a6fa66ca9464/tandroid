@@ -54,7 +54,7 @@ import org.telegram.ui.Components.EditTextBoldCursor;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.QRCodeBottomSheet;
 import org.telegram.ui.Components.RLottieDrawable;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ProxySettingsActivity extends BaseFragment {
     private boolean addingNewProxy;
     private TextInfoPrivacyCell[] bottomCells;

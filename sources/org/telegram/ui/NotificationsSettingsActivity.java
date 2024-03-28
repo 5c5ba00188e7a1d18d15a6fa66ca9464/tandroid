@@ -68,7 +68,7 @@ import org.telegram.ui.Cells.TextSettingsCell;
 import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class NotificationsSettingsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private int accountsAllRow;
     private int accountsInfoRow;
@@ -121,7 +121,7 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
     private ArrayList<NotificationException> exceptionAutoStories = null;
     private int rowCount = 0;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class NotificationException {
         public boolean auto;
         public long did;
@@ -1235,7 +1235,7 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
@@ -1281,7 +1281,7 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
             return new RecyclerListView.Holder(headerCell);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:82:0x0282  */
+        /* JADX WARN: Removed duplicated region for block: B:82:0x0281  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.

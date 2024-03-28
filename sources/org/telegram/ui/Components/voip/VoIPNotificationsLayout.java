@@ -30,7 +30,7 @@ import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.StaticLayoutEx;
 @SuppressLint({"ViewConstructor"})
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class VoIPNotificationsLayout extends LinearLayout {
     VoIPBackgroundProvider backgroundProvider;
     boolean lockAnimation;
@@ -198,7 +198,7 @@ public class VoIPNotificationsLayout extends LinearLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class NotificationView extends FrameLayout {
         private final VoIPBackgroundProvider backgroundProvider;
         private final RectF bgRect;

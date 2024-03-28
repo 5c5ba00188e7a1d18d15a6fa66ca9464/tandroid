@@ -14,7 +14,7 @@ import org.telegram.tgnet.TLObject;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.Crop.CropAreaView;
 import org.telegram.ui.Components.PhotoCropView;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class SuggestUserPhotoView extends View {
     Drawable arrowDrawable;
     AvatarDrawable avatarDrawable;

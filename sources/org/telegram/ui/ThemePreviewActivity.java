@@ -197,7 +197,7 @@ import org.telegram.ui.Stories.recorder.PreviewView;
 import org.telegram.ui.Stories.recorder.SliderView;
 import org.telegram.ui.ThemePreviewActivity;
 import org.telegram.ui.WallpapersListActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ThemePreviewActivity extends BaseFragment implements DownloadController.FileDownloadProgressListener, NotificationCenter.NotificationCenterDelegate {
     private int TAG;
     private Theme.ThemeAccent accent;
@@ -352,7 +352,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     private boolean wasScroll;
     private long watchForKeyboardEndTime;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface DayNightSwitchDelegate {
         boolean isDark();
 
@@ -361,7 +361,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         void switchDayNight(boolean z);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface WallpaperActivityDelegate {
         void didSetNewBackground(TLRPC$WallPaper tLRPC$WallPaper);
     }
@@ -790,26 +790,26 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     /* JADX WARN: Removed duplicated region for block: B:162:0x066d A[ADDED_TO_REGION] */
     /* JADX WARN: Removed duplicated region for block: B:166:0x0675  */
     /* JADX WARN: Removed duplicated region for block: B:202:0x086e  */
-    /* JADX WARN: Removed duplicated region for block: B:221:0x08a8  */
+    /* JADX WARN: Removed duplicated region for block: B:221:0x08a7  */
     /* JADX WARN: Removed duplicated region for block: B:22:0x005d  */
-    /* JADX WARN: Removed duplicated region for block: B:252:0x098f  */
-    /* JADX WARN: Removed duplicated region for block: B:255:0x0993  */
+    /* JADX WARN: Removed duplicated region for block: B:252:0x098e  */
+    /* JADX WARN: Removed duplicated region for block: B:255:0x0992  */
     /* JADX WARN: Removed duplicated region for block: B:29:0x006f  */
-    /* JADX WARN: Removed duplicated region for block: B:304:0x0a80  */
-    /* JADX WARN: Removed duplicated region for block: B:343:0x0bb7  */
-    /* JADX WARN: Removed duplicated region for block: B:348:0x0bc3  */
+    /* JADX WARN: Removed duplicated region for block: B:304:0x0a7f  */
+    /* JADX WARN: Removed duplicated region for block: B:343:0x0bb6  */
+    /* JADX WARN: Removed duplicated region for block: B:348:0x0bc2  */
     /* JADX WARN: Removed duplicated region for block: B:37:0x0112  */
     /* JADX WARN: Removed duplicated region for block: B:38:0x0114  */
-    /* JADX WARN: Removed duplicated region for block: B:412:0x0f6d  */
-    /* JADX WARN: Removed duplicated region for block: B:415:0x0f78  */
+    /* JADX WARN: Removed duplicated region for block: B:412:0x0f6c  */
+    /* JADX WARN: Removed duplicated region for block: B:415:0x0f77  */
     /* JADX WARN: Removed duplicated region for block: B:41:0x0120  */
-    /* JADX WARN: Removed duplicated region for block: B:420:0x0fe0  */
-    /* JADX WARN: Removed duplicated region for block: B:421:0x0fe5  */
-    /* JADX WARN: Removed duplicated region for block: B:424:0x101b  */
-    /* JADX WARN: Removed duplicated region for block: B:427:0x114e  */
+    /* JADX WARN: Removed duplicated region for block: B:420:0x0fdf  */
+    /* JADX WARN: Removed duplicated region for block: B:421:0x0fe4  */
+    /* JADX WARN: Removed duplicated region for block: B:424:0x101a  */
+    /* JADX WARN: Removed duplicated region for block: B:427:0x114d  */
     /* JADX WARN: Removed duplicated region for block: B:42:0x0123  */
-    /* JADX WARN: Removed duplicated region for block: B:436:0x1177  */
-    /* JADX WARN: Removed duplicated region for block: B:439:0x1189  */
+    /* JADX WARN: Removed duplicated region for block: B:436:0x1176  */
+    /* JADX WARN: Removed duplicated region for block: B:439:0x1188  */
     /* JADX WARN: Removed duplicated region for block: B:45:0x0167  */
     /* JADX WARN: Removed duplicated region for block: B:48:0x01b6  */
     /* JADX WARN: Removed duplicated region for block: B:51:0x021f  */
@@ -1096,6 +1096,11 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                         @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
                         public final void didSetImage(ImageReceiver imageReceiver, boolean z4, boolean z5, boolean z6) {
                             ThemePreviewActivity.this.lambda$createView$4(imageReceiver, z4, z5, z6);
+                        }
+
+                        @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
+                        public /* synthetic */ void didSetImageBitmap(int i13, String str, Drawable drawable) {
+                            ImageReceiver.ImageReceiverDelegate.-CC.$default$didSetImageBitmap(this, i13, str, drawable);
                         }
 
                         @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
@@ -3153,7 +3158,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 9 extends ActionBar.ActionBarMenuOnItemClick {
         9() {
         }
@@ -3587,7 +3592,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 27 implements ColorPicker.ColorPickerDelegate {
         27() {
         }
@@ -3774,18 +3779,18 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         return getMessagesController().groupCustomWallpaperLevelMin;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:129:0x02a9  */
-    /* JADX WARN: Removed duplicated region for block: B:130:0x02bb  */
-    /* JADX WARN: Removed duplicated region for block: B:156:0x035d  */
-    /* JADX WARN: Removed duplicated region for block: B:162:0x0371  */
-    /* JADX WARN: Removed duplicated region for block: B:196:0x03e3  */
-    /* JADX WARN: Removed duplicated region for block: B:201:0x03fd  */
-    /* JADX WARN: Removed duplicated region for block: B:207:0x0415  */
-    /* JADX WARN: Removed duplicated region for block: B:237:0x0598  */
-    /* JADX WARN: Removed duplicated region for block: B:240:0x059e  */
-    /* JADX WARN: Removed duplicated region for block: B:257:0x027e A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:129:0x02a8  */
+    /* JADX WARN: Removed duplicated region for block: B:130:0x02ba  */
+    /* JADX WARN: Removed duplicated region for block: B:156:0x035c  */
+    /* JADX WARN: Removed duplicated region for block: B:162:0x0370  */
+    /* JADX WARN: Removed duplicated region for block: B:196:0x03e2  */
+    /* JADX WARN: Removed duplicated region for block: B:201:0x03fc  */
+    /* JADX WARN: Removed duplicated region for block: B:207:0x0414  */
+    /* JADX WARN: Removed duplicated region for block: B:237:0x0597  */
+    /* JADX WARN: Removed duplicated region for block: B:240:0x059d  */
+    /* JADX WARN: Removed duplicated region for block: B:257:0x027d A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:263:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x00d1  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x00d0  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -6646,7 +6651,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         this.rotatePreview = false;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class DialogsAdapter extends RecyclerListView.SelectionAdapter {
         private ArrayList<DialogCell.CustomDialog> dialogs = new ArrayList<>();
         private Context mContext;
@@ -6797,7 +6802,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class MessagesAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
         private ArrayList<MessageObject> messages;
@@ -7403,6 +7408,11 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+                    public /* synthetic */ void didPressAboutRevenueSharingAds() {
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressAboutRevenueSharingAds(this);
+                    }
+
+                    @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ boolean didPressAnimatedEmoji(ChatMessageCell chatMessageCell2, AnimatedEmojiSpan animatedEmojiSpan) {
                         return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressAnimatedEmoji(this, chatMessageCell2, animatedEmojiSpan);
                     }
@@ -7505,6 +7515,11 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ void didPressSponsoredClose() {
                         ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressSponsoredClose(this);
+                    }
+
+                    @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+                    public /* synthetic */ void didPressSponsoredInfo(ChatMessageCell chatMessageCell2, float f, float f2) {
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressSponsoredInfo(this, chatMessageCell2, f, f2);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -7861,7 +7876,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class PatternsAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
@@ -8214,7 +8229,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         MessagesController.getInstance(this.currentAccount).updateInterfaceWithMessages(this.dialogId, arrayList, 0);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class BackgroundView extends BackupImageView {
         public Drawable background;
         boolean drawBackground;
@@ -8339,7 +8354,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private class MessageDrawable extends Theme.MessageDrawable {
         public MessageDrawable(int i, boolean z, boolean z2) {
             super(i, z, z2);
@@ -8363,7 +8378,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class BlurButton extends View {
         private final ColorFilter colorFilter;
         private final Paint dimPaint;
@@ -8481,7 +8496,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ThemeDelegate implements Theme.ResourcesProvider {
         public final Paint chat_actionBackgroundGradientDarkenPaint;
         public final TextPaint chat_actionTextPaint;

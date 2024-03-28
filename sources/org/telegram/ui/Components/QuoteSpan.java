@@ -28,7 +28,7 @@ import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLRPC$MessageEntity;
 import org.telegram.tgnet.TLRPC$TL_messageEntityBlockquote;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class QuoteSpan implements LeadingMarginSpan {
     public boolean adaptLineHeight = true;
     private final Paint backgroundPaint;
@@ -84,7 +84,7 @@ public class QuoteSpan implements LeadingMarginSpan {
         return AndroidUtilities.dp(this.adaptLineHeight ? 8.0f : 10.0f);
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class QuoteStyleSpan extends MetricAffectingSpan implements LineHeightSpan {
         public QuoteSpan span;
 
@@ -248,7 +248,7 @@ public class QuoteSpan implements LeadingMarginSpan {
         return arrayList;
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class Block {
         public final int bottom;
         public final QuoteSpan span;

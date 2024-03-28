@@ -51,7 +51,7 @@ import org.telegram.ui.Components.ListView.AdapterWithDiffUtils;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.SeekBarView;
 import org.telegram.ui.DialogsActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class SaveToGallerySettingsActivity extends BaseFragment {
     Adapter adapter;
     SaveToGallerySettingsHelper.DialogException dialogException;
@@ -394,7 +394,7 @@ public class SaveToGallerySettingsActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class Adapter extends AdapterWithDiffUtils {
         private Adapter() {
         }
@@ -610,7 +610,7 @@ public class SaveToGallerySettingsActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class Item extends AdapterWithDiffUtils.Item {
         final SaveToGallerySettingsHelper.DialogException exception;
         String title;
@@ -678,7 +678,7 @@ public class SaveToGallerySettingsActivity extends BaseFragment {
         SaveToGallerySettingsHelper.saveSettings(this.type);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private class SelectableAnimatedTextView extends AnimatedTextView {
         AnimatedFloat progressToSelect;
         boolean selected;

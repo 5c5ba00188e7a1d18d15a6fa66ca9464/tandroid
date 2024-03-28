@@ -27,7 +27,7 @@ import org.telegram.tgnet.TLRPC$TL_inputStickerSetShortName;
 import org.telegram.tgnet.TLRPC$TL_messages_stickerSet;
 import org.telegram.tgnet.TLRPC$TL_stickerPack;
 import org.telegram.ui.Stories.recorder.HintView2;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class LocationMarker extends View {
     private final RectF bounds;
     public final float density;

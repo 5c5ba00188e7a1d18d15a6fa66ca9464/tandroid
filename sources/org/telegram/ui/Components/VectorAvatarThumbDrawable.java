@@ -21,7 +21,7 @@ import org.telegram.tgnet.TLRPC$TL_videoSizeStickerMarkup;
 import org.telegram.tgnet.TLRPC$VideoSize;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class VectorAvatarThumbDrawable extends Drawable implements AnimatedEmojiSpan.InvalidateHolder, AttachableDrawable, NotificationCenter.NotificationCenterDelegate {
     AnimatedEmojiDrawable animatedEmojiDrawable;
     final int currentAccount;

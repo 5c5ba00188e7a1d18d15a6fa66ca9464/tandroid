@@ -56,7 +56,7 @@ import org.telegram.ui.Components.SeekBarView;
 import org.telegram.ui.Components.Switch;
 import org.telegram.ui.Components.ThanosEffect;
 import org.telegram.ui.LiteModeSettingsActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class LiteModeSettingsActivity extends BaseFragment {
     private int FLAGS_CHAT;
     Adapter adapter;
@@ -333,7 +333,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class Adapter extends AdapterWithDiffUtils {
         private Adapter() {
         }
@@ -442,7 +442,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class SwitchCell extends FrameLayout {
         private int all;
         private ImageView arrowView;
@@ -707,7 +707,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class PowerSaverSlider extends FrameLayout {
         BatteryDrawable batteryIcon;
         SpannableStringBuilder batteryText;
@@ -1028,7 +1028,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class Item extends AdapterWithDiffUtils.Item {
         public int flags;
         public int iconResId;

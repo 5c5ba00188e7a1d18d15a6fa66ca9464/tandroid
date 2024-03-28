@@ -105,7 +105,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.FilterCreateActivity;
 import org.telegram.ui.PeerColorActivity;
 import org.telegram.ui.UsersSelectActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class FilterCreateActivity extends BaseFragment {
     private ListAdapter adapter;
     private CreateLinkCell createLinkCell;
@@ -140,7 +140,7 @@ public class FilterCreateActivity extends BaseFragment {
         return !(TextUtils.isEmpty(this.newFilterName) && TextUtils.isEmpty(this.filter.name)) && (this.newFilterFlags & ((MessagesController.DIALOG_FILTER_FLAG_CHATLIST | MessagesController.DIALOG_FILTER_FLAG_CHATLIST_ADMIN) ^ (-1))) == 0 && this.newNeverShow.isEmpty() && !this.newAlwaysShow.isEmpty();
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class HintInnerCell extends FrameLayout {
         private RLottieImageView imageView;
 
@@ -1380,7 +1380,7 @@ public class FilterCreateActivity extends BaseFragment {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class ItemInner extends AdapterWithDiffUtils.Item {
         private String chatType;
         private long did;
@@ -1502,7 +1502,7 @@ public class FilterCreateActivity extends BaseFragment {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ListAdapter extends AdapterWithDiffUtils {
         private Context mContext;
 
@@ -1853,7 +1853,7 @@ public class FilterCreateActivity extends BaseFragment {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private static class ButtonCell extends FrameLayout {
         private boolean divider;
         private ImageView imageView;
@@ -1935,7 +1935,7 @@ public class FilterCreateActivity extends BaseFragment {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private static class CreateLinkCell extends FrameLayout {
         ImageView imageView;
         boolean needDivider;
@@ -1999,7 +1999,7 @@ public class FilterCreateActivity extends BaseFragment {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class LinkCell extends FrameLayout {
         private int currentAccount;
         private int filterId;
@@ -2325,7 +2325,7 @@ public class FilterCreateActivity extends BaseFragment {
         return charSequence;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class ColorImageSpan extends ImageSpan {
         int lastColor;
 
@@ -2345,7 +2345,7 @@ public class FilterCreateActivity extends BaseFragment {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class NewSpan extends ReplacementSpan {
         Paint bgPaint;
         private int color;
@@ -2470,7 +2470,7 @@ public class FilterCreateActivity extends BaseFragment {
         of.createSimpleBulletin(i2, formatPluralString, LocaleController.getString("FolderLinkChatlistUpdate", R.string.FolderLinkChatlistUpdate)).setDuration(5000).show();
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class FilterInvitesBottomSheet extends BottomSheetWithRecyclerListView {
         private AdapterWithDiffUtils adapter;
         private FrameLayout bulletinContainer;
@@ -2596,7 +2596,7 @@ public class FilterCreateActivity extends BaseFragment {
         }
 
         @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
-        protected RecyclerListView.SelectionAdapter createAdapter() {
+        protected RecyclerListView.SelectionAdapter createAdapter(RecyclerListView recyclerListView) {
             AdapterWithDiffUtils adapterWithDiffUtils = new AdapterWithDiffUtils() { // from class: org.telegram.ui.FilterCreateActivity.FilterInvitesBottomSheet.1
                 {
                     FilterInvitesBottomSheet.this = this;
@@ -2676,7 +2676,7 @@ public class FilterCreateActivity extends BaseFragment {
                     return new RecyclerListView.Holder(textInfoPrivacyCell);
                 }
 
-                /* loaded from: classes3.dex */
+                /* loaded from: classes4.dex */
                 public class 1 extends LinkCell {
                     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
                     1(Context context, BaseFragment baseFragment, int i, int i2) {
@@ -2768,7 +2768,7 @@ public class FilterCreateActivity extends BaseFragment {
             return adapterWithDiffUtils;
         }
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class HeaderView extends FrameLayout {
             private final ImageView closeImageView;
             private final ImageView imageView;
@@ -2939,7 +2939,7 @@ public class FilterCreateActivity extends BaseFragment {
         return true;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class HeaderCellColorPreview extends HeaderCell {
         private final AnimatedColor animatedColor;
         private int currentColor;

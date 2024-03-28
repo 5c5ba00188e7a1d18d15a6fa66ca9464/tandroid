@@ -15,7 +15,7 @@ import androidx.dynamicanimation.animation.SpringForce;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.SimpleFloatPropertyCompat;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class OutlineTextContainerView extends FrameLayout {
     private EditText attachedEditText;
     private float errorProgress;
@@ -24,6 +24,7 @@ public class OutlineTextContainerView extends FrameLayout {
     private String mText;
     private Paint outlinePaint;
     private RectF rect;
+    private final Theme.ResourcesProvider resourcesProvider;
     private float selectionProgress;
     private SpringAnimation selectionSpring;
     private float strokeWidthRegular;
@@ -75,6 +76,10 @@ public class OutlineTextContainerView extends FrameLayout {
     }
 
     public OutlineTextContainerView(Context context) {
+        this(context, null);
+    }
+
+    public OutlineTextContainerView(Context context, Theme.ResourcesProvider resourcesProvider) {
         super(context);
         this.rect = new RectF();
         this.mText = "";
@@ -84,6 +89,7 @@ public class OutlineTextContainerView extends FrameLayout {
         this.errorSpring = new SpringAnimation(this, ERROR_PROGRESS_PROPERTY);
         this.strokeWidthRegular = Math.max(2, AndroidUtilities.dp(0.5f));
         this.strokeWidthSelected = AndroidUtilities.dp(1.5f);
+        this.resourcesProvider = resourcesProvider;
         setWillNotDraw(false);
         this.textPaint.setTextSize(AndroidUtilities.dp(16.0f));
         this.outlinePaint.setStyle(Paint.Style.STROKE);
@@ -118,11 +124,11 @@ public class OutlineTextContainerView extends FrameLayout {
     }
 
     public void updateColor() {
-        int blendARGB = ColorUtils.blendARGB(Theme.getColor(Theme.key_windowBackgroundWhiteHintText), Theme.getColor(Theme.key_windowBackgroundWhiteValueText), this.forceUseCenter ? 0.0f : this.selectionProgress);
+        int blendARGB = ColorUtils.blendARGB(Theme.getColor(Theme.key_windowBackgroundWhiteHintText, this.resourcesProvider), Theme.getColor(Theme.key_windowBackgroundWhiteValueText, this.resourcesProvider), this.forceUseCenter ? 0.0f : this.selectionProgress);
         TextPaint textPaint = this.textPaint;
         int i = Theme.key_text_RedBold;
-        textPaint.setColor(ColorUtils.blendARGB(blendARGB, Theme.getColor(i), this.errorProgress));
-        setColor(ColorUtils.blendARGB(ColorUtils.blendARGB(Theme.getColor(Theme.key_windowBackgroundWhiteInputField), Theme.getColor(Theme.key_windowBackgroundWhiteInputFieldActivated), this.forceUseCenter ? 0.0f : this.selectionProgress), Theme.getColor(i), this.errorProgress));
+        textPaint.setColor(ColorUtils.blendARGB(blendARGB, Theme.getColor(i, this.resourcesProvider), this.errorProgress));
+        setColor(ColorUtils.blendARGB(ColorUtils.blendARGB(Theme.getColor(Theme.key_windowBackgroundWhiteInputField, this.resourcesProvider), Theme.getColor(Theme.key_windowBackgroundWhiteInputFieldActivated, this.resourcesProvider), this.forceUseCenter ? 0.0f : this.selectionProgress), Theme.getColor(i, this.resourcesProvider), this.errorProgress));
     }
 
     public void animateSelection(float f) {

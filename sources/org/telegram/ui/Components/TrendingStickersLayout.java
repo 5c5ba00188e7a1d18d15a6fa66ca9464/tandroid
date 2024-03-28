@@ -50,7 +50,7 @@ import org.telegram.ui.Cells.StickerEmojiCell;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.StickersAlert;
 import org.telegram.ui.Components.TrendingStickersLayout;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class TrendingStickersLayout extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private final TrendingStickersAdapter adapter;
     private final int currentAccount;
@@ -81,7 +81,7 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
     private int topOffset;
     private boolean wasLayout;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static abstract class Delegate {
         private String[] lastSearchKeyboardLanguage = new String[0];
 
@@ -666,7 +666,7 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class TrendingStickersAdapter extends RecyclerListView.SelectionAdapter {
         private final Context context;
         private boolean endReached;

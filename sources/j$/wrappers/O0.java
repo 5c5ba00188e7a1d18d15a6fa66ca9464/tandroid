@@ -29,7 +29,7 @@ public final /* synthetic */ class O0 implements Stream {
         this.a = stream;
     }
 
-    public static /* synthetic */ Stream n0(j$.util.stream.Stream stream) {
+    public static /* synthetic */ Stream l0(j$.util.stream.Stream stream) {
         if (stream == null) {
             return null;
         }
@@ -38,7 +38,7 @@ public final /* synthetic */ class O0 implements Stream {
 
     @Override // java.util.stream.Stream
     public /* synthetic */ boolean allMatch(Predicate predicate) {
-        return this.a.W(w0.a(predicate));
+        return this.a.V(w0.a(predicate));
     }
 
     @Override // java.util.stream.Stream
@@ -58,7 +58,7 @@ public final /* synthetic */ class O0 implements Stream {
 
     @Override // java.util.stream.Stream
     public /* synthetic */ Object collect(Collector collector) {
-        return this.a.b0(I0.d(collector));
+        return this.a.collect(I0.a(collector));
     }
 
     @Override // java.util.stream.Stream
@@ -68,12 +68,12 @@ public final /* synthetic */ class O0 implements Stream {
 
     @Override // java.util.stream.Stream
     public /* synthetic */ Stream distinct() {
-        return n0(this.a.distinct());
+        return l0(this.a.distinct());
     }
 
     @Override // java.util.stream.Stream
     public /* synthetic */ Stream filter(Predicate predicate) {
-        return n0(this.a.T(w0.a(predicate)));
+        return l0(this.a.filter(w0.a(predicate)));
     }
 
     @Override // java.util.stream.Stream
@@ -88,12 +88,12 @@ public final /* synthetic */ class O0 implements Stream {
 
     @Override // java.util.stream.Stream
     public /* synthetic */ Stream flatMap(Function function) {
-        return n0(this.a.o(L.a(function)));
+        return l0(this.a.o(L.a(function)));
     }
 
     @Override // java.util.stream.Stream
     public /* synthetic */ DoubleStream flatMapToDouble(Function function) {
-        return L0.n0(this.a.E(L.a(function)));
+        return L0.l0(this.a.E(L.a(function)));
     }
 
     @Override // java.util.stream.Stream
@@ -103,7 +103,7 @@ public final /* synthetic */ class O0 implements Stream {
 
     @Override // java.util.stream.Stream
     public /* synthetic */ LongStream flatMapToLong(Function function) {
-        return N0.n0(this.a.X(L.a(function)));
+        return N0.l0(this.a.W(L.a(function)));
     }
 
     @Override // java.util.stream.Stream
@@ -128,17 +128,17 @@ public final /* synthetic */ class O0 implements Stream {
 
     @Override // java.util.stream.Stream
     public /* synthetic */ Stream limit(long j) {
-        return n0(this.a.limit(j));
+        return l0(this.a.limit(j));
     }
 
     @Override // java.util.stream.Stream
     public /* synthetic */ Stream map(Function function) {
-        return n0(this.a.n(L.a(function)));
+        return l0(this.a.n(L.a(function)));
     }
 
     @Override // java.util.stream.Stream
     public /* synthetic */ DoubleStream mapToDouble(ToDoubleFunction toDoubleFunction) {
-        return L0.n0(this.a.j0(A0.a(toDoubleFunction)));
+        return L0.l0(this.a.h0(A0.a(toDoubleFunction)));
     }
 
     @Override // java.util.stream.Stream
@@ -148,7 +148,7 @@ public final /* synthetic */ class O0 implements Stream {
 
     @Override // java.util.stream.Stream
     public /* synthetic */ LongStream mapToLong(ToLongFunction toLongFunction) {
-        return N0.n0(this.a.g0(E0.a(toLongFunction)));
+        return N0.l0(this.a.e0(E0.a(toLongFunction)));
     }
 
     @Override // java.util.stream.Stream
@@ -163,22 +163,22 @@ public final /* synthetic */ class O0 implements Stream {
 
     @Override // java.util.stream.Stream
     public /* synthetic */ boolean noneMatch(Predicate predicate) {
-        return this.a.d0(w0.a(predicate));
+        return this.a.b0(w0.a(predicate));
     }
 
     @Override // java.util.stream.BaseStream
     public /* synthetic */ BaseStream onClose(Runnable runnable) {
-        return H0.n0(this.a.onClose(runnable));
+        return H0.l0(this.a.onClose(runnable));
     }
 
     @Override // java.util.stream.BaseStream
     public /* synthetic */ BaseStream parallel() {
-        return H0.n0(this.a.parallel());
+        return H0.l0(this.a.parallel());
     }
 
     @Override // java.util.stream.Stream
     public /* synthetic */ Stream peek(Consumer consumer) {
-        return n0(this.a.V(w.b(consumer)));
+        return l0(this.a.U(w.b(consumer)));
     }
 
     @Override // java.util.stream.Stream
@@ -188,7 +188,7 @@ public final /* synthetic */ class O0 implements Stream {
 
     @Override // java.util.stream.Stream
     public /* synthetic */ Object reduce(Object obj, BinaryOperator binaryOperator) {
-        return this.a.m0(obj, u.a(binaryOperator));
+        return this.a.k0(obj, u.a(binaryOperator));
     }
 
     @Override // java.util.stream.Stream
@@ -198,22 +198,22 @@ public final /* synthetic */ class O0 implements Stream {
 
     @Override // java.util.stream.BaseStream
     public /* synthetic */ BaseStream sequential() {
-        return H0.n0(this.a.sequential());
+        return H0.l0(this.a.sequential());
     }
 
     @Override // java.util.stream.Stream
     public /* synthetic */ Stream skip(long j) {
-        return n0(this.a.skip(j));
+        return l0(this.a.skip(j));
     }
 
     @Override // java.util.stream.Stream
     public /* synthetic */ Stream sorted() {
-        return n0(this.a.sorted());
+        return l0(this.a.sorted());
     }
 
     @Override // java.util.stream.Stream
     public /* synthetic */ Stream sorted(Comparator comparator) {
-        return n0(this.a.sorted(comparator));
+        return l0(this.a.sorted(comparator));
     }
 
     @Override // java.util.stream.BaseStream
@@ -233,6 +233,6 @@ public final /* synthetic */ class O0 implements Stream {
 
     @Override // java.util.stream.BaseStream
     public /* synthetic */ BaseStream unordered() {
-        return H0.n0(this.a.unordered());
+        return H0.l0(this.a.unordered());
     }
 }

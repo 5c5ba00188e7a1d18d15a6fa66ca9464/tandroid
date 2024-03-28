@@ -1,4 +1,4 @@
 package org.telegram.ui.Business;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public final /* synthetic */ class QuickRepliesController$$ExternalSyntheticBackport1 {
 }

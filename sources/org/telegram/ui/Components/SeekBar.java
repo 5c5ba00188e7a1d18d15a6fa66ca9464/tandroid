@@ -20,7 +20,7 @@ import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.Utilities;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class SeekBar {
     private static Paint paint;
     private static int thumbWidth;
@@ -57,10 +57,10 @@ public class SeekBar {
     private int currentTimestamp = -1;
     private float timestampChangeT = 1.0f;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface SeekBarDelegate {
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public final /* synthetic */ class -CC {
             public static boolean $default$isSeekBarDragAllowed(SeekBarDelegate seekBarDelegate) {
                 return true;
@@ -524,7 +524,6 @@ public class SeekBar {
     }
 
     private void updateTimestampAnimation() {
-        View view;
         ArrayList<Pair<Float, URLSpanNoUnderline>> arrayList = this.timestamps;
         if (arrayList == null || arrayList.isEmpty()) {
             return;
@@ -548,11 +547,8 @@ public class SeekBar {
         Math.abs((i / 2.0f) - (this.width - (i / 2.0f)));
         AndroidUtilities.dp(66.0f);
         if (size != this.currentTimestamp) {
-            if (this.pressed && (view = this.parentView) != null) {
-                try {
-                    view.performHapticFeedback(9, 1);
-                } catch (Exception unused) {
-                }
+            if (this.pressed) {
+                AndroidUtilities.vibrateCursor(this.parentView);
             }
             this.currentTimestamp = size;
             if (size >= 0 && size < this.timestamps.size()) {
@@ -561,17 +557,17 @@ public class SeekBar {
         }
         if (this.timestampChangeT < 1.0f) {
             this.timestampChangeT = Math.min(this.timestampChangeT + (((float) Math.min(17L, Math.abs(SystemClock.elapsedRealtime() - this.lastTimestampUpdate))) / (this.timestamps.size() > 8 ? 160.0f : 220.0f)), 1.0f);
-            View view2 = this.parentView;
-            if (view2 != null) {
-                view2.invalidate();
+            View view = this.parentView;
+            if (view != null) {
+                view.invalidate();
             }
             this.lastTimestampUpdate = SystemClock.elapsedRealtime();
         }
         if (this.timestampsAppearing < 1.0f) {
             this.timestampsAppearing = Math.min(this.timestampsAppearing + (((float) Math.min(17L, Math.abs(SystemClock.elapsedRealtime() - this.lastTimestampUpdate))) / 200.0f), 1.0f);
-            View view3 = this.parentView;
-            if (view3 != null) {
-                view3.invalidate();
+            View view2 = this.parentView;
+            if (view2 != null) {
+                view2.invalidate();
             }
             SystemClock.elapsedRealtime();
         }

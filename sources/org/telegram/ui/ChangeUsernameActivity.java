@@ -84,7 +84,7 @@ import org.telegram.ui.Components.LinkSpanDrawable;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.TypefaceSpan;
 import org.telegram.ui.Components.URLSpanNoUnderline;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ChangeUsernameActivity extends BaseFragment {
     private Adapter adapter;
     private long botId;
@@ -113,7 +113,7 @@ public class ChangeUsernameActivity extends BaseFragment {
         return true;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class LinkSpan extends ClickableSpan {
         private String url;
 
@@ -279,7 +279,7 @@ public class ChangeUsernameActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 3 implements RecyclerListView.OnItemClickListener {
         3() {
         }
@@ -524,7 +524,7 @@ public class ChangeUsernameActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class Adapter extends RecyclerListView.SelectionAdapter {
         private Adapter() {
         }
@@ -709,7 +709,7 @@ public class ChangeUsernameActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class UsernameHelpCell extends FrameLayout {
         private Integer height;
         private ValueAnimator heightUpdateAnimator;
@@ -738,11 +738,11 @@ public class ChangeUsernameActivity extends BaseFragment {
             this.text1View.setPadding(AndroidUtilities.dp(3.0f), 0, AndroidUtilities.dp(3.0f), 0);
             LinkSpanDrawable.LinksTextView linksTextView5 = ChangeUsernameActivity.this.statusTextView = new LinkSpanDrawable.LinksTextView(context, ChangeUsernameActivity.this) { // from class: org.telegram.ui.ChangeUsernameActivity.UsernameHelpCell.1
                 /* JADX WARN: Multi-variable type inference failed */
-                /* JADX WARN: Type inference failed for: r6v0, types: [android.widget.TextView, org.telegram.ui.ChangeUsernameActivity$UsernameHelpCell$1] */
+                /* JADX WARN: Type inference failed for: r6v0, types: [org.telegram.ui.Components.LinkSpanDrawable$LinksTextView, org.telegram.ui.ChangeUsernameActivity$UsernameHelpCell$1] */
                 /* JADX WARN: Type inference failed for: r7v0, types: [java.lang.CharSequence] */
                 /* JADX WARN: Type inference failed for: r7v1, types: [java.lang.CharSequence] */
                 /* JADX WARN: Type inference failed for: r7v3, types: [android.text.SpannableStringBuilder] */
-                @Override // android.widget.TextView
+                @Override // org.telegram.ui.Components.LinkSpanDrawable.LinksTextView, android.widget.TextView
                 public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
                     if (charSequence != 0) {
                         charSequence = AndroidUtilities.replaceTags(charSequence.toString());
@@ -843,7 +843,7 @@ public class ChangeUsernameActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class InputCell extends FrameLayout {
         public EditTextBoldCursor field;
         public TextView tme;
@@ -964,7 +964,7 @@ public class ChangeUsernameActivity extends BaseFragment {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class UsernameCell extends FrameLayout {
         public boolean active;
         private AnimatedFloat activeFloat;
@@ -1216,7 +1216,7 @@ public class ChangeUsernameActivity extends BaseFragment {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class TouchHelperCallback extends ItemTouchHelper.Callback {
         @Override // androidx.recyclerview.widget.ItemTouchHelper.Callback
         public boolean isLongPressDragEnabled() {

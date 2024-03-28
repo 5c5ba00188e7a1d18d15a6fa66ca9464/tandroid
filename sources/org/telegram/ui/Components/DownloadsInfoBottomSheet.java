@@ -19,7 +19,7 @@ import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.CacheControlActivity;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class DownloadsInfoBottomSheet extends BottomSheet {
     public static void show(Activity activity, BaseFragment baseFragment) {
         if (baseFragment == null || activity == null) {

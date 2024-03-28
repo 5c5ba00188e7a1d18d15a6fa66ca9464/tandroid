@@ -5,7 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class ButtonBounce {
     private ValueAnimator animator;
     private final float durationPressMultiplier;

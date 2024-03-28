@@ -1102,9 +1102,7 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
                                                                 if (selectLayout || layout != layout2 || (lineForOffset3 != layout2.getLineForOffset(TextSelectionHelper.this.selectionStart) && lineForOffset3 == lineForOffset)) {
                                                                     TextSelectionHelper textSelectionHelper14 = TextSelectionHelper.this;
                                                                     textSelectionHelper14.jumpToLine(charOffsetFromCord, i5, selectLayout, textSelectionHelper14.layoutBlock.yOffset, f3, cell);
-                                                                    if (Build.VERSION.SDK_INT >= 27) {
-                                                                        TextSelectionHelper.this.textSelectionOverlay.performHapticFeedback(9, 1);
-                                                                    }
+                                                                    AndroidUtilities.vibrateCursor(TextSelectionHelper.this.textSelectionOverlay);
                                                                     TextSelectionHelper.this.invalidate();
                                                                 } else if (-1 == layout2.getParagraphDirection(layout2.getLineForOffset(charOffsetFromCord)) || layout2.isRtlCharAt(charOffsetFromCord) || lineForOffset != lineForOffset2 || lineForOffset3 != lineForOffset) {
                                                                     TextSelectionHelper textSelectionHelper15 = TextSelectionHelper.this;
@@ -1115,9 +1113,7 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
                                                                         textSelectionHelper15.selectionStart = i7;
                                                                         textSelectionHelper15.movingHandleStart = false;
                                                                     }
-                                                                    if (Build.VERSION.SDK_INT >= 27) {
-                                                                        textSelectionHelper15.textSelectionOverlay.performHapticFeedback(9, 1);
-                                                                    }
+                                                                    AndroidUtilities.vibrateCursor(textSelectionHelper15.textSelectionOverlay);
                                                                     TextSelectionHelper.this.invalidate();
                                                                 } else {
                                                                     int i8 = charOffsetFromCord;
@@ -1167,9 +1163,7 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
                                                                             textSelectionHelper17.selectionStart = i13;
                                                                             textSelectionHelper17.movingHandleStart = false;
                                                                         }
-                                                                        if (Build.VERSION.SDK_INT >= 27) {
-                                                                            textSelectionHelper17.textSelectionOverlay.performHapticFeedback(9, 1);
-                                                                        }
+                                                                        AndroidUtilities.vibrateCursor(textSelectionHelper17.textSelectionOverlay);
                                                                         TextSelectionHelper.this.invalidate();
                                                                     }
                                                                 }
@@ -1200,9 +1194,7 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
                                                             if (selectLayout || layout3 != layout4 || (lineForOffset6 != layout4.getLineForOffset(TextSelectionHelper.this.selectionEnd) && lineForOffset6 == lineForOffset4)) {
                                                                 TextSelectionHelper textSelectionHelper21 = TextSelectionHelper.this;
                                                                 textSelectionHelper21.jumpToLine(charOffsetFromCord, i14, selectLayout, textSelectionHelper21.layoutBlock.yOffset, f3, cell);
-                                                                if (Build.VERSION.SDK_INT >= 27) {
-                                                                    TextSelectionHelper.this.textSelectionOverlay.performHapticFeedback(9, 1);
-                                                                }
+                                                                AndroidUtilities.vibrateCursor(TextSelectionHelper.this.textSelectionOverlay);
                                                                 TextSelectionHelper.this.invalidate();
                                                             } else if (-1 == layout4.getParagraphDirection(layout4.getLineForOffset(charOffsetFromCord)) || layout4.isRtlCharAt(charOffsetFromCord) || lineForOffset5 != lineForOffset4 || lineForOffset6 != lineForOffset4) {
                                                                 TextSelectionHelper textSelectionHelper22 = TextSelectionHelper.this;
@@ -1213,9 +1205,7 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
                                                                     textSelectionHelper22.selectionStart = charOffsetFromCord;
                                                                     textSelectionHelper22.movingHandleStart = true;
                                                                 }
-                                                                if (Build.VERSION.SDK_INT >= 27) {
-                                                                    textSelectionHelper22.textSelectionOverlay.performHapticFeedback(9, 1);
-                                                                }
+                                                                AndroidUtilities.vibrateCursor(textSelectionHelper22.textSelectionOverlay);
                                                                 TextSelectionHelper.this.invalidate();
                                                             } else {
                                                                 int i16 = charOffsetFromCord;
@@ -1256,9 +1246,7 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
                                                                         textSelectionHelper26.selectionStart = i22;
                                                                         textSelectionHelper26.movingHandleStart = true;
                                                                     }
-                                                                    if (Build.VERSION.SDK_INT >= 27) {
-                                                                        textSelectionHelper26.textSelectionOverlay.performHapticFeedback(9, 1);
-                                                                    }
+                                                                    AndroidUtilities.vibrateCursor(textSelectionHelper26.textSelectionOverlay);
                                                                     TextSelectionHelper.this.invalidate();
                                                                 }
                                                             }

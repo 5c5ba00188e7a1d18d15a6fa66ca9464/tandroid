@@ -12,7 +12,7 @@ import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
 @SuppressLint({"ViewConstructor"})
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class BoostTypeCell extends BaseCell {
     public static int TYPE_GIVEAWAY = 0;
     public static int TYPE_SPECIFIC_USERS = 1;

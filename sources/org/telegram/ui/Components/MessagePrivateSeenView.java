@@ -44,7 +44,7 @@ import org.telegram.ui.Components.Premium.PremiumButtonView;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PremiumPreviewFragment;
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class MessagePrivateSeenView extends FrameLayout {
     private final int currentAccount;
     private final long dialogId;

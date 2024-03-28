@@ -1,116 +1,49 @@
 package j$.time;
 
-import j$.time.temporal.t;
-import j$.time.temporal.u;
-import j$.time.temporal.w;
-import j$.time.temporal.x;
+import j$.time.zone.ZoneRules;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public enum k implements j$.time.temporal.k {
-    JANUARY,
-    FEBRUARY,
-    MARCH,
-    APRIL,
-    MAY,
-    JUNE,
-    JULY,
-    AUGUST,
-    SEPTEMBER,
-    OCTOBER,
-    NOVEMBER,
-    DECEMBER;
-    
-    private static final k[] a = values();
+public final class k extends ZoneId {
+    private final String b;
+    private final transient ZoneRules c;
 
-    public static k i(int i) {
-        if (i < 1 || i > 12) {
-            throw new c("Invalid value for MonthOfYear: " + i);
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public k(String str, ZoneRules zoneRules) {
+        this.b = str;
+        this.c = zoneRules;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static k h(String str, boolean z) {
+        int length = str.length();
+        if (length >= 2) {
+            for (int i = 0; i < length; i++) {
+                char charAt = str.charAt(i);
+                if ((charAt < 'a' || charAt > 'z') && ((charAt < 'A' || charAt > 'Z') && ((charAt != '/' || i == 0) && ((charAt < '0' || charAt > '9' || i == 0) && ((charAt != '~' || i == 0) && ((charAt != '.' || i == 0) && ((charAt != '_' || i == 0) && ((charAt != '+' || i == 0) && (charAt != '-' || i == 0))))))))) {
+                    throw new c("Invalid ID for region-based ZoneId, invalid format: " + str);
+                }
+            }
+            ZoneRules zoneRules = null;
+            try {
+                zoneRules = j$.time.zone.f.a(str, true);
+            } catch (j$.time.zone.c e) {
+                if (z) {
+                    throw e;
+                }
+            }
+            return new k(str, zoneRules);
         }
-        return a[i - 1];
+        throw new c("Invalid ID for region-based ZoneId, invalid format: " + str);
     }
 
-    @Override // j$.time.temporal.k
-    public int a(j$.time.temporal.l lVar) {
-        return lVar == j$.time.temporal.a.MONTH_OF_YEAR ? g() : j$.time.temporal.j.a(this, lVar);
+    @Override // j$.time.ZoneId
+    public String getId() {
+        return this.b;
     }
 
-    @Override // j$.time.temporal.k
-    public x b(j$.time.temporal.l lVar) {
-        return lVar == j$.time.temporal.a.MONTH_OF_YEAR ? lVar.a() : j$.time.temporal.j.c(this, lVar);
-    }
-
-    @Override // j$.time.temporal.k
-    public long c(j$.time.temporal.l lVar) {
-        if (lVar == j$.time.temporal.a.MONTH_OF_YEAR) {
-            return g();
-        }
-        if (lVar instanceof j$.time.temporal.a) {
-            throw new w("Unsupported field: " + lVar);
-        }
-        return lVar.c(this);
-    }
-
-    @Override // j$.time.temporal.k
-    public Object d(u uVar) {
-        int i = t.a;
-        return uVar == j$.time.temporal.n.a ? j$.time.chrono.h.a : uVar == j$.time.temporal.o.a ? j$.time.temporal.b.MONTHS : j$.time.temporal.j.b(this, uVar);
-    }
-
-    @Override // j$.time.temporal.k
-    public boolean e(j$.time.temporal.l lVar) {
-        return lVar instanceof j$.time.temporal.a ? lVar == j$.time.temporal.a.MONTH_OF_YEAR : lVar != null && lVar.d(this);
-    }
-
-    public int f(boolean z) {
-        int i;
-        switch (j.a[ordinal()]) {
-            case 1:
-                return 32;
-            case 2:
-                i = 91;
-                break;
-            case 3:
-                i = 152;
-                break;
-            case 4:
-                i = 244;
-                break;
-            case 5:
-                i = 305;
-                break;
-            case 6:
-                return 1;
-            case 7:
-                i = 60;
-                break;
-            case 8:
-                i = 121;
-                break;
-            case 9:
-                i = 182;
-                break;
-            case 10:
-                i = 213;
-                break;
-            case 11:
-                i = 274;
-                break;
-            default:
-                i = 335;
-                break;
-        }
-        return (z ? 1 : 0) + i;
-    }
-
-    public int g() {
-        return ordinal() + 1;
-    }
-
-    public int h(boolean z) {
-        int i = j.a[ordinal()];
-        return i != 1 ? (i == 2 || i == 3 || i == 4 || i == 5) ? 30 : 31 : z ? 29 : 28;
-    }
-
-    public k j(long j) {
-        return a[((((int) (j % 12)) + 12) + ordinal()) % 12];
+    @Override // j$.time.ZoneId
+    public ZoneRules getRules() {
+        ZoneRules zoneRules = this.c;
+        return zoneRules != null ? zoneRules : j$.time.zone.f.a(this.b, false);
     }
 }

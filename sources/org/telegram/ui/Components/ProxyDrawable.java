@@ -10,7 +10,7 @@ import android.os.SystemClock;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class ProxyDrawable extends Drawable {
     private boolean connected;
     private float connectedAnimationProgress;

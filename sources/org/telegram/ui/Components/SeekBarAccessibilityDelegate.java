@@ -8,7 +8,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import androidx.core.view.ViewCompat;
 import java.util.HashMap;
 import java.util.Map;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public abstract class SeekBarAccessibilityDelegate extends View.AccessibilityDelegate {
     private static final CharSequence SEEK_BAR_CLASS_NAME = android.widget.SeekBar.class.getName();
     private final Map<View, Runnable> accessibilityEventRunnables = new HashMap(4);

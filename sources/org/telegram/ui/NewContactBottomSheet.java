@@ -59,7 +59,7 @@ import org.telegram.ui.Components.OutlineTextContainerView;
 import org.telegram.ui.Components.RadialProgressView;
 import org.telegram.ui.CountrySelectActivity;
 import org.telegram.ui.NewContactBottomSheet;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class NewContactBottomSheet extends BottomSheet implements AdapterView.OnItemSelectedListener {
     int classGuid;
     private View codeDividerView;
@@ -672,7 +672,7 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 1 extends TextView {
         final NotificationCenter.NotificationCenterDelegate delegate;
 
@@ -705,7 +705,7 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 2 implements CountrySelectActivity.CountrySelectActivityDelegate {
         2() {
         }

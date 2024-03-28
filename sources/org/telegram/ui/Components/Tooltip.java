@@ -9,7 +9,7 @@ import android.view.ViewPropertyAnimator;
 import android.widget.TextView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class Tooltip extends TextView {
     private View anchor;
     private ViewPropertyAnimator animator;

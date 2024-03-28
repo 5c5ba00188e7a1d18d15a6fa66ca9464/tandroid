@@ -24,4 +24,10 @@ public final class MutableCreationExtras extends CreationExtras {
         Intrinsics.checkNotNullParameter(key, "key");
         getMap$lifecycle_viewmodel_release().put(key, t);
     }
+
+    @Override // androidx.lifecycle.viewmodel.CreationExtras
+    public <T> T get(CreationExtras.Key<T> key) {
+        Intrinsics.checkNotNullParameter(key, "key");
+        return (T) getMap$lifecycle_viewmodel_release().get(key);
+    }
 }

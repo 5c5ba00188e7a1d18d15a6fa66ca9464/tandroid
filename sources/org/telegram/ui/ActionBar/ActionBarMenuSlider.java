@@ -44,7 +44,7 @@ import org.telegram.ui.Components.FloatSeekBarAccessibilityDelegate;
 import org.telegram.ui.Components.MotionBackgroundDrawable;
 import org.telegram.ui.Components.SeekBarAccessibilityDelegate;
 import org.telegram.ui.Components.SpeedIconDrawable;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class ActionBarMenuSlider extends FrameLayout {
     private boolean backgroundDark;
     private Paint backgroundPaint;
@@ -476,7 +476,7 @@ public class ActionBarMenuSlider extends FrameLayout {
         return true;
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class SpeedSlider extends ActionBarMenuSlider {
         private final SeekBarAccessibilityDelegate seekBarAccessibilityDelegate;
 

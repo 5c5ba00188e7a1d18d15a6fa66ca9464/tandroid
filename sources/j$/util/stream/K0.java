@@ -1,24 +1,23 @@
 package j$.util.stream;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public abstract class K0 extends L0 {
+abstract class K0 extends M0 {
     /* JADX INFO: Access modifiers changed from: package-private */
-    public K0(c cVar, e4 e4Var, int i) {
+    public K0(c cVar, f4 f4Var, int i) {
         super(cVar, i);
     }
 
     @Override // j$.util.stream.c
-    final boolean G0() {
-        return false;
+    final boolean E0() {
+        return true;
     }
 
-    @Override // j$.util.stream.c, j$.util.stream.g, j$.util.stream.IntStream
+    @Override // j$.util.stream.c, j$.util.stream.g
     public /* bridge */ /* synthetic */ IntStream parallel() {
         parallel();
         return this;
     }
 
-    @Override // j$.util.stream.c, j$.util.stream.g, j$.util.stream.IntStream
+    @Override // j$.util.stream.c, j$.util.stream.g
     public /* bridge */ /* synthetic */ IntStream sequential() {
         sequential();
         return this;

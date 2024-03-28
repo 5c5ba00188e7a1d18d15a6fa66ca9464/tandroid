@@ -49,7 +49,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RadialProgressView;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.TooManyCommunitiesActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class TooManyCommunitiesActivity extends BaseFragment {
     private Adapter adapter;
     private int buttonAnimation;
@@ -434,7 +434,7 @@ public class TooManyCommunitiesActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class Adapter extends RecyclerListView.SelectionAdapter {
         int endPaddingPosition;
         int headerPosition;
@@ -565,7 +565,7 @@ public class TooManyCommunitiesActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class SearchAdapter extends RecyclerListView.SelectionAdapter {
         private int lastSearchId;
         ArrayList<TLRPC$Chat> searchResults = new ArrayList<>();

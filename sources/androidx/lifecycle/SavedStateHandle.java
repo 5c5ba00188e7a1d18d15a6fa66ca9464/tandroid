@@ -11,8 +11,10 @@ import androidx.core.os.BundleKt;
 import androidx.savedstate.SavedStateRegistry;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import kotlin.TuplesKt;
 import kotlin.collections.MapsKt__MapsKt;
@@ -24,18 +26,15 @@ import kotlinx.coroutines.flow.MutableStateFlow;
 public final class SavedStateHandle {
     private static final Class<? extends Object>[] ACCEPTABLE_CLASSES;
     public static final Companion Companion = new Companion(null);
-    private final Map<String, Object> regular = new LinkedHashMap();
-    private final Map<String, SavedStateRegistry.SavedStateProvider> savedStateProviders = new LinkedHashMap();
-    private final Map<String, Object> liveDatas = new LinkedHashMap();
-    private final Map<String, MutableStateFlow<Object>> flows = new LinkedHashMap();
-    private final SavedStateRegistry.SavedStateProvider savedStateProvider = new SavedStateRegistry.SavedStateProvider() { // from class: androidx.lifecycle.SavedStateHandle$$ExternalSyntheticLambda0
-        @Override // androidx.savedstate.SavedStateRegistry.SavedStateProvider
-        public final Bundle saveState() {
-            Bundle bundle;
-            bundle = SavedStateHandle.savedStateProvider$lambda-0(SavedStateHandle.this);
-            return bundle;
-        }
-    };
+    private final Map<String, MutableStateFlow<Object>> flows;
+    private final Map<String, Object> liveDatas;
+    private final Map<String, Object> regular;
+    private final SavedStateRegistry.SavedStateProvider savedStateProvider;
+    private final Map<String, SavedStateRegistry.SavedStateProvider> savedStateProviders;
+
+    public static final SavedStateHandle createHandle(Bundle bundle, Bundle bundle2) {
+        return Companion.createHandle(bundle, bundle2);
+    }
 
     /* JADX INFO: Access modifiers changed from: private */
     public static final Bundle savedStateProvider$lambda-0(SavedStateHandle this$0) {
@@ -53,6 +52,39 @@ public final class SavedStateHandle {
             arrayList2.add(this$0.regular.get(str));
         }
         return BundleKt.bundleOf(TuplesKt.to("keys", arrayList), TuplesKt.to("values", arrayList2));
+    }
+
+    public SavedStateHandle(Map<String, ? extends Object> initialState) {
+        Intrinsics.checkNotNullParameter(initialState, "initialState");
+        LinkedHashMap linkedHashMap = new LinkedHashMap();
+        this.regular = linkedHashMap;
+        this.savedStateProviders = new LinkedHashMap();
+        this.liveDatas = new LinkedHashMap();
+        this.flows = new LinkedHashMap();
+        this.savedStateProvider = new SavedStateRegistry.SavedStateProvider() { // from class: androidx.lifecycle.SavedStateHandle$$ExternalSyntheticLambda0
+            @Override // androidx.savedstate.SavedStateRegistry.SavedStateProvider
+            public final Bundle saveState() {
+                Bundle bundle;
+                bundle = SavedStateHandle.savedStateProvider$lambda-0(SavedStateHandle.this);
+                return bundle;
+            }
+        };
+        linkedHashMap.putAll(initialState);
+    }
+
+    public SavedStateHandle() {
+        this.regular = new LinkedHashMap();
+        this.savedStateProviders = new LinkedHashMap();
+        this.liveDatas = new LinkedHashMap();
+        this.flows = new LinkedHashMap();
+        this.savedStateProvider = new SavedStateRegistry.SavedStateProvider() { // from class: androidx.lifecycle.SavedStateHandle$$ExternalSyntheticLambda0
+            @Override // androidx.savedstate.SavedStateRegistry.SavedStateProvider
+            public final Bundle saveState() {
+                Bundle bundle;
+                bundle = SavedStateHandle.savedStateProvider$lambda-0(SavedStateHandle.this);
+                return bundle;
+            }
+        };
     }
 
     public final SavedStateRegistry.SavedStateProvider savedStateProvider() {
@@ -91,6 +123,33 @@ public final class SavedStateHandle {
         }
 
         private Companion() {
+        }
+
+        public final SavedStateHandle createHandle(Bundle bundle, Bundle bundle2) {
+            if (bundle == null) {
+                if (bundle2 == null) {
+                    return new SavedStateHandle();
+                }
+                HashMap hashMap = new HashMap();
+                for (String key : bundle2.keySet()) {
+                    Intrinsics.checkNotNullExpressionValue(key, "key");
+                    hashMap.put(key, bundle2.get(key));
+                }
+                return new SavedStateHandle(hashMap);
+            }
+            ArrayList parcelableArrayList = bundle.getParcelableArrayList("keys");
+            ArrayList parcelableArrayList2 = bundle.getParcelableArrayList("values");
+            if (!((parcelableArrayList == null || parcelableArrayList2 == null || parcelableArrayList.size() != parcelableArrayList2.size()) ? false : true)) {
+                throw new IllegalStateException("Invalid bundle passed as restored state".toString());
+            }
+            LinkedHashMap linkedHashMap = new LinkedHashMap();
+            int size = parcelableArrayList.size();
+            for (int i = 0; i < size; i++) {
+                Object obj = parcelableArrayList.get(i);
+                Objects.requireNonNull(obj, "null cannot be cast to non-null type kotlin.String");
+                linkedHashMap.put((String) obj, parcelableArrayList2.get(i));
+            }
+            return new SavedStateHandle(linkedHashMap);
         }
 
         public final boolean validateValue(Object obj) {

@@ -17,7 +17,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class CropRotationWheel extends FrameLayout {
     private ImageView aspectRatioButton;
     private Paint bluePaint;
@@ -31,7 +31,7 @@ public class CropRotationWheel extends FrameLayout {
     private RectF tempRect;
     private Paint whitePaint;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface RotationWheelListener {
         void aspectRatioPressed();
 
@@ -219,7 +219,7 @@ public class CropRotationWheel extends FrameLayout {
                     if ((Math.abs(max - 45.0f) < 0.001f && Math.abs(this.rotation - 45.0f) >= 0.001f) || (Math.abs(max - (-45.0f)) < 0.001f && Math.abs(this.rotation - (-45.0f)) >= 0.001f)) {
                         performHapticFeedback(3, 1);
                     } else if (Math.floor(this.rotation / 2.5f) != Math.floor(max / 2.5f)) {
-                        performHapticFeedback(9, 1);
+                        AndroidUtilities.vibrateCursor(this);
                     }
                 } catch (Exception unused) {
                 }

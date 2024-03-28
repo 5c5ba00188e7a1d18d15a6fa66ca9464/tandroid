@@ -21,7 +21,7 @@ import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.PhotoCropActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class PhotoCropActivity extends BaseFragment {
     private String bitmapKey;
     private PhotoEditActivityDelegate delegate;
@@ -31,7 +31,7 @@ public class PhotoCropActivity extends BaseFragment {
     private boolean sameBitmap;
     private PhotoCropView view;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface PhotoEditActivityDelegate {
         void didFinishEdit(Bitmap bitmap);
     }
@@ -42,7 +42,7 @@ public class PhotoCropActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class PhotoCropView extends FrameLayout {
         int bitmapHeight;
         int bitmapWidth;

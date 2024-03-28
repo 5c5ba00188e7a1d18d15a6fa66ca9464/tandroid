@@ -11,6 +11,7 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
@@ -21,7 +22,7 @@ import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class PremiumGradient {
     private static PremiumGradient instance;
     private int lastStarColor;
@@ -104,7 +105,7 @@ public class PremiumGradient {
         return this.lockedPremiumPaint;
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class InternalDrawable extends BitmapDrawable {
         public int[] colors;
         Drawable originDrawable;
@@ -137,7 +138,7 @@ public class PremiumGradient {
         return this.mainGradientPaint;
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class PremiumGradientTools {
         final int colorKey1;
         final int colorKey2;
@@ -182,6 +183,10 @@ public class PremiumGradient {
             this.colorKey3 = i3;
             this.colorKey4 = i4;
             this.colorKey5 = i5;
+        }
+
+        public void gradientMatrix(Rect rect) {
+            gradientMatrix(rect.left, rect.top, rect.right, rect.bottom, 0.0f, 0.0f);
         }
 
         public void gradientMatrix(RectF rectF) {

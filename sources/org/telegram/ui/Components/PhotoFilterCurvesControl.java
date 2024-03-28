@@ -11,7 +11,7 @@ import android.view.View;
 import java.util.Locale;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.Components.PhotoFilterView;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class PhotoFilterCurvesControl extends View {
     private int activeSegment;
     private Rect actualArea;
@@ -26,7 +26,7 @@ public class PhotoFilterCurvesControl extends View {
     private Path path;
     private TextPaint textPaint;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface PhotoFilterCurvesControlDelegate {
         void valueChanged();
     }

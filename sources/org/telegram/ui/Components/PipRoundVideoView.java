@@ -41,7 +41,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.UserConfig;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class PipRoundVideoView implements NotificationCenter.NotificationCenterDelegate {
     @SuppressLint({"StaticFieldLeak"})
     private static PipRoundVideoView instance;
@@ -61,7 +61,7 @@ public class PipRoundVideoView implements NotificationCenter.NotificationCenterD
     private WindowManager windowManager;
     private FrameLayout windowView;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class PipFrameLayout extends FrameLayout {
         public PipFrameLayout(PipRoundVideoView pipRoundVideoView, Context context) {
             super(context);
@@ -452,8 +452,8 @@ public class PipRoundVideoView implements NotificationCenter.NotificationCenterD
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x010e  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x0178  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x010f  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x017a  */
     /* JADX WARN: Removed duplicated region for block: B:58:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

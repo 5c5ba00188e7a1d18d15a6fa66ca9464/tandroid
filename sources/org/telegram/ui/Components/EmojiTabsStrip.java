@@ -37,7 +37,7 @@ import org.telegram.ui.Components.EmojiTabsStrip;
 import org.telegram.ui.Components.EmojiView;
 import org.telegram.ui.Components.Premium.PremiumLockIconView;
 import org.telegram.ui.Components.Reactions.HwEmojis;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
     private final int accentColor;
     public boolean animateAppear;
@@ -396,7 +396,7 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
         return arrayList.get(0);
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     private static class StabDrawable extends Drawable {
         private final Paint paint;
         private final RectF rectF;
@@ -730,7 +730,7 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
         this.animatedEmojiCacheType = i;
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class EmojiTabButton extends ViewGroup {
         AnimatedEmojiDrawable animatedEmoji;
         TLRPC$Document animatedEmojiDocument;
@@ -1255,7 +1255,7 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class EmojiTabsView extends ScrollableHorizontalScrollView {
         public long id;
         private float showT;

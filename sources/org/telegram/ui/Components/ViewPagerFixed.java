@@ -51,7 +51,7 @@ import org.telegram.tgnet.TLRPC$TL_messages_updateDialogFiltersOrder;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.ViewPagerFixed;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class ViewPagerFixed extends FrameLayout {
     private static final Interpolator interpolator = new Interpolator() { // from class: org.telegram.ui.Components.ViewPagerFixed$$ExternalSyntheticLambda3
         @Override // android.animation.TimeInterpolator
@@ -89,7 +89,7 @@ public class ViewPagerFixed extends FrameLayout {
     private int[] viewTypes;
     protected SparseArray<View> viewsByType;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static abstract class Adapter {
         public abstract void bindView(View view, int i, int i2);
 
@@ -140,7 +140,8 @@ public class ViewPagerFixed extends FrameLayout {
     protected void onScrollEnd() {
     }
 
-    protected void onTabAnimationUpdate(boolean z) {
+    /* JADX INFO: Access modifiers changed from: protected */
+    public void onTabAnimationUpdate(boolean z) {
     }
 
     protected void onTabPageSelected(int i) {
@@ -168,6 +169,10 @@ public class ViewPagerFixed extends FrameLayout {
     /* JADX INFO: Access modifiers changed from: protected */
     public float getAvailableTranslationX() {
         return AndroidUtilities.displaySize.x;
+    }
+
+    protected boolean canScrollForward(MotionEvent motionEvent) {
+        return canScroll(motionEvent);
     }
 
     public ViewPagerFixed(Context context) {
@@ -454,27 +459,30 @@ public class ViewPagerFixed extends FrameLayout {
             this.backProgress = 0.0f;
         }
         if (!(z && this.currentPosition == this.adapter.getItemCount() - 1) && this.manualScrolling == null && canScroll(motionEvent)) {
-            getParent().requestDisallowInterceptTouchEvent(true);
-            this.maybeStartTracking = false;
-            this.startedTracking = true;
-            this.startedTrackingX = (int) (motionEvent.getX() + this.additionalOffset);
-            TabsView tabsView = this.tabsView;
-            if (tabsView != null) {
-                tabsView.setEnabled(false);
-            }
-            this.animatingForward = z;
-            this.nextPosition = this.currentPosition + (z ? 1 : -1);
-            updateViewForIndex(1);
-            View[] viewArr = this.viewPages;
-            if (viewArr[1] != null) {
-                if (z) {
-                    viewArr[1].setTranslationX(viewArr[0].getMeasuredWidth());
-                } else {
-                    viewArr[1].setTranslationX(-viewArr[0].getMeasuredWidth());
+            if (!z || canScrollForward(motionEvent)) {
+                getParent().requestDisallowInterceptTouchEvent(true);
+                this.maybeStartTracking = false;
+                this.startedTracking = true;
+                this.startedTrackingX = (int) (motionEvent.getX() + this.additionalOffset);
+                TabsView tabsView = this.tabsView;
+                if (tabsView != null) {
+                    tabsView.setEnabled(false);
                 }
+                this.animatingForward = z;
+                this.nextPosition = this.currentPosition + (z ? 1 : -1);
+                updateViewForIndex(1);
+                View[] viewArr = this.viewPages;
+                if (viewArr[1] != null) {
+                    if (z) {
+                        viewArr[1].setTranslationX(viewArr[0].getMeasuredWidth());
+                    } else {
+                        viewArr[1].setTranslationX(-viewArr[0].getMeasuredWidth());
+                    }
+                }
+                onTabAnimationUpdate(false);
+                return true;
             }
-            onTabAnimationUpdate(false);
-            return true;
+            return false;
         }
         return false;
     }
@@ -1008,7 +1016,7 @@ public class ViewPagerFixed extends FrameLayout {
         return this.currentPosition;
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class TabsView extends FrameLayout {
         private int activeTextColorKey;
         private ListAdapter adapter;
@@ -1062,7 +1070,7 @@ public class ViewPagerFixed extends FrameLayout {
         private TextPaint textPaint;
         private int unactiveTextColorKey;
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public interface TabsViewDelegate {
             boolean canPerformActions();
 
@@ -1090,7 +1098,7 @@ public class ViewPagerFixed extends FrameLayout {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public static class Tab {
             public float alpha = 1.0f;
             public int counter;
@@ -1110,7 +1118,7 @@ public class ViewPagerFixed extends FrameLayout {
             }
         }
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public class TabView extends View {
             private int currentPosition;
             private Tab currentTab;
@@ -1885,7 +1893,7 @@ public class ViewPagerFixed extends FrameLayout {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public class ListAdapter extends RecyclerListView.SelectionAdapter {
             private Context mContext;
 

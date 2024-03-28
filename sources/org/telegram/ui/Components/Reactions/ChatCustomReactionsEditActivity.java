@@ -61,7 +61,7 @@ import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity;
 import org.telegram.ui.SelectAnimatedEmojiDialog;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class ChatCustomReactionsEditActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private UpdateReactionsButton actionButton;
     private BackSpaceButtonView backSpaceButtonView;
@@ -424,7 +424,7 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class 4 extends SelectAnimatedEmojiDialog {
         private boolean firstLayout;
 

@@ -74,7 +74,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.DialogsActivity;
 import org.telegram.ui.Stories.StoriesController;
 import org.telegram.ui.Stories.StoriesListPlaceProvider;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements DialogCell.DialogCellDelegate {
     private static final boolean ALLOW_UPDATE_IN_BACKGROUND = BuildVars.DEBUG_PRIVATE_VERSION;
     private ArchiveHintCell archiveHintCell;
@@ -221,7 +221,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public class ItemInternal extends AdapterWithDiffUtils.Item {
         TL_chatlists$TL_chatlists_chatlistUpdates chatlistUpdates;
         TLRPC$TL_contact contact;
@@ -1193,7 +1193,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class DialogsPreloader {
         int currentRequestCount;
         int networkRequestCount;
@@ -1242,7 +1242,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes.dex */
+        /* loaded from: classes4.dex */
         public class 1 implements MessagesController.MessagesLoadedCallback {
             final /* synthetic */ long val$dialog_id;
 
@@ -1340,7 +1340,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
         this.forceShowEmptyCell = z;
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public class LastEmptyView extends FrameLayout {
         public boolean moving;
 

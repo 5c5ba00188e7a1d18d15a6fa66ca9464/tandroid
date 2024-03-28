@@ -49,7 +49,7 @@ import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PremiumPreviewFragment;
 import org.telegram.ui.ThemePreviewActivity;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class PremiumFeatureBottomSheet extends BottomSheet implements NotificationCenter.NotificationCenterDelegate {
     ActionBar actionBar;
     private final BaseFragment baseFragment;
@@ -411,7 +411,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class 5 implements ViewPager.OnPageChangeListener {
         final /* synthetic */ BottomPagesView val$bottomPages;
 
@@ -753,7 +753,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class ViewPage extends LinearLayout {
         TextView description;
         public int position;

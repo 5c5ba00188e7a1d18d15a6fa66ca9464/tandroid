@@ -2,11 +2,19 @@ package org.telegram.ui.Components;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.RectF;
 import android.view.View;
+import org.telegram.messenger.AndroidUtilities;
 import org.telegram.tgnet.TLObject;
-/* loaded from: classes4.dex */
+import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Components.Premium.PremiumGradient;
+/* loaded from: classes3.dex */
 public class AvatarsImageView extends View {
     public final AvatarsDrawable avatarsDrawable;
+    private Paint plusBgPaint;
+    private Text plusText;
+    private PremiumGradient.PremiumGradientTools premiumGradient;
 
     public AvatarsImageView(Context context, boolean z) {
         super(context);
@@ -27,10 +35,26 @@ public class AvatarsImageView extends View {
         this.avatarsDrawable.onAttachedToWindow();
     }
 
+    public void setPlus(int i, int i2) {
+        this.premiumGradient = new PremiumGradient.PremiumGradientTools(Theme.key_premiumGradient1, Theme.key_premiumGradient2, -1, -1, -1, null);
+        this.plusText = new Text("+" + i, 12.0f, AndroidUtilities.getTypeface("fonts/num.otf"));
+        Paint paint = new Paint(1);
+        this.plusBgPaint = paint;
+        paint.setColor(i2);
+    }
+
     @Override // android.view.View
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         this.avatarsDrawable.onDraw(canvas);
+        if (this.plusText != null) {
+            RectF rectF = AndroidUtilities.rectTmp;
+            rectF.set(getWidth() - AndroidUtilities.dp(22.0f), getHeight() - AndroidUtilities.dp(22.0f), getWidth() - AndroidUtilities.dp(0.0f), getHeight() - AndroidUtilities.dp(0.0f));
+            this.premiumGradient.gradientMatrix(rectF);
+            canvas.drawCircle(rectF.centerX(), rectF.centerY(), (rectF.width() / 2.0f) + AndroidUtilities.dp(1.33f), this.plusBgPaint);
+            canvas.drawCircle(rectF.centerX(), rectF.centerY(), rectF.width() / 2.0f, this.premiumGradient.paint);
+            this.plusText.draw(canvas, rectF.centerX() - (this.plusText.getCurrentWidth() / 2.0f), rectF.centerY(), -1, 1.0f);
+        }
     }
 
     @Override // android.view.View

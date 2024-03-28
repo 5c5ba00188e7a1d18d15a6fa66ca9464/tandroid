@@ -14,7 +14,7 @@ import org.telegram.messenger.LiteMode;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 @SuppressLint({"ViewConstructor"})
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class VoIpCoverView extends View {
     private final boolean allowAnimations;
     private final VoIPBackgroundProvider backgroundProvider;

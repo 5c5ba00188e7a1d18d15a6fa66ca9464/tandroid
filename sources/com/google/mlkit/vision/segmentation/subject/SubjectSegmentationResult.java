@@ -17,4 +17,8 @@ public class SubjectSegmentationResult {
     public Bitmap getForegroundBitmap() {
         return this.zzc;
     }
+
+    public List<Subject> getSubjects() {
+        return this.zza;
+    }
 }

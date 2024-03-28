@@ -478,7 +478,6 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             return null;
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
         /* loaded from: classes4.dex */
         public class 3 extends SourceView {
             final /* synthetic */ FrameLayout val$floatingButton;

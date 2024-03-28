@@ -27,7 +27,7 @@ import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.ChatMessageCell;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class ReplyMessageLine {
     public int backgroundColor;
     public final AnimatedColor backgroundColorAnimated;
@@ -501,7 +501,7 @@ public class ReplyMessageLine {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class IconCoords {
         public float a;
         public boolean q;

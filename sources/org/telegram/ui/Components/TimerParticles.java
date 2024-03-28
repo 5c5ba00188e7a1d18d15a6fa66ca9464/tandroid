@@ -7,7 +7,7 @@ import android.os.SystemClock;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Utilities;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class TimerParticles {
     public boolean big;
     private ArrayList<Particle> freeParticles;
@@ -19,7 +19,7 @@ public class TimerParticles {
     private final int particlesCount;
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class Particle {
         float alpha;
         float currentTime;

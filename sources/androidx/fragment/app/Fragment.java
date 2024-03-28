@@ -3,8 +3,10 @@ package androidx.fragment.app;
 import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Application;
 import android.content.ComponentCallbacks;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -32,6 +34,8 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LifecycleRegistry;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.SavedStateViewModelFactory;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStore;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.lifecycle.ViewTreeLifecycleOwner;
@@ -60,6 +64,7 @@ public class Fragment implements ComponentCallbacks, View.OnCreateContextMenuLis
     ViewGroup mContainer;
     int mContainerId;
     private int mContentLayoutId;
+    ViewModelProvider.Factory mDefaultFactory;
     boolean mDeferStart;
     boolean mDetached;
     int mFragmentId;
@@ -112,9 +117,7 @@ public class Fragment implements ComponentCallbacks, View.OnCreateContextMenuLis
 
     @Override // androidx.lifecycle.HasDefaultViewModelProviderFactory
     public /* synthetic */ CreationExtras getDefaultViewModelCreationExtras() {
-        CreationExtras creationExtras;
-        creationExtras = CreationExtras.Empty.INSTANCE;
-        return creationExtras;
+        return HasDefaultViewModelProviderFactory.-CC.$default$getDefaultViewModelCreationExtras(this);
     }
 
     @Deprecated
@@ -207,6 +210,32 @@ public class Fragment implements ComponentCallbacks, View.OnCreateContextMenuLis
         return Math.min(state.ordinal(), this.mParentFragment.getMinimumMaxLifecycleState());
     }
 
+    @Override // androidx.lifecycle.HasDefaultViewModelProviderFactory
+    public ViewModelProvider.Factory getDefaultViewModelProviderFactory() {
+        if (this.mFragmentManager == null) {
+            throw new IllegalStateException("Can't access ViewModels from detached fragment");
+        }
+        if (this.mDefaultFactory == null) {
+            Application application = null;
+            Context applicationContext = requireContext().getApplicationContext();
+            while (true) {
+                if (!(applicationContext instanceof ContextWrapper)) {
+                    break;
+                } else if (applicationContext instanceof Application) {
+                    application = (Application) applicationContext;
+                    break;
+                } else {
+                    applicationContext = ((ContextWrapper) applicationContext).getBaseContext();
+                }
+            }
+            if (application == null && FragmentManager.isLoggingEnabled(3)) {
+                Log.d("FragmentManager", "Could not find Application instance from Context " + requireContext().getApplicationContext() + ", you will not be able to use AndroidViewModel with the default ViewModelProvider.Factory");
+            }
+            this.mDefaultFactory = new SavedStateViewModelFactory(application, this, getArguments());
+        }
+        return this.mDefaultFactory;
+    }
+
     @Override // androidx.savedstate.SavedStateRegistryOwner
     public final SavedStateRegistry getSavedStateRegistry() {
         return this.mSavedStateRegistryController.getSavedStateRegistry();
@@ -236,6 +265,7 @@ public class Fragment implements ComponentCallbacks, View.OnCreateContextMenuLis
     private void initLifecycle() {
         this.mLifecycleRegistry = new LifecycleRegistry(this);
         this.mSavedStateRegistryController = SavedStateRegistryController.create(this);
+        this.mDefaultFactory = null;
     }
 
     @Deprecated
@@ -317,6 +347,10 @@ public class Fragment implements ComponentCallbacks, View.OnCreateContextMenuLis
         this.mArguments = bundle;
     }
 
+    public final Bundle getArguments() {
+        return this.mArguments;
+    }
+
     public final boolean isStateSaved() {
         FragmentManager fragmentManager = this.mFragmentManager;
         if (fragmentManager == null) {
@@ -383,6 +417,10 @@ public class Fragment implements ComponentCallbacks, View.OnCreateContextMenuLis
         return requireContext().getResources();
     }
 
+    public final String getString(int i) {
+        return getResources().getString(i);
+    }
+
     public final FragmentManager getParentFragmentManager() {
         FragmentManager fragmentManager = this.mFragmentManager;
         if (fragmentManager != null) {
@@ -400,6 +438,10 @@ public class Fragment implements ComponentCallbacks, View.OnCreateContextMenuLis
 
     public final Fragment getParentFragment() {
         return this.mParentFragment;
+    }
+
+    public final boolean isAdded() {
+        return this.mHost != null && this.mAdded;
     }
 
     public final boolean isRemoving() {

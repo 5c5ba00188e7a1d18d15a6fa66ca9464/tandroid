@@ -67,7 +67,7 @@ import org.telegram.ui.Components.ViewPagerFixed;
 import org.telegram.ui.PhotoViewer;
 import org.telegram.ui.Storage.CacheModel;
 import org.telegram.ui.Stories.StoriesListPlaceProvider;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifierLayout.ChildLayout {
     private final LinearLayout actionModeLayout;
     private final ArrayList<View> actionModeViews;
@@ -86,10 +86,10 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
     private final ViewPagerFixed.TabsView tabs;
     ViewPagerFixed viewPagerFixed;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface Delegate {
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public final /* synthetic */ class -CC {
             public static void $default$dismiss(Delegate delegate) {
             }
@@ -196,7 +196,7 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 1 extends ViewPagerFixed.Adapter {
         private ActionBarPopupWindow popupWindow;
         final /* synthetic */ Context val$context;
@@ -577,7 +577,7 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class Page {
         public final BaseAdapter adapter;
         public final String title;
@@ -594,7 +594,7 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public abstract class BaseAdapter extends AdapterWithDiffUtils {
         ArrayList<ItemInner> itemInners = new ArrayList<>();
         final int type;
@@ -617,7 +617,7 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class DialogsAdapter extends BaseAdapter {
         ArrayList<ItemInner> old;
 
@@ -689,7 +689,7 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public abstract class BaseFilesAdapter extends BaseAdapter {
         ArrayList<ItemInner> oldItems;
 
@@ -735,7 +735,7 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ItemInner extends AdapterWithDiffUtils.Item {
         CacheControlActivity.DialogFileEntities entities;
         CacheModel.FileInfo file;
@@ -773,7 +773,7 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class MediaAdapter extends BaseFilesAdapter {
         boolean isStories;
         ArrayList<Object> photoEntries;
@@ -875,7 +875,7 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class DocumentsAdapter extends BaseFilesAdapter {
         ArrayList<Object> photoEntries;
 
@@ -943,7 +943,7 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class MusicAdapter extends BaseFilesAdapter {
         /* synthetic */ MusicAdapter(CachedMediaLayout cachedMediaLayout, 1 r2) {
             this();
@@ -1187,7 +1187,7 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
         this.delegate = delegate;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class BasePlaceProvider extends PhotoViewer.EmptyPhotoViewerProvider {
         RecyclerListView recyclerListView;
 
@@ -1223,7 +1223,7 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class CacheCell extends FrameLayout {
         CheckBox2 checkBox;
         FrameLayout container;

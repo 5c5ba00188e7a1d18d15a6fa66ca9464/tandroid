@@ -398,7 +398,7 @@ public final class MediaCodecUtil {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:37:0x0077, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:37:0x0075, code lost:
         if (r3.equals("av01") == false) goto L11;
      */
     /*

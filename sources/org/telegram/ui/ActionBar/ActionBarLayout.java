@@ -51,7 +51,6 @@ import org.telegram.ui.ActionBar.INavigationLayout;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ActionBar.ThemeDescription;
 import org.telegram.ui.Components.BackButtonMenu;
-import org.telegram.ui.Components.BotWebViewSheet;
 import org.telegram.ui.Components.Bulletin;
 import org.telegram.ui.Components.ChatAttachAlert;
 import org.telegram.ui.Components.CubicBezierInterpolator;
@@ -61,7 +60,8 @@ import org.telegram.ui.Components.GroupCallPip;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.Stories.StoryViewer;
-/* loaded from: classes.dex */
+import org.telegram.ui.bots.BotWebViewSheet;
+/* loaded from: classes4.dex */
 public class ActionBarLayout extends FrameLayout implements INavigationLayout, FloatingDebugProvider {
     private static Drawable headerShadowDrawable;
     private static Drawable layerShadowDrawable;
@@ -291,7 +291,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         return (baseFragment == null || baseFragment.getLastStoryViewer() == null || !baseFragment.getLastStoryViewer().attachedToParent()) ? false : true;
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public class LayoutContainer extends FrameLayout {
         private int backgroundColor;
         private Paint backgroundPaint;

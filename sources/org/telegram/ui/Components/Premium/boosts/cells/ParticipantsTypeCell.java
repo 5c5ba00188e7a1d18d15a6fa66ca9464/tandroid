@@ -10,7 +10,7 @@ import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$TL_help_country;
 import org.telegram.ui.ActionBar.Theme;
 @SuppressLint({"ViewConstructor"})
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class ParticipantsTypeCell extends BaseCell {
     public static int TYPE_ALL = 0;
     public static int TYPE_NEW = 1;

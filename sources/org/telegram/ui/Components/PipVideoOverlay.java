@@ -48,7 +48,7 @@ import org.telegram.ui.Components.SimpleFloatPropertyCompat;
 import org.telegram.ui.Components.VideoForwardDrawable;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PhotoViewer;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class PipVideoOverlay {
     private static final FloatPropertyCompat<PipVideoOverlay> PIP_X_PROPERTY = new SimpleFloatPropertyCompat("pipX", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda11
         @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Getter
@@ -947,7 +947,7 @@ public class PipVideoOverlay {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class 3 implements ScaleGestureDetector.OnScaleGestureListener {
         3() {
         }
@@ -1056,7 +1056,7 @@ public class PipVideoOverlay {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class 4 extends GestureDetectorFixDoubleTap.OnGestureListener {
         private float startPipX;
         private float startPipY;
@@ -1261,7 +1261,7 @@ public class PipVideoOverlay {
         }
         if (!z && (!z2 || !LaunchActivity.isResumed)) {
             Objects.requireNonNull(view);
-            LaunchActivity.onResumeStaticCallback = new ChatActivityEnterView$$ExternalSyntheticLambda31(view);
+            LaunchActivity.onResumeStaticCallback = new ChatActivityEnterView$$ExternalSyntheticLambda33(view);
             Context context = ApplicationLoader.applicationContext;
             Intent intent = new Intent(context, LaunchActivity.class);
             intent.addFlags(268435456);
@@ -1325,7 +1325,7 @@ public class PipVideoOverlay {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public final class VideoProgressView extends View {
         private Paint bufferPaint;
         private Paint progressPaint;
@@ -1364,7 +1364,7 @@ public class PipVideoOverlay {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static final class PipConfig {
         private SharedPreferences mPrefs;
 
@@ -1399,7 +1399,7 @@ public class PipVideoOverlay {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class PipVideoViewGroup extends ViewGroup {
         public PipVideoViewGroup(Context context) {
             super(context);

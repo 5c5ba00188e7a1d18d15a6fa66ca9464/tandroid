@@ -4,7 +4,7 @@ import android.content.Context;
 import androidx.recyclerview.widget.RecyclerView;
 import org.telegram.messenger.UserConfig;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class DoubleLimitsPageView extends BaseListPageView {
     DoubledLimitsBottomSheet$Adapter adapter;
 

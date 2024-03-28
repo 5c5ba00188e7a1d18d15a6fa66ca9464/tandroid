@@ -58,7 +58,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.LoadingStickerDrawable;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.GroupCreateFinalActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ChatLinkActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private int chatEndRow;
     private int chatStartRow;
@@ -88,7 +88,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
     private boolean joinToSendProgress = false;
     private boolean joinRequestProgress = false;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private static class EmptyView extends LinearLayout implements NotificationCenter.NotificationCenterDelegate {
         private int currentAccount;
         private LoadingStickerDrawable drawable;
@@ -814,7 +814,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class HintInnerCell extends FrameLayout {
         private EmptyView emptyView;
         private TextView messageTextView;
@@ -854,7 +854,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class SearchAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
         private ArrayList<TLRPC$Chat> searchResult = new ArrayList<>();
@@ -1086,7 +1086,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
@@ -1109,7 +1109,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class 1 extends JoinToSendSettingsView {
             final /* synthetic */ TLRPC$Chat val$chat;
 

@@ -39,7 +39,7 @@ import org.telegram.ui.Components.Premium.boosts.cells.SwitcherCell;
 import org.telegram.ui.Components.Premium.boosts.cells.TextInfoCell;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.SlideChooseView;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class BoostAdapter extends AdapterWithDiffUtils {
     private EnterPrizeCell.AfterTextChangedListener afterTextChangedListener;
     private ChatCell.ChatDeleteListener chatDeleteListener;
@@ -334,7 +334,7 @@ public class BoostAdapter extends AdapterWithDiffUtils {
         return this.items.size();
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class Item extends AdapterWithDiffUtils.Item {
         public boolean boolValue;
         public TLRPC$Chat chat;

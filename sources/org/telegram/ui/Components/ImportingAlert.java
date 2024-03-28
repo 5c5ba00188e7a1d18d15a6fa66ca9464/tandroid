@@ -20,7 +20,7 @@ import org.telegram.messenger.SendMessagesHelper;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ChatActivity;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class ImportingAlert extends BottomSheet implements NotificationCenter.NotificationCenterDelegate {
     private BottomSheetCell cell;
     private boolean completed;
@@ -34,7 +34,7 @@ public class ImportingAlert extends BottomSheet implements NotificationCenter.No
     private TextView percentTextView;
     private String stickersShortName;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class BottomSheetCell extends FrameLayout {
         private View background;
         private RLottieImageView imageView;

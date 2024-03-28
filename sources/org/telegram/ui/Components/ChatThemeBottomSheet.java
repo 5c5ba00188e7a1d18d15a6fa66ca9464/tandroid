@@ -90,7 +90,7 @@ import org.telegram.ui.PhotoViewer;
 import org.telegram.ui.StatisticActivity;
 import org.telegram.ui.ThemePreviewActivity;
 import org.telegram.ui.WallpapersListActivity;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class ChatThemeBottomSheet extends BottomSheet implements NotificationCenter.NotificationCenterDelegate {
     private final Adapter adapter;
     private final View applyButton;
@@ -629,7 +629,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class 6 implements ResultCallback<List<EmojiThemes>> {
         6() {
         }
@@ -1170,7 +1170,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
     }
 
     @SuppressLint({"NotifyDataSetChanged"})
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class Adapter extends RecyclerListView.SelectionAdapter {
         private final int currentAccount;
         private final int currentViewType;
@@ -1439,7 +1439,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         chatAttachAlert.show();
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     class 11 implements ChatAttachAlert.ChatAttachViewDelegate {
         final /* synthetic */ TL_stories$TL_premium_boostsStatus val$cachedBoostsStatus;
         final /* synthetic */ ChatAttachAlert val$chatAttachAlert;
@@ -1636,7 +1636,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class 12 implements ChatAttachAlert.ChatAttachViewDelegate {
         @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
         public /* synthetic */ void didSelectBot(TLRPC$User tLRPC$User) {
@@ -1903,7 +1903,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         this.overlayFragment = null;
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class ChatThemeItem {
         public float animationProgress;
         public final EmojiThemes chatTheme;

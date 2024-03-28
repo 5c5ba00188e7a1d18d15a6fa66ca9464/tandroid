@@ -40,7 +40,7 @@ import org.telegram.ui.Components.voip.VoIPPiPView;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.VoIPFragment;
 import org.webrtc.EglBase;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class VoIPPiPView implements VoIPService.StateListener, NotificationCenter.NotificationCenterDelegate {
     public static int bottomInset = 0;
     private static VoIPPiPView expandedInstance = null;
@@ -488,7 +488,7 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class FloatingView extends FrameLayout {
         float bottomPadding;
         float leftPadding;
@@ -818,7 +818,7 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public class 3 extends AnimatorListenerAdapter {
             final /* synthetic */ boolean val$expanded;
 

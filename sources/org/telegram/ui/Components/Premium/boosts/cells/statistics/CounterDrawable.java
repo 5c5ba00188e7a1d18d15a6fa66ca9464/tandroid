@@ -11,7 +11,7 @@ import android.text.TextPaint;
 import androidx.core.content.ContextCompat;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.R;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class CounterDrawable extends Drawable {
     private final Paint bgPaint;
     private final RectF bgRoundRect;

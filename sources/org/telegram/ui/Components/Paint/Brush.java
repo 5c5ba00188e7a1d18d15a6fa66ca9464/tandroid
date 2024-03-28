@@ -7,7 +7,7 @@ import java.util.List;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public abstract class Brush {
     public static List<Brush> BRUSHES_LIST = Arrays.asList(new Radial(), new Arrow(), new Elliptical(), new Neon(), new Blurer(), new Eraser());
 
@@ -78,7 +78,7 @@ public abstract class Brush {
         return BitmapFactory.decodeResource(ApplicationLoader.applicationContext.getResources(), getStampResId(), options);
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class Radial extends Brush {
         @Override // org.telegram.ui.Components.Paint.Brush
         public int getDefaultColor() {
@@ -91,7 +91,7 @@ public abstract class Brush {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class Elliptical extends Brush {
         @Override // org.telegram.ui.Components.Paint.Brush
         public float getAlpha() {
@@ -144,7 +144,7 @@ public abstract class Brush {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class Neon extends Brush {
         @Override // org.telegram.ui.Components.Paint.Brush
         public float getAlpha() {
@@ -201,7 +201,7 @@ public abstract class Brush {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class Arrow extends Brush {
         @Override // org.telegram.ui.Components.Paint.Brush
         public int getDefaultColor() {
@@ -224,7 +224,7 @@ public abstract class Brush {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class Eraser extends Brush {
         @Override // org.telegram.ui.Components.Paint.Brush
         public float getAlpha() {
@@ -266,7 +266,7 @@ public abstract class Brush {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class Blurer extends Brush {
         @Override // org.telegram.ui.Components.Paint.Brush
         public float getAlpha() {
@@ -303,7 +303,7 @@ public abstract class Brush {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static abstract class Shape extends Brush {
         public static List<Shape> SHAPES_LIST = Arrays.asList(new Circle(), new Rectangle(), new Star(), new Bubble(), new Arrow());
 
@@ -347,7 +347,7 @@ public abstract class Brush {
             return SHAPES_LIST.get(i);
         }
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public static class Circle extends Shape {
             @Override // org.telegram.ui.Components.Paint.Brush.Shape
             public int getShapeShaderType() {
@@ -370,7 +370,7 @@ public abstract class Brush {
             }
         }
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public static class Rectangle extends Shape {
             @Override // org.telegram.ui.Components.Paint.Brush.Shape
             public int getShapeShaderType() {
@@ -393,7 +393,7 @@ public abstract class Brush {
             }
         }
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public static class Star extends Shape {
             @Override // org.telegram.ui.Components.Paint.Brush.Shape
             public int getShapeShaderType() {
@@ -416,7 +416,7 @@ public abstract class Brush {
             }
         }
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public static class Bubble extends Shape {
             @Override // org.telegram.ui.Components.Paint.Brush.Shape
             public int getShapeShaderType() {
@@ -439,7 +439,7 @@ public abstract class Brush {
             }
         }
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public static class Arrow extends Shape {
             @Override // org.telegram.ui.Components.Paint.Brush.Shape
             public int getShapeShaderType() {

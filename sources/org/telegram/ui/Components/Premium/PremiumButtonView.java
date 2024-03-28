@@ -24,7 +24,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Loadable;
 import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.Components.voip.CellFlickerDrawable;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class PremiumButtonView extends FrameLayout implements Loadable {
     public FrameLayout buttonLayout;
     public AnimatedTextView buttonTextView;

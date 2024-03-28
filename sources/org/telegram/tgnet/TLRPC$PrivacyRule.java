@@ -18,6 +18,14 @@ public abstract class TLRPC$PrivacyRule extends TLObject {
             case -463335103:
                 tLRPC$PrivacyRule = new TLRPC$TL_privacyValueDisallowUsers();
                 break;
+            case -320241333:
+                tLRPC$PrivacyRule = new TLRPC$PrivacyRule() { // from class: org.telegram.tgnet.TLRPC$TL_privacyValueAllowPremium
+                    @Override // org.telegram.tgnet.TLObject
+                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
+                        abstractSerializedData2.writeInt32(-320241333);
+                    }
+                };
+                break;
             case -135735141:
                 tLRPC$PrivacyRule = new TLRPC$TL_privacyValueAllowCloseFriends();
                 break;

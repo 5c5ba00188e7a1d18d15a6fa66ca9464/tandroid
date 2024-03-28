@@ -1,41 +1,36 @@
 package j$.util.stream;
 
-import j$.util.function.BiFunction;
 import j$.util.function.Consumer;
+import j$.util.function.Supplier;
+import java.util.Objects;
 /* loaded from: classes2.dex */
-class G2 extends T2 implements S2 {
-    final /* synthetic */ Object b;
-    final /* synthetic */ BiFunction c;
+class G2 extends U2 implements T2, k3 {
+    final /* synthetic */ Supplier b;
+    final /* synthetic */ j$.util.function.u c;
     final /* synthetic */ j$.util.function.b d;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public G2(Object obj, BiFunction biFunction, j$.util.function.b bVar) {
-        this.b = obj;
-        this.c = biFunction;
+    public G2(Supplier supplier, j$.util.function.u uVar, j$.util.function.b bVar) {
+        this.b = supplier;
+        this.c = uVar;
         this.d = bVar;
     }
 
-    @Override // j$.util.stream.m3
-    public /* synthetic */ void accept(double d) {
-        o1.f(this);
-        throw null;
+    @Override // j$.util.stream.n3
+    public void accept(double d) {
+        this.c.accept(this.a, d);
     }
 
-    @Override // j$.util.stream.m3
+    @Override // j$.util.stream.n3
     public /* synthetic */ void accept(int i) {
-        o1.d(this);
+        p1.d(this);
         throw null;
     }
 
-    @Override // j$.util.stream.m3, j$.util.stream.l3, j$.util.function.q
+    @Override // j$.util.stream.n3, j$.util.stream.m3, j$.util.function.q
     public /* synthetic */ void accept(long j) {
-        o1.e(this);
+        p1.e(this);
         throw null;
-    }
-
-    @Override // j$.util.function.Consumer
-    public void accept(Object obj) {
-        this.a = this.c.apply(this.a, obj);
     }
 
     @Override // j$.util.function.Consumer
@@ -43,21 +38,33 @@ class G2 extends T2 implements S2 {
         return Consumer.-CC.$default$andThen(this, consumer);
     }
 
-    @Override // j$.util.stream.S2
-    public void h(S2 s2) {
-        this.a = this.d.apply(this.a, ((G2) s2).a);
+    @Override // j$.util.function.Consumer
+    /* renamed from: b */
+    public /* synthetic */ void accept(Double d) {
+        p1.a(this, d);
     }
 
-    @Override // j$.util.stream.m3
+    @Override // j$.util.stream.T2
+    public void h(T2 t2) {
+        this.a = this.d.apply(this.a, ((G2) t2).a);
+    }
+
+    @Override // j$.util.function.f
+    public j$.util.function.f j(j$.util.function.f fVar) {
+        Objects.requireNonNull(fVar);
+        return new j$.util.function.e(this, fVar);
+    }
+
+    @Override // j$.util.stream.n3
     public /* synthetic */ void m() {
     }
 
-    @Override // j$.util.stream.m3
+    @Override // j$.util.stream.n3
     public void n(long j) {
-        this.a = this.b;
+        this.a = this.b.get();
     }
 
-    @Override // j$.util.stream.m3
+    @Override // j$.util.stream.n3
     public /* synthetic */ boolean o() {
         return false;
     }

@@ -1,9 +1,9 @@
 package org.telegram.ui;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import androidx.fragment.app.FragmentActivity;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.ContactsController;
@@ -16,8 +16,8 @@ import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.camera.CameraController;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes3.dex */
-public class BasePermissionsActivity extends Activity {
+/* loaded from: classes4.dex */
+public class BasePermissionsActivity extends FragmentActivity {
     protected int currentAccount = -1;
 
     /* JADX INFO: Access modifiers changed from: protected */

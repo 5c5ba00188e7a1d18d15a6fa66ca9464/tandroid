@@ -19,7 +19,7 @@ import org.telegram.ui.Components.BlurringShader;
 import org.telegram.ui.Stories.DarkThemeResourceProvider;
 import org.telegram.ui.Stories.recorder.CaptionContainerView;
 import org.telegram.ui.Stories.recorder.HintView2;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class CaptionPhotoViewer extends CaptionContainerView {
     private final ImageView addPhotoButton;
     private boolean addPhotoVisible;

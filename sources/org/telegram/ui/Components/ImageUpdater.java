@@ -28,6 +28,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SendMessagesHelper;
@@ -56,7 +57,7 @@ import org.telegram.ui.PhotoAlbumPickerActivity;
 import org.telegram.ui.PhotoCropActivity;
 import org.telegram.ui.PhotoPickerActivity;
 import org.telegram.ui.PhotoViewer;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class ImageUpdater implements NotificationCenter.NotificationCenterDelegate, PhotoCropActivity.PhotoEditActivityDelegate {
     private TLRPC$PhotoSize bigPhoto;
     private boolean canSelectVideo;
@@ -92,10 +93,10 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
     private boolean uploadAfterSelect = true;
     private ImageReceiver imageReceiver = new ImageReceiver(null);
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface ImageUpdaterDelegate {
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public final /* synthetic */ class -CC {
             public static boolean $default$canFinishFragment(ImageUpdaterDelegate imageUpdaterDelegate) {
                 return true;
@@ -274,7 +275,6 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$openMenu$0(ArrayList arrayList, Runnable runnable, DialogInterface dialogInterface, int i) {
         int intValue = ((Integer) arrayList.get(i)).intValue();
         if (intValue == 0) {
@@ -355,6 +355,10 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
 
             @Override // org.telegram.ui.PhotoPickerActivity.PhotoPickerActivityDelegate
             public void selectedPhotosChanged() {
+            }
+
+            {
+                ImageUpdater.this = this;
             }
 
             @Override // org.telegram.ui.PhotoPickerActivity.PhotoPickerActivityDelegate
@@ -460,6 +464,10 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
                     ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$sendAudio(this, arrayList, charSequence, z, i);
                 }
 
+                {
+                    ImageUpdater.this = this;
+                }
+
                 @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
                 public void didPressedButton(int i, boolean z, boolean z2, int i2, boolean z3) {
                     BaseFragment baseFragment2 = ImageUpdater.this.parentFragment;
@@ -556,7 +564,6 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public void didSelectPhotos(ArrayList<SendMessagesHelper.SendingMediaInfo> arrayList) {
         MessageObject messageObject;
         Bitmap loadBitmap;
@@ -712,16 +719,20 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
         int i = Build.VERSION.SDK_INT;
         if (i >= 33 && parentActivity != null) {
             if (parentActivity.checkSelfPermission("android.permission.READ_MEDIA_IMAGES") != 0 || parentActivity.checkSelfPermission("android.permission.READ_MEDIA_VIDEO") != 0) {
-                parentActivity.requestPermissions(new String[]{"android.permission.READ_MEDIA_IMAGES", "android.permission.READ_MEDIA_VIDEO"}, 151);
+                parentActivity.requestPermissions(new String[]{"android.permission.READ_MEDIA_IMAGES", "android.permission.READ_MEDIA_VIDEO"}, MessagesStorage.LAST_DB_VERSION);
                 return;
             }
         } else if (i >= 23 && parentActivity != null && parentActivity.checkSelfPermission("android.permission.READ_EXTERNAL_STORAGE") != 0) {
-            parentActivity.requestPermissions(new String[]{"android.permission.READ_EXTERNAL_STORAGE"}, 151);
+            parentActivity.requestPermissions(new String[]{"android.permission.READ_EXTERNAL_STORAGE"}, MessagesStorage.LAST_DB_VERSION);
             return;
         }
         PhotoAlbumPickerActivity photoAlbumPickerActivity = new PhotoAlbumPickerActivity(this.canSelectVideo ? PhotoAlbumPickerActivity.SELECT_TYPE_AVATAR_VIDEO : PhotoAlbumPickerActivity.SELECT_TYPE_AVATAR, false, false, null);
         photoAlbumPickerActivity.setAllowSearchImages(this.searchAvailable);
         photoAlbumPickerActivity.setDelegate(new PhotoAlbumPickerActivity.PhotoAlbumPickerActivityDelegate() { // from class: org.telegram.ui.Components.ImageUpdater.3
+            {
+                ImageUpdater.this = this;
+            }
+
             @Override // org.telegram.ui.PhotoAlbumPickerActivity.PhotoAlbumPickerActivityDelegate
             public void didSelectPhotos(ArrayList<SendMessagesHelper.SendingMediaInfo> arrayList, boolean z, int i2) {
                 ImageUpdater.this.didSelectPhotos(arrayList);
@@ -750,7 +761,6 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
         });
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$startCrop$1(String str, Uri uri) {
         try {
             LaunchActivity launchActivity = (LaunchActivity) this.parentFragment.getParentActivity();
@@ -792,6 +802,10 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
             @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
             public boolean canScrollAway() {
                 return false;
+            }
+
+            {
+                ImageUpdater.this = this;
             }
 
             @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
@@ -1070,7 +1084,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
         return this.currentImageProgress;
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class AvatarFor {
         public TLRPC$User fromObject;
         public boolean isVideo;

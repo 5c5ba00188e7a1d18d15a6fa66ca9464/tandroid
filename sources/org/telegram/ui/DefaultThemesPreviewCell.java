@@ -39,7 +39,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.ThemeSmallPreviewView;
 import org.telegram.ui.DefaultThemesPreviewCell;
 @SuppressLint({"ViewConstructor"})
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class DefaultThemesPreviewCell extends LinearLayout {
     private final ChatThemeBottomSheet.Adapter adapter;
     TextCell browseThemesCell;
@@ -202,7 +202,7 @@ public class DefaultThemesPreviewCell extends LinearLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 2 implements View.OnClickListener {
         final /* synthetic */ Context val$context;
         final /* synthetic */ BaseFragment val$parentFragment;
@@ -212,10 +212,10 @@ public class DefaultThemesPreviewCell extends LinearLayout {
             this.val$parentFragment = baseFragment;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:28:0x007a  */
-        /* JADX WARN: Removed duplicated region for block: B:29:0x007f  */
-        /* JADX WARN: Removed duplicated region for block: B:32:0x008a  */
-        /* JADX WARN: Removed duplicated region for block: B:33:0x0090  */
+        /* JADX WARN: Removed duplicated region for block: B:28:0x0079  */
+        /* JADX WARN: Removed duplicated region for block: B:29:0x007e  */
+        /* JADX WARN: Removed duplicated region for block: B:32:0x0089  */
+        /* JADX WARN: Removed duplicated region for block: B:33:0x008f  */
         @Override // android.view.View.OnClickListener
         @SuppressLint({"NotifyDataSetChanged"})
         /*

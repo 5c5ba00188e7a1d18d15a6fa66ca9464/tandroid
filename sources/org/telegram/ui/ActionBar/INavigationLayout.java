@@ -18,16 +18,16 @@ import java.util.List;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.BackButtonMenu;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public interface INavigationLayout {
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public enum BackButtonState {
         BACK,
         MENU
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public interface IBackButtonDrawable {
         BackButtonState getBackButtonState();
     }
@@ -189,7 +189,7 @@ public interface INavigationLayout {
 
     void updateTitleOverlay();
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public final /* synthetic */ class -CC {
         public static BottomSheet $default$getBottomSheet(INavigationLayout iNavigationLayout) {
             return null;
@@ -263,7 +263,7 @@ public interface INavigationLayout {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public interface INavigationLayoutDelegate {
         boolean needAddFragmentToStack(BaseFragment baseFragment, INavigationLayout iNavigationLayout);
 
@@ -281,7 +281,7 @@ public interface INavigationLayout {
 
         void onThemeProgress(float f);
 
-        /* loaded from: classes.dex */
+        /* loaded from: classes4.dex */
         public final /* synthetic */ class -CC {
             public static boolean $default$needAddFragmentToStack(INavigationLayoutDelegate iNavigationLayoutDelegate, BaseFragment baseFragment, INavigationLayout iNavigationLayout) {
                 return true;
@@ -306,7 +306,7 @@ public interface INavigationLayout {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class NavigationParams {
         public boolean checkPresentFromDelegate = true;
         public BaseFragment fragment;
@@ -345,7 +345,7 @@ public interface INavigationLayout {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class ThemeAnimationSettings {
         public final int accentId;
         public Runnable afterAnimationRunnable;
@@ -361,7 +361,7 @@ public interface INavigationLayout {
         public boolean applyTrulyTheme = true;
         public long duration = 200;
 
-        /* loaded from: classes.dex */
+        /* loaded from: classes4.dex */
         public interface onAnimationProgress {
             void setProgress(float f);
         }
@@ -374,7 +374,7 @@ public interface INavigationLayout {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class StartColorsProvider implements Theme.ResourcesProvider {
         SparseIntArray colors = new SparseIntArray();
         int[] keysToSave = {Theme.key_chat_outBubble, Theme.key_chat_outBubbleGradient1, Theme.key_chat_outBubbleGradient2, Theme.key_chat_outBubbleGradient3, Theme.key_chat_outBubbleGradientAnimated, Theme.key_chat_outBubbleShadow};

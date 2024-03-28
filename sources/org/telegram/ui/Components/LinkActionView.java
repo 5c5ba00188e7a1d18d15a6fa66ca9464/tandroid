@@ -47,7 +47,7 @@ import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.DialogCell;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class LinkActionView extends LinearLayout {
     private ActionBarPopupWindow actionBarPopupWindow;
     private final AvatarsContainer avatarsContainer;
@@ -71,10 +71,10 @@ public class LinkActionView extends LinearLayout {
     private final TextView shareView;
     private int usersCount;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface Delegate {
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public final /* synthetic */ class -CC {
             public static void $default$editLink(Delegate delegate) {
             }
@@ -551,7 +551,7 @@ public class LinkActionView extends LinearLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class AvatarsContainer extends FrameLayout {
         AvatarsImageView avatarsImageView;
         TextView countTextView;

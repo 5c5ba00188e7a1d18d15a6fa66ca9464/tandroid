@@ -1,58 +1,42 @@
 package j$.time;
-/* loaded from: classes2.dex */
-abstract /* synthetic */ class j {
-    static final /* synthetic */ int[] a;
 
-    static {
-        int[] iArr = new int[k.values().length];
-        a = iArr;
-        try {
-            iArr[k.FEBRUARY.ordinal()] = 1;
-        } catch (NoSuchFieldError unused) {
-        }
-        try {
-            a[k.APRIL.ordinal()] = 2;
-        } catch (NoSuchFieldError unused2) {
-        }
-        try {
-            a[k.JUNE.ordinal()] = 3;
-        } catch (NoSuchFieldError unused3) {
-        }
-        try {
-            a[k.SEPTEMBER.ordinal()] = 4;
-        } catch (NoSuchFieldError unused4) {
-        }
-        try {
-            a[k.NOVEMBER.ordinal()] = 5;
-        } catch (NoSuchFieldError unused5) {
-        }
-        try {
-            a[k.JANUARY.ordinal()] = 6;
-        } catch (NoSuchFieldError unused6) {
-        }
-        try {
-            a[k.MARCH.ordinal()] = 7;
-        } catch (NoSuchFieldError unused7) {
-        }
-        try {
-            a[k.MAY.ordinal()] = 8;
-        } catch (NoSuchFieldError unused8) {
-        }
-        try {
-            a[k.JULY.ordinal()] = 9;
-        } catch (NoSuchFieldError unused9) {
-        }
-        try {
-            a[k.AUGUST.ordinal()] = 10;
-        } catch (NoSuchFieldError unused10) {
-        }
-        try {
-            a[k.OCTOBER.ordinal()] = 11;
-        } catch (NoSuchFieldError unused11) {
-        }
-        try {
-            a[k.DECEMBER.ordinal()] = 12;
-        } catch (NoSuchFieldError unused12) {
-        }
+import j$.time.temporal.t;
+import j$.time.temporal.u;
+import j$.time.temporal.w;
+import j$.time.temporal.x;
+/* JADX INFO: Access modifiers changed from: package-private */
+/* loaded from: classes2.dex */
+public class j implements j$.time.temporal.k {
+    final /* synthetic */ ZoneId a;
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public j(ZoneId zoneId) {
+        this.a = zoneId;
+    }
+
+    @Override // j$.time.temporal.k
+    public /* synthetic */ int a(j$.time.temporal.l lVar) {
+        return j$.time.temporal.j.a(this, lVar);
+    }
+
+    @Override // j$.time.temporal.k
+    public /* synthetic */ x b(j$.time.temporal.l lVar) {
+        return j$.time.temporal.j.c(this, lVar);
+    }
+
+    @Override // j$.time.temporal.k
+    public long c(j$.time.temporal.l lVar) {
+        throw new w("Unsupported field: " + lVar);
+    }
+
+    @Override // j$.time.temporal.k
+    public Object d(u uVar) {
+        int i = t.a;
+        return uVar == j$.time.temporal.m.a ? this.a : j$.time.temporal.j.b(this, uVar);
+    }
+
+    @Override // j$.time.temporal.k
+    public boolean e(j$.time.temporal.l lVar) {
+        return false;
     }
 }

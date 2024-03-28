@@ -8,7 +8,7 @@ import android.widget.FrameLayout;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.INavigationLayout;
 import org.telegram.ui.Components.LayoutHelper;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ChatActivityContainer extends FrameLayout {
     public final ChatActivity chatActivity;
     private View fragmentView;

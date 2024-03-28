@@ -53,7 +53,7 @@ import org.telegram.ui.Components.UndoView;
 import org.telegram.ui.GroupCallActivity;
 import org.webrtc.TextureViewRenderer;
 @SuppressLint({"ViewConstructor"})
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class GroupCallRenderersContainer extends FrameLayout {
     private LongSparseIntArray attachedPeerIds;
     private final ArrayList<GroupCallMiniTextureView> attachedRenderers;

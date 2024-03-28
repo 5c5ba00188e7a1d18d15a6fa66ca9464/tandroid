@@ -37,7 +37,7 @@ import org.telegram.ui.NotificationsSettingsActivity;
 import org.telegram.ui.ProfileNotificationsActivity;
 import org.telegram.ui.TopicsFragment;
 import org.telegram.ui.TopicsNotifySettingsFragments;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class TopicsNotifySettingsFragments extends BaseFragment {
     Adapter adapter;
     long dialogId;
@@ -86,7 +86,7 @@ public class TopicsNotifySettingsFragments extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 2 implements RecyclerListView.OnItemClickListener {
         2() {
         }
@@ -165,7 +165,7 @@ public class TopicsNotifySettingsFragments extends BaseFragment {
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class 1 implements ProfileNotificationsActivity.ProfileNotificationsActivityDelegate {
             final /* synthetic */ TLRPC$TL_forumTopic val$topic;
 
@@ -271,7 +271,7 @@ public class TopicsNotifySettingsFragments extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class Adapter extends AdapterWithDiffUtils {
         private Adapter() {
         }
@@ -339,7 +339,7 @@ public class TopicsNotifySettingsFragments extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class Item extends AdapterWithDiffUtils.Item {
         final TLRPC$TL_forumTopic topic;
 

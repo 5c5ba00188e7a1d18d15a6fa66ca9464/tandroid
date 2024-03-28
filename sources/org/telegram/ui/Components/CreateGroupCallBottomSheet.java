@@ -30,7 +30,7 @@ import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Cells.ShadowSectionCell;
 import org.telegram.ui.Components.JoinCallAlert;
 import org.telegram.ui.Components.RecyclerListView;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class CreateGroupCallBottomSheet extends BottomSheetWithRecyclerListView {
     private final List<TLRPC$Peer> chats;
     private final boolean isChannelOrGiga;
@@ -182,7 +182,7 @@ public class CreateGroupCallBottomSheet extends BottomSheetWithRecyclerListView 
     }
 
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
-    public RecyclerListView.SelectionAdapter createAdapter() {
+    public RecyclerListView.SelectionAdapter createAdapter(RecyclerListView recyclerListView) {
         return new RecyclerListView.SelectionAdapter() { // from class: org.telegram.ui.Components.CreateGroupCallBottomSheet.2
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
             public int getItemViewType(int i) {
@@ -256,7 +256,7 @@ public class CreateGroupCallBottomSheet extends BottomSheetWithRecyclerListView 
         };
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     private static class TopCell extends LinearLayout {
         public TopCell(Context context, boolean z) {
             super(context);

@@ -66,7 +66,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.ThemeEditorView;
 import org.telegram.ui.Components.WallpaperUpdater;
 import org.telegram.ui.LaunchActivity;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class ThemeEditorView {
     @SuppressLint({"StaticFieldLeak"})
     private static volatile ThemeEditorView Instance;
@@ -113,7 +113,7 @@ public class ThemeEditorView {
         Instance = null;
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class EditorAlert extends BottomSheet {
         private boolean animationInProgress;
         private FrameLayout bottomLayout;
@@ -142,7 +142,7 @@ public class ThemeEditorView {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public class SearchField extends FrameLayout {
             private ImageView clearSearchImageView;
             private EditTextBoldCursor searchEditText;
@@ -279,7 +279,7 @@ public class ThemeEditorView {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public class ColorPicker extends FrameLayout {
             private float alpha;
             private LinearGradient alphaGradient;
@@ -1308,7 +1308,7 @@ public class ThemeEditorView {
             this.containerView.invalidate();
         }
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public class SearchAdapter extends RecyclerListView.SelectionAdapter {
             private Context context;
             private int lastSearchId;
@@ -1513,7 +1513,7 @@ public class ThemeEditorView {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public class ListAdapter extends RecyclerListView.SelectionAdapter {
             private Context context;
             private ArrayList<ArrayList<ThemeDescription>> items = new ArrayList<>();
@@ -1646,7 +1646,7 @@ public class ThemeEditorView {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class 1 extends FrameLayout {
         private boolean dragging;
         private float startX;
@@ -1874,8 +1874,8 @@ public class ThemeEditorView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x010e  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x0178  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x010f  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x017a  */
     /* JADX WARN: Removed duplicated region for block: B:58:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

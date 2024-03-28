@@ -28,7 +28,7 @@ import org.telegram.messenger.SvgHelper;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.GLIconSettingsView;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class StarParticlesView extends View {
     private LinearGradient clipGradient;
     private Matrix clipGradientMatrix;
@@ -154,7 +154,7 @@ public class StarParticlesView extends View {
         this.drawable.speedScale = ((Float) valueAnimator.getAnimatedValue()).floatValue();
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class Drawable {
         float a;
         float a1;
@@ -456,7 +456,7 @@ public class StarParticlesView extends View {
             this.prevTime = currentTimeMillis;
         }
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public class Particle {
             private int alpha;
             private float drawingX;

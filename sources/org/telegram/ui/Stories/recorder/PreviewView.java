@@ -1585,22 +1585,13 @@ public class PreviewView extends FrameLayout {
         this.allowCropping = z;
     }
 
-    /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:146:0x013c  */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     private boolean touchEvent(MotionEvent motionEvent) {
         double d;
         float f;
         StoryEntry storyEntry;
-        boolean z;
-        int i;
-        boolean z2;
         if (this.allowCropping) {
-            int i2 = 1;
-            boolean z3 = motionEvent.getPointerCount() > 1;
-            if (z3) {
+            boolean z = motionEvent.getPointerCount() > 1;
+            if (z) {
                 this.touch.x = (motionEvent.getX(0) + motionEvent.getX(1)) / 2.0f;
                 this.touch.y = (motionEvent.getY(0) + motionEvent.getY(1)) / 2.0f;
                 f = MathUtils.distance(motionEvent.getX(0), motionEvent.getY(0), motionEvent.getX(1), motionEvent.getY(1));
@@ -1611,14 +1602,14 @@ public class PreviewView extends FrameLayout {
                 d = 0.0d;
                 f = 0.0f;
             }
-            if (this.multitouch != z3) {
+            if (this.multitouch != z) {
                 PointF pointF = this.lastTouch;
                 PointF pointF2 = this.touch;
                 pointF.x = pointF2.x;
                 pointF.y = pointF2.y;
                 this.lastTouchDistance = f;
                 this.lastTouchRotation = d;
-                this.multitouch = z3;
+                this.multitouch = z;
             }
             if (this.entry == null) {
                 return false;
@@ -1649,35 +1640,23 @@ public class PreviewView extends FrameLayout {
                     float f8 = this.rotationDiff + degrees;
                     this.rotationDiff = f8;
                     if (!this.allowRotation) {
-                        boolean z4 = Math.abs(f8) > 20.0f;
-                        this.allowRotation = z4;
-                        if (!z4) {
+                        boolean z2 = Math.abs(f8) > 20.0f;
+                        this.allowRotation = z2;
+                        if (!z2) {
                             extractPointsData(this.touchMatrix);
                             this.allowRotation = (((float) Math.round(this.angle / 90.0f)) * 90.0f) - this.angle > 20.0f;
                         }
                         if (!this.snappedRotation) {
-                            z2 = 1;
-                            try {
-                                performHapticFeedback(9, 1);
-                            } catch (Exception unused) {
-                            }
+                            AndroidUtilities.vibrateCursor(this);
                             this.snappedRotation = true;
-                            if (this.allowRotation) {
-                                this.touchMatrix.postRotate(degrees, f2, f3);
-                            }
-                            this.allowWithSingleTouch = z2;
-                            i = z2;
                         }
                     }
-                    z2 = 1;
                     if (this.allowRotation) {
+                        this.touchMatrix.postRotate(degrees, f2, f3);
                     }
-                    this.allowWithSingleTouch = z2;
-                    i = z2;
-                } else {
-                    i = 1;
+                    this.allowWithSingleTouch = true;
                 }
-                if (motionEvent.getPointerCount() > i || this.allowWithSingleTouch) {
+                if (motionEvent.getPointerCount() > 1 || this.allowWithSingleTouch) {
                     this.touchMatrix.postTranslate(f2 - f4, f3 - f5);
                 }
                 this.finalMatrix.set(this.touchMatrix);
@@ -1688,10 +1667,7 @@ public class PreviewView extends FrameLayout {
                     if (Math.abs(round) < 3.5f) {
                         this.finalMatrix.postRotate(round, this.cx, this.cy);
                         if (!this.snappedRotation) {
-                            try {
-                                performHapticFeedback(9, 1);
-                            } catch (Exception unused2) {
-                            }
+                            AndroidUtilities.vibrateCursor(this);
                             this.snappedRotation = true;
                         }
                     } else {
@@ -1699,24 +1675,20 @@ public class PreviewView extends FrameLayout {
                     }
                 }
                 this.entry.matrix.set(this.finalMatrix);
-                i2 = 1;
                 this.entry.editedMedia = true;
                 applyMatrix();
                 invalidate();
             }
-            if (motionEvent.getAction() == i2 || motionEvent.getAction() == 3) {
-                if (motionEvent.getPointerCount() <= i2) {
-                    z = false;
+            if (motionEvent.getAction() == 1 || motionEvent.getAction() == 3) {
+                if (motionEvent.getPointerCount() <= 1) {
                     this.allowWithSingleTouch = false;
                     onEntityDraggedTop(false);
                     onEntityDraggedBottom(false);
-                } else {
-                    z = false;
                 }
-                this.moving = z;
-                this.allowRotation = z;
+                this.moving = false;
+                this.allowRotation = false;
                 this.rotationDiff = 0.0f;
-                this.snappedRotation = z;
+                this.snappedRotation = false;
                 invalidate();
             }
             PointF pointF5 = this.lastTouch;

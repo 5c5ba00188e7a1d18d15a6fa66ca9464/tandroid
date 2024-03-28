@@ -54,7 +54,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.MessageSeenCheckDrawable;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.StatusBadgeComponent;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class MessageSeenView extends FrameLayout {
     AvatarsImageView avatarsImageView;
     int currentAccount;
@@ -374,7 +374,7 @@ public class MessageSeenView extends FrameLayout {
         return this.listView;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private static class UserCell extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
         private static MessageSeenCheckDrawable seenDrawable = new MessageSeenCheckDrawable(R.drawable.msg_mini_checks, Theme.key_windowBackgroundWhiteGrayText);
         AvatarDrawable avatarDrawable;

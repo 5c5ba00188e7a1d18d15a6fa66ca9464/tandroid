@@ -11,44 +11,63 @@ import com.google.android.exoplayer2.util.Consumer;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Utilities;
+import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.RecyclerListView;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class UniversalRecyclerView extends RecyclerListView {
     public final UniversalAdapter adapter;
+    private boolean doNotDetachViews;
     private ItemTouchHelper itemTouchHelper;
+    public final LinearLayoutManager layoutManager;
     private boolean reorderingAllowed;
 
-    public UniversalRecyclerView(Context context, int i, Utilities.Callback2<ArrayList<UItem>, UniversalAdapter> callback2, final Utilities.Callback5<UItem, View, Integer, Float, Float> callback5, final Utilities.Callback5Return<UItem, View, Integer, Float, Float, Boolean> callback5Return, Theme.ResourcesProvider resourcesProvider) {
+    public void doNotDetachViews() {
+        this.doNotDetachViews = true;
+    }
+
+    public UniversalRecyclerView(BaseFragment baseFragment, Utilities.Callback2<ArrayList<UItem>, UniversalAdapter> callback2, Utilities.Callback5<UItem, View, Integer, Float, Float> callback5, Utilities.Callback5Return<UItem, View, Integer, Float, Float, Boolean> callback5Return) {
+        this(baseFragment.getContext(), baseFragment.getCurrentAccount(), baseFragment.getClassGuid(), callback2, callback5, callback5Return, baseFragment.getResourceProvider());
+    }
+
+    public UniversalRecyclerView(Context context, int i, int i2, Utilities.Callback2<ArrayList<UItem>, UniversalAdapter> callback2, final Utilities.Callback5<UItem, View, Integer, Float, Float> callback5, final Utilities.Callback5Return<UItem, View, Integer, Float, Float, Boolean> callback5Return, Theme.ResourcesProvider resourcesProvider) {
         super(context, resourcesProvider);
-        setLayoutManager(new LinearLayoutManager(context, 1, false));
-        UniversalAdapter universalAdapter = new UniversalAdapter(context, i, callback2, resourcesProvider);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, 1, false) { // from class: org.telegram.ui.Components.UniversalRecyclerView.1
+            /* JADX INFO: Access modifiers changed from: protected */
+            @Override // androidx.recyclerview.widget.LinearLayoutManager
+            public int getExtraLayoutSpace(RecyclerView.State state) {
+                return UniversalRecyclerView.this.doNotDetachViews ? AndroidUtilities.displaySize.y : super.getExtraLayoutSpace(state);
+            }
+        };
+        this.layoutManager = linearLayoutManager;
+        setLayoutManager(linearLayoutManager);
+        UniversalAdapter universalAdapter = new UniversalAdapter(this, context, i, i2, callback2, resourcesProvider);
         this.adapter = universalAdapter;
         setAdapter(universalAdapter);
         if (callback5 != null) {
             setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.Components.UniversalRecyclerView$$ExternalSyntheticLambda1
                 @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
-                public /* synthetic */ boolean hasDoubleTap(View view, int i2) {
-                    return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view, i2);
+                public /* synthetic */ boolean hasDoubleTap(View view, int i3) {
+                    return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view, i3);
                 }
 
                 @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
-                public /* synthetic */ void onDoubleTap(View view, int i2, float f, float f2) {
-                    RecyclerListView.OnItemClickListenerExtended.-CC.$default$onDoubleTap(this, view, i2, f, f2);
+                public /* synthetic */ void onDoubleTap(View view, int i3, float f, float f2) {
+                    RecyclerListView.OnItemClickListenerExtended.-CC.$default$onDoubleTap(this, view, i3, f, f2);
                 }
 
                 @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
-                public final void onItemClick(View view, int i2, float f, float f2) {
-                    UniversalRecyclerView.this.lambda$new$0(callback5, view, i2, f, f2);
+                public final void onItemClick(View view, int i3, float f, float f2) {
+                    UniversalRecyclerView.this.lambda$new$0(callback5, view, i3, f, f2);
                 }
             });
         }
         if (callback5Return != null) {
             setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListenerExtended() { // from class: org.telegram.ui.Components.UniversalRecyclerView$$ExternalSyntheticLambda2
                 @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListenerExtended
-                public final boolean onItemClick(View view, int i2, float f, float f2) {
+                public final boolean onItemClick(View view, int i3, float f, float f2) {
                     boolean lambda$new$1;
-                    lambda$new$1 = UniversalRecyclerView.this.lambda$new$1(callback5Return, view, i2, f, f2);
+                    lambda$new$1 = UniversalRecyclerView.this.lambda$new$1(callback5Return, view, i3, f, f2);
                     return lambda$new$1;
                 }
 
@@ -63,7 +82,7 @@ public class UniversalRecyclerView extends RecyclerListView {
                 }
             });
         }
-        DefaultItemAnimator defaultItemAnimator = new DefaultItemAnimator() { // from class: org.telegram.ui.Components.UniversalRecyclerView.1
+        DefaultItemAnimator defaultItemAnimator = new DefaultItemAnimator() { // from class: org.telegram.ui.Components.UniversalRecyclerView.2
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.recyclerview.widget.DefaultItemAnimator
             public void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
@@ -76,7 +95,6 @@ public class UniversalRecyclerView extends RecyclerListView {
         defaultItemAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
         defaultItemAnimator.setDurations(350L);
         setItemAnimator(defaultItemAnimator);
-        setTranslateSelector(true);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -172,7 +190,7 @@ public class UniversalRecyclerView extends RecyclerListView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class TouchHelperCallback extends ItemTouchHelper.Callback {
         @Override // androidx.recyclerview.widget.ItemTouchHelper.Callback
         public void onSwiped(RecyclerView.ViewHolder viewHolder, int i) {

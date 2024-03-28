@@ -81,7 +81,6 @@ public class DialogFragment extends Fragment implements DialogInterface.OnCancel
     };
     private boolean mDialogCreated = false;
 
-    @Override // android.content.DialogInterface.OnCancelListener
     public void onCancel(DialogInterface dialogInterface) {
     }
 
@@ -91,6 +90,10 @@ public class DialogFragment extends Fragment implements DialogInterface.OnCancel
         FragmentTransaction beginTransaction = fragmentManager.beginTransaction();
         beginTransaction.add(this, str);
         beginTransaction.commit();
+    }
+
+    public void dismissAllowingStateLoss() {
+        dismissInternal(true, false);
     }
 
     private void dismissInternal(boolean z, boolean z2) {

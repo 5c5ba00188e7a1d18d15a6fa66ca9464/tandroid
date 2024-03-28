@@ -5,7 +5,7 @@ import java.util.concurrent.ForkJoinPool;
 /* loaded from: classes2.dex */
 abstract class f extends CountedCompleter {
     static final int g = ForkJoinPool.getCommonPoolParallelism() << 2;
-    protected final y2 a;
+    protected final z2 a;
     protected j$.util.t b;
     protected long c;
     protected f d;
@@ -21,9 +21,9 @@ abstract class f extends CountedCompleter {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public f(y2 y2Var, j$.util.t tVar) {
+    public f(z2 z2Var, j$.util.t tVar) {
         super(null);
-        this.a = y2Var;
+        this.a = z2Var;
         this.b = tVar;
         this.c = 0L;
     }

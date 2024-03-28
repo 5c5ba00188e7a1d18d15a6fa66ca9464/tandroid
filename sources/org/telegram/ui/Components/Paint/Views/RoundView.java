@@ -20,7 +20,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Paint.Views.EntityView;
 import org.telegram.ui.Components.Point;
 import org.telegram.ui.Components.Size;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class RoundView extends EntityView {
     private float a;
     private int anchor;
@@ -216,7 +216,7 @@ public class RoundView extends EntityView {
         return this.baseSize;
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class RoundViewSelectionView extends EntityView.SelectionView {
         private final RectF arcRect;
 

@@ -31,7 +31,7 @@ import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class DrawerLayoutContainer extends FrameLayout {
     private boolean allowDrawContent;
     private boolean allowOpenDrawer;
@@ -801,7 +801,7 @@ public class DrawerLayoutContainer extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class PreviewForegroundDrawable extends Drawable {
         private final GradientDrawable bottomDrawable;
         private final GradientDrawable topDrawable;

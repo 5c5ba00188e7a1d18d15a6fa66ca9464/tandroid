@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -66,14 +67,14 @@ public abstract class BaseFragment {
     private boolean removingFromStack;
     protected Theme.ResourcesProvider resourceProvider;
     public ArrayList<StoryViewer> storyViewerStack;
-    protected Dialog visibleDialog;
+    public Dialog visibleDialog;
     protected int currentAccount = UserConfig.selectedAccount;
     protected boolean hasOwnBackground = false;
     protected boolean isPaused = true;
     protected boolean inTransitionAnimation = false;
     protected int classGuid = ConnectionsManager.generateClassGuid();
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class BottomSheetParams {
         public boolean allowNestedScroll;
         public boolean occupyNavigationBar;
@@ -83,7 +84,7 @@ public abstract class BaseFragment {
         public boolean transitionFromLeft;
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public interface PreviewDelegate {
         void finishFragment();
     }
@@ -223,6 +224,11 @@ public abstract class BaseFragment {
             }
         }
         return null;
+    }
+
+    public boolean hasStoryViewer() {
+        ArrayList<StoryViewer> arrayList = this.storyViewerStack;
+        return (arrayList == null || arrayList.isEmpty()) ? false : true;
     }
 
     public void clearStoryViewers() {
@@ -850,7 +856,7 @@ public abstract class BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public class 1 extends BottomSheet {
         final /* synthetic */ INavigationLayout[] val$actionBarLayout;
         final /* synthetic */ BottomSheet[] val$bottomSheet;
@@ -973,6 +979,11 @@ public abstract class BaseFragment {
 
     public int getThemedColor(int i) {
         return Theme.getColor(i, getResourceProvider());
+    }
+
+    public Paint getThemedPaint(String str) {
+        Paint paint = getResourceProvider() != null ? getResourceProvider().getPaint(str) : null;
+        return paint != null ? paint : Theme.getThemePaint(str);
     }
 
     public Drawable getThemedDrawable(String str) {

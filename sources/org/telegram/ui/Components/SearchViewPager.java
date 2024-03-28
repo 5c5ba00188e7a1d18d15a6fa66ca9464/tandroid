@@ -62,7 +62,7 @@ import org.telegram.ui.Components.ViewPagerFixed;
 import org.telegram.ui.DialogsActivity;
 import org.telegram.ui.FilteredSearchView;
 import org.telegram.ui.TopicsFragment;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class SearchViewPager extends ViewPagerFixed implements FilteredSearchView.UiCallback {
     private ActionBarMenu actionMode;
     int animateFromCount;
@@ -96,7 +96,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
     private ActionBarMenuItem speedItem;
     protected final ViewPagerAdapter viewPagerAdapter;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface ChatPreviewDelegate {
         void finish();
 
@@ -963,7 +963,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class ViewPagerAdapter extends ViewPagerFixed.Adapter {
         ArrayList<Item> items = new ArrayList<>();
 
@@ -1063,7 +1063,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public class Item {
             int filterIndex;
             private final int type;

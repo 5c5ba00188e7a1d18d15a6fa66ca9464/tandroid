@@ -1,21 +1,17 @@
 package j$.util.stream;
-
-import j$.util.function.Consumer;
 /* loaded from: classes2.dex */
-interface A1 {
+public interface A1 extends B1 {
+    @Override // j$.util.stream.B1
     A1 b(int i);
 
-    long count();
+    Object c(int i);
 
-    void forEach(Consumer consumer);
+    void d(Object obj, int i);
 
-    void i(Object[] objArr, int i);
+    Object e();
 
-    int p();
+    void g(Object obj);
 
-    Object[] q(j$.util.function.m mVar);
-
-    A1 r(long j, long j2, j$.util.function.m mVar);
-
-    j$.util.t spliterator();
+    @Override // j$.util.stream.B1
+    j$.util.u spliterator();
 }

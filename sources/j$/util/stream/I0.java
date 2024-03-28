@@ -1,53 +1,14 @@
 package j$.util.stream;
-
-import java.util.Objects;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public class I0 extends L0 {
+class I0 extends L0 {
     /* JADX INFO: Access modifiers changed from: package-private */
-    public I0(j$.util.t tVar, int i, boolean z) {
-        super(tVar, i, z);
-    }
-
-    @Override // j$.util.stream.c
-    final boolean G0() {
-        throw new UnsupportedOperationException();
+    public I0(M0 m0, c cVar, f4 f4Var, int i) {
+        super(cVar, f4Var, i);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     @Override // j$.util.stream.c
-    public final m3 H0(int i, m3 m3Var) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override // j$.util.stream.L0, j$.util.stream.IntStream
-    public void I(j$.util.function.l lVar) {
-        if (!isParallel()) {
-            L0.L0(J0()).c(lVar);
-            return;
-        }
-        Objects.requireNonNull(lVar);
-        x0(new l0(lVar, true));
-    }
-
-    @Override // j$.util.stream.L0, j$.util.stream.IntStream
-    public void U(j$.util.function.l lVar) {
-        if (isParallel()) {
-            super.U(lVar);
-        } else {
-            L0.L0(J0()).c(lVar);
-        }
-    }
-
-    @Override // j$.util.stream.c, j$.util.stream.g, j$.util.stream.IntStream
-    public /* bridge */ /* synthetic */ IntStream parallel() {
-        parallel();
-        return this;
-    }
-
-    @Override // j$.util.stream.c, j$.util.stream.g, j$.util.stream.IntStream
-    public /* bridge */ /* synthetic */ IntStream sequential() {
-        sequential();
-        return this;
+    public n3 F0(int i, n3 n3Var) {
+        return n3Var;
     }
 }

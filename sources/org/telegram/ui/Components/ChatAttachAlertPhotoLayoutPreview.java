@@ -62,7 +62,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.spoilers.SpoilerEffect;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PhotoViewer;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAlertLayout {
     private static HashMap<MediaController.PhotoEntry, Boolean> photoRotate = new HashMap<>();
     private ValueAnimator draggingAnimator;
@@ -340,7 +340,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class GroupCalculator {
         float height;
         int maxX;
@@ -351,7 +351,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
         int width;
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public class MessageGroupedLayoutAttempt {
             public float[] heights;
             public int[] lineCounts;
@@ -389,8 +389,8 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
         /* JADX WARN: Code restructure failed: missing block: B:38:0x00b1, code lost:
             if (r1 != 8) goto L50;
          */
-        /* JADX WARN: Removed duplicated region for block: B:225:0x079a  */
-        /* JADX WARN: Removed duplicated region for block: B:235:0x07dd A[LOOP:2: B:234:0x07db->B:235:0x07dd, LOOP_END] */
+        /* JADX WARN: Removed duplicated region for block: B:225:0x079b  */
+        /* JADX WARN: Removed duplicated region for block: B:235:0x07de A[LOOP:2: B:234:0x07dc->B:235:0x07de, LOOP_END] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -1069,7 +1069,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class PreviewGroupsView extends ViewGroup {
         private HashMap<Object, Object> deletedPhotos;
         private float draggingT;
@@ -1522,7 +1522,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
             invalidate();
         }
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         class GroupingPhotoViewerProvider extends PhotoViewer.EmptyPhotoViewerProvider {
             private ArrayList<MediaController.PhotoEntry> photos = new ArrayList<>();
 
@@ -2124,7 +2124,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public class PreviewGroupCell {
             private Theme.MessageDrawable.PathDrawParams backgroundCacheParams;
             private float bottom;
@@ -2167,7 +2167,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
             }
 
             /* JADX INFO: Access modifiers changed from: private */
-            /* loaded from: classes4.dex */
+            /* loaded from: classes3.dex */
             public class MediaCell {
                 private Paint bitmapPaint;
                 public ImageReceiver blurredImage;
@@ -2274,6 +2274,11 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                             @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
                             public final void didSetImage(ImageReceiver imageReceiver, boolean z, boolean z2, boolean z3) {
                                 ChatAttachAlertPhotoLayoutPreview.PreviewGroupsView.PreviewGroupCell.MediaCell.this.lambda$setImage$0(photoEntry, imageReceiver, z, z2, z3);
+                            }
+
+                            @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
+                            public /* synthetic */ void didSetImageBitmap(int i, String str, Drawable drawable) {
+                                ImageReceiver.ImageReceiverDelegate.-CC.$default$didSetImageBitmap(this, i, str, drawable);
                             }
 
                             @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate

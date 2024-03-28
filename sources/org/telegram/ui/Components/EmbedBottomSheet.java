@@ -59,7 +59,7 @@ import org.telegram.ui.Components.WebPlayerView;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PhotoViewer;
 @SuppressLint({"WrongConstant"})
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class EmbedBottomSheet extends BottomSheet {
     @SuppressLint({"StaticFieldLeak"})
     private static EmbedBottomSheet instance;
@@ -102,7 +102,7 @@ public class EmbedBottomSheet extends BottomSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class YoutubeProxy {
         private YoutubeProxy() {
         }
@@ -837,7 +837,7 @@ public class EmbedBottomSheet extends BottomSheet {
         if (PipVideoOverlay.isVisible()) {
             PipVideoOverlay.dismiss();
             Objects.requireNonNull(view);
-            AndroidUtilities.runOnUIThread(new ChatActivityEnterView$$ExternalSyntheticLambda31(view), 300L);
+            AndroidUtilities.runOnUIThread(new ChatActivityEnterView$$ExternalSyntheticLambda33(view), 300L);
             return;
         }
         boolean z = this.isYouTube && "inapp".equals(MessagesController.getInstance(this.currentAccount).youtubePipType);

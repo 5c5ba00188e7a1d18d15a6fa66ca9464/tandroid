@@ -44,6 +44,7 @@ import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.DropBoxManager;
+import android.os.Handler;
 import android.os.PowerManager;
 import android.os.Process;
 import android.os.UserManager;
@@ -65,9 +66,11 @@ import android.view.textservice.TextServicesManager;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.os.BuildCompat;
+import androidx.core.os.ExecutorCompat;
 import androidx.core.util.ObjectsCompat;
 import java.io.File;
 import java.util.HashMap;
+import java.util.concurrent.Executor;
 import org.webrtc.MediaStreamTrack;
 @SuppressLint({"PrivateConstructorForUtilityClass"})
 /* loaded from: classes.dex */
@@ -163,6 +166,13 @@ public class ContextCompat {
             return Api24Impl.createDeviceProtectedStorageContext(context);
         }
         return null;
+    }
+
+    public static Executor getMainExecutor(Context context) {
+        if (Build.VERSION.SDK_INT >= 28) {
+            return Api28Impl.getMainExecutor(context);
+        }
+        return ExecutorCompat.create(new Handler(context.getMainLooper()));
     }
 
     public static <T> T getSystemService(Context context, Class<T> cls) {
@@ -328,6 +338,13 @@ public class ContextCompat {
 
         static boolean isDeviceProtectedStorage(Context context) {
             return context.isDeviceProtectedStorage();
+        }
+    }
+
+    /* loaded from: classes.dex */
+    static class Api28Impl {
+        static Executor getMainExecutor(Context context) {
+            return context.getMainExecutor();
         }
     }
 }

@@ -31,7 +31,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class SeekBarView extends FrameLayout {
     private static Path tmpPath;
     private static float[] tmpRadii;
@@ -75,10 +75,10 @@ public class SeekBarView extends FrameLayout {
     private int transitionThumbX;
     private boolean twoSided;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface SeekBarViewDelegate {
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public final /* synthetic */ class -CC {
             public static CharSequence $default$getContentDescription(SeekBarViewDelegate seekBarViewDelegate) {
                 return null;
@@ -86,6 +86,9 @@ public class SeekBarView extends FrameLayout {
 
             public static int $default$getStepsCount(SeekBarViewDelegate seekBarViewDelegate) {
                 return 0;
+            }
+
+            public static void $default$onSeekBarPressed(SeekBarViewDelegate seekBarViewDelegate, boolean z) {
             }
         }
 
@@ -344,10 +347,7 @@ public class SeekBarView extends FrameLayout {
         if (i > 1) {
             int round = Math.round((i - 1) * f);
             if (!z && round != this.lastValue) {
-                try {
-                    performHapticFeedback(9, 1);
-                } catch (Exception unused) {
-                }
+                AndroidUtilities.vibrateCursor(this);
             }
             this.lastValue = round;
         }
@@ -797,10 +797,7 @@ public class SeekBarView extends FrameLayout {
             StaticLayout[] staticLayoutArr3 = this.timestampLabel;
             staticLayoutArr3[1] = staticLayoutArr3[0];
             if (this.pressed) {
-                try {
-                    performHapticFeedback(9, 1);
-                } catch (Exception unused) {
-                }
+                AndroidUtilities.vibrateCursor(this);
             }
             if (size >= 0 && size < this.timestamps.size()) {
                 CharSequence charSequence = (CharSequence) this.timestamps.get(size).second;

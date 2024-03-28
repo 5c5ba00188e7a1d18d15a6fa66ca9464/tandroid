@@ -26,7 +26,7 @@ import org.telegram.ui.Components.NestedSizeNotifierLayout;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.StorageDiagramView;
 import org.telegram.ui.Storage.CacheModel;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class DilogCacheBottomSheet extends BottomSheetWithRecyclerListView {
     private CacheControlActivity.ClearCacheButton button;
     private final Delegate cacheDelegate;
@@ -39,7 +39,7 @@ public class DilogCacheBottomSheet extends BottomSheetWithRecyclerListView {
     CacheControlActivity.DialogFileEntities entities;
     LinearLayout linearLayout;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface Delegate {
         void cleanupDialogFiles(CacheControlActivity.DialogFileEntities dialogFileEntities, StorageDiagramView.ClearViewData[] clearViewDataArr, CacheModel cacheModel);
 
@@ -57,7 +57,7 @@ public class DilogCacheBottomSheet extends BottomSheetWithRecyclerListView {
     }
 
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
-    protected RecyclerListView.SelectionAdapter createAdapter() {
+    protected RecyclerListView.SelectionAdapter createAdapter(RecyclerListView recyclerListView) {
         return new RecyclerListView.SelectionAdapter() { // from class: org.telegram.ui.DilogCacheBottomSheet.1
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
             public int getItemViewType(int i) {

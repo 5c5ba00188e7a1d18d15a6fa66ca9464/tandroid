@@ -49,7 +49,7 @@ import org.telegram.ui.Cells.ChatMessageCell;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.Premium.boosts.BoostDialogs;
 import org.telegram.ui.Components.StaticLayoutEx;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class GiveawayMessageCell {
     private static final Map<Integer, String> monthsToEmoticon;
     private int additionPrizeHeight;
@@ -234,10 +234,10 @@ public class GiveawayMessageCell {
         this.parentView.invalidate();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:58:0x03a6  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x03b7  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x041b  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x0439  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x03a7  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x03b8  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x041d  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x043b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

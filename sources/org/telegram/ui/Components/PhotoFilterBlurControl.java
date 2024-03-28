@@ -9,7 +9,7 @@ import android.view.MotionEvent;
 import android.widget.FrameLayout;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.BubbleActivity;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class PhotoFilterBlurControl extends FrameLayout {
     private static final float BlurInsetProximity = AndroidUtilities.dp(20.0f);
     private static final float BlurViewCenterInset = AndroidUtilities.dp(30.0f);
@@ -39,7 +39,7 @@ public class PhotoFilterBlurControl extends FrameLayout {
     private int type;
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public enum BlurViewActiveControl {
         BlurViewActiveControlNone,
         BlurViewActiveControlCenter,
@@ -49,7 +49,7 @@ public class PhotoFilterBlurControl extends FrameLayout {
         BlurViewActiveControlRotation
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface PhotoFilterLinearBlurControlDelegate {
         void valueChanged(Point point, float f, float f2, float f3);
     }
@@ -357,7 +357,7 @@ public class PhotoFilterBlurControl extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static /* synthetic */ class 1 {
         static final /* synthetic */ int[] $SwitchMap$org$telegram$ui$Components$PhotoFilterBlurControl$BlurViewActiveControl;
 

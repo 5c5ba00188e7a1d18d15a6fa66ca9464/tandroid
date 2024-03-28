@@ -87,7 +87,7 @@ import org.telegram.ui.Components.LinkActionView;
 import org.telegram.ui.Components.Premium.LimitReachedBottomSheet;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.TypefaceSpan;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ChatEditTypeActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private ShadowSectionCell adminedInfoCell;
     private LinearLayout adminnedChannelsLayout;
@@ -611,7 +611,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     class 6 extends TextInfoPrivacyCell {
         int prevHeight;
         ValueAnimator translateAnimator;
@@ -866,7 +866,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class UsernamesListView extends RecyclerListView {
         private Adapter adapter;
         private Paint backgroundPaint;
@@ -888,7 +888,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class 1 implements RecyclerListView.OnItemClickListener {
             1(ChatEditTypeActivity chatEditTypeActivity) {
             }
@@ -1112,7 +1112,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
             super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(9999999, Integer.MIN_VALUE));
         }
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class TouchHelperCallback extends ItemTouchHelper.Callback {
             @Override // androidx.recyclerview.widget.ItemTouchHelper.Callback
             public boolean isLongPressDragEnabled() {
@@ -1217,7 +1217,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class Adapter extends RecyclerListView.SelectionAdapter {
             private Adapter() {
             }

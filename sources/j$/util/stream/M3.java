@@ -1,42 +1,27 @@
 package j$.util.stream;
 
-import j$.util.Comparator$-CC;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Objects;
 /* loaded from: classes2.dex */
-final class M3 extends c3 {
-    private final boolean l;
-    private final Comparator m;
-
+final class M3 extends c1 {
     /* JADX INFO: Access modifiers changed from: package-private */
     public M3(c cVar) {
-        super(cVar, e4.REFERENCE, d4.q | d4.o);
-        this.l = true;
-        this.m = Comparator$-CC.a();
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public M3(c cVar, Comparator comparator) {
-        super(cVar, e4.REFERENCE, d4.q | d4.p);
-        this.l = false;
-        Objects.requireNonNull(comparator);
-        this.m = comparator;
+        super(cVar, f4.LONG_VALUE, e4.q | e4.o);
     }
 
     @Override // j$.util.stream.c
-    public A1 E0(y2 y2Var, j$.util.t tVar, j$.util.function.m mVar) {
-        if (d4.SORTED.d(y2Var.s0()) && this.l) {
-            return y2Var.p0(tVar, false, mVar);
+    public B1 C0(z2 z2Var, j$.util.t tVar, j$.util.function.m mVar) {
+        if (e4.SORTED.d(z2Var.q0())) {
+            return z2Var.n0(tVar, false, mVar);
         }
-        Object[] q = y2Var.p0(tVar, true, mVar).q(mVar);
-        Arrays.sort(q, this.m);
-        return new D1(q);
+        long[] jArr = (long[]) ((z1) z2Var.n0(tVar, true, mVar)).e();
+        Arrays.sort(jArr);
+        return new m2(jArr);
     }
 
     @Override // j$.util.stream.c
-    public m3 H0(int i, m3 m3Var) {
-        Objects.requireNonNull(m3Var);
-        return (d4.SORTED.d(i) && this.l) ? m3Var : d4.SIZED.d(i) ? new R3(m3Var, this.m) : new N3(m3Var, this.m);
+    public n3 F0(int i, n3 n3Var) {
+        Objects.requireNonNull(n3Var);
+        return e4.SORTED.d(i) ? n3Var : e4.SIZED.d(i) ? new R3(n3Var) : new J3(n3Var);
     }
 }

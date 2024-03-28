@@ -1,6 +1,6 @@
 package j$.wrappers;
 
-import j$.util.stream.e1;
+import j$.util.stream.f1;
 import java.util.Iterator;
 import java.util.LongSummaryStatistics;
 import java.util.OptionalDouble;
@@ -22,17 +22,17 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 /* loaded from: classes2.dex */
 public final /* synthetic */ class N0 implements LongStream {
-    final /* synthetic */ e1 a;
+    final /* synthetic */ f1 a;
 
-    private /* synthetic */ N0(e1 e1Var) {
-        this.a = e1Var;
+    private /* synthetic */ N0(f1 f1Var) {
+        this.a = f1Var;
     }
 
-    public static /* synthetic */ LongStream n0(e1 e1Var) {
-        if (e1Var == null) {
+    public static /* synthetic */ LongStream l0(f1 f1Var) {
+        if (f1Var == null) {
             return null;
         }
-        return e1Var instanceof M0 ? ((M0) e1Var).a : new N0(e1Var);
+        return f1Var instanceof M0 ? ((M0) f1Var).a : new N0(f1Var);
     }
 
     @Override // java.util.stream.LongStream
@@ -47,7 +47,7 @@ public final /* synthetic */ class N0 implements LongStream {
 
     @Override // java.util.stream.LongStream
     public /* synthetic */ DoubleStream asDoubleStream() {
-        return L0.n0(this.a.asDoubleStream());
+        return L0.l0(this.a.asDoubleStream());
     }
 
     @Override // java.util.stream.LongStream
@@ -57,7 +57,7 @@ public final /* synthetic */ class N0 implements LongStream {
 
     @Override // java.util.stream.LongStream
     public /* synthetic */ Stream boxed() {
-        return O0.n0(this.a.boxed());
+        return O0.l0(this.a.boxed());
     }
 
     @Override // java.util.stream.BaseStream, java.lang.AutoCloseable
@@ -67,7 +67,7 @@ public final /* synthetic */ class N0 implements LongStream {
 
     @Override // java.util.stream.LongStream
     public /* synthetic */ Object collect(Supplier supplier, ObjLongConsumer objLongConsumer, BiConsumer biConsumer) {
-        return this.a.f0(y0.a(supplier), u0.a(objLongConsumer), q.a(biConsumer));
+        return this.a.d0(y0.a(supplier), u0.a(objLongConsumer), q.a(biConsumer));
     }
 
     @Override // java.util.stream.LongStream
@@ -77,12 +77,12 @@ public final /* synthetic */ class N0 implements LongStream {
 
     @Override // java.util.stream.LongStream
     public /* synthetic */ LongStream distinct() {
-        return n0(this.a.distinct());
+        return l0(this.a.distinct());
     }
 
     @Override // java.util.stream.LongStream
     public /* synthetic */ LongStream filter(LongPredicate longPredicate) {
-        return n0(this.a.u(i0.a(longPredicate)));
+        return l0(this.a.u(i0.a(longPredicate)));
     }
 
     @Override // java.util.stream.LongStream
@@ -97,7 +97,7 @@ public final /* synthetic */ class N0 implements LongStream {
 
     @Override // java.util.stream.LongStream
     public /* synthetic */ LongStream flatMap(LongFunction longFunction) {
-        return n0(this.a.s(g0.a(longFunction)));
+        return l0(this.a.s(g0.a(longFunction)));
     }
 
     @Override // java.util.stream.LongStream
@@ -107,7 +107,7 @@ public final /* synthetic */ class N0 implements LongStream {
 
     @Override // java.util.stream.LongStream
     public /* synthetic */ void forEachOrdered(LongConsumer longConsumer) {
-        this.a.Z(e0.b(longConsumer));
+        this.a.Y(e0.b(longConsumer));
     }
 
     @Override // java.util.stream.BaseStream
@@ -127,27 +127,27 @@ public final /* synthetic */ class N0 implements LongStream {
 
     @Override // java.util.stream.LongStream
     public /* synthetic */ LongStream limit(long j) {
-        return n0(this.a.limit(j));
+        return l0(this.a.limit(j));
     }
 
     @Override // java.util.stream.LongStream
     public /* synthetic */ LongStream map(LongUnaryOperator longUnaryOperator) {
-        return n0(this.a.z(o0.c(longUnaryOperator)));
+        return l0(this.a.z(o0.c(longUnaryOperator)));
     }
 
     @Override // java.util.stream.LongStream
     public /* synthetic */ DoubleStream mapToDouble(LongToDoubleFunction longToDoubleFunction) {
-        return L0.n0(this.a.O(k0.b(longToDoubleFunction)));
+        return L0.l0(this.a.O(k0.b(longToDoubleFunction)));
     }
 
     @Override // java.util.stream.LongStream
     public /* synthetic */ IntStream mapToInt(LongToIntFunction longToIntFunction) {
-        return $r8$wrapper$java$util$stream$IntStream$-WRP.convert(this.a.e0(m0.b(longToIntFunction)));
+        return $r8$wrapper$java$util$stream$IntStream$-WRP.convert(this.a.c0(m0.b(longToIntFunction)));
     }
 
     @Override // java.util.stream.LongStream
     public /* synthetic */ Stream mapToObj(LongFunction longFunction) {
-        return O0.n0(this.a.Q(g0.a(longFunction)));
+        return O0.l0(this.a.Q(g0.a(longFunction)));
     }
 
     @Override // java.util.stream.LongStream
@@ -168,23 +168,23 @@ public final /* synthetic */ class N0 implements LongStream {
     /* JADX WARN: Type inference failed for: r2v2, types: [java.util.stream.LongStream, java.util.stream.BaseStream] */
     @Override // java.util.stream.BaseStream
     public /* synthetic */ LongStream onClose(Runnable runnable) {
-        return H0.n0(this.a.onClose(runnable));
+        return H0.l0(this.a.onClose(runnable));
     }
 
     /* JADX WARN: Type inference failed for: r0v2, types: [java.util.stream.LongStream, java.util.stream.BaseStream] */
     @Override // java.util.stream.LongStream, java.util.stream.BaseStream
     public /* synthetic */ LongStream parallel() {
-        return H0.n0(this.a.parallel());
+        return H0.l0(this.a.parallel());
     }
 
     @Override // java.util.stream.LongStream, java.util.stream.BaseStream
     public /* synthetic */ LongStream parallel() {
-        return n0(this.a.parallel());
+        return l0(this.a.parallel());
     }
 
     @Override // java.util.stream.LongStream
     public /* synthetic */ LongStream peek(LongConsumer longConsumer) {
-        return n0(this.a.p(e0.b(longConsumer)));
+        return l0(this.a.p(e0.b(longConsumer)));
     }
 
     @Override // java.util.stream.LongStream
@@ -200,22 +200,22 @@ public final /* synthetic */ class N0 implements LongStream {
     /* JADX WARN: Type inference failed for: r0v2, types: [java.util.stream.LongStream, java.util.stream.BaseStream] */
     @Override // java.util.stream.LongStream, java.util.stream.BaseStream
     public /* synthetic */ LongStream sequential() {
-        return H0.n0(this.a.sequential());
+        return H0.l0(this.a.sequential());
     }
 
     @Override // java.util.stream.LongStream, java.util.stream.BaseStream
     public /* synthetic */ LongStream sequential() {
-        return n0(this.a.sequential());
+        return l0(this.a.sequential());
     }
 
     @Override // java.util.stream.LongStream
     public /* synthetic */ LongStream skip(long j) {
-        return n0(this.a.skip(j));
+        return l0(this.a.skip(j));
     }
 
     @Override // java.util.stream.LongStream
     public /* synthetic */ LongStream sorted() {
-        return n0(this.a.sorted());
+        return l0(this.a.sorted());
     }
 
     @Override // java.util.stream.LongStream, java.util.stream.BaseStream
@@ -247,6 +247,6 @@ public final /* synthetic */ class N0 implements LongStream {
     /* JADX WARN: Type inference failed for: r0v2, types: [java.util.stream.LongStream, java.util.stream.BaseStream] */
     @Override // java.util.stream.BaseStream
     public /* synthetic */ LongStream unordered() {
-        return H0.n0(this.a.unordered());
+        return H0.l0(this.a.unordered());
     }
 }

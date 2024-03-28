@@ -6,7 +6,7 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class RecordStatusDrawable extends StatusDrawable {
     Paint currentPaint;
     private float progress;

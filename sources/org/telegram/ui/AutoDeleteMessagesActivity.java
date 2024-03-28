@@ -34,7 +34,7 @@ import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.StickerImageView;
 import org.telegram.ui.UsersSelectActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class AutoDeleteMessagesActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     RadioCellInternal afterOneDay;
     RadioCellInternal afterOneMonth;
@@ -145,7 +145,7 @@ public class AutoDeleteMessagesActivity extends BaseFragment implements Notifica
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 2 implements Runnable {
         2() {
         }
@@ -202,7 +202,7 @@ public class AutoDeleteMessagesActivity extends BaseFragment implements Notifica
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 3 implements AlertsCreator.ScheduleDatePickerDelegate {
         3() {
         }
@@ -332,7 +332,7 @@ public class AutoDeleteMessagesActivity extends BaseFragment implements Notifica
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class RadioCellInternal extends RadioCell {
         boolean custom;
         int time;

@@ -88,7 +88,7 @@ import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.voip.VoIPHelper;
 import org.telegram.ui.ContactsActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class CallLogActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private ArrayList<Long> activeGroupCalls;
     private EmptyTextProgressView emptyView;
@@ -132,7 +132,7 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class EmptyTextProgressView extends FrameLayout {
         private TextView emptyTextView1;
         private TextView emptyTextView2;
@@ -304,7 +304,7 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class CallCell extends FrameLayout {
         private CheckBox2 checkBox;
         private ImageView imageView;
@@ -360,7 +360,7 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class GroupCallCell extends FrameLayout {
         private ProgressButton button;
         private TLRPC$Chat currentChat;
@@ -605,7 +605,7 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 2 extends RecyclerView.OnScrollListener {
         2() {
         }
@@ -1027,7 +1027,7 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private int activeEndRow;
         private int activeHeaderRow;
@@ -1272,7 +1272,7 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class CallLogRow {
         public ArrayList<TLRPC$Message> calls;
         public int type;

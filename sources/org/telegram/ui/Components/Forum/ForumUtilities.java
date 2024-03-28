@@ -43,7 +43,7 @@ import org.telegram.ui.Components.ColoredImageSpan;
 import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.LetterDrawable;
 import org.telegram.ui.TopicsFragment;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class ForumUtilities {
     static SparseArray<Drawable> dialogForumDrawables = new SparseArray<>();
     static Drawable dialogGeneralIcon;
@@ -94,7 +94,7 @@ public class ForumUtilities {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class GeneralTopicDrawable extends Drawable {
         int color;
         Drawable icon;

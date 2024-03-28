@@ -49,7 +49,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.ReplyMessageLine;
 import org.telegram.ui.Components.spoilers.SpoilerEffect;
 import org.telegram.ui.MessageEnterTransitionContainer;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class TextMessageEnterTransition implements MessageEnterTransitionContainer.Transition {
     private AnimatedEmojiSpan.EmojiGroupedSpans animatedEmojiStack;
     private ValueAnimator animator;

@@ -23,7 +23,7 @@ import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Stories.recorder.HintView2;
 import org.telegram.ui.TopicsFragment;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class PullForegroundDrawable {
     private ValueAnimator accentRevalAnimatorIn;
     private ValueAnimator accentRevalAnimatorOut;
@@ -777,7 +777,7 @@ public class PullForegroundDrawable {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class ArrowDrawable extends Drawable {
         private float lastDensity;
         private Path path = new Path();

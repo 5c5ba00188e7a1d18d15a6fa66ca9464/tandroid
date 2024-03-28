@@ -35,7 +35,7 @@ import org.telegram.ui.Components.Crop.CropAreaView;
 import org.telegram.ui.Components.Crop.CropGestureDetector;
 import org.telegram.ui.Components.PaintingOverlay;
 import org.telegram.ui.Components.VideoEditTextureView;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class CropView extends FrameLayout implements CropAreaView.AreaViewListener, CropGestureDetector.CropGestureListener {
     private boolean animating;
     public CropAreaView areaView;
@@ -62,7 +62,7 @@ public class CropView extends FrameLayout implements CropAreaView.AreaViewListen
     float[] values;
     private VideoEditTextureView videoEditTextureView;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface CropViewListener {
         void onAspectLock(boolean z);
 
@@ -86,7 +86,7 @@ public class CropView extends FrameLayout implements CropAreaView.AreaViewListen
         this.areaView.setSubtitle(str);
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class CropState {
         public float baseRotation;
         public float height;
@@ -603,7 +603,7 @@ public class CropView extends FrameLayout implements CropAreaView.AreaViewListen
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class CropRectangle {
         float[] coords = new float[8];
 
@@ -738,8 +738,12 @@ public class CropView extends FrameLayout implements CropAreaView.AreaViewListen
         if (videoEditTextureView != null) {
             return videoEditTextureView.getVideoWidth();
         }
+        Bitmap bitmap = this.bitmap;
+        if (bitmap == null) {
+            return 1;
+        }
         int i = this.bitmapRotation;
-        return (i == 90 || i == 270) ? this.bitmap.getHeight() : this.bitmap.getWidth();
+        return (i == 90 || i == 270) ? bitmap.getHeight() : bitmap.getWidth();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -748,8 +752,12 @@ public class CropView extends FrameLayout implements CropAreaView.AreaViewListen
         if (videoEditTextureView != null) {
             return videoEditTextureView.getVideoHeight();
         }
+        Bitmap bitmap = this.bitmap;
+        if (bitmap == null) {
+            return 1;
+        }
         int i = this.bitmapRotation;
-        return (i == 90 || i == 270) ? this.bitmap.getWidth() : this.bitmap.getHeight();
+        return (i == 90 || i == 270) ? bitmap.getWidth() : bitmap.getHeight();
     }
 
     public boolean isMirrored() {

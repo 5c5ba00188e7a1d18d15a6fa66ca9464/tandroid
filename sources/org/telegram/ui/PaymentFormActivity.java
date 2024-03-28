@@ -170,7 +170,7 @@ import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Cells.TextPriceCell;
 import org.telegram.ui.Cells.TextSettingsCell;
 import org.telegram.ui.Components.AlertsCreator;
-import org.telegram.ui.Components.ChatActivityEnterView$$ExternalSyntheticLambda31;
+import org.telegram.ui.Components.ChatActivityEnterView$$ExternalSyntheticLambda33;
 import org.telegram.ui.Components.ContextProgressView;
 import org.telegram.ui.Components.EditTextBoldCursor;
 import org.telegram.ui.Components.HintEditText;
@@ -181,7 +181,7 @@ import org.telegram.ui.Components.URLSpanNoUnderline;
 import org.telegram.ui.Components.UndoView;
 import org.telegram.ui.CountrySelectActivity;
 import org.telegram.ui.PaymentFormActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class PaymentFormActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private TLRPC$User botUser;
     private TextInfoPrivacyCell[] bottomCell;
@@ -276,7 +276,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     private static final List<String> WEBVIEW_PROTOCOLS = Arrays.asList("http", "https");
     private static final List<String> BLACKLISTED_PROTOCOLS = Collections.singletonList("tg");
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public enum InvoiceStatus {
         PAID,
         CANCELLED,
@@ -285,10 +285,10 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface PaymentFormActivityDelegate {
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public final /* synthetic */ class -CC {
             public static void $default$currentPasswordUpdated(PaymentFormActivityDelegate paymentFormActivityDelegate, TLRPC$account_Password tLRPC$account_Password) {
             }
@@ -313,7 +313,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         void onFragmentDestroyed();
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface PaymentFormCallback {
         void onInvoiceStatusChanged(InvoiceStatus invoiceStatus);
     }
@@ -332,7 +332,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class TelegramWebviewProxy {
         private TelegramWebviewProxy() {
         }
@@ -364,7 +364,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class LinkSpan extends ClickableSpan {
         public LinkSpan() {
         }
@@ -570,27 +570,27 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:465:0x0fa7, code lost:
-        if (r10.email_requested == false) goto L467;
+    /* JADX WARN: Code restructure failed: missing block: B:469:0x0fb0, code lost:
+        if (r10.email_requested == false) goto L471;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:75:0x0314, code lost:
-        if (r12.email_requested == false) goto L166;
+    /* JADX WARN: Code restructure failed: missing block: B:79:0x031d, code lost:
+        if (r12.email_requested == false) goto L170;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:606:0x1970  */
-    /* JADX WARN: Removed duplicated region for block: B:610:0x1988  */
-    /* JADX WARN: Removed duplicated region for block: B:616:0x19b6  */
-    /* JADX WARN: Removed duplicated region for block: B:629:0x19f4  */
-    /* JADX WARN: Removed duplicated region for block: B:632:0x19fc  */
-    /* JADX WARN: Removed duplicated region for block: B:633:0x19fe  */
-    /* JADX WARN: Removed duplicated region for block: B:643:0x1a15  */
-    /* JADX WARN: Removed duplicated region for block: B:644:0x1a18  */
-    /* JADX WARN: Removed duplicated region for block: B:647:0x1a3c  */
-    /* JADX WARN: Removed duplicated region for block: B:653:0x1a8d  */
-    /* JADX WARN: Removed duplicated region for block: B:659:0x1ade  */
-    /* JADX WARN: Removed duplicated region for block: B:665:0x1b2d  */
-    /* JADX WARN: Removed duplicated region for block: B:671:0x1b62  */
-    /* JADX WARN: Removed duplicated region for block: B:675:0x1b9f  */
+    /* JADX WARN: Removed duplicated region for block: B:610:0x1979  */
+    /* JADX WARN: Removed duplicated region for block: B:614:0x1991  */
+    /* JADX WARN: Removed duplicated region for block: B:620:0x19bf  */
+    /* JADX WARN: Removed duplicated region for block: B:633:0x19fd  */
+    /* JADX WARN: Removed duplicated region for block: B:636:0x1a05  */
+    /* JADX WARN: Removed duplicated region for block: B:637:0x1a07  */
+    /* JADX WARN: Removed duplicated region for block: B:647:0x1a1e  */
+    /* JADX WARN: Removed duplicated region for block: B:648:0x1a21  */
+    /* JADX WARN: Removed duplicated region for block: B:651:0x1a45  */
+    /* JADX WARN: Removed duplicated region for block: B:657:0x1a96  */
+    /* JADX WARN: Removed duplicated region for block: B:663:0x1ae7  */
+    /* JADX WARN: Removed duplicated region for block: B:669:0x1b36  */
+    /* JADX WARN: Removed duplicated region for block: B:675:0x1b6b  */
+    /* JADX WARN: Removed duplicated region for block: B:679:0x1ba8  */
     /* JADX WARN: Type inference failed for: r0v92, types: [org.telegram.ui.Cells.RecurrentPaymentsAcceptCell] */
     /* JADX WARN: Type inference failed for: r10v103, types: [android.widget.LinearLayout] */
     /* JADX WARN: Type inference failed for: r10v13, types: [java.lang.StringBuilder] */
@@ -675,10 +675,15 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 this.actionBar.setTitle(LocaleController.getString("PaymentShippingMethod", R.string.PaymentShippingMethod));
                 break;
             case 2:
-                this.actionBar.setTitle(LocaleController.getString("PaymentCardInfo", R.string.PaymentCardInfo));
-                break;
             case 3:
-                this.actionBar.setTitle(LocaleController.getString("PaymentCardInfo", R.string.PaymentCardInfo));
+                TLRPC$TL_paymentFormMethod tLRPC$TL_paymentFormMethod = this.paymentFormMethod;
+                if (tLRPC$TL_paymentFormMethod != null && !TextUtils.isEmpty(tLRPC$TL_paymentFormMethod.title)) {
+                    this.actionBar.setTitle(this.paymentFormMethod.title);
+                    break;
+                } else {
+                    this.actionBar.setTitle(LocaleController.getString("PaymentCardInfo", R.string.PaymentCardInfo));
+                    break;
+                }
                 break;
             case 4:
                 if (this.paymentForm.invoice.test) {
@@ -3160,7 +3165,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                         i = 0;
                         if (i != 2 && !tLRPC$TL_payments_paymentForm.additional_methods.isEmpty()) {
                             Objects.requireNonNull(view);
-                            showChoosePaymentMethod(new ChatActivityEnterView$$ExternalSyntheticLambda31(view));
+                            showChoosePaymentMethod(new ChatActivityEnterView$$ExternalSyntheticLambda33(view));
                             return;
                         }
                         presentFragment(new PaymentFormActivity(this.invoicePremiumGiftCode, this.paymentForm, this.messageObject, this.invoiceSlug, i, this.requestedInfo, this.shippingOption, this.tipAmount, this.paymentJson, this.cardName, this.validateRequest, this.saveCardInfo, null, this.parentFragment));
@@ -4638,23 +4643,23 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 } else if ("smartglocal".equals(this.paymentForm.native_provider)) {
                     new AsyncTask<Object, Object, String>() { // from class: org.telegram.ui.PaymentFormActivity.26
                         /* JADX INFO: Access modifiers changed from: protected */
-                        /* JADX WARN: Can't wrap try/catch for region: R(17:3|4|(12:45|46|(3:48|49|(1:51))|(1:8)(2:41|(1:43)(1:44))|9|10|11|12|13|14|15|(4:23|(1:25)|26|27)(3:19|20|21))|6|(0)(0)|9|10|11|12|13|14|15|(1:17)|23|(0)|26|27) */
-                        /* JADX WARN: Code restructure failed: missing block: B:10:0x009d, code lost:
+                        /* JADX WARN: Can't wrap try/catch for region: R(9:3|4|(9:(12:45|46|(3:48|49|(1:51))|(1:8)(2:41|(1:43)(1:44))|9|10|11|12|13|14|15|(4:23|(1:25)|26|27)(3:19|20|21))|13|14|15|(1:17)|23|(0)|26|27)|6|(0)(0)|9|10|11|12) */
+                        /* JADX WARN: Code restructure failed: missing block: B:10:0x009b, code lost:
                             if (r4.endsWith(".smart-glocal.com/cds/v1/tokenize/card") != false) goto L6;
                          */
-                        /* JADX WARN: Code restructure failed: missing block: B:42:0x016c, code lost:
+                        /* JADX WARN: Code restructure failed: missing block: B:42:0x0169, code lost:
                             r13 = e;
                          */
-                        /* JADX WARN: Code restructure failed: missing block: B:48:0x0172, code lost:
+                        /* JADX WARN: Code restructure failed: missing block: B:48:0x016f, code lost:
                             org.telegram.messenger.FileLog.e(r13);
                          */
-                        /* JADX WARN: Code restructure failed: missing block: B:49:0x0175, code lost:
+                        /* JADX WARN: Code restructure failed: missing block: B:49:0x0172, code lost:
                             if (r4 == null) goto L27;
                          */
-                        /* JADX WARN: Not initialized variable reg: 4, insn: 0x017c: MOVE  (r2 I:??[OBJECT, ARRAY]) = (r4 I:??[OBJECT, ARRAY]), block:B:53:0x017c */
-                        /* JADX WARN: Removed duplicated region for block: B:15:0x00a5 A[Catch: all -> 0x016e, Exception -> 0x0170, TRY_ENTER, TryCatch #2 {Exception -> 0x0170, blocks: (B:3:0x0008, B:15:0x00a5, B:20:0x00c6, B:16:0x00ab, B:18:0x00b7, B:19:0x00bf), top: B:62:0x0008 }] */
-                        /* JADX WARN: Removed duplicated region for block: B:16:0x00ab A[Catch: all -> 0x016e, Exception -> 0x0170, TryCatch #2 {Exception -> 0x0170, blocks: (B:3:0x0008, B:15:0x00a5, B:20:0x00c6, B:16:0x00ab, B:18:0x00b7, B:19:0x00bf), top: B:62:0x0008 }] */
-                        /* JADX WARN: Removed duplicated region for block: B:33:0x0145 A[Catch: Exception -> 0x016c, all -> 0x017b, TRY_LEAVE, TryCatch #3 {Exception -> 0x016c, blocks: (B:22:0x00ce, B:24:0x0105, B:28:0x0114, B:31:0x0141, B:33:0x0145, B:41:0x016b, B:40:0x0168), top: B:64:0x00ce }] */
+                        /* JADX WARN: Not initialized variable reg: 4, insn: 0x0179: MOVE  (r2 I:??[OBJECT, ARRAY]) = (r4 I:??[OBJECT, ARRAY]), block:B:53:0x0179 */
+                        /* JADX WARN: Removed duplicated region for block: B:15:0x00a3 A[Catch: all -> 0x016b, Exception -> 0x016d, TRY_ENTER, TryCatch #2 {Exception -> 0x016d, blocks: (B:3:0x0007, B:15:0x00a3, B:20:0x00c4, B:16:0x00a9, B:18:0x00b5, B:19:0x00bd), top: B:62:0x0007 }] */
+                        /* JADX WARN: Removed duplicated region for block: B:16:0x00a9 A[Catch: all -> 0x016b, Exception -> 0x016d, TryCatch #2 {Exception -> 0x016d, blocks: (B:3:0x0007, B:15:0x00a3, B:20:0x00c4, B:16:0x00a9, B:18:0x00b5, B:19:0x00bd), top: B:62:0x0007 }] */
+                        /* JADX WARN: Removed duplicated region for block: B:33:0x0142 A[Catch: Exception -> 0x0169, all -> 0x0178, TRY_LEAVE, TryCatch #4 {Exception -> 0x0169, blocks: (B:22:0x00cc, B:24:0x0103, B:28:0x0112, B:31:0x013e, B:33:0x0142, B:41:0x0168, B:40:0x0165), top: B:66:0x00cc }] */
                         @Override // android.os.AsyncTask
                         /*
                             Code decompiled incorrectly, please refer to instructions dump.
@@ -4800,7 +4805,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 25 implements TokenCallback {
         25() {
         }
@@ -5741,7 +5746,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class BottomFrameLayout extends FrameLayout {
         Paint paint;
         float progress;

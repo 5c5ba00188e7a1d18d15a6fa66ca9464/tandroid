@@ -34,7 +34,7 @@ import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.voip.ImageWithWavesView;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class AcceptDeclineView extends View {
     private Paint acceptCirclePaint;
     private FabBackgroundDrawable acceptDrawable;
@@ -71,7 +71,7 @@ public class AcceptDeclineView extends View {
     float startY;
     float touchSlop;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface Listener {
         void onAccept();
 
@@ -479,7 +479,7 @@ public class AcceptDeclineView extends View {
         return this.accessibilityNodeProvider;
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static abstract class AcceptDeclineAccessibilityNodeProvider extends AccessibilityNodeProvider {
         private final AccessibilityManager accessibilityManager;
         private final View hostView;

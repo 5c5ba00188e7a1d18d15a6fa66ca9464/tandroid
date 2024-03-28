@@ -1,10 +1,10 @@
 package org.telegram.ui.Components;
 
 import android.view.View;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public interface IPhotoPaintView {
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public final /* synthetic */ class -CC {
         public static void $default$setOffsetTranslationX(IPhotoPaintView iPhotoPaintView, float f) {
         }

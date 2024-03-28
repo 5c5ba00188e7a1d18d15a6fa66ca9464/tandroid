@@ -43,7 +43,7 @@ import org.telegram.ui.Components.EmptyTextProgressView;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.TranslateAlert2;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class RestrictedLanguagesSelectActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private static boolean gotRestrictedLanguages;
     private static HashSet<String> restrictedLanguages;
@@ -391,7 +391,7 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
         private boolean search;

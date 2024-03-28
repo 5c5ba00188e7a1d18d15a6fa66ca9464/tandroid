@@ -7,13 +7,13 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.ui.Cells.ShareDialogCell$RepostStoryDrawable$$ExternalSyntheticLambda0;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class ChatActivityEnterViewAnimatedIconView extends RLottieImageView {
     private TransitState animatingState;
     private State currentState;
     private Map<TransitState, RLottieDrawable> stateMap;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public enum State {
         VOICE,
         VIDEO,
@@ -83,7 +83,7 @@ public class ChatActivityEnterViewAnimatedIconView extends RLottieImageView {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static /* synthetic */ class 2 {
         static final /* synthetic */ int[] $SwitchMap$org$telegram$ui$Components$ChatActivityEnterViewAnimatedIconView$State;
 
@@ -135,7 +135,7 @@ public class ChatActivityEnterViewAnimatedIconView extends RLottieImageView {
     	at jadx.core.dex.visitors.EnumVisitor.visit(EnumVisitor.java:100)
      */
     /* JADX WARN: Failed to restore enum class, 'enum' modifier and super class removed */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static final class TransitState {
         private static final /* synthetic */ TransitState[] $VALUES;
         public static final TransitState GIF_TO_KEYBOARD;

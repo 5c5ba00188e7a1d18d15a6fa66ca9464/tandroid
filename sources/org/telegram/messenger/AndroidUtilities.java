@@ -177,6 +177,7 @@ import org.telegram.ui.ChatActivity;
 import org.telegram.ui.ChatBackgroundDrawable;
 import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.BackgroundGradientDrawable;
+import org.telegram.ui.Components.ColoredImageSpan;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.EllipsizeSpanAnimator;
 import org.telegram.ui.Components.ForegroundColorSpanThemable;
@@ -212,6 +213,7 @@ public class AndroidUtilities {
     public static final int REPLACING_TAG_TYPE_BOLD = 1;
     public static final int REPLACING_TAG_TYPE_LINK = 0;
     public static final int REPLACING_TAG_TYPE_LINKBOLD = 2;
+    public static final int REPLACING_TAG_TYPE_LINK_NBSP = 3;
     public static final String STICKERS_PLACEHOLDER_PACK_NAME = "tg_placeholders_android";
     public static final String STICKERS_PLACEHOLDER_PACK_NAME_2 = "tg_superplaceholders_android_2";
     public static final String TYPEFACE_COURIER_NEW_BOLD = "fonts/courier_new_bold.ttf";
@@ -529,15 +531,19 @@ public class AndroidUtilities {
         }
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(replace);
         if (indexOf >= 0) {
-            if (i2 == 0 || i2 == 2) {
+            if (i2 == 3) {
+                int i5 = indexOf + i3;
+                spannableStringBuilder.replace(indexOf, i5, replaceMultipleCharSequence(" ", spannableStringBuilder.subSequence(indexOf, i5), " "));
+            }
+            if (i2 == 0 || i2 == 3 || i2 == 2) {
                 spannableStringBuilder.setSpan(new ClickableSpan() { // from class: org.telegram.messenger.AndroidUtilities.1
                     @Override // android.text.style.ClickableSpan, android.text.style.CharacterStyle
                     public void updateDrawState(TextPaint textPaint) {
                         super.updateDrawState(textPaint);
                         textPaint.setUnderlineText(false);
-                        int i5 = i;
-                        if (i5 >= 0) {
-                            textPaint.setColor(Theme.getColor(i5, resourcesProvider));
+                        int i6 = i;
+                        if (i6 >= 0) {
+                            textPaint.setColor(Theme.getColor(i6, resourcesProvider));
                         }
                         if (i2 == 2) {
                             textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
@@ -603,6 +609,22 @@ public class AndroidUtilities {
             }, indexOf, i2 + indexOf, 0);
         }
         return spannableStringBuilder;
+    }
+
+    public static CharSequence replaceArrows(CharSequence charSequence, boolean z) {
+        ColoredImageSpan coloredImageSpan = new ColoredImageSpan(R.drawable.msg_mini_forumarrow, 0);
+        coloredImageSpan.setScale(0.88f, 0.88f);
+        coloredImageSpan.translate(-dp(2.6666667f), 0.0f);
+        coloredImageSpan.spaceScaleX = 0.8f;
+        if (z) {
+            coloredImageSpan.useLinkPaintColor = z;
+        }
+        SpannableString spannableString = new SpannableString(" >");
+        spannableString.setSpan(coloredImageSpan, spannableString.length() - 1, spannableString.length(), 33);
+        CharSequence replaceMultipleCharSequence = replaceMultipleCharSequence(" >", charSequence, spannableString);
+        SpannableString spannableString2 = new SpannableString(">");
+        spannableString2.setSpan(coloredImageSpan, 0, 1, 33);
+        return replaceMultipleCharSequence(">", replaceMultipleCharSequence, spannableString2);
     }
 
     public static void recycleBitmaps(List<Bitmap> list) {
@@ -3119,19 +3141,19 @@ public class AndroidUtilities {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:40:0x00b4, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:40:0x00b3, code lost:
         if (r2 == 1) goto L38;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:41:0x00b6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:41:0x00b5, code lost:
         if (r2 == 2) goto L37;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:42:0x00b8, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:42:0x00b7, code lost:
         r1 = null;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:43:0x00ba, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:43:0x00b9, code lost:
         r1 = android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:44:0x00bd, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:44:0x00bc, code lost:
         r1 = android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
      */
     @SuppressLint({"NewApi"})
@@ -3962,13 +3984,13 @@ public class AndroidUtilities {
         return accessibilityManager.isEnabled() && accessibilityManager.isTouchExplorationEnabled();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:54:0x0109 A[Catch: Exception -> 0x0126, TRY_LEAVE, TryCatch #0 {Exception -> 0x0126, blocks: (B:5:0x0008, B:8:0x0012, B:10:0x0018, B:12:0x0020, B:15:0x0033, B:18:0x003c, B:20:0x0044, B:23:0x0054, B:25:0x005a, B:27:0x0060, B:29:0x0066, B:31:0x0084, B:32:0x0088, B:52:0x0103, B:54:0x0109, B:67:0x0122, B:33:0x009e, B:35:0x00ae, B:37:0x00b6, B:39:0x00be, B:41:0x00c4, B:43:0x00cc, B:45:0x00d4, B:47:0x00de, B:48:0x00e2), top: B:71:0x0008 }] */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x0113  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x0115  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0118  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x011a  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x011d  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x011f  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x0108 A[Catch: Exception -> 0x0125, TRY_LEAVE, TryCatch #0 {Exception -> 0x0125, blocks: (B:5:0x0008, B:8:0x0012, B:10:0x0018, B:12:0x0020, B:15:0x0032, B:18:0x003b, B:20:0x0043, B:23:0x0053, B:25:0x0059, B:27:0x005f, B:29:0x0065, B:31:0x0083, B:32:0x0087, B:52:0x0102, B:54:0x0108, B:67:0x0121, B:33:0x009d, B:35:0x00ad, B:37:0x00b5, B:39:0x00bd, B:41:0x00c3, B:43:0x00cb, B:45:0x00d3, B:47:0x00dd, B:48:0x00e1), top: B:71:0x0008 }] */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x0112  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x0114  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0117  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0119  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x011c  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x011e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -5123,10 +5145,10 @@ public class AndroidUtilities {
         } else {
             spannableStringBuilder = new SpannableStringBuilder(charSequence);
         }
-        int indexOf = TextUtils.indexOf(charSequence, str);
+        int indexOf = TextUtils.indexOf(charSequence, str, 0);
         while (indexOf >= 0) {
             spannableStringBuilder.replace(indexOf, str.length() + indexOf, charSequence2);
-            indexOf = TextUtils.indexOf(spannableStringBuilder, str);
+            indexOf = TextUtils.indexOf(spannableStringBuilder, str, indexOf + 1);
         }
         return spannableStringBuilder;
     }
@@ -5570,5 +5592,71 @@ public class AndroidUtilities {
             }
         }
         return isHonor.booleanValue();
+    }
+
+    public static CharSequence withLearnMore(CharSequence charSequence, final Runnable runnable) {
+        SpannableString spannableString = new SpannableString(LocaleController.getString(R.string.LearnMoreArrow));
+        spannableString.setSpan(new ClickableSpan() { // from class: org.telegram.messenger.AndroidUtilities.9
+            @Override // android.text.style.ClickableSpan
+            public void onClick(View view) {
+                Runnable runnable2 = runnable;
+                if (runnable2 != null) {
+                    runnable2.run();
+                }
+            }
+
+            @Override // android.text.style.ClickableSpan, android.text.style.CharacterStyle
+            public void updateDrawState(TextPaint textPaint) {
+                textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                textPaint.setUnderlineText(false);
+                textPaint.setColor(textPaint.linkColor);
+            }
+        }, 0, spannableString.length(), 33);
+        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(charSequence);
+        spannableStringBuilder.append((CharSequence) " ");
+        spannableStringBuilder.append((CharSequence) spannableString);
+        return replaceArrows(spannableStringBuilder, true);
+    }
+
+    public static View findChildViewUnder(ViewGroup viewGroup, float f, float f2) {
+        if (viewGroup != null && viewGroup.getVisibility() == 0) {
+            for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                View childAt = viewGroup.getChildAt(i);
+                if (childAt != null && childAt.getVisibility() == 0) {
+                    if (childAt instanceof ViewGroup) {
+                        View findChildViewUnder = findChildViewUnder((ViewGroup) childAt, f - childAt.getLeft(), f2 - childAt.getTop());
+                        if (findChildViewUnder != null) {
+                            return findChildViewUnder;
+                        }
+                    } else if (f >= childAt.getX() && f <= childAt.getX() + childAt.getWidth() && f2 >= childAt.getY() && f <= childAt.getY() + childAt.getHeight()) {
+                        return childAt;
+                    }
+                }
+            }
+            return null;
+        }
+        return null;
+    }
+
+    public static void vibrateCursor(View view) {
+        if (view != null) {
+            try {
+                if (view.getContext() != null && Build.VERSION.SDK_INT >= 26 && ((Vibrator) view.getContext().getSystemService("vibrator")).hasAmplitudeControl()) {
+                    view.performHapticFeedback(9, 1);
+                }
+            } catch (Exception unused) {
+            }
+        }
+    }
+
+    public static void vibrate(View view) {
+        if (view != null) {
+            try {
+                if (view.getContext() != null && Build.VERSION.SDK_INT >= 26 && ((Vibrator) view.getContext().getSystemService("vibrator")).hasAmplitudeControl()) {
+                    view.performHapticFeedback(3, 1);
+                }
+            } catch (Exception unused) {
+            }
+        }
     }
 }

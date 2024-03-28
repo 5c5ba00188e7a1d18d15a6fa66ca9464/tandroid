@@ -37,7 +37,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.UItem;
 import org.telegram.ui.Components.UniversalAdapter;
 import org.telegram.ui.Components.UniversalRecyclerView;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class GreetMessagesActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     public TLRPC$TL_businessGreetingMessage currentValue;
     private final int[] daysOfInactivity;
@@ -103,7 +103,7 @@ public class GreetMessagesActivity extends BaseFragment implements NotificationC
         BusinessRecipientsHelper businessRecipientsHelper2 = this.recipientsHelper;
         TLRPC$TL_businessGreetingMessage tLRPC$TL_businessGreetingMessage = this.currentValue;
         businessRecipientsHelper2.setValue(tLRPC$TL_businessGreetingMessage == null ? null : tLRPC$TL_businessGreetingMessage.recipients);
-        UniversalRecyclerView universalRecyclerView = new UniversalRecyclerView(context, this.currentAccount, new Utilities.Callback2() { // from class: org.telegram.ui.Business.GreetMessagesActivity$$ExternalSyntheticLambda4
+        UniversalRecyclerView universalRecyclerView = new UniversalRecyclerView(this, new Utilities.Callback2() { // from class: org.telegram.ui.Business.GreetMessagesActivity$$ExternalSyntheticLambda4
             @Override // org.telegram.messenger.Utilities.Callback2
             public final void run(Object obj, Object obj2) {
                 GreetMessagesActivity.this.fillItems((ArrayList) obj, (UniversalAdapter) obj2);
@@ -113,7 +113,7 @@ public class GreetMessagesActivity extends BaseFragment implements NotificationC
             public final void run(Object obj, Object obj2, Object obj3, Object obj4, Object obj5) {
                 GreetMessagesActivity.this.onClick((UItem) obj, (View) obj2, ((Integer) obj3).intValue(), ((Float) obj4).floatValue(), ((Float) obj5).floatValue());
             }
-        }, null, getResourceProvider());
+        }, null);
         this.listView = universalRecyclerView;
         frameLayout.addView(universalRecyclerView, LayoutHelper.createFrame(-1, -1.0f));
         setValue();
@@ -356,7 +356,7 @@ public class GreetMessagesActivity extends BaseFragment implements NotificationC
             return;
         }
         int i2 = uItem.id;
-        if (i2 == 2 || uItem.viewType == 13) {
+        if (i2 == 2 || uItem.viewType == 17) {
             Bundle bundle = new Bundle();
             bundle.putLong("user_id", getUserConfig().getClientUserId());
             bundle.putInt("chatMode", 5);

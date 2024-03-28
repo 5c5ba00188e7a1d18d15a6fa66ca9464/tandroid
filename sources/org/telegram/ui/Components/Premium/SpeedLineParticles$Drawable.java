@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class SpeedLineParticles$Drawable {
     public final int count;
     private int lastColor;
@@ -68,7 +68,7 @@ public class SpeedLineParticles$Drawable {
         canvas.drawLines(this.lines, this.paint);
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     private class Particle {
         float inProgress;
         private long lifeTime;

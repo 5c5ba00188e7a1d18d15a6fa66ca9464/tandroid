@@ -43,7 +43,7 @@ import org.telegram.ui.Components.Premium.boosts.BoostDialogs;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.StaticLayoutEx;
 import org.telegram.ui.LaunchActivity;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class GiveawayResultsMessageCell {
     private AvatarDrawable[] avatarDrawables;
     private ImageReceiver[] avatarImageReceivers;

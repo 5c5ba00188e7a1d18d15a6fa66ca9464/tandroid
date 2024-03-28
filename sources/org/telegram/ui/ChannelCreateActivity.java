@@ -92,7 +92,7 @@ import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.Components.RadialProgressView;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.Components.TypefaceSpan;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ChannelCreateActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate, ImageUpdater.ImageUpdaterDelegate {
     private ArrayList<AdminedChannelCell> adminedChannelCells;
     private TextInfoPrivacyCell adminedInfoCell;
@@ -885,11 +885,11 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
             this.privateContainer.addView(this.permanentLinkView);
             LinkSpanDrawable.LinksTextView linksTextView = new LinkSpanDrawable.LinksTextView(context) { // from class: org.telegram.ui.ChannelCreateActivity.9
                 /* JADX WARN: Multi-variable type inference failed */
-                /* JADX WARN: Type inference failed for: r7v0, types: [org.telegram.ui.ChannelCreateActivity$9, android.widget.TextView] */
+                /* JADX WARN: Type inference failed for: r7v0, types: [org.telegram.ui.ChannelCreateActivity$9, org.telegram.ui.Components.LinkSpanDrawable$LinksTextView] */
                 /* JADX WARN: Type inference failed for: r8v0, types: [java.lang.CharSequence] */
                 /* JADX WARN: Type inference failed for: r8v1, types: [java.lang.CharSequence] */
                 /* JADX WARN: Type inference failed for: r8v3, types: [android.text.SpannableStringBuilder] */
-                @Override // android.widget.TextView
+                @Override // org.telegram.ui.Components.LinkSpanDrawable.LinksTextView, android.widget.TextView
                 public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
                     if (charSequence != 0) {
                         charSequence = AndroidUtilities.replaceTags(charSequence.toString());
@@ -952,7 +952,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 1 extends ActionBar.ActionBarMenuOnItemClick {
         1() {
         }

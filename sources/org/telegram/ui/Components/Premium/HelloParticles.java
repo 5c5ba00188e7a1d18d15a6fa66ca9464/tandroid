@@ -12,11 +12,11 @@ import java.util.HashMap;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.Utilities;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class HelloParticles {
     private static final String[] hellos = {"Hello", "Привіт", "Привет", "Bonjour", "Hola", "Ciao", "Olá", "여보세요", "你好", "Salve", "Sveiki", "Halo", "გამარჯობა", "Hallå", "Salam", "Tere", "Dia dhuit", "こんにちは", "Сайн уу", "Bongu", "Ahoj", "γεια", "Zdravo", "नमस्ते", "Habari", "Hallo", "ជំរាបសួរ", "مرحبًا", "ನಮಸ್ಕಾರ", "Салам", "Silav li wir", "سڵاو", "Kif inti", "Talofa", "Thobela", "हॅलो", "ሰላም", "Здраво", "ഹലോ", "ہیلو", "ꯍꯦꯜꯂꯣ", "Alô", "வணக்கம்", "Mhoro", "Moni", "Alo", "สวัสดี", "Salom", "Բարեւ"};
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class Drawable {
         private float bitmapScale;
         public final int count;
@@ -84,7 +84,7 @@ public class HelloParticles {
             this.bitmaps.clear();
         }
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         private class Particle {
             private int alpha;
             private Bitmap bitmap;

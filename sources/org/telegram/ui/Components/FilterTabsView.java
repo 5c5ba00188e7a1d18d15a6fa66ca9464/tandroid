@@ -52,7 +52,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimationProperties;
 import org.telegram.ui.Components.FilterTabsView;
 import org.telegram.ui.Components.RecyclerListView;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class FilterTabsView extends FrameLayout {
     private final Property<FilterTabsView, Float> COLORS;
     private int aActiveTextColorKey;
@@ -109,7 +109,7 @@ public class FilterTabsView extends FrameLayout {
     private TextPaint textPaint;
     private int unactiveTextColorKey;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface FilterTabsViewDelegate {
         boolean canPerformActions();
 
@@ -162,7 +162,7 @@ public class FilterTabsView extends FrameLayout {
         return false;
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class Tab {
         public int counter;
         public int id;
@@ -206,7 +206,7 @@ public class FilterTabsView extends FrameLayout {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class TabView extends View {
         public boolean animateChange;
         private float animateFromCountWidth;
@@ -1076,7 +1076,7 @@ public class FilterTabsView extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class 4 extends DefaultItemAnimator {
         4() {
         }
@@ -1750,7 +1750,7 @@ public class FilterTabsView extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
@@ -1878,7 +1878,7 @@ public class FilterTabsView extends FrameLayout {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class TouchHelperCallback extends ItemTouchHelper.Callback {
         private Runnable resetDefaultPosition = new Runnable() { // from class: org.telegram.ui.Components.FilterTabsView$TouchHelperCallback$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable

@@ -15,7 +15,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.Paint.Brush;
 import org.telegram.ui.Components.Size;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class Input {
     private static final CubicBezierInterpolator PRESSURE_INTERPOLATOR = new CubicBezierInterpolator(0.0d, 0.5d, 0.0d, 1.0d);
     private ValueAnimator arrowAnimator;

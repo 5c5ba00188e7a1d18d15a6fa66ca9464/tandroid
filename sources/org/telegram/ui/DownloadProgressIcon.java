@@ -18,7 +18,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.RLottieDrawable;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class DownloadProgressIcon extends View implements NotificationCenter.NotificationCenterDelegate {
     private int currentAccount;
     int currentColor;
@@ -221,7 +221,7 @@ public class DownloadProgressIcon extends View implements NotificationCenter.Not
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ProgressObserver implements DownloadController.FileDownloadProgressListener {
         long downloaded;
         private final String fileName;

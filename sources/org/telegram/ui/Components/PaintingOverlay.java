@@ -24,7 +24,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.VideoEditedInfo;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.Paint.Views.EditTextOutline;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class PaintingOverlay extends FrameLayout {
     private Drawable backgroundDrawable;
     private boolean ignoreLayout;
@@ -50,8 +50,8 @@ public class PaintingOverlay extends FrameLayout {
         super(context);
     }
 
-    public void setData(String str, ArrayList<VideoEditedInfo.MediaEntity> arrayList, boolean z, boolean z2) {
-        setEntities(arrayList, z, z2);
+    public void setData(String str, ArrayList<VideoEditedInfo.MediaEntity> arrayList, boolean z, boolean z2, boolean z3) {
+        setEntities(arrayList, z, z2, z3);
         if (str != null) {
             this.paintBitmap = BitmapFactory.decodeFile(str);
             BitmapDrawable bitmapDrawable = new BitmapDrawable(this.paintBitmap);
@@ -154,8 +154,9 @@ public class PaintingOverlay extends FrameLayout {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    public void setEntities(ArrayList<VideoEditedInfo.MediaEntity> arrayList, boolean z, boolean z2) {
+    public void setEntities(ArrayList<VideoEditedInfo.MediaEntity> arrayList, boolean z, boolean z2, boolean z3) {
         int i;
+        setClipChildren(z3);
         reset();
         this.mediaEntityViews = new HashMap<>();
         if (arrayList == null || arrayList.isEmpty()) {
@@ -177,8 +178,13 @@ public class PaintingOverlay extends FrameLayout {
                     if (z2) {
                         imageReceiver.setDelegate(new ImageReceiver.ImageReceiverDelegate() { // from class: org.telegram.ui.Components.PaintingOverlay$$ExternalSyntheticLambda0
                             @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
-                            public final void didSetImage(ImageReceiver imageReceiver2, boolean z3, boolean z4, boolean z5) {
-                                PaintingOverlay.lambda$setEntities$0(imageReceiver2, z3, z4, z5);
+                            public final void didSetImage(ImageReceiver imageReceiver2, boolean z4, boolean z5, boolean z6) {
+                                PaintingOverlay.lambda$setEntities$0(imageReceiver2, z4, z5, z6);
+                            }
+
+                            @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
+                            public /* synthetic */ void didSetImageBitmap(int i3, String str, Drawable drawable) {
+                                ImageReceiver.ImageReceiverDelegate.-CC.$default$didSetImageBitmap(this, i3, str, drawable);
                             }
 
                             @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate

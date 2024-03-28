@@ -73,7 +73,7 @@ import org.telegram.ui.Components.StickersAlert;
 import org.telegram.ui.Components.URLSpanNoUnderline;
 import org.telegram.ui.Components.VerticalPositionAutoAnimator;
 import org.telegram.ui.GroupStickersActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class GroupStickersActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private AddEmojiCell addEmojiCell;
     private int addEmojiPackHintRow;
@@ -260,7 +260,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 4 implements StickersAlert.StickersAlertCustomButtonDelegate {
         final /* synthetic */ boolean val$isSelected;
         final /* synthetic */ TLRPC$TL_messages_stickerSet val$stickerSet;
@@ -609,7 +609,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class SearchAdapter extends RecyclerListView.SelectionAdapter {
         private Runnable lastCallback;
         private String lastQuery;
@@ -819,7 +819,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private final Context mContext;
 
@@ -1038,7 +1038,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class AddEmojiCell extends LinearLayout {
         private final EditTextCaption editText;
         private Runnable lastCallback;
@@ -1048,7 +1048,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
         private final TextWatcher textWatcher;
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class 1 implements TextWatcher {
             @Override // android.text.TextWatcher
             public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {

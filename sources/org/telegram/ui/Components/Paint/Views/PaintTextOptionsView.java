@@ -25,7 +25,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Paint.PaintTypeface;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.RLottieImageView;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class PaintTextOptionsView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private static final List<AlignFramePair> ALIGN_PAIRS = Arrays.asList(new AlignFramePair(0, 1, 20, 0), new AlignFramePair(0, 2, 20, 40), new AlignFramePair(1, 0, 0, 20), new AlignFramePair(1, 2, 60, 40), new AlignFramePair(2, 0, 40, 20), new AlignFramePair(2, 1, 40, 60));
     private RLottieImageView alignView;
@@ -41,7 +41,7 @@ public class PaintTextOptionsView extends FrameLayout implements NotificationCen
     private TypefaceCell typefaceCell;
     private int x;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface Delegate {
         void onColorPickerSelected();
 
@@ -308,7 +308,7 @@ public class PaintTextOptionsView extends FrameLayout implements NotificationCen
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static final class TypefaceCell extends TextView {
         private Drawable expandDrawable;
         private boolean isCurrent;
@@ -363,7 +363,7 @@ public class PaintTextOptionsView extends FrameLayout implements NotificationCen
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static final class AlignFramePair {
         private final int fromAlign;
         private final int fromFrame;

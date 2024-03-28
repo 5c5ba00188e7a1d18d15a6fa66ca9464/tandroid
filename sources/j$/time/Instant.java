@@ -1,5 +1,7 @@
 package j$.time;
 
+import j$.time.temporal.n;
+import j$.time.temporal.o;
 import j$.time.temporal.p;
 import j$.time.temporal.q;
 import j$.time.temporal.r;
@@ -175,10 +177,10 @@ public final class Instant implements Comparable<Instant>, Serializable, Seriali
 
     public Object d(u uVar) {
         int i = t.a;
-        if (uVar == j$.time.temporal.o.a) {
+        if (uVar == o.a) {
             return j$.time.temporal.b.NANOS;
         }
-        if (uVar == j$.time.temporal.n.a || uVar == j$.time.temporal.m.a || uVar == q.a || uVar == p.a || uVar == r.a || uVar == s.a) {
+        if (uVar == n.a || uVar == j$.time.temporal.m.a || uVar == q.a || uVar == p.a || uVar == r.a || uVar == s.a) {
             return null;
         }
         return uVar.a(this);

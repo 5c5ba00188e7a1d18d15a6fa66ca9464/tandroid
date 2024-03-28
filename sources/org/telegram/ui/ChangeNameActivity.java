@@ -26,7 +26,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ActionBar.ThemeDescription;
 import org.telegram.ui.Components.EditTextBoldCursor;
 import org.telegram.ui.Components.LayoutHelper;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ChangeNameActivity extends BaseFragment {
     private View doneButton;
     private EditTextBoldCursor firstNameField;
@@ -85,8 +85,9 @@ public class ChangeNameActivity extends BaseFragment {
             }
         });
         EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(context) { // from class: org.telegram.ui.ChangeNameActivity.2
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextBoldCursor
-            protected Theme.ResourcesProvider getResourcesProvider() {
+            public Theme.ResourcesProvider getResourcesProvider() {
                 return ChangeNameActivity.this.resourcesProvider;
             }
         };
@@ -126,8 +127,9 @@ public class ChangeNameActivity extends BaseFragment {
             }
         });
         EditTextBoldCursor editTextBoldCursor5 = new EditTextBoldCursor(context) { // from class: org.telegram.ui.ChangeNameActivity.3
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextBoldCursor
-            protected Theme.ResourcesProvider getResourcesProvider() {
+            public Theme.ResourcesProvider getResourcesProvider() {
                 return ChangeNameActivity.this.resourcesProvider;
             }
         };

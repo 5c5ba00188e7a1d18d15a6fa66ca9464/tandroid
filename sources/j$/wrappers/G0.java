@@ -10,7 +10,7 @@ public final /* synthetic */ class G0 implements j$.util.stream.g {
         this.a = baseStream;
     }
 
-    public static /* synthetic */ j$.util.stream.g n0(BaseStream baseStream) {
+    public static /* synthetic */ j$.util.stream.g l0(BaseStream baseStream) {
         if (baseStream == null) {
             return null;
         }
@@ -34,17 +34,17 @@ public final /* synthetic */ class G0 implements j$.util.stream.g {
 
     @Override // j$.util.stream.g
     public /* synthetic */ j$.util.stream.g onClose(Runnable runnable) {
-        return n0(this.a.onClose(runnable));
+        return l0(this.a.onClose(runnable));
     }
 
-    @Override // j$.util.stream.g, j$.util.stream.IntStream
+    @Override // j$.util.stream.g
     public /* synthetic */ j$.util.stream.g parallel() {
-        return n0(this.a.parallel());
+        return l0(this.a.parallel());
     }
 
-    @Override // j$.util.stream.g, j$.util.stream.IntStream
+    @Override // j$.util.stream.g
     public /* synthetic */ j$.util.stream.g sequential() {
-        return n0(this.a.sequential());
+        return l0(this.a.sequential());
     }
 
     @Override // j$.util.stream.g
@@ -54,6 +54,6 @@ public final /* synthetic */ class G0 implements j$.util.stream.g {
 
     @Override // j$.util.stream.g
     public /* synthetic */ j$.util.stream.g unordered() {
-        return n0(this.a.unordered());
+        return l0(this.a.unordered());
     }
 }

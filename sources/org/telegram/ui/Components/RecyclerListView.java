@@ -54,7 +54,7 @@ import org.telegram.ui.Cells.ChatActionCell;
 import org.telegram.ui.Cells.ChatMessageCell;
 import org.telegram.ui.Components.GestureDetectorFixDoubleTap;
 import org.telegram.ui.Components.RecyclerListView;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class RecyclerListView extends RecyclerView {
     private static int[] attributes;
     private static boolean gotAttributes;
@@ -144,25 +144,25 @@ public class RecyclerListView extends RecyclerView {
     public boolean useLayoutPositionOnClick;
     boolean useRelativePositions;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface IntReturnCallback {
         int run();
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface OnInterceptTouchListener {
         boolean onInterceptTouchEvent(MotionEvent motionEvent);
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface OnItemClickListener {
         void onItemClick(View view, int i);
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface OnItemClickListenerExtended {
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public final /* synthetic */ class -CC {
             public static boolean $default$hasDoubleTap(OnItemClickListenerExtended onItemClickListenerExtended, View view, int i) {
                 return false;
@@ -179,15 +179,15 @@ public class RecyclerListView extends RecyclerView {
         void onItemClick(View view, int i, float f, float f2);
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface OnItemLongClickListener {
         boolean onItemClick(View view, int i);
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface OnItemLongClickListenerExtended {
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public final /* synthetic */ class -CC {
             public static void $default$onLongClickRelease(OnItemLongClickListenerExtended onItemLongClickListenerExtended) {
             }
@@ -203,7 +203,7 @@ public class RecyclerListView extends RecyclerView {
         void onMove(float f, float f2);
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static abstract class SelectionAdapter extends RecyclerView.Adapter {
         public int getSelectionBottomPadding(View view) {
             return 0;
@@ -212,7 +212,7 @@ public class RecyclerListView extends RecyclerView {
         public abstract boolean isEnabled(RecyclerView.ViewHolder viewHolder);
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface onMultiSelectionChanged {
         boolean canSelect(int i);
 
@@ -271,7 +271,7 @@ public class RecyclerListView extends RecyclerView {
         return this.fastScroll;
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static abstract class FastScrollAdapter extends SelectionAdapter {
         public boolean fastScrollIsVisible(RecyclerListView recyclerListView) {
             return true;
@@ -299,7 +299,7 @@ public class RecyclerListView extends RecyclerView {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static abstract class SectionsAdapter extends FastScrollAdapter {
         private int count;
         private ArrayList<Integer> hashes = new ArrayList<>();
@@ -492,14 +492,14 @@ public class RecyclerListView extends RecyclerView {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class Holder extends RecyclerView.ViewHolder {
         public Holder(View view) {
             super(view);
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class FastScroll extends View {
         private int activeColor;
         private Path arrowPath;
@@ -1087,7 +1087,7 @@ public class RecyclerListView extends RecyclerView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class RecyclerListViewItemClickListener implements RecyclerView.OnItemTouchListener {
         @Override // androidx.recyclerview.widget.RecyclerView.OnItemTouchListener
         public void onTouchEvent(RecyclerView recyclerView, MotionEvent motionEvent) {
@@ -2844,7 +2844,7 @@ public class RecyclerListView extends RecyclerView {
         this.emptyViewAnimationType = i;
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class FoucsableOnTouchListener implements View.OnTouchListener {
         private boolean onFocus;
         private float x;

@@ -10,7 +10,7 @@ import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
 @SuppressLint({"ViewConstructor"})
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class BoostTypeSingleCell extends BoostTypeCell {
     @Override // org.telegram.ui.Components.Premium.boosts.cells.BoostTypeCell, org.telegram.ui.Components.Premium.boosts.cells.BaseCell
     protected boolean needCheck() {

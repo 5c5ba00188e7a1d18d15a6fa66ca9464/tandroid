@@ -44,6 +44,14 @@ public abstract class TLRPC$PrivacyKey extends TLObject {
                     }
                 };
                 break;
+            case 536913176:
+                tLRPC$PrivacyKey = new TLRPC$PrivacyKey() { // from class: org.telegram.tgnet.TLRPC$TL_privacyKeyBirthday
+                    @Override // org.telegram.tgnet.TLObject
+                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
+                        abstractSerializedData2.writeInt32(536913176);
+                    }
+                };
+                break;
             case 961092808:
                 tLRPC$PrivacyKey = new TLRPC$PrivacyKey() { // from class: org.telegram.tgnet.TLRPC$TL_privacyKeyPhoneP2P
                     @Override // org.telegram.tgnet.TLObject

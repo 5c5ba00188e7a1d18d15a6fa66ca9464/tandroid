@@ -126,10 +126,11 @@ import org.telegram.ui.DialogsActivity;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.MessageStatisticActivity;
 import org.telegram.ui.PremiumPreviewFragment;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class ShareAlert extends BottomSheet implements NotificationCenter.NotificationCenterDelegate {
     private AnimatorSet animatorSet;
     private FrameLayout bulletinContainer;
+    public FrameLayout bulletinContainer2;
     private float captionEditTextTopOffset;
     private float chatActivityEnterViewAnimateFromTop;
     private EditTextEmoji commentTextView;
@@ -199,7 +200,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
     private boolean updateSearchAdapter;
     private FrameLayout writeButtonContainer;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class DialogSearchResult {
         public int date;
         public TLRPC$Dialog dialog = new TLRPC$TL_dialog();
@@ -207,10 +208,10 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         public TLObject object;
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface ShareAlertDelegate {
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public final /* synthetic */ class -CC {
             public static void $default$didShare(ShareAlertDelegate shareAlertDelegate) {
             }
@@ -240,7 +241,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         this.storyItem = tL_stories$StoryItem;
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class SwitchView extends FrameLayout {
         private AnimatorSet animator;
         private int currentTab;
@@ -382,7 +383,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class SearchField extends FrameLayout {
         private ImageView clearSearchImageView;
         private CloseProgressDrawable2 progressDrawable;
@@ -994,26 +995,44 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
 
             @Override // android.view.View
             protected void onDraw(Canvas canvas) {
+                float f;
                 canvas.save();
-                float f = 0.0f;
                 canvas.translate(0.0f, ShareAlert.this.currentPanTranslationY);
                 int dp = (ShareAlert.this.scrollOffsetY - ((BottomSheet) ShareAlert.this).backgroundPaddingTop) + AndroidUtilities.dp(6.0f) + this.topOffset;
                 ShareAlert shareAlert = ShareAlert.this;
                 int i4 = shareAlert.containerViewTop = ((shareAlert.scrollOffsetY - ((BottomSheet) ShareAlert.this).backgroundPaddingTop) - AndroidUtilities.dp(13.0f)) + this.topOffset;
                 int measuredHeight = getMeasuredHeight() + AndroidUtilities.dp(60.0f) + ((BottomSheet) ShareAlert.this).backgroundPaddingTop;
-                if (!((BottomSheet) ShareAlert.this).isFullscreen && Build.VERSION.SDK_INT >= 21) {
+                if (((BottomSheet) ShareAlert.this).isFullscreen || Build.VERSION.SDK_INT < 21) {
+                    f = 0.0f;
+                } else {
                     dp += AndroidUtilities.statusBarHeight;
                     f = this.pinnedToTop.set(this.fullHeight && ((BottomSheet) ShareAlert.this).backgroundPaddingTop + i4 < AndroidUtilities.statusBarHeight);
                     i4 = AndroidUtilities.lerp(i4 + AndroidUtilities.statusBarHeight, -((BottomSheet) ShareAlert.this).backgroundPaddingTop, f);
                 }
                 ShareAlert.this.shadowDrawable.setBounds(0, i4, getMeasuredWidth(), measuredHeight);
                 ShareAlert.this.shadowDrawable.draw(canvas);
+                FrameLayout frameLayout = ShareAlert.this.bulletinContainer2;
+                if (frameLayout != null) {
+                    if (i4 <= AndroidUtilities.statusBarHeight && frameLayout.getChildCount() > 0) {
+                        ShareAlert.this.bulletinContainer2.setTranslationY(0.0f);
+                        Bulletin visibleBulletin = Bulletin.getVisibleBulletin();
+                        if (visibleBulletin != null) {
+                            if (visibleBulletin.getLayout() != null) {
+                                visibleBulletin.getLayout().setTop(true);
+                            }
+                            visibleBulletin.hide();
+                        }
+                    } else {
+                        ShareAlert shareAlert2 = ShareAlert.this;
+                        shareAlert2.bulletinContainer2.setTranslationY(Math.max(0, ((i4 + ((BottomSheet) shareAlert2).backgroundPaddingTop) - ShareAlert.this.bulletinContainer2.getTop()) - ShareAlert.this.bulletinContainer2.getMeasuredHeight()));
+                    }
+                }
                 if (f < 1.0f) {
                     int dp2 = AndroidUtilities.dp(36.0f);
                     this.rect1.set((getMeasuredWidth() - dp2) / 2, dp, (getMeasuredWidth() + dp2) / 2, dp + AndroidUtilities.dp(4.0f));
                     Paint paint = Theme.dialogs_onlineCirclePaint;
-                    ShareAlert shareAlert2 = ShareAlert.this;
-                    paint.setColor(shareAlert2.getThemedColor(shareAlert2.darkTheme ? Theme.key_voipgroup_scrollUp : Theme.key_sheet_scrollUp));
+                    ShareAlert shareAlert3 = ShareAlert.this;
+                    paint.setColor(shareAlert3.getThemedColor(shareAlert3.darkTheme ? Theme.key_voipgroup_scrollUp : Theme.key_sheet_scrollUp));
                     Paint paint2 = Theme.dialogs_onlineCirclePaint;
                     paint2.setAlpha((int) (paint2.getAlpha() * (1.0f - f)));
                     canvas.drawRoundRect(this.rect1, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), Theme.dialogs_onlineCirclePaint);
@@ -1442,6 +1461,9 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         FrameLayout frameLayout2 = new FrameLayout(context);
         this.bulletinContainer = frameLayout2;
         this.containerView.addView(frameLayout2, LayoutHelper.createFrame(-1, 100.0f, 87, 0.0f, 0.0f, 0.0f, this.pickerBottomLayout != null ? 48.0f : 0.0f));
+        FrameLayout frameLayout3 = new FrameLayout(context);
+        this.bulletinContainer2 = frameLayout3;
+        this.containerView.addView(frameLayout3, LayoutHelper.createFrame(-1, -2.0f, 55, 0.0f, 0.0f, 0.0f, 0.0f));
         16 r2 = new 16(context);
         this.frameLayout2 = r2;
         r2.setWillNotDraw(false);
@@ -1472,7 +1494,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         this.frameLayout2.setClipChildren(false);
         this.frameLayout2.setClipToPadding(false);
         this.commentTextView.setClipChildren(false);
-        FrameLayout frameLayout3 = new FrameLayout(context) { // from class: org.telegram.ui.Components.ShareAlert.18
+        FrameLayout frameLayout4 = new FrameLayout(context) { // from class: org.telegram.ui.Components.ShareAlert.18
             {
                 ShareAlert.this = this;
             }
@@ -1486,8 +1508,8 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                 accessibilityNodeInfo.setClickable(true);
             }
         };
-        this.writeButtonContainer = frameLayout3;
-        frameLayout3.setFocusable(true);
+        this.writeButtonContainer = frameLayout4;
+        frameLayout4.setFocusable(true);
         this.writeButtonContainer.setFocusableInTouchMode(true);
         this.writeButtonContainer.setVisibility(4);
         this.writeButtonContainer.setScaleX(0.2f);
@@ -1709,7 +1731,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         this.parentFragment.presentFragment(new MessageStatisticActivity(messageObject));
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class 16 extends FrameLayout {
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         16(Context context) {
@@ -1771,7 +1793,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class 17 extends EditTextEmoji {
         private ValueAnimator messageEditTextAnimator;
         private int messageEditTextPredrawHeigth;
@@ -2030,7 +2052,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class 22 implements NotificationCenter.NotificationCenterDelegate {
         final /* synthetic */ View val$cell;
         final /* synthetic */ TLRPC$Dialog val$dialog;
@@ -2982,7 +3004,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.dialogsNeedReload);
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class ShareDialogsAdapter extends RecyclerListView.SelectionAdapter {
         private Context context;
         private ArrayList<TLRPC$Dialog> dialogs = new ArrayList<>();
@@ -2993,7 +3015,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
             return i == 0 ? 1 : 0;
         }
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public class MyStoryDialog extends TLRPC$Dialog {
             private MyStoryDialog(ShareDialogsAdapter shareDialogsAdapter) {
                 this.id = Long.MAX_VALUE;
@@ -3127,7 +3149,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class ShareTopicsAdapter extends RecyclerListView.SelectionAdapter {
         private Context context;
         private List<TLRPC$TL_forumTopic> topics;
@@ -3188,7 +3210,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class ShareSearchAdapter extends RecyclerListView.SelectionAdapter {
         DialogsSearchAdapter.CategoryAdapterRecycler categoryAdapter;
         private Context context;

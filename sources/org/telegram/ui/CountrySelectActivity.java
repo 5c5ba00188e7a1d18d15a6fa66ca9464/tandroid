@@ -53,7 +53,7 @@ import org.telegram.ui.Components.Premium.boosts.BoostRepository$$ExternalSynthe
 import org.telegram.ui.Components.Premium.boosts.BoostRepository$$ExternalSyntheticLambda33;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.CountrySelectActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class CountrySelectActivity extends BaseFragment {
     private CountrySelectActivityDelegate delegate;
     private boolean disableAnonymousNumbers;
@@ -66,7 +66,7 @@ public class CountrySelectActivity extends BaseFragment {
     private boolean searchWas;
     private boolean searching;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface CountrySelectActivityDelegate {
         void didSelectCountry(Country country);
     }
@@ -233,7 +233,7 @@ public class CountrySelectActivity extends BaseFragment {
         this.delegate = countrySelectActivityDelegate;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class Country {
         public String code;
         public String defaultName;
@@ -256,7 +256,7 @@ public class CountrySelectActivity extends BaseFragment {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class CountryAdapter extends RecyclerListView.SectionsAdapter {
         private Context mContext;
         private HashMap<String, ArrayList<Country>> countries = new HashMap<>();
@@ -419,7 +419,7 @@ public class CountrySelectActivity extends BaseFragment {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class CountrySearchAdapter extends RecyclerListView.SelectionAdapter {
         private List<Country> countryList = new ArrayList();
         private Map<Country, List<String>> countrySearchMap = new HashMap();
@@ -582,7 +582,7 @@ public class CountrySelectActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 4 implements View.OnAttachStateChangeListener {
         private NotificationCenter.NotificationCenterDelegate listener;
         final /* synthetic */ TextSettingsCell val$view;

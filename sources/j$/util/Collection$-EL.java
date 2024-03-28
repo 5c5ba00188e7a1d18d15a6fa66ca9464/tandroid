@@ -2,6 +2,7 @@ package j$.util;
 
 import j$.util.function.Consumer;
 import j$.util.function.Predicate;
+import j$.util.stream.Stream;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -45,5 +46,9 @@ public final /* synthetic */ class Collection$-EL {
 
     public static /* synthetic */ boolean removeIf(Collection collection, Predicate predicate) {
         return collection instanceof b ? ((b) collection).k(predicate) : a.h(collection, predicate);
+    }
+
+    public static /* synthetic */ Stream stream(Collection collection) {
+        return collection instanceof b ? ((b) collection).stream() : a.i(collection);
     }
 }

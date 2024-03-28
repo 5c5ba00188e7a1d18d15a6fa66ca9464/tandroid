@@ -82,7 +82,7 @@ import org.telegram.ui.Components.UndoView;
 import org.telegram.ui.Components.voip.CellFlickerDrawable;
 import org.telegram.ui.SessionBottomSheet;
 import org.telegram.ui.SessionsActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class SessionsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private TLRPC$TL_authorization currentSession;
     private int currentSessionRow;
@@ -119,7 +119,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
     private ArrayList<TLObject> passwordSessions = new ArrayList<>();
     private int repeatLoad = 0;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface Delegate {
         void sessionsLoaded();
     }
@@ -586,7 +586,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 4 extends UndoView {
         4(Context context) {
             super(context);
@@ -633,7 +633,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 5 implements SessionBottomSheet.Callback {
         5() {
         }
@@ -969,7 +969,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
@@ -1214,7 +1214,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ScanQRCodeView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
         TextView buttonTextView;
         CellFlickerDrawable flickerDrawable;
@@ -1371,7 +1371,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 6 implements CameraScanActivity.CameraScanActivityDelegate {
         private TLObject response = null;
         private TLRPC$TL_error error = null;

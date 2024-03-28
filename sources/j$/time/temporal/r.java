@@ -1,4 +1,6 @@
 package j$.time.temporal;
+
+import j$.time.LocalDate;
 /* loaded from: classes2.dex */
 public final /* synthetic */ class r implements u {
     public static final /* synthetic */ r a = new r();
@@ -11,7 +13,7 @@ public final /* synthetic */ class r implements u {
         int i = t.a;
         a aVar = a.EPOCH_DAY;
         if (kVar.e(aVar)) {
-            return j$.time.f.o(kVar.c(aVar));
+            return LocalDate.p(kVar.c(aVar));
         }
         return null;
     }

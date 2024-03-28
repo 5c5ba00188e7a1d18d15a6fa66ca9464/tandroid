@@ -35,12 +35,12 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
+import androidx.biometric.BiometricManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
@@ -48,7 +48,6 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
-import org.telegram.messenger.support.fingerprint.FingerprintManagerCompat;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenu;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
@@ -77,7 +76,7 @@ import org.telegram.ui.Components.TextViewSwitcher;
 import org.telegram.ui.Components.TransformableLoginButtonView;
 import org.telegram.ui.Components.VerticalPositionAutoAnimator;
 import org.telegram.ui.PasscodeActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class PasscodeActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private int autoLockDetailRow;
     private int autoLockRow;
@@ -164,15 +163,15 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
     /* JADX WARN: Removed duplicated region for block: B:64:0x03eb A[LOOP:0: B:63:0x03e9->B:64:0x03eb, LOOP_END] */
     /* JADX WARN: Removed duplicated region for block: B:67:0x0442  */
     /* JADX WARN: Removed duplicated region for block: B:70:0x0456  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x04c8  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x04cd  */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x04d3  */
-    /* JADX WARN: Removed duplicated region for block: B:77:0x04d6  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x0524  */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x0527  */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x052b  */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x052e  */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x054d  */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x04c7  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x04cc  */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x04d2  */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x04d5  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x0523  */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x0526  */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x052a  */
+    /* JADX WARN: Removed duplicated region for block: B:84:0x052d  */
+    /* JADX WARN: Removed duplicated region for block: B:87:0x054c  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -910,7 +909,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 4 extends ActionBar.ActionBarMenuOnItemClick {
         final /* synthetic */ ActionBarMenuSubItem val$switchItem;
 
@@ -999,7 +998,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 8 extends CodeFieldContainer {
         8(Context context) {
             super(context);
@@ -1279,7 +1278,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
         this.changePasscodeRow = i2;
         try {
             if (Build.VERSION.SDK_INT >= 23) {
-                if (FingerprintManagerCompat.from(ApplicationLoader.applicationContext).isHardwareDetected() && AndroidUtilities.isKeyguardSecure()) {
+                if (BiometricManager.from(getContext()).canAuthenticate(15) == 0 && AndroidUtilities.isKeyguardSecure()) {
                     int i3 = this.rowCount;
                     this.rowCount = i3 + 1;
                     this.fingerprintRow = i3;
@@ -1608,7 +1607,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
@@ -1798,7 +1797,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static final class RLottieImageHolderView extends FrameLayout {
         private RLottieImageView imageView;
 

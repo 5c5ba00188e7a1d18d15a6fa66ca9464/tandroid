@@ -63,7 +63,7 @@ import org.telegram.ui.ActionBar.FloatingToolbar;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
 @TargetApi(23)
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public final class FloatingToolbar {
     private static final MenuItem.OnMenuItemClickListener NO_OP_MENUITEM_CLICK_LISTENER = new MenuItem.OnMenuItemClickListener() { // from class: org.telegram.ui.ActionBar.FloatingToolbar$$ExternalSyntheticLambda0
         @Override // android.view.MenuItem.OnMenuItemClickListener
@@ -236,7 +236,7 @@ public final class FloatingToolbar {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public final class FloatingToolbarPopup {
         private final Drawable mArrow;
         private final AnimationSet mCloseOverflowAnimation;
@@ -419,7 +419,7 @@ public final class FloatingToolbar {
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes.dex */
+        /* loaded from: classes4.dex */
         public class 4 extends AnimatorListenerAdapter {
             4(FloatingToolbar floatingToolbar) {
             }
@@ -442,7 +442,7 @@ public final class FloatingToolbar {
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes.dex */
+        /* loaded from: classes4.dex */
         public class 5 extends AnimatorListenerAdapter {
             5(FloatingToolbar floatingToolbar) {
             }
@@ -1165,7 +1165,7 @@ public final class FloatingToolbar {
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes.dex */
+        /* loaded from: classes4.dex */
         public class 14 implements Animation.AnimationListener {
             @Override // android.view.animation.Animation.AnimationListener
             public void onAnimationRepeat(Animation animation) {
@@ -1234,7 +1234,7 @@ public final class FloatingToolbar {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes.dex */
+        /* loaded from: classes4.dex */
         public final class OverflowPanel extends ListView {
             private final FloatingToolbarPopup mPopup;
 
@@ -1270,7 +1270,7 @@ public final class FloatingToolbar {
             }
         }
 
-        /* loaded from: classes.dex */
+        /* loaded from: classes4.dex */
         private final class LogAccelerateInterpolator implements Interpolator {
             private final float LOGS_SCALE;
 
@@ -1289,7 +1289,7 @@ public final class FloatingToolbar {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes.dex */
+        /* loaded from: classes4.dex */
         public final class OverflowPanelViewHelper {
             private final Context mContext;
             private final int mIconTextSpacing;

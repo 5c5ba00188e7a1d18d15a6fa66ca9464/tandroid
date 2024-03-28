@@ -51,7 +51,7 @@ import org.telegram.ui.ActionBar.FloatingToolbar;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedTextView;
 import org.telegram.ui.Components.QuoteSpan;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class EditTextBoldCursor extends EditTextEffects {
     private static Class editorClass;
     private static Method getVerticalOffsetMethod;
@@ -138,7 +138,8 @@ public class EditTextBoldCursor extends EditTextEffects {
         return 0;
     }
 
-    protected Theme.ResourcesProvider getResourcesProvider() {
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Theme.ResourcesProvider getResourcesProvider() {
         return null;
     }
 
@@ -160,7 +161,7 @@ public class EditTextBoldCursor extends EditTextEffects {
 
     /* JADX INFO: Access modifiers changed from: private */
     @TargetApi(23)
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class ActionModeCallback2Wrapper extends ActionMode.Callback2 {
         private final ActionMode.Callback mWrapped;
 

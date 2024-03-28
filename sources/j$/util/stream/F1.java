@@ -1,0 +1,62 @@
+package j$.util.stream;
+
+import j$.util.Collection$-EL;
+import j$.util.function.Consumer;
+import java.util.Collection;
+/* loaded from: classes2.dex */
+final class F1 implements B1 {
+    private final Collection a;
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public F1(Collection collection) {
+        this.a = collection;
+    }
+
+    @Override // j$.util.stream.B1
+    public B1 b(int i) {
+        throw new IndexOutOfBoundsException();
+    }
+
+    @Override // j$.util.stream.B1
+    public long count() {
+        return this.a.size();
+    }
+
+    @Override // j$.util.stream.B1
+    public void forEach(Consumer consumer) {
+        Collection$-EL.a(this.a, consumer);
+    }
+
+    @Override // j$.util.stream.B1
+    public void i(Object[] objArr, int i) {
+        for (Object obj : this.a) {
+            objArr[i] = obj;
+            i++;
+        }
+    }
+
+    @Override // j$.util.stream.B1
+    public /* synthetic */ int p() {
+        return 0;
+    }
+
+    @Override // j$.util.stream.B1
+    public Object[] q(j$.util.function.m mVar) {
+        Collection collection = this.a;
+        return collection.toArray((Object[]) mVar.apply(collection.size()));
+    }
+
+    @Override // j$.util.stream.B1
+    public /* synthetic */ B1 r(long j, long j2, j$.util.function.m mVar) {
+        return p1.q(this, j, j2, mVar);
+    }
+
+    @Override // j$.util.stream.B1
+    public j$.util.t spliterator() {
+        return Collection$-EL.stream(this.a).spliterator();
+    }
+
+    public String toString() {
+        return String.format("CollectionNode[%d][%s]", Integer.valueOf(this.a.size()), this.a);
+    }
+}

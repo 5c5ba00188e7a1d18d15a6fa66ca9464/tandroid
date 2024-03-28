@@ -42,7 +42,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.ScrollSlidingTextTabStrip;
 import org.telegram.ui.ContactsActivity;
 import org.telegram.ui.DialogsActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class DialogOrContactPickerActivity extends BaseFragment {
     private static final Interpolator interpolator = new Interpolator() { // from class: org.telegram.ui.DialogOrContactPickerActivity$$ExternalSyntheticLambda1
         @Override // android.animation.TimeInterpolator
@@ -72,7 +72,7 @@ public class DialogOrContactPickerActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class ViewPage extends FrameLayout {
         private ActionBar actionBar;
         private FrameLayout fragmentView;

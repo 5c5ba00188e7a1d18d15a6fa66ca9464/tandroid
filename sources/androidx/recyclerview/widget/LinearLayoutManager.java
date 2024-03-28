@@ -209,8 +209,9 @@ public class LinearLayoutManager extends RecyclerView.LayoutManager implements I
         return super.findViewByPosition(i);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Deprecated
-    protected int getExtraLayoutSpace(RecyclerView.State state) {
+    public int getExtraLayoutSpace(RecyclerView.State state) {
         if (state.hasTargetScrollPosition()) {
             return this.mOrientationHelper.getTotalSpace();
         }

@@ -64,4 +64,21 @@ public final class SavedStateHandlesProvider implements SavedStateRegistry.Saved
         this.restored = true;
         getViewModel();
     }
+
+    public final Bundle consumeRestoredStateForKey(String key) {
+        Intrinsics.checkNotNullParameter(key, "key");
+        performRestore();
+        Bundle bundle = this.restoredState;
+        Bundle bundle2 = bundle != null ? bundle.getBundle(key) : null;
+        Bundle bundle3 = this.restoredState;
+        if (bundle3 != null) {
+            bundle3.remove(key);
+        }
+        Bundle bundle4 = this.restoredState;
+        boolean z = true;
+        if ((bundle4 == null || !bundle4.isEmpty()) ? false : false) {
+            this.restoredState = null;
+        }
+        return bundle2;
+    }
 }

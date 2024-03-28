@@ -45,13 +45,13 @@ import org.telegram.ui.Components.Bulletin;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PremiumPreviewFragment;
 import org.telegram.ui.Stories.recorder.HintView2;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public final class BulletinFactory {
     private final FrameLayout containerLayout;
     private final BaseFragment fragment;
     private final Theme.ResourcesProvider resourcesProvider;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class UndoObject {
         public Runnable onAction;
         public Runnable onUndo;
@@ -102,7 +102,7 @@ public final class BulletinFactory {
     	at jadx.core.dex.visitors.EnumVisitor.visit(EnumVisitor.java:100)
      */
     /* JADX WARN: Failed to restore enum class, 'enum' modifier and super class removed */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static final class FileType {
         private static final /* synthetic */ FileType[] $VALUES;
         public static final FileType AUDIO;
@@ -181,7 +181,7 @@ public final class BulletinFactory {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public enum Icon {
             SAVED_TO_DOWNLOADS(R.raw.ic_download, 2, "Box", "Arrow"),
             SAVED_TO_GALLERY(R.raw.ic_save_to_gallery, 0, "Box", "Arrow", "Mask", "Arrow 2", "Splash"),
@@ -241,6 +241,7 @@ public final class BulletinFactory {
         lottieLayout.textView.setMaxLines(4);
         TextView textView = lottieLayout.textView;
         textView.setMaxWidth(HintView2.cutInFancyHalf(textView.getText(), lottieLayout.textView.getPaint()));
+        lottieLayout.textView.setLineSpacing(AndroidUtilities.dp(1.33f), 1.0f);
         ((ViewGroup.MarginLayoutParams) lottieLayout.textView.getLayoutParams()).rightMargin = AndroidUtilities.dp(12.0f);
         lottieLayout.setWrapWidth();
         return create(lottieLayout, 5000);
@@ -355,12 +356,16 @@ public final class BulletinFactory {
     }
 
     public Bulletin createUndoBulletin(CharSequence charSequence, Runnable runnable, Runnable runnable2) {
+        return createUndoBulletin(charSequence, false, runnable, runnable2);
+    }
+
+    public Bulletin createUndoBulletin(CharSequence charSequence, boolean z, Runnable runnable, Runnable runnable2) {
         Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(getContext(), this.resourcesProvider);
         lottieLayout.textView.setText(charSequence);
         lottieLayout.textView.setSingleLine(false);
         lottieLayout.textView.setMaxLines(2);
         lottieLayout.setTimer();
-        lottieLayout.setButton(new Bulletin.UndoButton(getContext(), true, this.resourcesProvider).setText(LocaleController.getString("Undo", R.string.Undo)).setUndoAction(runnable).setDelayedAction(runnable2));
+        lottieLayout.setButton(new Bulletin.UndoButton(getContext(), true, z, this.resourcesProvider).setText(LocaleController.getString("Undo", R.string.Undo)).setUndoAction(runnable).setDelayedAction(runnable2));
         return create(lottieLayout, 5000);
     }
 
@@ -1012,6 +1017,15 @@ public final class BulletinFactory {
         if (i5 > 0) {
         }
         return Bulletin.make(frameLayout, lottieLayout, 1500);
+    }
+
+    public Bulletin createAdReportedBulletin(CharSequence charSequence) {
+        Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(this.fragment.getParentActivity(), this.fragment.getResourceProvider());
+        lottieLayout.setAnimation(R.raw.ic_admin, "Shield");
+        lottieLayout.textView.setSingleLine(false);
+        lottieLayout.textView.setMaxLines(3);
+        lottieLayout.textView.setText(charSequence);
+        return Bulletin.make(this.fragment, lottieLayout, 2750);
     }
 
     public boolean showForwardedBulletinWithTag(long j, int i) {

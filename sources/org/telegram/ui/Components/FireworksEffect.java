@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class FireworksEffect {
     private long lastAnimationTime;
     private Paint particlePaint;
@@ -16,7 +16,7 @@ public class FireworksEffect {
     private ArrayList<Particle> freeParticles = new ArrayList<>();
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class Particle {
         float alpha;
         int color;

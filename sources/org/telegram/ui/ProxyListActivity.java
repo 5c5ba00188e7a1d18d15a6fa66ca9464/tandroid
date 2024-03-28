@@ -58,7 +58,7 @@ import org.telegram.ui.Components.NumberTextView;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.SlideChooseView;
 import org.telegram.ui.ProxyListActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ProxyListActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private int callsDetailRow;
     private int callsRow;
@@ -89,7 +89,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
         return true;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class TextDetailProxyCell extends FrameLayout {
         private CheckBox2 checkBox;
         private Drawable checkDrawable;
@@ -587,7 +587,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 3 extends ActionBar.ActionBarMenuOnItemClick {
         final /* synthetic */ Context val$context;
 
@@ -937,7 +937,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 

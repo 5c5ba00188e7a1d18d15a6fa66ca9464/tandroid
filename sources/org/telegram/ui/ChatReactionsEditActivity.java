@@ -39,7 +39,7 @@ import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.SimpleThemeDescription;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ChatReactionsEditActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private RadioCell allReactions;
     private ArrayList<TLRPC$TL_availableReaction> availableReactions;

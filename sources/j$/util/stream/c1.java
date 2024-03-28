@@ -1,25 +1,24 @@
 package j$.util.stream;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public abstract class c1 extends d1 {
+abstract class c1 extends e1 {
     /* JADX INFO: Access modifiers changed from: package-private */
-    public c1(c cVar, e4 e4Var, int i) {
+    public c1(c cVar, f4 f4Var, int i) {
         super(cVar, i);
     }
 
     @Override // j$.util.stream.c
-    final boolean G0() {
-        return false;
+    final boolean E0() {
+        return true;
     }
 
-    @Override // j$.util.stream.c, j$.util.stream.g, j$.util.stream.IntStream
-    public /* bridge */ /* synthetic */ e1 parallel() {
+    @Override // j$.util.stream.c, j$.util.stream.g
+    public /* bridge */ /* synthetic */ f1 parallel() {
         parallel();
         return this;
     }
 
-    @Override // j$.util.stream.c, j$.util.stream.g, j$.util.stream.IntStream
-    public /* bridge */ /* synthetic */ e1 sequential() {
+    @Override // j$.util.stream.c, j$.util.stream.g
+    public /* bridge */ /* synthetic */ f1 sequential() {
         sequential();
         return this;
     }

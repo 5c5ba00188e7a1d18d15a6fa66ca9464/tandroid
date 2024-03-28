@@ -12,7 +12,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class ReportAlert extends BottomSheet {
     private BottomSheetCell clearButton;
     private EditTextBoldCursor editText;
@@ -21,7 +21,7 @@ public class ReportAlert extends BottomSheet {
         throw null;
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class BottomSheetCell extends FrameLayout {
         private View background;
         private TextView textView;

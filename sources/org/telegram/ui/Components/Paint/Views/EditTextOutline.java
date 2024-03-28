@@ -17,7 +17,7 @@ import android.text.TextPaint;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.Components.CornerPath;
 import org.telegram.ui.Components.EditTextBoldCursor;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class EditTextOutline extends EditTextBoldCursor {
     public RectF framePadding;
     private boolean isFrameDirty;

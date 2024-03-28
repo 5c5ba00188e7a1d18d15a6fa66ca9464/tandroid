@@ -15,14 +15,14 @@ import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
 @SuppressLint({"ViewConstructor"})
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class ChatCell extends BaseCell {
     private TLRPC$Chat chat;
     private ChatDeleteListener chatDeleteListener;
     private final ImageView deleteImageView;
     private boolean removable;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface ChatDeleteListener {
         void onChatDeleted(TLRPC$Chat tLRPC$Chat);
     }

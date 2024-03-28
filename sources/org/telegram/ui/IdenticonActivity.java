@@ -40,7 +40,7 @@ import org.telegram.ui.ActionBar.ThemeDescription;
 import org.telegram.ui.Components.IdenticonDrawable;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.URLSpanReplacement;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class IdenticonActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private AnimatorSet animatorSet;
     private int chat_id;
@@ -58,7 +58,7 @@ public class IdenticonActivity extends BaseFragment implements NotificationCente
         return true;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private static class LinkMovementMethodMy extends LinkMovementMethod {
         private LinkMovementMethodMy() {
         }

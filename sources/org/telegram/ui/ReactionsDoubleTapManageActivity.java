@@ -37,7 +37,7 @@ import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.SimpleThemeDescription;
 import org.telegram.ui.SelectAnimatedEmojiDialog;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ReactionsDoubleTapManageActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private LinearLayout contentView;
     int infoRow;
@@ -178,7 +178,7 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class SetDefaultReactionCell extends FrameLayout {
         private AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable imageDrawable;
         private TextView textView;

@@ -13,7 +13,7 @@ import org.telegram.ui.Cells.AppIconsSelectorCell;
 import org.telegram.ui.Components.Bulletin;
 import org.telegram.ui.LauncherIconController;
 @SuppressLint({"ViewConstructor"})
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class AppIconBulletinLayout extends Bulletin.ButtonLayout {
     public final AppIconsSelectorCell.AdaptiveIconImageView imageView;
     public final TextView textView;

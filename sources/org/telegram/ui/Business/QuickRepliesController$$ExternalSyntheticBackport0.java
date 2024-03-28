@@ -2,7 +2,7 @@ package org.telegram.ui.Business;
 
 import org.telegram.messenger.MessagesController$$ExternalSyntheticBackport1;
 import org.telegram.messenger.MessagesController$$ExternalSyntheticBackport2;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public final /* synthetic */ class QuickRepliesController$$ExternalSyntheticBackport0 {
     public static /* synthetic */ long m(CharSequence charSequence, int i, int i2, int i3) {
         int i4 = i2 - i;

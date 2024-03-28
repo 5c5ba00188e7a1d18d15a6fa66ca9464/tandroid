@@ -19,7 +19,7 @@ import androidx.core.graphics.ColorUtils;
 import androidx.viewpager.widget.ViewPager;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class PagerSlidingTabStrip extends HorizontalScrollView {
     private int currentPosition;
     private float currentPositionOffset;
@@ -43,7 +43,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
     private int underlineColor;
     private int underlineHeight;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface IconTabProvider {
         boolean canScrollToTab(int i);
 
@@ -298,7 +298,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class PageListener implements ViewPager.OnPageChangeListener {
         private PageListener() {
         }
@@ -447,7 +447,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class TextTab extends TextView {
         final int position;
 

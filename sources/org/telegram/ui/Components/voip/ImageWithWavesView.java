@@ -15,7 +15,7 @@ import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.voip.ImageWithWavesView;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class ImageWithWavesView extends FrameLayout {
     private final boolean allowAnimations;
     private AnimatorSet animatorSet;
@@ -121,7 +121,7 @@ public class ImageWithWavesView extends FrameLayout {
         super.onDraw(canvas);
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class AvatarWavesDrawable {
         float amplitude;
         float animateAmplitudeDiff;

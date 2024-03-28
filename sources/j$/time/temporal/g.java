@@ -1,6 +1,7 @@
 package j$.time.temporal;
 
 import j$.time.DayOfWeek;
+import j$.time.LocalDate;
 /* loaded from: classes2.dex */
 enum g implements l {
     DAY_OF_QUARTER { // from class: j$.time.temporal.c
@@ -77,7 +78,7 @@ enum g implements l {
         @Override // j$.time.temporal.l
         public long c(k kVar) {
             if (d(kVar)) {
-                return g.j(j$.time.f.h(kVar));
+                return g.j(LocalDate.h(kVar));
             }
             throw new w("Unsupported field: WeekOfWeekBasedYear");
         }
@@ -91,7 +92,7 @@ enum g implements l {
         public x e(k kVar) {
             x m;
             if (d(kVar)) {
-                m = g.m(j$.time.f.h(kVar));
+                m = g.m(LocalDate.h(kVar));
                 return m;
             }
             throw new w("Unsupported field: WeekOfWeekBasedYear");
@@ -112,7 +113,7 @@ enum g implements l {
         public long c(k kVar) {
             int l;
             if (d(kVar)) {
-                l = g.l(j$.time.f.h(kVar));
+                l = g.l(LocalDate.h(kVar));
                 return l;
             }
             throw new w("Unsupported field: WeekBasedYear");
@@ -147,22 +148,22 @@ enum g implements l {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Code restructure failed: missing block: B:17:0x004b, code lost:
-        if ((r0 == -3 || (r0 == -2 && r5.m())) == false) goto L17;
+        if ((r0 == -3 || (r0 == -2 && r5.n())) == false) goto L17;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public static int j(j$.time.f fVar) {
-        int ordinal = fVar.j().ordinal();
+    public static int j(LocalDate localDate) {
+        int ordinal = localDate.j().ordinal();
         int i = 1;
-        int k = fVar.k() - 1;
+        int k = localDate.k() - 1;
         int i2 = (3 - ordinal) + k;
         int i3 = (i2 - ((i2 / 7) * 7)) - 3;
         if (i3 < -3) {
             i3 += 7;
         }
         if (k < i3) {
-            return (int) m(fVar.r(180).p(-1L)).d();
+            return (int) m(localDate.u(180).q(-1L)).d();
         }
         int i4 = ((k - i3) / 7) + 1;
         if (i4 == 53) {
@@ -172,22 +173,22 @@ enum g implements l {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static int l(j$.time.f fVar) {
-        int l = fVar.l();
-        int k = fVar.k();
+    public static int l(LocalDate localDate) {
+        int m = localDate.m();
+        int k = localDate.k();
         if (k <= 3) {
-            return k - fVar.j().ordinal() < -2 ? l - 1 : l;
+            return k - localDate.j().ordinal() < -2 ? m - 1 : m;
         } else if (k >= 363) {
-            return ((k - 363) - (fVar.m() ? 1 : 0)) - fVar.j().ordinal() >= 0 ? l + 1 : l;
+            return ((k - 363) - (localDate.n() ? 1 : 0)) - localDate.j().ordinal() >= 0 ? m + 1 : m;
         } else {
-            return l;
+            return m;
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static x m(j$.time.f fVar) {
-        j$.time.f n = j$.time.f.n(l(fVar), 1, 1);
-        return x.i(1L, (n.j() == DayOfWeek.THURSDAY || (n.j() == DayOfWeek.WEDNESDAY && n.m())) ? 53 : 52);
+    public static x m(LocalDate localDate) {
+        LocalDate of = LocalDate.of(l(localDate), 1, 1);
+        return x.i(1L, (of.j() == DayOfWeek.THURSDAY || (of.j() == DayOfWeek.WEDNESDAY && of.n())) ? 53 : 52);
     }
 
     @Override // j$.time.temporal.l

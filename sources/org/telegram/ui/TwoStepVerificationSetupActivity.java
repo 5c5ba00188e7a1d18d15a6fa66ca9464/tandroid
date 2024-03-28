@@ -96,7 +96,7 @@ import org.telegram.ui.Components.TransformableLoginButtonView;
 import org.telegram.ui.Components.VerticalPositionAutoAnimator;
 import org.telegram.ui.Components.spoilers.SpoilersTextView;
 import org.telegram.ui.TwoStepVerificationSetupActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class TwoStepVerificationSetupActivity extends BaseFragment {
     private AnimatorSet actionBarAnimator;
     private View actionBarBackground;
@@ -1194,7 +1194,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 1 extends ActionBar.ActionBarMenuOnItemClick {
         1() {
         }

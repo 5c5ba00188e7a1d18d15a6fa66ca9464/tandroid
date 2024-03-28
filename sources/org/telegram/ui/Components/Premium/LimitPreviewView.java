@@ -39,7 +39,7 @@ import org.telegram.ui.Components.EmptyStubSpan;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Premium.LimitPreviewView;
 import org.telegram.ui.Components.Premium.PremiumGradient;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class LimitPreviewView extends LinearLayout {
     private boolean animateIncrease;
     private int animateIncreaseWidth;
@@ -74,7 +74,7 @@ public class LimitPreviewView extends LinearLayout {
     boolean wasHaptic;
     int width1;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface DarkGradientProvider {
         Paint setDarkGradientLocation(float f, float f2);
     }
@@ -660,7 +660,7 @@ public class LimitPreviewView extends LinearLayout {
         requestLayout();
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     private class TextViewHolder extends FrameLayout {
         private final boolean isLeft;
         private final Paint paint;
@@ -694,7 +694,7 @@ public class LimitPreviewView extends LinearLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class CounterView extends View {
         ArrayList<AnimatedLayout> animatedLayouts;
         StaticLayout animatedStableLayout;
@@ -1009,7 +1009,7 @@ public class LimitPreviewView extends LinearLayout {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public class AnimatedLayout {
             public boolean direction;
             float progress;

@@ -62,7 +62,7 @@ import org.telegram.ui.Components.Paint.ShapeDetector;
 import org.telegram.ui.Components.SharedMediaLayout;
 import org.telegram.ui.ProfileActivity;
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class MediaActivity extends BaseFragment implements SharedMediaLayout.SharedMediaPreloaderDelegate, FloatingDebugProvider, NotificationCenter.NotificationCenterDelegate {
     private SparseArray<MessageObject> actionModeMessageObjects;
     private Runnable applyBulletin;
@@ -894,7 +894,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
         return sizeNotifierFrameLayout;
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     class 1 extends ActionBar.ActionBarMenuOnItemClick {
         1() {
         }
@@ -1413,7 +1413,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
         ShapeDetector.setLearning(getContext(), !ShapeDetector.isLearning(getContext()));
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     private class StoriesTabsView extends BottomPagerTabs {
         public StoriesTabsView(MediaActivity mediaActivity, Context context, Theme.ResourcesProvider resourcesProvider) {
             super(context, resourcesProvider);
@@ -1421,10 +1421,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
 
         @Override // org.telegram.ui.Components.BottomPagerTabs
         public BottomPagerTabs.Tab[] createTabs() {
-            BottomPagerTabs.Tab[] tabArr = {new BottomPagerTabs.Tab(0, R.raw.msg_stories_saved, LocaleController.getString("ProfileMyStoriesTab", R.string.ProfileMyStoriesTab)), new BottomPagerTabs.Tab(1, R.raw.msg_stories_archive, LocaleController.getString("ProfileStoriesArchiveTab", R.string.ProfileStoriesArchiveTab))};
-            tabArr[0].customEndFrameMid = 20;
-            tabArr[0].customEndFrameEnd = 40;
-            return tabArr;
+            return new BottomPagerTabs.Tab[]{new BottomPagerTabs.Tab(0, R.raw.msg_stories_saved, 20, 40, LocaleController.getString("ProfileMyStoriesTab", R.string.ProfileMyStoriesTab)), new BottomPagerTabs.Tab(1, R.raw.msg_stories_archive, 0, 0, LocaleController.getString("ProfileStoriesArchiveTab", R.string.ProfileStoriesArchiveTab))};
         }
     }
 

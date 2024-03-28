@@ -119,7 +119,7 @@ import org.telegram.ui.Components.StickerEmptyView;
 import org.telegram.ui.Components.Switch;
 import org.telegram.ui.Components.UndoView;
 import org.telegram.ui.GroupCreateActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ChatUsersActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private int addNew2Row;
     private int addNewRow;
@@ -218,10 +218,10 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
     private int type;
     private UndoView undoView;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface ChatUsersActivityDelegate {
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public final /* synthetic */ class -CC {
             public static void $default$didChangeOwner(ChatUsersActivityDelegate chatUsersActivityDelegate, TLRPC$User tLRPC$User) {
             }
@@ -1062,8 +1062,8 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:317:0x06a2 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:318:0x06a3  */
+    /* JADX WARN: Removed duplicated region for block: B:317:0x06a1 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:318:0x06a2  */
     /* JADX WARN: Type inference failed for: r19v1 */
     /* JADX WARN: Type inference failed for: r29v0, types: [org.telegram.ui.ActionBar.BaseFragment, org.telegram.ui.ChatUsersActivity] */
     /*
@@ -1228,7 +1228,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                     groupCreateActivity.setInfo(this.info);
                     LongSparseArray<TLObject> longSparseArray = this.contactsMap;
                     groupCreateActivity.setIgnoreUsers((longSparseArray == null || longSparseArray.size() == 0) ? this.participantsMap : this.contactsMap);
-                    groupCreateActivity.setDelegate(new 9(groupCreateActivity));
+                    groupCreateActivity.setDelegate2(new 9(groupCreateActivity));
                     presentFragment(groupCreateActivity);
                     return;
                 } else {
@@ -1613,7 +1613,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 8 implements ChatUsersActivityDelegate {
         @Override // org.telegram.ui.ChatUsersActivity.ChatUsersActivityDelegate
         public /* synthetic */ void didKickParticipant(long j) {
@@ -1677,7 +1677,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 9 implements GroupCreateActivity.ContactsAddActivityDelegate {
         final /* synthetic */ GroupCreateActivity val$fragment;
 
@@ -1802,7 +1802,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 10 extends GigagroupConvertAlert {
         @Override // org.telegram.ui.Components.GigagroupConvertAlert
         protected void onCancel() {
@@ -3362,7 +3362,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class SearchAdapter extends RecyclerListView.SelectionAdapter {
         private int contactsStartRow;
         private int globalStartRow;
@@ -4101,7 +4101,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
@@ -4939,7 +4939,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class DiffCallback extends DiffUtil.Callback {
         SparseIntArray newPositionToItem;
         int oldBotEndRow;

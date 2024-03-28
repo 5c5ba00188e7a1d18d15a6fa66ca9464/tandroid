@@ -7,14 +7,14 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import org.telegram.messenger.NotificationCenter;
 @SuppressLint({"ViewConstructor"})
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class MessageEnterTransitionContainer extends View {
     private final int currentAccount;
     Runnable hideRunnable;
     private final ViewGroup parent;
     private ArrayList<Transition> transitions;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface Transition {
         void onDraw(Canvas canvas);
     }

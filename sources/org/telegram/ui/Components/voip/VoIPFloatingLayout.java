@@ -26,7 +26,7 @@ import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.R;
 import org.telegram.ui.Components.CubicBezierInterpolator;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class VoIPFloatingLayout extends FrameLayout {
     private boolean active;
     public boolean alwaysFloating;
@@ -72,7 +72,7 @@ public class VoIPFloatingLayout extends FrameLayout {
     public float updatePositionFromX;
     public float updatePositionFromY;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface VoIPFloatingLayoutDelegate {
         void onChange(float f, boolean z);
     }

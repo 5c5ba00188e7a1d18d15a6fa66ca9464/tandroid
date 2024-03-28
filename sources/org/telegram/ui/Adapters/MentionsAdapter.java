@@ -87,7 +87,7 @@ import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.EmojiView;
 import org.telegram.ui.Components.RecyclerListView;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class MentionsAdapter extends RecyclerListView.SelectionAdapter implements NotificationCenter.NotificationCenterDelegate {
     private LongSparseArray<TLRPC$BotInfo> botInfo;
     private int botsCount;
@@ -179,7 +179,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
     private boolean isReversed = false;
     private int lastItemCount = -1;
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public interface MentionsAdapterDelegate {
         void needChangePanelVisibility(boolean z);
 
@@ -197,7 +197,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class StickerResult {
         public Object parent;
         public TLRPC$Document sticker;
@@ -775,7 +775,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public class 4 implements Runnable {
         final /* synthetic */ MessagesController val$messagesController;
         final /* synthetic */ MessagesStorage val$messagesStorage;
@@ -1920,7 +1920,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public class 7 implements Runnable {
         final /* synthetic */ TLRPC$Chat val$chat;
         final /* synthetic */ MessagesController val$messagesController;

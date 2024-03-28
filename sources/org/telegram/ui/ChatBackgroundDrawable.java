@@ -30,7 +30,7 @@ import org.telegram.tgnet.TLRPC$WallPaperSettings;
 import org.telegram.ui.ActionBar.EmojiThemes;
 import org.telegram.ui.Components.BackgroundGradientDrawable;
 import org.telegram.ui.Components.MotionBackgroundDrawable;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ChatBackgroundDrawable extends Drawable {
     private boolean attached;
     private boolean colorFilterSetted;

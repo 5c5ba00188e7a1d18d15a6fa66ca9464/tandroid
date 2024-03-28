@@ -19,7 +19,7 @@ import org.telegram.ui.Components.ChatActivityEnterView;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.MessageEnterTransitionContainer;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class VoiceMessageEnterTransition implements MessageEnterTransitionContainer.Transition {
     private final ValueAnimator animator;
     final Paint circlePaint = new Paint(1);

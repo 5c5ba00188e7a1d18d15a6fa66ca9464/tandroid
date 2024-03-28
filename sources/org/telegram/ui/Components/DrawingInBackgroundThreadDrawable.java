@@ -11,7 +11,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class DrawingInBackgroundThreadDrawable implements NotificationCenter.NotificationCenterDelegate {
     public static DispatchQueuePool queuePool;
     boolean attachedToWindow;
@@ -268,7 +268,7 @@ public class DrawingInBackgroundThreadDrawable implements NotificationCenter.Not
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class DispatchQueuePool {
         int pointer;
         public final DispatchQueue[] pool;

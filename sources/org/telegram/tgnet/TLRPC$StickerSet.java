@@ -5,10 +5,10 @@ import org.telegram.messenger.LiteMode;
 /* loaded from: classes3.dex */
 public abstract class TLRPC$StickerSet extends TLObject {
     public long access_hash;
-    public boolean animated;
     public boolean archived;
     public boolean channel_emoji_status;
     public int count;
+    public boolean creator;
     public boolean emojis;
     public int flags;
     public boolean gifs;
@@ -25,7 +25,6 @@ public abstract class TLRPC$StickerSet extends TLObject {
     public int thumb_version;
     public ArrayList<TLRPC$PhotoSize> thumbs = new ArrayList<>();
     public String title;
-    public boolean videos;
 
     public static TLRPC$StickerSet TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
         TLRPC$TL_stickerSet tLRPC$TL_stickerSet;
@@ -98,8 +97,6 @@ public abstract class TLRPC$StickerSet extends TLObject {
                         this.archived = (readInt32 & 2) != 0;
                         this.official = (readInt32 & 4) != 0;
                         this.masks = (readInt32 & 8) != 0;
-                        this.animated = (readInt32 & 32) != 0;
-                        this.videos = (readInt32 & 64) != 0;
                         this.emojis = (readInt32 & 128) != 0;
                         if ((readInt32 & 1) != 0) {
                             this.installed_date = abstractSerializedData2.readInt32(z2);
@@ -147,13 +144,9 @@ public abstract class TLRPC$StickerSet extends TLObject {
                         this.flags = i3;
                         int i4 = this.masks ? i3 | 8 : i3 & (-9);
                         this.flags = i4;
-                        int i5 = this.animated ? i4 | 32 : i4 & (-33);
+                        int i5 = this.emojis ? i4 | 128 : i4 & (-129);
                         this.flags = i5;
-                        int i6 = this.videos ? i5 | 64 : i5 & (-65);
-                        this.flags = i6;
-                        int i7 = this.emojis ? i6 | 128 : i6 & (-129);
-                        this.flags = i7;
-                        abstractSerializedData2.writeInt32(i7);
+                        abstractSerializedData2.writeInt32(i5);
                         if ((this.flags & 1) != 0) {
                             abstractSerializedData2.writeInt32(this.installed_date);
                         }
@@ -165,8 +158,8 @@ public abstract class TLRPC$StickerSet extends TLObject {
                             abstractSerializedData2.writeInt32(481674261);
                             int size = this.thumbs.size();
                             abstractSerializedData2.writeInt32(size);
-                            for (int i8 = 0; i8 < size; i8++) {
-                                this.thumbs.get(i8).serializeToStream(abstractSerializedData2);
+                            for (int i6 = 0; i6 < size; i6++) {
+                                this.thumbs.get(i6).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & 16) != 0) {
@@ -193,7 +186,6 @@ public abstract class TLRPC$StickerSet extends TLObject {
                         this.archived = (readInt32 & 2) != 0;
                         this.official = (readInt32 & 4) != 0;
                         this.masks = (readInt32 & 8) != 0;
-                        this.animated = (readInt32 & 32) != 0;
                         if ((readInt32 & 1) != 0) {
                             this.installed_date = abstractSerializedData2.readInt32(z2);
                         }
@@ -220,9 +212,7 @@ public abstract class TLRPC$StickerSet extends TLObject {
                         this.flags = i3;
                         int i4 = this.masks ? i3 | 8 : i3 & (-9);
                         this.flags = i4;
-                        int i5 = this.animated ? i4 | 32 : i4 & (-33);
-                        this.flags = i5;
-                        abstractSerializedData2.writeInt32(i5);
+                        abstractSerializedData2.writeInt32(i4);
                         if ((this.flags & 1) != 0) {
                             abstractSerializedData2.writeInt32(this.installed_date);
                         }
@@ -253,7 +243,6 @@ public abstract class TLRPC$StickerSet extends TLObject {
                         this.archived = (readInt32 & 2) != 0;
                         this.official = (readInt32 & 4) != 0;
                         this.masks = (readInt32 & 8) != 0;
-                        this.animated = (readInt32 & 32) != 0;
                         if ((readInt32 & 1) != 0) {
                             this.installed_date = abstractSerializedData2.readInt32(z2);
                         }
@@ -294,9 +283,7 @@ public abstract class TLRPC$StickerSet extends TLObject {
                         this.flags = i3;
                         int i4 = this.masks ? i3 | 8 : i3 & (-9);
                         this.flags = i4;
-                        int i5 = this.animated ? i4 | 32 : i4 & (-33);
-                        this.flags = i5;
-                        abstractSerializedData2.writeInt32(i5);
+                        abstractSerializedData2.writeInt32(i4);
                         if ((this.flags & 1) != 0) {
                             abstractSerializedData2.writeInt32(this.installed_date);
                         }
@@ -308,8 +295,8 @@ public abstract class TLRPC$StickerSet extends TLObject {
                             abstractSerializedData2.writeInt32(481674261);
                             int size = this.thumbs.size();
                             abstractSerializedData2.writeInt32(size);
-                            for (int i6 = 0; i6 < size; i6++) {
-                                this.thumbs.get(i6).serializeToStream(abstractSerializedData2);
+                            for (int i5 = 0; i5 < size; i5++) {
+                                this.thumbs.get(i5).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & 16) != 0) {

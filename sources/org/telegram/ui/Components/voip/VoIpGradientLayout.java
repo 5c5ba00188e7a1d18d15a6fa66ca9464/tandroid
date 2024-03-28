@@ -17,7 +17,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LiteMode;
 import org.telegram.ui.Components.MotionBackgroundDrawable;
 @SuppressLint({"ViewConstructor"})
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class VoIpGradientLayout extends FrameLayout {
     private boolean allowAnimations;
     private int alphaBlueGreen;
@@ -52,7 +52,7 @@ public class VoIpGradientLayout extends FrameLayout {
     private boolean showClip;
     private GradientState state;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public enum GradientState {
         CALLING,
         CONNECTED,

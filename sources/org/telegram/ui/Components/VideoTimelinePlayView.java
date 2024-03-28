@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.Utilities;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class VideoTimelinePlayView extends View {
     public static int TYPE_LEFT = 0;
     public static int TYPE_PROGRESS = 2;
@@ -58,7 +58,7 @@ public class VideoTimelinePlayView extends View {
     private int videoWidth;
     private final Paint whitePaint;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface VideoTimelineViewDelegate {
         void didStartDragging(int i);
 
@@ -692,7 +692,7 @@ public class VideoTimelinePlayView extends View {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class BitmapFrame {
         float alpha;
         Bitmap bitmap;

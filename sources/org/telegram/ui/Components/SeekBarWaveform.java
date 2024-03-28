@@ -17,7 +17,7 @@ import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.Components.SeekBar;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class SeekBarWaveform {
     private static Paint paintInner;
     private static Paint paintOuter;
@@ -533,7 +533,7 @@ public class SeekBarWaveform {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class Particles {
         private final int count;
         private RectF emitArea;
@@ -552,7 +552,7 @@ public class SeekBarWaveform {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public class Particle {
             float d;
             float t;

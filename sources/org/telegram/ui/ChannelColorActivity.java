@@ -122,7 +122,7 @@ import org.telegram.ui.SelectAnimatedEmojiDialog;
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
 import org.telegram.ui.Stories.recorder.PreviewView;
 import org.telegram.ui.ThemePreviewActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ChannelColorActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     protected Adapter adapter;
     public Drawable backgroundDrawable;
@@ -276,7 +276,7 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
         this.button.setSubText(spannableStringBuilder, z);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ThemeDelegate implements Theme.ResourcesProvider {
         @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
         public /* synthetic */ void applyServiceShaderMatrix(int i, int i2, float f, float f2) {
@@ -1267,7 +1267,7 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class Adapter extends RecyclerListView.SelectionAdapter {
         protected Adapter() {
         }
@@ -1648,7 +1648,7 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ProfilePreview extends FrameLayout {
         public final PeerColorActivity.ColoredActionBar backgroundView;
         public LinearLayout infoLayout;
@@ -1739,7 +1739,7 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class EmojiCell extends FrameLayout {
         private int color;
         private AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable imageDrawable;
@@ -1867,7 +1867,7 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class ThemeChooser extends FrameLayout {
         private final RecyclerListView.SelectionAdapter adapter;
         private final int currentAccount;
@@ -2081,7 +2081,7 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class 4 implements ResultCallback<List<EmojiThemes>> {
             final /* synthetic */ int val$currentAccount;
 
@@ -2424,7 +2424,7 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class PeerColorPicker extends FrameLayout {
         private final int currentAccount;
         public final LinearLayoutManager layoutManager;
@@ -2566,7 +2566,7 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class ColorCell extends View {
             private final Paint backgroundPaint;
             private final ButtonBounce bounce;
@@ -2795,13 +2795,13 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:25:0x0062  */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x0067  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x0078  */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x007d  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x008e  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x009e  */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x00e5  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x0061  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0066  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x0077  */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x007c  */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x008d  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x009d  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x00e4  */
     /* JADX WARN: Removed duplicated region for block: B:51:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

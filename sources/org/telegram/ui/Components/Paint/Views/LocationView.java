@@ -18,7 +18,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Paint.Views.EntityView;
 import org.telegram.ui.Components.Point;
 import org.telegram.ui.Components.Rect;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class LocationView extends EntityView {
     private int currentColor;
     private int currentType;
@@ -177,7 +177,7 @@ public class LocationView extends EntityView {
         return new TextViewSelectionView(this, getContext());
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class TextViewSelectionView extends EntityView.SelectionView {
         private final Paint clearPaint;
         private Path path;

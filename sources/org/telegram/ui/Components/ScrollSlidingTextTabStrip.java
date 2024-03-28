@@ -20,7 +20,7 @@ import android.widget.TextView;
 import androidx.annotation.Keep;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class ScrollSlidingTextTabStrip extends HorizontalScrollView {
     private int activeTextColorKey;
     private int allTextWidth;
@@ -59,10 +59,10 @@ public class ScrollSlidingTextTabStrip extends HorizontalScrollView {
     private int unactiveTextColorKey;
     private boolean useSameWidth;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface ScrollSlidingTabStripDelegate {
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public final /* synthetic */ class -CC {
             public static void $default$onSamePageSelected(ScrollSlidingTabStripDelegate scrollSlidingTabStripDelegate) {
             }

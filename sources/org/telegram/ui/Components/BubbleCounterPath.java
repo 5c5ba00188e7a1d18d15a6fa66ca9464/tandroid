@@ -3,7 +3,7 @@ package org.telegram.ui.Components;
 import android.graphics.Path;
 import android.graphics.RectF;
 import org.telegram.messenger.AndroidUtilities;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class BubbleCounterPath {
     private static RectF tmpRect;
 

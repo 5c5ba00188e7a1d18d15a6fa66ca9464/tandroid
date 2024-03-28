@@ -2,24 +2,23 @@ package j$.time.zone;
 
 import j$.time.Instant;
 import j$.time.ZoneOffset;
-import j$.time.g;
 import java.io.Serializable;
 /* loaded from: classes2.dex */
 public final class a implements Comparable, Serializable {
-    private final g a;
+    private final j$.time.e a;
     private final ZoneOffset b;
     private final ZoneOffset c;
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public a(long j, ZoneOffset zoneOffset, ZoneOffset zoneOffset2) {
-        this.a = g.k(j, 0, zoneOffset);
+        this.a = j$.time.e.k(j, 0, zoneOffset);
         this.b = zoneOffset;
         this.c = zoneOffset2;
     }
 
     public Instant a() {
-        g gVar = this.a;
-        return Instant.l(gVar.l(this.b), gVar.o().h());
+        j$.time.e eVar = this.a;
+        return Instant.l(eVar.l(this.b), eVar.o().h());
     }
 
     public ZoneOffset b() {

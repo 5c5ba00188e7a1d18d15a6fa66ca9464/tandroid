@@ -54,7 +54,7 @@ public class SafeBrowsingData extends AbstractSafeParcelable {
         return this.zzf;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0040  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x003f  */
     @Override // android.os.Parcelable
     /*
         Code decompiled incorrectly, please refer to instructions dump.

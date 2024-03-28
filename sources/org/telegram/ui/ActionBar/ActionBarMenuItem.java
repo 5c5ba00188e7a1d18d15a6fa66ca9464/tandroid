@@ -67,7 +67,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class ActionBarMenuItem extends FrameLayout {
     private int additionalXOffset;
     private int additionalYOffset;
@@ -124,12 +124,12 @@ public class ActionBarMenuItem extends FrameLayout {
     private FrameLayout wrappedSearchFrameLayout;
     private int yOffset;
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public interface ActionBarMenuItemDelegate {
         void onItemClick(int i);
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class ActionBarMenuItemSearchListener {
         public boolean canCollapseSearch() {
             return true;
@@ -172,7 +172,7 @@ public class ActionBarMenuItem extends FrameLayout {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public interface ActionBarSubMenuItemDelegate {
         void onHideSubMenu();
 
@@ -481,6 +481,11 @@ public class ActionBarMenuItem extends FrameLayout {
 
     public void setFitSubItems(boolean z) {
         this.popupLayout.setFitItems(z);
+    }
+
+    public void addSubItem(View view, int i, int i2) {
+        createPopupLayout();
+        this.popupLayout.addView(view, new LinearLayout.LayoutParams(i, i2));
     }
 
     public void addSubItem(int i, View view, int i2, int i3) {
@@ -2175,7 +2180,7 @@ public class ActionBarMenuItem extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class ReactionFilterView extends SearchFilterView {
         private boolean attached;
         private ReactionsLayoutInBubble.ReactionButton reactionButton;
@@ -2255,7 +2260,7 @@ public class ActionBarMenuItem extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class SearchFilterView extends FrameLayout {
         BackupImageView avatarImageView;
         ImageView closeIconView;
@@ -2439,7 +2444,7 @@ public class ActionBarMenuItem extends FrameLayout {
         return gapView;
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class Item {
         public boolean dismiss;
         public int icon;

@@ -7,7 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.view.animation.DecelerateInterpolator;
 import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class BackDrawable extends Drawable {
     private boolean alwaysClose;
     private int arrowRotation;

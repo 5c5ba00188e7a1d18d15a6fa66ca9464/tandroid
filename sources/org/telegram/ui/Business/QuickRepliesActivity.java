@@ -79,7 +79,7 @@ import org.telegram.ui.Components.UniversalAdapter;
 import org.telegram.ui.Components.UniversalRecyclerView;
 import org.telegram.ui.Components.spoilers.SpoilersTextView;
 import org.telegram.ui.LaunchActivity;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class QuickRepliesActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private static AlertDialog currentDialog;
     private NumberTextView countText;
@@ -129,7 +129,7 @@ public class QuickRepliesActivity extends BaseFragment implements NotificationCe
             }
         };
         sizeNotifierFrameLayout.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
-        UniversalRecyclerView universalRecyclerView = new UniversalRecyclerView(context, this.currentAccount, new Utilities.Callback2() { // from class: org.telegram.ui.Business.QuickRepliesActivity$$ExternalSyntheticLambda11
+        UniversalRecyclerView universalRecyclerView = new UniversalRecyclerView(this, new Utilities.Callback2() { // from class: org.telegram.ui.Business.QuickRepliesActivity$$ExternalSyntheticLambda11
             @Override // org.telegram.messenger.Utilities.Callback2
             public final void run(Object obj, Object obj2) {
                 QuickRepliesActivity.this.fillItems((ArrayList) obj, (UniversalAdapter) obj2);
@@ -146,7 +146,7 @@ public class QuickRepliesActivity extends BaseFragment implements NotificationCe
                 onLongClick = QuickRepliesActivity.this.onLongClick((UItem) obj, (View) obj2, ((Integer) obj3).intValue(), ((Float) obj4).floatValue(), ((Float) obj5).floatValue());
                 return Boolean.valueOf(onLongClick);
             }
-        }, getResourceProvider());
+        });
         this.listView = universalRecyclerView;
         universalRecyclerView.listenReorder(new Utilities.Callback2() { // from class: org.telegram.ui.Business.QuickRepliesActivity$$ExternalSyntheticLambda10
             @Override // org.telegram.messenger.Utilities.Callback2
@@ -160,7 +160,7 @@ public class QuickRepliesActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public class 1 extends ActionBar.ActionBarMenuOnItemClick {
         1() {
         }
@@ -251,7 +251,7 @@ public class QuickRepliesActivity extends BaseFragment implements NotificationCe
                     QuickRepliesActivity.this.lambda$onClick$1((String) obj);
                 }
             });
-        } else if (uItem.viewType == 12 && (uItem.object instanceof QuickRepliesController.QuickReply)) {
+        } else if (uItem.viewType == 16 && (uItem.object instanceof QuickRepliesController.QuickReply)) {
             if (!this.selected.isEmpty()) {
                 updateSelect(uItem, view);
                 return;
@@ -342,7 +342,7 @@ public class QuickRepliesActivity extends BaseFragment implements NotificationCe
 
     /* JADX INFO: Access modifiers changed from: private */
     public boolean onLongClick(UItem uItem, View view, int i, float f, float f2) {
-        if (uItem.viewType == 12) {
+        if (uItem.viewType == 16) {
             Object obj = uItem.object;
             if ((obj instanceof QuickRepliesController.QuickReply) && ((QuickRepliesController.QuickReply) obj).local) {
                 return false;
@@ -700,7 +700,7 @@ public class QuickRepliesActivity extends BaseFragment implements NotificationCe
         universalAdapter.update(true);
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     private static class MoreSpan extends ReplacementSpan {
         private final Paint backgroundPaint = new Paint(1);
         private final Text text;
@@ -741,7 +741,7 @@ public class QuickRepliesActivity extends BaseFragment implements NotificationCe
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class QuickReplyView extends FrameLayout {
         private final AvatarDrawable avatarDrawable;
         private final CheckBox2 checkBox;
@@ -903,7 +903,7 @@ public class QuickRepliesActivity extends BaseFragment implements NotificationCe
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class LargeQuickReplyView extends FrameLayout {
         private final Paint arrowPaint;
         private final Path arrowPath;

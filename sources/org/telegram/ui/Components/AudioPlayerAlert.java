@@ -102,7 +102,7 @@ import org.telegram.ui.Components.SeekBarView;
 import org.telegram.ui.DialogsActivity;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.TopicsFragment;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.NotificationCenterDelegate, DownloadController.FileDownloadProgressListener {
     private static final float[] speeds = {0.5f, 1.0f, 1.2f, 1.5f, 1.7f, 2.0f};
     private int TAG;
@@ -1024,7 +1024,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class 9 extends ClippingTextViewSwitcher {
         final /* synthetic */ Context val$context;
 
@@ -1161,7 +1161,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         updateRepeatButton();
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     class 13 extends RLottieImageView {
         private final Runnable backSeek;
         long lastTime;
@@ -1322,7 +1322,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     class 14 extends RLottieImageView {
         boolean pressed;
         private final Runnable pressedRunnable;
@@ -2346,7 +2346,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context context;
         private ArrayList<MessageObject> searchResult = new ArrayList<>();
@@ -2674,7 +2674,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static abstract class CoverContainer extends FrameLayout {
         private int activeIndex;
         private AnimatorSet animatorSet;
@@ -2691,6 +2691,11 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                     @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
                     public final void didSetImage(ImageReceiver imageReceiver, boolean z, boolean z2, boolean z3) {
                         AudioPlayerAlert.CoverContainer.this.lambda$new$0(i, imageReceiver, z, z2, z3);
+                    }
+
+                    @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
+                    public /* synthetic */ void didSetImageBitmap(int i2, String str, Drawable drawable) {
+                        ImageReceiver.ImageReceiverDelegate.-CC.$default$didSetImageBitmap(this, i2, str, drawable);
                     }
 
                     @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
@@ -2805,7 +2810,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static abstract class ClippingTextViewSwitcher extends FrameLayout {
         private int activeIndex;
         private AnimatorSet animatorSet;

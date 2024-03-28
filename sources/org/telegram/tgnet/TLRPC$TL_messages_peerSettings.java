@@ -3,7 +3,7 @@ package org.telegram.tgnet;
 import java.util.ArrayList;
 /* loaded from: classes3.dex */
 public class TLRPC$TL_messages_peerSettings extends TLObject {
-    public TLRPC$TL_peerSettings settings;
+    public TLRPC$PeerSettings settings;
     public ArrayList<TLRPC$Chat> chats = new ArrayList<>();
     public ArrayList<TLRPC$User> users = new ArrayList<>();
 
@@ -21,7 +21,7 @@ public class TLRPC$TL_messages_peerSettings extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
-        this.settings = TLRPC$TL_peerSettings.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+        this.settings = TLRPC$PeerSettings.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
         int readInt32 = abstractSerializedData.readInt32(z);
         if (readInt32 != 481674261) {
             if (z) {

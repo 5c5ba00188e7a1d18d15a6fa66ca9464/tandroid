@@ -1,42 +1,31 @@
 package j$.util.stream;
 
-import j$.util.function.Consumer;
-import java.util.Objects;
-/* JADX INFO: Access modifiers changed from: package-private */
+import j$.util.function.Function;
 /* loaded from: classes2.dex */
-public class b3 extends e3 {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public b3(j$.util.t tVar, int i, boolean z) {
-        super(tVar, i, z);
-    }
+class b3 extends e3 {
+    public final /* synthetic */ int l;
+    final /* synthetic */ Function m;
 
-    @Override // j$.util.stream.c
-    final boolean G0() {
-        throw new UnsupportedOperationException();
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // j$.util.stream.c
-    public final m3 H0(int i, m3 m3Var) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override // j$.util.stream.e3, j$.util.stream.Stream
-    public void e(Consumer consumer) {
-        if (!isParallel()) {
-            J0().forEachRemaining(consumer);
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public b3(f3 f3Var, c cVar, f4 f4Var, int i, Function function, int i2) {
+        super(cVar, f4Var, i);
+        this.l = i2;
+        if (i2 != 1) {
+            this.m = function;
             return;
         }
-        Objects.requireNonNull(consumer);
-        x0(new n0(consumer, true));
+        this.m = function;
+        super(cVar, f4Var, i);
     }
 
-    @Override // j$.util.stream.e3, j$.util.stream.Stream
-    public void forEach(Consumer consumer) {
-        if (isParallel()) {
-            super.forEach(consumer);
-        } else {
-            J0().forEachRemaining(consumer);
+    /* JADX INFO: Access modifiers changed from: package-private */
+    @Override // j$.util.stream.c
+    public n3 F0(int i, n3 n3Var) {
+        switch (this.l) {
+            case 0:
+                return new Z2(this, n3Var);
+            default:
+                return new Z2(this, n3Var, (j$.lang.a) null);
         }
     }
 }

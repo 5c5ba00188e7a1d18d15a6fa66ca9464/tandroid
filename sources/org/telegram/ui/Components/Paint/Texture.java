@@ -6,7 +6,7 @@ import android.os.Build;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import org.telegram.ui.Components.Size;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class Texture {
     private Bitmap bitmap;
     private int texture;

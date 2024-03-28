@@ -29,7 +29,7 @@ import org.telegram.ui.Components.Paint.Brush;
 import org.telegram.ui.Components.Paint.Painting;
 import org.telegram.ui.Components.Paint.RenderView;
 import org.telegram.ui.Components.Size;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class RenderView extends TextureView {
     private Bitmap bitmap;
     private Bitmap blurBitmap;
@@ -47,7 +47,7 @@ public class RenderView extends TextureView {
     private UndoStore undoStore;
     private float weight;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface RenderViewDelegate {
         void invalidateInputView();
 
@@ -102,7 +102,7 @@ public class RenderView extends TextureView {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class 1 implements TextureView.SurfaceTextureListener {
         final /* synthetic */ BlurringShader.BlurManager val$blurManager;
 
@@ -373,7 +373,7 @@ public class RenderView extends TextureView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class CanvasInternal extends DispatchQueue {
         private final BlurringShader.BlurManager blurManager;
         private int bufferHeight;
@@ -529,7 +529,7 @@ public class RenderView extends TextureView {
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public class 1 implements Runnable {
             1() {
             }

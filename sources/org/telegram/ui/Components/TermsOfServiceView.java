@@ -26,7 +26,7 @@ import org.telegram.tgnet.TLRPC$TL_help_acceptTermsOfService;
 import org.telegram.tgnet.TLRPC$TL_help_termsOfService;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class TermsOfServiceView extends FrameLayout {
     private int currentAccount;
     private TLRPC$TL_help_termsOfService currentTos;
@@ -35,7 +35,7 @@ public class TermsOfServiceView extends FrameLayout {
     private TextView textView;
     private TextView titleTextView;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface TermsOfServiceViewDelegate {
         void onAcceptTerms(int i);
     }

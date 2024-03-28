@@ -25,7 +25,7 @@ import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.Utilities;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class VideoPlayerSeekBar {
     private static Paint paint;
     private static Paint strokePaint;
@@ -77,7 +77,7 @@ public class VideoPlayerSeekBar {
     private float timestampChangeT = 1.0f;
     private float lastWidth = -1.0f;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface SeekBarDelegate {
         void onSeekBarContinuousDrag(float f);
 
@@ -665,10 +665,7 @@ public class VideoPlayerSeekBar {
             StaticLayout[] staticLayoutArr3 = this.timestampLabel;
             staticLayoutArr3[1] = staticLayoutArr3[0];
             if (this.pressed) {
-                try {
-                    this.parentView.performHapticFeedback(9, 1);
-                } catch (Exception unused) {
-                }
+                AndroidUtilities.vibrateCursor(this.parentView);
             }
             if (size >= 0 && size < this.timestamps.size()) {
                 CharSequence charSequence = (CharSequence) this.timestamps.get(size).second;

@@ -3,29 +3,29 @@ package j$.util.stream;
 import java.util.Objects;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class m0 extends o0 implements l3 {
-    final j$.util.function.q b;
+public final class m0 extends p0 implements l3 {
+    final j$.util.function.l b;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public m0(j$.util.function.q qVar, boolean z) {
+    public m0(j$.util.function.l lVar, boolean z) {
         super(z);
-        this.b = qVar;
+        this.b = lVar;
     }
 
-    @Override // j$.util.stream.o0, j$.util.stream.m3, j$.util.stream.l3, j$.util.function.q
-    public void accept(long j) {
-        this.b.accept(j);
+    @Override // j$.util.stream.p0, j$.util.stream.n3
+    public void accept(int i) {
+        this.b.accept(i);
     }
 
     @Override // j$.util.function.Consumer
     /* renamed from: e */
-    public /* synthetic */ void accept(Long l) {
-        o1.c(this, l);
+    public /* synthetic */ void accept(Integer num) {
+        p1.b(this, num);
     }
 
-    @Override // j$.util.function.q
-    public j$.util.function.q f(j$.util.function.q qVar) {
-        Objects.requireNonNull(qVar);
-        return new j$.util.function.p(this, qVar);
+    @Override // j$.util.function.l
+    public j$.util.function.l l(j$.util.function.l lVar) {
+        Objects.requireNonNull(lVar);
+        return new j$.util.function.k(this, lVar);
     }
 }

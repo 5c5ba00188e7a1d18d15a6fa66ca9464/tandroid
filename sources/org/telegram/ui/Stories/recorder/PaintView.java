@@ -2188,7 +2188,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
                 PaintView.this.lambda$openStickersView$21();
             }
         }, 350L);
-        final EmojiBottomSheet emojiBottomSheet = new EmojiBottomSheet(getContext(), this.isVideo, this.resourcesProvider) { // from class: org.telegram.ui.Stories.recorder.PaintView.22
+        final EmojiBottomSheet emojiBottomSheet = new EmojiBottomSheet(getContext(), false, this.resourcesProvider) { // from class: org.telegram.ui.Stories.recorder.PaintView.22
             @Override // org.telegram.ui.Stories.recorder.EmojiBottomSheet
             public boolean canShowWidget(Integer num) {
                 return true;

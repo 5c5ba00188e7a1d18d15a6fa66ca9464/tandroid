@@ -14,7 +14,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$TL_messages_stickerSet;
 import org.telegram.ui.Cells.ChatMessageCell;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class SlotsDrawable extends RLottieDrawable {
     private ReelValue center;
     private int[] frameCounts;
@@ -28,7 +28,7 @@ public class SlotsDrawable extends RLottieDrawable {
     private long[] secondNativePtrs;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public enum ReelValue {
         bar,
         berries,

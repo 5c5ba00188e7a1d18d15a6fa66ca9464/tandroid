@@ -32,7 +32,7 @@ import org.telegram.ui.Components.ListView.AdapterWithDiffUtils;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.DialogsActivity;
 import org.telegram.ui.KeepMediaPopupView;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class CacheChatsExceptionsFragment extends BaseFragment {
     Adapter adapter;
     int currentType;
@@ -306,7 +306,7 @@ public class CacheChatsExceptionsFragment extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class Adapter extends AdapterWithDiffUtils {
         private Adapter() {
         }
@@ -383,7 +383,7 @@ public class CacheChatsExceptionsFragment extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class Item extends AdapterWithDiffUtils.Item {
         final CacheByChatsController.KeepMediaException exception;
 

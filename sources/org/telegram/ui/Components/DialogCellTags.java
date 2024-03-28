@@ -11,14 +11,14 @@ import org.telegram.messenger.Emoji;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class DialogCellTags {
     private final ArrayList<MessagesController.DialogFilter> filters = new ArrayList<>();
     private final ArrayList<Tag> tags = new ArrayList<>();
     private Tag moreTags = null;
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class Tag {
         int color;
         public int colorId;

@@ -67,7 +67,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.UndoView;
 import org.telegram.ui.FilterCreateActivity;
 import org.telegram.ui.FiltersSetupActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class FiltersSetupActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private ListAdapter adapter;
     private int filtersStartPosition;
@@ -78,7 +78,6 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
     private RecyclerListView listView;
     private boolean loadedColors;
     private boolean orderChanged;
-    private boolean scrollingToBottom;
     private UndoView undoView;
     private ArrayList<ItemInner> oldItems = new ArrayList<>();
     private ArrayList<ItemInner> items = new ArrayList<>();
@@ -94,7 +93,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
         return this;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class TextCell extends FrameLayout {
         private ImageView imageView;
         private SimpleTextView textView;
@@ -148,7 +147,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class SuggestedFilterCell extends FrameLayout {
         private ProgressButton addButton;
         private boolean needDivider;
@@ -227,7 +226,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class HintInnerCell extends FrameLayout {
         private RLottieImageView imageView;
         private TextView messageTextView;
@@ -271,7 +270,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class FilterCell extends FrameLayout {
         private final View colorImageView;
         private MessagesController.DialogFilter currentFilter;
@@ -675,9 +674,6 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
                 FiltersSetupActivity.this.lambda$updateRows$0();
             }
         }) : LocaleController.getString(R.string.FolderShowTagsInfo)));
-        if (this.scrollingToBottom) {
-            z = false;
-        }
         ListAdapter listAdapter = this.adapter;
         if (listAdapter != null) {
             if (z) {
@@ -708,7 +704,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             for (int i2 = 0; i2 < size; i2++) {
                 tLRPC$TL_messages_updateDialogFiltersOrder.order.add(Integer.valueOf(dialogFilters.get(i2).id));
             }
-            getConnectionsManager().sendRequest(tLRPC$TL_messages_updateDialogFiltersOrder, new RequestDelegate() { // from class: org.telegram.ui.FiltersSetupActivity$$ExternalSyntheticLambda6
+            getConnectionsManager().sendRequest(tLRPC$TL_messages_updateDialogFiltersOrder, new RequestDelegate() { // from class: org.telegram.ui.FiltersSetupActivity$$ExternalSyntheticLambda5
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     FiltersSetupActivity.lambda$onFragmentDestroy$1(tLObject, tLRPC$TL_error);
@@ -716,40 +712,6 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             });
         }
         super.onFragmentDestroy();
-    }
-
-    @Override // org.telegram.ui.ActionBar.BaseFragment
-    public void onBecomeFullyVisible() {
-        super.onBecomeFullyVisible();
-        if (this.highlightTags) {
-            this.highlightTags = false;
-            this.scrollingToBottom = true;
-            this.listView.smoothScrollToPosition(this.adapter.getItemCount() - 1);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.FiltersSetupActivity$$ExternalSyntheticLambda1
-                @Override // java.lang.Runnable
-                public final void run() {
-                    FiltersSetupActivity.this.lambda$onBecomeFullyVisible$3();
-                }
-            }, 200L);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onBecomeFullyVisible$3() {
-        this.scrollingToBottom = false;
-        this.listView.highlightRow(new RecyclerListView.IntReturnCallback() { // from class: org.telegram.ui.FiltersSetupActivity$$ExternalSyntheticLambda7
-            @Override // org.telegram.ui.Components.RecyclerListView.IntReturnCallback
-            public final int run() {
-                int lambda$onBecomeFullyVisible$2;
-                lambda$onBecomeFullyVisible$2 = FiltersSetupActivity.this.lambda$onBecomeFullyVisible$2();
-                return lambda$onBecomeFullyVisible$2;
-            }
-        });
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ int lambda$onBecomeFullyVisible$2() {
-        return this.folderTagsPosition;
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -787,7 +749,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
         ListAdapter listAdapter = new ListAdapter(context);
         this.adapter = listAdapter;
         recyclerListView.setAdapter(listAdapter);
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.FiltersSetupActivity$$ExternalSyntheticLambda8
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.FiltersSetupActivity$$ExternalSyntheticLambda7
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
             public /* synthetic */ boolean hasDoubleTap(View view, int i) {
                 return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view, i);
@@ -800,14 +762,25 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
 
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
             public final void onItemClick(View view, int i, float f, float f2) {
-                FiltersSetupActivity.this.lambda$createView$6(context, view, i, f, f2);
+                FiltersSetupActivity.this.lambda$createView$4(context, view, i, f, f2);
             }
         });
+        if (this.highlightTags) {
+            updateRows(false);
+            this.highlightTags = false;
+            this.listView.scrollToPosition(this.adapter.getItemCount() - 1);
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.FiltersSetupActivity$$ExternalSyntheticLambda2
+                @Override // java.lang.Runnable
+                public final void run() {
+                    FiltersSetupActivity.this.lambda$createView$6();
+                }
+            }, 200L);
+        }
         return this.fragmentView;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 2 extends RecyclerListView {
         2(Context context) {
             super(context);
@@ -840,7 +813,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$6(Context context, View view, int i, float f, float f2) {
+    public /* synthetic */ void lambda$createView$4(Context context, View view, int i, float f, float f2) {
         ItemInner itemInner;
         if (i < 0 || i >= this.items.size() || (itemInner = this.items.get(i)) == null) {
             return;
@@ -854,10 +827,10 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             final TLRPC$TL_messages_toggleDialogFilterTags tLRPC$TL_messages_toggleDialogFilterTags = new TLRPC$TL_messages_toggleDialogFilterTags();
             tLRPC$TL_messages_toggleDialogFilterTags.enabled = true ^ getMessagesController().folderTags;
             getMessagesController().setFolderTags(tLRPC$TL_messages_toggleDialogFilterTags.enabled);
-            getConnectionsManager().sendRequest(tLRPC$TL_messages_toggleDialogFilterTags, new RequestDelegate() { // from class: org.telegram.ui.FiltersSetupActivity$$ExternalSyntheticLambda5
+            getConnectionsManager().sendRequest(tLRPC$TL_messages_toggleDialogFilterTags, new RequestDelegate() { // from class: org.telegram.ui.FiltersSetupActivity$$ExternalSyntheticLambda4
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    FiltersSetupActivity.this.lambda$createView$5(tLRPC$TL_messages_toggleDialogFilterTags, tLObject, tLRPC$TL_error);
+                    FiltersSetupActivity.this.lambda$createView$3(tLRPC$TL_messages_toggleDialogFilterTags, tLObject, tLRPC$TL_error);
                 }
             });
             ((TextCheckCell) view).setChecked(getMessagesController().folderTags);
@@ -885,22 +858,39 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$5(final TLRPC$TL_messages_toggleDialogFilterTags tLRPC$TL_messages_toggleDialogFilterTags, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.FiltersSetupActivity$$ExternalSyntheticLambda4
+    public /* synthetic */ void lambda$createView$3(final TLRPC$TL_messages_toggleDialogFilterTags tLRPC$TL_messages_toggleDialogFilterTags, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.FiltersSetupActivity$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
-                FiltersSetupActivity.this.lambda$createView$4(tLRPC$TL_messages_toggleDialogFilterTags);
+                FiltersSetupActivity.this.lambda$createView$2(tLRPC$TL_messages_toggleDialogFilterTags);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$4(TLRPC$TL_messages_toggleDialogFilterTags tLRPC$TL_messages_toggleDialogFilterTags) {
+    public /* synthetic */ void lambda$createView$2(TLRPC$TL_messages_toggleDialogFilterTags tLRPC$TL_messages_toggleDialogFilterTags) {
         if (!tLRPC$TL_messages_toggleDialogFilterTags.enabled || this.loadedColors) {
             return;
         }
         getMessagesController().loadRemoteFilters(true);
         this.loadedColors = true;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ int lambda$createView$5() {
+        return this.folderTagsPosition;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$createView$6() {
+        this.listView.highlightRow(new RecyclerListView.IntReturnCallback() { // from class: org.telegram.ui.FiltersSetupActivity$$ExternalSyntheticLambda6
+            @Override // org.telegram.ui.Components.RecyclerListView.IntReturnCallback
+            public final int run() {
+                int lambda$createView$5;
+                lambda$createView$5 = FiltersSetupActivity.this.lambda$createView$5();
+                return lambda$createView$5;
+            }
+        });
     }
 
     public UndoView getUndoView() {
@@ -932,26 +922,12 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             }
             updateRows(true);
         } else if (i == NotificationCenter.suggestedFiltersLoaded) {
-            if (this.scrollingToBottom) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.FiltersSetupActivity$$ExternalSyntheticLambda3
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        FiltersSetupActivity.this.lambda$didReceivedNotification$7();
-                    }
-                }, 900L);
-            } else {
-                updateRows(true);
-            }
+            updateRows(true);
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$didReceivedNotification$7() {
-        updateRows(true);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class ItemInner extends AdapterWithDiffUtils.Item {
         MessagesController.DialogFilter filter;
         TLRPC$TL_dialogFilterSuggested suggested;
@@ -1045,7 +1021,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ListAdapter extends AdapterWithDiffUtils {
         private Context mContext;
 
@@ -1396,7 +1372,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class TouchHelperCallback extends ItemTouchHelper.Callback {
         @Override // androidx.recyclerview.widget.ItemTouchHelper.Callback
         public boolean isLongPressDragEnabled() {
@@ -1482,16 +1458,16 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             this.fragmentView.performHapticFeedback(3, 1);
         } catch (Exception unused) {
         }
-        BulletinFactory.of(this).createSimpleBulletin(R.raw.filter_reorder, AndroidUtilities.replaceTags(LocaleController.formatString("LimitReachedReorderFolder", R.string.LimitReachedReorderFolder, LocaleController.getString(R.string.FilterAllChats))), LocaleController.getString("PremiumMore", R.string.PremiumMore), 5000, new Runnable() { // from class: org.telegram.ui.FiltersSetupActivity$$ExternalSyntheticLambda2
+        BulletinFactory.of(this).createSimpleBulletin(R.raw.filter_reorder, AndroidUtilities.replaceTags(LocaleController.formatString("LimitReachedReorderFolder", R.string.LimitReachedReorderFolder, LocaleController.getString(R.string.FilterAllChats))), LocaleController.getString("PremiumMore", R.string.PremiumMore), 5000, new Runnable() { // from class: org.telegram.ui.FiltersSetupActivity$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
-                FiltersSetupActivity.this.lambda$onDefaultTabMoved$8();
+                FiltersSetupActivity.this.lambda$onDefaultTabMoved$7();
             }
         }).show();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onDefaultTabMoved$8() {
+    public /* synthetic */ void lambda$onDefaultTabMoved$7() {
         showDialog(new PremiumFeatureBottomSheet(this, 9, true));
     }
 

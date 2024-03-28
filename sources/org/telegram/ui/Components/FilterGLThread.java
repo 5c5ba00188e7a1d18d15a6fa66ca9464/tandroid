@@ -26,7 +26,7 @@ import org.telegram.messenger.SharedConfig;
 import org.telegram.ui.Components.BlurringShader;
 import org.telegram.ui.Components.FilterShaders;
 import org.telegram.ui.Stories.recorder.StoryEntry;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class FilterGLThread extends DispatchQueue {
     private final BlurringShader.BlurManager blurManager;
     private boolean blurred;
@@ -69,7 +69,7 @@ public class FilterGLThread extends DispatchQueue {
     private float[] videoTextureMatrix;
     private int videoWidth;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface FilterGLThreadVideoDelegate {
         void onVideoSurfaceCreated(SurfaceTexture surfaceTexture);
     }

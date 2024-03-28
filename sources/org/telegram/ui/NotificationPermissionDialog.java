@@ -33,7 +33,7 @@ import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.NotificationPermissionDialog;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class NotificationPermissionDialog extends BottomSheet implements NotificationCenter.NotificationCenterDelegate {
     private CounterView counterView;
     private boolean mayBeAccidentalDismiss;
@@ -187,7 +187,7 @@ public class NotificationPermissionDialog extends BottomSheet implements Notific
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class CounterView extends View {
         private final AnimatedFloat alpha;
         private ValueAnimator countAnimator;
@@ -301,7 +301,7 @@ public class NotificationPermissionDialog extends BottomSheet implements Notific
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private static class SectionView extends FrameLayout {
         public SectionView(Context context, int i, CharSequence charSequence) {
             super(context);

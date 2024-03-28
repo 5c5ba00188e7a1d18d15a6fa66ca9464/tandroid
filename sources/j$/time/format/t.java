@@ -1,6 +1,7 @@
 package j$.time.format;
 
 import j$.time.Instant;
+import j$.time.LocalDate;
 import j$.time.ZoneId;
 import j$.time.ZoneOffset;
 import j$.time.zone.ZoneRules;
@@ -28,7 +29,7 @@ public final class t {
             int i = j$.time.temporal.t.a;
             j$.time.chrono.g gVar = (j$.time.chrono.g) kVar.d(j$.time.temporal.n.a);
             ZoneId zoneId = (ZoneId) kVar.d(j$.time.temporal.m.a);
-            j$.time.f fVar = null;
+            LocalDate localDate = null;
             b = j$.util.a.u(b, gVar) ? null : b;
             e = j$.util.a.u(e, zoneId) ? null : e;
             if (b != null || e != null) {
@@ -38,7 +39,7 @@ public final class t {
                         if (gVar2 == null) {
                             j$.time.chrono.h hVar = j$.time.chrono.h.a;
                         }
-                        kVar = j$.time.o.i(Instant.h(kVar), e);
+                        kVar = j$.time.m.i(Instant.h(kVar), e);
                     } else {
                         try {
                             rules = e.getRules();
@@ -62,7 +63,7 @@ public final class t {
                 if (b != null) {
                     if (kVar.e(j$.time.temporal.a.EPOCH_DAY)) {
                         Objects.requireNonNull((j$.time.chrono.h) gVar2);
-                        fVar = j$.time.f.h(kVar);
+                        localDate = LocalDate.h(kVar);
                     } else if (b != j$.time.chrono.h.a || gVar != null) {
                         for (j$.time.temporal.a aVar3 : j$.time.temporal.a.values()) {
                             if (aVar3.f() && kVar.e(aVar3)) {
@@ -71,7 +72,7 @@ public final class t {
                         }
                     }
                 }
-                kVar = new s(fVar, kVar, gVar2, zoneId);
+                kVar = new s(localDate, kVar, gVar2, zoneId);
             }
         }
         this.a = kVar;

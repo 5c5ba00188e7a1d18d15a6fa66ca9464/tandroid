@@ -3,6 +3,7 @@ package org.telegram.ui;
 import android.app.Activity;
 import android.graphics.Canvas;
 import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -51,7 +52,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.StickerSetBulletinLayout;
 import org.telegram.ui.Components.StickersAlert;
 import org.telegram.ui.Stories.StoryReactionWidgetView;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class EmojiAnimationsOverlay implements NotificationCenter.NotificationCenterDelegate {
     private static final HashSet<String> excludeEmojiFromPack;
     private static final HashSet<String> supportedEmoji = new HashSet<>();
@@ -697,6 +698,11 @@ public class EmojiAnimationsOverlay implements NotificationCenter.NotificationCe
                         }
 
                         @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
+                        public /* synthetic */ void didSetImageBitmap(int i8, String str2, Drawable drawable) {
+                            ImageReceiver.ImageReceiverDelegate.-CC.$default$didSetImageBitmap(this, i8, str2, drawable);
+                        }
+
+                        @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
                         public void onAnimationReady(ImageReceiver imageReceiver3) {
                             if (!z || !messageObject.isAnimatedAnimatedEmoji() || imageReceiver3.getLottieAnimation() == null || imageReceiver3.getLottieAnimation().hasVibrationPattern()) {
                                 return;
@@ -1066,7 +1072,7 @@ public class EmojiAnimationsOverlay implements NotificationCenter.NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class DrawingObject {
         TLRPC$Document document;
         public long documentId;

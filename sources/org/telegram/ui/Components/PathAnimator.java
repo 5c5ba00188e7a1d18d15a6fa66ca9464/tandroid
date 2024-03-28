@@ -6,7 +6,7 @@ import android.graphics.Path;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class PathAnimator {
     private float durationScale;
     private float scale;
@@ -17,7 +17,7 @@ public class PathAnimator {
     private ArrayList<KeyFrame> keyFrames = new ArrayList<>();
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class KeyFrame {
         public ArrayList<Object> commands;
         public float time;
@@ -28,7 +28,7 @@ public class PathAnimator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class MoveTo {
         public float x;
         public float y;
@@ -38,7 +38,7 @@ public class PathAnimator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class LineTo {
         public float x;
         public float y;
@@ -48,7 +48,7 @@ public class PathAnimator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class CurveTo {
         public float x;
         public float x1;

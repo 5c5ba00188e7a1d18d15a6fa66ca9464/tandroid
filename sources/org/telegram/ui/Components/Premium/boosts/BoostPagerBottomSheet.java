@@ -27,7 +27,7 @@ import org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet;
 import org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet;
 import org.telegram.ui.Components.ViewPagerFixed;
 import org.telegram.ui.Stories.DarkThemeResourceProvider;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class BoostPagerBottomSheet extends BottomSheet {
     private static BoostPagerBottomSheet instance;
     private boolean isLandscapeOrientation;
@@ -87,8 +87,9 @@ public class BoostPagerBottomSheet extends BottomSheet {
                 }
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.ViewPagerFixed
-            protected void onTabAnimationUpdate(boolean z3) {
+            public void onTabAnimationUpdate(boolean z3) {
                 float positionAnimated = BoostPagerBottomSheet.this.viewPager.getPositionAnimated();
                 if (positionAnimated > 0.0f && positionAnimated < 1.0f) {
                     if (!this.isScrolling) {

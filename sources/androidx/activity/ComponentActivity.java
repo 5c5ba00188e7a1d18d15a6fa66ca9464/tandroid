@@ -38,6 +38,7 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LifecycleRegistry;
 import androidx.lifecycle.ReportFragment;
 import androidx.lifecycle.SavedStateHandleSupport;
+import androidx.lifecycle.SavedStateViewModelFactory;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStore;
 import androidx.lifecycle.ViewModelStoreOwner;
@@ -57,6 +58,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ComponentActivity extends androidx.core.app.ComponentActivity implements ViewModelStoreOwner, HasDefaultViewModelProviderFactory, SavedStateRegistryOwner, OnBackPressedDispatcherOwner, ActivityResultRegistryOwner {
     private final ActivityResultRegistry mActivityResultRegistry;
     private int mContentLayoutId;
+    private ViewModelProvider.Factory mDefaultFactory;
     private boolean mDispatchingOnMultiWindowModeChanged;
     private boolean mDispatchingOnPictureInPictureModeChanged;
     private final OnBackPressedDispatcher mOnBackPressedDispatcher;
@@ -378,6 +380,14 @@ public class ComponentActivity extends androidx.core.app.ComponentActivity imple
                 this.mViewModelStore = new ViewModelStore();
             }
         }
+    }
+
+    @Override // androidx.lifecycle.HasDefaultViewModelProviderFactory
+    public ViewModelProvider.Factory getDefaultViewModelProviderFactory() {
+        if (this.mDefaultFactory == null) {
+            this.mDefaultFactory = new SavedStateViewModelFactory(getApplication(), this, getIntent() != null ? getIntent().getExtras() : null);
+        }
+        return this.mDefaultFactory;
     }
 
     @Override // androidx.lifecycle.HasDefaultViewModelProviderFactory

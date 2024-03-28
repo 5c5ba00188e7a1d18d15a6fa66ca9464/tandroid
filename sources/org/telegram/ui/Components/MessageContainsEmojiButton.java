@@ -27,7 +27,7 @@ import org.telegram.tgnet.TLRPC$InputStickerSet;
 import org.telegram.tgnet.TLRPC$StickerSet;
 import org.telegram.tgnet.TLRPC$TL_messages_stickerSet;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class MessageContainsEmojiButton extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     public boolean checkWidth;
     private int currentAccount;
@@ -56,7 +56,7 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
     private StaticLayout secondPartTextLayout;
     private TextPaint textPaint;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     private class BoldAndAccent extends CharacterStyle {
         private BoldAndAccent() {
         }
@@ -106,7 +106,11 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
                 spannableStringBuilder.removeSpan(typefaceSpanArr[i3]);
                 spannableStringBuilder.setSpan(new BoldAndAccent(), spanStart, spanEnd, 33);
             }
-        } else if (arrayList.size() == 1) {
+        } else if (arrayList.size() != 1) {
+            if (i2 == 4) {
+                this.mainText = AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.StickersCheckStickersBotForMoreOptions), Theme.key_chat_messageLinkIn, 2, null, resourcesProvider);
+            }
+        } else {
             if (i2 == 0) {
                 string = LocaleController.getString("MessageContainsEmojiPack", R.string.MessageContainsEmojiPack);
             } else if (i2 == 3) {

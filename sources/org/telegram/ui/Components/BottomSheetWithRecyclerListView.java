@@ -19,7 +19,7 @@ import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.RecyclerListView;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
     protected ActionBar actionBar;
     private BaseFragment baseFragment;
@@ -39,7 +39,7 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
         return false;
     }
 
-    protected abstract RecyclerListView.SelectionAdapter createAdapter();
+    protected abstract RecyclerListView.SelectionAdapter createAdapter(RecyclerListView recyclerListView);
 
     protected abstract CharSequence getTitle();
 
@@ -167,7 +167,8 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
         }
         if (z2) {
             this.recyclerListView.setHasFixedSize(true);
-            this.recyclerListView.setAdapter(createAdapter());
+            RecyclerListView recyclerListView2 = this.recyclerListView;
+            recyclerListView2.setAdapter(createAdapter(recyclerListView2));
             setCustomView(frameLayout);
             frameLayout.addView(this.recyclerListView, LayoutHelper.createFrame(-1, -2.0f));
         } else {
@@ -219,7 +220,7 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
     }
 
     protected void resetAdapter(final Context context) {
-        final RecyclerListView.SelectionAdapter createAdapter = createAdapter();
+        final RecyclerListView.SelectionAdapter createAdapter = createAdapter(this.recyclerListView);
         this.recyclerListView.setAdapter(new RecyclerListView.SelectionAdapter() { // from class: org.telegram.ui.Components.BottomSheetWithRecyclerListView.6
             @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
             public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {

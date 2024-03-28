@@ -9,7 +9,7 @@ import android.view.animation.DecelerateInterpolator;
 import androidx.viewpager.widget.ViewPager;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class BottomPagesView extends View {
     private int colorKey;
     private int currentPage;

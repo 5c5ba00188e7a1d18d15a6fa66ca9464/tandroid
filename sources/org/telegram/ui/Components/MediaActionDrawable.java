@@ -15,7 +15,7 @@ import android.text.TextPaint;
 import android.view.animation.DecelerateInterpolator;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class MediaActionDrawable extends Drawable {
     private float animatedDownloadProgress;
     private boolean animatingTransition;
@@ -49,7 +49,7 @@ public class MediaActionDrawable extends Drawable {
     private float overrideAlpha = 1.0f;
     private float transitionProgress = 1.0f;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface MediaActionDrawableDelegate {
         void invalidate();
     }

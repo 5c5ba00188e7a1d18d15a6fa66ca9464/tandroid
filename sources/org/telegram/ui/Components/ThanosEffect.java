@@ -39,7 +39,7 @@ import org.telegram.ui.Cells.ChatActionCell;
 import org.telegram.ui.Cells.ChatMessageCell;
 import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.ThanosEffect;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class ThanosEffect extends TextureView {
     private static Boolean nothanos;
     public boolean destroyed;
@@ -62,7 +62,7 @@ public class ThanosEffect extends TextureView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class ToSet {
         public final Bitmap bitmap;
         public final Runnable doneCallback;
@@ -122,7 +122,7 @@ public class ThanosEffect extends TextureView {
         setSurfaceTextureListener(new 2());
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     class 2 implements TextureView.SurfaceTextureListener {
         @Override // android.view.TextureView.SurfaceTextureListener
         public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
@@ -293,7 +293,7 @@ public class ThanosEffect extends TextureView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class DrawingThread extends DispatchQueue {
         private volatile boolean alive;
         private int deltaTimeHandle;
@@ -790,7 +790,7 @@ public class ThanosEffect extends TextureView {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public class Animation {
             private Bitmap bitmap;
             public final int[] buffer;

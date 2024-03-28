@@ -30,25 +30,25 @@ import org.telegram.ui.Components.Premium.LimitReachedBottomSheet;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PremiumPreviewFragment;
 @SuppressLint({"ViewConstructor"})
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
     public StickerSetBulletinLayout(Context context, TLObject tLObject, int i, TLRPC$Document tLRPC$Document, Theme.ResourcesProvider resourcesProvider) {
         this(context, tLObject, 1, i, tLRPC$Document, resourcesProvider);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:102:0x030c  */
-    /* JADX WARN: Removed duplicated region for block: B:110:0x037c  */
-    /* JADX WARN: Removed duplicated region for block: B:142:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:101:0x030d  */
+    /* JADX WARN: Removed duplicated region for block: B:109:0x037d  */
+    /* JADX WARN: Removed duplicated region for block: B:141:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:29:0x0075 A[ADDED_TO_REGION] */
     /* JADX WARN: Removed duplicated region for block: B:35:0x008c  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x0114  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x0126  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x013a  */
-    /* JADX WARN: Removed duplicated region for block: B:82:0x01c6  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x024f  */
-    /* JADX WARN: Removed duplicated region for block: B:89:0x0263  */
-    /* JADX WARN: Removed duplicated region for block: B:90:0x0277  */
-    /* JADX WARN: Removed duplicated region for block: B:91:0x028b  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x0114  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x0127  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x013b  */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x01c7  */
+    /* JADX WARN: Removed duplicated region for block: B:87:0x0250  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x0264  */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x0278  */
+    /* JADX WARN: Removed duplicated region for block: B:90:0x028c  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -88,7 +88,7 @@ public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
                         forSticker = ImageLocation.getForSticker(tLRPC$PhotoSize, tLRPC$Document2, i3);
                     }
                     ImageLocation imageLocation = forSticker;
-                    if ((z2 && MessageObject.isAnimatedStickerDocument(tLRPC$Document2, true)) || MessageObject.isVideoSticker(tLRPC$Document2) || MessageObject.isGifDocument(tLRPC$Document2)) {
+                    if (z2 && (MessageObject.isAnimatedStickerDocument(tLRPC$Document2, true) || MessageObject.isVideoSticker(tLRPC$Document2) || MessageObject.isGifDocument(tLRPC$Document2))) {
                         this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document2), "50_50", imageLocation, (String) null, 0, tLObject);
                     } else if (imageLocation != null && imageLocation.imageType == 1) {
                         this.imageView.setImage(imageLocation, "50_50", "tgs", (Drawable) null, tLObject);

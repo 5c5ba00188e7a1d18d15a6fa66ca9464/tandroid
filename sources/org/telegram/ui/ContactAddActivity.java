@@ -69,7 +69,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.RadialProgressView;
 import org.telegram.ui.LNavigation.NavigationExt;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ContactAddActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate, ImageUpdater.ImageUpdaterDelegate {
     private boolean addContact;
     private TLRPC$FileLocation avatar;
@@ -103,7 +103,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
     MessageObject suggestPhotoMessageFinal;
     private long user_id;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface ContactAddActivityDelegate {
         void didAddToContacts();
     }
@@ -278,8 +278,9 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         boolean z2 = LocaleController.isRTL;
         frameLayout.addView(textView4, LayoutHelper.createFrame(-2, -2.0f, (z2 ? 5 : 3) | 48, z2 ? 0.0f : 80.0f, 32.0f, z2 ? 80.0f : 0.0f, 0.0f));
         EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(context) { // from class: org.telegram.ui.ContactAddActivity.3
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextBoldCursor
-            protected Theme.ResourcesProvider getResourcesProvider() {
+            public Theme.ResourcesProvider getResourcesProvider() {
                 return ContactAddActivity.this.resourcesProvider;
             }
         };
@@ -329,8 +330,9 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         });
         this.firstNameField.setText(this.firstNameFromCard);
         EditTextBoldCursor editTextBoldCursor4 = new EditTextBoldCursor(context) { // from class: org.telegram.ui.ContactAddActivity.5
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextBoldCursor
-            protected Theme.ResourcesProvider getResourcesProvider() {
+            public Theme.ResourcesProvider getResourcesProvider() {
                 return ContactAddActivity.this.resourcesProvider;
             }
         };

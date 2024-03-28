@@ -98,7 +98,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.StickerEmptyView;
 import org.telegram.ui.ContactsActivity;
 import org.telegram.ui.Stories.StoriesListPlaceProvider;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ContactsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private boolean allowBots;
     private boolean allowSelf;
@@ -149,7 +149,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
     Runnable sortContactsRunnable;
     private ActionBarMenuItem sortItem;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface ContactsActivityDelegate {
         void didSelectContact(TLRPC$User tLRPC$User, String str, ContactsActivity contactsActivity);
     }
@@ -259,14 +259,14 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
     /* JADX WARN: Removed duplicated region for block: B:66:0x02cb  */
     /* JADX WARN: Removed duplicated region for block: B:67:0x02ce  */
     /* JADX WARN: Removed duplicated region for block: B:70:0x0309  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x0361  */
-    /* JADX WARN: Removed duplicated region for block: B:78:0x036e  */
-    /* JADX WARN: Removed duplicated region for block: B:85:0x038b  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x03f1  */
-    /* JADX WARN: Removed duplicated region for block: B:89:0x03f4  */
-    /* JADX WARN: Removed duplicated region for block: B:91:0x03f8  */
-    /* JADX WARN: Removed duplicated region for block: B:92:0x03fb  */
-    /* JADX WARN: Removed duplicated region for block: B:96:0x0415  */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x0360  */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x036d  */
+    /* JADX WARN: Removed duplicated region for block: B:85:0x038a  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x03f0  */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x03f3  */
+    /* JADX WARN: Removed duplicated region for block: B:91:0x03f7  */
+    /* JADX WARN: Removed duplicated region for block: B:92:0x03fa  */
+    /* JADX WARN: Removed duplicated region for block: B:96:0x0414  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1021,7 +1021,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 7 implements RecyclerListView.OnItemLongClickListener {
         7() {
         }

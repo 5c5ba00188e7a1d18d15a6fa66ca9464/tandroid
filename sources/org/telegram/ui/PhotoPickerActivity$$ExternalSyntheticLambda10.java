@@ -1,7 +1,7 @@
 package org.telegram.ui;
 
 import org.telegram.ui.Components.AlertsCreator;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public final /* synthetic */ class PhotoPickerActivity$$ExternalSyntheticLambda10 implements AlertsCreator.ScheduleDatePickerDelegate {
     public final /* synthetic */ PhotoPickerActivity f$0;
 

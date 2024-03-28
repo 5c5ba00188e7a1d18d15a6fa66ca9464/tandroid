@@ -103,6 +103,11 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
             }
 
             @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
+            public /* synthetic */ void didSetImageBitmap(int i2, String str, Drawable drawable) {
+                ImageReceiver.ImageReceiverDelegate.-CC.$default$didSetImageBitmap(this, i2, str, drawable);
+            }
+
+            @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
             public /* synthetic */ void onAnimationReady(ImageReceiver imageReceiver2) {
                 ImageReceiver.ImageReceiverDelegate.-CC.$default$onAnimationReady(this, imageReceiver2);
             }
@@ -293,12 +298,12 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
         return createBitmap;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:141:0x048d  */
-    /* JADX WARN: Removed duplicated region for block: B:195:0x064e  */
+    /* JADX WARN: Removed duplicated region for block: B:141:0x048a  */
+    /* JADX WARN: Removed duplicated region for block: B:195:0x064b  */
     /* JADX WARN: Removed duplicated region for block: B:233:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x0197  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x01a0  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x01b2  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0195  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x019e  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x01b0  */
     @SuppressLint({"NewApi"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.

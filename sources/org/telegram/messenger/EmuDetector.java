@@ -138,8 +138,8 @@ public class EmuDetector {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:42:0x00d0 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x00d1  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x00dc A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x00dd  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -150,7 +150,7 @@ public class EmuDetector {
             String str = Build.MODEL;
             if (!str.toLowerCase().contains("google_sdk") && !str.toLowerCase().contains("droid4x") && !str.toLowerCase().contains("emulator") && !str.contains("Android SDK built for x86") && !Build.MANUFACTURER.toLowerCase().contains("genymotion")) {
                 String str2 = Build.HARDWARE;
-                if (!str2.toLowerCase().contains("goldfish") && !str2.toLowerCase().contains("vbox86") && !str2.toLowerCase().contains("android_x86") && !str2.toLowerCase().contains("nox")) {
+                if (!str2.toLowerCase().contains("goldfish") && !str2.toLowerCase().contains("vbox86") && !str2.toLowerCase().contains("android_x86") && !str2.toLowerCase().contains("nox") && !str2.toLowerCase().contains("ranchu")) {
                     String str3 = Build.PRODUCT;
                     if (!str3.equals("sdk") && !str3.equals("google_sdk") && !str3.equals("sdk_x86") && !str3.equals("vbox86p") && !str3.toLowerCase().contains("nox") && !Build.SERIAL.toLowerCase().contains("nox")) {
                         z = false;

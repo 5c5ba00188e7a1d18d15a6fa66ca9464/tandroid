@@ -13,7 +13,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.SeekBarView;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class BlurSettingsBottomSheet extends BottomSheet {
     public static float blurAlpha = 1.0f - (Color.alpha(Theme.getColor(Theme.key_chat_BlurAlpha)) / 255.0f);
     public static float blurRadius = 1.0f;

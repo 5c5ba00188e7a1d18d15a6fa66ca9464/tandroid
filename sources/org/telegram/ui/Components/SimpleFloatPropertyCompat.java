@@ -1,18 +1,18 @@
 package org.telegram.ui.Components;
 
 import androidx.dynamicanimation.animation.FloatPropertyCompat;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class SimpleFloatPropertyCompat<T> extends FloatPropertyCompat<T> {
     private Getter<T> getter;
     private float multiplier;
     private Setter<T> setter;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface Getter<T> {
         float get(T t);
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface Setter<T> {
         void set(T t, float f);
     }

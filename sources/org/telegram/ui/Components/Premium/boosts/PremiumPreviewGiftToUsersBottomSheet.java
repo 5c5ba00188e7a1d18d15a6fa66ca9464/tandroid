@@ -44,7 +44,7 @@ import org.telegram.ui.Components.Premium.boosts.cells.DurationWithDiscountCell;
 import org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorBtnCell;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.LaunchActivity;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class PremiumPreviewGiftToUsersBottomSheet extends PremiumPreviewBottomSheet {
     private GradientButtonWithCounterView actionBtn;
     private SelectorBtnCell buttonContainer;
@@ -67,7 +67,7 @@ public class PremiumPreviewGiftToUsersBottomSheet extends PremiumPreviewBottomSh
         if (lastFragment == null) {
             return;
         }
-        new PremiumPreviewGiftToUsersBottomSheet(lastFragment, UserConfig.selectedAccount, list, list2, lastFragment.getResourceProvider()).show();
+        lastFragment.showDialog(new PremiumPreviewGiftToUsersBottomSheet(lastFragment, UserConfig.selectedAccount, list, list2, lastFragment.getResourceProvider()));
     }
 
     public PremiumPreviewGiftToUsersBottomSheet(BaseFragment baseFragment, int i, List<TLRPC$User> list, List<TLRPC$TL_premiumGiftCodeOption> list2, Theme.ResourcesProvider resourcesProvider) {
@@ -321,7 +321,7 @@ public class PremiumPreviewGiftToUsersBottomSheet extends PremiumPreviewBottomSh
 
     /* JADX INFO: Access modifiers changed from: package-private */
     @SuppressLint({"ViewConstructor"})
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class AvatarHolderView extends FrameLayout {
         private final Paint bgPaint;
         public boolean drawCycle;
@@ -398,7 +398,7 @@ public class PremiumPreviewGiftToUsersBottomSheet extends PremiumPreviewBottomSh
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class AdditionalCounterView extends View {
         int count;
         TextPaint paint;

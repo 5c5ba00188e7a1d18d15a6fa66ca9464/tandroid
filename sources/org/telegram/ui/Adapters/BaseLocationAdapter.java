@@ -36,7 +36,7 @@ import org.telegram.tgnet.TLRPC$TL_messages_getInlineBotResults;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$messages_BotResults;
 import org.telegram.ui.Components.RecyclerListView;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public abstract class BaseLocationAdapter extends RecyclerListView.SelectionAdapter {
     public final boolean biz;
     private int currentRequestNum;
@@ -56,7 +56,7 @@ public abstract class BaseLocationAdapter extends RecyclerListView.SelectionAdap
     protected ArrayList<TLRPC$TL_messageMediaVenue> places = new ArrayList<>();
     private int currentAccount = UserConfig.selectedAccount;
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public interface BaseLocationAdapterDelegate {
         void didLoadSearchResult(ArrayList<TLRPC$TL_messageMediaVenue> arrayList);
     }

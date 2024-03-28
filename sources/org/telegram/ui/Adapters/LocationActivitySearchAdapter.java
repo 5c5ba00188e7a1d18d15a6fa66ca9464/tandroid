@@ -12,7 +12,7 @@ import org.telegram.ui.Cells.GraySectionCell;
 import org.telegram.ui.Cells.LocationCell;
 import org.telegram.ui.Components.FlickerLoadingView;
 import org.telegram.ui.Components.RecyclerListView;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class LocationActivitySearchAdapter extends BaseLocationAdapter {
     private FlickerLoadingView globalGradientView;
     private Context mContext;

@@ -10,7 +10,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
 @SuppressLint({"ViewConstructor"})
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class SelectorLetterCell extends FrameLayout {
     private final Theme.ResourcesProvider resourcesProvider;
     private final TextView textView;
@@ -28,8 +28,8 @@ public class SelectorLetterCell extends FrameLayout {
         addView(textView, LayoutHelper.createFrame(-1, -1.0f, (LocaleController.isRTL ? 5 : 3) | 48, 16.0f, 0.0f, 16.0f, 0.0f));
     }
 
-    public void setLetter(String str) {
-        this.textView.setText(str);
+    public void setLetter(CharSequence charSequence) {
+        this.textView.setText(charSequence);
     }
 
     private int getThemedColor(int i) {

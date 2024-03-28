@@ -23,7 +23,7 @@ import org.telegram.ui.Components.Reactions.ReactionImageHolder;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 import org.telegram.ui.Components.Size;
 import org.telegram.ui.Stories.StoryReactionWidgetBackground;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class ReactionWidgetEntityView extends EntityView {
     Size baseSize;
     AnimatedFloat crossfadeBackgrounds;
@@ -284,7 +284,7 @@ public class ReactionWidgetEntityView extends EntityView {
         return this.storyReactionWidgetBackground.isDarkStyle();
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class StickerViewSelectionView extends EntityView.SelectionView {
         private RectF arcRect;
 

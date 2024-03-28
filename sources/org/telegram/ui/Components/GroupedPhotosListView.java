@@ -19,7 +19,7 @@ import org.telegram.messenger.MessageObject;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC$PageBlock;
 import org.telegram.tgnet.TLRPC$PhotoSize;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class GroupedPhotosListView extends View implements GestureDetector.OnGestureListener {
     private boolean animateAllLine;
     private boolean animateBackground;
@@ -58,7 +58,7 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
     private boolean stopedScrolling;
     private ArrayList<ImageReceiver> unusedReceivers;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface GroupedPhotosListViewDelegate {
         long getAvatarsDialogId();
 

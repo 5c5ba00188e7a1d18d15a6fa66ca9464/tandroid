@@ -304,8 +304,8 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration implements Recy
 
     /* JADX WARN: Removed duplicated region for block: B:37:0x0097  */
     /* JADX WARN: Removed duplicated region for block: B:38:0x009a  */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x0132  */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x013e  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x0134  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0140  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -471,7 +471,13 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration implements Recy
             this.mSelectedStartY = viewHolder.itemView.getTop();
             this.mSelected = viewHolder;
             if (i == 2) {
-                viewHolder.itemView.performHapticFeedback(0);
+                try {
+                    try {
+                        viewHolder.itemView.performHapticFeedback(0, 2);
+                    } catch (Exception unused) {
+                    }
+                } catch (Exception unused2) {
+                }
                 parent = this.mRecyclerView.getParent();
                 if (parent != null) {
                     parent.requestDisallowInterceptTouchEvent(this.mSelected != null);

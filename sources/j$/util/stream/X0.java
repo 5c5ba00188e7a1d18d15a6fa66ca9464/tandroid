@@ -1,13 +1,32 @@
 package j$.util.stream;
-/* loaded from: classes2.dex */
-public final /* synthetic */ class X0 implements j$.util.function.r {
-    public static final /* synthetic */ X0 a = new X0();
 
-    private /* synthetic */ X0() {
+import java.util.Objects;
+/* loaded from: classes2.dex */
+public final /* synthetic */ class X0 implements j$.util.function.q {
+    public final /* synthetic */ int a = 1;
+    public final /* synthetic */ Object b;
+
+    @Override // j$.util.function.q
+    public final void accept(long j) {
+        switch (this.a) {
+            case 0:
+                ((n3) this.b).accept(j);
+                return;
+            default:
+                ((a1) this.b).a.accept(j);
+                return;
+        }
     }
 
-    @Override // j$.util.function.r
-    public final Object apply(long j) {
-        return Long.valueOf(j);
+    @Override // j$.util.function.q
+    public j$.util.function.q f(j$.util.function.q qVar) {
+        switch (this.a) {
+            case 0:
+                Objects.requireNonNull(qVar);
+                return new j$.util.function.p(this, qVar);
+            default:
+                Objects.requireNonNull(qVar);
+                return new j$.util.function.p(this, qVar);
+        }
     }
 }

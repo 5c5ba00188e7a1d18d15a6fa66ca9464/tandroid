@@ -22,7 +22,7 @@ import org.telegram.ui.Components.AvatarsImageView;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.LinkSpanDrawable;
 import org.telegram.ui.DialogsActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class KeepMediaPopupView extends ActionBarPopupWindow.ActionBarPopupWindowLayout {
     private final CacheByChatsController cacheByChatsController;
     Callback callback;
@@ -40,7 +40,7 @@ public class KeepMediaPopupView extends ActionBarPopupWindow.ActionBarPopupWindo
     BaseFragment parentFragment;
     ActionBarMenuSubItem twoDay;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface Callback {
         void onKeepMediaChange(int i, int i2);
     }
@@ -241,7 +241,7 @@ public class KeepMediaPopupView extends ActionBarPopupWindow.ActionBarPopupWindo
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ExceptionsView extends FrameLayout {
         AvatarsImageView avatarsImageView;
         boolean ignoreLayout;
@@ -297,7 +297,7 @@ public class KeepMediaPopupView extends ActionBarPopupWindow.ActionBarPopupWindo
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private static class CheckItem {
         final ActionBarMenuSubItem item;
         final int type;

@@ -76,7 +76,7 @@ import org.telegram.ui.Components.SendingFileDrawable;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.Components.StatusDrawable;
 import org.telegram.ui.Components.TypingDotsDrawable;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class PopupNotificationActivity extends Activity implements NotificationCenter.NotificationCenterDelegate {
     private ActionBar actionBar;
     private FrameLayout avatarContainer;
@@ -121,7 +121,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
         return true;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private class FrameLayoutTouch extends FrameLayout {
         public FrameLayoutTouch(Context context) {
             super(context);

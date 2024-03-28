@@ -13,7 +13,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.Components.EmojiTabsStrip;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: EmojiTabsStrip.java */
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class ScrollableHorizontalScrollView extends HorizontalScrollView {
     public LinearLayout contentView;
     private ValueAnimator scrollAnimator;

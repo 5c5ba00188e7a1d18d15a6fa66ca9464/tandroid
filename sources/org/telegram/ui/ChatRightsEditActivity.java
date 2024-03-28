@@ -86,7 +86,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Premium.LimitReachedBottomSheet;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.TwoStepVerificationActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ChatRightsEditActivity extends BaseFragment {
     private int addAdminsRow;
     private FrameLayout addBotButton;
@@ -168,7 +168,7 @@ public class ChatRightsEditActivity extends BaseFragment {
     private int untilDateRow;
     private int untilSectionRow;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface ChatRightsEditActivityDelegate {
         void didChangeOwner(TLRPC$User tLRPC$User);
 
@@ -588,8 +588,9 @@ public class ChatRightsEditActivity extends BaseFragment {
         this.listView = recyclerListView;
         recyclerListView.setClipChildren(this.currentType != 2);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, context, 1, false) { // from class: org.telegram.ui.ChatRightsEditActivity.4
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.recyclerview.widget.LinearLayoutManager
-            protected int getExtraLayoutSpace(RecyclerView.State state) {
+            public int getExtraLayoutSpace(RecyclerView.State state) {
                 return 5000;
             }
         };
@@ -1297,7 +1298,7 @@ public class ChatRightsEditActivity extends BaseFragment {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$initTransfer$9(DialogInterface dialogInterface, int i) {
         final TwoStepVerificationActivity twoStepVerificationActivity = new TwoStepVerificationActivity();
-        twoStepVerificationActivity.setDelegate(new TwoStepVerificationActivity.TwoStepVerificationActivityDelegate() { // from class: org.telegram.ui.ChatRightsEditActivity$$ExternalSyntheticLambda26
+        twoStepVerificationActivity.setDelegate(0, new TwoStepVerificationActivity.TwoStepVerificationActivityDelegate() { // from class: org.telegram.ui.ChatRightsEditActivity$$ExternalSyntheticLambda26
             @Override // org.telegram.ui.TwoStepVerificationActivity.TwoStepVerificationActivityDelegate
             public final void didEnterPassword(TLRPC$InputCheckPasswordSRP tLRPC$InputCheckPasswordSRP) {
                 ChatRightsEditActivity.this.lambda$initTransfer$8(twoStepVerificationActivity, tLRPC$InputCheckPasswordSRP);
@@ -1795,7 +1796,7 @@ public class ChatRightsEditActivity extends BaseFragment {
         LimitReachedBottomSheet limitReachedBottomSheet = new LimitReachedBottomSheet(this, getParentActivity(), 11, this.currentAccount, getResourceProvider());
         ArrayList<TLRPC$User> arrayList = new ArrayList<>();
         arrayList.add(this.currentUser);
-        limitReachedBottomSheet.setRestrictedUsers(this.currentChat, arrayList);
+        limitReachedBottomSheet.setRestrictedUsers(this.currentChat, arrayList, null, null);
         limitReachedBottomSheet.show();
         return false;
     }
@@ -1978,7 +1979,7 @@ public class ChatRightsEditActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private boolean ignoreTextChange;
         private Context mContext;

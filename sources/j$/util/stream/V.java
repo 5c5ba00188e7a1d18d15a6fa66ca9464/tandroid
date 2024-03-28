@@ -1,31 +1,77 @@
 package j$.util.stream;
 
-import j$.util.Optional;
-import j$.util.function.Predicate;
+import j$.util.function.BiConsumer;
+import j$.util.function.Supplier;
+import j$.util.t;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class V implements Predicate {
-    public static final /* synthetic */ V a = new V();
+public interface V extends g {
+    j$.util.j G(j$.util.function.d dVar);
 
-    private /* synthetic */ V() {
-    }
+    Object H(Supplier supplier, j$.util.function.u uVar, BiConsumer biConsumer);
 
-    @Override // j$.util.function.Predicate
-    public /* synthetic */ Predicate and(Predicate predicate) {
-        return Predicate.-CC.$default$and(this, predicate);
-    }
+    double K(double d, j$.util.function.d dVar);
 
-    @Override // j$.util.function.Predicate
-    public /* synthetic */ Predicate negate() {
-        return Predicate.-CC.$default$negate(this);
-    }
+    Stream M(j$.util.function.g gVar);
 
-    @Override // j$.util.function.Predicate
-    public /* synthetic */ Predicate or(Predicate predicate) {
-        return Predicate.-CC.$default$or(this, predicate);
-    }
+    IntStream R(j$.wrappers.F f);
 
-    @Override // j$.util.function.Predicate
-    public final boolean test(Object obj) {
-        return ((Optional) obj).isPresent();
-    }
+    boolean X(j$.wrappers.D d);
+
+    j$.util.j average();
+
+    V b(j$.util.function.f fVar);
+
+    Stream boxed();
+
+    long count();
+
+    V distinct();
+
+    boolean f0(j$.wrappers.D d);
+
+    j$.util.j findAny();
+
+    j$.util.j findFirst();
+
+    boolean g0(j$.wrappers.D d);
+
+    @Override // j$.util.stream.g
+    j$.util.n iterator();
+
+    void j(j$.util.function.f fVar);
+
+    void j0(j$.util.function.f fVar);
+
+    V limit(long j);
+
+    j$.util.j max();
+
+    j$.util.j min();
+
+    @Override // j$.util.stream.g
+    V parallel();
+
+    V r(j$.wrappers.D d);
+
+    @Override // j$.util.stream.g
+    V sequential();
+
+    V skip(long j);
+
+    V sorted();
+
+    @Override // j$.util.stream.g
+    t.a spliterator();
+
+    double sum();
+
+    j$.util.g summaryStatistics();
+
+    double[] toArray();
+
+    V w(j$.util.function.g gVar);
+
+    f1 x(j$.util.function.h hVar);
+
+    V y(j$.wrappers.J j);
 }

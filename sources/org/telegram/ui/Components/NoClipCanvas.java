@@ -16,7 +16,7 @@ import android.graphics.RenderNode;
 import android.graphics.fonts.Font;
 import android.graphics.text.MeasuredText;
 import android.os.Build;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class NoClipCanvas extends Canvas {
     public Canvas canvas;
 

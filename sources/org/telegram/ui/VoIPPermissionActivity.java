@@ -11,7 +11,7 @@ import org.telegram.messenger.voip.VoIPService;
 import org.telegram.tgnet.TLRPC$PhoneCall;
 import org.telegram.ui.Components.voip.VoIPHelper;
 @TargetApi(23)
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class VoIPPermissionActivity extends Activity {
     @Override // android.app.Activity
     protected void onCreate(Bundle bundle) {

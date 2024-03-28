@@ -34,7 +34,7 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.utils.BitmapsCache;
 import org.telegram.ui.Components.RLottieDrawable;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class RLottieDrawable extends BitmapDrawable implements Animatable, BitmapsCache.Cacheable {
     public static Gson gson;
     public static DispatchQueue lottieCacheGenerateQueue;
@@ -118,6 +118,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
     protected Runnable uiRunnableNoFrame;
     private HashMap<Integer, Integer> vibrationPattern;
     protected boolean waitingForNextTask;
+    public Runnable whenCacheDone;
     protected final int width;
     protected static final Handler uiHandler = new Handler(Looper.getMainLooper());
     private static ThreadLocal<byte[]> readBufferLocal = new ThreadLocal<>();
@@ -125,7 +126,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
     private static final DispatchQueuePool loadFrameRunnableQueue = new DispatchQueuePool(4);
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class LottieMetadata {
         float fr;
         float ip;
@@ -158,7 +159,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class 3 implements Runnable {
         3() {
         }
@@ -365,6 +366,11 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
                 RLottieDrawable rLottieDrawable = RLottieDrawable.this;
                 rLottieDrawable.generatingCache = false;
                 rLottieDrawable.decodeFrameFinishedInternal();
+                Runnable runnable = RLottieDrawable.this.whenCacheDone;
+                if (runnable != null) {
+                    runnable.run();
+                    RLottieDrawable.this.whenCacheDone = null;
+                }
             }
         };
         this.loadFrameRunnable = new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable.5
@@ -704,6 +710,11 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
                 RLottieDrawable rLottieDrawable = RLottieDrawable.this;
                 rLottieDrawable.generatingCache = false;
                 rLottieDrawable.decodeFrameFinishedInternal();
+                Runnable runnable = RLottieDrawable.this.whenCacheDone;
+                if (runnable != null) {
+                    runnable.run();
+                    RLottieDrawable.this.whenCacheDone = null;
+                }
             }
         };
         this.loadFrameRunnable = new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable.5
@@ -1075,6 +1086,11 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
                 RLottieDrawable rLottieDrawable = RLottieDrawable.this;
                 rLottieDrawable.generatingCache = false;
                 rLottieDrawable.decodeFrameFinishedInternal();
+                Runnable runnable = RLottieDrawable.this.whenCacheDone;
+                if (runnable != null) {
+                    runnable.run();
+                    RLottieDrawable.this.whenCacheDone = null;
+                }
             }
         };
         this.loadFrameRunnable = new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable.5
@@ -1507,6 +1523,11 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
                 RLottieDrawable rLottieDrawable = RLottieDrawable.this;
                 rLottieDrawable.generatingCache = false;
                 rLottieDrawable.decodeFrameFinishedInternal();
+                Runnable runnable = RLottieDrawable.this.whenCacheDone;
+                if (runnable != null) {
+                    runnable.run();
+                    RLottieDrawable.this.whenCacheDone = null;
+                }
             }
         };
         this.loadFrameRunnable = new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable.5
@@ -2448,7 +2469,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class NativePtrArgs {
         public int[] colorReplacement;
         File file;

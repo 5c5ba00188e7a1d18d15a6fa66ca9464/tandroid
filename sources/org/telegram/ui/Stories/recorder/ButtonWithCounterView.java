@@ -147,6 +147,10 @@ public class ButtonWithCounterView extends FrameLayout implements Loadable {
         this.counterDrawable.setColorFilter(new PorterDuffColorFilter(i, PorterDuff.Mode.SRC_IN));
     }
 
+    public void setTextColor(int i) {
+        this.text.setTextColor(i);
+    }
+
     public void setCountFilled(boolean z) {
         int textColor;
         this.countFilled = z;
@@ -409,6 +413,7 @@ public class ButtonWithCounterView extends FrameLayout implements Loadable {
             });
             this.enabledAnimator.start();
         }
+        super.setEnabled(z);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -422,8 +427,9 @@ public class ButtonWithCounterView extends FrameLayout implements Loadable {
         return this.enabled;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
-    protected boolean verifyDrawable(Drawable drawable) {
+    public boolean verifyDrawable(Drawable drawable) {
         return this.flickeringLoadingDrawable == drawable || this.text == drawable || this.subText == drawable || this.countText == drawable || super.verifyDrawable(drawable);
     }
 

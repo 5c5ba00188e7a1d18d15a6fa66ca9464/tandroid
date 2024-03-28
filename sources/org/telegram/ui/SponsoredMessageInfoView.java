@@ -16,7 +16,7 @@ import org.telegram.messenger.browser.Browser;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.LinkSpanDrawable;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class SponsoredMessageInfoView extends FrameLayout {
     public SponsoredMessageInfoView(final Activity activity, Theme.ResourcesProvider resourcesProvider) {
         super(activity);

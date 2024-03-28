@@ -84,7 +84,7 @@ import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.TextStyleSpan;
 import org.telegram.ui.FilterChatlistActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class FilterChatlistActivity extends BaseFragment {
     private ListAdapter adapter;
     private ActionBarMenuItem doneButton;
@@ -538,7 +538,7 @@ public class FilterChatlistActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         ListAdapter() {
         }
@@ -567,7 +567,7 @@ public class FilterChatlistActivity extends BaseFragment {
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class 1 extends InviteLinkCell {
             1(Context context, BaseFragment baseFragment) {
                 super(context, baseFragment);
@@ -917,7 +917,7 @@ public class FilterChatlistActivity extends BaseFragment {
         super.onPause();
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class HintInnerCell extends FrameLayout {
         private RLottieImageView imageView;
         private TextView subtitleTextView;
@@ -1044,7 +1044,7 @@ public class FilterChatlistActivity extends BaseFragment {
         finishFragment();
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class InviteLinkCell extends FrameLayout {
         private ActionBarPopupWindow actionBarPopupWindow;
         ButtonsBox buttonsBox;
@@ -1071,7 +1071,7 @@ public class FilterChatlistActivity extends BaseFragment {
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class ButtonsBox extends FrameLayout {
             private Paint paint;
             private Path path;

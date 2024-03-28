@@ -93,7 +93,7 @@ import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
-import org.telegram.messenger.MessagesController$$ExternalSyntheticLambda283;
+import org.telegram.messenger.MessagesController$$ExternalSyntheticLambda285;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
@@ -156,7 +156,7 @@ import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.RoundVideoProgressShadow;
 import org.telegram.ui.ThemeActivity;
 import org.telegram.ui.ThemePreviewActivity;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class Theme {
     public static Paint DEBUG_BLUE;
     public static Paint DEBUG_RED;
@@ -237,6 +237,7 @@ public class Theme {
     public static TextPaint chat_locationTitlePaint;
     public static Drawable chat_lockIconDrawable;
     public static Paint chat_messageBackgroundSelectedPaint;
+    public static Drawable chat_moreIconDrawable;
     private static AudioVisualizerDrawable chat_msgAudioVisualizeDrawable;
     public static TextPaint chat_msgBotButtonPaint;
     public static Drawable chat_msgCallDownGreenDrawable;
@@ -320,6 +321,7 @@ public class Theme {
     public static Paint chat_textSearchSelectionPaint;
     public static Paint chat_timeBackgroundPaint;
     public static TextPaint chat_timePaint;
+    public static TextPaint chat_titleLabelTextPaint;
     public static TextPaint chat_topicTextPaint;
     public static TextPaint chat_unlockExtendedMediaTextPaint;
     public static Paint chat_urlPaint;
@@ -1241,7 +1243,7 @@ public class Theme {
     public static Path[] chat_filePath = new Path[2];
     public static Path[] chat_updatePath = new Path[3];
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class BackgroundDrawableSettings {
         public Boolean isCustomTheme;
         public Boolean isPatternWallpaper;
@@ -1269,10 +1271,10 @@ public class Theme {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:167:0x2950 A[Catch: Exception -> 0x2b3f, TryCatch #1 {Exception -> 0x2b3f, blocks: (B:54:0x2601, B:56:0x2617, B:67:0x2658, B:69:0x2666, B:77:0x2691, B:79:0x2695, B:81:0x269d, B:82:0x26af, B:83:0x26bb, B:85:0x26c1, B:87:0x26cb, B:89:0x26cf, B:91:0x26fd, B:93:0x2701, B:165:0x294a, B:167:0x2950, B:168:0x2959, B:170:0x295d, B:172:0x2965, B:174:0x2969, B:176:0x296d, B:177:0x296f, B:179:0x2979, B:148:0x2838, B:151:0x2859, B:153:0x2864, B:155:0x2870, B:157:0x287c, B:161:0x2888, B:163:0x292f, B:158:0x2882, B:184:0x2999, B:185:0x299f, B:189:0x29a9, B:191:0x2a00, B:193:0x2a0e, B:195:0x2a18, B:197:0x2a26, B:196:0x2a1f, B:192:0x2a07, B:70:0x2674, B:72:0x267c, B:74:0x2685, B:76:0x268f, B:57:0x2624, B:59:0x262c, B:61:0x2634, B:63:0x263e, B:65:0x2646, B:95:0x2712, B:141:0x281d, B:142:0x2822), top: B:237:0x2601 }] */
-    /* JADX WARN: Removed duplicated region for block: B:174:0x2969 A[Catch: Exception -> 0x2b3f, TryCatch #1 {Exception -> 0x2b3f, blocks: (B:54:0x2601, B:56:0x2617, B:67:0x2658, B:69:0x2666, B:77:0x2691, B:79:0x2695, B:81:0x269d, B:82:0x26af, B:83:0x26bb, B:85:0x26c1, B:87:0x26cb, B:89:0x26cf, B:91:0x26fd, B:93:0x2701, B:165:0x294a, B:167:0x2950, B:168:0x2959, B:170:0x295d, B:172:0x2965, B:174:0x2969, B:176:0x296d, B:177:0x296f, B:179:0x2979, B:148:0x2838, B:151:0x2859, B:153:0x2864, B:155:0x2870, B:157:0x287c, B:161:0x2888, B:163:0x292f, B:158:0x2882, B:184:0x2999, B:185:0x299f, B:189:0x29a9, B:191:0x2a00, B:193:0x2a0e, B:195:0x2a18, B:197:0x2a26, B:196:0x2a1f, B:192:0x2a07, B:70:0x2674, B:72:0x267c, B:74:0x2685, B:76:0x268f, B:57:0x2624, B:59:0x262c, B:61:0x2634, B:63:0x263e, B:65:0x2646, B:95:0x2712, B:141:0x281d, B:142:0x2822), top: B:237:0x2601 }] */
+    /* JADX WARN: Removed duplicated region for block: B:167:0x2950 A[Catch: Exception -> 0x2b3d, TryCatch #1 {Exception -> 0x2b3d, blocks: (B:54:0x2601, B:56:0x2617, B:67:0x2658, B:69:0x2666, B:77:0x2691, B:79:0x2695, B:81:0x269d, B:82:0x26af, B:83:0x26bb, B:85:0x26c1, B:87:0x26cb, B:89:0x26cf, B:91:0x26fd, B:93:0x2701, B:165:0x294a, B:167:0x2950, B:168:0x2959, B:170:0x295d, B:172:0x2965, B:174:0x2969, B:176:0x296d, B:177:0x296f, B:179:0x2979, B:148:0x2838, B:151:0x2859, B:153:0x2864, B:155:0x2870, B:157:0x287c, B:161:0x2888, B:163:0x292f, B:158:0x2882, B:184:0x2999, B:185:0x299f, B:189:0x29a9, B:191:0x2a00, B:193:0x2a0e, B:195:0x2a18, B:197:0x2a26, B:196:0x2a1f, B:192:0x2a07, B:70:0x2674, B:72:0x267c, B:74:0x2685, B:76:0x268f, B:57:0x2624, B:59:0x262c, B:61:0x2634, B:63:0x263e, B:65:0x2646, B:95:0x2712, B:141:0x281d, B:142:0x2822), top: B:237:0x2601 }] */
+    /* JADX WARN: Removed duplicated region for block: B:174:0x2969 A[Catch: Exception -> 0x2b3d, TryCatch #1 {Exception -> 0x2b3d, blocks: (B:54:0x2601, B:56:0x2617, B:67:0x2658, B:69:0x2666, B:77:0x2691, B:79:0x2695, B:81:0x269d, B:82:0x26af, B:83:0x26bb, B:85:0x26c1, B:87:0x26cb, B:89:0x26cf, B:91:0x26fd, B:93:0x2701, B:165:0x294a, B:167:0x2950, B:168:0x2959, B:170:0x295d, B:172:0x2965, B:174:0x2969, B:176:0x296d, B:177:0x296f, B:179:0x2979, B:148:0x2838, B:151:0x2859, B:153:0x2864, B:155:0x2870, B:157:0x287c, B:161:0x2888, B:163:0x292f, B:158:0x2882, B:184:0x2999, B:185:0x299f, B:189:0x29a9, B:191:0x2a00, B:193:0x2a0e, B:195:0x2a18, B:197:0x2a26, B:196:0x2a1f, B:192:0x2a07, B:70:0x2674, B:72:0x267c, B:74:0x2685, B:76:0x268f, B:57:0x2624, B:59:0x262c, B:61:0x2634, B:63:0x263e, B:65:0x2646, B:95:0x2712, B:141:0x281d, B:142:0x2822), top: B:237:0x2601 }] */
     /* JADX WARN: Removed duplicated region for block: B:175:0x296c  */
-    /* JADX WARN: Removed duplicated region for block: B:179:0x2979 A[Catch: Exception -> 0x2b3f, TryCatch #1 {Exception -> 0x2b3f, blocks: (B:54:0x2601, B:56:0x2617, B:67:0x2658, B:69:0x2666, B:77:0x2691, B:79:0x2695, B:81:0x269d, B:82:0x26af, B:83:0x26bb, B:85:0x26c1, B:87:0x26cb, B:89:0x26cf, B:91:0x26fd, B:93:0x2701, B:165:0x294a, B:167:0x2950, B:168:0x2959, B:170:0x295d, B:172:0x2965, B:174:0x2969, B:176:0x296d, B:177:0x296f, B:179:0x2979, B:148:0x2838, B:151:0x2859, B:153:0x2864, B:155:0x2870, B:157:0x287c, B:161:0x2888, B:163:0x292f, B:158:0x2882, B:184:0x2999, B:185:0x299f, B:189:0x29a9, B:191:0x2a00, B:193:0x2a0e, B:195:0x2a18, B:197:0x2a26, B:196:0x2a1f, B:192:0x2a07, B:70:0x2674, B:72:0x267c, B:74:0x2685, B:76:0x268f, B:57:0x2624, B:59:0x262c, B:61:0x2634, B:63:0x263e, B:65:0x2646, B:95:0x2712, B:141:0x281d, B:142:0x2822), top: B:237:0x2601 }] */
+    /* JADX WARN: Removed duplicated region for block: B:179:0x2979 A[Catch: Exception -> 0x2b3d, TryCatch #1 {Exception -> 0x2b3d, blocks: (B:54:0x2601, B:56:0x2617, B:67:0x2658, B:69:0x2666, B:77:0x2691, B:79:0x2695, B:81:0x269d, B:82:0x26af, B:83:0x26bb, B:85:0x26c1, B:87:0x26cb, B:89:0x26cf, B:91:0x26fd, B:93:0x2701, B:165:0x294a, B:167:0x2950, B:168:0x2959, B:170:0x295d, B:172:0x2965, B:174:0x2969, B:176:0x296d, B:177:0x296f, B:179:0x2979, B:148:0x2838, B:151:0x2859, B:153:0x2864, B:155:0x2870, B:157:0x287c, B:161:0x2888, B:163:0x292f, B:158:0x2882, B:184:0x2999, B:185:0x299f, B:189:0x29a9, B:191:0x2a00, B:193:0x2a0e, B:195:0x2a18, B:197:0x2a26, B:196:0x2a1f, B:192:0x2a07, B:70:0x2674, B:72:0x267c, B:74:0x2685, B:76:0x268f, B:57:0x2624, B:59:0x262c, B:61:0x2634, B:63:0x263e, B:65:0x2646, B:95:0x2712, B:141:0x281d, B:142:0x2822), top: B:237:0x2601 }] */
     /* JADX WARN: Removed duplicated region for block: B:254:0x2989 A[SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r4v41, types: [boolean] */
     /* JADX WARN: Type inference failed for: r4v47 */
@@ -4324,7 +4326,7 @@ public class Theme {
                 themeInfo3 = currentNightTheme;
             }
             applyTheme(themeInfo3, false, false, needSwitchToTheme == 2);
-            AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda283.INSTANCE);
+            AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda285.INSTANCE);
             ambientSensorListener = new SensorEventListener() { // from class: org.telegram.ui.ActionBar.Theme.9
                 @Override // android.hardware.SensorEventListener
                 public void onAccuracyChanged(Sensor sensor, int i808) {
@@ -4397,7 +4399,7 @@ public class Theme {
         return chat_animatedEmojiTextColorFilter;
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class MessageDrawable extends Drawable {
         public static MotionBackgroundDrawable[] motionBackground = new MotionBackgroundDrawable[3];
         private int alpha;
@@ -5251,7 +5253,7 @@ public class Theme {
             this.resourcesProvider = resourcesProvider;
         }
 
-        /* loaded from: classes.dex */
+        /* loaded from: classes4.dex */
         public static class PathDrawParams {
             boolean lastDrawFullBottom;
             boolean lastDrawFullTop;
@@ -5283,14 +5285,14 @@ public class Theme {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class PatternsLoader implements NotificationCenter.NotificationCenterDelegate {
         private static PatternsLoader loader;
         private int account = UserConfig.selectedAccount;
         private HashMap<String, LoadingPattern> watingForLoad;
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes.dex */
+        /* loaded from: classes4.dex */
         public static class LoadingPattern {
             public ArrayList<ThemeAccent> accents;
             public TLRPC$TL_wallPaper pattern;
@@ -5620,7 +5622,7 @@ public class Theme {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class ThemeAccent {
         public int accentColor;
         public int accentColor2;
@@ -6095,8 +6097,8 @@ public class Theme {
             }
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:96:0x0275 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-        /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:79:0x026c -> B:93:0x0270). Please submit an issue!!! */
+        /* JADX WARN: Removed duplicated region for block: B:96:0x0274 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+        /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:79:0x026b -> B:93:0x026f). Please submit an issue!!! */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -6253,7 +6255,7 @@ public class Theme {
         return f == 1.0f ? i : ColorUtils.setAlphaComponent(i, MathUtils.clamp((int) (Color.alpha(i) * f), 0, 255));
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class OverrideWallpaperInfo {
         public long accessHash;
         public int color;
@@ -6399,7 +6401,7 @@ public class Theme {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class ThemeInfo implements NotificationCenter.NotificationCenterDelegate {
         public int accentBaseColor;
         public LongSparseArray<ThemeAccent> accentsByThemeId;
@@ -7283,7 +7285,7 @@ public class Theme {
 
         void setAnimatedColor(int i, int i2);
 
-        /* loaded from: classes.dex */
+        /* loaded from: classes4.dex */
         public final /* synthetic */ class -CC {
             public static Drawable $default$getDrawable(ResourcesProvider resourcesProvider, String str) {
                 return null;
@@ -7885,7 +7887,7 @@ public class Theme {
         return stateListDrawable;
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class AdaptiveRipple {
         private static final int defaultBackgroundColorKey = Theme.key_windowBackgroundWhite;
         private static float[] tempHSV;
@@ -7926,8 +7928,16 @@ public class Theme {
             return filledRect(Theme.getColor(defaultBackgroundColorKey), 0.0f);
         }
 
+        public static Drawable filledRectByKey(int i) {
+            return filledRect(Theme.getColor(i));
+        }
+
         public static Drawable filledRectByKey(int i, float... fArr) {
             return filledRect(Theme.getColor(i), fArr);
+        }
+
+        public static Drawable filledRect(int i) {
+            return createRect(i, calcRippleColor(i), new float[0]);
         }
 
         public static Drawable filledRect(int i, float... fArr) {
@@ -8005,7 +8015,7 @@ public class Theme {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes.dex */
+        /* loaded from: classes4.dex */
         public static class CircleDrawable extends Drawable {
             private static Paint maskPaint;
             private Paint paint;
@@ -8087,7 +8097,7 @@ public class Theme {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class RippleRadMaskDrawable extends Drawable {
         private float[] radii;
         private Path path = new Path();
@@ -8231,6 +8241,24 @@ public class Theme {
         stateListDrawable.addState(new int[]{16842919}, new ColorDrawable(i));
         stateListDrawable.addState(new int[]{16842913}, new ColorDrawable(i));
         stateListDrawable.addState(StateSet.WILD_CARD, new ColorDrawable(0));
+        return stateListDrawable;
+    }
+
+    public static Drawable createRadSelectorDrawable(int i, int i2, int i3, int i4) {
+        if (Build.VERSION.SDK_INT >= 21) {
+            maskPaint.setColor(-1);
+            float f = i3;
+            float f2 = i4;
+            return new RippleDrawable(new ColorStateList(new int[][]{StateSet.WILD_CARD}, new int[]{i2}), createRoundRectDrawable(AndroidUtilities.dp(f), AndroidUtilities.dp(f2), i), new RippleRadMaskDrawable(f, f2));
+        }
+        float f3 = i3;
+        float f4 = i4;
+        Drawable createRoundRectDrawable = createRoundRectDrawable(AndroidUtilities.dp(f3), AndroidUtilities.dp(f4), i);
+        LayerDrawable layerDrawable = new LayerDrawable(new Drawable[]{createRoundRectDrawable, createRoundRectDrawable(AndroidUtilities.dp(f3), AndroidUtilities.dp(f4), i2)});
+        StateListDrawable stateListDrawable = new StateListDrawable();
+        stateListDrawable.addState(new int[]{16842919}, layerDrawable);
+        stateListDrawable.addState(new int[]{16842913}, layerDrawable);
+        stateListDrawable.addState(StateSet.WILD_CARD, createRoundRectDrawable);
         return stateListDrawable;
     }
 
@@ -8501,7 +8529,7 @@ public class Theme {
                 if (isCurrentThemeNight()) {
                     switchNightThemeDelay = 2000;
                     lastDelayUpdateTime = SystemClock.elapsedRealtime();
-                    AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda283.INSTANCE, 2100L);
+                    AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda285.INSTANCE, 2100L);
                 }
             }
             currentTheme = themeInfo;
@@ -8635,7 +8663,7 @@ public class Theme {
                 if (isCurrentThemeNight()) {
                     switchNightThemeDelay = 2000;
                     lastDelayUpdateTime = SystemClock.elapsedRealtime();
-                    AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda283.INSTANCE, 2100L);
+                    AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda285.INSTANCE, 2100L);
                 }
             }
             currentTheme = themeInfo;
@@ -8743,7 +8771,7 @@ public class Theme {
                 if (isCurrentThemeNight()) {
                     switchNightThemeDelay = 2000;
                     lastDelayUpdateTime = SystemClock.elapsedRealtime();
-                    AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda283.INSTANCE, 2100L);
+                    AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda285.INSTANCE, 2100L);
                 }
             }
             currentTheme = themeInfo;
@@ -11591,6 +11619,7 @@ public class Theme {
                 textPaint3.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
                 chat_replyTextPaint = new TextPaint(1);
                 chat_quoteTextPaint = new TextPaint(1);
+                chat_titleLabelTextPaint = new TextPaint(1);
                 TextPaint textPaint4 = new TextPaint(1);
                 chat_topicTextPaint = textPaint4;
                 textPaint4.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
@@ -11630,6 +11659,7 @@ public class Theme {
                     float f2 = f - 1.0f;
                     chat_quoteTextPaint.setTextSize(AndroidUtilities.dp(f2));
                     chat_topicTextPaint.setTextSize(AndroidUtilities.dp(f2));
+                    chat_titleLabelTextPaint.setTextSize(AndroidUtilities.dp(f - 2.0f));
                     chat_forwardNamePaint.setTextSize(AndroidUtilities.dp(f));
                     chat_adminPaint.setTextSize(AndroidUtilities.dp(f2));
                     chat_msgTextCodePaint.setTextSize(AndroidUtilities.dp(Math.max(Math.min(10, SharedConfig.fontSize - 1), SharedConfig.fontSize - 2)));
@@ -11713,6 +11743,7 @@ public class Theme {
             TextPaint textPaint12 = new TextPaint(1);
             chat_topicTextPaint = textPaint12;
             textPaint12.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            chat_titleLabelTextPaint = new TextPaint(1);
             chat_commentTextPaint = new TextPaint(1);
             TextPaint textPaint13 = new TextPaint(1);
             chat_instantViewPaint = textPaint13;
@@ -11893,6 +11924,7 @@ public class Theme {
             chat_shareIconDrawable = resources.getDrawable(R.drawable.filled_button_share).mutate();
             chat_replyIconDrawable = resources.getDrawable(R.drawable.filled_button_reply);
             chat_closeIconDrawable = resources.getDrawable(R.drawable.msg_voiceclose).mutate();
+            chat_moreIconDrawable = resources.getDrawable(R.drawable.media_more).mutate();
             chat_goIconDrawable = resources.getDrawable(R.drawable.filled_open_message);
             int dp = AndroidUtilities.dp(2.0f);
             RectF rectF = new RectF();
@@ -12015,6 +12047,7 @@ public class Theme {
             addChatDrawable("drawableMsgStickerViews", chat_msgStickerViewsDrawable, i31);
             addChatDrawable("drawableReplyIcon", chat_replyIconDrawable, i24);
             addChatDrawable("drawableCloseIcon", chat_closeIconDrawable, i24);
+            addChatDrawable("drawableMoreIcon", chat_moreIconDrawable, i24);
             addChatDrawable("drawableShareIcon", chat_shareIconDrawable, i24);
             addChatDrawable("drawableMuteIcon", chat_muteIconDrawable, key_chat_muteIcon);
             addChatDrawable("drawableLockIcon", chat_lockIconDrawable, key_chat_lockIcon);

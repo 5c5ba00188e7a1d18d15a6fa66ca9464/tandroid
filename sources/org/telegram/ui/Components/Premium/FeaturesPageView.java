@@ -40,14 +40,14 @@ import org.telegram.ui.Components.Premium.GLIcon.GLIconRenderer;
 import org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView;
 import org.telegram.ui.Components.Premium.StarParticlesView;
 import org.telegram.ui.Components.RecyclerListView;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class FeaturesPageView extends BaseListPageView {
     RecyclerListView.SelectionAdapter adapter;
     Bitmap bitmap;
     ArrayList<Item> items;
     public final int type;
 
-    /* JADX WARN: Removed duplicated region for block: B:9:0x01b9  */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x01eb  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -74,7 +74,9 @@ public class FeaturesPageView extends BaseListPageView {
             arrayList.add(new Item(this, 1, R.drawable.menu_quickreply, LocaleController.getString(R.string.PremiumBusinessQuickReplies), LocaleController.getString(R.string.PremiumBusinessQuickRepliesDescription), 31));
             arrayList.add(new Item(this, 1, R.drawable.menu_feature_status, LocaleController.getString(R.string.PremiumBusinessGreetingMessages), LocaleController.getString(R.string.PremiumBusinessGreetingMessagesDescription), 32));
             arrayList.add(new Item(this, 1, R.drawable.menu_premium_away, LocaleController.getString(R.string.PremiumBusinessAwayMessages), LocaleController.getString(R.string.PremiumBusinessAwayMessagesDescription), 33));
-            arrayList.add(new Item(this, 1, R.drawable.menu_premium_chatbot, LocaleController.getString(R.string.PremiumBusinessChatbots), LocaleController.getString(R.string.PremiumBusinessChatbotsDescription), 34));
+            arrayList.add(new Item(this, 1, R.drawable.menu_premium_chatbot, LocaleController.getString(R.string.PremiumBusinessChatbots2), LocaleController.getString(R.string.PremiumBusinessChatbotsDescription), 34));
+            arrayList.add(new Item(this, 1, R.drawable.menu_feature_intro, LocaleController.getString(R.string.PremiumBusinessIntro), LocaleController.getString(R.string.PremiumBusinessIntroDescription), 36));
+            arrayList.add(new Item(this, 1, R.drawable.menu_premium_chatlink, LocaleController.getString(R.string.PremiumBusinessChatLinks), LocaleController.getString(R.string.PremiumBusinessChatLinksDescription), 37));
             if (sparseIntArray != null) {
                 Collections.sort(arrayList, new Comparator() { // from class: org.telegram.ui.Components.Premium.FeaturesPageView$$ExternalSyntheticLambda0
                     @Override // java.util.Comparator
@@ -162,7 +164,7 @@ public class FeaturesPageView extends BaseListPageView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class Item {
         String description;
         int iconRes;
@@ -183,7 +185,7 @@ public class FeaturesPageView extends BaseListPageView {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     private class HeaderView extends FrameLayout {
         GradientTools gradientTools;
         int height;
@@ -286,13 +288,13 @@ public class FeaturesPageView extends BaseListPageView {
                 textView2.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, FeaturesPageView.this.resourcesProvider));
                 textView2.setText(LocaleController.getString(R.string.TelegramBusiness));
                 textView2.setGravity(17);
-                addView(textView2, LayoutHelper.createFrame(-2, -2.0f, 1, 0.0f, 150.0f, 0.0f, 0.0f));
+                addView(textView2, LayoutHelper.createFrame(-2, -2.0f, 1, 33.0f, 150.0f, 33.0f, 0.0f));
                 TextView textView3 = new TextView(context);
                 textView3.setTextSize(1, 14.0f);
                 textView3.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText2, FeaturesPageView.this.resourcesProvider));
                 textView3.setText(LocaleController.getString(R.string.TelegramBusinessSubtitle2));
                 textView3.setGravity(17);
-                addView(textView3, LayoutHelper.createFrame(-2, -2.0f, 1, 0.0f, 183.0f, 0.0f, 20.0f));
+                addView(textView3, LayoutHelper.createFrame(-2, -2.0f, 1, 33.0f, 183.0f, 33.0f, 20.0f));
             }
         }
 
@@ -327,7 +329,7 @@ public class FeaturesPageView extends BaseListPageView {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     private class ItemCell extends FrameLayout {
         TextView description;
         ImageView imageView;

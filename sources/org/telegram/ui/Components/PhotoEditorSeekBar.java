@@ -6,7 +6,7 @@ import android.graphics.Paint;
 import android.view.MotionEvent;
 import android.view.View;
 import org.telegram.messenger.AndroidUtilities;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class PhotoEditorSeekBar extends View {
     private PhotoEditorSeekBarDelegate delegate;
     private Paint innerPaint;
@@ -18,7 +18,7 @@ public class PhotoEditorSeekBar extends View {
     private int thumbDX;
     private int thumbSize;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface PhotoEditorSeekBarDelegate {
         void onProgressChanged(int i, int i2);
     }

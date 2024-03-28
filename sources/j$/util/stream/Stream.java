@@ -6,6 +6,7 @@ import j$.util.function.BiFunction;
 import j$.util.function.Consumer;
 import j$.util.function.Function;
 import j$.util.function.Predicate;
+import j$.util.function.Supplier;
 import j$.util.function.ToDoubleFunction;
 import j$.util.function.ToIntFunction;
 import j$.util.function.ToLongFunction;
@@ -14,32 +15,34 @@ import java.util.Comparator;
 public interface Stream<T> extends g {
     Object B(Object obj, BiFunction biFunction, j$.util.function.b bVar);
 
-    U E(Function function);
+    V E(Function function);
 
-    Stream T(Predicate predicate);
+    Stream U(Consumer consumer);
 
-    Stream V(Consumer consumer);
+    boolean V(Predicate predicate);
 
-    boolean W(Predicate predicate);
-
-    e1 X(Function function);
+    f1 W(Function function);
 
     boolean a(Predicate predicate);
 
-    Object b0(j$.wrappers.I0 i0);
+    boolean b0(Predicate predicate);
 
     IntStream c(Function function);
 
     @Override // j$.util.stream.g, java.lang.AutoCloseable
     /* synthetic */ void close();
 
-    long count();
+    <R, A> R collect(Collector<? super T, A, R> collector);
 
-    boolean d0(Predicate predicate);
+    long count();
 
     Stream distinct();
 
     void e(Consumer consumer);
+
+    f1 e0(ToLongFunction toLongFunction);
+
+    Stream<T> filter(Predicate<? super T> predicate);
 
     Optional findAny();
 
@@ -47,19 +50,17 @@ public interface Stream<T> extends g {
 
     void forEach(Consumer<? super T> consumer);
 
-    e1 g0(ToLongFunction toLongFunction);
+    V h0(ToDoubleFunction toDoubleFunction);
 
-    Object i(j$.util.function.y yVar, BiConsumer biConsumer, BiConsumer biConsumer2);
+    Object i(Supplier supplier, BiConsumer biConsumer, BiConsumer biConsumer2);
 
-    U j0(ToDoubleFunction toDoubleFunction);
+    Object k0(Object obj, j$.util.function.b bVar);
 
     Object[] l(j$.util.function.m mVar);
 
     Stream limit(long j);
 
     IntStream m(ToIntFunction toIntFunction);
-
-    Object m0(Object obj, j$.util.function.b bVar);
 
     Optional max(Comparator comparator);
 

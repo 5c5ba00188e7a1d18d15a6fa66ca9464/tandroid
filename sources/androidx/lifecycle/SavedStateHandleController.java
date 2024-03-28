@@ -5,8 +5,14 @@ import androidx.savedstate.SavedStateRegistry;
 /* loaded from: classes.dex */
 final class SavedStateHandleController implements LifecycleEventObserver {
     private final SavedStateHandle mHandle;
-    private boolean mIsAttached;
+    private boolean mIsAttached = false;
     private final String mKey;
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public SavedStateHandleController(String str, SavedStateHandle savedStateHandle) {
+        this.mKey = str;
+        this.mHandle = savedStateHandle;
+    }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public boolean isAttached() {
@@ -29,5 +35,10 @@ final class SavedStateHandleController implements LifecycleEventObserver {
             this.mIsAttached = false;
             lifecycleOwner.getLifecycle().removeObserver(this);
         }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public SavedStateHandle getHandle() {
+        return this.mHandle;
     }
 }

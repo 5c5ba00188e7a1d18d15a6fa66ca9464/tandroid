@@ -50,7 +50,7 @@ import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.spoilers.SpoilerEffect;
 import org.telegram.ui.Components.spoilers.SpoilerEffect2;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class PinchToZoomHelper {
     private ImageReceiver blurImage;
     Callback callback;
@@ -100,10 +100,10 @@ public class PinchToZoomHelper {
     private float progressToFullView;
     private float[] spoilerRadii;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface Callback {
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public final /* synthetic */ class -CC {
             public static TextureView $default$getCurrentTextureView(Callback callback) {
                 return null;
@@ -120,7 +120,7 @@ public class PinchToZoomHelper {
         void onZoomStarted(MessageObject messageObject);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface ClipBoundsListener {
         void getClipTopBottom(float[] fArr);
     }
@@ -446,7 +446,7 @@ public class PinchToZoomHelper {
         return imageReceiver.hasNotThumbOrOnlyStaticThumb();
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ZoomOverlayView extends FrameLayout {
         private Paint aspectPaint;
         private Path aspectPath;

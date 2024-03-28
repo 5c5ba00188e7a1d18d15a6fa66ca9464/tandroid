@@ -7,7 +7,7 @@ public class TLRPC$TL_messages_addChatUser extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        return TLRPC$Updates.TLdeserialize(abstractSerializedData, i, z);
+        return TLRPC$TL_messages_invitedUsers.TLdeserialize(abstractSerializedData, i, z);
     }
 
     @Override // org.telegram.tgnet.TLObject

@@ -1,111 +1,73 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
+import j$.util.function.Supplier;
+import j$.util.t;
 import java.util.Objects;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class p4 implements k3 {
-    public final /* synthetic */ int a = 0;
-    public final /* synthetic */ Object b;
-
-    public /* synthetic */ p4(j$.util.function.l lVar) {
-        this.b = lVar;
+final class p4 extends g4 implements t.a {
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public p4(z2 z2Var, Supplier supplier, boolean z) {
+        super(z2Var, supplier, z);
     }
 
-    @Override // j$.util.stream.m3
-    public /* synthetic */ void accept(double d) {
-        switch (this.a) {
-            case 0:
-                o1.f(this);
-                throw null;
-            default:
-                o1.f(this);
-                throw null;
+    p4(z2 z2Var, j$.util.t tVar, boolean z) {
+        super(z2Var, tVar, z);
+    }
+
+    @Override // j$.util.t
+    public /* synthetic */ boolean b(Consumer consumer) {
+        return j$.util.a.j(this, consumer);
+    }
+
+    @Override // j$.util.u
+    /* renamed from: e */
+    public void forEachRemaining(j$.util.function.f fVar) {
+        if (this.h != null || this.i) {
+            do {
+            } while (tryAdvance(fVar));
+            return;
         }
+        Objects.requireNonNull(fVar);
+        h();
+        this.b.s0(new o4(fVar), this.d);
+        this.i = true;
     }
 
-    @Override // j$.util.function.Consumer
-    public /* synthetic */ Consumer andThen(Consumer consumer) {
-        switch (this.a) {
-            case 0:
-                return Consumer.-CC.$default$andThen(this, consumer);
-            default:
-                return Consumer.-CC.$default$andThen(this, consumer);
+    @Override // j$.util.t
+    public /* synthetic */ void forEachRemaining(Consumer consumer) {
+        j$.util.a.b(this, consumer);
+    }
+
+    @Override // j$.util.stream.g4
+    void j() {
+        V3 v3 = new V3();
+        this.h = v3;
+        this.e = this.b.t0(new o4(v3));
+        this.f = new b(this);
+    }
+
+    @Override // j$.util.u
+    /* renamed from: k */
+    public boolean tryAdvance(j$.util.function.f fVar) {
+        Objects.requireNonNull(fVar);
+        boolean a = a();
+        if (a) {
+            V3 v3 = (V3) this.h;
+            long j = this.g;
+            int w = v3.w(j);
+            fVar.accept((v3.c == 0 && w == 0) ? ((double[]) v3.e)[(int) j] : ((double[][]) v3.f)[w][(int) (j - v3.d[w])]);
         }
+        return a;
     }
 
-    public /* synthetic */ void b(Integer num) {
-        switch (this.a) {
-            case 0:
-                o1.b(this, num);
-                return;
-            default:
-                o1.b(this, num);
-                return;
-        }
+    @Override // j$.util.stream.g4
+    g4 l(j$.util.t tVar) {
+        return new p4(this.b, tVar, this.a);
     }
 
-    @Override // j$.util.function.l
-    public j$.util.function.l l(j$.util.function.l lVar) {
-        switch (this.a) {
-            case 0:
-                Objects.requireNonNull(lVar);
-                return new j$.util.function.k(this, lVar);
-            default:
-                Objects.requireNonNull(lVar);
-                return new j$.util.function.k(this, lVar);
-        }
-    }
-
-    @Override // j$.util.stream.m3
-    public /* synthetic */ void m() {
-    }
-
-    @Override // j$.util.stream.m3
-    public /* synthetic */ void n(long j) {
-    }
-
-    @Override // j$.util.stream.m3
-    public /* synthetic */ boolean o() {
-        return false;
-    }
-
-    public /* synthetic */ p4(W3 w3) {
-        this.b = w3;
-    }
-
-    @Override // j$.util.stream.k3, j$.util.stream.m3
-    public final void accept(int i) {
-        switch (this.a) {
-            case 0:
-                ((j$.util.function.l) this.b).accept(i);
-                return;
-            default:
-                ((W3) this.b).accept(i);
-                return;
-        }
-    }
-
-    @Override // j$.util.stream.m3, j$.util.stream.l3, j$.util.function.q
-    public /* synthetic */ void accept(long j) {
-        switch (this.a) {
-            case 0:
-                o1.e(this);
-                throw null;
-            default:
-                o1.e(this);
-                throw null;
-        }
-    }
-
-    @Override // j$.util.function.Consumer
-    public /* bridge */ /* synthetic */ void accept(Object obj) {
-        switch (this.a) {
-            case 0:
-                b((Integer) obj);
-                return;
-            default:
-                b((Integer) obj);
-                return;
-        }
+    @Override // j$.util.stream.g4, j$.util.t
+    public t.a trySplit() {
+        return (t.a) super.trySplit();
     }
 }

@@ -56,7 +56,7 @@ import org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorBtnCell;
 import org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorUserCell;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class ReassignBoostBottomSheet extends BottomSheetWithRecyclerListView {
     private final ButtonWithCounterView actionButton;
     private final List<TL_stories$TL_myBoost> allUsedBoosts;
@@ -291,7 +291,7 @@ public class ReassignBoostBottomSheet extends BottomSheetWithRecyclerListView {
     }
 
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
-    protected RecyclerListView.SelectionAdapter createAdapter() {
+    protected RecyclerListView.SelectionAdapter createAdapter(RecyclerListView recyclerListView) {
         return new RecyclerListView.SelectionAdapter() { // from class: org.telegram.ui.Components.Premium.boosts.ReassignBoostBottomSheet.3
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
             public int getItemViewType(int i) {
@@ -360,7 +360,7 @@ public class ReassignBoostBottomSheet extends BottomSheetWithRecyclerListView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class TopCell extends LinearLayout {
         private final List<TLRPC$Chat> addedChats;
         private final ArrowView arrowView;
@@ -576,7 +576,7 @@ public class ReassignBoostBottomSheet extends BottomSheetWithRecyclerListView {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     private static class ArrowView extends FrameLayout {
         public ArrowView(Context context) {
             super(context);
@@ -588,7 +588,7 @@ public class ReassignBoostBottomSheet extends BottomSheetWithRecyclerListView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class AvatarHolderView extends FrameLayout {
         private final Paint bgPaint;
         private final BoostIconView boostIconView;
@@ -626,7 +626,7 @@ public class ReassignBoostBottomSheet extends BottomSheetWithRecyclerListView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class BoostIconView extends View {
         Drawable boostDrawable;
         Paint paint;

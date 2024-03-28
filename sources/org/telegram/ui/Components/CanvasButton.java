@@ -17,7 +17,7 @@ import android.view.ViewConfiguration;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class CanvasButton {
     private static final int[] pressedState = {16842910, 16842919};
     boolean buttonPressed;

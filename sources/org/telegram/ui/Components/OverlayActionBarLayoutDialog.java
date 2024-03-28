@@ -19,7 +19,7 @@ import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.INavigationLayout;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.LaunchActivity;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class OverlayActionBarLayoutDialog extends Dialog implements INavigationLayout.INavigationLayoutDelegate {
     private INavigationLayout actionBarLayout;
     private FrameLayout frameLayout;
@@ -198,7 +198,7 @@ public class OverlayActionBarLayoutDialog extends Dialog implements INavigationL
         return true;
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     private final class EmptyFragment extends BaseFragment {
         private EmptyFragment() {
         }

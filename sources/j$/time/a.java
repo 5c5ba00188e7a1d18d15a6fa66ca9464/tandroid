@@ -16,6 +16,10 @@ public final class a extends b implements Serializable {
         return System.currentTimeMillis();
     }
 
+    public ZoneId c() {
+        return this.a;
+    }
+
     public boolean equals(Object obj) {
         if (obj instanceof a) {
             return this.a.equals(((a) obj).a);

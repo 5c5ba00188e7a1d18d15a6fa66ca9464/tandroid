@@ -56,7 +56,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.StickerCategoriesListView;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class StickerCategoriesListView extends RecyclerListView {
     private static EmojiGroupFetcher fetcher = new EmojiGroupFetcher();
     public static CacheFetcher<String, TLRPC$TL_emojiList> search = new EmojiSearch();
@@ -552,7 +552,7 @@ public class StickerCategoriesListView extends RecyclerListView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class Adapter extends RecyclerListView.SelectionAdapter {
         private int lastItemCount;
 
@@ -634,7 +634,7 @@ public class StickerCategoriesListView extends RecyclerListView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class CategoryButton extends RLottieImageView {
         ValueAnimator backAnimator;
         private int imageColor;
@@ -899,7 +899,7 @@ public class StickerCategoriesListView extends RecyclerListView {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class EmojiCategory {
         public boolean animated;
         public long documentId;
@@ -917,7 +917,7 @@ public class StickerCategoriesListView extends RecyclerListView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class EmojiGroupFetcher extends CacheFetcher<Integer, TLRPC$TL_messages_emojiGroups> {
         private EmojiGroupFetcher() {
         }
@@ -1071,7 +1071,7 @@ public class StickerCategoriesListView extends RecyclerListView {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     private static class EmojiSearch extends CacheFetcher<String, TLRPC$TL_emojiList> {
         private EmojiSearch() {
         }

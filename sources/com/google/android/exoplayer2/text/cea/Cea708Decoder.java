@@ -336,12 +336,12 @@ public final class Cea708Decoder extends CeaDecoder {
                 }
             case 147:
             case 148:
-            case MessagesStorage.LAST_DB_VERSION /* 149 */:
+            case 149:
             case ImageReceiver.DEFAULT_CROSSFADE_DURATION /* 150 */:
             default:
                 Log.w("Cea708Decoder", "Invalid C1 command: " + i);
                 return;
-            case 151:
+            case MessagesStorage.LAST_DB_VERSION /* 151 */:
                 if (!this.currentCueInfoBuilder.isDefined()) {
                     this.captionChannelPacketData.skipBits(32);
                     return;

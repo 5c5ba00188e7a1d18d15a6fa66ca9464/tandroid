@@ -28,7 +28,7 @@ import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.GroupCallUserCell;
 import org.telegram.ui.Stories.StoriesGradientTools;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class AvatarsDrawable {
     private boolean attached;
     boolean centered;
@@ -53,6 +53,7 @@ public class AvatarsDrawable {
     float transitionProgress = 1.0f;
     private Paint paint = new Paint(1);
     private Paint xRefP = new Paint(1);
+    public int strokeWidth = AndroidUtilities.dp(1.67f);
     private float overrideSizeStepFactor = 0.8f;
     private float overrideAlpha = 1.0f;
     public long transitionDuration = 220;
@@ -249,7 +250,7 @@ public class AvatarsDrawable {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class DrawingState {
         private int animationType;
         private AvatarDrawable avatarDrawable;
@@ -273,11 +274,13 @@ public class AvatarsDrawable {
         for (int i = 0; i < 3; i++) {
             this.currentStates[i] = new DrawingState();
             this.currentStates[i].imageReceiver = new ImageReceiver(view);
+            this.currentStates[i].imageReceiver.setInvalidateAll(true);
             this.currentStates[i].imageReceiver.setRoundRadius(AndroidUtilities.dp(12.0f));
             this.currentStates[i].avatarDrawable = new AvatarDrawable();
             this.currentStates[i].avatarDrawable.setTextSize(AndroidUtilities.dp(12.0f));
             this.animatingStates[i] = new DrawingState();
             this.animatingStates[i].imageReceiver = new ImageReceiver(view);
+            this.animatingStates[i].imageReceiver.setInvalidateAll(true);
             this.animatingStates[i].imageReceiver.setRoundRadius(AndroidUtilities.dp(12.0f));
             this.animatingStates[i].avatarDrawable = new AvatarDrawable();
             this.animatingStates[i].avatarDrawable.setTextSize(AndroidUtilities.dp(12.0f));
@@ -379,17 +382,17 @@ public class AvatarsDrawable {
     /* JADX WARN: Removed duplicated region for block: B:212:0x0368  */
     /* JADX WARN: Removed duplicated region for block: B:243:0x042a  */
     /* JADX WARN: Removed duplicated region for block: B:249:0x043e  */
-    /* JADX WARN: Removed duplicated region for block: B:296:0x05ef  */
-    /* JADX WARN: Removed duplicated region for block: B:302:0x061e  */
-    /* JADX WARN: Removed duplicated region for block: B:305:0x063a  */
-    /* JADX WARN: Removed duplicated region for block: B:309:0x0668  */
-    /* JADX WARN: Removed duplicated region for block: B:313:0x067a  */
-    /* JADX WARN: Removed duplicated region for block: B:318:0x069e  */
-    /* JADX WARN: Removed duplicated region for block: B:322:0x06c8  */
-    /* JADX WARN: Removed duplicated region for block: B:323:0x06dd  */
-    /* JADX WARN: Removed duplicated region for block: B:325:0x06e2  */
+    /* JADX WARN: Removed duplicated region for block: B:296:0x05ed  */
+    /* JADX WARN: Removed duplicated region for block: B:302:0x061c  */
+    /* JADX WARN: Removed duplicated region for block: B:305:0x0638  */
+    /* JADX WARN: Removed duplicated region for block: B:309:0x0666  */
+    /* JADX WARN: Removed duplicated region for block: B:313:0x0678  */
+    /* JADX WARN: Removed duplicated region for block: B:318:0x069c  */
+    /* JADX WARN: Removed duplicated region for block: B:322:0x06c6  */
+    /* JADX WARN: Removed duplicated region for block: B:323:0x06db  */
+    /* JADX WARN: Removed duplicated region for block: B:325:0x06e0  */
     /* JADX WARN: Removed duplicated region for block: B:340:0x02be A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:348:0x06e5 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:348:0x06e3 A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -649,7 +652,7 @@ public class AvatarsDrawable {
                                                                 i24++;
                                                                 i = 2;
                                                             } else {
-                                                                float size3 = (getSize() / 2.0f) + AndroidUtilities.dp(2.0f);
+                                                                float size3 = (getSize() / 2.0f) + this.strokeWidth;
                                                                 if (z5) {
                                                                     canvas.drawCircle(imageReceiver2.getCenterX(), imageReceiver2.getCenterY(), size3, this.xRefP);
                                                                 } else {

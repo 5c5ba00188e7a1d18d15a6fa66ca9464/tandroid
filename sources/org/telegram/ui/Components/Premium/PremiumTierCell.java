@@ -24,7 +24,7 @@ import org.telegram.ui.Components.CheckBox2;
 import org.telegram.ui.Components.CheckBoxBase;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.PremiumPreviewFragment;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class PremiumTierCell extends ViewGroup {
     private CheckBox2 checkBox;
     private int color0;

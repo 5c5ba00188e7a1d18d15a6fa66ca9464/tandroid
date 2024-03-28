@@ -4,51 +4,51 @@ import j$.util.function.Consumer;
 import j$.util.t;
 import java.util.Objects;
 /* loaded from: classes2.dex */
-final class F4 extends H4 implements t.b, j$.util.function.l {
-    int e;
+final class F4 extends I4 implements t.a, j$.util.function.f {
+    double e;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public F4(t.b bVar, long j, long j2) {
-        super(bVar, j, j2);
+    public F4(t.a aVar, long j, long j2) {
+        super(aVar, j, j2);
     }
 
-    F4(t.b bVar, F4 f4) {
-        super(bVar, f4);
+    F4(t.a aVar, F4 f4) {
+        super(aVar, f4);
     }
 
-    @Override // j$.util.function.l
-    public void accept(int i) {
-        this.e = i;
+    @Override // j$.util.function.f
+    public void accept(double d) {
+        this.e = d;
     }
 
     @Override // j$.util.t
     public /* synthetic */ boolean b(Consumer consumer) {
-        return j$.util.a.k(this, consumer);
+        return j$.util.a.j(this, consumer);
     }
 
     @Override // j$.util.t
     public /* synthetic */ void forEachRemaining(Consumer consumer) {
-        j$.util.a.c(this, consumer);
+        j$.util.a.b(this, consumer);
     }
 
-    @Override // j$.util.function.l
-    public j$.util.function.l l(j$.util.function.l lVar) {
-        Objects.requireNonNull(lVar);
-        return new j$.util.function.k(this, lVar);
+    @Override // j$.util.function.f
+    public j$.util.function.f j(j$.util.function.f fVar) {
+        Objects.requireNonNull(fVar);
+        return new j$.util.function.e(this, fVar);
     }
 
-    @Override // j$.util.stream.J4
+    @Override // j$.util.stream.K4
     protected j$.util.t q(j$.util.t tVar) {
-        return new F4((t.b) tVar, this);
+        return new F4((t.a) tVar, this);
     }
 
-    @Override // j$.util.stream.H4
+    @Override // j$.util.stream.I4
     protected void s(Object obj) {
-        ((j$.util.function.l) obj).accept(this.e);
+        ((j$.util.function.f) obj).accept(this.e);
     }
 
-    @Override // j$.util.stream.H4
-    protected j4 t(int i) {
+    @Override // j$.util.stream.I4
+    protected k4 t(int i) {
         return new h4(i);
     }
 }

@@ -33,7 +33,7 @@ import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.NumberPicker;
 import org.telegram.ui.Components.ProximitySheet;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class ProximitySheet extends FrameLayout {
     private int backgroundPaddingLeft;
     private TextView buttonTextView;
@@ -64,7 +64,7 @@ public class ProximitySheet extends FrameLayout {
     private boolean useImperialSystem;
     private VelocityTracker velocityTracker;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface onRadiusPickerChange {
         boolean run(boolean z, int i);
     }
@@ -634,7 +634,7 @@ public class ProximitySheet extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class 6 extends AnimatorListenerAdapter {
         6() {
         }

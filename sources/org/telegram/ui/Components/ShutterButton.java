@@ -15,7 +15,7 @@ import androidx.annotation.Keep;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class ShutterButton extends View {
     private ShutterButtonDelegate delegate;
     private DecelerateInterpolator interpolator;
@@ -30,7 +30,7 @@ public class ShutterButton extends View {
     private long totalTime;
     private Paint whitePaint;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface ShutterButtonDelegate {
         boolean onTranslationChanged(float f, float f2);
 
@@ -41,7 +41,7 @@ public class ShutterButton extends View {
         void shutterReleased();
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public enum State {
         DEFAULT,
         RECORDING

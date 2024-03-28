@@ -21,9 +21,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 import org.telegram.messenger.CompoundEmoji;
+import org.telegram.messenger.Utilities;
+import org.telegram.tgnet.TLRPC$Document;
+import org.telegram.tgnet.TLRPC$TL_inputStickerSetShortName;
+import org.telegram.tgnet.TLRPC$TL_messages_stickerSet;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
 /* loaded from: classes3.dex */
 public class Emoji {
@@ -820,6 +825,89 @@ public class Emoji {
         return newSpannable;
     }
 
+    public static CharSequence replaceWithRestrictedEmoji(CharSequence charSequence, TextView textView, Runnable runnable) {
+        return replaceWithRestrictedEmoji(charSequence, textView.getPaint().getFontMetricsInt(), runnable);
+    }
+
+    public static CharSequence replaceWithRestrictedEmoji(CharSequence charSequence, Paint.FontMetricsInt fontMetricsInt, final Runnable runnable) {
+        Spannable newSpannable;
+        int i;
+        EmojiSpanRange emojiSpanRange;
+        TLRPC$Document tLRPC$Document;
+        AnimatedEmojiSpan animatedEmojiSpan;
+        boolean z;
+        if (SharedConfig.useSystemEmoji || charSequence == null || charSequence.length() == 0) {
+            return charSequence;
+        }
+        int i2 = UserConfig.selectedAccount;
+        TLRPC$TL_inputStickerSetShortName tLRPC$TL_inputStickerSetShortName = new TLRPC$TL_inputStickerSetShortName();
+        tLRPC$TL_inputStickerSetShortName.short_name = "RestrictedEmoji";
+        TLRPC$TL_messages_stickerSet stickerSet = MediaDataController.getInstance(i2).getStickerSet(tLRPC$TL_inputStickerSetShortName, 0, false, true, runnable == null ? null : new Utilities.Callback() { // from class: org.telegram.messenger.Emoji$$ExternalSyntheticLambda3
+            @Override // org.telegram.messenger.Utilities.Callback
+            public final void run(Object obj) {
+                TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet = (TLRPC$TL_messages_stickerSet) obj;
+                runnable.run();
+            }
+        });
+        if (charSequence instanceof Spannable) {
+            newSpannable = (Spannable) charSequence;
+        } else {
+            newSpannable = Spannable.Factory.getInstance().newSpannable(charSequence.toString());
+        }
+        ArrayList<EmojiSpanRange> parseEmojis = parseEmojis(newSpannable, null);
+        if (parseEmojis.isEmpty()) {
+            return charSequence;
+        }
+        AnimatedEmojiSpan[] animatedEmojiSpanArr = (AnimatedEmojiSpan[]) newSpannable.getSpans(0, newSpannable.length(), AnimatedEmojiSpan.class);
+        int i3 = SharedConfig.getDevicePerformanceClass() >= 2 ? 100 : 50;
+        while (i < parseEmojis.size()) {
+            try {
+                emojiSpanRange = parseEmojis.get(i);
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+            if (animatedEmojiSpanArr != null) {
+                int i4 = 0;
+                while (true) {
+                    if (i4 >= animatedEmojiSpanArr.length) {
+                        z = false;
+                        break;
+                    }
+                    AnimatedEmojiSpan animatedEmojiSpan2 = animatedEmojiSpanArr[i4];
+                    if (animatedEmojiSpan2 != null && newSpannable.getSpanStart(animatedEmojiSpan2) == emojiSpanRange.start && newSpannable.getSpanEnd(animatedEmojiSpan2) == emojiSpanRange.end) {
+                        z = true;
+                        break;
+                    }
+                    i4++;
+                }
+                i = z ? i + 1 : 0;
+            }
+            if (stickerSet != null) {
+                Iterator<TLRPC$Document> it = stickerSet.documents.iterator();
+                while (it.hasNext()) {
+                    tLRPC$Document = it.next();
+                    if (MessageObject.findAnimatedEmojiEmoticon(tLRPC$Document, null).contains(emojiSpanRange.code)) {
+                        break;
+                    }
+                }
+            }
+            tLRPC$Document = null;
+            if (tLRPC$Document != null) {
+                animatedEmojiSpan = new AnimatedEmojiSpan(tLRPC$Document, fontMetricsInt);
+            } else {
+                animatedEmojiSpan = new AnimatedEmojiSpan(0L, fontMetricsInt);
+            }
+            animatedEmojiSpan.emoji = emojiSpanRange.code.toString();
+            animatedEmojiSpan.cacheType = 20;
+            newSpannable.setSpan(animatedEmojiSpan, emojiSpanRange.start, emojiSpanRange.end, 33);
+            int i5 = Build.VERSION.SDK_INT;
+            if ((i5 < 23 || i5 >= 29) && i + 1 >= i3) {
+                break;
+            }
+        }
+        return newSpannable;
+    }
+
     /* loaded from: classes3.dex */
     public static class EmojiSpan extends ImageSpan {
         public boolean drawn;
@@ -960,9 +1048,9 @@ public class Emoji {
         Collections.sort(recentEmoji, new Comparator() { // from class: org.telegram.messenger.Emoji$$ExternalSyntheticLambda2
             @Override // java.util.Comparator
             public final int compare(Object obj, Object obj2) {
-                int lambda$sortEmoji$2;
-                lambda$sortEmoji$2 = Emoji.lambda$sortEmoji$2((String) obj, (String) obj2);
-                return lambda$sortEmoji$2;
+                int lambda$sortEmoji$3;
+                lambda$sortEmoji$3 = Emoji.lambda$sortEmoji$3((String) obj, (String) obj2);
+                return lambda$sortEmoji$3;
             }
         });
         while (recentEmoji.size() > 48) {
@@ -972,7 +1060,7 @@ public class Emoji {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ int lambda$sortEmoji$2(String str, String str2) {
+    public static /* synthetic */ int lambda$sortEmoji$3(String str, String str2) {
         Integer num = emojiUseHistory.get(str);
         Integer num2 = emojiUseHistory.get(str2);
         if (num == null) {

@@ -16,7 +16,7 @@ import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.ChatAttachAlert;
 import org.telegram.ui.Components.RecyclerListView;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class ChatAttachRestrictedLayout extends ChatAttachAlert.AttachAlertLayout {
     private final RecyclerView.Adapter adapter;
     private int gridExtraSpace;

@@ -40,7 +40,7 @@ import org.telegram.ui.ActionBar.AlertDialogDecor;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.QuoteSpan;
 import org.telegram.ui.Components.TextStyleSpan;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class EditTextCaption extends EditTextBoldCursor {
     public boolean adaptiveCreateLinkDialog;
     private boolean allowTextEntitiesIntersection;
@@ -59,7 +59,7 @@ public class EditTextCaption extends EditTextBoldCursor {
     private int xOffset;
     private int yOffset;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface EditTextCaptionDelegate {
         void onSpansChanged();
     }

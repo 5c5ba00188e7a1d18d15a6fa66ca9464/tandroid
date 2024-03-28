@@ -57,7 +57,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.SeekBarView;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.ProfileActivity;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class FloatingDebugView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private LinearLayout bigLayout;
     private List<FloatingDebugController.DebugItem> debugItems;
@@ -307,7 +307,7 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
         setWillNotDraw(false);
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     static /* synthetic */ class 4 {
         static final /* synthetic */ int[] $SwitchMap$org$telegram$ui$Components$FloatingDebug$FloatingDebugController$DebugItemType;
 
@@ -661,7 +661,7 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
         runnable.run();
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     private class SeekBarCell extends FrameLayout {
         private AnimationProperties.FloatProperty callback;
         private int lastWidth;

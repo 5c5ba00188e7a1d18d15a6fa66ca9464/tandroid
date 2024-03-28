@@ -2,33 +2,34 @@ package j$.util.stream;
 
 import java.util.Objects;
 /* loaded from: classes2.dex */
-final class h4 extends j4 implements j$.util.function.l {
-    final int[] c;
+final class h4 extends k4 implements j$.util.function.f {
+    final double[] c;
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public h4(int i) {
-        this.c = new int[i];
+        this.c = new double[i];
     }
 
-    @Override // j$.util.function.l
-    public void accept(int i) {
-        int[] iArr = this.c;
-        int i2 = this.b;
-        this.b = i2 + 1;
-        iArr[i2] = i;
+    @Override // j$.util.function.f
+    public void accept(double d) {
+        double[] dArr = this.c;
+        int i = this.b;
+        this.b = i + 1;
+        dArr[i] = d;
     }
 
-    @Override // j$.util.stream.j4
+    /* JADX INFO: Access modifiers changed from: package-private */
+    @Override // j$.util.stream.k4
     public void b(Object obj, long j) {
-        j$.util.function.l lVar = (j$.util.function.l) obj;
+        j$.util.function.f fVar = (j$.util.function.f) obj;
         for (int i = 0; i < j; i++) {
-            lVar.accept(this.c[i]);
+            fVar.accept(this.c[i]);
         }
     }
 
-    @Override // j$.util.function.l
-    public j$.util.function.l l(j$.util.function.l lVar) {
-        Objects.requireNonNull(lVar);
-        return new j$.util.function.k(this, lVar);
+    @Override // j$.util.function.f
+    public j$.util.function.f j(j$.util.function.f fVar) {
+        Objects.requireNonNull(fVar);
+        return new j$.util.function.e(this, fVar);
     }
 }

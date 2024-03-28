@@ -49,7 +49,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.TypefaceSpan;
 import org.telegram.ui.Components.ViewPagerFixed;
 import org.telegram.ui.DataUsage2Activity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class DataUsage2Activity extends BaseFragment {
     private boolean changeStatusBar;
     private ViewPagerFixed pager;
@@ -123,7 +123,7 @@ public class DataUsage2Activity extends BaseFragment {
         return this.resourcesProvider;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private class PageAdapter extends ViewPagerFixed.Adapter {
         @Override // org.telegram.ui.Components.ViewPagerFixed.Adapter
         public int getItemCount() {
@@ -162,7 +162,7 @@ public class DataUsage2Activity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ListView extends RecyclerListView {
         Adapter adapter;
         private boolean animateChart;
@@ -314,7 +314,7 @@ public class DataUsage2Activity extends BaseFragment {
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class Size extends CacheChart.SegmentSize {
             int inCount;
             long inSize;
@@ -470,12 +470,12 @@ public class DataUsage2Activity extends BaseFragment {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class Adapter extends AdapterWithDiffUtils {
             private Adapter() {
             }
 
-            /* loaded from: classes3.dex */
+            /* loaded from: classes4.dex */
             class 1 extends CacheChart {
                 /* JADX INFO: Access modifiers changed from: private */
                 public static /* synthetic */ int lambda$onSectionDown$0(int i) {
@@ -720,7 +720,7 @@ public class DataUsage2Activity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class ItemInner extends AdapterWithDiffUtils.Item {
         public int imageColor;
         public int imageResId;
@@ -785,7 +785,7 @@ public class DataUsage2Activity extends BaseFragment {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     class SubtitleCell extends FrameLayout {
         TextView textView;
 
@@ -809,7 +809,7 @@ public class DataUsage2Activity extends BaseFragment {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class RoundingCell extends View {
         Paint paint;
         Path path;
@@ -861,7 +861,7 @@ public class DataUsage2Activity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class Cell extends FrameLayout {
         ImageView arrowView;
         boolean divider;
@@ -964,7 +964,7 @@ public class DataUsage2Activity extends BaseFragment {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class CustomCharacterSpan extends MetricAffectingSpan {
         double ratio;
 

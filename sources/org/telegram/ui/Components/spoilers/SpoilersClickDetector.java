@@ -5,14 +5,14 @@ import android.view.MotionEvent;
 import android.view.View;
 import androidx.core.view.GestureDetectorCompat;
 import java.util.List;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class SpoilersClickDetector {
     private GestureDetectorCompat gestureDetector;
     private int horizontalPadding;
     private boolean trackingTap;
     private int verticalPadding;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface OnSpoilerClickedListener {
         void onSpoilerClicked(SpoilerEffect spoilerEffect, float f, float f2);
     }

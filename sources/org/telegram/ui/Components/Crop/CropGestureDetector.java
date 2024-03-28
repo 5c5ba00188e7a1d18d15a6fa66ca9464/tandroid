@@ -7,7 +7,7 @@ import android.view.ScaleGestureDetector;
 import android.view.VelocityTracker;
 import android.view.ViewConfiguration;
 import org.telegram.messenger.AndroidUtilities;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class CropGestureDetector {
     private ScaleGestureDetector mDetector;
     private boolean mIsDragging;
@@ -22,7 +22,7 @@ public class CropGestureDetector {
     private int mActivePointerId = -1;
     private int mActivePointerIndex = 0;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface CropGestureListener {
         void onDrag(float f, float f2);
 

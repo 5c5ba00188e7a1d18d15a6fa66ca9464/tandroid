@@ -26,7 +26,7 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.Components.RLottieDrawable;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class SpoilerEffect2 {
     private static SpoilerEffect2 instance;
     private final double MAX_DELTA;
@@ -285,7 +285,7 @@ public class SpoilerEffect2 {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class SpoilerThread extends Thread {
         private int deltaTimeHandle;
         private int drawProgram;

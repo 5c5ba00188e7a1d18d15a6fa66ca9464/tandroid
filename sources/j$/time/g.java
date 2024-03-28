@@ -1,96 +1,148 @@
 package j$.time;
 
+import j$.time.temporal.n;
+import j$.time.temporal.o;
 import j$.time.temporal.p;
 import j$.time.temporal.q;
 import j$.time.temporal.r;
 import j$.time.temporal.s;
 import j$.time.temporal.t;
 import j$.time.temporal.u;
+import j$.time.temporal.w;
 import j$.time.temporal.x;
 import java.io.Serializable;
-import java.util.Objects;
+import org.telegram.messenger.MediaController;
 /* loaded from: classes2.dex */
-public final class g implements j$.time.temporal.k, j$.time.chrono.c, Serializable {
-    private final f a;
-    private final i b;
+public final class g implements j$.time.temporal.k, Comparable, Serializable {
+    public static final g e;
+    public static final g f;
+    private static final g[] g = new g[24];
+    private final byte a;
+    private final byte b;
+    private final byte c;
+    private final int d;
 
     static {
-        f fVar = f.d;
-        i iVar = i.e;
-        Objects.requireNonNull(fVar, "date");
-        Objects.requireNonNull(iVar, "time");
-        f fVar2 = f.e;
-        i iVar2 = i.f;
-        Objects.requireNonNull(fVar2, "date");
-        Objects.requireNonNull(iVar2, "time");
+        int i = 0;
+        while (true) {
+            g[] gVarArr = g;
+            if (i >= gVarArr.length) {
+                g gVar = gVarArr[0];
+                g gVar2 = gVarArr[12];
+                e = gVarArr[0];
+                f = new g(23, 59, 59, 999999999);
+                return;
+            }
+            gVarArr[i] = new g(i, 0, 0, 0);
+            i++;
+        }
     }
 
-    private g(f fVar, i iVar) {
-        this.a = fVar;
-        this.b = iVar;
+    private g(int i, int i2, int i3, int i4) {
+        this.a = (byte) i;
+        this.b = (byte) i2;
+        this.c = (byte) i3;
+        this.d = i4;
     }
 
-    public static g j(int i, int i2, int i3, int i4, int i5) {
-        return new g(f.n(i, i2, i3), i.j(i4, i5));
+    private int g(j$.time.temporal.l lVar) {
+        switch (f.a[((j$.time.temporal.a) lVar).ordinal()]) {
+            case 1:
+                return this.d;
+            case 2:
+                throw new w("Invalid field 'NanoOfDay' for get() method, use getLong() instead");
+            case 3:
+                return this.d / 1000;
+            case 4:
+                throw new w("Invalid field 'MicroOfDay' for get() method, use getLong() instead");
+            case 5:
+                return this.d / MediaController.VIDEO_BITRATE_480;
+            case 6:
+                return (int) (l() / 1000000);
+            case 7:
+                return this.c;
+            case 8:
+                return m();
+            case 9:
+                return this.b;
+            case 10:
+                return (this.a * 60) + this.b;
+            case 11:
+                return this.a % 12;
+            case 12:
+                int i = this.a % 12;
+                if (i % 12 == 0) {
+                    return 12;
+                }
+                return i;
+            case 13:
+                return this.a;
+            case 14:
+                byte b = this.a;
+                if (b == 0) {
+                    return 24;
+                }
+                return b;
+            case 15:
+                return this.a / 12;
+            default:
+                throw new w("Unsupported field: " + lVar);
+        }
     }
 
-    public static g k(long j, int i, ZoneOffset zoneOffset) {
-        long totalSeconds;
-        Objects.requireNonNull(zoneOffset, "offset");
-        long j2 = i;
-        j$.time.temporal.a.NANO_OF_SECOND.h(j2);
-        return new g(f.o(j$.lang.d.d(j + zoneOffset.getTotalSeconds(), 86400L)), i.k((((int) j$.lang.d.c(totalSeconds, 86400L)) * 1000000000) + j2));
+    public static g j(int i, int i2) {
+        j$.time.temporal.a.HOUR_OF_DAY.h(i);
+        if (i2 == 0) {
+            return g[i];
+        }
+        j$.time.temporal.a.MINUTE_OF_HOUR.h(i2);
+        return new g(i, i2, 0, 0);
+    }
+
+    public static g k(long j) {
+        j$.time.temporal.a.NANO_OF_DAY.h(j);
+        int i = (int) (j / 3600000000000L);
+        long j2 = j - (i * 3600000000000L);
+        int i2 = (int) (j2 / 60000000000L);
+        long j3 = j2 - (i2 * 60000000000L);
+        int i3 = (int) (j3 / 1000000000);
+        int i4 = (int) (j3 - (i3 * 1000000000));
+        return ((i2 | i3) | i4) == 0 ? g[i] : new g(i, i2, i3, i4);
     }
 
     @Override // j$.time.temporal.k
     public int a(j$.time.temporal.l lVar) {
-        return lVar instanceof j$.time.temporal.a ? ((j$.time.temporal.a) lVar).b() ? this.b.a(lVar) : this.a.a(lVar) : j$.time.temporal.j.a(this, lVar);
+        return lVar instanceof j$.time.temporal.a ? g(lVar) : j$.time.temporal.j.a(this, lVar);
     }
 
     @Override // j$.time.temporal.k
     public x b(j$.time.temporal.l lVar) {
-        if (lVar instanceof j$.time.temporal.a) {
-            if (((j$.time.temporal.a) lVar).b()) {
-                i iVar = this.b;
-                Objects.requireNonNull(iVar);
-                return j$.time.temporal.j.c(iVar, lVar);
-            }
-            return this.a.b(lVar);
-        }
-        return lVar.e(this);
+        return j$.time.temporal.j.c(this, lVar);
     }
 
     @Override // j$.time.temporal.k
     public long c(j$.time.temporal.l lVar) {
-        return lVar instanceof j$.time.temporal.a ? ((j$.time.temporal.a) lVar).b() ? this.b.c(lVar) : this.a.c(lVar) : lVar.c(this);
+        return lVar instanceof j$.time.temporal.a ? lVar == j$.time.temporal.a.NANO_OF_DAY ? l() : lVar == j$.time.temporal.a.MICRO_OF_DAY ? l() / 1000 : g(lVar) : lVar.c(this);
     }
 
     @Override // j$.time.temporal.k
     public Object d(u uVar) {
         int i = t.a;
-        if (uVar == r.a) {
-            return this.a;
-        }
-        if (uVar == j$.time.temporal.m.a || uVar == q.a || uVar == p.a) {
+        if (uVar == n.a || uVar == j$.time.temporal.m.a || uVar == q.a || uVar == p.a) {
             return null;
         }
         if (uVar == s.a) {
-            return o();
+            return this;
         }
-        if (uVar != j$.time.temporal.n.a) {
-            return uVar == j$.time.temporal.o.a ? j$.time.temporal.b.NANOS : uVar.a(this);
+        if (uVar == r.a) {
+            return null;
         }
-        g();
-        return j$.time.chrono.h.a;
+        return uVar == o.a ? j$.time.temporal.b.NANOS : uVar.a(this);
     }
 
     @Override // j$.time.temporal.k
     public boolean e(j$.time.temporal.l lVar) {
-        if (!(lVar instanceof j$.time.temporal.a)) {
-            return lVar != null && lVar.d(this);
-        }
-        j$.time.temporal.a aVar = (j$.time.temporal.a) lVar;
-        return aVar.f() || aVar.b();
+        return lVar instanceof j$.time.temporal.a ? lVar.b() : lVar != null && lVar.d(this);
     }
 
     public boolean equals(Object obj) {
@@ -99,69 +151,77 @@ public final class g implements j$.time.temporal.k, j$.time.chrono.c, Serializab
         }
         if (obj instanceof g) {
             g gVar = (g) obj;
-            return this.a.equals(gVar.a) && this.b.equals(gVar.b);
+            return this.a == gVar.a && this.b == gVar.b && this.c == gVar.c && this.d == gVar.d;
         }
         return false;
     }
 
     @Override // java.lang.Comparable
     /* renamed from: f */
-    public int compareTo(j$.time.chrono.c cVar) {
-        if (cVar instanceof g) {
-            g gVar = (g) cVar;
-            int g = this.a.g(gVar.a);
-            return g == 0 ? this.b.compareTo(gVar.b) : g;
-        }
-        g gVar2 = (g) cVar;
-        int compareTo = ((f) n()).compareTo(gVar2.n());
-        if (compareTo == 0) {
-            int compareTo2 = o().compareTo(gVar2.o());
-            if (compareTo2 == 0) {
-                g();
-                j$.time.chrono.h hVar = j$.time.chrono.h.a;
-                gVar2.g();
-                return 0;
+    public int compareTo(g gVar) {
+        int compare = Integer.compare(this.a, gVar.a);
+        if (compare == 0) {
+            int compare2 = Integer.compare(this.b, gVar.b);
+            if (compare2 == 0) {
+                int compare3 = Integer.compare(this.c, gVar.c);
+                return compare3 == 0 ? Integer.compare(this.d, gVar.d) : compare3;
             }
-            return compareTo2;
+            return compare2;
         }
-        return compareTo;
-    }
-
-    public j$.time.chrono.g g() {
-        Objects.requireNonNull((f) n());
-        return j$.time.chrono.h.a;
+        return compare;
     }
 
     public int h() {
-        return this.b.i();
+        return this.d;
     }
 
     public int hashCode() {
-        return this.a.hashCode() ^ this.b.hashCode();
+        long l = l();
+        return (int) (l ^ (l >>> 32));
     }
 
     public int i() {
-        return this.a.l();
+        return this.c;
     }
 
-    public long l(ZoneOffset zoneOffset) {
-        Objects.requireNonNull(zoneOffset, "offset");
-        return ((((f) n()).q() * 86400) + o().m()) - zoneOffset.getTotalSeconds();
+    public long l() {
+        return (this.c * 1000000000) + (this.b * 60000000000L) + (this.a * 3600000000000L) + this.d;
     }
 
-    public f m() {
-        return this.a;
-    }
-
-    public j$.time.chrono.b n() {
-        return this.a;
-    }
-
-    public i o() {
-        return this.b;
+    public int m() {
+        return (this.b * 60) + (this.a * 3600) + this.c;
     }
 
     public String toString() {
-        return this.a.toString() + 'T' + this.b.toString();
+        int i;
+        StringBuilder sb = new StringBuilder(18);
+        byte b = this.a;
+        byte b2 = this.b;
+        byte b3 = this.c;
+        int i2 = this.d;
+        sb.append(b < 10 ? "0" : "");
+        sb.append((int) b);
+        sb.append(b2 < 10 ? ":0" : ":");
+        sb.append((int) b2);
+        if (b3 > 0 || i2 > 0) {
+            sb.append(b3 >= 10 ? ":" : ":0");
+            sb.append((int) b3);
+            if (i2 > 0) {
+                sb.append('.');
+                int i3 = MediaController.VIDEO_BITRATE_480;
+                if (i2 % MediaController.VIDEO_BITRATE_480 == 0) {
+                    i = (i2 / MediaController.VIDEO_BITRATE_480) + 1000;
+                } else {
+                    if (i2 % 1000 == 0) {
+                        i2 /= 1000;
+                    } else {
+                        i3 = 1000000000;
+                    }
+                    i = i2 + i3;
+                }
+                sb.append(Integer.toString(i).substring(1));
+            }
+        }
+        return sb.toString();
     }
 }

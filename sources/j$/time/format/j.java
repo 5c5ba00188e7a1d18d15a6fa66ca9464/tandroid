@@ -23,7 +23,7 @@ public final class j implements h {
         if (longValue >= -62167219200L) {
             long j = (longValue - 315569520000L) + 62167219200L;
             long d2 = j$.lang.d.d(j, 315569520000L) + 1;
-            j$.time.g k = j$.time.g.k(j$.lang.d.c(j, 315569520000L) - 62167219200L, 0, ZoneOffset.f);
+            j$.time.e k = j$.time.e.k(j$.lang.d.c(j, 315569520000L) - 62167219200L, 0, ZoneOffset.f);
             if (d2 > 0) {
                 sb.append('+');
                 sb.append(d2);
@@ -36,7 +36,7 @@ public final class j implements h {
             long j2 = longValue + 62167219200L;
             long j3 = j2 / 315569520000L;
             long j4 = j2 % 315569520000L;
-            j$.time.g k2 = j$.time.g.k(j4 - 62167219200L, 0, ZoneOffset.f);
+            j$.time.e k2 = j$.time.e.k(j4 - 62167219200L, 0, ZoneOffset.f);
             int length = sb.length();
             sb.append(k2);
             if (k2.h() == 0) {

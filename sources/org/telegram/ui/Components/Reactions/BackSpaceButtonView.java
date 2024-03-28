@@ -19,7 +19,7 @@ import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Stories.RoundRectOutlineProvider;
 @SuppressLint({"ViewConstructor"})
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class BackSpaceButtonView extends FrameLayout {
     private final ImageView backspaceButton;
     private boolean backspaceOnce;

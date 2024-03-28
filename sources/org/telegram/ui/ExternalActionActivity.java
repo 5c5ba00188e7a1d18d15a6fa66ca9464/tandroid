@@ -43,7 +43,7 @@ import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.PasscodeView;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ExternalActionActivity extends Activity implements INavigationLayout.INavigationLayoutDelegate {
     protected INavigationLayout actionBarLayout;
     protected SizeNotifierFrameLayout backgroundTablet;

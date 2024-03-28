@@ -47,7 +47,7 @@ import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.Components.SlideChooseView;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class LinkEditActivity extends BaseFragment {
     private TextCheckCell approveCell;
     private TextView buttonTextView;
@@ -81,7 +81,7 @@ public class LinkEditActivity extends BaseFragment {
     private ArrayList<Integer> dispalyedUses = new ArrayList<>();
     private final int[] defaultUses = {1, 10, 100};
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface Callback {
         void onLinkCreated(TLObject tLObject);
 
@@ -607,10 +607,10 @@ public class LinkEditActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x01b2  */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x01e6  */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x01f1  */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x020e  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x01b1  */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x01e5  */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x01f0  */
+    /* JADX WARN: Removed duplicated region for block: B:84:0x020d  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

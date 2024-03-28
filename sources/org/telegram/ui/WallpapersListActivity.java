@@ -96,7 +96,7 @@ import org.telegram.ui.Components.WallpaperUpdater;
 import org.telegram.ui.DialogsActivity;
 import org.telegram.ui.ThemePreviewActivity;
 import org.telegram.ui.WallpapersListActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class WallpapersListActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private ArrayList<View> actionModeViews;
     private ColorWallpaper addedColorWallpaper;
@@ -152,7 +152,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
     private static final String[] searchColorsNames = {"Blue", "Red", "Orange", "Yellow", "Green", "Teal", "Purple", "Pink", "Brown", "Black", "Gray", "White"};
     private static final int[] searchColorsNamesR = {R.string.Blue, R.string.Red, R.string.Orange, R.string.Yellow, R.string.Green, R.string.Teal, R.string.Purple, R.string.Pink, R.string.Brown, R.string.Black, R.string.Gray, R.string.White};
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class EmojiWallpaper {
         public final String emoticon;
     }
@@ -162,7 +162,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
         return true;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class ColorWallpaper {
         public int color;
         public Bitmap defaultCache;
@@ -260,7 +260,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class FileWallpaper {
         public File originalPath;
         public File path;
@@ -520,7 +520,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 1 implements WallpaperUpdater.WallpaperUpdaterDelegate {
         @Override // org.telegram.ui.Components.WallpaperUpdater.WallpaperUpdaterDelegate
         public void needOpenColorPicker() {
@@ -551,7 +551,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 2 extends ActionBar.ActionBarMenuOnItemClick {
         2() {
         }
@@ -1571,7 +1571,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
         updateRows();
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private class ColorCell extends View {
         private int color;
 
@@ -1599,7 +1599,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class SearchAdapter extends RecyclerListView.SelectionAdapter {
         private int imageReqId;
         private String lastSearchImageString;
@@ -1614,7 +1614,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
         private HashMap<String, MediaController.SearchImage> searchResultKeys = new HashMap<>();
         private boolean bingSearchEndReached = true;
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         private class CategoryAdapterRecycler extends RecyclerListView.SelectionAdapter {
             @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
             public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {
@@ -1980,7 +1980,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 

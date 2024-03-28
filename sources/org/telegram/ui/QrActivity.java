@@ -106,7 +106,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.StaticLayoutEx;
 import org.telegram.ui.Components.ThemeSmallPreviewView;
 import org.telegram.ui.QrActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class QrActivity extends BaseFragment {
     private static List<EmojiThemes> cachedThemes;
     private static boolean firstOpen;
@@ -137,7 +137,7 @@ public class QrActivity extends BaseFragment {
     private long userId;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface OnItemSelectedListener {
         void onItemSelected(EmojiThemes emojiThemes, int i);
     }
@@ -1059,7 +1059,7 @@ public class QrActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ThemeResourcesProvider implements Theme.ResourcesProvider {
         private SparseIntArray colors;
 
@@ -1133,7 +1133,7 @@ public class QrActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class QrView extends View {
         private Bitmap backgroundBitmap;
         private final Paint bitmapGradientPaint;
@@ -1167,7 +1167,7 @@ public class QrActivity extends BaseFragment {
         private static final float SHADOW_SIZE = AndroidUtilities.dp(2.0f);
         private static final float RADIUS = AndroidUtilities.dp(20.0f);
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public interface QrCenterChangedListener {
             void onCenterChanged(int i, int i2, int i3, int i4);
         }
@@ -1749,7 +1749,7 @@ public class QrActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ThemeListViewController implements NotificationCenter.NotificationCenterDelegate {
         public final ChatThemeBottomSheet.Adapter adapter;
         private final Drawable backgroundDrawable;

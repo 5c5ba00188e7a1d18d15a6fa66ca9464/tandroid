@@ -46,7 +46,7 @@ import org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorSearchCe
 import org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorUserCell;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class MultiContactsSelectorBottomSheet extends BottomSheetWithRecyclerListView {
     private static MultiContactsSelectorBottomSheet instance;
     private final ButtonWithCounterView actionButton;
@@ -73,7 +73,7 @@ public class MultiContactsSelectorBottomSheet extends BottomSheetWithRecyclerLis
     private SelectorAdapter selectorAdapter;
     private SelectorListener selectorListener;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface SelectorListener {
         void onUserSelected(List<Long> list);
     }
@@ -562,7 +562,7 @@ public class MultiContactsSelectorBottomSheet extends BottomSheetWithRecyclerLis
     }
 
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
-    protected RecyclerListView.SelectionAdapter createAdapter() {
+    protected RecyclerListView.SelectionAdapter createAdapter(RecyclerListView recyclerListView) {
         SelectorAdapter selectorAdapter = new SelectorAdapter(getContext(), this.resourcesProvider);
         this.selectorAdapter = selectorAdapter;
         selectorAdapter.setGreenSelector(true);

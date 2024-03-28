@@ -119,8 +119,6 @@ import org.telegram.ui.Business.QuickRepliesController;
 import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.AnimationProperties;
-import org.telegram.ui.Components.BotWebViewContainer;
-import org.telegram.ui.Components.BotWebViewMenuContainer;
 import org.telegram.ui.Components.Bulletin;
 import org.telegram.ui.Components.ChatAttachAlert;
 import org.telegram.ui.Components.ChatAttachAlertAudioLayout;
@@ -141,11 +139,14 @@ import org.telegram.ui.PhotoPickerSearchActivity;
 import org.telegram.ui.PremiumPreviewFragment;
 import org.telegram.ui.TopicsFragment;
 import org.telegram.ui.WebAppDisclaimerAlert;
-/* loaded from: classes4.dex */
+import org.telegram.ui.bots.BotWebViewContainer;
+import org.telegram.ui.bots.BotWebViewMenuContainer;
+import org.telegram.ui.bots.ChatAttachAlertBotWebViewLayout;
+/* loaded from: classes3.dex */
 public class ChatAttachAlert extends BottomSheet implements NotificationCenter.NotificationCenterDelegate, BottomSheet.BottomSheetDelegateInterface {
     public final Property<AttachAlertLayout, Float> ATTACH_ALERT_LAYOUT_TRANSLATION;
     private final Property<ChatAttachAlert, Float> ATTACH_ALERT_PROGRESS;
-    protected ActionBar actionBar;
+    public ActionBar actionBar;
     private AnimatorSet actionBarAnimation;
     private View actionBarShadow;
     public boolean allowEnterCaption;
@@ -207,6 +208,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
     public boolean isBizLocationPicker;
     public boolean isPhotoPicker;
     private boolean isSoundPicker;
+    public boolean isStickerMode;
     public boolean isStoryAudioPicker;
     public boolean isStoryLocationPicker;
     private ActionBarMenuSubItem[] itemCells;
@@ -341,19 +343,19 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class 1 implements BotWebViewContainer.Delegate {
         private ValueAnimator botButtonAnimator;
         final /* synthetic */ long val$id;
         final /* synthetic */ String val$startCommand;
         final /* synthetic */ ChatAttachAlertBotWebViewLayout val$webViewLayout;
 
-        @Override // org.telegram.ui.Components.BotWebViewContainer.Delegate
+        @Override // org.telegram.ui.bots.BotWebViewContainer.Delegate
         public /* synthetic */ void onSendWebViewData(String str) {
             BotWebViewContainer.Delegate.-CC.$default$onSendWebViewData(this, str);
         }
 
-        @Override // org.telegram.ui.Components.BotWebViewContainer.Delegate
+        @Override // org.telegram.ui.bots.BotWebViewContainer.Delegate
         public /* synthetic */ void onWebAppReady() {
             BotWebViewContainer.Delegate.-CC.$default$onWebAppReady(this);
         }
@@ -365,12 +367,12 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             this.val$id = j;
         }
 
-        @Override // org.telegram.ui.Components.BotWebViewContainer.Delegate
+        @Override // org.telegram.ui.bots.BotWebViewContainer.Delegate
         public void onWebAppSetupClosingBehavior(boolean z) {
             this.val$webViewLayout.setNeedCloseConfirmation(z);
         }
 
-        @Override // org.telegram.ui.Components.BotWebViewContainer.Delegate
+        @Override // org.telegram.ui.bots.BotWebViewContainer.Delegate
         public void onCloseRequested(final Runnable runnable) {
             if (ChatAttachAlert.this.currentAttachLayout != this.val$webViewLayout) {
                 return;
@@ -392,7 +394,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             }
         }
 
-        @Override // org.telegram.ui.Components.BotWebViewContainer.Delegate
+        @Override // org.telegram.ui.bots.BotWebViewContainer.Delegate
         public void onWebAppSetActionBarColor(final int i, boolean z) {
             final int color = ((ColorDrawable) ChatAttachAlert.this.actionBar.getBackground()).getColor();
             final BotWebViewMenuContainer.ActionBarColorsAnimating actionBarColorsAnimating = new BotWebViewMenuContainer.ActionBarColorsAnimating();
@@ -420,12 +422,12 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             actionBarColorsAnimating.updateActionBar(ChatAttachAlert.this.actionBar, floatValue);
         }
 
-        @Override // org.telegram.ui.Components.BotWebViewContainer.Delegate
+        @Override // org.telegram.ui.bots.BotWebViewContainer.Delegate
         public void onWebAppSetBackgroundColor(int i) {
             this.val$webViewLayout.setCustomBackground(i);
         }
 
-        @Override // org.telegram.ui.Components.BotWebViewContainer.Delegate
+        @Override // org.telegram.ui.bots.BotWebViewContainer.Delegate
         public void onWebAppOpenInvoice(final String str, TLObject tLObject) {
             PaymentFormActivity paymentFormActivity;
             ChatAttachAlert chatAttachAlert = ChatAttachAlert.this;
@@ -461,7 +463,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             chatAttachAlertBotWebViewLayout.getWebViewContainer().onInvoiceStatusUpdate(str, invoiceStatus.name().toLowerCase(Locale.ROOT));
         }
 
-        @Override // org.telegram.ui.Components.BotWebViewContainer.Delegate
+        @Override // org.telegram.ui.bots.BotWebViewContainer.Delegate
         public void onWebAppExpand() {
             AttachAlertLayout attachAlertLayout = ChatAttachAlert.this.currentAttachLayout;
             ChatAttachAlertBotWebViewLayout chatAttachAlertBotWebViewLayout = this.val$webViewLayout;
@@ -470,7 +472,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             }
         }
 
-        @Override // org.telegram.ui.Components.BotWebViewContainer.Delegate
+        @Override // org.telegram.ui.bots.BotWebViewContainer.Delegate
         public void onWebAppSwitchInlineQuery(final TLRPC$User tLRPC$User, final String str, List<String> list) {
             if (list.isEmpty()) {
                 BaseFragment baseFragment = ChatAttachAlert.this.baseFragment;
@@ -515,7 +517,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             } else {
                 bundle.putLong("chat_id", -j);
             }
-            bundle.putString("inline_query_input", "@" + UserObject.getPublicUsername(tLRPC$User) + " " + str);
+            bundle.putString("start_text", "@" + UserObject.getPublicUsername(tLRPC$User) + " " + str);
             ChatAttachAlert chatAttachAlert = ChatAttachAlert.this;
             BaseFragment baseFragment = chatAttachAlert.baseFragment;
             if (MessagesController.getInstance(chatAttachAlert.currentAccount).checkCanOpenChat(bundle, baseFragment)) {
@@ -526,7 +528,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             return true;
         }
 
-        @Override // org.telegram.ui.Components.BotWebViewContainer.Delegate
+        @Override // org.telegram.ui.bots.BotWebViewContainer.Delegate
         public void onSetupMainButton(final boolean z, boolean z2, String str, int i, int i2, final boolean z3) {
             AttachAlertLayout attachAlertLayout = ChatAttachAlert.this.currentAttachLayout;
             ChatAttachAlertBotWebViewLayout chatAttachAlertBotWebViewLayout = this.val$webViewLayout;
@@ -627,12 +629,12 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             chatAttachAlert.buttonsRecyclerView.setTranslationY(chatAttachAlert.botMainButtonOffsetY);
         }
 
-        @Override // org.telegram.ui.Components.BotWebViewContainer.Delegate
+        @Override // org.telegram.ui.bots.BotWebViewContainer.Delegate
         public void onSetBackButtonVisible(boolean z) {
             AndroidUtilities.updateImageViewImageAnimated(ChatAttachAlert.this.actionBar.getBackButton(), z ? R.drawable.ic_ab_back : R.drawable.ic_close_white);
         }
 
-        @Override // org.telegram.ui.Components.BotWebViewContainer.Delegate
+        @Override // org.telegram.ui.bots.BotWebViewContainer.Delegate
         public void onSetSettingsButtonVisible(boolean z) {
             ActionBarMenuSubItem actionBarMenuSubItem = this.val$webViewLayout.settingsItem;
             if (actionBarMenuSubItem != null) {
@@ -640,7 +642,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             }
         }
 
-        @Override // org.telegram.ui.Components.BotWebViewContainer.Delegate
+        @Override // org.telegram.ui.bots.BotWebViewContainer.Delegate
         public boolean isClipboardAvailable() {
             return MediaDataController.getInstance(ChatAttachAlert.this.currentAccount).botInAttachMenu(this.val$id);
         }
@@ -697,7 +699,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         this.dialogId = j;
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface ChatAttachViewDelegate {
         void didPressedButton(int i, boolean z, boolean z2, int i2, boolean z3);
 
@@ -717,7 +719,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
 
         void sendAudio(ArrayList<MessageObject> arrayList, CharSequence charSequence, boolean z, int i);
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public final /* synthetic */ class -CC {
             public static void $default$didSelectBot(ChatAttachViewDelegate chatAttachViewDelegate, TLRPC$User tLRPC$User) {
             }
@@ -748,7 +750,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class AttachAlertLayout extends FrameLayout {
         protected ChatAttachAlert parentAlert;
         protected final Theme.ResourcesProvider resourcesProvider;
@@ -903,7 +905,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class AttachButton extends FrameLayout {
         private int backgroundKey;
         private Animator checkAnimator;
@@ -1047,7 +1049,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class AttachBotButton extends FrameLayout {
         private TLRPC$TL_attachMenuBot attachMenuBot;
         private AvatarDrawable avatarDrawable;
@@ -1090,7 +1092,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public class 1 extends BackupImageView {
             /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
             1(Context context, ChatAttachAlert chatAttachAlert) {
@@ -1100,6 +1102,11 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                     @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
                     public final void didSetImage(ImageReceiver imageReceiver, boolean z, boolean z2, boolean z3) {
                         ChatAttachAlert.AttachBotButton.1.lambda$new$0(imageReceiver, z, z2, z3);
+                    }
+
+                    @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
+                    public /* synthetic */ void didSetImageBitmap(int i, String str, Drawable drawable) {
+                        ImageReceiver.ImageReceiverDelegate.-CC.$default$didSetImageBitmap(this, i, str, drawable);
                     }
 
                     @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
@@ -1961,7 +1968,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         this.containerView.addView(passcodeView, LayoutHelper.createFrame(-1, -1.0f));
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class 3 extends SizeNotifierFrameLayout {
         AdjustPanLayoutHelper adjustPanLayoutHelper;
         private boolean ignoreLayout;
@@ -3063,7 +3070,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         chatAttachAlertBotWebViewLayout.getWebViewContainer().onMainButtonPressed();
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class 10 extends FrameLayout {
         private int color;
         private final Paint p;
@@ -3137,7 +3144,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class 11 extends EditTextEmoji {
         private ValueAnimator messageEditTextAnimator;
         private int messageEditTextPredrawHeigth;
@@ -3238,7 +3245,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class 12 implements TextWatcher {
         private boolean processChange;
 
@@ -3943,7 +3950,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         iArr[0] = iArr[1];
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class 17 extends AnimatorListenerAdapter {
         final /* synthetic */ Runnable val$onEnd;
 
@@ -5540,6 +5547,25 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         }
     }
 
+    public void enableStickerMode() {
+        this.selectedTextView.setText(LocaleController.getString("ChoosePhoto", R.string.ChoosePhoto));
+        this.typeButtonsAvailable = false;
+        this.buttonsRecyclerView.setVisibility(8);
+        this.shadow.setVisibility(8);
+        this.avatarPicker = 1;
+        this.isPhotoPicker = true;
+        this.isStickerMode = true;
+    }
+
+    public void enableDefaultMode() {
+        this.typeButtonsAvailable = true;
+        this.buttonsRecyclerView.setVisibility(0);
+        this.shadow.setVisibility(0);
+        this.avatarPicker = 0;
+        this.isPhotoPicker = false;
+        this.isStickerMode = false;
+    }
+
     public TextView getSelectedTextView() {
         return this.selectedTextView;
     }
@@ -5592,7 +5618,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         return this.photoLayout;
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class ButtonsAdapter extends RecyclerListView.SelectionAdapter {
         private int attachBotsEndRow;
         private int attachBotsStartRow;

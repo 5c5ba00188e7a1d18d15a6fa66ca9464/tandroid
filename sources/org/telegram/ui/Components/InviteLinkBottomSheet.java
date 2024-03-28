@@ -67,7 +67,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.LinkEditActivity;
 import org.telegram.ui.ManageLinksActivity;
 import org.telegram.ui.ProfileActivity;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class InviteLinkBottomSheet extends BottomSheet {
     Adapter adapter;
     private boolean canEdit;
@@ -112,7 +112,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
     HashMap<Long, TLRPC$User> users;
     boolean usersLoading;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface InviteDelegate {
         void linkRevoked(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported);
 
@@ -637,7 +637,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class Adapter extends RecyclerListView.SelectionAdapter {
         private Adapter() {
         }
@@ -742,7 +742,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public class 1 implements LinkActionView.Delegate {
             @Override // org.telegram.ui.Components.LinkActionView.Delegate
             public /* synthetic */ void showUsersForPermanentLink() {
@@ -1223,7 +1223,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class TimerPrivacyCell extends TextInfoPrivacyCell {
         boolean timer;
         Runnable timerRunnable;
@@ -1268,7 +1268,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class EmptyHintRow extends FrameLayout {
         TextView textView;
 

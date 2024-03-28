@@ -13,7 +13,7 @@ import org.telegram.ui.Components.CheckBox2;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Premium.boosts.DiscountSpan;
 @SuppressLint({"ViewConstructor"})
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class DurationWithDiscountCell extends DurationCell {
     protected final CheckBox2 checkBox;
     private TLRPC$TL_premiumGiftCodeOption option;

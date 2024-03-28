@@ -55,7 +55,7 @@ import org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.LaunchActivity;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class SearchTagsList extends BlurredFrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private static AlertDialog currentDialog;
     private ValueAnimator actionBarTagsAnimator;
@@ -83,7 +83,7 @@ public class SearchTagsList extends BlurredFrameLayout implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class Item {
         int count;
         String name;
@@ -858,7 +858,7 @@ public class SearchTagsList extends BlurredFrameLayout implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class Adapter extends RecyclerListView.SelectionAdapter {
         @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
         public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {
@@ -901,7 +901,7 @@ public class SearchTagsList extends BlurredFrameLayout implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class TagButton extends View {
         private boolean attached;
         private boolean chosen;

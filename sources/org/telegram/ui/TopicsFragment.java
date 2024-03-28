@@ -85,6 +85,7 @@ import org.telegram.tgnet.TLRPC$TL_forumTopic;
 import org.telegram.tgnet.TLRPC$TL_groupCall;
 import org.telegram.tgnet.TLRPC$TL_inputMessagesFilterEmpty;
 import org.telegram.tgnet.TLRPC$TL_inputNotifyPeer;
+import org.telegram.tgnet.TLRPC$TL_messages_invitedUsers;
 import org.telegram.tgnet.TLRPC$TL_messages_search;
 import org.telegram.tgnet.TLRPC$TL_updates;
 import org.telegram.tgnet.TLRPC$User;
@@ -151,7 +152,7 @@ import org.telegram.ui.FilteredSearchView;
 import org.telegram.ui.GroupCreateActivity;
 import org.telegram.ui.RightSlidingDialogContainer;
 import org.telegram.ui.TopicsFragment;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class TopicsFragment extends BaseFragment implements NotificationCenter.NotificationCenterDelegate, ChatActivityInterface, RightSlidingDialogContainer.BaseFragmentWithFullscreen {
     private static HashSet<Long> settingsPreloaded = new HashSet<>();
     Adapter adapter;
@@ -256,7 +257,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
     private boolean updateAnimated;
     private boolean waitingForScrollFinished;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface OnTopicSelectedListener {
         void onTopicSelected(TLRPC$TL_forumTopic tLRPC$TL_forumTopic);
     }
@@ -392,7 +393,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             chatActivity.getParentLayout().addFragmentToStack(new TopicsFragment(bundle), chatActivity.getParentLayout().getFragmentStack().size() - 1);
         }
         chatActivity.setSwitchFromTopics(true);
-        chatActivity.finishFragment();
+        chatActivity.lambda$onBackPressed$301();
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -991,9 +992,13 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 2 extends ActionBar.ActionBarMenuOnItemClick {
         final /* synthetic */ Context val$context;
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public static /* synthetic */ void lambda$onItemClick$0() {
+        }
 
         2(Context context) {
             this.val$context = context;
@@ -1051,10 +1056,10 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
                                 return chat != null && ChatObject.canUserDoAdminAction(chat, 3);
                             }
                         };
-                        inviteMembersBottomSheet.setDelegate(new GroupCreateActivity.ContactsAddActivityDelegate() { // from class: org.telegram.ui.TopicsFragment$2$$ExternalSyntheticLambda4
+                        inviteMembersBottomSheet.setDelegate(new GroupCreateActivity.ContactsAddActivityDelegate() { // from class: org.telegram.ui.TopicsFragment$2$$ExternalSyntheticLambda5
                             @Override // org.telegram.ui.GroupCreateActivity.ContactsAddActivityDelegate
                             public final void didSelectUsers(ArrayList arrayList, int i4) {
-                                TopicsFragment.2.this.lambda$onItemClick$1(j, arrayList, i4);
+                                TopicsFragment.2.this.lambda$onItemClick$2(j, arrayList, i4);
                             }
 
                             @Override // org.telegram.ui.GroupCreateActivity.ContactsAddActivityDelegate
@@ -1102,7 +1107,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
                     topicsFragment4.deleteTopics(topicsFragment4.selectedTopics, new Runnable() { // from class: org.telegram.ui.TopicsFragment$2$$ExternalSyntheticLambda1
                         @Override // java.lang.Runnable
                         public final void run() {
-                            TopicsFragment.2.this.lambda$onItemClick$4();
+                            TopicsFragment.2.this.lambda$onItemClick$5();
                         }
                     });
                     break;
@@ -1136,7 +1141,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
                     AlertsCreator.createClearOrDeleteDialogAlert(TopicsFragment.this, false, chat, null, false, true, false, new MessagesStorage.BooleanCallback() { // from class: org.telegram.ui.TopicsFragment$2$$ExternalSyntheticLambda3
                         @Override // org.telegram.messenger.MessagesStorage.BooleanCallback
                         public final void run(boolean z) {
-                            TopicsFragment.2.this.lambda$onItemClick$3(chat, z);
+                            TopicsFragment.2.this.lambda$onItemClick$4(chat, z);
                         }
                     }, TopicsFragment.this.themeDelegate);
                     break;
@@ -1198,30 +1203,43 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onItemClick$1(final long j, final ArrayList arrayList, int i) {
+        public /* synthetic */ void lambda$onItemClick$2(final long j, final ArrayList arrayList, int i) {
             final int size = arrayList.size();
             final int[] iArr = new int[1];
+            final TLRPC$TL_messages_invitedUsers tLRPC$TL_messages_invitedUsers = new TLRPC$TL_messages_invitedUsers();
+            tLRPC$TL_messages_invitedUsers.updates = new TLRPC$TL_updates();
             for (int i2 = 0; i2 < size; i2++) {
-                TopicsFragment.this.getMessagesController().addUserToChat(j, (TLRPC$User) arrayList.get(i2), i, null, TopicsFragment.this, new Runnable() { // from class: org.telegram.ui.TopicsFragment$2$$ExternalSyntheticLambda2
+                TopicsFragment.this.getMessagesController().addUserToChat(j, (TLRPC$User) arrayList.get(i2), i, null, TopicsFragment.this, false, new Runnable() { // from class: org.telegram.ui.TopicsFragment$2$$ExternalSyntheticLambda2
                     @Override // java.lang.Runnable
                     public final void run() {
-                        TopicsFragment.2.this.lambda$onItemClick$0(iArr, size, arrayList, j);
+                        TopicsFragment.2.lambda$onItemClick$0();
+                    }
+                }, null, new Utilities.Callback() { // from class: org.telegram.ui.TopicsFragment$2$$ExternalSyntheticLambda4
+                    @Override // org.telegram.messenger.Utilities.Callback
+                    public final void run(Object obj) {
+                        TopicsFragment.2.this.lambda$onItemClick$1(tLRPC$TL_messages_invitedUsers, iArr, size, arrayList, j, (TLRPC$TL_messages_invitedUsers) obj);
                     }
                 });
             }
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onItemClick$0(int[] iArr, int i, ArrayList arrayList, long j) {
-            int i2 = iArr[0] + 1;
-            iArr[0] = i2;
-            if (i2 == i) {
-                BulletinFactory.of(TopicsFragment.this).createUsersAddedBulletin(arrayList, TopicsFragment.this.getMessagesController().getChat(Long.valueOf(j))).show();
+        public /* synthetic */ void lambda$onItemClick$1(TLRPC$TL_messages_invitedUsers tLRPC$TL_messages_invitedUsers, int[] iArr, int i, ArrayList arrayList, long j, TLRPC$TL_messages_invitedUsers tLRPC$TL_messages_invitedUsers2) {
+            if (tLRPC$TL_messages_invitedUsers2 != null) {
+                tLRPC$TL_messages_invitedUsers.missing_invitees.addAll(tLRPC$TL_messages_invitedUsers2.missing_invitees);
+            }
+            iArr[0] = iArr[0] + 1;
+            if (iArr[0] == i) {
+                if (tLRPC$TL_messages_invitedUsers.missing_invitees.isEmpty()) {
+                    BulletinFactory.of(TopicsFragment.this).createUsersAddedBulletin(arrayList, TopicsFragment.this.getMessagesController().getChat(Long.valueOf(j))).show();
+                    return;
+                }
+                AlertsCreator.checkRestrictedInviteUsers(((BaseFragment) TopicsFragment.this).currentAccount, TopicsFragment.this.getMessagesController().getChat(Long.valueOf(j)), tLRPC$TL_messages_invitedUsers);
             }
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onItemClick$3(TLRPC$Chat tLRPC$Chat, boolean z) {
+        public /* synthetic */ void lambda$onItemClick$4(TLRPC$Chat tLRPC$Chat, boolean z) {
             NotificationCenter notificationCenter = TopicsFragment.this.getNotificationCenter();
             TopicsFragment topicsFragment = TopicsFragment.this;
             int i = NotificationCenter.closeChats;
@@ -1232,7 +1250,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onItemClick$4() {
+        public /* synthetic */ void lambda$onItemClick$5() {
             TopicsFragment.this.clearSelectedTopics();
         }
     }
@@ -1251,7 +1269,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 7 extends DefaultItemAnimator {
         Runnable finishRunnable;
         int scrollAnimationIndex;
@@ -1402,7 +1420,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 10 extends LinearLayoutManager {
         private boolean fixOffset;
 
@@ -1601,7 +1619,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 16 implements View.OnClickListener {
         16() {
         }
@@ -1752,7 +1770,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class TopicsRecyclerView extends BlurredRecyclerView {
         private boolean firstLayout;
         private boolean ignoreLayout;
@@ -2079,7 +2097,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 20 implements DialogInterface.OnClickListener {
         final /* synthetic */ Runnable val$runnable;
         final /* synthetic */ HashSet val$selectedTopics;
@@ -2209,7 +2227,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 22 implements ChatNotificationsPopupWrapper.Callback {
         final /* synthetic */ TLRPC$TL_forumTopic val$topic;
 
@@ -2693,7 +2711,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         this.restartTopic = this.otherItem.addSubItem(10, R.drawable.msg_topic_restart, LocaleController.getString("RestartTopic", R.string.RestartTopic));
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class TouchHelperCallback extends ItemTouchHelper.Callback {
         private RecyclerView.ViewHolder currentItemViewHolder;
         private boolean swipeFolderBack;
@@ -3183,7 +3201,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class Adapter extends AdapterWithDiffUtils {
         private Adapter() {
         }
@@ -3315,7 +3333,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class TopicDialogCell extends DialogCell {
         private AnimatedEmojiDrawable animatedEmojiDrawable;
         boolean attached;
@@ -3590,7 +3608,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private class EmptyViewContainer extends FrameLayout {
         boolean increment;
         float progress;
@@ -3651,7 +3669,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class MessagesSearchContainer extends ViewPagerFixed implements FilteredSearchView.UiCallback {
         boolean canLoadMore;
         SearchViewPager.ChatPreviewDelegate chatPreviewDelegate;
@@ -3782,7 +3800,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class Item {
             int filterIndex;
             private final int type;
@@ -3793,7 +3811,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class ViewPagerAdapter extends ViewPagerFixed.Adapter {
             ArrayList<Item> items;
 
@@ -4108,7 +4126,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class SearchAdapter extends RecyclerListView.SelectionAdapter {
             private SearchAdapter() {
             }
@@ -4411,7 +4429,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class Item extends AdapterWithDiffUtils.Item {
         TLRPC$TL_forumTopic topic;
 

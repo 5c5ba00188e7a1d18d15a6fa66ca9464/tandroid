@@ -78,7 +78,7 @@ import org.telegram.ui.Components.AnimationProperties;
 import org.telegram.ui.Components.PollVotesAlert;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.ProfileActivity;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class PollVotesAlert extends BottomSheet {
     public static final Property<UserCell, Float> USER_CELL_PROPERTY = new AnimationProperties.FloatProperty<UserCell>("placeholderAlpha") { // from class: org.telegram.ui.Components.PollVotesAlert.1
         @Override // org.telegram.ui.Components.AnimationProperties.FloatProperty
@@ -133,7 +133,7 @@ public class PollVotesAlert extends BottomSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class VotesList {
         public boolean collapsed;
         public int collapsedCount = 10;
@@ -166,7 +166,7 @@ public class PollVotesAlert extends BottomSheet {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class SectionCell extends FrameLayout {
         private TextView middleTextView;
         private AnimatedTextView righTextView;
@@ -284,7 +284,7 @@ public class PollVotesAlert extends BottomSheet {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class UserCell extends FrameLayout {
         private ArrayList<Animator> animators;
         private AvatarDrawable avatarDrawable;
@@ -531,7 +531,7 @@ public class PollVotesAlert extends BottomSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class Button {
         private float decimal;
         private int percent;
@@ -799,8 +799,9 @@ public class PollVotesAlert extends BottomSheet {
         this.listView.setItemAnimator(defaultItemAnimator);
         this.listView.setClipToPadding(false);
         this.listView.setLayoutManager(new LinearLayoutManager(this, getContext(), 1, false) { // from class: org.telegram.ui.Components.PollVotesAlert.5
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.recyclerview.widget.LinearLayoutManager
-            protected int getExtraLayoutSpace(RecyclerView.State state) {
+            public int getExtraLayoutSpace(RecyclerView.State state) {
                 return AndroidUtilities.dp(4000.0f);
             }
         });
@@ -1228,7 +1229,7 @@ public class PollVotesAlert extends BottomSheet {
         this.placeholderGradient.setLocalMatrix(matrix);
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class Adapter extends RecyclerListView.SectionsAdapter {
         private Context mContext;
 

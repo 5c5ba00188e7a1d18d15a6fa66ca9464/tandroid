@@ -30,7 +30,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.voip.EndCloseLayout;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class EndCloseLayout extends FrameLayout {
     private final EndCloseView endCloseView;
     private boolean isClosedState;
@@ -51,7 +51,7 @@ public class EndCloseLayout extends FrameLayout {
         transitionSet.setInterpolator((TimeInterpolator) CubicBezierInterpolator.DEFAULT);
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     class 1 extends ChangeBounds {
         1(EndCloseLayout endCloseLayout) {
         }
@@ -206,7 +206,7 @@ public class EndCloseLayout extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class EndCloseView extends View {
         public int backColor;
         private final Paint backgroundPaint;

@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import com.google.zxing.common.detector.MathUtils;
 import org.telegram.messenger.AndroidUtilities;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class EntitiesContainerView extends FrameLayout {
     private boolean cancelled;
     private EntitiesContainerViewDelegate delegate;
@@ -17,7 +17,7 @@ public class EntitiesContainerView extends FrameLayout {
     private float px;
     private float py;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface EntitiesContainerViewDelegate {
         void onEntityDeselect();
 

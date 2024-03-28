@@ -3,6 +3,7 @@ package androidx.lifecycle;
 import android.app.Application;
 import androidx.lifecycle.viewmodel.CreationExtras;
 import androidx.lifecycle.viewmodel.MutableCreationExtras;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Objects;
 import kotlin.jvm.internal.DefaultConstructorMarker;
 import kotlin.jvm.internal.Intrinsics;
@@ -68,6 +69,17 @@ public class ViewModelProvider {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
+    public ViewModelProvider(ViewModelStoreOwner owner) {
+        this(r0, AndroidViewModelFactory.Companion.defaultFactory$lifecycle_viewmodel_release(owner), ViewModelProviderGetKt.defaultCreationExtras(owner));
+        Intrinsics.checkNotNullParameter(owner, "owner");
+        ViewModelStore viewModelStore = owner.getViewModelStore();
+        Intrinsics.checkNotNullExpressionValue(viewModelStore, "owner.viewModelStore");
+    }
+
+    /* JADX WARN: Illegal instructions before constructor call */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public ViewModelProvider(ViewModelStoreOwner owner, Factory factory) {
         this(r0, factory, ViewModelProviderGetKt.defaultCreationExtras(owner));
         Intrinsics.checkNotNullParameter(owner, "owner");
@@ -114,7 +126,28 @@ public class ViewModelProvider {
     /* compiled from: ViewModelProvider.kt */
     /* loaded from: classes.dex */
     public static class NewInstanceFactory implements Factory {
-        public static final CreationExtras.Key<String> VIEW_MODEL_KEY;
+        public static final Companion Companion = new Companion(null);
+        public static final CreationExtras.Key<String> VIEW_MODEL_KEY = Companion.ViewModelKeyImpl.INSTANCE;
+        private static NewInstanceFactory sInstance;
+
+        @Override // androidx.lifecycle.ViewModelProvider.Factory
+        public /* synthetic */ ViewModel create(Class cls, CreationExtras creationExtras) {
+            return Factory.-CC.$default$create(this, cls, creationExtras);
+        }
+
+        @Override // androidx.lifecycle.ViewModelProvider.Factory
+        public <T extends ViewModel> T create(Class<T> modelClass) {
+            Intrinsics.checkNotNullParameter(modelClass, "modelClass");
+            try {
+                T newInstance = modelClass.newInstance();
+                Intrinsics.checkNotNullExpressionValue(newInstance, "{\n                modelC…wInstance()\n            }");
+                return newInstance;
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException("Cannot create an instance of " + modelClass, e);
+            } catch (InstantiationException e2) {
+                throw new RuntimeException("Cannot create an instance of " + modelClass, e2);
+            }
+        }
 
         /* compiled from: ViewModelProvider.kt */
         /* loaded from: classes.dex */
@@ -124,6 +157,15 @@ public class ViewModelProvider {
             }
 
             private Companion() {
+            }
+
+            public final NewInstanceFactory getInstance() {
+                if (NewInstanceFactory.sInstance == null) {
+                    NewInstanceFactory.sInstance = new NewInstanceFactory();
+                }
+                NewInstanceFactory newInstanceFactory = NewInstanceFactory.sInstance;
+                Intrinsics.checkNotNull(newInstanceFactory);
+                return newInstanceFactory;
             }
 
             /* compiled from: ViewModelProvider.kt */
@@ -135,17 +177,75 @@ public class ViewModelProvider {
                 }
             }
         }
-
-        static {
-            new Companion(null);
-            VIEW_MODEL_KEY = Companion.ViewModelKeyImpl.INSTANCE;
-        }
     }
 
     /* compiled from: ViewModelProvider.kt */
     /* loaded from: classes.dex */
     public static class AndroidViewModelFactory extends NewInstanceFactory {
-        public static final CreationExtras.Key<Application> APPLICATION_KEY;
+        private static AndroidViewModelFactory sInstance;
+        private final Application application;
+        public static final Companion Companion = new Companion(null);
+        public static final CreationExtras.Key<Application> APPLICATION_KEY = Companion.ApplicationKeyImpl.INSTANCE;
+
+        private AndroidViewModelFactory(Application application, int i) {
+            this.application = application;
+        }
+
+        public AndroidViewModelFactory() {
+            this(null, 0);
+        }
+
+        /* JADX WARN: 'this' call moved to the top of the method (can break code semantics) */
+        public AndroidViewModelFactory(Application application) {
+            this(application, 0);
+            Intrinsics.checkNotNullParameter(application, "application");
+        }
+
+        @Override // androidx.lifecycle.ViewModelProvider.NewInstanceFactory, androidx.lifecycle.ViewModelProvider.Factory
+        public <T extends ViewModel> T create(Class<T> modelClass, CreationExtras extras) {
+            Intrinsics.checkNotNullParameter(modelClass, "modelClass");
+            Intrinsics.checkNotNullParameter(extras, "extras");
+            if (this.application != null) {
+                return (T) create(modelClass);
+            }
+            Application application = (Application) extras.get(APPLICATION_KEY);
+            if (application != null) {
+                return (T) create(modelClass, application);
+            }
+            if (AndroidViewModel.class.isAssignableFrom(modelClass)) {
+                throw new IllegalArgumentException("CreationExtras must have an application by `APPLICATION_KEY`");
+            }
+            return (T) super.create(modelClass);
+        }
+
+        @Override // androidx.lifecycle.ViewModelProvider.NewInstanceFactory, androidx.lifecycle.ViewModelProvider.Factory
+        public <T extends ViewModel> T create(Class<T> modelClass) {
+            Intrinsics.checkNotNullParameter(modelClass, "modelClass");
+            Application application = this.application;
+            if (application == null) {
+                throw new UnsupportedOperationException("AndroidViewModelFactory constructed with empty constructor works only with create(modelClass: Class<T>, extras: CreationExtras).");
+            }
+            return (T) create(modelClass, application);
+        }
+
+        private final <T extends ViewModel> T create(Class<T> cls, Application application) {
+            if (AndroidViewModel.class.isAssignableFrom(cls)) {
+                try {
+                    T newInstance = cls.getConstructor(Application.class).newInstance(application);
+                    Intrinsics.checkNotNullExpressionValue(newInstance, "{\n                try {\n…          }\n            }");
+                    return newInstance;
+                } catch (IllegalAccessException e) {
+                    throw new RuntimeException("Cannot create an instance of " + cls, e);
+                } catch (InstantiationException e2) {
+                    throw new RuntimeException("Cannot create an instance of " + cls, e2);
+                } catch (NoSuchMethodException e3) {
+                    throw new RuntimeException("Cannot create an instance of " + cls, e3);
+                } catch (InvocationTargetException e4) {
+                    throw new RuntimeException("Cannot create an instance of " + cls, e4);
+                }
+            }
+            return (T) super.create(cls);
+        }
 
         /* compiled from: ViewModelProvider.kt */
         /* loaded from: classes.dex */
@@ -157,6 +257,26 @@ public class ViewModelProvider {
             private Companion() {
             }
 
+            public final Factory defaultFactory$lifecycle_viewmodel_release(ViewModelStoreOwner owner) {
+                Intrinsics.checkNotNullParameter(owner, "owner");
+                if (owner instanceof HasDefaultViewModelProviderFactory) {
+                    Factory defaultViewModelProviderFactory = ((HasDefaultViewModelProviderFactory) owner).getDefaultViewModelProviderFactory();
+                    Intrinsics.checkNotNullExpressionValue(defaultViewModelProviderFactory, "owner.defaultViewModelProviderFactory");
+                    return defaultViewModelProviderFactory;
+                }
+                return NewInstanceFactory.Companion.getInstance();
+            }
+
+            public final AndroidViewModelFactory getInstance(Application application) {
+                Intrinsics.checkNotNullParameter(application, "application");
+                if (AndroidViewModelFactory.sInstance == null) {
+                    AndroidViewModelFactory.sInstance = new AndroidViewModelFactory(application);
+                }
+                AndroidViewModelFactory androidViewModelFactory = AndroidViewModelFactory.sInstance;
+                Intrinsics.checkNotNull(androidViewModelFactory);
+                return androidViewModelFactory;
+            }
+
             /* compiled from: ViewModelProvider.kt */
             /* loaded from: classes.dex */
             private static final class ApplicationKeyImpl implements CreationExtras.Key<Application> {
@@ -165,11 +285,6 @@ public class ViewModelProvider {
                 private ApplicationKeyImpl() {
                 }
             }
-        }
-
-        static {
-            new Companion(null);
-            APPLICATION_KEY = Companion.ApplicationKeyImpl.INSTANCE;
         }
     }
 }

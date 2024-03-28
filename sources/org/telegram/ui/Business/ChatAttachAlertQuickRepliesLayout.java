@@ -32,8 +32,6 @@ import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC$FileLocation;
-import org.telegram.tgnet.TLRPC$InputPeer;
-import org.telegram.tgnet.TLRPC$TL_messages_sendQuickReplyMessages;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$UserProfilePhoto;
 import org.telegram.tgnet.TLRPC$UserStatus;
@@ -54,7 +52,7 @@ import org.telegram.ui.Components.FillLastLinearLayoutManager;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.SearchField;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class ChatAttachAlertQuickRepliesLayout extends ChatAttachAlert.AttachAlertLayout implements NotificationCenter.NotificationCenterDelegate {
     private EmptyTextProgressView emptyView;
     private FrameLayout frameLayout;
@@ -85,7 +83,7 @@ public class ChatAttachAlertQuickRepliesLayout extends ChatAttachAlert.AttachAle
     public void sendSelectedItems(boolean z, int i) {
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class UserCell extends FrameLayout {
         private AvatarDrawable avatarDrawable;
         private BackupImageView avatarImageView;
@@ -311,7 +309,7 @@ public class ChatAttachAlertQuickRepliesLayout extends ChatAttachAlert.AttachAle
                 super.onScrolled(i, i2);
             }
         };
-        NotificationCenter.getInstance(UserConfig.selectedAccount).listen(this.listView, NotificationCenter.emojiLoaded, new Utilities.Callback() { // from class: org.telegram.ui.Business.ChatAttachAlertQuickRepliesLayout$$ExternalSyntheticLambda1
+        NotificationCenter.getInstance(UserConfig.selectedAccount).listenGlobal(this.listView, NotificationCenter.emojiLoaded, new Utilities.Callback() { // from class: org.telegram.ui.Business.ChatAttachAlertQuickRepliesLayout$$ExternalSyntheticLambda1
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 ChatAttachAlertQuickRepliesLayout.this.lambda$new$1((Object[]) obj);
@@ -409,17 +407,9 @@ public class ChatAttachAlertQuickRepliesLayout extends ChatAttachAlert.AttachAle
             item = this.listAdapter.getItem(sectionForPosition, positionInSectionForPosition);
         }
         if (item instanceof QuickRepliesController.QuickReply) {
-            int i2 = UserConfig.selectedAccount;
-            TLRPC$TL_messages_sendQuickReplyMessages tLRPC$TL_messages_sendQuickReplyMessages = new TLRPC$TL_messages_sendQuickReplyMessages();
             BaseFragment baseFragment = this.parentAlert.baseFragment;
             if (baseFragment instanceof ChatActivityInterface) {
-                TLRPC$InputPeer inputPeer = MessagesController.getInstance(i2).getInputPeer(((ChatActivityInterface) baseFragment).getDialogId());
-                tLRPC$TL_messages_sendQuickReplyMessages.peer = inputPeer;
-                if (inputPeer == null) {
-                    return;
-                }
-                tLRPC$TL_messages_sendQuickReplyMessages.shortcut_id = ((QuickRepliesController.QuickReply) item).id;
-                ConnectionsManager.getInstance(i2).sendRequest(tLRPC$TL_messages_sendQuickReplyMessages, null);
+                QuickRepliesController.getInstance(UserConfig.selectedAccount).sendQuickReplyTo(((ChatActivityInterface) baseFragment).getDialogId(), (QuickRepliesController.QuickReply) item);
                 this.parentAlert.dismiss();
             }
         }
@@ -586,7 +576,7 @@ public class ChatAttachAlertQuickRepliesLayout extends ChatAttachAlert.AttachAle
         updateEmptyViewPosition();
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public class ShareAdapter extends RecyclerListView.SectionsAdapter {
         private int currentAccount;
         private Context mContext;
@@ -691,7 +681,7 @@ public class ChatAttachAlertQuickRepliesLayout extends ChatAttachAlert.AttachAle
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public class ShareSearchAdapter extends RecyclerListView.SelectionAdapter {
         public String lastQuery;
         private Context mContext;

@@ -10,7 +10,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Utilities;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class FilledTabsView extends View {
     private final Paint backgroundPaint;
     private RectF[] bounds;

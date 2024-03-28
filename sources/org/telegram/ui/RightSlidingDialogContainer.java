@@ -26,7 +26,7 @@ import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.INavigationLayout;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.CubicBezierInterpolator;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public abstract class RightSlidingDialogContainer extends FrameLayout {
     public static long fragmentDialogId;
     private Paint actionModePaint;
@@ -56,7 +56,7 @@ public abstract class RightSlidingDialogContainer extends FrameLayout {
     float swipeBackX;
     private VelocityTracker velocityTracker;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface BaseFragmentWithFullscreen {
         View getFullscreenView();
     }

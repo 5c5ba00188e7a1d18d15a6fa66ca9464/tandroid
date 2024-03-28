@@ -51,7 +51,7 @@ import org.telegram.ui.Components.ContextProgressView;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.ShareAlert;
 import org.telegram.ui.WebviewActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class WebviewActivity extends BaseFragment {
     private String currentBot;
     private long currentDialogId;
@@ -86,7 +86,7 @@ public class WebviewActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class TelegramWebviewProxy {
         private TelegramWebviewProxy() {
         }

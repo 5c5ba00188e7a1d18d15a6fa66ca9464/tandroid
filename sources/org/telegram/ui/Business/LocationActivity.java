@@ -63,7 +63,7 @@ import org.telegram.ui.Components.UItem;
 import org.telegram.ui.Components.UniversalAdapter;
 import org.telegram.ui.Components.UniversalRecyclerView;
 import org.telegram.ui.LocationActivity;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class LocationActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private String address;
     private boolean clearVisible;
@@ -279,7 +279,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         frameLayout4.addView(this.mapPreview, LayoutHelper.createFrame(-1, -1.0f));
         this.mapPreviewContainer.addView(this.mapMarker, LayoutHelper.createFrame(-2, -2.0f, 17, 0.0f, -31.0f, 0.0f, 0.0f));
         updateMapPreview();
-        UniversalRecyclerView universalRecyclerView = new UniversalRecyclerView(context, this.currentAccount, new Utilities.Callback2() { // from class: org.telegram.ui.Business.LocationActivity$$ExternalSyntheticLambda7
+        UniversalRecyclerView universalRecyclerView = new UniversalRecyclerView(this, new Utilities.Callback2() { // from class: org.telegram.ui.Business.LocationActivity$$ExternalSyntheticLambda7
             @Override // org.telegram.messenger.Utilities.Callback2
             public final void run(Object obj, Object obj2) {
                 LocationActivity.this.fillItems((ArrayList) obj, (UniversalAdapter) obj2);
@@ -289,7 +289,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             public final void run(Object obj, Object obj2, Object obj3, Object obj4, Object obj5) {
                 LocationActivity.this.onClick((UItem) obj, (View) obj2, ((Integer) obj3).intValue(), ((Float) obj4).floatValue(), ((Float) obj5).floatValue());
             }
-        }, null, getResourceProvider());
+        }, null);
         this.listView = universalRecyclerView;
         frameLayout.addView(universalRecyclerView, LayoutHelper.createFrame(-1, -1.0f));
         setValue();

@@ -2,7 +2,7 @@ package org.telegram.ui.ActionBar;
 
 import android.content.Context;
 import org.telegram.ui.ActionBar.AlertDialog;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class DarkAlertDialog extends AlertDialog {
     public DarkAlertDialog(Context context, int i) {
         super(context, i);
@@ -20,7 +20,7 @@ public class DarkAlertDialog extends AlertDialog {
         return super.getThemedColor(i);
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class Builder extends AlertDialog.Builder {
         public Builder(Context context) {
             super(new DarkAlertDialog(context, 0));

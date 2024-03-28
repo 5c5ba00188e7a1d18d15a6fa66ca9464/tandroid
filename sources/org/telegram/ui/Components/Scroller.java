@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.ViewConfiguration;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class Scroller {
     private static float sViscousFluidNormalize;
     private static float sViscousFluidScale;

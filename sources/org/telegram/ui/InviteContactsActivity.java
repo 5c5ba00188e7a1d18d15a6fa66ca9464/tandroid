@@ -58,7 +58,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.StickerEmptyView;
 import org.telegram.ui.InviteContactsActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class InviteContactsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate, View.OnClickListener {
     private InviteAdapter adapter;
     private int containerHeight;
@@ -82,7 +82,7 @@ public class InviteContactsActivity extends BaseFragment implements Notification
     private ArrayList<GroupCreateSpan> allSpans = new ArrayList<>();
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class SpansContainer extends ViewGroup {
         private View addingSpan;
         private boolean animationStarted;
@@ -768,7 +768,7 @@ public class InviteContactsActivity extends BaseFragment implements Notification
         return i < i2 ? 1 : 0;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class InviteAdapter extends RecyclerListView.SelectionAdapter {
         private Context context;
         private ArrayList<ContactsController.Contact> searchResult = new ArrayList<>();
@@ -871,7 +871,7 @@ public class InviteContactsActivity extends BaseFragment implements Notification
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class 1 extends TimerTask {
             final /* synthetic */ String val$query;
 

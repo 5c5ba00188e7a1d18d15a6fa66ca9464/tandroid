@@ -72,7 +72,7 @@ import org.telegram.ui.Components.RadialProgressView;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.ShareLocationDrawable;
 import org.telegram.ui.Components.UndoView;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class PeopleNearbyActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate, LocationController.LocationFetchCallback {
     private AnimatorSet actionBarAnimator;
     private View actionBarBackground;
@@ -202,7 +202,7 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class DiffCallback extends DiffUtil.Callback {
         SparseIntArray newPositionToItem;
         private final ArrayList<TLRPC$TL_peerLocated> oldChats;
@@ -1012,7 +1012,7 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
         checkForExpiredLocations(false);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class HeaderCellProgress extends HeaderCell {
         private RadialProgressView progressView;
 
@@ -1031,7 +1031,7 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class HintInnerCell extends FrameLayout {
         private ImageView imageView;
         private TextView messageTextView;
@@ -1064,7 +1064,7 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 

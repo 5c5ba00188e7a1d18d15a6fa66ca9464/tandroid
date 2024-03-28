@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.telegram.messenger.R;
 import org.telegram.ui.Components.BitmapShaderTools;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class VoIPBackgroundProvider {
     private final Paint darkPaint;
     private final BitmapShaderTools darkShaderTools;

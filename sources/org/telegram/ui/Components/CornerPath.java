@@ -5,7 +5,7 @@ import android.graphics.RectF;
 import android.os.Build;
 import java.util.ArrayList;
 import java.util.List;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class CornerPath extends Path {
     private static ArrayList<RectF> recycled;
     private boolean isPathCreated;

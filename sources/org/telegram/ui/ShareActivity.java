@@ -20,7 +20,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.SerializedData;
 import org.telegram.tgnet.TLRPC$Message;
 import org.telegram.ui.Components.ShareAlert;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ShareActivity extends Activity {
     private Dialog visibleDialog;
 

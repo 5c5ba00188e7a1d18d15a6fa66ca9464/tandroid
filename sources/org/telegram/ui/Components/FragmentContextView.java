@@ -82,7 +82,7 @@ import org.telegram.ui.DialogsActivity;
 import org.telegram.ui.GroupCallActivity;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.LocationActivity;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class FragmentContextView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate, VoIPService.StateListener {
     private static final float[] speeds = {0.5f, 1.0f, 1.2f, 1.5f, 1.7f, 2.0f};
     private final int account;
@@ -153,7 +153,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
     private boolean visible;
     boolean wasDraw;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface FragmentContextViewDelegate {
         void onAnimation(boolean z, boolean z2);
     }
@@ -585,7 +585,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class 7 extends RLottieImageView {
         private final Runnable pressRunnable;
         boolean pressed;

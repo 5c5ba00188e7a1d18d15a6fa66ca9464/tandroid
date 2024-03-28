@@ -1,64 +1,35 @@
 package j$.util.stream;
 
 import j$.util.function.BiConsumer;
-import j$.util.function.Consumer;
+import j$.util.function.Supplier;
+import j$.util.stream.Collector;
 /* loaded from: classes2.dex */
-class J2 extends T2 implements S2 {
-    final /* synthetic */ j$.util.function.y b;
+class J2 extends V2 {
+    final /* synthetic */ j$.util.function.b b;
     final /* synthetic */ BiConsumer c;
-    final /* synthetic */ j$.util.function.b d;
+    final /* synthetic */ Supplier d;
+    final /* synthetic */ Collector e;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public J2(j$.util.function.y yVar, BiConsumer biConsumer, j$.util.function.b bVar) {
-        this.b = yVar;
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public J2(f4 f4Var, j$.util.function.b bVar, BiConsumer biConsumer, Supplier supplier, Collector collector) {
+        super(f4Var);
+        this.b = bVar;
         this.c = biConsumer;
-        this.d = bVar;
+        this.d = supplier;
+        this.e = collector;
     }
 
-    @Override // j$.util.stream.m3
-    public /* synthetic */ void accept(double d) {
-        o1.f(this);
-        throw null;
+    @Override // j$.util.stream.V2
+    public T2 a() {
+        return new K2(this.d, this.c, this.b);
     }
 
-    @Override // j$.util.stream.m3
-    public /* synthetic */ void accept(int i) {
-        o1.d(this);
-        throw null;
-    }
-
-    @Override // j$.util.stream.m3, j$.util.stream.l3, j$.util.function.q
-    public /* synthetic */ void accept(long j) {
-        o1.e(this);
-        throw null;
-    }
-
-    @Override // j$.util.function.Consumer
-    public void accept(Object obj) {
-        this.c.accept(this.a, obj);
-    }
-
-    @Override // j$.util.function.Consumer
-    public /* synthetic */ Consumer andThen(Consumer consumer) {
-        return Consumer.-CC.$default$andThen(this, consumer);
-    }
-
-    @Override // j$.util.stream.S2
-    public void h(S2 s2) {
-        this.a = this.d.apply(this.a, ((J2) s2).a);
-    }
-
-    @Override // j$.util.stream.m3
-    public /* synthetic */ void m() {
-    }
-
-    @Override // j$.util.stream.m3
-    public void n(long j) {
-        this.a = this.b.get();
-    }
-
-    @Override // j$.util.stream.m3
-    public /* synthetic */ boolean o() {
-        return false;
+    @Override // j$.util.stream.V2, j$.util.stream.O4
+    public int b() {
+        if (this.e.characteristics().contains(Collector.a.UNORDERED)) {
+            return e4.r;
+        }
+        return 0;
     }
 }

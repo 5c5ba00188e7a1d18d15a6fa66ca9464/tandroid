@@ -11,7 +11,7 @@ public final /* synthetic */ class H0 implements BaseStream {
         this.a = gVar;
     }
 
-    public static /* synthetic */ BaseStream n0(j$.util.stream.g gVar) {
+    public static /* synthetic */ BaseStream l0(j$.util.stream.g gVar) {
         if (gVar == null) {
             return null;
         }
@@ -35,17 +35,17 @@ public final /* synthetic */ class H0 implements BaseStream {
 
     @Override // java.util.stream.BaseStream
     public /* synthetic */ BaseStream onClose(Runnable runnable) {
-        return n0(this.a.onClose(runnable));
+        return l0(this.a.onClose(runnable));
     }
 
     @Override // java.util.stream.BaseStream
     public /* synthetic */ BaseStream parallel() {
-        return n0(this.a.parallel());
+        return l0(this.a.parallel());
     }
 
     @Override // java.util.stream.BaseStream
     public /* synthetic */ BaseStream sequential() {
-        return n0(this.a.sequential());
+        return l0(this.a.sequential());
     }
 
     @Override // java.util.stream.BaseStream
@@ -55,6 +55,6 @@ public final /* synthetic */ class H0 implements BaseStream {
 
     @Override // java.util.stream.BaseStream
     public /* synthetic */ BaseStream unordered() {
-        return n0(this.a.unordered());
+        return l0(this.a.unordered());
     }
 }

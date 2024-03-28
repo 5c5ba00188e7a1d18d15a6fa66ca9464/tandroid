@@ -24,7 +24,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.PasscodeView;
 import org.telegram.ui.Components.ThemeEditorView;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class BubbleActivity extends BasePermissionsActivity implements INavigationLayout.INavigationLayoutDelegate {
     private INavigationLayout actionBarLayout;
     private long dialogId;
@@ -76,8 +76,9 @@ public class BubbleActivity extends BasePermissionsActivity implements INavigati
         INavigationLayout.INavigationLayoutDelegate.-CC.$default$onThemeProgress(this, f);
     }
 
-    @Override // android.app.Activity
-    protected void onCreate(Bundle bundle) {
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // androidx.fragment.app.FragmentActivity, androidx.activity.ComponentActivity, androidx.core.app.ComponentActivity, android.app.Activity
+    public void onCreate(Bundle bundle) {
         ApplicationLoader.postInitApplication();
         requestWindowFeature(1);
         setTheme(R.style.Theme_TMessages);
@@ -202,8 +203,9 @@ public class BubbleActivity extends BasePermissionsActivity implements INavigati
         return true;
     }
 
-    @Override // android.app.Activity
-    protected void onNewIntent(Intent intent) {
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // androidx.fragment.app.FragmentActivity, androidx.activity.ComponentActivity, android.app.Activity
+    public void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         handleIntent(intent, true, false, false, UserConfig.selectedAccount, 0);
     }
@@ -220,8 +222,9 @@ public class BubbleActivity extends BasePermissionsActivity implements INavigati
         this.finished = true;
     }
 
-    @Override // android.app.Activity
-    protected void onPause() {
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // androidx.fragment.app.FragmentActivity, android.app.Activity
+    public void onPause() {
         super.onPause();
         this.actionBarLayout.onPause();
         ApplicationLoader.externalInterfacePaused = true;
@@ -232,8 +235,9 @@ public class BubbleActivity extends BasePermissionsActivity implements INavigati
         }
     }
 
-    @Override // android.app.Activity
-    protected void onDestroy() {
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // androidx.fragment.app.FragmentActivity, android.app.Activity
+    public void onDestroy() {
         super.onDestroy();
         int i = this.currentAccount;
         if (i != -1) {
@@ -243,8 +247,9 @@ public class BubbleActivity extends BasePermissionsActivity implements INavigati
         onFinish();
     }
 
-    @Override // android.app.Activity
-    protected void onActivityResult(int i, int i2, Intent intent) {
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // androidx.fragment.app.FragmentActivity, androidx.activity.ComponentActivity, android.app.Activity
+    public void onActivityResult(int i, int i2, Intent intent) {
         super.onActivityResult(i, i2, intent);
         ThemeEditorView themeEditorView = ThemeEditorView.getInstance();
         if (themeEditorView != null) {
@@ -255,7 +260,7 @@ public class BubbleActivity extends BasePermissionsActivity implements INavigati
         }
     }
 
-    @Override // android.app.Activity
+    @Override // androidx.fragment.app.FragmentActivity, androidx.activity.ComponentActivity, android.app.Activity
     public void onRequestPermissionsResult(int i, String[] strArr, int[] iArr) {
         super.onRequestPermissionsResult(i, strArr, iArr);
         if (checkPermissionsResult(i, strArr, iArr)) {
@@ -266,8 +271,9 @@ public class BubbleActivity extends BasePermissionsActivity implements INavigati
         }
     }
 
-    @Override // android.app.Activity
-    protected void onResume() {
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // androidx.fragment.app.FragmentActivity, android.app.Activity
+    public void onResume() {
         super.onResume();
         this.actionBarLayout.onResume();
         ApplicationLoader.externalInterfacePaused = false;
@@ -334,13 +340,13 @@ public class BubbleActivity extends BasePermissionsActivity implements INavigati
         }
     }
 
-    @Override // android.app.Activity, android.content.ComponentCallbacks
+    @Override // androidx.fragment.app.FragmentActivity, androidx.activity.ComponentActivity, android.app.Activity, android.content.ComponentCallbacks
     public void onConfigurationChanged(Configuration configuration) {
         AndroidUtilities.checkDisplaySize(this, configuration);
         super.onConfigurationChanged(configuration);
     }
 
-    @Override // android.app.Activity
+    @Override // androidx.activity.ComponentActivity, android.app.Activity
     public void onBackPressed() {
         if (this.mainFragmentsStack.size() == 1) {
             super.onBackPressed();
@@ -355,7 +361,7 @@ public class BubbleActivity extends BasePermissionsActivity implements INavigati
         }
     }
 
-    @Override // android.app.Activity, android.content.ComponentCallbacks
+    @Override // androidx.fragment.app.FragmentActivity, android.app.Activity, android.content.ComponentCallbacks
     public void onLowMemory() {
         super.onLowMemory();
         this.actionBarLayout.onLowMemory();

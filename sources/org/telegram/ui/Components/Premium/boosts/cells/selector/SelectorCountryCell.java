@@ -17,7 +17,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Premium.boosts.cells.BaseCell;
 import org.telegram.ui.Components.RadioButton;
 @SuppressLint({"ViewConstructor"})
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class SelectorCountryCell extends BaseCell {
     private final CheckBox2 checkBox;
     private TLRPC$TL_help_country country;
@@ -98,7 +98,7 @@ public class SelectorCountryCell extends BaseCell {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class SpaceDrawable extends ReplacementSpan {
         private final int size;
 

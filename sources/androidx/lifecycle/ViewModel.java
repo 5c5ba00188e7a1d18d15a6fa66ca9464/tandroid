@@ -10,6 +10,7 @@ import java.util.Set;
 public abstract class ViewModel {
     private final Map<String, Object> mBagOfTags = new HashMap();
     private final Set<Closeable> mCloseables = new LinkedHashSet();
+    private volatile boolean mCleared = false;
 
     /* JADX INFO: Access modifiers changed from: protected */
     public void onCleared() {
@@ -17,6 +18,7 @@ public abstract class ViewModel {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public final void clear() {
+        this.mCleared = true;
         Map<String, Object> map = this.mBagOfTags;
         if (map != null) {
             synchronized (map) {
@@ -34,6 +36,24 @@ public abstract class ViewModel {
             }
         }
         onCleared();
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public <T> T setTagIfAbsent(String str, T t) {
+        Object obj;
+        synchronized (this.mBagOfTags) {
+            obj = this.mBagOfTags.get(str);
+            if (obj == null) {
+                this.mBagOfTags.put(str, t);
+            }
+        }
+        if (obj != null) {
+            t = obj;
+        }
+        if (this.mCleared) {
+            closeWithRuntimeException(t);
+        }
+        return t;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

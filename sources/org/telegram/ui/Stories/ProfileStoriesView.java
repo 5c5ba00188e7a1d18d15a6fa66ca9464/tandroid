@@ -486,10 +486,7 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
         if (SharedConfig.getDevicePerformanceClass() <= 0) {
             return;
         }
-        try {
-            performHapticFeedback(9, 1);
-        } catch (Exception unused) {
-        }
+        AndroidUtilities.vibrateCursor(this);
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.ProfileStoriesView$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
@@ -500,10 +497,7 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$vibrateNewStory$0() {
-        try {
-            performHapticFeedback(9, 1);
-        } catch (Exception unused) {
-        }
+        AndroidUtilities.vibrateCursor(this);
     }
 
     public void animateNewStory() {

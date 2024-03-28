@@ -47,7 +47,7 @@ import org.telegram.ui.Components.Point;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Stories.recorder.PreviewView;
 import org.telegram.ui.Stories.recorder.StoryEntry;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class MessageEntityView extends EntityView {
     private boolean clipVideoMessageForBitmap;
     public final FrameLayout container;
@@ -1213,7 +1213,7 @@ public class MessageEntityView extends EntityView {
         return new MessageEntityViewSelectionView(this, getContext());
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class MessageEntityViewSelectionView extends EntityView.SelectionView {
         private final Paint clearPaint;
         private Path path;

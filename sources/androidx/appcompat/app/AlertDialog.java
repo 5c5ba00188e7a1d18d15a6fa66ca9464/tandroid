@@ -96,6 +96,13 @@ public class AlertDialog extends AppCompatDialog {
             return this;
         }
 
+        public Builder setNegativeButton(CharSequence charSequence, DialogInterface.OnClickListener onClickListener) {
+            AlertController.AlertParams alertParams = this.P;
+            alertParams.mNegativeButtonText = charSequence;
+            alertParams.mNegativeButtonListener = onClickListener;
+            return this;
+        }
+
         public Builder setOnKeyListener(DialogInterface.OnKeyListener onKeyListener) {
             this.P.mOnKeyListener = onKeyListener;
             return this;
@@ -114,6 +121,14 @@ public class AlertDialog extends AppCompatDialog {
             alertParams.mOnClickListener = onClickListener;
             alertParams.mCheckedItem = i;
             alertParams.mIsSingleChoice = true;
+            return this;
+        }
+
+        public Builder setView(View view) {
+            AlertController.AlertParams alertParams = this.P;
+            alertParams.mView = view;
+            alertParams.mViewLayoutResId = 0;
+            alertParams.mViewSpacingSpecified = false;
             return this;
         }
 

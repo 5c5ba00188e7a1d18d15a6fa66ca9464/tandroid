@@ -3,6 +3,7 @@ package org.telegram.ui.Components;
 import android.graphics.Canvas;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.text.style.ReplacementSpan;
 import android.view.View;
 import java.util.Locale;
@@ -11,7 +12,7 @@ import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.tgnet.TLRPC$Document;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class TextPaintImageReceiverSpan extends ReplacementSpan {
     private boolean alignTop;
     private int height;
@@ -30,6 +31,11 @@ public class TextPaintImageReceiverSpan extends ReplacementSpan {
                 @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
                 public final void didSetImage(ImageReceiver imageReceiver2, boolean z3, boolean z4, boolean z5) {
                     TextPaintImageReceiverSpan.lambda$new$0(imageReceiver2, z3, z4, z5);
+                }
+
+                @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
+                public /* synthetic */ void didSetImageBitmap(int i3, String str, Drawable drawable) {
+                    ImageReceiver.ImageReceiverDelegate.-CC.$default$didSetImageBitmap(this, i3, str, drawable);
                 }
 
                 @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate

@@ -30,7 +30,7 @@ import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.GroupCallRecordAlert;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class GroupCallRecordAlert extends BottomSheet {
     private int currentPage;
     private float pageOffset;
@@ -320,7 +320,7 @@ public class GroupCallRecordAlert extends BottomSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class Adapter extends PagerAdapter {
         @Override // androidx.viewpager.widget.PagerAdapter
         public void restoreState(Parcelable parcelable, ClassLoader classLoader) {

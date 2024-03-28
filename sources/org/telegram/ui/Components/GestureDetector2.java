@@ -8,7 +8,7 @@ import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.ViewConfiguration;
 import java.util.Objects;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class GestureDetector2 {
     public static final int DOUBLE_TAP_TIMEOUT;
     private static final int TAP_TIMEOUT;
@@ -38,7 +38,7 @@ public class GestureDetector2 {
     private int mTouchSlopSquare;
     private VelocityTracker mVelocityTracker;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface OnDoubleTapListener {
         boolean canDoubleTap(MotionEvent motionEvent);
 
@@ -49,7 +49,7 @@ public class GestureDetector2 {
         boolean onSingleTapConfirmed(MotionEvent motionEvent);
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface OnGestureListener {
         boolean onDown(MotionEvent motionEvent);
 
@@ -72,7 +72,7 @@ public class GestureDetector2 {
         DOUBLE_TAP_TIMEOUT = ViewConfiguration.getDoubleTapTimeout();
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     private class GestureHandler extends Handler {
         GestureHandler() {
         }

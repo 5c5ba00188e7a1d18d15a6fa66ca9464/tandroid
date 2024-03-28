@@ -34,7 +34,7 @@ import org.telegram.ui.Components.Premium.PremiumGradient;
 import org.telegram.ui.Components.Premium.StarParticlesView;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.SimpleThemeDescription;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public abstract class GradientHeaderActivity extends BaseFragment {
     public BackgroundView backgroundView;
     private FrameLayout contentView;
@@ -483,7 +483,7 @@ public abstract class GradientHeaderActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class BackgroundView extends LinearLayout {
         private final FrameLayout aboveTitleLayout;
         private final FrameLayout belowSubTitleLayout;

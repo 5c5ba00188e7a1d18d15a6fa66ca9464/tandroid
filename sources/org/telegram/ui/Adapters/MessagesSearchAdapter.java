@@ -15,7 +15,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.DialogCell;
 import org.telegram.ui.Cells.LoadingCell;
 import org.telegram.ui.Components.RecyclerListView;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class MessagesSearchAdapter extends RecyclerListView.SelectionAdapter {
     public int loadedCount;
     private Context mContext;

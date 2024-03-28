@@ -1,5 +1,6 @@
 package j$.time.format;
 
+import j$.time.LocalDate;
 import j$.time.ZoneId;
 /* loaded from: classes2.dex */
 class s implements j$.time.temporal.k {
@@ -23,12 +24,12 @@ class s implements j$.time.temporal.k {
 
     @Override // j$.time.temporal.k
     public j$.time.temporal.x b(j$.time.temporal.l lVar) {
-        return (this.a == null || !lVar.f()) ? this.b.b(lVar) : ((j$.time.f) this.a).b(lVar);
+        return (this.a == null || !lVar.f()) ? this.b.b(lVar) : ((LocalDate) this.a).b(lVar);
     }
 
     @Override // j$.time.temporal.k
     public long c(j$.time.temporal.l lVar) {
-        return (this.a == null || !lVar.f()) ? this.b.c(lVar) : ((j$.time.f) this.a).c(lVar);
+        return (this.a == null || !lVar.f()) ? this.b.c(lVar) : ((LocalDate) this.a).c(lVar);
     }
 
     @Override // j$.time.temporal.k
@@ -39,6 +40,6 @@ class s implements j$.time.temporal.k {
 
     @Override // j$.time.temporal.k
     public boolean e(j$.time.temporal.l lVar) {
-        return (this.a == null || !lVar.f()) ? this.b.e(lVar) : ((j$.time.f) this.a).e(lVar);
+        return (this.a == null || !lVar.f()) ? this.b.e(lVar) : ((LocalDate) this.a).e(lVar);
     }
 }

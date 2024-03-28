@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class FillLastLinearLayoutManager extends LinearLayoutManager {
     private int additionalHeight;
     private boolean bind;

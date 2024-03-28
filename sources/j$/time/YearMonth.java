@@ -2,6 +2,8 @@ package j$.time;
 
 import j$.time.format.r;
 import j$.time.format.y;
+import j$.time.temporal.n;
+import j$.time.temporal.o;
 import j$.time.temporal.t;
 import j$.time.temporal.u;
 import j$.time.temporal.w;
@@ -138,7 +140,7 @@ public final class YearMonth implements Comparable<YearMonth>, Serializable, Ser
 
     public Object d(u uVar) {
         int i = t.a;
-        return uVar == j$.time.temporal.n.a ? j$.time.chrono.h.a : uVar == j$.time.temporal.o.a ? j$.time.temporal.b.MONTHS : j$.time.temporal.j.b(this, uVar);
+        return uVar == n.a ? j$.time.chrono.h.a : uVar == o.a ? j$.time.temporal.b.MONTHS : j$.time.temporal.j.b(this, uVar);
     }
 
     public boolean e(j$.time.temporal.l lVar) {
@@ -161,7 +163,7 @@ public final class YearMonth implements Comparable<YearMonth>, Serializable, Ser
     }
 
     public int lengthOfMonth() {
-        return k.i(this.b).h(j$.time.chrono.h.a.a(this.a));
+        return i.i(this.b).h(j$.time.chrono.h.a.a(this.a));
     }
 
     public String toString() {

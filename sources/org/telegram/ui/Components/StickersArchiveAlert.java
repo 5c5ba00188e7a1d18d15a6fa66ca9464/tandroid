@@ -18,7 +18,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.ArchivedStickerSetCell;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.StickersActivity;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class StickersArchiveAlert extends AlertDialog.Builder {
     private int currentType;
     private BaseFragment parentFragment;
@@ -79,7 +79,7 @@ public class StickersArchiveAlert extends AlertDialog.Builder {
         dialogInterface.dismiss();
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     private class ListAdapter extends RecyclerListView.SelectionAdapter {
         Context context;
 

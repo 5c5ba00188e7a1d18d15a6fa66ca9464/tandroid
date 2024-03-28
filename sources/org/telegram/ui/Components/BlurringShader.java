@@ -33,7 +33,7 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.Components.BlurringShader;
 import org.telegram.ui.Components.Paint.Shader;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class BlurringShader {
     private Bitmap bitmap;
     private boolean bitmapAvailable;
@@ -83,7 +83,7 @@ public class BlurringShader {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class Program {
         int flipyHandle;
         int gl;
@@ -380,7 +380,7 @@ public class BlurringShader {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class BlurManager {
         private EGLContext context;
         private BlurringShader currentShader;
@@ -547,7 +547,7 @@ public class BlurringShader {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class ThumbBlurer {
         private final Paint clearPaint;
         private Runnable generate;
@@ -577,7 +577,7 @@ public class BlurringShader {
         }
 
         public Bitmap getBitmap(final Bitmap bitmap, final String str, final int i, final int i2, final boolean z) {
-            if (bitmap == null) {
+            if (bitmap == null || bitmap.isRecycled()) {
                 return null;
             }
             if (TextUtils.equals(this.thumbKey, str)) {
@@ -609,6 +609,9 @@ public class BlurringShader {
         public /* synthetic */ void lambda$getBitmap$1(final Bitmap bitmap, int i, int i2, final String str, final boolean z) {
             int i3;
             int i4;
+            if (bitmap == null || bitmap.isRecycled()) {
+                return;
+            }
             float width = bitmap.getWidth() / bitmap.getHeight();
             int round = (int) Math.round(Math.sqrt(width * 324.0f));
             int round2 = (int) Math.round(Math.sqrt(324.0f / width));
@@ -691,7 +694,7 @@ public class BlurringShader {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class StoryBlurDrawer {
         private boolean animateBitmapChange;
         private BitmapShader bitmapShader;

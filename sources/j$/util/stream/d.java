@@ -13,8 +13,8 @@ abstract class d extends f {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public d(y2 y2Var, j$.util.t tVar) {
-        super(y2Var, tVar);
+    public d(z2 z2Var, j$.util.t tVar) {
+        super(z2Var, tVar);
         this.h = new AtomicReference(null);
     }
 

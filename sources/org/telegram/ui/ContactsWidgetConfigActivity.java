@@ -5,7 +5,7 @@ import android.os.Bundle;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.EditWidgetActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ContactsWidgetConfigActivity extends ExternalActionActivity {
     private int creatingAppWidgetId = 0;
 

@@ -40,7 +40,7 @@ import org.telegram.ui.ActionBar.ActionBarPopupWindow;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.PopupSwipeBackLayout;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class ActionBarPopupWindow extends PopupWindow {
     private static final ViewTreeObserver.OnScrollChangedListener NOP;
     private static final boolean allowAnimation;
@@ -58,12 +58,12 @@ public class ActionBarPopupWindow extends PopupWindow {
     private boolean scaleOut;
     private AnimatorSet windowAnimatorSet;
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public interface OnDispatchKeyEventListener {
         void onDispatchKeyEvent(KeyEvent keyEvent);
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public interface onSizeChangedListener {
         void onSizeChanged();
     }
@@ -94,7 +94,7 @@ public class ActionBarPopupWindow extends PopupWindow {
         this.scaleOut = z;
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class ActionBarPopupWindowLayout extends FrameLayout {
         private boolean animationEnabled;
         private int backAlpha;
@@ -1141,7 +1141,7 @@ public class ActionBarPopupWindow extends PopupWindow {
         unregisterListener();
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class GapView extends FrameLayout {
         Drawable shadowDrawable;
 

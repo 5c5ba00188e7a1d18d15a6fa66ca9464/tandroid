@@ -52,7 +52,7 @@ import org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorSearchCe
 import org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorUserCell;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class SelectorBottomSheet extends BottomSheetWithRecyclerListView {
     private final ButtonWithCounterView actionButton;
     private final HashMap<Long, TLObject> allSelectedObjects;
@@ -81,10 +81,10 @@ public class SelectorBottomSheet extends BottomSheetWithRecyclerListView {
     private int type;
     private final ArrayList<TLRPC$InputPeer> users;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface SelectedObjectsListener {
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public final /* synthetic */ class -CC {
             public static void $default$onShowToast(SelectedObjectsListener selectedObjectsListener, String str) {
             }
@@ -736,7 +736,7 @@ public class SelectorBottomSheet extends BottomSheetWithRecyclerListView {
         } else if (z) {
             this.sectionCell.setRightText(null);
         } else {
-            this.sectionCell.setRightText((String) null, (View.OnClickListener) null);
+            this.sectionCell.setRightText((CharSequence) null, (View.OnClickListener) null);
         }
     }
 
@@ -840,7 +840,7 @@ public class SelectorBottomSheet extends BottomSheetWithRecyclerListView {
     }
 
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
-    protected RecyclerListView.SelectionAdapter createAdapter() {
+    protected RecyclerListView.SelectionAdapter createAdapter(RecyclerListView recyclerListView) {
         SelectorAdapter selectorAdapter = new SelectorAdapter(getContext(), this.resourcesProvider);
         this.selectorAdapter = selectorAdapter;
         return selectorAdapter;

@@ -92,7 +92,7 @@ import org.telegram.ui.Components.SearchViewPager;
 import org.telegram.ui.Components.StickerEmptyView;
 import org.telegram.ui.FilteredSearchView;
 import org.telegram.ui.PhotoViewer;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class FilteredSearchView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private static SpannableStringBuilder[] arrowSpan = new SpannableStringBuilder[3];
     RecyclerView.Adapter adapter;
@@ -146,12 +146,12 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
     private UiCallback uiCallback;
     private boolean useFromUserAsAvatar;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface Delegate {
         void updateFiltersView(boolean z, ArrayList<Object> arrayList, ArrayList<FiltersView.DateData> arrayList2, boolean z2);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface UiCallback {
         boolean actionModeShowing();
 
@@ -415,7 +415,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 6 extends RecyclerView.OnScrollListener {
         6() {
         }
@@ -1008,7 +1008,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class SharedPhotoVideoAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
@@ -1206,7 +1206,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class SharedLinksAdapter extends RecyclerListView.SectionsAdapter {
         private Context mContext;
         private final SharedLinkCell.SharedLinkCellDelegate sharedLinkCellDelegate = new 1();
@@ -1227,7 +1227,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class 1 implements SharedLinkCell.SharedLinkCellDelegate {
             1() {
             }
@@ -1393,7 +1393,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class SharedDocumentsAdapter extends RecyclerListView.SectionsAdapter {
         private int currentType;
         private Context mContext;
@@ -1641,7 +1641,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         return true;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class MessageHashId {
         public long dialogId;
         public int messageId;
@@ -1673,7 +1673,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class OnlyUserFiltersAdapter extends RecyclerListView.SelectionAdapter {
         @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
         public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {

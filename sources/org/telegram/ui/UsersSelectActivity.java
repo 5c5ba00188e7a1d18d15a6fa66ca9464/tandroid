@@ -73,7 +73,7 @@ import org.telegram.ui.Components.Premium.LimitReachedBottomSheet;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.StickerEmptyView;
 import org.telegram.ui.UsersSelectActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class UsersSelectActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate, View.OnClickListener {
     private GroupCreateAdapter adapter;
     private ArrayList<GroupCreateSpan> allSpans;
@@ -103,7 +103,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
     private int ttlPeriod;
     private int type;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface FilterUsersActivityDelegate {
         void didSelectChats(ArrayList<Long> arrayList, int i);
     }
@@ -130,7 +130,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         this.ttlPeriod = i;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private static class ItemDecoration extends RecyclerView.ItemDecoration {
         private boolean single;
         private int skipRows;
@@ -162,7 +162,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class SpansContainer extends ViewGroup {
         private View addingSpan;
         private boolean animationStarted;
@@ -1184,7 +1184,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         this.delegate = filterUsersActivityDelegate;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class GroupCreateAdapter extends RecyclerListView.FastScrollAdapter {
         private Context context;
         private SearchAdapterHelper searchAdapterHelper;
@@ -1202,10 +1202,10 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
 
         public GroupCreateAdapter(Context context) {
             this.context = context;
-            if (UsersSelectActivity.this.type == 2) {
-                this.usersStartRow = (!UsersSelectActivity.this.doNotNewChats ? 1 : 0) + 5;
-            } else if (UsersSelectActivity.this.type == 0) {
-                if (!UsersSelectActivity.this.noChatTypes) {
+            if (!UsersSelectActivity.this.noChatTypes) {
+                if (UsersSelectActivity.this.type == 2) {
+                    this.usersStartRow = (!UsersSelectActivity.this.doNotNewChats ? 1 : 0) + 5;
+                } else if (UsersSelectActivity.this.type == 0) {
                     if (UsersSelectActivity.this.isInclude) {
                         this.usersStartRow = 7;
                     } else {
@@ -1293,19 +1293,19 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public int getItemCount() {
-            if (!this.searching) {
-                int i = 0;
-                if (UsersSelectActivity.this.type == 2) {
+            if (this.searching) {
+                return this.searchResult.size() + this.searchAdapterHelper.getLocalServerSearch().size() + this.searchAdapterHelper.getGlobalSearch().size();
+            }
+            UsersSelectActivity usersSelectActivity = UsersSelectActivity.this;
+            int i = 0;
+            if (!usersSelectActivity.noChatTypes) {
+                if (usersSelectActivity.type == 2) {
                     i = (!UsersSelectActivity.this.doNotNewChats ? 1 : 0) + 3;
                 } else if (UsersSelectActivity.this.type == 0) {
-                    UsersSelectActivity usersSelectActivity = UsersSelectActivity.this;
-                    if (!usersSelectActivity.noChatTypes) {
-                        i = usersSelectActivity.isInclude ? 7 : 5;
-                    }
+                    i = UsersSelectActivity.this.isInclude ? 7 : 5;
                 }
-                return i + this.contacts.size();
             }
-            return this.searchResult.size() + this.searchAdapterHelper.getLocalServerSearch().size() + this.searchAdapterHelper.getGlobalSearch().size();
+            return i + this.contacts.size();
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -1594,17 +1594,17 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
             if (this.searching) {
                 return 1;
             }
-            if (UsersSelectActivity.this.type == 2) {
+            UsersSelectActivity usersSelectActivity = UsersSelectActivity.this;
+            if (usersSelectActivity.noChatTypes) {
+                if (i == 0) {
+                    return 2;
+                }
+            } else if (usersSelectActivity.type == 2) {
                 if (i == 0 || i == (!UsersSelectActivity.this.doNotNewChats ? 1 : 0) + 4) {
                     return 2;
                 }
             } else if (UsersSelectActivity.this.type == 0) {
-                UsersSelectActivity usersSelectActivity = UsersSelectActivity.this;
-                if (usersSelectActivity.noChatTypes) {
-                    if (i == 0) {
-                        return 2;
-                    }
-                } else if (usersSelectActivity.isInclude) {
+                if (UsersSelectActivity.this.isInclude) {
                     if (i == 0 || i == 6) {
                         return 2;
                     }

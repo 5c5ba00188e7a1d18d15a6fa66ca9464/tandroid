@@ -1,53 +1,119 @@
 package j$.util.stream;
-
-import java.util.Objects;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public class a1 extends d1 {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public a1(j$.util.t tVar, int i, boolean z) {
-        super(tVar, i, z);
+class a1 extends i3 {
+    public final /* synthetic */ int b = 4;
+    final /* synthetic */ Object c;
+
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public a1(L l, n3 n3Var) {
+        super(n3Var);
+        this.c = l;
     }
 
-    @Override // j$.util.stream.c
-    final boolean G0() {
-        throw new UnsupportedOperationException();
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // j$.util.stream.c
-    public final m3 H0(int i, m3 m3Var) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override // j$.util.stream.d1, j$.util.stream.e1
-    public void Z(j$.util.function.q qVar) {
-        if (!isParallel()) {
-            d1.L0(J0()).d(qVar);
-            return;
+    @Override // j$.util.stream.m3, j$.util.function.q
+    public void accept(long j) {
+        switch (this.b) {
+            case 0:
+                this.a.accept(j);
+                return;
+            case 1:
+                this.a.accept(((j$.util.function.t) ((O) this.c).m).applyAsLong(j));
+                return;
+            case 2:
+                this.a.accept((n3) ((j$.util.function.r) ((M) this.c).m).apply(j));
+                return;
+            case 3:
+                this.a.accept(((j$.wrappers.m0) ((N) this.c).m).a(j));
+                return;
+            case 4:
+                this.a.accept(((j$.wrappers.k0) ((L) this.c).m).a(j));
+                return;
+            case 5:
+                f1 f1Var = (f1) ((j$.util.function.r) ((O) this.c).m).apply(j);
+                if (f1Var != null) {
+                    try {
+                        f1Var.sequential().d(new X0(this));
+                    } catch (Throwable th) {
+                        try {
+                            f1Var.close();
+                        } catch (Throwable th2) {
+                            th.addSuppressed(th2);
+                        }
+                        throw th;
+                    }
+                }
+                if (f1Var != null) {
+                    f1Var.close();
+                    return;
+                }
+                return;
+            case 6:
+                if (((j$.wrappers.i0) ((O) this.c).m).b(j)) {
+                    this.a.accept(j);
+                    return;
+                }
+                return;
+            default:
+                ((j$.util.function.q) ((O) this.c).m).accept(j);
+                this.a.accept(j);
+                return;
         }
-        Objects.requireNonNull(qVar);
-        x0(new m0(qVar, true));
     }
 
-    @Override // j$.util.stream.d1, j$.util.stream.e1
-    public void d(j$.util.function.q qVar) {
-        if (isParallel()) {
-            super.d(qVar);
-        } else {
-            d1.L0(J0()).d(qVar);
+    @Override // j$.util.stream.n3
+    public void n(long j) {
+        switch (this.b) {
+            case 5:
+                this.a.n(-1L);
+                return;
+            case 6:
+                this.a.n(-1L);
+                return;
+            default:
+                this.a.n(j);
+                return;
         }
     }
 
-    @Override // j$.util.stream.c, j$.util.stream.g, j$.util.stream.IntStream
-    public /* bridge */ /* synthetic */ e1 parallel() {
-        parallel();
-        return this;
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public a1(M m, n3 n3Var) {
+        super(n3Var);
+        this.c = m;
     }
 
-    @Override // j$.util.stream.c, j$.util.stream.g, j$.util.stream.IntStream
-    public /* bridge */ /* synthetic */ e1 sequential() {
-        sequential();
-        return this;
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public a1(N n, n3 n3Var) {
+        super(n3Var);
+        this.c = n;
+    }
+
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public a1(O o, n3 n3Var) {
+        super(n3Var);
+        this.c = o;
+    }
+
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public a1(O o, n3 n3Var, j$.lang.a aVar) {
+        super(n3Var);
+        this.c = o;
+    }
+
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public a1(O o, n3 n3Var, j$.lang.b bVar) {
+        super(n3Var);
+        this.c = o;
+    }
+
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public a1(O o, n3 n3Var, j$.lang.c cVar) {
+        super(n3Var);
+        this.c = o;
+    }
+
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public a1(P p, n3 n3Var) {
+        super(n3Var);
+        this.c = p;
     }
 }

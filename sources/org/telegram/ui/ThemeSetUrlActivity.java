@@ -54,7 +54,7 @@ import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.EditTextBoldCursor;
 import org.telegram.ui.Components.LayoutHelper;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ThemeSetUrlActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private TextInfoPrivacyCell checkInfoCell;
     private int checkReqId;
@@ -93,7 +93,7 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
     public static /* synthetic */ void lambda$saveTheme$9(DialogInterface dialogInterface) {
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class LinkSpan extends ClickableSpan {
         private String url;
 
@@ -120,7 +120,7 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private static class LinkMovementMethodMy extends LinkMovementMethod {
         private LinkMovementMethodMy() {
         }

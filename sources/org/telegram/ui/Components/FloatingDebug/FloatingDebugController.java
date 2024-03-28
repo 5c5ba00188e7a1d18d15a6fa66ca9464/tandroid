@@ -5,11 +5,11 @@ import android.widget.FrameLayout;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.ui.Components.AnimationProperties;
 import org.telegram.ui.LaunchActivity;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class FloatingDebugController {
     private static FloatingDebugView debugView;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public enum DebugItemType {
         SIMPLE,
         HEADER,
@@ -67,7 +67,7 @@ public class FloatingDebugController {
         debugView = null;
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class DebugItem {
         Runnable action;
         AnimationProperties.FloatProperty floatProperty;

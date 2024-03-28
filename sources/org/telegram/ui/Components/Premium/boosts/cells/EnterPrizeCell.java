@@ -18,14 +18,14 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.EditTextCaption;
 import org.telegram.ui.Components.LayoutHelper;
 @SuppressLint({"ViewConstructor"})
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class EnterPrizeCell extends LinearLayout {
     private AfterTextChangedListener afterTextChangedListener;
     private final EditTextCaption editText;
     private final Theme.ResourcesProvider resourcesProvider;
     private final TextView textView;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface AfterTextChangedListener {
         void afterTextChanged(String str);
     }

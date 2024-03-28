@@ -4,7 +4,7 @@ import android.animation.ValueAnimator;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.drawable.Drawable;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class CrossfadeDrawable extends Drawable {
     private ValueAnimator animator;
     private final Drawable bottomDrawable;

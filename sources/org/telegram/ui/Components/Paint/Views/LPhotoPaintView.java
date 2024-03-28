@@ -122,7 +122,7 @@ import org.telegram.ui.Components.ThanosEffect;
 import org.telegram.ui.Components.TrendingStickersLayout;
 import org.telegram.ui.PhotoViewer;
 import org.telegram.ui.Stories.recorder.EmojiBottomSheet;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPaintView, PaintToolsView.Delegate, EntityView.EntityViewDelegate, PaintTextOptionsView.Delegate, SizeNotifierFrameLayout.SizeNotifierFrameLayoutDelegate, NotificationCenter.NotificationCenterDelegate {
     private float baseScale;
     private Bitmap bitmapToEdit;
@@ -146,7 +146,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     private int emojiPadding;
     private EmojiView emojiView;
     public boolean emojiViewVisible;
-    private EntitiesContainerView entitiesView;
+    public EntitiesContainerView entitiesView;
     private ArrayList<PhotoFace> faces;
     private Bitmap facesBitmap;
     private boolean ignoreLayout;
@@ -2927,7 +2927,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         return popupButton;
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class PopupButton extends LinearLayout {
         ImageView checkView;
         ImageView image2View;
@@ -3762,7 +3762,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class StickerPosition {
         private float angle;
         private Point position;
@@ -4040,7 +4040,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class 22 implements EmojiView.EmojiViewDelegate {
         @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
         public /* synthetic */ boolean canSchedule() {

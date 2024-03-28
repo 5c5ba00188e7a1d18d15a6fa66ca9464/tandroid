@@ -15,13 +15,13 @@ import org.telegram.ui.ActionBar.ActionBarPopupWindow;
 import org.telegram.ui.ChooseSpeedLayout;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.PopupSwipeBackLayout;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ChooseSpeedLayout {
     ActionBarMenuSlider.SpeedSlider slider;
     ActionBarMenuSubItem[] speedItems = new ActionBarMenuSubItem[5];
     public ActionBarPopupWindow.ActionBarPopupWindowLayout speedSwipeBackLayout;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface Callback {
         void onSpeedSelected(float f, boolean z, boolean z2);
     }

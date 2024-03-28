@@ -17,7 +17,7 @@ import androidx.dynamicanimation.animation.SpringForce;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class AnimatedPhoneNumberEditText extends HintEditText {
     private ObjectAnimator animator;
     private Runnable hintAnimationCallback;
@@ -213,7 +213,7 @@ public class AnimatedPhoneNumberEditText extends HintEditText {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public final class HintFadeProperty extends FloatPropertyCompat<Integer> {
         public HintFadeProperty() {
             super("hint_fade");

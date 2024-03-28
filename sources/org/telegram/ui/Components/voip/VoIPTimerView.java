@@ -14,7 +14,7 @@ import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.R;
 import org.telegram.messenger.voip.VoIPService;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class VoIPTimerView extends View {
     Paint activePaint;
     private final Drawable callsDeclineDrawable;

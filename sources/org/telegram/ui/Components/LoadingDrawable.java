@@ -15,7 +15,7 @@ import android.graphics.drawable.Drawable;
 import android.os.SystemClock;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class LoadingDrawable extends Drawable {
     private boolean appearByGradient;
     private LinearGradient appearGradient;

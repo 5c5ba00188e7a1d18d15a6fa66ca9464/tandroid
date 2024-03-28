@@ -32,6 +32,58 @@ public class SubjectSegmenterOptions {
             this.zzb = true;
             return this;
         }
+
+        public Builder enableMultipleSubjects(SubjectResultOptions subjectResultOptions) {
+            this.zzc = true;
+            this.zzd = subjectResultOptions.zza;
+            this.zze = subjectResultOptions.zzb;
+            return this;
+        }
+    }
+
+    /* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
+    /* loaded from: classes.dex */
+    public static class SubjectResultOptions {
+        private boolean zza;
+        private boolean zzb;
+
+        /* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
+        /* loaded from: classes.dex */
+        public static class Builder {
+            private boolean zza = false;
+            private boolean zzb = false;
+
+            public SubjectResultOptions build() {
+                return new SubjectResultOptions(this, null);
+            }
+
+            public Builder enableSubjectBitmap() {
+                this.zzb = true;
+                return this;
+            }
+        }
+
+        /* synthetic */ SubjectResultOptions(Builder builder, zza zzaVar) {
+            this.zza = false;
+            this.zzb = false;
+            this.zza = builder.zza;
+            this.zzb = builder.zzb;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (obj instanceof SubjectResultOptions) {
+                SubjectResultOptions subjectResultOptions = (SubjectResultOptions) obj;
+                return this.zza == subjectResultOptions.zza && this.zzb == subjectResultOptions.zzb;
+            }
+            return false;
+        }
+
+        public int hashCode() {
+            return Objects.hashCode(Boolean.valueOf(this.zza), Boolean.valueOf(this.zzb));
+        }
     }
 
     /* synthetic */ SubjectSegmenterOptions(Builder builder, zzb zzbVar) {

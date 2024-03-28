@@ -1,55 +1,56 @@
 package j$.util.stream;
 
-import j$.util.function.Consumer;
 import java.util.Deque;
 /* loaded from: classes2.dex */
-final class j2 extends k2 {
+abstract class j2 extends l2 implements j$.util.u {
     /* JADX INFO: Access modifiers changed from: package-private */
     public j2(A1 a1) {
         super(a1);
     }
 
-    @Override // j$.util.t
-    public boolean b(Consumer consumer) {
-        A1 a;
-        if (h()) {
-            boolean b = this.d.b(consumer);
-            if (!b) {
-                if (this.c == null && (a = a(this.e)) != null) {
-                    j$.util.t spliterator = a.spliterator();
-                    this.d = spliterator;
-                    return spliterator.b(consumer);
-                }
-                this.a = null;
-            }
-            return b;
-        }
-        return false;
-    }
-
-    @Override // j$.util.t
-    public void forEachRemaining(Consumer consumer) {
+    @Override // j$.util.u
+    /* renamed from: forEachRemaining */
+    public void e(Object obj) {
         if (this.a == null) {
             return;
         }
         if (this.d != null) {
             do {
-            } while (b(consumer));
+            } while (k(obj));
             return;
         }
         j$.util.t tVar = this.c;
         if (tVar != null) {
-            tVar.forEachRemaining(consumer);
+            ((j$.util.u) tVar).forEachRemaining(obj);
             return;
         }
         Deque f = f();
         while (true) {
-            A1 a = a(f);
-            if (a == null) {
+            A1 a1 = (A1) a(f);
+            if (a1 == null) {
                 this.a = null;
                 return;
             }
-            a.forEach(consumer);
+            a1.g(obj);
         }
+    }
+
+    @Override // j$.util.u
+    /* renamed from: tryAdvance */
+    public boolean k(Object obj) {
+        A1 a1;
+        if (h()) {
+            boolean tryAdvance = ((j$.util.u) this.d).tryAdvance(obj);
+            if (!tryAdvance) {
+                if (this.c == null && (a1 = (A1) a(this.e)) != null) {
+                    j$.util.u spliterator = a1.spliterator();
+                    this.d = spliterator;
+                    return spliterator.tryAdvance(obj);
+                }
+                this.a = null;
+            }
+            return tryAdvance;
+        }
+        return false;
     }
 }

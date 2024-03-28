@@ -78,7 +78,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.DialogsActivity;
 import org.telegram.ui.FilterCreateActivity;
 import org.telegram.ui.FiltersSetupActivity;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
     private int alreadyHeaderRow;
     private ArrayList<Long> alreadyJoined;
@@ -892,7 +892,7 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class Button extends FrameLayout {
         float countAlpha;
         AnimatedFloat countAlphaAnimated;
@@ -1178,7 +1178,7 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
     }
 
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
-    protected RecyclerListView.SelectionAdapter createAdapter() {
+    protected RecyclerListView.SelectionAdapter createAdapter(RecyclerListView recyclerListView) {
         return new RecyclerListView.SelectionAdapter() { // from class: org.telegram.ui.Components.FolderBottomSheet.1
             @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
             public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {
@@ -1347,7 +1347,7 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
         };
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class HeaderCell extends FrameLayout {
         public AnimatedTextView actionTextView;
         public AnimatedTextView textView;
@@ -1411,7 +1411,7 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class TitleCell extends FrameLayout {
         private boolean already;
         private FoldersPreview preview;
@@ -1469,7 +1469,7 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public class FoldersPreview extends View {
             AnimatedTextView.AnimatedTextDrawable countText;
             StaticLayout leftFolder;

@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import org.telegram.messenger.ApplicationLoader;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class PersistColorPalette {
     public static final int COLORS_COUNT;
     private static final List<Integer> DEFAULT_MODIFIABLE_COLORS;

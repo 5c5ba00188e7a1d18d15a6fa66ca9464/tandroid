@@ -16,7 +16,7 @@ import org.telegram.tgnet.TLRPC$TL_availableReaction;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class ReactionImageHolder {
     public AnimatedEmojiDrawable animatedEmojiDrawable;
     private boolean attached;

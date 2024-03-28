@@ -18,7 +18,7 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.Adapters.DialogsAdapter;
 import org.telegram.ui.Cells.DialogCell;
 import org.telegram.ui.Cells.DialogsEmptyCell;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class DialogsItemAnimator extends SimpleItemAnimator {
     private static TimeInterpolator sDefaultInterpolator = new DecelerateInterpolator();
     private int bottomClip;
@@ -41,7 +41,7 @@ public class DialogsItemAnimator extends SimpleItemAnimator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class MoveInfo {
         public int fromX;
         public int fromY;
@@ -64,7 +64,7 @@ public class DialogsItemAnimator extends SimpleItemAnimator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class ChangeInfo {
         public int fromX;
         public int fromY;

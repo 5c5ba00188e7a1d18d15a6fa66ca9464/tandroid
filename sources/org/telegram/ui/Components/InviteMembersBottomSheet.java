@@ -72,7 +72,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.UsersAlertBase;
 import org.telegram.ui.GroupCreateActivity;
 import org.telegram.ui.LaunchActivity;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class InviteMembersBottomSheet extends UsersAlertBase implements NotificationCenter.NotificationCenterDelegate {
     private int additionalHeight;
     private long chatId;
@@ -110,7 +110,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
     private float touchSlop;
     float y;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface InviteMembersBottomSheetDelegate {
         void didSelectDialogs(ArrayList<Long> arrayList);
     }
@@ -639,7 +639,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private ListAdapter() {
         }
@@ -759,7 +759,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class SearchAdapter extends RecyclerListView.SelectionAdapter {
         private int currentItemsCount;
         private final SearchAdapterHelper searchAdapterHelper;
@@ -1191,7 +1191,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class SpansContainer extends ViewGroup {
         boolean addAnimation;
         private boolean animationStarted;
@@ -1490,7 +1490,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         updateRows();
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     private class ItemAnimator extends DefaultItemAnimator {
         public ItemAnimator(InviteMembersBottomSheet inviteMembersBottomSheet) {
             this.translationInterpolator = CubicBezierInterpolator.DEFAULT;

@@ -29,7 +29,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedTextView;
 import org.telegram.ui.Storage.CacheModel;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class StorageDiagramView extends View implements NotificationCenter.NotificationCenterDelegate {
     private float[] animateToPercentage;
     private AvatarDrawable avatarDrawable;
@@ -330,7 +330,7 @@ public class StorageDiagramView extends View implements NotificationCenter.Notif
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class ClearViewData {
         public boolean clear;
         public int colorKey;

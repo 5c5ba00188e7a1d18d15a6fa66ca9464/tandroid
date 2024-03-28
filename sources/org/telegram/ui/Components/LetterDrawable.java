@@ -12,7 +12,7 @@ import android.text.TextPaint;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class LetterDrawable extends Drawable {
     private static TextPaint namePaint;
     private static TextPaint namePaintSmallTopic;

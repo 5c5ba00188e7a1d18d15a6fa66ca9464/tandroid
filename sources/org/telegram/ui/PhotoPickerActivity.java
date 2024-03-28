@@ -105,7 +105,7 @@ import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.Components.StickerEmptyView;
 import org.telegram.ui.PhotoPickerActivity;
 import org.telegram.ui.PhotoViewer;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class PhotoPickerActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private int alertOnlyOnce;
     private boolean allowCaption;
@@ -169,10 +169,10 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
     protected FrameLayout writeButtonContainer;
     private Drawable writeButtonDrawable;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface PhotoPickerActivityDelegate {
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public final /* synthetic */ class -CC {
             public static boolean $default$canFinishFragment(PhotoPickerActivityDelegate photoPickerActivityDelegate) {
                 return true;
@@ -193,7 +193,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         void selectedPhotosChanged();
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface PhotoPickerActivitySearchDelegate {
         void shouldClearRecentSearch();
 
@@ -887,7 +887,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         return this.fragmentView;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 4 extends ActionBarMenuItem.ActionBarMenuItemSearchListener {
         Runnable updateSearch = new Runnable() { // from class: org.telegram.ui.PhotoPickerActivity$4$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
@@ -942,7 +942,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 5 extends SizeNotifierFrameLayout {
         private boolean ignoreLayout;
         private int lastItemSize;
@@ -1979,7 +1979,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 

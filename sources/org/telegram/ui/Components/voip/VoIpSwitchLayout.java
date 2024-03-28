@@ -22,7 +22,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.voip.VoIpSwitchLayout;
 @SuppressLint({"ViewConstructor"})
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class VoIpSwitchLayout extends FrameLayout {
     public int animationDelay;
     private final VoIPBackgroundProvider backgroundProvider;
@@ -31,7 +31,7 @@ public class VoIpSwitchLayout extends FrameLayout {
     private Type type;
     private VoIpButtonView voIpButtonView;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public enum Type {
         MICRO,
         CAMERA,
@@ -70,7 +70,7 @@ public class VoIpSwitchLayout extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static /* synthetic */ class 4 {
         static final /* synthetic */ int[] $SwitchMap$org$telegram$ui$Components$voip$VoIpSwitchLayout$Type;
 
@@ -329,7 +329,7 @@ public class VoIpSwitchLayout extends FrameLayout {
         this.voIpButtonView.selectedIcon.setColorFilter(new PorterDuffColorFilter(-16777216, PorterDuff.Mode.MULTIPLY));
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class VoIpButtonView extends View {
         private ValueAnimator animator;
         private final VoIPBackgroundProvider backgroundProvider;
@@ -351,7 +351,7 @@ public class VoIpSwitchLayout extends FrameLayout {
         private int unselectedRadius;
         private final Paint whiteCirclePaint;
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public interface OnBtnClickedListener {
             void onClicked(View view);
         }

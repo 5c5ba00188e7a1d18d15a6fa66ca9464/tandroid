@@ -201,7 +201,7 @@ import org.telegram.ui.GroupCallActivity;
 import org.telegram.ui.PinchToZoomHelper;
 import org.webrtc.MediaStreamTrack;
 import org.webrtc.voiceengine.WebRtcAudioTrack;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class GroupCallActivity extends BottomSheet implements NotificationCenter.NotificationCenterDelegate, VoIPService.StateListener {
     public static GroupCallActivity groupCallInstance;
     public static boolean groupCallUiVisible;
@@ -500,7 +500,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class SmallRecordCallDrawable extends Drawable {
         private long lastUpdateTime;
         private View parentView;
@@ -576,7 +576,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class RecordCallDrawable extends Drawable {
         private long lastUpdateTime;
         private View parentView;
@@ -662,7 +662,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class VolumeSlider extends FrameLayout {
         private boolean captured;
         private float colorChangeProgress;
@@ -1002,7 +1002,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class WeavingState {
         public int currentState;
         private float duration;
@@ -4261,7 +4261,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 6 extends ActionBar.ActionBarMenuOnItemClick {
         final /* synthetic */ Context val$context;
 
@@ -4585,7 +4585,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class 1 extends GroupCallRecordAlert {
             1(Context context, TLRPC$Chat tLRPC$Chat, boolean z) {
                 super(context, tLRPC$Chat, z);
@@ -4904,7 +4904,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     class 17 extends FrameLayout {
         AnimatorSet currentButtonsAnimation;
         int currentLightColor;
@@ -5621,7 +5621,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 19 implements View.OnClickListener {
         Runnable finishRunnable = new Runnable() { // from class: org.telegram.ui.GroupCallActivity.19.1
             @Override // java.lang.Runnable
@@ -5868,7 +5868,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 20 extends AudioPlayerAlert.ClippingTextViewSwitcher {
         final /* synthetic */ Context val$context;
 
@@ -5935,7 +5935,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 27 extends GroupCallRenderersContainer {
         ValueAnimator uiVisibilityAnimator;
 
@@ -9398,7 +9398,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private int addMemberRow;
         private boolean hasSelfUser;
@@ -9838,7 +9838,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class UpdateCallback implements ListUpdateCallback {
         final RecyclerView.Adapter adapter;
 
@@ -9908,7 +9908,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class AvatarUpdaterDelegate implements ImageUpdater.ImageUpdaterDelegate {
         private TLRPC$FileLocation avatar;
         private TLRPC$FileLocation avatarBig;
@@ -10127,7 +10127,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class GroupCallItemAnimator extends DefaultItemAnimator {
         HashSet<RecyclerView.ViewHolder> addingHolders;
         public float animationProgress;

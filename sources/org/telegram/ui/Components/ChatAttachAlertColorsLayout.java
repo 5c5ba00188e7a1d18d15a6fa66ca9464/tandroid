@@ -22,7 +22,7 @@ import org.telegram.ui.Components.ChatAttachAlert;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.PhotoViewer;
 import org.telegram.ui.WallpapersListActivity;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class ChatAttachAlertColorsLayout extends ChatAttachAlert.AttachAlertLayout {
     Adapter adapter;
     public RecyclerListView gridView;
@@ -234,7 +234,7 @@ public class ChatAttachAlertColorsLayout extends ChatAttachAlert.AttachAlertLayo
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class Adapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
         private final ArrayList<Object> wallpapers = new ArrayList<>();

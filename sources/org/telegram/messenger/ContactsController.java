@@ -55,6 +55,7 @@ import org.telegram.tgnet.TLRPC$TL_help_inviteText;
 import org.telegram.tgnet.TLRPC$TL_inputPhoneContact;
 import org.telegram.tgnet.TLRPC$TL_inputPrivacyKeyAbout;
 import org.telegram.tgnet.TLRPC$TL_inputPrivacyKeyAddedByPhone;
+import org.telegram.tgnet.TLRPC$TL_inputPrivacyKeyBirthday;
 import org.telegram.tgnet.TLRPC$TL_inputPrivacyKeyChatInvite;
 import org.telegram.tgnet.TLRPC$TL_inputPrivacyKeyForwards;
 import org.telegram.tgnet.TLRPC$TL_inputPrivacyKeyPhoneCall;
@@ -81,8 +82,9 @@ public class ContactsController extends BaseController {
     private static volatile ContactsController[] Instance = new ContactsController[4];
     public static final int PRIVACY_RULES_TYPE_ADDED_BY_PHONE = 7;
     public static final int PRIVACY_RULES_TYPE_BIO = 9;
+    public static final int PRIVACY_RULES_TYPE_BIRTHDAY = 11;
     public static final int PRIVACY_RULES_TYPE_CALLS = 2;
-    public static final int PRIVACY_RULES_TYPE_COUNT = 10;
+    public static final int PRIVACY_RULES_TYPE_COUNT = 12;
     public static final int PRIVACY_RULES_TYPE_FORWARDS = 5;
     public static final int PRIVACY_RULES_TYPE_INVITE = 1;
     public static final int PRIVACY_RULES_TYPE_LASTSEEN = 0;
@@ -95,6 +97,7 @@ public class ContactsController extends BaseController {
     private static Locale cachedCollatorLocale;
     private ArrayList<TLRPC$PrivacyRule> addedByPhonePrivacyRules;
     private ArrayList<TLRPC$PrivacyRule> bioPrivacyRules;
+    private ArrayList<TLRPC$PrivacyRule> birthdayPrivacyRules;
     private ArrayList<TLRPC$PrivacyRule> callPrivacyRules;
     private int completedRequestsCount;
     public ArrayList<TLRPC$TL_contact> contacts;
@@ -284,7 +287,7 @@ public class ContactsController extends BaseController {
         this.lastContactsVersions = "";
         this.delayedContactsUpdate = new ArrayList<>();
         this.sectionsToReplace = new HashMap<>();
-        this.loadingPrivacyInfo = new int[10];
+        this.loadingPrivacyInfo = new int[12];
         this.projectionPhones = new String[]{"lookup", "data1", "data2", "data3", "display_name", "account_type"};
         this.projectionNames = new String[]{"lookup", "data2", "data3", "data5"};
         this.contactsBook = new HashMap<>();
@@ -377,6 +380,7 @@ public class ContactsController extends BaseController {
         this.p2pPrivacyRules = null;
         this.profilePhotoPrivacyRules = null;
         this.bioPrivacyRules = null;
+        this.birthdayPrivacyRules = null;
         this.forwardsPrivacyRules = null;
         this.phonePrivacyRules = null;
         Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda3
@@ -778,9 +782,9 @@ public class ContactsController extends BaseController {
         return i > 3;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:252:0x058b A[Catch: all -> 0x05a3, TRY_LEAVE, TryCatch #2 {all -> 0x05a3, blocks: (B:250:0x0586, B:252:0x058b), top: B:278:0x0586 }] */
-    /* JADX WARN: Removed duplicated region for block: B:261:0x059d  */
-    /* JADX WARN: Removed duplicated region for block: B:288:0x0590 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:252:0x058a A[Catch: all -> 0x05a2, TRY_LEAVE, TryCatch #1 {all -> 0x05a2, blocks: (B:250:0x0585, B:252:0x058a), top: B:276:0x0585 }] */
+    /* JADX WARN: Removed duplicated region for block: B:261:0x059c  */
+    /* JADX WARN: Removed duplicated region for block: B:288:0x058f A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:330:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1180,14 +1184,8 @@ public class ContactsController extends BaseController {
                                                                         hashMap = hashMap11;
                                                                         FileLog.e(th);
                                                                         if (hashMap != null) {
-                                                                            hashMap.clear();
                                                                         }
                                                                         if (cursor != null) {
-                                                                            try {
-                                                                                cursor.close();
-                                                                            } catch (Exception e2) {
-                                                                                FileLog.e(e2);
-                                                                            }
                                                                         }
                                                                         hashMap2 = hashMap;
                                                                         if (hashMap2 == null) {
@@ -1207,8 +1205,14 @@ public class ContactsController extends BaseController {
                                                     hashMap = hashMap2;
                                                     FileLog.e(th);
                                                     if (hashMap != null) {
+                                                        hashMap.clear();
                                                     }
                                                     if (cursor != null) {
+                                                        try {
+                                                            cursor.close();
+                                                        } catch (Exception e2) {
+                                                            FileLog.e(e2);
+                                                        }
                                                     }
                                                     hashMap2 = hashMap;
                                                     if (hashMap2 == null) {
@@ -3562,42 +3566,104 @@ public class ContactsController extends BaseController {
                     switch (i) {
                         case 0:
                             tLRPC$TL_account_getPrivacy.key = new TLRPC$TL_inputPrivacyKeyStatusTimestamp();
+                            getConnectionsManager().sendRequest(tLRPC$TL_account_getPrivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda56
+                                @Override // org.telegram.tgnet.RequestDelegate
+                                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                                    ContactsController.this.lambda$loadPrivacySettings$64(i, tLObject, tLRPC$TL_error);
+                                }
+                            });
                             break;
                         case 1:
                             tLRPC$TL_account_getPrivacy.key = new TLRPC$TL_inputPrivacyKeyChatInvite();
+                            getConnectionsManager().sendRequest(tLRPC$TL_account_getPrivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda56
+                                @Override // org.telegram.tgnet.RequestDelegate
+                                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                                    ContactsController.this.lambda$loadPrivacySettings$64(i, tLObject, tLRPC$TL_error);
+                                }
+                            });
                             break;
                         case 2:
                             tLRPC$TL_account_getPrivacy.key = new TLRPC$TL_inputPrivacyKeyPhoneCall();
+                            getConnectionsManager().sendRequest(tLRPC$TL_account_getPrivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda56
+                                @Override // org.telegram.tgnet.RequestDelegate
+                                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                                    ContactsController.this.lambda$loadPrivacySettings$64(i, tLObject, tLRPC$TL_error);
+                                }
+                            });
                             break;
                         case 3:
                             tLRPC$TL_account_getPrivacy.key = new TLRPC$TL_inputPrivacyKeyPhoneP2P();
+                            getConnectionsManager().sendRequest(tLRPC$TL_account_getPrivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda56
+                                @Override // org.telegram.tgnet.RequestDelegate
+                                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                                    ContactsController.this.lambda$loadPrivacySettings$64(i, tLObject, tLRPC$TL_error);
+                                }
+                            });
                             break;
                         case 4:
                             tLRPC$TL_account_getPrivacy.key = new TLRPC$TL_inputPrivacyKeyProfilePhoto();
+                            getConnectionsManager().sendRequest(tLRPC$TL_account_getPrivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda56
+                                @Override // org.telegram.tgnet.RequestDelegate
+                                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                                    ContactsController.this.lambda$loadPrivacySettings$64(i, tLObject, tLRPC$TL_error);
+                                }
+                            });
                             break;
                         case 5:
                             tLRPC$TL_account_getPrivacy.key = new TLRPC$TL_inputPrivacyKeyForwards();
+                            getConnectionsManager().sendRequest(tLRPC$TL_account_getPrivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda56
+                                @Override // org.telegram.tgnet.RequestDelegate
+                                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                                    ContactsController.this.lambda$loadPrivacySettings$64(i, tLObject, tLRPC$TL_error);
+                                }
+                            });
                             break;
                         case 6:
                             tLRPC$TL_account_getPrivacy.key = new TLRPC$TL_inputPrivacyKeyPhoneNumber();
+                            getConnectionsManager().sendRequest(tLRPC$TL_account_getPrivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda56
+                                @Override // org.telegram.tgnet.RequestDelegate
+                                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                                    ContactsController.this.lambda$loadPrivacySettings$64(i, tLObject, tLRPC$TL_error);
+                                }
+                            });
                             break;
                         case 7:
-                        default:
                             tLRPC$TL_account_getPrivacy.key = new TLRPC$TL_inputPrivacyKeyAddedByPhone();
+                            getConnectionsManager().sendRequest(tLRPC$TL_account_getPrivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda56
+                                @Override // org.telegram.tgnet.RequestDelegate
+                                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                                    ContactsController.this.lambda$loadPrivacySettings$64(i, tLObject, tLRPC$TL_error);
+                                }
+                            });
                             break;
                         case 8:
                             tLRPC$TL_account_getPrivacy.key = new TLRPC$TL_inputPrivacyKeyVoiceMessages();
+                            getConnectionsManager().sendRequest(tLRPC$TL_account_getPrivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda56
+                                @Override // org.telegram.tgnet.RequestDelegate
+                                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                                    ContactsController.this.lambda$loadPrivacySettings$64(i, tLObject, tLRPC$TL_error);
+                                }
+                            });
                             break;
                         case 9:
                             tLRPC$TL_account_getPrivacy.key = new TLRPC$TL_inputPrivacyKeyAbout();
+                            getConnectionsManager().sendRequest(tLRPC$TL_account_getPrivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda56
+                                @Override // org.telegram.tgnet.RequestDelegate
+                                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                                    ContactsController.this.lambda$loadPrivacySettings$64(i, tLObject, tLRPC$TL_error);
+                                }
+                            });
+                            break;
+                        case 11:
+                            tLRPC$TL_account_getPrivacy.key = new TLRPC$TL_inputPrivacyKeyBirthday();
+                            getConnectionsManager().sendRequest(tLRPC$TL_account_getPrivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda56
+                                @Override // org.telegram.tgnet.RequestDelegate
+                                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                                    ContactsController.this.lambda$loadPrivacySettings$64(i, tLObject, tLRPC$TL_error);
+                                }
+                            });
                             break;
                     }
-                    getConnectionsManager().sendRequest(tLRPC$TL_account_getPrivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda56
-                        @Override // org.telegram.tgnet.RequestDelegate
-                        public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                            ContactsController.this.lambda$loadPrivacySettings$64(i, tLObject, tLRPC$TL_error);
-                        }
-                    });
                 }
                 i++;
             } else {
@@ -3667,6 +3733,7 @@ public class ContactsController extends BaseController {
                     this.phonePrivacyRules = tLRPC$TL_account_privacyRules.rules;
                     break;
                 case 7:
+                case 10:
                 default:
                     this.addedByPhonePrivacyRules = tLRPC$TL_account_privacyRules.rules;
                     break;
@@ -3675,6 +3742,9 @@ public class ContactsController extends BaseController {
                     break;
                 case 9:
                     this.bioPrivacyRules = tLRPC$TL_account_privacyRules.rules;
+                    break;
+                case 11:
+                    this.birthdayPrivacyRules = tLRPC$TL_account_privacyRules.rules;
                     break;
             }
             this.loadingPrivacyInfo[i] = 2;
@@ -3730,8 +3800,11 @@ public class ContactsController extends BaseController {
                 return this.voiceMessagesRules;
             case 9:
                 return this.bioPrivacyRules;
+            case 10:
             default:
                 return null;
+            case 11:
+                return this.birthdayPrivacyRules;
         }
     }
 
@@ -3766,6 +3839,9 @@ public class ContactsController extends BaseController {
                 break;
             case 9:
                 this.bioPrivacyRules = arrayList;
+                break;
+            case 11:
+                this.birthdayPrivacyRules = arrayList;
                 break;
         }
         getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.privacyRulesUpdated, new Object[0]);

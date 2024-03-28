@@ -54,7 +54,7 @@ import org.telegram.ui.Components.EffectsTextView;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.NumberPicker;
 import org.telegram.ui.LaunchActivity;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class BoostDialogs {
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$checkReduceQuantity$13(DialogInterface dialogInterface, int i) {

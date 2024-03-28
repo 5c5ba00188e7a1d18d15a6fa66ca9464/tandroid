@@ -16,7 +16,7 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.Cells.ChatMessageCell;
 import org.telegram.ui.Components.RecyclerAnimationScrollHelper;
 import org.telegram.ui.Components.RecyclerListView;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class RecyclerAnimationScrollHelper {
     private AnimationCallback animationCallback;
     private ValueAnimator animator;
@@ -29,7 +29,7 @@ public class RecyclerAnimationScrollHelper {
     public SparseArray<View> positionToOldView = new SparseArray<>();
     private HashMap<Long, View> oldStableIds = new HashMap<>();
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class AnimationCallback {
         public void ignoreView(View view, boolean z) {
         }
@@ -48,7 +48,7 @@ public class RecyclerAnimationScrollHelper {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface ScrollListener {
         void onScroll();
     }
@@ -120,7 +120,7 @@ public class RecyclerAnimationScrollHelper {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class 1 implements View.OnLayoutChangeListener {
         final /* synthetic */ RecyclerView.Adapter val$adapter;
         final /* synthetic */ AnimatableAdapter val$finalAnimatableAdapter;
@@ -380,7 +380,7 @@ public class RecyclerAnimationScrollHelper {
         this.animationCallback = animationCallback;
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static abstract class AnimatableAdapter extends RecyclerListView.SelectionAdapter {
         public boolean animationRunning;
         private ArrayList<Integer> rangeInserted = new ArrayList<>();

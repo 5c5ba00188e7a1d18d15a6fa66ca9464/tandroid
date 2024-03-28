@@ -1,42 +1,15 @@
 package j$.util.stream;
 
-import j$.util.function.Predicate;
-import java.util.Objects;
-/* JADX INFO: Access modifiers changed from: package-private */
+import j$.util.function.Supplier;
 /* loaded from: classes2.dex */
-public final class d0 implements N4 {
-    private final e4 a;
-    final boolean b;
-    final Object c;
-    final Predicate d;
-    final j$.util.function.y e;
+public final /* synthetic */ class d0 implements Supplier {
+    public static final /* synthetic */ d0 a = new d0();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public d0(boolean z, e4 e4Var, Object obj, Predicate predicate, j$.util.function.y yVar) {
-        this.b = z;
-        this.a = e4Var;
-        this.c = obj;
-        this.d = predicate;
-        this.e = yVar;
+    private /* synthetic */ d0() {
     }
 
-    @Override // j$.util.stream.N4
-    public int b() {
-        return d4.u | (this.b ? 0 : d4.r);
-    }
-
-    @Override // j$.util.stream.N4
-    public Object c(y2 y2Var, j$.util.t tVar) {
-        return new j0(this, y2Var, tVar).invoke();
-    }
-
-    @Override // j$.util.stream.N4
-    public Object d(y2 y2Var, j$.util.t tVar) {
-        O4 o4 = (O4) this.e.get();
-        c cVar = (c) y2Var;
-        Objects.requireNonNull(o4);
-        cVar.n0(cVar.v0(o4), tVar);
-        Object obj = o4.get();
-        return obj != null ? obj : this.c;
+    @Override // j$.util.function.Supplier
+    public final Object get() {
+        return new i0();
     }
 }

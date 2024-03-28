@@ -3,7 +3,6 @@ package org.telegram.ui.Components;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.os.Build;
 import android.text.TextUtils;
 import android.util.SparseArray;
 import android.util.TypedValue;
@@ -23,7 +22,7 @@ import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class NumberPicker extends LinearLayout {
     private static final CubicBezierInterpolator interpolator = new CubicBezierInterpolator(0.0f, 0.5f, 0.5f, 1.0f);
     private int SELECTOR_MIDDLE_ITEM_INDEX;
@@ -83,17 +82,17 @@ public class NumberPicker extends LinearLayout {
     private int textOffset;
     private int thisGravity;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface Formatter {
         String format(int i);
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface OnScrollListener {
         void onScrollStateChange(NumberPicker numberPicker, int i);
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface OnValueChangeListener {
         void onValueChange(NumberPicker numberPicker, int i, int i2);
     }
@@ -647,6 +646,7 @@ public class NumberPicker extends LinearLayout {
     }
 
     public void setMinValue(int i) {
+        OnScrollListener onScrollListener;
         this.mMinValueSet = true;
         if (this.mMinValue == i) {
             return;
@@ -668,6 +668,10 @@ public class NumberPicker extends LinearLayout {
         updateInputTextView();
         tryComputeMaxWidth();
         invalidate();
+        if (this.mScrollState != 0 || (onScrollListener = this.mOnScrollListener) == null) {
+            return;
+        }
+        onScrollListener.onScrollStateChange(this, 0);
     }
 
     public int getMaxValue() {
@@ -675,6 +679,7 @@ public class NumberPicker extends LinearLayout {
     }
 
     public void setMaxValue(int i) {
+        OnScrollListener onScrollListener;
         this.mMaxValueSet = true;
         if (this.mMaxValue == i) {
             return;
@@ -696,6 +701,10 @@ public class NumberPicker extends LinearLayout {
         updateInputTextView();
         tryComputeMaxWidth();
         invalidate();
+        if (this.mScrollState != 0 || (onScrollListener = this.mOnScrollListener) == null) {
+            return;
+        }
+        onScrollListener.onScrollStateChange(this, 0);
     }
 
     public String[] getDisplayedValues() {
@@ -846,6 +855,7 @@ public class NumberPicker extends LinearLayout {
 
     private void setValueInternal(int i, boolean z) {
         int min;
+        OnScrollListener onScrollListener;
         if (this.mValue == i) {
             return;
         }
@@ -858,17 +868,18 @@ public class NumberPicker extends LinearLayout {
         this.mFantomValue = min;
         this.mValue = min;
         updateInputTextView();
-        if (Math.abs(i2 - min) > 0.9f && Build.VERSION.SDK_INT >= 27) {
-            try {
-                performHapticFeedback(9, 1);
-            } catch (Exception unused) {
-            }
+        if (Math.abs(i2 - min) > 0.9f) {
+            AndroidUtilities.vibrateCursor(this);
         }
         if (z) {
             notifyChange(i2, min);
         }
         initializeSelectorWheelIndices();
         invalidate();
+        if (this.mScrollState != 0 || (onScrollListener = this.mOnScrollListener) == null) {
+            return;
+        }
+        onScrollListener.onScrollStateChange(this, 0);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -1075,7 +1086,7 @@ public class NumberPicker extends LinearLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class PressedStateHelper implements Runnable {
         private int mManagedButton;
         private int mMode;
@@ -1152,7 +1163,7 @@ public class NumberPicker extends LinearLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class ChangeCurrentByOneFromLongPressCommand implements Runnable {
         private boolean mIncrement;
 

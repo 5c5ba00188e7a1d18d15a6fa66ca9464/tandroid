@@ -20,7 +20,7 @@ import org.telegram.messenger.MediaController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.Stories.recorder.StoryEntry;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class FilterShaders {
     private BlurProgram blurProgram;
     private boolean blurTextureCreated;
@@ -136,7 +136,7 @@ public class FilterShaders {
     private int[] curveTextures = new int[1];
     public boolean scaleBitmap = true;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface FilterShadersDelegate {
         ByteBuffer fillAndGetCurveBuffer();
 
@@ -313,7 +313,7 @@ public class FilterShaders {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class BlurProgram {
         public int blurHeightHandle;
         public int blurInputTexCoordHandle;
@@ -382,7 +382,7 @@ public class FilterShaders {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class ToneCurve {
         private float[] blueCurve;
         private int[] curveTexture = new int[1];

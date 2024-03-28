@@ -2,33 +2,33 @@ package j$.util.stream;
 
 import java.util.Objects;
 /* loaded from: classes2.dex */
-final class i4 extends j4 implements j$.util.function.q {
-    final long[] c;
+final class i4 extends k4 implements j$.util.function.l {
+    final int[] c;
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public i4(int i) {
-        this.c = new long[i];
+        this.c = new int[i];
     }
 
-    @Override // j$.util.function.q
-    public void accept(long j) {
-        long[] jArr = this.c;
-        int i = this.b;
-        this.b = i + 1;
-        jArr[i] = j;
+    @Override // j$.util.function.l
+    public void accept(int i) {
+        int[] iArr = this.c;
+        int i2 = this.b;
+        this.b = i2 + 1;
+        iArr[i2] = i;
     }
 
-    @Override // j$.util.stream.j4
+    @Override // j$.util.stream.k4
     public void b(Object obj, long j) {
-        j$.util.function.q qVar = (j$.util.function.q) obj;
+        j$.util.function.l lVar = (j$.util.function.l) obj;
         for (int i = 0; i < j; i++) {
-            qVar.accept(this.c[i]);
+            lVar.accept(this.c[i]);
         }
     }
 
-    @Override // j$.util.function.q
-    public j$.util.function.q f(j$.util.function.q qVar) {
-        Objects.requireNonNull(qVar);
-        return new j$.util.function.p(this, qVar);
+    @Override // j$.util.function.l
+    public j$.util.function.l l(j$.util.function.l lVar) {
+        Objects.requireNonNull(lVar);
+        return new j$.util.function.k(this, lVar);
     }
 }

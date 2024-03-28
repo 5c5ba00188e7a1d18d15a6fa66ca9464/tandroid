@@ -30,7 +30,7 @@ import org.telegram.ui.Components.Premium.boosts.GiftInfoBottomSheet;
 import org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.LaunchActivity;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class GiftInfoBottomSheet extends BottomSheetWithRecyclerListView {
     private GiftInfoAdapter adapter;
     private final TLRPC$TL_payments_checkedGiftCode giftCode;
@@ -187,7 +187,7 @@ public class GiftInfoBottomSheet extends BottomSheetWithRecyclerListView {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class 2 extends GiftInfoAdapter {
         2(Theme.ResourcesProvider resourcesProvider) {
             super(resourcesProvider);
@@ -243,9 +243,9 @@ public class GiftInfoBottomSheet extends BottomSheetWithRecyclerListView {
     }
 
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
-    protected RecyclerListView.SelectionAdapter createAdapter() {
-        2 r0 = new 2(this.resourcesProvider);
-        this.adapter = r0;
-        return r0;
+    protected RecyclerListView.SelectionAdapter createAdapter(RecyclerListView recyclerListView) {
+        2 r2 = new 2(this.resourcesProvider);
+        this.adapter = r2;
+        return r2;
     }
 }

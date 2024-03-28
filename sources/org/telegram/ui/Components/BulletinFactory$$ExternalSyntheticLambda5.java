@@ -1,7 +1,7 @@
 package org.telegram.ui.Components;
 
 import org.telegram.messenger.SavedMessagesController;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public final /* synthetic */ class BulletinFactory$$ExternalSyntheticLambda5 implements Runnable {
     public static final /* synthetic */ BulletinFactory$$ExternalSyntheticLambda5 INSTANCE = new BulletinFactory$$ExternalSyntheticLambda5();
 

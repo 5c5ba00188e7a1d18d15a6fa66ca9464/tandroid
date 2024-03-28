@@ -2,6 +2,7 @@ package j$.time;
 
 import j$.time.format.TextStyle;
 import j$.time.format.r;
+import j$.time.temporal.o;
 import j$.time.temporal.t;
 import j$.time.temporal.u;
 import j$.time.temporal.w;
@@ -50,7 +51,7 @@ public enum DayOfWeek implements j$.time.temporal.k {
     @Override // j$.time.temporal.k
     public Object d(u uVar) {
         int i = t.a;
-        return uVar == j$.time.temporal.o.a ? j$.time.temporal.b.DAYS : j$.time.temporal.j.b(this, uVar);
+        return uVar == o.a ? j$.time.temporal.b.DAYS : j$.time.temporal.j.b(this, uVar);
     }
 
     @Override // j$.time.temporal.k

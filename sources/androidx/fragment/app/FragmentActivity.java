@@ -74,8 +74,9 @@ public class FragmentActivity extends ComponentActivity implements ActivityCompa
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.activity.ComponentActivity, android.app.Activity
-    protected void onActivityResult(int i, int i2, Intent intent) {
+    public void onActivityResult(int i, int i2, Intent intent) {
         this.mFragments.noteStateNotSaved();
         super.onActivityResult(i, i2, intent);
     }
@@ -165,16 +166,18 @@ public class FragmentActivity extends ComponentActivity implements ActivityCompa
         super.onPanelClosed(i, menu);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.app.Activity
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
         this.mResumed = false;
         this.mFragments.dispatchPause();
         this.mFragmentLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.activity.ComponentActivity, android.app.Activity
-    protected void onNewIntent(@SuppressLint({"UnknownNullness"}) Intent intent) {
+    public void onNewIntent(@SuppressLint({"UnknownNullness"}) Intent intent) {
         this.mFragments.noteStateNotSaved();
         super.onNewIntent(intent);
     }
@@ -184,8 +187,9 @@ public class FragmentActivity extends ComponentActivity implements ActivityCompa
         this.mFragments.noteStateNotSaved();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.app.Activity
-    protected void onResume() {
+    public void onResume() {
         this.mFragments.noteStateNotSaved();
         super.onResume();
         this.mResumed = true;

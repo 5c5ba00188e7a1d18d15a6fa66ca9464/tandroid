@@ -6,7 +6,7 @@ import android.animation.StateListAnimator;
 import android.os.Build;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class ScaleStateListAnimator {
     public static void apply(View view) {
         apply(view, 0.1f, 1.5f);
@@ -16,6 +16,7 @@ public class ScaleStateListAnimator {
         if (view == null || Build.VERSION.SDK_INT < 21) {
             return;
         }
+        view.setLayerType(2, null);
         AnimatorSet animatorSet = new AnimatorSet();
         float f3 = 1.0f - f;
         animatorSet.playTogether(ObjectAnimator.ofFloat(view, View.SCALE_X, f3), ObjectAnimator.ofFloat(view, View.SCALE_Y, f3));

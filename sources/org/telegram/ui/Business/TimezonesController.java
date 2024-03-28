@@ -20,7 +20,7 @@ import org.telegram.tgnet.TLRPC$TL_help_getTimezonesList;
 import org.telegram.tgnet.TLRPC$TL_help_timezonesList;
 import org.telegram.tgnet.TLRPC$TL_timezone;
 import org.telegram.tgnet.TLRPC$help_timezonesList;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class TimezonesController {
     private static volatile TimezonesController[] Instance = new TimezonesController[4];
     private static final Object[] lockObjects = new Object[4];

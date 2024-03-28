@@ -1,8 +1,8 @@
 package j$.time.zone;
 
 import j$.time.Instant;
+import j$.time.LocalDate;
 import j$.time.ZoneOffset;
-import j$.time.g;
 import j$.util.concurrent.ConcurrentHashMap;
 import java.io.Serializable;
 import java.util.Arrays;
@@ -64,7 +64,7 @@ public final class ZoneRules implements Serializable {
         } else if (i2 < 1800) {
             return j;
         } else {
-            long l = g.j(i2 - 1, 12, 31, 0, 0).l(this.b[0]);
+            long l = j$.time.e.j(i2 - 1, 12, 31, 0, 0).l(this.b[0]);
             long j2 = 1000;
             int offset = this.f.getOffset(l * 1000);
             long j3 = 31968000 + l;
@@ -116,7 +116,7 @@ public final class ZoneRules implements Serializable {
     }
 
     private int b(long j2, ZoneOffset zoneOffset) {
-        return j$.time.f.o(j$.lang.d.d(j2 + zoneOffset.getTotalSeconds(), 86400L)).l();
+        return LocalDate.p(j$.lang.d.d(j2 + zoneOffset.getTotalSeconds(), 86400L)).m();
     }
 
     public static ZoneRules e(ZoneOffset zoneOffset) {
@@ -175,9 +175,9 @@ public final class ZoneRules implements Serializable {
                             if (length2 < 0) {
                                 long min = Math.min(i2 - 31104000, (j$.time.b.b().a() / 1000) + 31968000);
                                 int offset = this.f.getOffset((i2 - 1) * 1000);
-                                long q = j$.time.f.n(1800, 1, 1).q() * 86400;
+                                long s = LocalDate.of(1800, 1, 1).s() * 86400;
                                 while (true) {
-                                    if (q > min) {
+                                    if (s > min) {
                                         break;
                                     }
                                     int offset2 = this.f.getOffset(min * 1000);

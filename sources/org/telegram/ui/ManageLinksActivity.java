@@ -91,7 +91,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.TimerParticles;
 import org.telegram.ui.LinkEditActivity;
 import org.telegram.ui.ManageLinksActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ManageLinksActivity extends BaseFragment {
     private long adminId;
     private int adminsDividerRow;
@@ -170,7 +170,7 @@ public class ManageLinksActivity extends BaseFragment {
         return true;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private static class EmptyView extends LinearLayout implements NotificationCenter.NotificationCenterDelegate {
         private final int currentAccount;
         private BackupImageView stickerView;
@@ -818,7 +818,7 @@ public class ManageLinksActivity extends BaseFragment {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class HintInnerCell extends FrameLayout {
         private EmptyView emptyView;
         private TextView messageTextView;
@@ -854,7 +854,7 @@ public class ManageLinksActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
@@ -1191,7 +1191,7 @@ public class ManageLinksActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class LinkCell extends FrameLayout {
         int animateFromState;
         boolean animateHideExpiring;
@@ -1754,7 +1754,7 @@ public class ManageLinksActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 6 implements LinkEditActivity.Callback {
         6() {
         }
@@ -1835,7 +1835,7 @@ public class ManageLinksActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class DiffCallback extends DiffUtil.Callback {
         SparseIntArray newPositionToItem;
         int oldAdminsEndRow;

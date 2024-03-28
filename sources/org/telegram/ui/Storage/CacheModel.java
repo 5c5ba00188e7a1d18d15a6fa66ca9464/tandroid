@@ -10,7 +10,7 @@ import java.util.Iterator;
 import org.telegram.messenger.MessageObject;
 import org.telegram.ui.CacheControlActivity;
 import org.telegram.ui.Storage.CacheModel;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class CacheModel {
     public boolean allDocumentsSelected;
     public boolean allMusicSelected;
@@ -391,7 +391,7 @@ public class CacheModel {
         remove(fileInfo.type, fileInfo);
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class FileInfo {
         public long dialogId;
         public final File file;
@@ -402,7 +402,7 @@ public class CacheModel {
         public long size;
         public int type;
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public static class FileMetadata {
             public String author;
             public boolean loading;

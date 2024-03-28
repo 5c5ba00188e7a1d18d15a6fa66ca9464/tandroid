@@ -177,6 +177,12 @@ public abstract class FragmentManager {
         return new BackStackRecord(this);
     }
 
+    public boolean executePendingTransactions() {
+        boolean execPendingActions = execPendingActions(true);
+        forcePostponedTransactions();
+        return execPendingActions;
+    }
+
     private void updateOnBackPressedCallbackEnabled() {
         synchronized (this.mPendingActions) {
             boolean z = true;

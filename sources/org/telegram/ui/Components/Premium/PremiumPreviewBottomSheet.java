@@ -66,7 +66,7 @@ import org.telegram.ui.Components.Premium.boosts.cells.TextInfoCell;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.PremiumFeatureCell;
 import org.telegram.ui.PremiumPreviewFragment;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView implements NotificationCenter.NotificationCenterDelegate {
     public Integer accentColor;
     protected int additionEndRow;
@@ -542,7 +542,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
     }
 
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
-    protected RecyclerListView.SelectionAdapter createAdapter() {
+    protected RecyclerListView.SelectionAdapter createAdapter(RecyclerListView recyclerListView) {
         return new Adapter();
     }
 
@@ -551,7 +551,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class Adapter extends RecyclerListView.SelectionAdapter {
         private Adapter() {
         }
@@ -626,8 +626,9 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
                             private Layout lastLayout;
                             AnimatedEmojiSpan.EmojiGroupedSpans stack;
 
-                            @Override // android.view.View
-                            protected void onDetachedFromWindow() {
+                            /* JADX INFO: Access modifiers changed from: protected */
+                            @Override // org.telegram.ui.Components.LinkSpanDrawable.LinksTextView, android.view.View
+                            public void onDetachedFromWindow() {
                                 super.onDetachedFromWindow();
                                 AnimatedEmojiSpan.release(this, this.stack);
                                 this.lastLayout = null;
@@ -645,8 +646,9 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
                                 AnimatedEmojiSpan.drawAnimatedEmojis(canvas2, getLayout(), this.stack, 0.0f, null, 0.0f, 0.0f, 0.0f, 1.0f, porterDuffColorFilter);
                             }
 
-                            @Override // android.widget.TextView, android.view.View
-                            protected void onMeasure(int i4, int i5) {
+                            /* JADX INFO: Access modifiers changed from: protected */
+                            @Override // org.telegram.ui.Components.LinkSpanDrawable.LinksTextView, android.widget.TextView, android.view.View
+                            public void onMeasure(int i4, int i5) {
                                 super.onMeasure(i4, View.MeasureSpec.makeMeasureSpec(99999999, Integer.MIN_VALUE));
                             }
 
@@ -1019,7 +1021,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class 4 extends AnimatorListenerAdapter {
         final /* synthetic */ Drawable val$startEnterFromDrawable;
 

@@ -48,7 +48,7 @@ import org.telegram.ui.Components.Premium.boosts.cells.ParticipantsTypeCell;
 import org.telegram.ui.Components.Premium.boosts.cells.SwitcherCell;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.SlideChooseView;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class BoostViaGiftsBottomSheet extends BottomSheetWithRecyclerListView implements SelectorBottomSheet.SelectedObjectsListener {
     private ActionBtnCell actionBtn;
     private ActionListener actionListener;
@@ -73,7 +73,7 @@ public class BoostViaGiftsBottomSheet extends BottomSheetWithRecyclerListView im
     private final List<Integer> sliderValues;
     private int top;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface ActionListener {
         void onAddChat(List<TLObject> list);
 
@@ -683,7 +683,7 @@ public class BoostViaGiftsBottomSheet extends BottomSheetWithRecyclerListView im
     }
 
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
-    protected RecyclerListView.SelectionAdapter createAdapter() {
+    protected RecyclerListView.SelectionAdapter createAdapter(RecyclerListView recyclerListView) {
         BoostAdapter boostAdapter = new BoostAdapter(this.resourcesProvider);
         this.adapter = boostAdapter;
         return boostAdapter;

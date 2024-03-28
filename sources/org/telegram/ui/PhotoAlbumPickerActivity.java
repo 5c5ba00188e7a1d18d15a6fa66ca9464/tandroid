@@ -62,7 +62,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.PhotoAlbumPickerActivity;
 import org.telegram.ui.PhotoPickerActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class PhotoAlbumPickerActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     public static int SELECT_TYPE_ALL = 0;
     public static int SELECT_TYPE_AVATAR = 1;
@@ -103,7 +103,7 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
     private RectF rect = new RectF();
     private Paint paint = new Paint(1);
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface PhotoAlbumPickerActivityDelegate {
         void didSelectPhotos(ArrayList<SendMessagesHelper.SendingMediaInfo> arrayList, boolean z, int i);
 
@@ -962,7 +962,7 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 

@@ -3,7 +3,7 @@ package org.telegram.ui.Components;
 import android.content.Context;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class CircularViewPager extends ViewPager {
     private Adapter adapter;
 
@@ -61,7 +61,7 @@ public class CircularViewPager extends ViewPager {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static abstract class Adapter extends PagerAdapter {
         public abstract int getExtraCount();
 

@@ -1,5 +1,5 @@
 package org.telegram.ui.ActionBar;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public final /* synthetic */ class BottomSheet$$ExternalSyntheticLambda8 implements Runnable {
     public final /* synthetic */ BottomSheet f$0;
 

@@ -7,7 +7,7 @@ import android.view.View;
 import org.telegram.messenger.browser.Browser;
 import org.telegram.ui.Components.TextStyleSpan;
 import org.telegram.ui.LaunchActivity;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class URLSpanReplacement extends URLSpan {
     private boolean navigateToPremiumBot;
     private TextStyleSpan.TextStyleRun style;

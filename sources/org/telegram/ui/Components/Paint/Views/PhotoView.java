@@ -47,7 +47,7 @@ import org.telegram.ui.Components.Paint.Views.EntityView;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.Size;
 import org.telegram.ui.Stories.recorder.StoryEntry;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class PhotoView extends EntityView {
     private int anchor;
     private Size baseSize;
@@ -76,7 +76,7 @@ public class PhotoView extends EntityView {
     private final Rect src;
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class FrameLayoutDrawer extends FrameLayout {
         public FrameLayoutDrawer(Context context) {
             super(context);
@@ -561,7 +561,7 @@ public class PhotoView extends EntityView {
         return this.baseSize;
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class PhotoViewSelectionView extends EntityView.SelectionView {
         private final Paint clearPaint;
         private Path path;

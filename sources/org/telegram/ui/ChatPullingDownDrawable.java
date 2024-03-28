@@ -31,7 +31,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.CounterView;
 import org.telegram.ui.Components.CubicBezierInterpolator;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ChatPullingDownDrawable implements NotificationCenter.NotificationCenterDelegate {
     boolean animateCheck;
     public boolean animateSwipeToRelease;

@@ -13,7 +13,7 @@ import android.view.View;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.R;
 import org.telegram.ui.Components.AnimationProperties;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class ZoomControlView extends View {
     public final Property<ZoomControlView, Float> ZOOM_PROPERTY;
     private float animatingToZoom;
@@ -40,7 +40,7 @@ public class ZoomControlView extends View {
     private int progressStartY;
     private float zoom;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface ZoomControlViewDelegate {
         void didSetZoom(float f);
     }

@@ -15,7 +15,7 @@ import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.CombinedDrawable;
 @SuppressLint({"ViewConstructor"})
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class AddChannelCell extends FrameLayout {
     private final ImageView imageView;
     private final Theme.ResourcesProvider resourcesProvider;

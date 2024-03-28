@@ -10,7 +10,7 @@ import android.view.ViewParent;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.MessageObject;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class QuoteHighlight extends Path {
     private float currentOffsetX;
     private float currentOffsetY;
@@ -25,7 +25,7 @@ public class QuoteHighlight extends Path {
     private final AnimatedFloat t;
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public static class Rect {
         public float bottom;
         public boolean first;

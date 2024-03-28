@@ -1,5 +1,6 @@
 package j$.util.stream;
 
+import j$.util.Optional;
 import j$.util.function.Predicate;
 /* loaded from: classes2.dex */
 public final /* synthetic */ class W implements Predicate {
@@ -25,6 +26,6 @@ public final /* synthetic */ class W implements Predicate {
 
     @Override // j$.util.function.Predicate
     public final boolean test(Object obj) {
-        return ((j$.util.j) obj).c();
+        return ((Optional) obj).isPresent();
     }
 }

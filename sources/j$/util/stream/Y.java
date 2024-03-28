@@ -25,6 +25,6 @@ public final /* synthetic */ class Y implements Predicate {
 
     @Override // j$.util.function.Predicate
     public final boolean test(Object obj) {
-        return ((j$.util.l) obj).c();
+        return ((j$.util.k) obj).c();
     }
 }

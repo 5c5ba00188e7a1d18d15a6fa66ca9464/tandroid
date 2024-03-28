@@ -18,7 +18,7 @@ import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.EditTextCaption;
 @SuppressLint({"ViewConstructor"})
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class CustomReactionEditText extends EditTextCaption {
     private final GestureDetectorCompat gestureDetector;
     private Runnable onFocused;

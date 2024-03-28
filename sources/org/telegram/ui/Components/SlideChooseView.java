@@ -15,7 +15,7 @@ import androidx.core.graphics.ColorUtils;
 import androidx.core.math.MathUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class SlideChooseView extends View {
     private final SeekBarAccessibilityDelegate accessibilityDelegate;
     private Callback callback;
@@ -42,10 +42,10 @@ public class SlideChooseView extends View {
     private float xTouchDown;
     private float yTouchDown;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface Callback {
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes3.dex */
         public final /* synthetic */ class -CC {
             public static void $default$onTouchEnd(Callback callback) {
             }
@@ -195,10 +195,7 @@ public class SlideChooseView extends View {
     /* JADX INFO: Access modifiers changed from: private */
     public void setOption(int i) {
         if (this.selectedIndex != i) {
-            try {
-                performHapticFeedback(9, 1);
-            } catch (Exception unused) {
-            }
+            AndroidUtilities.vibrateCursor(this);
         }
         this.selectedIndex = i;
         Callback callback = this.callback;

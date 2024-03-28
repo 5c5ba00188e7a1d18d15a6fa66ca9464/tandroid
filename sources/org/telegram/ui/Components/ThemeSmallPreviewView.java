@@ -47,7 +47,7 @@ import org.telegram.ui.ActionBar.EmojiThemes;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ChatBackgroundDrawable;
 import org.telegram.ui.Components.ChatThemeBottomSheet;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class ThemeSmallPreviewView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private final float BUBBLE_HEIGHT;
     private final float BUBBLE_WIDTH;
@@ -303,6 +303,11 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
                             @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
                             public final void didSetImage(ImageReceiver imageReceiver2, boolean z4, boolean z5, boolean z6) {
                                 ThemeSmallPreviewView.this.lambda$setItem$1(chatThemeItem, tLRPC$WallPaper2, imageReceiver2, z4, z5, z6);
+                            }
+
+                            @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
+                            public /* synthetic */ void didSetImageBitmap(int i4, String str, Drawable drawable) {
+                                ImageReceiver.ImageReceiverDelegate.-CC.$default$didSetImageBitmap(this, i4, str, drawable);
                             }
 
                             @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
@@ -664,7 +669,7 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public class ThemeDrawable {
         private final Paint inBubblePaint;
         private final Paint outBubblePaintSecond;

@@ -1,53 +1,30 @@
 package j$.util.stream;
-
-import java.util.Objects;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public class P extends T {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public P(j$.util.t tVar, int i, boolean z) {
-        super(tVar, i, z);
-    }
+class P extends T {
+    public final /* synthetic */ int l = 1;
 
-    @Override // j$.util.stream.c
-    final boolean G0() {
-        throw new UnsupportedOperationException();
+    public P(U u, c cVar, f4 f4Var, int i) {
+        super(cVar, f4Var, i);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     @Override // j$.util.stream.c
-    public final m3 H0(int i, m3 m3Var) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override // j$.util.stream.T, j$.util.stream.U
-    public void j(j$.util.function.f fVar) {
-        if (isParallel()) {
-            super.j(fVar);
-        } else {
-            T.L0(J0()).e(fVar);
+    public n3 F0(int i, n3 n3Var) {
+        switch (this.l) {
+            case 0:
+                return n3Var;
+            case 1:
+                return new G0(this, n3Var);
+            default:
+                return new a1(this, n3Var);
         }
     }
 
-    @Override // j$.util.stream.T, j$.util.stream.U
-    public void l0(j$.util.function.f fVar) {
-        if (!isParallel()) {
-            T.L0(J0()).e(fVar);
-            return;
-        }
-        Objects.requireNonNull(fVar);
-        x0(new k0(fVar, true));
+    public P(M0 m0, c cVar, f4 f4Var, int i) {
+        super(cVar, f4Var, i);
     }
 
-    @Override // j$.util.stream.c, j$.util.stream.g, j$.util.stream.IntStream
-    public /* bridge */ /* synthetic */ U parallel() {
-        parallel();
-        return this;
-    }
-
-    @Override // j$.util.stream.c, j$.util.stream.g, j$.util.stream.IntStream
-    public /* bridge */ /* synthetic */ U sequential() {
-        sequential();
-        return this;
+    public P(e1 e1Var, c cVar, f4 f4Var, int i) {
+        super(cVar, f4Var, i);
     }
 }

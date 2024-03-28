@@ -230,10 +230,10 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:59:0x01a8, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:59:0x01a7, code lost:
         if (r0.equals("tb") == false) goto L40;
      */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x017b  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x017a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

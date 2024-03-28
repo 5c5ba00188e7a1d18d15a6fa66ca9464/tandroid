@@ -11,7 +11,7 @@ import android.view.View;
 import androidx.annotation.Keep;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class GroupCreateCheckBox extends View {
     private static Paint eraser;
     private static Paint eraser2;
