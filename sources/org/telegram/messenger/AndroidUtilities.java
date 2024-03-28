@@ -5607,7 +5607,6 @@ public class AndroidUtilities {
 
             @Override // android.text.style.ClickableSpan, android.text.style.CharacterStyle
             public void updateDrawState(TextPaint textPaint) {
-                textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
                 textPaint.setUnderlineText(false);
                 textPaint.setColor(textPaint.linkColor);
             }

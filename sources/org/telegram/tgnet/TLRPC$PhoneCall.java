@@ -6,6 +6,7 @@ public abstract class TLRPC$PhoneCall extends TLObject {
     public long access_hash;
     public long admin_id;
     public ArrayList<TLRPC$PhoneConnection> connections = new ArrayList<>();
+    public TLRPC$TL_dataJSON custom_parameters;
     public int date;
     public int duration;
     public int flags;
@@ -28,8 +29,8 @@ public abstract class TLRPC$PhoneCall extends TLObject {
         TLRPC$PhoneCall tLRPC$PhoneCall;
         switch (i) {
             case -1770029977:
-                tLRPC$PhoneCall = new TLRPC$PhoneCall() { // from class: org.telegram.tgnet.TLRPC$TL_phoneCall
-                    @Override // org.telegram.tgnet.TLObject
+                tLRPC$PhoneCall = new TLRPC$TL_phoneCall() { // from class: org.telegram.tgnet.TLRPC$TL_phoneCall_layer176
+                    @Override // org.telegram.tgnet.TLRPC$TL_phoneCall, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
@@ -61,7 +62,7 @@ public abstract class TLRPC$PhoneCall extends TLObject {
                         this.start_date = abstractSerializedData2.readInt32(z2);
                     }
 
-                    @Override // org.telegram.tgnet.TLObject
+                    @Override // org.telegram.tgnet.TLRPC$TL_phoneCall, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
                         abstractSerializedData2.writeInt32(-1770029977);
                         int i2 = this.p2p_allowed ? this.flags | 32 : this.flags & (-33);
@@ -154,6 +155,9 @@ public abstract class TLRPC$PhoneCall extends TLObject {
                         this.protocol.serializeToStream(abstractSerializedData2);
                     }
                 };
+                break;
+            case 810769141:
+                tLRPC$PhoneCall = new TLRPC$TL_phoneCall();
                 break;
             case 912311057:
                 tLRPC$PhoneCall = new TLRPC$PhoneCall() { // from class: org.telegram.tgnet.TLRPC$TL_phoneCallAccepted
