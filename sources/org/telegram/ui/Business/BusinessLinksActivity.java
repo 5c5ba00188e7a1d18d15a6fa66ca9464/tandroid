@@ -411,7 +411,7 @@ public class BusinessLinksActivity extends UniversalFragment implements Notifica
     protected void onClick(UItem uItem, View view, int i, float f, float f2) {
         if (uItem.id == 1) {
             BusinessLinksController.getInstance(this.currentAccount).createEmptyLink();
-        } else if (uItem.viewType == 27) {
+        } else if (uItem.viewType == 29) {
             Object obj = uItem.object;
             if (obj instanceof BusinessLinkWrapper) {
                 Bundle bundle = new Bundle();
@@ -424,7 +424,7 @@ public class BusinessLinksActivity extends UniversalFragment implements Notifica
 
     @Override // org.telegram.ui.Components.UniversalFragment
     protected boolean onLongClick(UItem uItem, View view, int i, float f, float f2) {
-        if (uItem.viewType == 27) {
+        if (uItem.viewType == 29) {
             Object obj = uItem.object;
             if (obj instanceof BusinessLinkWrapper) {
                 final TLRPC$TL_businessChatLink tLRPC$TL_businessChatLink = ((BusinessLinkWrapper) obj).link;

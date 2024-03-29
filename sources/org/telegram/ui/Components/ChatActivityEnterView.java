@@ -4114,6 +4114,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             }
             new File(this.audioToSendPath).delete();
         }
+        MediaController.getInstance().cleanRecording(true);
         MediaDataController mediaDataController = MediaDataController.getInstance(this.currentAccount);
         long j = this.dialog_id;
         ChatActivity chatActivity = this.parentFragment;
@@ -7299,6 +7300,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             if (playingMessageObject != null && playingMessageObject == this.audioToSendMessageObject) {
                 MediaController.getInstance().cleanupPlayer(true, true);
             }
+            MediaController.getInstance().cleanRecording(false);
             MediaDataController mediaDataController = MediaDataController.getInstance(this.currentAccount);
             long j = this.dialog_id;
             ChatActivity chatActivity2 = this.parentFragment;
@@ -10248,7 +10250,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         MessageObject threadMessage = getThreadMessage();
         int i2 = this.recordingGuid;
         ChatActivity chatActivity = this.parentFragment;
-        mediaController.prepareResumedRecording(i, draftVoice, j, messageObject, threadMessage, replyToStory, i2, true, chatActivity != null ? chatActivity.quickReplyShortcut : null, chatActivity != null ? chatActivity.getQuickReplyId() : 0);
+        mediaController.prepareResumedRecording(i, draftVoice, j, messageObject, threadMessage, replyToStory, i2, chatActivity != null ? chatActivity.quickReplyShortcut : null, chatActivity != null ? chatActivity.getQuickReplyId() : 0);
     }
 
     public void setSelection(int i) {
