@@ -1830,121 +1830,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         if (this.dialog_id == this.profileActivity.getUserConfig().getClientUserId() && (this.profileActivity instanceof MediaActivity) && canShowSearchItem()) {
             this.searchItemIcon = createMenu.addItem(11, R.drawable.ic_ab_search);
         }
-        ActionBarMenuItem actionBarMenuItemSearchListener = createMenu.addItem(0, 0).setIsSearchField(true).setActionBarMenuItemSearchListener(new ActionBarMenuItem.ActionBarMenuItemSearchListener() { // from class: org.telegram.ui.Components.SharedMediaLayout.4
-            @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemSearchListener
-            public void onSearchExpand() {
-                SharedMediaLayout.this.searching = true;
-                SharedMediaLayout sharedMediaLayout = SharedMediaLayout.this;
-                SearchTagsList searchTagsList2 = sharedMediaLayout.searchTagsList;
-                if (searchTagsList2 != null) {
-                    searchTagsList2.show((sharedMediaLayout.getSelectedTab() == 11 || SharedMediaLayout.this.getSelectedTab() == 12) && SharedMediaLayout.this.searchTagsList.hasFilters());
-                }
-                ImageView imageView = SharedMediaLayout.this.photoVideoOptionsItem;
-                if (imageView != null) {
-                    imageView.setVisibility(8);
-                }
-                ActionBarMenuItem actionBarMenuItem = SharedMediaLayout.this.searchItemIcon;
-                if (actionBarMenuItem != null) {
-                    actionBarMenuItem.setVisibility(8);
-                }
-                SharedMediaLayout.this.searchItem.setVisibility(8);
-                SharedMediaLayout.this.onSearchStateChanged(true);
-                if (SharedMediaLayout.this.optionsSearchImageView != null) {
-                    SharedMediaLayout.this.optionsSearchImageView.animate().scaleX(0.6f).scaleY(0.6f).alpha(0.0f).setDuration(320L).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).start();
-                }
-            }
-
-            @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemSearchListener
-            public void onSearchCollapse() {
-                SharedMediaLayout.this.searching = false;
-                SharedMediaLayout.this.searchingReaction = null;
-                ActionBarMenuItem actionBarMenuItem = SharedMediaLayout.this.searchItemIcon;
-                if (actionBarMenuItem != null) {
-                    actionBarMenuItem.setVisibility(0);
-                }
-                SharedMediaLayout sharedMediaLayout = SharedMediaLayout.this;
-                if (sharedMediaLayout.photoVideoOptionsItem != null && sharedMediaLayout.getPhotoVideoOptionsAlpha(0.0f) > 0.5f) {
-                    SharedMediaLayout.this.photoVideoOptionsItem.setVisibility(0);
-                }
-                SearchTagsList searchTagsList2 = SharedMediaLayout.this.searchTagsList;
-                if (searchTagsList2 != null) {
-                    searchTagsList2.clear();
-                    SharedMediaLayout.this.searchTagsList.show(false);
-                }
-                if (SharedMediaLayout.this.savedMessagesContainer != null) {
-                    SharedMediaLayout.this.savedMessagesContainer.chatActivity.clearSearch();
-                }
-                SharedMediaLayout.this.searchWas = false;
-                SharedMediaLayout.this.searchItem.setVisibility(0);
-                SharedMediaLayout.this.documentsSearchAdapter.search(null, true);
-                SharedMediaLayout.this.linksSearchAdapter.search(null, true);
-                SharedMediaLayout.this.audioSearchAdapter.search(null, true);
-                SharedMediaLayout.this.groupUsersSearchAdapter.search(null, true);
-                if (SharedMediaLayout.this.savedMessagesSearchAdapter != null) {
-                    SharedMediaLayout.this.savedMessagesSearchAdapter.search(null, null);
-                }
-                SharedMediaLayout.this.onSearchStateChanged(false);
-                if (SharedMediaLayout.this.optionsSearchImageView != null) {
-                    SharedMediaLayout.this.optionsSearchImageView.animate().scaleX(1.0f).scaleY(1.0f).alpha(1.0f).setDuration(320L).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).start();
-                }
-                if (SharedMediaLayout.this.ignoreSearchCollapse) {
-                    SharedMediaLayout.this.ignoreSearchCollapse = false;
-                } else {
-                    SharedMediaLayout.this.switchToCurrentSelectedMode(false);
-                }
-            }
-
-            @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemSearchListener
-            public void onTextChanged(EditText editText) {
-                String obj = editText.getText().toString();
-                if (SharedMediaLayout.this.savedMessagesContainer != null) {
-                    SharedMediaLayout.this.savedMessagesContainer.chatActivity.setSearchQuery(obj);
-                    if (TextUtils.isEmpty(obj) && SharedMediaLayout.this.searchingReaction == null) {
-                        SharedMediaLayout.this.savedMessagesContainer.chatActivity.clearSearch();
-                    }
-                }
-                SharedMediaLayout.this.searchItem.setVisibility(8);
-                SharedMediaLayout.this.searchWas = (obj.length() == 0 && SharedMediaLayout.this.searchingReaction == null) ? false : true;
-                SharedMediaLayout.this.switchToCurrentSelectedMode(false);
-                if (SharedMediaLayout.this.mediaPages[0].selectedType == 1) {
-                    if (SharedMediaLayout.this.documentsSearchAdapter == null) {
-                        return;
-                    }
-                    SharedMediaLayout.this.documentsSearchAdapter.search(obj, true);
-                } else if (SharedMediaLayout.this.mediaPages[0].selectedType == 3) {
-                    if (SharedMediaLayout.this.linksSearchAdapter == null) {
-                        return;
-                    }
-                    SharedMediaLayout.this.linksSearchAdapter.search(obj, true);
-                } else if (SharedMediaLayout.this.mediaPages[0].selectedType == 4) {
-                    if (SharedMediaLayout.this.audioSearchAdapter == null) {
-                        return;
-                    }
-                    SharedMediaLayout.this.audioSearchAdapter.search(obj, true);
-                } else if (SharedMediaLayout.this.mediaPages[0].selectedType == 7) {
-                    if (SharedMediaLayout.this.groupUsersSearchAdapter == null) {
-                        return;
-                    }
-                    SharedMediaLayout.this.groupUsersSearchAdapter.search(obj, true);
-                } else if (SharedMediaLayout.this.mediaPages[0].selectedType != 11 || SharedMediaLayout.this.savedMessagesSearchAdapter == null) {
-                } else {
-                    SharedMediaLayout.this.savedMessagesSearchAdapter.search(obj, SharedMediaLayout.this.searchingReaction);
-                }
-            }
-
-            @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemSearchListener
-            public void onSearchPressed(EditText editText) {
-                super.onSearchPressed(editText);
-                if (SharedMediaLayout.this.savedMessagesContainer != null) {
-                    SharedMediaLayout.this.savedMessagesContainer.chatActivity.hitSearch();
-                }
-            }
-
-            @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemSearchListener
-            public void onLayout(int i11, int i12, int i13, int i14) {
-                SharedMediaLayout.this.searchItem.setTranslationX(((View) SharedMediaLayout.this.searchItem.getParent()).getMeasuredWidth() - SharedMediaLayout.this.searchItem.getRight());
-            }
-        });
+        ActionBarMenuItem actionBarMenuItemSearchListener = createMenu.addItem(0, 0).setIsSearchField(true).setActionBarMenuItemSearchListener(new 4());
         this.searchItem = actionBarMenuItemSearchListener;
         actionBarMenuItemSearchListener.setTranslationY(AndroidUtilities.dp(10.0f));
         ActionBarMenuItem actionBarMenuItem = this.searchItem;
@@ -3173,6 +3059,137 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         switchToCurrentSelectedMode(false);
         if (this.hasMedia[0] >= 0) {
             loadFastScrollData(false);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes3.dex */
+    public class 4 extends ActionBarMenuItem.ActionBarMenuItemSearchListener {
+        4() {
+        }
+
+        @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemSearchListener
+        public void onSearchExpand() {
+            SharedMediaLayout.this.searching = true;
+            SharedMediaLayout sharedMediaLayout = SharedMediaLayout.this;
+            SearchTagsList searchTagsList = sharedMediaLayout.searchTagsList;
+            if (searchTagsList != null) {
+                searchTagsList.show((sharedMediaLayout.getSelectedTab() == 11 || SharedMediaLayout.this.getSelectedTab() == 12) && SharedMediaLayout.this.searchTagsList.hasFilters());
+            }
+            ImageView imageView = SharedMediaLayout.this.photoVideoOptionsItem;
+            if (imageView != null) {
+                imageView.setVisibility(8);
+            }
+            ActionBarMenuItem actionBarMenuItem = SharedMediaLayout.this.searchItemIcon;
+            if (actionBarMenuItem != null) {
+                actionBarMenuItem.setVisibility(8);
+            }
+            SharedMediaLayout.this.searchItem.setVisibility(8);
+            SharedMediaLayout.this.onSearchStateChanged(true);
+            if (SharedMediaLayout.this.optionsSearchImageView != null) {
+                SharedMediaLayout.this.optionsSearchImageView.animate().scaleX(0.6f).scaleY(0.6f).alpha(0.0f).setDuration(320L).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).start();
+            }
+        }
+
+        @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemSearchListener
+        public void onSearchCollapse() {
+            SharedMediaLayout.this.searching = false;
+            SharedMediaLayout.this.searchingReaction = null;
+            ActionBarMenuItem actionBarMenuItem = SharedMediaLayout.this.searchItemIcon;
+            if (actionBarMenuItem != null) {
+                actionBarMenuItem.setVisibility(0);
+            }
+            SharedMediaLayout sharedMediaLayout = SharedMediaLayout.this;
+            if (sharedMediaLayout.photoVideoOptionsItem != null && sharedMediaLayout.getPhotoVideoOptionsAlpha(0.0f) > 0.5f) {
+                SharedMediaLayout.this.photoVideoOptionsItem.setVisibility(0);
+            }
+            SearchTagsList searchTagsList = SharedMediaLayout.this.searchTagsList;
+            if (searchTagsList != null) {
+                searchTagsList.clear();
+                SharedMediaLayout.this.searchTagsList.show(false);
+            }
+            if (SharedMediaLayout.this.savedMessagesContainer != null) {
+                SharedMediaLayout.this.savedMessagesContainer.chatActivity.clearSearch();
+            }
+            SharedMediaLayout.this.searchWas = false;
+            SharedMediaLayout.this.searchItem.setVisibility(0);
+            SharedMediaLayout.this.documentsSearchAdapter.search(null, true);
+            SharedMediaLayout.this.linksSearchAdapter.search(null, true);
+            SharedMediaLayout.this.audioSearchAdapter.search(null, true);
+            SharedMediaLayout.this.groupUsersSearchAdapter.search(null, true);
+            if (SharedMediaLayout.this.savedMessagesSearchAdapter != null) {
+                SharedMediaLayout.this.savedMessagesSearchAdapter.search(null, null);
+            }
+            SharedMediaLayout.this.onSearchStateChanged(false);
+            if (SharedMediaLayout.this.optionsSearchImageView != null) {
+                SharedMediaLayout.this.optionsSearchImageView.animate().scaleX(1.0f).scaleY(1.0f).alpha(1.0f).setDuration(320L).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).start();
+            }
+            if (SharedMediaLayout.this.ignoreSearchCollapse) {
+                SharedMediaLayout.this.ignoreSearchCollapse = false;
+            } else {
+                SharedMediaLayout.this.switchToCurrentSelectedMode(false);
+            }
+        }
+
+        @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemSearchListener
+        public void onTextChanged(EditText editText) {
+            String obj = editText.getText().toString();
+            if (SharedMediaLayout.this.savedMessagesContainer != null) {
+                SharedMediaLayout.this.savedMessagesContainer.chatActivity.setSearchQuery(obj);
+                if (TextUtils.isEmpty(obj) && SharedMediaLayout.this.searchingReaction == null) {
+                    SharedMediaLayout.this.savedMessagesContainer.chatActivity.clearSearch();
+                }
+            }
+            SharedMediaLayout.this.searchItem.setVisibility(8);
+            SharedMediaLayout.this.searchWas = (obj.length() == 0 && SharedMediaLayout.this.searchingReaction == null) ? false : true;
+            SharedMediaLayout.this.post(new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$4$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    SharedMediaLayout.4.this.lambda$onTextChanged$0();
+                }
+            });
+            if (SharedMediaLayout.this.mediaPages[0].selectedType == 1) {
+                if (SharedMediaLayout.this.documentsSearchAdapter == null) {
+                    return;
+                }
+                SharedMediaLayout.this.documentsSearchAdapter.search(obj, true);
+            } else if (SharedMediaLayout.this.mediaPages[0].selectedType == 3) {
+                if (SharedMediaLayout.this.linksSearchAdapter == null) {
+                    return;
+                }
+                SharedMediaLayout.this.linksSearchAdapter.search(obj, true);
+            } else if (SharedMediaLayout.this.mediaPages[0].selectedType == 4) {
+                if (SharedMediaLayout.this.audioSearchAdapter == null) {
+                    return;
+                }
+                SharedMediaLayout.this.audioSearchAdapter.search(obj, true);
+            } else if (SharedMediaLayout.this.mediaPages[0].selectedType == 7) {
+                if (SharedMediaLayout.this.groupUsersSearchAdapter == null) {
+                    return;
+                }
+                SharedMediaLayout.this.groupUsersSearchAdapter.search(obj, true);
+            } else if (SharedMediaLayout.this.mediaPages[0].selectedType != 11 || SharedMediaLayout.this.savedMessagesSearchAdapter == null) {
+            } else {
+                SharedMediaLayout.this.savedMessagesSearchAdapter.search(obj, SharedMediaLayout.this.searchingReaction);
+            }
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onTextChanged$0() {
+            SharedMediaLayout.this.switchToCurrentSelectedMode(false);
+        }
+
+        @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemSearchListener
+        public void onSearchPressed(EditText editText) {
+            super.onSearchPressed(editText);
+            if (SharedMediaLayout.this.savedMessagesContainer != null) {
+                SharedMediaLayout.this.savedMessagesContainer.chatActivity.hitSearch();
+            }
+        }
+
+        @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemSearchListener
+        public void onLayout(int i, int i2, int i3, int i4) {
+            SharedMediaLayout.this.searchItem.setTranslationX(((View) SharedMediaLayout.this.searchItem.getParent()).getMeasuredWidth() - SharedMediaLayout.this.searchItem.getRight());
         }
     }
 

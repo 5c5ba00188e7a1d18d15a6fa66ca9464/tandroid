@@ -71,14 +71,14 @@ public class GroupCreateSpan extends View {
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:100:0x032e  */
-    /* JADX WARN: Removed duplicated region for block: B:107:0x0384  */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x02ed  */
-    /* JADX WARN: Removed duplicated region for block: B:85:0x02ef  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x02fc  */
-    /* JADX WARN: Removed duplicated region for block: B:89:0x02ff  */
-    /* JADX WARN: Removed duplicated region for block: B:93:0x0309  */
-    /* JADX WARN: Removed duplicated region for block: B:96:0x031b  */
+    /* JADX WARN: Removed duplicated region for block: B:100:0x0332  */
+    /* JADX WARN: Removed duplicated region for block: B:107:0x0388  */
+    /* JADX WARN: Removed duplicated region for block: B:84:0x02f1  */
+    /* JADX WARN: Removed duplicated region for block: B:85:0x02f3  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x0300  */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x0303  */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x030d  */
+    /* JADX WARN: Removed duplicated region for block: B:96:0x031f  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -239,7 +239,7 @@ public class GroupCreateSpan extends View {
                 case '\t':
                     this.isFlag = true;
                     this.avatarDrawable.setColor(Theme.getColor(Theme.key_premiumGradientBackground2, resourcesProvider));
-                    str = "Premium Users";
+                    str = LocaleController.getString(R.string.PrivacyPremium);
                     break;
                 default:
                     this.avatarDrawable.setAvatarType(11);

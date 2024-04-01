@@ -7135,11 +7135,12 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
             }
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:19:0x0053, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:19:0x0054, code lost:
             if (r0 <= r1.storiesController.dialogIdToMaxReadId.get(r1.dialogId, 0)) goto L32;
          */
-        /* JADX WARN: Removed duplicated region for block: B:24:0x0066  */
-        /* JADX WARN: Removed duplicated region for block: B:27:0x0081  */
+        /* JADX WARN: Code restructure failed: missing block: B:21:0x005a, code lost:
+            if (r6.this$0.isSelf != false) goto L19;
+         */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -7151,34 +7152,33 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
             if (tL_stories$PeerStories == null && (tL_stories$PeerStories = peerStoriesView.storiesController.getStories(peerStoriesView.dialogId)) == null && (userFull = MessagesController.getInstance(PeerStoriesView.this.currentAccount).getUserFull(PeerStoriesView.this.dialogId)) != null) {
                 tL_stories$PeerStories = userFull.stories;
             }
-            if (!PeerStoriesView.this.isActive || (tL_stories$StoryItem = this.storyItem) == null || tL_stories$PeerStories == null) {
-                return;
-            }
-            if (!StoriesUtilities.hasExpiredViews(tL_stories$StoryItem)) {
-                int i = this.storyItem.id;
-                if (i <= tL_stories$PeerStories.max_read_id) {
-                    PeerStoriesView peerStoriesView2 = PeerStoriesView.this;
-                }
-                if (PeerStoriesView.this.storyViewer.overrideUserStories == null) {
-                    PeerStoriesView peerStoriesView3 = PeerStoriesView.this;
-                    if (peerStoriesView3.storiesController.markStoryAsRead(peerStoriesView3.storyViewer.overrideUserStories, this.storyItem, true)) {
+            if (PeerStoriesView.this.isActive && (tL_stories$StoryItem = this.storyItem) != null && tL_stories$PeerStories != null) {
+                if (!StoriesUtilities.hasExpiredViews(tL_stories$StoryItem)) {
+                    int i = this.storyItem.id;
+                    if (i <= tL_stories$PeerStories.max_read_id) {
+                        PeerStoriesView peerStoriesView2 = PeerStoriesView.this;
+                    }
+                    if (PeerStoriesView.this.storyViewer.overrideUserStories != null) {
+                        PeerStoriesView peerStoriesView3 = PeerStoriesView.this;
+                        if (peerStoriesView3.storiesController.markStoryAsRead(peerStoriesView3.storyViewer.overrideUserStories, this.storyItem, true)) {
+                            PeerStoriesView.this.storyViewer.unreadStateChanged = true;
+                            return;
+                        }
+                        return;
+                    }
+                    PeerStoriesView peerStoriesView4 = PeerStoriesView.this;
+                    if (peerStoriesView4.storiesController.markStoryAsRead(peerStoriesView4.dialogId, this.storyItem)) {
                         PeerStoriesView.this.storyViewer.unreadStateChanged = true;
                         return;
                     }
                     return;
                 }
-                PeerStoriesView peerStoriesView4 = PeerStoriesView.this;
-                if (peerStoriesView4.storiesController.markStoryAsRead(peerStoriesView4.dialogId, this.storyItem)) {
-                    PeerStoriesView.this.storyViewer.unreadStateChanged = true;
-                    return;
-                }
+            }
+            PeerStoriesView peerStoriesView5 = PeerStoriesView.this;
+            if (!peerStoriesView5.isActive || this.storyItem == null || peerStoriesView5.storyViewer.storiesList == null || !PeerStoriesView.this.storyViewer.storiesList.markAsRead(this.storyItem.id)) {
                 return;
             }
-            if (!PeerStoriesView.this.isSelf) {
-                return;
-            }
-            if (PeerStoriesView.this.storyViewer.overrideUserStories == null) {
-            }
+            PeerStoriesView.this.storyViewer.unreadStateChanged = true;
         }
 
         public String getLocalPath() {

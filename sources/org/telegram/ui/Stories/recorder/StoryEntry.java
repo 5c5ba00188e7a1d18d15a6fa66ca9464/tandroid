@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.LinearGradient;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -225,6 +226,9 @@ public class StoryEntry {
         if (drawable == null) {
             return;
         }
+        Rect rect = new Rect(drawable.getBounds());
+        Drawable.Callback callback = drawable.getCallback();
+        drawable.setCallback(null);
         if (drawable instanceof BitmapDrawable) {
             BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
             float width = bitmapDrawable.getBitmap().getWidth();
@@ -232,10 +236,12 @@ public class StoryEntry {
             float max = Math.max(i / width, i2 / height);
             drawable.setBounds(0, 0, (int) (width * max), (int) (height * max));
             drawable.draw(canvas);
-            return;
+        } else {
+            drawable.setBounds(0, 0, i, i2);
+            drawable.draw(canvas);
         }
-        drawable.setBounds(0, 0, i, i2);
-        drawable.draw(canvas);
+        drawable.setBounds(rect);
+        drawable.setCallback(callback);
     }
 
     /* JADX WARN: Removed duplicated region for block: B:24:0x00eb  */

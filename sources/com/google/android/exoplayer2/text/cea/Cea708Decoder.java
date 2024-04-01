@@ -341,7 +341,7 @@ public final class Cea708Decoder extends CeaDecoder {
             default:
                 Log.w("Cea708Decoder", "Invalid C1 command: " + i);
                 return;
-            case MessagesStorage.LAST_DB_VERSION /* 151 */:
+            case 151:
                 if (!this.currentCueInfoBuilder.isDefined()) {
                     this.captionChannelPacketData.skipBits(32);
                     return;
@@ -349,7 +349,7 @@ public final class Cea708Decoder extends CeaDecoder {
                     handleSetWindowAttributes();
                     return;
                 }
-            case 152:
+            case MessagesStorage.LAST_DB_VERSION /* 152 */:
             case 153:
             case 154:
             case 155:

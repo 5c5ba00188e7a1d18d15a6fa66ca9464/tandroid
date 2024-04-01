@@ -6,6 +6,7 @@ import j$.time.temporal.t;
 import j$.time.temporal.u;
 import j$.time.temporal.w;
 import j$.time.temporal.x;
+import org.telegram.messenger.MessagesStorage;
 /* loaded from: classes2.dex */
 public enum i implements j$.time.temporal.k {
     JANUARY,
@@ -71,7 +72,7 @@ public enum i implements j$.time.temporal.k {
                 i = 91;
                 break;
             case 3:
-                i = 152;
+                i = MessagesStorage.LAST_DB_VERSION;
                 break;
             case 4:
                 i = 244;

@@ -303,6 +303,7 @@ import org.webrtc.voiceengine.WebRtcAudioTrack;
 /* loaded from: classes4.dex */
 public class LaunchActivity extends BasePermissionsActivity implements INavigationLayout.INavigationLayoutDelegate, NotificationCenter.NotificationCenterDelegate, DialogsActivity.DialogsActivityDelegate {
     public static LaunchActivity instance;
+    public static boolean isActive;
     public static boolean isResumed;
     public static Runnable onResumeStaticCallback;
     private static LaunchActivity staticInstanceForAlerts;
@@ -428,6 +429,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         INavigationLayout iNavigationLayout;
         Intent intent;
         Uri data;
+        isActive = true;
         if (BuildVars.DEBUG_VERSION) {
             StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder(StrictMode.getVmPolicy()).detectLeakedClosableObjects().penaltyLog().build());
         }
@@ -10323,14 +10325,16 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$processWebAppBot$103(BaseFragment baseFragment, int i, TLRPC$User tLRPC$User, TLRPC$TL_messages_botApp tLRPC$TL_messages_botApp, AtomicBoolean atomicBoolean, String str, boolean z) {
-        BotWebViewSheet botWebViewSheet = new BotWebViewSheet(this, baseFragment.getResourceProvider());
-        botWebViewSheet.setParentActivity(this);
-        long j = tLRPC$User.id;
-        botWebViewSheet.requestWebView(i, j, j, null, null, 3, 0, false, baseFragment, tLRPC$TL_messages_botApp.app, atomicBoolean.get(), str, tLRPC$User);
-        botWebViewSheet.show();
-        this.visibleDialogs.add(botWebViewSheet);
-        if (tLRPC$TL_messages_botApp.inactive || z) {
-            botWebViewSheet.showJustAddedBulletin();
+        if (isActive) {
+            BotWebViewSheet botWebViewSheet = new BotWebViewSheet(this, baseFragment.getResourceProvider());
+            botWebViewSheet.setParentActivity(this);
+            long j = tLRPC$User.id;
+            botWebViewSheet.requestWebView(i, j, j, null, null, 3, 0, false, baseFragment, tLRPC$TL_messages_botApp.app, atomicBoolean.get(), str, tLRPC$User);
+            botWebViewSheet.show();
+            this.visibleDialogs.add(botWebViewSheet);
+            if (tLRPC$TL_messages_botApp.inactive || z) {
+                botWebViewSheet.showJustAddedBulletin();
+            }
         }
     }
 
@@ -11701,6 +11705,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     @Override // androidx.fragment.app.FragmentActivity, android.app.Activity
     protected void onDestroy() {
+        isActive = false;
         if (PhotoViewer.getPipInstance() != null) {
             PhotoViewer.getPipInstance().destroyPhotoViewer();
         }

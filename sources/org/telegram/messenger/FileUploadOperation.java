@@ -327,8 +327,8 @@ public class FileUploadOperation {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:126:0x02f7 A[Catch: Exception -> 0x0544, TryCatch #2 {Exception -> 0x0544, blocks: (B:5:0x0008, B:7:0x0015, B:13:0x004d, B:15:0x0053, B:17:0x005c, B:19:0x0060, B:21:0x0069, B:22:0x006b, B:24:0x0084, B:26:0x008d, B:27:0x0096, B:31:0x009f, B:34:0x00ba, B:36:0x00be, B:37:0x00c1, B:38:0x00c3, B:42:0x00cc, B:44:0x00d9, B:45:0x00e3, B:47:0x00e7, B:48:0x00f1, B:52:0x0113, B:54:0x0149, B:56:0x014d, B:58:0x0155, B:60:0x015b, B:62:0x01b1, B:65:0x01e9, B:68:0x01fb, B:70:0x01fe, B:72:0x0201, B:77:0x0211, B:79:0x0215, B:89:0x0237, B:92:0x0244, B:94:0x024f, B:96:0x025b, B:98:0x025f, B:100:0x0267, B:102:0x0272, B:105:0x027b, B:109:0x0288, B:110:0x028f, B:111:0x02a6, B:104:0x0279, B:112:0x02b0, B:114:0x02b9, B:116:0x02d5, B:118:0x02dd, B:126:0x02f7, B:128:0x02fb, B:129:0x031b, B:131:0x0327, B:133:0x032b, B:135:0x0333, B:136:0x0336, B:145:0x036d, B:147:0x0379, B:149:0x037d, B:151:0x0394, B:150:0x038b, B:155:0x03a0, B:157:0x03a8, B:160:0x03b5, B:162:0x03b9, B:164:0x03c4, B:166:0x03d9, B:171:0x03e9, B:173:0x03ed, B:175:0x03f1, B:177:0x03f9, B:179:0x0404, B:181:0x0408, B:183:0x0410, B:189:0x0423, B:193:0x0430, B:194:0x0437, B:196:0x0464, B:198:0x0468, B:200:0x047d, B:202:0x0484, B:204:0x049c, B:206:0x04a0, B:208:0x04a4, B:209:0x04b3, B:201:0x0480, B:203:0x048a, B:185:0x0417, B:187:0x041b, B:188:0x0421, B:165:0x03ce, B:167:0x03dc, B:144:0x036a, B:120:0x02e0, B:121:0x02e8, B:83:0x0221, B:16:0x0056, B:152:0x0397, B:153:0x039e, B:8:0x0025, B:138:0x033a, B:141:0x0355), top: B:228:0x0008, inners: #1 }] */
-    /* JADX WARN: Removed duplicated region for block: B:147:0x0379 A[Catch: Exception -> 0x0544, TryCatch #2 {Exception -> 0x0544, blocks: (B:5:0x0008, B:7:0x0015, B:13:0x004d, B:15:0x0053, B:17:0x005c, B:19:0x0060, B:21:0x0069, B:22:0x006b, B:24:0x0084, B:26:0x008d, B:27:0x0096, B:31:0x009f, B:34:0x00ba, B:36:0x00be, B:37:0x00c1, B:38:0x00c3, B:42:0x00cc, B:44:0x00d9, B:45:0x00e3, B:47:0x00e7, B:48:0x00f1, B:52:0x0113, B:54:0x0149, B:56:0x014d, B:58:0x0155, B:60:0x015b, B:62:0x01b1, B:65:0x01e9, B:68:0x01fb, B:70:0x01fe, B:72:0x0201, B:77:0x0211, B:79:0x0215, B:89:0x0237, B:92:0x0244, B:94:0x024f, B:96:0x025b, B:98:0x025f, B:100:0x0267, B:102:0x0272, B:105:0x027b, B:109:0x0288, B:110:0x028f, B:111:0x02a6, B:104:0x0279, B:112:0x02b0, B:114:0x02b9, B:116:0x02d5, B:118:0x02dd, B:126:0x02f7, B:128:0x02fb, B:129:0x031b, B:131:0x0327, B:133:0x032b, B:135:0x0333, B:136:0x0336, B:145:0x036d, B:147:0x0379, B:149:0x037d, B:151:0x0394, B:150:0x038b, B:155:0x03a0, B:157:0x03a8, B:160:0x03b5, B:162:0x03b9, B:164:0x03c4, B:166:0x03d9, B:171:0x03e9, B:173:0x03ed, B:175:0x03f1, B:177:0x03f9, B:179:0x0404, B:181:0x0408, B:183:0x0410, B:189:0x0423, B:193:0x0430, B:194:0x0437, B:196:0x0464, B:198:0x0468, B:200:0x047d, B:202:0x0484, B:204:0x049c, B:206:0x04a0, B:208:0x04a4, B:209:0x04b3, B:201:0x0480, B:203:0x048a, B:185:0x0417, B:187:0x041b, B:188:0x0421, B:165:0x03ce, B:167:0x03dc, B:144:0x036a, B:120:0x02e0, B:121:0x02e8, B:83:0x0221, B:16:0x0056, B:152:0x0397, B:153:0x039e, B:8:0x0025, B:138:0x033a, B:141:0x0355), top: B:228:0x0008, inners: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:126:0x02f7 A[Catch: Exception -> 0x055f, TryCatch #3 {Exception -> 0x055f, blocks: (B:5:0x0008, B:7:0x0015, B:13:0x004d, B:15:0x0053, B:17:0x005c, B:19:0x0060, B:21:0x0069, B:22:0x006b, B:24:0x0084, B:26:0x008d, B:27:0x0096, B:31:0x009f, B:34:0x00ba, B:36:0x00be, B:37:0x00c1, B:38:0x00c3, B:42:0x00cc, B:44:0x00d9, B:45:0x00e3, B:47:0x00e7, B:48:0x00f1, B:52:0x0113, B:54:0x0149, B:56:0x014d, B:58:0x0155, B:60:0x015b, B:62:0x01b1, B:65:0x01e9, B:68:0x01fb, B:70:0x01fe, B:72:0x0201, B:77:0x0211, B:79:0x0215, B:89:0x0237, B:92:0x0244, B:94:0x024f, B:96:0x025b, B:98:0x025f, B:100:0x0267, B:102:0x0272, B:105:0x027b, B:109:0x0288, B:110:0x028f, B:111:0x02a6, B:104:0x0279, B:112:0x02b0, B:114:0x02b9, B:116:0x02d5, B:118:0x02dd, B:126:0x02f7, B:128:0x02fb, B:129:0x031b, B:131:0x0327, B:133:0x032b, B:135:0x0333, B:136:0x0336, B:145:0x036d, B:147:0x0379, B:149:0x037d, B:151:0x0394, B:150:0x038b, B:155:0x03a0, B:157:0x03a8, B:160:0x03b5, B:162:0x03b9, B:164:0x03c4, B:166:0x03d9, B:171:0x03e9, B:173:0x03ed, B:175:0x03f1, B:177:0x03f9, B:179:0x0404, B:181:0x0408, B:183:0x0410, B:189:0x0423, B:193:0x0430, B:194:0x0437, B:196:0x0464, B:198:0x0468, B:200:0x047d, B:202:0x0484, B:204:0x0496, B:206:0x049d, B:208:0x04a1, B:209:0x04b0, B:201:0x0480, B:203:0x0487, B:185:0x0417, B:187:0x041b, B:188:0x0421, B:165:0x03ce, B:167:0x03dc, B:144:0x036a, B:120:0x02e0, B:121:0x02e8, B:83:0x0221, B:16:0x0056, B:152:0x0397, B:153:0x039e, B:8:0x0025, B:138:0x033a, B:141:0x0355), top: B:228:0x0008 }] */
+    /* JADX WARN: Removed duplicated region for block: B:147:0x0379 A[Catch: Exception -> 0x055f, TryCatch #3 {Exception -> 0x055f, blocks: (B:5:0x0008, B:7:0x0015, B:13:0x004d, B:15:0x0053, B:17:0x005c, B:19:0x0060, B:21:0x0069, B:22:0x006b, B:24:0x0084, B:26:0x008d, B:27:0x0096, B:31:0x009f, B:34:0x00ba, B:36:0x00be, B:37:0x00c1, B:38:0x00c3, B:42:0x00cc, B:44:0x00d9, B:45:0x00e3, B:47:0x00e7, B:48:0x00f1, B:52:0x0113, B:54:0x0149, B:56:0x014d, B:58:0x0155, B:60:0x015b, B:62:0x01b1, B:65:0x01e9, B:68:0x01fb, B:70:0x01fe, B:72:0x0201, B:77:0x0211, B:79:0x0215, B:89:0x0237, B:92:0x0244, B:94:0x024f, B:96:0x025b, B:98:0x025f, B:100:0x0267, B:102:0x0272, B:105:0x027b, B:109:0x0288, B:110:0x028f, B:111:0x02a6, B:104:0x0279, B:112:0x02b0, B:114:0x02b9, B:116:0x02d5, B:118:0x02dd, B:126:0x02f7, B:128:0x02fb, B:129:0x031b, B:131:0x0327, B:133:0x032b, B:135:0x0333, B:136:0x0336, B:145:0x036d, B:147:0x0379, B:149:0x037d, B:151:0x0394, B:150:0x038b, B:155:0x03a0, B:157:0x03a8, B:160:0x03b5, B:162:0x03b9, B:164:0x03c4, B:166:0x03d9, B:171:0x03e9, B:173:0x03ed, B:175:0x03f1, B:177:0x03f9, B:179:0x0404, B:181:0x0408, B:183:0x0410, B:189:0x0423, B:193:0x0430, B:194:0x0437, B:196:0x0464, B:198:0x0468, B:200:0x047d, B:202:0x0484, B:204:0x0496, B:206:0x049d, B:208:0x04a1, B:209:0x04b0, B:201:0x0480, B:203:0x0487, B:185:0x0417, B:187:0x041b, B:188:0x0421, B:165:0x03ce, B:167:0x03dc, B:144:0x036a, B:120:0x02e0, B:121:0x02e8, B:83:0x0221, B:16:0x0056, B:152:0x0397, B:153:0x039e, B:8:0x0025, B:138:0x033a, B:141:0x0355), top: B:228:0x0008 }] */
     /* JADX WARN: Removed duplicated region for block: B:226:0x033a A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:87:0x0231  */
     /*
@@ -338,7 +338,7 @@ public class FileUploadOperation {
         byte[] bArr;
         int read;
         final byte[] bArr2;
-        final int i;
+        int i;
         TLRPC$TL_upload_saveFilePart tLRPC$TL_upload_saveFilePart;
         int i2;
         boolean z;
@@ -619,8 +619,8 @@ public class FileUploadOperation {
                 }
                 if (this.isBigFile) {
                     TLRPC$TL_upload_saveBigFilePart tLRPC$TL_upload_saveBigFilePart = new TLRPC$TL_upload_saveBigFilePart();
-                    int i17 = this.currentPartNum;
-                    tLRPC$TL_upload_saveBigFilePart.file_part = i17;
+                    i = this.currentPartNum;
+                    tLRPC$TL_upload_saveBigFilePart.file_part = i;
                     tLRPC$TL_upload_saveBigFilePart.file_id = this.currentFileId;
                     if (this.estimatedSize != 0) {
                         tLRPC$TL_upload_saveBigFilePart.file_total_parts = -1;
@@ -629,16 +629,16 @@ public class FileUploadOperation {
                     }
                     tLRPC$TL_upload_saveBigFilePart.bytes = nativeByteBuffer2;
                     tLRPC$TL_upload_saveFilePart = tLRPC$TL_upload_saveBigFilePart;
-                    i = i17;
                 } else {
                     TLRPC$TL_upload_saveFilePart tLRPC$TL_upload_saveFilePart2 = new TLRPC$TL_upload_saveFilePart();
-                    int i18 = this.currentPartNum;
-                    tLRPC$TL_upload_saveFilePart2.file_part = i18;
+                    i = this.currentPartNum;
+                    tLRPC$TL_upload_saveFilePart2.file_part = i;
                     tLRPC$TL_upload_saveFilePart2.file_id = this.currentFileId;
                     tLRPC$TL_upload_saveFilePart2.bytes = nativeByteBuffer2;
-                    i = i18;
                     tLRPC$TL_upload_saveFilePart = tLRPC$TL_upload_saveFilePart2;
                 }
+                TLRPC$TL_upload_saveFilePart tLRPC$TL_upload_saveFilePart3 = tLRPC$TL_upload_saveFilePart;
+                final int i17 = i;
                 if (this.isLastPart && this.nextPartFirst) {
                     this.nextPartFirst = false;
                     this.currentPartNum = this.totalPartsCount - 1;
@@ -647,29 +647,29 @@ public class FileUploadOperation {
                 this.readBytesCount += i12;
                 this.currentPartNum++;
                 this.currentUploadRequetsCount++;
-                final int i19 = this.requestNum;
-                this.requestNum = i19 + 1;
-                final long j6 = i + i12;
-                final int objectSize = tLRPC$TL_upload_saveFilePart.getObjectSize() + 4;
-                final int i20 = this.operationGuid;
-                int i21 = this.slowNetwork ? 4 : ((i19 % 4) << 16) | 4;
+                final int i18 = this.requestNum;
+                this.requestNum = i18 + 1;
+                final long j6 = i17 + i12;
+                final int objectSize = tLRPC$TL_upload_saveFilePart3.getObjectSize() + 4;
+                final int i19 = this.operationGuid;
+                int i20 = this.slowNetwork ? 4 : ((i18 % 4) << 16) | 4;
                 System.currentTimeMillis();
                 final int[] iArr = new int[1];
-                iArr[0] = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_upload_saveFilePart, new RequestDelegate() { // from class: org.telegram.messenger.FileUploadOperation$$ExternalSyntheticLambda5
+                iArr[0] = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_upload_saveFilePart3, new RequestDelegate() { // from class: org.telegram.messenger.FileUploadOperation$$ExternalSyntheticLambda5
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                        FileUploadOperation.this.lambda$startUploadRequest$4(i20, iArr, objectSize, bArr2, i19, i12, i, j6, tLObject, tLRPC$TL_error);
+                        FileUploadOperation.this.lambda$startUploadRequest$4(i19, iArr, objectSize, bArr2, i18, i12, i17, j6, tLObject, tLRPC$TL_error);
                     }
                 }, null, new WriteToSocketDelegate() { // from class: org.telegram.messenger.FileUploadOperation$$ExternalSyntheticLambda6
                     @Override // org.telegram.tgnet.WriteToSocketDelegate
                     public final void run() {
                         FileUploadOperation.this.lambda$startUploadRequest$6();
                     }
-                }, this.forceSmallFile ? 4 : 0, ConnectionsManager.DEFAULT_DATACENTER_ID, i21, true);
+                }, this.forceSmallFile ? 4 : 0, ConnectionsManager.DEFAULT_DATACENTER_ID, i20, true);
                 if (BuildVars.LOGS_ENABLED) {
-                    FileLog.d("debug_uploading:  send reqId " + iArr[0] + " " + this.uploadingFilePath);
+                    FileLog.d("debug_uploading:  send reqId " + iArr[0] + " " + this.uploadingFilePath + " file_part=" + i17 + " isBig=" + this.isBigFile + " file_id=" + this.currentFileId);
                 }
-                this.requestTokens.put(i19, iArr[0]);
+                this.requestTokens.put(i18, iArr[0]);
             }
         } catch (Exception e2) {
             FileLog.e(e2);

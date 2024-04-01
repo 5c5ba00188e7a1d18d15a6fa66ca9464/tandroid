@@ -2208,6 +2208,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         getNotificationCenter().addObserver(this, NotificationCenter.reloadDialogPhotos);
         getNotificationCenter().addObserver(this, NotificationCenter.storiesUpdated);
         getNotificationCenter().addObserver(this, NotificationCenter.storiesReadUpdated);
+        getNotificationCenter().addObserver(this, NotificationCenter.userIsPremiumBlockedUpadted);
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.emojiLoaded);
         updateRowsIds();
         ListAdapter listAdapter = this.listAdapter;
@@ -2299,6 +2300,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         getNotificationCenter().removeObserver(this, NotificationCenter.reloadDialogPhotos);
         getNotificationCenter().removeObserver(this, NotificationCenter.storiesUpdated);
         getNotificationCenter().removeObserver(this, NotificationCenter.storiesReadUpdated);
+        getNotificationCenter().removeObserver(this, NotificationCenter.userIsPremiumBlockedUpadted);
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.emojiLoaded);
         ProfileGalleryView profileGalleryView = this.avatarsViewPager;
         if (profileGalleryView != null) {
@@ -8709,7 +8711,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     public void didReceivedNotification(int i, int i2, final Object... objArr) {
-        AvatarImageView avatarImageView;
+        ActionBarMenuItem actionBarMenuItem;
         TLRPC$ChatFull tLRPC$ChatFull;
         TLRPC$ChatFull tLRPC$ChatFull2;
         TLRPC$TL_inputGroupCall tLRPC$TL_inputGroupCall;
@@ -8819,9 +8821,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     if (profileStoriesView != null && (tLRPC$ChatFull2 = this.chatInfo) != null) {
                         profileStoriesView.setStories(tLRPC$ChatFull2.stories);
                     }
-                    AvatarImageView avatarImageView2 = this.avatarImage;
-                    if (avatarImageView2 != null) {
-                        avatarImageView2.setHasStories(needInsetForStories());
+                    AvatarImageView avatarImageView = this.avatarImage;
+                    if (avatarImageView != null) {
+                        avatarImageView.setHasStories(needInsetForStories());
                     }
                 }
             }
@@ -8868,9 +8870,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 if (profileStoriesView2 != null && (tLRPC$ChatFull = this.chatInfo) != null) {
                     profileStoriesView2.setStories(tLRPC$ChatFull.stories);
                 }
-                AvatarImageView avatarImageView3 = this.avatarImage;
-                if (avatarImageView3 != null) {
-                    avatarImageView3.setHasStories(needInsetForStories());
+                AvatarImageView avatarImageView2 = this.avatarImage;
+                if (avatarImageView2 != null) {
+                    avatarImageView2.setHasStories(needInsetForStories());
                 }
                 SharedMediaLayout sharedMediaLayout2 = this.sharedMediaLayout;
                 if (sharedMediaLayout2 != null) {
@@ -8893,9 +8895,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 if (profileStoriesView3 != null) {
                     profileStoriesView3.setStories(tLRPC$UserFull.stories);
                 }
-                AvatarImageView avatarImageView4 = this.avatarImage;
-                if (avatarImageView4 != null) {
-                    avatarImageView4.setHasStories(needInsetForStories());
+                AvatarImageView avatarImageView3 = this.avatarImage;
+                if (avatarImageView3 != null) {
+                    avatarImageView3.setHasStories(needInsetForStories());
                 }
                 SharedMediaLayout sharedMediaLayout3 = this.sharedMediaLayout;
                 if (sharedMediaLayout3 != null) {
@@ -9006,9 +9008,14 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             }
         } else if (i == NotificationCenter.reloadDialogPhotos) {
             updateProfileData(false);
-        } else if ((i == NotificationCenter.storiesUpdated || i == NotificationCenter.storiesReadUpdated) && (avatarImageView = this.avatarImage) != null) {
-            avatarImageView.setHasStories(needInsetForStories());
-            updateAvatarRoundRadius();
+        } else if (i == NotificationCenter.storiesUpdated || i == NotificationCenter.storiesReadUpdated) {
+            AvatarImageView avatarImageView4 = this.avatarImage;
+            if (avatarImageView4 != null) {
+                avatarImageView4.setHasStories(needInsetForStories());
+                updateAvatarRoundRadius();
+            }
+        } else if (i == NotificationCenter.userIsPremiumBlockedUpadted && (actionBarMenuItem = this.otherItem) != null) {
+            actionBarMenuItem.setSubItemShown(20, !getMessagesController().isUserPremiumBlocked(this.userId));
         }
     }
 
@@ -9849,6 +9856,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         ProfileBirthdayEffect.BirthdayEffectFetcher birthdayEffectFetcher3 = this.birthdayFetcher;
         if (birthdayEffectFetcher3 != null) {
             birthdayEffectFetcher3.subscribe(new ProfileActivity$$ExternalSyntheticLambda41(this));
+        }
+        ActionBarMenuItem actionBarMenuItem = this.otherItem;
+        if (actionBarMenuItem != null) {
+            actionBarMenuItem.setSubItemShown(20, true ^ getMessagesController().isUserPremiumBlocked(this.userId));
         }
     }
 
@@ -11724,16 +11735,16 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         return i;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:524:0x0470  */
-    /* JADX WARN: Removed duplicated region for block: B:525:0x04ab  */
-    /* JADX WARN: Removed duplicated region for block: B:528:0x04c4  */
-    /* JADX WARN: Removed duplicated region for block: B:530:0x04cb  */
-    /* JADX WARN: Removed duplicated region for block: B:533:0x04e0  */
-    /* JADX WARN: Removed duplicated region for block: B:536:0x0503  */
-    /* JADX WARN: Removed duplicated region for block: B:572:0x05b9  */
-    /* JADX WARN: Removed duplicated region for block: B:575:0x05d0  */
-    /* JADX WARN: Removed duplicated region for block: B:578:0x05e7  */
-    /* JADX WARN: Removed duplicated region for block: B:581:0x05fe  */
+    /* JADX WARN: Removed duplicated region for block: B:524:0x0480  */
+    /* JADX WARN: Removed duplicated region for block: B:525:0x04bb  */
+    /* JADX WARN: Removed duplicated region for block: B:528:0x04d4  */
+    /* JADX WARN: Removed duplicated region for block: B:530:0x04db  */
+    /* JADX WARN: Removed duplicated region for block: B:533:0x04f0  */
+    /* JADX WARN: Removed duplicated region for block: B:536:0x0513  */
+    /* JADX WARN: Removed duplicated region for block: B:572:0x05c9  */
+    /* JADX WARN: Removed duplicated region for block: B:575:0x05e0  */
+    /* JADX WARN: Removed duplicated region for block: B:578:0x05f7  */
+    /* JADX WARN: Removed duplicated region for block: B:581:0x060e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -11922,6 +11933,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         this.otherItem.addSubItem(38, R.drawable.msg_gift_premium, LocaleController.getString(R.string.GiftPremium));
                     }
                     this.otherItem.addSubItem(20, R.drawable.msg_secret, LocaleController.getString("StartEncryptedChat", R.string.StartEncryptedChat));
+                    this.otherItem.setSubItemShown(20, !getMessagesController().isUserPremiumBlocked(this.userId));
                 }
             }
             if (!this.isBot && getContactsController().contactsDict.get(Long.valueOf(this.userId)) != null) {
