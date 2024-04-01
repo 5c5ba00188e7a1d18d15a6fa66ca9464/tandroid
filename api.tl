@@ -1775,6 +1775,7 @@ stories.getStoriesArchive#b4352016 peer:InputPeer offset_id:int limit:int = stor
 stories.getStoriesByID#5774ca74 peer:InputPeer id:Vector<int> = stories.Stories;
 stories.getStoriesViews#28e16cc8 peer:InputPeer id:Vector<int> = stories.StoryViews;
 stories.getStoryViewsList#7ed23c57 flags:# just_contacts:flags.0?true reactions_first:flags.2?true forwards_first:flags.3?true peer:InputPeer q:flags.1?string id:int offset:string limit:int = StoryViewsList;
+stories.incrementStoryViews#b2028afb peer:InputPeer id:Vector<int> = Bool;
 stories.readStories#a556dac8 peer:InputPeer max_id:int = Vector<int>;
 stories.report#1923fa8c peer:InputPeer id:Vector<int> reason:ReportReason message:string = Bool;
 stories.sendReaction#7fd736b2 flags:# add_to_recent:flags.0?true peer:InputPeer story_id:int reaction:Reaction = Updates;
