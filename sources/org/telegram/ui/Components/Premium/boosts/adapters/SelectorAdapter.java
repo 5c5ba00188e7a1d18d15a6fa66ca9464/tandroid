@@ -397,8 +397,9 @@ public class SelectorAdapter extends AdapterWithDiffUtils {
             return false;
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.ListView.AdapterWithDiffUtils.Item
-        protected boolean contentsEquals(AdapterWithDiffUtils.Item item) {
+        public boolean contentsEquals(AdapterWithDiffUtils.Item item) {
             if (this == item) {
                 return true;
             }

@@ -1448,6 +1448,11 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                 }
 
                 @Override // org.telegram.ui.Components.Bulletin.Delegate
+                public /* synthetic */ boolean bottomOffsetAnimated() {
+                    return Bulletin.Delegate.-CC.$default$bottomOffsetAnimated(this);
+                }
+
+                @Override // org.telegram.ui.Components.Bulletin.Delegate
                 public /* synthetic */ boolean clipWithGradient(int i) {
                     return Bulletin.Delegate.-CC.$default$clipWithGradient(this, i);
                 }
@@ -1968,7 +1973,6 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
         this.containerView.invalidate();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public void checkSelfStoriesView() {
         if (this.selfStoryViewsView == null) {
             SelfStoryViewsView selfStoryViewsView = new SelfStoryViewsView(this.containerView.getContext(), this);

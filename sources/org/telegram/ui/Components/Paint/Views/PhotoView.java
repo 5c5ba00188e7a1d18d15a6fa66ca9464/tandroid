@@ -50,7 +50,7 @@ import org.telegram.ui.Stories.recorder.StoryEntry;
 /* loaded from: classes3.dex */
 public class PhotoView extends EntityView {
     private int anchor;
-    private Size baseSize;
+    public Size baseSize;
     public final ImageReceiver centerImage;
     private final FrameLayoutDrawer containerView;
     private final RectF dest;

@@ -352,6 +352,9 @@ public abstract class SelfStoriesPreviewView extends View {
         } else {
             this.scrollToPositionInLayout = i;
         }
+        for (int i2 = 0; i2 < this.lastDrawnImageReceivers.size(); i2++) {
+            this.lastDrawnImageReceivers.get(i2).onBind(this.lastDrawnImageReceivers.get(i2).position);
+        }
     }
 
     public int getClosestPosition() {
@@ -436,6 +439,9 @@ public abstract class SelfStoriesPreviewView extends View {
         }
 
         void onBind(int i) {
+            if (i < 0 || i >= SelfStoriesPreviewView.this.storyItems.size()) {
+                return;
+            }
             this.storyItem = SelfStoriesPreviewView.this.storyItems.get(i);
             if (SelfStoriesPreviewView.this.isAttachedToWindow) {
                 this.receiver.onAttachedToWindow();

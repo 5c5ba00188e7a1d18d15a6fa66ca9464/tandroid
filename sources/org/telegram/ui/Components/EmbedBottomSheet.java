@@ -564,7 +564,7 @@ public class EmbedBottomSheet extends BottomSheet {
 
             @Override // org.telegram.ui.Components.WebPlayerView.WebPlayerViewDelegate
             public ViewGroup getTextureViewContainer() {
-                return ((BottomSheet) EmbedBottomSheet.this).container;
+                return EmbedBottomSheet.this.container;
             }
         });
         this.videoView = webPlayerView;

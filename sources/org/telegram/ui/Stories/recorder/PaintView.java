@@ -1855,7 +1855,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
                     PaintView.this.showReactionsLayout(false);
                 }
             });
-            this.reactionLayout.setMessage(null, null);
+            this.reactionLayout.setMessage(null, null, true);
         }
         this.reactionLayout.setFragment(LaunchActivity.getLastFragment());
         this.reactionForEntity = reactionWidgetEntityView;
@@ -4982,7 +4982,6 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
         return !this.editingText;
     }
 
-    @Override // org.telegram.ui.Components.Paint.Views.EntityView.EntityViewDelegate
     public float getCropRotation() {
         MediaController.CropState cropState = this.currentCropState;
         if (cropState != null) {
@@ -5340,8 +5339,8 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
         }
 
         @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
-        public /* synthetic */ void onShowStickerSet(TLRPC$StickerSet tLRPC$StickerSet, TLRPC$InputStickerSet tLRPC$InputStickerSet) {
-            EmojiView.EmojiViewDelegate.-CC.$default$onShowStickerSet(this, tLRPC$StickerSet, tLRPC$InputStickerSet);
+        public /* synthetic */ void onShowStickerSet(TLRPC$StickerSet tLRPC$StickerSet, TLRPC$InputStickerSet tLRPC$InputStickerSet, boolean z) {
+            EmojiView.EmojiViewDelegate.-CC.$default$onShowStickerSet(this, tLRPC$StickerSet, tLRPC$InputStickerSet, z);
         }
 
         @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate

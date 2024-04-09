@@ -93,7 +93,9 @@ public class PaintWeightChooserView extends View {
                         PaintWeightChooserView.this.colorSwatch.brushWeight = clamp;
                     }
                     PaintWeightChooserView.this.animatedWeight.set(clamp, true);
-                    PaintWeightChooserView.this.onUpdate.run();
+                    if (PaintWeightChooserView.this.onUpdate != null) {
+                        PaintWeightChooserView.this.onUpdate.run();
+                    }
                     PaintWeightChooserView.this.invalidate();
                 }
                 return PaintWeightChooserView.this.isTouchInProgress;
@@ -126,6 +128,11 @@ public class PaintWeightChooserView extends View {
 
     public void setColorSwatch(Swatch swatch) {
         this.colorSwatch = swatch;
+        invalidate();
+    }
+
+    public void setBrushWeight(float f) {
+        this.colorSwatch.brushWeight = f;
         invalidate();
     }
 
@@ -174,8 +181,8 @@ public class PaintWeightChooserView extends View {
     /* JADX WARN: Removed duplicated region for block: B:21:0x0086  */
     /* JADX WARN: Removed duplicated region for block: B:26:0x013e  */
     /* JADX WARN: Removed duplicated region for block: B:29:0x01d9  */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x021f  */
-    /* JADX WARN: Removed duplicated region for block: B:38:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0223  */
+    /* JADX WARN: Removed duplicated region for block: B:40:? A[RETURN, SYNTHETIC] */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -237,7 +244,7 @@ public class PaintWeightChooserView extends View {
                         RectF rectF3 = this.touchRect;
                         float f8 = dp2 * 1.5f;
                         drawCircleWithShadow(canvas, dp4, MathUtils.clamp(height2, rectF3.top + f6, rectF3.bottom - Math.min(f8, f6)), AndroidUtilities.lerp(AndroidUtilities.dp(12.0f), AndroidUtilities.lerp(Math.min(f8, f6), f6, f7), this.showProgress), false);
-                        if (this.drawCenter && this.showProgress != 0.0f && this.showPreview) {
+                        if (this.drawCenter && this.showProgress != 0.0f && this.showPreview && this.renderView != null) {
                             drawCircleWithShadow(canvas, getWidth() / 2.0f, getHeight() / 2.0f, this.renderView.brushWeightForSize(f) * this.renderView.getCurrentBrush().getScale() * this.renderView.getCurrentBrush().getPreviewScale(), true);
                         }
                         if (this.hideProgress != 0.0f) {

@@ -44,6 +44,7 @@ import org.telegram.ui.Components.Premium.boosts.cells.DurationWithDiscountCell;
 import org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorBtnCell;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.LaunchActivity;
+import org.telegram.ui.PremiumPreviewFragment;
 /* loaded from: classes3.dex */
 public class PremiumPreviewGiftToUsersBottomSheet extends PremiumPreviewBottomSheet {
     private GradientButtonWithCounterView actionBtn;
@@ -113,11 +114,11 @@ public class PremiumPreviewGiftToUsersBottomSheet extends PremiumPreviewBottomSh
     public void setTitle(boolean z) {
         String formatString;
         ((PremiumPreviewBottomSheet) this).titleView[0].setTextSize(1, 20.0f);
+        ((ViewGroup.MarginLayoutParams) this.subtitleView.getLayoutParams()).bottomMargin = AndroidUtilities.dp(16.0f);
+        ((ViewGroup.MarginLayoutParams) this.subtitleView.getLayoutParams()).topMargin = AndroidUtilities.dp(4.0f);
         this.subtitleView.setPadding(AndroidUtilities.dp(30.0f), 0, AndroidUtilities.dp(30.0f), 0);
         this.subtitleView.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
         ((PremiumPreviewBottomSheet) this).titleView[0].setText(LocaleController.getString("GiftTelegramPremiumTitle", R.string.GiftTelegramPremiumTitle));
-        ((ViewGroup.MarginLayoutParams) this.subtitleView.getLayoutParams()).bottomMargin = AndroidUtilities.dp(16.0f);
-        ((ViewGroup.MarginLayoutParams) this.subtitleView.getLayoutParams()).topMargin = AndroidUtilities.dp(4.0f);
         int size = this.selectedUsers.size();
         if (size == 1) {
             formatString = LocaleController.formatString("GiftPremiumUsersGiveAccessManyZero", R.string.GiftPremiumUsersGiveAccessManyZero, LocaleController.formatString("GiftPremiumUsersOne", R.string.GiftPremiumUsersOne, UserObject.getFirstName(this.selectedUsers.get(0))));
@@ -209,7 +210,7 @@ public class PremiumPreviewGiftToUsersBottomSheet extends PremiumPreviewBottomSh
         TLRPC$TL_premiumGiftCodeOption selectedOption = getSelectedOption();
         String formatCurrency = BillingController.getInstance().formatCurrency(selectedOption.amount, selectedOption.currency);
         if (this.selectedUsers.size() == 1) {
-            this.actionBtn.setText(LocaleController.formatString("GiftSubscriptionFor", R.string.GiftSubscriptionFor, formatCurrency), z);
+            this.actionBtn.setText(LocaleController.formatString(R.string.GiftSubscriptionFor, formatCurrency), z);
         } else {
             this.actionBtn.setText(LocaleController.formatPluralString("GiftSubscriptionCountFor", this.selectedUsers.size(), formatCurrency), z);
         }
@@ -249,7 +250,9 @@ public class PremiumPreviewGiftToUsersBottomSheet extends PremiumPreviewBottomSh
         SelectorBtnCell selectorBtnCell2 = this.buttonContainer;
         int i2 = this.backgroundPaddingLeft;
         viewGroup.addView(selectorBtnCell2, LayoutHelper.createFrameMarginPx(-1, -2.0f, 87, i2, 0, i2, 0));
-        this.overrideTitleIcon = AvatarHolderView.createAvatarsContainer(getContext(), this.selectedUsers);
+        if (!isSelf()) {
+            this.overrideTitleIcon = AvatarHolderView.createAvatarsContainer(getContext(), this.selectedUsers);
+        }
         updateActionButton(false);
         fixNavigationBar();
     }
@@ -260,17 +263,21 @@ public class PremiumPreviewGiftToUsersBottomSheet extends PremiumPreviewBottomSh
             return;
         }
         this.actionBtn.setLoading(true);
-        BoostRepository.payGiftCode(new ArrayList(this.selectedUsers), getSelectedOption(), null, getBaseFragment(), new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.PremiumPreviewGiftToUsersBottomSheet$$ExternalSyntheticLambda3
-            @Override // org.telegram.messenger.Utilities.Callback
-            public final void run(Object obj) {
-                PremiumPreviewGiftToUsersBottomSheet.this.lambda$init$2((Void) obj);
-            }
-        }, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.PremiumPreviewGiftToUsersBottomSheet$$ExternalSyntheticLambda4
-            @Override // org.telegram.messenger.Utilities.Callback
-            public final void run(Object obj) {
-                PremiumPreviewGiftToUsersBottomSheet.this.lambda$init$3((TLRPC$TL_error) obj);
-            }
-        });
+        if (isSelf()) {
+            PremiumPreviewFragment.buyPremium(getBaseFragment(), "grace_period");
+        } else {
+            BoostRepository.payGiftCode(new ArrayList(this.selectedUsers), getSelectedOption(), null, getBaseFragment(), new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.PremiumPreviewGiftToUsersBottomSheet$$ExternalSyntheticLambda3
+                @Override // org.telegram.messenger.Utilities.Callback
+                public final void run(Object obj) {
+                    PremiumPreviewGiftToUsersBottomSheet.this.lambda$init$2((Void) obj);
+                }
+            }, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.PremiumPreviewGiftToUsersBottomSheet$$ExternalSyntheticLambda4
+                @Override // org.telegram.messenger.Utilities.Callback
+                public final void run(Object obj) {
+                    PremiumPreviewGiftToUsersBottomSheet.this.lambda$init$3((TLRPC$TL_error) obj);
+                }
+            });
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -294,6 +301,10 @@ public class PremiumPreviewGiftToUsersBottomSheet extends PremiumPreviewBottomSh
     public /* synthetic */ void lambda$init$3(TLRPC$TL_error tLRPC$TL_error) {
         this.actionBtn.setLoading(false);
         BoostDialogs.showToastError(getContext(), tLRPC$TL_error);
+    }
+
+    public boolean isSelf() {
+        return this.selectedUsers.size() == 1 && this.selectedUsers.get(0) != null && this.selectedUsers.get(0).id == UserConfig.getInstance(getCurrentAccount()).getClientUserId();
     }
 
     @Override // org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet

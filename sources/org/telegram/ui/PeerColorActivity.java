@@ -1007,6 +1007,11 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
             }
 
             @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public /* synthetic */ boolean bottomOffsetAnimated() {
+                return Bulletin.Delegate.-CC.$default$bottomOffsetAnimated(this);
+            }
+
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
             public boolean clipWithGradient(int i) {
                 return true;
             }

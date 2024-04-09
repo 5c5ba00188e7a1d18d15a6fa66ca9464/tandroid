@@ -2686,7 +2686,7 @@ public class FilterCreateActivity extends BaseFragment {
 
                     @Override // org.telegram.ui.FilterCreateActivity.LinkCell
                     public void options() {
-                        ItemOptions makeOptions = ItemOptions.makeOptions(((BottomSheet) FilterInvitesBottomSheet.this).container, this);
+                        ItemOptions makeOptions = ItemOptions.makeOptions(FilterInvitesBottomSheet.this.container, this);
                         makeOptions.add(R.drawable.msg_copy, LocaleController.getString("CopyLink", R.string.CopyLink), new Runnable() { // from class: org.telegram.ui.FilterCreateActivity$FilterInvitesBottomSheet$1$1$$ExternalSyntheticLambda0
                             @Override // java.lang.Runnable
                             public final void run() {

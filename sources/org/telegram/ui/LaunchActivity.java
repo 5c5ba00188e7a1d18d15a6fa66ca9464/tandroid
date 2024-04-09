@@ -1091,11 +1091,17 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             } else if (id == 15) {
                 showSelectStatusDialog();
             } else if (id == 16) {
-                Bundle bundle5 = new Bundle();
-                bundle5.putLong("dialog_id", UserConfig.getInstance(this.currentAccount).getClientUserId());
-                bundle5.putInt("type", 1);
                 this.drawerLayoutContainer.closeDrawer(true);
-                lambda$runLinkRequest$86(new MediaActivity(bundle5, null));
+                Bundle bundle5 = new Bundle();
+                bundle5.putLong("user_id", UserConfig.getInstance(this.currentAccount).getClientUserId());
+                bundle5.putBoolean("my_profile", true);
+                lambda$runLinkRequest$86(new ProfileActivity(bundle5, null));
+            } else if (id == 17) {
+                this.drawerLayoutContainer.closeDrawer(true);
+                Bundle bundle6 = new Bundle();
+                bundle6.putLong("dialog_id", UserConfig.getInstance(this.currentAccount).getClientUserId());
+                bundle6.putInt("type", 1);
+                lambda$runLinkRequest$86(new MediaActivity(bundle6, null));
             }
         }
     }
@@ -2095,7 +2101,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX WARN: Type inference failed for: r10v157 */
     /* JADX WARN: Type inference failed for: r10v158 */
     /* JADX WARN: Type inference failed for: r11v10, types: [android.content.Intent] */
-    /* JADX WARN: Type inference failed for: r12v10, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r12v10, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r12v68 */
     /* JADX WARN: Type inference failed for: r12v79 */
     /* JADX WARN: Type inference failed for: r12v85 */
@@ -8988,6 +8994,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         } else {
                             bundle3.putLong("user_id", l3.longValue());
                             longValue = l3.longValue();
+                            if (str16 != null) {
+                                bundle3.putString("start_text", str16);
+                            }
                         }
                         if (str9 == null || user5 == null || !user5.bot) {
                             z5 = false;
@@ -9016,9 +9025,6 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         }
                         if (str23 != null) {
                             bundle3.putString("attach_bot_start_command", str23);
-                        }
-                        if (str16 != null) {
-                            bundle3.putString("start_text", str16);
                         }
                         if (mainFragmentsStack.isEmpty() || str2 != null) {
                             baseFragment = null;

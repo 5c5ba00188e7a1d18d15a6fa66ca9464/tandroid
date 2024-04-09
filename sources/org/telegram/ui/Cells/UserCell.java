@@ -875,8 +875,8 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         }
     }
 
-    public void setCloseIcon(final Runnable runnable) {
-        if (runnable == null) {
+    public void setCloseIcon(View.OnClickListener onClickListener) {
+        if (onClickListener == null) {
             ImageView imageView = this.closeView;
             if (imageView != null) {
                 removeView(imageView);
@@ -897,11 +897,6 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
             boolean z = LocaleController.isRTL;
             addView(imageView3, LayoutHelper.createFrame(30, 30.0f, (z ? 3 : 5) | 16, z ? 14.0f : 0.0f, 0.0f, z ? 0.0f : 14.0f, 0.0f));
         }
-        this.closeView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.UserCell$$ExternalSyntheticLambda0
-            @Override // android.view.View.OnClickListener
-            public final void onClick(View view) {
-                runnable.run();
-            }
-        });
+        this.closeView.setOnClickListener(onClickListener);
     }
 }

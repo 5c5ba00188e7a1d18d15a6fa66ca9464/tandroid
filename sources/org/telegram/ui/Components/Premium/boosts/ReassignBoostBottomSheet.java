@@ -125,6 +125,11 @@ public class ReassignBoostBottomSheet extends BottomSheetWithRecyclerListView {
             }
 
             @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public /* synthetic */ boolean bottomOffsetAnimated() {
+                return Bulletin.Delegate.-CC.$default$bottomOffsetAnimated(this);
+            }
+
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
             public /* synthetic */ boolean clipWithGradient(int i3) {
                 return Bulletin.Delegate.-CC.$default$clipWithGradient(this, i3);
             }

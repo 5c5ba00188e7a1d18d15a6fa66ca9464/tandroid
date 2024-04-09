@@ -49,72 +49,119 @@ public class WebmEncoder {
 
     private static native boolean writeFrame(long j, ByteBuffer byteBuffer, int i, int i2);
 
-    public static boolean convert(MediaCodecVideoConvertor.ConvertVideoParams convertVideoParams) {
+    /* JADX WARN: Removed duplicated region for block: B:53:0x0141  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public static boolean convert(MediaCodecVideoConvertor.ConvertVideoParams convertVideoParams, int i) {
         boolean z;
+        long length;
         MediaController.VideoConvertorListener videoConvertorListener;
-        int i = convertVideoParams.resultWidth;
-        int i2 = convertVideoParams.resultHeight;
-        long createEncoder = createEncoder(convertVideoParams.cacheFile.getAbsolutePath(), i, i2, convertVideoParams.framerate, convertVideoParams.bitrate);
+        Bitmap bitmap;
+        ByteBuffer byteBuffer;
+        MediaController.VideoConvertorListener videoConvertorListener2;
+        int i2 = convertVideoParams.resultWidth;
+        int i3 = convertVideoParams.resultHeight;
+        long createEncoder = createEncoder(convertVideoParams.cacheFile.getAbsolutePath(), i2, i3, convertVideoParams.framerate, convertVideoParams.bitrate);
         boolean z2 = true;
         if (createEncoder == 0) {
             return true;
         }
-        Bitmap bitmap = null;
+        Bitmap bitmap2 = null;
         try {
             try {
-                bitmap = Bitmap.createBitmap(i, i2, Bitmap.Config.ARGB_8888);
-                ByteBuffer allocateDirect = ByteBuffer.allocateDirect(bitmap.getByteCount());
-                Canvas canvas = new Canvas(bitmap);
-                FrameDrawer frameDrawer = new FrameDrawer(convertVideoParams);
-                double d = convertVideoParams.framerate;
-                double d2 = convertVideoParams.duration;
-                Double.isNaN(d2);
-                Double.isNaN(d);
-                int ceil = (int) Math.ceil(d * (d2 / 1000.0d));
-                int i3 = 0;
-                while (i3 < ceil) {
-                    frameDrawer.draw(canvas, i3);
-                    bitmap.copyPixelsToBuffer(allocateDirect);
-                    allocateDirect.flip();
-                    if (!writeFrame(createEncoder, allocateDirect, i, i2)) {
-                        FileLog.d("webm writeFile error at " + i3 + "/" + ceil);
-                        stop(createEncoder);
-                        bitmap.recycle();
-                        return z2;
+                bitmap2 = Bitmap.createBitmap(i2, i3, Bitmap.Config.ARGB_8888);
+                try {
+                    ByteBuffer allocateDirect = ByteBuffer.allocateDirect(bitmap2.getByteCount());
+                    Canvas canvas = new Canvas(bitmap2);
+                    FrameDrawer frameDrawer = new FrameDrawer(convertVideoParams);
+                    double d = convertVideoParams.framerate;
+                    double d2 = convertVideoParams.duration;
+                    Double.isNaN(d2);
+                    Double.isNaN(d);
+                    int ceil = (int) Math.ceil(d * (d2 / 1000.0d));
+                    int i4 = 0;
+                    while (i4 < ceil) {
+                        frameDrawer.draw(canvas, i4);
+                        bitmap2.copyPixelsToBuffer(allocateDirect);
+                        allocateDirect.flip();
+                        if (!writeFrame(createEncoder, allocateDirect, i2, i3)) {
+                            FileLog.d("webm writeFile error at " + i4 + "/" + ceil);
+                            stop(createEncoder);
+                            bitmap2.recycle();
+                            return z2;
+                        }
+                        MediaController.VideoConvertorListener videoConvertorListener3 = convertVideoParams.callback;
+                        if (videoConvertorListener3 != null) {
+                            byteBuffer = allocateDirect;
+                            bitmap = bitmap2;
+                            try {
+                                videoConvertorListener3.didWriteData(Math.min(261120L, convertVideoParams.cacheFile.length()), i4 / ceil);
+                            } catch (Exception e) {
+                                e = e;
+                                bitmap2 = bitmap;
+                                FileLog.e(e);
+                                stop(createEncoder);
+                                if (bitmap2 != null) {
+                                    bitmap2.recycle();
+                                }
+                                z = true;
+                                length = convertVideoParams.cacheFile.length();
+                                if (i > 0) {
+                                }
+                                videoConvertorListener = convertVideoParams.callback;
+                                if (videoConvertorListener != null) {
+                                }
+                                FileLog.d("webm encoded to " + convertVideoParams.cacheFile + " with size=" + length + " triesLeft=" + i);
+                                return z;
+                            } catch (Throwable th) {
+                                th = th;
+                                bitmap2 = bitmap;
+                                stop(createEncoder);
+                                if (bitmap2 != null) {
+                                    bitmap2.recycle();
+                                }
+                                throw th;
+                            }
+                        } else {
+                            bitmap = bitmap2;
+                            byteBuffer = allocateDirect;
+                        }
+                        if (i4 % 3 == 0 && (videoConvertorListener2 = convertVideoParams.callback) != null) {
+                            videoConvertorListener2.checkConversionCanceled();
+                        }
+                        i4++;
+                        allocateDirect = byteBuffer;
+                        bitmap2 = bitmap;
+                        z2 = true;
                     }
-                    MediaController.VideoConvertorListener videoConvertorListener2 = convertVideoParams.callback;
-                    if (videoConvertorListener2 != null) {
-                        videoConvertorListener2.didWriteData(convertVideoParams.cacheFile.length(), i3 / ceil);
-                    }
-                    if (i3 % 3 == 0 && (videoConvertorListener = convertVideoParams.callback) != null) {
-                        videoConvertorListener.checkConversionCanceled();
-                    }
-                    i3++;
-                    z2 = true;
+                    stop(createEncoder);
+                    bitmap2.recycle();
+                    z = false;
+                } catch (Exception e2) {
+                    e = e2;
+                } catch (Throwable th2) {
+                    th = th2;
                 }
-                stop(createEncoder);
-                bitmap.recycle();
-                z = false;
-            } catch (Exception e) {
-                FileLog.e(e);
-                stop(createEncoder);
-                if (bitmap != null) {
-                    bitmap.recycle();
+            } catch (Exception e3) {
+                e = e3;
+            }
+            length = convertVideoParams.cacheFile.length();
+            if (i > 0 || length <= 261120) {
+                videoConvertorListener = convertVideoParams.callback;
+                if (videoConvertorListener != null) {
+                    videoConvertorListener.didWriteData(length, 1.0f);
                 }
-                z = true;
+                FileLog.d("webm encoded to " + convertVideoParams.cacheFile + " with size=" + length + " triesLeft=" + i);
+                return z;
             }
-            MediaController.VideoConvertorListener videoConvertorListener3 = convertVideoParams.callback;
-            if (videoConvertorListener3 != null) {
-                videoConvertorListener3.didWriteData(convertVideoParams.cacheFile.length(), 1.0f);
-            }
-            FileLog.d("webm encoded to " + convertVideoParams.cacheFile + " with size=" + convertVideoParams.cacheFile.length());
-            return z;
-        } catch (Throwable th) {
-            stop(createEncoder);
-            if (bitmap != null) {
-                bitmap.recycle();
-            }
-            throw th;
+            int i5 = convertVideoParams.bitrate;
+            convertVideoParams.bitrate = (int) (i5 * (261120.0f / ((float) length)) * 0.9f);
+            convertVideoParams.cacheFile.delete();
+            FileLog.d("webm encoded too much, got " + length + ", old bitrate = " + i5 + " new bitrate = " + convertVideoParams.bitrate);
+            return convert(convertVideoParams, i - 1);
+        } catch (Throwable th3) {
+            th = th3;
         }
     }
 
@@ -124,6 +171,7 @@ public class WebmEncoder {
         private final int W;
         private final Paint bitmapPaint;
         private final Paint clearPaint;
+        private final Path clipPath;
         private final int fps;
         private final ArrayList<VideoEditedInfo.MediaEntity> mediaEntities;
         Path path;
@@ -136,14 +184,19 @@ public class WebmEncoder {
             this.mediaEntities = arrayList;
             this.clearPaint = new Paint(1);
             this.bitmapPaint = new Paint(5);
-            this.W = convertVideoParams.resultWidth;
-            this.H = convertVideoParams.resultHeight;
+            int i = convertVideoParams.resultWidth;
+            this.W = i;
+            int i2 = convertVideoParams.resultHeight;
+            this.H = i2;
             this.fps = convertVideoParams.framerate;
+            Path path = new Path();
+            this.clipPath = path;
+            path.addRoundRect(new RectF(0.0f, 0.0f, i, i2), i * 0.125f, i2 * 0.125f, Path.Direction.CW);
             this.photo = BitmapFactory.decodeFile(convertVideoParams.videoPath);
             arrayList.addAll(convertVideoParams.mediaEntities);
             int size = arrayList.size();
-            for (int i = 0; i < size; i++) {
-                VideoEditedInfo.MediaEntity mediaEntity = this.mediaEntities.get(i);
+            for (int i3 = 0; i3 < size; i3++) {
+                VideoEditedInfo.MediaEntity mediaEntity = this.mediaEntities.get(i3);
                 byte b = mediaEntity.type;
                 if (b == 0 || b == 2 || b == 5) {
                     initStickerEntity(mediaEntity);
@@ -156,6 +209,8 @@ public class WebmEncoder {
 
         public void draw(Canvas canvas, int i) {
             canvas.drawPaint(this.clearPaint);
+            canvas.save();
+            canvas.clipPath(this.clipPath);
             Bitmap bitmap = this.photo;
             if (bitmap != null) {
                 canvas.drawBitmap(bitmap, 0.0f, 0.0f, (Paint) null);
@@ -166,6 +221,7 @@ public class WebmEncoder {
                 VideoEditedInfo.MediaEntity mediaEntity = this.mediaEntities.get(i2);
                 drawEntity(canvas, mediaEntity, mediaEntity.color, j);
             }
+            canvas.restore();
         }
 
         private void drawEntity(Canvas canvas, VideoEditedInfo.MediaEntity mediaEntity, int i, long j) {

@@ -56,10 +56,15 @@ public class StealthModeAlert extends BottomSheet {
             @Override // android.view.ViewGroup, android.view.View
             protected void onAttachedToWindow() {
                 super.onAttachedToWindow();
-                Bulletin.addDelegate(((BottomSheet) StealthModeAlert.this).container, new Bulletin.Delegate() { // from class: org.telegram.ui.Stories.StealthModeAlert.1.1
+                Bulletin.addDelegate(StealthModeAlert.this.container, new Bulletin.Delegate() { // from class: org.telegram.ui.Stories.StealthModeAlert.1.1
                     @Override // org.telegram.ui.Components.Bulletin.Delegate
                     public /* synthetic */ boolean allowLayoutChanges() {
                         return Bulletin.Delegate.-CC.$default$allowLayoutChanges(this);
+                    }
+
+                    @Override // org.telegram.ui.Components.Bulletin.Delegate
+                    public /* synthetic */ boolean bottomOffsetAnimated() {
+                        return Bulletin.Delegate.-CC.$default$bottomOffsetAnimated(this);
                     }
 
                     @Override // org.telegram.ui.Components.Bulletin.Delegate
@@ -97,7 +102,7 @@ public class StealthModeAlert extends BottomSheet {
             @Override // android.view.ViewGroup, android.view.View
             protected void onDetachedFromWindow() {
                 super.onDetachedFromWindow();
-                Bulletin.removeDelegate(((BottomSheet) StealthModeAlert.this).container);
+                Bulletin.removeDelegate(StealthModeAlert.this.container);
             }
         };
         ImageView imageView = new ImageView(getContext());

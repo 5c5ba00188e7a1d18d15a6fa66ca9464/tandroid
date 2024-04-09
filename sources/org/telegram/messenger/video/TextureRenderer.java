@@ -857,22 +857,22 @@ public class TextureRenderer {
         editTextOutline.setBreakStrategy(0);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:11:0x001b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:11:0x001d, code lost:
         if (r4 != null) goto L11;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:13:0x001e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:13:0x0020, code lost:
         r6 = org.telegram.messenger.video.TextureRenderer.VERTEX_SHADER;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:14:0x001f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:14:0x0021, code lost:
         r7 = r6;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:21:0x002e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:21:0x0030, code lost:
         if (r4 != null) goto L11;
      */
-    /* JADX WARN: Removed duplicated region for block: B:129:0x03a1  */
-    /* JADX WARN: Removed duplicated region for block: B:130:0x03a4  */
-    /* JADX WARN: Removed duplicated region for block: B:133:0x03a9  */
-    /* JADX WARN: Removed duplicated region for block: B:134:0x03ac  */
+    /* JADX WARN: Removed duplicated region for block: B:129:0x03a5  */
+    /* JADX WARN: Removed duplicated region for block: B:130:0x03a8  */
+    /* JADX WARN: Removed duplicated region for block: B:133:0x03ad  */
+    /* JADX WARN: Removed duplicated region for block: B:134:0x03b0  */
     @SuppressLint({"WrongConstant"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.

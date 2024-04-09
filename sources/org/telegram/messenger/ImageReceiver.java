@@ -1275,9 +1275,24 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         this.useRoundForThumb = z;
     }
 
+    /* JADX WARN: Can't wrap try/catch for region: R(10:383|(1:385)(10:414|(2:416|(1:418))|419|(1:389)|390|391|392|(1:(5:395|(1:397)|398|399|400)(1:408))(1:409)|401|(2:403|404)(1:405))|386|(1:389)|390|391|392|(0)(0)|401|(0)(0)) */
+    /* JADX WARN: Code restructure failed: missing block: B:403:0x08da, code lost:
+        r0 = e;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:405:0x08dc, code lost:
+        r0 = e;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:406:0x08dd, code lost:
+        r15 = null;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:407:0x08de, code lost:
+        org.telegram.messenger.FileLog.e(r0);
+     */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:403:0x08ca  */
-    /* JADX WARN: Removed duplicated region for block: B:429:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:393:0x08a7  */
+    /* JADX WARN: Removed duplicated region for block: B:401:0x08d5 A[Catch: Exception -> 0x08da, TRY_LEAVE, TryCatch #2 {Exception -> 0x08da, blocks: (B:399:0x08cc, B:400:0x08d0, B:401:0x08d5), top: B:417:0x08a5 }] */
+    /* JADX WARN: Removed duplicated region for block: B:409:0x08e3  */
+    /* JADX WARN: Removed duplicated region for block: B:435:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r15v10 */
     /* JADX WARN: Type inference failed for: r15v11 */
     /* JADX WARN: Type inference failed for: r15v12 */
@@ -1298,6 +1313,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         ColorFilter colorFilter;
         int[] iArr;
         SvgHelper.SvgDrawable svgDrawable;
+        SvgHelper.SvgDrawable svgDrawable2;
         boolean z;
         Paint paint;
         int i5;
@@ -1806,23 +1822,22 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
             return;
         }
         if (drawable instanceof SvgHelper.SvgDrawable) {
-            SvgHelper.SvgDrawable svgDrawable2 = (SvgHelper.SvgDrawable) drawable;
+            svgDrawable2 = (SvgHelper.SvgDrawable) drawable;
             svgDrawable2.setParent(this);
-            svgDrawable = svgDrawable2;
         } else {
+            if (drawable instanceof ClipRoundedDrawable) {
+                ClipRoundedDrawable clipRoundedDrawable = (ClipRoundedDrawable) drawable;
+                if (clipRoundedDrawable.getDrawable() instanceof SvgHelper.SvgDrawable) {
+                    svgDrawable2 = (SvgHelper.SvgDrawable) clipRoundedDrawable.getDrawable();
+                    svgDrawable2.setParent(this);
+                }
+            }
             svgDrawable = null;
-        }
-        if (colorFilter != null && drawable != null) {
-            drawable.setColorFilter(colorFilter);
-        }
-        try {
+            if (colorFilter != null && drawable != null) {
+                drawable.setColorFilter(colorFilter);
+            }
             drawable.setAlpha(i);
-        } catch (Exception e6) {
-            e = e6;
-            imageReceiver = null;
-        }
-        try {
-            if (backgroundThreadDrawHolder == null) {
+            if (backgroundThreadDrawHolder != null) {
                 imageReceiver = 0;
                 drawable.draw(canvas);
             } else if (svgDrawable != 0) {
@@ -1836,14 +1851,20 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
                 imageReceiver = 0;
                 drawable.draw(canvas);
             }
-        } catch (Exception e7) {
-            e = e7;
-            FileLog.e(e);
-            if (svgDrawable == null) {
+            if (svgDrawable != null) {
+                svgDrawable.setParent(imageReceiver);
+                return;
             }
+            return;
         }
-        if (svgDrawable == null) {
-            svgDrawable.setParent(imageReceiver);
+        svgDrawable = svgDrawable2;
+        if (colorFilter != null) {
+            drawable.setColorFilter(colorFilter);
+        }
+        drawable.setAlpha(i);
+        if (backgroundThreadDrawHolder != null) {
+        }
+        if (svgDrawable != null) {
         }
     }
 

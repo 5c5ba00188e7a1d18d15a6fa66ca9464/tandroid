@@ -400,6 +400,11 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
                     }
 
                     @Override // org.telegram.ui.Components.Bulletin.Delegate
+                    public /* synthetic */ boolean bottomOffsetAnimated() {
+                        return Bulletin.Delegate.-CC.$default$bottomOffsetAnimated(this);
+                    }
+
+                    @Override // org.telegram.ui.Components.Bulletin.Delegate
                     public /* synthetic */ boolean clipWithGradient(int i2) {
                         return Bulletin.Delegate.-CC.$default$clipWithGradient(this, i2);
                     }

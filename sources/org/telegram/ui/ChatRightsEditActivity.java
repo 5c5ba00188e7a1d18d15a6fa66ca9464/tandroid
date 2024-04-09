@@ -2767,7 +2767,7 @@ public class ChatRightsEditActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Type inference failed for: r1v0, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r1v0, types: [boolean, int] */
     public int getChannelMessagesSelectedCount() {
         TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights = this.adminRights;
         ?? r1 = tLRPC$TL_chatAdminRights.post_messages;
@@ -2788,7 +2788,7 @@ public class ChatRightsEditActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Type inference failed for: r1v0, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r1v0, types: [boolean, int] */
     public int getChannelStoriesSelectedCount() {
         TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights = this.adminRights;
         ?? r1 = tLRPC$TL_chatAdminRights.post_stories;

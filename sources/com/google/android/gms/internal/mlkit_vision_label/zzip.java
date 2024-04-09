@@ -1,0 +1,138 @@
+package com.google.android.gms.internal.mlkit_vision_label;
+
+import com.google.firebase.encoders.config.Configurator;
+import com.google.firebase.encoders.config.EncoderConfig;
+/* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
+/* loaded from: classes.dex */
+public final class zzip implements Configurator {
+    public static final Configurator zza = new zzip();
+
+    private zzip() {
+    }
+
+    @Override // com.google.firebase.encoders.config.Configurator
+    public final void configure(EncoderConfig encoderConfig) {
+        encoderConfig.registerEncoder(zzki.class, zzgi.zza);
+        encoderConfig.registerEncoder(zzmj.class, zzih.zza);
+        encoderConfig.registerEncoder(zzkj.class, zzgj.zza);
+        encoderConfig.registerEncoder(zzkm.class, zzgl.zza);
+        encoderConfig.registerEncoder(zzkk.class, zzgk.zza);
+        encoderConfig.registerEncoder(zzkl.class, zzgm.zza);
+        encoderConfig.registerEncoder(zzjj.class, zzfr.zza);
+        encoderConfig.registerEncoder(zzji.class, zzfq.zza);
+        encoderConfig.registerEncoder(zzjx.class, zzgb.zza);
+        encoderConfig.registerEncoder(zzmd.class, zzhz.zza);
+        encoderConfig.registerEncoder(zzjh.class, zzfp.zza);
+        encoderConfig.registerEncoder(zzjg.class, zzfo.zza);
+        encoderConfig.registerEncoder(zzkv.class, zzgx.zza);
+        encoderConfig.registerEncoder(zznb.class, zzfx.zza);
+        encoderConfig.registerEncoder(zzjt.class, zzfz.zza);
+        encoderConfig.registerEncoder(zzjp.class, zzfw.zza);
+        encoderConfig.registerEncoder(zzkw.class, zzgy.zza);
+        encoderConfig.registerEncoder(zzma.class, zzhw.zza);
+        encoderConfig.registerEncoder(zzmb.class, zzhx.zza);
+        encoderConfig.registerEncoder(zzlz.class, zzhv.zza);
+        encoderConfig.registerEncoder(zzkq.class, zzgs.zza);
+        encoderConfig.registerEncoder(zzna.class, zzey.zza);
+        encoderConfig.registerEncoder(zzkr.class, zzgt.zza);
+        encoderConfig.registerEncoder(zzkx.class, zzgz.zza);
+        encoderConfig.registerEncoder(zzlg.class, zzhc.zza);
+        encoderConfig.registerEncoder(zzld.class, zzhb.zza);
+        encoderConfig.registerEncoder(zzla.class, zzha.zza);
+        encoderConfig.registerEncoder(zzll.class, zzhh.zza);
+        encoderConfig.registerEncoder(zzlm.class, zzhi.zza);
+        encoderConfig.registerEncoder(zzlo.class, zzhk.zza);
+        encoderConfig.registerEncoder(zzln.class, zzhj.zza);
+        encoderConfig.registerEncoder(zzkp.class, zzgr.zza);
+        encoderConfig.registerEncoder(zzlp.class, zzhl.zza);
+        encoderConfig.registerEncoder(zzlq.class, zzhm.zza);
+        encoderConfig.registerEncoder(zzlr.class, zzhn.zza);
+        encoderConfig.registerEncoder(zzls.class, zzho.zza);
+        encoderConfig.registerEncoder(zzly.class, zzht.zza);
+        encoderConfig.registerEncoder(zzlx.class, zzhu.zza);
+        encoderConfig.registerEncoder(zzlk.class, zzhd.zza);
+        encoderConfig.registerEncoder(zzkb.class, zzgg.zza);
+        encoderConfig.registerEncoder(zzli.class, zzhf.zza);
+        encoderConfig.registerEncoder(zzlh.class, zzhe.zza);
+        encoderConfig.registerEncoder(zzlj.class, zzhg.zza);
+        encoderConfig.registerEncoder(zzmc.class, zzhy.zza);
+        encoderConfig.registerEncoder(zzmn.class, zzil.zza);
+        encoderConfig.registerEncoder(zziv.class, zzfd.zza);
+        encoderConfig.registerEncoder(zzit.class, zzfb.zza);
+        encoderConfig.registerEncoder(zzis.class, zzfa.zza);
+        encoderConfig.registerEncoder(zziu.class, zzfc.zza);
+        encoderConfig.registerEncoder(zzix.class, zzff.zza);
+        encoderConfig.registerEncoder(zziw.class, zzfe.zza);
+        encoderConfig.registerEncoder(zziy.class, zzfg.zza);
+        encoderConfig.registerEncoder(zziz.class, zzfh.zza);
+        encoderConfig.registerEncoder(zzja.class, zzfi.zza);
+        encoderConfig.registerEncoder(zzjb.class, zzfj.zza);
+        encoderConfig.registerEncoder(zzjc.class, zzfk.zza);
+        encoderConfig.registerEncoder(zzdu.class, zzeu.zza);
+        encoderConfig.registerEncoder(zzdw.class, zzew.zza);
+        encoderConfig.registerEncoder(zzdv.class, zzev.zza);
+        encoderConfig.registerEncoder(zzjz.class, zzge.zza);
+        encoderConfig.registerEncoder(zzjk.class, zzfs.zza);
+        encoderConfig.registerEncoder(zzcv.class, zzdy.zza);
+        encoderConfig.registerEncoder(zzcu.class, zzdz.zza);
+        encoderConfig.registerEncoder(zzjn.class, zzfu.zza);
+        encoderConfig.registerEncoder(zzcx.class, zzea.zza);
+        encoderConfig.registerEncoder(zzcw.class, zzeb.zza);
+        encoderConfig.registerEncoder(zzdd.class, zzeg.zza);
+        encoderConfig.registerEncoder(zzdc.class, zzeh.zza);
+        encoderConfig.registerEncoder(zzcz.class, zzec.zza);
+        encoderConfig.registerEncoder(zzcy.class, zzed.zza);
+        encoderConfig.registerEncoder(zzdj.class, zzei.zza);
+        encoderConfig.registerEncoder(zzdh.class, zzej.zza);
+        encoderConfig.registerEncoder(zzdl.class, zzek.zza);
+        encoderConfig.registerEncoder(zzdk.class, zzel.zza);
+        encoderConfig.registerEncoder(zzdt.class, zzes.zza);
+        encoderConfig.registerEncoder(zzds.class, zzet.zza);
+        encoderConfig.registerEncoder(zzdn.class, zzem.zza);
+        encoderConfig.registerEncoder(zzdm.class, zzen.zza);
+        encoderConfig.registerEncoder(zzdp.class, zzeo.zza);
+        encoderConfig.registerEncoder(zzdo.class, zzep.zza);
+        encoderConfig.registerEncoder(zzmv.class, zzic.zza);
+        encoderConfig.registerEncoder(zzmo.class, zzft.zza);
+        encoderConfig.registerEncoder(zzms.class, zzgq.zza);
+        encoderConfig.registerEncoder(zzmr.class, zzgp.zza);
+        encoderConfig.registerEncoder(zzmp.class, zzfy.zza);
+        encoderConfig.registerEncoder(zzmu.class, zzib.zza);
+        encoderConfig.registerEncoder(zzmt.class, zzia.zza);
+        encoderConfig.registerEncoder(zzmw.class, zzid.zza);
+        encoderConfig.registerEncoder(zzmq.class, zzgc.zza);
+        encoderConfig.registerEncoder(zzmz.class, zzin.zza);
+        encoderConfig.registerEncoder(zzmy.class, zzio.zza);
+        encoderConfig.registerEncoder(zzmx.class, zzim.zza);
+        encoderConfig.registerEncoder(zzme.class, zzie.zza);
+        encoderConfig.registerEncoder(zzjy.class, zzgd.zza);
+        encoderConfig.registerEncoder(zzkc.class, zzgh.zza);
+        encoderConfig.registerEncoder(zzir.class, zzez.zza);
+        encoderConfig.registerEncoder(zzju.class, zzga.zza);
+        encoderConfig.registerEncoder(zzka.class, zzgf.zza);
+        encoderConfig.registerEncoder(zzjo.class, zzfv.zza);
+        encoderConfig.registerEncoder(zzko.class, zzgo.zza);
+        encoderConfig.registerEncoder(zzkn.class, zzgn.zza);
+        encoderConfig.registerEncoder(zzct.class, zzdx.zza);
+        encoderConfig.registerEncoder(zzmk.class, zzii.zza);
+        encoderConfig.registerEncoder(zzmm.class, zzik.zza);
+        encoderConfig.registerEncoder(zzml.class, zzij.zza);
+        encoderConfig.registerEncoder(zziq.class, zzex.zza);
+        encoderConfig.registerEncoder(zzjf.class, zzfn.zza);
+        encoderConfig.registerEncoder(zzje.class, zzfm.zza);
+        encoderConfig.registerEncoder(zzjd.class, zzfl.zza);
+        encoderConfig.registerEncoder(zzks.class, zzgu.zza);
+        encoderConfig.registerEncoder(zzku.class, zzgw.zza);
+        encoderConfig.registerEncoder(zzkt.class, zzgv.zza);
+        encoderConfig.registerEncoder(zzdb.class, zzee.zza);
+        encoderConfig.registerEncoder(zzda.class, zzef.zza);
+        encoderConfig.registerEncoder(zzlt.class, zzhp.zza);
+        encoderConfig.registerEncoder(zzlw.class, zzhs.zza);
+        encoderConfig.registerEncoder(zzlu.class, zzhq.zza);
+        encoderConfig.registerEncoder(zzlv.class, zzhr.zza);
+        encoderConfig.registerEncoder(zzdr.class, zzeq.zza);
+        encoderConfig.registerEncoder(zzdq.class, zzer.zza);
+        encoderConfig.registerEncoder(zzmg.class, zzig.zza);
+        encoderConfig.registerEncoder(zzmf.class, zzif.zza);
+    }
+}

@@ -173,7 +173,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
         emojiBottomSheet.lambda$onWidgetClick$1(i);
     }
 
-    static /* synthetic */ float access$6316(EmojiBottomSheet emojiBottomSheet, float f) {
+    static /* synthetic */ float access$6416(EmojiBottomSheet emojiBottomSheet, float f) {
         float f2 = emojiBottomSheet.top + f;
         emojiBottomSheet.top = f2;
         return f2;
@@ -220,6 +220,11 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                 @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
                 public /* synthetic */ boolean can() {
                     return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$can(this);
+                }
+
+                @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+                public /* synthetic */ boolean canDeleteSticker(TLRPC$Document tLRPC$Document) {
+                    return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$canDeleteSticker(this, tLRPC$Document);
                 }
 
                 @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
@@ -318,8 +323,8 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                 }
 
                 @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
-                public /* synthetic */ void newStickerPackSelected(CharSequence charSequence, String str) {
-                    ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$newStickerPackSelected(this, charSequence, str);
+                public /* synthetic */ void newStickerPackSelected(CharSequence charSequence, String str, Utilities.Callback callback) {
+                    ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$newStickerPackSelected(this, charSequence, str, callback);
                 }
 
                 @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
@@ -987,7 +992,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                     return;
                 }
                 if (EmojiBottomSheet.this.onDocumentSelected != null) {
-                    EmojiBottomSheet.this.onDocumentSelected.run(null, tLRPC$Document, Boolean.FALSE);
+                    EmojiBottomSheet.this.onDocumentSelected.run(this.adapter.setByDocumentId.get(Long.valueOf(tLRPC$Document.id)), tLRPC$Document, Boolean.FALSE);
                 }
                 EmojiBottomSheet.this.dismiss();
             }
@@ -1103,6 +1108,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
             private final TLRPC$TL_inputStickerSetShortName staticEmojiInput;
             private final HashMap<String, ArrayList<Long>> allEmojis = new HashMap<>();
             private final HashMap<Long, ArrayList<TLRPC$TL_stickerPack>> packsBySet = new HashMap<>();
+            private final HashMap<Long, Object> setByDocumentId = new HashMap<>();
             private final ArrayList<TLRPC$TL_messages_stickerSet> allStickerSets = new ArrayList<>();
             private final ArrayList<TLRPC$TL_messages_stickerSet> stickerSets = new ArrayList<>();
             private final ArrayList<EmojiView.EmojiPack> packs = new ArrayList<>();
@@ -1131,8 +1137,8 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
             }
 
             /* JADX INFO: Access modifiers changed from: private */
-            /* JADX WARN: Removed duplicated region for block: B:138:0x02e3 A[SYNTHETIC] */
-            /* JADX WARN: Removed duplicated region for block: B:82:0x026f  */
+            /* JADX WARN: Removed duplicated region for block: B:154:0x0336 A[SYNTHETIC] */
+            /* JADX WARN: Removed duplicated region for block: B:93:0x02a3  */
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
@@ -1141,6 +1147,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                 TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet;
                 ArrayList<Emoji.EmojiSpanRange> parseEmojis;
                 boolean z;
+                String str2;
                 this.query = str;
                 boolean z2 = false;
                 if (str != null) {
@@ -1159,6 +1166,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                 this.positionToSection.clear();
                 this.stickerSets.clear();
                 this.allStickerSets.clear();
+                this.setByDocumentId.clear();
                 this.itemsCount++;
                 this.documents.add(null);
                 this.packs.clear();
@@ -1200,6 +1208,14 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                     this.itemsCount++;
                     this.documents.addAll(tLRPC$TL_messages_stickerSet4.documents);
                     this.itemsCount += tLRPC$TL_messages_stickerSet4.documents.size();
+                    if (tLRPC$TL_messages_stickerSet4 == this.recentSet) {
+                        str2 = "recent";
+                    } else {
+                        str2 = tLRPC$TL_messages_stickerSet4 == this.faveSet ? "fav" : tLRPC$TL_messages_stickerSet4;
+                    }
+                    for (int i2 = 0; i2 < tLRPC$TL_messages_stickerSet4.documents.size(); i2++) {
+                        this.setByDocumentId.put(Long.valueOf(tLRPC$TL_messages_stickerSet4.documents.get(i2).id), str2);
+                    }
                     EmojiView.EmojiPack emojiPack = new EmojiView.EmojiPack();
                     emojiPack.documents = tLRPC$TL_messages_stickerSet4.documents;
                     emojiPack.set = tLRPC$TL_messages_stickerSet4.set;
@@ -1219,28 +1235,28 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                 if (Page.this.currentType == 0) {
                     ArrayList<TLRPC$StickerSetCovered> featuredEmojiSets = mediaDataController.getFeaturedEmojiSets();
                     if (featuredEmojiSets != null) {
-                        int i2 = 0;
-                        while (i2 < featuredEmojiSets.size()) {
-                            TLRPC$StickerSetCovered tLRPC$StickerSetCovered = featuredEmojiSets.get(i2);
+                        int i3 = 0;
+                        while (i3 < featuredEmojiSets.size()) {
+                            TLRPC$StickerSetCovered tLRPC$StickerSetCovered = featuredEmojiSets.get(i3);
                             if (tLRPC$StickerSetCovered instanceof TLRPC$TL_stickerSetNoCovered) {
                                 tLRPC$TL_messages_stickerSet = MediaDataController.getInstance(((BottomSheet) EmojiBottomSheet.this).currentAccount).getStickerSet(MediaDataController.getInputStickerSet(tLRPC$StickerSetCovered.set), z2);
                                 if (tLRPC$TL_messages_stickerSet == null) {
-                                    i2++;
+                                    i3++;
                                     z2 = false;
                                 }
                                 if (tLRPC$TL_messages_stickerSet.set == null) {
-                                    int i3 = 0;
+                                    int i4 = 0;
                                     while (true) {
-                                        if (i3 >= this.packs.size()) {
+                                        if (i4 >= this.packs.size()) {
                                             z = false;
                                             break;
                                         }
-                                        TLRPC$StickerSet tLRPC$StickerSet = this.packs.get(i3).set;
+                                        TLRPC$StickerSet tLRPC$StickerSet = this.packs.get(i4).set;
                                         if (tLRPC$StickerSet != null && tLRPC$StickerSet.id == tLRPC$TL_messages_stickerSet.set.id) {
                                             z = true;
                                             break;
                                         }
-                                        i3++;
+                                        i4++;
                                     }
                                     if (!z) {
                                         this.stickerSets.add(tLRPC$TL_messages_stickerSet);
@@ -1251,6 +1267,9 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                                         this.itemsCount++;
                                         this.documents.addAll(tLRPC$TL_messages_stickerSet.documents);
                                         this.itemsCount += tLRPC$TL_messages_stickerSet.documents.size();
+                                        for (int i5 = 0; i5 < tLRPC$TL_messages_stickerSet.documents.size(); i5++) {
+                                            this.setByDocumentId.put(Long.valueOf(tLRPC$TL_messages_stickerSet.documents.get(i5).id), tLRPC$TL_messages_stickerSet);
+                                        }
                                         EmojiView.EmojiPack emojiPack2 = new EmojiView.EmojiPack();
                                         emojiPack2.documents = tLRPC$TL_messages_stickerSet.documents;
                                         emojiPack2.set = tLRPC$TL_messages_stickerSet.set;
@@ -1261,7 +1280,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                                         this.packs.add(emojiPack2);
                                     }
                                 }
-                                i2++;
+                                i3++;
                                 z2 = false;
                             } else if (tLRPC$StickerSetCovered instanceof TLRPC$TL_stickerSetFullCovered) {
                                 TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet5 = new TLRPC$TL_messages_stickerSet();
@@ -1272,11 +1291,11 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                                 tLRPC$TL_messages_stickerSet5.packs = arrayList;
                                 if (arrayList == null) {
                                     HashMap hashMap = new HashMap();
-                                    for (int i4 = 0; i4 < tLRPC$TL_messages_stickerSet5.documents.size(); i4++) {
-                                        TLRPC$Document tLRPC$Document = tLRPC$TL_messages_stickerSet5.documents.get(i4);
+                                    for (int i6 = 0; i6 < tLRPC$TL_messages_stickerSet5.documents.size(); i6++) {
+                                        TLRPC$Document tLRPC$Document = tLRPC$TL_messages_stickerSet5.documents.get(i6);
                                         if (tLRPC$Document != null && (parseEmojis = Emoji.parseEmojis(MessageObject.findAnimatedEmojiEmoticon(tLRPC$Document, null))) != null) {
-                                            for (int i5 = 0; i5 < parseEmojis.size(); i5++) {
-                                                String charSequence = parseEmojis.get(i5).code.toString();
+                                            for (int i7 = 0; i7 < parseEmojis.size(); i7++) {
+                                                String charSequence = parseEmojis.get(i7).code.toString();
                                                 ArrayList arrayList2 = (ArrayList) hashMap.get(charSequence);
                                                 if (arrayList2 == null) {
                                                     arrayList2 = new ArrayList();
@@ -1298,18 +1317,18 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                                 tLRPC$TL_messages_stickerSet = tLRPC$TL_messages_stickerSet5;
                                 if (tLRPC$TL_messages_stickerSet.set == null) {
                                 }
-                                i2++;
+                                i3++;
                                 z2 = false;
                             } else {
-                                i2++;
+                                i3++;
                                 z2 = false;
                             }
                         }
                     }
                     boolean z3 = false;
-                    for (int i6 = 0; i6 < this.allStickerSets.size(); i6++) {
+                    for (int i8 = 0; i8 < this.allStickerSets.size(); i8++) {
                         try {
-                            z3 = this.allStickerSets.get(i6).set.title.toLowerCase().contains("staticemoji");
+                            z3 = this.allStickerSets.get(i8).set.title.toLowerCase().contains("staticemoji");
                         } catch (Exception unused) {
                         }
                         if (z3) {
@@ -1323,19 +1342,19 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                 Page.this.resetOnce = true;
                 if (this.lastAllSetsCount != this.allStickerSets.size()) {
                     this.allEmojis.clear();
-                    for (int i7 = 0; i7 < this.allStickerSets.size(); i7++) {
-                        TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet6 = this.allStickerSets.get(i7);
+                    for (int i9 = 0; i9 < this.allStickerSets.size(); i9++) {
+                        TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet6 = this.allStickerSets.get(i9);
                         if (tLRPC$TL_messages_stickerSet6 != null) {
-                            for (int i8 = 0; i8 < tLRPC$TL_messages_stickerSet6.packs.size(); i8++) {
-                                String str2 = tLRPC$TL_messages_stickerSet6.packs.get(i8).emoticon;
-                                ArrayList<Long> arrayList3 = this.allEmojis.get(str2);
+                            for (int i10 = 0; i10 < tLRPC$TL_messages_stickerSet6.packs.size(); i10++) {
+                                String str3 = tLRPC$TL_messages_stickerSet6.packs.get(i10).emoticon;
+                                ArrayList<Long> arrayList3 = this.allEmojis.get(str3);
                                 if (arrayList3 == null) {
                                     HashMap<String, ArrayList<Long>> hashMap2 = this.allEmojis;
                                     ArrayList<Long> arrayList4 = new ArrayList<>();
-                                    hashMap2.put(str2, arrayList4);
+                                    hashMap2.put(str3, arrayList4);
                                     arrayList3 = arrayList4;
                                 }
-                                arrayList3.addAll(tLRPC$TL_messages_stickerSet6.packs.get(i8).documents);
+                                arrayList3.addAll(tLRPC$TL_messages_stickerSet6.packs.get(i10).documents);
                             }
                         }
                     }
@@ -1486,7 +1505,9 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                 if (itemViewType == 0) {
                     viewHolder.itemView.setTag(34);
                     viewHolder.itemView.setLayoutParams(new RecyclerView.LayoutParams(-1, (int) EmojiBottomSheet.this.maxPadding));
-                } else if (itemViewType == 1) {
+                    return;
+                }
+                if (itemViewType == 1) {
                     int i2 = this.positionToSection.get(i);
                     if (i2 < 0 || i2 >= this.stickerSets.size()) {
                         return;
@@ -1515,15 +1536,16 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                         return;
                     }
                     EmojiListView.EmojiImageView emojiImageView = (EmojiListView.EmojiImageView) viewHolder.itemView;
-                    if (Page.this.currentType != 0) {
-                        emojiImageView.setEmoji(null);
+                    int i3 = Page.this.currentType;
+                    if (i3 != 0) {
+                        emojiImageView.setEmoji(null, i3 == 1);
                         emojiImageView.setSticker(tLRPC$Document);
                     } else if (tLRPC$Document != null) {
                         emojiImageView.setSticker(null);
-                        emojiImageView.setEmoji(tLRPC$Document);
+                        emojiImageView.setEmoji(tLRPC$Document, Page.this.currentType == 1);
                     } else {
                         emojiImageView.setSticker(null);
-                        emojiImageView.setEmojiId(longValue);
+                        emojiImageView.setEmojiId(longValue, Page.this.currentType == 1);
                     }
                 }
             }
@@ -1882,7 +1904,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
             for (View view : viewPages) {
                 if (view instanceof IPage) {
                     IPage iPage = (IPage) view;
-                    EmojiBottomSheet.access$6316(EmojiBottomSheet.this, iPage.top() * Utilities.clamp(1.0f - Math.abs(iPage.getTranslationX() / iPage.getMeasuredWidth()), 1.0f, 0.0f));
+                    EmojiBottomSheet.access$6416(EmojiBottomSheet.this, iPage.top() * Utilities.clamp(1.0f - Math.abs(iPage.getTranslationX() / iPage.getMeasuredWidth()), 1.0f, 0.0f));
                     if (iPage.getVisibility() == 0) {
                         iPage.updateTops();
                     }
@@ -1998,7 +2020,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                 this.listView = emojiListView;
             }
 
-            public void setEmoji(TLRPC$Document tLRPC$Document) {
+            public void setEmoji(TLRPC$Document tLRPC$Document, boolean z) {
                 if (this.documentId == (tLRPC$Document == null ? 0L : tLRPC$Document.id)) {
                     return;
                 }
@@ -2009,7 +2031,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                 if (tLRPC$Document != null) {
                     this.emoji = true;
                     this.documentId = tLRPC$Document.id;
-                    AnimatedEmojiDrawable make = AnimatedEmojiDrawable.make(this.currentAccount, 3, tLRPC$Document);
+                    AnimatedEmojiDrawable make = AnimatedEmojiDrawable.make(this.currentAccount, EmojiBottomSheet.getCacheType(z), tLRPC$Document);
                     this.drawable = make;
                     if (this.attached) {
                         make.addView(this);
@@ -2027,7 +2049,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                 this.listView.invalidate();
             }
 
-            public void setEmojiId(long j) {
+            public void setEmojiId(long j, boolean z) {
                 if (this.documentId == j) {
                     return;
                 }
@@ -2038,7 +2060,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                 if (j != 0) {
                     this.emoji = true;
                     this.documentId = j;
-                    AnimatedEmojiDrawable make = AnimatedEmojiDrawable.make(this.currentAccount, 3, j);
+                    AnimatedEmojiDrawable make = AnimatedEmojiDrawable.make(this.currentAccount, EmojiBottomSheet.getCacheType(z), j);
                     this.drawable = make;
                     if (this.attached) {
                         make.addView(this);
@@ -2062,6 +2084,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
             }
 
             public void setSticker(TLRPC$Document tLRPC$Document) {
+                String str;
                 this.emoji = false;
                 if (tLRPC$Document != null) {
                     long j = this.documentId;
@@ -2081,9 +2104,14 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                     }
                     this.imageReceiver.setParentView(!this.emoji ? this : this.listView);
                     TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90);
-                    String str = "80_80";
+                    String str2 = "80_80";
                     if ("video/webm".equals(tLRPC$Document.mime_type)) {
-                        str = "80_80_g";
+                        str2 = "80_80_g";
+                    }
+                    if (LiteMode.isEnabled(1)) {
+                        str = str2;
+                    } else {
+                        str = str2 + "_firstframe";
                     }
                     this.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$Document), str, ImageLocation.getForDocument(closestPhotoSizeWithSize, tLRPC$Document), "80_80", null, 0L, null, tLRPC$Document, 0);
                     return;
@@ -3345,5 +3373,9 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                 baseWidget.onAttachToWindow(false);
             }
         }
+    }
+
+    public static int getCacheType(boolean z) {
+        return LiteMode.isEnabled(z ? 1 : LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD) ? 3 : 13;
     }
 }

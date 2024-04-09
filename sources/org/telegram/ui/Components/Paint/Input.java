@@ -86,7 +86,7 @@ public class Input {
     }
 
     private void fill(Brush brush, final boolean z, final Runnable runnable) {
-        if (!this.canFill || this.lastLocation == null) {
+        if (!this.canFill || this.renderView.getPainting().masking || this.lastLocation == null) {
             return;
         }
         if (brush == null) {
@@ -186,8 +186,9 @@ public class Input {
 
     /* JADX WARN: Removed duplicated region for block: B:20:0x009c  */
     /* JADX WARN: Removed duplicated region for block: B:23:0x00cf  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x021e A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x021f  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x01d7  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x0206 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0207  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -262,9 +263,7 @@ public class Input {
                                     this.arrowAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Paint.Input.2
                                         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                                         public void onAnimationEnd(Animator animator) {
-                                            if (!Input.this.renderView.getCurrentBrush().isEraser() || Input.this.renderView.getUndoStore().canUndo()) {
-                                                Input.this.renderView.getPainting().commitPath(null, Input.this.renderView.getCurrentColor());
-                                            }
+                                            Input.this.renderView.getPainting().commitPath(null, Input.this.renderView.getCurrentColor());
                                             Input.this.arrowAnimator = null;
                                         }
                                     });
@@ -272,7 +271,7 @@ public class Input {
                                     this.arrowAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
                                     this.arrowAnimator.start();
                                     z2 = false;
-                                    if (z2 && (!this.renderView.getCurrentBrush().isEraser() || this.renderView.getUndoStore().canUndo())) {
+                                    if (z2) {
                                         this.renderView.getPainting().commitPath(null, this.renderView.getCurrentColor(), true, new Runnable() { // from class: org.telegram.ui.Components.Paint.Input$$ExternalSyntheticLambda2
                                             @Override // java.lang.Runnable
                                             public final void run() {
@@ -284,12 +283,6 @@ public class Input {
                             }
                             z2 = true;
                             if (z2) {
-                                this.renderView.getPainting().commitPath(null, this.renderView.getCurrentColor(), true, new Runnable() { // from class: org.telegram.ui.Components.Paint.Input$$ExternalSyntheticLambda2
-                                    @Override // java.lang.Runnable
-                                    public final void run() {
-                                        Input.this.lambda$process$3();
-                                    }
-                                });
                             }
                         }
                         this.pointsCount = 0;
@@ -363,11 +356,13 @@ public class Input {
                         }
                     }
                     this.points[this.pointsCount] = point;
-                    if (System.currentTimeMillis() - this.drawingStart > 3000) {
-                        this.detector.clear();
-                        this.renderView.getPainting().setHelperShape(null);
-                    } else if ((this.renderView.getCurrentBrush() instanceof Brush.Radial) || (this.renderView.getCurrentBrush() instanceof Brush.Elliptical)) {
-                        this.detector.append(point.x, point.y, distanceTo > ((float) AndroidUtilities.dp(6.0f)) / f);
+                    if (this.renderView.getPainting() == null || !this.renderView.getPainting().masking) {
+                        if (System.currentTimeMillis() - this.drawingStart > 3000) {
+                            this.detector.clear();
+                            this.renderView.getPainting().setHelperShape(null);
+                        } else if ((this.renderView.getCurrentBrush() instanceof Brush.Radial) || (this.renderView.getCurrentBrush() instanceof Brush.Elliptical)) {
+                            this.detector.append(point.x, point.y, distanceTo > ((float) AndroidUtilities.dp(6.0f)) / f);
+                        }
                     }
                     int i = this.pointsCount + 1;
                     this.pointsCount = i;

@@ -43,6 +43,10 @@ public class ImageUtils {
         return ObjectWrapper.wrap((Bitmap) Preconditions.checkNotNull(inputImage.getBitmapInternal()));
     }
 
+    public int getMobileVisionImageFormat(InputImage inputImage) {
+        return inputImage.getFormat();
+    }
+
     public int getMobileVisionImageSize(InputImage inputImage) {
         if (inputImage.getFormat() == -1) {
             return ((Bitmap) Preconditions.checkNotNull(inputImage.getBitmapInternal())).getAllocationByteCount();

@@ -3119,8 +3119,8 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         }
 
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Removed duplicated region for block: B:202:0x049c  */
-        /* JADX WARN: Removed duplicated region for block: B:203:0x04a6  */
+        /* JADX WARN: Removed duplicated region for block: B:200:0x049d  */
+        /* JADX WARN: Removed duplicated region for block: B:201:0x04a7  */
         @Override // org.telegram.ui.Components.SlideView
         /* renamed from: onNextPressed */
         /*
@@ -3132,11 +3132,10 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             boolean z;
             boolean z2;
             boolean z3;
+            boolean z4;
             TLRPC$TL_auth_sendCode tLRPC$TL_auth_sendCode;
             final Bundle bundle;
             String str3;
-            boolean z4;
-            String line1Number;
             boolean z5;
             int i2;
             if (LoginActivity.this.getParentActivity() == null || this.nextPressed || LoginActivity.this.isRequestingFirebaseSms) {
@@ -3320,50 +3319,47 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 }
                 if (tLRPC$TL_codeSettings.allow_flashcall) {
                     try {
-                        line1Number = telephonyManager.getLine1Number();
-                        z4 = TextUtils.isEmpty(line1Number);
-                    } catch (Exception e2) {
-                        e = e2;
-                        z4 = false;
-                    }
-                    try {
-                        if (!z4) {
-                            boolean compare = PhoneNumberUtils.compare(stripExceptNumbers, line1Number);
-                            tLRPC$TL_codeSettings.current_number = compare;
-                            if (!compare) {
-                                z4 = false;
-                                tLRPC$TL_codeSettings.allow_flashcall = false;
-                            }
-                        } else if (UserConfig.getActivatedAccountsCount() > 0) {
-                            z4 = false;
-                            tLRPC$TL_codeSettings.allow_flashcall = false;
+                        String line1Number = telephonyManager.getLine1Number();
+                        if (!TextUtils.isEmpty(line1Number)) {
+                            tLRPC$TL_codeSettings.unknown_number = false;
+                            tLRPC$TL_codeSettings.current_number = PhoneNumberUtils.compare(stripExceptNumbers, line1Number);
                         } else {
-                            z4 = false;
-                            tLRPC$TL_codeSettings.current_number = false;
+                            z4 = true;
+                            try {
+                                tLRPC$TL_codeSettings.unknown_number = true;
+                                if (UserConfig.getActivatedAccountsCount() > 0) {
+                                    tLRPC$TL_codeSettings.allow_flashcall = false;
+                                } else {
+                                    tLRPC$TL_codeSettings.current_number = false;
+                                }
+                            } catch (Exception e2) {
+                                e = e2;
+                                tLRPC$TL_codeSettings.unknown_number = z4;
+                                FileLog.e(e);
+                                if (LoginActivity.this.activityMode == 2) {
+                                }
+                                final TLRPC$TL_auth_sendCode tLRPC$TL_auth_sendCode2 = tLRPC$TL_auth_sendCode;
+                                bundle = new Bundle();
+                                bundle.putString("phone", "+" + ((Object) this.codeField.getText()) + " " + ((Object) this.phoneField.getText()));
+                                str3 = str2;
+                                bundle.putString(str3, "+" + PhoneFormat.stripExceptNumbers(this.codeField.getText().toString()) + " " + PhoneFormat.stripExceptNumbers(this.phoneField.getText().toString()));
+                                bundle.putString("phoneFormated", stripExceptNumbers);
+                                this.nextPressed = true;
+                                final PhoneInputData phoneInputData = new PhoneInputData();
+                                phoneInputData.phoneNumber = "+" + ((Object) this.codeField.getText()) + " " + ((Object) this.phoneField.getText());
+                                phoneInputData.country = this.currentCountry;
+                                phoneInputData.patterns = this.phoneFormatMap.get(this.codeField.getText().toString());
+                                LoginActivity.this.needShowProgress(ConnectionsManager.getInstance(((BaseFragment) LoginActivity.this).currentAccount).sendRequest(tLRPC$TL_auth_sendCode2, new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$PhoneView$$ExternalSyntheticLambda19
+                                    @Override // org.telegram.tgnet.RequestDelegate
+                                    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                                        LoginActivity.PhoneView.this.lambda$onNextPressed$20(bundle, stripExceptNumbers, phoneInputData, tLRPC$TL_auth_sendCode2, tLObject, tLRPC$TL_error);
+                                    }
+                                }, 27));
+                            }
                         }
                     } catch (Exception e3) {
                         e = e3;
-                        tLRPC$TL_codeSettings.allow_flashcall = z4;
-                        FileLog.e(e);
-                        if (LoginActivity.this.activityMode == 2) {
-                        }
-                        final TLRPC$TL_auth_sendCode tLRPC$TL_auth_sendCode2 = tLRPC$TL_auth_sendCode;
-                        bundle = new Bundle();
-                        bundle.putString("phone", "+" + ((Object) this.codeField.getText()) + " " + ((Object) this.phoneField.getText()));
-                        str3 = str2;
-                        bundle.putString(str3, "+" + PhoneFormat.stripExceptNumbers(this.codeField.getText().toString()) + " " + PhoneFormat.stripExceptNumbers(this.phoneField.getText().toString()));
-                        bundle.putString("phoneFormated", stripExceptNumbers);
-                        this.nextPressed = true;
-                        final PhoneInputData phoneInputData = new PhoneInputData();
-                        phoneInputData.phoneNumber = "+" + ((Object) this.codeField.getText()) + " " + ((Object) this.phoneField.getText());
-                        phoneInputData.country = this.currentCountry;
-                        phoneInputData.patterns = this.phoneFormatMap.get(this.codeField.getText().toString());
-                        LoginActivity.this.needShowProgress(ConnectionsManager.getInstance(((BaseFragment) LoginActivity.this).currentAccount).sendRequest(tLRPC$TL_auth_sendCode2, new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$PhoneView$$ExternalSyntheticLambda19
-                            @Override // org.telegram.tgnet.RequestDelegate
-                            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                                LoginActivity.PhoneView.this.lambda$onNextPressed$20(bundle, stripExceptNumbers, phoneInputData, tLRPC$TL_auth_sendCode2, tLObject, tLRPC$TL_error);
-                            }
-                        }, 27));
+                        z4 = true;
                     }
                 }
                 if (LoginActivity.this.activityMode == 2) {

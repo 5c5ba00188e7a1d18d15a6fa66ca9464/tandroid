@@ -19,6 +19,12 @@ public abstract class zzaq extends zzam implements List, RandomAccess {
         return new zzaw(objArr, i);
     }
 
+    public static zzaq zzh(Object obj) {
+        Object[] objArr = {obj};
+        zzav.zza(objArr, 1);
+        return zzg(objArr, 1);
+    }
+
     public static zzaq zzi(Object obj, Object obj2, Object obj3, Object obj4, Object obj5, Object obj6, Object obj7, Object obj8, Object obj9) {
         Object[] objArr = {obj, obj2, obj3, obj4, obj5, obj6, obj7, obj8, obj9};
         zzav.zza(objArr, 9);

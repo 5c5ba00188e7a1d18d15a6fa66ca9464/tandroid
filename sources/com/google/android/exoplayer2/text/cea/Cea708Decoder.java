@@ -349,8 +349,8 @@ public final class Cea708Decoder extends CeaDecoder {
                     handleSetWindowAttributes();
                     return;
                 }
-            case MessagesStorage.LAST_DB_VERSION /* 152 */:
-            case 153:
+            case 152:
+            case MessagesStorage.LAST_DB_VERSION /* 153 */:
             case 154:
             case 155:
             case 156:

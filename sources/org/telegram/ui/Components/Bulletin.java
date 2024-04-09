@@ -108,6 +108,10 @@ public class Bulletin {
                 return true;
             }
 
+            public static boolean $default$bottomOffsetAnimated(Delegate delegate) {
+                return true;
+            }
+
             public static boolean $default$clipWithGradient(Delegate delegate, int i) {
                 return false;
             }
@@ -131,6 +135,8 @@ public class Bulletin {
         }
 
         boolean allowLayoutChanges();
+
+        boolean bottomOffsetAnimated();
 
         boolean clipWithGradient(int i);
 
@@ -1089,13 +1095,13 @@ public class Bulletin {
 
         public float getBottomOffset() {
             int bottomOffset;
-            Bulletin bulletin = this.bulletin;
-            if (bulletin != null && bulletin.bottomOffsetSpring != null && this.bulletin.bottomOffsetSpring.isRunning()) {
+            Delegate delegate;
+            if (this.bulletin != null && (((delegate = this.delegate) == null || delegate.bottomOffsetAnimated()) && this.bulletin.bottomOffsetSpring != null && this.bulletin.bottomOffsetSpring.isRunning())) {
                 bottomOffset = this.bulletin.lastBottomOffset;
             } else {
-                Delegate delegate = this.delegate;
-                Bulletin bulletin2 = this.bulletin;
-                bottomOffset = delegate.getBottomOffset(bulletin2 != null ? bulletin2.tag : 0);
+                Delegate delegate2 = this.delegate;
+                Bulletin bulletin = this.bulletin;
+                bottomOffset = delegate2.getBottomOffset(bulletin != null ? bulletin.tag : 0);
             }
             return bottomOffset;
         }
@@ -1601,7 +1607,7 @@ public class Bulletin {
             this.reactionsContainerLayout.setBubbleOffset(-AndroidUtilities.dp(80.0f));
             this.reactionsContainerLayout.setHint(LocaleController.getString(R.string.SavedTagReactionsHint));
             addView(this.reactionsContainerLayout, LayoutHelper.createFrame(-2, 92.5f, 1, 0.0f, 36.0f, 0.0f, 0.0f));
-            this.reactionsContainerLayout.setMessage(null, null);
+            this.reactionsContainerLayout.setMessage(null, null, true);
         }
 
         /* loaded from: classes3.dex */
@@ -2270,6 +2276,11 @@ public class Bulletin {
                 @Override // org.telegram.ui.Components.Bulletin.Delegate
                 public /* synthetic */ boolean allowLayoutChanges() {
                     return Delegate.-CC.$default$allowLayoutChanges(this);
+                }
+
+                @Override // org.telegram.ui.Components.Bulletin.Delegate
+                public /* synthetic */ boolean bottomOffsetAnimated() {
+                    return Delegate.-CC.$default$bottomOffsetAnimated(this);
                 }
 
                 @Override // org.telegram.ui.Components.Bulletin.Delegate

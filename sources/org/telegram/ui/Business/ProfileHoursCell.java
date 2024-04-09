@@ -186,15 +186,14 @@ public class ProfileHoursCell extends LinearLayout {
     public void set(TLRPC$TL_businessWorkHours tLRPC$TL_businessWorkHours, boolean z, boolean z2, boolean z3) {
         boolean z4;
         ArrayList<OpeningHoursActivity.Period>[] arrayListArr;
-        ArrayList<OpeningHoursActivity.Period>[] arrayListArr2;
+        ArrayList<TLRPC$TL_businessWeeklyOpen> arrayList;
         boolean z5;
-        boolean z6;
         int i;
         int i2;
         int i3;
         float f;
-        boolean z7 = z;
-        this.expanded = z7;
+        boolean z6 = z;
+        this.expanded = z6;
         this.needDivider = z3;
         if (tLRPC$TL_businessWorkHours == null) {
             return;
@@ -202,7 +201,7 @@ public class ProfileHoursCell extends LinearLayout {
         boolean is24x7 = OpeningHoursActivity.is24x7(tLRPC$TL_businessWorkHours);
         if (is24x7) {
             this.expanded = false;
-            z7 = false;
+            z6 = false;
         }
         int i4 = 8;
         this.arrowView.setVisibility(is24x7 ? 8 : 0);
@@ -215,21 +214,21 @@ public class ProfileHoursCell extends LinearLayout {
             i4 = 0;
         }
         clickableAnimatedTextView.setVisibility(i4);
-        boolean z8 = rawOffset == 0 ? false : z2;
+        boolean z7 = rawOffset == 0 ? false : z2;
         invalidate();
         int i5 = 1;
         if (this.firstAfterAttach) {
-            this.labelTimeText[0].setAlpha((z7 || z8) ? 0.0f : 1.0f);
-            this.labelTimeText[1].setAlpha((z7 || !z8) ? 0.0f : 1.0f);
-            this.arrowView.setRotation(z7 ? 180.0f : 0.0f);
+            this.labelTimeText[0].setAlpha((z6 || z7) ? 0.0f : 1.0f);
+            this.labelTimeText[1].setAlpha((z6 || !z7) ? 0.0f : 1.0f);
+            this.arrowView.setRotation(z6 ? 180.0f : 0.0f);
         } else {
-            ViewPropertyAnimator duration = this.labelTimeText[0].animate().alpha((z7 || z8) ? 0.0f : 1.0f).setDuration(320L);
+            ViewPropertyAnimator duration = this.labelTimeText[0].animate().alpha((z6 || z7) ? 0.0f : 1.0f).setDuration(320L);
             CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
             duration.setInterpolator(cubicBezierInterpolator).start();
-            this.labelTimeText[1].animate().alpha((z7 || !z8) ? 0.0f : 1.0f).setDuration(320L).setInterpolator(cubicBezierInterpolator).start();
-            this.timeText[0][0].animate().alpha(z7 ? 1.0f : 0.0f).setDuration(320L).setInterpolator(cubicBezierInterpolator).start();
-            this.timeText[0][1].animate().alpha(z7 ? 1.0f : 0.0f).setDuration(320L).setInterpolator(cubicBezierInterpolator).start();
-            this.arrowView.animate().rotation(z7 ? 180.0f : 0.0f).setDuration(320L).setInterpolator(cubicBezierInterpolator).start();
+            this.labelTimeText[1].animate().alpha((z6 || !z7) ? 0.0f : 1.0f).setDuration(320L).setInterpolator(cubicBezierInterpolator).start();
+            this.timeText[0][0].animate().alpha(z6 ? 1.0f : 0.0f).setDuration(320L).setInterpolator(cubicBezierInterpolator).start();
+            this.timeText[0][1].animate().alpha(z6 ? 1.0f : 0.0f).setDuration(320L).setInterpolator(cubicBezierInterpolator).start();
+            this.arrowView.animate().rotation(z6 ? 180.0f : 0.0f).setDuration(320L).setInterpolator(cubicBezierInterpolator).start();
         }
         int i6 = 0;
         while (i6 < this.timeText.length) {
@@ -237,8 +236,8 @@ public class ProfileHoursCell extends LinearLayout {
             while (true) {
                 TextView[][] textViewArr = this.timeText;
                 if (i7 < textViewArr[i6].length) {
-                    if (i6 != 0 || z7) {
-                        if ((i7 == i5) == z8) {
+                    if (i6 != 0 || z6) {
+                        if ((i7 == i5) == z7) {
                             f = 1.0f;
                             if (!this.firstAfterAttach) {
                                 textViewArr[i6][i7].setAlpha(f);
@@ -261,11 +260,10 @@ public class ProfileHoursCell extends LinearLayout {
         }
         ClickableAnimatedTextView clickableAnimatedTextView2 = this.switchText;
         if (clickableAnimatedTextView2 != null) {
-            clickableAnimatedTextView2.setText(LocaleController.getString(z8 ? R.string.BusinessHoursProfileSwitchMy : R.string.BusinessHoursProfileSwitchLocal), (LocaleController.isRTL || this.firstAfterAttach) ? false : true);
+            clickableAnimatedTextView2.setText(LocaleController.getString(z7 ? R.string.BusinessHoursProfileSwitchMy : R.string.BusinessHoursProfileSwitchLocal), (LocaleController.isRTL || this.firstAfterAttach) ? false : true);
         }
         this.firstAfterAttach = false;
-        ArrayList arrayList = new ArrayList(tLRPC$TL_businessWorkHours.weekly_open);
-        ArrayList<OpeningHoursActivity.Period>[] daysHours = OpeningHoursActivity.getDaysHours(arrayList);
+        ArrayList<OpeningHoursActivity.Period>[] daysHours = OpeningHoursActivity.getDaysHours(new ArrayList(tLRPC$TL_businessWorkHours.weekly_open));
         int i8 = 7;
         int i9 = ((calendar.get(7) + 7) - 2) % 7;
         int i10 = calendar.get(11);
@@ -290,25 +288,23 @@ public class ProfileHoursCell extends LinearLayout {
         this.todayLinesHeight = 0;
         int i17 = 0;
         for (int i18 = 2; i17 < i18; i18 = 2) {
-            ArrayList<OpeningHoursActivity.Period>[] arrayListArr3 = i17 == 0 ? daysHours : daysHours2;
+            ArrayList<OpeningHoursActivity.Period>[] arrayListArr2 = i17 == 0 ? daysHours : daysHours2;
             int i19 = 0;
             while (i19 < i8) {
                 int i20 = (i9 + i19) % 7;
                 if (i19 == 0) {
                     this.labelText[i19].setText(LocaleController.getString(R.string.BusinessHoursProfile));
-                    arrayListArr = daysHours2;
-                    arrayListArr2 = daysHours;
+                    arrayListArr = daysHours;
                 } else {
-                    arrayListArr = daysHours2;
                     String displayName = DayOfWeek.values()[i20].getDisplayName(TextStyle.FULL, LocaleController.getInstance().getCurrentLocale());
                     StringBuilder sb = new StringBuilder();
-                    arrayListArr2 = daysHours;
+                    arrayListArr = daysHours;
                     sb.append(displayName.substring(0, 1).toUpperCase());
                     sb.append(displayName.substring(1));
                     this.labelText[i19].setText(sb.toString());
-                    this.timeText[i19][0].setVisibility(z7 ? 0 : 4);
-                    this.timeText[i19][1].setVisibility(z7 ? 0 : 4);
-                    this.labelText[i19].setVisibility(z7 ? 0 : 4);
+                    this.timeText[i19][0].setVisibility(z6 ? 0 : 4);
+                    this.timeText[i19][1].setVisibility(z6 ? 0 : 4);
+                    this.labelText[i19].setVisibility(z6 ? 0 : 4);
                 }
                 int i21 = 0;
                 while (true) {
@@ -317,20 +313,20 @@ public class ProfileHoursCell extends LinearLayout {
                         if (i19 == 0 && !z4 && i21 == 1) {
                             int i22 = 0;
                             while (true) {
-                                z5 = z7;
-                                if (i22 >= arrayList.size()) {
+                                z5 = z6;
+                                if (i22 >= adaptWeeklyOpen.size()) {
                                     i = -1;
                                     break;
                                 }
-                                i = ((TLRPC$TL_businessWeeklyOpen) arrayList.get(i22)).start_minute;
+                                i = adaptWeeklyOpen.get(i22).start_minute;
                                 if (i12 < i) {
                                     break;
                                 }
                                 i22++;
-                                z7 = z5;
+                                z6 = z5;
                             }
-                            if (i == -1 && !arrayList.isEmpty()) {
-                                i = ((TLRPC$TL_businessWeeklyOpen) arrayList.get(0)).start_minute;
+                            if (i == -1 && !adaptWeeklyOpen.isEmpty()) {
+                                i = adaptWeeklyOpen.get(0).start_minute;
                             }
                             if (i == -1) {
                                 textView.setText(LocaleController.getString(R.string.BusinessHoursProfileClose));
@@ -339,32 +335,32 @@ public class ProfileHoursCell extends LinearLayout {
                                 if (i23 < 60) {
                                     textView.setText(LocaleController.formatPluralString("BusinessHoursProfileOpensInMinutes", i23, new Object[0]));
                                 } else if (i23 < 1440) {
-                                    z6 = z4;
+                                    arrayList = adaptWeeklyOpen;
                                     textView.setText(LocaleController.formatPluralString("BusinessHoursProfileOpensInHours", (int) Math.ceil(i23 / 60.0f), new Object[0]));
                                 } else {
-                                    z6 = z4;
+                                    arrayList = adaptWeeklyOpen;
                                     textView.setText(LocaleController.formatPluralString("BusinessHoursProfileOpensInDays", (int) Math.ceil((i23 / 60.0f) / 24.0f), new Object[0]));
                                 }
                             }
-                            z6 = z4;
+                            arrayList = adaptWeeklyOpen;
                         } else {
-                            z5 = z7;
-                            z6 = z4;
+                            arrayList = adaptWeeklyOpen;
+                            z5 = z6;
                             if (is24x7) {
                                 textView.setText(LocaleController.getString(R.string.BusinessHoursProfileFullOpen));
-                            } else if (arrayListArr3[i20].isEmpty()) {
+                            } else if (arrayListArr2[i20].isEmpty()) {
                                 textView.setText(LocaleController.getString(R.string.BusinessHoursProfileClose));
-                            } else if (OpeningHoursActivity.isFull(arrayListArr3[i20])) {
+                            } else if (OpeningHoursActivity.isFull(arrayListArr2[i20])) {
                                 textView.setText(LocaleController.getString(R.string.BusinessHoursProfileOpen));
                             } else {
                                 StringBuilder sb2 = new StringBuilder();
-                                for (int i24 = 0; i24 < arrayListArr3[i20].size(); i24++) {
+                                for (int i24 = 0; i24 < arrayListArr2[i20].size(); i24++) {
                                     if (i24 > 0) {
                                         sb2.append("\n");
                                     }
-                                    sb2.append(arrayListArr3[i20].get(i24));
+                                    sb2.append(arrayListArr2[i20].get(i24));
                                 }
-                                int size = arrayListArr3[i20].size();
+                                int size = arrayListArr2[i20].size();
                                 textView.setText(sb2);
                                 if (i19 == 0) {
                                     this.todayLinesCount = Math.max(this.todayLinesCount, size);
@@ -373,16 +369,17 @@ public class ProfileHoursCell extends LinearLayout {
                             }
                         }
                         i21++;
-                        z4 = z6;
-                        z7 = z5;
+                        adaptWeeklyOpen = arrayList;
+                        z6 = z5;
                     }
                 }
                 i19++;
-                daysHours2 = arrayListArr;
-                daysHours = arrayListArr2;
+                daysHours = arrayListArr;
+                z6 = z6;
                 i8 = 7;
             }
             i17++;
+            z6 = z6;
             i8 = 7;
         }
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) this.todayTimeContainer.getLayoutParams();

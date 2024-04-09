@@ -25,6 +25,7 @@ import javax.microedition.khronos.egl.EGLDisplay;
 import javax.microedition.khronos.egl.EGLSurface;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.DispatchQueue;
+import org.telegram.messenger.EmuDetector;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LiteMode;
@@ -49,7 +50,7 @@ public class ThanosEffect extends TextureView {
     private Runnable whenDone;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* synthetic */ void access$400(ThanosEffect thanosEffect) {
+    public static /* synthetic */ void access$500(ThanosEffect thanosEffect) {
         thanosEffect.destroy();
     }
 
@@ -149,9 +150,10 @@ public class ThanosEffect extends TextureView {
             thanosEffect.drawThread = new DrawingThread(surfaceTexture, runnable, new Runnable() { // from class: org.telegram.ui.Components.ThanosEffect$2$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
-                    ThanosEffect.access$400(ThanosEffect.this);
+                    ThanosEffect.access$500(ThanosEffect.this);
                 }
             }, i, i2);
+            ThanosEffect.this.drawThread.isEmulator = EmuDetector.with(ThanosEffect.this.getContext()).detect();
             if (ThanosEffect.this.toSet.isEmpty()) {
                 return;
             }
@@ -309,6 +311,7 @@ public class ThanosEffect extends TextureView {
         private int gridSizeHandle;
         private int height;
         private final Runnable invalidate;
+        private boolean isEmulator;
         private int longevityHandle;
         private int matrixHandle;
         private int offsetHandle;
@@ -318,6 +321,7 @@ public class ThanosEffect extends TextureView {
         private int rectSizeHandle;
         private int resetHandle;
         public volatile boolean running;
+        private int scaleHandle;
         private int seedHandle;
         private int sizeHandle;
         private final SurfaceTexture surfaceTexture;
@@ -325,6 +329,7 @@ public class ThanosEffect extends TextureView {
         private int timeHandle;
         private final ArrayList<Animation> toAddAnimations;
         private final ArrayList<Animation> toRunStartCallback;
+        private int uvOffsetHandle;
         private int width;
 
         public DrawingThread(SurfaceTexture surfaceTexture, Runnable runnable, Runnable runnable2, int i, int i2) {
@@ -554,6 +559,8 @@ public class ThanosEffect extends TextureView {
                     this.densityHandle = GLES31.glGetUniformLocation(this.drawProgram, "dp");
                     this.longevityHandle = GLES31.glGetUniformLocation(this.drawProgram, "longevity");
                     this.offsetHandle = GLES31.glGetUniformLocation(this.drawProgram, "offset");
+                    this.scaleHandle = GLES31.glGetUniformLocation(this.drawProgram, "scale");
+                    this.uvOffsetHandle = GLES31.glGetUniformLocation(this.drawProgram, "uvOffset");
                     GLES31.glViewport(0, 0, this.width, this.height);
                     GLES31.glEnable(3042);
                     GLES31.glBlendFunc(770, 771);
@@ -785,6 +792,13 @@ public class ThanosEffect extends TextureView {
             GLES20.glBindTexture(3553, 0);
             animation.bitmap.recycle();
             animation.bitmap = null;
+            if (animation.isPhotoEditor) {
+                Iterator<Animation> it = this.pendingAnimations.iterator();
+                while (it.hasNext()) {
+                    it.next().done(true);
+                }
+                this.pendingAnimations.clear();
+            }
             this.pendingAnimations.add(animation);
             this.running = true;
         }
@@ -804,6 +818,7 @@ public class ThanosEffect extends TextureView {
             public float gridSize;
             public int gridWidth;
             public boolean invalidateMatrix;
+            private boolean isPhotoEditor;
             private long lastDrawTime;
             public float left;
             public float longevity;
@@ -843,6 +858,7 @@ public class ThanosEffect extends TextureView {
                 this.seed = (float) (Math.random() * 2.0d);
                 this.texture = new int[1];
                 this.buffer = new int[2];
+                this.isPhotoEditor = true;
                 float[] fArr = {0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f};
                 matrix.mapPoints(fArr);
                 this.left = fArr[0];
@@ -854,6 +870,8 @@ public class ThanosEffect extends TextureView {
                 retrieveMatrixValues();
                 this.startCallback = runnable;
                 this.doneCallback = runnable2;
+                this.longevity = 4.0f;
+                this.time = -0.1f;
                 this.bitmap = bitmap;
             }
 
@@ -1244,7 +1262,10 @@ public class ThanosEffect extends TextureView {
                 int i;
                 int i2;
                 int devicePerformanceClass = SharedConfig.getDevicePerformanceClass();
-                int i3 = devicePerformanceClass != 1 ? devicePerformanceClass != 2 ? 30000 : 120000 : 60000;
+                int i3 = DrawingThread.this.isEmulator ? 120000 : devicePerformanceClass != 1 ? devicePerformanceClass != 2 ? 30000 : 120000 : 60000;
+                if (this.isPhotoEditor) {
+                    i3 /= 2;
+                }
                 float max = Math.max(AndroidUtilities.dpf2(0.4f), 1.0f);
                 int clamp = Utilities.clamp((int) ((this.viewWidth * this.viewHeight) / (max * max)), (int) (i3 * f), 10);
                 this.particlesCount = clamp;
@@ -1423,6 +1444,8 @@ public class ThanosEffect extends TextureView {
                 GLES31.glUniform1f(DrawingThread.this.particlesCountHandle, this.particlesCount);
                 GLES31.glUniform3f(DrawingThread.this.gridSizeHandle, this.gridWidth, this.gridHeight, this.gridSize);
                 GLES31.glUniform2f(DrawingThread.this.offsetHandle, this.offsetLeft, this.offsetTop);
+                GLES31.glUniform1f(DrawingThread.this.scaleHandle, this.isPhotoEditor ? 0.8f : 1.0f);
+                GLES31.glUniform1f(DrawingThread.this.uvOffsetHandle, this.isPhotoEditor ? 1.0f : 0.6f);
                 GLES31.glUniform2f(DrawingThread.this.rectSizeHandle, this.viewWidth, this.viewHeight);
                 GLES31.glUniform1f(DrawingThread.this.seedHandle, this.seed);
                 GLES31.glUniform2f(DrawingThread.this.rectPosHandle, 0.0f, 0.0f);
@@ -1459,7 +1482,7 @@ public class ThanosEffect extends TextureView {
             }
 
             public boolean isDead() {
-                return this.time > this.longevity + 0.9f;
+                return this.time > this.longevity + (this.isPhotoEditor ? 2.0f : 0.9f);
             }
 
             public void done(boolean z) {

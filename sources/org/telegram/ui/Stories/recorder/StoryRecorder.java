@@ -182,6 +182,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
     private View changeDayNightView;
     private ValueAnimator changeDayNightViewAnimator;
     private float changeDayNightViewProgress;
+    private Runnable closeListener;
     private ClosingViewProvider closingSourceProvider;
     private ContainerView containerView;
     private ValueAnimator containerViewBackAnimator;
@@ -2031,6 +2032,11 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             }
 
             @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public /* synthetic */ boolean bottomOffsetAnimated() {
+                return Bulletin.Delegate.-CC.$default$bottomOffsetAnimated(this);
+            }
+
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
             public boolean clipWithGradient(int i2) {
                 return true;
             }
@@ -2213,6 +2219,11 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             @Override // org.telegram.ui.Components.Bulletin.Delegate
             public /* synthetic */ boolean allowLayoutChanges() {
                 return Bulletin.Delegate.-CC.$default$allowLayoutChanges(this);
+            }
+
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public /* synthetic */ boolean bottomOffsetAnimated() {
+                return Bulletin.Delegate.-CC.$default$bottomOffsetAnimated(this);
             }
 
             @Override // org.telegram.ui.Components.Bulletin.Delegate
@@ -3184,6 +3195,11 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             if (sourceView != null) {
                 sourceView.show();
                 this.fromSourceView = null;
+            }
+            Runnable runnable = this.closeListener;
+            if (runnable != null) {
+                runnable.run();
+                this.closeListener = null;
             }
             ClosingViewProvider closingViewProvider = this.closingSourceProvider;
             SourceView view = closingViewProvider != null ? closingViewProvider.getView(j) : null;
@@ -7320,6 +7336,11 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             @Override // org.telegram.ui.Components.Bulletin.Delegate
             public /* synthetic */ boolean allowLayoutChanges() {
                 return Bulletin.Delegate.-CC.$default$allowLayoutChanges(this);
+            }
+
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public /* synthetic */ boolean bottomOffsetAnimated() {
+                return Bulletin.Delegate.-CC.$default$bottomOffsetAnimated(this);
             }
 
             @Override // org.telegram.ui.Components.Bulletin.Delegate

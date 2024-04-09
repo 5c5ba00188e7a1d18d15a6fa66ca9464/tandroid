@@ -12,6 +12,7 @@ import j$.time.temporal.w;
 import j$.time.temporal.x;
 import java.io.Serializable;
 import java.util.Objects;
+import org.telegram.messenger.MessagesStorage;
 /* loaded from: classes2.dex */
 public final class LocalDate implements j$.time.temporal.k, j$.time.chrono.b, Serializable {
     public static final LocalDate d = of(-999999999, 1, 1);
@@ -217,7 +218,7 @@ public final class LocalDate implements j$.time.temporal.k, j$.time.chrono.b, Se
             j6 = j3 - ((j5 / 400) + (((j5 / 4) + (365 * j5)) - (j5 / 100)));
         }
         int i = (int) j6;
-        int i2 = ((i * 5) + 2) / 153;
+        int i2 = ((i * 5) + 2) / MessagesStorage.LAST_DB_VERSION;
         return new LocalDate(j$.time.temporal.a.YEAR.g(j5 + j2 + (i2 / 10)), ((i2 + 2) % 12) + 1, (i - (((i2 * 306) + 5) / 10)) + 1);
     }
 

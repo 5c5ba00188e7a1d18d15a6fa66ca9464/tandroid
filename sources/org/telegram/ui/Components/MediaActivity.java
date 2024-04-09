@@ -145,6 +145,11 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
         getNotificationCenter().removeObserver(this, NotificationCenter.userInfoDidLoad);
         getNotificationCenter().removeObserver(this, NotificationCenter.currentUserPremiumStatusChanged);
         getNotificationCenter().removeObserver(this, NotificationCenter.storiesEnabledUpdate);
+        Runnable runnable = this.applyBulletin;
+        if (runnable != null) {
+            this.applyBulletin = null;
+            AndroidUtilities.runOnUIThread(runnable);
+        }
     }
 
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
@@ -178,7 +183,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
     /* JADX WARN: Removed duplicated region for block: B:92:0x0517  */
     /* JADX WARN: Removed duplicated region for block: B:94:0x0526  */
     /* JADX WARN: Type inference failed for: r5v19 */
-    /* JADX WARN: Type inference failed for: r5v20, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r5v20, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r5v21 */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
@@ -420,6 +425,11 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
                 }
 
                 @Override // org.telegram.ui.Components.Bulletin.Delegate
+                public /* synthetic */ boolean bottomOffsetAnimated() {
+                    return Bulletin.Delegate.-CC.$default$bottomOffsetAnimated(this);
+                }
+
+                @Override // org.telegram.ui.Components.Bulletin.Delegate
                 public /* synthetic */ boolean clipWithGradient(int i9) {
                     return Bulletin.Delegate.-CC.$default$clipWithGradient(this, i9);
                 }
@@ -519,6 +529,11 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
 
             @Override // org.telegram.ui.Components.SharedMediaLayout
             protected boolean isStoriesView() {
+                return MediaActivity.this.type == 1 || MediaActivity.this.type == 2;
+            }
+
+            @Override // org.telegram.ui.Components.SharedMediaLayout
+            protected boolean customTabs() {
                 return MediaActivity.this.type == 1 || MediaActivity.this.type == 2;
             }
 
@@ -1053,7 +1068,6 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
             i = 0;
         }
         this.sharedMediaLayout.closeActionMode(false);
-        this.sharedMediaLayout.disableScroll(false);
         if (z) {
             this.sharedMediaLayout.scrollToPage(8);
         }

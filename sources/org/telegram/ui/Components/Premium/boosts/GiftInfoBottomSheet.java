@@ -150,6 +150,11 @@ public class GiftInfoBottomSheet extends BottomSheetWithRecyclerListView {
             }
 
             @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public /* synthetic */ boolean bottomOffsetAnimated() {
+                return Bulletin.Delegate.-CC.$default$bottomOffsetAnimated(this);
+            }
+
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
             public /* synthetic */ boolean clipWithGradient(int i) {
                 return Bulletin.Delegate.-CC.$default$clipWithGradient(this, i);
             }
@@ -238,7 +243,8 @@ public class GiftInfoBottomSheet extends BottomSheetWithRecyclerListView {
             } else {
                 string = LocaleController.getString("BoostingOnlyRecipientCode", R.string.BoostingOnlyRecipientCode);
             }
-            BulletinFactory.of(((BottomSheet) GiftInfoBottomSheet.this).container, ((BottomSheet) GiftInfoBottomSheet.this).resourcesProvider).createSimpleBulletin(R.raw.chats_infotip, string).show(true);
+            GiftInfoBottomSheet giftInfoBottomSheet = GiftInfoBottomSheet.this;
+            BulletinFactory.of(giftInfoBottomSheet.container, ((BottomSheet) giftInfoBottomSheet).resourcesProvider).createSimpleBulletin(R.raw.chats_infotip, string).show(true);
         }
     }
 

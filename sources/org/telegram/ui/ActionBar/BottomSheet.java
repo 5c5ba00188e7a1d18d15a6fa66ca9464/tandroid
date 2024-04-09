@@ -74,7 +74,7 @@ public class BottomSheet extends Dialog {
     private boolean canDismissWithSwipe;
     private boolean canDismissWithTouchOutside;
     private int cellType;
-    protected ContainerView container;
+    public ContainerView container;
     protected ViewGroup containerView;
     protected int currentAccount;
     private float currentPanTranslationY;
@@ -1419,6 +1419,11 @@ public class BottomSheet extends Dialog {
                     @Override // org.telegram.ui.Components.Bulletin.Delegate
                     public /* synthetic */ boolean allowLayoutChanges() {
                         return Bulletin.Delegate.-CC.$default$allowLayoutChanges(this);
+                    }
+
+                    @Override // org.telegram.ui.Components.Bulletin.Delegate
+                    public /* synthetic */ boolean bottomOffsetAnimated() {
+                        return Bulletin.Delegate.-CC.$default$bottomOffsetAnimated(this);
                     }
 
                     @Override // org.telegram.ui.Components.Bulletin.Delegate

@@ -1,6 +1,7 @@
 package org.telegram.tgnet;
 /* loaded from: classes3.dex */
 public class TLRPC$TL_messages_searchGlobal extends TLObject {
+    public boolean broadcasts_only;
     public TLRPC$MessagesFilter filter;
     public int flags;
     public int folder_id;
@@ -20,7 +21,9 @@ public class TLRPC$TL_messages_searchGlobal extends TLObject {
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
         abstractSerializedData.writeInt32(1271290010);
-        abstractSerializedData.writeInt32(this.flags);
+        int i = this.broadcasts_only ? this.flags | 2 : this.flags & (-3);
+        this.flags = i;
+        abstractSerializedData.writeInt32(i);
         if ((this.flags & 1) != 0) {
             abstractSerializedData.writeInt32(this.folder_id);
         }

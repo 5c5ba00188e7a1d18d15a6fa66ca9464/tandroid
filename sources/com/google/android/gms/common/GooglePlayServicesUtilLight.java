@@ -44,6 +44,16 @@ public class GooglePlayServicesUtilLight {
     }
 
     @Deprecated
+    public static int getApkVersion(Context context) {
+        try {
+            return context.getPackageManager().getPackageInfo("com.google.android.gms", 0).versionCode;
+        } catch (PackageManager.NameNotFoundException unused) {
+            Log.w("GooglePlayServicesUtil", "Google Play services is missing.");
+            return 0;
+        }
+    }
+
+    @Deprecated
     public static String getErrorString(int i) {
         return ConnectionResult.zza(i);
     }

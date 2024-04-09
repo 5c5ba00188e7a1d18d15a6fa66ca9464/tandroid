@@ -1,15 +1,23 @@
 package com.google.mlkit.common.sdkinternal;
 
 import android.content.Context;
+import android.content.Intent;
+import android.text.TextUtils;
 import android.util.Log;
 import com.google.android.gms.common.Feature;
+import com.google.android.gms.common.GoogleApiAvailabilityLight;
 import com.google.android.gms.common.api.OptionalModuleApi;
+import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.common.moduleinstall.ModuleAvailabilityResponse;
 import com.google.android.gms.common.moduleinstall.ModuleInstall;
 import com.google.android.gms.common.moduleinstall.ModuleInstallRequest;
+import com.google.android.gms.internal.mlkit_common.zzaq;
 import com.google.android.gms.internal.mlkit_common.zzas;
+import com.google.android.gms.internal.mlkit_common.zzat;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Tasks;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 /* compiled from: com.google.mlkit:common@@18.10.0 */
 /* loaded from: classes.dex */
@@ -26,6 +34,7 @@ public class OptionalModuleUtils {
     public static final Feature FEATURE_SMART_REPLY;
     public static final Feature FEATURE_SUBJECT_SEGMENTATION;
     public static final Feature FEATURE_TFLITE_DYNAMITE;
+    private static final zzat zza;
 
     static {
         Feature feature = new Feature("vision.barcode", 1L);
@@ -74,7 +83,7 @@ public class OptionalModuleUtils {
         zzasVar.zza("tflite_dynamite", feature8);
         zzasVar.zza("barcode_ui", feature9);
         zzasVar.zza("smart_reply", feature10);
-        zzasVar.zzb();
+        zza = zzasVar.zzb();
         zzas zzasVar2 = new zzas();
         zzasVar2.zza("com.google.android.gms.vision.barcode", feature);
         zzasVar2.zza("com.google.android.gms.vision.custom.ica", feature2);
@@ -86,6 +95,33 @@ public class OptionalModuleUtils {
         zzasVar2.zza("com.google.android.gms.tflite_dynamite", feature8);
         zzasVar2.zza("com.google.android.gms.mlkit_smartreply", feature10);
         zzasVar2.zzb();
+    }
+
+    @Deprecated
+    public static void requestDownload(Context context, String str) {
+        requestDownload(context, zzaq.zzh(str));
+    }
+
+    private static Feature[] zza(Map map, List list) {
+        Feature[] featureArr = new Feature[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            featureArr[i] = (Feature) Preconditions.checkNotNull((Feature) map.get(list.get(i)));
+        }
+        return featureArr;
+    }
+
+    @Deprecated
+    public static void requestDownload(Context context, List<String> list) {
+        if (GoogleApiAvailabilityLight.getInstance().getApkVersion(context) >= 221500000) {
+            requestDownload(context, zza(zza, list));
+            return;
+        }
+        Intent intent = new Intent();
+        intent.setClassName("com.google.android.gms", "com.google.android.gms.vision.DependencyBroadcastReceiverProxy");
+        intent.setAction("com.google.android.gms.vision.DEPENDENCY");
+        intent.putExtra("com.google.android.gms.vision.DEPENDENCIES", TextUtils.join(",", list));
+        intent.putExtra("requester_app_package", context.getApplicationInfo().packageName);
+        context.sendBroadcast(intent);
     }
 
     public static boolean areAllRequiredModulesAvailable(Context context, final Feature[] featureArr) {

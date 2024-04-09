@@ -49,6 +49,13 @@ public class RenderView extends TextureView {
 
     /* loaded from: classes3.dex */
     public interface RenderViewDelegate {
+
+        /* loaded from: classes3.dex */
+        public final /* synthetic */ class -CC {
+            public static void $default$invalidateInputView(RenderViewDelegate renderViewDelegate) {
+            }
+        }
+
         void invalidateInputView();
 
         void onBeganDrawing();

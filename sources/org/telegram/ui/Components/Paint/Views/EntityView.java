@@ -117,8 +117,6 @@ public class EntityView extends FrameLayout {
 
         int[] getCenterLocation(EntityView entityView);
 
-        float getCropRotation();
-
         void getTransformedTouch(float f, float f2, float[] fArr);
 
         boolean isEntityDeletable();
@@ -296,7 +294,7 @@ public class EntityView extends FrameLayout {
                 if (distance2 > 0.0f) {
                     scale(distance / distance2);
                 }
-                rotate((this.angle + ((float) Math.toDegrees(Math.atan2(f2 - f4, f - f3) - Math.atan2(this.previousLocationY - this.previousLocationY2, this.previousLocationX - this.previousLocationX2)))) - this.delegate.getCropRotation());
+                rotate(this.angle + ((float) Math.toDegrees(Math.atan2(f2 - f4, f - f3) - Math.atan2(this.previousLocationY - this.previousLocationY2, this.previousLocationX - this.previousLocationX2))));
             }
             this.previousLocationX = f;
             this.previousLocationY = f2;
@@ -1117,18 +1115,18 @@ public class EntityView extends FrameLayout {
                                     EntityView.this.scale(distance2 / distance);
                                 }
                                 int i2 = this.currentHandle;
-                                if (i2 != 1) {
+                                if (i2 == 1) {
+                                    atan2 = Math.atan2(centerLocation[1] - f2, centerLocation[0] - f);
+                                } else {
                                     if (i2 == 2) {
                                         atan2 = Math.atan2(f2 - centerLocation[1], f - centerLocation[0]);
                                     }
-                                    EntityView.this.rotate(((float) Math.toDegrees(f5)) - EntityView.this.delegate.getCropRotation());
+                                    EntityView.this.rotate((float) Math.toDegrees(f5));
                                     EntityView.this.previousLocationX = f;
                                     EntityView.this.previousLocationY = f2;
-                                } else {
-                                    atan2 = Math.atan2(centerLocation[1] - f2, centerLocation[0] - f);
                                 }
                                 f5 = (float) atan2;
-                                EntityView.this.rotate(((float) Math.toDegrees(f5)) - EntityView.this.delegate.getCropRotation());
+                                EntityView.this.rotate((float) Math.toDegrees(f5));
                                 EntityView.this.previousLocationX = f;
                                 EntityView.this.previousLocationY = f2;
                             }

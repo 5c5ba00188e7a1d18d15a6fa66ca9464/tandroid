@@ -20,7 +20,8 @@ public abstract class AdapterWithDiffUtils extends RecyclerListView.SelectionAda
         public boolean selectable;
         public int viewType;
 
-        protected boolean contentsEquals(Item item) {
+        /* JADX INFO: Access modifiers changed from: protected */
+        public boolean contentsEquals(Item item) {
             return false;
         }
 

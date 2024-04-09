@@ -1729,7 +1729,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
             case 22:
             case R.styleable.AppCompatTheme_radioButtonStyle /* 91 */:
             case 133:
-            case 153:
+            case MessagesStorage.LAST_DB_VERSION /* 153 */:
             case 204:
             case 225:
             case 233:
@@ -1957,7 +1957,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 return new int[]{1, 0, 4, 1, 2, 2};
             case 151:
                 return new int[]{3, 4, 3, 2, 2, 2};
-            case MessagesStorage.LAST_DB_VERSION /* 152 */:
+            case 152:
                 return new int[]{3, 2, 3, 4, 2, 2};
             case 154:
                 return new int[]{3, 4, 2, 1, 2, 2};
