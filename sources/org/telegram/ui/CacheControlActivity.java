@@ -144,7 +144,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
     AlertDialog progressDialog;
     private ActionBarMenuSubItem resetDatabaseItem;
     private float[] tempSizes;
-    private boolean[] selected = {true, true, true, true, true, true, true, true, true, true};
+    private boolean[] selected = {true, true, true, true, true, true, true, true, true, false, true};
     private long databaseSize = -1;
     private long cacheSize = -1;
     private long cacheEmojiSize = -1;
@@ -155,6 +155,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
     private long musicSize = -1;
     private long photoSize = -1;
     private long videoSize = -1;
+    private long logsSize = -1;
     private long stickersCacheSize = -1;
     private long totalSize = -1;
     private long totalDeviceSize = -1;
@@ -228,7 +229,14 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         long directorySize4 = getDirectorySize(FileLoader.checkDirectory(2), 0) + getDirectorySize(FileLoader.checkDirectory(101), 0);
         long directorySize5 = getDirectorySize(FileLoader.checkDirectory(3), 1) + getDirectorySize(FileLoader.checkDirectory(5), 1);
         long directorySize6 = getDirectorySize(FileLoader.checkDirectory(3), 2) + getDirectorySize(FileLoader.checkDirectory(5), 2);
-        Long valueOf = Long.valueOf(directorySize + directorySize2 + directorySize4 + getDirectorySize(FileLoader.checkDirectory(1), 0) + directorySize3 + directorySize5 + directorySize6 + getDirectorySize(new File(FileLoader.checkDirectory(4), "acache"), 0) + getDirectorySize(FileLoader.checkDirectory(4), 3) + getDirectorySize(FileLoader.checkDirectory(6), 0));
+        long directorySize7 = getDirectorySize(new File(FileLoader.checkDirectory(4), "acache"), 0) + getDirectorySize(FileLoader.checkDirectory(4), 3);
+        long directorySize8 = getDirectorySize(FileLoader.checkDirectory(1), 0);
+        long directorySize9 = getDirectorySize(FileLoader.checkDirectory(6), 0);
+        long directorySize10 = getDirectorySize(AndroidUtilities.getLogsDir(), 1);
+        if (!BuildVars.DEBUG_VERSION && directorySize10 < 268435456) {
+            directorySize10 = 0;
+        }
+        Long valueOf = Long.valueOf(directorySize + directorySize2 + directorySize4 + directorySize8 + directorySize3 + directorySize5 + directorySize6 + directorySize7 + directorySize9 + directorySize10);
         lastTotalSizeCalculated = valueOf;
         final long longValue = valueOf.longValue();
         lastTotalSizeCalculatedTime = System.currentTimeMillis();
@@ -376,15 +384,23 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         if (canceled) {
             return;
         }
-        long directorySize3 = getDirectorySize(FileLoader.checkDirectory(3), 1);
-        this.documentsSize = directorySize3;
-        this.documentsSize = directorySize3 + getDirectorySize(FileLoader.checkDirectory(5), 1);
+        long directorySize3 = getDirectorySize(AndroidUtilities.getLogsDir(), 1);
+        this.logsSize = directorySize3;
+        if (!BuildVars.DEBUG_VERSION && directorySize3 < 268435456) {
+            this.logsSize = 0L;
+        }
         if (canceled) {
             return;
         }
-        long directorySize4 = getDirectorySize(FileLoader.checkDirectory(3), 2);
-        this.musicSize = directorySize4;
-        this.musicSize = directorySize4 + getDirectorySize(FileLoader.checkDirectory(5), 2);
+        long directorySize4 = getDirectorySize(FileLoader.checkDirectory(3), 1);
+        this.documentsSize = directorySize4;
+        this.documentsSize = directorySize4 + getDirectorySize(FileLoader.checkDirectory(5), 1);
+        if (canceled) {
+            return;
+        }
+        long directorySize5 = getDirectorySize(FileLoader.checkDirectory(3), 2);
+        this.musicSize = directorySize5;
+        this.musicSize = directorySize5 + getDirectorySize(FileLoader.checkDirectory(5), 2);
         if (canceled) {
             return;
         }
@@ -402,7 +418,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         if (canceled) {
             return;
         }
-        Long valueOf = Long.valueOf(this.cacheSize + this.cacheTempSize + this.videoSize + this.audioSize + this.photoSize + this.documentsSize + this.musicSize + this.storiesSize + this.stickersCacheSize);
+        Long valueOf = Long.valueOf(this.cacheSize + this.cacheTempSize + this.videoSize + this.logsSize + this.audioSize + this.photoSize + this.documentsSize + this.musicSize + this.storiesSize + this.stickersCacheSize);
         lastTotalSizeCalculated = valueOf;
         this.totalSize = valueOf.longValue();
         lastTotalSizeCalculatedTime = System.currentTimeMillis();
@@ -469,14 +485,14 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         if (cacheChart != null) {
             boolean z = this.calculating;
             if (!z && this.totalSize > 0) {
-                CacheChart.SegmentSize[] segmentSizeArr = new CacheChart.SegmentSize[10];
+                CacheChart.SegmentSize[] segmentSizeArr = new CacheChart.SegmentSize[11];
                 for (int i = 0; i < this.itemInners.size(); i++) {
                     ItemInner itemInner = this.itemInners.get(i);
                     if (itemInner.viewType == 11) {
                         int i2 = itemInner.index;
                         if (i2 < 0) {
                             if (this.collapsed) {
-                                segmentSizeArr[9] = CacheChart.SegmentSize.of(itemInner.size, this.selected[9]);
+                                segmentSizeArr[10] = CacheChart.SegmentSize.of(itemInner.size, this.selected[10]);
                             }
                         } else {
                             segmentSizeArr[i2] = CacheChart.SegmentSize.of(itemInner.size, this.selected[i2]);
@@ -748,23 +764,22 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         updateRows(true);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:64:0x0214  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x023b  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x0294  */
-    /* JADX WARN: Removed duplicated region for block: B:77:0x02e0  */
-    /* JADX WARN: Removed duplicated region for block: B:82:0x02f1  */
-    /* JADX WARN: Removed duplicated region for block: B:86:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x022b  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x0252  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x02aa  */
+    /* JADX WARN: Removed duplicated region for block: B:79:0x02f7  */
+    /* JADX WARN: Removed duplicated region for block: B:84:0x0308  */
+    /* JADX WARN: Removed duplicated region for block: B:88:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private void updateRows(boolean z) {
         boolean z2;
-        boolean z3;
         float[] fArr;
         ListAdapter listAdapter;
         CachedMediaLayout cachedMediaLayout;
         CacheModel cacheModel;
-        boolean z4 = (!z || System.currentTimeMillis() - this.fragmentCreateTime >= 80) ? z : false;
+        boolean z3 = (!z || System.currentTimeMillis() - this.fragmentCreateTime >= 80) ? z : false;
         this.oldItems.clear();
         this.oldItems.addAll(this.itemInners);
         this.itemInners.clear();
@@ -777,7 +792,6 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             this.itemInners.add(new ItemInner(12, null, null));
             this.itemInners.add(new ItemInner(12, null, null));
             this.itemInners.add(new ItemInner(12, null, null));
-            z2 = z4;
         } else {
             ArrayList arrayList = new ArrayList();
             if (this.photoSize > 0) {
@@ -793,10 +807,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                 arrayList.add(ItemInner.asCheckBox(LocaleController.getString(R.string.LocalMusicCache), 3, this.musicSize, Theme.key_statisticChartLine_purple));
             }
             if (this.audioSize > 0) {
-                z2 = z4;
                 arrayList.add(ItemInner.asCheckBox(LocaleController.getString(R.string.LocalAudioCache), 4, this.audioSize, Theme.key_statisticChartLine_lightgreen));
-            } else {
-                z2 = z4;
             }
             if (this.storiesSize > 0) {
                 arrayList.add(ItemInner.asCheckBox(LocaleController.getString(R.string.LocalStoriesCache), 5, this.storiesSize, Theme.key_statisticChartLine_red));
@@ -810,6 +821,9 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             if (this.cacheTempSize > 0) {
                 arrayList.add(ItemInner.asCheckBox(LocaleController.getString(R.string.LocalMiscellaneousCache), 8, this.cacheTempSize, Theme.key_statisticChartLine_purple));
             }
+            if (this.logsSize > 0) {
+                arrayList.add(ItemInner.asCheckBox(LocaleController.getString(R.string.LocalLogsCache), 9, this.logsSize, Theme.key_statisticChartLine_golden));
+            }
             if (!arrayList.isEmpty()) {
                 Collections.sort(arrayList, new Comparator() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda21
                     @Override // java.util.Comparator
@@ -821,7 +835,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                 });
                 ((ItemInner) arrayList.get(arrayList.size() - 1)).last = true;
                 if (this.tempSizes == null) {
-                    this.tempSizes = new float[10];
+                    this.tempSizes = new float[11];
                 }
                 int i = 0;
                 while (true) {
@@ -833,19 +847,19 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                     i++;
                 }
                 if (this.percents == null) {
-                    this.percents = new int[10];
+                    this.percents = new int[11];
                 }
                 AndroidUtilities.roundPercents(fArr, this.percents);
                 if (arrayList.size() > 5) {
                     this.itemInners.addAll(arrayList.subList(0, 4));
-                    long j = 0;
                     int i2 = 0;
+                    long j = 0;
                     for (int i3 = 4; i3 < arrayList.size(); i3++) {
                         ((ItemInner) arrayList.get(i3)).pad = true;
                         j += ((ItemInner) arrayList.get(i3)).size;
                         i2 += this.percents[((ItemInner) arrayList.get(i3)).index];
                     }
-                    this.percents[9] = i2;
+                    this.percents[10] = i2;
                     this.itemInners.add(ItemInner.asCheckBox(LocaleController.getString(R.string.LocalOther), -1, j, Theme.key_statisticChartLine_golden));
                     if (!this.collapsed) {
                         this.itemInners.addAll(arrayList.subList(4, arrayList.size()));
@@ -854,8 +868,8 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                     this.itemInners.addAll(arrayList);
                 }
             } else {
-                z3 = false;
-                if (!z3) {
+                z2 = false;
+                if (!z2) {
                     this.sectionsEndRow = this.itemInners.size();
                     this.itemInners.add(new ItemInner(13, null, null));
                     this.itemInners.add(ItemInner.asInfo(LocaleController.getString("StorageUsageInfo", R.string.StorageUsageInfo)));
@@ -873,12 +887,12 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                     this.itemInners.add(new ItemInner(14));
                     this.itemInners.add(ItemInner.asInfo(LocaleController.getString("MaxCacheSizeInfo", R.string.MaxCacheSizeInfo)));
                 }
-                if (z3 && (cacheModel = this.cacheModel) != null && !cacheModel.isEmpty()) {
+                if (z2 && (cacheModel = this.cacheModel) != null && !cacheModel.isEmpty()) {
                     this.itemInners.add(new ItemInner(8, null, null));
                 }
                 listAdapter = this.listAdapter;
                 if (listAdapter != null) {
-                    if (z2) {
+                    if (z3) {
                         listAdapter.setItems(this.oldItems, this.itemInners);
                     } else {
                         listAdapter.notifyDataSetChanged();
@@ -892,8 +906,8 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                 return;
             }
         }
-        z3 = true;
-        if (!z3) {
+        z2 = true;
+        if (!z2) {
         }
         this.itemInners.add(new ItemInner(3, LocaleController.getString("AutoDeleteCachedMedia", R.string.AutoDeleteCachedMedia), null));
         this.itemInners.add(new ItemInner(7, 0));
@@ -903,7 +917,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         this.itemInners.add(ItemInner.asInfo(LocaleController.getString("KeepMediaInfoPart", R.string.KeepMediaInfoPart)));
         if (this.totalDeviceSize > 0) {
         }
-        if (z3) {
+        if (z2) {
             this.itemInners.add(new ItemInner(8, null, null));
         }
         listAdapter = this.listAdapter;
@@ -1080,7 +1094,8 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x00ca  */
+    /* JADX WARN: Removed duplicated region for block: B:139:0x0249 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x00ee  */
     /* renamed from: cleanupFoldersInternal */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1090,206 +1105,204 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         long availableBlocks;
         long blockCount;
         int i;
+        int[] iArr;
         int i2;
         File checkDirectory;
         char c;
-        Utilities.Callback callback;
-        final int[] iArr = {0};
+        int i3;
+        int i4 = 1;
+        final int[] iArr2 = {0};
         boolean[] zArr = this.selected;
-        int i3 = 2;
-        int i4 = 3;
-        int i5 = 4;
-        int i6 = 5;
-        final int i7 = (zArr[8] ? 1 : 0) + (zArr[0] ? 2 : 0) + (zArr[1] ? 2 : 0) + (zArr[2] ? 2 : 0) + (zArr[3] ? 2 : 0) + (zArr[4] ? 1 : 0) + (zArr[5] ? 2 : 0) + (zArr[6] ? 1 : 0) + (zArr[7] ? 1 : 0);
+        int i5 = 5;
+        final int i6 = (zArr[9] ? 1 : 0) + (zArr[0] ? 2 : 0) + (zArr[1] ? 2 : 0) + (zArr[2] ? 2 : 0) + (zArr[3] ? 2 : 0) + (zArr[4] ? 1 : 0) + (zArr[5] ? 2 : 0) + (zArr[6] ? 1 : 0) + (zArr[7] ? 1 : 0) + (zArr[8] ? 1 : 0);
         final long currentTimeMillis = System.currentTimeMillis();
-        Utilities.Callback callback3 = new Utilities.Callback() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda22
+        Utilities.Callback callback = new Utilities.Callback() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda22
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
-                CacheControlActivity.lambda$cleanupFoldersInternal$13(Utilities.Callback2.this, iArr, i7, (Float) obj);
+                CacheControlActivity.lambda$cleanupFoldersInternal$13(Utilities.Callback2.this, iArr2, i6, (Float) obj);
             }
         };
         Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
-                CacheControlActivity.lambda$cleanupFoldersInternal$14(Utilities.Callback2.this, iArr, i7, currentTimeMillis);
+                CacheControlActivity.lambda$cleanupFoldersInternal$14(Utilities.Callback2.this, iArr2, i6, currentTimeMillis);
             }
         };
         long j = 0;
         boolean z = false;
-        int i8 = 0;
+        int i7 = 0;
         boolean z2 = true;
-        while (i8 < 9) {
-            if (this.selected[i8]) {
-                if (i8 == 0) {
+        while (i7 < 10) {
+            if (this.selected[i7]) {
+                if (i7 == 0) {
                     j += this.photoSize;
-                    i = 0;
-                } else if (i8 == 1) {
+                    iArr = iArr2;
+                    i4 = 0;
+                } else if (i7 == i4) {
                     j += this.videoSize;
-                    i = 2;
+                    iArr = iArr2;
+                    i4 = 2;
                 } else {
-                    if (i8 == i3) {
+                    if (i7 == 2) {
                         j += this.documentsSize;
-                        i = 3;
+                        iArr = iArr2;
+                        i4 = 3;
                         i2 = 1;
-                    } else if (i8 == i4) {
+                    } else if (i7 == 3) {
                         j += this.musicSize;
-                        i = 3;
+                        iArr = iArr2;
+                        i4 = 3;
                         i2 = 2;
-                    } else if (i8 == i5) {
+                    } else if (i7 == 4) {
                         j += this.audioSize;
-                        i = 1;
-                    } else if (i8 == i6) {
+                        iArr = iArr2;
+                    } else if (i7 == i5) {
                         j += this.storiesSize;
-                        i = 6;
-                    } else if (i8 == 6) {
+                        iArr = iArr2;
+                        i4 = 6;
+                    } else if (i7 == 6) {
                         j += this.stickersCacheSize;
-                        i = 100;
-                    } else if (i8 == 7) {
+                        iArr = iArr2;
+                        i4 = 100;
+                    } else if (i7 == 7) {
                         j += this.cacheSize;
-                        i = 4;
+                        iArr = iArr2;
+                        i4 = 4;
                         i2 = 5;
-                    } else if (i8 == 8) {
+                    } else if (i7 == 8) {
                         j += this.cacheTempSize;
-                        i = 4;
+                        iArr = iArr2;
+                        i4 = 4;
                         i2 = 4;
                     } else {
-                        i = -1;
-                    }
-                    if (i != -1) {
-                        if (i == 100) {
-                            checkDirectory = new File(FileLoader.checkDirectory(i5), "acache");
+                        i = 9;
+                        iArr = iArr2;
+                        if (i7 == 9) {
+                            j += this.logsSize;
+                            i4 = 0;
+                            i2 = 1;
                         } else {
-                            checkDirectory = FileLoader.checkDirectory(i);
+                            i4 = -1;
+                            i2 = 0;
                         }
-                        if (checkDirectory != null) {
-                            cleanDirJava(checkDirectory.getAbsolutePath(), i2, null, callback3);
-                        }
-                        iArr[0] = iArr[0] + 1;
-                        runnable2.run();
-                        if (i == 100) {
-                            File checkDirectory2 = FileLoader.checkDirectory(i5);
-                            if (checkDirectory2 != null) {
-                                cleanDirJava(checkDirectory2.getAbsolutePath(), 3, null, callback3);
-                            }
-                            iArr[0] = iArr[0] + 1;
-                            runnable2.run();
-                        }
-                        if (i == 0 || i == 2) {
-                            File checkDirectory3 = FileLoader.checkDirectory(i == 0 ? 100 : 101);
-                            if (checkDirectory3 != null) {
-                                cleanDirJava(checkDirectory3.getAbsolutePath(), i2, null, callback3);
-                            }
-                            c = 0;
-                            iArr[0] = iArr[0] + 1;
-                            runnable2.run();
-                        } else {
-                            c = 0;
-                        }
-                        if (i == 3) {
-                            File checkDirectory4 = FileLoader.checkDirectory(5);
-                            if (checkDirectory4 != null) {
-                                cleanDirJava(checkDirectory4.getAbsolutePath(), i2, null, callback3);
-                            }
-                            iArr[c] = iArr[c] + 1;
-                            runnable2.run();
-                        }
-                        if (i == 4) {
-                            this.cacheSize = getDirectorySize(FileLoader.checkDirectory(4), 5);
-                            this.cacheTempSize = getDirectorySize(FileLoader.checkDirectory(4), 4);
-                            callback = callback3;
-                            z = true;
-                        } else if (i == 1) {
-                            this.audioSize = getDirectorySize(FileLoader.checkDirectory(1), i2);
-                        } else if (i == 6) {
-                            this.storiesSize = getDirectorySize(FileLoader.checkDirectory(6), i2);
-                        } else {
-                            if (i == 3) {
-                                if (i2 == 1) {
-                                    long directorySize = getDirectorySize(FileLoader.checkDirectory(3), i2);
-                                    this.documentsSize = directorySize;
-                                    this.documentsSize = directorySize + getDirectorySize(FileLoader.checkDirectory(5), i2);
-                                } else {
-                                    long directorySize2 = getDirectorySize(FileLoader.checkDirectory(3), i2);
-                                    this.musicSize = directorySize2;
-                                    this.musicSize = directorySize2 + getDirectorySize(FileLoader.checkDirectory(5), i2);
-                                }
-                                callback = callback3;
-                            } else if (i == 0) {
-                                long directorySize3 = getDirectorySize(FileLoader.checkDirectory(0), i2);
-                                this.photoSize = directorySize3;
-                                this.photoSize = directorySize3 + getDirectorySize(FileLoader.checkDirectory(100), i2);
-                                callback = callback3;
-                                z = true;
+                        if (i4 != -1) {
+                            if (i7 == i) {
+                                checkDirectory = AndroidUtilities.getLogsDir();
+                            } else if (i4 == 100) {
+                                checkDirectory = new File(FileLoader.checkDirectory(4), "acache");
                             } else {
-                                if (i == 2) {
-                                    long directorySize4 = getDirectorySize(FileLoader.checkDirectory(2), i2);
-                                    this.videoSize = directorySize4;
-                                    this.videoSize = directorySize4 + getDirectorySize(FileLoader.checkDirectory(101), i2);
-                                } else if (i == 100) {
-                                    this.stickersCacheSize = getDirectorySize(new File(FileLoader.checkDirectory(4), "acache"), i2);
-                                    long directorySize5 = getDirectorySize(FileLoader.checkDirectory(4), 3);
-                                    this.cacheEmojiSize = directorySize5;
-                                    callback = callback3;
-                                    this.stickersCacheSize += directorySize5;
-                                    z = true;
-                                    i8++;
-                                    callback3 = callback;
-                                    i3 = 2;
-                                    i4 = 3;
-                                    i5 = 4;
-                                    i6 = 5;
-                                }
-                                callback = callback3;
-                                i8++;
-                                callback3 = callback;
-                                i3 = 2;
-                                i4 = 3;
-                                i5 = 4;
-                                i6 = 5;
+                                checkDirectory = FileLoader.checkDirectory(i4);
                             }
-                            i8++;
-                            callback3 = callback;
-                            i3 = 2;
-                            i4 = 3;
-                            i5 = 4;
-                            i6 = 5;
+                            if (checkDirectory != null) {
+                                cleanDirJava(checkDirectory.getAbsolutePath(), i2, null, callback);
+                            }
+                            iArr[0] = iArr[0] + 1;
+                            runnable2.run();
+                            if (i4 == 100) {
+                                File checkDirectory2 = FileLoader.checkDirectory(4);
+                                if (checkDirectory2 != null) {
+                                    cleanDirJava(checkDirectory2.getAbsolutePath(), 3, null, callback);
+                                }
+                                iArr[0] = iArr[0] + 1;
+                                runnable2.run();
+                            }
+                            if (i4 == 0 || i4 == 2) {
+                                File checkDirectory3 = FileLoader.checkDirectory(i4 == 0 ? 100 : 101);
+                                if (checkDirectory3 != null) {
+                                    cleanDirJava(checkDirectory3.getAbsolutePath(), i2, null, callback);
+                                }
+                                c = 0;
+                                iArr[0] = iArr[0] + 1;
+                                runnable2.run();
+                            } else {
+                                c = 0;
+                            }
+                            if (i4 == 3) {
+                                File checkDirectory4 = FileLoader.checkDirectory(5);
+                                if (checkDirectory4 != null) {
+                                    cleanDirJava(checkDirectory4.getAbsolutePath(), i2, null, callback);
+                                }
+                                i3 = 1;
+                                iArr[c] = iArr[c] + 1;
+                                runnable2.run();
+                            } else {
+                                i3 = 1;
+                            }
+                            if (i7 == 9) {
+                                this.logsSize = getDirectorySize(AndroidUtilities.getLogsDir(), i3);
+                            } else if (i4 == 4) {
+                                this.cacheSize = getDirectorySize(FileLoader.checkDirectory(4), 5);
+                                this.cacheTempSize = getDirectorySize(FileLoader.checkDirectory(4), 4);
+                                z = true;
+                            } else if (i4 == i3) {
+                                this.audioSize = getDirectorySize(FileLoader.checkDirectory(i3), i2);
+                            } else if (i4 == 6) {
+                                this.storiesSize = getDirectorySize(FileLoader.checkDirectory(6), i2);
+                            } else if (i4 != 3) {
+                                i5 = 5;
+                                if (i4 == 0) {
+                                    long directorySize = getDirectorySize(FileLoader.checkDirectory(0), i2);
+                                    this.photoSize = directorySize;
+                                    this.photoSize = directorySize + getDirectorySize(FileLoader.checkDirectory(100), i2);
+                                } else if (i4 == 2) {
+                                    long directorySize2 = getDirectorySize(FileLoader.checkDirectory(2), i2);
+                                    this.videoSize = directorySize2;
+                                    this.videoSize = directorySize2 + getDirectorySize(FileLoader.checkDirectory(101), i2);
+                                } else if (i4 == 100) {
+                                    this.stickersCacheSize = getDirectorySize(new File(FileLoader.checkDirectory(4), "acache"), i2);
+                                    long directorySize3 = getDirectorySize(FileLoader.checkDirectory(4), 3);
+                                    this.cacheEmojiSize = directorySize3;
+                                    this.stickersCacheSize += directorySize3;
+                                }
+                                z = true;
+                            } else if (i2 == i3) {
+                                long directorySize4 = getDirectorySize(FileLoader.checkDirectory(3), i2);
+                                this.documentsSize = directorySize4;
+                                i5 = 5;
+                                this.documentsSize = directorySize4 + getDirectorySize(FileLoader.checkDirectory(5), i2);
+                            } else {
+                                i5 = 5;
+                                long directorySize5 = getDirectorySize(FileLoader.checkDirectory(3), i2);
+                                this.musicSize = directorySize5;
+                                this.musicSize = directorySize5 + getDirectorySize(FileLoader.checkDirectory(5), i2);
+                            }
+                            i5 = 5;
                         }
                     }
-                    callback = callback3;
+                    i = 9;
+                    if (i4 != -1) {
+                    }
                 }
                 i2 = 0;
-                if (i != -1) {
+                i = 9;
+                if (i4 != -1) {
                 }
-                callback = callback3;
             } else {
-                callback = callback3;
+                iArr = iArr2;
                 z2 = false;
             }
-            i8++;
-            callback3 = callback;
-            i3 = 2;
-            i4 = 3;
-            i5 = 4;
-            i6 = 5;
+            i7++;
+            iArr2 = iArr;
+            i4 = 1;
         }
-        Long valueOf = Long.valueOf(this.cacheSize + this.cacheTempSize + this.videoSize + this.audioSize + this.photoSize + this.documentsSize + this.musicSize + this.stickersCacheSize + this.storiesSize);
+        Long valueOf = Long.valueOf(this.cacheSize + this.cacheTempSize + this.logsSize + this.videoSize + this.audioSize + this.photoSize + this.documentsSize + this.musicSize + this.stickersCacheSize + this.storiesSize);
         lastTotalSizeCalculated = valueOf;
         this.totalSize = valueOf.longValue();
         lastTotalSizeCalculatedTime = System.currentTimeMillis();
         Arrays.fill(this.selected, true);
         StatFs statFs = new StatFs(Environment.getDataDirectory().getPath());
-        int i9 = Build.VERSION.SDK_INT;
-        if (i9 >= 18) {
+        int i8 = Build.VERSION.SDK_INT;
+        if (i8 >= 18) {
             blockSize = statFs.getBlockSizeLong();
         } else {
             blockSize = statFs.getBlockSize();
         }
-        if (i9 >= 18) {
+        if (i8 >= 18) {
             availableBlocks = statFs.getAvailableBlocksLong();
         } else {
             availableBlocks = statFs.getAvailableBlocks();
         }
-        if (i9 >= 18) {
+        if (i8 >= 18) {
             blockCount = statFs.getBlockCountLong();
         } else {
             blockCount = statFs.getBlockCount();
@@ -1392,6 +1405,8 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                 return this.cacheSize;
             case 8:
                 return this.cacheTempSize;
+            case 9:
+                return this.logsSize;
             default:
                 return 0L;
         }
@@ -1399,7 +1414,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
 
     private int sectionsSelected() {
         int i = 0;
-        for (int i2 = 0; i2 < 9; i2++) {
+        for (int i2 = 0; i2 < 10; i2++) {
             if (this.selected[i2] && size(i2) > 0) {
                 i++;
             }
@@ -2440,7 +2455,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         }
 
         public void updateSize() {
-            setSize(CacheControlActivity.this.isAllSectionsSelected(), (CacheControlActivity.this.selected[0] ? CacheControlActivity.this.photoSize : 0L) + (CacheControlActivity.this.selected[1] ? CacheControlActivity.this.videoSize : 0L) + (CacheControlActivity.this.selected[2] ? CacheControlActivity.this.documentsSize : 0L) + (CacheControlActivity.this.selected[3] ? CacheControlActivity.this.musicSize : 0L) + (CacheControlActivity.this.selected[4] ? CacheControlActivity.this.audioSize : 0L) + (CacheControlActivity.this.selected[5] ? CacheControlActivity.this.storiesSize : 0L) + (CacheControlActivity.this.selected[6] ? CacheControlActivity.this.stickersCacheSize : 0L) + (CacheControlActivity.this.selected[7] ? CacheControlActivity.this.cacheSize : 0L) + (CacheControlActivity.this.selected[8] ? CacheControlActivity.this.cacheTempSize : 0L));
+            setSize(CacheControlActivity.this.isAllSectionsSelected(), (CacheControlActivity.this.selected[0] ? CacheControlActivity.this.photoSize : 0L) + (CacheControlActivity.this.selected[1] ? CacheControlActivity.this.videoSize : 0L) + (CacheControlActivity.this.selected[2] ? CacheControlActivity.this.documentsSize : 0L) + (CacheControlActivity.this.selected[3] ? CacheControlActivity.this.musicSize : 0L) + (CacheControlActivity.this.selected[4] ? CacheControlActivity.this.audioSize : 0L) + (CacheControlActivity.this.selected[5] ? CacheControlActivity.this.storiesSize : 0L) + (CacheControlActivity.this.selected[6] ? CacheControlActivity.this.stickersCacheSize : 0L) + (CacheControlActivity.this.selected[7] ? CacheControlActivity.this.cacheSize : 0L) + (CacheControlActivity.this.selected[8] ? CacheControlActivity.this.cacheTempSize : 0L) + (CacheControlActivity.this.selected[9] ? CacheControlActivity.this.logsSize : 0L));
         }
     }
 

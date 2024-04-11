@@ -1083,14 +1083,16 @@ public class NotificationsController extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:58:0x00df, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:61:0x00ec, code lost:
         r8 = false;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public /* synthetic */ void lambda$processReadMessages$20(LongSparseIntArray longSparseIntArray, final ArrayList arrayList, long j, int i, int i2, boolean z) {
+        long j2;
         int i3;
+        long j3;
         int i4 = 1;
         if (longSparseIntArray != null) {
             int i5 = 0;
@@ -1107,9 +1109,14 @@ public class NotificationsController extends BaseController {
                             this.personalCount -= i4;
                         }
                         arrayList.add(messageObject);
-                        i3 = i5;
-                        long j2 = messageObject.messageOwner.peer_id.channel_id;
-                        long j3 = j2 != 0 ? -j2 : 0L;
+                        if (messageObject.isStoryReactionPush) {
+                            i3 = i5;
+                            j3 = messageObject.getDialogId();
+                        } else {
+                            i3 = i5;
+                            long j4 = messageObject.messageOwner.peer_id.channel_id;
+                            j3 = j4 != 0 ? -j4 : 0L;
+                        }
                         SparseArray<MessageObject> sparseArray = this.pushMessagesDict.get(j3);
                         if (sparseArray != null) {
                             sparseArray.remove(messageObject.getId());
@@ -1139,13 +1146,17 @@ public class NotificationsController extends BaseController {
                         if (isPersonalMessage(messageObject2)) {
                             this.personalCount--;
                         }
-                        long j4 = messageObject2.messageOwner.peer_id.channel_id;
-                        long j5 = j4 != 0 ? -j4 : 0L;
-                        SparseArray<MessageObject> sparseArray2 = this.pushMessagesDict.get(j5);
+                        if (messageObject2.isStoryReactionPush) {
+                            j2 = messageObject2.getDialogId();
+                        } else {
+                            long j5 = messageObject2.messageOwner.peer_id.channel_id;
+                            j2 = j5 != 0 ? -j5 : 0L;
+                        }
+                        SparseArray<MessageObject> sparseArray2 = this.pushMessagesDict.get(j2);
                         if (sparseArray2 != null) {
                             sparseArray2.remove(messageObject2.getId());
                             if (sparseArray2.size() == 0) {
-                                this.pushMessagesDict.remove(j5);
+                                this.pushMessagesDict.remove(j2);
                             }
                         }
                         this.pushMessages.remove(i8);
@@ -1244,8 +1255,16 @@ public class NotificationsController extends BaseController {
             int size2 = arrayList.size();
             for (int i2 = 0; i2 < size2; i2++) {
                 MessageObject messageObject = (MessageObject) arrayList.get(i2);
-                long j = messageObject.messageOwner.peer_id.channel_id;
-                SparseArray<MessageObject> sparseArray = this.pushMessagesDict.get(j != 0 ? -j : 0L);
+                long j = 0;
+                if (messageObject.isStoryReactionPush) {
+                    j = messageObject.getDialogId();
+                } else {
+                    long j2 = messageObject.messageOwner.peer_id.channel_id;
+                    if (j2 != 0) {
+                        j = -j2;
+                    }
+                }
+                SparseArray<MessageObject> sparseArray = this.pushMessagesDict.get(j);
                 if (sparseArray == null) {
                     break;
                 }
@@ -1290,13 +1309,13 @@ public class NotificationsController extends BaseController {
     /* JADX WARN: Code restructure failed: missing block: B:16:0x004a, code lost:
         if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionUserJoined) == false) goto L20;
      */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x0141  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x0143  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x014f  */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x0156  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x015c  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x0184  */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x01c6  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x013b  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x0140  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0158  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x015f  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0165  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x018d  */
+    /* JADX WARN: Removed duplicated region for block: B:87:0x01cf  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1309,20 +1328,21 @@ public class NotificationsController extends BaseController {
         long j;
         boolean z5;
         boolean z6;
+        long j2;
         MessageObject messageObject;
         int i3;
         boolean z7;
         MessageObject messageObject2;
-        long j2;
-        SparseArray<MessageObject> sparseArray;
         long j3;
-        int i4;
+        SparseArray<MessageObject> sparseArray;
         long j4;
+        int i4;
         long j5;
+        long j6;
         boolean z8;
         boolean z9;
-        long j6;
         long j7;
+        long j8;
         SparseArray<MessageObject> sparseArray2;
         MessageObject messageObject3;
         TLRPC$Message tLRPC$Message;
@@ -1386,9 +1406,9 @@ public class NotificationsController extends BaseController {
                     Collections.sort(this.storyPushMessages, Comparator$-CC.comparingLong(new ToLongFunction() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda48
                         @Override // j$.util.function.ToLongFunction
                         public final long applyAsLong(Object obj) {
-                            long j8;
-                            j8 = ((NotificationsController.StoryNotification) obj).date;
-                            return j8;
+                            long j9;
+                            j9 = ((NotificationsController.StoryNotification) obj).date;
+                            return j9;
                         }
                     }));
                     z4 = z10;
@@ -1410,9 +1430,13 @@ public class NotificationsController extends BaseController {
                         z6 = ChatObject.isChannel(chat) && !chat.megagroup;
                     } else {
                         z5 = false;
-                        long j8 = messageObject4.messageOwner.peer_id.channel_id;
-                        long j9 = j8 == 0 ? -j8 : 0L;
-                        SparseArray<MessageObject> sparseArray3 = this.pushMessagesDict.get(j9);
+                        if (!messageObject4.isStoryReactionPush) {
+                            j2 = messageObject4.getDialogId();
+                        } else {
+                            long j9 = messageObject4.messageOwner.peer_id.channel_id;
+                            j2 = j9 != 0 ? -j9 : 0L;
+                        }
+                        SparseArray<MessageObject> sparseArray3 = this.pushMessagesDict.get(j2);
                         messageObject = sparseArray3 == null ? sparseArray3.get(id2) : null;
                         long j10 = j;
                         if (messageObject == null) {
@@ -1426,7 +1450,7 @@ public class NotificationsController extends BaseController {
                                     if (messageObject2.isFcmMessage()) {
                                         if (sparseArray3 == null) {
                                             sparseArray3 = new SparseArray<>();
-                                            this.pushMessagesDict.put(j9, sparseArray3);
+                                            this.pushMessagesDict.put(j2, sparseArray3);
                                         }
                                         sparseArray3.put(id2, messageObject4);
                                         int indexOf = this.pushMessages.indexOf(messageObject2);
@@ -1450,50 +1474,50 @@ public class NotificationsController extends BaseController {
                                         getMessagesStorage().putPushMessage(messageObject4);
                                     }
                                     long topicId = MessageObject.getTopicId(this.currentAccount, messageObject4.messageOwner, getMessagesController().isForum(messageObject4));
-                                    if (dialogId2 != this.openedDialogId || !ApplicationLoader.isScreenOn) {
+                                    if (dialogId2 != this.openedDialogId || !ApplicationLoader.isScreenOn || messageObject4.isStoryReactionPush) {
                                         TLRPC$Message tLRPC$Message3 = messageObject4.messageOwner;
                                         if (!tLRPC$Message3.mentioned) {
-                                            j2 = dialogId2;
+                                            j3 = dialogId2;
                                         } else if (z4 || !(tLRPC$Message3.action instanceof TLRPC$TL_messageActionPinMessage)) {
-                                            j2 = messageObject4.getFromChatId();
+                                            j3 = messageObject4.getFromChatId();
                                         }
                                         if (isPersonalMessage(messageObject4)) {
                                             this.personalCount++;
                                         }
-                                        DialogObject.isChatDialog(j2);
-                                        int indexOfKey = longSparseArray.indexOfKey(j2);
+                                        DialogObject.isChatDialog(j3);
+                                        int indexOfKey = longSparseArray.indexOfKey(j3);
                                         if (indexOfKey >= 0 && topicId == 0) {
                                             z9 = ((Boolean) longSparseArray.valueAt(indexOfKey)).booleanValue();
                                             sparseArray = sparseArray3;
                                             i4 = i5;
-                                            j3 = dialogId2;
-                                            j4 = j10;
-                                            j5 = j9;
+                                            j4 = dialogId2;
+                                            j5 = j10;
                                             j6 = j2;
+                                            j7 = j3;
                                         } else {
                                             sparseArray = sparseArray3;
-                                            j3 = dialogId2;
-                                            long j12 = j2;
+                                            j4 = dialogId2;
+                                            long j12 = j3;
                                             i4 = i5;
-                                            j4 = j10;
-                                            j5 = j9;
-                                            int notifyOverride = getNotifyOverride(notificationsSettings, j2, topicId);
+                                            j5 = j10;
+                                            j6 = j2;
+                                            int notifyOverride = getNotifyOverride(notificationsSettings, j3, topicId);
                                             if (notifyOverride == -1) {
                                                 z8 = isGlobalNotificationsEnabled(j12, Boolean.valueOf(z5), messageObject4.isReactionPush, messageObject4.isStoryReactionPush);
                                             } else {
                                                 z8 = notifyOverride != 2;
                                             }
                                             z9 = z8;
-                                            j6 = j12;
-                                            longSparseArray.put(j6, Boolean.valueOf(z9));
+                                            j7 = j12;
+                                            longSparseArray.put(j7, Boolean.valueOf(z9));
                                         }
                                         if (z9) {
                                             if (z) {
-                                                j7 = j6;
+                                                j8 = j7;
                                                 i5 = i4;
                                             } else {
-                                                j7 = j6;
-                                                i5 = addToPopupMessages(arrayList2, messageObject4, j6, z5, notificationsSettings);
+                                                j8 = j7;
+                                                i5 = addToPopupMessages(arrayList2, messageObject4, j7, z5, notificationsSettings);
                                             }
                                             if (!z13) {
                                                 z13 = messageObject4.messageOwner.from_scheduled;
@@ -1503,27 +1527,27 @@ public class NotificationsController extends BaseController {
                                             if (id2 != 0) {
                                                 if (sparseArray == null) {
                                                     sparseArray2 = new SparseArray<>();
-                                                    this.pushMessagesDict.put(j5, sparseArray2);
+                                                    this.pushMessagesDict.put(j6, sparseArray2);
                                                 } else {
                                                     sparseArray2 = sparseArray;
                                                 }
                                                 sparseArray2.put(id2, messageObject4);
-                                            } else if (j4 != 0) {
-                                                this.fcmRandomMessagesDict.put(j4, messageObject4);
+                                            } else if (j5 != 0) {
+                                                this.fcmRandomMessagesDict.put(j5, messageObject4);
                                             }
-                                            if (j3 != j7) {
-                                                long j13 = j3;
+                                            if (j4 != j8) {
+                                                long j13 = j4;
                                                 Integer num2 = this.pushDialogsOverrideMention.get(j13);
                                                 this.pushDialogsOverrideMention.put(j13, Integer.valueOf(num2 == null ? 1 : num2.intValue() + 1));
                                             }
                                         } else {
-                                            j7 = j6;
+                                            j8 = j7;
                                             i5 = i4;
                                         }
                                         if (messageObject4.isReactionPush) {
                                             SparseBooleanArray sparseBooleanArray = new SparseBooleanArray();
                                             sparseBooleanArray.put(id2, true);
-                                            getMessagesController().checkUnreadReactions(j7, topicId, sparseBooleanArray);
+                                            getMessagesController().checkUnreadReactions(j8, topicId, sparseBooleanArray);
                                         }
                                         z11 = true;
                                     } else if (!z) {
@@ -1541,10 +1565,9 @@ public class NotificationsController extends BaseController {
                         z11 = z7;
                     }
                     z5 = z6;
-                    long j82 = messageObject4.messageOwner.peer_id.channel_id;
-                    if (j82 == 0) {
+                    if (!messageObject4.isStoryReactionPush) {
                     }
-                    SparseArray<MessageObject> sparseArray32 = this.pushMessagesDict.get(j9);
+                    SparseArray<MessageObject> sparseArray32 = this.pushMessagesDict.get(j2);
                     if (sparseArray32 == null) {
                     }
                     long j102 = j;
@@ -1891,13 +1914,14 @@ public class NotificationsController extends BaseController {
         long j;
         long j2;
         boolean z;
+        long j3;
         boolean z2;
         TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader;
         SharedPreferences sharedPreferences;
         MessageObject messageObject;
         SparseArray<MessageObject> sparseArray;
-        long j3;
         long j4;
+        long j5;
         int i;
         TLRPC$Message tLRPC$Message;
         boolean z3;
@@ -1914,7 +1938,7 @@ public class NotificationsController extends BaseController {
         this.personalCount = 0;
         SharedPreferences notificationsSettings = getAccountInstance().getNotificationsSettings();
         LongSparseArray longSparseArray2 = new LongSparseArray();
-        long j5 = 0;
+        long j6 = 0;
         if (arrayList3 != null) {
             int i2 = 0;
             while (i2 < arrayList.size()) {
@@ -1922,9 +1946,9 @@ public class NotificationsController extends BaseController {
                 if (tLRPC$Message2 != null && ((tLRPC$MessageFwdHeader = tLRPC$Message2.fwd_from) == null || !tLRPC$MessageFwdHeader.imported)) {
                     TLRPC$MessageAction tLRPC$MessageAction = tLRPC$Message2.action;
                     if (!(tLRPC$MessageAction instanceof TLRPC$TL_messageActionSetMessagesTTL) && (!tLRPC$Message2.silent || (!(tLRPC$MessageAction instanceof TLRPC$TL_messageActionContactSignUp) && !(tLRPC$MessageAction instanceof TLRPC$TL_messageActionUserJoined)))) {
-                        long j6 = tLRPC$Message2.peer_id.channel_id;
-                        long j7 = j6 != j5 ? -j6 : j5;
-                        SparseArray<MessageObject> sparseArray3 = this.pushMessagesDict.get(j7);
+                        long j7 = tLRPC$Message2.peer_id.channel_id;
+                        long j8 = j7 != j6 ? -j7 : j6;
+                        SparseArray<MessageObject> sparseArray3 = this.pushMessagesDict.get(j8);
                         if (sparseArray3 == null || sparseArray3.indexOfKey(tLRPC$Message2.id) < 0) {
                             MessageObject messageObject2 = new MessageObject(this.currentAccount, tLRPC$Message2, z5, z5);
                             if (isPersonalMessage(messageObject2)) {
@@ -1940,14 +1964,14 @@ public class NotificationsController extends BaseController {
                                 messageObject = messageObject2;
                                 sparseArray = sparseArray3;
                                 i = i2;
-                                j3 = dialogId;
-                                j4 = j7;
+                                j4 = dialogId;
+                                j5 = j8;
                                 tLRPC$Message = tLRPC$Message2;
                             } else {
                                 messageObject = messageObject2;
                                 sparseArray = sparseArray3;
-                                j3 = dialogId;
-                                j4 = j7;
+                                j4 = dialogId;
+                                j5 = j8;
                                 i = i2;
                                 tLRPC$Message = tLRPC$Message2;
                                 int notifyOverride = getNotifyOverride(sharedPreferences, fromChatId, topicId);
@@ -1962,23 +1986,23 @@ public class NotificationsController extends BaseController {
                             if (z4 && (fromChatId != this.openedDialogId || !ApplicationLoader.isScreenOn)) {
                                 if (sparseArray == null) {
                                     sparseArray2 = new SparseArray<>();
-                                    this.pushMessagesDict.put(j4, sparseArray2);
+                                    this.pushMessagesDict.put(j5, sparseArray2);
                                 } else {
                                     sparseArray2 = sparseArray;
                                 }
                                 sparseArray2.put(tLRPC$Message.id, messageObject);
                                 appendMessage(messageObject);
-                                if (j3 != fromChatId) {
-                                    long j8 = j3;
-                                    Integer num = this.pushDialogsOverrideMention.get(j8);
-                                    this.pushDialogsOverrideMention.put(j8, Integer.valueOf(num == null ? 1 : num.intValue() + 1));
+                                if (j4 != fromChatId) {
+                                    long j9 = j4;
+                                    Integer num = this.pushDialogsOverrideMention.get(j9);
+                                    this.pushDialogsOverrideMention.put(j9, Integer.valueOf(num == null ? 1 : num.intValue() + 1));
                                 }
                             }
                             i2 = i + 1;
                             arrayList3 = arrayList;
                             notificationsSettings = sharedPreferences;
                             z5 = false;
-                            j5 = 0;
+                            j6 = 0;
                         }
                     }
                 }
@@ -1988,7 +2012,7 @@ public class NotificationsController extends BaseController {
                 arrayList3 = arrayList;
                 notificationsSettings = sharedPreferences;
                 z5 = false;
-                j5 = 0;
+                j6 = 0;
             }
         }
         SharedPreferences sharedPreferences2 = notificationsSettings;
@@ -2027,35 +2051,39 @@ public class NotificationsController extends BaseController {
                     long dialogId2 = messageObject3.getDialogId();
                     long topicId2 = MessageObject.getTopicId(this.currentAccount, messageObject3.messageOwner, getMessagesController().isForum(messageObject3));
                     TLRPC$Message tLRPC$Message3 = messageObject3.messageOwner;
-                    long j9 = tLRPC$Message3.random_id;
+                    long j10 = tLRPC$Message3.random_id;
                     long fromChatId2 = tLRPC$Message3.mentioned ? messageObject3.getFromChatId() : dialogId2;
                     int indexOfKey3 = longSparseArray2.indexOfKey(fromChatId2);
                     if (indexOfKey3 >= 0 && topicId2 == 0) {
-                        j = j9;
-                        long j10 = fromChatId2;
-                        z = ((Boolean) longSparseArray2.valueAt(indexOfKey3)).booleanValue();
-                        j2 = j10;
-                    } else {
+                        j = j10;
                         long j11 = fromChatId2;
-                        j = j9;
-                        int notifyOverride3 = getNotifyOverride(sharedPreferences2, j11, topicId2);
+                        z = ((Boolean) longSparseArray2.valueAt(indexOfKey3)).booleanValue();
+                        j2 = j11;
+                    } else {
+                        long j12 = fromChatId2;
+                        j = j10;
+                        int notifyOverride3 = getNotifyOverride(sharedPreferences2, j12, topicId2);
                         if (notifyOverride3 == -1) {
-                            j2 = j11;
+                            j2 = j12;
                             z = isGlobalNotificationsEnabled(j2, messageObject3.isReactionPush, messageObject3.isStoryReactionPush);
                         } else {
-                            j2 = j11;
+                            j2 = j12;
                             z = notifyOverride3 != 2;
                         }
                         longSparseArray2.put(j2, Boolean.valueOf(z));
                     }
                     if (z && (j2 != this.openedDialogId || !ApplicationLoader.isScreenOn)) {
                         if (id != 0) {
-                            long j12 = messageObject3.messageOwner.peer_id.channel_id;
-                            long j13 = j12 != 0 ? -j12 : 0L;
-                            SparseArray<MessageObject> sparseArray4 = this.pushMessagesDict.get(j13);
+                            if (messageObject3.isStoryReactionPush) {
+                                j3 = messageObject3.getDialogId();
+                            } else {
+                                long j13 = messageObject3.messageOwner.peer_id.channel_id;
+                                j3 = j13 != 0 ? -j13 : 0L;
+                            }
+                            SparseArray<MessageObject> sparseArray4 = this.pushMessagesDict.get(j3);
                             if (sparseArray4 == null) {
                                 sparseArray4 = new SparseArray<>();
-                                this.pushMessagesDict.put(j13, sparseArray4);
+                                this.pushMessagesDict.put(j3, sparseArray4);
                             }
                             sparseArray4.put(id, messageObject3);
                         } else {
@@ -8015,6 +8043,8 @@ public class NotificationsController extends BaseController {
                 edit.putString("GlobalSound", string);
             } else if (i3 == 3) {
                 edit.putString("StoriesSound", string);
+            } else if (i3 == 4 || i3 == 5) {
+                edit.putString("ReactionSound", string);
             }
             if (i3 == 2) {
                 edit.putString("ChannelSoundPath", uri3);
@@ -8024,6 +8054,8 @@ public class NotificationsController extends BaseController {
                 edit.putString("GlobalSoundPath", uri3);
             } else if (i3 == 3) {
                 edit.putString("StoriesSoundPath", uri3);
+            } else if (i3 == 4 || i3 == 5) {
+                edit.putString("ReactionSound", uri3);
             }
             getNotificationsController().lambda$deleteNotificationChannelGlobal$40(i3, -1);
         } else {

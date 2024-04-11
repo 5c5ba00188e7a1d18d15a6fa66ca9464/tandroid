@@ -74,7 +74,6 @@ import org.telegram.messenger.VideoEditedInfo;
 import org.telegram.messenger.camera.CameraController;
 import org.telegram.messenger.camera.CameraSessionWrapper;
 import org.telegram.messenger.camera.CameraView;
-import org.telegram.messenger.utils.GalleryBitmapsCache;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$Document;
@@ -116,7 +115,6 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     float animationClipLeft;
     float animationClipRight;
     float animationClipTop;
-    private GalleryBitmapsCache bitmapsQueueCache;
     private boolean cameraAnimationInProgress;
     private PhotoAttachAdapter cameraAttachAdapter;
     protected PhotoAttachCameraCell cameraCell;
@@ -410,8 +408,9 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 placeProviderObject.viewX = iArr[0];
                 placeProviderObject.viewY = iArr[1];
                 placeProviderObject.parentView = ChatAttachAlertPhotoLayout.this.gridView;
-                placeProviderObject.imageReceiver = cellForIndex.getImageView().getImageReceiver();
-                placeProviderObject.thumb = cellForIndex.getBitmapSafe(false);
+                ImageReceiver imageReceiver = cellForIndex.getImageView().getImageReceiver();
+                placeProviderObject.imageReceiver = imageReceiver;
+                placeProviderObject.thumb = imageReceiver.getBitmapSafe();
                 placeProviderObject.scale = cellForIndex.getScale();
                 placeProviderObject.clipBottomAddition = (int) ChatAttachAlertPhotoLayout.this.parentAlert.getClipLayoutBottom();
                 cellForIndex.showCheck(false);
@@ -422,19 +421,35 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
 
         @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
         public void updatePhotoAtIndex(int i) {
-            MediaController.PhotoEntry photoEntryAtPosition;
             PhotoAttachPhotoCell cellForIndex = ChatAttachAlertPhotoLayout.this.getCellForIndex(i);
-            if (cellForIndex == null || (photoEntryAtPosition = ChatAttachAlertPhotoLayout.this.getPhotoEntryAtPosition(i)) == null) {
-                return;
+            if (cellForIndex != null) {
+                cellForIndex.getImageView().setOrientation(0, true);
+                MediaController.PhotoEntry photoEntryAtPosition = ChatAttachAlertPhotoLayout.this.getPhotoEntryAtPosition(i);
+                if (photoEntryAtPosition == null) {
+                    return;
+                }
+                if (photoEntryAtPosition.thumbPath != null) {
+                    cellForIndex.getImageView().setImage(photoEntryAtPosition.thumbPath, null, Theme.chat_attachEmptyDrawable);
+                } else if (photoEntryAtPosition.path != null) {
+                    cellForIndex.getImageView().setOrientation(photoEntryAtPosition.orientation, photoEntryAtPosition.invert, true);
+                    if (photoEntryAtPosition.isVideo) {
+                        BackupImageView imageView = cellForIndex.getImageView();
+                        imageView.setImage("vthumb://" + photoEntryAtPosition.imageId + ":" + photoEntryAtPosition.path, null, Theme.chat_attachEmptyDrawable);
+                        return;
+                    }
+                    BackupImageView imageView2 = cellForIndex.getImageView();
+                    imageView2.setImage("thumb://" + photoEntryAtPosition.imageId + ":" + photoEntryAtPosition.path, null, Theme.chat_attachEmptyDrawable);
+                } else {
+                    cellForIndex.getImageView().setImageDrawable(Theme.chat_attachEmptyDrawable);
+                }
             }
-            cellForIndex.updatePhotoEntry(photoEntryAtPosition);
         }
 
         @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
         public ImageReceiver.BitmapHolder getThumbForPhoto(MessageObject messageObject, TLRPC$FileLocation tLRPC$FileLocation, int i) {
             PhotoAttachPhotoCell cellForIndex = ChatAttachAlertPhotoLayout.this.getCellForIndex(i);
             if (cellForIndex != null) {
-                return cellForIndex.getBitmapSafe(true);
+                return cellForIndex.getImageView().getImageReceiver().getBitmapSafe();
             }
             return null;
         }
@@ -598,7 +613,6 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         this.itemsPerRow = 3;
         this.loading = true;
         this.notificationsLocker = new AnimationNotificationsLocker();
-        this.bitmapsQueueCache = new GalleryBitmapsCache();
         this.photoViewerProvider = new 1();
         this.forceDarkTheme = z;
         this.needCamera = z2;
@@ -1174,7 +1188,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             PhotoViewer.getInstance().setMaxSelectedPhotos(0, false);
             i3 = 3;
         }
-        PhotoViewer.getInstance().openPhotoForSelect(arrayList, i2, i3, false, this.photoViewerProvider, chatActivity, true);
+        PhotoViewer.getInstance().openPhotoForSelect(arrayList, i2, i3, false, this.photoViewerProvider, chatActivity);
         PhotoViewer.getInstance().setAvatarFor(this.parentAlert.getAvatarFor());
         ChatAttachAlert chatAttachAlert2 = this.parentAlert;
         if (chatAttachAlert2.isPhotoPicker && !chatAttachAlert2.isStickerMode) {
@@ -2053,7 +2067,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             if (this.parentAlert.getAvatarFor() != null && photoEntry != null) {
                 this.parentAlert.getAvatarFor().isVideo = photoEntry.isVideo;
             }
-            PhotoViewer.getInstance().openPhotoForSelect(allPhotosArray, size, i, false, new 15(z), chatActivity, true);
+            PhotoViewer.getInstance().openPhotoForSelect(allPhotosArray, size, i, false, new 15(z), chatActivity);
             PhotoViewer.getInstance().setAvatarFor(this.parentAlert.getAvatarFor());
             if (this.parentAlert.isStickerMode) {
                 PhotoViewer.getInstance().enableStickerMode(null, false);
@@ -4602,12 +4616,6 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         }
     }
 
-    @Override // android.view.ViewGroup, android.view.View
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        this.bitmapsQueueCache.cleanupQueues();
-    }
-
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class PhotoAttachAdapter extends RecyclerListView.FastScrollAdapter {
@@ -4634,9 +4642,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         }
 
         public RecyclerListView.Holder createHolder() {
-            Context context = this.mContext;
-            ChatAttachAlertPhotoLayout chatAttachAlertPhotoLayout = ChatAttachAlertPhotoLayout.this;
-            final PhotoAttachPhotoCell photoAttachPhotoCell = new PhotoAttachPhotoCell(context, chatAttachAlertPhotoLayout.resourcesProvider, chatAttachAlertPhotoLayout.bitmapsQueueCache);
+            final PhotoAttachPhotoCell photoAttachPhotoCell = new PhotoAttachPhotoCell(this.mContext, ChatAttachAlertPhotoLayout.this.resourcesProvider);
             if (Build.VERSION.SDK_INT >= 21 && this == ChatAttachAlertPhotoLayout.this.adapter) {
                 photoAttachPhotoCell.setOutlineProvider(new ViewOutlineProvider() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout.PhotoAttachAdapter.1
                     @Override // android.view.ViewOutlineProvider

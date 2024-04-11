@@ -2242,10 +2242,12 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
                 PaintView.this.lambda$openStickersView$22(zArr, i, dialogInterface);
             }
         });
-        emojiBottomSheet.whenDocumentSelected(new Utilities.Callback3() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda53
-            @Override // org.telegram.messenger.Utilities.Callback3
-            public final void run(Object obj, Object obj2, Object obj3) {
-                PaintView.this.lambda$openStickersView$23(obj, (TLRPC$Document) obj2, (Boolean) obj3);
+        emojiBottomSheet.whenDocumentSelected(new Utilities.Callback3Return() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda53
+            @Override // org.telegram.messenger.Utilities.Callback3Return
+            public final Object run(Object obj, Object obj2, Object obj3) {
+                Boolean lambda$openStickersView$23;
+                lambda$openStickersView$23 = PaintView.this.lambda$openStickersView$23(obj, (TLRPC$Document) obj2, (Boolean) obj3);
+                return lambda$openStickersView$23;
             }
         });
         emojiBottomSheet.whenWidgetSelected(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda56
@@ -2275,13 +2277,14 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$openStickersView$23(Object obj, TLRPC$Document tLRPC$Document, Boolean bool) {
+    public /* synthetic */ Boolean lambda$openStickersView$23(Object obj, TLRPC$Document tLRPC$Document, Boolean bool) {
         this.forceChanges = true;
         StickerView createSticker = createSticker(obj, tLRPC$Document, false);
         if (bool.booleanValue()) {
             createSticker.setScale(1.5f);
         }
         appearAnimation(createSticker);
+        return Boolean.TRUE;
     }
 
     /* JADX INFO: Access modifiers changed from: private */

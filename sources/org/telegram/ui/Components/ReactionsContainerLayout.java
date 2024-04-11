@@ -1095,6 +1095,9 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         if (this.type != 4) {
             return;
         }
+        invalidate();
+        this.recyclerListView.invalidate();
+        this.recyclerListView.invalidateViews();
         for (int i = 0; i < this.recyclerListView.getChildCount(); i++) {
             View childAt = this.recyclerListView.getChildAt(i);
             if (childAt instanceof ReactionHolderView) {

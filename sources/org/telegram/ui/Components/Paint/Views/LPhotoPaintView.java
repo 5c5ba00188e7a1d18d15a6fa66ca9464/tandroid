@@ -1759,10 +1759,12 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
                 return num.intValue() == 2;
             }
         };
-        emojiBottomSheet.whenDocumentSelected(new Utilities.Callback3() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda45
-            @Override // org.telegram.messenger.Utilities.Callback3
-            public final void run(Object obj, Object obj2, Object obj3) {
-                LPhotoPaintView.this.lambda$openStickersView$19(obj, (TLRPC$Document) obj2, (Boolean) obj3);
+        emojiBottomSheet.whenDocumentSelected(new Utilities.Callback3Return() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda45
+            @Override // org.telegram.messenger.Utilities.Callback3Return
+            public final Object run(Object obj, Object obj2, Object obj3) {
+                Boolean lambda$openStickersView$19;
+                lambda$openStickersView$19 = LPhotoPaintView.this.lambda$openStickersView$19(obj, (TLRPC$Document) obj2, (Boolean) obj3);
+                return lambda$openStickersView$19;
             }
         });
         emojiBottomSheet.whenWidgetSelected(new Utilities.Callback() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda46
@@ -1789,11 +1791,12 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$openStickersView$19(Object obj, TLRPC$Document tLRPC$Document, Boolean bool) {
+    public /* synthetic */ Boolean lambda$openStickersView$19(Object obj, TLRPC$Document tLRPC$Document, Boolean bool) {
         StickerView createSticker = createSticker(obj, tLRPC$Document, true);
         if (bool.booleanValue()) {
             createSticker.setScale(1.5f);
         }
+        return Boolean.TRUE;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
