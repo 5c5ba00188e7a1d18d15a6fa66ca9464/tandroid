@@ -26498,7 +26498,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Type inference failed for: r5v17 */
     /* JADX WARN: Type inference failed for: r5v19 */
     /* JADX WARN: Type inference failed for: r7v22 */
-    /* JADX WARN: Type inference failed for: r7v23, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r7v23, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r7v25 */
     /* JADX WARN: Type inference failed for: r7v26 */
     /*
@@ -33526,7 +33526,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Removed duplicated region for block: B:430:0x0878  */
     /* JADX WARN: Type inference failed for: r0v779 */
     /* JADX WARN: Type inference failed for: r15v18 */
-    /* JADX WARN: Type inference failed for: r15v19, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r15v19, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r15v43 */
     /* JADX WARN: Type inference failed for: r18v3 */
     /* JADX WARN: Type inference failed for: r18v4, types: [java.lang.String] */

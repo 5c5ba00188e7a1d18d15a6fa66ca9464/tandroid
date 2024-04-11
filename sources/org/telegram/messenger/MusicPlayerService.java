@@ -298,8 +298,8 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
         return createBitmap;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:141:0x048a  */
-    /* JADX WARN: Removed duplicated region for block: B:195:0x064b  */
+    /* JADX WARN: Removed duplicated region for block: B:141:0x048b  */
+    /* JADX WARN: Removed duplicated region for block: B:195:0x064c  */
     /* JADX WARN: Removed duplicated region for block: B:233:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:66:0x0195  */
     /* JADX WARN: Removed duplicated region for block: B:67:0x019e  */

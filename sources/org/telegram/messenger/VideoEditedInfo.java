@@ -128,6 +128,7 @@ public class VideoEditedInfo {
         public Canvas canvas;
         public int color;
         public float currentFrame;
+        public boolean customTextView;
         public float density;
         public TLRPC$Document document;
         public ArrayList<EmojiEntity> entities;

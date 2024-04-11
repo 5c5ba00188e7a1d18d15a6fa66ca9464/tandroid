@@ -491,6 +491,7 @@ public class MessageObject {
     public boolean isStoryMentionPush;
     public boolean isStoryPush;
     public boolean isStoryPushHidden;
+    public boolean isStoryReactionPush;
     public boolean isTopicMainMessage;
     public Object lastGeoWebFileLoaded;
     public Object lastGeoWebFileSet;
@@ -7123,7 +7124,7 @@ public class MessageObject {
         return false;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:57:0x0115  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x0116  */
     /* JADX WARN: Removed duplicated region for block: B:79:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

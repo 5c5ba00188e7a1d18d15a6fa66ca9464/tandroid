@@ -394,8 +394,8 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
         return (item == null || item.hideDivider || item2 == null || isShadow(item2.viewType) != isShadow(item.viewType)) ? false : true;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:29:0x00a9  */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x00f7  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x00ae  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x00fc  */
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -414,10 +414,11 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
         boolean hasDivider = hasDivider(i);
         String str = null;
         String str2 = "";
+        boolean z = false;
         switch (itemViewType) {
             case -1:
                 FrameLayout frameLayout = (FrameLayout) viewHolder.itemView;
-                if (frameLayout.getChildCount() == (item.view != null) && frameLayout.getChildAt(0) == item.view) {
+                if (frameLayout.getChildCount() == (item.view == null ? 0 : 1) && frameLayout.getChildAt(0) == item.view) {
                     return;
                 }
                 frameLayout.removeAllViews();
@@ -497,9 +498,11 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
                 return;
             case 5:
                 NotificationsCheckCell notificationsCheckCell = (NotificationsCheckCell) viewHolder.itemView;
-                notificationsCheckCell.setTextAndValueAndCheck(item.text, item.subtext, item.checked, hasDivider);
                 CharSequence charSequence2 = item.subtext;
-                notificationsCheckCell.setMultiline((charSequence2 == null || !charSequence2.toString().contains("\n")) ? false : false);
+                if (charSequence2 != null && charSequence2.toString().contains("\n")) {
+                    z = true;
+                }
+                notificationsCheckCell.setTextAndValueAndCheck(item.text, item.subtext, item.checked, 0, z, hasDivider);
                 return;
             case 6:
                 ((NotificationsCheckCell) viewHolder.itemView).setTextAndValueAndCheck(item.text, item.subtext, item.checked, hasDivider);
@@ -524,13 +527,13 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
                     textInfoPrivacyCell.getTextView().setMaxWidth(AndroidUtilities.displaySize.x);
                     textInfoPrivacyCell.getTextView().setPadding(0, AndroidUtilities.dp(10.0f), 0, AndroidUtilities.dp(17.0f));
                 }
-                boolean z = (item3 == null || isShadow(item3.viewType)) ? false : true;
-                r12 = (item2 == null || isShadow(item2.viewType)) ? false : false;
-                if (z && r12) {
+                boolean z2 = (item3 == null || isShadow(item3.viewType)) ? false : true;
+                r11 = (item2 == null || isShadow(item2.viewType)) ? 0 : 0;
+                if (z2 && r11 != 0) {
                     i2 = R.drawable.greydivider;
-                } else if (z) {
+                } else if (z2) {
                     i2 = R.drawable.greydivider_bottom;
-                } else if (r12) {
+                } else if (r11 != 0) {
                     i2 = R.drawable.greydivider_top;
                 } else {
                     i2 = R.drawable.field_carret_empty;
@@ -633,12 +636,12 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
                 StoryPrivacyBottomSheet.UserCell userCell3 = (StoryPrivacyBottomSheet.UserCell) viewHolder.itemView;
                 long j = userCell3.dialogId;
                 Object obj4 = item.object;
-                boolean z2 = j == (obj4 instanceof TLRPC$User ? ((TLRPC$User) obj4).id : obj4 instanceof TLRPC$Chat ? -((TLRPC$Chat) obj4).id : 0L);
+                boolean z3 = j == (obj4 instanceof TLRPC$User ? ((TLRPC$User) obj4).id : obj4 instanceof TLRPC$Chat ? -((TLRPC$Chat) obj4).id : 0L);
                 userCell3.setIsSendAs(false, true);
                 userCell3.set(item.object);
                 userCell3.checkBox.setVisibility(8);
                 userCell3.radioButton.setVisibility(0);
-                userCell3.setChecked(item.checked, z2);
+                userCell3.setChecked(item.checked, z3);
                 userCell3.setDivider(hasDivider);
                 return;
             case 28:

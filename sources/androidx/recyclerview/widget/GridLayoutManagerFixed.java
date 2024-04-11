@@ -95,7 +95,7 @@ public class GridLayoutManagerFixed extends GridLayoutManager {
      */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r12v0 */
-    /* JADX WARN: Type inference failed for: r12v1, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r12v1, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r12v5 */
     /* JADX WARN: Type inference failed for: r13v0 */
     /* JADX WARN: Type inference failed for: r13v1, types: [boolean, int] */

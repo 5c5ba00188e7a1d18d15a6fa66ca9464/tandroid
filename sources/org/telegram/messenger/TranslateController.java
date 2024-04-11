@@ -561,10 +561,10 @@ public class TranslateController extends BaseController {
                 if (tLRPC$Message4.translatedText == null || !dialogTranslateTo.equals(tLRPC$Message4.translatedToLanguage)) {
                     NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageTranslating, messageObject);
                     final MessageObject messageObject3 = messageObject;
-                    pushToTranslate(messageObject, dialogTranslateTo, new Utilities.Callback2() { // from class: org.telegram.messenger.TranslateController$$ExternalSyntheticLambda30
-                        @Override // org.telegram.messenger.Utilities.Callback2
-                        public final void run(Object obj, Object obj2) {
-                            TranslateController.this.lambda$checkTranslation$4(messageObject3, z2, dialogId, (TLRPC$TL_textWithEntities) obj, (String) obj2);
+                    pushToTranslate(messageObject, dialogTranslateTo, new Utilities.Callback3() { // from class: org.telegram.messenger.TranslateController$$ExternalSyntheticLambda30
+                        @Override // org.telegram.messenger.Utilities.Callback3
+                        public final void run(Object obj, Object obj2, Object obj3) {
+                            TranslateController.this.lambda$checkTranslation$4(messageObject3, z2, dialogId, (Integer) obj, (TLRPC$TL_textWithEntities) obj2, (String) obj3);
                         }
                     });
                 } else if (z2) {
@@ -575,7 +575,10 @@ public class TranslateController extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$checkTranslation$4(MessageObject messageObject, boolean z, long j, TLRPC$TL_textWithEntities tLRPC$TL_textWithEntities, String str) {
+    public /* synthetic */ void lambda$checkTranslation$4(MessageObject messageObject, boolean z, long j, Integer num, TLRPC$TL_textWithEntities tLRPC$TL_textWithEntities, String str) {
+        if (messageObject.getId() != num.intValue()) {
+            FileLog.e("wtf, asked to translate " + messageObject.getId() + " but got " + num + "!");
+        }
         TLRPC$Message tLRPC$Message = messageObject.messageOwner;
         tLRPC$Message.translatedToLanguage = str;
         tLRPC$Message.translatedText = tLRPC$TL_textWithEntities;
@@ -823,7 +826,7 @@ public class TranslateController extends BaseController {
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class PendingTranslation {
-        ArrayList<Utilities.Callback2<TLRPC$TL_textWithEntities, String>> callbacks;
+        ArrayList<Utilities.Callback3<Integer, TLRPC$TL_textWithEntities, String>> callbacks;
         int delay;
         String language;
         ArrayList<Integer> messageIds;
@@ -841,10 +844,10 @@ public class TranslateController extends BaseController {
         }
     }
 
-    private void pushToTranslate(MessageObject messageObject, String str, Utilities.Callback2<TLRPC$TL_textWithEntities, String> callback2) {
+    private void pushToTranslate(MessageObject messageObject, String str, Utilities.Callback3<Integer, TLRPC$TL_textWithEntities, String> callback3) {
         final PendingTranslation pendingTranslation;
         String str2;
-        if (messageObject == null || callback2 == null) {
+        if (messageObject == null || callback3 == null) {
             return;
         }
         final long dialogId = messageObject.getDialogId();
@@ -900,10 +903,11 @@ public class TranslateController extends BaseController {
                 tLRPC$TL_textWithEntities.text = tLRPC$Message2.message;
                 tLRPC$TL_textWithEntities.entities = tLRPC$Message2.entities;
             }
+            FileLog.d("pending translation +" + messageObject.getId() + " message");
             pendingTranslation.messageTexts.add(tLRPC$TL_textWithEntities);
-            pendingTranslation.callbacks.add(callback2);
+            pendingTranslation.callbacks.add(callback3);
             pendingTranslation.language = str;
-            pendingTranslation.symbolsCount += i;
+            pendingTranslation.symbolsCount = pendingTranslation.symbolsCount + i;
             Runnable runnable2 = new Runnable() { // from class: org.telegram.messenger.TranslateController$$ExternalSyntheticLambda4
                 @Override // java.lang.Runnable
                 public final void run() {
@@ -956,7 +960,7 @@ public class TranslateController extends BaseController {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$pushToTranslate$14(PendingTranslation pendingTranslation, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error, long j) {
         ArrayList<Integer> arrayList;
-        ArrayList<Utilities.Callback2<TLRPC$TL_textWithEntities, String>> arrayList2;
+        ArrayList<Utilities.Callback3<Integer, TLRPC$TL_textWithEntities, String>> arrayList2;
         ArrayList<TLRPC$TL_textWithEntities> arrayList3;
         synchronized (this) {
             arrayList = pendingTranslation.messageIds;
@@ -967,14 +971,14 @@ public class TranslateController extends BaseController {
             ArrayList<TLRPC$TL_textWithEntities> arrayList4 = ((TLRPC$TL_messages_translateResult) tLObject).result;
             int min = Math.min(arrayList2.size(), arrayList4.size());
             for (int i = 0; i < min; i++) {
-                arrayList2.get(i).run(TranslateAlert2.preprocess(arrayList3.get(i), arrayList4.get(i)), pendingTranslation.language);
+                arrayList2.get(i).run(arrayList.get(i), TranslateAlert2.preprocess(arrayList3.get(i), arrayList4.get(i)), pendingTranslation.language);
             }
         } else if (tLRPC$TL_error != null && "TO_LANG_INVALID".equals(tLRPC$TL_error.text)) {
             toggleTranslatingDialog(j, false);
             NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.showBulletin, 1, LocaleController.getString("TranslationFailedAlert2", R.string.TranslationFailedAlert2));
         } else {
             for (int i2 = 0; i2 < arrayList2.size(); i2++) {
-                arrayList2.get(i2).run(null, pendingTranslation.language);
+                arrayList2.get(i2).run(arrayList.get(i2), null, pendingTranslation.language);
             }
         }
         synchronized (this) {

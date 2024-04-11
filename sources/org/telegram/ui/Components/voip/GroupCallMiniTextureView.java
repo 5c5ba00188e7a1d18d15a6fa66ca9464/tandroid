@@ -963,35 +963,35 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
     /* JADX WARN: Code restructure failed: missing block: B:45:0x0089, code lost:
         if (r23.participant != r10.videoNotAvailableParticipant) goto L282;
      */
-    /* JADX WARN: Removed duplicated region for block: B:157:0x02bd  */
-    /* JADX WARN: Removed duplicated region for block: B:160:0x02d1  */
-    /* JADX WARN: Removed duplicated region for block: B:165:0x02e7  */
-    /* JADX WARN: Removed duplicated region for block: B:212:0x036f  */
-    /* JADX WARN: Removed duplicated region for block: B:225:0x038a  */
-    /* JADX WARN: Removed duplicated region for block: B:228:0x0395  */
-    /* JADX WARN: Removed duplicated region for block: B:229:0x039d  */
-    /* JADX WARN: Removed duplicated region for block: B:233:0x03ba  */
-    /* JADX WARN: Removed duplicated region for block: B:241:0x0404  */
-    /* JADX WARN: Removed duplicated region for block: B:242:0x040e  */
-    /* JADX WARN: Removed duplicated region for block: B:245:0x0423  */
-    /* JADX WARN: Removed duplicated region for block: B:253:0x044c  */
-    /* JADX WARN: Removed duplicated region for block: B:254:0x0470  */
-    /* JADX WARN: Removed duplicated region for block: B:257:0x049a  */
-    /* JADX WARN: Removed duplicated region for block: B:263:0x04db  */
-    /* JADX WARN: Removed duplicated region for block: B:272:0x04ec A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:275:0x04f4  */
-    /* JADX WARN: Removed duplicated region for block: B:277:0x04fe  */
-    /* JADX WARN: Removed duplicated region for block: B:287:0x0542  */
-    /* JADX WARN: Removed duplicated region for block: B:298:0x0567  */
-    /* JADX WARN: Removed duplicated region for block: B:301:0x0574  */
-    /* JADX WARN: Removed duplicated region for block: B:306:0x059a  */
-    /* JADX WARN: Removed duplicated region for block: B:309:0x05a5  */
-    /* JADX WARN: Removed duplicated region for block: B:314:0x05b0  */
-    /* JADX WARN: Removed duplicated region for block: B:321:0x05bf  */
-    /* JADX WARN: Removed duplicated region for block: B:327:0x05e4  */
-    /* JADX WARN: Removed duplicated region for block: B:351:0x0668  */
-    /* JADX WARN: Removed duplicated region for block: B:354:0x067a  */
-    /* JADX WARN: Removed duplicated region for block: B:359:0x069e  */
+    /* JADX WARN: Removed duplicated region for block: B:157:0x02be  */
+    /* JADX WARN: Removed duplicated region for block: B:160:0x02d2  */
+    /* JADX WARN: Removed duplicated region for block: B:165:0x02e8  */
+    /* JADX WARN: Removed duplicated region for block: B:212:0x0370  */
+    /* JADX WARN: Removed duplicated region for block: B:225:0x038b  */
+    /* JADX WARN: Removed duplicated region for block: B:228:0x0396  */
+    /* JADX WARN: Removed duplicated region for block: B:229:0x039e  */
+    /* JADX WARN: Removed duplicated region for block: B:233:0x03bb  */
+    /* JADX WARN: Removed duplicated region for block: B:241:0x0405  */
+    /* JADX WARN: Removed duplicated region for block: B:242:0x040f  */
+    /* JADX WARN: Removed duplicated region for block: B:245:0x0424  */
+    /* JADX WARN: Removed duplicated region for block: B:253:0x044d  */
+    /* JADX WARN: Removed duplicated region for block: B:254:0x0471  */
+    /* JADX WARN: Removed duplicated region for block: B:257:0x049b  */
+    /* JADX WARN: Removed duplicated region for block: B:263:0x04dc  */
+    /* JADX WARN: Removed duplicated region for block: B:272:0x04ed A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:275:0x04f5  */
+    /* JADX WARN: Removed duplicated region for block: B:277:0x04ff  */
+    /* JADX WARN: Removed duplicated region for block: B:287:0x0543  */
+    /* JADX WARN: Removed duplicated region for block: B:298:0x0568  */
+    /* JADX WARN: Removed duplicated region for block: B:301:0x0575  */
+    /* JADX WARN: Removed duplicated region for block: B:306:0x059b  */
+    /* JADX WARN: Removed duplicated region for block: B:309:0x05a6  */
+    /* JADX WARN: Removed duplicated region for block: B:314:0x05b1  */
+    /* JADX WARN: Removed duplicated region for block: B:321:0x05c0  */
+    /* JADX WARN: Removed duplicated region for block: B:327:0x05e5  */
+    /* JADX WARN: Removed duplicated region for block: B:351:0x0669  */
+    /* JADX WARN: Removed duplicated region for block: B:354:0x067b  */
+    /* JADX WARN: Removed duplicated region for block: B:359:0x069f  */
     /* JADX WARN: Removed duplicated region for block: B:64:0x00dd  */
     /* JADX WARN: Removed duplicated region for block: B:65:0x00e6  */
     /* JADX WARN: Removed duplicated region for block: B:69:0x00f9  */

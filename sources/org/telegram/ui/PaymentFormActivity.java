@@ -1343,9 +1343,31 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
 
                     @Override // android.webkit.WebViewClient
                     public boolean shouldOverrideUrlLoading(WebView webView2, String str10) {
+                        Uri parse;
                         PaymentFormActivity paymentFormActivity = PaymentFormActivity.this;
                         paymentFormActivity.shouldNavigateBack = !str10.equals(paymentFormActivity.webViewUrl);
-                        return super.shouldOverrideUrlLoading(webView2, str10);
+                        try {
+                            parse = Uri.parse(str10);
+                        } catch (Exception unused) {
+                        }
+                        if ("t.me".equals(parse.getHost())) {
+                            PaymentFormActivity.this.goToNextStep();
+                            return true;
+                        } else if (PaymentFormActivity.BLACKLISTED_PROTOCOLS.contains(parse.getScheme())) {
+                            return true;
+                        } else {
+                            if (!PaymentFormActivity.WEBVIEW_PROTOCOLS.contains(parse.getScheme())) {
+                                try {
+                                    if (PaymentFormActivity.this.getContext() instanceof Activity) {
+                                        ((Activity) PaymentFormActivity.this.getContext()).startActivityForResult(new Intent("android.intent.action.VIEW", parse), 210);
+                                    }
+                                } catch (ActivityNotFoundException unused2) {
+                                    new AlertDialog.Builder(context).setTitle(PaymentFormActivity.this.currentBotName).setMessage(LocaleController.getString(R.string.PaymentAppNotFoundForDeeplink)).setPositiveButton(LocaleController.getString(R.string.OK), null).show();
+                                }
+                                return true;
+                            }
+                            return super.shouldOverrideUrlLoading(webView2, str10);
+                        }
                     }
 
                     @Override // android.webkit.WebViewClient

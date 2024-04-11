@@ -610,217 +610,217 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         }
 
         /* JADX INFO: Access modifiers changed from: protected */
-        /* JADX WARN: Code restructure failed: missing block: B:102:0x026e, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:102:0x0270, code lost:
             r2 = r23.result;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:103:0x0273, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:103:0x0275, code lost:
             if (r2[0] != null) goto L130;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:104:0x0275, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:104:0x0277, code lost:
             if (r11 == null) goto L130;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:105:0x0277, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:105:0x0279, code lost:
             r2[0] = r11;
             r2[1] = "other";
          */
-        /* JADX WARN: Code restructure failed: missing block: B:107:0x0280, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:107:0x0282, code lost:
             if (r2[0] == null) goto L211;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:108:0x0282, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:108:0x0284, code lost:
             if (r0 != false) goto L135;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:110:0x028a, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:110:0x028c, code lost:
             if (r2[0].contains("/s/") == false) goto L211;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:111:0x028c, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:111:0x028e, code lost:
             if (r3 == null) goto L211;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:112:0x028e, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:112:0x0290, code lost:
             r0 = r23.result[0].indexOf("/s/");
             r2 = r23.result[0].indexOf(47, r0 + 10);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:113:0x02a3, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:113:0x02a5, code lost:
             if (r0 == (-1)) goto L210;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:114:0x02a5, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:114:0x02a7, code lost:
             if (r2 != (-1)) goto L140;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:115:0x02a7, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:115:0x02a9, code lost:
             r2 = r23.result[0].length();
          */
-        /* JADX WARN: Code restructure failed: missing block: B:116:0x02af, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:116:0x02b1, code lost:
             r23.sig = r23.result[0].substring(r0, r2);
             r0 = org.telegram.ui.Components.WebPlayerView.jsPattern.matcher(r3);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:117:0x02c5, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:117:0x02c7, code lost:
             if (r0.find() == false) goto L142;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:118:0x02c7, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:118:0x02c9, code lost:
             r0 = new org.json.JSONTokener(r0.group(1)).nextValue();
          */
-        /* JADX WARN: Code restructure failed: missing block: B:119:0x02d7, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:119:0x02d9, code lost:
             if ((r0 instanceof java.lang.String) == false) goto L207;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:120:0x02d9, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:120:0x02db, code lost:
             r0 = (java.lang.String) r0;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:122:0x02dc, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:122:0x02de, code lost:
             r0 = null;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:123:0x02dd, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:123:0x02df, code lost:
             r2 = r0;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:124:0x02df, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:124:0x02e1, code lost:
             r0 = move-exception;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:125:0x02e0, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:125:0x02e2, code lost:
             org.telegram.messenger.FileLog.e(r0);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:126:0x02e3, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:126:0x02e5, code lost:
             r2 = null;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:127:0x02e4, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:127:0x02e6, code lost:
             if (r2 != null) goto L144;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:129:0x02f2, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:129:0x02f4, code lost:
             if (org.telegram.ui.Components.WebPlayerView.playerIdPattern.matcher(r2).find() != false) goto L146;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:130:0x02f4, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:130:0x02f6, code lost:
             r0 = r0.group(1) + r0.group(2);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:131:0x030e, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:131:0x0310, code lost:
             r0 = null;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:132:0x030f, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:132:0x0311, code lost:
             r3 = org.telegram.messenger.ApplicationLoader.applicationContext.getSharedPreferences("youtubecode", 0);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:133:0x031b, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:133:0x031d, code lost:
             if (r0 != null) goto L149;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:134:0x031d, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:134:0x031f, code lost:
             r7 = r3.getString(r0, null);
             r8 = r3.getString(r0 + "n", null);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:135:0x0336, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:135:0x0338, code lost:
             r7 = null;
             r8 = null;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:136:0x0338, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:136:0x033a, code lost:
             if (r7 == null) goto L151;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:138:0x0340, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:138:0x0342, code lost:
             if (r2.startsWith("//") != false) goto L153;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:139:0x0342, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:139:0x0344, code lost:
             r2 = "https:" + r2;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:141:0x035a, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:141:0x035c, code lost:
             if (r2.startsWith("/") != false) goto L197;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:142:0x035c, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:142:0x035e, code lost:
             r2 = "https://www.youtube.com" + r2;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:143:0x036d, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:143:0x036f, code lost:
             r2 = r23.this$0.downloadUrlContent(r23, r2);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:144:0x0377, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:144:0x0379, code lost:
             if (isCancelled() != false) goto L156;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:145:0x0379, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:145:0x037b, code lost:
             return null;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:147:0x037b, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:147:0x037d, code lost:
             r6 = null;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:148:0x037c, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:148:0x037e, code lost:
             if (r2 != null) goto L159;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:149:0x037e, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:149:0x0380, code lost:
             r9 = org.telegram.ui.Components.WebPlayerView.sigPattern.matcher(r2);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:150:0x038a, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:150:0x038c, code lost:
             if (r9.find() != false) goto L161;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:151:0x038c, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:151:0x038e, code lost:
             r8 = r9.group(1);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:152:0x0392, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:152:0x0394, code lost:
             r9 = org.telegram.ui.Components.WebPlayerView.sigPattern2.matcher(r2);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:153:0x039f, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:153:0x03a1, code lost:
             if (r9.find() != false) goto L193;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:154:0x03a1, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:154:0x03a3, code lost:
             r8 = r9.group(1);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:155:0x03a5, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:155:0x03a7, code lost:
             if (r8 != null) goto L183;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:156:0x03a7, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:156:0x03a9, code lost:
             r7 = new org.telegram.ui.Components.WebPlayerView.JSExtractor(r2).extractFunction(r8);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:157:0x03b4, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:157:0x03b6, code lost:
             if (android.text.TextUtils.isEmpty(r7) == false) goto L186;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:159:0x03b8, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:159:0x03ba, code lost:
             r3.edit().putString(r0, r7).putString(r0 + "n", r8).commit();
          */
-        /* JADX WARN: Code restructure failed: missing block: B:161:0x03d7, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:161:0x03d9, code lost:
             r0 = move-exception;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:162:0x03d8, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:162:0x03da, code lost:
             org.telegram.messenger.FileLog.e(r0);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:163:0x03dc, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:163:0x03de, code lost:
             r6 = null;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:166:0x03e2, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:166:0x03e4, code lost:
             if (android.text.TextUtils.isEmpty(r7) == false) goto L165;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:168:0x03eb, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:168:0x03ed, code lost:
             if (android.os.Build.VERSION.SDK_INT >= 21) goto L167;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:169:0x03ed, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:169:0x03ef, code lost:
             r0 = r7 + r8 + "('" + r23.sig.substring(3) + "');";
          */
-        /* JADX WARN: Code restructure failed: missing block: B:170:0x040e, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:170:0x0410, code lost:
             r0 = r7 + "window." + r23.this$0.interfaceName + ".returnResultToJava(" + r8 + "('" + r23.sig.substring(3) + "'));";
          */
-        /* JADX WARN: Code restructure failed: missing block: B:171:0x0442, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:171:0x0444, code lost:
             org.telegram.messenger.AndroidUtilities.runOnUIThread(new org.telegram.ui.Components.WebPlayerView$YoutubeVideoTask$$ExternalSyntheticLambda1(r23, r0));
             r23.countDownLatch.await();
          */
-        /* JADX WARN: Code restructure failed: missing block: B:172:0x044f, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:172:0x0451, code lost:
             r7 = false;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:173:0x0451, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:173:0x0453, code lost:
             r0 = move-exception;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:174:0x0452, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:174:0x0454, code lost:
             org.telegram.messenger.FileLog.e(r0);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:175:0x0456, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:175:0x0458, code lost:
             r6 = null;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:176:0x0458, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:176:0x045a, code lost:
             r7 = true;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:177:0x045a, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:177:0x045c, code lost:
             r6 = null;
             r7 = r0;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:179:0x0460, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:179:0x0462, code lost:
             if (isCancelled() == false) goto L173;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:184:0x0469, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:184:0x046b, code lost:
             return r6;
          */
         /* JADX WARN: Code restructure failed: missing block: B:226:?, code lost:
             return r23.result;
          */
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Removed duplicated region for block: B:167:0x03e4  */
-        /* JADX WARN: Removed duplicated region for block: B:180:0x0462 A[ADDED_TO_REGION] */
+        /* JADX WARN: Removed duplicated region for block: B:167:0x03e6  */
+        /* JADX WARN: Removed duplicated region for block: B:180:0x0464 A[ADDED_TO_REGION] */
         @Override // android.os.AsyncTask
         /*
             Code decompiled incorrectly, please refer to instructions dump.

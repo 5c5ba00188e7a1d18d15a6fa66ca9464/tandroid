@@ -280,7 +280,7 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
                     this.customResetRow = -1;
                     this.customResetShadowRow = -1;
                 }
-                boolean isGlobalNotificationsEnabled = NotificationsController.getInstance(this.currentAccount).isGlobalNotificationsEnabled(this.dialogId);
+                boolean isGlobalNotificationsEnabled = NotificationsController.getInstance(this.currentAccount).isGlobalNotificationsEnabled(this.dialogId, false, false);
                 if (!this.addingException) {
                     this.notificationsEnabled = !isGlobalNotificationsEnabled;
                 } else {
@@ -292,7 +292,7 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
                         if (contains) {
                             this.notificationsEnabled = true;
                         } else {
-                            this.notificationsEnabled = NotificationsController.getInstance(this.currentAccount).isGlobalNotificationsEnabled(this.dialogId);
+                            this.notificationsEnabled = NotificationsController.getInstance(this.currentAccount).isGlobalNotificationsEnabled(this.dialogId, false, false);
                         }
                     } else if (i25 == 1) {
                         this.notificationsEnabled = true;
@@ -327,7 +327,7 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
         this.ledInfoRow = i222;
         if (this.addingException) {
         }
-        boolean isGlobalNotificationsEnabled2 = NotificationsController.getInstance(this.currentAccount).isGlobalNotificationsEnabled(this.dialogId);
+        boolean isGlobalNotificationsEnabled2 = NotificationsController.getInstance(this.currentAccount).isGlobalNotificationsEnabled(this.dialogId, false, false);
         if (!this.addingException) {
         }
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.notificationsSettingsUpdated);

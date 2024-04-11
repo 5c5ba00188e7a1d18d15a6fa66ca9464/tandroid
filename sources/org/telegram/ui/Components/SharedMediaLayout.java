@@ -601,6 +601,10 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         return this.sharedMediaData[0].filterType;
     }
 
+    public boolean isPinnedToTop() {
+        return this.isPinnedToTop;
+    }
+
     public void setPinnedToTop(boolean z) {
         if (this.isPinnedToTop == z) {
             return;
@@ -3933,8 +3937,8 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:37:0x0085  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x008a  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x0086  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x008b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

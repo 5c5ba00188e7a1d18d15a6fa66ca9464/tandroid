@@ -157,7 +157,7 @@ public class ReactionsLayoutInBubble {
     /* JADX WARN: Removed duplicated region for block: B:71:0x01db  */
     /* JADX WARN: Removed duplicated region for block: B:94:0x01de A[SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r11v0 */
-    /* JADX WARN: Type inference failed for: r11v4, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r11v4, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r11v5 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1341,6 +1341,12 @@ public class ReactionsLayoutInBubble {
                 return TextUtils.equals(((TLRPC$TL_reactionEmoji) tLRPC$Reaction).emoticon, this.emojicon);
             }
             return (tLRPC$Reaction instanceof TLRPC$TL_reactionCustomEmoji) && ((TLRPC$TL_reactionCustomEmoji) tLRPC$Reaction).document_id == this.documentId;
+        }
+
+        public VisibleReaction flatten() {
+            String findAnimatedEmojiEmoticon;
+            long j = this.documentId;
+            return (j == 0 || (findAnimatedEmojiEmoticon = MessageObject.findAnimatedEmojiEmoticon(AnimatedEmojiDrawable.findDocument(UserConfig.selectedAccount, j), null)) == null) ? this : fromEmojicon(findAnimatedEmojiEmoticon);
         }
 
         public String toString() {

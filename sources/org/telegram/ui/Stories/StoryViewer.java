@@ -153,6 +153,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
     boolean reversed;
     float selfStoriesViewsOffset;
     SelfStoryViewsView selfStoryViewsView;
+    private boolean showViewsAfterOpening;
     TL_stories$StoryItem singleStory;
     private StoriesIntro storiesIntro;
     StoriesController.StoriesList storiesList;
@@ -2425,6 +2426,10 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
         }
     }
 
+    public void showViewsAfterOpening() {
+        this.showViewsAfterOpening = true;
+    }
+
     /* JADX INFO: Access modifiers changed from: private */
     public void startOpenAnimation() {
         PeerStoriesView currentPeerView;
@@ -2509,7 +2514,10 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
             if (currentPeerView != null) {
                 currentPeerView.updatePosition();
             }
-            if (!SharedConfig.storiesIntroShown) {
+            if (StoryViewer.this.showViewsAfterOpening) {
+                StoryViewer.this.showViewsAfterOpening = false;
+                StoryViewer.this.openViews();
+            } else if (!SharedConfig.storiesIntroShown) {
                 if (StoryViewer.this.storiesIntro == null) {
                     StoryViewer.this.storiesIntro = new StoriesIntro(StoryViewer.this.containerView.getContext(), StoryViewer.this.windowView);
                     StoryViewer.this.storiesIntro.setAlpha(0.0f);
