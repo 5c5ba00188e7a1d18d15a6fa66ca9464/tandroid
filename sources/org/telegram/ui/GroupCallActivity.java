@@ -8551,20 +8551,20 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Code restructure failed: missing block: B:106:0x02d1, code lost:
-        if ((r9 instanceof org.telegram.tgnet.TLRPC$TL_chatParticipantCreator) == false) goto L229;
+        if ((r9 instanceof org.telegram.tgnet.TLRPC$TL_chatParticipantCreator) == false) goto L231;
      */
     /* JADX WARN: Code restructure failed: missing block: B:111:0x02eb, code lost:
-        if (r3 == (-r28.currentChat.id)) goto L231;
+        if (r3 == (-r28.currentChat.id)) goto L233;
      */
     /* JADX WARN: Removed duplicated region for block: B:117:0x02f9  */
     /* JADX WARN: Removed duplicated region for block: B:145:0x03be  */
-    /* JADX WARN: Removed duplicated region for block: B:184:0x0521  */
-    /* JADX WARN: Removed duplicated region for block: B:199:0x05c0  */
-    /* JADX WARN: Removed duplicated region for block: B:202:0x05cd  */
-    /* JADX WARN: Removed duplicated region for block: B:205:0x05fb  */
-    /* JADX WARN: Removed duplicated region for block: B:216:0x0629  */
-    /* JADX WARN: Removed duplicated region for block: B:230:0x0684  */
-    /* JADX WARN: Removed duplicated region for block: B:237:0x06cc  */
+    /* JADX WARN: Removed duplicated region for block: B:186:0x0523  */
+    /* JADX WARN: Removed duplicated region for block: B:201:0x05c2  */
+    /* JADX WARN: Removed duplicated region for block: B:204:0x05cf  */
+    /* JADX WARN: Removed duplicated region for block: B:207:0x05fd  */
+    /* JADX WARN: Removed duplicated region for block: B:218:0x062b  */
+    /* JADX WARN: Removed duplicated region for block: B:232:0x0686  */
+    /* JADX WARN: Removed duplicated region for block: B:239:0x06ce  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -8858,16 +8858,18 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                     arrayList2.add(Integer.valueOf(R.drawable.msg_voice_muted));
                     arrayList3.add(5);
                 }
-                long j2 = participant.peer.channel_id;
-                if (j2 != 0 && !ChatObject.isMegagroup(groupCallActivity.currentAccount, j2)) {
-                    arrayList.add(LocaleController.getString("VoipGroupOpenChannel", R.string.VoipGroupOpenChannel));
-                    arrayList2.add(Integer.valueOf(R.drawable.msg_msgbubble3));
-                    arrayList3.add(8);
-                } else {
-                    arrayList.add(LocaleController.getString("VoipGroupOpenChat", R.string.VoipGroupOpenChat));
-                    arrayList2.add(Integer.valueOf(R.drawable.msg_msgbubble3));
-                    arrayList3.add(6);
+                TLRPC$Peer tLRPC$Peer = participant.peer;
+                if (tLRPC$Peer != null) {
+                    long j2 = tLRPC$Peer.channel_id;
+                    if (j2 != 0 && !ChatObject.isMegagroup(groupCallActivity.currentAccount, j2)) {
+                        arrayList.add(LocaleController.getString("VoipGroupOpenChannel", R.string.VoipGroupOpenChannel));
+                        arrayList2.add(Integer.valueOf(R.drawable.msg_msgbubble3));
+                        arrayList3.add(8);
+                    }
                 }
+                arrayList.add(LocaleController.getString("VoipGroupOpenChat", R.string.VoipGroupOpenChat));
+                arrayList2.add(Integer.valueOf(R.drawable.msg_msgbubble3));
+                arrayList3.add(6);
             }
             size = arrayList.size();
             i = 0;

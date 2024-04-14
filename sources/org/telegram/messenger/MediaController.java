@@ -653,6 +653,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         public boolean canDeleteAfter;
         public long dateTaken;
         public int duration;
+        public String emoji;
         public TLRPC$VideoSize emojiMarkup;
         public int gradientBottomColor;
         public int gradientTopColor;

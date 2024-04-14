@@ -236,11 +236,7 @@ public class CustomEmojiReactionsWindow {
                 }
             }
         });
-        this.selectAnimatedEmojiDialog.setOnRecentClearedListener(new SelectAnimatedEmojiDialog.onRecentClearedListener(this) { // from class: org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow.5
-            @Override // org.telegram.ui.SelectAnimatedEmojiDialog.onRecentClearedListener
-            public void onRecentCleared() {
-                reactionsContainerLayout.clearRecentReactions();
-            }
+        this.selectAnimatedEmojiDialog.setOnRecentClearedListener(new SelectAnimatedEmojiDialog.onRecentClearedListener(this, reactionsContainerLayout) { // from class: org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow.5
         });
         this.selectAnimatedEmojiDialog.setRecentReactions(list);
         this.selectAnimatedEmojiDialog.setSelectedReactions(hashSet);
@@ -1306,10 +1302,6 @@ public class CustomEmojiReactionsWindow {
             return this.containerView.getY() - AndroidUtilities.statusBarHeight;
         }
         return this.containerView.getY() + this.windowView.getY();
-    }
-
-    public void setRecentReactions(List<ReactionsLayoutInBubble.VisibleReaction> list) {
-        this.selectAnimatedEmojiDialog.setRecentReactions(list);
     }
 
     public SelectAnimatedEmojiDialog getSelectAnimatedEmojiDialog() {

@@ -15,6 +15,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.tgnet.TLRPC$Document;
@@ -648,6 +649,28 @@ public class TextCell extends FrameLayout {
         setValueSticker(tLRPC$Document);
     }
 
+    public void setTextAndSticker(CharSequence charSequence, String str, boolean z) {
+        this.imageLeft = 21;
+        this.offsetFromImage = getOffsetFromImage(false);
+        this.textView.setText(charSequence);
+        this.textView.setRightDrawable((Drawable) null);
+        AnimatedTextView animatedTextView = this.valueTextView;
+        this.valueText = null;
+        animatedTextView.setText(null, false);
+        this.valueImageView.setVisibility(8);
+        this.valueTextView.setVisibility(8);
+        this.valueSpoilersTextView.setVisibility(8);
+        this.imageView.setVisibility(8);
+        this.imageView.setPadding(0, AndroidUtilities.dp(7.0f), 0, 0);
+        this.needDivider = z;
+        setWillNotDraw(!z);
+        Switch r4 = this.checkBox;
+        if (r4 != null) {
+            r4.setVisibility(8);
+        }
+        setValueSticker(str);
+    }
+
     public void setValueSticker(TLRPC$Document tLRPC$Document) {
         if (this.emojiDrawable == null) {
             AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(this, AndroidUtilities.dp(30.0f));
@@ -657,6 +680,65 @@ public class TextCell extends FrameLayout {
             }
         }
         this.emojiDrawable.set(tLRPC$Document, 1, true);
+        invalidate();
+    }
+
+    public void setValueSticker(String str) {
+        if (this.emojiDrawable == null) {
+            AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(this, AndroidUtilities.dp(30.0f));
+            this.emojiDrawable = swapAnimatedEmojiDrawable;
+            if (this.attached) {
+                swapAnimatedEmojiDrawable.attach();
+            }
+        }
+        final ImageReceiver imageReceiver = new ImageReceiver(this);
+        if (isAttachedToWindow()) {
+            imageReceiver.onAttachedToWindow();
+        }
+        addOnAttachStateChangeListener(new View.OnAttachStateChangeListener(this) { // from class: org.telegram.ui.Cells.TextCell.1
+            @Override // android.view.View.OnAttachStateChangeListener
+            public void onViewAttachedToWindow(View view) {
+                imageReceiver.onAttachedToWindow();
+            }
+
+            @Override // android.view.View.OnAttachStateChangeListener
+            public void onViewDetachedFromWindow(View view) {
+                imageReceiver.onDetachedFromWindow();
+            }
+        });
+        imageReceiver.setImage(str, "30_30", null, null, 0L);
+        this.emojiDrawable.set(new Drawable(this) { // from class: org.telegram.ui.Cells.TextCell.2
+            @Override // android.graphics.drawable.Drawable
+            public int getOpacity() {
+                return -2;
+            }
+
+            @Override // android.graphics.drawable.Drawable
+            public void draw(Canvas canvas) {
+                imageReceiver.setImageCoords(getBounds());
+                imageReceiver.draw(canvas);
+            }
+
+            @Override // android.graphics.drawable.Drawable
+            public void setAlpha(int i) {
+                imageReceiver.setAlpha(i / 255.0f);
+            }
+
+            @Override // android.graphics.drawable.Drawable
+            public void setColorFilter(ColorFilter colorFilter) {
+                imageReceiver.setColorFilter(colorFilter);
+            }
+
+            @Override // android.graphics.drawable.Drawable
+            public int getIntrinsicWidth() {
+                return AndroidUtilities.dp(30.0f);
+            }
+
+            @Override // android.graphics.drawable.Drawable
+            public int getIntrinsicHeight() {
+                return AndroidUtilities.dp(30.0f);
+            }
+        }, true);
         invalidate();
     }
 

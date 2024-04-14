@@ -1,6 +1,7 @@
 package org.telegram.tgnet;
 
 import android.graphics.Path;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.SvgHelper;
 /* loaded from: classes3.dex */
 public class TLRPC$TL_photoPathSize extends TLRPC$PhotoSize {
@@ -11,8 +12,8 @@ public class TLRPC$TL_photoPathSize extends TLRPC$PhotoSize {
         this.type = abstractSerializedData.readString(z);
         byte[] readByteArray = abstractSerializedData.readByteArray(z);
         this.bytes = readByteArray;
-        this.h = 50;
-        this.w = 50;
+        this.h = LiteMode.FLAG_CALLS_ANIMATIONS;
+        this.w = LiteMode.FLAG_CALLS_ANIMATIONS;
         this.svgPath = SvgHelper.doPath(SvgHelper.decompress(readByteArray));
     }
 

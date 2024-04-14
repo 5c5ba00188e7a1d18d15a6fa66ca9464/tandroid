@@ -4983,6 +4983,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             }
 
                             @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+                            public /* synthetic */ boolean isSettingIntroSticker() {
+                                return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$isSettingIntroSticker(this);
+                            }
+
+                            @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
                             public /* synthetic */ boolean isStickerEditor() {
                                 return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$isStickerEditor(this);
                             }
@@ -5055,6 +5060,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
                             public /* synthetic */ void setAsEmojiStatus(TLRPC$Document tLRPC$Document, Integer num) {
                                 ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$setAsEmojiStatus(this, tLRPC$Document, num);
+                            }
+
+                            @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+                            public /* synthetic */ void setIntroSticker(String str2) {
+                                ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$setIntroSticker(this, str2);
                             }
 
                             @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
@@ -6643,6 +6653,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     }
 
                     @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+                    public /* synthetic */ boolean isSettingIntroSticker() {
+                        return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$isSettingIntroSticker(this);
+                    }
+
+                    @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
                     public /* synthetic */ boolean isStickerEditor() {
                         return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$isStickerEditor(this);
                     }
@@ -6715,6 +6730,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
                     public /* synthetic */ void setAsEmojiStatus(TLRPC$Document tLRPC$Document, Integer num) {
                         ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$setAsEmojiStatus(this, tLRPC$Document, num);
+                    }
+
+                    @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+                    public /* synthetic */ void setIntroSticker(String str2) {
+                        ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$setIntroSticker(this, str2);
                     }
 
                     @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
@@ -8005,6 +8025,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             }
 
             @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+            public /* synthetic */ boolean isSettingIntroSticker() {
+                return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$isSettingIntroSticker(this);
+            }
+
+            @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
             public /* synthetic */ boolean isStickerEditor() {
                 return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$isStickerEditor(this);
             }
@@ -8077,6 +8102,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
             public /* synthetic */ void setAsEmojiStatus(TLRPC$Document tLRPC$Document, Integer num) {
                 ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$setAsEmojiStatus(this, tLRPC$Document, num);
+            }
+
+            @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+            public /* synthetic */ void setIntroSticker(String str2) {
+                ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$setIntroSticker(this, str2);
             }
 
             @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
@@ -18044,7 +18074,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
         this.chatAttachAlert.setMaxSelectedPhotos(1, false);
         this.chatAttachAlert.setOpenWithFrontFaceCamera(true);
-        this.chatAttachAlert.enableStickerMode();
+        this.chatAttachAlert.enableStickerMode(null);
         this.chatAttachAlert.init();
         ChatAttachAlert chatAttachAlert = this.chatAttachAlert;
         chatAttachAlert.parentThemeDelegate = this.themeDelegate;

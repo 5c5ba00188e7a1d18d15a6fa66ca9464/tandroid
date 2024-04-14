@@ -454,6 +454,8 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
                 Object obj = item.object;
                 if (obj instanceof TLRPC$Document) {
                     textCell.setTextAndSticker(item.text, (TLRPC$Document) obj, hasDivider);
+                } else if (obj instanceof String) {
+                    textCell.setTextAndSticker(item.text, (String) obj, hasDivider);
                 } else if (TextUtils.isEmpty(item.textValue)) {
                     int i5 = item.iconResId;
                     if (i5 == 0) {

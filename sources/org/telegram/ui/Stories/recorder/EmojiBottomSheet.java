@@ -113,6 +113,7 @@ import org.telegram.ui.Components.Bulletin;
 import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.ButtonBounce;
 import org.telegram.ui.Components.CloseProgressDrawable2;
+import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.DrawingInBackgroundThreadDrawable;
 import org.telegram.ui.Components.EditTextBoldCursor;
@@ -143,8 +144,10 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
     private Utilities.Callback2<Bitmap, Float> drawBlurBitmap;
     private float maxPadding;
     private Utilities.Callback3Return<Object, TLRPC$Document, Boolean, Boolean> onDocumentSelected;
+    private Runnable onPlusSelected;
     private Utilities.Callback<Integer> onWidgetSelected;
     private final boolean onlyStickers;
+    public final TLRPC$Document plus;
     private String query;
     private TabsView tabsView;
     private float top;
@@ -169,11 +172,11 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* synthetic */ void access$4800(EmojiBottomSheet emojiBottomSheet, int i) {
+    public static /* synthetic */ void access$5100(EmojiBottomSheet emojiBottomSheet, int i) {
         emojiBottomSheet.lambda$onWidgetClick$1(i);
     }
 
-    static /* synthetic */ float access$6416(EmojiBottomSheet emojiBottomSheet, float f) {
+    static /* synthetic */ float access$6716(EmojiBottomSheet emojiBottomSheet, float f) {
         float f2 = emojiBottomSheet.top + f;
         emojiBottomSheet.top = f2;
         return f2;
@@ -288,6 +291,11 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                 }
 
                 @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+                public /* synthetic */ boolean isSettingIntroSticker() {
+                    return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$isSettingIntroSticker(this);
+                }
+
+                @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
                 public /* synthetic */ boolean isStickerEditor() {
                     return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$isStickerEditor(this);
                 }
@@ -369,6 +377,11 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                 @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
                 public /* synthetic */ void setAsEmojiStatus(TLRPC$Document tLRPC$Document, Integer num) {
                     ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$setAsEmojiStatus(this, tLRPC$Document, num);
+                }
+
+                @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+                public /* synthetic */ void setIntroSticker(String str) {
+                    ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$setIntroSticker(this, str);
                 }
 
                 @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
@@ -981,6 +994,14 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
             AnimatedEmojiDrawable animatedEmojiDrawable;
             if (i >= 0 && this.layoutManager.getItemViewType(view) != 4) {
                 TLRPC$Document tLRPC$Document = i >= this.adapter.documents.size() ? null : (TLRPC$Document) this.adapter.documents.get(i);
+                EmojiBottomSheet emojiBottomSheet = EmojiBottomSheet.this;
+                if (tLRPC$Document == emojiBottomSheet.plus) {
+                    if (emojiBottomSheet.onPlusSelected != null) {
+                        EmojiBottomSheet.this.onPlusSelected.run();
+                    }
+                    EmojiBottomSheet.this.dismiss();
+                    return;
+                }
                 long longValue = i >= this.adapter.documentIds.size() ? 0L : ((Long) this.adapter.documentIds.get(i)).longValue();
                 if (tLRPC$Document == null && (view instanceof EmojiListView.EmojiImageView) && (animatedEmojiDrawable = ((EmojiListView.EmojiImageView) view).drawable) != null) {
                     tLRPC$Document = animatedEmojiDrawable.getDocument();
@@ -1137,8 +1158,8 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
             }
 
             /* JADX INFO: Access modifiers changed from: private */
-            /* JADX WARN: Removed duplicated region for block: B:154:0x0336 A[SYNTHETIC] */
-            /* JADX WARN: Removed duplicated region for block: B:93:0x02a3  */
+            /* JADX WARN: Removed duplicated region for block: B:157:0x0350 A[SYNTHETIC] */
+            /* JADX WARN: Removed duplicated region for block: B:96:0x02bd  */
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
@@ -1174,6 +1195,10 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                 if (page.currentType == 1) {
                     if (EmojiBottomSheet.this.hasWidgets()) {
                         this.documents.add(EmojiBottomSheet.this.widgets);
+                        this.itemsCount++;
+                    }
+                    if (EmojiBottomSheet.this.onPlusSelected != null) {
+                        this.documents.add(EmojiBottomSheet.this.plus);
                         this.itemsCount++;
                     }
                     ArrayList<TLRPC$Document> recentStickers = mediaDataController.getRecentStickers(2);
@@ -1486,7 +1511,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                         storyWidgetsCell2.setOnButtonClickListener(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet$Page$Adapter$$ExternalSyntheticLambda2
                             @Override // org.telegram.messenger.Utilities.Callback
                             public final void run(Object obj) {
-                                EmojiBottomSheet.access$4800(EmojiBottomSheet.this, ((Integer) obj).intValue());
+                                EmojiBottomSheet.access$5100(EmojiBottomSheet.this, ((Integer) obj).intValue());
                             }
                         });
                         storyWidgetsCell = storyWidgetsCell2;
@@ -1531,14 +1556,29 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                     }
                 } else {
                     TLRPC$Document tLRPC$Document = i >= this.documents.size() ? null : this.documents.get(i);
+                    EmojiListView.EmojiImageView emojiImageView = (EmojiListView.EmojiImageView) viewHolder.itemView;
+                    if (tLRPC$Document == EmojiBottomSheet.this.plus) {
+                        emojiImageView.setSticker(null);
+                        int dp = AndroidUtilities.dp(28.0f);
+                        EmojiBottomSheet emojiBottomSheet = EmojiBottomSheet.this;
+                        int i3 = Theme.key_chat_emojiPanelIcon;
+                        Drawable createRoundRectDrawable = Theme.createRoundRectDrawable(dp, Theme.multAlpha(emojiBottomSheet.getThemedColor(i3), 0.12f));
+                        Drawable mutate = Page.this.getResources().getDrawable(R.drawable.filled_add_sticker).mutate();
+                        mutate.setColorFilter(new PorterDuffColorFilter(EmojiBottomSheet.this.getThemedColor(i3), PorterDuff.Mode.MULTIPLY));
+                        CombinedDrawable combinedDrawable = new CombinedDrawable(createRoundRectDrawable, mutate);
+                        combinedDrawable.setCustomSize(AndroidUtilities.dp(56.0f), AndroidUtilities.dp(56.0f));
+                        combinedDrawable.setIconSize(AndroidUtilities.dp(24.0f), AndroidUtilities.dp(24.0f));
+                        combinedDrawable.setCenter(true);
+                        emojiImageView.setDrawable(combinedDrawable);
+                        return;
+                    }
                     long longValue = i >= this.documentIds.size() ? 0L : this.documentIds.get(i).longValue();
                     if (tLRPC$Document == null && longValue == 0) {
                         return;
                     }
-                    EmojiListView.EmojiImageView emojiImageView = (EmojiListView.EmojiImageView) viewHolder.itemView;
-                    int i3 = Page.this.currentType;
-                    if (i3 != 0) {
-                        emojiImageView.setEmoji(null, i3 == 1);
+                    int i4 = Page.this.currentType;
+                    if (i4 != 0) {
+                        emojiImageView.setEmoji(null, i4 == 1);
                         emojiImageView.setSticker(tLRPC$Document);
                     } else if (tLRPC$Document != null) {
                         emojiImageView.setSticker(null);
@@ -1588,7 +1628,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
     /* JADX INFO: Access modifiers changed from: private */
     public void openPremium() {
         Bulletin.hideVisible();
-        PremiumFeatureBottomSheet premiumFeatureBottomSheet = new PremiumFeatureBottomSheet(new BaseFragment() { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet.2
+        PremiumFeatureBottomSheet premiumFeatureBottomSheet = new PremiumFeatureBottomSheet(new BaseFragment() { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet.3
             @Override // org.telegram.ui.ActionBar.BaseFragment
             public boolean isLightStatusBar() {
                 return false;
@@ -1611,7 +1651,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
 
             @Override // org.telegram.ui.ActionBar.BaseFragment
             public Theme.ResourcesProvider getResourceProvider() {
-                return new WrappedResourceProvider(this, ((BottomSheet) EmojiBottomSheet.this).resourcesProvider) { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet.2.1
+                return new WrappedResourceProvider(this, ((BottomSheet) EmojiBottomSheet.this).resourcesProvider) { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet.3.1
                     @Override // org.telegram.ui.WrappedResourceProvider
                     public void appendColors() {
                         this.sparseIntArray.append(Theme.key_dialogBackground, -14803426);
@@ -1670,6 +1710,8 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
         this.categoryIndex = -1;
         this.widgets = new TLRPC$Document(this) { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet.1
         };
+        this.plus = new TLRPC$Document(this) { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet.2
+        };
         this.maxPadding = -1.0f;
         this.onlyStickers = z;
         this.useSmoothKeyboard = true;
@@ -1677,7 +1719,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
         this.occupyNavigationBar = true;
         setUseLightStatusBar(false);
         this.containerView = new ContainerView(context);
-        ViewPagerFixed viewPagerFixed = new ViewPagerFixed(context) { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet.3
+        ViewPagerFixed viewPagerFixed = new ViewPagerFixed(context) { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet.4
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.ViewPagerFixed
             public void onTabAnimationUpdate(boolean z2) {
@@ -1691,7 +1733,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
         };
         this.viewPager = viewPagerFixed;
         viewPagerFixed.currentPosition = z ? 0 : savedPosition;
-        viewPagerFixed.setAdapter(new ViewPagerFixed.Adapter() { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet.4
+        viewPagerFixed.setAdapter(new ViewPagerFixed.Adapter() { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet.5
             @Override // org.telegram.ui.Components.ViewPagerFixed.Adapter
             public int getItemViewType(int i) {
                 return (i == 0 || i == 1) ? 0 : 1;
@@ -1904,7 +1946,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
             for (View view : viewPages) {
                 if (view instanceof IPage) {
                     IPage iPage = (IPage) view;
-                    EmojiBottomSheet.access$6416(EmojiBottomSheet.this, iPage.top() * Utilities.clamp(1.0f - Math.abs(iPage.getTranslationX() / iPage.getMeasuredWidth()), 1.0f, 0.0f));
+                    EmojiBottomSheet.access$6716(EmojiBottomSheet.this, iPage.top() * Utilities.clamp(1.0f - Math.abs(iPage.getTranslationX() / iPage.getMeasuredWidth()), 1.0f, 0.0f));
                     if (iPage.getVisibility() == 0) {
                         iPage.updateTops();
                     }
@@ -1966,6 +2008,17 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
         return this;
     }
 
+    public EmojiBottomSheet whenPlusSelected(Runnable runnable) {
+        View[] viewPages;
+        this.onPlusSelected = runnable;
+        for (View view : this.viewPager.getViewPages()) {
+            if (view instanceof Page) {
+                ((Page) view).adapter.update();
+            }
+        }
+        return this;
+    }
+
     public EmojiBottomSheet whenWidgetSelected(Utilities.Callback<Integer> callback) {
         View[] viewPages;
         this.onWidgetSelected = callback;
@@ -2018,6 +2071,26 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                 this.bounce = new ButtonBounce(this);
                 setPadding(AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f));
                 this.listView = emojiListView;
+            }
+
+            public void setDrawable(Drawable drawable) {
+                AnimatedEmojiDrawable animatedEmojiDrawable = this.drawable;
+                if (animatedEmojiDrawable != null) {
+                    animatedEmojiDrawable.removeView(this);
+                }
+                this.drawable = null;
+                this.documentId = 0L;
+                this.emoji = false;
+                if (this.imageReceiver == null) {
+                    ImageReceiver imageReceiver = new ImageReceiver();
+                    this.imageReceiver = imageReceiver;
+                    imageReceiver.setLayerNum(7);
+                    this.imageReceiver.setAspectFit(true);
+                    if (this.attached) {
+                        this.imageReceiver.onAttachedToWindow();
+                    }
+                }
+                this.imageReceiver.setImageBitmap(drawable);
             }
 
             public void setEmoji(TLRPC$Document tLRPC$Document, boolean z) {

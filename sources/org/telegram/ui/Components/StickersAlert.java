@@ -281,6 +281,11 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         }
 
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+        public /* synthetic */ boolean isSettingIntroSticker() {
+            return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$isSettingIntroSticker(this);
+        }
+
+        @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
         public /* synthetic */ boolean isStickerEditor() {
             return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$isStickerEditor(this);
         }
@@ -342,6 +347,11 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
         public /* synthetic */ void setAsEmojiStatus(TLRPC$Document tLRPC$Document, Integer num) {
             ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$setAsEmojiStatus(this, tLRPC$Document, num);
+        }
+
+        @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+        public /* synthetic */ void setIntroSticker(String str) {
+            ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$setIntroSticker(this, str);
         }
 
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
@@ -470,7 +480,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
                     return false;
                 }
             }, chatActivity);
-            PhotoViewer.getInstance().enableStickerMode(tLRPC$Document, false);
+            PhotoViewer.getInstance().enableStickerMode(tLRPC$Document, false, null);
             ContentPreviewViewer.getInstance().setStickerSetForCustomSticker(StickersAlert.this.stickerSet);
         }
 
@@ -540,7 +550,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
                     return false;
                 }
             }, chatActivity);
-            PhotoViewer.getInstance().enableStickerMode(tLRPC$Document, true);
+            PhotoViewer.getInstance().enableStickerMode(tLRPC$Document, true, null);
             ContentPreviewViewer.getInstance().setStickerSetForCustomSticker(StickersAlert.this.stickerSet);
         }
 

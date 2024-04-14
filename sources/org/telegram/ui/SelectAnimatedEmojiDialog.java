@@ -208,7 +208,6 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
     private Integer listStateId;
     private int longtapHintRow;
     private AnimationNotificationsLocker notificationsLocker;
-    public onRecentClearedListener onRecentClearedListener;
     private OvershootInterpolator overshootInterpolator;
     private ArrayList<EmojiView.EmojiPack> packs;
     Paint paint;
@@ -289,7 +288,6 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
 
     /* loaded from: classes4.dex */
     public interface onRecentClearedListener {
-        void onRecentCleared();
     }
 
     protected float getScrimDrawableTranslationY() {
@@ -315,6 +313,9 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
 
     public boolean prevWindowKeyboardVisible() {
         return false;
+    }
+
+    public void setOnRecentClearedListener(onRecentClearedListener onrecentclearedlistener) {
     }
 
     @Override // android.view.View
@@ -3741,14 +3742,14 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             return 1;
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:203:0x058b, code lost:
-            if (r27.this$0.selectedDocumentIds.contains(java.lang.Long.valueOf(r2.id)) != false) goto L204;
+        /* JADX WARN: Code restructure failed: missing block: B:200:0x0573, code lost:
+            if (r27.this$0.selectedDocumentIds.contains(java.lang.Long.valueOf(r2.id)) != false) goto L200;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:291:0x0701, code lost:
-            if (r27.this$0.selectedDocumentIds.contains(java.lang.Long.valueOf(r2.getDocumentId())) != false) goto L204;
+        /* JADX WARN: Code restructure failed: missing block: B:288:0x06e9, code lost:
+            if (r27.this$0.selectedDocumentIds.contains(java.lang.Long.valueOf(r2.getDocumentId())) != false) goto L200;
          */
-        /* JADX WARN: Removed duplicated region for block: B:297:0x070a  */
-        /* JADX WARN: Removed duplicated region for block: B:301:0x074b  */
+        /* JADX WARN: Removed duplicated region for block: B:294:0x06f2  */
+        /* JADX WARN: Removed duplicated region for block: B:298:0x0733  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -3782,17 +3783,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                     if (i != SelectAnimatedEmojiDialog.this.topicEmojiHeaderRow) {
                         if (i == SelectAnimatedEmojiDialog.this.recentReactionsSectionRow) {
                             headerView.setText(LocaleController.getString("RecentlyUsed", R.string.RecentlyUsed), false);
-                            if (SelectAnimatedEmojiDialog.this.type == 4) {
-                                headerView.closeIcon.setVisibility(8);
-                                return;
-                            }
-                            headerView.closeIcon.setVisibility(0);
-                            headerView.closeIcon.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.SelectAnimatedEmojiDialog$Adapter$$ExternalSyntheticLambda0
-                                @Override // android.view.View.OnClickListener
-                                public final void onClick(View view) {
-                                    SelectAnimatedEmojiDialog.Adapter.this.lambda$onBindViewHolder$0(view);
-                                }
-                            });
+                            headerView.closeIcon.setVisibility(8);
                             return;
                         }
                         headerView.closeIcon.setVisibility(8);
@@ -3897,10 +3888,10 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                         if (i5 < 0 || i5 >= SelectAnimatedEmojiDialog.this.packs.size() || (emojiPack = (EmojiView.EmojiPack) SelectAnimatedEmojiDialog.this.packs.get(i5)) == null) {
                             return;
                         }
-                        emojiPackButton.set(emojiPack.set.title, (emojiPack.free || UserConfig.getInstance(SelectAnimatedEmojiDialog.this.currentAccount).isPremium()) ? false : false, emojiPack.installed, new View.OnClickListener() { // from class: org.telegram.ui.SelectAnimatedEmojiDialog$Adapter$$ExternalSyntheticLambda1
+                        emojiPackButton.set(emojiPack.set.title, (emojiPack.free || UserConfig.getInstance(SelectAnimatedEmojiDialog.this.currentAccount).isPremium()) ? false : false, emojiPack.installed, new View.OnClickListener() { // from class: org.telegram.ui.SelectAnimatedEmojiDialog$Adapter$$ExternalSyntheticLambda0
                             @Override // android.view.View.OnClickListener
                             public final void onClick(View view) {
-                                SelectAnimatedEmojiDialog.Adapter.this.lambda$onBindViewHolder$1(emojiPack, i5, view);
+                                SelectAnimatedEmojiDialog.Adapter.this.lambda$onBindViewHolder$0(emojiPack, i5, view);
                             }
                         });
                         return;
@@ -4042,12 +4033,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onBindViewHolder$0(View view) {
-            SelectAnimatedEmojiDialog.this.clearRecent();
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onBindViewHolder$1(EmojiView.EmojiPack emojiPack, int i, View view) {
+        public /* synthetic */ void lambda$onBindViewHolder$0(EmojiView.EmojiPack emojiPack, int i, View view) {
             Integer num;
             View view2;
             int childAdapterPosition;
@@ -4095,15 +4081,6 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
     public boolean enterAnimationInProgress() {
         ValueAnimator valueAnimator;
         return this.enterAnimationInProgress || ((valueAnimator = this.showAnimator) != null && valueAnimator.isRunning());
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void clearRecent() {
-        onRecentClearedListener onrecentclearedlistener;
-        int i = this.type;
-        if ((i == 1 || i == 11) && (onrecentclearedlistener = this.onRecentClearedListener) != null) {
-            onrecentclearedlistener.onRecentCleared();
-        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -7153,10 +7130,6 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
 
     public void setOnLongPressedListener(onLongPressedListener onlongpressedlistener) {
         this.bigReactionListener = onlongpressedlistener;
-    }
-
-    public void setOnRecentClearedListener(onRecentClearedListener onrecentclearedlistener) {
-        this.onRecentClearedListener = onrecentclearedlistener;
     }
 
     /* JADX INFO: Access modifiers changed from: private */

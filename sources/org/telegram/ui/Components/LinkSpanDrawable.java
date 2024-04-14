@@ -21,7 +21,6 @@ import android.widget.TextView;
 import androidx.core.graphics.ColorUtils;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LiteMode;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
@@ -657,12 +656,43 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
         }
 
         /* JADX INFO: Access modifiers changed from: protected */
-        /* JADX WARN: Removed duplicated region for block: B:44:0x0097  */
+        /* JADX WARN: Can't wrap try/catch for region: R(12:1|(5:3|(5:5|(1:7)(1:13)|8|(1:10)(1:12)|11)|14|(1:18)|19)|20|(4:21|22|(1:54)(1:25)|26)|(4:31|32|33|(2:35|36)(1:38))|46|48|49|50|32|33|(0)(0)) */
+        /* JADX WARN: Can't wrap try/catch for region: R(15:1|(5:3|(5:5|(1:7)(1:13)|8|(1:10)(1:12)|11)|14|(1:18)|19)|20|21|22|(1:54)(1:25)|26|(4:31|32|33|(2:35|36)(1:38))|46|48|49|50|32|33|(0)(0)) */
+        /* JADX WARN: Code restructure failed: missing block: B:38:0x009c, code lost:
+            r0 = move-exception;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:39:0x009d, code lost:
+            r12 = r1;
+            r1 = r0;
+            r0 = r12;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:40:0x00a1, code lost:
+            r1 = e;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:41:0x00a2, code lost:
+            r0 = true;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:44:0x00a7, code lost:
+            if (r13.loggedError == false) goto L44;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:45:0x00a9, code lost:
+            org.telegram.messenger.FileLog.e((java.lang.Throwable) r1, true);
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:46:0x00ac, code lost:
+            r13.loggedError = true;
+            r1 = r0;
+         */
+        /* JADX WARN: Removed duplicated region for block: B:45:0x00a9  */
+        /* JADX WARN: Removed duplicated region for block: B:48:0x00b1  */
+        /* JADX WARN: Removed duplicated region for block: B:56:? A[RETURN, SYNTHETIC] */
         @Override // android.widget.TextView, android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public void onDraw(Canvas canvas) {
+            boolean z;
+            Layout layout;
+            float paddingTop;
             if (!this.isCustomLinkCollector) {
                 canvas.save();
                 if (!this.disablePaddingsOffset) {
@@ -674,35 +704,33 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
                 }
                 canvas.restore();
             }
-            boolean z = false;
-            try {
-                Layout layout = getLayout();
-                float paddingTop = ((getGravity() & 16) == 0 || layout == null) ? 0.0f : getPaddingTop() + ((((getHeight() - getPaddingTop()) - getPaddingBottom()) - layout.getHeight()) / 2.0f);
-                if (paddingTop != 0.0f || getPaddingLeft() != 0) {
-                    canvas.save();
-                    try {
-                        canvas.translate(getPaddingLeft(), paddingTop);
-                        z = true;
-                    } catch (Exception e) {
-                        e = e;
-                        z = true;
-                        if (!this.loggedError) {
-                            FileLog.e((Throwable) e, true);
-                        }
-                        this.loggedError = true;
-                        if (z) {
-                        }
-                        super.onDraw(canvas);
-                    }
-                }
-                AnimatedEmojiSpan.drawAnimatedEmojis(canvas, layout, this.stack, 0.0f, null, 0.0f, 0.0f, 0.0f, 1.0f);
-            } catch (Exception e2) {
-                e = e2;
-            }
-            if (z) {
-                canvas.restore();
-            }
             super.onDraw(canvas);
+            boolean z2 = false;
+            try {
+                layout = getLayout();
+                paddingTop = ((getGravity() & 16) == 0 || layout == null) ? 0.0f : getPaddingTop() + ((((getHeight() - getPaddingTop()) - getPaddingBottom()) - layout.getHeight()) / 2.0f);
+            } catch (Exception e) {
+                e = e;
+            }
+            if (paddingTop == 0.0f && getPaddingLeft() == 0) {
+                z = false;
+                AnimatedEmojiSpan.EmojiGroupedSpans update = AnimatedEmojiSpan.update(0, this, this.stack, getLayout());
+                this.stack = update;
+                AnimatedEmojiSpan.drawAnimatedEmojis(canvas, layout, update, 0.0f, null, 0.0f, 0.0f, 0.0f, 1.0f);
+                if (z) {
+                    return;
+                }
+                canvas.restore();
+                return;
+            }
+            canvas.save();
+            canvas.translate(getPaddingLeft(), paddingTop);
+            z = true;
+            AnimatedEmojiSpan.EmojiGroupedSpans update2 = AnimatedEmojiSpan.update(0, this, this.stack, getLayout());
+            this.stack = update2;
+            AnimatedEmojiSpan.drawAnimatedEmojis(canvas, layout, update2, 0.0f, null, 0.0f, 0.0f, 0.0f, 1.0f);
+            if (z) {
+            }
         }
 
         @Override // android.widget.TextView
