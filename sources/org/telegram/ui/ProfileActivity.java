@@ -10211,8 +10211,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         return this.chatId != 0;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:444:0x012c, code lost:
-        if ((r3 instanceof org.telegram.tgnet.TLRPC$TL_fileLocationToBeDeprecated) == false) goto L42;
+    /* JADX WARN: Code restructure failed: missing block: B:450:0x0130, code lost:
+        if ((r3 instanceof org.telegram.tgnet.TLRPC$TL_fileLocationToBeDeprecated) == false) goto L45;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -10349,8 +10349,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         if (!z && (tLRPC$ChatFull5 = this.chatInfo) != null) {
             z = tLRPC$ChatFull5.stories_pinned_available;
         }
-        if (!z && MessagesController.ChannelRecommendations.hasRecommendations(this.currentAccount, this.chatId)) {
-            z = true;
+        if (!z) {
+            long j = this.chatId;
+            if (j != 0 && MessagesController.ChannelRecommendations.hasRecommendations(this.currentAccount, j)) {
+                z = true;
+            }
         }
         if (this.userId != 0) {
             if (LocaleController.isRTL) {
@@ -10775,8 +10778,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     TLRPC$Chat tLRPC$Chat2 = this.currentChat;
                     if (tLRPC$Chat2.left && !tLRPC$Chat2.kicked) {
                         SharedPreferences notificationsSettings = MessagesController.getNotificationsSettings(this.currentAccount);
-                        long j = notificationsSettings.getLong("dialog_join_requested_time_" + this.dialogId, -1L);
-                        if (j <= 0 || System.currentTimeMillis() - j >= 120000) {
+                        long j2 = notificationsSettings.getLong("dialog_join_requested_time_" + this.dialogId, -1L);
+                        if (j2 <= 0 || System.currentTimeMillis() - j2 >= 120000) {
                             int i95 = this.rowCount;
                             int i96 = i95 + 1;
                             this.rowCount = i96;

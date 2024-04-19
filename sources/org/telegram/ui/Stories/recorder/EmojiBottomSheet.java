@@ -1158,8 +1158,8 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
             }
 
             /* JADX INFO: Access modifiers changed from: private */
-            /* JADX WARN: Removed duplicated region for block: B:157:0x0354 A[SYNTHETIC] */
-            /* JADX WARN: Removed duplicated region for block: B:96:0x02c1  */
+            /* JADX WARN: Removed duplicated region for block: B:157:0x034f A[SYNTHETIC] */
+            /* JADX WARN: Removed duplicated region for block: B:96:0x02bc  */
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
@@ -1215,8 +1215,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                         }
                         this.recentSet.documents = recentStickers2;
                         if (EmojiBottomSheet.this.onPlusSelected != null) {
-                            this.recentSet.documents.add(EmojiBottomSheet.this.plus);
-                            this.itemsCount++;
+                            this.recentSet.documents.add(0, EmojiBottomSheet.this.plus);
                         }
                         this.recentSet.set = new TLRPC$TL_stickerSet();
                         this.recentSet.set.title = LocaleController.getString("RecentStickers", R.string.RecentStickers);

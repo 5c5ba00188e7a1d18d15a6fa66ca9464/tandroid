@@ -833,6 +833,7 @@ public class MessagesController extends BaseController implements NotificationCe
     private long lastStatusUpdateTime;
     private long lastViewsCheckTime;
     public String linkPrefix;
+    private Runnable loadAppConfigRunnable;
     public LongSparseLongArray loadedFullChats;
     private HashSet<Long> loadedFullParticipants;
     private LongSparseLongArray loadedFullUsers;
@@ -2305,6 +2306,12 @@ public class MessagesController extends BaseController implements NotificationCe
                 return lambda$new$12;
             }
         };
+        this.loadAppConfigRunnable = new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda29
+            @Override // java.lang.Runnable
+            public final void run() {
+                MessagesController.this.loadAppConfig();
+            }
+        };
         this.notifyTranscriptionAudioCooldownUpdate = new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda41
             @Override // java.lang.Runnable
             public final void run() {
@@ -3577,16 +3584,8 @@ public class MessagesController extends BaseController implements NotificationCe
         loadAppConfig(false);
     }
 
-    public /* synthetic */ void lambda$loadAppConfig$31(final TLRPC$TL_help_appConfig tLRPC$TL_help_appConfig) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda232
-            @Override // java.lang.Runnable
-            public final void run() {
-                MessagesController.this.lambda$loadAppConfig$30(tLRPC$TL_help_appConfig);
-            }
-        });
-    }
-
     public void loadAppConfig(boolean z) {
+        AndroidUtilities.cancelRunOnUIThread(this.loadAppConfigRunnable);
         if (z) {
             this.appConfigFetcher.forceRequest(this.currentAccount, 0);
         }
@@ -3598,6 +3597,15 @@ public class MessagesController extends BaseController implements NotificationCe
         });
     }
 
+    public /* synthetic */ void lambda$loadAppConfig$31(final TLRPC$TL_help_appConfig tLRPC$TL_help_appConfig) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda232
+            @Override // java.lang.Runnable
+            public final void run() {
+                MessagesController.this.lambda$loadAppConfig$30(tLRPC$TL_help_appConfig);
+            }
+        });
+    }
+
     public /* synthetic */ void lambda$loadAppConfig$30(TLRPC$TL_help_appConfig tLRPC$TL_help_appConfig) {
         if (tLRPC$TL_help_appConfig != null) {
             TLRPC$JSONValue tLRPC$JSONValue = tLRPC$TL_help_appConfig.config;
@@ -3605,6 +3613,8 @@ public class MessagesController extends BaseController implements NotificationCe
                 applyAppConfig((TLRPC$TL_jsonObject) tLRPC$JSONValue);
             }
         }
+        AndroidUtilities.cancelRunOnUIThread(this.loadAppConfigRunnable);
+        AndroidUtilities.runOnUIThread(this.loadAppConfigRunnable, 240010L);
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */

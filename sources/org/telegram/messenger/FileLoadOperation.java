@@ -1867,6 +1867,9 @@ public class FileLoadOperation {
             startDownloadRequest(-1);
             this.nextPartWasPreloaded = false;
         }
+        if (this.notLoadedBytesRanges != null) {
+            notifyStreamListeners();
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */

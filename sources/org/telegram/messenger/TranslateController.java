@@ -149,7 +149,7 @@ public class TranslateController extends BaseController {
 
     public static boolean isTranslatable(MessageObject messageObject) {
         int i;
-        return (messageObject == null || messageObject.messageOwner == null || messageObject.isOutOwner() || messageObject.isRestrictedMessage || ((i = messageObject.type) != 0 && i != 3 && i != 1 && i != 2 && i != 9 && i != 14) || TextUtils.isEmpty(messageObject.messageOwner.message)) ? false : true;
+        return (messageObject == null || messageObject.messageOwner == null || messageObject.isOutOwner() || messageObject.isRestrictedMessage || messageObject.isSponsored() || ((i = messageObject.type) != 0 && i != 3 && i != 1 && i != 2 && i != 9 && i != 14) || TextUtils.isEmpty(messageObject.messageOwner.message)) ? false : true;
     }
 
     public boolean isDialogTranslatable(long j) {
@@ -847,7 +847,7 @@ public class TranslateController extends BaseController {
     private void pushToTranslate(MessageObject messageObject, String str, Utilities.Callback3<Integer, TLRPC$TL_textWithEntities, String> callback3) {
         final PendingTranslation pendingTranslation;
         String str2;
-        if (messageObject == null || callback3 == null) {
+        if (messageObject == null || messageObject.getId() < 0 || callback3 == null) {
             return;
         }
         final long dialogId = messageObject.getDialogId();

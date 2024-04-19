@@ -268,6 +268,11 @@ public class ChannelMonetizationLayout extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$1() {
+        Browser.openUrl(getContext(), LocaleController.getString(R.string.MonetizationBalanceInfoLink));
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$3(BaseFragment baseFragment, View view) {
         if (view.isEnabled()) {
             final TwoStepVerificationActivity twoStepVerificationActivity = new TwoStepVerificationActivity();
@@ -623,7 +628,7 @@ public class ChannelMonetizationLayout extends FrameLayout {
 
     private void checkLearnSheet() {
         if (isAttachedToWindow() && this.proceedsAvailable && MessagesController.getGlobalMainSettings().getBoolean("monetizationadshint", true)) {
-            lambda$new$1();
+            lambda$new$0();
             MessagesController.getGlobalMainSettings().edit().putBoolean("monetizationadshint", false).apply();
         }
     }
@@ -1204,7 +1209,7 @@ public class ChannelMonetizationLayout extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     /* renamed from: showLearnSheet */
-    public void lambda$new$1() {
+    public void lambda$new$0() {
         final BottomSheet bottomSheet = new BottomSheet(getContext(), false, this.resourcesProvider);
         bottomSheet.fixNavigationBar();
         LinearLayout linearLayout = new LinearLayout(getContext());

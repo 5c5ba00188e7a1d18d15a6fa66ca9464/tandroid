@@ -7173,7 +7173,7 @@ public class MessageObject {
                 if (TextUtils.isEmpty(this.linkDescription)) {
                     if (containsUrls(this.linkDescription)) {
                         try {
-                            AndroidUtilities.addLinks((Spannable) this.linkDescription, 1);
+                            AndroidUtilities.addLinksSafe((Spannable) this.linkDescription, 1, false, true);
                         } catch (Exception e) {
                             FileLog.e(e);
                         }
@@ -7264,7 +7264,6 @@ public class MessageObject {
             TLRPC$Message tLRPC$Message = this.messageOwner;
             String str = tLRPC$Message.message;
             ArrayList<TLRPC$MessageEntity> arrayList = tLRPC$Message.entities;
-            boolean z3 = true;
             if (this.type == 23) {
                 TLRPC$MessageMedia tLRPC$MessageMedia = tLRPC$Message.media;
                 if (tLRPC$MessageMedia != null && (tL_stories$StoryItem = tLRPC$MessageMedia.storyItem) != null) {
@@ -7285,14 +7284,11 @@ public class MessageObject {
                     CharSequence replaceEmoji = Emoji.replaceEmoji((CharSequence) str, Theme.chat_msgTextPaint.getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
                     this.caption = replaceEmoji;
                     this.caption = replaceAnimatedEmoji(replaceEmoji, arrayList, Theme.chat_msgTextPaint.getFontMetricsInt(), false);
-                    boolean z4 = this.messageOwner.send_state != 0 ? false : !arrayList.isEmpty();
-                    if (!z && (z4 || (this.eventId == 0 && !(getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaPhoto_old) && !(getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaPhoto_layer68) && !(getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaPhoto_layer74) && !(getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaDocument_old) && !(getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaDocument_layer68) && !(getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaDocument_layer74) && ((!isOut() || this.messageOwner.send_state == 0) && this.messageOwner.id >= 0)))) {
-                        z3 = false;
-                    }
+                    boolean z3 = z || (!(this.messageOwner.send_state != 0 ? false : arrayList.isEmpty() ^ true) && (this.eventId != 0 || (getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaPhoto_old) || (getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaPhoto_layer68) || (getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaPhoto_layer74) || (getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaDocument_old) || (getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaDocument_layer68) || (getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaDocument_layer74) || ((isOut() && this.messageOwner.send_state != 0) || this.messageOwner.id < 0)));
                     if (z3) {
                         if (containsUrls(this.caption)) {
                             try {
-                                AndroidUtilities.addLinks((Spannable) this.caption, 5);
+                                AndroidUtilities.addLinksSafe((Spannable) this.caption, 5, false, true);
                             } catch (Exception e) {
                                 FileLog.e(e);
                             }
@@ -7540,13 +7536,13 @@ public class MessageObject {
         if ((charSequence instanceof Spannable) && containsUrls(charSequence)) {
             if (charSequence.length() < 1000) {
                 try {
-                    AndroidUtilities.addLinks((Spannable) charSequence, 5, z4);
+                    AndroidUtilities.addLinksSafe((Spannable) charSequence, 5, z4, false);
                 } catch (Exception e) {
                     FileLog.e(e);
                 }
             } else {
                 try {
-                    AndroidUtilities.addLinks((Spannable) charSequence, 1, z4);
+                    AndroidUtilities.addLinksSafe((Spannable) charSequence, 1, z4, false);
                 } catch (Exception e2) {
                     FileLog.e(e2);
                 }

@@ -349,6 +349,12 @@ public class VideoSeekPreviewImage extends View {
         }
     }
 
+    @Override // android.view.View
+    protected void onMeasure(int i, int i2) {
+        super.onMeasure(i, i2);
+        setPivotY(getMeasuredHeight());
+    }
+
     public boolean isReady() {
         return this.ready;
     }

@@ -646,7 +646,6 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                         2.this = this;
                     }
 
-                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.ActionBar.AdjustPanLayoutHelper
                     public void onTransitionStart(boolean z5, int i4) {
                         super.onTransitionStart(z5, i4);
@@ -683,7 +682,6 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                         invalidate();
                     }
 
-                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.ActionBar.AdjustPanLayoutHelper
                     public void onTransitionEnd() {
                         super.onTransitionEnd();
@@ -697,7 +695,6 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                         ShareAlert.this.searchGridView.setTranslationY(0.0f);
                     }
 
-                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.ActionBar.AdjustPanLayoutHelper
                     public void onPanTranslationUpdate(float f, float f2, boolean z5) {
                         super.onPanTranslationUpdate(f, f2, z5);

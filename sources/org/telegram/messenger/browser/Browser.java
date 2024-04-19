@@ -254,21 +254,21 @@ public class Browser {
         openUrl(context, uri, z, z2, false, progress);
     }
 
-    /* JADX WARN: Can't wrap try/catch for region: R(15:39|40|41|(11:45|46|(5:50|(2:52|53)(1:55)|54|47|48)|56|57|(3:59|(4:62|(2:63|(1:1)(2:65|(3:68|69|70)(1:67)))|71|60)|73)(3:96|(4:99|(2:105|106)(1:103)|104|97)|107)|74|(3:76|(3:79|80|77)|81)|83|84|(2:89|(2:91|92)(2:94|95)))|112|56|57|(0)(0)|74|(0)|83|84|(0)|89|(0)(0)) */
-    /* JADX WARN: Can't wrap try/catch for region: R(9:4|(3:142|143|(5:155|156|157|158|(2:160|161)(2:162|163)))|6|(9:(4:7|8|(1:10)(1:139)|11)|(12:131|132|133|16|17|(9:19|(1:21)|22|23|(1:25)|26|(1:28)(1:32)|(1:30)|31)|(15:39|40|41|(11:45|46|(5:50|(2:52|53)(1:55)|54|47|48)|56|57|(3:59|(4:62|(2:63|(1:1)(2:65|(3:68|69|70)(1:67)))|71|60)|73)(3:96|(4:99|(2:105|106)(1:103)|104|97)|107)|74|(3:76|(3:79|80|77)|81)|83|84|(2:89|(2:91|92)(2:94|95)))|112|56|57|(0)(0)|74|(0)|83|84|(0)|89|(0)(0))|114|115|(1:117)|118|(2:124|125)(2:122|123))|114|115|(0)|118|(1:120)|124|125)|15|16|17|(0)|(17:34|37|39|40|41|(14:43|45|46|(2:47|48)|56|57|(0)(0)|74|(0)|83|84|(0)|89|(0)(0))|112|56|57|(0)(0)|74|(0)|83|84|(0)|89|(0)(0))) */
-    /* JADX WARN: Code restructure failed: missing block: B:120:0x0350, code lost:
+    /* JADX WARN: Can't wrap try/catch for region: R(15:43|44|45|(11:49|50|(5:54|(2:56|57)(1:59)|58|51|52)|60|61|(3:63|(4:66|(2:67|(1:1)(2:69|(3:72|73|74)(1:71)))|75|64)|77)(3:100|(4:103|(2:109|110)(1:107)|108|101)|111)|78|(3:80|(3:83|84|81)|85)|87|88|(2:93|(2:95|96)(2:98|99)))|116|60|61|(0)(0)|78|(0)|87|88|(0)|93|(0)(0)) */
+    /* JADX WARN: Can't wrap try/catch for region: R(9:4|(3:146|147|(5:159|160|161|162|(2:164|165)(2:166|167)))|6|(9:(4:7|8|(1:10)(1:143)|11)|(12:135|136|137|16|17|(9:19|(1:25)|26|27|(1:29)|30|(1:32)(1:36)|(1:34)|35)|(15:43|44|45|(11:49|50|(5:54|(2:56|57)(1:59)|58|51|52)|60|61|(3:63|(4:66|(2:67|(1:1)(2:69|(3:72|73|74)(1:71)))|75|64)|77)(3:100|(4:103|(2:109|110)(1:107)|108|101)|111)|78|(3:80|(3:83|84|81)|85)|87|88|(2:93|(2:95|96)(2:98|99)))|116|60|61|(0)(0)|78|(0)|87|88|(0)|93|(0)(0))|118|119|(1:121)|122|(2:128|129)(2:126|127))|118|119|(0)|122|(1:124)|128|129)|15|16|17|(0)|(17:38|41|43|44|45|(14:47|49|50|(2:51|52)|60|61|(0)(0)|78|(0)|87|88|(0)|93|(0)(0))|116|60|61|(0)(0)|78|(0)|87|88|(0)|93|(0)(0))) */
+    /* JADX WARN: Code restructure failed: missing block: B:124:0x0360, code lost:
         r0 = e;
      */
-    /* JADX WARN: Removed duplicated region for block: B:103:0x0288  */
-    /* JADX WARN: Removed duplicated region for block: B:111:0x02c1 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:116:0x02d5 A[Catch: Exception -> 0x0350, TryCatch #1 {Exception -> 0x0350, blocks: (B:42:0x00e0, B:44:0x00fc, B:46:0x012b, B:47:0x0131, B:51:0x013a, B:52:0x0152, B:54:0x015a, B:57:0x0185, B:58:0x0197, B:55:0x016f, B:60:0x01ae, B:63:0x01b4, B:109:0x02bd, B:112:0x02c3, B:114:0x02c9, B:116:0x02d5, B:118:0x02e5), top: B:145:0x00e0 }] */
-    /* JADX WARN: Removed duplicated region for block: B:118:0x02e5 A[Catch: Exception -> 0x0350, TRY_LEAVE, TryCatch #1 {Exception -> 0x0350, blocks: (B:42:0x00e0, B:44:0x00fc, B:46:0x012b, B:47:0x0131, B:51:0x013a, B:52:0x0152, B:54:0x015a, B:57:0x0185, B:58:0x0197, B:55:0x016f, B:60:0x01ae, B:63:0x01b4, B:109:0x02bd, B:112:0x02c3, B:114:0x02c9, B:116:0x02d5, B:118:0x02e5), top: B:145:0x00e0 }] */
-    /* JADX WARN: Removed duplicated region for block: B:127:0x035f A[Catch: Exception -> 0x0398, TryCatch #6 {Exception -> 0x0398, blocks: (B:125:0x0358, B:127:0x035f, B:128:0x0371, B:130:0x0382, B:132:0x0386, B:133:0x0394), top: B:154:0x0358 }] */
-    /* JADX WARN: Removed duplicated region for block: B:130:0x0382 A[Catch: Exception -> 0x0398, TryCatch #6 {Exception -> 0x0398, blocks: (B:125:0x0358, B:127:0x035f, B:128:0x0371, B:130:0x0382, B:132:0x0386, B:133:0x0394), top: B:154:0x0358 }] */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x00fc A[Catch: Exception -> 0x0350, TryCatch #1 {Exception -> 0x0350, blocks: (B:42:0x00e0, B:44:0x00fc, B:46:0x012b, B:47:0x0131, B:51:0x013a, B:52:0x0152, B:54:0x015a, B:57:0x0185, B:58:0x0197, B:55:0x016f, B:60:0x01ae, B:63:0x01b4, B:109:0x02bd, B:112:0x02c3, B:114:0x02c9, B:116:0x02d5, B:118:0x02e5), top: B:145:0x00e0 }] */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x01e6 A[Catch: Exception -> 0x0210, TryCatch #0 {Exception -> 0x0210, blocks: (B:72:0x01e0, B:74:0x01e6, B:76:0x01f6), top: B:143:0x01e0 }] */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x0220  */
-    /* JADX WARN: Removed duplicated region for block: B:92:0x0249  */
+    /* JADX WARN: Removed duplicated region for block: B:107:0x0298  */
+    /* JADX WARN: Removed duplicated region for block: B:115:0x02d1 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:120:0x02e5 A[Catch: Exception -> 0x0360, TryCatch #1 {Exception -> 0x0360, blocks: (B:42:0x00e0, B:44:0x00fc, B:48:0x012e, B:50:0x013b, B:51:0x0141, B:55:0x014a, B:56:0x0162, B:58:0x016a, B:61:0x0195, B:62:0x01a7, B:59:0x017f, B:64:0x01be, B:67:0x01c4, B:113:0x02cd, B:116:0x02d3, B:118:0x02d9, B:120:0x02e5, B:122:0x02f5), top: B:149:0x00e0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:122:0x02f5 A[Catch: Exception -> 0x0360, TRY_LEAVE, TryCatch #1 {Exception -> 0x0360, blocks: (B:42:0x00e0, B:44:0x00fc, B:48:0x012e, B:50:0x013b, B:51:0x0141, B:55:0x014a, B:56:0x0162, B:58:0x016a, B:61:0x0195, B:62:0x01a7, B:59:0x017f, B:64:0x01be, B:67:0x01c4, B:113:0x02cd, B:116:0x02d3, B:118:0x02d9, B:120:0x02e5, B:122:0x02f5), top: B:149:0x00e0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:131:0x036f A[Catch: Exception -> 0x03a8, TryCatch #6 {Exception -> 0x03a8, blocks: (B:129:0x0368, B:131:0x036f, B:132:0x0381, B:134:0x0392, B:136:0x0396, B:137:0x03a4), top: B:158:0x0368 }] */
+    /* JADX WARN: Removed duplicated region for block: B:134:0x0392 A[Catch: Exception -> 0x03a8, TryCatch #6 {Exception -> 0x03a8, blocks: (B:129:0x0368, B:131:0x036f, B:132:0x0381, B:134:0x0392, B:136:0x0396, B:137:0x03a4), top: B:158:0x0368 }] */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x00fc A[Catch: Exception -> 0x0360, TryCatch #1 {Exception -> 0x0360, blocks: (B:42:0x00e0, B:44:0x00fc, B:48:0x012e, B:50:0x013b, B:51:0x0141, B:55:0x014a, B:56:0x0162, B:58:0x016a, B:61:0x0195, B:62:0x01a7, B:59:0x017f, B:64:0x01be, B:67:0x01c4, B:113:0x02cd, B:116:0x02d3, B:118:0x02d9, B:120:0x02e5, B:122:0x02f5), top: B:149:0x00e0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x01f6 A[Catch: Exception -> 0x0220, TryCatch #0 {Exception -> 0x0220, blocks: (B:76:0x01f0, B:78:0x01f6, B:80:0x0206), top: B:147:0x01f0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:85:0x0230  */
+    /* JADX WARN: Removed duplicated region for block: B:96:0x0259  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -346,7 +346,7 @@ public class Browser {
                     String str = "autologin_token=" + URLEncoder.encode(AccountInstance.getInstance(UserConfig.selectedAccount).getMessagesController().autologinToken, "UTF-8");
                     String uri3 = uri2.toString();
                     int indexOf = uri3.indexOf("://");
-                    if (indexOf >= 0) {
+                    if (indexOf >= 0 && indexOf <= 5 && !uri3.substring(0, indexOf).contains(".")) {
                         uri3 = uri3.substring(indexOf + 3);
                     }
                     String encodedFragment = uri2.getEncodedFragment();

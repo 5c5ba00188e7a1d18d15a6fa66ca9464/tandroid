@@ -178,8 +178,8 @@ public class ProfileHoursCell extends LinearLayout {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:84:0x0159  */
-    /* JADX WARN: Removed duplicated region for block: B:85:0x0161  */
+    /* JADX WARN: Removed duplicated region for block: B:84:0x015d  */
+    /* JADX WARN: Removed duplicated region for block: B:85:0x0165  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -208,13 +208,13 @@ public class ProfileHoursCell extends LinearLayout {
         this.todayTimeTextContainer2.setTranslationX(is24x7 ? AndroidUtilities.dp(11.0f) : 0.0f);
         TLRPC$TL_timezone findTimezone = TimezonesController.getInstance(UserConfig.selectedAccount).findTimezone(tLRPC$TL_businessWorkHours.timezone_id);
         Calendar calendar = Calendar.getInstance();
-        int rawOffset = ((calendar.getTimeZone().getRawOffset() / 1000) - (findTimezone == null ? 0 : findTimezone.utc_offset)) / 60;
+        int offset = ((calendar.getTimeZone().getOffset(System.currentTimeMillis()) / 1000) - (findTimezone == null ? 0 : findTimezone.utc_offset)) / 60;
         ClickableAnimatedTextView clickableAnimatedTextView = this.switchText;
-        if (rawOffset != 0 && !is24x7) {
+        if (offset != 0 && !is24x7) {
             i4 = 0;
         }
         clickableAnimatedTextView.setVisibility(i4);
-        boolean z7 = rawOffset == 0 ? false : z2;
+        boolean z7 = offset == 0 ? false : z2;
         invalidate();
         int i5 = 1;
         if (this.firstAfterAttach) {
@@ -268,7 +268,7 @@ public class ProfileHoursCell extends LinearLayout {
         int i9 = ((calendar.get(7) + 7) - 2) % 7;
         int i10 = calendar.get(11);
         int i11 = calendar.get(12);
-        ArrayList<TLRPC$TL_businessWeeklyOpen> adaptWeeklyOpen = OpeningHoursActivity.adaptWeeklyOpen(tLRPC$TL_businessWorkHours.weekly_open, rawOffset);
+        ArrayList<TLRPC$TL_businessWeeklyOpen> adaptWeeklyOpen = OpeningHoursActivity.adaptWeeklyOpen(tLRPC$TL_businessWorkHours.weekly_open, offset);
         int i12 = i11 + (i10 * 60) + (i9 * 1440);
         for (int i13 = 0; i13 < adaptWeeklyOpen.size(); i13++) {
             TLRPC$TL_businessWeeklyOpen tLRPC$TL_businessWeeklyOpen = adaptWeeklyOpen.get(i13);
