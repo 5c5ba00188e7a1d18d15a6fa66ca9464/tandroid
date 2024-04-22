@@ -948,8 +948,9 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
             });
             addView(this.searchField, LayoutHelper.createFrame(-1, -2, 48));
             EmojiTabsStrip emojiTabsStrip = new EmojiTabsStrip(context, ((BottomSheet) EmojiBottomSheet.this).resourcesProvider, false, false, true, 0, null, EmojiBottomSheet.this) { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet.Page.3
+                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.EmojiTabsStrip
-                protected boolean onTabClick(int i) {
+                public boolean onTabClick(int i) {
                     int i2 = 0;
                     if (this.scrollingAnimation) {
                         return false;

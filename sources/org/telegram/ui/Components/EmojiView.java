@@ -2154,13 +2154,14 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                 return EmojiView.this.featuredEmojiSets.size() <= 0 || ((TLRPC$StickerSetCovered) EmojiView.this.featuredEmojiSets.get(0)).set == null || MessagesController.getEmojiSettings(EmojiView.this.currentAccount).getLong("emoji_featured_hidden", 0L) == ((TLRPC$StickerSetCovered) EmojiView.this.featuredEmojiSets.get(0)).set.id || !UserConfig.getInstance(UserConfig.selectedAccount).isPremium();
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             /* JADX WARN: Removed duplicated region for block: B:84:0x00dc  */
             /* JADX WARN: Removed duplicated region for block: B:89:? A[RETURN, SYNTHETIC] */
             @Override // org.telegram.ui.Components.EmojiTabsStrip
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
-            protected boolean onTabClick(int i15) {
+            public boolean onTabClick(int i15) {
                 Integer num;
                 int i16;
                 if (EmojiView.this.emojiSmoothScrolling) {
@@ -5635,6 +5636,14 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
             return this.emojiSearchField;
         }
         return this.stickersSearchField;
+    }
+
+    public void scrollEmojiToTop() {
+        try {
+            this.emojiTabs.scrollTo(0, 0);
+            this.emojiTabs.onTabClick(0);
+        } catch (Exception unused) {
+        }
     }
 
     public void checkEmojiSearchFieldScroll(boolean z) {

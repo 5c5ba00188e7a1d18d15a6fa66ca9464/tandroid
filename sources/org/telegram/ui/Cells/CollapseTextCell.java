@@ -29,7 +29,7 @@ public class CollapseTextCell extends FrameLayout {
         this.textView = animatedTextView;
         int i = Theme.key_windowBackgroundWhiteBlackText;
         animatedTextView.setTextColor(Theme.getColor(i, resourcesProvider));
-        animatedTextView.setTextSize(AndroidUtilities.dp(16.0f));
+        animatedTextView.setTextSize(AndroidUtilities.dp(14.0f));
         animatedTextView.setGravity(LocaleController.isRTL ? 5 : 3);
         animatedTextView.setImportantForAccessibility(2);
         animatedTextView.setOnWidthUpdatedListener(new Runnable() { // from class: org.telegram.ui.Cells.CollapseTextCell$$ExternalSyntheticLambda0
@@ -38,12 +38,12 @@ public class CollapseTextCell extends FrameLayout {
                 CollapseTextCell.this.updateCollapseArrowTranslation();
             }
         });
-        addView(animatedTextView, LayoutHelper.createFrameRelatively(-2.0f, -2.0f, 8388627, 21.0f, 0.0f, 38.0f, 0.0f));
+        addView(animatedTextView, LayoutHelper.createFrameRelatively(-2.0f, -2.0f, 8388627, 21.0f, 0.0f, 38.0f, 3.0f));
         this.collapsedArrow = new View(context);
         Drawable mutate = getContext().getResources().getDrawable(R.drawable.arrow_more).mutate();
         mutate.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i, resourcesProvider), PorterDuff.Mode.MULTIPLY));
         this.collapsedArrow.setBackground(mutate);
-        addView(this.collapsedArrow, LayoutHelper.createFrameRelatively(16.0f, 16.0f, 8388627, 21.0f, 0.0f, 0.0f, 0.0f));
+        addView(this.collapsedArrow, LayoutHelper.createFrameRelatively(14.0f, 14.0f, 8388627, 21.0f, 1.0f, 0.0f, 3.0f));
     }
 
     public void set(CharSequence charSequence, boolean z, View.OnClickListener onClickListener) {
@@ -61,7 +61,7 @@ public class CollapseTextCell extends FrameLayout {
 
     @Override // android.widget.FrameLayout, android.view.View
     protected void onMeasure(int i, int i2) {
-        super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(50.0f), 1073741824));
+        super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(46.0f), 1073741824));
         updateCollapseArrowTranslation();
     }
 

@@ -805,8 +805,9 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                                             return SelectAnimatedEmojiDialog.this.premiumStarColorFilter;
                                         }
 
+                                        /* JADX INFO: Access modifiers changed from: protected */
                                         @Override // org.telegram.ui.Components.EmojiTabsStrip
-                                        protected boolean onTabClick(int i9) {
+                                        public boolean onTabClick(int i9) {
                                             SelectAnimatedEmojiDialog selectAnimatedEmojiDialog;
                                             int i10 = 0;
                                             if (SelectAnimatedEmojiDialog.this.smoothScrolling) {

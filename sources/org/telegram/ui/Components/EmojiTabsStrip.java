@@ -81,7 +81,8 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
         return true;
     }
 
-    protected boolean onTabClick(int i) {
+    /* JADX INFO: Access modifiers changed from: protected */
+    public boolean onTabClick(int i) {
         return true;
     }
 
