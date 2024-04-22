@@ -3,17 +3,17 @@ package j$.wrappers;
 import java.util.function.ObjIntConsumer;
 /* loaded from: classes2.dex */
 public final /* synthetic */ class t0 implements ObjIntConsumer {
-    final /* synthetic */ j$.util.function.v a;
+    final /* synthetic */ j$.util.function.u a;
 
-    private /* synthetic */ t0(j$.util.function.v vVar) {
-        this.a = vVar;
+    private /* synthetic */ t0(j$.util.function.u uVar) {
+        this.a = uVar;
     }
 
-    public static /* synthetic */ ObjIntConsumer a(j$.util.function.v vVar) {
-        if (vVar == null) {
+    public static /* synthetic */ ObjIntConsumer a(j$.util.function.u uVar) {
+        if (uVar == null) {
             return null;
         }
-        return vVar instanceof s0 ? ((s0) vVar).a : new t0(vVar);
+        return uVar instanceof s0 ? ((s0) uVar).a : new t0(uVar);
     }
 
     @Override // java.util.function.ObjIntConsumer

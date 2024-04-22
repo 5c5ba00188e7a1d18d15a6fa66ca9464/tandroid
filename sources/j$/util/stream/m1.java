@@ -1,37 +1,45 @@
 package j$.util.stream;
-
-import j$.util.function.Supplier;
-import java.util.Objects;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class m1 implements O4 {
-    private final f4 a;
-    final l1 b;
-    final Supplier c;
+final class m1 extends d {
+    private final l1 j;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public m1(f4 f4Var, l1 l1Var, Supplier supplier) {
-        this.a = f4Var;
-        this.b = l1Var;
-        this.c = supplier;
+    public m1(l1 l1Var, y2 y2Var, j$.util.s sVar) {
+        super(y2Var, sVar);
+        this.j = l1Var;
     }
 
-    @Override // j$.util.stream.O4
-    public int b() {
-        return e4.u | e4.r;
+    m1(m1 m1Var, j$.util.s sVar) {
+        super(m1Var, sVar);
+        this.j = m1Var.j;
     }
 
-    @Override // j$.util.stream.O4
-    public Object c(z2 z2Var, j$.util.t tVar) {
-        return (Boolean) new n1(this, z2Var, tVar).invoke();
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // j$.util.stream.f
+    public Object a() {
+        boolean z;
+        y2 y2Var = this.a;
+        j1 j1Var = (j1) this.j.c.get();
+        y2Var.p0(j1Var, this.b);
+        boolean z2 = j1Var.b;
+        z = this.j.b.b;
+        if (z2 == z) {
+            l(Boolean.valueOf(z2));
+            return null;
+        }
+        return null;
     }
 
-    @Override // j$.util.stream.O4
-    public Object d(z2 z2Var, j$.util.t tVar) {
-        k1 k1Var = (k1) this.c.get();
-        c cVar = (c) z2Var;
-        Objects.requireNonNull(k1Var);
-        cVar.l0(cVar.t0(k1Var), tVar);
-        return Boolean.valueOf(k1Var.b);
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // j$.util.stream.f
+    public f f(j$.util.s sVar) {
+        return new m1(this, sVar);
+    }
+
+    @Override // j$.util.stream.d
+    protected Object k() {
+        boolean z;
+        z = this.j.b.b;
+        return Boolean.valueOf(!z);
     }
 }

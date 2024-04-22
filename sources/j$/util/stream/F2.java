@@ -1,37 +1,35 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
+import j$.util.function.Supplier;
 import java.util.Objects;
 /* loaded from: classes2.dex */
-class F2 implements T2, k3 {
-    private boolean a;
-    private double b;
-    final /* synthetic */ j$.util.function.d c;
+class F2 extends T2 implements S2, j3 {
+    final /* synthetic */ Supplier b;
+    final /* synthetic */ j$.util.function.t c;
+    final /* synthetic */ j$.util.function.b d;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public F2(j$.util.function.d dVar) {
-        this.c = dVar;
+    public F2(Supplier supplier, j$.util.function.t tVar, j$.util.function.b bVar) {
+        this.b = supplier;
+        this.c = tVar;
+        this.d = bVar;
     }
 
-    @Override // j$.util.stream.n3
+    @Override // j$.util.stream.m3
     public void accept(double d) {
-        if (this.a) {
-            this.a = false;
-        } else {
-            d = this.c.applyAsDouble(this.b, d);
-        }
-        this.b = d;
+        this.c.accept(this.a, d);
     }
 
-    @Override // j$.util.stream.n3
+    @Override // j$.util.stream.m3
     public /* synthetic */ void accept(int i) {
-        p1.d(this);
+        o1.d(this);
         throw null;
     }
 
-    @Override // j$.util.stream.n3, j$.util.stream.m3, j$.util.function.q
+    @Override // j$.util.stream.m3, j$.util.stream.l3, j$.util.function.q
     public /* synthetic */ void accept(long j) {
-        p1.e(this);
+        o1.e(this);
         throw null;
     }
 
@@ -43,21 +41,12 @@ class F2 implements T2, k3 {
     @Override // j$.util.function.Consumer
     /* renamed from: b */
     public /* synthetic */ void accept(Double d) {
-        p1.a(this, d);
+        o1.a(this, d);
     }
 
-    @Override // j$.util.function.Supplier
-    public Object get() {
-        return this.a ? j$.util.j.a() : j$.util.j.d(this.b);
-    }
-
-    @Override // j$.util.stream.T2
-    public void h(T2 t2) {
-        F2 f2 = (F2) t2;
-        if (f2.a) {
-            return;
-        }
-        accept(f2.b);
+    @Override // j$.util.stream.S2
+    public void h(S2 s2) {
+        this.a = this.d.apply(this.a, ((F2) s2).a);
     }
 
     @Override // j$.util.function.f
@@ -66,17 +55,16 @@ class F2 implements T2, k3 {
         return new j$.util.function.e(this, fVar);
     }
 
-    @Override // j$.util.stream.n3
+    @Override // j$.util.stream.m3
     public /* synthetic */ void m() {
     }
 
-    @Override // j$.util.stream.n3
+    @Override // j$.util.stream.m3
     public void n(long j) {
-        this.a = true;
-        this.b = 0.0d;
+        this.a = this.b.get();
     }
 
-    @Override // j$.util.stream.n3
+    @Override // j$.util.stream.m3
     public /* synthetic */ boolean o() {
         return false;
     }

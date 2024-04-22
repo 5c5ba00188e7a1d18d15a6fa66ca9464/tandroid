@@ -5,17 +5,17 @@ import java.util.Spliterator;
 import java.util.function.Consumer;
 /* loaded from: classes2.dex */
 public final /* synthetic */ class p implements Spliterator.OfPrimitive {
-    final /* synthetic */ j$.util.u a;
+    final /* synthetic */ j$.util.t a;
 
-    private /* synthetic */ p(j$.util.u uVar) {
-        this.a = uVar;
+    private /* synthetic */ p(j$.util.t tVar) {
+        this.a = tVar;
     }
 
-    public static /* synthetic */ Spliterator.OfPrimitive a(j$.util.u uVar) {
-        if (uVar == null) {
+    public static /* synthetic */ Spliterator.OfPrimitive a(j$.util.t tVar) {
+        if (tVar == null) {
             return null;
         }
-        return uVar instanceof o ? ((o) uVar).a : new p(uVar);
+        return tVar instanceof o ? ((o) tVar).a : new p(tVar);
     }
 
     @Override // java.util.Spliterator

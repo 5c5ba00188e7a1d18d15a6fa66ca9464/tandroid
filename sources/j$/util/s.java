@@ -1,22 +1,71 @@
 package j$.util;
 
-import java.util.Collection;
+import j$.util.function.Consumer;
 import java.util.Comparator;
-import java.util.SortedSet;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public class s extends H {
-    final /* synthetic */ SortedSet f;
+public interface s {
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public s(SortedSet sortedSet, Collection collection, int i) {
-        super(collection, i);
-        this.f = sortedSet;
+    /* loaded from: classes2.dex */
+    public interface a extends t {
+        @Override // j$.util.s
+        boolean b(Consumer consumer);
+
+        void e(j$.util.function.f fVar);
+
+        @Override // j$.util.s
+        void forEachRemaining(Consumer consumer);
+
+        boolean k(j$.util.function.f fVar);
+
+        @Override // j$.util.t, j$.util.s
+        a trySplit();
     }
 
-    @Override // j$.util.H, j$.util.t
-    public Comparator getComparator() {
-        return this.f.comparator();
+    /* loaded from: classes2.dex */
+    public interface b extends t {
+        @Override // j$.util.s
+        boolean b(Consumer consumer);
+
+        void c(j$.util.function.l lVar);
+
+        @Override // j$.util.s
+        void forEachRemaining(Consumer consumer);
+
+        boolean g(j$.util.function.l lVar);
+
+        @Override // j$.util.t, j$.util.s
+        b trySplit();
     }
+
+    /* loaded from: classes2.dex */
+    public interface c extends t {
+        @Override // j$.util.s
+        boolean b(Consumer consumer);
+
+        void d(j$.util.function.q qVar);
+
+        @Override // j$.util.s
+        void forEachRemaining(Consumer consumer);
+
+        boolean i(j$.util.function.q qVar);
+
+        @Override // j$.util.t, j$.util.s
+        c trySplit();
+    }
+
+    boolean b(Consumer consumer);
+
+    int characteristics();
+
+    long estimateSize();
+
+    void forEachRemaining(Consumer consumer);
+
+    Comparator getComparator();
+
+    long getExactSizeIfKnown();
+
+    boolean hasCharacteristics(int i);
+
+    s trySplit();
 }

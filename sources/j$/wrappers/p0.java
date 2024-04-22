@@ -3,17 +3,17 @@ package j$.wrappers;
 import java.util.function.LongUnaryOperator;
 /* loaded from: classes2.dex */
 public final /* synthetic */ class p0 implements LongUnaryOperator {
-    final /* synthetic */ j$.util.function.t a;
+    final /* synthetic */ j$.util.function.s a;
 
-    private /* synthetic */ p0(j$.util.function.t tVar) {
-        this.a = tVar;
+    private /* synthetic */ p0(j$.util.function.s sVar) {
+        this.a = sVar;
     }
 
-    public static /* synthetic */ LongUnaryOperator a(j$.util.function.t tVar) {
-        if (tVar == null) {
+    public static /* synthetic */ LongUnaryOperator a(j$.util.function.s sVar) {
+        if (sVar == null) {
             return null;
         }
-        return tVar instanceof o0 ? ((o0) tVar).a : new p0(tVar);
+        return sVar instanceof o0 ? ((o0) sVar).a : new p0(sVar);
     }
 
     @Override // java.util.function.LongUnaryOperator

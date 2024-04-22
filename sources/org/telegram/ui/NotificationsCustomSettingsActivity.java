@@ -542,17 +542,17 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
         }
         int i2 = this.currentType;
         if (i2 == 3 && itemInner != null && (notificationException4 = itemInner.exception) != null) {
-            ItemOptions.makeOptions(this, view).setGravity(3).addIf(notificationException4.notify <= 0 || notificationException4.auto, R.drawable.msg_mute, LocaleController.getString(R.string.NotificationsStoryMute), false, new Runnable() { // from class: org.telegram.ui.NotificationsCustomSettingsActivity$$ExternalSyntheticLambda12
+            ItemOptions.makeOptions(this, view).setGravity(3).addIf(notificationException4.notify <= 0 || notificationException4.auto, R.drawable.msg_mute, (CharSequence) LocaleController.getString(R.string.NotificationsStoryMute), false, new Runnable() { // from class: org.telegram.ui.NotificationsCustomSettingsActivity$$ExternalSyntheticLambda12
                 @Override // java.lang.Runnable
                 public final void run() {
                     NotificationsCustomSettingsActivity.this.lambda$createView$1(notificationException4, view, i);
                 }
-            }).addIf(notificationException4.notify > 0 || notificationException4.auto, R.drawable.msg_unmute, LocaleController.getString(R.string.NotificationsStoryUnmute), false, new Runnable() { // from class: org.telegram.ui.NotificationsCustomSettingsActivity$$ExternalSyntheticLambda9
+            }).addIf(notificationException4.notify > 0 || notificationException4.auto, R.drawable.msg_unmute, (CharSequence) LocaleController.getString(R.string.NotificationsStoryUnmute), false, new Runnable() { // from class: org.telegram.ui.NotificationsCustomSettingsActivity$$ExternalSyntheticLambda9
                 @Override // java.lang.Runnable
                 public final void run() {
                     NotificationsCustomSettingsActivity.this.lambda$createView$2(notificationException4, view, i);
                 }
-            }).addIf(!notificationException4.auto, R.drawable.msg_delete, LocaleController.getString("DeleteException", R.string.DeleteException), true, new Runnable() { // from class: org.telegram.ui.NotificationsCustomSettingsActivity$$ExternalSyntheticLambda10
+            }).addIf(!notificationException4.auto, R.drawable.msg_delete, (CharSequence) LocaleController.getString("DeleteException", R.string.DeleteException), true, new Runnable() { // from class: org.telegram.ui.NotificationsCustomSettingsActivity$$ExternalSyntheticLambda10
                 @Override // java.lang.Runnable
                 public final void run() {
                     NotificationsCustomSettingsActivity.this.lambda$createView$3(notificationException4, view, i);
@@ -590,17 +590,17 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
                         if (notificationException3 != null) {
                             return;
                         }
-                        ItemOptions.makeOptions(this, view).setGravity(3).addIf(notificationException3.notify <= 0 || notificationException3.auto, R.drawable.msg_mute, LocaleController.getString(R.string.NotificationsStoryMute), false, new Runnable() { // from class: org.telegram.ui.NotificationsCustomSettingsActivity$$ExternalSyntheticLambda14
+                        ItemOptions.makeOptions(this, view).setGravity(3).addIf(notificationException3.notify <= 0 || notificationException3.auto, R.drawable.msg_mute, (CharSequence) LocaleController.getString(R.string.NotificationsStoryMute), false, new Runnable() { // from class: org.telegram.ui.NotificationsCustomSettingsActivity$$ExternalSyntheticLambda14
                             @Override // java.lang.Runnable
                             public final void run() {
                                 NotificationsCustomSettingsActivity.this.lambda$createView$4(notificationException3, view, z3);
                             }
-                        }).addIf(notificationException3.notify > 0 || notificationException3.auto, R.drawable.msg_unmute, LocaleController.getString(R.string.NotificationsStoryUnmute), false, new Runnable() { // from class: org.telegram.ui.NotificationsCustomSettingsActivity$$ExternalSyntheticLambda13
+                        }).addIf(notificationException3.notify > 0 || notificationException3.auto, R.drawable.msg_unmute, (CharSequence) LocaleController.getString(R.string.NotificationsStoryUnmute), false, new Runnable() { // from class: org.telegram.ui.NotificationsCustomSettingsActivity$$ExternalSyntheticLambda13
                             @Override // java.lang.Runnable
                             public final void run() {
                                 NotificationsCustomSettingsActivity.this.lambda$createView$5(notificationException3, view, z3);
                             }
-                        }).addIf((z3 || notificationException3.auto) ? false : true, R.drawable.msg_delete, LocaleController.getString("DeleteException", R.string.DeleteException), true, new Runnable() { // from class: org.telegram.ui.NotificationsCustomSettingsActivity$$ExternalSyntheticLambda11
+                        }).addIf((z3 || notificationException3.auto) ? false : true, R.drawable.msg_delete, (CharSequence) LocaleController.getString("DeleteException", R.string.DeleteException), true, new Runnable() { // from class: org.telegram.ui.NotificationsCustomSettingsActivity$$ExternalSyntheticLambda11
                             @Override // java.lang.Runnable
                             public final void run() {
                                 NotificationsCustomSettingsActivity.this.lambda$createView$6(notificationException3, view, i);

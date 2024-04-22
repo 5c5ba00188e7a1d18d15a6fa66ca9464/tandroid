@@ -111,7 +111,6 @@ import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import j$.util.Collection$-EL;
 import j$.util.Comparator$-CC;
 import j$.util.function.Predicate;
-import j$.util.function.Supplier;
 import j$.util.function.ToIntFunction;
 import j$.util.stream.Collectors;
 import java.io.BufferedWriter;
@@ -224,6 +223,7 @@ import org.telegram.tgnet.TLRPC$PhoneCallDiscardReason;
 import org.telegram.tgnet.TLRPC$Photo;
 import org.telegram.tgnet.TLRPC$PhotoSize;
 import org.telegram.tgnet.TLRPC$Poll;
+import org.telegram.tgnet.TLRPC$PollAnswer;
 import org.telegram.tgnet.TLRPC$PollResults;
 import org.telegram.tgnet.TLRPC$ReactionCount;
 import org.telegram.tgnet.TLRPC$ReplyMarkup;
@@ -364,13 +364,13 @@ import org.telegram.tgnet.TLRPC$TL_photoSizeEmpty;
 import org.telegram.tgnet.TLRPC$TL_photos_photo;
 import org.telegram.tgnet.TLRPC$TL_photos_updateProfilePhoto;
 import org.telegram.tgnet.TLRPC$TL_poll;
-import org.telegram.tgnet.TLRPC$TL_pollAnswer;
 import org.telegram.tgnet.TLRPC$TL_premiumGiftOption;
 import org.telegram.tgnet.TLRPC$TL_reactionCustomEmoji;
 import org.telegram.tgnet.TLRPC$TL_replyInlineMarkup;
 import org.telegram.tgnet.TLRPC$TL_replyKeyboardForceReply;
 import org.telegram.tgnet.TLRPC$TL_stickerSetFullCovered;
 import org.telegram.tgnet.TLRPC$TL_stickerSetNoCovered;
+import org.telegram.tgnet.TLRPC$TL_textWithEntities;
 import org.telegram.tgnet.TLRPC$TL_updates_channelDifferenceTooLong;
 import org.telegram.tgnet.TLRPC$TL_urlAuthResultAccepted;
 import org.telegram.tgnet.TLRPC$TL_urlAuthResultDefault;
@@ -10227,11 +10227,16 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         View view = chatActivity3.fragmentView;
                         long j = chatActivity3.dialog_id;
                         ChatActivity chatActivity4 = ChatActivity.this;
-                        chatActivity2.pullingDownDrawable = new ChatPullingDownDrawable(i, view, j, chatActivity4.dialogFolderId, chatActivity4.dialogFilterId, chatActivity4.themeDelegate);
-                        if (ChatActivity.this.nextChannels == null || ChatActivity.this.nextChannels.isEmpty()) {
-                            ChatActivity.this.pullingDownDrawable.updateDialog();
-                        } else {
+                        chatActivity2.pullingDownDrawable = new ChatPullingDownDrawable(i, view, j, chatActivity4.dialogFolderId, chatActivity4.dialogFilterId, chatActivity4.getTopicId(), ChatActivity.this.themeDelegate);
+                        if (ChatActivity.this.nextChannels != null && !ChatActivity.this.nextChannels.isEmpty()) {
                             ChatActivity.this.pullingDownDrawable.updateDialog((TLRPC$Chat) ChatActivity.this.nextChannels.get(0));
+                        } else {
+                            ChatActivity chatActivity5 = ChatActivity.this;
+                            if (chatActivity5.isTopic) {
+                                chatActivity5.pullingDownDrawable.updateTopic();
+                            } else {
+                                chatActivity5.pullingDownDrawable.updateDialog();
+                            }
                         }
                         ChatActivity.this.pullingDownDrawable.onAttach();
                     }
@@ -10564,7 +10569,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
 
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Type inference failed for: r13v23, types: [boolean, int] */
+        /* JADX WARN: Type inference failed for: r13v23, types: [int, boolean] */
         /* JADX WARN: Type inference failed for: r13v24 */
         /* JADX WARN: Type inference failed for: r13v25 */
         private void drawChatBackgroundElements(Canvas canvas) {
@@ -11618,42 +11623,44 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             if (!z) {
                 i2 = super.scrollVerticallyBy(i, recycler, state);
             }
-            if (i > 0 && i2 == 0 && ChatObject.isChannel(ChatActivity.this.currentChat) && ChatActivity.this.chatMode != 3) {
-                ChatActivity chatActivity3 = ChatActivity.this;
-                if (!chatActivity3.currentChat.megagroup && chatActivity3.chatListView.getScrollState() == 1 && !ChatActivity.this.chatListView.isFastScrollAnimationRunning() && !ChatActivity.this.chatListView.isMultiselect() && ChatActivity.this.reportType < 0) {
-                    if (ChatActivity.this.pullingDownOffset == 0.0f && ChatActivity.this.pullingDownDrawable != null) {
-                        if (ChatActivity.this.nextChannels == null || ChatActivity.this.nextChannels.isEmpty()) {
-                            ChatActivity.this.pullingDownDrawable.updateDialog();
-                        } else {
-                            ChatActivity.this.pullingDownDrawable.updateDialog((TLRPC$Chat) ChatActivity.this.nextChannels.get(0));
-                        }
-                    }
-                    if (ChatActivity.this.pullingDownBackAnimator != null) {
-                        ChatActivity.this.pullingDownBackAnimator.removeAllListeners();
-                        ChatActivity.this.pullingDownBackAnimator.cancel();
-                    }
-                    float f4 = 0.05f;
-                    if (ChatActivity.this.pullingDownOffset < AndroidUtilities.dp(110.0f)) {
-                        float dp = ChatActivity.this.pullingDownOffset / AndroidUtilities.dp(110.0f);
-                        f = (1.0f - dp) * 0.65f;
-                        f2 = dp * 0.45f;
+            if (i > 0 && i2 == 0 && (((ChatObject.isChannel(ChatActivity.this.currentChat) && !ChatActivity.this.currentChat.megagroup) || ChatActivity.this.isTopic) && ChatActivity.this.chatMode != 3 && ChatActivity.this.chatListView.getScrollState() == 1 && !ChatActivity.this.chatListView.isFastScrollAnimationRunning() && !ChatActivity.this.chatListView.isMultiselect() && ChatActivity.this.reportType < 0)) {
+                if (ChatActivity.this.pullingDownOffset == 0.0f && ChatActivity.this.pullingDownDrawable != null) {
+                    if (ChatActivity.this.nextChannels != null && !ChatActivity.this.nextChannels.isEmpty()) {
+                        ChatActivity.this.pullingDownDrawable.updateDialog((TLRPC$Chat) ChatActivity.this.nextChannels.get(0));
                     } else {
-                        if (ChatActivity.this.pullingDownOffset < AndroidUtilities.dp(160.0f)) {
-                            float dp2 = (ChatActivity.this.pullingDownOffset - AndroidUtilities.dp(110.0f)) / AndroidUtilities.dp(50.0f);
-                            f = (1.0f - dp2) * 0.45f;
-                            f2 = dp2 * 0.05f;
+                        ChatActivity chatActivity3 = ChatActivity.this;
+                        if (chatActivity3.isTopic) {
+                            chatActivity3.pullingDownDrawable.updateTopic();
+                        } else {
+                            chatActivity3.pullingDownDrawable.updateDialog();
                         }
-                        float f5 = i * f4;
-                        ChatActivity.access$15116(ChatActivity.this, f5);
-                        ReactionsEffectOverlay.onScrolled((int) f5);
-                        ChatActivity.this.chatListView.invalidate();
                     }
-                    f4 = f + f2;
-                    float f52 = i * f4;
-                    ChatActivity.access$15116(ChatActivity.this, f52);
-                    ReactionsEffectOverlay.onScrolled((int) f52);
+                }
+                if (ChatActivity.this.pullingDownBackAnimator != null) {
+                    ChatActivity.this.pullingDownBackAnimator.removeAllListeners();
+                    ChatActivity.this.pullingDownBackAnimator.cancel();
+                }
+                float f4 = 0.05f;
+                if (ChatActivity.this.pullingDownOffset < AndroidUtilities.dp(110.0f)) {
+                    float dp = ChatActivity.this.pullingDownOffset / AndroidUtilities.dp(110.0f);
+                    f = (1.0f - dp) * 0.65f;
+                    f2 = dp * 0.45f;
+                } else {
+                    if (ChatActivity.this.pullingDownOffset < AndroidUtilities.dp(160.0f)) {
+                        float dp2 = (ChatActivity.this.pullingDownOffset - AndroidUtilities.dp(110.0f)) / AndroidUtilities.dp(50.0f);
+                        f = (1.0f - dp2) * 0.45f;
+                        f2 = dp2 * 0.05f;
+                    }
+                    float f5 = i * f4;
+                    ChatActivity.access$15116(ChatActivity.this, f5);
+                    ReactionsEffectOverlay.onScrolled((int) f5);
                     ChatActivity.this.chatListView.invalidate();
                 }
+                f4 = f + f2;
+                float f52 = i * f4;
+                ChatActivity.access$15116(ChatActivity.this, f52);
+                ReactionsEffectOverlay.onScrolled((int) f52);
+                ChatActivity.this.chatListView.invalidate();
             }
             if (ChatActivity.this.pullingDownOffset == 0.0f) {
                 ChatActivity.this.chatListView.setOverScrollMode(0);
@@ -15250,20 +15257,37 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
     /* JADX INFO: Access modifiers changed from: private */
     public void animateToNextChat() {
-        if (this.pullingDownDrawable == null) {
+        ChatPullingDownDrawable chatPullingDownDrawable = this.pullingDownDrawable;
+        if (chatPullingDownDrawable == null) {
+            return;
+        }
+        if (this.isTopic) {
+            if (chatPullingDownDrawable.getTopic() != null) {
+                addToPulledTopicsMyself();
+                addToPulledDialogs(this.currentChat, this.pullingDownDrawable.nextTopic, this.dialog_id, this.dialogFolderId, this.dialogFilterId);
+                Bundle bundle = new Bundle();
+                bundle.putInt("dialog_folder_id", this.pullingDownDrawable.dialogFolderId);
+                bundle.putInt("dialog_filter_id", this.pullingDownDrawable.dialogFilterId);
+                bundle.putBoolean("pulled", true);
+                ChatActivity chatActivityForTopic = ForumUtilities.getChatActivityForTopic(this, -this.dialog_id, this.pullingDownDrawable.getTopic(), 0, bundle);
+                chatActivityForTopic.setPullingDownTransition(true);
+                replacingChatActivity = true;
+                presentFragment(chatActivityForTopic, true);
+                return;
+            }
             return;
         }
         addToPulledDialogsMyself();
-        ChatPullingDownDrawable chatPullingDownDrawable = this.pullingDownDrawable;
-        addToPulledDialogs(chatPullingDownDrawable.nextChat, chatPullingDownDrawable.nextDialogId, chatPullingDownDrawable.dialogFolderId, chatPullingDownDrawable.dialogFilterId);
-        Bundle bundle = new Bundle();
-        bundle.putLong("chat_id", this.pullingDownDrawable.getChatId());
-        bundle.putInt("dialog_folder_id", this.pullingDownDrawable.dialogFolderId);
-        bundle.putInt("dialog_filter_id", this.pullingDownDrawable.dialogFilterId);
-        bundle.putBoolean("pulled", true);
+        ChatPullingDownDrawable chatPullingDownDrawable2 = this.pullingDownDrawable;
+        addToPulledDialogs(chatPullingDownDrawable2.nextChat, null, chatPullingDownDrawable2.nextDialogId, chatPullingDownDrawable2.dialogFolderId, chatPullingDownDrawable2.dialogFilterId);
+        Bundle bundle2 = new Bundle();
+        bundle2.putLong("chat_id", this.pullingDownDrawable.getChatId());
+        bundle2.putInt("dialog_folder_id", this.pullingDownDrawable.dialogFolderId);
+        bundle2.putInt("dialog_filter_id", this.pullingDownDrawable.dialogFilterId);
+        bundle2.putBoolean("pulled", true);
         SharedPreferences.Editor edit = MessagesController.getNotificationsSettings(this.currentAccount).edit();
         edit.remove("diditem" + this.pullingDownDrawable.nextDialogId).apply();
-        ChatActivity chatActivity = new ChatActivity(bundle);
+        ChatActivity chatActivity = new ChatActivity(bundle2);
         ArrayList<TLRPC$Chat> arrayList = this.nextChannels;
         if (arrayList != null && arrayList.size() > 1) {
             ArrayList<TLRPC$Chat> arrayList2 = this.nextChannels;
@@ -15282,14 +15306,21 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         if (getParentLayout() == null) {
             return;
         }
-        BackButtonMenu.addToPulledDialogs(this, getParentLayout().getFragmentStack().indexOf(this), this.currentChat, this.currentUser, this.dialog_id, this.dialogFilterId, this.dialogFolderId);
+        BackButtonMenu.addToPulledDialogs(this, getParentLayout().getFragmentStack().indexOf(this), this.currentChat, this.currentUser, null, this.dialog_id, this.dialogFilterId, this.dialogFolderId);
     }
 
-    private void addToPulledDialogs(TLRPC$Chat tLRPC$Chat, long j, int i, int i2) {
+    private void addToPulledDialogs(TLRPC$Chat tLRPC$Chat, TLRPC$TL_forumTopic tLRPC$TL_forumTopic, long j, int i, int i2) {
         if (getParentLayout() == null) {
             return;
         }
-        BackButtonMenu.addToPulledDialogs(this, getParentLayout().getFragmentStack().indexOf(this), tLRPC$Chat, null, j, i, i2);
+        BackButtonMenu.addToPulledDialogs(this, getParentLayout().getFragmentStack().indexOf(this), tLRPC$Chat, null, tLRPC$TL_forumTopic, j, i, i2);
+    }
+
+    private void addToPulledTopicsMyself() {
+        if (getParentLayout() == null) {
+            return;
+        }
+        BackButtonMenu.addToPulledDialogs(this, getParentLayout().getFragmentStack().indexOf(this), this.currentChat, this.currentUser, this.forumTopic, this.dialog_id, this.dialogFilterId, this.dialogFolderId);
     }
 
     private void setPullingDownTransition(boolean z) {
@@ -26528,7 +26559,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Type inference failed for: r5v17 */
     /* JADX WARN: Type inference failed for: r5v19 */
     /* JADX WARN: Type inference failed for: r7v22 */
-    /* JADX WARN: Type inference failed for: r7v23, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r7v23, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r7v25 */
     /* JADX WARN: Type inference failed for: r7v26 */
     /*
@@ -27723,28 +27754,26 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         if (r8 == r43.groupedMessagesMap.get(r7.getGroupId())) goto L46;
      */
     /* JADX WARN: Removed duplicated region for block: B:106:0x01cc  */
-    /* JADX WARN: Removed duplicated region for block: B:115:0x01f2  */
-    /* JADX WARN: Removed duplicated region for block: B:142:0x0286  */
-    /* JADX WARN: Removed duplicated region for block: B:145:0x0297  */
-    /* JADX WARN: Removed duplicated region for block: B:162:0x02bb  */
-    /* JADX WARN: Removed duplicated region for block: B:170:0x02f4  */
-    /* JADX WARN: Removed duplicated region for block: B:171:0x02ff  */
-    /* JADX WARN: Removed duplicated region for block: B:174:0x030e  */
-    /* JADX WARN: Removed duplicated region for block: B:178:0x033b  */
-    /* JADX WARN: Removed duplicated region for block: B:200:0x0398  */
-    /* JADX WARN: Removed duplicated region for block: B:201:0x03a6  */
-    /* JADX WARN: Removed duplicated region for block: B:204:0x03b0  */
-    /* JADX WARN: Removed duplicated region for block: B:218:0x03f4  */
-    /* JADX WARN: Removed duplicated region for block: B:219:0x03fb  */
-    /* JADX WARN: Removed duplicated region for block: B:224:0x0410  */
-    /* JADX WARN: Removed duplicated region for block: B:231:0x045b  */
-    /* JADX WARN: Removed duplicated region for block: B:235:0x0468  */
-    /* JADX WARN: Removed duplicated region for block: B:255:0x04df  */
-    /* JADX WARN: Removed duplicated region for block: B:285:0x05b0  */
-    /* JADX WARN: Removed duplicated region for block: B:288:0x05b4  */
+    /* JADX WARN: Removed duplicated region for block: B:117:0x01f4  */
+    /* JADX WARN: Removed duplicated region for block: B:152:0x0293  */
+    /* JADX WARN: Removed duplicated region for block: B:155:0x02a4  */
+    /* JADX WARN: Removed duplicated region for block: B:172:0x02c8  */
+    /* JADX WARN: Removed duplicated region for block: B:180:0x0301  */
+    /* JADX WARN: Removed duplicated region for block: B:181:0x030c  */
+    /* JADX WARN: Removed duplicated region for block: B:184:0x031b  */
+    /* JADX WARN: Removed duplicated region for block: B:188:0x0348  */
+    /* JADX WARN: Removed duplicated region for block: B:216:0x03bf  */
+    /* JADX WARN: Removed duplicated region for block: B:230:0x0403  */
+    /* JADX WARN: Removed duplicated region for block: B:231:0x040a  */
+    /* JADX WARN: Removed duplicated region for block: B:236:0x041f  */
+    /* JADX WARN: Removed duplicated region for block: B:243:0x046a  */
+    /* JADX WARN: Removed duplicated region for block: B:247:0x0477  */
+    /* JADX WARN: Removed duplicated region for block: B:269:0x04f2  */
+    /* JADX WARN: Removed duplicated region for block: B:299:0x05c3  */
+    /* JADX WARN: Removed duplicated region for block: B:302:0x05c7  */
     /* JADX WARN: Removed duplicated region for block: B:30:0x0072  */
-    /* JADX WARN: Removed duplicated region for block: B:317:0x0652  */
-    /* JADX WARN: Removed duplicated region for block: B:321:0x066b  */
+    /* JADX WARN: Removed duplicated region for block: B:333:0x0669  */
+    /* JADX WARN: Removed duplicated region for block: B:337:0x0682  */
     /* JADX WARN: Removed duplicated region for block: B:48:0x00c6  */
     /* JADX WARN: Removed duplicated region for block: B:67:0x0120  */
     /* JADX WARN: Removed duplicated region for block: B:78:0x0164  */
@@ -27914,7 +27943,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                     hideFieldPanel(z7);
                                 }
                                 ChatActivityAdapter chatActivityAdapter3 = this.chatAdapter;
-                                indexOf = (chatActivityAdapter3.isFiltered || (longSparseArray5 = this.filteredMessagesDict) == null) ? this.messages.indexOf(messageObject3) : chatActivityAdapter3.filteredMessages.indexOf(longSparseArray5.get(num.intValue()));
+                                indexOf = (chatActivityAdapter3 == null && chatActivityAdapter3.isFiltered && (longSparseArray5 = this.filteredMessagesDict) != null) ? chatActivityAdapter3.filteredMessages.indexOf(longSparseArray5.get(num.intValue())) : this.messages.indexOf(messageObject3);
                                 if (indexOf == -1) {
                                     if (messageObject3.scheduled) {
                                         this.scheduledMessagesCount--;
@@ -27926,10 +27955,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                         z9 = z10;
                                         z4 = true;
                                     }
-                                    MessageObject remove = this.chatAdapter.getMessages().remove(indexOf);
                                     ChatActivityAdapter chatActivityAdapter4 = this.chatAdapter;
-                                    if (chatActivityAdapter4 != null) {
-                                        if (chatActivityAdapter4.isFiltered) {
+                                    MessageObject remove = ((chatActivityAdapter4 == null || !chatActivityAdapter4.isFiltered || this.filteredMessagesDict == null) ? this.messages : chatActivityAdapter4.filteredMessages).remove(indexOf);
+                                    ChatActivityAdapter chatActivityAdapter5 = this.chatAdapter;
+                                    if (chatActivityAdapter5 != null) {
+                                        if (chatActivityAdapter5.isFiltered) {
                                             int indexOf2 = this.messages.indexOf(messageObject3);
                                             if (indexOf2 >= 0) {
                                                 this.messages.remove(indexOf2);
@@ -27977,33 +28007,34 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                                                 if (arrayList5.isEmpty()) {
                                                                     this.messagesByDays.remove(messageObject3.dateKey);
                                                                     this.messagesByDaysSorted.remove(messageObject3.dateKeyInt);
-                                                                    ChatActivityAdapter chatActivityAdapter5 = this.chatAdapter;
-                                                                    int indexOf3 = (chatActivityAdapter5 == null || !chatActivityAdapter5.isFiltered) ? indexOf : this.messages.indexOf(messageObject3);
+                                                                    ChatActivityAdapter chatActivityAdapter6 = this.chatAdapter;
+                                                                    int indexOf3 = (chatActivityAdapter6 == null || !chatActivityAdapter6.isFiltered) ? indexOf : this.messages.indexOf(messageObject3);
                                                                     if (indexOf3 >= 0 && indexOf3 < this.messages.size()) {
                                                                         this.messages.remove(indexOf3);
-                                                                        ChatActivityAdapter chatActivityAdapter6 = this.chatAdapter;
-                                                                        if (chatActivityAdapter6 != null && !chatActivityAdapter6.isFiltered) {
-                                                                            arrayList7.add(Integer.valueOf(chatActivityAdapter6.messagesStartRow + indexOf3));
+                                                                        ChatActivityAdapter chatActivityAdapter7 = this.chatAdapter;
+                                                                        if (chatActivityAdapter7 != null && !chatActivityAdapter7.isFiltered) {
+                                                                            arrayList7.add(Integer.valueOf(chatActivityAdapter7.messagesStartRow + indexOf3));
                                                                         }
                                                                     }
                                                                 }
                                                             }
                                                             longSparseArray3 = this.filteredMessagesByDays;
                                                             if (longSparseArray3 != null && (arrayList6 = longSparseArray3.get(messageObject3.dateKeyInt)) != null) {
-                                                                MessageObject messageObject8 = !this.chatAdapter.isFiltered ? this.filteredMessagesDict.get(messageObject3.getId()) : messageObject3;
+                                                                ChatActivityAdapter chatActivityAdapter8 = this.chatAdapter;
+                                                                MessageObject messageObject8 = (chatActivityAdapter8 == null && chatActivityAdapter8.isFiltered) ? this.filteredMessagesDict.get(messageObject3.getId()) : messageObject3;
                                                                 arrayList6.remove(messageObject8);
                                                                 if (arrayList6.isEmpty()) {
                                                                     this.filteredMessagesByDays.remove(messageObject3.dateKeyInt);
-                                                                    ChatActivityAdapter chatActivityAdapter7 = this.chatAdapter;
-                                                                    if (chatActivityAdapter7 != null && !chatActivityAdapter7.isFiltered) {
-                                                                        indexOf = chatActivityAdapter7.filteredMessages.indexOf(messageObject8);
+                                                                    ChatActivityAdapter chatActivityAdapter9 = this.chatAdapter;
+                                                                    if (chatActivityAdapter9 != null && !chatActivityAdapter9.isFiltered) {
+                                                                        indexOf = chatActivityAdapter9.filteredMessages.indexOf(messageObject8);
                                                                     }
-                                                                    ChatActivityAdapter chatActivityAdapter8 = this.chatAdapter;
-                                                                    if (chatActivityAdapter8 != null && indexOf >= 0 && indexOf < chatActivityAdapter8.filteredMessages.size()) {
+                                                                    ChatActivityAdapter chatActivityAdapter10 = this.chatAdapter;
+                                                                    if (chatActivityAdapter10 != null && indexOf >= 0 && indexOf < chatActivityAdapter10.filteredMessages.size()) {
                                                                         this.chatAdapter.filteredMessages.remove(indexOf);
-                                                                        ChatActivityAdapter chatActivityAdapter9 = this.chatAdapter;
-                                                                        if (chatActivityAdapter9.isFiltered) {
-                                                                            arrayList7.add(Integer.valueOf(chatActivityAdapter9.messagesStartRow + indexOf));
+                                                                        ChatActivityAdapter chatActivityAdapter11 = this.chatAdapter;
+                                                                        if (chatActivityAdapter11.isFiltered) {
+                                                                            arrayList7.add(Integer.valueOf(chatActivityAdapter11.messagesStartRow + indexOf));
                                                                         }
                                                                     }
                                                                 }
@@ -28060,7 +28091,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                     }
                                     longSparseArray3 = this.filteredMessagesByDays;
                                     if (longSparseArray3 != null) {
-                                        if (!this.chatAdapter.isFiltered) {
+                                        ChatActivityAdapter chatActivityAdapter82 = this.chatAdapter;
+                                        if (chatActivityAdapter82 == null) {
                                         }
                                         arrayList6.remove(messageObject8);
                                         if (arrayList6.isEmpty()) {
@@ -28085,7 +28117,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             if (this.editingMessageObject == messageObject3) {
                             }
                             ChatActivityAdapter chatActivityAdapter32 = this.chatAdapter;
-                            if (chatActivityAdapter32.isFiltered) {
+                            if (chatActivityAdapter32 == null) {
                             }
                             if (indexOf == -1) {
                             }
@@ -28146,7 +28178,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             groupedMessages2.calculate();
                             ArrayList<MessageObject> arrayList10 = groupedMessages2.messages;
                             int indexOf4 = this.chatAdapter.getMessages().indexOf(arrayList10.get(arrayList10.size() - 1));
-                            if (indexOf4 >= 0 && (chatActivityAdapter = this.chatAdapter) != null) {
+                            if (indexOf4 >= 0 && (chatActivityAdapter = this.chatAdapter) != null && !chatActivityAdapter.isFrozen) {
                                 chatActivityAdapter.notifyItemRangeChanged(indexOf4 + chatActivityAdapter.messagesStartRow, ((Integer) longSparseArray7.get(groupedMessages2.groupId)).intValue());
                             }
                         }
@@ -28226,9 +28258,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     if (this.chatMode == 2 && (chatAvatarContainer = this.avatarContainer) != null) {
                         chatAvatarContainer.setTitle(LocaleController.formatPluralString("PinnedMessagesCount", getPinnedMessagesCount(), new Object[i3]));
                     }
-                    ChatActivityAdapter chatActivityAdapter10 = this.chatAdapter;
-                    if (chatActivityAdapter10 != null) {
-                        int i20 = chatActivityAdapter10.hintRow;
+                    ChatActivityAdapter chatActivityAdapter12 = this.chatAdapter;
+                    if (chatActivityAdapter12 != null && !chatActivityAdapter12.isFrozen) {
+                        int i20 = chatActivityAdapter12.hintRow;
                         int i21 = this.chatAdapter.loadingUpRow;
                         int i22 = this.chatAdapter.loadingDownRow;
                         int size3 = arrayList7.size();
@@ -28253,8 +28285,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 this.chatAdapter.notifyItemRemoved(i4);
                             }
                         } else {
-                            ChatActivityAdapter chatActivityAdapter11 = this.chatAdapter;
-                            chatActivityAdapter11.notifyItemRangeChanged(chatActivityAdapter11.messagesStartRow, chatActivityAdapter11.getMessages().size());
+                            ChatActivityAdapter chatActivityAdapter13 = this.chatAdapter;
+                            chatActivityAdapter13.notifyItemRangeChanged(chatActivityAdapter13.messagesStartRow, chatActivityAdapter13.getMessages().size());
                         }
                     }
                     updateVisibleRows();
@@ -30281,18 +30313,18 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Removed duplicated region for block: B:270:0x05a8  */
     /* JADX WARN: Removed duplicated region for block: B:272:0x05c0  */
     /* JADX WARN: Removed duplicated region for block: B:29:0x0064  */
-    /* JADX WARN: Removed duplicated region for block: B:300:0x067f  */
-    /* JADX WARN: Removed duplicated region for block: B:305:0x0694  */
+    /* JADX WARN: Removed duplicated region for block: B:300:0x0681  */
+    /* JADX WARN: Removed duplicated region for block: B:305:0x0696  */
     /* JADX WARN: Removed duplicated region for block: B:30:0x0066  */
     /* JADX WARN: Removed duplicated region for block: B:33:0x0073  */
     /* JADX WARN: Removed duplicated region for block: B:37:0x007b  */
-    /* JADX WARN: Removed duplicated region for block: B:417:0x0c16  */
+    /* JADX WARN: Removed duplicated region for block: B:417:0x0c18  */
     /* JADX WARN: Removed duplicated region for block: B:42:0x0089  */
-    /* JADX WARN: Removed duplicated region for block: B:432:0x0c70  */
-    /* JADX WARN: Removed duplicated region for block: B:436:0x0c7b  */
-    /* JADX WARN: Removed duplicated region for block: B:449:0x0d3c  */
+    /* JADX WARN: Removed duplicated region for block: B:432:0x0c72  */
+    /* JADX WARN: Removed duplicated region for block: B:436:0x0c7d  */
+    /* JADX WARN: Removed duplicated region for block: B:449:0x0d3e  */
     /* JADX WARN: Removed duplicated region for block: B:46:0x00b2  */
-    /* JADX WARN: Removed duplicated region for block: B:479:0x0ded  */
+    /* JADX WARN: Removed duplicated region for block: B:479:0x0def  */
     /* JADX WARN: Removed duplicated region for block: B:485:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:55:0x00ca  */
     /* JADX WARN: Removed duplicated region for block: B:56:0x00ce  */
@@ -30726,7 +30758,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                     if (i5 == 14) {
                                         replaceEmoji = String.format("%s - %s", messageObject.getMusicAuthor(), messageObject.getMusicTitle());
                                     } else if (i5 == 17) {
-                                        String str = ((TLRPC$TL_messageMediaPoll) messageObject.messageOwner.media).poll.question;
+                                        String str = ((TLRPC$TL_messageMediaPoll) messageObject.messageOwner.media).poll.question.text;
                                         if (str.length() > 150) {
                                             str = str.substring(0, ImageReceiver.DEFAULT_CROSSFADE_DURATION);
                                         }
@@ -32814,12 +32846,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     lambda$applyChatLinkMessageMaybe$207 = ChatActivity.this.lambda$applyChatLinkMessageMaybe$207((TLRPC$MessageEntity) obj);
                     return lambda$applyChatLinkMessageMaybe$207;
                 }
-            }).collect(Collectors.toCollection(new Supplier() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda300
-                @Override // j$.util.function.Supplier
-                public final Object get() {
-                    return new ArrayList();
-                }
-            }));
+            }).collect(Collectors.toCollection(ChatActivity$$ExternalSyntheticLambda300.INSTANCE));
         } else {
             arrayList = this.resolvedChatLink.entities;
         }
@@ -33351,18 +33378,14 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
     /* JADX INFO: Access modifiers changed from: private */
     public void createDeleteMessagesAlert(MessageObject messageObject, MessageObject.GroupedMessages groupedMessages) {
-        createDeleteMessagesAlert(messageObject, groupedMessages, 1);
+        createDeleteMessagesAlert(messageObject, groupedMessages, false);
     }
 
-    private void createDeleteMessagesAlert(MessageObject messageObject, MessageObject.GroupedMessages groupedMessages, int i) {
-        createDeleteMessagesAlert(messageObject, groupedMessages, i, false);
-    }
-
-    private void createDeleteMessagesAlert(MessageObject messageObject, MessageObject.GroupedMessages groupedMessages, int i, boolean z) {
+    private void createDeleteMessagesAlert(MessageObject messageObject, MessageObject.GroupedMessages groupedMessages, boolean z) {
         if (messageObject == null && this.selectedMessagesIds[0].size() + this.selectedMessagesIds[1].size() == 0) {
             return;
         }
-        AlertsCreator.createDeleteMessagesAlert(this, this.currentUser, this.currentChat, this.currentEncryptedChat, this.chatInfo, this.mergeDialogId, messageObject, this.selectedMessagesIds, groupedMessages, (int) getTopicId(), this.chatMode, i, new Runnable() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda185
+        AlertsCreator.createDeleteMessagesAlert(this, this.currentUser, this.currentChat, this.currentEncryptedChat, this.chatInfo, this.mergeDialogId, messageObject, this.selectedMessagesIds, groupedMessages, (int) getTopicId(), this.chatMode, null, new Runnable() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda185
             @Override // java.lang.Runnable
             public final void run() {
                 ChatActivity.this.lambda$createDeleteMessagesAlert$209();
@@ -33474,89 +33497,89 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:1189:0x1a45, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1191:0x1a4c, code lost:
         if (r2.startsWith("https://" + getMessagesController().linkPrefix) == false) goto L451;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1320:0x2122, code lost:
-        if (r0.startsWith("https://" + getMessagesController().linkPrefix) == false) goto L868;
+    /* JADX WARN: Code restructure failed: missing block: B:1322:0x2129, code lost:
+        if (r0.startsWith("https://" + getMessagesController().linkPrefix) == false) goto L875;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1421:0x254b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1423:0x2552, code lost:
         if (r12.chatMode == 5) goto L662;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:390:0x0756, code lost:
-        if (org.telegram.messenger.Emoji.fullyConsistsOfEmojis(r3) != false) goto L1647;
+    /* JADX WARN: Code restructure failed: missing block: B:394:0x075f, code lost:
+        if (org.telegram.messenger.Emoji.fullyConsistsOfEmojis(r3) != false) goto L1658;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:684:0x0dbe, code lost:
-        if (r0.edit_messages != false) goto L1284;
+    /* JADX WARN: Code restructure failed: missing block: B:688:0x0dc7, code lost:
+        if (r0.edit_messages != false) goto L1297;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:1016:0x17e1  */
-    /* JADX WARN: Removed duplicated region for block: B:1022:0x180b  */
-    /* JADX WARN: Removed duplicated region for block: B:1023:0x180e  */
-    /* JADX WARN: Removed duplicated region for block: B:1028:0x1820 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:1033:0x1829  */
-    /* JADX WARN: Removed duplicated region for block: B:1035:0x1832  */
-    /* JADX WARN: Removed duplicated region for block: B:1188:0x1a2a  */
-    /* JADX WARN: Removed duplicated region for block: B:1194:0x1a4f  */
-    /* JADX WARN: Removed duplicated region for block: B:1195:0x1a52  */
-    /* JADX WARN: Removed duplicated region for block: B:1197:0x1a56 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:1204:0x1a97  */
-    /* JADX WARN: Removed duplicated region for block: B:1222:0x1b0c  */
-    /* JADX WARN: Removed duplicated region for block: B:1223:0x1b0f  */
-    /* JADX WARN: Removed duplicated region for block: B:1226:0x1b4a  */
-    /* JADX WARN: Removed duplicated region for block: B:1227:0x1b4c  */
-    /* JADX WARN: Removed duplicated region for block: B:1230:0x1b54  */
-    /* JADX WARN: Removed duplicated region for block: B:1231:0x1b59  */
-    /* JADX WARN: Removed duplicated region for block: B:1234:0x1b74  */
-    /* JADX WARN: Removed duplicated region for block: B:1257:0x1d02  */
-    /* JADX WARN: Removed duplicated region for block: B:1302:0x1f36  */
-    /* JADX WARN: Removed duplicated region for block: B:1305:0x1f53  */
-    /* JADX WARN: Removed duplicated region for block: B:1307:0x1f61  */
-    /* JADX WARN: Removed duplicated region for block: B:1308:0x20eb  */
-    /* JADX WARN: Removed duplicated region for block: B:1319:0x2107  */
-    /* JADX WARN: Removed duplicated region for block: B:1325:0x215b  */
-    /* JADX WARN: Removed duplicated region for block: B:1326:0x215d  */
-    /* JADX WARN: Removed duplicated region for block: B:1329:0x2165  */
-    /* JADX WARN: Removed duplicated region for block: B:1330:0x216a  */
-    /* JADX WARN: Removed duplicated region for block: B:1337:0x2207  */
-    /* JADX WARN: Removed duplicated region for block: B:1338:0x220a  */
-    /* JADX WARN: Removed duplicated region for block: B:1342:0x222c  */
-    /* JADX WARN: Removed duplicated region for block: B:1349:0x2290  */
-    /* JADX WARN: Removed duplicated region for block: B:1350:0x22e6  */
-    /* JADX WARN: Removed duplicated region for block: B:1354:0x22ee  */
-    /* JADX WARN: Removed duplicated region for block: B:1361:0x2336  */
-    /* JADX WARN: Removed duplicated region for block: B:1362:0x2339  */
-    /* JADX WARN: Removed duplicated region for block: B:1366:0x236c  */
-    /* JADX WARN: Removed duplicated region for block: B:1390:0x246f  */
-    /* JADX WARN: Removed duplicated region for block: B:1461:0x2618  */
-    /* JADX WARN: Removed duplicated region for block: B:1462:0x266a  */
-    /* JADX WARN: Removed duplicated region for block: B:1469:0x26bb  */
-    /* JADX WARN: Removed duplicated region for block: B:1472:0x26e9  */
-    /* JADX WARN: Removed duplicated region for block: B:1473:0x26f4  */
-    /* JADX WARN: Removed duplicated region for block: B:1612:0x2a48  */
-    /* JADX WARN: Removed duplicated region for block: B:1619:0x2ab9  */
-    /* JADX WARN: Removed duplicated region for block: B:1620:0x2ac0  */
-    /* JADX WARN: Removed duplicated region for block: B:1625:0x2aec  */
-    /* JADX WARN: Removed duplicated region for block: B:1628:0x2b17  */
-    /* JADX WARN: Removed duplicated region for block: B:1631:0x2b32  */
-    /* JADX WARN: Removed duplicated region for block: B:1638:0x2b99  */
-    /* JADX WARN: Removed duplicated region for block: B:1644:0x2bbb  */
-    /* JADX WARN: Removed duplicated region for block: B:1645:0x2bbf  */
-    /* JADX WARN: Removed duplicated region for block: B:1648:0x2bd8  */
-    /* JADX WARN: Removed duplicated region for block: B:1651:0x2bdf  */
-    /* JADX WARN: Removed duplicated region for block: B:1654:0x2be6  */
-    /* JADX WARN: Removed duplicated region for block: B:1693:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1018:0x17e8  */
+    /* JADX WARN: Removed duplicated region for block: B:1024:0x1812  */
+    /* JADX WARN: Removed duplicated region for block: B:1025:0x1815  */
+    /* JADX WARN: Removed duplicated region for block: B:1030:0x1827 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:1035:0x1830  */
+    /* JADX WARN: Removed duplicated region for block: B:1037:0x1839  */
+    /* JADX WARN: Removed duplicated region for block: B:1190:0x1a31  */
+    /* JADX WARN: Removed duplicated region for block: B:1196:0x1a56  */
+    /* JADX WARN: Removed duplicated region for block: B:1197:0x1a59  */
+    /* JADX WARN: Removed duplicated region for block: B:1199:0x1a5d A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:1206:0x1a9e  */
+    /* JADX WARN: Removed duplicated region for block: B:1224:0x1b13  */
+    /* JADX WARN: Removed duplicated region for block: B:1225:0x1b16  */
+    /* JADX WARN: Removed duplicated region for block: B:1228:0x1b51  */
+    /* JADX WARN: Removed duplicated region for block: B:1229:0x1b53  */
+    /* JADX WARN: Removed duplicated region for block: B:1232:0x1b5b  */
+    /* JADX WARN: Removed duplicated region for block: B:1233:0x1b60  */
+    /* JADX WARN: Removed duplicated region for block: B:1236:0x1b7b  */
+    /* JADX WARN: Removed duplicated region for block: B:1259:0x1d09  */
+    /* JADX WARN: Removed duplicated region for block: B:1304:0x1f3d  */
+    /* JADX WARN: Removed duplicated region for block: B:1307:0x1f5a  */
+    /* JADX WARN: Removed duplicated region for block: B:1309:0x1f68  */
+    /* JADX WARN: Removed duplicated region for block: B:1310:0x20f2  */
+    /* JADX WARN: Removed duplicated region for block: B:1321:0x210e  */
+    /* JADX WARN: Removed duplicated region for block: B:1327:0x2162  */
+    /* JADX WARN: Removed duplicated region for block: B:1328:0x2164  */
+    /* JADX WARN: Removed duplicated region for block: B:1331:0x216c  */
+    /* JADX WARN: Removed duplicated region for block: B:1332:0x2171  */
+    /* JADX WARN: Removed duplicated region for block: B:1339:0x220e  */
+    /* JADX WARN: Removed duplicated region for block: B:1340:0x2211  */
+    /* JADX WARN: Removed duplicated region for block: B:1344:0x2233  */
+    /* JADX WARN: Removed duplicated region for block: B:1351:0x2297  */
+    /* JADX WARN: Removed duplicated region for block: B:1352:0x22ed  */
+    /* JADX WARN: Removed duplicated region for block: B:1356:0x22f5  */
+    /* JADX WARN: Removed duplicated region for block: B:1363:0x233d  */
+    /* JADX WARN: Removed duplicated region for block: B:1364:0x2340  */
+    /* JADX WARN: Removed duplicated region for block: B:1368:0x2373  */
+    /* JADX WARN: Removed duplicated region for block: B:1392:0x2476  */
+    /* JADX WARN: Removed duplicated region for block: B:1463:0x261f  */
+    /* JADX WARN: Removed duplicated region for block: B:1464:0x2671  */
+    /* JADX WARN: Removed duplicated region for block: B:1471:0x26c2  */
+    /* JADX WARN: Removed duplicated region for block: B:1474:0x26f0  */
+    /* JADX WARN: Removed duplicated region for block: B:1475:0x26fb  */
+    /* JADX WARN: Removed duplicated region for block: B:1621:0x2a67  */
+    /* JADX WARN: Removed duplicated region for block: B:1628:0x2ad8  */
+    /* JADX WARN: Removed duplicated region for block: B:1629:0x2adf  */
+    /* JADX WARN: Removed duplicated region for block: B:1634:0x2b0b  */
+    /* JADX WARN: Removed duplicated region for block: B:1637:0x2b36  */
+    /* JADX WARN: Removed duplicated region for block: B:1640:0x2b51  */
+    /* JADX WARN: Removed duplicated region for block: B:1647:0x2bb8  */
+    /* JADX WARN: Removed duplicated region for block: B:1653:0x2bda  */
+    /* JADX WARN: Removed duplicated region for block: B:1654:0x2bde  */
+    /* JADX WARN: Removed duplicated region for block: B:1657:0x2bf7  */
+    /* JADX WARN: Removed duplicated region for block: B:1660:0x2bfe  */
+    /* JADX WARN: Removed duplicated region for block: B:1663:0x2c05  */
+    /* JADX WARN: Removed duplicated region for block: B:1704:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:183:0x032b  */
     /* JADX WARN: Removed duplicated region for block: B:193:0x034f  */
     /* JADX WARN: Removed duplicated region for block: B:194:0x0351  */
     /* JADX WARN: Removed duplicated region for block: B:301:0x055f A[RETURN] */
     /* JADX WARN: Removed duplicated region for block: B:302:0x0560  */
-    /* JADX WARN: Removed duplicated region for block: B:412:0x07ed  */
-    /* JADX WARN: Removed duplicated region for block: B:415:0x080f  */
-    /* JADX WARN: Removed duplicated region for block: B:430:0x0878  */
-    /* JADX WARN: Type inference failed for: r0v779 */
+    /* JADX WARN: Removed duplicated region for block: B:416:0x07f6  */
+    /* JADX WARN: Removed duplicated region for block: B:419:0x0818  */
+    /* JADX WARN: Removed duplicated region for block: B:434:0x0881  */
+    /* JADX WARN: Type inference failed for: r0v789 */
     /* JADX WARN: Type inference failed for: r15v18 */
-    /* JADX WARN: Type inference failed for: r15v19, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r15v19, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r15v43 */
     /* JADX WARN: Type inference failed for: r18v3 */
     /* JADX WARN: Type inference failed for: r18v4, types: [java.lang.String] */
@@ -33565,7 +33588,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Type inference failed for: r2v219, types: [boolean] */
     /* JADX WARN: Type inference failed for: r2v234 */
     /* JADX WARN: Type inference failed for: r4v148, types: [boolean] */
-    /* JADX WARN: Type inference failed for: r6v70, types: [android.widget.LinearLayout, android.view.View] */
+    /* JADX WARN: Type inference failed for: r6v74, types: [android.widget.LinearLayout, android.view.View] */
     /* JADX WARN: Type inference failed for: r8v41, types: [org.telegram.ui.Components.ReactionsContainerLayout] */
     /* JADX WARN: Type inference failed for: r8v42 */
     @SuppressLint({"ClickableViewAccessibility"})
@@ -33628,14 +33651,15 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout4;
         final ReactionsContainerLayout reactionsContainerLayout;
         MessageObject messageObject7;
+        int i5;
         ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout5;
         AtomicBoolean atomicBoolean3;
         AnimatedEmojiSpan[] animatedEmojiSpanArr2;
-        int i5;
+        int i6;
         AtomicBoolean atomicBoolean4;
         boolean z15;
         String string;
-        int i6;
+        TLRPC$User tLRPC$User3;
         int left;
         int height;
         int measuredHeight;
@@ -33703,7 +33727,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         int i23;
         MessageObject messageObject13;
         String str4;
-        TLRPC$User tLRPC$User3;
+        TLRPC$User tLRPC$User4;
         TLRPC$UserFull tLRPC$UserFull;
         TLRPC$ChatFull tLRPC$ChatFull2;
         TLRPC$Chat tLRPC$Chat7;
@@ -33937,9 +33961,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             UndoView undoView3 = ChatActivity.this.undoView;
                             long j2 = ChatActivity.this.dialog_id;
                             ChatActivity chatActivity3 = ChatActivity.this;
-                            TLRPC$User tLRPC$User4 = chatActivity3.currentUser;
+                            TLRPC$User tLRPC$User5 = chatActivity3.currentUser;
                             TLRPC$UserFull tLRPC$UserFull3 = chatActivity3.userInfo;
-                            undoView3.showWithAction(j2, i30, tLRPC$User4, Integer.valueOf(tLRPC$UserFull3 != null ? tLRPC$UserFull3.ttl_period : chatActivity3.chatInfo.ttl_period), (Runnable) null, (Runnable) null);
+                            undoView3.showWithAction(j2, i30, tLRPC$User5, Integer.valueOf(tLRPC$UserFull3 != null ? tLRPC$UserFull3.ttl_period : chatActivity3.chatInfo.ttl_period), (Runnable) null, (Runnable) null);
                         }
                     }, true, 0, getResourceProvider());
                     TLRPC$UserFull tLRPC$UserFull3 = this.userInfo;
@@ -33956,12 +33980,13 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         if (charSequence == null && this.selectedObject.isPoll()) {
                             try {
                                 TLRPC$Poll tLRPC$Poll = ((TLRPC$TL_messageMediaPoll) this.selectedObject.messageOwner.media).poll;
-                                StringBuilder sb = new StringBuilder(tLRPC$Poll.question);
+                                StringBuilder sb = new StringBuilder(tLRPC$Poll.question.text);
                                 sb.append("\n");
-                                Iterator<TLRPC$TL_pollAnswer> it = tLRPC$Poll.answers.iterator();
+                                Iterator<TLRPC$PollAnswer> it = tLRPC$Poll.answers.iterator();
                                 while (it.hasNext()) {
                                     sb.append("\n🔘 ");
-                                    sb.append(it.next().text);
+                                    TLRPC$TL_textWithEntities tLRPC$TL_textWithEntities = it.next().text;
+                                    sb.append(tLRPC$TL_textWithEntities == null ? "" : tLRPC$TL_textWithEntities.text);
                                 }
                                 charSequence = sb.toString();
                             } catch (Exception unused) {
@@ -34258,9 +34283,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                         arrayList13.add(LocaleController.getString("AddToStickers", R.string.AddToStickers));
                                         arrayList14.add(9);
                                         arrayList12.add(Integer.valueOf(R.drawable.msg_sticker));
-                                        TLRPC$Document document = this.selectedObject.getDocument();
-                                        if (!getMediaDataController().isStickerInFavorites(document)) {
-                                            if (getMediaDataController().canAddStickerToFavorites() && MessageObject.isStickerHasSet(document)) {
+                                        if (!getMediaDataController().isStickerInFavorites(this.selectedObject.getDocument())) {
+                                            if (getMediaDataController().canAddStickerToFavorites()) {
                                                 arrayList13.add(LocaleController.getString("AddToFavorites", R.string.AddToFavorites));
                                                 arrayList14.add(20);
                                                 arrayList12.add(Integer.valueOf(R.drawable.msg_fave));
@@ -34290,9 +34314,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                         arrayList12.add(Integer.valueOf(R.drawable.msg_callback));
                                     }
                                 } else if (messageType == 9) {
-                                    TLRPC$Document document2 = this.selectedObject.getDocument();
-                                    if (!getMediaDataController().isStickerInFavorites(document2)) {
-                                        if (MessageObject.isStickerHasSet(document2)) {
+                                    if (!getMediaDataController().isStickerInFavorites(this.selectedObject.getDocument())) {
+                                        if (getMediaDataController().canAddStickerToFavorites()) {
                                             arrayList13.add(LocaleController.getString("AddToFavorites", R.string.AddToFavorites));
                                             arrayList14.add(20);
                                             arrayList12.add(Integer.valueOf(R.drawable.msg_fave));
@@ -34394,9 +34417,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 z12 = z11;
                             }
                             boolean z30 = (z29 || isInScheduleMode() || this.currentChat == null || !messageObject.isOutOwner() || !messageObject.isSent() || messageObject.isEditing() || messageObject.isSending() || messageObject.isSendError() || messageObject.isContentUnread() || messageObject.isUnread() || ConnectionsManager.getInstance(this.currentAccount).getCurrentTime() - messageObject.messageOwner.date >= getMessagesController().chatReadMarkExpirePeriod || (!ChatObject.isMegagroup(this.currentChat) && ChatObject.isChannel(this.currentChat)) || (tLRPC$ChatFull2 = this.chatInfo) == null || tLRPC$ChatFull2.participants_count > getMessagesController().chatReadMarkSizeThreshold || (messageObject.messageOwner.action instanceof TLRPC$TL_messageActionChatJoinedByRequest) || !z10) ? false : true;
-                            if (!z29 && this.currentChat == null && this.currentEncryptedChat == null && (tLRPC$User3 = this.currentUser) != null && !UserObject.isUserSelf(tLRPC$User3) && !UserObject.isReplyUser(this.currentUser) && !UserObject.isAnonymous(this.currentUser)) {
-                                TLRPC$User tLRPC$User4 = this.currentUser;
-                                if (!tLRPC$User4.bot && !UserObject.isService(tLRPC$User4.id) && (((tLRPC$UserFull = this.userInfo) == null || !tLRPC$UserFull.read_dates_private) && !isInScheduleMode() && messageObject.isOutOwner() && messageObject.isSent() && !messageObject.isEditing() && !messageObject.isSending() && !messageObject.isSendError() && !messageObject.isContentUnread() && !messageObject.isUnread() && ConnectionsManager.getInstance(this.currentAccount).getCurrentTime() - messageObject.messageOwner.date < getMessagesController().pmReadDateExpirePeriod && !(messageObject.messageOwner.action instanceof TLRPC$TL_messageActionChatJoinedByRequest) && z10)) {
+                            if (!z29 && this.currentChat == null && this.currentEncryptedChat == null && (tLRPC$User4 = this.currentUser) != null && !UserObject.isUserSelf(tLRPC$User4) && !UserObject.isReplyUser(this.currentUser) && !UserObject.isAnonymous(this.currentUser)) {
+                                TLRPC$User tLRPC$User5 = this.currentUser;
+                                if (!tLRPC$User5.bot && !UserObject.isService(tLRPC$User5.id) && (((tLRPC$UserFull = this.userInfo) == null || !tLRPC$UserFull.read_dates_private) && !isInScheduleMode() && messageObject.isOutOwner() && messageObject.isSent() && !messageObject.isEditing() && !messageObject.isSending() && !messageObject.isSendError() && !messageObject.isContentUnread() && !messageObject.isUnread() && ConnectionsManager.getInstance(this.currentAccount).getCurrentTime() - messageObject.messageOwner.date < getMessagesController().pmReadDateExpirePeriod && !(messageObject.messageOwner.action instanceof TLRPC$TL_messageActionChatJoinedByRequest) && z10)) {
                                     z13 = true;
                                     messageObject4 = this.selectedObject;
                                     if (messageObject4 != null && messageObject4.isSponsored()) {
@@ -35425,7 +35448,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                                     });
                                                 }
                                             }
-                                            boolean z36 = z26 && messageObject7.messageOwner.action == null && messageObject7.isSent() && !messageObject7.isEditing() && (i6 = this.chatMode) != 1 && i6 != 3;
+                                            boolean z36 = (getMessagesController().isChatNoForwards(this.currentChat) || (messageObject7.messageOwner.noforwards && (tLRPC$User3 = this.currentUser) != null && tLRPC$User3.bot)) && messageObject7.messageOwner.action == null && messageObject7.isSent() && !messageObject7.isEditing() && (i5 = this.chatMode) != 1 && i5 != 3;
                                             actionBarPopupWindowLayout5 = actionBarPopupWindowLayout3;
                                             chatScrimPopupContainerLayout.addView(actionBarPopupWindowLayout5, LayoutHelper.createLinearRelatively(-2.0f, -2.0f, 3, z12 ? 16.0f : 0.0f, 0.0f, z12 ? 36.0f : 0.0f, 0.0f));
                                             chatScrimPopupContainerLayout.setPopupWindowLayout(actionBarPopupWindowLayout5);
@@ -35481,19 +35504,19 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                                                 int i45 = 0;
                                                                 while (true) {
                                                                     if (i45 >= arrayList19.size()) {
-                                                                        i5 = length;
+                                                                        i6 = length;
                                                                         atomicBoolean4 = atomicBoolean2;
                                                                         z15 = false;
                                                                         break;
                                                                     }
-                                                                    i5 = length;
+                                                                    i6 = length;
                                                                     atomicBoolean4 = atomicBoolean2;
                                                                     if (((TLRPC$InputStickerSet) arrayList19.get(i45)).id == inputStickerSet.id) {
                                                                         z15 = true;
                                                                         break;
                                                                     }
                                                                     i45++;
-                                                                    length = i5;
+                                                                    length = i6;
                                                                     atomicBoolean2 = atomicBoolean4;
                                                                 }
                                                                 if (!z15) {
@@ -35501,15 +35524,15 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                                                 }
                                                                 i44++;
                                                                 animatedEmojiSpanArr3 = animatedEmojiSpanArr2;
-                                                                length = i5;
+                                                                length = i6;
                                                                 atomicBoolean2 = atomicBoolean4;
                                                             }
                                                         }
-                                                        i5 = length;
+                                                        i6 = length;
                                                         atomicBoolean4 = atomicBoolean2;
                                                         i44++;
                                                         animatedEmojiSpanArr3 = animatedEmojiSpanArr2;
-                                                        length = i5;
+                                                        length = i6;
                                                         atomicBoolean2 = atomicBoolean4;
                                                     }
                                                     atomicBoolean3 = atomicBoolean2;
@@ -37898,7 +37921,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         this.selectedObjectGroup = null;
                         return;
                     }
-                    createDeleteMessagesAlert(this.selectedObject, this.selectedObjectGroup, 1, true);
+                    createDeleteMessagesAlert(this.selectedObject, this.selectedObjectGroup, true);
                     z = true;
                     break;
                 case 2:
@@ -44098,23 +44121,22 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
 
         private void openProfile(TLRPC$User tLRPC$User, boolean z) {
-            if (tLRPC$User == null || tLRPC$User.id == ChatActivity.this.getUserConfig().getClientUserId()) {
-                return;
+            if (tLRPC$User != null) {
+                TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto = tLRPC$User.photo;
+                int i = 0;
+                z = (tLRPC$UserProfilePhoto == null || (tLRPC$UserProfilePhoto instanceof TLRPC$TL_userProfilePhotoEmpty)) ? false : false;
+                Bundle bundle = new Bundle();
+                bundle.putLong("user_id", tLRPC$User.id);
+                bundle.putBoolean("expandPhoto", z);
+                ProfileActivity profileActivity = new ProfileActivity(bundle);
+                TLRPC$User tLRPC$User2 = ChatActivity.this.currentUser;
+                if (tLRPC$User2 != null && tLRPC$User2.id == tLRPC$User.id) {
+                    i = 1;
+                }
+                profileActivity.setPlayProfileAnimation(i);
+                AndroidUtilities.setAdjustResizeToNothing(ChatActivity.this.getParentActivity(), ((BaseFragment) ChatActivity.this).classGuid);
+                ChatActivity.this.presentFragment(profileActivity);
             }
-            TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto = tLRPC$User.photo;
-            int i = 0;
-            z = (tLRPC$UserProfilePhoto == null || (tLRPC$UserProfilePhoto instanceof TLRPC$TL_userProfilePhotoEmpty)) ? false : false;
-            Bundle bundle = new Bundle();
-            bundle.putLong("user_id", tLRPC$User.id);
-            bundle.putBoolean("expandPhoto", z);
-            ProfileActivity profileActivity = new ProfileActivity(bundle);
-            TLRPC$User tLRPC$User2 = ChatActivity.this.currentUser;
-            if (tLRPC$User2 != null && tLRPC$User2.id == tLRPC$User.id) {
-                i = 1;
-            }
-            profileActivity.setPlayProfileAnimation(i);
-            AndroidUtilities.setAdjustResizeToNothing(ChatActivity.this.getParentActivity(), ((BaseFragment) ChatActivity.this).classGuid);
-            ChatActivity.this.presentFragment(profileActivity);
         }
 
         private void openProfile(TLRPC$Chat tLRPC$Chat) {
@@ -44147,7 +44169,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 if (chatActivity.avatarContainer != null && i == 0) {
                     ChatActivity.this.avatarContainer.openProfile(false);
                 } else {
-                    ChatActivity.this.scrollToMessageId(i, chatMessageCell.getMessageObject().getId(), true, 0, true, 0);
+                    ChatActivity.this.scrollToMessageId(i, chatMessageCell.getMessageObject().getId(), true, 0, false, 0);
                 }
             } else if (tLRPC$Chat2 == null || tLRPC$Chat.id != tLRPC$Chat2.id || chatActivity.isThreadChat()) {
                 Bundle bundle = new Bundle();
@@ -44592,7 +44614,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
 
         @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-        public void didPressVoteButtons(ChatMessageCell chatMessageCell, ArrayList<TLRPC$TL_pollAnswer> arrayList, int i, int i2, int i3) {
+        public void didPressVoteButtons(ChatMessageCell chatMessageCell, ArrayList<TLRPC$PollAnswer> arrayList, int i, int i2, int i3) {
             int i4;
             int i5;
             int i6;

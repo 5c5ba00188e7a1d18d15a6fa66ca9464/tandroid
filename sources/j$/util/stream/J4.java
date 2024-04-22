@@ -1,97 +1,94 @@
 package j$.util.stream;
 
-import j$.util.function.Consumer;
-import java.util.Comparator;
-import java.util.Objects;
+import j$.util.s;
+import java.util.concurrent.atomic.AtomicLong;
 /* loaded from: classes2.dex */
-final class J4 extends K4 implements j$.util.t, Consumer {
-    Object e;
+abstract class J4 {
+    protected final j$.util.s a;
+    protected final boolean b;
+    private final long c;
+    private final AtomicLong d;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public J4(j$.util.t tVar, long j, long j2) {
-        super(tVar, j, j2);
+    public J4(j$.util.s sVar, long j, long j2) {
+        this.a = sVar;
+        int i = (j2 > 0L ? 1 : (j2 == 0L ? 0 : -1));
+        this.b = i < 0;
+        this.c = i >= 0 ? j2 : 0L;
+        this.d = new AtomicLong(i >= 0 ? j + j2 : j);
     }
 
-    J4(j$.util.t tVar, J4 j4) {
-        super(tVar, j4);
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public J4(j$.util.s sVar, J4 j4) {
+        this.a = sVar;
+        this.b = j4.b;
+        this.d = j4.d;
+        this.c = j4.c;
     }
 
-    @Override // j$.util.function.Consumer
-    public final void accept(Object obj) {
-        this.e = obj;
+    public final int characteristics() {
+        return this.a.characteristics() & (-16465);
     }
 
-    @Override // j$.util.function.Consumer
-    public /* synthetic */ Consumer andThen(Consumer consumer) {
-        return Consumer.-CC.$default$andThen(this, consumer);
+    public final long estimateSize() {
+        return this.a.estimateSize();
     }
 
-    @Override // j$.util.t
-    public boolean b(Consumer consumer) {
-        Objects.requireNonNull(consumer);
-        while (r() != 1 && this.a.b(this)) {
-            if (p(1L) == 1) {
-                consumer.accept(this.e);
-                this.e = null;
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override // j$.util.t
-    public void forEachRemaining(Consumer consumer) {
-        Objects.requireNonNull(consumer);
-        l4 l4Var = null;
-        while (true) {
-            int r = r();
-            if (r == 1) {
-                return;
-            }
-            if (r == 2) {
-                if (l4Var == null) {
-                    l4Var = new l4(128);
-                } else {
-                    l4Var.a = 0;
+    /* JADX INFO: Access modifiers changed from: protected */
+    public final long p(long j) {
+        long j2;
+        long min;
+        do {
+            j2 = this.d.get();
+            if (j2 != 0) {
+                min = Math.min(j2, j);
+                if (min <= 0) {
+                    break;
                 }
-                long j = 0;
-                while (this.a.b(l4Var)) {
-                    j++;
-                    if (j >= 128) {
-                        break;
-                    }
-                }
-                if (j == 0) {
-                    return;
-                }
-                long p = p(j);
-                for (int i = 0; i < p; i++) {
-                    consumer.accept(l4Var.b[i]);
-                }
+            } else if (this.b) {
+                return j;
             } else {
-                this.a.forEachRemaining(consumer);
-                return;
+                return 0L;
             }
+        } while (!this.d.compareAndSet(j2, j2 - min));
+        if (this.b) {
+            return Math.max(j - min, 0L);
         }
+        long j3 = this.c;
+        return j2 > j3 ? Math.max(min - (j2 - j3), 0L) : min;
     }
 
-    @Override // j$.util.t
-    public Comparator getComparator() {
-        throw new IllegalStateException();
+    protected abstract j$.util.s q(j$.util.s sVar);
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public final int r() {
+        if (this.d.get() > 0) {
+            return 2;
+        }
+        return this.b ? 3 : 1;
     }
 
-    @Override // j$.util.t
-    public /* synthetic */ long getExactSizeIfKnown() {
-        return j$.util.a.e(this);
+    public /* bridge */ /* synthetic */ s.a trySplit() {
+        return (s.a) trySplit();
     }
 
-    @Override // j$.util.t
-    public /* synthetic */ boolean hasCharacteristics(int i) {
-        return j$.util.a.f(this, i);
+    public /* bridge */ /* synthetic */ s.b trySplit() {
+        return (s.b) trySplit();
     }
 
-    @Override // j$.util.stream.K4
-    protected j$.util.t q(j$.util.t tVar) {
-        return new J4(tVar, this);
+    public /* bridge */ /* synthetic */ s.c trySplit() {
+        return (s.c) trySplit();
+    }
+
+    public final j$.util.s trySplit() {
+        j$.util.s trySplit;
+        if (this.d.get() == 0 || (trySplit = this.a.trySplit()) == null) {
+            return null;
+        }
+        return q(trySplit);
+    }
+
+    public /* bridge */ /* synthetic */ j$.util.t trySplit() {
+        return (j$.util.t) trySplit();
     }
 }

@@ -1,6 +1,6 @@
 package j$.util.stream;
 /* loaded from: classes2.dex */
-public interface k3 extends n3, j$.util.function.f {
-    @Override // j$.util.stream.n3
-    void accept(double d);
+public interface k3 extends m3, j$.util.function.l {
+    @Override // j$.util.stream.m3
+    void accept(int i);
 }

@@ -466,88 +466,85 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 if (ChatObject.isChannel(this.currentChat)) {
                     TLRPC$Chat tLRPC$Chat = this.currentChat;
                     if (tLRPC$Chat.megagroup && !tLRPC$Chat.gigagroup && ((tLRPC$ChatFull = this.info) == null || tLRPC$ChatFull.participants_count <= 200 || (!this.isChannel && tLRPC$ChatFull.can_set_stickers))) {
-                        int i12 = this.rowCount;
-                        this.rowCount = i12 + 1;
-                        this.recentActionsRow = i12;
                         if (ChatObject.hasAdminRights(tLRPC$Chat)) {
-                            int i13 = this.rowCount;
-                            int i14 = i13 + 1;
-                            this.rowCount = i14;
-                            this.antiSpamRow = i13;
-                            this.rowCount = i14 + 1;
-                            this.antiSpamInfoRow = i14;
+                            int i12 = this.rowCount;
+                            int i13 = i12 + 1;
+                            this.rowCount = i13;
+                            this.antiSpamRow = i12;
+                            this.rowCount = i13 + 1;
+                            this.antiSpamInfoRow = i13;
                         } else {
-                            int i15 = this.rowCount;
-                            this.rowCount = i15 + 1;
-                            this.addNewSectionRow = i15;
+                            int i14 = this.rowCount;
+                            this.rowCount = i14 + 1;
+                            this.addNewSectionRow = i14;
                         }
                     }
                 }
                 if (ChatObject.canAddAdmins(this.currentChat)) {
-                    int i16 = this.rowCount;
-                    this.rowCount = i16 + 1;
-                    this.addNewRow = i16;
+                    int i15 = this.rowCount;
+                    this.rowCount = i15 + 1;
+                    this.addNewRow = i15;
                 }
                 if (this.loadingUsers && !(z2 = this.firstLoaded)) {
                     if (z2) {
                         return;
                     }
-                    int i17 = this.rowCount;
-                    this.rowCount = i17 + 1;
-                    this.loadingUserCellRow = i17;
+                    int i16 = this.rowCount;
+                    this.rowCount = i16 + 1;
+                    this.loadingUserCellRow = i16;
                     return;
                 }
                 if (!this.participants.isEmpty()) {
-                    int i18 = this.rowCount;
-                    this.participantsStartRow = i18;
-                    int size2 = i18 + this.participants.size();
+                    int i17 = this.rowCount;
+                    this.participantsStartRow = i17;
+                    int size2 = i17 + this.participants.size();
                     this.rowCount = size2;
                     this.participantsEndRow = size2;
                 }
-                int i19 = this.rowCount;
-                this.rowCount = i19 + 1;
-                this.participantsInfoRow = i19;
+                int i18 = this.rowCount;
+                this.rowCount = i18 + 1;
+                this.participantsInfoRow = i18;
                 return;
             } else if (i == 2) {
                 if (ChatObject.isChannel(this.currentChat) && !ChatObject.isChannelAndNotMegaGroup(this.currentChat) && !this.needOpenSearch) {
-                    int i20 = this.rowCount;
-                    int i21 = i20 + 1;
-                    this.rowCount = i21;
-                    this.hideMembersRow = i20;
-                    this.rowCount = i21 + 1;
-                    this.hideMembersInfoRow = i21;
+                    int i19 = this.rowCount;
+                    int i20 = i19 + 1;
+                    this.rowCount = i20;
+                    this.hideMembersRow = i19;
+                    this.rowCount = i20 + 1;
+                    this.hideMembersInfoRow = i20;
                 }
                 if (this.selectType == 0 && ChatObject.canAddUsers(this.currentChat)) {
-                    int i22 = this.rowCount;
-                    this.rowCount = i22 + 1;
-                    this.addNewRow = i22;
+                    int i21 = this.rowCount;
+                    this.rowCount = i21 + 1;
+                    this.addNewRow = i21;
                 }
                 if (this.selectType == 0 && ChatObject.canUserDoAdminAction(this.currentChat, 3)) {
-                    int i23 = this.rowCount;
-                    this.rowCount = i23 + 1;
-                    this.addNew2Row = i23;
+                    int i22 = this.rowCount;
+                    this.rowCount = i22 + 1;
+                    this.addNew2Row = i22;
                 }
                 if (this.loadingUsers && !(z = this.firstLoaded)) {
                     if (z) {
                         return;
                     }
                     if (this.selectType == 0) {
-                        int i24 = this.rowCount;
-                        this.rowCount = i24 + 1;
-                        this.loadingHeaderRow = i24;
+                        int i23 = this.rowCount;
+                        this.rowCount = i23 + 1;
+                        this.loadingHeaderRow = i23;
                     }
-                    int i25 = this.rowCount;
-                    this.rowCount = i25 + 1;
-                    this.loadingUserCellRow = i25;
+                    int i24 = this.rowCount;
+                    this.rowCount = i24 + 1;
+                    this.loadingUserCellRow = i24;
                     return;
                 }
                 if (!this.contacts.isEmpty()) {
-                    int i26 = this.rowCount;
-                    int i27 = i26 + 1;
-                    this.rowCount = i27;
-                    this.contactsHeaderRow = i26;
-                    this.contactsStartRow = i27;
-                    int size3 = i27 + this.contacts.size();
+                    int i25 = this.rowCount;
+                    int i26 = i25 + 1;
+                    this.rowCount = i26;
+                    this.contactsHeaderRow = i25;
+                    this.contactsStartRow = i26;
+                    int size3 = i26 + this.contacts.size();
                     this.rowCount = size3;
                     this.contactsEndRow = size3;
                     r1 = 1;
@@ -555,31 +552,31 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 if (this.bots.isEmpty()) {
                     i2 = r1;
                 } else {
-                    int i28 = this.rowCount;
-                    int i29 = i28 + 1;
-                    this.rowCount = i29;
-                    this.botHeaderRow = i28;
-                    this.botStartRow = i29;
-                    int size4 = i29 + this.bots.size();
+                    int i27 = this.rowCount;
+                    int i28 = i27 + 1;
+                    this.rowCount = i28;
+                    this.botHeaderRow = i27;
+                    this.botStartRow = i28;
+                    int size4 = i28 + this.bots.size();
                     this.rowCount = size4;
                     this.botEndRow = size4;
                 }
                 if (!this.participants.isEmpty()) {
                     if (i2 != 0) {
-                        int i30 = this.rowCount;
-                        this.rowCount = i30 + 1;
-                        this.membersHeaderRow = i30;
+                        int i29 = this.rowCount;
+                        this.rowCount = i29 + 1;
+                        this.membersHeaderRow = i29;
                     }
-                    int i31 = this.rowCount;
-                    this.participantsStartRow = i31;
-                    int size5 = i31 + this.participants.size();
+                    int i30 = this.rowCount;
+                    this.participantsStartRow = i30;
+                    int size5 = i30 + this.participants.size();
                     this.rowCount = size5;
                     this.participantsEndRow = size5;
                 }
-                int i32 = this.rowCount;
-                if (i32 != 0) {
-                    this.rowCount = i32 + 1;
-                    this.participantsInfoRow = i32;
+                int i31 = this.rowCount;
+                if (i31 != 0) {
+                    this.rowCount = i31 + 1;
+                    this.participantsInfoRow = i31;
                     return;
                 }
                 return;
@@ -587,75 +584,75 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 return;
             }
         }
-        int i33 = 0 + 1;
-        this.rowCount = i33;
+        int i32 = 0 + 1;
+        this.rowCount = i32;
         this.permissionsSectionRow = 0;
+        int i33 = i32 + 1;
+        this.rowCount = i33;
+        this.sendMessagesRow = i32;
         int i34 = i33 + 1;
         this.rowCount = i34;
-        this.sendMessagesRow = i33;
-        int i35 = i34 + 1;
-        this.rowCount = i35;
-        this.sendMediaRow = i34;
+        this.sendMediaRow = i33;
         if (this.sendMediaExpanded) {
+            int i35 = i34 + 1;
+            this.rowCount = i35;
+            this.sendMediaPhotosRow = i34;
             int i36 = i35 + 1;
             this.rowCount = i36;
-            this.sendMediaPhotosRow = i35;
+            this.sendMediaVideosRow = i35;
             int i37 = i36 + 1;
             this.rowCount = i37;
-            this.sendMediaVideosRow = i36;
+            this.sendMediaStickerGifsRow = i36;
             int i38 = i37 + 1;
             this.rowCount = i38;
-            this.sendMediaStickerGifsRow = i37;
+            this.sendMediaMusicRow = i37;
             int i39 = i38 + 1;
             this.rowCount = i39;
-            this.sendMediaMusicRow = i38;
+            this.sendMediaFilesRow = i38;
             int i40 = i39 + 1;
             this.rowCount = i40;
-            this.sendMediaFilesRow = i39;
+            this.sendMediaVoiceMessagesRow = i39;
             int i41 = i40 + 1;
             this.rowCount = i41;
-            this.sendMediaVoiceMessagesRow = i40;
+            this.sendMediaVideoMessagesRow = i40;
             int i42 = i41 + 1;
             this.rowCount = i42;
-            this.sendMediaVideoMessagesRow = i41;
-            int i43 = i42 + 1;
-            this.rowCount = i43;
-            this.sendMediaEmbededLinksRow = i42;
-            this.rowCount = i43 + 1;
-            this.sendPollsRow = i43;
+            this.sendMediaEmbededLinksRow = i41;
+            this.rowCount = i42 + 1;
+            this.sendPollsRow = i42;
         }
-        int i44 = this.rowCount;
+        int i43 = this.rowCount;
+        int i44 = i43 + 1;
+        this.rowCount = i44;
+        this.addUsersRow = i43;
         int i45 = i44 + 1;
         this.rowCount = i45;
-        this.addUsersRow = i44;
+        this.pinMessagesRow = i44;
         int i46 = i45 + 1;
         this.rowCount = i46;
-        this.pinMessagesRow = i45;
-        int i47 = i46 + 1;
-        this.rowCount = i47;
-        this.changeInfoRow = i46;
+        this.changeInfoRow = i45;
         if (this.isForum) {
-            this.rowCount = i47 + 1;
-            this.manageTopicsRow = i47;
+            this.rowCount = i46 + 1;
+            this.manageTopicsRow = i46;
         }
         if (ChatObject.isChannel(this.currentChat)) {
             TLRPC$Chat tLRPC$Chat2 = this.currentChat;
             if (tLRPC$Chat2.creator && tLRPC$Chat2.megagroup && !tLRPC$Chat2.gigagroup) {
-                int i48 = tLRPC$Chat2.participants_count;
+                int i47 = tLRPC$Chat2.participants_count;
                 TLRPC$ChatFull tLRPC$ChatFull4 = this.info;
-                if (Math.max(i48, tLRPC$ChatFull4 != null ? tLRPC$ChatFull4.participants_count : 0) >= getMessagesController().maxMegagroupCount - 1000) {
-                    int i49 = this.rowCount;
+                if (Math.max(i47, tLRPC$ChatFull4 != null ? tLRPC$ChatFull4.participants_count : 0) >= getMessagesController().maxMegagroupCount - 1000) {
+                    int i48 = this.rowCount;
+                    int i49 = i48 + 1;
+                    this.rowCount = i49;
+                    this.participantsDivider2Row = i48;
                     int i50 = i49 + 1;
                     this.rowCount = i50;
-                    this.participantsDivider2Row = i49;
+                    this.gigaHeaderRow = i49;
                     int i51 = i50 + 1;
                     this.rowCount = i51;
-                    this.gigaHeaderRow = i50;
-                    int i52 = i51 + 1;
-                    this.rowCount = i52;
-                    this.gigaConvertRow = i51;
-                    this.rowCount = i52 + 1;
-                    this.gigaInfoRow = i52;
+                    this.gigaConvertRow = i50;
+                    this.rowCount = i51 + 1;
+                    this.gigaInfoRow = i51;
                 }
             }
         }
@@ -667,91 +664,91 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             }
             if (isNotRestrictBoostersVisible()) {
                 if (this.participantsDivider2Row == -1) {
-                    int i53 = this.rowCount;
-                    this.rowCount = i53 + 1;
-                    this.participantsDivider2Row = i53;
+                    int i52 = this.rowCount;
+                    this.rowCount = i52 + 1;
+                    this.participantsDivider2Row = i52;
                 }
-                int i54 = this.rowCount;
-                int i55 = i54 + 1;
-                this.rowCount = i55;
-                this.dontRestrictBoostersRow = i54;
+                int i53 = this.rowCount;
+                int i54 = i53 + 1;
+                this.rowCount = i54;
+                this.dontRestrictBoostersRow = i53;
                 if (this.isEnabledNotRestrictBoosters) {
-                    this.rowCount = i55 + 1;
-                    this.dontRestrictBoostersSliderRow = i55;
+                    this.rowCount = i54 + 1;
+                    this.dontRestrictBoostersSliderRow = i54;
                 }
-                int i56 = this.rowCount;
-                this.rowCount = i56 + 1;
-                this.dontRestrictBoostersInfoRow = i56;
+                int i55 = this.rowCount;
+                this.rowCount = i55 + 1;
+                this.dontRestrictBoostersInfoRow = i55;
             }
             if (ChatObject.isChannel(this.currentChat)) {
                 if (this.participantsDivider2Row == -1) {
-                    int i57 = this.rowCount;
-                    this.rowCount = i57 + 1;
-                    this.participantsDivider2Row = i57;
+                    int i56 = this.rowCount;
+                    this.rowCount = i56 + 1;
+                    this.participantsDivider2Row = i56;
                 }
-                int i58 = this.rowCount;
-                this.rowCount = i58 + 1;
-                this.removedUsersRow = i58;
+                int i57 = this.rowCount;
+                this.rowCount = i57 + 1;
+                this.removedUsersRow = i57;
             }
             if ((this.slowmodeInfoRow == -1 && this.gigaHeaderRow == -1) || this.removedUsersRow != -1) {
-                int i59 = this.rowCount;
-                this.rowCount = i59 + 1;
-                this.participantsDividerRow = i59;
+                int i58 = this.rowCount;
+                this.rowCount = i58 + 1;
+                this.participantsDividerRow = i58;
             }
             if (ChatObject.canBlockUsers(this.currentChat) && getParticipantsCount() > 1 && (ChatObject.isChannel(this.currentChat) || this.currentChat.creator)) {
-                int i60 = this.rowCount;
-                this.rowCount = i60 + 1;
-                this.addNewRow = i60;
+                int i59 = this.rowCount;
+                this.rowCount = i59 + 1;
+                this.addNewRow = i59;
             }
             if (!this.loadingUsers && !(z4 = this.firstLoaded)) {
                 if (z4 || (tLRPC$ChatFull3 = this.info) == null || tLRPC$ChatFull3.banned_count <= 0) {
                     return;
                 }
-                int i61 = this.rowCount;
-                this.rowCount = i61 + 1;
-                this.loadingUserCellRow = i61;
+                int i60 = this.rowCount;
+                this.rowCount = i60 + 1;
+                this.loadingUserCellRow = i60;
                 return;
             }
             if (!this.participants.isEmpty()) {
-                int i62 = this.rowCount;
-                this.participantsStartRow = i62;
-                int size6 = i62 + this.participants.size();
+                int i61 = this.rowCount;
+                this.participantsStartRow = i61;
+                int size6 = i61 + this.participants.size();
                 this.rowCount = size6;
                 this.participantsEndRow = size6;
             }
             if (this.addNewRow == -1 || this.participantsStartRow != -1) {
-                int i63 = this.rowCount;
-                this.rowCount = i63 + 1;
-                this.addNewSectionRow = i63;
+                int i62 = this.rowCount;
+                this.rowCount = i62 + 1;
+                this.addNewSectionRow = i62;
             }
             return;
         }
         if (this.participantsDivider2Row == -1) {
-            int i64 = this.rowCount;
-            this.rowCount = i64 + 1;
-            this.participantsDivider2Row = i64;
+            int i63 = this.rowCount;
+            this.rowCount = i63 + 1;
+            this.participantsDivider2Row = i63;
         }
-        int i65 = this.rowCount;
+        int i64 = this.rowCount;
+        int i65 = i64 + 1;
+        this.rowCount = i65;
+        this.slowmodeRow = i64;
         int i66 = i65 + 1;
         this.rowCount = i66;
-        this.slowmodeRow = i65;
-        int i67 = i66 + 1;
-        this.rowCount = i67;
-        this.slowmodeSelectRow = i66;
-        this.rowCount = i67 + 1;
-        this.slowmodeInfoRow = i67;
+        this.slowmodeSelectRow = i65;
+        this.rowCount = i66 + 1;
+        this.slowmodeInfoRow = i66;
         if (isNotRestrictBoostersVisible()) {
         }
         if (ChatObject.isChannel(this.currentChat)) {
         }
         if (this.slowmodeInfoRow == -1) {
-            int i592 = this.rowCount;
-            this.rowCount = i592 + 1;
-            this.participantsDividerRow = i592;
+            int i582 = this.rowCount;
+            this.rowCount = i582 + 1;
+            this.participantsDividerRow = i582;
             if (ChatObject.canBlockUsers(this.currentChat)) {
-                int i602 = this.rowCount;
-                this.rowCount = i602 + 1;
-                this.addNewRow = i602;
+                int i592 = this.rowCount;
+                this.rowCount = i592 + 1;
+                this.addNewRow = i592;
             }
             if (!this.loadingUsers) {
             }
@@ -759,13 +756,13 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             }
             if (this.addNewRow == -1) {
             }
-            int i632 = this.rowCount;
-            this.rowCount = i632 + 1;
-            this.addNewSectionRow = i632;
+            int i622 = this.rowCount;
+            this.rowCount = i622 + 1;
+            this.addNewSectionRow = i622;
         }
-        int i5922 = this.rowCount;
-        this.rowCount = i5922 + 1;
-        this.participantsDividerRow = i5922;
+        int i5822 = this.rowCount;
+        this.rowCount = i5822 + 1;
+        this.participantsDividerRow = i5822;
         if (ChatObject.canBlockUsers(this.currentChat)) {
         }
         if (!this.loadingUsers) {
@@ -774,9 +771,9 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
         }
         if (this.addNewRow == -1) {
         }
-        int i6322 = this.rowCount;
-        this.rowCount = i6322 + 1;
-        this.addNewSectionRow = i6322;
+        int i6222 = this.rowCount;
+        this.rowCount = i6222 + 1;
+        this.addNewSectionRow = i6222;
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -2399,7 +2396,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 i3 = R.string.KickFromGroup;
                 str3 = "KickFromGroup";
             }
-            addIf.addIf(z12, i5, LocaleController.getString(str3, i3), true, new Runnable() { // from class: org.telegram.ui.ChatUsersActivity$$ExternalSyntheticLambda16
+            addIf.addIf(z12, i5, (CharSequence) LocaleController.getString(str3, i3), true, new Runnable() { // from class: org.telegram.ui.ChatUsersActivity$$ExternalSyntheticLambda16
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChatUsersActivity.this.lambda$createMenuForParticipant$13(user, j4);

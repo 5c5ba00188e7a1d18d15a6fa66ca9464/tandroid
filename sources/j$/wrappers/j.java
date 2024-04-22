@@ -1,19 +1,19 @@
 package j$.wrappers;
 
-import j$.util.t;
+import j$.util.s;
 import java.util.Comparator;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.function.DoubleConsumer;
 /* loaded from: classes2.dex */
 public final /* synthetic */ class j implements Spliterator.OfDouble {
-    final /* synthetic */ t.a a;
+    final /* synthetic */ s.a a;
 
-    private /* synthetic */ j(t.a aVar) {
+    private /* synthetic */ j(s.a aVar) {
         this.a = aVar;
     }
 
-    public static /* synthetic */ Spliterator.OfDouble a(t.a aVar) {
+    public static /* synthetic */ Spliterator.OfDouble a(s.a aVar) {
         if (aVar == null) {
             return null;
         }

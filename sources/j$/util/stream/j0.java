@@ -2,25 +2,25 @@ package j$.util.stream;
 
 import j$.util.function.Consumer;
 /* loaded from: classes2.dex */
-abstract class j0 implements P4 {
+abstract class j0 implements O4 {
     boolean a;
     Object b;
 
-    @Override // j$.util.stream.n3
+    @Override // j$.util.stream.m3
     public /* synthetic */ void accept(double d) {
-        p1.f(this);
+        o1.f(this);
         throw null;
     }
 
-    @Override // j$.util.stream.n3
+    @Override // j$.util.stream.m3
     public /* synthetic */ void accept(int i) {
-        p1.d(this);
+        o1.d(this);
         throw null;
     }
 
-    @Override // j$.util.stream.n3, j$.util.stream.m3, j$.util.function.q
+    @Override // j$.util.stream.m3, j$.util.stream.l3, j$.util.function.q
     public /* synthetic */ void accept(long j) {
-        p1.e(this);
+        o1.e(this);
         throw null;
     }
 
@@ -38,15 +38,15 @@ abstract class j0 implements P4 {
         return Consumer.-CC.$default$andThen(this, consumer);
     }
 
-    @Override // j$.util.stream.n3
+    @Override // j$.util.stream.m3
     public /* synthetic */ void m() {
     }
 
-    @Override // j$.util.stream.n3
+    @Override // j$.util.stream.m3
     public /* synthetic */ void n(long j) {
     }
 
-    @Override // j$.util.stream.n3
+    @Override // j$.util.stream.m3
     public boolean o() {
         return this.a;
     }

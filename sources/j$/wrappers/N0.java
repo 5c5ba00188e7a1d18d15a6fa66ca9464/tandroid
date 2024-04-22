@@ -1,6 +1,5 @@
 package j$.wrappers;
 
-import j$.util.stream.f1;
 import java.util.Iterator;
 import java.util.LongSummaryStatistics;
 import java.util.OptionalDouble;
@@ -22,22 +21,22 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 /* loaded from: classes2.dex */
 public final /* synthetic */ class N0 implements LongStream {
-    final /* synthetic */ f1 a;
+    final /* synthetic */ j$.util.stream.LongStream a;
 
-    private /* synthetic */ N0(f1 f1Var) {
-        this.a = f1Var;
+    private /* synthetic */ N0(j$.util.stream.LongStream longStream) {
+        this.a = longStream;
     }
 
-    public static /* synthetic */ LongStream l0(f1 f1Var) {
-        if (f1Var == null) {
+    public static /* synthetic */ LongStream i0(j$.util.stream.LongStream longStream) {
+        if (longStream == null) {
             return null;
         }
-        return f1Var instanceof M0 ? ((M0) f1Var).a : new N0(f1Var);
+        return longStream instanceof M0 ? ((M0) longStream).a : new N0(longStream);
     }
 
     @Override // java.util.stream.LongStream
     public /* synthetic */ boolean allMatch(LongPredicate longPredicate) {
-        return this.a.L(i0.a(longPredicate));
+        return this.a.K(i0.a(longPredicate));
     }
 
     @Override // java.util.stream.LongStream
@@ -47,7 +46,7 @@ public final /* synthetic */ class N0 implements LongStream {
 
     @Override // java.util.stream.LongStream
     public /* synthetic */ DoubleStream asDoubleStream() {
-        return L0.l0(this.a.asDoubleStream());
+        return L0.i0(this.a.asDoubleStream());
     }
 
     @Override // java.util.stream.LongStream
@@ -57,7 +56,7 @@ public final /* synthetic */ class N0 implements LongStream {
 
     @Override // java.util.stream.LongStream
     public /* synthetic */ Stream boxed() {
-        return O0.l0(this.a.boxed());
+        return O0.i0(this.a.boxed());
     }
 
     @Override // java.util.stream.BaseStream, java.lang.AutoCloseable
@@ -67,7 +66,7 @@ public final /* synthetic */ class N0 implements LongStream {
 
     @Override // java.util.stream.LongStream
     public /* synthetic */ Object collect(Supplier supplier, ObjLongConsumer objLongConsumer, BiConsumer biConsumer) {
-        return this.a.d0(y0.a(supplier), u0.a(objLongConsumer), q.a(biConsumer));
+        return this.a.b0(y0.a(supplier), u0.a(objLongConsumer), q.a(biConsumer));
     }
 
     @Override // java.util.stream.LongStream
@@ -77,12 +76,12 @@ public final /* synthetic */ class N0 implements LongStream {
 
     @Override // java.util.stream.LongStream
     public /* synthetic */ LongStream distinct() {
-        return l0(this.a.distinct());
+        return i0(this.a.distinct());
     }
 
     @Override // java.util.stream.LongStream
     public /* synthetic */ LongStream filter(LongPredicate longPredicate) {
-        return l0(this.a.u(i0.a(longPredicate)));
+        return i0(this.a.t(i0.a(longPredicate)));
     }
 
     @Override // java.util.stream.LongStream
@@ -97,7 +96,7 @@ public final /* synthetic */ class N0 implements LongStream {
 
     @Override // java.util.stream.LongStream
     public /* synthetic */ LongStream flatMap(LongFunction longFunction) {
-        return l0(this.a.s(g0.a(longFunction)));
+        return i0(this.a.r(g0.a(longFunction)));
     }
 
     @Override // java.util.stream.LongStream
@@ -107,7 +106,7 @@ public final /* synthetic */ class N0 implements LongStream {
 
     @Override // java.util.stream.LongStream
     public /* synthetic */ void forEachOrdered(LongConsumer longConsumer) {
-        this.a.Y(e0.b(longConsumer));
+        this.a.W(e0.b(longConsumer));
     }
 
     @Override // java.util.stream.BaseStream
@@ -127,27 +126,27 @@ public final /* synthetic */ class N0 implements LongStream {
 
     @Override // java.util.stream.LongStream
     public /* synthetic */ LongStream limit(long j) {
-        return l0(this.a.limit(j));
+        return i0(this.a.limit(j));
     }
 
     @Override // java.util.stream.LongStream
     public /* synthetic */ LongStream map(LongUnaryOperator longUnaryOperator) {
-        return l0(this.a.z(o0.c(longUnaryOperator)));
+        return i0(this.a.y(o0.c(longUnaryOperator)));
     }
 
     @Override // java.util.stream.LongStream
     public /* synthetic */ DoubleStream mapToDouble(LongToDoubleFunction longToDoubleFunction) {
-        return L0.l0(this.a.O(k0.b(longToDoubleFunction)));
+        return L0.i0(this.a.N(k0.b(longToDoubleFunction)));
     }
 
     @Override // java.util.stream.LongStream
     public /* synthetic */ IntStream mapToInt(LongToIntFunction longToIntFunction) {
-        return $r8$wrapper$java$util$stream$IntStream$-WRP.convert(this.a.c0(m0.b(longToIntFunction)));
+        return $r8$wrapper$java$util$stream$IntStream$-WRP.convert(this.a.a0(m0.b(longToIntFunction)));
     }
 
     @Override // java.util.stream.LongStream
     public /* synthetic */ Stream mapToObj(LongFunction longFunction) {
-        return O0.l0(this.a.Q(g0.a(longFunction)));
+        return O0.i0(this.a.mapToObj(g0.a(longFunction)));
     }
 
     @Override // java.util.stream.LongStream
@@ -162,34 +161,34 @@ public final /* synthetic */ class N0 implements LongStream {
 
     @Override // java.util.stream.LongStream
     public /* synthetic */ boolean noneMatch(LongPredicate longPredicate) {
-        return this.a.S(i0.a(longPredicate));
+        return this.a.Q(i0.a(longPredicate));
     }
 
     /* JADX WARN: Type inference failed for: r2v2, types: [java.util.stream.LongStream, java.util.stream.BaseStream] */
     @Override // java.util.stream.BaseStream
     public /* synthetic */ LongStream onClose(Runnable runnable) {
-        return H0.l0(this.a.onClose(runnable));
+        return H0.i0(this.a.onClose(runnable));
     }
 
     /* JADX WARN: Type inference failed for: r0v2, types: [java.util.stream.LongStream, java.util.stream.BaseStream] */
     @Override // java.util.stream.LongStream, java.util.stream.BaseStream
     public /* synthetic */ LongStream parallel() {
-        return H0.l0(this.a.parallel());
+        return H0.i0(this.a.parallel());
     }
 
     @Override // java.util.stream.LongStream, java.util.stream.BaseStream
     public /* synthetic */ LongStream parallel() {
-        return l0(this.a.parallel());
+        return i0(this.a.parallel());
     }
 
     @Override // java.util.stream.LongStream
     public /* synthetic */ LongStream peek(LongConsumer longConsumer) {
-        return l0(this.a.p(e0.b(longConsumer)));
+        return i0(this.a.o(e0.b(longConsumer)));
     }
 
     @Override // java.util.stream.LongStream
     public /* synthetic */ long reduce(long j, LongBinaryOperator longBinaryOperator) {
-        return this.a.D(j, c0.a(longBinaryOperator));
+        return this.a.C(j, c0.a(longBinaryOperator));
     }
 
     @Override // java.util.stream.LongStream
@@ -200,22 +199,22 @@ public final /* synthetic */ class N0 implements LongStream {
     /* JADX WARN: Type inference failed for: r0v2, types: [java.util.stream.LongStream, java.util.stream.BaseStream] */
     @Override // java.util.stream.LongStream, java.util.stream.BaseStream
     public /* synthetic */ LongStream sequential() {
-        return H0.l0(this.a.sequential());
+        return H0.i0(this.a.sequential());
     }
 
     @Override // java.util.stream.LongStream, java.util.stream.BaseStream
     public /* synthetic */ LongStream sequential() {
-        return l0(this.a.sequential());
+        return i0(this.a.sequential());
     }
 
     @Override // java.util.stream.LongStream
     public /* synthetic */ LongStream skip(long j) {
-        return l0(this.a.skip(j));
+        return i0(this.a.skip(j));
     }
 
     @Override // java.util.stream.LongStream
     public /* synthetic */ LongStream sorted() {
-        return l0(this.a.sorted());
+        return i0(this.a.sorted());
     }
 
     @Override // java.util.stream.LongStream, java.util.stream.BaseStream
@@ -247,6 +246,6 @@ public final /* synthetic */ class N0 implements LongStream {
     /* JADX WARN: Type inference failed for: r0v2, types: [java.util.stream.LongStream, java.util.stream.BaseStream] */
     @Override // java.util.stream.BaseStream
     public /* synthetic */ LongStream unordered() {
-        return H0.l0(this.a.unordered());
+        return H0.i0(this.a.unordered());
     }
 }

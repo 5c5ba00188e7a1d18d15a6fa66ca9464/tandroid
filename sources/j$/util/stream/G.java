@@ -10,7 +10,7 @@ public final /* synthetic */ class G implements j$.util.function.f {
     public final void accept(double d) {
         switch (this.a) {
             case 0:
-                ((n3) this.b).accept(d);
+                ((m3) this.b).accept(d);
                 return;
             default:
                 ((K) this.b).a.accept(d);

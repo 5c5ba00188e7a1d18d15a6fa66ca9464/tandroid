@@ -1,88 +1,92 @@
 package j$.util;
 
-import j$.util.Iterator;
 import j$.util.function.Consumer;
-import j$.util.t;
-import java.util.NoSuchElementException;
+import java.util.Comparator;
 import java.util.Objects;
+import org.telegram.messenger.LiteMode;
 /* loaded from: classes2.dex */
-class y implements n, j$.util.function.f, Iterator {
-    boolean a = false;
-    double b;
-    final /* synthetic */ t.a c;
+final class y implements s {
+    private final Object[] a;
+    private int b;
+    private final int c;
+    private final int d;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public y(t.a aVar) {
-        this.c = aVar;
+    public y(Object[] objArr, int i, int i2, int i3) {
+        this.a = objArr;
+        this.b = i;
+        this.c = i2;
+        this.d = i3 | 64 | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM;
     }
 
-    @Override // j$.util.function.f
-    public void accept(double d) {
-        this.a = true;
-        this.b = d;
-    }
-
-    @Override // j$.util.p
-    /* renamed from: e */
-    public void forEachRemaining(j$.util.function.f fVar) {
-        Objects.requireNonNull(fVar);
-        while (hasNext()) {
-            fVar.accept(nextDouble());
-        }
-    }
-
-    @Override // j$.util.n, j$.util.Iterator
-    public void forEachRemaining(Consumer consumer) {
-        if (consumer instanceof j$.util.function.f) {
-            forEachRemaining((j$.util.function.f) consumer);
-            return;
-        }
+    @Override // j$.util.s
+    public boolean b(Consumer consumer) {
         Objects.requireNonNull(consumer);
-        if (!L.a) {
-            while (hasNext()) {
-                consumer.accept(Double.valueOf(nextDouble()));
-            }
+        int i = this.b;
+        if (i < 0 || i >= this.c) {
+            return false;
+        }
+        Object[] objArr = this.a;
+        this.b = i + 1;
+        consumer.accept(objArr[i]);
+        return true;
+    }
+
+    @Override // j$.util.s
+    public int characteristics() {
+        return this.d;
+    }
+
+    @Override // j$.util.s
+    public long estimateSize() {
+        return this.c - this.b;
+    }
+
+    @Override // j$.util.s
+    public void forEachRemaining(Consumer consumer) {
+        int i;
+        Objects.requireNonNull(consumer);
+        Object[] objArr = this.a;
+        int length = objArr.length;
+        int i2 = this.c;
+        if (length < i2 || (i = this.b) < 0) {
             return;
         }
-        L.a(y.class, "{0} calling PrimitiveIterator.OfDouble.forEachRemainingDouble(action::accept)");
-        throw null;
-    }
-
-    @Override // java.util.Iterator, j$.util.Iterator
-    public boolean hasNext() {
-        if (!this.a) {
-            this.c.k(this);
+        this.b = i2;
+        if (i < i2) {
+            do {
+                consumer.accept(objArr[i]);
+                i++;
+            } while (i < i2);
         }
-        return this.a;
     }
 
-    @Override // j$.util.function.f
-    public j$.util.function.f j(j$.util.function.f fVar) {
-        Objects.requireNonNull(fVar);
-        return new j$.util.function.e(this, fVar);
-    }
-
-    @Override // java.util.Iterator, j$.util.Iterator
-    public Double next() {
-        if (L.a) {
-            L.a(y.class, "{0} calling PrimitiveIterator.OfDouble.nextLong()");
-            throw null;
+    @Override // j$.util.s
+    public Comparator getComparator() {
+        if (a.f(this, 4)) {
+            return null;
         }
-        return Double.valueOf(nextDouble());
+        throw new IllegalStateException();
     }
 
-    @Override // j$.util.n
-    public double nextDouble() {
-        if (this.a || hasNext()) {
-            this.a = false;
-            return this.b;
+    @Override // j$.util.s
+    public /* synthetic */ long getExactSizeIfKnown() {
+        return a.e(this);
+    }
+
+    @Override // j$.util.s
+    public /* synthetic */ boolean hasCharacteristics(int i) {
+        return a.f(this, i);
+    }
+
+    @Override // j$.util.s
+    public s trySplit() {
+        int i = this.b;
+        int i2 = (this.c + i) >>> 1;
+        if (i >= i2) {
+            return null;
         }
-        throw new NoSuchElementException();
-    }
-
-    @Override // java.util.Iterator, j$.util.Iterator
-    public /* synthetic */ void remove() {
-        Iterator.-CC.a(this);
-        throw null;
+        Object[] objArr = this.a;
+        this.b = i2;
+        return new y(objArr, i, i2, this.d);
     }
 }

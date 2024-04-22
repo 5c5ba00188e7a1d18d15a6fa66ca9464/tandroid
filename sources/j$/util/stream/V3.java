@@ -1,86 +1,41 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
-import j$.util.t;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Objects;
-/* JADX INFO: Access modifiers changed from: package-private */
+import j$.util.s;
+import j$.util.stream.Z3;
 /* loaded from: classes2.dex */
-public class V3 extends a4 implements j$.util.function.f {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public V3() {
-    }
+class V3 extends Z3.a implements s.b {
+    final /* synthetic */ W3 g;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public V3(int i) {
-        super(i);
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public V3(W3 w3, int i, int i2, int i3, int i4) {
+        super(i, i2, i3, i4);
+        this.g = w3;
     }
 
-    @Override // j$.util.stream.a4, java.lang.Iterable, j$.lang.e
-    /* renamed from: B */
-    public t.a spliterator() {
-        return new U3(this, 0, this.c, 0, this.b);
+    @Override // j$.util.stream.Z3.a
+    void a(Object obj, int i, Object obj2) {
+        ((j$.util.function.l) obj2).accept(((int[]) obj)[i]);
     }
 
-    @Override // j$.util.function.f
-    public void accept(double d) {
-        A();
-        int i = this.b;
-        this.b = i + 1;
-        ((double[]) this.e)[i] = d;
+    @Override // j$.util.s
+    public /* synthetic */ boolean b(Consumer consumer) {
+        return j$.util.a.k(this, consumer);
     }
 
-    @Override // j$.util.stream.a4
-    public Object c(int i) {
-        return new double[i];
+    @Override // j$.util.stream.Z3.a
+    j$.util.t f(Object obj, int i, int i2) {
+        return j$.util.I.k((int[]) obj, i, i2 + i, 1040);
     }
 
-    @Override // j$.lang.e
-    public void forEach(Consumer consumer) {
-        if (consumer instanceof j$.util.function.f) {
-            g((j$.util.function.f) consumer);
-        } else if (R4.a) {
-            R4.a(getClass(), "{0} calling SpinedBuffer.OfDouble.forEach(Consumer)");
-            throw null;
-        } else {
-            spliterator().forEachRemaining(consumer);
-        }
+    @Override // j$.util.s
+    public /* synthetic */ void forEachRemaining(Consumer consumer) {
+        j$.util.a.c(this, consumer);
     }
 
-    @Override // java.lang.Iterable
-    public Iterator iterator() {
-        return j$.util.J.f(spliterator());
-    }
-
-    @Override // j$.util.function.f
-    public j$.util.function.f j(j$.util.function.f fVar) {
-        Objects.requireNonNull(fVar);
-        return new j$.util.function.e(this, fVar);
-    }
-
-    @Override // j$.util.stream.a4
-    protected void t(Object obj, int i, int i2, Object obj2) {
-        double[] dArr = (double[]) obj;
-        j$.util.function.f fVar = (j$.util.function.f) obj2;
-        while (i < i2) {
-            fVar.accept(dArr[i]);
-            i++;
-        }
-    }
-
-    public String toString() {
-        double[] dArr = (double[]) e();
-        return dArr.length < 200 ? String.format("%s[length=%d, chunks=%d]%s", getClass().getSimpleName(), Integer.valueOf(dArr.length), Integer.valueOf(this.c), Arrays.toString(dArr)) : String.format("%s[length=%d, chunks=%d]%s...", getClass().getSimpleName(), Integer.valueOf(dArr.length), Integer.valueOf(this.c), Arrays.toString(Arrays.copyOf(dArr, 200)));
-    }
-
-    @Override // j$.util.stream.a4
-    protected int u(Object obj) {
-        return ((double[]) obj).length;
-    }
-
-    @Override // j$.util.stream.a4
-    protected Object[] z(int i) {
-        return new double[i];
+    @Override // j$.util.stream.Z3.a
+    j$.util.t h(int i, int i2, int i3, int i4) {
+        return new V3(this.g, i, i2, i3, i4);
     }
 }

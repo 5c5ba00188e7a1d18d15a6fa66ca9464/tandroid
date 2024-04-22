@@ -3,32 +3,30 @@ package j$.util.stream;
 import j$.util.function.BiConsumer;
 import j$.util.function.Supplier;
 import j$.util.p;
-import j$.util.t;
+import j$.util.s;
 /* loaded from: classes2.dex */
 public interface IntStream extends g {
-    V A(j$.wrappers.W w);
+    boolean B(j$.wrappers.U u);
 
-    boolean C(j$.wrappers.U u);
+    boolean E(j$.wrappers.U u);
 
-    boolean F(j$.wrappers.U u);
+    void H(j$.util.function.l lVar);
 
-    void I(j$.util.function.l lVar);
+    Stream I(j$.util.function.m mVar);
 
-    Stream J(j$.util.function.m mVar);
+    int M(int i, j$.util.function.j jVar);
 
-    int N(int i, j$.util.function.j jVar);
+    IntStream O(j$.util.function.m mVar);
 
-    IntStream P(j$.util.function.m mVar);
+    void R(j$.util.function.l lVar);
 
-    void T(j$.util.function.l lVar);
+    j$.util.k X(j$.util.function.j jVar);
 
-    j$.util.k Z(j$.util.function.j jVar);
-
-    IntStream a0(j$.util.function.l lVar);
+    IntStream Y(j$.util.function.l lVar);
 
     V asDoubleStream();
 
-    f1 asLongStream();
+    LongStream asLongStream();
 
     j$.util.j average();
 
@@ -38,15 +36,15 @@ public interface IntStream extends g {
 
     IntStream distinct();
 
-    f1 f(j$.util.function.n nVar);
+    LongStream f(j$.util.function.n nVar);
+
+    Object f0(Supplier supplier, j$.util.function.u uVar, BiConsumer biConsumer);
 
     j$.util.k findAny();
 
     j$.util.k findFirst();
 
     IntStream h(j$.wrappers.U u);
-
-    Object i0(Supplier supplier, j$.util.function.v vVar, BiConsumer biConsumer);
 
     @Override // j$.util.stream.g
     p.a iterator();
@@ -57,10 +55,10 @@ public interface IntStream extends g {
 
     j$.util.k min();
 
+    IntStream p(j$.wrappers.a0 a0Var);
+
     @Override // j$.util.stream.g
     IntStream parallel();
-
-    IntStream q(j$.wrappers.a0 a0Var);
 
     @Override // j$.util.stream.g
     IntStream sequential();
@@ -70,7 +68,7 @@ public interface IntStream extends g {
     IntStream sorted();
 
     @Override // j$.util.stream.g
-    t.b spliterator();
+    s.b spliterator();
 
     int sum();
 
@@ -78,5 +76,7 @@ public interface IntStream extends g {
 
     int[] toArray();
 
-    boolean v(j$.wrappers.U u);
+    boolean u(j$.wrappers.U u);
+
+    V z(j$.wrappers.W w);
 }

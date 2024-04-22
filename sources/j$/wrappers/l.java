@@ -1,19 +1,19 @@
 package j$.wrappers;
 
-import j$.util.t;
+import j$.util.s;
 import java.util.Comparator;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.function.IntConsumer;
 /* loaded from: classes2.dex */
 public final /* synthetic */ class l implements Spliterator.OfInt {
-    final /* synthetic */ t.b a;
+    final /* synthetic */ s.b a;
 
-    private /* synthetic */ l(t.b bVar) {
+    private /* synthetic */ l(s.b bVar) {
         this.a = bVar;
     }
 
-    public static /* synthetic */ Spliterator.OfInt a(t.b bVar) {
+    public static /* synthetic */ Spliterator.OfInt a(s.b bVar) {
         if (bVar == null) {
             return null;
         }

@@ -1,104 +1,84 @@
 package j$.util.stream;
 
-import j$.util.function.Consumer;
-import java.util.Comparator;
-import java.util.Objects;
+import j$.util.s;
 /* loaded from: classes2.dex */
-final class D4 extends E4 implements j$.util.t {
+abstract class D4 {
+    final long a;
+    final long b;
+    j$.util.s c;
+    long d;
+    long e;
+
     /* JADX INFO: Access modifiers changed from: package-private */
-    public D4(j$.util.t tVar, long j, long j2) {
-        super(tVar, j, j2, 0L, Math.min(tVar.estimateSize(), j2));
+    public D4(j$.util.s sVar, long j, long j2, long j3, long j4) {
+        this.c = sVar;
+        this.a = j;
+        this.b = j2;
+        this.d = j3;
+        this.e = j4;
     }
 
-    private D4(j$.util.t tVar, long j, long j2, long j3, long j4) {
-        super(tVar, j, j2, j3, j4);
+    protected abstract j$.util.s a(j$.util.s sVar, long j, long j2, long j3, long j4);
+
+    public int characteristics() {
+        return this.c.characteristics();
     }
 
-    @Override // j$.util.stream.E4
-    protected j$.util.t a(j$.util.t tVar, long j, long j2, long j3, long j4) {
-        return new D4(tVar, j, j2, j3, j4);
-    }
-
-    @Override // j$.util.t
-    public boolean b(Consumer consumer) {
-        long j;
-        Objects.requireNonNull(consumer);
-        if (this.a >= this.e) {
-            return false;
-        }
-        while (true) {
-            long j2 = this.a;
-            j = this.d;
-            if (j2 <= j) {
-                break;
-            }
-            this.c.b(new Consumer() { // from class: j$.util.stream.C4
-                @Override // j$.util.function.Consumer
-                public final void accept(Object obj) {
-                }
-
-                @Override // j$.util.function.Consumer
-                public /* synthetic */ Consumer andThen(Consumer consumer2) {
-                    return Consumer.-CC.$default$andThen(this, consumer2);
-                }
-            });
-            this.d++;
-        }
-        if (j >= this.e) {
-            return false;
-        }
-        this.d = j + 1;
-        return this.c.b(consumer);
-    }
-
-    @Override // j$.util.t
-    public void forEachRemaining(Consumer consumer) {
-        Objects.requireNonNull(consumer);
+    public long estimateSize() {
         long j = this.a;
         long j2 = this.e;
-        if (j >= j2) {
-            return;
+        if (j < j2) {
+            return j2 - Math.max(j, this.d);
         }
-        long j3 = this.d;
-        if (j3 >= j2) {
-            return;
+        return 0L;
+    }
+
+    public /* bridge */ /* synthetic */ s.a trySplit() {
+        return (s.a) trySplit();
+    }
+
+    public /* bridge */ /* synthetic */ s.b trySplit() {
+        return (s.b) trySplit();
+    }
+
+    public /* bridge */ /* synthetic */ s.c trySplit() {
+        return (s.c) trySplit();
+    }
+
+    public j$.util.s trySplit() {
+        long j = this.a;
+        long j2 = this.e;
+        if (j >= j2 || this.d >= j2) {
+            return null;
         }
-        if (j3 >= j && this.c.estimateSize() + j3 <= this.b) {
-            this.c.forEachRemaining(consumer);
-            this.d = this.e;
-            return;
-        }
-        while (this.a > this.d) {
-            this.c.b(new Consumer() { // from class: j$.util.stream.B4
-                @Override // j$.util.function.Consumer
-                public final void accept(Object obj) {
+        while (true) {
+            j$.util.s trySplit = this.c.trySplit();
+            if (trySplit == null) {
+                return null;
+            }
+            long estimateSize = trySplit.estimateSize() + this.d;
+            long min = Math.min(estimateSize, this.b);
+            long j3 = this.a;
+            if (j3 >= min) {
+                this.d = min;
+            } else {
+                long j4 = this.b;
+                if (min < j4) {
+                    long j5 = this.d;
+                    if (j5 < j3 || estimateSize > j4) {
+                        this.d = min;
+                        return a(trySplit, j3, j4, j5, min);
+                    }
+                    this.d = min;
+                    return trySplit;
                 }
-
-                @Override // j$.util.function.Consumer
-                public /* synthetic */ Consumer andThen(Consumer consumer2) {
-                    return Consumer.-CC.$default$andThen(this, consumer2);
-                }
-            });
-            this.d++;
-        }
-        while (this.d < this.e) {
-            this.c.b(consumer);
-            this.d++;
+                this.c = trySplit;
+                this.e = min;
+            }
         }
     }
 
-    @Override // j$.util.t
-    public Comparator getComparator() {
-        throw new IllegalStateException();
-    }
-
-    @Override // j$.util.t
-    public /* synthetic */ long getExactSizeIfKnown() {
-        return j$.util.a.e(this);
-    }
-
-    @Override // j$.util.t
-    public /* synthetic */ boolean hasCharacteristics(int i) {
-        return j$.util.a.f(this, i);
+    public /* bridge */ /* synthetic */ j$.util.t trySplit() {
+        return (j$.util.t) trySplit();
     }
 }

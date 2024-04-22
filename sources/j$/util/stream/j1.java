@@ -1,44 +1,51 @@
 package j$.util.stream;
 
-import java.util.Objects;
+import j$.util.function.Consumer;
 /* loaded from: classes2.dex */
-class j1 extends k1 implements k3 {
-    final /* synthetic */ l1 c;
-    final /* synthetic */ j$.wrappers.D d;
+abstract class j1 implements m3 {
+    boolean a;
+    boolean b;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public j1(l1 l1Var, j$.wrappers.D d) {
-        super(l1Var);
-        this.c = l1Var;
-        this.d = d;
+    public j1(k1 k1Var) {
+        boolean z;
+        z = k1Var.b;
+        this.b = !z;
     }
 
-    @Override // j$.util.stream.k1, j$.util.stream.n3
-    public void accept(double d) {
-        boolean z;
-        boolean z2;
-        if (this.a) {
-            return;
-        }
-        boolean b = this.d.b(d);
-        z = this.c.a;
-        if (b == z) {
-            this.a = true;
-            z2 = this.c.b;
-            this.b = z2;
-        }
+    @Override // j$.util.stream.m3
+    public /* synthetic */ void accept(double d) {
+        o1.f(this);
+        throw null;
+    }
+
+    @Override // j$.util.stream.m3
+    public /* synthetic */ void accept(int i) {
+        o1.d(this);
+        throw null;
+    }
+
+    @Override // j$.util.stream.m3, j$.util.stream.l3, j$.util.function.q
+    public /* synthetic */ void accept(long j) {
+        o1.e(this);
+        throw null;
     }
 
     @Override // j$.util.function.Consumer
-    /* renamed from: b */
-    public /* synthetic */ void accept(Double d) {
-        p1.a(this, d);
+    public /* synthetic */ Consumer andThen(Consumer consumer) {
+        return Consumer.-CC.$default$andThen(this, consumer);
     }
 
-    @Override // j$.util.function.f
-    public j$.util.function.f j(j$.util.function.f fVar) {
-        Objects.requireNonNull(fVar);
-        return new j$.util.function.e(this, fVar);
+    @Override // j$.util.stream.m3
+    public /* synthetic */ void m() {
+    }
+
+    @Override // j$.util.stream.m3
+    public /* synthetic */ void n(long j) {
+    }
+
+    @Override // j$.util.stream.m3
+    public boolean o() {
+        return this.a;
     }
 }

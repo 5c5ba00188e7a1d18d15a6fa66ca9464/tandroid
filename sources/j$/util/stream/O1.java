@@ -1,48 +1,44 @@
 package j$.util.stream;
 
-import java.util.concurrent.CountedCompleter;
+import j$.util.function.Consumer;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-class O1 extends f {
-    protected final z2 h;
-    protected final j$.util.function.r i;
-    protected final j$.util.function.b j;
-
-    O1(O1 o1, j$.util.t tVar) {
-        super(o1, tVar);
-        this.h = o1.h;
-        this.i = o1.i;
-        this.j = o1.j;
-    }
-
+public final class O1 extends R1 implements u1 {
     /* JADX INFO: Access modifiers changed from: package-private */
-    public O1(z2 z2Var, j$.util.t tVar, j$.util.function.r rVar, j$.util.function.b bVar) {
-        super(z2Var, tVar);
-        this.h = z2Var;
-        this.i = rVar;
-        this.j = bVar;
+    public O1(u1 u1Var, u1 u1Var2) {
+        super(u1Var, u1Var2);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // j$.util.stream.f
-    public Object a() {
-        t1 t1Var = (t1) this.i.apply(this.h.o0(this.b));
-        this.h.s0(t1Var, this.b);
-        return t1Var.a();
+    @Override // j$.util.stream.A1
+    /* renamed from: a */
+    public /* synthetic */ void i(Double[] dArr, int i) {
+        o1.h(this, dArr, i);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // j$.util.stream.f
-    public f f(j$.util.t tVar) {
-        return new O1(this, tVar);
+    @Override // j$.util.stream.z1
+    /* renamed from: f */
+    public double[] c(int i) {
+        return new double[i];
     }
 
-    @Override // j$.util.stream.f, java.util.concurrent.CountedCompleter
-    public void onCompletion(CountedCompleter countedCompleter) {
-        if (!d()) {
-            g((B1) this.j.apply((B1) ((O1) this.d).b(), (B1) ((O1) this.e).b()));
-        }
-        this.b = null;
-        this.e = null;
-        this.d = null;
+    @Override // j$.util.stream.A1
+    public /* synthetic */ void forEach(Consumer consumer) {
+        o1.k(this, consumer);
+    }
+
+    @Override // j$.util.stream.A1
+    /* renamed from: h */
+    public /* synthetic */ u1 r(long j, long j2, j$.util.function.m mVar) {
+        return o1.n(this, j, j2, mVar);
+    }
+
+    @Override // j$.util.stream.A1
+    public j$.util.t spliterator() {
+        return new f2(this);
+    }
+
+    @Override // j$.util.stream.A1
+    public j$.util.s spliterator() {
+        return new f2(this);
     }
 }

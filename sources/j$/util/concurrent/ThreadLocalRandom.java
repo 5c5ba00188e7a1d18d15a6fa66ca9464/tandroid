@@ -4,8 +4,8 @@ import j$.util.function.Consumer;
 import j$.util.function.f;
 import j$.util.function.l;
 import j$.util.function.q;
-import j$.util.stream.p1;
-import j$.util.t;
+import j$.util.s;
+import j$.util.stream.o1;
 import j$.wrappers.$r8$wrapper$java$util$stream$IntStream$-WRP;
 import j$.wrappers.L0;
 import j$.wrappers.N0;
@@ -43,7 +43,7 @@ public class ThreadLocalRandom extends Random {
     }
 
     /* loaded from: classes2.dex */
-    static final class b implements t.a {
+    static final class b implements s.a {
         long a;
         final long b;
         final double c;
@@ -56,7 +56,7 @@ public class ThreadLocalRandom extends Random {
             this.d = d2;
         }
 
-        @Override // j$.util.u, j$.util.t
+        @Override // j$.util.t, j$.util.s
         /* renamed from: a */
         public b trySplit() {
             long j = this.a;
@@ -68,17 +68,17 @@ public class ThreadLocalRandom extends Random {
             return new b(j, j2, this.c, this.d);
         }
 
-        @Override // j$.util.t.a, j$.util.t
+        @Override // j$.util.s.a, j$.util.s
         public /* synthetic */ boolean b(Consumer consumer) {
             return j$.util.a.j(this, consumer);
         }
 
-        @Override // j$.util.t
+        @Override // j$.util.s
         public int characteristics() {
             return 17728;
         }
 
-        @Override // j$.util.u
+        @Override // j$.util.t
         /* renamed from: e */
         public void forEachRemaining(f fVar) {
             Objects.requireNonNull(fVar);
@@ -96,32 +96,32 @@ public class ThreadLocalRandom extends Random {
             }
         }
 
-        @Override // j$.util.t
+        @Override // j$.util.s
         public long estimateSize() {
             return this.b - this.a;
         }
 
-        @Override // j$.util.t.a, j$.util.t
+        @Override // j$.util.s.a, j$.util.s
         public /* synthetic */ void forEachRemaining(Consumer consumer) {
             j$.util.a.b(this, consumer);
         }
 
-        @Override // j$.util.t
+        @Override // j$.util.s
         public Comparator getComparator() {
             throw new IllegalStateException();
         }
 
-        @Override // j$.util.t
+        @Override // j$.util.s
         public /* synthetic */ long getExactSizeIfKnown() {
             return j$.util.a.e(this);
         }
 
-        @Override // j$.util.t
+        @Override // j$.util.s
         public /* synthetic */ boolean hasCharacteristics(int i) {
             return j$.util.a.f(this, i);
         }
 
-        @Override // j$.util.u
+        @Override // j$.util.t
         /* renamed from: k */
         public boolean tryAdvance(f fVar) {
             Objects.requireNonNull(fVar);
@@ -136,7 +136,7 @@ public class ThreadLocalRandom extends Random {
     }
 
     /* loaded from: classes2.dex */
-    static final class c implements t.b {
+    static final class c implements s.b {
         long a;
         final long b;
         final int c;
@@ -149,7 +149,7 @@ public class ThreadLocalRandom extends Random {
             this.d = i2;
         }
 
-        @Override // j$.util.u, j$.util.t
+        @Override // j$.util.t, j$.util.s
         /* renamed from: a */
         public c trySplit() {
             long j = this.a;
@@ -161,12 +161,12 @@ public class ThreadLocalRandom extends Random {
             return new c(j, j2, this.c, this.d);
         }
 
-        @Override // j$.util.t.b, j$.util.t
+        @Override // j$.util.s.b, j$.util.s
         public /* synthetic */ boolean b(Consumer consumer) {
             return j$.util.a.k(this, consumer);
         }
 
-        @Override // j$.util.u
+        @Override // j$.util.t
         /* renamed from: c */
         public void forEachRemaining(l lVar) {
             Objects.requireNonNull(lVar);
@@ -184,22 +184,22 @@ public class ThreadLocalRandom extends Random {
             }
         }
 
-        @Override // j$.util.t
+        @Override // j$.util.s
         public int characteristics() {
             return 17728;
         }
 
-        @Override // j$.util.t
+        @Override // j$.util.s
         public long estimateSize() {
             return this.b - this.a;
         }
 
-        @Override // j$.util.t.b, j$.util.t
+        @Override // j$.util.s.b, j$.util.s
         public /* synthetic */ void forEachRemaining(Consumer consumer) {
             j$.util.a.c(this, consumer);
         }
 
-        @Override // j$.util.u
+        @Override // j$.util.t
         /* renamed from: g */
         public boolean tryAdvance(l lVar) {
             Objects.requireNonNull(lVar);
@@ -212,24 +212,24 @@ public class ThreadLocalRandom extends Random {
             return false;
         }
 
-        @Override // j$.util.t
+        @Override // j$.util.s
         public Comparator getComparator() {
             throw new IllegalStateException();
         }
 
-        @Override // j$.util.t
+        @Override // j$.util.s
         public /* synthetic */ long getExactSizeIfKnown() {
             return j$.util.a.e(this);
         }
 
-        @Override // j$.util.t
+        @Override // j$.util.s
         public /* synthetic */ boolean hasCharacteristics(int i) {
             return j$.util.a.f(this, i);
         }
     }
 
     /* loaded from: classes2.dex */
-    static final class d implements t.c {
+    static final class d implements s.c {
         long a;
         final long b;
         final long c;
@@ -242,7 +242,7 @@ public class ThreadLocalRandom extends Random {
             this.d = j4;
         }
 
-        @Override // j$.util.u, j$.util.t
+        @Override // j$.util.t, j$.util.s
         /* renamed from: a */
         public d trySplit() {
             long j = this.a;
@@ -254,17 +254,17 @@ public class ThreadLocalRandom extends Random {
             return new d(j, j2, this.c, this.d);
         }
 
-        @Override // j$.util.t.c, j$.util.t
+        @Override // j$.util.s.c, j$.util.s
         public /* synthetic */ boolean b(Consumer consumer) {
             return j$.util.a.l(this, consumer);
         }
 
-        @Override // j$.util.t
+        @Override // j$.util.s
         public int characteristics() {
             return 17728;
         }
 
-        @Override // j$.util.u
+        @Override // j$.util.t
         /* renamed from: d */
         public void forEachRemaining(q qVar) {
             Objects.requireNonNull(qVar);
@@ -282,32 +282,32 @@ public class ThreadLocalRandom extends Random {
             }
         }
 
-        @Override // j$.util.t
+        @Override // j$.util.s
         public long estimateSize() {
             return this.b - this.a;
         }
 
-        @Override // j$.util.t.c, j$.util.t
+        @Override // j$.util.s.c, j$.util.s
         public /* synthetic */ void forEachRemaining(Consumer consumer) {
             j$.util.a.d(this, consumer);
         }
 
-        @Override // j$.util.t
+        @Override // j$.util.s
         public Comparator getComparator() {
             throw new IllegalStateException();
         }
 
-        @Override // j$.util.t
+        @Override // j$.util.s
         public /* synthetic */ long getExactSizeIfKnown() {
             return j$.util.a.e(this);
         }
 
-        @Override // j$.util.t
+        @Override // j$.util.s
         public /* synthetic */ boolean hasCharacteristics(int i) {
             return j$.util.a.f(this, i);
         }
 
-        @Override // j$.util.u
+        @Override // j$.util.t
         /* renamed from: i */
         public boolean tryAdvance(q qVar) {
             Objects.requireNonNull(qVar);
@@ -431,7 +431,7 @@ public class ThreadLocalRandom extends Random {
 
     @Override // java.util.Random
     public DoubleStream doubles() {
-        return L0.l0(p1.r(new b(0L, Long.MAX_VALUE, Double.MAX_VALUE, 0.0d), false));
+        return L0.i0(o1.r(new b(0L, Long.MAX_VALUE, Double.MAX_VALUE, 0.0d), false));
     }
 
     final long e(long j, long j2) {
@@ -472,12 +472,12 @@ public class ThreadLocalRandom extends Random {
 
     @Override // java.util.Random
     public IntStream ints() {
-        return $r8$wrapper$java$util$stream$IntStream$-WRP.convert(p1.s(new c(0L, Long.MAX_VALUE, ConnectionsManager.DEFAULT_DATACENTER_ID, 0), false));
+        return $r8$wrapper$java$util$stream$IntStream$-WRP.convert(o1.s(new c(0L, Long.MAX_VALUE, ConnectionsManager.DEFAULT_DATACENTER_ID, 0), false));
     }
 
     @Override // java.util.Random
     public LongStream longs() {
-        return N0.l0(p1.t(new d(0L, Long.MAX_VALUE, Long.MAX_VALUE, 0L), false));
+        return N0.i0(o1.t(new d(0L, Long.MAX_VALUE, Long.MAX_VALUE, 0L), false));
     }
 
     @Override // java.util.Random
@@ -563,7 +563,7 @@ public class ThreadLocalRandom extends Random {
     @Override // java.util.Random
     public DoubleStream doubles(double d2, double d3) {
         if (d2 < d3) {
-            return L0.l0(p1.r(new b(0L, Long.MAX_VALUE, d2, d3), false));
+            return L0.i0(o1.r(new b(0L, Long.MAX_VALUE, d2, d3), false));
         }
         throw new IllegalArgumentException("bound must be greater than origin");
     }
@@ -571,7 +571,7 @@ public class ThreadLocalRandom extends Random {
     @Override // java.util.Random
     public IntStream ints(int i, int i2) {
         if (i < i2) {
-            return $r8$wrapper$java$util$stream$IntStream$-WRP.convert(p1.s(new c(0L, Long.MAX_VALUE, i, i2), false));
+            return $r8$wrapper$java$util$stream$IntStream$-WRP.convert(o1.s(new c(0L, Long.MAX_VALUE, i, i2), false));
         }
         throw new IllegalArgumentException("bound must be greater than origin");
     }
@@ -579,7 +579,7 @@ public class ThreadLocalRandom extends Random {
     @Override // java.util.Random
     public LongStream longs(long j) {
         if (j >= 0) {
-            return N0.l0(p1.t(new d(0L, j, Long.MAX_VALUE, 0L), false));
+            return N0.i0(o1.t(new d(0L, j, Long.MAX_VALUE, 0L), false));
         }
         throw new IllegalArgumentException("size must be non-negative");
     }
@@ -587,7 +587,7 @@ public class ThreadLocalRandom extends Random {
     @Override // java.util.Random
     public DoubleStream doubles(long j) {
         if (j >= 0) {
-            return L0.l0(p1.r(new b(0L, j, Double.MAX_VALUE, 0.0d), false));
+            return L0.i0(o1.r(new b(0L, j, Double.MAX_VALUE, 0.0d), false));
         }
         throw new IllegalArgumentException("size must be non-negative");
     }
@@ -595,7 +595,7 @@ public class ThreadLocalRandom extends Random {
     @Override // java.util.Random
     public IntStream ints(long j) {
         if (j >= 0) {
-            return $r8$wrapper$java$util$stream$IntStream$-WRP.convert(p1.s(new c(0L, j, ConnectionsManager.DEFAULT_DATACENTER_ID, 0), false));
+            return $r8$wrapper$java$util$stream$IntStream$-WRP.convert(o1.s(new c(0L, j, ConnectionsManager.DEFAULT_DATACENTER_ID, 0), false));
         }
         throw new IllegalArgumentException("size must be non-negative");
     }
@@ -603,7 +603,7 @@ public class ThreadLocalRandom extends Random {
     @Override // java.util.Random
     public LongStream longs(long j, long j2) {
         if (j < j2) {
-            return N0.l0(p1.t(new d(0L, Long.MAX_VALUE, j, j2), false));
+            return N0.i0(o1.t(new d(0L, Long.MAX_VALUE, j, j2), false));
         }
         throw new IllegalArgumentException("bound must be greater than origin");
     }
@@ -612,7 +612,7 @@ public class ThreadLocalRandom extends Random {
     public DoubleStream doubles(long j, double d2, double d3) {
         if (j >= 0) {
             if (d2 < d3) {
-                return L0.l0(p1.r(new b(0L, j, d2, d3), false));
+                return L0.i0(o1.r(new b(0L, j, d2, d3), false));
             }
             throw new IllegalArgumentException("bound must be greater than origin");
         }
@@ -623,7 +623,7 @@ public class ThreadLocalRandom extends Random {
     public IntStream ints(long j, int i, int i2) {
         if (j >= 0) {
             if (i < i2) {
-                return $r8$wrapper$java$util$stream$IntStream$-WRP.convert(p1.s(new c(0L, j, i, i2), false));
+                return $r8$wrapper$java$util$stream$IntStream$-WRP.convert(o1.s(new c(0L, j, i, i2), false));
             }
             throw new IllegalArgumentException("bound must be greater than origin");
         }
@@ -634,7 +634,7 @@ public class ThreadLocalRandom extends Random {
     public LongStream longs(long j, long j2, long j3) {
         if (j >= 0) {
             if (j2 < j3) {
-                return N0.l0(p1.t(new d(0L, j, j2, j3), false));
+                return N0.i0(o1.t(new d(0L, j, j2, j3), false));
             }
             throw new IllegalArgumentException("bound must be greater than origin");
         }

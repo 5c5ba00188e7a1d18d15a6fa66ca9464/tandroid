@@ -84,6 +84,7 @@ import org.telegram.tgnet.TLRPC$MessageExtendedMedia;
 import org.telegram.tgnet.TLRPC$MessageMedia;
 import org.telegram.tgnet.TLRPC$Photo;
 import org.telegram.tgnet.TLRPC$PhotoSize;
+import org.telegram.tgnet.TLRPC$StickerSet;
 import org.telegram.tgnet.TLRPC$TL_document;
 import org.telegram.tgnet.TLRPC$TL_documentAttributeVideo;
 import org.telegram.tgnet.TLRPC$TL_documentEncrypted;
@@ -5422,17 +5423,17 @@ public class ImageLoader {
     /* JADX WARN: Removed duplicated region for block: B:127:0x01e4  */
     /* JADX WARN: Removed duplicated region for block: B:128:0x01e7  */
     /* JADX WARN: Removed duplicated region for block: B:132:0x01fe  */
-    /* JADX WARN: Removed duplicated region for block: B:217:0x03b6  */
-    /* JADX WARN: Removed duplicated region for block: B:235:0x0425  */
-    /* JADX WARN: Removed duplicated region for block: B:238:0x042c A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:241:0x0442 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:245:0x045d A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:250:0x047d A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:255:0x049b A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:259:0x04b5  */
-    /* JADX WARN: Removed duplicated region for block: B:267:0x04f5  */
-    /* JADX WARN: Removed duplicated region for block: B:269:0x04fc  */
-    /* JADX WARN: Removed duplicated region for block: B:284:0x0566  */
+    /* JADX WARN: Removed duplicated region for block: B:220:0x03cd  */
+    /* JADX WARN: Removed duplicated region for block: B:238:0x043c  */
+    /* JADX WARN: Removed duplicated region for block: B:241:0x0443 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:244:0x0459 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:248:0x0474 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:253:0x0494 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:258:0x04b2 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:262:0x04cc  */
+    /* JADX WARN: Removed duplicated region for block: B:270:0x050c  */
+    /* JADX WARN: Removed duplicated region for block: B:272:0x0513  */
+    /* JADX WARN: Removed duplicated region for block: B:287:0x057d  */
     /* JADX WARN: Removed duplicated region for block: B:43:0x00a7 A[ADDED_TO_REGION] */
     /* JADX WARN: Removed duplicated region for block: B:50:0x00bf  */
     /* JADX WARN: Removed duplicated region for block: B:61:0x00f1  */
@@ -5771,6 +5772,8 @@ public class ImageLoader {
                                                             }
                                                             key2 = key2 + str26;
                                                             z72 = (MessageObject.isVideoDocument(imageLocation6.document) || MessageObject.isGifDocument(imageLocation6.document) || MessageObject.isRoundVideoDocument(imageLocation6.document) || MessageObject.canPreviewDocument(imageLocation6.document)) ? false : true;
+                                                        } else if (parentObject instanceof TLRPC$StickerSet) {
+                                                            key2 = key2 + "." + str14;
                                                         }
                                                     }
                                                 }

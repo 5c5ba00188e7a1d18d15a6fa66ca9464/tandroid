@@ -10,7 +10,7 @@ public final /* synthetic */ class C0 implements j$.util.function.l {
     public final void accept(int i) {
         switch (this.a) {
             case 0:
-                ((n3) this.b).accept(i);
+                ((m3) this.b).accept(i);
                 return;
             default:
                 ((G0) this.b).a.accept(i);

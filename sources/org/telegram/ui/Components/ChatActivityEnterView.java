@@ -234,6 +234,7 @@ import org.telegram.ui.Components.SeekBar;
 import org.telegram.ui.Components.SenderSelectPopup;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.Components.StickersAlert;
+import org.telegram.ui.Components.SuggestEmojiView;
 import org.telegram.ui.Components.TextStyleSpan;
 import org.telegram.ui.Components.VideoTimelineView;
 import org.telegram.ui.ContentPreviewViewer;
@@ -255,7 +256,7 @@ import org.telegram.ui.bots.BotWebViewMenuContainer;
 import org.telegram.ui.bots.BotWebViewSheet;
 import org.telegram.ui.bots.ChatActivityBotWebViewButton;
 /* loaded from: classes3.dex */
-public class ChatActivityEnterView extends BlurredFrameLayout implements NotificationCenter.NotificationCenterDelegate, SizeNotifierFrameLayout.SizeNotifierFrameLayoutDelegate, StickersAlert.StickersAlertDelegate {
+public class ChatActivityEnterView extends BlurredFrameLayout implements NotificationCenter.NotificationCenterDelegate, SizeNotifierFrameLayout.SizeNotifierFrameLayoutDelegate, StickersAlert.StickersAlertDelegate, SuggestEmojiView.AnchorViewDelegate {
     private final Property<? super View, Float> ATTACH_LAYOUT_ALPHA;
     private final Property<? super View, Float> ATTACH_LAYOUT_TRANSLATION_X;
     private final Property<? super View, Float> EMOJI_BUTTON_ALPHA;
@@ -2773,7 +2774,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.messagePlayingDidReset);
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.messagePlayingProgressDidChanged);
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.featuredStickersDidLoad);
-        NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.messageReceivedByServer);
+        NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.messageReceivedByServer2);
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.sendingMessagesChanged);
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.audioRecordTooShort);
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.updateBotMenuButton);
@@ -4659,6 +4660,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         return this.botWebViewButton;
     }
 
+    @Override // org.telegram.ui.Components.SuggestEmojiView.AnchorViewDelegate
     public ChatActivity getParentFragment() {
         return this.parentFragment;
     }
@@ -5928,6 +5930,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         }
     }
 
+    @Override // org.telegram.ui.Components.SuggestEmojiView.AnchorViewDelegate
     public void addTextChangedListener(TextWatcher textWatcher) {
         EditTextCaption editTextCaption = this.messageEditText;
         if (editTextCaption != null) {
@@ -6488,7 +6491,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.messagePlayingDidReset);
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.messagePlayingProgressDidChanged);
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.featuredStickersDidLoad);
-        NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.messageReceivedByServer);
+        NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.messageReceivedByServer2);
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.sendingMessagesChanged);
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.audioRecordTooShort);
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.updateBotMenuButton);
@@ -6700,7 +6703,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             int i13 = NotificationCenter.featuredStickersDidLoad;
             notificationCenter12.removeObserver(this, i13);
             NotificationCenter notificationCenter13 = NotificationCenter.getInstance(this.currentAccount);
-            int i14 = NotificationCenter.messageReceivedByServer;
+            int i14 = NotificationCenter.messageReceivedByServer2;
             notificationCenter13.removeObserver(this, i14);
             NotificationCenter notificationCenter14 = NotificationCenter.getInstance(this.currentAccount);
             int i15 = NotificationCenter.sendingMessagesChanged;
@@ -10212,6 +10215,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         }
     }
 
+    @Override // org.telegram.ui.Components.SuggestEmojiView.AnchorViewDelegate
     public void setFieldText(CharSequence charSequence) {
         setFieldText(charSequence, true, false);
     }
@@ -10380,10 +10384,12 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         return editTextCaption != null && editTextCaption.length() > 0;
     }
 
+    @Override // org.telegram.ui.Components.SuggestEmojiView.AnchorViewDelegate
     public EditTextCaption getEditField() {
         return this.messageEditText;
     }
 
+    @Override // org.telegram.ui.Components.SuggestEmojiView.AnchorViewDelegate
     public Editable getEditText() {
         EditTextCaption editTextCaption = this.messageEditText;
         if (editTextCaption == null) {
@@ -10405,6 +10411,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         }
     }
 
+    @Override // org.telegram.ui.Components.SuggestEmojiView.AnchorViewDelegate
     public CharSequence getFieldText() {
         if (this.messageEditText == null || !hasText()) {
             return null;
@@ -12956,7 +12963,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                 if (chatActivityEnterViewAnimatedIconView2 != null) {
                     chatActivityEnterViewAnimatedIconView2.invalidate();
                 }
-            } else if (i == NotificationCenter.messageReceivedByServer) {
+            } else if (i == NotificationCenter.messageReceivedByServer2) {
                 if (((Boolean) objArr[6]).booleanValue() || ((Long) objArr[3]).longValue() != this.dialog_id || (tLRPC$ChatFull = this.info) == null || tLRPC$ChatFull.slowmode_seconds == 0 || (chat = this.accountInstance.getMessagesController().getChat(Long.valueOf(this.info.id))) == null || ChatObject.hasAdminRights(chat) || ChatObject.isIgnoredChatRestrictionsForBoosters(chat)) {
                     return;
                 }

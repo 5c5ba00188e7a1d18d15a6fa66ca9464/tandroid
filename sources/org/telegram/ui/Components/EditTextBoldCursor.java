@@ -8,8 +8,12 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
@@ -74,6 +78,11 @@ public class EditTextBoldCursor extends EditTextEffects {
     public Utilities.Callback2<Canvas, Runnable> drawHint;
     boolean drawInMaim;
     private Object editor;
+    public boolean ellipsizeByGradient;
+    private LinearGradient ellipsizeGradient;
+    private Matrix ellipsizeMatrix;
+    private Paint ellipsizePaint;
+    private int ellipsizeWidth;
     private int errorLineColor;
     private TextPaint errorPaint;
     private CharSequence errorText;
@@ -862,8 +871,8 @@ public class EditTextBoldCursor extends EditTextEffects {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x0117 A[Catch: all -> 0x0140, TryCatch #0 {all -> 0x0140, blocks: (B:31:0x006c, B:33:0x0070, B:35:0x0074, B:37:0x0086, B:42:0x0094, B:45:0x009a, B:47:0x00a1, B:49:0x00a9, B:54:0x00cf, B:56:0x0117, B:58:0x011a, B:59:0x011f, B:50:0x00bc, B:52:0x00c4, B:41:0x0090), top: B:145:0x006c }] */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x01ce A[Catch: all -> 0x01f8, TryCatch #1 {all -> 0x01f8, blocks: (B:69:0x0151, B:71:0x0158, B:73:0x0160, B:78:0x0186, B:80:0x01ce, B:82:0x01d1, B:83:0x01d6, B:74:0x0173, B:76:0x017b), top: B:147:0x0151 }] */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x0148 A[Catch: all -> 0x0171, TryCatch #0 {all -> 0x0171, blocks: (B:34:0x009d, B:36:0x00a1, B:38:0x00a5, B:40:0x00b7, B:45:0x00c5, B:48:0x00cb, B:50:0x00d2, B:52:0x00da, B:57:0x0100, B:59:0x0148, B:61:0x014b, B:62:0x0150, B:53:0x00ed, B:55:0x00f5, B:44:0x00c1), top: B:150:0x009d }] */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x01ff A[Catch: all -> 0x0229, TryCatch #3 {all -> 0x0229, blocks: (B:72:0x0182, B:74:0x0189, B:76:0x0191, B:81:0x01b7, B:83:0x01ff, B:85:0x0202, B:86:0x0207, B:77:0x01a4, B:79:0x01ac), top: B:157:0x0182 }] */
     @Override // org.telegram.ui.Components.EditTextEffects, android.widget.TextView, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -883,6 +892,9 @@ public class EditTextBoldCursor extends EditTextEffects {
         int i3;
         boolean z3;
         drawHint(canvas);
+        if (this.ellipsizeByGradient) {
+            canvas.saveLayerAlpha((getScrollX() + getPaddingLeft()) - this.ellipsizeWidth, 0.0f, ((getScrollX() + getWidth()) - getPaddingRight()) + this.ellipsizeWidth, getHeight(), 255, 31);
+        }
         int extendedPaddingTop = getExtendedPaddingTop();
         this.scrollY = ConnectionsManager.DEFAULT_DATACENTER_ID;
         try {
@@ -1170,50 +1182,67 @@ public class EditTextBoldCursor extends EditTextEffects {
                 }
             }
         }
-        if (!this.lineVisible || this.lineColor == 0) {
-            return;
-        }
-        int dp = AndroidUtilities.dp(1.0f);
-        boolean z4 = this.lineActive;
-        if (!TextUtils.isEmpty(this.errorText)) {
-            this.linePaint.setColor(this.errorLineColor);
-            dp = AndroidUtilities.dp(2.0f);
-            this.lineActive = false;
-        } else if (isFocused()) {
-            this.lineActive = true;
-        } else {
-            this.linePaint.setColor(this.lineColor);
-            this.lineActive = false;
-        }
-        if (this.lineActive != z4) {
-            this.lineLastUpdateTime = SystemClock.elapsedRealtime();
-            this.lastLineActiveness = this.lineActiveness;
-        }
-        float elapsedRealtime = ((float) (SystemClock.elapsedRealtime() - this.lineLastUpdateTime)) / 150.0f;
-        if (elapsedRealtime < 1.0f || (((z2 = this.lineActive) && this.lineActiveness != 1.0f) || (!z2 && this.lineActiveness != 0.0f))) {
-            this.lineActiveness = AndroidUtilities.lerp(this.lastLineActiveness, this.lineActive ? 1.0f : 0.0f, Math.max(0.0f, Math.min(1.0f, elapsedRealtime)));
-            if (elapsedRealtime < 1.0f) {
-                invalidate();
+        if (this.lineVisible && this.lineColor != 0) {
+            int dp = AndroidUtilities.dp(1.0f);
+            boolean z4 = this.lineActive;
+            if (!TextUtils.isEmpty(this.errorText)) {
+                this.linePaint.setColor(this.errorLineColor);
+                dp = AndroidUtilities.dp(2.0f);
+                this.lineActive = false;
+            } else if (isFocused()) {
+                this.lineActive = true;
+            } else {
+                this.linePaint.setColor(this.lineColor);
+                this.lineActive = false;
+            }
+            if (this.lineActive != z4) {
+                this.lineLastUpdateTime = SystemClock.elapsedRealtime();
+                this.lastLineActiveness = this.lineActiveness;
+            }
+            float elapsedRealtime = ((float) (SystemClock.elapsedRealtime() - this.lineLastUpdateTime)) / 150.0f;
+            if (elapsedRealtime < 1.0f || (((z2 = this.lineActive) && this.lineActiveness != 1.0f) || (!z2 && this.lineActiveness != 0.0f))) {
+                this.lineActiveness = AndroidUtilities.lerp(this.lastLineActiveness, this.lineActive ? 1.0f : 0.0f, Math.max(0.0f, Math.min(1.0f, elapsedRealtime)));
+                if (elapsedRealtime < 1.0f) {
+                    invalidate();
+                }
+            }
+            int scrollY = ((int) this.lineY) + getScrollY() + Math.min(Math.max(0, ((((getLayout() == null ? 0 : getLayout().getHeight()) - getMeasuredHeight()) + getPaddingBottom()) + getPaddingTop()) - getScrollY()), AndroidUtilities.dp(2.0f));
+            int i6 = this.lastTouchX;
+            if (i6 < 0) {
+                i6 = getMeasuredWidth() / 2;
+            }
+            int max = Math.max(i6, getMeasuredWidth() - i6) * 2;
+            if (this.lineActiveness < 1.0f) {
+                canvas.drawRect(getScrollX(), scrollY - dp, getScrollX() + getMeasuredWidth(), scrollY, this.linePaint);
+            }
+            float f3 = this.lineActiveness;
+            if (f3 > 0.0f) {
+                float interpolation = CubicBezierInterpolator.EASE_BOTH.getInterpolation(f3);
+                boolean z5 = this.lineActive;
+                if (z5) {
+                    this.activeLineWidth = max * interpolation;
+                }
+                if (z5) {
+                    interpolation = 1.0f;
+                }
+                float f4 = i6;
+                canvas.drawRect(getScrollX() + Math.max(0.0f, f4 - (this.activeLineWidth / 2.0f)), scrollY - ((int) (interpolation * AndroidUtilities.dp(2.0f))), getScrollX() + Math.min(f4 + (this.activeLineWidth / 2.0f), getMeasuredWidth()), scrollY, this.activeLinePaint);
             }
         }
-        int scrollY = ((int) this.lineY) + getScrollY() + Math.min(Math.max(0, ((((getLayout() == null ? 0 : getLayout().getHeight()) - getMeasuredHeight()) + getPaddingBottom()) + getPaddingTop()) - getScrollY()), AndroidUtilities.dp(2.0f));
-        int i6 = this.lastTouchX;
-        if (i6 < 0) {
-            i6 = getMeasuredWidth() / 2;
-        }
-        int max = Math.max(i6, getMeasuredWidth() - i6) * 2;
-        if (this.lineActiveness < 1.0f) {
-            canvas.drawRect(getScrollX(), scrollY - dp, getScrollX() + getMeasuredWidth(), scrollY, this.linePaint);
-        }
-        float f3 = this.lineActiveness;
-        if (f3 > 0.0f) {
-            float interpolation = CubicBezierInterpolator.EASE_BOTH.getInterpolation(f3);
-            boolean z5 = this.lineActive;
-            if (z5) {
-                this.activeLineWidth = max * interpolation;
-            }
-            float f4 = i6;
-            canvas.drawRect(getScrollX() + Math.max(0.0f, f4 - (this.activeLineWidth / 2.0f)), scrollY - ((int) ((z5 ? 1.0f : interpolation) * AndroidUtilities.dp(2.0f))), getScrollX() + Math.min(f4 + (this.activeLineWidth / 2.0f), getMeasuredWidth()), scrollY, this.activeLinePaint);
+        if (this.ellipsizeByGradient) {
+            canvas.save();
+            canvas.translate(getScrollX(), 0.0f);
+            this.ellipsizePaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
+            this.ellipsizeMatrix.reset();
+            this.ellipsizeGradient.setLocalMatrix(this.ellipsizeMatrix);
+            canvas.drawRect(getPaddingLeft() - this.ellipsizeWidth, 0.0f, getPaddingLeft(), getHeight(), this.ellipsizePaint);
+            this.ellipsizeMatrix.reset();
+            this.ellipsizeMatrix.postScale(-1.0f, 1.0f, this.ellipsizeWidth / 2.0f, 0.0f);
+            this.ellipsizeMatrix.postTranslate(getWidth() - getPaddingRight(), 0.0f);
+            this.ellipsizeGradient.setLocalMatrix(this.ellipsizeMatrix);
+            canvas.drawRect(getWidth() - getPaddingRight(), 0.0f, (getWidth() - getPaddingRight()) + this.ellipsizeWidth, getHeight(), this.ellipsizePaint);
+            canvas.restore();
+            canvas.restore();
         }
     }
 
@@ -1436,5 +1465,23 @@ public class EditTextBoldCursor extends EditTextEffects {
 
     public Runnable getOnPremiumMenuLockClickListener() {
         return this.onPremiumMenuLockClickListener;
+    }
+
+    public void setEllipsizeByGradient(boolean z) {
+        this.ellipsizeByGradient = z;
+        if (z) {
+            this.ellipsizeWidth = AndroidUtilities.dp(12.0f);
+            this.ellipsizePaint = new Paint(1);
+            LinearGradient linearGradient = new LinearGradient(0.0f, 0.0f, this.ellipsizeWidth, 0.0f, new int[]{-1, 16777215}, new float[]{0.4f, 1.0f}, Shader.TileMode.CLAMP);
+            this.ellipsizeGradient = linearGradient;
+            this.ellipsizePaint.setShader(linearGradient);
+            this.ellipsizeMatrix = new Matrix();
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // android.view.View
+    public void dispatchDraw(Canvas canvas) {
+        super.dispatchDraw(canvas);
     }
 }

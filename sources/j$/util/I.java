@@ -1,105 +1,85 @@
 package j$.util;
 
-import j$.util.function.Consumer;
-import j$.util.t;
-import java.util.Comparator;
+import j$.util.p;
+import j$.util.s;
 import java.util.Objects;
-import org.telegram.messenger.LiteMode;
 /* loaded from: classes2.dex */
-final class I implements t.c {
-    private final long[] a;
-    private int b;
-    private final int c;
-    private final int d;
+public abstract class I {
+    private static final s a = new D();
+    private static final s.b b = new B();
+    private static final s.c c = new C();
+    private static final s.a d = new A();
 
-    public I(long[] jArr, int i, int i2, int i3) {
-        this.a = jArr;
-        this.b = i;
-        this.c = i2;
-        this.d = i3 | 64 | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM;
-    }
-
-    @Override // j$.util.t.c, j$.util.t
-    public /* synthetic */ boolean b(Consumer consumer) {
-        return a.l(this, consumer);
-    }
-
-    @Override // j$.util.t
-    public int characteristics() {
-        return this.d;
-    }
-
-    @Override // j$.util.u
-    /* renamed from: d */
-    public void forEachRemaining(j$.util.function.q qVar) {
-        int i;
-        Objects.requireNonNull(qVar);
-        long[] jArr = this.a;
-        int length = jArr.length;
-        int i2 = this.c;
-        if (length < i2 || (i = this.b) < 0) {
+    private static void a(int i, int i2, int i3) {
+        if (i2 <= i3) {
+            if (i2 < 0) {
+                throw new ArrayIndexOutOfBoundsException(i2);
+            }
+            if (i3 > i) {
+                throw new ArrayIndexOutOfBoundsException(i3);
+            }
             return;
         }
-        this.b = i2;
-        if (i < i2) {
-            do {
-                qVar.accept(jArr[i]);
-                i++;
-            } while (i < i2);
-        }
+        throw new ArrayIndexOutOfBoundsException("origin(" + i2 + ") > fence(" + i3 + ")");
     }
 
-    @Override // j$.util.t
-    public long estimateSize() {
-        return this.c - this.b;
+    public static s.a b() {
+        return d;
     }
 
-    @Override // j$.util.t.c, j$.util.t
-    public /* synthetic */ void forEachRemaining(Consumer consumer) {
-        a.d(this, consumer);
+    public static s.b c() {
+        return b;
     }
 
-    @Override // j$.util.t
-    public Comparator getComparator() {
-        if (a.f(this, 4)) {
-            return null;
-        }
-        throw new IllegalStateException();
+    public static s.c d() {
+        return c;
     }
 
-    @Override // j$.util.t
-    public /* synthetic */ long getExactSizeIfKnown() {
-        return a.e(this);
+    public static s e() {
+        return a;
     }
 
-    @Override // j$.util.t
-    public /* synthetic */ boolean hasCharacteristics(int i) {
-        return a.f(this, i);
+    public static n f(s.a aVar) {
+        Objects.requireNonNull(aVar);
+        return new x(aVar);
     }
 
-    @Override // j$.util.u
-    /* renamed from: i */
-    public boolean tryAdvance(j$.util.function.q qVar) {
-        Objects.requireNonNull(qVar);
-        int i = this.b;
-        if (i < 0 || i >= this.c) {
-            return false;
-        }
-        long[] jArr = this.a;
-        this.b = i + 1;
-        qVar.accept(jArr[i]);
-        return true;
+    public static p.a g(s.b bVar) {
+        Objects.requireNonNull(bVar);
+        return new v(bVar);
     }
 
-    @Override // j$.util.u, j$.util.t
-    public t.c trySplit() {
-        int i = this.b;
-        int i2 = (this.c + i) >>> 1;
-        if (i >= i2) {
-            return null;
-        }
-        long[] jArr = this.a;
-        this.b = i2;
-        return new I(jArr, i, i2, this.d);
+    public static p.b h(s.c cVar) {
+        Objects.requireNonNull(cVar);
+        return new w(cVar);
+    }
+
+    public static java.util.Iterator i(s sVar) {
+        Objects.requireNonNull(sVar);
+        return new u(sVar);
+    }
+
+    public static s.a j(double[] dArr, int i, int i2, int i3) {
+        Objects.requireNonNull(dArr);
+        a(dArr.length, i, i2);
+        return new z(dArr, i, i2, i3);
+    }
+
+    public static s.b k(int[] iArr, int i, int i2, int i3) {
+        Objects.requireNonNull(iArr);
+        a(iArr.length, i, i2);
+        return new F(iArr, i, i2, i3);
+    }
+
+    public static s.c l(long[] jArr, int i, int i2, int i3) {
+        Objects.requireNonNull(jArr);
+        a(jArr.length, i, i2);
+        return new H(jArr, i, i2, i3);
+    }
+
+    public static s m(Object[] objArr, int i, int i2, int i3) {
+        Objects.requireNonNull(objArr);
+        a(objArr.length, i, i2);
+        return new y(objArr, i, i2, i3);
     }
 }

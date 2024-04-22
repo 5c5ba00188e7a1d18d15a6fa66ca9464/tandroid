@@ -3,7 +3,7 @@ package j$.util.stream;
 import java.util.Objects;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class n0 extends p0 implements m3 {
+public final class n0 extends p0 implements l3 {
     final j$.util.function.q b;
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -12,7 +12,7 @@ public final class n0 extends p0 implements m3 {
         this.b = qVar;
     }
 
-    @Override // j$.util.stream.p0, j$.util.stream.n3, j$.util.stream.m3, j$.util.function.q
+    @Override // j$.util.stream.p0, j$.util.stream.m3, j$.util.stream.l3, j$.util.function.q
     public void accept(long j) {
         this.b.accept(j);
     }
@@ -20,7 +20,7 @@ public final class n0 extends p0 implements m3 {
     @Override // j$.util.function.Consumer
     /* renamed from: e */
     public /* synthetic */ void accept(Long l) {
-        p1.c(this, l);
+        o1.c(this, l);
     }
 
     @Override // j$.util.function.q

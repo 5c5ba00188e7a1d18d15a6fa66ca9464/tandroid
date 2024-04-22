@@ -1,46 +1,86 @@
 package j$.util.stream;
 
-import j$.util.function.Consumer;
-import j$.util.t;
+import java.util.Comparator;
 import java.util.Objects;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-final class z4 extends A4 implements t.c {
+public abstract class z4 extends D4 implements j$.util.t {
     /* JADX INFO: Access modifiers changed from: package-private */
-    public z4(t.c cVar, long j, long j2) {
-        super(cVar, j, j2);
+    public z4(j$.util.t tVar, long j, long j2) {
+        super(tVar, j, j2, 0L, Math.min(tVar.estimateSize(), j2));
     }
 
-    z4(t.c cVar, long j, long j2, long j3, long j4) {
-        super(cVar, j, j2, j3, j4, null);
+    protected abstract Object f();
+
+    @Override // j$.util.t
+    /* renamed from: forEachRemaining */
+    public void e(Object obj) {
+        Objects.requireNonNull(obj);
+        long j = this.a;
+        long j2 = this.e;
+        if (j >= j2) {
+            return;
+        }
+        long j3 = this.d;
+        if (j3 >= j2) {
+            return;
+        }
+        if (j3 >= j && ((j$.util.t) this.c).estimateSize() + j3 <= this.b) {
+            ((j$.util.t) this.c).forEachRemaining(obj);
+            this.d = this.e;
+            return;
+        }
+        while (this.a > this.d) {
+            ((j$.util.t) this.c).tryAdvance(f());
+            this.d++;
+        }
+        while (this.d < this.e) {
+            ((j$.util.t) this.c).tryAdvance(obj);
+            this.d++;
+        }
     }
 
-    @Override // j$.util.stream.E4
-    protected j$.util.t a(j$.util.t tVar, long j, long j2, long j3, long j4) {
-        return new z4((t.c) tVar, j, j2, j3, j4);
+    @Override // j$.util.s
+    public Comparator getComparator() {
+        throw new IllegalStateException();
+    }
+
+    @Override // j$.util.s
+    public /* synthetic */ long getExactSizeIfKnown() {
+        return j$.util.a.e(this);
+    }
+
+    @Override // j$.util.s
+    public /* synthetic */ boolean hasCharacteristics(int i) {
+        return j$.util.a.f(this, i);
     }
 
     @Override // j$.util.t
-    public /* synthetic */ boolean b(Consumer consumer) {
-        return j$.util.a.l(this, consumer);
+    /* renamed from: tryAdvance */
+    public boolean k(Object obj) {
+        long j;
+        Objects.requireNonNull(obj);
+        if (this.a >= this.e) {
+            return false;
+        }
+        while (true) {
+            long j2 = this.a;
+            j = this.d;
+            if (j2 <= j) {
+                break;
+            }
+            ((j$.util.t) this.c).tryAdvance(f());
+            this.d++;
+        }
+        if (j >= this.e) {
+            return false;
+        }
+        this.d = j + 1;
+        return ((j$.util.t) this.c).tryAdvance(obj);
     }
 
-    @Override // j$.util.stream.A4
-    protected /* bridge */ /* synthetic */ Object f() {
-        return new j$.util.function.q() { // from class: j$.util.stream.y4
-            @Override // j$.util.function.q
-            public final void accept(long j) {
-            }
-
-            @Override // j$.util.function.q
-            public j$.util.function.q f(j$.util.function.q qVar) {
-                Objects.requireNonNull(qVar);
-                return new j$.util.function.p(this, qVar);
-            }
-        };
-    }
-
-    @Override // j$.util.t
-    public /* synthetic */ void forEachRemaining(Consumer consumer) {
-        j$.util.a.d(this, consumer);
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public z4(j$.util.t tVar, long j, long j2, long j3, long j4, o1 o1Var) {
+        super(tVar, j, j2, j3, j4);
     }
 }

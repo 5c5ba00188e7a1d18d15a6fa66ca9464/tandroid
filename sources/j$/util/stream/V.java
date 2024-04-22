@@ -2,20 +2,20 @@ package j$.util.stream;
 
 import j$.util.function.BiConsumer;
 import j$.util.function.Supplier;
-import j$.util.t;
+import j$.util.s;
 /* loaded from: classes2.dex */
 public interface V extends g {
-    j$.util.j G(j$.util.function.d dVar);
+    j$.util.j F(j$.util.function.d dVar);
 
-    Object H(Supplier supplier, j$.util.function.u uVar, BiConsumer biConsumer);
+    Object G(Supplier supplier, j$.util.function.t tVar, BiConsumer biConsumer);
 
-    double K(double d, j$.util.function.d dVar);
+    double J(double d, j$.util.function.d dVar);
 
-    Stream M(j$.util.function.g gVar);
+    Stream L(j$.util.function.g gVar);
 
-    IntStream R(j$.wrappers.F f);
+    IntStream P(j$.wrappers.F f);
 
-    boolean X(j$.wrappers.D d);
+    boolean V(j$.wrappers.D d);
 
     j$.util.j average();
 
@@ -23,24 +23,24 @@ public interface V extends g {
 
     Stream boxed();
 
+    boolean c0(j$.wrappers.D d);
+
     long count();
 
-    V distinct();
+    boolean d0(j$.wrappers.D d);
 
-    boolean f0(j$.wrappers.D d);
+    V distinct();
 
     j$.util.j findAny();
 
     j$.util.j findFirst();
 
-    boolean g0(j$.wrappers.D d);
+    void g0(j$.util.function.f fVar);
 
     @Override // j$.util.stream.g
     j$.util.n iterator();
 
     void j(j$.util.function.f fVar);
-
-    void j0(j$.util.function.f fVar);
 
     V limit(long j);
 
@@ -51,7 +51,7 @@ public interface V extends g {
     @Override // j$.util.stream.g
     V parallel();
 
-    V r(j$.wrappers.D d);
+    V q(j$.wrappers.D d);
 
     @Override // j$.util.stream.g
     V sequential();
@@ -61,7 +61,7 @@ public interface V extends g {
     V sorted();
 
     @Override // j$.util.stream.g
-    t.a spliterator();
+    s.a spliterator();
 
     double sum();
 
@@ -69,9 +69,9 @@ public interface V extends g {
 
     double[] toArray();
 
-    V w(j$.util.function.g gVar);
+    V v(j$.util.function.g gVar);
 
-    f1 x(j$.util.function.h hVar);
+    LongStream w(j$.util.function.h hVar);
 
-    V y(j$.wrappers.J j);
+    V x(j$.wrappers.J j);
 }

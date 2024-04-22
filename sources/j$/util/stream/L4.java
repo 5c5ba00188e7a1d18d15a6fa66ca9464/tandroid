@@ -1,79 +1,73 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
+import j$.util.function.Supplier;
+import java.util.Objects;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class L4 implements n3 {
-    public final /* synthetic */ int a = 0;
-    public final /* synthetic */ Object b;
+final class L4 extends f4 {
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public L4(y2 y2Var, Supplier supplier, boolean z) {
+        super(y2Var, supplier, z);
+    }
 
-    @Override // j$.util.stream.n3
-    public /* synthetic */ void accept(double d) {
-        switch (this.a) {
-            case 0:
-                p1.f(this);
-                throw null;
-            default:
-                p1.f(this);
-                throw null;
+    L4(y2 y2Var, j$.util.s sVar, boolean z) {
+        super(y2Var, sVar, z);
+    }
+
+    @Override // j$.util.s
+    public boolean b(Consumer consumer) {
+        Object obj;
+        Objects.requireNonNull(consumer);
+        boolean a = a();
+        if (a) {
+            a4 a4Var = (a4) this.h;
+            long j = this.g;
+            if (a4Var.c != 0) {
+                if (j < a4Var.count()) {
+                    for (int i = 0; i <= a4Var.c; i++) {
+                        long[] jArr = a4Var.d;
+                        long j2 = jArr[i];
+                        Object[][] objArr = a4Var.f;
+                        if (j < j2 + objArr[i].length) {
+                            obj = objArr[i][(int) (j - jArr[i])];
+                        }
+                    }
+                    throw new IndexOutOfBoundsException(Long.toString(j));
+                }
+                throw new IndexOutOfBoundsException(Long.toString(j));
+            } else if (j >= a4Var.b) {
+                throw new IndexOutOfBoundsException(Long.toString(j));
+            } else {
+                obj = a4Var.e[(int) j];
+            }
+            consumer.accept(obj);
         }
+        return a;
     }
 
-    @Override // j$.util.function.Consumer
-    public /* synthetic */ Consumer andThen(Consumer consumer) {
-        switch (this.a) {
-            case 0:
-                return Consumer.-CC.$default$andThen(this, consumer);
-            default:
-                return Consumer.-CC.$default$andThen(this, consumer);
+    @Override // j$.util.s
+    public void forEachRemaining(Consumer consumer) {
+        if (this.h != null || this.i) {
+            do {
+            } while (b(consumer));
+            return;
         }
+        Objects.requireNonNull(consumer);
+        h();
+        this.b.p0(new K4(consumer), this.d);
+        this.i = true;
     }
 
-    @Override // j$.util.stream.n3
-    public /* synthetic */ void m() {
+    @Override // j$.util.stream.f4
+    void j() {
+        a4 a4Var = new a4();
+        this.h = a4Var;
+        this.e = this.b.q0(new K4(a4Var));
+        this.f = new b(this);
     }
 
-    @Override // j$.util.stream.n3
-    public /* synthetic */ void n(long j) {
-    }
-
-    @Override // j$.util.stream.n3
-    public /* synthetic */ boolean o() {
-        return false;
-    }
-
-    @Override // j$.util.stream.n3
-    public /* synthetic */ void accept(int i) {
-        switch (this.a) {
-            case 0:
-                p1.d(this);
-                throw null;
-            default:
-                p1.d(this);
-                throw null;
-        }
-    }
-
-    @Override // j$.util.stream.n3, j$.util.stream.m3, j$.util.function.q
-    public /* synthetic */ void accept(long j) {
-        switch (this.a) {
-            case 0:
-                p1.e(this);
-                throw null;
-            default:
-                p1.e(this);
-                throw null;
-        }
-    }
-
-    @Override // j$.util.function.Consumer
-    public final void accept(Object obj) {
-        switch (this.a) {
-            case 0:
-                ((Consumer) this.b).accept(obj);
-                return;
-            default:
-                ((b4) this.b).accept(obj);
-                return;
-        }
+    @Override // j$.util.stream.f4
+    f4 l(j$.util.s sVar) {
+        return new L4(this.b, sVar, this.a);
     }
 }

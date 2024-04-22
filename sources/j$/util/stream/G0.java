@@ -1,16 +1,16 @@
 package j$.util.stream;
 /* loaded from: classes2.dex */
-class G0 extends h3 {
+class G0 extends g3 {
     public final /* synthetic */ int b = 0;
     final /* synthetic */ Object c;
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public G0(L l, n3 n3Var) {
-        super(n3Var);
+    public G0(L l, m3 m3Var) {
+        super(m3Var);
         this.c = l;
     }
 
-    @Override // j$.util.stream.l3, j$.util.stream.n3
+    @Override // j$.util.stream.k3, j$.util.stream.m3
     public void accept(int i) {
         switch (this.b) {
             case 0:
@@ -27,7 +27,7 @@ class G0 extends h3 {
                 this.a.accept(((j$.wrappers.a0) ((N) this.c).m).a(i));
                 return;
             case 4:
-                this.a.accept((n3) ((j$.util.function.m) ((M) this.c).m).apply(i));
+                this.a.accept((m3) ((j$.util.function.m) ((M) this.c).m).apply(i));
                 return;
             case 5:
                 this.a.accept(((j$.util.function.n) ((O) this.c).m).applyAsLong(i));
@@ -39,7 +39,7 @@ class G0 extends h3 {
                 IntStream intStream = (IntStream) ((j$.util.function.m) ((N) this.c).m).apply(i);
                 if (intStream != null) {
                     try {
-                        intStream.sequential().T(new C0(this));
+                        intStream.sequential().R(new C0(this));
                     } catch (Throwable th) {
                         try {
                             intStream.close();
@@ -63,7 +63,7 @@ class G0 extends h3 {
         }
     }
 
-    @Override // j$.util.stream.n3
+    @Override // j$.util.stream.m3
     public void n(long j) {
         switch (this.b) {
             case 7:
@@ -79,50 +79,50 @@ class G0 extends h3 {
     }
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public G0(M m, n3 n3Var) {
-        super(n3Var);
+    public G0(M m, m3 m3Var) {
+        super(m3Var);
         this.c = m;
     }
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public G0(N n, n3 n3Var) {
-        super(n3Var);
+    public G0(N n, m3 m3Var) {
+        super(m3Var);
         this.c = n;
     }
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public G0(N n, n3 n3Var, j$.lang.a aVar) {
-        super(n3Var);
+    public G0(N n, m3 m3Var, j$.lang.a aVar) {
+        super(m3Var);
         this.c = n;
     }
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public G0(N n, n3 n3Var, j$.lang.b bVar) {
-        super(n3Var);
+    public G0(N n, m3 m3Var, j$.lang.b bVar) {
+        super(m3Var);
         this.c = n;
     }
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public G0(N n, n3 n3Var, j$.lang.c cVar) {
-        super(n3Var);
+    public G0(N n, m3 m3Var, j$.lang.c cVar) {
+        super(m3Var);
         this.c = n;
     }
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public G0(O o, n3 n3Var) {
-        super(n3Var);
+    public G0(O o, m3 m3Var) {
+        super(m3Var);
         this.c = o;
     }
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public G0(P p, n3 n3Var) {
-        super(n3Var);
+    public G0(P p, m3 m3Var) {
+        super(m3Var);
         this.c = p;
     }
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public G0(H0 h0, n3 n3Var) {
-        super(n3Var);
+    public G0(H0 h0, m3 m3Var) {
+        super(m3Var);
         this.c = h0;
     }
 }

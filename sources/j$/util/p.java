@@ -16,5 +16,17 @@ public interface p extends java.util.Iterator {
         int nextInt();
     }
 
+    /* loaded from: classes2.dex */
+    public interface b extends p {
+        void d(j$.util.function.q qVar);
+
+        void forEachRemaining(Consumer consumer);
+
+        @Override // java.util.Iterator
+        Long next();
+
+        long nextLong();
+    }
+
     void forEachRemaining(Object obj);
 }

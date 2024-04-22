@@ -2694,7 +2694,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
         if (this.stealthModeIsActive) {
             StealthModeAlert.showStealthModeEnabledBulletin();
         } else {
-            this.delegate.showDialog(new StealthModeAlert(getContext(), getY() + this.storyContainer.getY(), this.resourcesProvider));
+            this.delegate.showDialog(new StealthModeAlert(getContext(), getY() + this.storyContainer.getY(), 0, this.resourcesProvider));
         }
         CustomPopupMenu customPopupMenu = this.popupMenu;
         if (customPopupMenu != null) {
@@ -2704,7 +2704,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createStealthModeItem$12(View view) {
-        this.delegate.showDialog(new StealthModeAlert(getContext(), getY() + this.storyContainer.getY(), this.resourcesProvider));
+        this.delegate.showDialog(new StealthModeAlert(getContext(), getY() + this.storyContainer.getY(), 0, this.resourcesProvider));
         CustomPopupMenu customPopupMenu = this.popupMenu;
         if (customPopupMenu != null) {
             customPopupMenu.dismiss();
@@ -5133,7 +5133,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
     /* JADX WARN: Removed duplicated region for block: B:402:0x097b  */
     /* JADX WARN: Removed duplicated region for block: B:403:0x097d  */
     /* JADX WARN: Type inference failed for: r2v4 */
-    /* JADX WARN: Type inference failed for: r2v5, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r2v5, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r2v88 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -5438,7 +5438,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                         spannableString.setSpan(new ColoredImageSpan(R.drawable.mini_repost_story), 0, spannableString.length(), 33);
                         spannableStringBuilder3.append((CharSequence) spannableString).append((CharSequence) " ");
                         if (reply.peerId != null) {
-                            AvatarSpan avatarSpan = new AvatarSpan(this.headerView.subtitleView[0], this.currentAccount, 15);
+                            AvatarSpan avatarSpan = new AvatarSpan(this.headerView.subtitleView[0], this.currentAccount, 15.0f);
                             SpannableString spannableString2 = new SpannableString("a");
                             spannableString2.setSpan(avatarSpan, 0, 1, 33);
                             spannableStringBuilder3.append((CharSequence) spannableString2).append((CharSequence) " ");
@@ -5474,7 +5474,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                         spannableStringBuilder2 = spannableStringBuilder3;
                     } else if (this.isGroup && (tL_stories$StoryItem6 = this.currentStory.storyItem) != null && tL_stories$StoryItem6.from_id != null) {
                         SpannableStringBuilder spannableStringBuilder4 = new SpannableStringBuilder();
-                        AvatarSpan avatarSpan2 = new AvatarSpan(this.headerView.subtitleView[0], this.currentAccount, 15);
+                        AvatarSpan avatarSpan2 = new AvatarSpan(this.headerView.subtitleView[0], this.currentAccount, 15.0f);
                         SpannableString spannableString4 = new SpannableString("a");
                         spannableString4.setSpan(avatarSpan2, 0, 1, 33);
                         spannableStringBuilder4.append((CharSequence) spannableString4).append((CharSequence) " ");

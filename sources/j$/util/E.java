@@ -1,33 +1,26 @@
 package j$.util;
 
-import j$.util.function.Consumer;
-import java.util.Comparator;
 import java.util.Objects;
 /* loaded from: classes2.dex */
-final class E extends F implements t {
-    @Override // j$.util.t
-    public boolean b(Consumer consumer) {
-        Objects.requireNonNull(consumer);
+abstract class E {
+    public int characteristics() {
+        return 16448;
+    }
+
+    public long estimateSize() {
+        return 0L;
+    }
+
+    public void forEachRemaining(Object obj) {
+        Objects.requireNonNull(obj);
+    }
+
+    public boolean tryAdvance(Object obj) {
+        Objects.requireNonNull(obj);
         return false;
     }
 
-    @Override // j$.util.t
-    public void forEachRemaining(Consumer consumer) {
-        Objects.requireNonNull(consumer);
-    }
-
-    @Override // j$.util.t
-    public Comparator getComparator() {
-        throw new IllegalStateException();
-    }
-
-    @Override // j$.util.t
-    public /* synthetic */ long getExactSizeIfKnown() {
-        return a.e(this);
-    }
-
-    @Override // j$.util.t
-    public /* synthetic */ boolean hasCharacteristics(int i) {
-        return a.f(this, i);
+    public s trySplit() {
+        return null;
     }
 }

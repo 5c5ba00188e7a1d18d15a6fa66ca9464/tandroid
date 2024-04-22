@@ -1,30 +1,9 @@
 package j$.util.stream;
 /* loaded from: classes2.dex */
-class N4 implements Runnable {
-    final /* synthetic */ Runnable a;
-    final /* synthetic */ Runnable b;
+interface N4 {
+    int b();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public N4(Runnable runnable, Runnable runnable2) {
-        this.a = runnable;
-        this.b = runnable2;
-    }
+    Object c(y2 y2Var, j$.util.s sVar);
 
-    @Override // java.lang.Runnable
-    public void run() {
-        try {
-            this.a.run();
-            this.b.run();
-        } catch (Throwable th) {
-            try {
-                this.b.run();
-            } catch (Throwable th2) {
-                try {
-                    th.addSuppressed(th2);
-                } catch (Throwable unused) {
-                }
-            }
-            throw th;
-        }
-    }
+    Object d(y2 y2Var, j$.util.s sVar);
 }

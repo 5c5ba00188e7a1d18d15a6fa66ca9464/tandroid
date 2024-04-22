@@ -369,8 +369,8 @@ public class Switch extends View {
     /* JADX WARN: Code restructure failed: missing block: B:74:0x0203, code lost:
         if (r1 == 0) goto L95;
      */
-    /* JADX WARN: Removed duplicated region for block: B:94:0x03e4  */
-    /* JADX WARN: Removed duplicated region for block: B:95:0x03ed  */
+    /* JADX WARN: Removed duplicated region for block: B:94:0x03e0  */
+    /* JADX WARN: Removed duplicated region for block: B:95:0x03e9  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -466,15 +466,15 @@ public class Switch extends View {
                         f = this.progress;
                     }
                 }
-                int processColor3 = processColor(Theme.getColor(this.thumbColorKey, this.resourcesProvider));
-                int processColor4 = processColor(Theme.getColor(this.thumbCheckedColorKey, this.resourcesProvider));
-                int red3 = Color.red(processColor3);
-                int red4 = Color.red(processColor4);
-                int green3 = Color.green(processColor3);
-                int green4 = Color.green(processColor4);
-                int blue3 = Color.blue(processColor3);
-                int blue4 = Color.blue(processColor4);
-                this.paint.setColor(((((int) (Color.alpha(processColor3) + ((Color.alpha(processColor4) - alpha) * f))) & 255) << 24) | ((((int) (red3 + ((red4 - red3) * f))) & 255) << 16) | ((((int) (green3 + ((green4 - green3) * f))) & 255) << 8) | (((int) (blue3 + ((blue4 - blue3) * f))) & 255));
+                int color = Theme.getColor(this.thumbColorKey, this.resourcesProvider);
+                int processColor3 = processColor(Theme.getColor(this.thumbCheckedColorKey, this.resourcesProvider));
+                int red3 = Color.red(color);
+                int red4 = Color.red(processColor3);
+                int green3 = Color.green(color);
+                int green4 = Color.green(processColor3);
+                int blue3 = Color.blue(color);
+                int blue4 = Color.blue(processColor3);
+                this.paint.setColor(((((int) (Color.alpha(color) + ((Color.alpha(processColor3) - alpha) * f))) & 255) << 24) | ((((int) (red3 + ((red4 - red3) * f))) & 255) << 16) | ((((int) (green3 + ((green4 - green3) * f))) & 255) << 8) | (((int) (blue3 + ((blue4 - blue3) * f))) & 255));
                 float f3 = dp2;
                 float f4 = measuredHeight2;
                 canvas5.drawCircle(f3, f4, AndroidUtilities.dp(8.0f), this.paint);

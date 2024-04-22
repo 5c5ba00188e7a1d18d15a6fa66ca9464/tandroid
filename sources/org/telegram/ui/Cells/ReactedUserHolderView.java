@@ -183,11 +183,11 @@ public class ReactedUserHolderView extends FrameLayout {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x01bb  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x01dd  */
-    /* JADX WARN: Removed duplicated region for block: B:95:0x02e7  */
-    /* JADX WARN: Removed duplicated region for block: B:98:0x02fe  */
-    /* JADX WARN: Removed duplicated region for block: B:99:0x0301  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x01bc  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x01de  */
+    /* JADX WARN: Removed duplicated region for block: B:95:0x02e8  */
+    /* JADX WARN: Removed duplicated region for block: B:98:0x02ff  */
+    /* JADX WARN: Removed duplicated region for block: B:99:0x0302  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -214,7 +214,7 @@ public class ReactedUserHolderView extends FrameLayout {
             this.dialogId = tLRPC$User.id;
             this.titleView.setText(UserObject.getUserName(tLRPC$User));
         } else {
-            this.dialogId = tLRPC$Chat.id;
+            this.dialogId = -tLRPC$Chat.id;
             this.titleView.setText(tLRPC$Chat.title);
         }
         Drawable drawable2 = this.avatarDrawable;

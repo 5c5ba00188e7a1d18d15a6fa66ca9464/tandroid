@@ -225,7 +225,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
         @Override // java.util.Collection
         public /* synthetic */ Stream parallelStream() {
-            return O0.l0(j$.util.a.g(this));
+            return O0.i0(j$.util.a.g(this));
         }
 
         @Override // java.util.Collection, java.util.Set
@@ -242,7 +242,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
         }
 
         @Override // java.util.Collection, java.lang.Iterable, java.util.Set, j$.util.b, j$.lang.e
-        public j$.util.t spliterator() {
+        public j$.util.s spliterator() {
             ConcurrentHashMap concurrentHashMap = this.a;
             long m = concurrentHashMap.m();
             l[] lVarArr = concurrentHashMap.a;
@@ -262,7 +262,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
         @Override // java.util.Collection
         public /* synthetic */ Stream stream() {
-            return O0.l0(j$.util.a.i(this));
+            return O0.i0(j$.util.a.i(this));
         }
 
         public Object[] toArray(IntFunction intFunction) {
@@ -272,7 +272,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes2.dex */
-    public static final class f extends p implements j$.util.t {
+    public static final class f extends p implements j$.util.s {
         final ConcurrentHashMap i;
         long j;
 
@@ -282,7 +282,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
             this.j = j;
         }
 
-        @Override // j$.util.t
+        @Override // j$.util.s
         public boolean b(Consumer consumer) {
             Objects.requireNonNull(consumer);
             l a = a();
@@ -293,17 +293,17 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
             return true;
         }
 
-        @Override // j$.util.t
+        @Override // j$.util.s
         public int characteristics() {
             return 4353;
         }
 
-        @Override // j$.util.t
+        @Override // j$.util.s
         public long estimateSize() {
             return this.j;
         }
 
-        @Override // j$.util.t
+        @Override // j$.util.s
         public void forEachRemaining(Consumer consumer) {
             Objects.requireNonNull(consumer);
             while (true) {
@@ -315,23 +315,23 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
             }
         }
 
-        @Override // j$.util.t
+        @Override // j$.util.s
         public Comparator getComparator() {
             throw new IllegalStateException();
         }
 
-        @Override // j$.util.t
+        @Override // j$.util.s
         public /* synthetic */ long getExactSizeIfKnown() {
             return j$.util.a.e(this);
         }
 
-        @Override // j$.util.t
+        @Override // j$.util.s
         public /* synthetic */ boolean hasCharacteristics(int i) {
             return j$.util.a.f(this, i);
         }
 
-        @Override // j$.util.t
-        public j$.util.t trySplit() {
+        @Override // j$.util.s
+        public j$.util.s trySplit() {
             int i = this.f;
             int i2 = this.g;
             int i3 = (i + i2) >>> 1;
@@ -504,7 +504,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
         @Override // java.util.Collection
         public /* synthetic */ Stream parallelStream() {
-            return O0.l0(j$.util.a.g(this));
+            return O0.i0(j$.util.a.g(this));
         }
 
         @Override // java.util.Collection, java.util.Set
@@ -518,7 +518,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
         }
 
         @Override // java.util.Collection, java.lang.Iterable, java.util.Set, j$.util.b, j$.lang.e
-        public j$.util.t spliterator() {
+        public j$.util.s spliterator() {
             ConcurrentHashMap concurrentHashMap = this.a;
             long m = concurrentHashMap.m();
             l[] lVarArr = concurrentHashMap.a;
@@ -538,7 +538,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
         @Override // java.util.Collection
         public /* synthetic */ Stream stream() {
-            return O0.l0(j$.util.a.i(this));
+            return O0.i0(j$.util.a.i(this));
         }
 
         public Object[] toArray(IntFunction intFunction) {
@@ -548,7 +548,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes2.dex */
-    public static final class j extends p implements j$.util.t {
+    public static final class j extends p implements j$.util.s {
         long i;
 
         j(l[] lVarArr, int i, int i2, int i3, long j) {
@@ -556,7 +556,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
             this.i = j;
         }
 
-        @Override // j$.util.t
+        @Override // j$.util.s
         public boolean b(Consumer consumer) {
             Objects.requireNonNull(consumer);
             l a = a();
@@ -567,17 +567,17 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
             return true;
         }
 
-        @Override // j$.util.t
+        @Override // j$.util.s
         public int characteristics() {
             return 4353;
         }
 
-        @Override // j$.util.t
+        @Override // j$.util.s
         public long estimateSize() {
             return this.i;
         }
 
-        @Override // j$.util.t
+        @Override // j$.util.s
         public void forEachRemaining(Consumer consumer) {
             Objects.requireNonNull(consumer);
             while (true) {
@@ -589,23 +589,23 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
             }
         }
 
-        @Override // j$.util.t
+        @Override // j$.util.s
         public Comparator getComparator() {
             throw new IllegalStateException();
         }
 
-        @Override // j$.util.t
+        @Override // j$.util.s
         public /* synthetic */ long getExactSizeIfKnown() {
             return j$.util.a.e(this);
         }
 
-        @Override // j$.util.t
+        @Override // j$.util.s
         public /* synthetic */ boolean hasCharacteristics(int i) {
             return j$.util.a.f(this, i);
         }
 
-        @Override // j$.util.t
-        public j$.util.t trySplit() {
+        @Override // j$.util.s
+        public j$.util.s trySplit() {
             int i = this.f;
             int i2 = this.g;
             int i3 = (i + i2) >>> 1;
@@ -1529,7 +1529,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes2.dex */
-    public static final class t extends p implements j$.util.t {
+    public static final class t extends p implements j$.util.s {
         long i;
 
         t(l[] lVarArr, int i, int i2, int i3, long j) {
@@ -1537,7 +1537,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
             this.i = j;
         }
 
-        @Override // j$.util.t
+        @Override // j$.util.s
         public boolean b(Consumer consumer) {
             Objects.requireNonNull(consumer);
             l a = a();
@@ -1548,17 +1548,17 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
             return true;
         }
 
-        @Override // j$.util.t
+        @Override // j$.util.s
         public int characteristics() {
             return 4352;
         }
 
-        @Override // j$.util.t
+        @Override // j$.util.s
         public long estimateSize() {
             return this.i;
         }
 
-        @Override // j$.util.t
+        @Override // j$.util.s
         public void forEachRemaining(Consumer consumer) {
             Objects.requireNonNull(consumer);
             while (true) {
@@ -1570,23 +1570,23 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
             }
         }
 
-        @Override // j$.util.t
+        @Override // j$.util.s
         public Comparator getComparator() {
             throw new IllegalStateException();
         }
 
-        @Override // j$.util.t
+        @Override // j$.util.s
         public /* synthetic */ long getExactSizeIfKnown() {
             return j$.util.a.e(this);
         }
 
-        @Override // j$.util.t
+        @Override // j$.util.s
         public /* synthetic */ boolean hasCharacteristics(int i) {
             return j$.util.a.f(this, i);
         }
 
-        @Override // j$.util.t
-        public j$.util.t trySplit() {
+        @Override // j$.util.s
+        public j$.util.s trySplit() {
             int i = this.f;
             int i2 = this.g;
             int i3 = (i + i2) >>> 1;
@@ -1660,7 +1660,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
         @Override // java.util.Collection
         public /* synthetic */ Stream parallelStream() {
-            return O0.l0(j$.util.a.g(this));
+            return O0.i0(j$.util.a.g(this));
         }
 
         @Override // java.util.Collection
@@ -1686,7 +1686,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
         }
 
         @Override // java.util.Collection, java.lang.Iterable, j$.util.b, j$.lang.e
-        public j$.util.t spliterator() {
+        public j$.util.s spliterator() {
             ConcurrentHashMap concurrentHashMap = this.a;
             long m = concurrentHashMap.m();
             l[] lVarArr = concurrentHashMap.a;
@@ -1706,7 +1706,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
         @Override // java.util.Collection
         public /* synthetic */ Stream stream() {
-            return O0.l0(j$.util.a.i(this));
+            return O0.i0(j$.util.a.i(this));
         }
 
         public Object[] toArray(IntFunction intFunction) {

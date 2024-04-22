@@ -1,68 +1,71 @@
 package j$.util.stream;
 
-import j$.util.function.BiConsumer;
-import j$.util.function.BiFunction;
+import j$.util.function.Consumer;
 import j$.util.function.Supplier;
+import java.util.Objects;
 /* loaded from: classes2.dex */
-class A2 extends V2 {
-    public final /* synthetic */ int b = 3;
-    final /* synthetic */ Object c;
-    final /* synthetic */ Object d;
-    final /* synthetic */ Object e;
+class A2 extends T2 implements S2, l3 {
+    final /* synthetic */ Supplier b;
+    final /* synthetic */ j$.util.function.v c;
+    final /* synthetic */ j$.util.function.b d;
 
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public A2(f4 f4Var, BiConsumer biConsumer, BiConsumer biConsumer2, Supplier supplier) {
-        super(f4Var);
-        this.c = biConsumer;
-        this.d = biConsumer2;
-        this.e = supplier;
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public A2(Supplier supplier, j$.util.function.v vVar, j$.util.function.b bVar) {
+        this.b = supplier;
+        this.c = vVar;
+        this.d = bVar;
     }
 
-    @Override // j$.util.stream.V2
-    public T2 a() {
-        switch (this.b) {
-            case 0:
-                return new B2((Supplier) this.e, (j$.util.function.w) this.d, (j$.util.function.b) this.c);
-            case 1:
-                return new G2((Supplier) this.e, (j$.util.function.u) this.d, (j$.util.function.b) this.c);
-            case 2:
-                return new H2(this.e, (BiFunction) this.d, (j$.util.function.b) this.c);
-            case 3:
-                return new L2((Supplier) this.e, (BiConsumer) this.d, (BiConsumer) this.c);
-            default:
-                return new P2((Supplier) this.e, (j$.util.function.v) this.d, (j$.util.function.b) this.c);
-        }
+    @Override // j$.util.stream.m3
+    public /* synthetic */ void accept(double d) {
+        o1.f(this);
+        throw null;
     }
 
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public A2(f4 f4Var, j$.util.function.b bVar, BiFunction biFunction, Object obj) {
-        super(f4Var);
-        this.c = bVar;
-        this.d = biFunction;
-        this.e = obj;
+    @Override // j$.util.stream.m3
+    public /* synthetic */ void accept(int i) {
+        o1.d(this);
+        throw null;
     }
 
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public A2(f4 f4Var, j$.util.function.b bVar, j$.util.function.u uVar, Supplier supplier) {
-        super(f4Var);
-        this.c = bVar;
-        this.d = uVar;
-        this.e = supplier;
+    @Override // j$.util.stream.m3, j$.util.stream.l3, j$.util.function.q
+    public void accept(long j) {
+        this.c.accept(this.a, j);
     }
 
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public A2(f4 f4Var, j$.util.function.b bVar, j$.util.function.v vVar, Supplier supplier) {
-        super(f4Var);
-        this.c = bVar;
-        this.d = vVar;
-        this.e = supplier;
+    @Override // j$.util.function.Consumer
+    public /* synthetic */ Consumer andThen(Consumer consumer) {
+        return Consumer.-CC.$default$andThen(this, consumer);
     }
 
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public A2(f4 f4Var, j$.util.function.b bVar, j$.util.function.w wVar, Supplier supplier) {
-        super(f4Var);
-        this.c = bVar;
-        this.d = wVar;
-        this.e = supplier;
+    @Override // j$.util.function.Consumer
+    /* renamed from: b */
+    public /* synthetic */ void accept(Long l) {
+        o1.c(this, l);
+    }
+
+    @Override // j$.util.function.q
+    public j$.util.function.q f(j$.util.function.q qVar) {
+        Objects.requireNonNull(qVar);
+        return new j$.util.function.p(this, qVar);
+    }
+
+    @Override // j$.util.stream.S2
+    public void h(S2 s2) {
+        this.a = this.d.apply(this.a, ((A2) s2).a);
+    }
+
+    @Override // j$.util.stream.m3
+    public /* synthetic */ void m() {
+    }
+
+    @Override // j$.util.stream.m3
+    public void n(long j) {
+        this.a = this.b.get();
+    }
+
+    @Override // j$.util.stream.m3
+    public /* synthetic */ boolean o() {
+        return false;
     }
 }

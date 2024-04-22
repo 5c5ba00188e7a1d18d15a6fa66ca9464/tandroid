@@ -13,19 +13,19 @@ import j$.util.function.ToLongFunction;
 import java.util.Comparator;
 /* loaded from: classes2.dex */
 public interface Stream<T> extends g {
-    Object B(Object obj, BiFunction biFunction, j$.util.function.b bVar);
+    Object A(Object obj, BiFunction biFunction, j$.util.function.b bVar);
 
-    V E(Function function);
+    V D(Function function);
 
-    Stream U(Consumer consumer);
+    Stream S(Consumer consumer);
 
-    boolean V(Predicate predicate);
+    boolean T(Predicate predicate);
 
-    f1 W(Function function);
+    LongStream U(Function function);
+
+    boolean Z(Predicate predicate);
 
     boolean a(Predicate predicate);
-
-    boolean b0(Predicate predicate);
 
     IntStream c(Function function);
 
@@ -36,11 +36,11 @@ public interface Stream<T> extends g {
 
     long count();
 
-    Stream distinct();
+    Stream<T> distinct();
 
     void e(Consumer consumer);
 
-    f1 e0(ToLongFunction toLongFunction);
+    V e0(ToDoubleFunction toDoubleFunction);
 
     Stream<T> filter(Predicate<? super T> predicate);
 
@@ -50,17 +50,19 @@ public interface Stream<T> extends g {
 
     void forEach(Consumer<? super T> consumer);
 
-    V h0(ToDoubleFunction toDoubleFunction);
+    Object h0(Object obj, j$.util.function.b bVar);
 
     Object i(Supplier supplier, BiConsumer biConsumer, BiConsumer biConsumer2);
 
-    Object k0(Object obj, j$.util.function.b bVar);
-
     Object[] l(j$.util.function.m mVar);
 
-    Stream limit(long j);
+    Stream<T> limit(long j);
 
     IntStream m(ToIntFunction toIntFunction);
+
+    <R> Stream<R> map(Function<? super T, ? extends R> function);
+
+    LongStream mapToLong(ToLongFunction<? super T> toLongFunction);
 
     Optional max(Comparator comparator);
 
@@ -68,15 +70,13 @@ public interface Stream<T> extends g {
 
     Stream n(Function function);
 
-    Stream o(Function function);
+    Optional s(j$.util.function.b bVar);
 
     Stream skip(long j);
 
     Stream sorted();
 
     Stream sorted(Comparator comparator);
-
-    Optional t(j$.util.function.b bVar);
 
     Object[] toArray();
 }

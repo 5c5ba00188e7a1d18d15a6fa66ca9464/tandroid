@@ -1,19 +1,19 @@
 package com.google.android.gms.base;
 /* loaded from: classes.dex */
 public final class R$string {
-    public static final int common_google_play_services_enable_button = 2131698216;
-    public static final int common_google_play_services_enable_text = 2131698217;
-    public static final int common_google_play_services_enable_title = 2131698218;
-    public static final int common_google_play_services_install_button = 2131698219;
-    public static final int common_google_play_services_install_text = 2131698220;
-    public static final int common_google_play_services_install_title = 2131698221;
-    public static final int common_google_play_services_notification_channel_name = 2131698222;
-    public static final int common_google_play_services_notification_ticker = 2131698223;
-    public static final int common_google_play_services_unsupported_text = 2131698225;
-    public static final int common_google_play_services_update_button = 2131698226;
-    public static final int common_google_play_services_update_text = 2131698227;
-    public static final int common_google_play_services_update_title = 2131698228;
-    public static final int common_google_play_services_updating_text = 2131698229;
-    public static final int common_google_play_services_wear_update_text = 2131698230;
-    public static final int common_open_on_phone = 2131698231;
+    public static final int common_google_play_services_enable_button = 2131698322;
+    public static final int common_google_play_services_enable_text = 2131698323;
+    public static final int common_google_play_services_enable_title = 2131698324;
+    public static final int common_google_play_services_install_button = 2131698325;
+    public static final int common_google_play_services_install_text = 2131698326;
+    public static final int common_google_play_services_install_title = 2131698327;
+    public static final int common_google_play_services_notification_channel_name = 2131698328;
+    public static final int common_google_play_services_notification_ticker = 2131698329;
+    public static final int common_google_play_services_unsupported_text = 2131698331;
+    public static final int common_google_play_services_update_button = 2131698332;
+    public static final int common_google_play_services_update_text = 2131698333;
+    public static final int common_google_play_services_update_title = 2131698334;
+    public static final int common_google_play_services_updating_text = 2131698335;
+    public static final int common_google_play_services_wear_update_text = 2131698336;
+    public static final int common_open_on_phone = 2131698337;
 }

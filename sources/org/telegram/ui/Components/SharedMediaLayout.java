@@ -3937,8 +3937,8 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:37:0x0086  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x008b  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x0087  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x008c  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -5141,7 +5141,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                     tLRPC$User = null;
                     tLRPC$EncryptedChat = null;
                 }
-                AlertsCreator.createDeleteMessagesAlert(this.profileActivity, tLRPC$User, chat, tLRPC$EncryptedChat, null, this.mergeDialogId, null, this.selectedFiles, null, 0, 0, 1, new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$$ExternalSyntheticLambda16
+                AlertsCreator.createDeleteMessagesAlert(this.profileActivity, tLRPC$User, chat, tLRPC$EncryptedChat, null, this.mergeDialogId, null, this.selectedFiles, null, 0, 0, null, new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$$ExternalSyntheticLambda16
                     @Override // java.lang.Runnable
                     public final void run() {
                         SharedMediaLayout.this.lambda$onActionBarItemClick$22();

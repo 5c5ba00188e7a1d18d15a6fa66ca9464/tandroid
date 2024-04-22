@@ -3,77 +3,77 @@ package j$.util;
 import j$.util.Iterator;
 import j$.util.function.Consumer;
 import j$.util.p;
-import j$.util.t;
+import j$.util.s;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 /* loaded from: classes2.dex */
-class w implements p.a, j$.util.function.l, Iterator {
+class w implements p.b, j$.util.function.q, Iterator {
     boolean a = false;
-    int b;
-    final /* synthetic */ t.b c;
+    long b;
+    final /* synthetic */ s.c c;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public w(t.b bVar) {
-        this.c = bVar;
+    public w(s.c cVar) {
+        this.c = cVar;
     }
 
-    @Override // j$.util.function.l
-    public void accept(int i) {
+    @Override // j$.util.function.q
+    public void accept(long j) {
         this.a = true;
-        this.b = i;
+        this.b = j;
     }
 
     @Override // j$.util.p
-    /* renamed from: c */
-    public void forEachRemaining(j$.util.function.l lVar) {
-        Objects.requireNonNull(lVar);
+    /* renamed from: d */
+    public void forEachRemaining(j$.util.function.q qVar) {
+        Objects.requireNonNull(qVar);
         while (hasNext()) {
-            lVar.accept(nextInt());
+            qVar.accept(nextLong());
         }
     }
 
-    @Override // j$.util.p.a, j$.util.Iterator
+    @Override // j$.util.function.q
+    public j$.util.function.q f(j$.util.function.q qVar) {
+        Objects.requireNonNull(qVar);
+        return new j$.util.function.p(this, qVar);
+    }
+
+    @Override // j$.util.p.b, j$.util.Iterator
     public void forEachRemaining(Consumer consumer) {
-        if (consumer instanceof j$.util.function.l) {
-            forEachRemaining((j$.util.function.l) consumer);
+        if (consumer instanceof j$.util.function.q) {
+            forEachRemaining((j$.util.function.q) consumer);
             return;
         }
         Objects.requireNonNull(consumer);
-        if (!L.a) {
+        if (!K.a) {
             while (hasNext()) {
-                consumer.accept(Integer.valueOf(nextInt()));
+                consumer.accept(Long.valueOf(nextLong()));
             }
             return;
         }
-        L.a(w.class, "{0} calling PrimitiveIterator.OfInt.forEachRemainingInt(action::accept)");
+        K.a(w.class, "{0} calling PrimitiveIterator.OfLong.forEachRemainingLong(action::accept)");
         throw null;
     }
 
     @Override // java.util.Iterator, j$.util.Iterator
     public boolean hasNext() {
         if (!this.a) {
-            this.c.g(this);
+            this.c.i(this);
         }
         return this.a;
     }
 
-    @Override // j$.util.function.l
-    public j$.util.function.l l(j$.util.function.l lVar) {
-        Objects.requireNonNull(lVar);
-        return new j$.util.function.k(this, lVar);
-    }
-
     @Override // java.util.Iterator, j$.util.Iterator
-    public Integer next() {
-        if (L.a) {
-            L.a(w.class, "{0} calling PrimitiveIterator.OfInt.nextInt()");
+    public Long next() {
+        if (K.a) {
+            K.a(w.class, "{0} calling PrimitiveIterator.OfLong.nextLong()");
             throw null;
         }
-        return Integer.valueOf(nextInt());
+        return Long.valueOf(nextLong());
     }
 
-    @Override // j$.util.p.a
-    public int nextInt() {
+    @Override // j$.util.p.b
+    public long nextLong() {
         if (this.a || hasNext()) {
             this.a = false;
             return this.b;

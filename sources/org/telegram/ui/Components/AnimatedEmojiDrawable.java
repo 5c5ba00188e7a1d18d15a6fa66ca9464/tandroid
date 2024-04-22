@@ -617,8 +617,12 @@ public class AnimatedEmojiDrawable extends Drawable {
         }
     }
 
-    /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Type inference failed for: r3v3, types: [org.telegram.messenger.Emoji$EmojiDrawable] */
+    /* JADX WARN: Code restructure failed: missing block: B:106:0x01fd, code lost:
+        if (r3 != null) goto L67;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     private void initDocument(boolean z) {
         int i;
         TLRPC$PhotoSize tLRPC$PhotoSize;
@@ -626,6 +630,7 @@ public class AnimatedEmojiDrawable extends Drawable {
         ImageLocation imageLocation;
         String str;
         ImageLocation imageLocation2;
+        Drawable emojiDrawable;
         TLRPC$Document tLRPC$Document = this.document;
         if (tLRPC$Document != null) {
             if (this.imageReceiver == null || this.imageReceiverEmojiThumb || z) {
@@ -668,10 +673,7 @@ public class AnimatedEmojiDrawable extends Drawable {
                 if ("video/webm".equals(this.document.mime_type)) {
                     imageLocation = ImageLocation.getForDocument(this.document);
                     str2 = str2 + "_" + ImageLoader.AUTOPLAY_FILTER;
-                    svgThumb = DocumentObject.getSvgThumb(this.document.thumbs, Theme.key_windowBackgroundWhiteGrayIcon, 0.2f);
-                    if (svgThumb != null) {
-                        svgThumb.overrideWidthAndHeight(LiteMode.FLAG_CALLS_ANIMATIONS, LiteMode.FLAG_CALLS_ANIMATIONS);
-                    }
+                    svgThumb = DocumentObject.getSvgThumb(this.document.thumbs, Theme.key_windowBackgroundWhiteGrayIcon, 0.2f, true);
                     tLRPC$PhotoSize = closestPhotoSizeWithSize;
                 } else if ("application/x-tgsticker".equals(this.document.mime_type)) {
                     StringBuilder sb = new StringBuilder();
@@ -689,16 +691,17 @@ public class AnimatedEmojiDrawable extends Drawable {
                     if (SharedConfig.getDevicePerformanceClass() == 0 && this.cacheType != 2 && ImageLoader.getInstance().hasLottieMemCache(sb2)) {
                         svgThumb = null;
                     } else {
-                        svgThumb = DocumentObject.getSvgThumb(this.document.thumbs, Theme.key_windowBackgroundWhiteGrayIcon, 0.2f);
-                        if (svgThumb != null && MessageObject.isAnimatedStickerDocument(this.document, true)) {
-                            svgThumb.overrideWidthAndHeight(LiteMode.FLAG_CALLS_ANIMATIONS, LiteMode.FLAG_CALLS_ANIMATIONS);
+                        SvgHelper.SvgDrawable svgThumb2 = DocumentObject.getSvgThumb(this.document.thumbs, Theme.key_windowBackgroundWhiteGrayIcon, 0.2f);
+                        if (svgThumb2 != null && MessageObject.isAnimatedStickerDocument(this.document, true)) {
+                            svgThumb2.overrideWidthAndHeight(LiteMode.FLAG_CALLS_ANIMATIONS, LiteMode.FLAG_CALLS_ANIMATIONS);
                         }
+                        svgThumb = svgThumb2;
                     }
                     imageLocation = ImageLocation.getForDocument(this.document);
                 } else {
                     tLRPC$PhotoSize = closestPhotoSizeWithSize;
                     svgThumb = DocumentObject.getSvgThumb(this.document.thumbs, Theme.key_windowBackgroundWhiteGrayIcon, 0.2f);
-                    if (svgThumb != null) {
+                    if (svgThumb != null && MessageObject.isAnimatedStickerDocument(this.document, true)) {
                         svgThumb.overrideWidthAndHeight(LiteMode.FLAG_CALLS_ANIMATIONS, LiteMode.FLAG_CALLS_ANIMATIONS);
                     }
                     imageLocation = null;
@@ -706,13 +709,11 @@ public class AnimatedEmojiDrawable extends Drawable {
                 int i7 = this.cacheType;
                 if (i7 == 20 || i7 == 21) {
                     imageLocation2 = null;
-                    ?? emojiDrawable = Emoji.getEmojiDrawable(MessageObject.findAnimatedEmojiEmoticon(this.document, null));
-                    if (emojiDrawable != 0) {
-                        svgThumb = emojiDrawable;
-                    }
+                    emojiDrawable = Emoji.getEmojiDrawable(MessageObject.findAnimatedEmojiEmoticon(this.document, null));
                 } else {
                     imageLocation2 = null;
                 }
+                emojiDrawable = svgThumb;
                 if (this.absolutePath != null) {
                     this.imageReceiver.setImageBitmap(new AnimatedFileDrawable(new File(this.absolutePath), true, 0L, 0, null, null, null, 0L, this.currentAccount, true, LiteMode.FLAG_CALLS_ANIMATIONS, LiteMode.FLAG_CALLS_ANIMATIONS, null));
                 } else {
@@ -720,25 +721,25 @@ public class AnimatedEmojiDrawable extends Drawable {
                     if (i8 == 8) {
                         ImageReceiver imageReceiver = this.imageReceiver;
                         TLRPC$Document tLRPC$Document2 = this.document;
-                        imageReceiver.setImage(null, null, imageLocation, str2, null, null, svgThumb, tLRPC$Document2.size, null, tLRPC$Document2, 1);
+                        imageReceiver.setImage(null, null, imageLocation, str2, null, null, emojiDrawable, tLRPC$Document2.size, null, tLRPC$Document2, 1);
                     } else if (z2 || (!liteModeKeyboard && i8 != 14)) {
                         if (i8 == 16) {
                             imageLocation2 = ImageLocation.getForDocument(tLRPC$PhotoSize, this.document);
                         }
                         if ("video/webm".equals(this.document.mime_type)) {
                             TLRPC$Document tLRPC$Document3 = this.document;
-                            this.imageReceiver.setImage(null, null, ImageLocation.getForDocument(tLRPC$PhotoSize, this.document), this.sizedp + "_" + this.sizedp, imageLocation2, null, svgThumb, tLRPC$Document3.size, null, tLRPC$Document3, 1);
+                            this.imageReceiver.setImage(null, null, ImageLocation.getForDocument(tLRPC$PhotoSize, this.document), this.sizedp + "_" + this.sizedp, imageLocation2, null, emojiDrawable, tLRPC$Document3.size, null, tLRPC$Document3, 1);
                         } else if (MessageObject.isAnimatedStickerDocument(this.document, true)) {
                             TLRPC$Document tLRPC$Document4 = this.document;
-                            this.imageReceiver.setImage(imageLocation, str2 + "_firstframe", imageLocation2, null, svgThumb, tLRPC$Document4.size, null, tLRPC$Document4, 1);
+                            this.imageReceiver.setImage(imageLocation, str2 + "_firstframe", imageLocation2, null, emojiDrawable, tLRPC$Document4.size, null, tLRPC$Document4, 1);
                         } else {
                             TLRPC$Document tLRPC$Document5 = this.document;
-                            this.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$PhotoSize, this.document), this.sizedp + "_" + this.sizedp, imageLocation2, null, svgThumb, tLRPC$Document5.size, null, tLRPC$Document5, 1);
+                            this.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$PhotoSize, this.document), this.sizedp + "_" + this.sizedp, imageLocation2, null, emojiDrawable, tLRPC$Document5.size, null, tLRPC$Document5, 1);
                         }
                     } else {
                         ImageLocation forDocument = i8 == 17 ? ImageLocation.getForDocument(tLRPC$PhotoSize, this.document) : imageLocation2;
                         TLRPC$Document tLRPC$Document6 = this.document;
-                        this.imageReceiver.setImage(imageLocation, str2, ImageLocation.getForDocument(tLRPC$PhotoSize, this.document), this.sizedp + "_" + this.sizedp, forDocument, null, svgThumb, tLRPC$Document6.size, null, tLRPC$Document6, 1);
+                        this.imageReceiver.setImage(imageLocation, str2, ImageLocation.getForDocument(tLRPC$PhotoSize, this.document), this.sizedp + "_" + this.sizedp, forDocument, null, emojiDrawable, tLRPC$Document6.size, null, tLRPC$Document6, 1);
                     }
                 }
                 updateAutoRepeat(this.imageReceiver);

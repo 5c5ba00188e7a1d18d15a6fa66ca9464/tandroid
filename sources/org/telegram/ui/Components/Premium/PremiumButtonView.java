@@ -71,7 +71,7 @@ public class PremiumButtonView extends FrameLayout implements Loadable {
         cellFlickerDrawable.repeatProgress = 4.0f;
         LinearLayout linearLayout = new LinearLayout(context);
         linearLayout.setOrientation(0);
-        AnimatedTextView animatedTextView = new AnimatedTextView(context) { // from class: org.telegram.ui.Components.Premium.PremiumButtonView.1
+        AnimatedTextView animatedTextView = new AnimatedTextView(context, true, true, true) { // from class: org.telegram.ui.Components.Premium.PremiumButtonView.1
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.AnimatedTextView, android.view.View
             public void onDraw(Canvas canvas) {

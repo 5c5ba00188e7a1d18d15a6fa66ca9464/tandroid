@@ -1,21 +1,21 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
-import j$.util.t;
+import j$.util.s;
 /* loaded from: classes2.dex */
-final class h2 extends j2 implements t.b {
+final class h2 extends i2 implements s.c {
     /* JADX INFO: Access modifiers changed from: package-private */
-    public h2(x1 x1Var) {
-        super(x1Var);
+    public h2(y1 y1Var) {
+        super(y1Var);
     }
 
-    @Override // j$.util.t
+    @Override // j$.util.s
     public /* synthetic */ boolean b(Consumer consumer) {
-        return j$.util.a.k(this, consumer);
+        return j$.util.a.l(this, consumer);
     }
 
-    @Override // j$.util.t
+    @Override // j$.util.s
     public /* synthetic */ void forEachRemaining(Consumer consumer) {
-        j$.util.a.c(this, consumer);
+        j$.util.a.d(this, consumer);
     }
 }

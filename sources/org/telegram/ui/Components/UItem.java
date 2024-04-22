@@ -16,10 +16,11 @@ import org.telegram.ui.StatisticActivity;
 /* loaded from: classes3.dex */
 public class UItem extends AdapterWithDiffUtils.Item {
     public boolean accent;
-    public int backgroundKey;
+    public CharSequence animatedText;
     public String chatType;
     public boolean checked;
     public View.OnClickListener clickCallback;
+    public boolean collapsed;
     public long dialogId;
     public boolean enabled;
     public boolean hideDivider;
@@ -28,7 +29,9 @@ public class UItem extends AdapterWithDiffUtils.Item {
     public boolean include;
     public Utilities.Callback<Integer> intCallback;
     public int intValue;
+    public boolean locked;
     public Object object;
+    public int pad;
     public boolean red;
     public CharSequence subtext;
     public CharSequence text;
@@ -53,6 +56,13 @@ public class UItem extends AdapterWithDiffUtils.Item {
     public static UItem asHeader(CharSequence charSequence) {
         UItem uItem = new UItem(0, false);
         uItem.text = charSequence;
+        return uItem;
+    }
+
+    public static UItem asAnimatedHeader(int i, CharSequence charSequence) {
+        UItem uItem = new UItem(42, false);
+        uItem.id = i;
+        uItem.animatedText = charSequence;
         return uItem;
     }
 
@@ -251,6 +261,59 @@ public class UItem extends AdapterWithDiffUtils.Item {
         return uItem;
     }
 
+    public static UItem asRoundCheckbox(int i, CharSequence charSequence) {
+        UItem uItem = new UItem(35, false);
+        uItem.id = i;
+        uItem.text = charSequence;
+        return uItem;
+    }
+
+    public static UItem asRoundGroupCheckbox(int i, CharSequence charSequence, CharSequence charSequence2) {
+        UItem uItem = new UItem(41, false);
+        uItem.id = i;
+        uItem.text = charSequence;
+        uItem.animatedText = charSequence2;
+        return uItem;
+    }
+
+    public static UItem asUserGroupCheckbox(int i, CharSequence charSequence, CharSequence charSequence2) {
+        UItem uItem = new UItem(36, false);
+        uItem.id = i;
+        uItem.text = charSequence;
+        uItem.animatedText = charSequence2;
+        return uItem;
+    }
+
+    public static UItem asUserCheckbox(int i, TLObject tLObject) {
+        UItem uItem = new UItem(37, false);
+        uItem.id = i;
+        uItem.object = tLObject;
+        return uItem;
+    }
+
+    public static UItem asShadowCollapseButton(int i, CharSequence charSequence, View.OnClickListener onClickListener) {
+        UItem uItem = new UItem(38, false);
+        uItem.id = i;
+        uItem.animatedText = charSequence;
+        uItem.clickCallback = onClickListener;
+        return uItem;
+    }
+
+    public static UItem asSwitch(int i, CharSequence charSequence) {
+        UItem uItem = new UItem(39, false);
+        uItem.id = i;
+        uItem.text = charSequence;
+        return uItem;
+    }
+
+    public static UItem asExpandableSwitch(int i, CharSequence charSequence, CharSequence charSequence2) {
+        UItem uItem = new UItem(40, false);
+        uItem.id = i;
+        uItem.text = charSequence;
+        uItem.animatedText = charSequence2;
+        return uItem;
+    }
+
     public static UItem asGraySection(CharSequence charSequence) {
         UItem uItem = new UItem(31, false);
         uItem.text = charSequence;
@@ -293,6 +356,11 @@ public class UItem extends AdapterWithDiffUtils.Item {
         return this;
     }
 
+    public UItem setClickCallback(View.OnClickListener onClickListener) {
+        this.clickCallback = onClickListener;
+        return this;
+    }
+
     public UItem setChecked(boolean z) {
         this.checked = z;
         if (this.viewType == 11) {
@@ -301,8 +369,28 @@ public class UItem extends AdapterWithDiffUtils.Item {
         return this;
     }
 
+    public UItem setCollapsed(boolean z) {
+        this.collapsed = z;
+        return this;
+    }
+
+    public UItem setPad(int i) {
+        this.pad = i;
+        return this;
+    }
+
+    public UItem pad() {
+        this.pad = 1;
+        return this;
+    }
+
     public UItem setEnabled(boolean z) {
         this.enabled = z;
+        return this;
+    }
+
+    public UItem setLocked(boolean z) {
+        this.locked = z;
         return this;
     }
 
@@ -328,10 +416,13 @@ public class UItem extends AdapterWithDiffUtils.Item {
         if (i != uItem.viewType) {
             return false;
         }
-        if (i == 31) {
+        if (i == 36 || i == 35) {
+            return this.id == uItem.id;
+        } else if (i == 31) {
             return TextUtils.equals(this.text, uItem.text);
+        } else {
+            return this.id == uItem.id && this.pad == uItem.pad && this.dialogId == uItem.dialogId && this.iconResId == uItem.iconResId && this.hideDivider == uItem.hideDivider && this.transparent == uItem.transparent && this.red == uItem.red && this.locked == uItem.locked && this.accent == uItem.accent && TextUtils.equals(this.text, uItem.text) && TextUtils.equals(this.subtext, uItem.subtext) && TextUtils.equals(this.textValue, uItem.textValue) && this.view == uItem.view && this.intValue == uItem.intValue && Objects.equals(this.object, uItem.object);
         }
-        return this.id == uItem.id && this.dialogId == uItem.dialogId && this.iconResId == uItem.iconResId && this.backgroundKey == uItem.backgroundKey && this.hideDivider == uItem.hideDivider && this.transparent == uItem.transparent && this.red == uItem.red && this.accent == uItem.accent && TextUtils.equals(this.text, uItem.text) && TextUtils.equals(this.subtext, uItem.subtext) && TextUtils.equals(this.textValue, uItem.textValue) && this.view == uItem.view && this.intValue == uItem.intValue && Objects.equals(this.object, uItem.object);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -350,7 +441,10 @@ public class UItem extends AdapterWithDiffUtils.Item {
         }
         if (i == 31) {
             return TextUtils.equals(this.text, uItem.text) && TextUtils.equals(this.subtext, uItem.subtext);
+        } else if (i == 35 || i == 37) {
+            return this.id == uItem.id && TextUtils.equals(this.text, uItem.text) && this.checked == uItem.checked;
+        } else {
+            return super.contentsEquals(item);
         }
-        return super.contentsEquals(item);
     }
 }

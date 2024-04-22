@@ -1,157 +1,103 @@
 package j$.util.stream;
 
-import j$.util.t;
-import java.util.ArrayDeque;
-import java.util.Comparator;
-import java.util.Deque;
+import j$.util.function.Consumer;
+import java.util.Arrays;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-abstract class l2 implements j$.util.t {
-    B1 a;
+public class l2 implements y1 {
+    final long[] a;
     int b;
-    j$.util.t c;
-    j$.util.t d;
-    Deque e;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public l2(B1 b1) {
-        this.a = b1;
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final B1 a(Deque deque) {
-        while (true) {
-            B1 b1 = (B1) deque.pollFirst();
-            if (b1 == null) {
-                return null;
-            }
-            if (b1.p() != 0) {
-                for (int p = b1.p() - 1; p >= 0; p--) {
-                    deque.addFirst(b1.b(p));
-                }
-            } else if (b1.count() > 0) {
-                return b1;
-            }
+    public l2(long j) {
+        if (j >= 2147483639) {
+            throw new IllegalArgumentException("Stream size exceeds max array size");
         }
-    }
-
-    @Override // j$.util.t
-    public final int characteristics() {
-        return 64;
-    }
-
-    @Override // j$.util.t
-    public final long estimateSize() {
-        long j = 0;
-        if (this.a == null) {
-            return 0L;
-        }
-        j$.util.t tVar = this.c;
-        if (tVar != null) {
-            return tVar.estimateSize();
-        }
-        for (int i = this.b; i < this.a.p(); i++) {
-            j += this.a.b(i).count();
-        }
-        return j;
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final Deque f() {
-        ArrayDeque arrayDeque = new ArrayDeque(8);
-        int p = this.a.p();
-        while (true) {
-            p--;
-            if (p < this.b) {
-                return arrayDeque;
-            }
-            arrayDeque.addFirst(this.a.b(p));
-        }
-    }
-
-    @Override // j$.util.t
-    public Comparator getComparator() {
-        throw new IllegalStateException();
-    }
-
-    @Override // j$.util.t
-    public /* synthetic */ long getExactSizeIfKnown() {
-        return j$.util.a.e(this);
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final boolean h() {
-        if (this.a == null) {
-            return false;
-        }
-        if (this.d == null) {
-            j$.util.t tVar = this.c;
-            if (tVar == null) {
-                Deque f = f();
-                this.e = f;
-                B1 a = a(f);
-                if (a == null) {
-                    this.a = null;
-                    return false;
-                }
-                tVar = a.spliterator();
-            }
-            this.d = tVar;
-            return true;
-        }
-        return true;
-    }
-
-    @Override // j$.util.t
-    public /* synthetic */ boolean hasCharacteristics(int i) {
-        return j$.util.a.f(this, i);
-    }
-
-    @Override // j$.util.t
-    public /* bridge */ /* synthetic */ t.a trySplit() {
-        return (t.a) trySplit();
-    }
-
-    @Override // j$.util.t
-    public /* bridge */ /* synthetic */ t.b trySplit() {
-        return (t.b) trySplit();
-    }
-
-    @Override // j$.util.t
-    public /* bridge */ /* synthetic */ t.c trySplit() {
-        return (t.c) trySplit();
-    }
-
-    @Override // j$.util.t
-    public final j$.util.t trySplit() {
-        B1 b1 = this.a;
-        if (b1 == null || this.d != null) {
-            return null;
-        }
-        j$.util.t tVar = this.c;
-        if (tVar != null) {
-            return tVar.trySplit();
-        }
-        if (this.b < b1.p() - 1) {
-            B1 b12 = this.a;
-            int i = this.b;
-            this.b = i + 1;
-            return b12.b(i).spliterator();
-        }
-        B1 b = this.a.b(this.b);
-        this.a = b;
-        if (b.p() == 0) {
-            j$.util.t spliterator = this.a.spliterator();
-            this.c = spliterator;
-            return spliterator.trySplit();
-        }
+        this.a = new long[(int) j];
         this.b = 0;
-        B1 b13 = this.a;
-        this.b = 1;
-        return b13.b(0).spliterator();
     }
 
-    @Override // j$.util.t
-    public /* bridge */ /* synthetic */ j$.util.u trySplit() {
-        return (j$.util.u) trySplit();
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public l2(long[] jArr) {
+        this.a = jArr;
+        this.b = jArr.length;
+    }
+
+    @Override // j$.util.stream.z1, j$.util.stream.A1
+    public z1 b(int i) {
+        throw new IndexOutOfBoundsException();
+    }
+
+    @Override // j$.util.stream.A1
+    public long count() {
+        return this.b;
+    }
+
+    @Override // j$.util.stream.z1
+    public void d(Object obj, int i) {
+        System.arraycopy(this.a, 0, (long[]) obj, i, this.b);
+    }
+
+    @Override // j$.util.stream.z1
+    public Object e() {
+        long[] jArr = this.a;
+        int length = jArr.length;
+        int i = this.b;
+        return length == i ? jArr : Arrays.copyOf(jArr, i);
+    }
+
+    @Override // j$.util.stream.A1
+    public /* synthetic */ void forEach(Consumer consumer) {
+        o1.m(this, consumer);
+    }
+
+    @Override // j$.util.stream.z1
+    public void g(Object obj) {
+        j$.util.function.q qVar = (j$.util.function.q) obj;
+        for (int i = 0; i < this.b; i++) {
+            qVar.accept(this.a[i]);
+        }
+    }
+
+    @Override // j$.util.stream.A1
+    /* renamed from: j */
+    public /* synthetic */ void i(Long[] lArr, int i) {
+        o1.j(this, lArr, i);
+    }
+
+    @Override // j$.util.stream.A1
+    /* renamed from: k */
+    public /* synthetic */ y1 r(long j, long j2, j$.util.function.m mVar) {
+        return o1.p(this, j, j2, mVar);
+    }
+
+    @Override // j$.util.stream.A1
+    public /* synthetic */ int p() {
+        return 0;
+    }
+
+    @Override // j$.util.stream.A1
+    public /* synthetic */ Object[] q(j$.util.function.m mVar) {
+        return o1.g(this, mVar);
+    }
+
+    @Override // j$.util.stream.z1, j$.util.stream.A1
+    public j$.util.t spliterator() {
+        return j$.util.I.l(this.a, 0, this.b, 1040);
+    }
+
+    public String toString() {
+        return String.format("LongArrayNode[%d][%s]", Integer.valueOf(this.a.length - this.b), Arrays.toString(this.a));
+    }
+
+    @Override // j$.util.stream.A1
+    public /* bridge */ /* synthetic */ A1 b(int i) {
+        b(i);
+        throw null;
+    }
+
+    @Override // j$.util.stream.A1
+    public j$.util.s spliterator() {
+        return j$.util.I.l(this.a, 0, this.b, 1040);
     }
 }

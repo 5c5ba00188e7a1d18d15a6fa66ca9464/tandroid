@@ -9,45 +9,25 @@ import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 /* loaded from: classes2.dex */
-class t extends d3 {
+class t extends c3 {
     /* JADX INFO: Access modifiers changed from: package-private */
-    public t(c cVar, f4 f4Var, int i) {
-        super(cVar, f4Var, i);
+    public t(c cVar, e4 e4Var, int i) {
+        super(cVar, e4Var, i);
     }
 
     @Override // j$.util.stream.c
-    B1 C0(z2 z2Var, j$.util.t tVar, j$.util.function.m mVar) {
-        if (e4.DISTINCT.d(z2Var.q0())) {
-            return z2Var.n0(tVar, false, mVar);
-        }
-        if (e4.ORDERED.d(z2Var.q0())) {
-            return J0(z2Var, tVar);
-        }
-        AtomicBoolean atomicBoolean = new AtomicBoolean(false);
-        ConcurrentHashMap concurrentHashMap = new ConcurrentHashMap();
-        new o0(new p(atomicBoolean, concurrentHashMap), false).c(z2Var, tVar);
-        Collection keySet = concurrentHashMap.keySet();
-        if (atomicBoolean.get()) {
-            HashSet hashSet = new HashSet(keySet);
-            hashSet.add(null);
-            keySet = hashSet;
-        }
-        return new F1(keySet);
-    }
-
-    @Override // j$.util.stream.c
-    j$.util.t D0(z2 z2Var, j$.util.t tVar) {
-        return e4.DISTINCT.d(z2Var.q0()) ? z2Var.u0(tVar) : e4.ORDERED.d(z2Var.q0()) ? ((F1) J0(z2Var, tVar)).spliterator() : new n4(z2Var.u0(tVar));
+    j$.util.s A0(y2 y2Var, j$.util.s sVar) {
+        return d4.DISTINCT.d(y2Var.n0()) ? y2Var.r0(sVar) : d4.ORDERED.d(y2Var.n0()) ? ((E1) G0(y2Var, sVar)).spliterator() : new m4(y2Var.r0(sVar));
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     @Override // j$.util.stream.c
-    public n3 F0(int i, n3 n3Var) {
-        Objects.requireNonNull(n3Var);
-        return e4.DISTINCT.d(i) ? n3Var : e4.SORTED.d(i) ? new r(this, n3Var) : new s(this, n3Var);
+    public m3 C0(int i, m3 m3Var) {
+        Objects.requireNonNull(m3Var);
+        return d4.DISTINCT.d(i) ? m3Var : d4.SORTED.d(i) ? new r(this, m3Var) : new s(this, m3Var);
     }
 
-    B1 J0(z2 z2Var, j$.util.t tVar) {
+    A1 G0(y2 y2Var, j$.util.s sVar) {
         q qVar = new Supplier() { // from class: j$.util.stream.q
             @Override // j$.util.function.Supplier
             public final Object get() {
@@ -65,7 +45,7 @@ class t extends d3 {
                 return BiConsumer.-CC.$default$andThen(this, biConsumer);
             }
         };
-        return new F1((Collection) new A2(f4.REFERENCE, new BiConsumer() { // from class: j$.util.stream.o
+        return new E1((Collection) new z2(e4.REFERENCE, new BiConsumer() { // from class: j$.util.stream.o
             @Override // j$.util.function.BiConsumer
             public final void accept(Object obj, Object obj2) {
                 ((LinkedHashSet) obj).addAll((LinkedHashSet) obj2);
@@ -75,6 +55,26 @@ class t extends d3 {
             public /* synthetic */ BiConsumer andThen(BiConsumer biConsumer) {
                 return BiConsumer.-CC.$default$andThen(this, biConsumer);
             }
-        }, nVar, qVar).c(z2Var, tVar));
+        }, nVar, qVar).c(y2Var, sVar));
+    }
+
+    @Override // j$.util.stream.c
+    A1 z0(y2 y2Var, j$.util.s sVar, j$.util.function.m mVar) {
+        if (d4.DISTINCT.d(y2Var.n0())) {
+            return y2Var.k0(sVar, false, mVar);
+        }
+        if (d4.ORDERED.d(y2Var.n0())) {
+            return G0(y2Var, sVar);
+        }
+        AtomicBoolean atomicBoolean = new AtomicBoolean(false);
+        ConcurrentHashMap concurrentHashMap = new ConcurrentHashMap();
+        new o0(new p(atomicBoolean, concurrentHashMap), false).c(y2Var, sVar);
+        Collection keySet = concurrentHashMap.keySet();
+        if (atomicBoolean.get()) {
+            HashSet hashSet = new HashSet(keySet);
+            hashSet.add(null);
+            keySet = hashSet;
+        }
+        return new E1(keySet);
     }
 }

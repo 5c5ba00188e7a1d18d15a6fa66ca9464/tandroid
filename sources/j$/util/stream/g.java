@@ -16,7 +16,7 @@ public interface g extends AutoCloseable {
 
     g sequential();
 
-    j$.util.t spliterator();
+    j$.util.s spliterator();
 
     g unordered();
 }

@@ -122,6 +122,7 @@ import org.telegram.PhoneFormat.PhoneFormat;
 import org.telegram.messenger.AccountInstance;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
+import org.telegram.messenger.AuthTokensHelper;
 import org.telegram.messenger.BillingController;
 import org.telegram.messenger.BirthdayController;
 import org.telegram.messenger.BuildVars;
@@ -362,7 +363,6 @@ import org.telegram.ui.Components.ShareAlert;
 import org.telegram.ui.Components.SharedMediaLayout;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.Components.StickerEmptyView;
-import org.telegram.ui.Components.Text;
 import org.telegram.ui.Components.TimerDrawable;
 import org.telegram.ui.Components.TranslateAlert2;
 import org.telegram.ui.Components.TypefaceSpan;
@@ -2527,11 +2527,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r12v2 */
-    /* JADX WARN: Type inference failed for: r12v3, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r12v3, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r12v5 */
     /* JADX WARN: Type inference failed for: r12v6 */
     /* JADX WARN: Type inference failed for: r14v2 */
-    /* JADX WARN: Type inference failed for: r14v3, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r14v3, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r14v5 */
     /* JADX WARN: Type inference failed for: r14v6 */
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -5436,7 +5436,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             if (i4 >= 2 || BuildVars.DEBUG_PRIVATE_VERSION) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this.getParentActivity(), ProfileActivity.this.resourcesProvider);
                 builder.setTitle(LocaleController.getString("DebugMenu", R.string.DebugMenu));
-                CharSequence[] charSequenceArr = new CharSequence[29];
+                CharSequence[] charSequenceArr = new CharSequence[30];
                 charSequenceArr[0] = LocaleController.getString("DebugMenuImportContacts", R.string.DebugMenuImportContacts);
                 charSequenceArr[1] = LocaleController.getString("DebugMenuReloadContacts", R.string.DebugMenuReloadContacts);
                 charSequenceArr[2] = LocaleController.getString("DebugMenuResetContacts", R.string.DebugMenuResetContacts);
@@ -5503,6 +5503,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
                 charSequenceArr[27] = str5;
                 charSequenceArr[28] = BuildVars.DEBUG_VERSION ? "Clear bot biometry data" : null;
+                charSequenceArr[29] = BuildVars.DEBUG_PRIVATE_VERSION ? "Clear all login tokens" : null;
                 final Context context = this.val$context;
                 builder.setItems(charSequenceArr, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$16$$ExternalSyntheticLambda1
                     @Override // android.content.DialogInterface.OnClickListener
@@ -5855,6 +5856,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 SharedConfig.toggleUseCamera2(((BaseFragment) ProfileActivity.this).currentAccount);
             } else if (i == 28) {
                 BotBiometry.clear();
+            } else if (i == 29) {
+                AuthTokensHelper.clearLogInTokens();
             }
         }
 
@@ -6003,27 +6006,57 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
     }
 
+    /* loaded from: classes4.dex */
+    public class 19 implements ChatRightsEditActivity.ChatRightsEditActivityDelegate {
+        final /* synthetic */ TLRPC$Chat val$chat;
+        final /* synthetic */ ChatRightsEditActivity val$fragment;
+
+        19(TLRPC$Chat tLRPC$Chat, ChatRightsEditActivity chatRightsEditActivity) {
+            ProfileActivity.this = r1;
+            this.val$chat = tLRPC$Chat;
+            this.val$fragment = chatRightsEditActivity;
+        }
+
+        @Override // org.telegram.ui.ChatRightsEditActivity.ChatRightsEditActivityDelegate
+        public void didSetRights(int i, TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights, TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights, String str) {
+            ChatRightsEditActivity chatRightsEditActivity;
+            ProfileActivity.this.removeSelfFromStack();
+            final TLRPC$User user = ProfileActivity.this.getMessagesController().getUser(Long.valueOf(ProfileActivity.this.userId));
+            if (user == null || this.val$chat == null || ProfileActivity.this.userId == 0 || (chatRightsEditActivity = this.val$fragment) == null || !chatRightsEditActivity.banning || chatRightsEditActivity.getParentLayout() == null) {
+                return;
+            }
+            for (final BaseFragment baseFragment : this.val$fragment.getParentLayout().getFragmentStack()) {
+                if (baseFragment instanceof ChannelAdminLogActivity) {
+                    ((ChannelAdminLogActivity) baseFragment).lambda$processSelectedOption$20();
+                    final TLRPC$Chat tLRPC$Chat = this.val$chat;
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ProfileActivity$19$$ExternalSyntheticLambda0
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            ProfileActivity.19.lambda$didSetRights$0(BaseFragment.this, user, tLRPC$Chat);
+                        }
+                    });
+                    return;
+                }
+            }
+        }
+
+        public static /* synthetic */ void lambda$didSetRights$0(BaseFragment baseFragment, TLRPC$User tLRPC$User, TLRPC$Chat tLRPC$Chat) {
+            BulletinFactory.createRemoveFromChatBulletin(baseFragment, tLRPC$User, tLRPC$Chat.title).show();
+        }
+
+        @Override // org.telegram.ui.ChatRightsEditActivity.ChatRightsEditActivityDelegate
+        public void didChangeOwner(TLRPC$User tLRPC$User) {
+            ProfileActivity.this.undoView.showWithAction(-ProfileActivity.this.chatId, ProfileActivity.this.currentChat.megagroup ? 10 : 9, tLRPC$User);
+        }
+    }
+
     public /* synthetic */ void lambda$createView$16(TLRPC$Chat tLRPC$Chat, View view) {
         long j = this.userId;
         long j2 = this.banFromGroup;
         TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights = tLRPC$Chat.default_banned_rights;
         TLRPC$ChannelParticipant tLRPC$ChannelParticipant = this.currentChannelParticipant;
         ChatRightsEditActivity chatRightsEditActivity = new ChatRightsEditActivity(j, j2, null, tLRPC$TL_chatBannedRights, tLRPC$ChannelParticipant != null ? tLRPC$ChannelParticipant.banned_rights : null, "", 1, true, false, null);
-        chatRightsEditActivity.setDelegate(new ChatRightsEditActivity.ChatRightsEditActivityDelegate() { // from class: org.telegram.ui.ProfileActivity.19
-            {
-                ProfileActivity.this = this;
-            }
-
-            @Override // org.telegram.ui.ChatRightsEditActivity.ChatRightsEditActivityDelegate
-            public void didSetRights(int i, TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights, TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights2, String str) {
-                ProfileActivity.this.removeSelfFromStack();
-            }
-
-            @Override // org.telegram.ui.ChatRightsEditActivity.ChatRightsEditActivityDelegate
-            public void didChangeOwner(TLRPC$User tLRPC$User) {
-                ProfileActivity.this.undoView.showWithAction(-ProfileActivity.this.chatId, ProfileActivity.this.currentChat.megagroup ? 10 : 9, tLRPC$User);
-            }
-        });
+        chatRightsEditActivity.setDelegate(new 19(tLRPC$Chat, chatRightsEditActivity));
         presentFragment(chatRightsEditActivity);
     }
 
@@ -7138,7 +7171,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         public final void run() {
                             ProfileActivity.this.lambda$onMemberClick$39(tLRPC$ChannelParticipant4, tLRPC$ChatParticipant, user, callback);
                         }
-                    }).addIf(z6, R.drawable.msg_remove, LocaleController.getString("KickFromGroup", R.string.KickFromGroup), true, new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda75
+                    }).addIf(z6, R.drawable.msg_remove, (CharSequence) LocaleController.getString("KickFromGroup", R.string.KickFromGroup), true, new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda75
                         @Override // java.lang.Runnable
                         public final void run() {
                             ProfileActivity.this.lambda$onMemberClick$40(tLRPC$ChatParticipant);
@@ -10894,7 +10927,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             this.verifiedDrawable[i] = Theme.profile_verifiedDrawable.getConstantState().newDrawable().mutate();
             this.verifiedCheckDrawable[i] = Theme.profile_verifiedCheckDrawable.getConstantState().newDrawable().mutate();
             if (i == 1 && (peerColor = this.peerColor) != null) {
-                this.verifiedDrawable[1].setColorFilter(AndroidUtilities.getOffsetColor(Theme.adaptHSV(ColorUtils.blendARGB(peerColor.getColor2(), this.peerColor.hasColor6(Theme.isCurrentThemeDark()) ? this.peerColor.getColor5() : this.peerColor.getColor3(), 0.4f), 0.1f, Theme.isCurrentThemeDark() ? -0.1f : -0.08f), getThemedColor(Theme.key_player_actionBarTitle), this.mediaHeaderAnimationProgress, 1.0f), PorterDuff.Mode.MULTIPLY);
+                this.verifiedDrawable[1].setColorFilter(AndroidUtilities.getOffsetColor(Theme.adaptHSV(peerColor.hasColor6(Theme.isCurrentThemeDark()) ? this.peerColor.getColor5() : this.peerColor.getColor3(), 0.1f, Theme.isCurrentThemeDark() ? -0.1f : -0.08f), getThemedColor(Theme.key_player_actionBarTitle), this.mediaHeaderAnimationProgress, 1.0f), PorterDuff.Mode.MULTIPLY);
                 this.verifiedCheckDrawable[1].setColorFilter(AndroidUtilities.getOffsetColor(-1, getThemedColor(Theme.key_windowBackgroundWhite), this.mediaHeaderAnimationProgress, 1.0f), PorterDuff.Mode.MULTIPLY);
             }
             this.verifiedCrossfadeDrawable[i] = new CrossfadeDrawable(new CombinedDrawable(this.verifiedDrawable[i], this.verifiedCheckDrawable[i]), ContextCompat.getDrawable(getParentActivity(), R.drawable.verified_profile));
@@ -17267,8 +17300,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         private float alpha;
         public final Paint backgroundPaint;
         private final ButtonBounce bounce;
-        private final Text text;
         private int textColor;
+        public final AnimatedTextView.AnimatedTextDrawable textDrawable;
+        private View view;
 
         @Override // android.graphics.drawable.Drawable
         public int getOpacity() {
@@ -17283,7 +17317,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             Paint paint = new Paint(1);
             this.backgroundPaint = paint;
             this.alpha = 1.0f;
-            this.bounce = new ButtonBounce(null) { // from class: org.telegram.ui.ProfileActivity.ShowDrawable.1
+            this.bounce = new ButtonBounce(null) { // from class: org.telegram.ui.ProfileActivity.ShowDrawable.2
                 {
                     ShowDrawable.this = this;
                 }
@@ -17293,7 +17327,31 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     ShowDrawable.this.invalidateSelf();
                 }
             };
-            this.text = new Text(str, 11.0f);
+            AnimatedTextView.AnimatedTextDrawable animatedTextDrawable = new AnimatedTextView.AnimatedTextDrawable();
+            this.textDrawable = animatedTextDrawable;
+            animatedTextDrawable.setCallback(new Drawable.Callback() { // from class: org.telegram.ui.ProfileActivity.ShowDrawable.1
+                @Override // android.graphics.drawable.Drawable.Callback
+                public void scheduleDrawable(Drawable drawable, Runnable runnable, long j) {
+                }
+
+                @Override // android.graphics.drawable.Drawable.Callback
+                public void unscheduleDrawable(Drawable drawable, Runnable runnable) {
+                }
+
+                {
+                    ShowDrawable.this = this;
+                }
+
+                @Override // android.graphics.drawable.Drawable.Callback
+                public void invalidateDrawable(Drawable drawable) {
+                    if (ShowDrawable.this.view != null) {
+                        ShowDrawable.this.view.invalidate();
+                    }
+                }
+            });
+            animatedTextDrawable.setText(str);
+            animatedTextDrawable.setTextSize(AndroidUtilities.dp(11.0f));
+            animatedTextDrawable.setGravity(17);
             paint.setColor(520093696);
         }
 
@@ -17325,7 +17383,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             this.backgroundPaint.setAlpha((int) (alpha * this.alpha));
             canvas.drawRoundRect(rectF, AndroidUtilities.dp(20.0f), AndroidUtilities.dp(20.0f), this.backgroundPaint);
             this.backgroundPaint.setAlpha(alpha);
-            this.text.draw(canvas, rectF.left + AndroidUtilities.dp(5.5f), rectF.centerY(), this.textColor, this.alpha);
+            this.textDrawable.setTextColor(this.textColor);
+            this.textDrawable.setAlpha((int) (this.alpha * 255.0f));
+            this.textDrawable.setBounds((int) rectF.left, (int) rectF.top, (int) rectF.right, (int) rectF.bottom);
+            this.textDrawable.draw(canvas);
             canvas.restore();
         }
 
@@ -17337,7 +17398,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
         @Override // android.graphics.drawable.Drawable
         public int getIntrinsicWidth() {
-            return (int) (this.text.getCurrentWidth() + AndroidUtilities.dp(11.0f));
+            return (int) (this.textDrawable.getAnimateToWidth() + AndroidUtilities.dp(11.0f));
         }
 
         @Override // android.graphics.drawable.Drawable
@@ -17348,6 +17409,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         @Override // org.telegram.ui.ActionBar.SimpleTextView.PressableDrawable
         public void setPressed(boolean z) {
             this.bounce.setPressed(z);
+        }
+
+        public void setView(View view) {
+            this.view = view;
         }
     }
 

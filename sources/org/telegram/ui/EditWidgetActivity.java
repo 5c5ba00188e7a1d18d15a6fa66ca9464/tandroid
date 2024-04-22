@@ -249,19 +249,19 @@ public class EditWidgetActivity extends BaseFragment {
         /* JADX WARN: Code restructure failed: missing block: B:110:0x02a2, code lost:
             if ((r0 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChannelMigrateFrom) != false) goto L64;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:365:0x08fb, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:365:0x0901, code lost:
             r0 = th;
          */
-        /* JADX WARN: Removed duplicated region for block: B:338:0x0835  */
-        /* JADX WARN: Removed duplicated region for block: B:339:0x0838  */
-        /* JADX WARN: Removed duplicated region for block: B:343:0x0859  */
-        /* JADX WARN: Removed duplicated region for block: B:346:0x0871  */
-        /* JADX WARN: Removed duplicated region for block: B:355:0x08a3 A[Catch: all -> 0x0900, TRY_LEAVE, TryCatch #0 {all -> 0x0900, blocks: (B:342:0x0845, B:344:0x085a, B:347:0x0873, B:349:0x087e, B:354:0x0899, B:350:0x0884, B:352:0x088c, B:353:0x0891, B:355:0x08a3), top: B:399:0x0845 }] */
-        /* JADX WARN: Removed duplicated region for block: B:361:0x08ec A[Catch: all -> 0x08fb, TryCatch #2 {all -> 0x08fb, blocks: (B:359:0x08e3, B:361:0x08ec, B:363:0x08f1, B:362:0x08ef), top: B:403:0x08e3 }] */
-        /* JADX WARN: Removed duplicated region for block: B:362:0x08ef A[Catch: all -> 0x08fb, TryCatch #2 {all -> 0x08fb, blocks: (B:359:0x08e3, B:361:0x08ec, B:363:0x08f1, B:362:0x08ef), top: B:403:0x08e3 }] */
-        /* JADX WARN: Removed duplicated region for block: B:374:0x090a  */
-        /* JADX WARN: Removed duplicated region for block: B:387:0x0959  */
-        /* JADX WARN: Removed duplicated region for block: B:399:0x0845 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:338:0x083b  */
+        /* JADX WARN: Removed duplicated region for block: B:339:0x083e  */
+        /* JADX WARN: Removed duplicated region for block: B:343:0x085f  */
+        /* JADX WARN: Removed duplicated region for block: B:346:0x0877  */
+        /* JADX WARN: Removed duplicated region for block: B:355:0x08a9 A[Catch: all -> 0x0906, TRY_LEAVE, TryCatch #3 {all -> 0x0906, blocks: (B:342:0x084b, B:344:0x0860, B:347:0x0879, B:349:0x0884, B:354:0x089f, B:350:0x088a, B:352:0x0892, B:353:0x0897, B:355:0x08a9), top: B:405:0x084b }] */
+        /* JADX WARN: Removed duplicated region for block: B:361:0x08f2 A[Catch: all -> 0x0901, TryCatch #0 {all -> 0x0901, blocks: (B:359:0x08e9, B:361:0x08f2, B:363:0x08f7, B:362:0x08f5), top: B:399:0x08e9 }] */
+        /* JADX WARN: Removed duplicated region for block: B:362:0x08f5 A[Catch: all -> 0x0901, TryCatch #0 {all -> 0x0901, blocks: (B:359:0x08e9, B:361:0x08f2, B:363:0x08f7, B:362:0x08f5), top: B:399:0x08e9 }] */
+        /* JADX WARN: Removed duplicated region for block: B:374:0x0910  */
+        /* JADX WARN: Removed duplicated region for block: B:387:0x095f  */
+        /* JADX WARN: Removed duplicated region for block: B:405:0x084b A[EXC_TOP_SPLITTER, SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -746,7 +746,7 @@ public class EditWidgetActivity extends BaseFragment {
                                             TLRPC$MessageMedia tLRPC$MessageMedia = messageObject.messageOwner.media;
                                             if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaPoll) {
                                                 TLRPC$TL_messageMediaPoll tLRPC$TL_messageMediaPoll = (TLRPC$TL_messageMediaPoll) tLRPC$MessageMedia;
-                                                charSequence2 = Build.VERSION.SDK_INT >= 18 ? String.format("📊 \u2068%s\u2069", tLRPC$TL_messageMediaPoll.poll.question) : String.format("📊 %s", tLRPC$TL_messageMediaPoll.poll.question);
+                                                charSequence2 = Build.VERSION.SDK_INT >= 18 ? String.format("📊 \u2068%s\u2069", tLRPC$TL_messageMediaPoll.poll.question.text) : String.format("📊 %s", tLRPC$TL_messageMediaPoll.poll.question.text);
                                                 c3 = 1;
                                                 c2 = 0;
                                             } else if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaGame) {
@@ -828,7 +828,7 @@ public class EditWidgetActivity extends BaseFragment {
                                         charSequence3 = str18 + ((Object) messageObject.caption);
                                     } else {
                                         if (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaPoll) {
-                                            charSequence = "📊 " + ((TLRPC$TL_messageMediaPoll) tLRPC$MessageMedia2).poll.question;
+                                            charSequence = "📊 " + ((TLRPC$TL_messageMediaPoll) tLRPC$MessageMedia2).poll.question.text;
                                         } else if (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaGame) {
                                             charSequence = "🎮 " + messageObject.messageOwner.media.game.title;
                                         } else if (messageObject.type == 14) {

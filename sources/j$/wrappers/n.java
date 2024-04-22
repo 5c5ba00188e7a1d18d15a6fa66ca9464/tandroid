@@ -1,19 +1,19 @@
 package j$.wrappers;
 
-import j$.util.t;
+import j$.util.s;
 import java.util.Comparator;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.function.LongConsumer;
 /* loaded from: classes2.dex */
 public final /* synthetic */ class n implements Spliterator.OfLong {
-    final /* synthetic */ t.c a;
+    final /* synthetic */ s.c a;
 
-    private /* synthetic */ n(t.c cVar) {
+    private /* synthetic */ n(s.c cVar) {
         this.a = cVar;
     }
 
-    public static /* synthetic */ Spliterator.OfLong a(t.c cVar) {
+    public static /* synthetic */ Spliterator.OfLong a(s.c cVar) {
         if (cVar == null) {
             return null;
         }

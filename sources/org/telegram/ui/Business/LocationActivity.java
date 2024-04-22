@@ -143,8 +143,9 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                 }
             }
 
-            @Override // android.view.View
-            protected void dispatchDraw(Canvas canvas) {
+            /* JADX INFO: Access modifiers changed from: protected */
+            @Override // org.telegram.ui.Components.EditTextBoldCursor, android.view.View
+            public void dispatchDraw(Canvas canvas) {
                 super.dispatchDraw(canvas);
                 this.limit.setTextColor(this.limitColor.set(Theme.getColor(this.limitCount < 0 ? Theme.key_text_RedRegular : Theme.key_dialogSearchHint, LocationActivity.this.getResourceProvider())));
                 this.limit.setBounds(getScrollX(), 0, getScrollX() + getWidth(), getHeight());

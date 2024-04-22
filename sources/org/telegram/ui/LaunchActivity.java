@@ -1665,7 +1665,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         }
         DialogsActivity provide = genericProvider.provide(null);
         provide.setSideMenu(this.sideMenu);
-        this.actionBarLayout.addFragmentToStack(provide, 0);
+        this.actionBarLayout.addFragmentToStack(provide, -3);
         this.drawerLayoutContainer.setAllowOpenDrawer(true, false);
         this.actionBarLayout.rebuildFragments(1);
         if (AndroidUtilities.isTablet()) {
@@ -2102,7 +2102,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX WARN: Type inference failed for: r11v33 */
     /* JADX WARN: Type inference failed for: r11v34 */
     /* JADX WARN: Type inference failed for: r11v4 */
-    /* JADX WARN: Type inference failed for: r11v5, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r11v5, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r11v7 */
     /* JADX WARN: Type inference failed for: r11v8 */
     /* JADX WARN: Type inference failed for: r7v11 */

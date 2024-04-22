@@ -5,6 +5,7 @@ import j$.util.function.BiConsumer;
 import j$.util.function.BiFunction;
 import j$.util.function.Function;
 import j$.util.function.Predicate;
+import j$.wrappers.L;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -227,7 +228,7 @@ public class DesugarCollections {
 
         @Override // java.util.Map
         public /* synthetic */ Object computeIfAbsent(Object obj, java.util.function.Function function) {
-            return computeIfAbsent(obj, j$.wrappers.L.a(function));
+            return computeIfAbsent(obj, L.a(function));
         }
 
         @Override // j$.util.Map

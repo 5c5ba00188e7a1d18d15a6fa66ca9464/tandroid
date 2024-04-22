@@ -2,8 +2,8 @@ package j$.util.stream;
 
 import java.util.Objects;
 /* loaded from: classes2.dex */
-final class g0 extends j0 implements l3 {
-    @Override // j$.util.stream.j0, j$.util.stream.n3
+final class g0 extends j0 implements k3 {
+    @Override // j$.util.stream.j0, j$.util.stream.m3
     public void accept(int i) {
         accept(Integer.valueOf(i));
     }

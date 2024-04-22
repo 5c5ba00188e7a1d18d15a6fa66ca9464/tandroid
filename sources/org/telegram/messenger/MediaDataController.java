@@ -8656,7 +8656,7 @@ public class MediaDataController extends BaseController {
     /* JADX WARN: Type inference failed for: r3v1, types: [java.lang.Object[]] */
     /* JADX WARN: Type inference failed for: r4v1 */
     /* JADX WARN: Type inference failed for: r4v11 */
-    /* JADX WARN: Type inference failed for: r4v2, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r4v2, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r7v1, types: [java.lang.String] */
     /* JADX WARN: Type inference failed for: r7v13, types: [java.lang.StringBuilder] */
     /* JADX WARN: Type inference failed for: r7v2 */
@@ -9114,7 +9114,7 @@ public class MediaDataController extends BaseController {
         final LongSparseArray longSparseArray4 = new LongSparseArray();
         for (int i6 = 0; i6 < arrayList.size(); i6++) {
             MessageObject messageObject2 = arrayList.get(i6);
-            if (messageObject2 != null && !messageObject2.isReplyToStory() && messageObject2.isReply() && messageObject2.getId() > 0) {
+            if (messageObject2 != null && !messageObject2.isReplyToStory() && messageObject2.isReply() && messageObject2.getRealId() > 0) {
                 TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader = messageObject2.messageOwner.reply_to;
                 if (tLRPC$MessageReplyHeader.reply_to_peer_id == null) {
                     int i7 = tLRPC$MessageReplyHeader.reply_to_msg_id;
@@ -9122,7 +9122,7 @@ public class MediaDataController extends BaseController {
                     while (true) {
                         if (i8 >= arrayList.size()) {
                             break;
-                        } else if (i6 == i8 || arrayList.get(i8) == null || arrayList.get(i8).getId() != i7) {
+                        } else if (i6 == i8 || arrayList.get(i8) == null || arrayList.get(i8).getRealId() != i7) {
                             i8++;
                         } else {
                             messageObject2.replyMessageObject = arrayList.get(i8);
@@ -9193,7 +9193,7 @@ public class MediaDataController extends BaseController {
                         }
                     }
                 } else {
-                    if (messageObject3.getId() > 0 && messageObject3.isReplyToStory()) {
+                    if (messageObject3.getRealId() > 0 && messageObject3.isReplyToStory()) {
                         TLRPC$Message tLRPC$Message2 = messageObject3.messageOwner;
                         if (tLRPC$Message2.replyStory == null) {
                             long peerDialogId4 = DialogObject.getPeerDialogId(tLRPC$Message2.reply_to.peer);
@@ -9214,7 +9214,7 @@ public class MediaDataController extends BaseController {
                             TLRPC$Message tLRPC$Message3 = messageObject3.messageOwner;
                             tLRPC$Message3.replyStory = StoriesStorage.checkExpiredStateLocal(this.currentAccount, peerDialogId5, tLRPC$Message3.replyStory);
                         }
-                    } else if (messageObject3.getId() > 0 && messageObject3.isReply()) {
+                    } else if (messageObject3.getRealId() > 0 && messageObject3.isReply()) {
                         TLRPC$Message tLRPC$Message4 = messageObject3.messageOwner;
                         TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader2 = tLRPC$Message4.reply_to;
                         int i11 = tLRPC$MessageReplyHeader2.reply_to_msg_id;
@@ -9283,7 +9283,7 @@ public class MediaDataController extends BaseController {
                             messageObject2.messageOwner.reply_to = new TLRPC$TL_messageReplyHeader();
                             TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader = messageObject2.messageOwner.reply_to;
                             tLRPC$MessageReplyHeader.flags |= 16;
-                            tLRPC$MessageReplyHeader.reply_to_msg_id = messageObject.getId();
+                            tLRPC$MessageReplyHeader.reply_to_msg_id = messageObject.getRealId();
                         }
                     }
                 }
@@ -9321,7 +9321,7 @@ public class MediaDataController extends BaseController {
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Type inference failed for: r15v4 */
-    /* JADX WARN: Type inference failed for: r15v5, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r15v5, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r15v9 */
     public /* synthetic */ void lambda$loadReplyMessagesForMessages$174(LongSparseArray longSparseArray, final AtomicInteger atomicInteger, final Runnable runnable, int i, final LongSparseArray longSparseArray2, LongSparseArray longSparseArray3, final boolean z, final long j) {
         int i2;

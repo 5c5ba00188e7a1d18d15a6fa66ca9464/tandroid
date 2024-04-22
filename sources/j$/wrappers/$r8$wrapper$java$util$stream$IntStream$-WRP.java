@@ -36,22 +36,22 @@ public final /* synthetic */ class $r8$wrapper$java$util$stream$IntStream$-WRP i
 
     @Override // java.util.stream.IntStream
     public /* synthetic */ boolean allMatch(IntPredicate intPredicate) {
-        return this.a.C(U.a(intPredicate));
+        return this.a.B(U.a(intPredicate));
     }
 
     @Override // java.util.stream.IntStream
     public /* synthetic */ boolean anyMatch(IntPredicate intPredicate) {
-        return this.a.F(U.a(intPredicate));
+        return this.a.E(U.a(intPredicate));
     }
 
     @Override // java.util.stream.IntStream
     public /* synthetic */ DoubleStream asDoubleStream() {
-        return L0.l0(this.a.asDoubleStream());
+        return L0.i0(this.a.asDoubleStream());
     }
 
     @Override // java.util.stream.IntStream
     public /* synthetic */ LongStream asLongStream() {
-        return N0.l0(this.a.asLongStream());
+        return N0.i0(this.a.asLongStream());
     }
 
     @Override // java.util.stream.IntStream
@@ -61,7 +61,7 @@ public final /* synthetic */ class $r8$wrapper$java$util$stream$IntStream$-WRP i
 
     @Override // java.util.stream.IntStream
     public /* synthetic */ Stream boxed() {
-        return O0.l0(this.a.boxed());
+        return O0.i0(this.a.boxed());
     }
 
     @Override // java.util.stream.BaseStream, java.lang.AutoCloseable
@@ -71,7 +71,7 @@ public final /* synthetic */ class $r8$wrapper$java$util$stream$IntStream$-WRP i
 
     @Override // java.util.stream.IntStream
     public /* synthetic */ Object collect(Supplier supplier, ObjIntConsumer objIntConsumer, BiConsumer biConsumer) {
-        return this.a.i0(y0.a(supplier), s0.a(objIntConsumer), q.a(biConsumer));
+        return this.a.f0(y0.a(supplier), s0.a(objIntConsumer), q.a(biConsumer));
     }
 
     @Override // java.util.stream.IntStream
@@ -101,17 +101,17 @@ public final /* synthetic */ class $r8$wrapper$java$util$stream$IntStream$-WRP i
 
     @Override // java.util.stream.IntStream
     public /* synthetic */ IntStream flatMap(IntFunction intFunction) {
-        return convert(this.a.P(S.a(intFunction)));
+        return convert(this.a.O(S.a(intFunction)));
     }
 
     @Override // java.util.stream.IntStream
     public /* synthetic */ void forEach(IntConsumer intConsumer) {
-        this.a.T(P.b(intConsumer));
+        this.a.R(P.b(intConsumer));
     }
 
     @Override // java.util.stream.IntStream
     public /* synthetic */ void forEachOrdered(IntConsumer intConsumer) {
-        this.a.I(P.b(intConsumer));
+        this.a.H(P.b(intConsumer));
     }
 
     @Override // java.util.stream.BaseStream
@@ -136,22 +136,22 @@ public final /* synthetic */ class $r8$wrapper$java$util$stream$IntStream$-WRP i
 
     @Override // java.util.stream.IntStream
     public /* synthetic */ IntStream map(IntUnaryOperator intUnaryOperator) {
-        return convert(this.a.q(a0.b(intUnaryOperator)));
+        return convert(this.a.p(a0.b(intUnaryOperator)));
     }
 
     @Override // java.util.stream.IntStream
     public /* synthetic */ DoubleStream mapToDouble(IntToDoubleFunction intToDoubleFunction) {
-        return L0.l0(this.a.A(W.b(intToDoubleFunction)));
+        return L0.i0(this.a.z(W.b(intToDoubleFunction)));
     }
 
     @Override // java.util.stream.IntStream
     public /* synthetic */ LongStream mapToLong(IntToLongFunction intToLongFunction) {
-        return N0.l0(this.a.f(Y.a(intToLongFunction)));
+        return N0.i0(this.a.f(Y.a(intToLongFunction)));
     }
 
     @Override // java.util.stream.IntStream
     public /* synthetic */ Stream mapToObj(IntFunction intFunction) {
-        return O0.l0(this.a.J(S.a(intFunction)));
+        return O0.i0(this.a.I(S.a(intFunction)));
     }
 
     @Override // java.util.stream.IntStream
@@ -166,19 +166,19 @@ public final /* synthetic */ class $r8$wrapper$java$util$stream$IntStream$-WRP i
 
     @Override // java.util.stream.IntStream
     public /* synthetic */ boolean noneMatch(IntPredicate intPredicate) {
-        return this.a.v(U.a(intPredicate));
+        return this.a.u(U.a(intPredicate));
     }
 
     /* JADX WARN: Type inference failed for: r2v2, types: [java.util.stream.IntStream, java.util.stream.BaseStream] */
     @Override // java.util.stream.BaseStream
     public /* synthetic */ IntStream onClose(Runnable runnable) {
-        return H0.l0(this.a.onClose(runnable));
+        return H0.i0(this.a.onClose(runnable));
     }
 
     /* JADX WARN: Type inference failed for: r0v2, types: [java.util.stream.IntStream, java.util.stream.BaseStream] */
     @Override // java.util.stream.IntStream, java.util.stream.BaseStream
     public /* synthetic */ IntStream parallel() {
-        return H0.l0(this.a.parallel());
+        return H0.i0(this.a.parallel());
     }
 
     @Override // java.util.stream.IntStream, java.util.stream.BaseStream
@@ -188,23 +188,23 @@ public final /* synthetic */ class $r8$wrapper$java$util$stream$IntStream$-WRP i
 
     @Override // java.util.stream.IntStream
     public /* synthetic */ IntStream peek(IntConsumer intConsumer) {
-        return convert(this.a.a0(P.b(intConsumer)));
+        return convert(this.a.Y(P.b(intConsumer)));
     }
 
     @Override // java.util.stream.IntStream
     public /* synthetic */ int reduce(int i, IntBinaryOperator intBinaryOperator) {
-        return this.a.N(i, N.a(intBinaryOperator));
+        return this.a.M(i, N.a(intBinaryOperator));
     }
 
     @Override // java.util.stream.IntStream
     public /* synthetic */ OptionalInt reduce(IntBinaryOperator intBinaryOperator) {
-        return j$.util.a.s(this.a.Z(N.a(intBinaryOperator)));
+        return j$.util.a.s(this.a.X(N.a(intBinaryOperator)));
     }
 
     /* JADX WARN: Type inference failed for: r0v2, types: [java.util.stream.IntStream, java.util.stream.BaseStream] */
     @Override // java.util.stream.IntStream, java.util.stream.BaseStream
     public /* synthetic */ IntStream sequential() {
-        return H0.l0(this.a.sequential());
+        return H0.i0(this.a.sequential());
     }
 
     @Override // java.util.stream.IntStream, java.util.stream.BaseStream
@@ -251,6 +251,6 @@ public final /* synthetic */ class $r8$wrapper$java$util$stream$IntStream$-WRP i
     /* JADX WARN: Type inference failed for: r0v2, types: [java.util.stream.IntStream, java.util.stream.BaseStream] */
     @Override // java.util.stream.BaseStream
     public /* synthetic */ IntStream unordered() {
-        return H0.l0(this.a.unordered());
+        return H0.i0(this.a.unordered());
     }
 }

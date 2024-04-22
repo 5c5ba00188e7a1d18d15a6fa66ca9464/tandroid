@@ -1,79 +1,73 @@
 package j$.util;
 
+import j$.util.Iterator;
 import j$.util.function.Consumer;
-import j$.util.t;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Objects;
 import org.telegram.messenger.LiteMode;
+import org.telegram.tgnet.ConnectionsManager;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-final class G implements t.b {
-    private final int[] a;
-    private int b;
+public class G implements s {
+    private final Collection a;
+    private java.util.Iterator b = null;
     private final int c;
-    private final int d;
+    private long d;
+    private int e;
 
-    public G(int[] iArr, int i, int i2, int i3) {
-        this.a = iArr;
-        this.b = i;
-        this.c = i2;
-        this.d = i3 | 64 | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM;
+    public G(Collection collection, int i) {
+        this.a = collection;
+        this.c = (i & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) == 0 ? i | 64 | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM : i;
     }
 
-    @Override // j$.util.t.b, j$.util.t
-    public /* synthetic */ boolean b(Consumer consumer) {
-        return a.k(this, consumer);
-    }
-
-    @Override // j$.util.u
-    /* renamed from: c */
-    public void forEachRemaining(j$.util.function.l lVar) {
-        int i;
-        Objects.requireNonNull(lVar);
-        int[] iArr = this.a;
-        int length = iArr.length;
-        int i2 = this.c;
-        if (length < i2 || (i = this.b) < 0) {
-            return;
+    @Override // j$.util.s
+    public boolean b(Consumer consumer) {
+        Objects.requireNonNull(consumer);
+        if (this.b == null) {
+            this.b = this.a.iterator();
+            this.d = this.a.size();
         }
-        this.b = i2;
-        if (i < i2) {
-            do {
-                lVar.accept(iArr[i]);
-                i++;
-            } while (i < i2);
+        if (this.b.hasNext()) {
+            consumer.accept(this.b.next());
+            return true;
         }
+        return false;
     }
 
-    @Override // j$.util.t
+    @Override // j$.util.s
     public int characteristics() {
+        return this.c;
+    }
+
+    @Override // j$.util.s
+    public long estimateSize() {
+        if (this.b == null) {
+            this.b = this.a.iterator();
+            long size = this.a.size();
+            this.d = size;
+            return size;
+        }
         return this.d;
     }
 
-    @Override // j$.util.t
-    public long estimateSize() {
-        return this.c - this.b;
-    }
-
-    @Override // j$.util.t.b, j$.util.t
-    public /* synthetic */ void forEachRemaining(Consumer consumer) {
-        a.c(this, consumer);
-    }
-
-    @Override // j$.util.u
-    /* renamed from: g */
-    public boolean tryAdvance(j$.util.function.l lVar) {
-        Objects.requireNonNull(lVar);
-        int i = this.b;
-        if (i < 0 || i >= this.c) {
-            return false;
+    @Override // j$.util.s
+    public void forEachRemaining(Consumer consumer) {
+        Objects.requireNonNull(consumer);
+        java.util.Iterator it = this.b;
+        if (it == null) {
+            it = this.a.iterator();
+            this.b = it;
+            this.d = this.a.size();
         }
-        int[] iArr = this.a;
-        this.b = i + 1;
-        lVar.accept(iArr[i]);
-        return true;
+        if (it instanceof Iterator) {
+            ((Iterator) it).forEachRemaining(consumer);
+        } else {
+            Iterator.-CC.$default$forEachRemaining(it, consumer);
+        }
     }
 
-    @Override // j$.util.t
+    @Override // j$.util.s
     public Comparator getComparator() {
         if (a.f(this, 4)) {
             return null;
@@ -81,25 +75,52 @@ final class G implements t.b {
         throw new IllegalStateException();
     }
 
-    @Override // j$.util.t
+    @Override // j$.util.s
     public /* synthetic */ long getExactSizeIfKnown() {
         return a.e(this);
     }
 
-    @Override // j$.util.t
+    @Override // j$.util.s
     public /* synthetic */ boolean hasCharacteristics(int i) {
         return a.f(this, i);
     }
 
-    @Override // j$.util.u, j$.util.t
-    public t.b trySplit() {
-        int i = this.b;
-        int i2 = (this.c + i) >>> 1;
-        if (i >= i2) {
+    @Override // j$.util.s
+    public s trySplit() {
+        long j;
+        java.util.Iterator it = this.b;
+        if (it == null) {
+            it = this.a.iterator();
+            this.b = it;
+            j = this.a.size();
+            this.d = j;
+        } else {
+            j = this.d;
+        }
+        if (j <= 1 || !it.hasNext()) {
             return null;
         }
-        int[] iArr = this.a;
-        this.b = i2;
-        return new G(iArr, i, i2, this.d);
+        int i = this.e + 1024;
+        if (i > j) {
+            i = (int) j;
+        }
+        if (i > 33554432) {
+            i = ConnectionsManager.FileTypeVideo;
+        }
+        Object[] objArr = new Object[i];
+        int i2 = 0;
+        do {
+            objArr[i2] = it.next();
+            i2++;
+            if (i2 >= i) {
+                break;
+            }
+        } while (it.hasNext());
+        this.e = i2;
+        long j2 = this.d;
+        if (j2 != Long.MAX_VALUE) {
+            this.d = j2 - i2;
+        }
+        return new y(objArr, 0, i2, this.c);
     }
 }

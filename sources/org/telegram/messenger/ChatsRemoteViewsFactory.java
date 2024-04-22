@@ -307,7 +307,7 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                                 TLRPC$MessageMedia tLRPC$MessageMedia = messageObject.messageOwner.media;
                                 if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaPoll) {
                                     TLRPC$TL_messageMediaPoll tLRPC$TL_messageMediaPoll = (TLRPC$TL_messageMediaPoll) tLRPC$MessageMedia;
-                                    charSequence2 = Build.VERSION.SDK_INT >= 18 ? String.format("📊 \u2068%s\u2069", tLRPC$TL_messageMediaPoll.poll.question) : String.format("📊 %s", tLRPC$TL_messageMediaPoll.poll.question);
+                                    charSequence2 = Build.VERSION.SDK_INT >= 18 ? String.format("📊 \u2068%s\u2069", tLRPC$TL_messageMediaPoll.poll.question.text) : String.format("📊 %s", tLRPC$TL_messageMediaPoll.poll.question.text);
                                     i4 = 2;
                                     c4 = ' ';
                                     c3 = 1;
@@ -400,7 +400,7 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                             charSequence3 = str3 + ((Object) messageObject.caption);
                         } else {
                             if (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaPoll) {
-                                charSequence = "📊 " + ((TLRPC$TL_messageMediaPoll) tLRPC$MessageMedia2).poll.question;
+                                charSequence = "📊 " + ((TLRPC$TL_messageMediaPoll) tLRPC$MessageMedia2).poll.question.text;
                             } else if (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaGame) {
                                 charSequence = "🎮 " + messageObject.messageOwner.media.game.title;
                             } else if (messageObject.type == 14) {

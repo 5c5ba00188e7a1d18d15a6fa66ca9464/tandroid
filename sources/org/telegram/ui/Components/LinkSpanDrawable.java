@@ -1,11 +1,15 @@
 package org.telegram.ui.Components;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.CornerPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.RectF;
 import android.os.SystemClock;
 import android.text.Layout;
@@ -501,6 +505,7 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
         private boolean disablePaddingsOffset;
         private boolean disablePaddingsOffsetX;
         private boolean disablePaddingsOffsetY;
+        private ColorFilter emojiColorFilter;
         private boolean isCustomLinkCollector;
         private final LinkCollector links;
         private boolean loggedError;
@@ -513,6 +518,10 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
         /* loaded from: classes3.dex */
         public interface OnLinkPress {
             void run(ClickableSpan clickableSpan);
+        }
+
+        protected int emojiCacheType() {
+            return 0;
         }
 
         protected int processColor(int i) {
@@ -656,35 +665,35 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
         }
 
         /* JADX INFO: Access modifiers changed from: protected */
-        /* JADX WARN: Can't wrap try/catch for region: R(12:1|(5:3|(5:5|(1:7)(1:13)|8|(1:10)(1:12)|11)|14|(1:18)|19)|20|(4:21|22|(1:54)(1:25)|26)|(4:31|32|33|(2:35|36)(1:38))|46|48|49|50|32|33|(0)(0)) */
-        /* JADX WARN: Can't wrap try/catch for region: R(15:1|(5:3|(5:5|(1:7)(1:13)|8|(1:10)(1:12)|11)|14|(1:18)|19)|20|21|22|(1:54)(1:25)|26|(4:31|32|33|(2:35|36)(1:38))|46|48|49|50|32|33|(0)(0)) */
-        /* JADX WARN: Code restructure failed: missing block: B:38:0x009c, code lost:
+        /* JADX WARN: Can't wrap try/catch for region: R(17:1|(5:3|(5:5|(1:7)(1:13)|8|(1:10)(1:12)|11)|14|(1:18)|19)|20|21|22|(1:57)(1:25)|26|(6:31|32|33|(1:35)|36|(2:38|39)(1:41))|49|51|52|53|32|33|(0)|36|(0)(0)) */
+        /* JADX WARN: Code restructure failed: missing block: B:41:0x00b3, code lost:
             r0 = move-exception;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:39:0x009d, code lost:
-            r12 = r1;
+        /* JADX WARN: Code restructure failed: missing block: B:42:0x00b4, code lost:
+            r13 = r1;
             r1 = r0;
-            r0 = r12;
+            r0 = r13;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:40:0x00a1, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:43:0x00b8, code lost:
             r1 = e;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:41:0x00a2, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:44:0x00b9, code lost:
             r0 = true;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:44:0x00a7, code lost:
-            if (r13.loggedError == false) goto L44;
+        /* JADX WARN: Code restructure failed: missing block: B:47:0x00be, code lost:
+            if (r14.loggedError == false) goto L47;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:45:0x00a9, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:48:0x00c0, code lost:
             org.telegram.messenger.FileLog.e((java.lang.Throwable) r1, true);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:46:0x00ac, code lost:
-            r13.loggedError = true;
+        /* JADX WARN: Code restructure failed: missing block: B:49:0x00c3, code lost:
+            r14.loggedError = true;
             r1 = r0;
          */
-        /* JADX WARN: Removed duplicated region for block: B:45:0x00a9  */
-        /* JADX WARN: Removed duplicated region for block: B:48:0x00b1  */
-        /* JADX WARN: Removed duplicated region for block: B:56:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:38:0x0094 A[Catch: Exception -> 0x00b3, TryCatch #2 {Exception -> 0x00b3, blocks: (B:36:0x0080, B:38:0x0094, B:39:0x00a3), top: B:57:0x0080 }] */
+        /* JADX WARN: Removed duplicated region for block: B:48:0x00c0  */
+        /* JADX WARN: Removed duplicated region for block: B:51:0x00c8  */
+        /* JADX WARN: Removed duplicated region for block: B:59:? A[RETURN, SYNTHETIC] */
         @Override // android.widget.TextView, android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -714,9 +723,11 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
             }
             if (paddingTop == 0.0f && getPaddingLeft() == 0) {
                 z = false;
-                AnimatedEmojiSpan.EmojiGroupedSpans update = AnimatedEmojiSpan.update(0, this, this.stack, getLayout());
-                this.stack = update;
-                AnimatedEmojiSpan.drawAnimatedEmojis(canvas, layout, update, 0.0f, null, 0.0f, 0.0f, 0.0f, 1.0f);
+                this.stack = AnimatedEmojiSpan.update(0, this, this.stack, getLayout());
+                if (this.emojiColorFilter == null) {
+                    this.emojiColorFilter = new PorterDuffColorFilter(getPaint().linkColor, PorterDuff.Mode.SRC_IN);
+                }
+                AnimatedEmojiSpan.drawAnimatedEmojis(canvas, layout, this.stack, 0.0f, null, 0.0f, 0.0f, 0.0f, 1.0f, this.emojiColorFilter);
                 if (z) {
                     return;
                 }
@@ -726,9 +737,10 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
             canvas.save();
             canvas.translate(getPaddingLeft(), paddingTop);
             z = true;
-            AnimatedEmojiSpan.EmojiGroupedSpans update2 = AnimatedEmojiSpan.update(0, this, this.stack, getLayout());
-            this.stack = update2;
-            AnimatedEmojiSpan.drawAnimatedEmojis(canvas, layout, update2, 0.0f, null, 0.0f, 0.0f, 0.0f, 1.0f);
+            this.stack = AnimatedEmojiSpan.update(0, this, this.stack, getLayout());
+            if (this.emojiColorFilter == null) {
+            }
+            AnimatedEmojiSpan.drawAnimatedEmojis(canvas, layout, this.stack, 0.0f, null, 0.0f, 0.0f, 0.0f, 1.0f, this.emojiColorFilter);
             if (z) {
             }
         }
@@ -736,20 +748,20 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
         @Override // android.widget.TextView
         public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
             super.setText(charSequence, bufferType);
-            this.stack = AnimatedEmojiSpan.update(0, this, this.stack, getLayout());
+            this.stack = AnimatedEmojiSpan.update(emojiCacheType(), this, this.stack, getLayout());
         }
 
         /* JADX INFO: Access modifiers changed from: protected */
         @Override // android.widget.TextView, android.view.View
         public void onMeasure(int i, int i2) {
             super.onMeasure(i, i2);
-            this.stack = AnimatedEmojiSpan.update(0, this, this.stack, getLayout());
+            this.stack = AnimatedEmojiSpan.update(emojiCacheType(), this, this.stack, getLayout());
         }
 
         @Override // android.widget.TextView, android.view.View
         protected void onAttachedToWindow() {
             super.onAttachedToWindow();
-            this.stack = AnimatedEmojiSpan.update(0, this, this.stack, getLayout());
+            this.stack = AnimatedEmojiSpan.update(emojiCacheType(), this, this.stack, getLayout());
         }
 
         /* JADX INFO: Access modifiers changed from: protected */
@@ -757,6 +769,18 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
         public void onDetachedFromWindow() {
             super.onDetachedFromWindow();
             AnimatedEmojiSpan.release(this, this.stack);
+        }
+
+        @Override // android.widget.TextView
+        public void setTextColor(int i) {
+            super.setTextColor(i);
+            this.emojiColorFilter = new PorterDuffColorFilter(getPaint().linkColor, PorterDuff.Mode.SRC_IN);
+        }
+
+        @Override // android.widget.TextView
+        public void setTextColor(ColorStateList colorStateList) {
+            super.setTextColor(colorStateList);
+            this.emojiColorFilter = new PorterDuffColorFilter(getPaint().linkColor, PorterDuff.Mode.SRC_IN);
         }
     }
 

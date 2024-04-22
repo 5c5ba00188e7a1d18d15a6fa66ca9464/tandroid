@@ -10,7 +10,7 @@ public final /* synthetic */ class G0 implements j$.util.stream.g {
         this.a = baseStream;
     }
 
-    public static /* synthetic */ j$.util.stream.g l0(BaseStream baseStream) {
+    public static /* synthetic */ j$.util.stream.g i0(BaseStream baseStream) {
         if (baseStream == null) {
             return null;
         }
@@ -34,26 +34,26 @@ public final /* synthetic */ class G0 implements j$.util.stream.g {
 
     @Override // j$.util.stream.g
     public /* synthetic */ j$.util.stream.g onClose(Runnable runnable) {
-        return l0(this.a.onClose(runnable));
+        return i0(this.a.onClose(runnable));
     }
 
     @Override // j$.util.stream.g
     public /* synthetic */ j$.util.stream.g parallel() {
-        return l0(this.a.parallel());
+        return i0(this.a.parallel());
     }
 
     @Override // j$.util.stream.g
     public /* synthetic */ j$.util.stream.g sequential() {
-        return l0(this.a.sequential());
+        return i0(this.a.sequential());
     }
 
     @Override // j$.util.stream.g
-    public /* synthetic */ j$.util.t spliterator() {
+    public /* synthetic */ j$.util.s spliterator() {
         return g.a(this.a.spliterator());
     }
 
     @Override // j$.util.stream.g
     public /* synthetic */ j$.util.stream.g unordered() {
-        return l0(this.a.unordered());
+        return i0(this.a.unordered());
     }
 }

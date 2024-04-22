@@ -1,12 +1,12 @@
 package j$.util.stream;
 /* loaded from: classes2.dex */
-class r extends j3 {
+class r extends i3 {
     boolean b;
     Object c;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public r(t tVar, n3 n3Var) {
-        super(n3Var);
+    public r(t tVar, m3 m3Var) {
+        super(m3Var);
     }
 
     @Override // j$.util.function.Consumer
@@ -16,27 +16,27 @@ class r extends j3 {
                 return;
             }
             this.b = true;
-            n3 n3Var = this.a;
+            m3 m3Var = this.a;
             this.c = null;
-            n3Var.accept((n3) null);
+            m3Var.accept((m3) null);
             return;
         }
         Object obj2 = this.c;
         if (obj2 == null || !obj.equals(obj2)) {
-            n3 n3Var2 = this.a;
+            m3 m3Var2 = this.a;
             this.c = obj;
-            n3Var2.accept((n3) obj);
+            m3Var2.accept((m3) obj);
         }
     }
 
-    @Override // j$.util.stream.j3, j$.util.stream.n3
+    @Override // j$.util.stream.i3, j$.util.stream.m3
     public void m() {
         this.b = false;
         this.c = null;
         this.a.m();
     }
 
-    @Override // j$.util.stream.n3
+    @Override // j$.util.stream.m3
     public void n(long j) {
         this.b = false;
         this.c = null;

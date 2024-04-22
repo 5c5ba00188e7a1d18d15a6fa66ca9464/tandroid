@@ -1,21 +1,26 @@
 package j$.util.stream;
-
-import j$.util.function.Consumer;
 /* loaded from: classes2.dex */
-interface B1 {
-    B1 b(int i);
+abstract /* synthetic */ class B1 {
+    static final /* synthetic */ int[] a;
 
-    long count();
-
-    void forEach(Consumer consumer);
-
-    void i(Object[] objArr, int i);
-
-    int p();
-
-    Object[] q(j$.util.function.m mVar);
-
-    B1 r(long j, long j2, j$.util.function.m mVar);
-
-    j$.util.t spliterator();
+    static {
+        int[] iArr = new int[e4.values().length];
+        a = iArr;
+        try {
+            iArr[e4.REFERENCE.ordinal()] = 1;
+        } catch (NoSuchFieldError unused) {
+        }
+        try {
+            a[e4.INT_VALUE.ordinal()] = 2;
+        } catch (NoSuchFieldError unused2) {
+        }
+        try {
+            a[e4.LONG_VALUE.ordinal()] = 3;
+        } catch (NoSuchFieldError unused3) {
+        }
+        try {
+            a[e4.DOUBLE_VALUE.ordinal()] = 4;
+        } catch (NoSuchFieldError unused4) {
+        }
+    }
 }

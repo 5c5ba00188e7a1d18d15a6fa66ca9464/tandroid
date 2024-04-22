@@ -34,7 +34,7 @@ public final /* synthetic */ class p implements Consumer, Supplier {
                 ((BiConsumer) this.b).accept(this.c, obj);
                 return;
             default:
-                ((n4) this.b).f((Consumer) this.c, obj);
+                ((m4) this.b).f((Consumer) this.c, obj);
                 return;
         }
     }
@@ -55,38 +55,38 @@ public final /* synthetic */ class p implements Consumer, Supplier {
     public Object get() {
         switch (this.a) {
             case 1:
-                return new j1((l1) this.b, (j$.wrappers.D) this.c);
+                return new i1((k1) this.b, (j$.wrappers.D) this.c);
             case 2:
-                return new h1((l1) this.b, (j$.wrappers.U) this.c);
+                return new g1((k1) this.b, (j$.wrappers.U) this.c);
             case 3:
-                return new i1((l1) this.b, (j$.wrappers.i0) this.c);
+                return new h1((k1) this.b, (j$.wrappers.i0) this.c);
             default:
-                return new g1((l1) this.b, (Predicate) this.c);
+                return new f1((k1) this.b, (Predicate) this.c);
         }
     }
 
-    public /* synthetic */ p(l1 l1Var, Predicate predicate) {
-        this.b = l1Var;
+    public /* synthetic */ p(k1 k1Var, Predicate predicate) {
+        this.b = k1Var;
         this.c = predicate;
     }
 
-    public /* synthetic */ p(l1 l1Var, j$.wrappers.D d) {
-        this.b = l1Var;
+    public /* synthetic */ p(k1 k1Var, j$.wrappers.D d) {
+        this.b = k1Var;
         this.c = d;
     }
 
-    public /* synthetic */ p(l1 l1Var, j$.wrappers.U u) {
-        this.b = l1Var;
+    public /* synthetic */ p(k1 k1Var, j$.wrappers.U u) {
+        this.b = k1Var;
         this.c = u;
     }
 
-    public /* synthetic */ p(l1 l1Var, j$.wrappers.i0 i0Var) {
-        this.b = l1Var;
+    public /* synthetic */ p(k1 k1Var, j$.wrappers.i0 i0Var) {
+        this.b = k1Var;
         this.c = i0Var;
     }
 
-    public /* synthetic */ p(n4 n4Var, Consumer consumer) {
-        this.b = n4Var;
+    public /* synthetic */ p(m4 m4Var, Consumer consumer) {
+        this.b = m4Var;
         this.c = consumer;
     }
 

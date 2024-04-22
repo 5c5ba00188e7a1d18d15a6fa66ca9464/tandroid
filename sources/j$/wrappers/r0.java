@@ -3,17 +3,17 @@ package j$.wrappers;
 import java.util.function.ObjDoubleConsumer;
 /* loaded from: classes2.dex */
 public final /* synthetic */ class r0 implements ObjDoubleConsumer {
-    final /* synthetic */ j$.util.function.u a;
+    final /* synthetic */ j$.util.function.t a;
 
-    private /* synthetic */ r0(j$.util.function.u uVar) {
-        this.a = uVar;
+    private /* synthetic */ r0(j$.util.function.t tVar) {
+        this.a = tVar;
     }
 
-    public static /* synthetic */ ObjDoubleConsumer a(j$.util.function.u uVar) {
-        if (uVar == null) {
+    public static /* synthetic */ ObjDoubleConsumer a(j$.util.function.t tVar) {
+        if (tVar == null) {
             return null;
         }
-        return uVar instanceof q0 ? ((q0) uVar).a : new r0(uVar);
+        return tVar instanceof q0 ? ((q0) tVar).a : new r0(tVar);
     }
 
     @Override // java.util.function.ObjDoubleConsumer

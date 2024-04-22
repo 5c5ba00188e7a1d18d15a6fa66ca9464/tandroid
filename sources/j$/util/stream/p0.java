@@ -2,7 +2,7 @@ package j$.util.stream;
 
 import j$.util.function.Consumer;
 /* loaded from: classes2.dex */
-abstract class p0 implements O4, P4 {
+abstract class p0 implements N4, O4 {
     private final boolean a;
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -11,17 +11,17 @@ abstract class p0 implements O4, P4 {
     }
 
     public /* synthetic */ void accept(double d) {
-        p1.f(this);
+        o1.f(this);
         throw null;
     }
 
     public /* synthetic */ void accept(int i) {
-        p1.d(this);
+        o1.d(this);
         throw null;
     }
 
     public /* synthetic */ void accept(long j) {
-        p1.e(this);
+        o1.e(this);
         throw null;
     }
 
@@ -30,24 +30,24 @@ abstract class p0 implements O4, P4 {
         return Consumer.-CC.$default$andThen(this, consumer);
     }
 
-    @Override // j$.util.stream.O4
+    @Override // j$.util.stream.N4
     public int b() {
         if (this.a) {
             return 0;
         }
-        return e4.r;
+        return d4.r;
     }
 
-    @Override // j$.util.stream.O4
-    public Object c(z2 z2Var, j$.util.t tVar) {
-        (this.a ? new r0(z2Var, tVar, this) : new s0(z2Var, tVar, z2Var.t0(this))).invoke();
+    @Override // j$.util.stream.N4
+    public Object c(y2 y2Var, j$.util.s sVar) {
+        (this.a ? new r0(y2Var, sVar, this) : new s0(y2Var, sVar, y2Var.q0(this))).invoke();
         return null;
     }
 
-    @Override // j$.util.stream.O4
-    public Object d(z2 z2Var, j$.util.t tVar) {
-        c cVar = (c) z2Var;
-        cVar.l0(cVar.t0(this), tVar);
+    @Override // j$.util.stream.N4
+    public Object d(y2 y2Var, j$.util.s sVar) {
+        c cVar = (c) y2Var;
+        cVar.i0(cVar.q0(this), sVar);
         return null;
     }
 
@@ -56,15 +56,15 @@ abstract class p0 implements O4, P4 {
         return null;
     }
 
-    @Override // j$.util.stream.n3
+    @Override // j$.util.stream.m3
     public /* synthetic */ void m() {
     }
 
-    @Override // j$.util.stream.n3
+    @Override // j$.util.stream.m3
     public /* synthetic */ void n(long j) {
     }
 
-    @Override // j$.util.stream.n3
+    @Override // j$.util.stream.m3
     public /* synthetic */ boolean o() {
         return false;
     }

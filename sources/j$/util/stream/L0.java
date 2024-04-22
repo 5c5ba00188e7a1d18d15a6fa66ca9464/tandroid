@@ -3,12 +3,12 @@ package j$.util.stream;
 /* loaded from: classes2.dex */
 public abstract class L0 extends M0 {
     /* JADX INFO: Access modifiers changed from: package-private */
-    public L0(c cVar, f4 f4Var, int i) {
+    public L0(c cVar, e4 e4Var, int i) {
         super(cVar, i);
     }
 
     @Override // j$.util.stream.c
-    final boolean E0() {
+    final boolean B0() {
         return false;
     }
 

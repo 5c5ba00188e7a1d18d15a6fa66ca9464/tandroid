@@ -8,7 +8,7 @@ public interface Predicate<T> {
     public final /* synthetic */ class -CC {
         public static Predicate $default$and(Predicate predicate, Predicate predicate2) {
             Objects.requireNonNull(predicate2);
-            return new x(predicate, predicate2, 0);
+            return new w(predicate, predicate2, 0);
         }
 
         public static Predicate $default$negate(Predicate predicate) {
@@ -17,7 +17,7 @@ public interface Predicate<T> {
 
         public static Predicate $default$or(Predicate predicate, Predicate predicate2) {
             Objects.requireNonNull(predicate2);
-            return new x(predicate, predicate2, 1);
+            return new w(predicate, predicate2, 1);
         }
     }
 

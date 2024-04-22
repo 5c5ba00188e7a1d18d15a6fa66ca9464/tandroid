@@ -6,13 +6,13 @@ final class k0 extends d {
     private final e0 j;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public k0(e0 e0Var, z2 z2Var, j$.util.t tVar) {
-        super(z2Var, tVar);
+    public k0(e0 e0Var, y2 y2Var, j$.util.s sVar) {
+        super(y2Var, sVar);
         this.j = e0Var;
     }
 
-    k0(k0 k0Var, j$.util.t tVar) {
-        super(k0Var, tVar);
+    k0(k0 k0Var, j$.util.s sVar) {
+        super(k0Var, sVar);
         this.j = k0Var.j;
     }
 
@@ -42,10 +42,10 @@ final class k0 extends d {
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // j$.util.stream.f
     public Object a() {
-        z2 z2Var = this.a;
-        P4 p4 = (P4) this.j.e.get();
-        z2Var.s0(p4, this.b);
-        Object obj = p4.get();
+        y2 y2Var = this.a;
+        O4 o4 = (O4) this.j.e.get();
+        y2Var.p0(o4, this.b);
+        Object obj = o4.get();
         if (!this.j.b) {
             if (obj != null) {
                 l(obj);
@@ -61,8 +61,8 @@ final class k0 extends d {
 
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // j$.util.stream.f
-    public f f(j$.util.t tVar) {
-        return new k0(this, tVar);
+    public f f(j$.util.s sVar) {
+        return new k0(this, sVar);
     }
 
     @Override // j$.util.stream.d

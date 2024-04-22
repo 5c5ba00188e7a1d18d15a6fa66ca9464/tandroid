@@ -3,6 +3,7 @@ package j$.util;
 import j$.wrappers.A0;
 import j$.wrappers.C0;
 import j$.wrappers.E0;
+import j$.wrappers.L;
 import java.util.Comparator;
 import java.util.Objects;
 import java.util.function.Function;
@@ -47,12 +48,12 @@ public enum f implements Comparator, e {
 
     @Override // java.util.Comparator
     public Comparator thenComparing(Function function) {
-        return Comparator$-EL.a(this, Comparator$-CC.comparing(j$.wrappers.L.a(function)));
+        return Comparator$-EL.a(this, Comparator$-CC.comparing(L.a(function)));
     }
 
     @Override // java.util.Comparator
     public Comparator thenComparing(Function function, Comparator comparator) {
-        j$.util.function.Function a2 = j$.wrappers.L.a(function);
+        j$.util.function.Function a2 = L.a(function);
         Objects.requireNonNull(a2);
         Objects.requireNonNull(comparator);
         return Comparator$-EL.a(this, new c(comparator, a2));

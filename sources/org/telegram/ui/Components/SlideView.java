@@ -33,6 +33,9 @@ public class SlideView extends LinearLayout {
     public void onNextPressed(String str) {
     }
 
+    public void onResume() {
+    }
+
     public void onShow() {
     }
 

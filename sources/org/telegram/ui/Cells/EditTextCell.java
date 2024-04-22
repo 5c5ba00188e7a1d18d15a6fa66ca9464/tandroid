@@ -123,8 +123,9 @@ public class EditTextCell extends FrameLayout {
                 EditTextCell.this.updateLimitText();
             }
 
-            @Override // android.view.View
-            protected void dispatchDraw(Canvas canvas) {
+            /* JADX INFO: Access modifiers changed from: protected */
+            @Override // org.telegram.ui.Components.EditTextBoldCursor, android.view.View
+            public void dispatchDraw(Canvas canvas) {
                 super.dispatchDraw(canvas);
                 EditTextCell editTextCell = EditTextCell.this;
                 editTextCell.limit.setTextColor(editTextCell.limitColor.set(Theme.getColor(editTextCell.limitCount <= 0 ? Theme.key_text_RedRegular : Theme.key_dialogSearchHint, getResourcesProvider())));

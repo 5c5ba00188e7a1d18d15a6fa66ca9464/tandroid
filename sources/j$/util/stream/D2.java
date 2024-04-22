@@ -1,74 +1,44 @@
 package j$.util.stream;
-
-import j$.util.function.Consumer;
-import java.util.Objects;
 /* loaded from: classes2.dex */
-class D2 implements T2, k3 {
-    private double a;
-    final /* synthetic */ double b;
-    final /* synthetic */ j$.util.function.d c;
+class D2 extends U2 {
+    public final /* synthetic */ int b = 1;
+    final /* synthetic */ Object c;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public D2(double d, j$.util.function.d dVar) {
-        this.b = d;
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public D2(e4 e4Var, j$.util.function.b bVar) {
+        super(e4Var);
+        this.c = bVar;
+    }
+
+    @Override // j$.util.stream.U2
+    public S2 a() {
+        switch (this.b) {
+            case 0:
+                return new E2((j$.util.function.d) this.c);
+            case 1:
+                return new H2((j$.util.function.b) this.c);
+            case 2:
+                return new N2((j$.util.function.j) this.c);
+            default:
+                return new R2((j$.util.function.o) this.c);
+        }
+    }
+
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public D2(e4 e4Var, j$.util.function.d dVar) {
+        super(e4Var);
         this.c = dVar;
     }
 
-    @Override // j$.util.stream.n3
-    public void accept(double d) {
-        this.a = this.c.applyAsDouble(this.a, d);
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public D2(e4 e4Var, j$.util.function.j jVar) {
+        super(e4Var);
+        this.c = jVar;
     }
 
-    @Override // j$.util.stream.n3
-    public /* synthetic */ void accept(int i) {
-        p1.d(this);
-        throw null;
-    }
-
-    @Override // j$.util.stream.n3, j$.util.stream.m3, j$.util.function.q
-    public /* synthetic */ void accept(long j) {
-        p1.e(this);
-        throw null;
-    }
-
-    @Override // j$.util.function.Consumer
-    public /* synthetic */ Consumer andThen(Consumer consumer) {
-        return Consumer.-CC.$default$andThen(this, consumer);
-    }
-
-    @Override // j$.util.function.Consumer
-    /* renamed from: b */
-    public /* synthetic */ void accept(Double d) {
-        p1.a(this, d);
-    }
-
-    @Override // j$.util.function.Supplier
-    public Object get() {
-        return Double.valueOf(this.a);
-    }
-
-    @Override // j$.util.stream.T2
-    public void h(T2 t2) {
-        accept(((D2) t2).a);
-    }
-
-    @Override // j$.util.function.f
-    public j$.util.function.f j(j$.util.function.f fVar) {
-        Objects.requireNonNull(fVar);
-        return new j$.util.function.e(this, fVar);
-    }
-
-    @Override // j$.util.stream.n3
-    public /* synthetic */ void m() {
-    }
-
-    @Override // j$.util.stream.n3
-    public void n(long j) {
-        this.a = this.b;
-    }
-
-    @Override // j$.util.stream.n3
-    public /* synthetic */ boolean o() {
-        return false;
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public D2(e4 e4Var, j$.util.function.o oVar) {
+        super(e4Var);
+        this.c = oVar;
     }
 }

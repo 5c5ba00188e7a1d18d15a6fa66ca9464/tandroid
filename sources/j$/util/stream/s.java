@@ -5,14 +5,14 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 /* loaded from: classes2.dex */
-class s extends j3 {
+class s extends i3 {
     public final /* synthetic */ int b = 3;
     Object c;
     final /* synthetic */ Object d;
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public s(t tVar, n3 n3Var) {
-        super(n3Var);
+    public s(t tVar, m3 m3Var) {
+        super(m3Var);
         this.d = tVar;
     }
 
@@ -24,24 +24,24 @@ class s extends j3 {
                     return;
                 }
                 ((Set) this.c).add(obj);
-                this.a.accept((n3) obj);
+                this.a.accept((m3) obj);
                 return;
             case 1:
-                f1 f1Var = (f1) ((Function) ((O) this.d).m).apply(obj);
-                if (f1Var != null) {
+                LongStream longStream = (LongStream) ((Function) ((O) this.d).m).apply(obj);
+                if (longStream != null) {
                     try {
-                        f1Var.sequential().d((j$.util.function.q) this.c);
+                        longStream.sequential().d((j$.util.function.q) this.c);
                     } catch (Throwable th) {
                         try {
-                            f1Var.close();
+                            longStream.close();
                         } catch (Throwable th2) {
                             th.addSuppressed(th2);
                         }
                         throw th;
                     }
                 }
-                if (f1Var != null) {
-                    f1Var.close();
+                if (longStream != null) {
+                    longStream.close();
                     return;
                 }
                 return;
@@ -49,7 +49,7 @@ class s extends j3 {
                 IntStream intStream = (IntStream) ((Function) ((N) this.d).m).apply(obj);
                 if (intStream != null) {
                     try {
-                        intStream.sequential().T((j$.util.function.l) this.c);
+                        intStream.sequential().R((j$.util.function.l) this.c);
                     } catch (Throwable th3) {
                         try {
                             intStream.close();
@@ -86,7 +86,7 @@ class s extends j3 {
         }
     }
 
-    @Override // j$.util.stream.j3, j$.util.stream.n3
+    @Override // j$.util.stream.i3, j$.util.stream.m3
     public void m() {
         switch (this.b) {
             case 0:
@@ -99,7 +99,7 @@ class s extends j3 {
         }
     }
 
-    @Override // j$.util.stream.n3
+    @Override // j$.util.stream.m3
     public void n(long j) {
         switch (this.b) {
             case 0:
@@ -119,29 +119,29 @@ class s extends j3 {
     }
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public s(L l, n3 n3Var) {
-        super(n3Var);
+    public s(L l, m3 m3Var) {
+        super(m3Var);
         this.d = l;
-        n3 n3Var2 = this.a;
-        Objects.requireNonNull(n3Var2);
-        this.c = new G(n3Var2);
+        m3 m3Var2 = this.a;
+        Objects.requireNonNull(m3Var2);
+        this.c = new G(m3Var2);
     }
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public s(N n, n3 n3Var) {
-        super(n3Var);
+    public s(N n, m3 m3Var) {
+        super(m3Var);
         this.d = n;
-        n3 n3Var2 = this.a;
-        Objects.requireNonNull(n3Var2);
-        this.c = new C0(n3Var2);
+        m3 m3Var2 = this.a;
+        Objects.requireNonNull(m3Var2);
+        this.c = new C0(m3Var2);
     }
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public s(O o, n3 n3Var) {
-        super(n3Var);
+    public s(O o, m3 m3Var) {
+        super(m3Var);
         this.d = o;
-        n3 n3Var2 = this.a;
-        Objects.requireNonNull(n3Var2);
-        this.c = new X0(n3Var2);
+        m3 m3Var2 = this.a;
+        Objects.requireNonNull(m3Var2);
+        this.c = new X0(m3Var2);
     }
 }

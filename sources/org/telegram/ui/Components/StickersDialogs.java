@@ -240,7 +240,7 @@ public class StickersDialogs {
     private static void openStickerPickerDialog(final TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet, BaseFragment baseFragment, Theme.ResourcesProvider resourcesProvider) {
         final int i = UserConfig.selectedAccount;
         final Context context = baseFragment.getContext();
-        EmojiBottomSheet emojiBottomSheet = new EmojiBottomSheet(context, true, resourcesProvider);
+        EmojiBottomSheet emojiBottomSheet = new EmojiBottomSheet(context, true, resourcesProvider, false);
         emojiBottomSheet.whenDocumentSelected(new Utilities.Callback3Return() { // from class: org.telegram.ui.Components.StickersDialogs$$ExternalSyntheticLambda9
             @Override // org.telegram.messenger.Utilities.Callback3Return
             public final Object run(Object obj, Object obj2, Object obj3) {

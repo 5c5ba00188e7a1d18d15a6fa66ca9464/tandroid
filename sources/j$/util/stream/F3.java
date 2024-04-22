@@ -1,16 +1,20 @@
 package j$.util.stream;
+
+import java.util.Comparator;
 /* loaded from: classes2.dex */
 abstract class F3 extends i3 {
-    protected boolean b;
+    protected final Comparator b;
+    protected boolean c;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public F3(n3 n3Var) {
-        super(n3Var);
+    public F3(m3 m3Var, Comparator comparator) {
+        super(m3Var);
+        this.b = comparator;
     }
 
-    @Override // j$.util.stream.i3, j$.util.stream.n3
+    @Override // j$.util.stream.i3, j$.util.stream.m3
     public final boolean o() {
-        this.b = true;
+        this.c = true;
         return false;
     }
 }
