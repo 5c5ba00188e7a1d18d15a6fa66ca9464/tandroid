@@ -666,33 +666,33 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
 
         /* JADX INFO: Access modifiers changed from: protected */
         /* JADX WARN: Can't wrap try/catch for region: R(17:1|(5:3|(5:5|(1:7)(1:13)|8|(1:10)(1:12)|11)|14|(1:18)|19)|20|21|22|(1:57)(1:25)|26|(6:31|32|33|(1:35)|36|(2:38|39)(1:41))|49|51|52|53|32|33|(0)|36|(0)(0)) */
-        /* JADX WARN: Code restructure failed: missing block: B:41:0x00b3, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:41:0x00b7, code lost:
             r0 = move-exception;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:42:0x00b4, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:42:0x00b8, code lost:
             r13 = r1;
             r1 = r0;
             r0 = r13;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:43:0x00b8, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:43:0x00bc, code lost:
             r1 = e;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:44:0x00b9, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:44:0x00bd, code lost:
             r0 = true;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:47:0x00be, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:47:0x00c2, code lost:
             if (r14.loggedError == false) goto L47;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:48:0x00c0, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:48:0x00c4, code lost:
             org.telegram.messenger.FileLog.e((java.lang.Throwable) r1, true);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:49:0x00c3, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:49:0x00c7, code lost:
             r14.loggedError = true;
             r1 = r0;
          */
-        /* JADX WARN: Removed duplicated region for block: B:38:0x0094 A[Catch: Exception -> 0x00b3, TryCatch #2 {Exception -> 0x00b3, blocks: (B:36:0x0080, B:38:0x0094, B:39:0x00a3), top: B:57:0x0080 }] */
-        /* JADX WARN: Removed duplicated region for block: B:48:0x00c0  */
-        /* JADX WARN: Removed duplicated region for block: B:51:0x00c8  */
+        /* JADX WARN: Removed duplicated region for block: B:38:0x0098 A[Catch: Exception -> 0x00b7, TryCatch #2 {Exception -> 0x00b7, blocks: (B:36:0x0080, B:38:0x0098, B:39:0x00a7), top: B:57:0x0080 }] */
+        /* JADX WARN: Removed duplicated region for block: B:48:0x00c4  */
+        /* JADX WARN: Removed duplicated region for block: B:51:0x00cc  */
         /* JADX WARN: Removed duplicated region for block: B:59:? A[RETURN, SYNTHETIC] */
         @Override // android.widget.TextView, android.view.View
         /*
@@ -723,7 +723,7 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
             }
             if (paddingTop == 0.0f && getPaddingLeft() == 0) {
                 z = false;
-                this.stack = AnimatedEmojiSpan.update(0, this, this.stack, getLayout());
+                this.stack = AnimatedEmojiSpan.update(emojiCacheType(), this, this.stack, getLayout());
                 if (this.emojiColorFilter == null) {
                     this.emojiColorFilter = new PorterDuffColorFilter(getPaint().linkColor, PorterDuff.Mode.SRC_IN);
                 }
@@ -737,7 +737,7 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
             canvas.save();
             canvas.translate(getPaddingLeft(), paddingTop);
             z = true;
-            this.stack = AnimatedEmojiSpan.update(0, this, this.stack, getLayout());
+            this.stack = AnimatedEmojiSpan.update(emojiCacheType(), this, this.stack, getLayout());
             if (this.emojiColorFilter == null) {
             }
             AnimatedEmojiSpan.drawAnimatedEmojis(canvas, layout, this.stack, 0.0f, null, 0.0f, 0.0f, 0.0f, 1.0f, this.emojiColorFilter);

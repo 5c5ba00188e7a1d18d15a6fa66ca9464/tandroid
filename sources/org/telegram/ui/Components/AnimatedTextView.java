@@ -416,6 +416,10 @@ public class AnimatedTextView extends View {
             invalidateSelf();
         }
 
+        public float getRightPadding() {
+            return this.rightPadding;
+        }
+
         public void cancelAnimation() {
             ValueAnimator valueAnimator = this.animator;
             if (valueAnimator != null) {
@@ -1326,6 +1330,10 @@ public class AnimatedTextView extends View {
 
     public void setRightPadding(float f) {
         this.drawable.setRightPadding(f);
+    }
+
+    public float getRightPadding() {
+        return this.drawable.getRightPadding();
     }
 
     public void setOnWidthUpdatedListener(Runnable runnable) {

@@ -128,6 +128,7 @@ import org.telegram.tgnet.TLRPC$TL_channels_reportAntiSpamFalsePositive;
 import org.telegram.tgnet.TLRPC$TL_chatBannedRights;
 import org.telegram.tgnet.TLRPC$TL_chatInviteExported;
 import org.telegram.tgnet.TLRPC$TL_error;
+import org.telegram.tgnet.TLRPC$TL_forumTopic;
 import org.telegram.tgnet.TLRPC$TL_inputStickerSetEmpty;
 import org.telegram.tgnet.TLRPC$TL_inputStickerSetID;
 import org.telegram.tgnet.TLRPC$TL_inputStickerSetShortName;
@@ -179,6 +180,7 @@ import org.telegram.ui.Components.ChatScrimPopupContainerLayout;
 import org.telegram.ui.Components.ClearHistoryAlert;
 import org.telegram.ui.Components.ColoredImageSpan;
 import org.telegram.ui.Components.EmbedBottomSheet;
+import org.telegram.ui.Components.Forum.ForumUtilities;
 import org.telegram.ui.Components.InviteLinkBottomSheet;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.PhonebookShareAlert;
@@ -3255,11 +3257,6 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ void didPressTopicButton(ChatMessageCell chatMessageCell) {
-                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressTopicButton(this, chatMessageCell);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
             public /* synthetic */ void didPressUserStatus(ChatMessageCell chatMessageCell, TLRPC$User tLRPC$User, TLRPC$Document tLRPC$Document) {
                 ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressUserStatus(this, chatMessageCell, tLRPC$User, tLRPC$Document);
             }
@@ -3384,16 +3381,28 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ boolean shouldShowTopicButton() {
-                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$shouldShowTopicButton(this);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
             public /* synthetic */ void videoTimerReached() {
                 ChatMessageCell.ChatMessageCellDelegate.-CC.$default$videoTimerReached(this);
             }
 
             1() {
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public boolean shouldShowTopicButton() {
+                return ChatObject.isForum(ChannelAdminLogActivity.this.currentChat);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public void didPressTopicButton(ChatMessageCell chatMessageCell) {
+                MessageObject messageObject = chatMessageCell.getMessageObject();
+                if (messageObject != null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong("chat_id", -messageObject.getDialogId());
+                    ChatActivity chatActivity = new ChatActivity(bundle);
+                    ForumUtilities.applyTopic(chatActivity, MessagesStorage.TopicKey.of(messageObject.getDialogId(), MessageObject.getTopicId(((BaseFragment) ChannelAdminLogActivity.this).currentAccount, messageObject.messageOwner, true)));
+                    ChannelAdminLogActivity.this.presentFragment(chatActivity);
+                }
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -3909,17 +3918,20 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             }
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:32:0x00e7, code lost:
-            if (java.lang.Math.abs(r14.messageOwner.date - r0.messageOwner.date) <= 300) goto L33;
+        /* JADX WARN: Code restructure failed: missing block: B:33:0x00c8, code lost:
+            if (r9 != (r6 == null ? org.telegram.messenger.MessageObject.getTopicId(((org.telegram.ui.ActionBar.BaseFragment) r13.this$0).currentAccount, r3.messageOwner, true) : r6.id)) goto L61;
          */
-        /* JADX WARN: Removed duplicated region for block: B:25:0x00a2  */
+        /* JADX WARN: Code restructure failed: missing block: B:57:0x0147, code lost:
+            if (r5 != (r3 == null ? org.telegram.messenger.MessageObject.getTopicId(((org.telegram.ui.ActionBar.BaseFragment) r13.this$0).currentAccount, r14.messageOwner, true) : r3.id)) goto L59;
+         */
+        /* JADX WARN: Removed duplicated region for block: B:37:0x00d1  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
             boolean z;
-            boolean z2 = true;
+            boolean z2;
             if (i == this.loadingUpRow) {
                 ((ChatLoadingCell) viewHolder.itemView).setProgressVisible(true);
             } else if (i < this.messagesStartRow || i >= this.messagesEndRow) {
@@ -3934,22 +3946,28 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                     int itemViewType2 = getItemViewType(i - 1);
                     if (!(messageObject.messageOwner.reply_markup instanceof TLRPC$TL_replyInlineMarkup) && itemViewType == viewHolder.getItemViewType()) {
                         MessageObject messageObject2 = (MessageObject) ChannelAdminLogActivity.this.filteredMessages.get((ChannelAdminLogActivity.this.filteredMessages.size() - (i2 - this.messagesStartRow)) - 1);
-                        if (messageObject2.isOutOwner() == messageObject.isOutOwner() && messageObject2.getFromChatId() == messageObject.getFromChatId() && Math.abs(messageObject2.messageOwner.date - messageObject.messageOwner.date) <= 300) {
-                            z = true;
-                            if (itemViewType2 == viewHolder.getItemViewType()) {
-                                MessageObject messageObject3 = (MessageObject) ChannelAdminLogActivity.this.filteredMessages.get(ChannelAdminLogActivity.this.filteredMessages.size() - (i - this.messagesStartRow));
-                                if (!(messageObject3.messageOwner.reply_markup instanceof TLRPC$TL_replyInlineMarkup)) {
-                                    if (messageObject3.isOutOwner() == messageObject.isOutOwner()) {
-                                        if (messageObject3.getFromChatId() == messageObject.getFromChatId()) {
-                                        }
-                                    }
-                                }
+                        z = messageObject2.isOutOwner() == messageObject.isOutOwner() && messageObject2.getFromChatId() == messageObject.getFromChatId() && Math.abs(messageObject2.messageOwner.date - messageObject.messageOwner.date) <= 300;
+                        if (z) {
+                            TLRPC$TL_forumTopic tLRPC$TL_forumTopic = messageObject.replyToForumTopic;
+                            long topicId = tLRPC$TL_forumTopic == null ? MessageObject.getTopicId(((BaseFragment) ChannelAdminLogActivity.this).currentAccount, messageObject.messageOwner, true) : tLRPC$TL_forumTopic.id;
+                            TLRPC$TL_forumTopic tLRPC$TL_forumTopic2 = messageObject2.replyToForumTopic;
+                        }
+                        if (itemViewType2 == viewHolder.getItemViewType()) {
+                            MessageObject messageObject3 = (MessageObject) ChannelAdminLogActivity.this.filteredMessages.get(ChannelAdminLogActivity.this.filteredMessages.size() - (i - this.messagesStartRow));
+                            z2 = !(messageObject3.messageOwner.reply_markup instanceof TLRPC$TL_replyInlineMarkup) && messageObject3.isOutOwner() == messageObject.isOutOwner() && messageObject3.getFromChatId() == messageObject.getFromChatId() && Math.abs(messageObject3.messageOwner.date - messageObject.messageOwner.date) <= 300;
+                            if (z2) {
+                                TLRPC$TL_forumTopic tLRPC$TL_forumTopic3 = messageObject.replyToForumTopic;
+                                long topicId2 = tLRPC$TL_forumTopic3 == null ? MessageObject.getTopicId(((BaseFragment) ChannelAdminLogActivity.this).currentAccount, messageObject.messageOwner, true) : tLRPC$TL_forumTopic3.id;
+                                TLRPC$TL_forumTopic tLRPC$TL_forumTopic4 = messageObject3.replyToForumTopic;
                             }
-                            z2 = false;
                             chatMessageCell.setMessageObject(messageObject, null, z, z2);
                             chatMessageCell.setHighlighted(false);
                             chatMessageCell.setHighlightedText(ChannelAdminLogActivity.this.searchQuery);
                         }
+                        z2 = false;
+                        chatMessageCell.setMessageObject(messageObject, null, z, z2);
+                        chatMessageCell.setHighlighted(false);
+                        chatMessageCell.setHighlightedText(ChannelAdminLogActivity.this.searchQuery);
                     }
                     z = false;
                     if (itemViewType2 == viewHolder.getItemViewType()) {

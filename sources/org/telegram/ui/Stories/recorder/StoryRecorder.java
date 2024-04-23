@@ -3612,6 +3612,9 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
 
         /* renamed from: startRecording */
         public void lambda$onVideoRecordStart$3(final boolean z, final Runnable runnable) {
+            if (StoryRecorder.this.cameraView == null) {
+                return;
+            }
             CameraController.getInstance().recordVideo(StoryRecorder.this.cameraView.getCameraSessionObject(), StoryRecorder.this.outputFile, false, new CameraController.VideoTakeCallback() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$12$$ExternalSyntheticLambda8
                 @Override // org.telegram.messenger.camera.CameraController.VideoTakeCallback
                 public final void onFinishVideoRecording(String str, long j) {

@@ -1141,6 +1141,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     private HintView slowModeHint;
     private boolean sponsoredMessagesAdded;
     private int sponsoredMessagesPostsBetween;
+    private Pattern sponsoredUrlPattern;
     private int startFromVideoMessageId;
     private int startFromVideoTimestamp;
     private int startLoadFromDate;
@@ -10569,7 +10570,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
 
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Type inference failed for: r13v23, types: [int, boolean] */
+        /* JADX WARN: Type inference failed for: r13v23, types: [boolean, int] */
         /* JADX WARN: Type inference failed for: r13v24 */
         /* JADX WARN: Type inference failed for: r13v25 */
         private void drawChatBackgroundElements(Canvas canvas) {
@@ -26065,15 +26066,61 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0097 A[Catch: Exception -> 0x00b1, TryCatch #1 {Exception -> 0x00b1, blocks: (B:25:0x0058, B:27:0x005c, B:28:0x0064, B:30:0x0072, B:38:0x008b, B:40:0x0097, B:46:0x00a8, B:41:0x009c, B:43:0x00a0, B:36:0x0087, B:31:0x0076, B:33:0x007d), top: B:61:0x0058, inners: #0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x009c A[Catch: Exception -> 0x00b1, TryCatch #1 {Exception -> 0x00b1, blocks: (B:25:0x0058, B:27:0x005c, B:28:0x0064, B:30:0x0072, B:38:0x008b, B:40:0x0097, B:46:0x00a8, B:41:0x009c, B:43:0x00a0, B:36:0x0087, B:31:0x0076, B:33:0x007d), top: B:61:0x0058, inners: #0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x00a7  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x00a8 A[Catch: Exception -> 0x00b1, TRY_LEAVE, TryCatch #1 {Exception -> 0x00b1, blocks: (B:25:0x0058, B:27:0x005c, B:28:0x0064, B:30:0x0072, B:38:0x008b, B:40:0x0097, B:46:0x00a8, B:41:0x009c, B:43:0x00a0, B:36:0x0087, B:31:0x0076, B:33:0x007d), top: B:61:0x0058, inners: #0 }] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     private void addSponsoredMessages(boolean z) {
         MessagesController.SponsoredMessagesInfo sponsoredMessages;
+        int i;
+        TLObject userOrChat;
+        long j;
         if (!this.sponsoredMessagesAdded && this.chatMode == 0 && ChatObject.isChannel(this.currentChat)) {
             if (this.forwardEndReached[0]) {
                 if ((getUserConfig().isPremium() && getMessagesController().isSponsoredDisabled()) || (sponsoredMessages = getMessagesController().getSponsoredMessages(this.dialog_id)) == null || sponsoredMessages.messages == null) {
                     return;
                 }
-                for (int i = 0; i < sponsoredMessages.messages.size(); i++) {
-                    sponsoredMessages.messages.get(i).resetLayout();
+                for (int i2 = 0; i2 < sponsoredMessages.messages.size(); i2++) {
+                    MessageObject messageObject = sponsoredMessages.messages.get(i2);
+                    messageObject.resetLayout();
+                    if (messageObject.sponsoredUrl != null) {
+                        try {
+                            if (this.sponsoredUrlPattern == null) {
+                                this.sponsoredUrlPattern = Pattern.compile("https://t\\.me/(\\w+)(?:/(\\d+))?");
+                            }
+                            Matcher matcher = this.sponsoredUrlPattern.matcher(messageObject.sponsoredUrl);
+                            if (matcher.matches()) {
+                                String group = matcher.group(1);
+                                try {
+                                } catch (Exception e) {
+                                    FileLog.e(e);
+                                }
+                                if (matcher.groupCount() >= 2) {
+                                    i = Integer.parseInt(matcher.group(2));
+                                    userOrChat = getMessagesController().getUserOrChat(group);
+                                    if (!(userOrChat instanceof TLRPC$User)) {
+                                        j = ((TLRPC$User) userOrChat).id;
+                                    } else if (userOrChat instanceof TLRPC$Chat) {
+                                        j = -((TLRPC$Chat) userOrChat).id;
+                                    }
+                                    if (i < 0) {
+                                        getMessagesController().ensureMessagesLoaded(j, i, null);
+                                    }
+                                }
+                                i = 0;
+                                userOrChat = getMessagesController().getUserOrChat(group);
+                                if (!(userOrChat instanceof TLRPC$User)) {
+                                }
+                                if (i < 0) {
+                                }
+                            }
+                        } catch (Exception e2) {
+                            FileLog.e(e2);
+                        }
+                    }
                 }
                 this.sponsoredMessagesAdded = true;
                 Integer num = sponsoredMessages.posts_between;
@@ -26559,7 +26606,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Type inference failed for: r5v17 */
     /* JADX WARN: Type inference failed for: r5v19 */
     /* JADX WARN: Type inference failed for: r7v22 */
-    /* JADX WARN: Type inference failed for: r7v23, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r7v23, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r7v25 */
     /* JADX WARN: Type inference failed for: r7v26 */
     /*
@@ -28708,7 +28755,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             return;
         }
         if (!tLRPC$PollResults.solution_entities.isEmpty()) {
-            charSequence = new SpannableStringBuilder(tLRPC$PollResults.solution);
+            charSequence = MessageObject.replaceAnimatedEmoji(Emoji.replaceEmoji((CharSequence) new SpannableStringBuilder(tLRPC$PollResults.solution), Theme.chat_msgBotButtonPaint.getFontMetricsInt(), AndroidUtilities.dp(13.0f), false), tLRPC$PollResults.solution_entities, Theme.chat_msgBotButtonPaint.getFontMetricsInt());
             MessageObject.addEntitiesToText(charSequence, tLRPC$PollResults.solution_entities, false, true, true, false);
         } else {
             charSequence = tLRPC$PollResults.solution;
@@ -33579,7 +33626,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Removed duplicated region for block: B:434:0x0881  */
     /* JADX WARN: Type inference failed for: r0v789 */
     /* JADX WARN: Type inference failed for: r15v18 */
-    /* JADX WARN: Type inference failed for: r15v19, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r15v19, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r15v43 */
     /* JADX WARN: Type inference failed for: r18v3 */
     /* JADX WARN: Type inference failed for: r18v4, types: [java.lang.String] */
@@ -45564,7 +45611,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     ChatActivity.this.logSponsoredClicked(messageObject);
                     new Bundle();
                     if (messageObject.sponsoredUrl != null) {
-                        Browser.openUrl(ChatActivity.this.getContext(), messageObject.sponsoredUrl, true, false);
+                        if (ChatActivity.this.progressDialogCurrent != null) {
+                            ChatActivity.this.progressDialogCurrent.cancel(true);
+                        }
+                        ChatActivity.this.progressDialogCurrent = chatMessageCell.getMessageObject() != null ? new 10(chatMessageCell) : null;
+                        Browser.openUrl(ChatActivity.this.getContext(), Uri.parse(messageObject.sponsoredUrl), true, false, false, ChatActivity.this.progressDialogCurrent);
                     }
                 } else {
                     TLRPC$WebPage storyMentionWebpage = messageObject.getStoryMentionWebpage();
@@ -45591,7 +45642,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     if (ChatActivity.this.progressDialogCurrent != null) {
                         ChatActivity.this.progressDialogCurrent.cancel(true);
                     }
-                    ChatActivity.this.progressDialogCurrent = chatMessageCell.getMessageObject() != null ? new 10(chatMessageCell) : null;
+                    ChatActivity.this.progressDialogCurrent = chatMessageCell.getMessageObject() != null ? new 11(chatMessageCell) : null;
                     Browser.openUrl(ChatActivity.this.getParentActivity(), Uri.parse(storyMentionWebpage.url), true, true, false, ChatActivity.this.progressDialogCurrent);
                 }
             }
@@ -45761,6 +45812,38 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 }
                 final ChatActivity chatActivity = ChatActivity.this;
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatActivity$ChatMessageCellDelegate$10$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        ChatActivity.access$48500(ChatActivity.this);
+                    }
+                }, 250L);
+            }
+        }
+
+        /* JADX INFO: Access modifiers changed from: package-private */
+        /* loaded from: classes4.dex */
+        public class 11 extends Browser.Progress {
+            final /* synthetic */ ChatMessageCell val$cell;
+
+            11(ChatMessageCell chatMessageCell) {
+                this.val$cell = chatMessageCell;
+            }
+
+            @Override // org.telegram.messenger.browser.Browser.Progress
+            public void init() {
+                ChatActivity.this.progressDialogAtMessageId = this.val$cell.getMessageObject().getId();
+                ChatActivity.this.progressDialogAtMessageType = 2;
+                ChatActivity.this.progressDialogLinkSpan = null;
+                this.val$cell.invalidate();
+            }
+
+            @Override // org.telegram.messenger.browser.Browser.Progress
+            public void end(boolean z) {
+                if (z) {
+                    return;
+                }
+                final ChatActivity chatActivity = ChatActivity.this;
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatActivity$ChatMessageCellDelegate$11$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
                         ChatActivity.access$48500(ChatActivity.this);

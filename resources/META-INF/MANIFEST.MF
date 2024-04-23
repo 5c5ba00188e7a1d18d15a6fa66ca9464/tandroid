@@ -3,7 +3,7 @@ Built-By: Signflinger
 Created-By: Android Gradle 7.0.3
 
 Name: AndroidManifest.xml
-SHA-256-Digest: D800Ozk1fDaAuJPKwXsKl/JjS44IOjqKSWT6yo7UNMU=
+SHA-256-Digest: ACrD7ycQij3f5KI8UxiPkmnVH3PXB7RZJ8/U8wQokdE=
 
 Name: DebugProbesKt.bin
 SHA-256-Digest: rhvucBnNEU+ZCwHnUxbVyA7AobB9XKmn7+fEZvf5z+U=
@@ -166,7 +166,7 @@ Name: assets/day.attheme
 SHA-256-Digest: 00VkA3Jon8FHUox0ZU8wE6rLgHsvFaohobaLrixU4s0=
 
 Name: assets/dexopt/baseline.prof
-SHA-256-Digest: CQE1JwoKSVF7WN3yv84+xvk3MLb5TNYK1XOXpZGtz/0=
+SHA-256-Digest: jV+ovULfWQ5z/E23GIWVGAE60LlJ5ny5uUGfzKO9Eck=
 
 Name: assets/emoji/0_0.png
 SHA-256-Digest: LpdB3zAmFiIrhzPbKLd7CjwycYzTCjsNibOXRDYXaPQ=
@@ -10990,7 +10990,7 @@ Name: assets/langid_model.smfb.jpg
 SHA-256-Digest: 7GxOMVnjYNZvH8EfSllKj1IQb8chW6tJ9EjEKNCtuTs=
 
 Name: assets/models/coin_border.png
-SHA-256-Digest: tNMN61/cCmf1d7T5bQs9sEiJ3knLqAe5BlZy8kguqs0=
+SHA-256-Digest: flM6d31abpSZzzLzZMY4a9TYs1OQW+3PjCNCMs/m0ug=
 
 Name: assets/models/coin_inner.binobj
 SHA-256-Digest: WB52O9jp0K/3eMQDe4wQCGeZf//H7pqPQ/MXF6PsqEc=
@@ -11000,6 +11000,15 @@ SHA-256-Digest: uVmJVucaIL4TSHnOgs9a4n/4lp57WMZuUvqOh+ba494=
 
 Name: assets/models/coin_outer.binobj
 SHA-256-Digest: 4nAUB9hayZ5YbN9cXD5539NSglt5q1RAlv2nPD+U0iQ=
+
+Name: assets/models/coin_stars.binobj
+SHA-256-Digest: 1ABY0n7e2+y1fUhRXHFYi8RQQTmDP6ztfCYn6ekbDrQ=
+
+Name: assets/models/coin_stars.mtl
+SHA-256-Digest: WyYZHFEWxwLNXhdyEBxzfWDjB6wDfZ7lwiBuVJxRfaU=
+
+Name: assets/models/coin_stars.obj
+SHA-256-Digest: qUjfUe0Y0oY98Vl21Lp4Fg/Fagr1SPnfUME7FZgvqu8=
 
 Name: assets/models/star.binobj
 SHA-256-Digest: gMRSXN25FXiCQnppXGil9gqYnZnWRnOifpyEsh1JnaA=
@@ -11014,7 +11023,7 @@ Name: assets/shaders/fragment2.glsl
 SHA-256-Digest: AcpRS3cQz4gP41NDlFzpzNmdGi1URE1s78NMLZEsfrg=
 
 Name: assets/shaders/fragment3.glsl
-SHA-256-Digest: Ez9xlF/pwpZqEkUXkoZfVg+JvlAcedyZq6sAaAtwq+8=
+SHA-256-Digest: ViUX17TGJKAhEEU60hBOiUPCsioanxwPe/r71M2N4tU=
 
 Name: assets/shaders/vertex2.glsl
 SHA-256-Digest: VhZtSUmxCokCW1PFBFPUtR0cI58iqbaPw9OVupsnalQ=
@@ -11032,16 +11041,16 @@ Name: builddef.lst
 SHA-256-Digest: jUnYFeymitTkTH2+cUoKyC+xkVfnN9OG0zu6cjC5z2s=
 
 Name: classes.dex
-SHA-256-Digest: KJ33/M/5jNsThC61EGEo8hVp0bwYjYgA3fmtZrMpPAI=
+SHA-256-Digest: /bQOUtlUoqE+KMWi7U7HJgPt7AkHkZGOVVtoUsTvlAQ=
 
 Name: classes2.dex
 SHA-256-Digest: yoJQTp1klkHGw6XHd0VHIJKzvWPsklhEwZlb8qYSv/Y=
 
 Name: classes3.dex
-SHA-256-Digest: U2ELh4ZY5bo1sZW9GjuZg8vPpMS6/FQqN4/HK7Ame3M=
+SHA-256-Digest: XeC4+8z142P6jhEZktd/TlJmNxxNzZuASHUlhG+CM1w=
 
 Name: classes4.dex
-SHA-256-Digest: 0er+2oIqSSYTENr7537Tl6IKC44evKYKixbsygRwBQQ=
+SHA-256-Digest: 7Dimg8AKYxm0ApG1igzpgA/Wn035NgZl/QVH4crc5uQ=
 
 Name: com/google/android/search/verification/client/R.java
 SHA-256-Digest: YX5uUDFqAb9V4MrSqnbkTSfjtOfA8nExs4yi4j2gVbE=

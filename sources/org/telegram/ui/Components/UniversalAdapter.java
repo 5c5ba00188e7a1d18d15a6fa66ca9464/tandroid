@@ -571,7 +571,7 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
                     }
                 } else if (itemViewType == 38) {
                     CollapseTextCell collapseTextCell = (CollapseTextCell) viewHolder.itemView;
-                    collapseTextCell.set(item.animatedText, item.collapsed, item.clickCallback);
+                    collapseTextCell.set(item.animatedText, item.collapsed);
                     if (item.accent) {
                         collapseTextCell.setColor(Theme.key_windowBackgroundWhiteBlueText4);
                         textInfoPrivacyCell = collapseTextCell;
