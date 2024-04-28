@@ -23,6 +23,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import androidx.annotation.Keep;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Cells.BaseCell;
 /* loaded from: classes3.dex */
 public class Switch extends View {
     private boolean attachedToWindow;
@@ -151,7 +152,7 @@ public class Switch extends View {
             Paint paint = new Paint(1);
             this.ripplePaint = paint;
             paint.setColor(-1);
-            RippleDrawable rippleDrawable = new RippleDrawable(new ColorStateList(new int[][]{StateSet.WILD_CARD}, new int[]{0}), null, i >= 23 ? null : new Drawable() { // from class: org.telegram.ui.Components.Switch.1
+            BaseCell.RippleDrawableSafe rippleDrawableSafe = new BaseCell.RippleDrawableSafe(new ColorStateList(new int[][]{StateSet.WILD_CARD}, new int[]{0}), null, i >= 23 ? null : new Drawable() { // from class: org.telegram.ui.Components.Switch.1
                 @Override // android.graphics.drawable.Drawable
                 public int getOpacity() {
                     return 0;
@@ -171,9 +172,9 @@ public class Switch extends View {
                     canvas.drawCircle(bounds.centerX(), bounds.centerY(), AndroidUtilities.dp(18.0f), Switch.this.ripplePaint);
                 }
             });
-            this.rippleDrawable = rippleDrawable;
+            this.rippleDrawable = rippleDrawableSafe;
             if (i >= 23) {
-                rippleDrawable.setRadius(AndroidUtilities.dp(18.0f));
+                rippleDrawableSafe.setRadius(AndroidUtilities.dp(18.0f));
             }
             this.rippleDrawable.setCallback(this);
         }

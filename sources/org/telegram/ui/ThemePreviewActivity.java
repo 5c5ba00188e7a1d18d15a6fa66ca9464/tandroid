@@ -7295,14 +7295,14 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         }
 
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Type inference failed for: r6v10, types: [org.telegram.ui.Cells.ChatMessageCell] */
-        /* JADX WARN: Type inference failed for: r6v4, types: [org.telegram.ui.ThemePreviewActivity$MessagesAdapter$8] */
-        /* JADX WARN: Type inference failed for: r6v8, types: [org.telegram.ui.Cells.ChatActionCell] */
+        /* JADX WARN: Type inference failed for: r8v18, types: [org.telegram.ui.Cells.ChatActionCell] */
+        /* JADX WARN: Type inference failed for: r8v20, types: [org.telegram.ui.Cells.ChatMessageCell] */
+        /* JADX WARN: Type inference failed for: r8v9, types: [org.telegram.ui.ThemePreviewActivity$MessagesAdapter$8] */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             FrameLayout frameLayout;
             if (i == 0) {
-                ?? chatMessageCell = new ChatMessageCell(this.mContext, false, null, new Theme.ResourcesProvider() { // from class: org.telegram.ui.ThemePreviewActivity.MessagesAdapter.4
+                ?? chatMessageCell = new ChatMessageCell(this.mContext, ((BaseFragment) ThemePreviewActivity.this).currentAccount, false, null, new Theme.ResourcesProvider() { // from class: org.telegram.ui.ThemePreviewActivity.MessagesAdapter.4
                     @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
                     public /* synthetic */ ColorFilter getAnimatedEmojiColorFilter() {
                         ColorFilter colorFilter;
@@ -7678,8 +7678,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                    public /* synthetic */ boolean shouldShowTopicButton() {
-                        return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$shouldShowTopicButton(this);
+                    public /* synthetic */ boolean shouldShowTopicButton(ChatMessageCell chatMessageCell2) {
+                        return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$shouldShowTopicButton(this, chatMessageCell2);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate

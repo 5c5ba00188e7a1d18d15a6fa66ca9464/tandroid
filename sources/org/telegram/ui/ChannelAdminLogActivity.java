@@ -112,9 +112,13 @@ import org.telegram.tgnet.TLRPC$TL_channelAdminLogEventActionChangeEmojiStickerS
 import org.telegram.tgnet.TLRPC$TL_channelAdminLogEventActionChangeHistoryTTL;
 import org.telegram.tgnet.TLRPC$TL_channelAdminLogEventActionChangeStickerSet;
 import org.telegram.tgnet.TLRPC$TL_channelAdminLogEventActionDeleteMessage;
+import org.telegram.tgnet.TLRPC$TL_channelAdminLogEventActionEditMessage;
 import org.telegram.tgnet.TLRPC$TL_channelAdminLogEventActionExportedInviteDelete;
 import org.telegram.tgnet.TLRPC$TL_channelAdminLogEventActionExportedInviteEdit;
 import org.telegram.tgnet.TLRPC$TL_channelAdminLogEventActionExportedInviteRevoke;
+import org.telegram.tgnet.TLRPC$TL_channelAdminLogEventActionParticipantJoin;
+import org.telegram.tgnet.TLRPC$TL_channelAdminLogEventActionParticipantJoinByInvite;
+import org.telegram.tgnet.TLRPC$TL_channelAdminLogEventActionParticipantJoinByRequest;
 import org.telegram.tgnet.TLRPC$TL_channelAdminLogEventActionParticipantToggleAdmin;
 import org.telegram.tgnet.TLRPC$TL_channelAdminLogEventActionToggleAntiSpam;
 import org.telegram.tgnet.TLRPC$TL_channelAdminLogEventsFilter;
@@ -1031,7 +1035,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
     public View createView(Context context) {
         if (this.chatMessageCellsCache.isEmpty()) {
             for (int i = 0; i < 8; i++) {
-                this.chatMessageCellsCache.add(new ChatMessageCell(context));
+                this.chatMessageCellsCache.add(new ChatMessageCell(context, this.currentAccount));
             }
         }
         this.searchWas = false;
@@ -1775,6 +1779,8 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Removed duplicated region for block: B:12:0x0022 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:136:0x0558  */
+    /* JADX WARN: Removed duplicated region for block: B:139:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:13:0x0023  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1788,7 +1794,9 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         TLRPC$User user;
         if (view instanceof ChatMessageCell) {
             messageObject2 = ((ChatMessageCell) view).getMessageObject();
-        } else if (!(view instanceof ChatActionCell)) {
+        } else if (view instanceof ChatActionCell) {
+            messageObject2 = ((ChatActionCell) view).getMessageObject();
+        } else {
             messageObject = null;
             if (messageObject != null) {
                 return false;
@@ -1984,24 +1992,26 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                     ChannelAdminLogActivity.this.lambda$createMenu$14(arrayList2, arrayList, arrayList3, view, f, f2);
                 }
             };
-            if (!ChatObject.canBlockUsers(this.currentChat) || (tLRPC$TL_channelAdminLogEvent = messageObject.currentEvent) == null || !(tLRPC$TL_channelAdminLogEvent.action instanceof TLRPC$TL_channelAdminLogEventActionDeleteMessage) || (tLRPC$Message = messageObject.messageOwner) == null || tLRPC$Message.from_id == null || (user = getMessagesController().getUser(Long.valueOf(this.selectedObject.messageOwner.from_id.user_id))) == null || UserObject.isUserSelf(user)) {
-                z = false;
-            } else {
-                getMessagesController().getChannelParticipant(this.currentChat, user, new Utilities.Callback() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda20
-                    @Override // org.telegram.messenger.Utilities.Callback
-                    public final void run(Object obj) {
-                        ChannelAdminLogActivity.this.lambda$createMenu$16(arrayList, arrayList3, arrayList2, runnable, (TLRPC$ChannelParticipant) obj);
+            if (ChatObject.canBlockUsers(this.currentChat) && (tLRPC$TL_channelAdminLogEvent = messageObject.currentEvent) != null) {
+                TLRPC$ChannelAdminLogEventAction tLRPC$ChannelAdminLogEventAction2 = tLRPC$TL_channelAdminLogEvent.action;
+                if (((tLRPC$ChannelAdminLogEventAction2 instanceof TLRPC$TL_channelAdminLogEventActionDeleteMessage) || (tLRPC$ChannelAdminLogEventAction2 instanceof TLRPC$TL_channelAdminLogEventActionEditMessage) || (tLRPC$ChannelAdminLogEventAction2 instanceof TLRPC$TL_channelAdminLogEventActionParticipantJoin) || (tLRPC$ChannelAdminLogEventAction2 instanceof TLRPC$TL_channelAdminLogEventActionParticipantJoinByInvite) || (tLRPC$ChannelAdminLogEventAction2 instanceof TLRPC$TL_channelAdminLogEventActionParticipantJoinByRequest)) && (tLRPC$Message = messageObject.messageOwner) != null && tLRPC$Message.from_id != null && (user = getMessagesController().getUser(Long.valueOf(this.selectedObject.messageOwner.from_id.user_id))) != null && !UserObject.isUserSelf(user)) {
+                    getMessagesController().getChannelParticipant(this.currentChat, user, new Utilities.Callback() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda20
+                        @Override // org.telegram.messenger.Utilities.Callback
+                        public final void run(Object obj) {
+                            ChannelAdminLogActivity.this.lambda$createMenu$16(arrayList, arrayList3, arrayList2, runnable, (TLRPC$ChannelParticipant) obj);
+                        }
+                    });
+                    z = true;
+                    if (z) {
+                        runnable.run();
+                        return true;
                     }
-                });
-                z = true;
+                    return true;
+                }
             }
+            z = false;
             if (z) {
-                return true;
             }
-            runnable.run();
-            return true;
-        } else {
-            messageObject2 = ((ChatActionCell) view).getMessageObject();
         }
         messageObject = messageObject2;
         if (messageObject != null) {
@@ -3124,7 +3134,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                     ChannelAdminLogActivity.this.chatMessageCellsCache.remove(0);
                     view = (View) ChannelAdminLogActivity.this.chatMessageCellsCache.get(0);
                 } else {
-                    view = new ChatMessageCell(this.mContext);
+                    view = new ChatMessageCell(this.mContext, ((BaseFragment) ChannelAdminLogActivity.this).currentAccount);
                 }
                 ChatMessageCell chatMessageCell = (ChatMessageCell) view;
                 chatMessageCell.setDelegate(new 1());
@@ -3389,8 +3399,17 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public boolean shouldShowTopicButton() {
-                return ChatObject.isForum(ChannelAdminLogActivity.this.currentChat);
+            public boolean shouldShowTopicButton(ChatMessageCell chatMessageCell) {
+                TLRPC$TL_channelAdminLogEvent tLRPC$TL_channelAdminLogEvent;
+                MessageObject messageObject = chatMessageCell.getMessageObject();
+                if (messageObject == null || (tLRPC$TL_channelAdminLogEvent = messageObject.currentEvent) == null) {
+                    return false;
+                }
+                TLRPC$ChannelAdminLogEventAction tLRPC$ChannelAdminLogEventAction = tLRPC$TL_channelAdminLogEvent.action;
+                if ((tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionEditMessage) || (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionDeleteMessage)) {
+                    return ChatObject.isForum(ChannelAdminLogActivity.this.currentChat);
+                }
+                return false;
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -3710,7 +3729,17 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             public void didPressInstantButton(ChatMessageCell chatMessageCell, int i) {
                 TLRPC$WebPage tLRPC$WebPage;
                 MessageObject messageObject = chatMessageCell.getMessageObject();
-                if (i == 0) {
+                TLRPC$TL_channelAdminLogEvent tLRPC$TL_channelAdminLogEvent = messageObject.currentEvent;
+                if (tLRPC$TL_channelAdminLogEvent != null && (tLRPC$TL_channelAdminLogEvent.action instanceof TLRPC$TL_channelAdminLogEventActionEditMessage)) {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong("chat_id", -messageObject.getDialogId());
+                    bundle.putInt("message_id", messageObject.getRealId());
+                    ChatActivity chatActivity = new ChatActivity(bundle);
+                    if (ChatObject.isForum(ChannelAdminLogActivity.this.currentChat)) {
+                        ForumUtilities.applyTopic(chatActivity, MessagesStorage.TopicKey.of(messageObject.getDialogId(), MessageObject.getTopicId(((BaseFragment) ChannelAdminLogActivity.this).currentAccount, messageObject.messageOwner, true)));
+                    }
+                    ChannelAdminLogActivity.this.presentFragment(chatActivity);
+                } else if (i == 0) {
                     TLRPC$MessageMedia tLRPC$MessageMedia = messageObject.messageOwner.media;
                     if (tLRPC$MessageMedia == null || (tLRPC$WebPage = tLRPC$MessageMedia.webpage) == null || tLRPC$WebPage.cached_page == null) {
                         return;
@@ -4683,7 +4712,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         }
         for (int i2 = 0; i2 < arrayList.size(); i2++) {
             MessageObject.TextLayoutBlock textLayoutBlock = arrayList.get(i2);
-            String charSequence3 = textLayoutBlock.textLayout.getText().toString();
+            String charSequence3 = textLayoutBlock.textLayout.layout.getText().toString();
             int i3 = textLayoutBlock.charactersOffset;
             if (findQuoteStart > i3) {
                 if (findQuoteStart - i3 > charSequence3.length() - 1) {
@@ -4706,7 +4735,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             return 0;
         }
         if (this.dummyMessageCell == null) {
-            this.dummyMessageCell = new ChatMessageCell(getParentActivity());
+            this.dummyMessageCell = new ChatMessageCell(getParentActivity(), this.currentAccount);
         }
         ChatMessageCell chatMessageCell = this.dummyMessageCell;
         TLRPC$Chat tLRPC$Chat = this.currentChat;

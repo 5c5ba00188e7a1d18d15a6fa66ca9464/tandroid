@@ -1583,6 +1583,17 @@ public class PollCreateActivity extends BaseFragment implements NotificationCent
                 pollEditTextCell = textCell;
             } else if (i == 4) {
                 final PollEditTextCell pollEditTextCell2 = new PollEditTextCell(this.mContext, false, PollCreateActivity.this.isPremium ? 1 : 0, null) { // from class: org.telegram.ui.PollCreateActivity.ListAdapter.1
+                    @Override // org.telegram.ui.Cells.PollEditTextCell
+                    protected void onActionModeStart(EditTextBoldCursor editTextBoldCursor, ActionMode actionMode) {
+                        if (editTextBoldCursor.isFocused() && editTextBoldCursor.hasSelection()) {
+                            Menu menu = actionMode.getMenu();
+                            if (menu.findItem(16908321) == null) {
+                                return;
+                            }
+                            ChatActivity.fillActionModeMenu(menu, PollCreateActivity.this.parentFragment.getCurrentEncryptedChat(), false);
+                        }
+                    }
+
                     /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.Cells.PollEditTextCell
                     public void onFieldTouchUp(EditTextBoldCursor editTextBoldCursor) {

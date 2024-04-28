@@ -132,7 +132,7 @@ public class ImageLoader {
     ArrayList<AnimatedFileDrawable> cachedAnimatedFileDrawables = new ArrayList<>();
     private HashMap<String, CacheImage> imageLoadingByUrl = new HashMap<>();
     private HashMap<String, CacheImage> imageLoadingByUrlPframe = new HashMap<>();
-    private HashMap<String, CacheImage> imageLoadingByKeys = new HashMap<>();
+    public ConcurrentHashMap<String, CacheImage> imageLoadingByKeys = new ConcurrentHashMap<>();
     private SparseArray<CacheImage> imageLoadingByTag = new SparseArray<>();
     private HashMap<String, ThumbGenerateInfo> waitingForQualityThumb = new HashMap<>();
     private SparseArray<String> waitingForQualityThumbByTag = new SparseArray<>();
@@ -3516,8 +3516,9 @@ public class ImageLoader {
                 if (this.url != null) {
                     ImageLoader.this.imageLoadingByUrlPframe.remove(this.url);
                 }
-                if (this.key != null) {
-                    ImageLoader.this.imageLoadingByKeys.remove(this.key);
+                String str = this.key;
+                if (str != null) {
+                    ImageLoader.this.imageLoadingByKeys.remove(str);
                 }
             }
         }
@@ -3602,8 +3603,9 @@ public class ImageLoader {
             if (this.url != null) {
                 ImageLoader.this.imageLoadingByUrlPframe.remove(this.url);
             }
-            if (this.key != null) {
-                ImageLoader.this.imageLoadingByKeys.remove(this.key);
+            String str2 = this.key;
+            if (str2 != null) {
+                ImageLoader.this.imageLoadingByKeys.remove(str2);
             }
         }
 
@@ -3969,7 +3971,7 @@ public class ImageLoader {
                 int intValue = cacheImage.types.get(i).intValue();
                 ImageReceiver imageReceiver = cacheImage.imageReceiverArray.get(i);
                 int intValue2 = cacheImage.imageReceiverGuidsArray.get(i).intValue();
-                CacheImage cacheImage2 = (CacheImage) ImageLoader.this.imageLoadingByKeys.get(str2);
+                CacheImage cacheImage2 = ImageLoader.this.imageLoadingByKeys.get(str2);
                 if (cacheImage2 == null) {
                     cacheImage2 = new CacheImage();
                     cacheImage2.priority = cacheImage.priority;

@@ -1,16 +1,34 @@
 package org.telegram.ui.Cells;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Canvas;
+import android.graphics.RenderNode;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.RippleDrawable;
+import android.os.Build;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import org.telegram.messenger.FileLog;
+import org.telegram.messenger.SharedConfig;
+import org.telegram.ui.Components.SizeNotifierFrameLayout;
 /* loaded from: classes4.dex */
-public abstract class BaseCell extends ViewGroup {
+public abstract class BaseCell extends ViewGroup implements SizeNotifierFrameLayout.IViewWithInvalidateCallback {
+    private boolean cachingBottom;
+    private boolean cachingTop;
     private boolean checkingForLongPress;
+    private boolean forceNotCacheNextFrame;
+    protected Runnable invalidateCallback;
     private CheckForLongPress pendingCheckForLongPress;
     private CheckForTap pendingCheckForTap;
     private int pressCount;
+    private RenderNode renderNode;
+    protected boolean updatedContent;
+
+    protected boolean allowCaching() {
+        return true;
+    }
 
     public int getBoundsLeft() {
         return 0;
@@ -135,5 +153,95 @@ public abstract class BaseCell extends ViewGroup {
 
     public int getBoundsRight() {
         return getWidth();
+    }
+
+    @Override // org.telegram.ui.Components.SizeNotifierFrameLayout.IViewWithInvalidateCallback
+    public void listenInvalidate(Runnable runnable) {
+        this.invalidateCallback = runnable;
+    }
+
+    public void invalidateLite() {
+        super.invalidate();
+    }
+
+    @Override // android.view.View
+    public void invalidate() {
+        Runnable runnable = this.invalidateCallback;
+        if (runnable != null) {
+            runnable.run();
+        }
+        super.invalidate();
+    }
+
+    public void setCaching(boolean z, boolean z2) {
+        boolean z3 = true;
+        if (z) {
+            this.cachingTop = (SharedConfig.useNewBlur && z2) ? false : false;
+        } else {
+            this.cachingBottom = (SharedConfig.useNewBlur && z2) ? false : false;
+        }
+    }
+
+    public void forceNotCacheNextFrame() {
+        this.forceNotCacheNextFrame = true;
+    }
+
+    public void drawCached(Canvas canvas) {
+        RenderNode renderNode;
+        if (Build.VERSION.SDK_INT >= 29 && (renderNode = this.renderNode) != null && renderNode.hasDisplayList() && canvas.isHardwareAccelerated() && !this.updatedContent) {
+            canvas.drawRenderNode(this.renderNode);
+        } else {
+            draw(canvas);
+        }
+    }
+
+    @Override // android.view.View
+    public void draw(Canvas canvas) {
+        boolean allowCaching = allowCaching();
+        int i = Build.VERSION.SDK_INT;
+        if (i >= 29) {
+            if (allowCaching != (this.renderNode != null)) {
+                if (allowCaching) {
+                    this.renderNode = new RenderNode("basecell");
+                    this.updatedContent = true;
+                } else {
+                    this.renderNode = null;
+                }
+            }
+        }
+        if (i >= 29 && this.renderNode != null && canvas.isHardwareAccelerated() && !this.forceNotCacheNextFrame) {
+            this.renderNode.setPosition(0, 0, getWidth(), getHeight());
+            super.draw(this.renderNode.beginRecording());
+            this.renderNode.endRecording();
+            canvas.drawRenderNode(this.renderNode);
+        } else {
+            super.draw(canvas);
+        }
+        this.forceNotCacheNextFrame = false;
+        this.updatedContent = false;
+    }
+
+    /* loaded from: classes4.dex */
+    public static class RippleDrawableSafe extends RippleDrawable {
+        public RippleDrawableSafe(ColorStateList colorStateList, Drawable drawable, Drawable drawable2) {
+            super(colorStateList, drawable, drawable2);
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public boolean setState(int[] iArr) {
+            if (getCallback() instanceof BaseCell) {
+                ((BaseCell) getCallback()).forceNotCacheNextFrame();
+            }
+            return super.setState(iArr);
+        }
+
+        @Override // android.graphics.drawable.RippleDrawable, android.graphics.drawable.LayerDrawable, android.graphics.drawable.Drawable
+        public void draw(Canvas canvas) {
+            try {
+                super.draw(canvas);
+            } catch (Exception e) {
+                FileLog.e("probably forgot to put setCallback", e);
+            }
+        }
     }
 }

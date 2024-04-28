@@ -8,7 +8,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.RippleDrawable;
 import android.os.Build;
 import android.util.StateSet;
 import android.view.MotionEvent;
@@ -17,6 +16,7 @@ import android.view.ViewConfiguration;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Cells.BaseCell;
 /* loaded from: classes3.dex */
 public class CanvasButton {
     private static final int[] pressedState = {16842910, 16842919};
@@ -62,7 +62,7 @@ public class CanvasButton {
             final Paint paint3 = new Paint(1);
             paint3.setFilterBitmap(true);
             paint3.setColor(-1);
-            this.selectorDrawable = new RippleDrawable(new ColorStateList(new int[][]{StateSet.WILD_CARD}, new int[]{Theme.getColor(Theme.key_listSelector) & 436207615}), null, new Drawable() { // from class: org.telegram.ui.Components.CanvasButton.2
+            BaseCell.RippleDrawableSafe rippleDrawableSafe = new BaseCell.RippleDrawableSafe(new ColorStateList(new int[][]{StateSet.WILD_CARD}, new int[]{Theme.getColor(Theme.key_listSelector) & 436207615}), null, new Drawable() { // from class: org.telegram.ui.Components.CanvasButton.2
                 @Override // android.graphics.drawable.Drawable
                 public int getOpacity() {
                     return -2;
@@ -86,6 +86,8 @@ public class CanvasButton {
                     }
                 }
             });
+            this.selectorDrawable = rippleDrawableSafe;
+            rippleDrawableSafe.setCallback(view);
         }
     }
 

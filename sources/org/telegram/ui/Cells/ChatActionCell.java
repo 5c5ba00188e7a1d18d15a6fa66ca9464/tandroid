@@ -1717,7 +1717,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
             }
             canvas.save();
             SpoilerEffect.clipOutCanvas(canvas, this.spoilers);
-            this.textLayout.draw(canvas);
+            SpoilerEffect.layoutDrawMaybe(this.textLayout, canvas);
             ChatActionCellDelegate chatActionCellDelegate = this.delegate;
             if (chatActionCellDelegate == null || chatActionCellDelegate.canDrawOutboundsContent()) {
                 StaticLayout staticLayout = this.textLayout;
@@ -1810,7 +1810,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                         canvas.save();
                         canvas.scale(f10, f10, this.giftPremiumSubtitleWidth / f, this.giftPremiumSubtitleLayout.getHeight() / f);
                         canvas.translate((this.giftPremiumSubtitleWidth - this.giftPremiumSubtitleLayout.getWidth()) / f, 0.0f);
-                        this.giftPremiumSubtitleLayout.draw(canvas);
+                        SpoilerEffect.layoutDrawMaybe(this.giftPremiumSubtitleLayout, canvas);
                         canvas.restore();
                         this.giftSubtitlePaint.setAlpha((int) (Color.alpha(color) * f9));
                         TextPaint textPaint6 = this.giftSubtitlePaint;
@@ -1818,12 +1818,12 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                         float f11 = (f9 * 0.2f) + 0.8f;
                         canvas.save();
                         canvas.scale(f11, f11, this.settingWallpaperLayout.getWidth() / f, this.settingWallpaperLayout.getHeight() / f);
-                        this.settingWallpaperLayout.draw(canvas);
+                        SpoilerEffect.layoutDrawMaybe(this.settingWallpaperLayout, canvas);
                         canvas.restore();
                         canvas.save();
                         canvas.translate(0.0f, this.settingWallpaperLayout.getHeight() + AndroidUtilities.dp(4.0f));
                         canvas.scale(f11, f11, this.settingWallpaperProgressTextLayout.getWidth() / f, this.settingWallpaperProgressTextLayout.getHeight() / f);
-                        this.settingWallpaperProgressTextLayout.draw(canvas);
+                        SpoilerEffect.layoutDrawMaybe(this.settingWallpaperProgressTextLayout, canvas);
                         canvas.restore();
                         this.giftSubtitlePaint.setColor(color);
                         this.giftSubtitlePaint.linkColor = color;
@@ -1831,13 +1831,13 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                         this.settingWallpaperLayout.draw(canvas);
                         canvas.save();
                         canvas.translate(0.0f, this.settingWallpaperLayout.getHeight() + AndroidUtilities.dp(4.0f));
-                        this.settingWallpaperProgressTextLayout.draw(canvas);
+                        SpoilerEffect.layoutDrawMaybe(this.settingWallpaperProgressTextLayout, canvas);
                         canvas.restore();
                     }
                 } else {
                     canvas.save();
                     canvas.translate((this.giftPremiumSubtitleWidth - this.giftPremiumSubtitleLayout.getWidth()) / f, 0.0f);
-                    this.giftPremiumSubtitleLayout.draw(canvas);
+                    SpoilerEffect.layoutDrawMaybe(this.giftPremiumSubtitleLayout, canvas);
                     canvas.restore();
                 }
             } else {
@@ -1845,7 +1845,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                 if (this.giftPremiumSubtitleLayout != null) {
                     canvas.save();
                     canvas.translate((this.giftPremiumSubtitleWidth - this.giftPremiumSubtitleLayout.getWidth()) / f, 0.0f);
-                    this.giftPremiumSubtitleLayout.draw(canvas);
+                    SpoilerEffect.layoutDrawMaybe(this.giftPremiumSubtitleLayout, canvas);
                     canvas.restore();
                 }
             }
@@ -2399,7 +2399,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         return messageObject != null && messageObject.type == 25;
     }
 
-    @Override // android.view.View
+    @Override // org.telegram.ui.Cells.BaseCell, android.view.View
     public void invalidate() {
         super.invalidate();
         View view = this.invalidateWithParent;

@@ -108,8 +108,8 @@ public class ThemePreviewMessagesCell extends LinearLayout {
         this(context, iNavigationLayout, i, j, null);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:78:0x0417  */
-    /* JADX WARN: Removed duplicated region for block: B:93:0x0478 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x041a  */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x047b A[SYNTHETIC] */
     @SuppressLint({"ClickableViewAccessibility"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -214,7 +214,7 @@ public class ThemePreviewMessagesCell extends LinearLayout {
             messageObject3.forceAvatar = true;
             messageObject3.resetLayout();
             messageObject3.eventId = 1L;
-            messageObject2 = messageObject3;
+            messageObject = messageObject3;
         } else if (i == 2) {
             TLRPC$TL_message tLRPC$TL_message2 = new TLRPC$TL_message();
             tLRPC$TL_message2.message = LocaleController.getString("DoubleTapPreviewMessage", R.string.DoubleTapPreviewMessage);
@@ -237,7 +237,7 @@ public class ThemePreviewMessagesCell extends LinearLayout {
             messageObject4.customAvatarDrawable = ContextCompat.getDrawable(context, R.drawable.dino_pic);
             messageObject4.overrideLinkColor = 5;
             messageObject4.overrideLinkEmoji = 0L;
-            messageObject2 = messageObject4;
+            messageObject = messageObject4;
         } else {
             TLRPC$TL_message tLRPC$TL_message3 = new TLRPC$TL_message();
             if (i == 0) {
@@ -345,15 +345,15 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                 messageObject7.customName = string2;
                 messageObject7.customAvatarDrawable = new AvatarDrawable((TLRPC$User) tLRPC$TL_user, false);
             }
-            messageObject = messageObject7;
-            messageObject2 = messageObject6;
+            messageObject = messageObject6;
+            messageObject2 = messageObject7;
             i2 = 0;
             while (true) {
                 chatMessageCellArr = this.cells;
                 if (i2 < chatMessageCellArr.length) {
                     return;
                 }
-                chatMessageCellArr[i2] = new ChatMessageCell(context, false, null, resourcesProvider, context, i) { // from class: org.telegram.ui.Cells.ThemePreviewMessagesCell.1
+                chatMessageCellArr[i2] = new ChatMessageCell(context, i3, false, null, resourcesProvider, context, i) { // from class: org.telegram.ui.Cells.ThemePreviewMessagesCell.1
                     private final AnimatedColor color1;
                     private final AnimatedColor color2;
                     private GestureDetector gestureDetector;
@@ -761,8 +761,8 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                    public /* synthetic */ boolean shouldShowTopicButton() {
-                        return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$shouldShowTopicButton(this);
+                    public /* synthetic */ boolean shouldShowTopicButton(ChatMessageCell chatMessageCell) {
+                        return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$shouldShowTopicButton(this, chatMessageCell);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -812,7 +812,7 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                 ChatMessageCell[] chatMessageCellArr2 = this.cells;
                 chatMessageCellArr2[i2].isChat = i == 2 || i == 4;
                 chatMessageCellArr2[i2].setFullyDraw(true);
-                MessageObject messageObject8 = i2 == 0 ? messageObject : messageObject2;
+                MessageObject messageObject8 = i2 == 0 ? messageObject2 : messageObject;
                 if (messageObject8 != null) {
                     this.cells[i2].setMessageObject(messageObject8, null, false, false);
                     addView(this.cells[i2], LayoutHelper.createLinear(-1, -2));
@@ -820,7 +820,7 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                 i2++;
             }
         }
-        messageObject = null;
+        messageObject2 = null;
         i2 = 0;
         while (true) {
             chatMessageCellArr = this.cells;

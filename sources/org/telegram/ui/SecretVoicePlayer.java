@@ -392,7 +392,7 @@ public class SecretVoicePlayer extends Dialog {
             final int i2 = height;
             this.heightdiff = i2 - this.cell.getHeight();
             int ceil = (int) Math.ceil((Math.min(width, i2) * 0.92f) / AndroidUtilities.density);
-            ChatMessageCell chatMessageCell5 = new ChatMessageCell(getContext(), false, null, this.cell.getResourcesProvider()) { // from class: org.telegram.ui.SecretVoicePlayer.4
+            ChatMessageCell chatMessageCell5 = new ChatMessageCell(getContext(), UserConfig.selectedAccount, false, null, this.cell.getResourcesProvider()) { // from class: org.telegram.ui.SecretVoicePlayer.4
                 private Paint clipPaint;
                 private RadialGradient radialGradient;
                 private Matrix radialMatrix;
@@ -867,8 +867,8 @@ public class SecretVoicePlayer extends Dialog {
                 }
 
                 @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                public /* synthetic */ boolean shouldShowTopicButton() {
-                    return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$shouldShowTopicButton(this);
+                public /* synthetic */ boolean shouldShowTopicButton(ChatMessageCell chatMessageCell6) {
+                    return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$shouldShowTopicButton(this, chatMessageCell6);
                 }
 
                 @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate

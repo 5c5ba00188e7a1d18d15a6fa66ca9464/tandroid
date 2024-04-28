@@ -170,6 +170,7 @@ public class SharedConfig {
     public static boolean updateStickersOrderOnSend;
     public static Boolean useCamera2Force;
     public static boolean useFingerprint;
+    public static boolean useNewBlur;
     public static boolean useSurfaceInStories;
     public static boolean useSystemEmoji;
     public static boolean useThreeLinesLayout;
@@ -508,17 +509,17 @@ public class SharedConfig {
         return i;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:38:0x0172 A[Catch: Exception -> 0x0196, all -> 0x0457, TryCatch #4 {Exception -> 0x0196, blocks: (B:22:0x0121, B:24:0x0129, B:26:0x013b, B:27:0x014f, B:38:0x0172, B:40:0x0178, B:41:0x017a, B:43:0x017e, B:45:0x0184, B:47:0x018a, B:49:0x018e, B:36:0x016c), top: B:98:0x0121, outer: #2 }] */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0178 A[Catch: Exception -> 0x0196, all -> 0x0457, TryCatch #4 {Exception -> 0x0196, blocks: (B:22:0x0121, B:24:0x0129, B:26:0x013b, B:27:0x014f, B:38:0x0172, B:40:0x0178, B:41:0x017a, B:43:0x017e, B:45:0x0184, B:47:0x018a, B:49:0x018e, B:36:0x016c), top: B:98:0x0121, outer: #2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0172 A[Catch: Exception -> 0x0196, all -> 0x0461, TryCatch #4 {Exception -> 0x0196, blocks: (B:22:0x0121, B:24:0x0129, B:26:0x013b, B:27:0x014f, B:38:0x0172, B:40:0x0178, B:41:0x017a, B:43:0x017e, B:45:0x0184, B:47:0x018a, B:49:0x018e, B:36:0x016c), top: B:98:0x0121, outer: #0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0178 A[Catch: Exception -> 0x0196, all -> 0x0461, TryCatch #4 {Exception -> 0x0196, blocks: (B:22:0x0121, B:24:0x0129, B:26:0x013b, B:27:0x014f, B:38:0x0172, B:40:0x0178, B:41:0x017a, B:43:0x017e, B:45:0x0184, B:47:0x018a, B:49:0x018e, B:36:0x016c), top: B:98:0x0121, outer: #0 }] */
     /* JADX WARN: Removed duplicated region for block: B:61:0x0216  */
     /* JADX WARN: Removed duplicated region for block: B:62:0x0219  */
     /* JADX WARN: Removed duplicated region for block: B:65:0x0229  */
     /* JADX WARN: Removed duplicated region for block: B:66:0x022b  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x03f0  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x03f1 A[Catch: all -> 0x0457, TryCatch #2 {, blocks: (B:4:0x0003, B:6:0x0007, B:9:0x000d, B:11:0x00dd, B:12:0x00e3, B:14:0x00eb, B:16:0x00ef, B:17:0x00fc, B:19:0x010a, B:21:0x0115, B:22:0x0121, B:24:0x0129, B:26:0x013b, B:27:0x014f, B:29:0x0153, B:30:0x0165, B:38:0x0172, B:40:0x0178, B:41:0x017a, B:43:0x017e, B:45:0x0184, B:47:0x018a, B:49:0x018e, B:36:0x016c, B:53:0x019a, B:55:0x01e7, B:59:0x01f2, B:63:0x021b, B:67:0x022c, B:71:0x03fb, B:75:0x0408, B:78:0x0447, B:80:0x044b, B:84:0x0453, B:83:0x0450, B:70:0x03f1, B:52:0x0197, B:20:0x0111, B:86:0x0455), top: B:95:0x0003, inners: #0, #4 }] */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x0405  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x0407  */
-    /* JADX WARN: Removed duplicated region for block: B:91:0x0447 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x03fa  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x03fb A[Catch: all -> 0x0461, TryCatch #0 {, blocks: (B:4:0x0003, B:6:0x0007, B:9:0x000d, B:11:0x00dd, B:12:0x00e3, B:14:0x00eb, B:16:0x00ef, B:17:0x00fc, B:19:0x010a, B:21:0x0115, B:22:0x0121, B:24:0x0129, B:26:0x013b, B:27:0x014f, B:29:0x0153, B:30:0x0165, B:38:0x0172, B:40:0x0178, B:41:0x017a, B:43:0x017e, B:45:0x0184, B:47:0x018a, B:49:0x018e, B:36:0x016c, B:53:0x019a, B:55:0x01e7, B:59:0x01f2, B:63:0x021b, B:67:0x022c, B:71:0x0405, B:75:0x0412, B:78:0x0451, B:80:0x0455, B:84:0x045d, B:83:0x045a, B:70:0x03fb, B:52:0x0197, B:20:0x0111, B:86:0x045f), top: B:91:0x0003, inners: #2, #4 }] */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x040f  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x0411  */
+    /* JADX WARN: Removed duplicated region for block: B:94:0x0451 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -678,6 +679,7 @@ public class SharedConfig {
                             updateStickersOrderOnSend = sharedPreferences.getBoolean("updateStickersOrderOnSend", true);
                             dayNightWallpaperSwitchHint = sharedPreferences.getInt("dayNightWallpaperSwitchHint", 0);
                             bigCameraForRound = sharedPreferences.getBoolean("bigCameraForRound", false);
+                            useNewBlur = sharedPreferences.getBoolean("useNewBlur", BuildVars.DEBUG_VERSION);
                             if (!sharedPreferences.contains("useCamera2Force")) {
                             }
                             useCamera2Force = bool;
@@ -784,6 +786,7 @@ public class SharedConfig {
                 updateStickersOrderOnSend = sharedPreferences.getBoolean("updateStickersOrderOnSend", true);
                 dayNightWallpaperSwitchHint = sharedPreferences.getInt("dayNightWallpaperSwitchHint", 0);
                 bigCameraForRound = sharedPreferences.getBoolean("bigCameraForRound", false);
+                useNewBlur = sharedPreferences.getBoolean("useNewBlur", BuildVars.DEBUG_VERSION);
                 if (!sharedPreferences.contains("useCamera2Force")) {
                     bool = Boolean.valueOf(sharedPreferences.getBoolean("useCamera2Force", false));
                 }
@@ -1781,7 +1784,7 @@ public class SharedConfig {
     }
 
     public static boolean canBlurChat() {
-        return getDevicePerformanceClass() == 2;
+        return getDevicePerformanceClass() >= (Build.VERSION.SDK_INT >= 31 ? 1 : 2);
     }
 
     public static boolean chatBlurEnabled() {
@@ -1843,6 +1846,11 @@ public class SharedConfig {
     public static void toggleRoundCamera() {
         bigCameraForRound = !bigCameraForRound;
         ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0).edit().putBoolean("bigCameraForRound", bigCameraForRound).apply();
+    }
+
+    public static void toggleUseNewBlur() {
+        useNewBlur = !useNewBlur;
+        ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0).edit().putBoolean("useNewBlur", useNewBlur).apply();
     }
 
     public static boolean isUsingCamera2(int i) {

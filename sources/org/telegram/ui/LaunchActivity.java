@@ -9063,8 +9063,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:234:0x05c7 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:243:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:240:0x05e2 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:247:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -9073,6 +9073,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         String str28;
         Integer num3;
         long longValue;
+        String str29;
         boolean z5;
         BaseFragment baseFragment;
         boolean z6;
@@ -9205,14 +9206,14 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         bundle2.putBoolean("closeFragment", false);
                         bundle2.putBoolean("allowGroups", str10 != null);
                         bundle2.putBoolean("allowChannels", str11 != null);
-                        String str29 = TextUtils.isEmpty(str10) ? TextUtils.isEmpty(str11) ? null : str11 : str10;
+                        String str30 = TextUtils.isEmpty(str10) ? TextUtils.isEmpty(str11) ? null : str11 : str10;
                         final DialogsActivity dialogsActivity2 = new DialogsActivity(bundle2);
-                        final String str30 = str29;
+                        final String str31 = str30;
                         dialogsActivity2.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda153
                             @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
                             public final boolean didSelectDialogs(DialogsActivity dialogsActivity3, ArrayList arrayList4, CharSequence charSequence, boolean z7, TopicsFragment topicsFragment) {
                                 boolean lambda$runLinkRequest$69;
-                                lambda$runLinkRequest$69 = LaunchActivity.this.lambda$runLinkRequest$69(i2, user4, str12, str30, dialogsActivity2, dialogsActivity3, arrayList4, charSequence, z7, topicsFragment);
+                                lambda$runLinkRequest$69 = LaunchActivity.this.lambda$runLinkRequest$69(i2, user4, str12, str31, dialogsActivity2, dialogsActivity3, arrayList4, charSequence, z7, topicsFragment);
                                 return lambda$runLinkRequest$69;
                             }
                         });
@@ -9227,7 +9228,12 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                             bundle3.putLong("user_id", l3.longValue());
                             longValue = l3.longValue();
                             if (str16 != null) {
-                                bundle3.putString("start_text", str16);
+                                if (str16.startsWith("@")) {
+                                    str29 = " " + str16;
+                                } else {
+                                    str29 = str16;
+                                }
+                                bundle3.putString("start_text", str29);
                             }
                         }
                         if (str9 == null || user5 == null || !user5.bot) {

@@ -1322,11 +1322,11 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
         new AlertDialog.Builder(getContext(), this.resourcesProvider).setTitle(LocaleController.getString("AppName", R.string.AppName)).setMessage(str).setPositiveButton(LocaleController.getString("OK", R.string.OK), null).show();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:205:0x01a3 A[Catch: Exception -> 0x01c4, TRY_LEAVE, TryCatch #4 {Exception -> 0x01c4, blocks: (B:203:0x0192, B:205:0x01a3), top: B:237:0x0192 }] */
-    /* JADX WARN: Removed duplicated region for block: B:211:0x01cc  */
-    /* JADX WARN: Removed duplicated region for block: B:214:0x01f8  */
-    /* JADX WARN: Removed duplicated region for block: B:217:0x022d  */
-    /* JADX WARN: Removed duplicated region for block: B:235:0x0240 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:205:0x01a4 A[Catch: Exception -> 0x01c5, TRY_LEAVE, TryCatch #4 {Exception -> 0x01c5, blocks: (B:203:0x0193, B:205:0x01a4), top: B:237:0x0193 }] */
+    /* JADX WARN: Removed duplicated region for block: B:211:0x01cd  */
+    /* JADX WARN: Removed duplicated region for block: B:214:0x01f9  */
+    /* JADX WARN: Removed duplicated region for block: B:217:0x022e  */
+    /* JADX WARN: Removed duplicated region for block: B:235:0x0241 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     @SuppressLint({"NewApi"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.

@@ -179,6 +179,7 @@ import org.telegram.ui.Adapters.DialogsSearchAdapter;
 import org.telegram.ui.Adapters.FiltersView;
 import org.telegram.ui.Cells.AccountSelectCell;
 import org.telegram.ui.Cells.ArchiveHintInnerCell;
+import org.telegram.ui.Cells.BaseCell;
 import org.telegram.ui.Cells.DialogCell;
 import org.telegram.ui.Cells.DialogsEmptyCell;
 import org.telegram.ui.Cells.DialogsHintCell;
@@ -677,6 +678,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     /* loaded from: classes4.dex */
     public class ContentView extends SizeNotifierFrameLayout {
         private Paint actionBarSearchPaint;
+        private Rect blurBounds;
         private int inputFieldHeight;
         private int startedTrackingPointerId;
         private int startedTrackingX;
@@ -690,10 +692,16 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             return false;
         }
 
+        @Override // org.telegram.ui.Components.SizeNotifierFrameLayout
+        protected boolean invalidateOptimized() {
+            return true;
+        }
+
         public ContentView(Context context) {
             super(context);
             this.actionBarSearchPaint = new Paint(1);
             this.windowBackgroundPaint = new Paint();
+            this.blurBounds = new Rect();
             this.needBlur = true;
             this.blurBehindViews.add(this);
         }
@@ -791,39 +799,42 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             if ((view == DialogsActivity.this.fragmentContextView && DialogsActivity.this.fragmentContextView.isCallStyle()) || view == DialogsActivity.this.blurredView) {
                 return true;
             }
-            if (view != DialogsActivity.this.viewPages[0] && ((DialogsActivity.this.viewPages.length <= 1 || view != DialogsActivity.this.viewPages[1]) && view != DialogsActivity.this.fragmentContextView && view != DialogsActivity.this.fragmentLocationContextView && view != DialogsActivity.this.dialogsHintCell && view != DialogsActivity.this.authHintCell)) {
-                if (view == ((BaseFragment) DialogsActivity.this).actionBar && DialogsActivity.this.slideFragmentProgress != 1.0f) {
-                    canvas.save();
-                    DialogsActivity dialogsActivity = DialogsActivity.this;
-                    if (dialogsActivity.slideFragmentLite) {
-                        canvas.translate((dialogsActivity.isDrawerTransition ? 1 : -1) * AndroidUtilities.dp(40.0f) * (1.0f - DialogsActivity.this.slideFragmentProgress), 0.0f);
-                    } else {
-                        float f = 1.0f - ((1.0f - dialogsActivity.slideFragmentProgress) * 0.05f);
-                        canvas.translate((dialogsActivity.isDrawerTransition ? AndroidUtilities.dp(4.0f) : -AndroidUtilities.dp(4.0f)) * (1.0f - DialogsActivity.this.slideFragmentProgress), 0.0f);
-                        canvas.scale(f, f, DialogsActivity.this.isDrawerTransition ? getMeasuredWidth() : 0.0f, (((BaseFragment) DialogsActivity.this).actionBar.getOccupyStatusBar() ? AndroidUtilities.statusBarHeight : 0) + (ActionBar.getCurrentActionBarHeight() / 2.0f));
+            if (!SizeNotifierFrameLayout.drawingBlur) {
+                if (view != DialogsActivity.this.viewPages[0] && ((DialogsActivity.this.viewPages.length <= 1 || view != DialogsActivity.this.viewPages[1]) && view != DialogsActivity.this.fragmentContextView && view != DialogsActivity.this.fragmentLocationContextView && view != DialogsActivity.this.dialogsHintCell && view != DialogsActivity.this.authHintCell)) {
+                    if (view == ((BaseFragment) DialogsActivity.this).actionBar && DialogsActivity.this.slideFragmentProgress != 1.0f) {
+                        canvas.save();
+                        DialogsActivity dialogsActivity = DialogsActivity.this;
+                        if (dialogsActivity.slideFragmentLite) {
+                            canvas.translate((dialogsActivity.isDrawerTransition ? 1 : -1) * AndroidUtilities.dp(40.0f) * (1.0f - DialogsActivity.this.slideFragmentProgress), 0.0f);
+                        } else {
+                            float f = 1.0f - ((1.0f - dialogsActivity.slideFragmentProgress) * 0.05f);
+                            canvas.translate((dialogsActivity.isDrawerTransition ? AndroidUtilities.dp(4.0f) : -AndroidUtilities.dp(4.0f)) * (1.0f - DialogsActivity.this.slideFragmentProgress), 0.0f);
+                            canvas.scale(f, f, DialogsActivity.this.isDrawerTransition ? getMeasuredWidth() : 0.0f, (((BaseFragment) DialogsActivity.this).actionBar.getOccupyStatusBar() ? AndroidUtilities.statusBarHeight : 0) + (ActionBar.getCurrentActionBarHeight() / 2.0f));
+                        }
+                        boolean drawChild = super.drawChild(canvas, view, j);
+                        canvas.restore();
+                        return drawChild;
                     }
-                    boolean drawChild = super.drawChild(canvas, view, j);
-                    canvas.restore();
-                    return drawChild;
+                    return super.drawChild(canvas, view, j);
                 }
-                return super.drawChild(canvas, view, j);
-            }
-            canvas.save();
-            canvas.clipRect(0.0f, (-getY()) + getActionBarTop() + getActionBarFullHeight(), getMeasuredWidth(), getMeasuredHeight());
-            DialogsActivity dialogsActivity2 = DialogsActivity.this;
-            float f2 = dialogsActivity2.slideFragmentProgress;
-            if (f2 != 1.0f) {
-                if (dialogsActivity2.slideFragmentLite) {
-                    canvas.translate((dialogsActivity2.isDrawerTransition ? 1 : -1) * AndroidUtilities.dp(40.0f) * (1.0f - DialogsActivity.this.slideFragmentProgress), 0.0f);
-                } else {
-                    float f3 = 1.0f - ((1.0f - f2) * 0.05f);
-                    canvas.translate((dialogsActivity2.isDrawerTransition ? AndroidUtilities.dp(4.0f) : -AndroidUtilities.dp(4.0f)) * (1.0f - DialogsActivity.this.slideFragmentProgress), 0.0f);
-                    canvas.scale(f3, f3, DialogsActivity.this.isDrawerTransition ? getMeasuredWidth() : 0.0f, (-getY()) + DialogsActivity.this.scrollYOffset + getActionBarFullHeight());
+                canvas.save();
+                canvas.clipRect(0.0f, (-getY()) + getActionBarTop() + getActionBarFullHeight(), getMeasuredWidth(), getMeasuredHeight());
+                DialogsActivity dialogsActivity2 = DialogsActivity.this;
+                float f2 = dialogsActivity2.slideFragmentProgress;
+                if (f2 != 1.0f) {
+                    if (dialogsActivity2.slideFragmentLite) {
+                        canvas.translate((dialogsActivity2.isDrawerTransition ? 1 : -1) * AndroidUtilities.dp(40.0f) * (1.0f - DialogsActivity.this.slideFragmentProgress), 0.0f);
+                    } else {
+                        float f3 = 1.0f - ((1.0f - f2) * 0.05f);
+                        canvas.translate((dialogsActivity2.isDrawerTransition ? AndroidUtilities.dp(4.0f) : -AndroidUtilities.dp(4.0f)) * (1.0f - DialogsActivity.this.slideFragmentProgress), 0.0f);
+                        canvas.scale(f3, f3, DialogsActivity.this.isDrawerTransition ? getMeasuredWidth() : 0.0f, (-getY()) + DialogsActivity.this.scrollYOffset + getActionBarFullHeight());
+                    }
                 }
+                boolean drawChild2 = super.drawChild(canvas, view, j);
+                canvas.restore();
+                return drawChild2;
             }
-            boolean drawChild2 = super.drawChild(canvas, view, j);
-            canvas.restore();
-            return drawChild2;
+            return super.drawChild(canvas, view, j);
         }
 
         /* JADX INFO: Access modifiers changed from: protected */
@@ -837,9 +848,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         public void dispatchDraw(Canvas canvas) {
             int actionBarTop;
             int i;
-            float f;
             float clamp;
-            float f2;
+            float f;
             Paint paint;
             int i2;
             DialogsActivity dialogsActivity;
@@ -873,14 +883,14 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     if (findViewHolderForLayoutPosition2 != null) {
                         float paddingTop = dialogsRecyclerView.getPaddingTop() - findViewHolderForLayoutPosition2.itemView.getY();
                         if (paddingTop >= 0.0f) {
-                            float f3 = -paddingTop;
-                            float f4 = -DialogsActivity.this.getMaxScrollYOffset();
-                            if (f3 < f4) {
-                                f3 = f4;
-                            } else if (f3 > 0.0f) {
-                                f3 = 0.0f;
+                            float f2 = -paddingTop;
+                            float f3 = -DialogsActivity.this.getMaxScrollYOffset();
+                            if (f2 < f3) {
+                                f2 = f3;
+                            } else if (f2 > 0.0f) {
+                                f2 = 0.0f;
                             }
-                            DialogsActivity.this.setScrollY(f3);
+                            DialogsActivity.this.setScrollY(f2);
                         } else {
                             DialogsActivity.this.setScrollY(0.0f);
                         }
@@ -915,9 +925,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                         }
                     }
                 }
-                Rect rect = AndroidUtilities.rectTmp2;
-                rect.set(0, i4, getMeasuredWidth(), i5);
-                drawBlurRect(canvas, 0.0f, rect, DialogsActivity.this.searchAnimationProgress == 1.0f ? this.actionBarSearchPaint : DialogsActivity.this.actionBarDefaultPaint, true);
+                this.blurBounds.set(0, i4, getMeasuredWidth(), i5);
+                drawBlurRect(canvas, 0.0f, this.blurBounds, DialogsActivity.this.searchAnimationProgress == 1.0f ? this.actionBarSearchPaint : DialogsActivity.this.actionBarDefaultPaint, true);
                 if (DialogsActivity.this.searchAnimationProgress <= 0.0f || DialogsActivity.this.searchAnimationProgress >= 1.0f) {
                     i = i5;
                 } else {
@@ -929,8 +938,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                         drawBlurCircle(canvas, 0.0f, getMeasuredWidth() - AndroidUtilities.dp(24.0f), (((BaseFragment) DialogsActivity.this).actionBar.getOccupyStatusBar() ? AndroidUtilities.statusBarHeight : 0) + ((((BaseFragment) DialogsActivity.this).actionBar.getMeasuredHeight() - i2) / 2.0f), getMeasuredWidth() * 1.3f * DialogsActivity.this.searchAnimationProgress, this.actionBarSearchPaint, true);
                         canvas.restore();
                     } else {
-                        rect.set(0, i4, getMeasuredWidth(), i5);
-                        drawBlurRect(canvas, 0.0f, rect, this.actionBarSearchPaint, true);
+                        this.blurBounds.set(0, i4, getMeasuredWidth(), i5);
+                        drawBlurRect(canvas, 0.0f, this.blurBounds, this.actionBarSearchPaint, true);
                         i = i5;
                     }
                     if (DialogsActivity.this.filterTabsView != null && DialogsActivity.this.filterTabsView.getVisibility() == 0) {
@@ -938,12 +947,12 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     }
                     if (DialogsActivity.this.searchTabsView != null) {
                         float measuredHeight = (i - DialogsActivity.this.searchTabsView.getMeasuredHeight()) - DialogsActivity.this.searchTabsView.getTop();
-                        float f5 = DialogsActivity.this.searchAnimationTabsDelayedCrossfade ? DialogsActivity.this.searchAnimationProgress < 0.5f ? 0.0f : (DialogsActivity.this.searchAnimationProgress - 0.5f) / 0.5f : DialogsActivity.this.searchAnimationProgress;
+                        float f4 = DialogsActivity.this.searchAnimationTabsDelayedCrossfade ? DialogsActivity.this.searchAnimationProgress < 0.5f ? 0.0f : (DialogsActivity.this.searchAnimationProgress - 0.5f) / 0.5f : DialogsActivity.this.searchAnimationProgress;
                         DialogsActivity.this.searchTabsView.setTranslationY(measuredHeight);
-                        DialogsActivity.this.searchTabsView.setAlpha(f5);
+                        DialogsActivity.this.searchTabsView.setAlpha(f4);
                         if (DialogsActivity.this.filtersView != null) {
                             DialogsActivity.this.filtersView.setTranslationY(measuredHeight);
-                            DialogsActivity.this.filtersView.setAlpha(f5);
+                            DialogsActivity.this.filtersView.setAlpha(f4);
                         }
                     }
                 }
@@ -952,13 +961,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 if (!((BaseFragment) dialogsActivity3).inPreviewMode) {
                     if (DialogsActivity.this.progressToActionMode > 0.0f) {
                         this.actionBarSearchPaint.setColor(ColorUtils.blendARGB(Theme.getColor(DialogsActivity.this.folderId == 0 ? Theme.key_actionBarDefault : Theme.key_actionBarDefaultArchived), Theme.getColor(Theme.key_windowBackgroundWhite), DialogsActivity.this.progressToActionMode));
-                        Rect rect2 = AndroidUtilities.rectTmp2;
-                        rect2.set(0, i4, getMeasuredWidth(), i);
-                        drawBlurRect(canvas, 0.0f, rect2, this.actionBarSearchPaint, true);
+                        this.blurBounds.set(0, i4, getMeasuredWidth(), i);
+                        drawBlurRect(canvas, 0.0f, this.blurBounds, this.actionBarSearchPaint, true);
                     } else {
-                        Rect rect3 = AndroidUtilities.rectTmp2;
-                        rect3.set(0, i4, getMeasuredWidth(), i);
-                        drawBlurRect(canvas, 0.0f, rect3, DialogsActivity.this.actionBarDefaultPaint, true);
+                        this.blurBounds.set(0, i4, getMeasuredWidth(), i);
+                        drawBlurRect(canvas, 0.0f, this.blurBounds, DialogsActivity.this.actionBarDefaultPaint, true);
                     }
                 }
             }
@@ -971,25 +978,21 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 dialogsActivity5.storiesYOffset = dialogsActivity5.tabsYOffset;
             }
             if (DialogsActivity.this.filtersTabAnimator == null && !DialogsActivity.this.rightSlidingDialogContainer.hasFragment()) {
-                if (DialogsActivity.this.filterTabsView == null || DialogsActivity.this.filterTabsView.getVisibility() != 0) {
-                    f = 1.0f;
-                } else {
+                if (DialogsActivity.this.filterTabsView != null && DialogsActivity.this.filterTabsView.getVisibility() == 0) {
                     DialogsActivity.this.filterTabsView.setTranslationY(DialogsActivity.this.scrollYOffset + DialogsActivity.this.tabsYOffset + DialogsActivity.this.storiesOverscroll);
-                    f = 1.0f;
                     DialogsActivity.this.filterTabsView.setAlpha(1.0f);
                 }
                 clamp = 1.0f;
             } else {
-                f = 1.0f;
                 RightSlidingDialogContainer rightSlidingDialogContainer = DialogsActivity.this.rightSlidingDialogContainer;
-                float f6 = (rightSlidingDialogContainer == null || !rightSlidingDialogContainer.hasFragment()) ? 0.0f : DialogsActivity.this.rightSlidingDialogContainer.openedProgress;
+                float f5 = (rightSlidingDialogContainer == null || !rightSlidingDialogContainer.hasFragment()) ? 0.0f : DialogsActivity.this.rightSlidingDialogContainer.openedProgress;
                 DialogsActivity dialogsActivity6 = DialogsActivity.this;
                 if (dialogsActivity6.hasStories) {
-                    DialogsActivity.access$4724(dialogsActivity6, (dialogsActivity6.getMaxScrollYOffset() + DialogsActivity.this.scrollYOffset) * f6);
+                    DialogsActivity.access$4724(dialogsActivity6, (dialogsActivity6.getMaxScrollYOffset() + DialogsActivity.this.scrollYOffset) * f5);
                     DialogsActivity dialogsActivity7 = DialogsActivity.this;
                     dialogsActivity7.storiesYOffset = dialogsActivity7.tabsYOffset;
                 }
-                clamp = DialogsActivity.this.dialogStoriesCellVisible ? 1.0f - Utilities.clamp(f6 / 0.5f, 1.0f, 0.0f) : 1.0f;
+                clamp = DialogsActivity.this.dialogStoriesCellVisible ? 1.0f - Utilities.clamp(f5 / 0.5f, 1.0f, 0.0f) : 1.0f;
                 if (DialogsActivity.this.filterTabsView != null && DialogsActivity.this.filterTabsView.getVisibility() == 0) {
                     DialogsActivity dialogsActivity8 = DialogsActivity.this;
                     DialogsActivity.access$4724(dialogsActivity8, (1.0f - dialogsActivity8.filterTabsProgress) * DialogsActivity.this.filterTabsView.getMeasuredHeight());
@@ -998,12 +1001,12 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 }
                 if (DialogsActivity.this.rightSlidingDialogContainer.hasFragment()) {
                     if (DialogsActivity.this.rightFragmentTransitionInProgress) {
-                        float f7 = DialogsActivity.this.rightFragmentTransitionIsOpen ? 0.0f : DialogsActivity.this.scrollYOffset;
-                        f2 = -AndroidUtilities.lerp(-f7, f7, DialogsActivity.this.rightSlidingDialogContainer.openedProgress);
+                        float f6 = DialogsActivity.this.rightFragmentTransitionIsOpen ? 0.0f : DialogsActivity.this.scrollYOffset;
+                        f = -AndroidUtilities.lerp(-f6, f6, DialogsActivity.this.rightSlidingDialogContainer.openedProgress);
                     } else {
-                        f2 = 0.0f;
+                        f = 0.0f;
                     }
-                    DialogsActivity.this.viewPages[0].setTranslationY(((-(1.0f - DialogsActivity.this.filterTabsProgress)) * DialogsActivity.this.filterTabsMoveFrom) + f2);
+                    DialogsActivity.this.viewPages[0].setTranslationY(((-(1.0f - DialogsActivity.this.filterTabsProgress)) * DialogsActivity.this.filterTabsMoveFrom) + f);
                 } else {
                     DialogsActivity.this.viewPages[0].setTranslationY(DialogsActivity.this.getActionBarMoveFrom(false) - AndroidUtilities.lerp(DialogsActivity.this.getActionBarMoveFrom(false), DialogsActivity.this.filterTabsMoveFrom, 1.0f - DialogsActivity.this.filterTabsProgress));
                 }
@@ -1012,45 +1015,45 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             DialogsActivity.this.updateStoriesViewAlpha(clamp);
             super.dispatchDraw(canvas);
             DialogsActivity dialogsActivity9 = DialogsActivity.this;
-            if (dialogsActivity9.whiteActionBar && dialogsActivity9.searchAnimationProgress > 0.0f && DialogsActivity.this.searchAnimationProgress < f && DialogsActivity.this.searchTabsView != null) {
+            if (dialogsActivity9.whiteActionBar && dialogsActivity9.searchAnimationProgress > 0.0f && DialogsActivity.this.searchAnimationProgress < 1.0f && DialogsActivity.this.searchTabsView != null) {
                 this.windowBackgroundPaint.setColor(Theme.getColor(Theme.key_windowBackgroundWhite));
                 this.windowBackgroundPaint.setAlpha((int) (paint.getAlpha() * DialogsActivity.this.searchAnimationProgress));
                 float measuredHeight2 = i4 + ((BaseFragment) DialogsActivity.this).actionBar.getMeasuredHeight() + DialogsActivity.this.searchTabsView.getMeasuredHeight();
-                float f8 = i;
-                if (measuredHeight2 > f8) {
-                    canvas.drawRect(0.0f, f8, getMeasuredWidth(), measuredHeight2, this.windowBackgroundPaint);
+                float f7 = i;
+                if (measuredHeight2 > f7) {
+                    canvas.drawRect(0.0f, f7, getMeasuredWidth(), measuredHeight2, this.windowBackgroundPaint);
                 }
             }
             if (((BaseFragment) DialogsActivity.this).parentLayout != null && ((BaseFragment) DialogsActivity.this).actionBar != null && !((BaseFragment) DialogsActivity.this).actionBar.getCastShadows()) {
-                ((BaseFragment) DialogsActivity.this).parentLayout.drawHeaderShadow(canvas, (int) ((f - DialogsActivity.this.searchAnimationProgress) * 255.0f), i);
+                ((BaseFragment) DialogsActivity.this).parentLayout.drawHeaderShadow(canvas, (int) ((1.0f - DialogsActivity.this.searchAnimationProgress) * 255.0f), i);
                 if (DialogsActivity.this.searchAnimationProgress > 0.0f) {
-                    if (DialogsActivity.this.searchAnimationProgress < f) {
+                    if (DialogsActivity.this.searchAnimationProgress < 1.0f) {
                         int alpha = Theme.dividerPaint.getAlpha();
                         Theme.dividerPaint.setAlpha((int) (alpha * DialogsActivity.this.searchAnimationProgress));
-                        float f9 = i;
-                        canvas.drawLine(0.0f, f9, getMeasuredWidth(), f9, Theme.dividerPaint);
+                        float f8 = i;
+                        canvas.drawLine(0.0f, f8, getMeasuredWidth(), f8, Theme.dividerPaint);
                         Theme.dividerPaint.setAlpha(alpha);
                     } else {
-                        float f10 = i;
-                        canvas.drawLine(0.0f, f10, getMeasuredWidth(), f10, Theme.dividerPaint);
+                        float f9 = i;
+                        canvas.drawLine(0.0f, f9, getMeasuredWidth(), f9, Theme.dividerPaint);
                     }
                 }
             }
             if (((BaseFragment) DialogsActivity.this).parentLayout != null && DialogsActivity.this.authHintCell != null && DialogsActivity.this.authHintCell.getVisibility() == 0) {
-                ((BaseFragment) DialogsActivity.this).parentLayout.drawHeaderShadow(canvas, (int) ((f - DialogsActivity.this.searchAnimationProgress) * 255.0f * DialogsActivity.this.authHintCell.getAlpha()), (int) (DialogsActivity.this.authHintCell.getBottom() + DialogsActivity.this.authHintCell.getTranslationY()));
+                ((BaseFragment) DialogsActivity.this).parentLayout.drawHeaderShadow(canvas, (int) ((1.0f - DialogsActivity.this.searchAnimationProgress) * 255.0f * DialogsActivity.this.authHintCell.getAlpha()), (int) (DialogsActivity.this.authHintCell.getBottom() + DialogsActivity.this.authHintCell.getTranslationY()));
             }
             if (DialogsActivity.this.fragmentContextView != null && DialogsActivity.this.fragmentContextView.isCallStyle()) {
                 canvas.save();
                 canvas.translate(DialogsActivity.this.fragmentContextView.getX(), DialogsActivity.this.fragmentContextView.getY());
                 DialogsActivity dialogsActivity10 = DialogsActivity.this;
-                float f11 = dialogsActivity10.slideFragmentProgress;
-                if (f11 != f) {
+                float f10 = dialogsActivity10.slideFragmentProgress;
+                if (f10 != 1.0f) {
                     if (dialogsActivity10.slideFragmentLite) {
-                        canvas.translate((dialogsActivity10.isDrawerTransition ? 1 : -1) * AndroidUtilities.dp(40.0f) * (f - DialogsActivity.this.slideFragmentProgress), 0.0f);
+                        canvas.translate((dialogsActivity10.isDrawerTransition ? 1 : -1) * AndroidUtilities.dp(40.0f) * (1.0f - DialogsActivity.this.slideFragmentProgress), 0.0f);
                     } else {
-                        float f12 = f - ((f - f11) * 0.05f);
-                        canvas.translate((dialogsActivity10.isDrawerTransition ? AndroidUtilities.dp(4.0f) : -AndroidUtilities.dp(4.0f)) * (f - DialogsActivity.this.slideFragmentProgress), 0.0f);
-                        canvas.scale(f12, f, DialogsActivity.this.isDrawerTransition ? getMeasuredWidth() : 0.0f, DialogsActivity.this.fragmentContextView.getY());
+                        float f11 = 1.0f - ((1.0f - f10) * 0.05f);
+                        canvas.translate((dialogsActivity10.isDrawerTransition ? AndroidUtilities.dp(4.0f) : -AndroidUtilities.dp(4.0f)) * (1.0f - DialogsActivity.this.slideFragmentProgress), 0.0f);
+                        canvas.scale(f11, 1.0f, DialogsActivity.this.isDrawerTransition ? getMeasuredWidth() : 0.0f, DialogsActivity.this.fragmentContextView.getY());
                     }
                 }
                 DialogsActivity.this.fragmentContextView.setDrawOverlay(true);
@@ -1059,7 +1062,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 canvas.restore();
             }
             if (DialogsActivity.this.blurredView != null && DialogsActivity.this.blurredView.getVisibility() == 0) {
-                if (DialogsActivity.this.blurredView.getAlpha() != f) {
+                if (DialogsActivity.this.blurredView.getAlpha() != 1.0f) {
                     if (DialogsActivity.this.blurredView.getAlpha() != 0.0f) {
                         canvas.saveLayerAlpha(DialogsActivity.this.blurredView.getLeft(), DialogsActivity.this.blurredView.getTop(), DialogsActivity.this.blurredView.getRight(), DialogsActivity.this.blurredView.getBottom(), (int) (DialogsActivity.this.blurredView.getAlpha() * 255.0f), 31);
                         canvas.translate(DialogsActivity.this.blurredView.getLeft(), DialogsActivity.this.blurredView.getTop());
@@ -1627,7 +1630,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
         /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.SizeNotifierFrameLayout
-        public void drawList(Canvas canvas, boolean z) {
+        public void drawList(Canvas canvas, boolean z, ArrayList<SizeNotifierFrameLayout.IViewWithInvalidateCallback> arrayList) {
             if (DialogsActivity.this.searchIsShowed) {
                 if (DialogsActivity.this.searchViewPager == null || DialogsActivity.this.searchViewPager.getVisibility() != 0) {
                     return;
@@ -1639,18 +1642,35 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 if (DialogsActivity.this.viewPages[i] != null && DialogsActivity.this.viewPages[i].getVisibility() == 0) {
                     for (int i2 = 0; i2 < DialogsActivity.this.viewPages[i].listView.getChildCount(); i2++) {
                         View childAt = DialogsActivity.this.viewPages[i].listView.getChildAt(i2);
-                        if (childAt.getY() < DialogsActivity.this.viewPages[i].listView.blurTopPadding + AndroidUtilities.dp(100.0f)) {
+                        if (childAt instanceof BaseCell) {
+                            ((BaseCell) childAt).setCaching(z, false);
+                        }
+                    }
+                }
+            }
+            for (int i3 = 0; i3 < DialogsActivity.this.viewPages.length; i3++) {
+                if (DialogsActivity.this.viewPages[i3] != null && DialogsActivity.this.viewPages[i3].getVisibility() == 0) {
+                    for (int i4 = 0; i4 < DialogsActivity.this.viewPages[i3].listView.getChildCount(); i4++) {
+                        View childAt2 = DialogsActivity.this.viewPages[i3].listView.getChildAt(i4);
+                        if (childAt2.getY() < DialogsActivity.this.viewPages[i3].listView.blurTopPadding + AndroidUtilities.dp(100.0f)) {
                             int save = canvas.save();
-                            canvas.translate(DialogsActivity.this.viewPages[i].getX(), DialogsActivity.this.viewPages[i].getY() + DialogsActivity.this.viewPages[i].listView.getY() + childAt.getY());
-                            if (childAt instanceof DialogCell) {
-                                DialogCell dialogCell = (DialogCell) childAt;
+                            canvas.translate(DialogsActivity.this.viewPages[i3].getX(), DialogsActivity.this.viewPages[i3].getY() + DialogsActivity.this.viewPages[i3].listView.getY());
+                            if (childAt2 instanceof DialogCell) {
+                                DialogCell dialogCell = (DialogCell) childAt2;
                                 if (!dialogCell.isFolderCell() || !SharedConfig.archiveHidden) {
-                                    dialogCell.drawingForBlur = true;
-                                    dialogCell.draw(canvas);
-                                    dialogCell.drawingForBlur = false;
+                                    canvas.translate(dialogCell.getX(), dialogCell.getY());
+                                    dialogCell.setCaching(z, true);
+                                    dialogCell.drawCached(canvas);
+                                    if (arrayList != null) {
+                                        arrayList.add(dialogCell);
+                                    }
                                 }
                             } else {
-                                childAt.draw(canvas);
+                                canvas.translate(childAt2.getX(), childAt2.getY());
+                                childAt2.draw(canvas);
+                                if (arrayList != null && (childAt2 instanceof SizeNotifierFrameLayout.IViewWithInvalidateCallback)) {
+                                    arrayList.add((SizeNotifierFrameLayout.IViewWithInvalidateCallback) childAt2);
+                                }
                             }
                             canvas.restoreToCount(save);
                         }
@@ -3610,6 +3630,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     View childAt;
                     boolean z4;
                     boolean z5;
+                    ContentView contentView2 = contentView;
+                    if (contentView2 != null) {
+                        contentView2.updateBlurContent();
+                    }
                     viewPage.dialogsItemAnimator.onListScroll(-i16);
                     boolean z6 = false;
                     int i17 = -1;
@@ -3729,7 +3753,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
             int i15 = i14;
             int i16 = i13;
-            ContentView contentView2 = contentView;
+            final ContentView contentView2 = contentView;
             viewPage.dialogsAdapter = new DialogsAdapter(this, context, viewPage.dialogsType, this.folderId, this.onlySelect, this.selectedDialogs, this.currentAccount, this.requestPeerType) { // from class: org.telegram.ui.DialogsActivity.15
                 @Override // org.telegram.ui.Adapters.DialogsAdapter, androidx.recyclerview.widget.RecyclerView.Adapter
                 public void notifyDataSetChanged() {
@@ -3792,6 +3816,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     if (dialogsActivity.hasStories) {
                         dialogsActivity.invalidateScrollY = true;
                         DialogsActivity.this.fragmentView.invalidate();
+                    }
+                    ContentView contentView3 = contentView2;
+                    if (contentView3 != null) {
+                        contentView3.updateBlurContent();
                     }
                 }
             });
@@ -5455,6 +5483,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     dialogsActivity.checkListLoad(dialogsActivity.viewPages[0]);
                     DialogsActivity.this.viewPages[0].dialogsAdapter.resume();
                     DialogsActivity.this.viewPages[1].dialogsAdapter.pause();
+                }
+                View view = DialogsActivity.this.fragmentView;
+                if (view instanceof SizeNotifierFrameLayout) {
+                    ((SizeNotifierFrameLayout) view).updateBlurContent();
                 }
             }
         }
@@ -8673,7 +8705,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         if (searchViewPager != null) {
             searchViewPager.onResume();
         }
-        if ((this.afterSignup || getUserConfig().unacceptedTermsOfService == null) && this.checkPermission && !this.onlySelect && (i = Build.VERSION.SDK_INT) >= 23) {
+        if ((this.afterSignup || getUserConfig().unacceptedTermsOfService == null) && this.folderId == 0 && this.checkPermission && !this.onlySelect && (i = Build.VERSION.SDK_INT) >= 23) {
             final Activity parentActivity = getParentActivity();
             if (parentActivity != null) {
                 this.checkPermission = false;

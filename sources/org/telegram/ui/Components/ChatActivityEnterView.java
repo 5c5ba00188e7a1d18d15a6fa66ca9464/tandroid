@@ -287,6 +287,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
     private ChatActivityEnterViewAnimatedIconView audioVideoSendButton;
     Paint backgroundPaint;
     public HintView2 birthdayHint;
+    private android.graphics.Rect blurBounds;
     private ImageView botButton;
     private ReplaceableIconDrawable botButtonDrawable;
     private MessageObject botButtonsMessageObject;
@@ -2742,6 +2743,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         this.shouldDrawBackground = true;
         this.backgroundPaint = new Paint();
         this.composeShadowAlpha = 1.0f;
+        this.blurBounds = new android.graphics.Rect();
         this.messageEditTextEnabled = true;
         this.topViewUpdateListener = new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.ChatActivityEnterView$$ExternalSyntheticLambda2
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
@@ -4745,9 +4747,8 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             if (this.allowBlur) {
                 this.backgroundPaint.setColor(getThemedColor(Theme.key_chat_messagePanelBackground));
                 if (SharedConfig.chatBlurEnabled() && this.sizeNotifierLayout != null) {
-                    android.graphics.Rect rect = AndroidUtilities.rectTmp2;
-                    rect.set(0, i, getWidth(), getHeight());
-                    this.sizeNotifierLayout.drawBlurRect(canvas, getTop(), rect, this.backgroundPaint, false);
+                    this.blurBounds.set(0, i, getWidth(), getHeight());
+                    this.sizeNotifierLayout.drawBlurRect(canvas, getTop(), this.blurBounds, this.backgroundPaint, false);
                     return;
                 }
                 canvas.drawRect(0.0f, i, getWidth(), getHeight(), this.backgroundPaint);
@@ -9555,10 +9556,9 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
 
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
-                    EditTextCaption editTextCaption2;
                     if (animator.equals(ChatActivityEnterView.this.runningAnimationAudio)) {
-                        if (i != 3 && (editTextCaption2 = ChatActivityEnterView.this.messageEditText) != null) {
-                            editTextCaption2.requestFocus();
+                        if (i != 3 && ChatActivityEnterView.this.messageEditText != null && !AndroidUtilities.isAccessibilityScreenReaderEnabled()) {
+                            ChatActivityEnterView.this.messageEditText.requestFocus();
                         }
                         ChatActivityEnterView.this.cancelRecordInterfaceInternal();
                         if (i == 3 || ChatActivityEnterView.this.recordCircle == null) {
@@ -10556,7 +10556,9 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         }
         boolean z3 = (this.delegate == null || isInScheduleMode() || !this.delegate.hasScheduledMessages()) ? false : true;
         final boolean z4 = (!z3 || this.scheduleButtonHidden || this.recordingAudioVideo) ? false : true;
-        createScheduledButton();
+        if (z4) {
+            createScheduledButton();
+        }
         ImageView imageView3 = this.scheduledButton;
         float f = 96.0f;
         if (imageView3 != null) {
@@ -13996,7 +13998,6 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         return this.stickersArrow;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.BlurredFrameLayout, android.view.ViewGroup, android.view.View
     public void dispatchDraw(Canvas canvas) {
         EmojiView emojiView = this.emojiView;

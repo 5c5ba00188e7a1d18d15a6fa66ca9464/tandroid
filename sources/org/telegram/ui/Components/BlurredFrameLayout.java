@@ -6,7 +6,6 @@ import android.graphics.Paint;
 import android.view.View;
 import android.view.ViewParent;
 import android.widget.FrameLayout;
-import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.SharedConfig;
 /* loaded from: classes3.dex */
 public class BlurredFrameLayout extends FrameLayout {
@@ -14,6 +13,7 @@ public class BlurredFrameLayout extends FrameLayout {
     public int backgroundPaddingBottom;
     public int backgroundPaddingTop;
     protected Paint backgroundPaint;
+    private android.graphics.Rect blurBounds;
     public boolean drawBlur;
     public boolean isTopView;
     protected final SizeNotifierFrameLayout sizeNotifierFrameLayout;
@@ -23,6 +23,7 @@ public class BlurredFrameLayout extends FrameLayout {
         this.backgroundColor = 0;
         this.isTopView = true;
         this.drawBlur = true;
+        this.blurBounds = new android.graphics.Rect();
         this.sizeNotifierFrameLayout = sizeNotifierFrameLayout;
     }
 
@@ -34,7 +35,7 @@ public class BlurredFrameLayout extends FrameLayout {
                 this.backgroundPaint = new Paint();
             }
             this.backgroundPaint.setColor(this.backgroundColor);
-            AndroidUtilities.rectTmp2.set(0, this.backgroundPaddingTop, getMeasuredWidth(), getMeasuredHeight() - this.backgroundPaddingBottom);
+            this.blurBounds.set(0, this.backgroundPaddingTop, getMeasuredWidth(), getMeasuredHeight() - this.backgroundPaddingBottom);
             float f = 0.0f;
             View view = this;
             while (true) {
@@ -49,7 +50,7 @@ public class BlurredFrameLayout extends FrameLayout {
                         return;
                     }
                 } else {
-                    sizeNotifierFrameLayout.drawBlurRect(canvas, f, AndroidUtilities.rectTmp2, this.backgroundPaint, this.isTopView);
+                    sizeNotifierFrameLayout.drawBlurRect(canvas, f, this.blurBounds, this.backgroundPaint, this.isTopView);
                     break;
                 }
             }

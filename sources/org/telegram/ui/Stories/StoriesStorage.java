@@ -71,8 +71,8 @@ public class StoriesStorage {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x014a  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0155  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x0153  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x015e  */
     /* JADX WARN: Type inference failed for: r7v10 */
     /* JADX WARN: Type inference failed for: r7v2, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r7v4 */
@@ -91,6 +91,7 @@ public class StoriesStorage {
         ArrayList<TL_stories$PeerStories> arrayList = new ArrayList<>();
         ArrayList<Long> arrayList2 = new ArrayList<>();
         ArrayList<Long> arrayList3 = new ArrayList<>();
+        ConnectionsManager.getInstance(this.currentAccount).getCurrentTime();
         int i3 = 1;
         int i4 = 0;
         try {

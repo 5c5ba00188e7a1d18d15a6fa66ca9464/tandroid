@@ -120,6 +120,7 @@ import org.telegram.tgnet.TLRPC$UserStatus;
 import org.telegram.tgnet.tl.TL_stories$StoryItem;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Adapters.DialogsAdapter;
+import org.telegram.ui.CachedStaticLayout;
 import org.telegram.ui.Cells.DialogCell;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
@@ -178,7 +179,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
     private int bottomClip;
     private Paint buttonBackgroundPaint;
     private boolean buttonCreated;
-    private StaticLayout buttonLayout;
+    private CachedStaticLayout buttonLayout;
     private int buttonLeft;
     private int buttonTop;
     CanvasButton canvasButton;
@@ -195,15 +196,15 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
     public float collapseOffset;
     public boolean collapsed;
     private float cornerProgress;
-    private StaticLayout countAnimationInLayout;
+    private CachedStaticLayout countAnimationInLayout;
     private boolean countAnimationIncrement;
-    private StaticLayout countAnimationStableLayout;
+    private CachedStaticLayout countAnimationStableLayout;
     private ValueAnimator countAnimator;
     private float countChangeProgress;
-    private StaticLayout countLayout;
+    private CachedStaticLayout countLayout;
     private int countLeft;
     private int countLeftOld;
-    private StaticLayout countOldLayout;
+    private CachedStaticLayout countOldLayout;
     private int countTop;
     private int countWidth;
     private int countWidthOld;
@@ -294,21 +295,21 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
     private Drawable lockDrawable;
     private boolean markUnread;
     private int mentionCount;
-    private StaticLayout mentionLayout;
+    private CachedStaticLayout mentionLayout;
     private int mentionLeft;
     private int mentionWidth;
     private MessageObject message;
     private int messageId;
-    private StaticLayout messageLayout;
+    private CachedStaticLayout messageLayout;
     private int messageLeft;
-    private StaticLayout messageNameLayout;
+    private CachedStaticLayout messageNameLayout;
     private int messageNameLeft;
     private int messageNameTop;
     public int messagePaddingStart;
     private int messageTop;
     boolean moving;
     private boolean nameIsEllipsized;
-    private StaticLayout nameLayout;
+    private CachedStaticLayout nameLayout;
     private boolean nameLayoutEllipsizeByGradient;
     private boolean nameLayoutEllipsizeLeft;
     private boolean nameLayoutFits;
@@ -360,7 +361,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
     public final StoriesUtilities.AvatarStoryParams storyParams;
     public boolean swipeCanceled;
     private int swipeMessageTextId;
-    private StaticLayout swipeMessageTextLayout;
+    private CachedStaticLayout swipeMessageTextLayout;
     private int swipeMessageWidth;
     public DialogCellTags tags;
     private int tagsLeft;
@@ -372,7 +373,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
     int thumbSize;
     private SpoilerEffect thumbSpoiler;
     private int thumbsCount;
-    private StaticLayout timeLayout;
+    private CachedStaticLayout timeLayout;
     private int timeLeft;
     private int timeTop;
     private TimerDrawable timerDrawable;
@@ -391,7 +392,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
     private int ttlPeriod;
     private float ttlProgress;
     private boolean twoLinesForName;
-    private StaticLayout typingLayout;
+    private CachedStaticLayout typingLayout;
     private int typingLeft;
     private int unreadCount;
     private Runnable unsubscribePremiumBlocked;
@@ -861,10 +862,26 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
             i++;
         }
         resetPinnedArchiveState();
-        this.animatedEmojiStack = AnimatedEmojiSpan.update(0, this, this.animatedEmojiStack, this.messageLayout);
-        this.animatedEmojiStack2 = AnimatedEmojiSpan.update(0, this, this.animatedEmojiStack2, this.messageNameLayout);
-        this.animatedEmojiStack3 = AnimatedEmojiSpan.update(0, this, this.animatedEmojiStack3, this.buttonLayout);
-        this.animatedEmojiStackName = AnimatedEmojiSpan.update(0, this, this.animatedEmojiStackName, this.nameLayout);
+        AnimatedEmojiSpan.EmojiGroupedSpans emojiGroupedSpans = this.animatedEmojiStack;
+        Layout[] layoutArr = new Layout[1];
+        CachedStaticLayout cachedStaticLayout = this.messageLayout;
+        layoutArr[0] = cachedStaticLayout == null ? null : cachedStaticLayout.layout;
+        this.animatedEmojiStack = AnimatedEmojiSpan.update(0, this, emojiGroupedSpans, layoutArr);
+        AnimatedEmojiSpan.EmojiGroupedSpans emojiGroupedSpans2 = this.animatedEmojiStack2;
+        Layout[] layoutArr2 = new Layout[1];
+        CachedStaticLayout cachedStaticLayout2 = this.messageNameLayout;
+        layoutArr2[0] = cachedStaticLayout2 == null ? null : cachedStaticLayout2.layout;
+        this.animatedEmojiStack2 = AnimatedEmojiSpan.update(0, this, emojiGroupedSpans2, layoutArr2);
+        AnimatedEmojiSpan.EmojiGroupedSpans emojiGroupedSpans3 = this.animatedEmojiStack3;
+        Layout[] layoutArr3 = new Layout[1];
+        CachedStaticLayout cachedStaticLayout3 = this.buttonLayout;
+        layoutArr3[0] = cachedStaticLayout3 == null ? null : cachedStaticLayout3.layout;
+        this.animatedEmojiStack3 = AnimatedEmojiSpan.update(0, this, emojiGroupedSpans3, layoutArr3);
+        AnimatedEmojiSpan.EmojiGroupedSpans emojiGroupedSpans4 = this.animatedEmojiStackName;
+        Layout[] layoutArr4 = new Layout[1];
+        CachedStaticLayout cachedStaticLayout4 = this.nameLayout;
+        layoutArr4[0] = cachedStaticLayout4 != null ? cachedStaticLayout4.layout : null;
+        this.animatedEmojiStackName = AnimatedEmojiSpan.update(0, this, emojiGroupedSpans4, layoutArr4);
         AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = this.emojiStatus;
         if (swapAnimatedEmojiDrawable != null) {
             swapAnimatedEmojiDrawable.attach();
@@ -1058,73 +1075,69 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
         return (dialogCellTags == null || dialogCellTags.isEmpty()) ? false : true;
     }
 
-    /* JADX WARN: Can't wrap try/catch for region: R(134:1236|1237|1220|(2:1222|1224)|1225|(0)|1234|1106|(0)|1109|850|(0)(0)|853|(0)|1004|(0)|1012|1011|875|(0)|890|(0)(0)|893|(0)(0)|86|(0)(0)|92|(0)(0)|95|(0)|102|(0)(0)|107|(1:109)|690|(1:692)|713|715|717|(0)|114|115|116|(0)|119|(0)|122|(0)|129|(0)(0)|132|(0)|135|(1:137)|686|142|(0)(0)|145|(1:147)|684|150|151|(1:153)|658|(0)(0)|661|(3:662|(0)(0)|677)|185|(0)(0)|188|(0)|191|(61:193|195|197|199|200|(0)|206|(0)(0)|(0)|231|(1:233)|581|236|(47:238|240|242|(0)(0)|245|247|(0)(0)|259|(0)|262|263|264|(0)(0)|267|268|269|270|(0)|280|281|(0)|309|(1:311)|515|517|519|521|325|(1:327)|509|330|(1:332)|498|500|(1:503)|504|(0)(0)|507|342|343|344|345|(0)(0)|429|(0)|444|445)|579|240|242|(0)(0)|245|247|(0)(0)|259|(0)|262|263|264|(0)(0)|267|268|269|270|(0)|280|281|(0)|309|(0)|515|517|519|521|325|(0)|509|330|(0)|498|500|(0)|504|(0)(0)|507|342|343|344|345|(0)(0)|429|(0)|444|445)|652|195|197|199|200|(0)|206|(0)(0)|(0)|231|(0)|581|236|(0)|579|240|242|(0)(0)|245|247|(0)(0)|259|(0)|262|263|264|(0)(0)|267|268|269|270|(0)|280|281|(0)|309|(0)|515|517|519|521|325|(0)|509|330|(0)|498|500|(0)|504|(0)(0)|507|342|343|344|345|(0)(0)|429|(0)|444|445) */
-    /* JADX WARN: Code restructure failed: missing block: B:1478:0x1f9e, code lost:
-        r0 = e;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:1479:0x1f9f, code lost:
-        r4 = r8;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:1481:0x1fa2, code lost:
-        r37.messageLayout = null;
-        org.telegram.messenger.FileLog.e(r0);
-        r8 = r4;
-     */
     /* JADX WARN: Code restructure failed: missing block: B:295:0x061c, code lost:
-        if (r2.post_messages == false) goto L833;
+        if (r2.post_messages == false) goto L850;
      */
     /* JADX WARN: Code restructure failed: missing block: B:952:0x131a, code lost:
-        if (r2 == null) goto L907;
+        if (r2 == null) goto L924;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:1003:0x1438  */
-    /* JADX WARN: Removed duplicated region for block: B:1006:0x143d  */
-    /* JADX WARN: Removed duplicated region for block: B:1007:0x144f  */
-    /* JADX WARN: Removed duplicated region for block: B:1010:0x146e  */
-    /* JADX WARN: Removed duplicated region for block: B:1017:0x148d  */
-    /* JADX WARN: Removed duplicated region for block: B:1021:0x14ba  */
-    /* JADX WARN: Removed duplicated region for block: B:1050:0x1580  */
-    /* JADX WARN: Removed duplicated region for block: B:1073:0x15ed  */
-    /* JADX WARN: Removed duplicated region for block: B:1076:0x15f2 A[Catch: Exception -> 0x16de, TryCatch #2 {Exception -> 0x16de, blocks: (B:1071:0x15e4, B:1074:0x15ee, B:1076:0x15f2, B:1077:0x15fc, B:1079:0x1600, B:1083:0x161a, B:1084:0x1623, B:1088:0x1639, B:1090:0x163f, B:1091:0x164b, B:1093:0x1662, B:1095:0x1668, B:1099:0x1679, B:1101:0x167d, B:1103:0x16bb, B:1105:0x16bf, B:1107:0x16c8, B:1109:0x16d2, B:1102:0x169e), top: B:1629:0x15e4 }] */
-    /* JADX WARN: Removed duplicated region for block: B:1079:0x1600 A[Catch: Exception -> 0x16de, TryCatch #2 {Exception -> 0x16de, blocks: (B:1071:0x15e4, B:1074:0x15ee, B:1076:0x15f2, B:1077:0x15fc, B:1079:0x1600, B:1083:0x161a, B:1084:0x1623, B:1088:0x1639, B:1090:0x163f, B:1091:0x164b, B:1093:0x1662, B:1095:0x1668, B:1099:0x1679, B:1101:0x167d, B:1103:0x16bb, B:1105:0x16bf, B:1107:0x16c8, B:1109:0x16d2, B:1102:0x169e), top: B:1629:0x15e4 }] */
-    /* JADX WARN: Removed duplicated region for block: B:1086:0x1636  */
-    /* JADX WARN: Removed duplicated region for block: B:1087:0x1638  */
-    /* JADX WARN: Removed duplicated region for block: B:1090:0x163f A[Catch: Exception -> 0x16de, TryCatch #2 {Exception -> 0x16de, blocks: (B:1071:0x15e4, B:1074:0x15ee, B:1076:0x15f2, B:1077:0x15fc, B:1079:0x1600, B:1083:0x161a, B:1084:0x1623, B:1088:0x1639, B:1090:0x163f, B:1091:0x164b, B:1093:0x1662, B:1095:0x1668, B:1099:0x1679, B:1101:0x167d, B:1103:0x16bb, B:1105:0x16bf, B:1107:0x16c8, B:1109:0x16d2, B:1102:0x169e), top: B:1629:0x15e4 }] */
-    /* JADX WARN: Removed duplicated region for block: B:1101:0x167d A[Catch: Exception -> 0x16de, TryCatch #2 {Exception -> 0x16de, blocks: (B:1071:0x15e4, B:1074:0x15ee, B:1076:0x15f2, B:1077:0x15fc, B:1079:0x1600, B:1083:0x161a, B:1084:0x1623, B:1088:0x1639, B:1090:0x163f, B:1091:0x164b, B:1093:0x1662, B:1095:0x1668, B:1099:0x1679, B:1101:0x167d, B:1103:0x16bb, B:1105:0x16bf, B:1107:0x16c8, B:1109:0x16d2, B:1102:0x169e), top: B:1629:0x15e4 }] */
-    /* JADX WARN: Removed duplicated region for block: B:1102:0x169e A[Catch: Exception -> 0x16de, TryCatch #2 {Exception -> 0x16de, blocks: (B:1071:0x15e4, B:1074:0x15ee, B:1076:0x15f2, B:1077:0x15fc, B:1079:0x1600, B:1083:0x161a, B:1084:0x1623, B:1088:0x1639, B:1090:0x163f, B:1091:0x164b, B:1093:0x1662, B:1095:0x1668, B:1099:0x1679, B:1101:0x167d, B:1103:0x16bb, B:1105:0x16bf, B:1107:0x16c8, B:1109:0x16d2, B:1102:0x169e), top: B:1629:0x15e4 }] */
-    /* JADX WARN: Removed duplicated region for block: B:1150:0x1863  */
-    /* JADX WARN: Removed duplicated region for block: B:1151:0x1888  */
-    /* JADX WARN: Removed duplicated region for block: B:1155:0x18ca  */
-    /* JADX WARN: Removed duplicated region for block: B:1172:0x191e  */
-    /* JADX WARN: Removed duplicated region for block: B:1173:0x1935  */
-    /* JADX WARN: Removed duplicated region for block: B:1176:0x194a  */
-    /* JADX WARN: Removed duplicated region for block: B:1190:0x1985  */
-    /* JADX WARN: Removed duplicated region for block: B:1196:0x19aa  */
-    /* JADX WARN: Removed duplicated region for block: B:1200:0x19e2  */
-    /* JADX WARN: Removed duplicated region for block: B:1271:0x1ba6  */
-    /* JADX WARN: Removed duplicated region for block: B:1293:0x1c03  */
-    /* JADX WARN: Removed duplicated region for block: B:1300:0x1c17  */
-    /* JADX WARN: Removed duplicated region for block: B:1308:0x1c2f  */
-    /* JADX WARN: Removed duplicated region for block: B:1309:0x1c32  */
-    /* JADX WARN: Removed duplicated region for block: B:1313:0x1c41  */
-    /* JADX WARN: Removed duplicated region for block: B:1324:0x1c66  */
-    /* JADX WARN: Removed duplicated region for block: B:1374:0x1d2a  */
-    /* JADX WARN: Removed duplicated region for block: B:1378:0x1d4b A[Catch: Exception -> 0x1da0, TryCatch #0 {Exception -> 0x1da0, blocks: (B:1376:0x1d43, B:1378:0x1d4b, B:1379:0x1d9d), top: B:1625:0x1d43 }] */
-    /* JADX WARN: Removed duplicated region for block: B:1379:0x1d9d A[Catch: Exception -> 0x1da0, TRY_LEAVE, TryCatch #0 {Exception -> 0x1da0, blocks: (B:1376:0x1d43, B:1378:0x1d4b, B:1379:0x1d9d), top: B:1625:0x1d43 }] */
-    /* JADX WARN: Removed duplicated region for block: B:1383:0x1db6 A[Catch: Exception -> 0x1e15, TryCatch #5 {Exception -> 0x1e15, blocks: (B:1381:0x1db0, B:1383:0x1db6, B:1385:0x1dba, B:1390:0x1dea, B:1387:0x1dbe, B:1389:0x1dc4), top: B:1635:0x1db0 }] */
-    /* JADX WARN: Removed duplicated region for block: B:1396:0x1e1d A[Catch: Exception -> 0x1fa1, TryCatch #7 {Exception -> 0x1fa1, blocks: (B:1394:0x1e19, B:1396:0x1e1d, B:1398:0x1e2f, B:1400:0x1e35, B:1402:0x1e39, B:1404:0x1e3f, B:1406:0x1e43, B:1408:0x1e47, B:1410:0x1e4b, B:1412:0x1e4f, B:1414:0x1e53, B:1417:0x1e60, B:1416:0x1e5d, B:1418:0x1e63, B:1420:0x1e67, B:1429:0x1e86, B:1431:0x1e8a, B:1438:0x1e9a, B:1440:0x1ea0, B:1442:0x1ea4, B:1444:0x1eb7, B:1446:0x1ee7, B:1448:0x1eeb, B:1450:0x1eef, B:1452:0x1ef4, B:1454:0x1efa, B:1467:0x1f3c, B:1469:0x1f40, B:1471:0x1f53, B:1473:0x1f59, B:1474:0x1f6e, B:1456:0x1efe, B:1458:0x1f04, B:1461:0x1f0a, B:1462:0x1f11, B:1466:0x1f27, B:1451:0x1ef2, B:1445:0x1ed5, B:1433:0x1e8e, B:1422:0x1e6b, B:1424:0x1e71, B:1426:0x1e75, B:1428:0x1e7a), top: B:1638:0x1e19 }] */
-    /* JADX WARN: Removed duplicated region for block: B:1420:0x1e67 A[Catch: Exception -> 0x1fa1, TryCatch #7 {Exception -> 0x1fa1, blocks: (B:1394:0x1e19, B:1396:0x1e1d, B:1398:0x1e2f, B:1400:0x1e35, B:1402:0x1e39, B:1404:0x1e3f, B:1406:0x1e43, B:1408:0x1e47, B:1410:0x1e4b, B:1412:0x1e4f, B:1414:0x1e53, B:1417:0x1e60, B:1416:0x1e5d, B:1418:0x1e63, B:1420:0x1e67, B:1429:0x1e86, B:1431:0x1e8a, B:1438:0x1e9a, B:1440:0x1ea0, B:1442:0x1ea4, B:1444:0x1eb7, B:1446:0x1ee7, B:1448:0x1eeb, B:1450:0x1eef, B:1452:0x1ef4, B:1454:0x1efa, B:1467:0x1f3c, B:1469:0x1f40, B:1471:0x1f53, B:1473:0x1f59, B:1474:0x1f6e, B:1456:0x1efe, B:1458:0x1f04, B:1461:0x1f0a, B:1462:0x1f11, B:1466:0x1f27, B:1451:0x1ef2, B:1445:0x1ed5, B:1433:0x1e8e, B:1422:0x1e6b, B:1424:0x1e71, B:1426:0x1e75, B:1428:0x1e7a), top: B:1638:0x1e19 }] */
-    /* JADX WARN: Removed duplicated region for block: B:1448:0x1eeb A[Catch: Exception -> 0x1fa1, TryCatch #7 {Exception -> 0x1fa1, blocks: (B:1394:0x1e19, B:1396:0x1e1d, B:1398:0x1e2f, B:1400:0x1e35, B:1402:0x1e39, B:1404:0x1e3f, B:1406:0x1e43, B:1408:0x1e47, B:1410:0x1e4b, B:1412:0x1e4f, B:1414:0x1e53, B:1417:0x1e60, B:1416:0x1e5d, B:1418:0x1e63, B:1420:0x1e67, B:1429:0x1e86, B:1431:0x1e8a, B:1438:0x1e9a, B:1440:0x1ea0, B:1442:0x1ea4, B:1444:0x1eb7, B:1446:0x1ee7, B:1448:0x1eeb, B:1450:0x1eef, B:1452:0x1ef4, B:1454:0x1efa, B:1467:0x1f3c, B:1469:0x1f40, B:1471:0x1f53, B:1473:0x1f59, B:1474:0x1f6e, B:1456:0x1efe, B:1458:0x1f04, B:1461:0x1f0a, B:1462:0x1f11, B:1466:0x1f27, B:1451:0x1ef2, B:1445:0x1ed5, B:1433:0x1e8e, B:1422:0x1e6b, B:1424:0x1e71, B:1426:0x1e75, B:1428:0x1e7a), top: B:1638:0x1e19 }] */
-    /* JADX WARN: Removed duplicated region for block: B:1454:0x1efa A[Catch: Exception -> 0x1fa1, TryCatch #7 {Exception -> 0x1fa1, blocks: (B:1394:0x1e19, B:1396:0x1e1d, B:1398:0x1e2f, B:1400:0x1e35, B:1402:0x1e39, B:1404:0x1e3f, B:1406:0x1e43, B:1408:0x1e47, B:1410:0x1e4b, B:1412:0x1e4f, B:1414:0x1e53, B:1417:0x1e60, B:1416:0x1e5d, B:1418:0x1e63, B:1420:0x1e67, B:1429:0x1e86, B:1431:0x1e8a, B:1438:0x1e9a, B:1440:0x1ea0, B:1442:0x1ea4, B:1444:0x1eb7, B:1446:0x1ee7, B:1448:0x1eeb, B:1450:0x1eef, B:1452:0x1ef4, B:1454:0x1efa, B:1467:0x1f3c, B:1469:0x1f40, B:1471:0x1f53, B:1473:0x1f59, B:1474:0x1f6e, B:1456:0x1efe, B:1458:0x1f04, B:1461:0x1f0a, B:1462:0x1f11, B:1466:0x1f27, B:1451:0x1ef2, B:1445:0x1ed5, B:1433:0x1e8e, B:1422:0x1e6b, B:1424:0x1e71, B:1426:0x1e75, B:1428:0x1e7a), top: B:1638:0x1e19 }] */
-    /* JADX WARN: Removed duplicated region for block: B:1460:0x1f08 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:1464:0x1f22  */
-    /* JADX WARN: Removed duplicated region for block: B:1465:0x1f25  */
-    /* JADX WARN: Removed duplicated region for block: B:1484:0x1fbd  */
-    /* JADX WARN: Removed duplicated region for block: B:1561:0x21c9  */
-    /* JADX WARN: Removed duplicated region for block: B:1608:0x22ad  */
-    /* JADX WARN: Removed duplicated region for block: B:1619:0x22ea  */
-    /* JADX WARN: Removed duplicated region for block: B:1620:0x22f2  */
-    /* JADX WARN: Removed duplicated region for block: B:1659:0x1916 A[EDGE_INSN: B:1659:0x1916->B:1170:0x1916 ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1003:0x143d  */
+    /* JADX WARN: Removed duplicated region for block: B:1006:0x1442  */
+    /* JADX WARN: Removed duplicated region for block: B:1007:0x1454  */
+    /* JADX WARN: Removed duplicated region for block: B:1010:0x1473  */
+    /* JADX WARN: Removed duplicated region for block: B:1017:0x1492  */
+    /* JADX WARN: Removed duplicated region for block: B:1021:0x14bf  */
+    /* JADX WARN: Removed duplicated region for block: B:1050:0x1585  */
+    /* JADX WARN: Removed duplicated region for block: B:1073:0x15f2  */
+    /* JADX WARN: Removed duplicated region for block: B:1076:0x15f7 A[Catch: Exception -> 0x16f1, TryCatch #7 {Exception -> 0x16f1, blocks: (B:1071:0x15e9, B:1074:0x15f3, B:1076:0x15f7, B:1077:0x1601, B:1079:0x1605, B:1083:0x161f, B:1084:0x1628, B:1088:0x163e, B:1090:0x1644, B:1091:0x1650, B:1093:0x1667, B:1095:0x166d, B:1099:0x167e, B:1101:0x1682, B:1103:0x16ca, B:1105:0x16ce, B:1107:0x16d9, B:1109:0x16e3, B:1102:0x16a8), top: B:1654:0x15e9 }] */
+    /* JADX WARN: Removed duplicated region for block: B:1079:0x1605 A[Catch: Exception -> 0x16f1, TryCatch #7 {Exception -> 0x16f1, blocks: (B:1071:0x15e9, B:1074:0x15f3, B:1076:0x15f7, B:1077:0x1601, B:1079:0x1605, B:1083:0x161f, B:1084:0x1628, B:1088:0x163e, B:1090:0x1644, B:1091:0x1650, B:1093:0x1667, B:1095:0x166d, B:1099:0x167e, B:1101:0x1682, B:1103:0x16ca, B:1105:0x16ce, B:1107:0x16d9, B:1109:0x16e3, B:1102:0x16a8), top: B:1654:0x15e9 }] */
+    /* JADX WARN: Removed duplicated region for block: B:1086:0x163b  */
+    /* JADX WARN: Removed duplicated region for block: B:1087:0x163d  */
+    /* JADX WARN: Removed duplicated region for block: B:1090:0x1644 A[Catch: Exception -> 0x16f1, TryCatch #7 {Exception -> 0x16f1, blocks: (B:1071:0x15e9, B:1074:0x15f3, B:1076:0x15f7, B:1077:0x1601, B:1079:0x1605, B:1083:0x161f, B:1084:0x1628, B:1088:0x163e, B:1090:0x1644, B:1091:0x1650, B:1093:0x1667, B:1095:0x166d, B:1099:0x167e, B:1101:0x1682, B:1103:0x16ca, B:1105:0x16ce, B:1107:0x16d9, B:1109:0x16e3, B:1102:0x16a8), top: B:1654:0x15e9 }] */
+    /* JADX WARN: Removed duplicated region for block: B:1101:0x1682 A[Catch: Exception -> 0x16f1, TryCatch #7 {Exception -> 0x16f1, blocks: (B:1071:0x15e9, B:1074:0x15f3, B:1076:0x15f7, B:1077:0x1601, B:1079:0x1605, B:1083:0x161f, B:1084:0x1628, B:1088:0x163e, B:1090:0x1644, B:1091:0x1650, B:1093:0x1667, B:1095:0x166d, B:1099:0x167e, B:1101:0x1682, B:1103:0x16ca, B:1105:0x16ce, B:1107:0x16d9, B:1109:0x16e3, B:1102:0x16a8), top: B:1654:0x15e9 }] */
+    /* JADX WARN: Removed duplicated region for block: B:1102:0x16a8 A[Catch: Exception -> 0x16f1, TryCatch #7 {Exception -> 0x16f1, blocks: (B:1071:0x15e9, B:1074:0x15f3, B:1076:0x15f7, B:1077:0x1601, B:1079:0x1605, B:1083:0x161f, B:1084:0x1628, B:1088:0x163e, B:1090:0x1644, B:1091:0x1650, B:1093:0x1667, B:1095:0x166d, B:1099:0x167e, B:1101:0x1682, B:1103:0x16ca, B:1105:0x16ce, B:1107:0x16d9, B:1109:0x16e3, B:1102:0x16a8), top: B:1654:0x15e9 }] */
+    /* JADX WARN: Removed duplicated region for block: B:1115:0x16fe  */
+    /* JADX WARN: Removed duplicated region for block: B:1116:0x1700  */
+    /* JADX WARN: Removed duplicated region for block: B:1154:0x187c  */
+    /* JADX WARN: Removed duplicated region for block: B:1155:0x18a1  */
+    /* JADX WARN: Removed duplicated region for block: B:1159:0x18e3  */
+    /* JADX WARN: Removed duplicated region for block: B:1176:0x1937  */
+    /* JADX WARN: Removed duplicated region for block: B:1177:0x194e  */
+    /* JADX WARN: Removed duplicated region for block: B:1180:0x1963  */
+    /* JADX WARN: Removed duplicated region for block: B:1194:0x199e  */
+    /* JADX WARN: Removed duplicated region for block: B:1200:0x19c3  */
+    /* JADX WARN: Removed duplicated region for block: B:1204:0x19fb  */
+    /* JADX WARN: Removed duplicated region for block: B:1275:0x1bc9  */
+    /* JADX WARN: Removed duplicated region for block: B:1297:0x1c26  */
+    /* JADX WARN: Removed duplicated region for block: B:1304:0x1c3a  */
+    /* JADX WARN: Removed duplicated region for block: B:1312:0x1c52  */
+    /* JADX WARN: Removed duplicated region for block: B:1313:0x1c55  */
+    /* JADX WARN: Removed duplicated region for block: B:1317:0x1c64  */
+    /* JADX WARN: Removed duplicated region for block: B:1328:0x1c89  */
+    /* JADX WARN: Removed duplicated region for block: B:1378:0x1d52  */
+    /* JADX WARN: Removed duplicated region for block: B:1381:0x1d64  */
+    /* JADX WARN: Removed duplicated region for block: B:1382:0x1d66  */
+    /* JADX WARN: Removed duplicated region for block: B:1386:0x1d79 A[Catch: Exception -> 0x1dd6, TryCatch #3 {Exception -> 0x1dd6, blocks: (B:1384:0x1d71, B:1386:0x1d79, B:1387:0x1dd2), top: B:1647:0x1d71 }] */
+    /* JADX WARN: Removed duplicated region for block: B:1387:0x1dd2 A[Catch: Exception -> 0x1dd6, TRY_LEAVE, TryCatch #3 {Exception -> 0x1dd6, blocks: (B:1384:0x1d71, B:1386:0x1d79, B:1387:0x1dd2), top: B:1647:0x1d71 }] */
+    /* JADX WARN: Removed duplicated region for block: B:1392:0x1de0  */
+    /* JADX WARN: Removed duplicated region for block: B:1393:0x1de2  */
+    /* JADX WARN: Removed duplicated region for block: B:1397:0x1df3 A[Catch: Exception -> 0x1e5c, TryCatch #0 {Exception -> 0x1e5c, blocks: (B:1395:0x1ded, B:1397:0x1df3, B:1399:0x1df7, B:1404:0x1e2c, B:1401:0x1dfb, B:1403:0x1e01), top: B:1641:0x1ded }] */
+    /* JADX WARN: Removed duplicated region for block: B:1410:0x1e64 A[Catch: Exception -> 0x1ff5, TryCatch #5 {Exception -> 0x1ff5, blocks: (B:1408:0x1e60, B:1410:0x1e64, B:1412:0x1e76, B:1414:0x1e7c, B:1416:0x1e80, B:1418:0x1e86, B:1420:0x1e8a, B:1422:0x1e8e, B:1424:0x1e92, B:1426:0x1e96, B:1428:0x1e9a, B:1431:0x1ea7, B:1430:0x1ea4, B:1432:0x1eaa, B:1434:0x1eae, B:1443:0x1ecd, B:1445:0x1ed1, B:1452:0x1ee1, B:1454:0x1ee7, B:1456:0x1eeb, B:1458:0x1efe, B:1460:0x1f2e, B:1462:0x1f32, B:1464:0x1f36, B:1466:0x1f3b, B:1468:0x1f41, B:1481:0x1f88, B:1483:0x1f8c, B:1485:0x1f9f, B:1487:0x1fa5, B:1488:0x1fba, B:1470:0x1f45, B:1472:0x1f4b, B:1475:0x1f51, B:1476:0x1f58, B:1480:0x1f70, B:1465:0x1f39, B:1459:0x1f1c, B:1447:0x1ed5, B:1436:0x1eb2, B:1438:0x1eb8, B:1440:0x1ebc, B:1442:0x1ec1), top: B:1651:0x1e60 }] */
+    /* JADX WARN: Removed duplicated region for block: B:1434:0x1eae A[Catch: Exception -> 0x1ff5, TryCatch #5 {Exception -> 0x1ff5, blocks: (B:1408:0x1e60, B:1410:0x1e64, B:1412:0x1e76, B:1414:0x1e7c, B:1416:0x1e80, B:1418:0x1e86, B:1420:0x1e8a, B:1422:0x1e8e, B:1424:0x1e92, B:1426:0x1e96, B:1428:0x1e9a, B:1431:0x1ea7, B:1430:0x1ea4, B:1432:0x1eaa, B:1434:0x1eae, B:1443:0x1ecd, B:1445:0x1ed1, B:1452:0x1ee1, B:1454:0x1ee7, B:1456:0x1eeb, B:1458:0x1efe, B:1460:0x1f2e, B:1462:0x1f32, B:1464:0x1f36, B:1466:0x1f3b, B:1468:0x1f41, B:1481:0x1f88, B:1483:0x1f8c, B:1485:0x1f9f, B:1487:0x1fa5, B:1488:0x1fba, B:1470:0x1f45, B:1472:0x1f4b, B:1475:0x1f51, B:1476:0x1f58, B:1480:0x1f70, B:1465:0x1f39, B:1459:0x1f1c, B:1447:0x1ed5, B:1436:0x1eb2, B:1438:0x1eb8, B:1440:0x1ebc, B:1442:0x1ec1), top: B:1651:0x1e60 }] */
+    /* JADX WARN: Removed duplicated region for block: B:1462:0x1f32 A[Catch: Exception -> 0x1ff5, TryCatch #5 {Exception -> 0x1ff5, blocks: (B:1408:0x1e60, B:1410:0x1e64, B:1412:0x1e76, B:1414:0x1e7c, B:1416:0x1e80, B:1418:0x1e86, B:1420:0x1e8a, B:1422:0x1e8e, B:1424:0x1e92, B:1426:0x1e96, B:1428:0x1e9a, B:1431:0x1ea7, B:1430:0x1ea4, B:1432:0x1eaa, B:1434:0x1eae, B:1443:0x1ecd, B:1445:0x1ed1, B:1452:0x1ee1, B:1454:0x1ee7, B:1456:0x1eeb, B:1458:0x1efe, B:1460:0x1f2e, B:1462:0x1f32, B:1464:0x1f36, B:1466:0x1f3b, B:1468:0x1f41, B:1481:0x1f88, B:1483:0x1f8c, B:1485:0x1f9f, B:1487:0x1fa5, B:1488:0x1fba, B:1470:0x1f45, B:1472:0x1f4b, B:1475:0x1f51, B:1476:0x1f58, B:1480:0x1f70, B:1465:0x1f39, B:1459:0x1f1c, B:1447:0x1ed5, B:1436:0x1eb2, B:1438:0x1eb8, B:1440:0x1ebc, B:1442:0x1ec1), top: B:1651:0x1e60 }] */
+    /* JADX WARN: Removed duplicated region for block: B:1468:0x1f41 A[Catch: Exception -> 0x1ff5, TryCatch #5 {Exception -> 0x1ff5, blocks: (B:1408:0x1e60, B:1410:0x1e64, B:1412:0x1e76, B:1414:0x1e7c, B:1416:0x1e80, B:1418:0x1e86, B:1420:0x1e8a, B:1422:0x1e8e, B:1424:0x1e92, B:1426:0x1e96, B:1428:0x1e9a, B:1431:0x1ea7, B:1430:0x1ea4, B:1432:0x1eaa, B:1434:0x1eae, B:1443:0x1ecd, B:1445:0x1ed1, B:1452:0x1ee1, B:1454:0x1ee7, B:1456:0x1eeb, B:1458:0x1efe, B:1460:0x1f2e, B:1462:0x1f32, B:1464:0x1f36, B:1466:0x1f3b, B:1468:0x1f41, B:1481:0x1f88, B:1483:0x1f8c, B:1485:0x1f9f, B:1487:0x1fa5, B:1488:0x1fba, B:1470:0x1f45, B:1472:0x1f4b, B:1475:0x1f51, B:1476:0x1f58, B:1480:0x1f70, B:1465:0x1f39, B:1459:0x1f1c, B:1447:0x1ed5, B:1436:0x1eb2, B:1438:0x1eb8, B:1440:0x1ebc, B:1442:0x1ec1), top: B:1651:0x1e60 }] */
+    /* JADX WARN: Removed duplicated region for block: B:1474:0x1f4f A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:1478:0x1f6b  */
+    /* JADX WARN: Removed duplicated region for block: B:1479:0x1f6e  */
+    /* JADX WARN: Removed duplicated region for block: B:1498:0x2006  */
+    /* JADX WARN: Removed duplicated region for block: B:1499:0x2008  */
+    /* JADX WARN: Removed duplicated region for block: B:1502:0x2017  */
+    /* JADX WARN: Removed duplicated region for block: B:1579:0x223b  */
+    /* JADX WARN: Removed duplicated region for block: B:1626:0x2331  */
+    /* JADX WARN: Removed duplicated region for block: B:1637:0x2376  */
+    /* JADX WARN: Removed duplicated region for block: B:1638:0x237e  */
+    /* JADX WARN: Removed duplicated region for block: B:1676:0x192f A[EDGE_INSN: B:1676:0x192f->B:1174:0x192f ?: BREAK  , SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:226:0x052c  */
     /* JADX WARN: Removed duplicated region for block: B:313:0x0645  */
     /* JADX WARN: Removed duplicated region for block: B:328:0x06a9  */
@@ -1148,8 +1161,8 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
     /* JADX WARN: Removed duplicated region for block: B:944:0x12ef  */
     /* JADX WARN: Removed duplicated region for block: B:987:0x13a6  */
     /* JADX WARN: Removed duplicated region for block: B:991:0x13b8  */
-    /* JADX WARN: Removed duplicated region for block: B:995:0x13f7  */
-    /* JADX WARN: Removed duplicated region for block: B:998:0x1404  */
+    /* JADX WARN: Removed duplicated region for block: B:995:0x13fc  */
+    /* JADX WARN: Removed duplicated region for block: B:998:0x1409  */
     /* JADX WARN: Type inference failed for: r0v169, types: [java.lang.CharSequence] */
     /* JADX WARN: Type inference failed for: r11v38, types: [android.text.SpannableStringBuilder] */
     /* JADX WARN: Type inference failed for: r1v147 */
@@ -1159,14 +1172,14 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
     /* JADX WARN: Type inference failed for: r1v237 */
     /* JADX WARN: Type inference failed for: r1v31 */
     /* JADX WARN: Type inference failed for: r1v32 */
-    /* JADX WARN: Type inference failed for: r1v337 */
+    /* JADX WARN: Type inference failed for: r1v339 */
     /* JADX WARN: Type inference failed for: r1v45 */
     /* JADX WARN: Type inference failed for: r1v48, types: [android.text.SpannableStringBuilder] */
     /* JADX WARN: Type inference failed for: r1v63, types: [android.text.SpannableStringBuilder] */
     /* JADX WARN: Type inference failed for: r1v81, types: [java.lang.CharSequence] */
     /* JADX WARN: Type inference failed for: r37v0, types: [android.view.View, org.telegram.ui.Cells.DialogCell, android.view.ViewGroup] */
-    /* JADX WARN: Type inference failed for: r3v175, types: [java.lang.CharSequence] */
-    /* JADX WARN: Type inference failed for: r3v176, types: [java.lang.CharSequence] */
+    /* JADX WARN: Type inference failed for: r3v177, types: [java.lang.CharSequence] */
+    /* JADX WARN: Type inference failed for: r3v178, types: [java.lang.CharSequence] */
     /* JADX WARN: Type inference failed for: r4v138, types: [java.lang.CharSequence] */
     /* JADX WARN: Type inference failed for: r4v139, types: [java.lang.CharSequence] */
     /* JADX WARN: Type inference failed for: r4v140 */
@@ -1246,11 +1259,12 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
         DialogCellTags dialogCellTags;
         int max;
         ?? highlightText3;
+        StaticLayout staticLayout;
         int i10;
         int lineCount;
         int lineCount2;
         int lineCount3;
-        StaticLayout staticLayout;
+        CachedStaticLayout cachedStaticLayout;
         float primaryHorizontal;
         float primaryHorizontal2;
         int i11;
@@ -1935,9 +1949,13 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                                                                         }
                                                                         if (!this.twoLinesForName) {
                                                                         }
-                                                                        this.nameLayoutTranslateX = (this.nameLayoutEllipsizeByGradient || !this.nameLayout.isRtlCharAt(0)) ? 0.0f : -AndroidUtilities.dp(36.0f);
-                                                                        this.nameLayoutEllipsizeLeft = this.nameLayout.isRtlCharAt(0);
-                                                                        this.animatedEmojiStackName = AnimatedEmojiSpan.update(0, (View) this, this.animatedEmojiStackName, this.nameLayout);
+                                                                        this.nameLayoutTranslateX = (this.nameLayoutEllipsizeByGradient || !this.nameLayout.layout.isRtlCharAt(0)) ? 0.0f : -AndroidUtilities.dp(36.0f);
+                                                                        this.nameLayoutEllipsizeLeft = this.nameLayout.layout.isRtlCharAt(0);
+                                                                        AnimatedEmojiSpan.EmojiGroupedSpans emojiGroupedSpans = this.animatedEmojiStackName;
+                                                                        Layout[] layoutArr = new Layout[1];
+                                                                        CachedStaticLayout cachedStaticLayout2 = this.nameLayout;
+                                                                        layoutArr[0] = cachedStaticLayout2 != null ? null : cachedStaticLayout2.layout;
+                                                                        this.animatedEmojiStackName = AnimatedEmojiSpan.update(0, (View) this, emojiGroupedSpans, layoutArr);
                                                                         if (!this.useForceThreeLines) {
                                                                         }
                                                                         dp = AndroidUtilities.dp(11.0f);
@@ -1984,11 +2002,19 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                                                                                 }
                                                                                 if (this.twoLinesForName) {
                                                                                 }
-                                                                                this.animatedEmojiStack2 = AnimatedEmojiSpan.update(0, (View) this, this.animatedEmojiStack2, this.messageNameLayout);
+                                                                                AnimatedEmojiSpan.EmojiGroupedSpans emojiGroupedSpans2 = this.animatedEmojiStack2;
+                                                                                Layout[] layoutArr2 = new Layout[1];
+                                                                                CachedStaticLayout cachedStaticLayout3 = this.messageNameLayout;
+                                                                                layoutArr2[0] = cachedStaticLayout3 != null ? null : cachedStaticLayout3.layout;
+                                                                                this.animatedEmojiStack2 = AnimatedEmojiSpan.update(0, (View) this, emojiGroupedSpans2, layoutArr2);
                                                                                 this.buttonCreated = false;
                                                                                 if (TextUtils.isEmpty(spannableStringBuilder7)) {
                                                                                 }
-                                                                                this.animatedEmojiStack3 = AnimatedEmojiSpan.update(0, (View) this, this.animatedEmojiStack3, this.buttonLayout);
+                                                                                AnimatedEmojiSpan.EmojiGroupedSpans emojiGroupedSpans3 = this.animatedEmojiStack3;
+                                                                                Layout[] layoutArr3 = new Layout[1];
+                                                                                CachedStaticLayout cachedStaticLayout4 = this.buttonLayout;
+                                                                                layoutArr3[0] = cachedStaticLayout4 != null ? null : cachedStaticLayout4.layout;
+                                                                                this.animatedEmojiStack3 = AnimatedEmojiSpan.update(0, (View) this, emojiGroupedSpans3, layoutArr3);
                                                                                 if (!TextUtils.isEmpty(spannableStringBuilder6)) {
                                                                                 }
                                                                                 if (charSequence3 instanceof Spannable) {
@@ -2004,16 +2030,27 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                                                                                 if (this.thumbsCount > 0) {
                                                                                     max += AndroidUtilities.dp(5.0f);
                                                                                 }
-                                                                                this.messageLayout = StaticLayoutEx.createStaticLayout(str10, this.currentMessagePaint, max, alignment, 1.0f, AndroidUtilities.dp(1.0f), false, TextUtils.TruncateAt.END, max, str8 == null ? 1 : 2);
+                                                                                this.messageLayout = new CachedStaticLayout(StaticLayoutEx.createStaticLayout(str10, this.currentMessagePaint, max, alignment, 1.0f, AndroidUtilities.dp(1.0f), false, TextUtils.TruncateAt.END, max, str8 == null ? 1 : 2));
                                                                                 i10 = max;
                                                                                 this.spoilersPool.addAll(this.spoilers);
                                                                                 this.spoilers.clear();
-                                                                                SpoilerEffect.addSpoilers(this, this.messageLayout, -2, -2, this.spoilersPool, this.spoilers);
-                                                                                this.animatedEmojiStack = AnimatedEmojiSpan.update(0, (View) this, this.animatedEmojiStack, this.messageLayout);
+                                                                                SpoilerEffect.addSpoilers(this, this.messageLayout.layout, -2, -2, this.spoilersPool, this.spoilers);
+                                                                                staticLayout = null;
+                                                                                AnimatedEmojiSpan.EmojiGroupedSpans emojiGroupedSpans4 = this.animatedEmojiStack;
+                                                                                Layout[] layoutArr4 = new Layout[1];
+                                                                                CachedStaticLayout cachedStaticLayout5 = this.messageLayout;
+                                                                                layoutArr4[0] = cachedStaticLayout5 == null ? staticLayout : cachedStaticLayout5.layout;
+                                                                                this.animatedEmojiStack = AnimatedEmojiSpan.update(0, (View) this, emojiGroupedSpans4, layoutArr4);
                                                                                 if (LocaleController.isRTL) {
                                                                                 }
-                                                                                staticLayout = this.typingLayout;
-                                                                                if (staticLayout != null) {
+                                                                                cachedStaticLayout = this.typingLayout;
+                                                                                if (cachedStaticLayout != null) {
+                                                                                    if (i4 < 0) {
+                                                                                    }
+                                                                                    primaryHorizontal = this.typingLayout.layout.getPrimaryHorizontal(0);
+                                                                                    primaryHorizontal2 = this.typingLayout.layout.getPrimaryHorizontal(1);
+                                                                                    if (primaryHorizontal >= primaryHorizontal2) {
+                                                                                    }
                                                                                 }
                                                                                 updateThumbsPosition();
                                                                             }
@@ -2022,11 +2059,19 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                                                                             }
                                                                             if (this.twoLinesForName) {
                                                                             }
-                                                                            this.animatedEmojiStack2 = AnimatedEmojiSpan.update(0, (View) this, this.animatedEmojiStack2, this.messageNameLayout);
+                                                                            AnimatedEmojiSpan.EmojiGroupedSpans emojiGroupedSpans22 = this.animatedEmojiStack2;
+                                                                            Layout[] layoutArr22 = new Layout[1];
+                                                                            CachedStaticLayout cachedStaticLayout32 = this.messageNameLayout;
+                                                                            layoutArr22[0] = cachedStaticLayout32 != null ? null : cachedStaticLayout32.layout;
+                                                                            this.animatedEmojiStack2 = AnimatedEmojiSpan.update(0, (View) this, emojiGroupedSpans22, layoutArr22);
                                                                             this.buttonCreated = false;
                                                                             if (TextUtils.isEmpty(spannableStringBuilder7)) {
                                                                             }
-                                                                            this.animatedEmojiStack3 = AnimatedEmojiSpan.update(0, (View) this, this.animatedEmojiStack3, this.buttonLayout);
+                                                                            AnimatedEmojiSpan.EmojiGroupedSpans emojiGroupedSpans32 = this.animatedEmojiStack3;
+                                                                            Layout[] layoutArr32 = new Layout[1];
+                                                                            CachedStaticLayout cachedStaticLayout42 = this.buttonLayout;
+                                                                            layoutArr32[0] = cachedStaticLayout42 != null ? null : cachedStaticLayout42.layout;
+                                                                            this.animatedEmojiStack3 = AnimatedEmojiSpan.update(0, (View) this, emojiGroupedSpans32, layoutArr32);
                                                                             if (!TextUtils.isEmpty(spannableStringBuilder6)) {
                                                                             }
                                                                             if (charSequence3 instanceof Spannable) {
@@ -2041,16 +2086,21 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                                                                             }
                                                                             if (this.thumbsCount > 0) {
                                                                             }
-                                                                            this.messageLayout = StaticLayoutEx.createStaticLayout(str10, this.currentMessagePaint, max, alignment, 1.0f, AndroidUtilities.dp(1.0f), false, TextUtils.TruncateAt.END, max, str8 == null ? 1 : 2);
+                                                                            this.messageLayout = new CachedStaticLayout(StaticLayoutEx.createStaticLayout(str10, this.currentMessagePaint, max, alignment, 1.0f, AndroidUtilities.dp(1.0f), false, TextUtils.TruncateAt.END, max, str8 == null ? 1 : 2));
                                                                             i10 = max;
                                                                             this.spoilersPool.addAll(this.spoilers);
                                                                             this.spoilers.clear();
-                                                                            SpoilerEffect.addSpoilers(this, this.messageLayout, -2, -2, this.spoilersPool, this.spoilers);
-                                                                            this.animatedEmojiStack = AnimatedEmojiSpan.update(0, (View) this, this.animatedEmojiStack, this.messageLayout);
+                                                                            SpoilerEffect.addSpoilers(this, this.messageLayout.layout, -2, -2, this.spoilersPool, this.spoilers);
+                                                                            staticLayout = null;
+                                                                            AnimatedEmojiSpan.EmojiGroupedSpans emojiGroupedSpans42 = this.animatedEmojiStack;
+                                                                            Layout[] layoutArr42 = new Layout[1];
+                                                                            CachedStaticLayout cachedStaticLayout52 = this.messageLayout;
+                                                                            layoutArr42[0] = cachedStaticLayout52 == null ? staticLayout : cachedStaticLayout52.layout;
+                                                                            this.animatedEmojiStack = AnimatedEmojiSpan.update(0, (View) this, emojiGroupedSpans42, layoutArr42);
                                                                             if (LocaleController.isRTL) {
                                                                             }
-                                                                            staticLayout = this.typingLayout;
-                                                                            if (staticLayout != null) {
+                                                                            cachedStaticLayout = this.typingLayout;
+                                                                            if (cachedStaticLayout != null) {
                                                                             }
                                                                             updateThumbsPosition();
                                                                         }
@@ -2071,11 +2121,19 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                                                                         }
                                                                         if (this.twoLinesForName) {
                                                                         }
-                                                                        this.animatedEmojiStack2 = AnimatedEmojiSpan.update(0, (View) this, this.animatedEmojiStack2, this.messageNameLayout);
+                                                                        AnimatedEmojiSpan.EmojiGroupedSpans emojiGroupedSpans222 = this.animatedEmojiStack2;
+                                                                        Layout[] layoutArr222 = new Layout[1];
+                                                                        CachedStaticLayout cachedStaticLayout322 = this.messageNameLayout;
+                                                                        layoutArr222[0] = cachedStaticLayout322 != null ? null : cachedStaticLayout322.layout;
+                                                                        this.animatedEmojiStack2 = AnimatedEmojiSpan.update(0, (View) this, emojiGroupedSpans222, layoutArr222);
                                                                         this.buttonCreated = false;
                                                                         if (TextUtils.isEmpty(spannableStringBuilder7)) {
                                                                         }
-                                                                        this.animatedEmojiStack3 = AnimatedEmojiSpan.update(0, (View) this, this.animatedEmojiStack3, this.buttonLayout);
+                                                                        AnimatedEmojiSpan.EmojiGroupedSpans emojiGroupedSpans322 = this.animatedEmojiStack3;
+                                                                        Layout[] layoutArr322 = new Layout[1];
+                                                                        CachedStaticLayout cachedStaticLayout422 = this.buttonLayout;
+                                                                        layoutArr322[0] = cachedStaticLayout422 != null ? null : cachedStaticLayout422.layout;
+                                                                        this.animatedEmojiStack3 = AnimatedEmojiSpan.update(0, (View) this, emojiGroupedSpans322, layoutArr322);
                                                                         if (!TextUtils.isEmpty(spannableStringBuilder6)) {
                                                                         }
                                                                         if (charSequence3 instanceof Spannable) {
@@ -2090,16 +2148,21 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                                                                         }
                                                                         if (this.thumbsCount > 0) {
                                                                         }
-                                                                        this.messageLayout = StaticLayoutEx.createStaticLayout(str10, this.currentMessagePaint, max, alignment, 1.0f, AndroidUtilities.dp(1.0f), false, TextUtils.TruncateAt.END, max, str8 == null ? 1 : 2);
+                                                                        this.messageLayout = new CachedStaticLayout(StaticLayoutEx.createStaticLayout(str10, this.currentMessagePaint, max, alignment, 1.0f, AndroidUtilities.dp(1.0f), false, TextUtils.TruncateAt.END, max, str8 == null ? 1 : 2));
                                                                         i10 = max;
                                                                         this.spoilersPool.addAll(this.spoilers);
                                                                         this.spoilers.clear();
-                                                                        SpoilerEffect.addSpoilers(this, this.messageLayout, -2, -2, this.spoilersPool, this.spoilers);
-                                                                        this.animatedEmojiStack = AnimatedEmojiSpan.update(0, (View) this, this.animatedEmojiStack, this.messageLayout);
+                                                                        SpoilerEffect.addSpoilers(this, this.messageLayout.layout, -2, -2, this.spoilersPool, this.spoilers);
+                                                                        staticLayout = null;
+                                                                        AnimatedEmojiSpan.EmojiGroupedSpans emojiGroupedSpans422 = this.animatedEmojiStack;
+                                                                        Layout[] layoutArr422 = new Layout[1];
+                                                                        CachedStaticLayout cachedStaticLayout522 = this.messageLayout;
+                                                                        layoutArr422[0] = cachedStaticLayout522 == null ? staticLayout : cachedStaticLayout522.layout;
+                                                                        this.animatedEmojiStack = AnimatedEmojiSpan.update(0, (View) this, emojiGroupedSpans422, layoutArr422);
                                                                         if (LocaleController.isRTL) {
                                                                         }
-                                                                        staticLayout = this.typingLayout;
-                                                                        if (staticLayout != null) {
+                                                                        cachedStaticLayout = this.typingLayout;
+                                                                        if (cachedStaticLayout != null) {
                                                                         }
                                                                         updateThumbsPosition();
                                                                     }
@@ -2649,7 +2712,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
         }
         if (!z4) {
             i6 = (int) Math.ceil(Theme.dialogs_timePaint.measureText(stringForMessageListDate));
-            this.timeLayout = new StaticLayout(stringForMessageListDate, Theme.dialogs_timePaint, i6, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+            this.timeLayout = new CachedStaticLayout(new StaticLayout(stringForMessageListDate, Theme.dialogs_timePaint, i6, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false));
             if (!LocaleController.isRTL) {
                 this.timeLeft = (getMeasuredWidth() - AndroidUtilities.dp(15.0f)) - i6;
             } else {
@@ -2764,16 +2827,20 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
             MessageObject messageObject102 = this.message;
             CharSequence charSequence9 = (messageObject102 == null && messageObject102.hasHighlightedWords() && (highlightText5 = AndroidUtilities.highlightText(replaceEmoji22, this.message.highlightedWords, this.resourcesProvider)) != null) ? highlightText5 : replaceEmoji22;
             if (!this.twoLinesForName) {
-                this.nameLayout = StaticLayoutEx.createStaticLayout(charSequence9, Theme.dialogs_namePaint[this.paintIndex], dp6, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false, TextUtils.TruncateAt.END, dp6, 2);
+                this.nameLayout = new CachedStaticLayout(StaticLayoutEx.createStaticLayout(charSequence9, Theme.dialogs_namePaint[this.paintIndex], dp6, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false, TextUtils.TruncateAt.END, dp6, 2));
             } else {
-                this.nameLayout = new StaticLayout(charSequence9, Theme.dialogs_namePaint[this.paintIndex], Math.max(dp6, this.nameWidth), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                this.nameLayout = new CachedStaticLayout(new StaticLayout(charSequence9, Theme.dialogs_namePaint[this.paintIndex], Math.max(dp6, this.nameWidth), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false));
             }
-            this.nameLayoutTranslateX = (this.nameLayoutEllipsizeByGradient || !this.nameLayout.isRtlCharAt(0)) ? 0.0f : -AndroidUtilities.dp(36.0f);
-            this.nameLayoutEllipsizeLeft = this.nameLayout.isRtlCharAt(0);
+            this.nameLayoutTranslateX = (this.nameLayoutEllipsizeByGradient || !this.nameLayout.layout.isRtlCharAt(0)) ? 0.0f : -AndroidUtilities.dp(36.0f);
+            this.nameLayoutEllipsizeLeft = this.nameLayout.layout.isRtlCharAt(0);
         } catch (Exception e3) {
             FileLog.e(e3);
         }
-        this.animatedEmojiStackName = AnimatedEmojiSpan.update(0, (View) this, this.animatedEmojiStackName, this.nameLayout);
+        AnimatedEmojiSpan.EmojiGroupedSpans emojiGroupedSpans5 = this.animatedEmojiStackName;
+        Layout[] layoutArr5 = new Layout[1];
+        CachedStaticLayout cachedStaticLayout22 = this.nameLayout;
+        layoutArr5[0] = cachedStaticLayout22 != null ? null : cachedStaticLayout22.layout;
+        this.animatedEmojiStackName = AnimatedEmojiSpan.update(0, (View) this, emojiGroupedSpans5, layoutArr5);
         if (!this.useForceThreeLines || SharedConfig.useThreeLinesLayout) {
             dp = AndroidUtilities.dp(11.0f);
             this.messageNameTop = AndroidUtilities.dp(32.0f);
@@ -2889,7 +2956,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
         } else if (str6 != null || str7 != null || this.drawReactionMention) {
             if (str6 != null) {
                 this.countWidth = Math.max(AndroidUtilities.dp(12.0f), (int) Math.ceil(Theme.dialogs_countTextPaint.measureText(str6)));
-                this.countLayout = new StaticLayout(str6, Theme.dialogs_countTextPaint, this.countWidth, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
+                this.countLayout = new CachedStaticLayout(new StaticLayout(str6, Theme.dialogs_countTextPaint, this.countWidth, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false));
                 int dp18 = this.countWidth + AndroidUtilities.dp(18.0f);
                 i202 -= dp18;
                 if (!LocaleController.isRTL) {
@@ -2908,7 +2975,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
             if (str7 != null) {
                 if (this.currentDialogFolderId != 0) {
                     this.mentionWidth = Math.max(AndroidUtilities.dp(12.0f), (int) Math.ceil(Theme.dialogs_countTextPaint.measureText(str7)));
-                    this.mentionLayout = new StaticLayout(str7, Theme.dialogs_countTextPaint, this.mentionWidth, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
+                    this.mentionLayout = new CachedStaticLayout(new StaticLayout(str7, Theme.dialogs_countTextPaint, this.mentionWidth, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false));
                 } else {
                     this.mentionWidth = AndroidUtilities.dp(12.0f);
                 }
@@ -3018,7 +3085,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 if (messageObject18 != null && messageObject18.hasHighlightedWords() && (highlightText3 = AndroidUtilities.highlightText(str8, this.message.highlightedWords, this.resourcesProvider)) != 0) {
                     str8 = highlightText3;
                 }
-                this.messageNameLayout = StaticLayoutEx.createStaticLayout(str8, Theme.dialogs_messageNamePaint, max, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false, TextUtils.TruncateAt.END, max, 1);
+                this.messageNameLayout = new CachedStaticLayout(StaticLayoutEx.createStaticLayout(str8, Theme.dialogs_messageNamePaint, max, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false, TextUtils.TruncateAt.END, max, 1));
             } catch (Exception e4) {
                 FileLog.e(e4);
             }
@@ -3054,26 +3121,34 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
         if (this.twoLinesForName) {
             this.messageTop += AndroidUtilities.dp(20.0f);
         }
-        this.animatedEmojiStack2 = AnimatedEmojiSpan.update(0, (View) this, this.animatedEmojiStack2, this.messageNameLayout);
+        AnimatedEmojiSpan.EmojiGroupedSpans emojiGroupedSpans2222 = this.animatedEmojiStack2;
+        Layout[] layoutArr2222 = new Layout[1];
+        CachedStaticLayout cachedStaticLayout3222 = this.messageNameLayout;
+        layoutArr2222[0] = cachedStaticLayout3222 != null ? null : cachedStaticLayout3222.layout;
+        this.animatedEmojiStack2 = AnimatedEmojiSpan.update(0, (View) this, emojiGroupedSpans2222, layoutArr2222);
         try {
             this.buttonCreated = false;
             if (TextUtils.isEmpty(spannableStringBuilder7)) {
-                this.buttonLayout = new StaticLayout(TextUtils.ellipsize(Emoji.replaceEmoji((CharSequence) spannableStringBuilder7, this.currentMessagePaint.getFontMetricsInt(), AndroidUtilities.dp(17.0f), false), this.currentMessagePaint, max - AndroidUtilities.dp(26.0f), TextUtils.TruncateAt.END), this.currentMessagePaint, max - AndroidUtilities.dp(20.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                this.buttonLayout = new CachedStaticLayout(new StaticLayout(TextUtils.ellipsize(Emoji.replaceEmoji((CharSequence) spannableStringBuilder7, this.currentMessagePaint.getFontMetricsInt(), AndroidUtilities.dp(17.0f), false), this.currentMessagePaint, max - AndroidUtilities.dp(26.0f), TextUtils.TruncateAt.END), this.currentMessagePaint, max - AndroidUtilities.dp(20.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false));
                 this.spoilersPool2.addAll(this.spoilers2);
                 this.spoilers2.clear();
-                SpoilerEffect.addSpoilers((View) this, this.buttonLayout, this.spoilersPool2, this.spoilers2);
+                SpoilerEffect.addSpoilers((View) this, this.buttonLayout.layout, this.spoilersPool2, this.spoilers2);
             } else {
                 this.buttonLayout = null;
             }
         } catch (Exception unused) {
         }
-        this.animatedEmojiStack3 = AnimatedEmojiSpan.update(0, (View) this, this.animatedEmojiStack3, this.buttonLayout);
+        AnimatedEmojiSpan.EmojiGroupedSpans emojiGroupedSpans3222 = this.animatedEmojiStack3;
+        Layout[] layoutArr3222 = new Layout[1];
+        CachedStaticLayout cachedStaticLayout4222 = this.buttonLayout;
+        layoutArr3222[0] = cachedStaticLayout4222 != null ? null : cachedStaticLayout4222.layout;
+        this.animatedEmojiStack3 = AnimatedEmojiSpan.update(0, (View) this, emojiGroupedSpans3222, layoutArr3222);
         try {
             if (!TextUtils.isEmpty(spannableStringBuilder6)) {
                 if ((this.useForceThreeLines || SharedConfig.useThreeLinesLayout) && !hasTags()) {
-                    this.typingLayout = StaticLayoutEx.createStaticLayout(spannableStringBuilder6, Theme.dialogs_messagePrintingPaint[this.paintIndex], max, Layout.Alignment.ALIGN_NORMAL, 1.0f, AndroidUtilities.dp(1.0f), false, TextUtils.TruncateAt.END, max, 1);
+                    this.typingLayout = new CachedStaticLayout(StaticLayoutEx.createStaticLayout(spannableStringBuilder6, Theme.dialogs_messagePrintingPaint[this.paintIndex], max, Layout.Alignment.ALIGN_NORMAL, 1.0f, AndroidUtilities.dp(1.0f), false, TextUtils.TruncateAt.END, max, 1));
                 } else {
-                    this.typingLayout = new StaticLayout(TextUtils.ellipsize(spannableStringBuilder6, this.currentMessagePaint, max - AndroidUtilities.dp(12.0f), TextUtils.TruncateAt.END), Theme.dialogs_messagePrintingPaint[this.paintIndex], max, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                    this.typingLayout = new CachedStaticLayout(new StaticLayout(TextUtils.ellipsize(spannableStringBuilder6, this.currentMessagePaint, max - AndroidUtilities.dp(12.0f), TextUtils.TruncateAt.END), Theme.dialogs_messagePrintingPaint[this.paintIndex], max, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false));
                 }
             }
         } catch (Exception e5) {
@@ -3113,7 +3188,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 if (this.thumbsCount > 0 && str8 != null) {
                     max += AndroidUtilities.dp(5.0f);
                 }
-                this.messageLayout = StaticLayoutEx.createStaticLayout(str10, this.currentMessagePaint, max, alignment, 1.0f, AndroidUtilities.dp(1.0f), false, TextUtils.TruncateAt.END, max, str8 == null ? 1 : 2);
+                this.messageLayout = new CachedStaticLayout(StaticLayoutEx.createStaticLayout(str10, this.currentMessagePaint, max, alignment, 1.0f, AndroidUtilities.dp(1.0f), false, TextUtils.TruncateAt.END, max, str8 == null ? 1 : 2));
             } else {
                 if (this.thumbsCount > 0) {
                     max += AndroidUtilities.dp(((i12 * (this.thumbSize + 2)) - 2) + 5);
@@ -3121,21 +3196,46 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                         this.messageLeft -= AndroidUtilities.dp(((this.thumbsCount * (this.thumbSize + 2)) - 2) + 5);
                     }
                 }
-                this.messageLayout = new StaticLayout(str10, this.currentMessagePaint, max, alignment, 1.0f, 0.0f, false);
+                this.messageLayout = new CachedStaticLayout(new StaticLayout(str10, this.currentMessagePaint, max, alignment, 1.0f, 0.0f, false));
             }
             i10 = max;
-            this.spoilersPool.addAll(this.spoilers);
-            this.spoilers.clear();
-            SpoilerEffect.addSpoilers(this, this.messageLayout, -2, -2, this.spoilersPool, this.spoilers);
         } catch (Exception e6) {
             e = e6;
         }
-        this.animatedEmojiStack = AnimatedEmojiSpan.update(0, (View) this, this.animatedEmojiStack, this.messageLayout);
+        try {
+            this.spoilersPool.addAll(this.spoilers);
+            this.spoilers.clear();
+            SpoilerEffect.addSpoilers(this, this.messageLayout.layout, -2, -2, this.spoilersPool, this.spoilers);
+            staticLayout = null;
+        } catch (Exception e7) {
+            e = e7;
+            max = i10;
+            staticLayout = null;
+            this.messageLayout = null;
+            FileLog.e(e);
+            i10 = max;
+            AnimatedEmojiSpan.EmojiGroupedSpans emojiGroupedSpans4222 = this.animatedEmojiStack;
+            Layout[] layoutArr4222 = new Layout[1];
+            CachedStaticLayout cachedStaticLayout5222 = this.messageLayout;
+            layoutArr4222[0] = cachedStaticLayout5222 == null ? staticLayout : cachedStaticLayout5222.layout;
+            this.animatedEmojiStack = AnimatedEmojiSpan.update(0, (View) this, emojiGroupedSpans4222, layoutArr4222);
+            if (LocaleController.isRTL) {
+            }
+            cachedStaticLayout = this.typingLayout;
+            if (cachedStaticLayout != null) {
+            }
+            updateThumbsPosition();
+        }
+        AnimatedEmojiSpan.EmojiGroupedSpans emojiGroupedSpans42222 = this.animatedEmojiStack;
+        Layout[] layoutArr42222 = new Layout[1];
+        CachedStaticLayout cachedStaticLayout52222 = this.messageLayout;
+        layoutArr42222[0] = cachedStaticLayout52222 == null ? staticLayout : cachedStaticLayout52222.layout;
+        this.animatedEmojiStack = AnimatedEmojiSpan.update(0, (View) this, emojiGroupedSpans42222, layoutArr42222);
         if (LocaleController.isRTL) {
-            StaticLayout staticLayout2 = this.nameLayout;
-            if (staticLayout2 != null && staticLayout2.getLineCount() > 0) {
-                float lineLeft = this.nameLayout.getLineLeft(0);
-                double ceil = Math.ceil(this.nameLayout.getLineWidth(0));
+            CachedStaticLayout cachedStaticLayout6 = this.nameLayout;
+            if (cachedStaticLayout6 != null && cachedStaticLayout6.layout.getLineCount() > 0) {
+                float lineLeft = this.nameLayout.layout.getLineLeft(0);
+                double ceil = Math.ceil(this.nameLayout.layout.getLineWidth(0));
                 this.nameLeft += AndroidUtilities.dp(12.0f);
                 if (this.nameLayoutEllipsizeByGradient) {
                     ceil = Math.min(this.nameWidth, ceil);
@@ -3211,20 +3311,20 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                     }
                 }
             }
-            StaticLayout staticLayout3 = this.messageLayout;
+            CachedStaticLayout cachedStaticLayout7 = this.messageLayout;
             int i41 = ConnectionsManager.DEFAULT_DATACENTER_ID;
-            if (staticLayout3 != null && (lineCount6 = staticLayout3.getLineCount()) > 0) {
+            if (cachedStaticLayout7 != null && (lineCount6 = cachedStaticLayout7.layout.getLineCount()) > 0) {
                 int i42 = 0;
                 int i43 = ConnectionsManager.DEFAULT_DATACENTER_ID;
                 while (true) {
                     if (i42 >= lineCount6) {
                         break;
                     }
-                    if (this.messageLayout.getLineLeft(i42) != 0.0f) {
+                    if (this.messageLayout.layout.getLineLeft(i42) != 0.0f) {
                         i43 = 0;
                         break;
                     }
-                    double ceil2 = Math.ceil(this.messageLayout.getLineWidth(i42));
+                    double ceil2 = Math.ceil(this.messageLayout.layout.getLineWidth(i42));
                     double d23 = i10;
                     Double.isNaN(d23);
                     i43 = Math.min(i43, (int) (d23 - ceil2));
@@ -3234,19 +3334,19 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                     this.messageLeft += i43;
                 }
             }
-            StaticLayout staticLayout4 = this.typingLayout;
-            if (staticLayout4 != null && (lineCount5 = staticLayout4.getLineCount()) > 0) {
+            CachedStaticLayout cachedStaticLayout8 = this.typingLayout;
+            if (cachedStaticLayout8 != null && (lineCount5 = cachedStaticLayout8.layout.getLineCount()) > 0) {
                 int i44 = 0;
                 int i45 = ConnectionsManager.DEFAULT_DATACENTER_ID;
                 while (true) {
                     if (i44 >= lineCount5) {
                         break;
                     }
-                    if (this.typingLayout.getLineLeft(i44) != 0.0f) {
+                    if (this.typingLayout.layout.getLineLeft(i44) != 0.0f) {
                         i45 = 0;
                         break;
                     }
-                    double ceil3 = Math.ceil(this.typingLayout.getLineWidth(i44));
+                    double ceil3 = Math.ceil(this.typingLayout.layout.getLineWidth(i44));
                     double d24 = i10;
                     Double.isNaN(d24);
                     i45 = Math.min(i45, (int) (d24 - ceil3));
@@ -3256,8 +3356,8 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                     this.typingLeft += i45;
                 }
             }
-            StaticLayout staticLayout5 = this.messageNameLayout;
-            if (staticLayout5 != null && staticLayout5.getLineCount() > 0 && this.messageNameLayout.getLineLeft(0) == 0.0f) {
+            CachedStaticLayout cachedStaticLayout9 = this.messageNameLayout;
+            if (cachedStaticLayout9 != null && cachedStaticLayout9.getLineCount() > 0 && this.messageNameLayout.getLineLeft(0) == 0.0f) {
                 double ceil4 = Math.ceil(this.messageNameLayout.getLineWidth(0));
                 double d25 = i10;
                 if (ceil4 < d25) {
@@ -3267,22 +3367,22 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                     this.messageNameLeft = (int) (d26 + (d25 - ceil4));
                 }
             }
-            StaticLayout staticLayout6 = this.buttonLayout;
-            if (staticLayout6 != null && (lineCount4 = staticLayout6.getLineCount()) > 0) {
+            CachedStaticLayout cachedStaticLayout10 = this.buttonLayout;
+            if (cachedStaticLayout10 != null && (lineCount4 = cachedStaticLayout10.layout.getLineCount()) > 0) {
                 for (int i46 = 0; i46 < lineCount4; i46++) {
-                    i41 = (int) Math.min(i41, this.buttonLayout.getWidth() - this.buttonLayout.getLineRight(i46));
+                    i41 = (int) Math.min(i41, this.buttonLayout.layout.getWidth() - this.buttonLayout.layout.getLineRight(i46));
                 }
                 this.buttonLeft += i41;
             }
         } else {
-            StaticLayout staticLayout7 = this.nameLayout;
-            if (staticLayout7 != null && staticLayout7.getLineCount() > 0) {
-                float lineRight = this.nameLayout.getLineRight(0);
+            CachedStaticLayout cachedStaticLayout11 = this.nameLayout;
+            if (cachedStaticLayout11 != null && cachedStaticLayout11.layout.getLineCount() > 0) {
+                float lineRight = this.nameLayout.layout.getLineRight(0);
                 if (this.nameLayoutEllipsizeByGradient) {
                     lineRight = Math.min(this.nameWidth, lineRight);
                 }
                 if (lineRight == this.nameWidth) {
-                    double ceil5 = Math.ceil(this.nameLayout.getLineWidth(0));
+                    double ceil5 = Math.ceil(this.nameLayout.layout.getLineWidth(0));
                     if (this.nameLayoutEllipsizeByGradient) {
                         ceil5 = Math.min(this.nameWidth, ceil5);
                     }
@@ -3297,43 +3397,43 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 }
                 this.nameMuteLeft = (int) (this.nameLeft + lineRight + AndroidUtilities.dp(6.0f));
             }
-            StaticLayout staticLayout8 = this.messageLayout;
-            if (staticLayout8 != null && (lineCount3 = staticLayout8.getLineCount()) > 0) {
+            CachedStaticLayout cachedStaticLayout12 = this.messageLayout;
+            if (cachedStaticLayout12 != null && (lineCount3 = cachedStaticLayout12.layout.getLineCount()) > 0) {
                 float f3 = 2.14748365E9f;
                 for (int i48 = 0; i48 < lineCount3; i48++) {
-                    f3 = Math.min(f3, this.messageLayout.getLineLeft(i48));
+                    f3 = Math.min(f3, this.messageLayout.layout.getLineLeft(i48));
                 }
                 this.messageLeft = (int) (this.messageLeft - f3);
             }
-            StaticLayout staticLayout9 = this.buttonLayout;
-            if (staticLayout9 != null && (lineCount2 = staticLayout9.getLineCount()) > 0) {
+            CachedStaticLayout cachedStaticLayout13 = this.buttonLayout;
+            if (cachedStaticLayout13 != null && (lineCount2 = cachedStaticLayout13.layout.getLineCount()) > 0) {
                 float f4 = 2.14748365E9f;
                 for (int i49 = 0; i49 < lineCount2; i49++) {
-                    f4 = Math.min(f4, this.buttonLayout.getLineLeft(i49));
+                    f4 = Math.min(f4, this.buttonLayout.layout.getLineLeft(i49));
                 }
                 this.buttonLeft = (int) (this.buttonLeft - f4);
             }
-            StaticLayout staticLayout10 = this.typingLayout;
-            if (staticLayout10 != null && (lineCount = staticLayout10.getLineCount()) > 0) {
+            CachedStaticLayout cachedStaticLayout14 = this.typingLayout;
+            if (cachedStaticLayout14 != null && (lineCount = cachedStaticLayout14.layout.getLineCount()) > 0) {
                 float f5 = 2.14748365E9f;
                 for (int i50 = 0; i50 < lineCount; i50++) {
-                    f5 = Math.min(f5, this.typingLayout.getLineLeft(i50));
+                    f5 = Math.min(f5, this.typingLayout.layout.getLineLeft(i50));
                 }
                 this.typingLeft = (int) (this.typingLeft - f5);
             }
-            StaticLayout staticLayout11 = this.messageNameLayout;
-            if (staticLayout11 != null && staticLayout11.getLineCount() > 0) {
+            CachedStaticLayout cachedStaticLayout15 = this.messageNameLayout;
+            if (cachedStaticLayout15 != null && cachedStaticLayout15.getLineCount() > 0) {
                 this.messageNameLeft = (int) (this.messageNameLeft - this.messageNameLayout.getLineLeft(0));
             }
         }
-        staticLayout = this.typingLayout;
-        if (staticLayout != null && this.printingStringType >= 0 && staticLayout.getText().length() > 0) {
+        cachedStaticLayout = this.typingLayout;
+        if (cachedStaticLayout != null && this.printingStringType >= 0 && cachedStaticLayout.getText().length() > 0) {
             if (i4 < 0 && (i11 = i4 + 1) < this.typingLayout.getText().length()) {
-                primaryHorizontal = this.typingLayout.getPrimaryHorizontal(i4);
-                primaryHorizontal2 = this.typingLayout.getPrimaryHorizontal(i11);
+                primaryHorizontal = this.typingLayout.layout.getPrimaryHorizontal(i4);
+                primaryHorizontal2 = this.typingLayout.layout.getPrimaryHorizontal(i11);
             } else {
-                primaryHorizontal = this.typingLayout.getPrimaryHorizontal(0);
-                primaryHorizontal2 = this.typingLayout.getPrimaryHorizontal(1);
+                primaryHorizontal = this.typingLayout.layout.getPrimaryHorizontal(0);
+                primaryHorizontal2 = this.typingLayout.layout.getPrimaryHorizontal(1);
             }
             if (primaryHorizontal >= primaryHorizontal2) {
                 this.statusDrawableLeft = (int) (this.typingLeft + primaryHorizontal);
@@ -3360,13 +3460,13 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
 
     private void updateThumbsPosition() {
         if (this.thumbsCount > 0) {
-            StaticLayout staticLayout = isForumCell() ? this.buttonLayout : this.messageLayout;
+            CachedStaticLayout cachedStaticLayout = isForumCell() ? this.buttonLayout : this.messageLayout;
             int i = isForumCell() ? this.buttonLeft : this.messageLeft;
-            if (staticLayout == null) {
+            if (cachedStaticLayout == null) {
                 return;
             }
             try {
-                CharSequence text = staticLayout.getText();
+                CharSequence text = cachedStaticLayout.getText();
                 if (text instanceof Spanned) {
                     FixedWidthSpan[] fixedWidthSpanArr = (FixedWidthSpan[]) ((Spanned) text).getSpans(0, text.length(), FixedWidthSpan.class);
                     if (fixedWidthSpanArr == null || fixedWidthSpanArr.length <= 0) {
@@ -3379,7 +3479,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                     if (spanStart < 0) {
                         spanStart = 0;
                     }
-                    int ceil = (int) Math.ceil(Math.min(staticLayout.getPrimaryHorizontal(spanStart), staticLayout.getPrimaryHorizontal(spanStart + 1)));
+                    int ceil = (int) Math.ceil(Math.min(cachedStaticLayout.layout.getPrimaryHorizontal(spanStart), cachedStaticLayout.layout.getPrimaryHorizontal(spanStart + 1)));
                     if (ceil != 0 && !this.drawForwardIcon) {
                         ceil += AndroidUtilities.dp(3.0f);
                     }
@@ -3573,8 +3673,8 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
     /* JADX WARN: Removed duplicated region for block: B:272:0x04aa  */
     /* JADX WARN: Removed duplicated region for block: B:297:0x0551  */
     /* JADX WARN: Removed duplicated region for block: B:298:0x0575  */
-    /* JADX WARN: Removed duplicated region for block: B:378:0x07ec  */
-    /* JADX WARN: Removed duplicated region for block: B:379:0x07ee  */
+    /* JADX WARN: Removed duplicated region for block: B:378:0x07fb  */
+    /* JADX WARN: Removed duplicated region for block: B:379:0x07fd  */
     /* JADX WARN: Type inference failed for: r6v1 */
     /* JADX WARN: Type inference failed for: r6v113 */
     /* JADX WARN: Type inference failed for: r6v2, types: [org.telegram.tgnet.TLRPC$Chat, org.telegram.tgnet.TLRPC$User, org.telegram.tgnet.TLRPC$EncryptedChat] */
@@ -4008,9 +4108,9 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                                 }
                                 z5 = z2;
                                 int max = Math.max(AndroidUtilities.dp(12.0f), (int) Math.ceil(Theme.dialogs_countTextPaint.measureText(format)));
-                                this.countOldLayout = new StaticLayout(spannableStringBuilder, Theme.dialogs_countTextPaint, max, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
-                                this.countAnimationStableLayout = new StaticLayout(spannableStringBuilder3, Theme.dialogs_countTextPaint, max, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
-                                this.countAnimationInLayout = new StaticLayout(spannableStringBuilder2, Theme.dialogs_countTextPaint, max, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
+                                this.countOldLayout = new CachedStaticLayout(new StaticLayout(spannableStringBuilder, Theme.dialogs_countTextPaint, max, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false));
+                                this.countAnimationStableLayout = new CachedStaticLayout(new StaticLayout(spannableStringBuilder3, Theme.dialogs_countTextPaint, max, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false));
+                                this.countAnimationInLayout = new CachedStaticLayout(new StaticLayout(spannableStringBuilder2, Theme.dialogs_countTextPaint, max, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false));
                             } else {
                                 z5 = z2;
                                 this.countOldLayout = this.countLayout;
@@ -4180,45 +4280,45 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Code restructure failed: missing block: B:362:0x0bee, code lost:
-        if (r2.lastKnownTypingType >= 0) goto L212;
+    /* JADX WARN: Code restructure failed: missing block: B:370:0x0c12, code lost:
+        if (r2.lastKnownTypingType >= 0) goto L218;
      */
-    /* JADX WARN: Removed duplicated region for block: B:296:0x0a0e  */
-    /* JADX WARN: Removed duplicated region for block: B:397:0x0c91  */
-    /* JADX WARN: Removed duplicated region for block: B:400:0x0c98  */
-    /* JADX WARN: Removed duplicated region for block: B:456:0x0e9d  */
-    /* JADX WARN: Removed duplicated region for block: B:516:0x0f67  */
-    /* JADX WARN: Removed duplicated region for block: B:558:0x0fd6  */
-    /* JADX WARN: Removed duplicated region for block: B:559:0x0fd9  */
-    /* JADX WARN: Removed duplicated region for block: B:571:0x0ffb  */
-    /* JADX WARN: Removed duplicated region for block: B:575:0x1013  */
-    /* JADX WARN: Removed duplicated region for block: B:580:0x1067  */
-    /* JADX WARN: Removed duplicated region for block: B:586:0x107d  */
-    /* JADX WARN: Removed duplicated region for block: B:603:0x10d0  */
-    /* JADX WARN: Removed duplicated region for block: B:666:0x11d9  */
-    /* JADX WARN: Removed duplicated region for block: B:668:0x122a  */
-    /* JADX WARN: Removed duplicated region for block: B:724:0x13d4  */
-    /* JADX WARN: Removed duplicated region for block: B:760:0x156a  */
-    /* JADX WARN: Removed duplicated region for block: B:765:0x159a  */
-    /* JADX WARN: Removed duplicated region for block: B:769:0x15aa  */
-    /* JADX WARN: Removed duplicated region for block: B:784:0x15e6  */
-    /* JADX WARN: Removed duplicated region for block: B:785:0x15e8  */
-    /* JADX WARN: Removed duplicated region for block: B:789:0x15f6  */
-    /* JADX WARN: Removed duplicated region for block: B:801:0x1617  */
-    /* JADX WARN: Removed duplicated region for block: B:803:0x161b  */
-    /* JADX WARN: Removed duplicated region for block: B:817:0x168a  */
-    /* JADX WARN: Removed duplicated region for block: B:820:0x1693  */
-    /* JADX WARN: Removed duplicated region for block: B:838:0x16dd  */
-    /* JADX WARN: Removed duplicated region for block: B:867:0x175d  */
-    /* JADX WARN: Removed duplicated region for block: B:876:0x17b4  */
-    /* JADX WARN: Removed duplicated region for block: B:881:0x17c7  */
-    /* JADX WARN: Removed duplicated region for block: B:889:0x17df  */
-    /* JADX WARN: Removed duplicated region for block: B:897:0x1808  */
-    /* JADX WARN: Removed duplicated region for block: B:908:0x1836  */
-    /* JADX WARN: Removed duplicated region for block: B:914:0x184b  */
-    /* JADX WARN: Removed duplicated region for block: B:924:0x1872  */
-    /* JADX WARN: Removed duplicated region for block: B:934:0x1893  */
-    /* JADX WARN: Removed duplicated region for block: B:951:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:304:0x0a28  */
+    /* JADX WARN: Removed duplicated region for block: B:405:0x0cb5  */
+    /* JADX WARN: Removed duplicated region for block: B:408:0x0cbc  */
+    /* JADX WARN: Removed duplicated region for block: B:464:0x0ecf  */
+    /* JADX WARN: Removed duplicated region for block: B:524:0x0f99  */
+    /* JADX WARN: Removed duplicated region for block: B:566:0x1008  */
+    /* JADX WARN: Removed duplicated region for block: B:567:0x100b  */
+    /* JADX WARN: Removed duplicated region for block: B:579:0x102d  */
+    /* JADX WARN: Removed duplicated region for block: B:583:0x1045  */
+    /* JADX WARN: Removed duplicated region for block: B:588:0x1099  */
+    /* JADX WARN: Removed duplicated region for block: B:594:0x10af  */
+    /* JADX WARN: Removed duplicated region for block: B:611:0x1102  */
+    /* JADX WARN: Removed duplicated region for block: B:674:0x120b  */
+    /* JADX WARN: Removed duplicated region for block: B:676:0x125c  */
+    /* JADX WARN: Removed duplicated region for block: B:732:0x1406  */
+    /* JADX WARN: Removed duplicated region for block: B:768:0x159c  */
+    /* JADX WARN: Removed duplicated region for block: B:773:0x15cc  */
+    /* JADX WARN: Removed duplicated region for block: B:777:0x15dc  */
+    /* JADX WARN: Removed duplicated region for block: B:792:0x1618  */
+    /* JADX WARN: Removed duplicated region for block: B:793:0x161a  */
+    /* JADX WARN: Removed duplicated region for block: B:797:0x1628  */
+    /* JADX WARN: Removed duplicated region for block: B:809:0x1649  */
+    /* JADX WARN: Removed duplicated region for block: B:811:0x164d  */
+    /* JADX WARN: Removed duplicated region for block: B:825:0x16bc  */
+    /* JADX WARN: Removed duplicated region for block: B:828:0x16c5  */
+    /* JADX WARN: Removed duplicated region for block: B:846:0x170f  */
+    /* JADX WARN: Removed duplicated region for block: B:875:0x178f  */
+    /* JADX WARN: Removed duplicated region for block: B:884:0x17e6  */
+    /* JADX WARN: Removed duplicated region for block: B:889:0x17f9  */
+    /* JADX WARN: Removed duplicated region for block: B:897:0x1811  */
+    /* JADX WARN: Removed duplicated region for block: B:905:0x183a  */
+    /* JADX WARN: Removed duplicated region for block: B:916:0x1868  */
+    /* JADX WARN: Removed duplicated region for block: B:922:0x187d  */
+    /* JADX WARN: Removed duplicated region for block: B:932:0x18a4  */
+    /* JADX WARN: Removed duplicated region for block: B:942:0x18c5  */
+    /* JADX WARN: Removed duplicated region for block: B:959:? A[RETURN, SYNTHETIC] */
     @Override // android.view.View
     @SuppressLint({"DrawAllocation"})
     /*
@@ -4270,7 +4370,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
         float f8;
         int color3;
         float f9;
-        StaticLayout staticLayout;
+        CachedStaticLayout cachedStaticLayout;
         CustomDialog customDialog;
         int i17;
         Paint paint4;
@@ -4465,10 +4565,10 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
             if (this.swipeMessageTextId != i2 || this.swipeMessageWidth != getMeasuredWidth()) {
                 this.swipeMessageTextId = i2;
                 this.swipeMessageWidth = getMeasuredWidth();
-                StaticLayout staticLayout2 = new StaticLayout(str4, Theme.dialogs_archiveTextPaint, Math.min(AndroidUtilities.dp(80.0f), ceil), Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
-                this.swipeMessageTextLayout = staticLayout2;
-                if (staticLayout2.getLineCount() > 1) {
-                    this.swipeMessageTextLayout = new StaticLayout(str4, Theme.dialogs_archiveTextPaintSmall, Math.min(AndroidUtilities.dp(82.0f), ceil), Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
+                CachedStaticLayout cachedStaticLayout2 = new CachedStaticLayout(new StaticLayout(str4, Theme.dialogs_archiveTextPaint, Math.min(AndroidUtilities.dp(80.0f), ceil), Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false));
+                this.swipeMessageTextLayout = cachedStaticLayout2;
+                if (cachedStaticLayout2.getLineCount() > 1) {
+                    this.swipeMessageTextLayout = new CachedStaticLayout(new StaticLayout(str4, Theme.dialogs_archiveTextPaintSmall, Math.min(AndroidUtilities.dp(82.0f), ceil), Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false));
                 }
             }
             if (this.swipeMessageTextLayout != null) {
@@ -4629,11 +4729,11 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 }
                 canvas.save();
                 canvas.translate(this.nameLeft + this.nameLayoutTranslateX, dp5);
-                SpoilerEffect.layoutDrawMaybe(this.nameLayout, canvas);
-                StaticLayout staticLayout3 = this.nameLayout;
+                this.nameLayout.draw(canvas);
+                StaticLayout staticLayout = this.nameLayout.layout;
                 i6 = i5;
                 i7 = -1;
-                AnimatedEmojiSpan.drawAnimatedEmojis(canvas, staticLayout3, this.animatedEmojiStackName, -0.075f, null, 0.0f, 0.0f, 0.0f, 1.0f, getAdaptiveEmojiColorFilter(0, staticLayout3.getPaint().getColor()));
+                AnimatedEmojiSpan.drawAnimatedEmojis(canvas, staticLayout, this.animatedEmojiStackName, -0.075f, null, 0.0f, 0.0f, 0.0f, 1.0f, getAdaptiveEmojiColorFilter(0, staticLayout.getPaint().getColor()));
                 canvas.restore();
                 if (!this.nameLayoutEllipsizeByGradient || this.nameLayoutFits) {
                     i18 = 1;
@@ -4658,12 +4758,20 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
             if (this.timeLayout != null && this.currentDialogFolderId == 0) {
                 canvas.save();
                 canvas.translate(this.timeLeft, this.timeTop);
-                SpoilerEffect.layoutDrawMaybe(this.timeLayout, canvas);
+                this.timeLayout.draw(canvas);
                 canvas.restore();
             }
             if (drawLock2()) {
+                Drawable drawable = Theme.dialogs_lock2Drawable;
+                int i27 = this.lock2Left;
+                int i28 = this.timeTop;
+                CachedStaticLayout cachedStaticLayout3 = this.timeLayout;
                 i8 = 2;
-                Theme.dialogs_lock2Drawable.setBounds(this.lock2Left, this.timeTop + ((this.timeLayout.getHeight() - Theme.dialogs_lock2Drawable.getIntrinsicHeight()) / 2), this.lock2Left + Theme.dialogs_lock2Drawable.getIntrinsicWidth(), this.timeTop + ((this.timeLayout.getHeight() - Theme.dialogs_lock2Drawable.getIntrinsicHeight()) / 2) + Theme.dialogs_lock2Drawable.getIntrinsicHeight());
+                int height = i28 + (((cachedStaticLayout3 == null ? 0 : cachedStaticLayout3.layout.getHeight()) - Theme.dialogs_lock2Drawable.getIntrinsicHeight()) / 2);
+                int intrinsicWidth2 = this.lock2Left + Theme.dialogs_lock2Drawable.getIntrinsicWidth();
+                int i29 = this.timeTop;
+                CachedStaticLayout cachedStaticLayout4 = this.timeLayout;
+                drawable.setBounds(i27, height, intrinsicWidth2, i29 + (((cachedStaticLayout4 == null ? 0 : cachedStaticLayout4.layout.getHeight()) - Theme.dialogs_lock2Drawable.getIntrinsicHeight()) / 2) + Theme.dialogs_lock2Drawable.getIntrinsicHeight());
                 Theme.dialogs_lock2Drawable.draw(canvas);
             } else {
                 i8 = 2;
@@ -4692,8 +4800,8 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 canvas.save();
                 canvas.translate(this.messageNameLeft, this.messageNameTop);
                 try {
-                    SpoilerEffect.layoutDrawMaybe(this.messageNameLayout, canvas);
-                    staticLayout = this.messageNameLayout;
+                    this.messageNameLayout.draw(canvas);
+                    cachedStaticLayout = this.messageNameLayout;
                     i10 = 0;
                     i9 = 1;
                     f5 = 0.0f;
@@ -4704,7 +4812,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                     i10 = 0;
                 }
                 try {
-                    AnimatedEmojiSpan.drawAnimatedEmojis(canvas, staticLayout, this.animatedEmojiStack2, -0.075f, null, 0.0f, 0.0f, 0.0f, 1.0f, getAdaptiveEmojiColorFilter(i18, staticLayout.getPaint().getColor()));
+                    AnimatedEmojiSpan.drawAnimatedEmojis(canvas, cachedStaticLayout.layout, this.animatedEmojiStack2, -0.075f, null, 0.0f, 0.0f, 0.0f, 1.0f, getAdaptiveEmojiColorFilter(i18, cachedStaticLayout.getPaint().getColor()));
                 } catch (Exception e2) {
                     e = e2;
                     FileLog.e(e);
@@ -4788,26 +4896,26 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 if (this.currentDialogFolderId != 0) {
                     if (this.chat != null) {
                         TextPaint[] textPaintArr4 = Theme.dialogs_messagePaint;
-                        int i27 = this.paintIndex;
-                        TextPaint textPaint10 = textPaintArr4[i27];
-                        TextPaint textPaint11 = textPaintArr4[i27];
+                        int i30 = this.paintIndex;
+                        TextPaint textPaint10 = textPaintArr4[i30];
+                        TextPaint textPaint11 = textPaintArr4[i30];
                         int color10 = Theme.getColor(Theme.key_chats_nameMessageArchived, this.resourcesProvider);
                         textPaint11.linkColor = color10;
                         textPaint10.setColor(color10);
                     } else {
                         TextPaint[] textPaintArr5 = Theme.dialogs_messagePaint;
-                        int i28 = this.paintIndex;
-                        TextPaint textPaint12 = textPaintArr5[i28];
-                        TextPaint textPaint13 = textPaintArr5[i28];
+                        int i31 = this.paintIndex;
+                        TextPaint textPaint12 = textPaintArr5[i31];
+                        TextPaint textPaint13 = textPaintArr5[i31];
                         int color11 = Theme.getColor(Theme.key_chats_messageArchived, this.resourcesProvider);
                         textPaint13.linkColor = color11;
                         textPaint12.setColor(color11);
                     }
                 } else {
                     TextPaint[] textPaintArr6 = Theme.dialogs_messagePaint;
-                    int i29 = this.paintIndex;
-                    TextPaint textPaint14 = textPaintArr6[i29];
-                    TextPaint textPaint15 = textPaintArr6[i29];
+                    int i32 = this.paintIndex;
+                    TextPaint textPaint14 = textPaintArr6[i32];
+                    TextPaint textPaint15 = textPaintArr6[i32];
                     int color12 = Theme.getColor(Theme.key_chats_message, this.resourcesProvider);
                     textPaint15.linkColor = color12;
                     textPaint14.setColor(color12);
@@ -4825,28 +4933,28 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 if (this.updateHelper.typingProgres != 1.0f) {
                     canvas.save();
                     canvas.translate(this.messageLeft, f7);
-                    int alpha = this.messageLayout.getPaint().getAlpha();
-                    this.messageLayout.getPaint().setAlpha((int) (alpha * (1.0f - this.updateHelper.typingProgres)));
+                    int alpha = this.messageLayout.layout.getPaint().getAlpha();
+                    this.messageLayout.layout.getPaint().setAlpha((int) (alpha * (1.0f - this.updateHelper.typingProgres)));
                     if (!this.spoilers.isEmpty()) {
                         try {
                             canvas.save();
                             SpoilerEffect.clipOutCanvas(canvas, this.spoilers);
-                            SpoilerEffect.layoutDrawMaybe(this.messageLayout, canvas);
-                            StaticLayout staticLayout4 = this.messageLayout;
-                            AnimatedEmojiSpan.drawAnimatedEmojis(canvas, staticLayout4, this.animatedEmojiStack, -0.075f, this.spoilers, 0.0f, 0.0f, 0.0f, 1.0f, getAdaptiveEmojiColorFilter(i8, staticLayout4.getPaint().getColor()));
+                            this.messageLayout.draw(canvas);
+                            CachedStaticLayout cachedStaticLayout5 = this.messageLayout;
+                            AnimatedEmojiSpan.drawAnimatedEmojis(canvas, cachedStaticLayout5.layout, this.animatedEmojiStack, -0.075f, this.spoilers, 0.0f, 0.0f, 0.0f, 1.0f, getAdaptiveEmojiColorFilter(i8, cachedStaticLayout5.getPaint().getColor()));
                             canvas.restore();
-                            for (int i30 = 0; i30 < this.spoilers.size(); i30++) {
-                                SpoilerEffect spoilerEffect = this.spoilers.get(i30);
-                                spoilerEffect.setColor(this.messageLayout.getPaint().getColor());
+                            for (int i33 = 0; i33 < this.spoilers.size(); i33++) {
+                                SpoilerEffect spoilerEffect = this.spoilers.get(i33);
+                                spoilerEffect.setColor(this.messageLayout.layout.getPaint().getColor());
                                 spoilerEffect.draw(canvas);
                             }
                         } catch (Exception e3) {
                             FileLog.e(e3);
                         }
                     } else {
-                        SpoilerEffect.layoutDrawMaybe(this.messageLayout, canvas);
-                        StaticLayout staticLayout5 = this.messageLayout;
-                        AnimatedEmojiSpan.drawAnimatedEmojis(canvas, staticLayout5, this.animatedEmojiStack, -0.075f, null, 0.0f, 0.0f, 0.0f, 1.0f, getAdaptiveEmojiColorFilter(i8, staticLayout5.getPaint().getColor()));
+                        this.messageLayout.draw(canvas);
+                        CachedStaticLayout cachedStaticLayout6 = this.messageLayout;
+                        AnimatedEmojiSpan.drawAnimatedEmojis(canvas, cachedStaticLayout6.layout, this.animatedEmojiStack, -0.075f, null, 0.0f, 0.0f, 0.0f, 1.0f, getAdaptiveEmojiColorFilter(i8, cachedStaticLayout6.getPaint().getColor()));
                     }
                     this.messageLayout.getPaint().setAlpha(alpha);
                     canvas.restore();
@@ -4862,25 +4970,25 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                     f8 -= AndroidUtilities.dp(isForumCell() ? 10.0f : 11.0f);
                 }
                 canvas.translate(this.typingLeft, f8);
-                StaticLayout staticLayout6 = this.typingLayout;
-                if (staticLayout6 != null && this.updateHelper.typingProgres > f5) {
-                    int alpha2 = staticLayout6.getPaint().getAlpha();
+                CachedStaticLayout cachedStaticLayout7 = this.typingLayout;
+                if (cachedStaticLayout7 != null && this.updateHelper.typingProgres > f5) {
+                    int alpha2 = cachedStaticLayout7.getPaint().getAlpha();
                     this.typingLayout.getPaint().setAlpha((int) (alpha2 * this.updateHelper.typingProgres));
                     this.typingLayout.draw(canvas);
                     this.typingLayout.getPaint().setAlpha(alpha2);
                 }
                 canvas.restore();
                 if (this.typingLayout != null) {
-                    int i31 = this.printingStringType;
-                    if (i31 < 0) {
+                    int i34 = this.printingStringType;
+                    if (i34 < 0) {
                         DialogUpdateHelper dialogUpdateHelper3 = this.updateHelper;
                         if (dialogUpdateHelper3.typingProgres > f5) {
                         }
                     }
-                    if (i31 < 0) {
-                        i31 = this.updateHelper.lastKnownTypingType;
+                    if (i34 < 0) {
+                        i34 = this.updateHelper.lastKnownTypingType;
                     }
-                    StatusDrawable chatStatusDrawable = Theme.getChatStatusDrawable(i31);
+                    StatusDrawable chatStatusDrawable = Theme.getChatStatusDrawable(i34);
                     if (chatStatusDrawable != null) {
                         canvas.save();
                         chatStatusDrawable.setColor(ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_chats_actionMessage), (int) (Color.alpha(color3) * this.updateHelper.typingProgres)));
@@ -4894,8 +5002,8 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                             f9 -= AndroidUtilities.dp(isForumCell() ? 10.0f : 11.0f);
                         }
                         i11 = 4;
-                        if (i31 == i9 || i31 == 4) {
-                            canvas.translate(this.statusDrawableLeft, f9 + (i31 == i9 ? AndroidUtilities.dp(1.0f) : 0));
+                        if (i34 == i9 || i34 == 4) {
+                            canvas.translate(this.statusDrawableLeft, f9 + (i34 == i9 ? AndroidUtilities.dp(1.0f) : 0));
                         } else {
                             canvas.translate(this.statusDrawableLeft, f9 + ((AndroidUtilities.dp(18.0f) - chatStatusDrawable.getIntrinsicHeight()) / 2.0f));
                         }
@@ -4933,31 +5041,31 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                     this.canvasButton.setColor(ColorUtils.setAlphaComponent(this.currentMessagePaint.getColor(), Theme.isCurrentThemeDark() ? 36 : 26));
                     if (!this.buttonCreated) {
                         this.canvasButton.rewind();
-                        int i32 = this.topMessageTopicEndIndex;
-                        if (i32 != this.topMessageTopicStartIndex && i32 > 0) {
+                        int i35 = this.topMessageTopicEndIndex;
+                        if (i35 != this.topMessageTopicStartIndex && i35 > 0) {
                             float f16 = this.messageTop;
                             if (((!this.useForceThreeLines && !SharedConfig.useThreeLinesLayout) || isForumCell()) && hasTags()) {
                                 f16 -= AndroidUtilities.dp(isForumCell() ? 10.0f : 11.0f);
                             }
                             RectF rectF3 = AndroidUtilities.rectTmp;
-                            StaticLayout staticLayout7 = this.messageLayout;
-                            rectF3.set(this.messageLeft + AndroidUtilities.dp(2.0f) + this.messageLayout.getPrimaryHorizontal(i10), f16, (this.messageLeft + staticLayout7.getPrimaryHorizontal(Math.min(staticLayout7.getText().length(), this.topMessageTopicEndIndex))) - AndroidUtilities.dp(3.0f), this.buttonTop - AndroidUtilities.dp(4.0f));
+                            CachedStaticLayout cachedStaticLayout8 = this.messageLayout;
+                            rectF3.set(this.messageLeft + AndroidUtilities.dp(2.0f) + this.messageLayout.layout.getPrimaryHorizontal(i10), f16, (this.messageLeft + cachedStaticLayout8.layout.getPrimaryHorizontal(Math.min(cachedStaticLayout8.getText().length(), this.topMessageTopicEndIndex))) - AndroidUtilities.dp(3.0f), this.buttonTop - AndroidUtilities.dp(4.0f));
                             rectF3.inset(-AndroidUtilities.dp(8.0f), -AndroidUtilities.dp(4.0f));
                             if (rectF3.right > rectF3.left) {
                                 this.canvasButton.addRect(rectF3);
                             }
                         }
-                        float lineLeft = this.buttonLayout.getLineLeft(i10);
+                        float lineLeft = this.buttonLayout.layout.getLineLeft(i10);
                         RectF rectF4 = AndroidUtilities.rectTmp;
-                        rectF4.set(this.buttonLeft + lineLeft + AndroidUtilities.dp(2.0f), this.buttonTop + AndroidUtilities.dp(2.0f), this.buttonLeft + lineLeft + this.buttonLayout.getLineWidth(i10) + AndroidUtilities.dp(12.0f), this.buttonTop + this.buttonLayout.getHeight());
+                        rectF4.set(this.buttonLeft + lineLeft + AndroidUtilities.dp(2.0f), this.buttonTop + AndroidUtilities.dp(2.0f), this.buttonLeft + lineLeft + this.buttonLayout.layout.getLineWidth(i10) + AndroidUtilities.dp(12.0f), this.buttonTop + this.buttonLayout.layout.getHeight());
                         rectF4.inset(-AndroidUtilities.dp(8.0f), -AndroidUtilities.dp(3.0f));
                         this.canvasButton.addRect(rectF4);
                     }
                     this.canvasButton.draw(canvas);
                     Theme.dialogs_forum_arrowDrawable.setAlpha(125);
-                    Drawable drawable = Theme.dialogs_forum_arrowDrawable;
+                    Drawable drawable2 = Theme.dialogs_forum_arrowDrawable;
                     RectF rectF5 = AndroidUtilities.rectTmp;
-                    BaseCell.setDrawableBounds(drawable, rectF5.right - AndroidUtilities.dp(18.0f), rectF5.top + ((rectF5.height() - Theme.dialogs_forum_arrowDrawable.getIntrinsicHeight()) / 2.0f));
+                    BaseCell.setDrawableBounds(drawable2, rectF5.right - AndroidUtilities.dp(18.0f), rectF5.top + ((rectF5.height() - Theme.dialogs_forum_arrowDrawable.getIntrinsicHeight()) / 2.0f));
                     Theme.dialogs_forum_arrowDrawable.draw(canvas);
                 }
                 canvas.translate(this.buttonLeft, this.buttonTop);
@@ -4965,12 +5073,12 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                     try {
                         canvas.save();
                         SpoilerEffect.clipOutCanvas(canvas, this.spoilers2);
-                        SpoilerEffect.layoutDrawMaybe(this.buttonLayout, canvas);
-                        StaticLayout staticLayout8 = this.buttonLayout;
-                        AnimatedEmojiSpan.drawAnimatedEmojis(canvas, staticLayout8, this.animatedEmojiStack3, -0.075f, this.spoilers2, 0.0f, 0.0f, 0.0f, 1.0f, getAdaptiveEmojiColorFilter(3, staticLayout8.getPaint().getColor()));
+                        this.buttonLayout.draw(canvas);
+                        CachedStaticLayout cachedStaticLayout9 = this.buttonLayout;
+                        AnimatedEmojiSpan.drawAnimatedEmojis(canvas, cachedStaticLayout9.layout, this.animatedEmojiStack3, -0.075f, this.spoilers2, 0.0f, 0.0f, 0.0f, 1.0f, getAdaptiveEmojiColorFilter(3, cachedStaticLayout9.getPaint().getColor()));
                         canvas.restore();
-                        for (int i33 = 0; i33 < this.spoilers2.size(); i33++) {
-                            SpoilerEffect spoilerEffect2 = this.spoilers2.get(i33);
+                        for (int i36 = 0; i36 < this.spoilers2.size(); i36++) {
+                            SpoilerEffect spoilerEffect2 = this.spoilers2.get(i36);
                             spoilerEffect2.setColor(this.buttonLayout.getPaint().getColor());
                             spoilerEffect2.draw(canvas);
                         }
@@ -4978,30 +5086,30 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                         FileLog.e(e4);
                     }
                 } else {
-                    SpoilerEffect.layoutDrawMaybe(this.buttonLayout, canvas);
-                    StaticLayout staticLayout9 = this.buttonLayout;
-                    AnimatedEmojiSpan.drawAnimatedEmojis(canvas, staticLayout9, this.animatedEmojiStack3, -0.075f, null, 0.0f, 0.0f, 0.0f, 1.0f, getAdaptiveEmojiColorFilter(3, staticLayout9.getPaint().getColor()));
+                    this.buttonLayout.draw(canvas);
+                    CachedStaticLayout cachedStaticLayout10 = this.buttonLayout;
+                    AnimatedEmojiSpan.drawAnimatedEmojis(canvas, cachedStaticLayout10.layout, this.animatedEmojiStack3, -0.075f, null, 0.0f, 0.0f, 0.0f, 1.0f, getAdaptiveEmojiColorFilter(3, cachedStaticLayout10.getPaint().getColor()));
                 }
                 canvas.restore();
             }
             if (this.currentDialogFolderId != 0) {
-                int i34 = (this.drawClock ? 1 : 0) + (this.drawCheck1 ? 2 : 0) + (this.drawCheck2 ? 4 : 0);
-                int i35 = this.lastStatusDrawableParams;
-                if (i35 >= 0 && i35 != i34 && !this.statusDrawableAnimationInProgress) {
-                    createStatusDrawableAnimator(i35, i34);
+                int i37 = (this.drawClock ? 1 : 0) + (this.drawCheck1 ? 2 : 0) + (this.drawCheck2 ? 4 : 0);
+                int i38 = this.lastStatusDrawableParams;
+                if (i38 >= 0 && i38 != i37 && !this.statusDrawableAnimationInProgress) {
+                    createStatusDrawableAnimator(i38, i37);
                 }
                 boolean z5 = this.statusDrawableAnimationInProgress;
                 if (z5) {
-                    i34 = this.animateToStatusDrawableParams;
+                    i37 = this.animateToStatusDrawableParams;
                 }
-                boolean z6 = (i34 & 1) != 0;
-                boolean z7 = (i34 & 2) != 0;
-                boolean z8 = (i34 & i11) != 0;
+                boolean z6 = (i37 & 1) != 0;
+                boolean z7 = (i37 & 2) != 0;
+                boolean z8 = (i37 & i11) != 0;
                 if (z5) {
-                    int i36 = this.animateFromStatusDrawableParams;
-                    boolean z9 = (i36 & 1) != 0;
-                    boolean z10 = (i36 & 2) != 0;
-                    boolean z11 = (i36 & i11) != 0;
+                    int i39 = this.animateFromStatusDrawableParams;
+                    boolean z9 = (i39 & 1) != 0;
+                    boolean z10 = (i39 & 2) != 0;
+                    boolean z11 = (i39 & i11) != 0;
                     if (!z6 && !z9 && z11 && !z10 && z7 && z8) {
                         drawCheckStatus(canvas, z6, z7, z8, true, this.statusDrawableProgress);
                         f2 = 0.0f;
@@ -5119,9 +5227,9 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                     this.emojiStatus.setColor(Integer.valueOf(Theme.getColor(Theme.key_chats_verifiedBackground, this.resourcesProvider)));
                     this.emojiStatus.draw(canvas);
                 } else {
-                    Drawable drawable2 = PremiumGradient.getInstance().premiumStarDrawableMini;
-                    BaseCell.setDrawableBounds(drawable2, this.nameMuteLeft - AndroidUtilities.dp(f3), AndroidUtilities.dp((this.useForceThreeLines || SharedConfig.useThreeLinesLayout) ? 12.5f : 15.5f));
-                    drawable2.draw(canvas);
+                    Drawable drawable3 = PremiumGradient.getInstance().premiumStarDrawableMini;
+                    BaseCell.setDrawableBounds(drawable3, this.nameMuteLeft - AndroidUtilities.dp(f3), AndroidUtilities.dp((this.useForceThreeLines || SharedConfig.useThreeLinesLayout) ? 12.5f : 15.5f));
+                    drawable3.draw(canvas);
                 }
             } else if (this.drawScam != 0) {
                 int dp11 = AndroidUtilities.dp((this.useForceThreeLines || SharedConfig.useThreeLinesLayout) ? 12.0f : 15.0f);
@@ -5206,9 +5314,9 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                             }
                             canvas2.translate(f2, dp3 * f6);
                         }
-                        int i37 = 0;
-                        while (i37 < this.thumbsCount) {
-                            if (this.thumbImageSeen[i37]) {
+                        int i40 = 0;
+                        while (i40 < this.thumbsCount) {
+                            if (this.thumbImageSeen[i40]) {
                                 if (this.thumbBackgroundPaint == null) {
                                     Paint paint9 = new Paint(i18);
                                     this.thumbBackgroundPaint = paint9;
@@ -5216,31 +5324,31 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                                     this.thumbBackgroundPaint.setColor(0);
                                 }
                                 RectF rectF9 = AndroidUtilities.rectTmp;
-                                rectF9.set(this.thumbImage[i37].getImageX(), this.thumbImage[i37].getImageY(), this.thumbImage[i37].getImageX2(), this.thumbImage[i37].getImageY2());
-                                canvas2.drawRoundRect(rectF9, this.thumbImage[i37].getRoundRadius()[0], this.thumbImage[i37].getRoundRadius()[i18], this.thumbBackgroundPaint);
-                                this.thumbImage[i37].draw(canvas2);
-                                if (this.drawSpoiler[i37]) {
+                                rectF9.set(this.thumbImage[i40].getImageX(), this.thumbImage[i40].getImageY(), this.thumbImage[i40].getImageX2(), this.thumbImage[i40].getImageY2());
+                                canvas2.drawRoundRect(rectF9, this.thumbImage[i40].getRoundRadius()[0], this.thumbImage[i40].getRoundRadius()[i18], this.thumbBackgroundPaint);
+                                this.thumbImage[i40].draw(canvas2);
+                                if (this.drawSpoiler[i40]) {
                                     Path path = this.thumbPath;
                                     if (path == null) {
                                         this.thumbPath = new Path();
                                     } else {
                                         path.rewind();
                                     }
-                                    this.thumbPath.addRoundRect(rectF9, this.thumbImage[i37].getRoundRadius()[0], this.thumbImage[i37].getRoundRadius()[i18], Path.Direction.CW);
+                                    this.thumbPath.addRoundRect(rectF9, this.thumbImage[i40].getRoundRadius()[0], this.thumbImage[i40].getRoundRadius()[i18], Path.Direction.CW);
                                     canvas.save();
                                     canvas2.clipPath(this.thumbPath);
                                     this.thumbSpoiler.setColor(ColorUtils.setAlphaComponent(-1, (int) (Color.alpha(i7) * 0.325f)));
-                                    this.thumbSpoiler.setBounds((int) this.thumbImage[i37].getImageX(), (int) this.thumbImage[i37].getImageY(), (int) this.thumbImage[i37].getImageX2(), (int) this.thumbImage[i37].getImageY2());
+                                    this.thumbSpoiler.setBounds((int) this.thumbImage[i40].getImageX(), (int) this.thumbImage[i40].getImageY(), (int) this.thumbImage[i40].getImageX2(), (int) this.thumbImage[i40].getImageY2());
                                     this.thumbSpoiler.draw(canvas2);
                                     invalidate();
                                     canvas.restore();
                                 }
-                                if (this.drawPlay[i37]) {
-                                    BaseCell.setDrawableBounds(Theme.dialogs_playDrawable, (int) (this.thumbImage[i37].getCenterX() - (Theme.dialogs_playDrawable.getIntrinsicWidth() / 2)), (int) (this.thumbImage[i37].getCenterY() - (Theme.dialogs_playDrawable.getIntrinsicHeight() / 2)));
+                                if (this.drawPlay[i40]) {
+                                    BaseCell.setDrawableBounds(Theme.dialogs_playDrawable, (int) (this.thumbImage[i40].getCenterX() - (Theme.dialogs_playDrawable.getIntrinsicWidth() / 2)), (int) (this.thumbImage[i40].getCenterY() - (Theme.dialogs_playDrawable.getIntrinsicHeight() / 2)));
                                     Theme.dialogs_playDrawable.draw(canvas2);
                                 }
                             }
-                            i37++;
+                            i40++;
                             i7 = -1;
                         }
                         i13 = -1;
@@ -5983,10 +6091,10 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
             paint = (z || this.currentDialogFolderId != 0) ? Theme.dialogs_countGrayPaint : Theme.dialogs_countPaint;
             z3 = false;
         }
-        StaticLayout staticLayout = this.countOldLayout;
-        if (staticLayout == null || this.unreadCount == 0) {
+        CachedStaticLayout cachedStaticLayout = this.countOldLayout;
+        if (cachedStaticLayout == null || this.unreadCount == 0) {
             if (this.unreadCount != 0) {
-                staticLayout = this.countLayout;
+                cachedStaticLayout = this.countLayout;
             }
             paint.setAlpha((int) ((1.0f - this.reorderIconProgress) * i4));
             Theme.dialogs_countTextPaint.setAlpha((int) ((1.0f - this.reorderIconProgress) * 255.0f));
@@ -6030,10 +6138,10 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                     canvas.drawRoundRect(this.rect, AndroidUtilities.dp(11.5f), AndroidUtilities.dp(11.5f), this.counterPaintOutline);
                 }
             }
-            if (staticLayout != null) {
+            if (cachedStaticLayout != null) {
                 canvas.save();
                 canvas.translate(i2, i + AndroidUtilities.dp(4.0f));
-                staticLayout.draw(canvas);
+                cachedStaticLayout.draw(canvas);
                 canvas.restore();
             }
             canvas.restoreToCount(save);
@@ -6349,8 +6457,8 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 }
                 sb2.append(captionMessage.caption);
             }
-            StaticLayout staticLayout = this.messageLayout;
-            int length = staticLayout == null ? -1 : staticLayout.getText().length();
+            CachedStaticLayout cachedStaticLayout = this.messageLayout;
+            int length = cachedStaticLayout == null ? -1 : cachedStaticLayout.getText().length();
             if (length > 0) {
                 int length2 = sb2.length();
                 int indexOf = sb2.indexOf("\n", length);
@@ -7076,7 +7184,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
         }
     }
 
-    @Override // android.view.View
+    @Override // org.telegram.ui.Cells.BaseCell, android.view.View
     public void invalidate() {
         if (StoryViewer.animationInProgress) {
             return;
@@ -7240,5 +7348,10 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
             }
             invalidate();
         }
+    }
+
+    @Override // org.telegram.ui.Cells.BaseCell
+    protected boolean allowCaching() {
+        return this.rightFragmentOpenedProgress <= 0.0f;
     }
 }

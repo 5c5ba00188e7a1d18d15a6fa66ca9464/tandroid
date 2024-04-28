@@ -60,6 +60,7 @@ import org.telegram.ui.Components.FloatingDebug.FloatingDebugController;
 import org.telegram.ui.Components.FloatingDebug.FloatingDebugProvider;
 import org.telegram.ui.Components.Paint.ShapeDetector;
 import org.telegram.ui.Components.SharedMediaLayout;
+import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.ProfileActivity;
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
 /* loaded from: classes3.dex */
@@ -245,8 +246,8 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
 
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout
-            public void drawList(Canvas canvas, boolean z) {
-                MediaActivity.this.sharedMediaLayout.drawListForBlur(canvas);
+            public void drawList(Canvas canvas, boolean z, ArrayList<SizeNotifierFrameLayout.IViewWithInvalidateCallback> arrayList) {
+                MediaActivity.this.sharedMediaLayout.drawListForBlur(canvas, arrayList);
             }
         };
         sizeNotifierFrameLayout2.needBlur = true;
