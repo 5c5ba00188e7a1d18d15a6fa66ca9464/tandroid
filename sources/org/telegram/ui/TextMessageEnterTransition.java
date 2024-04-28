@@ -112,7 +112,7 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
         this.drawBitmaps = false;
         this.resourcesProvider = resourcesProvider;
         int i4 = UserConfig.selectedAccount;
-        if (chatMessageCell.getMessageObject().textLayoutBlocks == null || chatMessageCell.getMessageObject().textLayoutBlocks.size() > 1 || chatMessageCell.getMessageObject().textLayoutBlocks.isEmpty() || chatMessageCell.getMessageObject().textLayoutBlocks.get(0).textLayout.layout.getLineCount() > 10) {
+        if (chatMessageCell.getMessageObject().textLayoutBlocks == null || chatMessageCell.getMessageObject().textLayoutBlocks.size() > 1 || chatMessageCell.getMessageObject().textLayoutBlocks.isEmpty() || chatMessageCell.getMessageObject().textLayoutBlocks.get(0).textLayout.getLineCount() > 10) {
             return;
         }
         this.messageView = chatMessageCell;
@@ -237,7 +237,7 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
         this.drawableFromBottom = y + chatActivityEnterView.getEditField().getMeasuredHeight();
         MessageObject.TextLayoutBlock textLayoutBlock = chatMessageCell.getMessageObject().textLayoutBlocks.get(0);
         this.textLayoutBlock = textLayoutBlock;
-        StaticLayout staticLayout = textLayoutBlock.textLayout.layout;
+        StaticLayout staticLayout = textLayoutBlock.textLayout;
         int i6 = Theme.key_chat_messageTextOut;
         double calculateLuminance = ColorUtils.calculateLuminance(getThemedColor(i6));
         int i7 = Theme.key_chat_messagePanelText;
@@ -293,7 +293,7 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
                 this.rtlLayout = new StaticLayout(spannableString2, textPaint2, width, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
             }
         }
-        this.toXOffsetRtl = this.layout.getWidth() - chatMessageCell.getMessageObject().textLayoutBlocks.get(0).textLayout.layout.getWidth();
+        this.toXOffsetRtl = this.layout.getWidth() - chatMessageCell.getMessageObject().textLayoutBlocks.get(0).textLayout.getWidth();
         try {
             if (this.drawBitmaps) {
                 this.textLayoutBitmap = Bitmap.createBitmap(this.layout.getWidth(), this.layout.getHeight(), Bitmap.Config.ARGB_8888);
@@ -341,9 +341,9 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
         this.messageId = chatMessageCell.getMessageObject().stableId;
         chatActivityEnterView.getEditField().setAlpha(0.0f);
         chatActivityEnterView.setTextTransitionIsRunning(true);
-        CachedStaticLayout cachedStaticLayout = chatMessageCell.replyNameLayout;
-        if (cachedStaticLayout != null && cachedStaticLayout.getText().length() > 1 && chatMessageCell.replyNameLayout.layout.getPrimaryHorizontal(0) != 0.0f) {
-            this.replyNameDx = chatMessageCell.replyNameLayout.layout.getWidth() - chatMessageCell.replyNameLayout.layout.getLineWidth(0);
+        StaticLayout staticLayout3 = chatMessageCell.replyNameLayout;
+        if (staticLayout3 != null && staticLayout3.getText().length() > 1 && chatMessageCell.replyNameLayout.getPrimaryHorizontal(0) != 0.0f) {
+            this.replyNameDx = chatMessageCell.replyNameLayout.getWidth() - chatMessageCell.replyNameLayout.getLineWidth(0);
         }
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
         this.animator = ofFloat;
@@ -438,7 +438,7 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
         float f19;
         float f20;
         float f21;
-        CachedStaticLayout cachedStaticLayout;
+        StaticLayout staticLayout;
         float f22;
         float f23;
         Drawable drawable;
@@ -686,7 +686,7 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
                 float lerp4 = AndroidUtilities.lerp(lerp, this.replySelectorRect.left + AndroidUtilities.dp(8.0f), f6);
                 float f35 = this.replySelectorRect.top;
                 ChatMessageCell chatMessageCell5 = this.messageView;
-                imageReceiver.setImageCoords(lerp4, AndroidUtilities.lerp(lerp2, f35 + AndroidUtilities.dp(((!chatMessageCell5.isReplyQuote || (cachedStaticLayout = chatMessageCell5.replyTextLayout) == null || cachedStaticLayout.layout.getLineCount() > 1) ? 0 : 2) + 5), f6), lerp3, lerp3);
+                imageReceiver.setImageCoords(lerp4, AndroidUtilities.lerp(lerp2, f35 + AndroidUtilities.dp(((!chatMessageCell5.isReplyQuote || (staticLayout = chatMessageCell5.replyTextLayout) == null || staticLayout.getLineCount() > 1) ? 0 : 2) + 5), f6), lerp3, lerp3);
                 this.messageView.replyImageReceiver.draw(canvas);
                 canvas.restore();
                 f17 = lerp3;
@@ -756,7 +756,7 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
                 }
                 ChatMessageCell chatMessageCell12 = this.messageView;
                 if (chatMessageCell12.replyTextRTL && chatMessageCell12.replyTextOffset > 0) {
-                    dp4 = ((this.replySelectorRect.right - AndroidUtilities.dp(8.0f)) - this.messageView.replyTextLayout.layout.getWidth()) - f36;
+                    dp4 = ((this.replySelectorRect.right - AndroidUtilities.dp(8.0f)) - this.messageView.replyTextLayout.getWidth()) - f36;
                 }
                 canvas.translate(AndroidUtilities.lerp(f34 - this.messageView.replyTextOffset, dp4, f6), lerp2 + AndroidUtilities.lerp(AndroidUtilities.dp(19.0f), Theme.chat_replyNamePaint.getTextSize() + AndroidUtilities.dp(4.0f) + dp3, f6));
                 canvas.save();
@@ -764,7 +764,7 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
                 ChatMessageCell chatMessageCell13 = this.messageView;
                 f12 = f21;
                 f11 = f30;
-                AnimatedEmojiSpan.drawAnimatedEmojis(canvas, chatMessageCell13.replyTextLayout.layout, chatMessageCell13.animatedEmojiReplyStack, 0.0f, chatMessageCell13.replySpoilers, 0.0f, 0.0f, 0.0f, 1.0f);
+                AnimatedEmojiSpan.drawAnimatedEmojis(canvas, chatMessageCell13.replyTextLayout, chatMessageCell13.animatedEmojiReplyStack, 0.0f, chatMessageCell13.replySpoilers, 0.0f, 0.0f, 0.0f, 1.0f);
                 this.messageView.replyTextLayout.draw(canvas);
                 canvas.restore();
                 for (SpoilerEffect spoilerEffect : this.messageView.replySpoilers) {

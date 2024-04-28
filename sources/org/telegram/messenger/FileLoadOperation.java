@@ -1081,7 +1081,7 @@ public class FileLoadOperation {
     /* JADX WARN: Removed duplicated region for block: B:358:0x0941  */
     /* JADX WARN: Removed duplicated region for block: B:407:0x069a A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r1v41 */
-    /* JADX WARN: Type inference failed for: r1v42, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r1v42, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r1v46 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -3099,7 +3099,7 @@ public class FileLoadOperation {
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:59:0x00c3  */
     /* JADX WARN: Type inference failed for: r11v0 */
-    /* JADX WARN: Type inference failed for: r11v1, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r11v1, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r11v11 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

@@ -3245,7 +3245,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     /* JADX WARN: Type inference failed for: r0v235, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, org.telegram.ui.Components.RecyclerListView] */
     /* JADX WARN: Type inference failed for: r0v30, types: [org.telegram.ui.ActionBar.ActionBar] */
     /* JADX WARN: Type inference failed for: r13v0 */
-    /* JADX WARN: Type inference failed for: r13v1, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r13v1, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r13v4 */
     /* JADX WARN: Type inference failed for: r2v85, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, org.telegram.ui.Components.RecyclerListView] */
     /* JADX WARN: Type inference failed for: r2v86, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, org.telegram.ui.Components.RecyclerListView] */
@@ -3256,7 +3256,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     /* JADX WARN: Type inference failed for: r2v95, types: [androidx.recyclerview.widget.LinearLayoutManager] */
     /* JADX WARN: Type inference failed for: r3v49, types: [android.graphics.drawable.BitmapDrawable] */
     /* JADX WARN: Type inference failed for: r7v0 */
-    /* JADX WARN: Type inference failed for: r7v1, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r7v1, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r7v11 */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
@@ -3753,7 +3753,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
             int i15 = i14;
             int i16 = i13;
-            final ContentView contentView2 = contentView;
+            ContentView contentView2 = contentView;
             viewPage.dialogsAdapter = new DialogsAdapter(this, context, viewPage.dialogsType, this.folderId, this.onlySelect, this.selectedDialogs, this.currentAccount, this.requestPeerType) { // from class: org.telegram.ui.DialogsActivity.15
                 @Override // org.telegram.ui.Adapters.DialogsAdapter, androidx.recyclerview.widget.RecyclerView.Adapter
                 public void notifyDataSetChanged() {
@@ -3816,10 +3816,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     if (dialogsActivity.hasStories) {
                         dialogsActivity.invalidateScrollY = true;
                         DialogsActivity.this.fragmentView.invalidate();
-                    }
-                    ContentView contentView3 = contentView2;
-                    if (contentView3 != null) {
-                        contentView3.updateBlurContent();
                     }
                 }
             });
@@ -5483,10 +5479,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     dialogsActivity.checkListLoad(dialogsActivity.viewPages[0]);
                     DialogsActivity.this.viewPages[0].dialogsAdapter.resume();
                     DialogsActivity.this.viewPages[1].dialogsAdapter.pause();
-                }
-                View view = DialogsActivity.this.fragmentView;
-                if (view instanceof SizeNotifierFrameLayout) {
-                    ((SizeNotifierFrameLayout) view).updateBlurContent();
                 }
             }
         }

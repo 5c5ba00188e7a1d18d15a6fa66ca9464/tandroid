@@ -1784,7 +1784,8 @@ public class SharedConfig {
     }
 
     public static boolean canBlurChat() {
-        return getDevicePerformanceClass() >= (Build.VERSION.SDK_INT >= 31 ? 1 : 2);
+        getDevicePerformanceClass();
+        return true;
     }
 
     public static boolean chatBlurEnabled() {
