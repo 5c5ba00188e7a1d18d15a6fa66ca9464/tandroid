@@ -10,7 +10,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import org.telegram.messenger.FileLog;
-/* loaded from: classes4.dex */
+/* loaded from: classes.dex */
 class MediaCodecUtils {
     static final String EXYNOS_PREFIX = "OMX.Exynos.";
     static final String EXYNOS_PREFIX_C2 = "c2.exynos.";
@@ -85,7 +85,7 @@ class MediaCodecUtils {
         return false;
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes.dex */
     static /* synthetic */ class 1 {
         static final /* synthetic */ int[] $SwitchMap$org$webrtc$VideoCodecMimeType;
 

@@ -350,9 +350,9 @@ public final class Cea708Decoder extends CeaDecoder {
                     return;
                 }
             case 152:
-            case MessagesStorage.LAST_DB_VERSION /* 153 */:
+            case 153:
             case 154:
-            case 155:
+            case MessagesStorage.LAST_DB_VERSION /* 155 */:
             case 156:
             case 157:
             case 158:

@@ -61,7 +61,10 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$BotApp;
+import org.telegram.tgnet.TLRPC$InputInvoice;
 import org.telegram.tgnet.TLRPC$InputPeer;
+import org.telegram.tgnet.TLRPC$PaymentForm;
+import org.telegram.tgnet.TLRPC$PaymentReceipt;
 import org.telegram.tgnet.TLRPC$TL_appWebViewResultUrl;
 import org.telegram.tgnet.TLRPC$TL_attachMenuBot;
 import org.telegram.tgnet.TLRPC$TL_dataJSON;
@@ -73,8 +76,7 @@ import org.telegram.tgnet.TLRPC$TL_messages_requestSimpleWebView;
 import org.telegram.tgnet.TLRPC$TL_messages_requestWebView;
 import org.telegram.tgnet.TLRPC$TL_messages_sendWebViewData;
 import org.telegram.tgnet.TLRPC$TL_messages_toggleBotInAttachMenu;
-import org.telegram.tgnet.TLRPC$TL_payments_paymentForm;
-import org.telegram.tgnet.TLRPC$TL_payments_paymentReceipt;
+import org.telegram.tgnet.TLRPC$TL_payments_paymentFormStars;
 import org.telegram.tgnet.TLRPC$TL_simpleWebViewResultUrl;
 import org.telegram.tgnet.TLRPC$TL_updates;
 import org.telegram.tgnet.TLRPC$TL_webViewResultUrl;
@@ -102,6 +104,7 @@ import org.telegram.ui.Components.VerticalPositionAutoAnimator;
 import org.telegram.ui.DialogsActivity;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PaymentFormActivity;
+import org.telegram.ui.Stars.StarsController;
 import org.telegram.ui.TopicsFragment;
 import org.telegram.ui.bots.BotWebViewContainer;
 import org.telegram.ui.bots.BotWebViewMenuContainer;
@@ -616,7 +619,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
             tLRPC$TL_messages_sendWebViewData.random_id = Utilities.random.nextLong();
             tLRPC$TL_messages_sendWebViewData.button_text = BotWebViewSheet.this.buttonText;
             tLRPC$TL_messages_sendWebViewData.data = str;
-            ConnectionsManager.getInstance(BotWebViewSheet.this.currentAccount).sendRequest(tLRPC$TL_messages_sendWebViewData, new RequestDelegate() { // from class: org.telegram.ui.bots.BotWebViewSheet$3$$ExternalSyntheticLambda3
+            ConnectionsManager.getInstance(BotWebViewSheet.this.currentAccount).sendRequest(tLRPC$TL_messages_sendWebViewData, new RequestDelegate() { // from class: org.telegram.ui.bots.BotWebViewSheet$3$$ExternalSyntheticLambda4
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     BotWebViewSheet.3.this.lambda$onSendWebViewData$0(tLObject, tLRPC$TL_error);
@@ -630,7 +633,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
                 MessagesController.getInstance(BotWebViewSheet.this.currentAccount).processUpdates((TLRPC$TL_updates) tLObject, false);
             }
             final BotWebViewSheet botWebViewSheet = BotWebViewSheet.this;
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.bots.BotWebViewSheet$3$$ExternalSyntheticLambda2
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.bots.BotWebViewSheet$3$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
                     BotWebViewSheet.this.dismiss();
@@ -702,25 +705,37 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         }
 
         @Override // org.telegram.ui.bots.BotWebViewContainer.Delegate
-        public void onWebAppOpenInvoice(final String str, TLObject tLObject) {
+        public void onWebAppOpenInvoice(TLRPC$InputInvoice tLRPC$InputInvoice, final String str, TLObject tLObject) {
             PaymentFormActivity paymentFormActivity;
             BaseFragment lastFragment = ((LaunchActivity) BotWebViewSheet.this.parentActivity).getActionBarLayout().getLastFragment();
-            if (tLObject instanceof TLRPC$TL_payments_paymentForm) {
-                TLRPC$TL_payments_paymentForm tLRPC$TL_payments_paymentForm = (TLRPC$TL_payments_paymentForm) tLObject;
-                MessagesController.getInstance(BotWebViewSheet.this.currentAccount).putUsers(tLRPC$TL_payments_paymentForm.users, false);
-                paymentFormActivity = new PaymentFormActivity(tLRPC$TL_payments_paymentForm, str, lastFragment);
+            if (tLObject instanceof TLRPC$TL_payments_paymentFormStars) {
+                AndroidUtilities.hideKeyboard(BotWebViewSheet.this.frameLayout);
+                final AlertDialog alertDialog = new AlertDialog(BotWebViewSheet.this.getContext(), 3);
+                alertDialog.showDelayed(150L);
+                StarsController.getInstance(BotWebViewSheet.this.currentAccount).openPaymentForm(tLRPC$InputInvoice, (TLRPC$TL_payments_paymentFormStars) tLObject, new Runnable() { // from class: org.telegram.ui.bots.BotWebViewSheet$3$$ExternalSyntheticLambda2
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        AlertDialog.this.dismiss();
+                    }
+                });
+                return;
+            }
+            if (tLObject instanceof TLRPC$PaymentForm) {
+                TLRPC$PaymentForm tLRPC$PaymentForm = (TLRPC$PaymentForm) tLObject;
+                MessagesController.getInstance(BotWebViewSheet.this.currentAccount).putUsers(tLRPC$PaymentForm.users, false);
+                paymentFormActivity = new PaymentFormActivity(tLRPC$PaymentForm, str, lastFragment);
             } else {
-                paymentFormActivity = tLObject instanceof TLRPC$TL_payments_paymentReceipt ? new PaymentFormActivity((TLRPC$TL_payments_paymentReceipt) tLObject) : null;
+                paymentFormActivity = tLObject instanceof TLRPC$PaymentReceipt ? new PaymentFormActivity((TLRPC$PaymentReceipt) tLObject) : null;
             }
             if (paymentFormActivity != null) {
                 BotWebViewSheet.this.swipeContainer.stickTo((-BotWebViewSheet.this.swipeContainer.getOffsetY()) + BotWebViewSheet.this.swipeContainer.getTopActionBarOffsetY());
                 AndroidUtilities.hideKeyboard(BotWebViewSheet.this.frameLayout);
                 final OverlayActionBarLayoutDialog overlayActionBarLayoutDialog = new OverlayActionBarLayoutDialog(this.val$context, this.val$resourcesProvider);
                 overlayActionBarLayoutDialog.show();
-                paymentFormActivity.setPaymentFormCallback(new PaymentFormActivity.PaymentFormCallback() { // from class: org.telegram.ui.bots.BotWebViewSheet$3$$ExternalSyntheticLambda5
+                paymentFormActivity.setPaymentFormCallback(new PaymentFormActivity.PaymentFormCallback() { // from class: org.telegram.ui.bots.BotWebViewSheet$3$$ExternalSyntheticLambda6
                     @Override // org.telegram.ui.PaymentFormActivity.PaymentFormCallback
                     public final void onInvoiceStatusChanged(PaymentFormActivity.InvoiceStatus invoiceStatus) {
-                        BotWebViewSheet.3.this.lambda$onWebAppOpenInvoice$3(overlayActionBarLayoutDialog, str, invoiceStatus);
+                        BotWebViewSheet.3.this.lambda$onWebAppOpenInvoice$4(overlayActionBarLayoutDialog, str, invoiceStatus);
                     }
                 });
                 paymentFormActivity.setResourcesProvider(this.val$resourcesProvider);
@@ -729,7 +744,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onWebAppOpenInvoice$3(OverlayActionBarLayoutDialog overlayActionBarLayoutDialog, String str, PaymentFormActivity.InvoiceStatus invoiceStatus) {
+        public /* synthetic */ void lambda$onWebAppOpenInvoice$4(OverlayActionBarLayoutDialog overlayActionBarLayoutDialog, String str, PaymentFormActivity.InvoiceStatus invoiceStatus) {
             if (invoiceStatus != PaymentFormActivity.InvoiceStatus.PENDING) {
                 overlayActionBarLayoutDialog.dismiss();
             }
@@ -771,12 +786,12 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
             DialogsActivity dialogsActivity = new DialogsActivity(bundle);
             AndroidUtilities.hideKeyboard(BotWebViewSheet.this.frameLayout);
             final OverlayActionBarLayoutDialog overlayActionBarLayoutDialog = new OverlayActionBarLayoutDialog(this.val$context, this.val$resourcesProvider);
-            dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.bots.BotWebViewSheet$3$$ExternalSyntheticLambda4
+            dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.bots.BotWebViewSheet$3$$ExternalSyntheticLambda5
                 @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
                 public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
-                    boolean lambda$onWebAppSwitchInlineQuery$4;
-                    lambda$onWebAppSwitchInlineQuery$4 = BotWebViewSheet.3.this.lambda$onWebAppSwitchInlineQuery$4(tLRPC$User, str, overlayActionBarLayoutDialog, dialogsActivity2, arrayList, charSequence, z, topicsFragment);
-                    return lambda$onWebAppSwitchInlineQuery$4;
+                    boolean lambda$onWebAppSwitchInlineQuery$5;
+                    lambda$onWebAppSwitchInlineQuery$5 = BotWebViewSheet.3.this.lambda$onWebAppSwitchInlineQuery$5(tLRPC$User, str, overlayActionBarLayoutDialog, dialogsActivity2, arrayList, charSequence, z, topicsFragment);
+                    return lambda$onWebAppSwitchInlineQuery$5;
                 }
             });
             overlayActionBarLayoutDialog.show();
@@ -784,7 +799,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ boolean lambda$onWebAppSwitchInlineQuery$4(TLRPC$User tLRPC$User, String str, OverlayActionBarLayoutDialog overlayActionBarLayoutDialog, DialogsActivity dialogsActivity, ArrayList arrayList, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
+        public /* synthetic */ boolean lambda$onWebAppSwitchInlineQuery$5(TLRPC$User tLRPC$User, String str, OverlayActionBarLayoutDialog overlayActionBarLayoutDialog, DialogsActivity dialogsActivity, ArrayList arrayList, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
             long j = ((MessagesStorage.TopicKey) arrayList.get(0)).dialogId;
             Bundle bundle = new Bundle();
             bundle.putBoolean("scrollToTopOnResume", true);
@@ -1283,7 +1298,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
                 Bundle bundle = new Bundle();
                 bundle.putLong("user_id", this.val$botId);
                 if (BotWebViewSheet.this.parentActivity instanceof LaunchActivity) {
-                    ((LaunchActivity) BotWebViewSheet.this.parentActivity).lambda$runLinkRequest$86(new ChatActivity(bundle));
+                    ((LaunchActivity) BotWebViewSheet.this.parentActivity).lambda$runLinkRequest$87(new ChatActivity(bundle));
                 }
                 BotWebViewSheet.this.dismiss();
             } else if (i == R.id.menu_tos_bot) {

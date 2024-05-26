@@ -12,6 +12,7 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
+import android.graphics.RenderNode;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.opengl.GLES20;
@@ -699,6 +700,7 @@ public class BlurringShader {
         private boolean animateBitmapChange;
         private BitmapShader bitmapShader;
         RectF bounds;
+        public final ColorMatrix colorMatrix;
         private ValueAnimator crossfadeAnimator;
         private boolean customOffset;
         private float customOffsetX;
@@ -710,6 +712,7 @@ public class BlurringShader {
         private float oldPaintAlpha;
         private boolean oldPaintSet;
         public Paint paint;
+        public RenderNode renderNode;
         private Paint[] tempPaints;
         private final View view;
         private boolean wasDark;
@@ -728,6 +731,7 @@ public class BlurringShader {
             this.view = view;
             this.animateBitmapChange = z;
             ColorMatrix colorMatrix = new ColorMatrix();
+            this.colorMatrix = colorMatrix;
             if (i == 0) {
                 AndroidUtilities.adjustSaturationColorMatrix(colorMatrix, 0.45f);
             } else if (i == 5) {

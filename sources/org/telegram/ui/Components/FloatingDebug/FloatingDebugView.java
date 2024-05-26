@@ -562,8 +562,8 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x0063  */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x0068  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x0064  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0069  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

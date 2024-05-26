@@ -1058,28 +1058,28 @@ public class FileLoadOperation {
         return start(this.stream, this.streamOffset, this.streamPriority);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:129:0x041a, code lost:
-        if (r6 != r28.cacheFileFinal.length()) goto L71;
+    /* JADX WARN: Code restructure failed: missing block: B:132:0x0423, code lost:
+        if (r6 != r28.cacheFileFinal.length()) goto L74;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:115:0x03b9  */
-    /* JADX WARN: Removed duplicated region for block: B:116:0x03df  */
-    /* JADX WARN: Removed duplicated region for block: B:122:0x0400  */
-    /* JADX WARN: Removed duplicated region for block: B:140:0x0476  */
-    /* JADX WARN: Removed duplicated region for block: B:239:0x068f  */
-    /* JADX WARN: Removed duplicated region for block: B:254:0x06bc  */
-    /* JADX WARN: Removed duplicated region for block: B:269:0x073e  */
-    /* JADX WARN: Removed duplicated region for block: B:272:0x0768  */
-    /* JADX WARN: Removed duplicated region for block: B:285:0x07c6  */
-    /* JADX WARN: Removed duplicated region for block: B:292:0x07f1  */
-    /* JADX WARN: Removed duplicated region for block: B:298:0x081d  */
-    /* JADX WARN: Removed duplicated region for block: B:303:0x0864  */
-    /* JADX WARN: Removed duplicated region for block: B:334:0x08d9  */
-    /* JADX WARN: Removed duplicated region for block: B:342:0x08fe A[Catch: Exception -> 0x0904, TRY_LEAVE, TryCatch #14 {Exception -> 0x0904, blocks: (B:340:0x08ed, B:342:0x08fe), top: B:405:0x08ed }] */
-    /* JADX WARN: Removed duplicated region for block: B:355:0x0930  */
-    /* JADX WARN: Removed duplicated region for block: B:357:0x0934  */
-    /* JADX WARN: Removed duplicated region for block: B:358:0x0941  */
-    /* JADX WARN: Removed duplicated region for block: B:407:0x069a A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:118:0x03c2  */
+    /* JADX WARN: Removed duplicated region for block: B:119:0x03e8  */
+    /* JADX WARN: Removed duplicated region for block: B:125:0x0409  */
+    /* JADX WARN: Removed duplicated region for block: B:143:0x047f  */
+    /* JADX WARN: Removed duplicated region for block: B:242:0x0698  */
+    /* JADX WARN: Removed duplicated region for block: B:257:0x06c5  */
+    /* JADX WARN: Removed duplicated region for block: B:272:0x0747  */
+    /* JADX WARN: Removed duplicated region for block: B:275:0x0771  */
+    /* JADX WARN: Removed duplicated region for block: B:288:0x07cf  */
+    /* JADX WARN: Removed duplicated region for block: B:295:0x07fa  */
+    /* JADX WARN: Removed duplicated region for block: B:301:0x0826  */
+    /* JADX WARN: Removed duplicated region for block: B:306:0x086d  */
+    /* JADX WARN: Removed duplicated region for block: B:337:0x08e2  */
+    /* JADX WARN: Removed duplicated region for block: B:345:0x0907 A[Catch: Exception -> 0x090d, TRY_LEAVE, TryCatch #1 {Exception -> 0x090d, blocks: (B:343:0x08f6, B:345:0x0907), top: B:384:0x08f6 }] */
+    /* JADX WARN: Removed duplicated region for block: B:358:0x0939  */
+    /* JADX WARN: Removed duplicated region for block: B:360:0x093d  */
+    /* JADX WARN: Removed duplicated region for block: B:361:0x094a  */
+    /* JADX WARN: Removed duplicated region for block: B:386:0x06a3 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r1v41 */
     /* JADX WARN: Type inference failed for: r1v42, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r1v46 */
@@ -1155,6 +1155,9 @@ public class FileLoadOperation {
             return z8;
         }
         if (this.location == null && this.webLocation == null) {
+            if (BuildVars.DEBUG_VERSION) {
+                FileLog.d("loadOperation: no location, failing");
+            }
             onFail(true, 0);
             return false;
         }
@@ -1288,7 +1291,6 @@ public class FileLoadOperation {
                         if (str8 != null) {
                         }
                         if (!this.isPreloadVideoOperation) {
-                            copyNotLoadedRanges();
                         }
                         updateProgress();
                         RandomAccessFile randomAccessFile3 = new RandomAccessFile(this.cacheFileTemp, str10);
@@ -1357,14 +1359,6 @@ public class FileLoadOperation {
                                                         str9 = str4;
                                                         FileLog.e((Throwable) e, false);
                                                         if (!this.isPreloadVideoOperation) {
-                                                            this.cacheFilePreload = null;
-                                                            try {
-                                                                randomAccessFile = this.preloadStream;
-                                                                if (randomAccessFile != null) {
-                                                                }
-                                                            } catch (Exception e5) {
-                                                                FileLog.e(e5);
-                                                            }
                                                         }
                                                         if (str9 != null) {
                                                         }
@@ -1395,8 +1389,8 @@ public class FileLoadOperation {
                                                     try {
                                                         this.moovFound = this.nextPreloadDownloadOffset > this.totalBytesCount / 2 ? 2 : 1;
                                                         this.preloadNotRequestedBytesCount = readLong3;
-                                                    } catch (Exception e6) {
-                                                        e = e6;
+                                                    } catch (Exception e5) {
+                                                        e = e5;
                                                         FileLog.e((Throwable) e, false);
                                                         if (!this.isPreloadVideoOperation) {
                                                         }
@@ -1458,14 +1452,22 @@ public class FileLoadOperation {
                                     str9 = str4;
                                     z4 = z10;
                                     break;
-                                } catch (Exception e7) {
-                                    e = e7;
+                                } catch (Exception e6) {
+                                    e = e6;
                                     str8 = str3;
                                     str9 = str4;
                                     z4 = z10;
                                     str10 = str12;
                                     FileLog.e((Throwable) e, false);
                                     if (!this.isPreloadVideoOperation) {
+                                        this.cacheFilePreload = null;
+                                        try {
+                                            randomAccessFile = this.preloadStream;
+                                            if (randomAccessFile != null) {
+                                            }
+                                        } catch (Exception e7) {
+                                            FileLog.e(e7);
+                                        }
                                     }
                                     if (str9 != null) {
                                     }
@@ -1602,38 +1604,39 @@ public class FileLoadOperation {
                                 } else {
                                     j3 = 0;
                                 }
-                            } catch (Exception e11) {
-                                e = e11;
-                                j3 = 0;
-                            }
-                            try {
-                                this.downloadedBytes = j3;
-                                this.requestedBytesCount = j3;
+                                try {
+                                    this.downloadedBytes = j3;
+                                    this.requestedBytesCount = j3;
+                                } catch (Exception e11) {
+                                    e = e11;
+                                    this.downloadedBytes = j3;
+                                    this.requestedBytesCount = j3;
+                                    if (AndroidUtilities.isENOSPC(e)) {
+                                        LaunchActivity.checkFreeDiscSpaceStatic(1);
+                                        FileLog.e((Throwable) e, false);
+                                    } else if (AndroidUtilities.isEROFS(e)) {
+                                        SharedConfig.checkSdCard(this.cacheFileFinal);
+                                        FileLog.e((Throwable) e, false);
+                                    } else {
+                                        FileLog.e(e);
+                                    }
+                                    if (!this.isPreloadVideoOperation) {
+                                        copyNotLoadedRanges();
+                                    }
+                                    updateProgress();
+                                    RandomAccessFile randomAccessFile32222 = new RandomAccessFile(this.cacheFileTemp, str10);
+                                    this.fileOutputStream = randomAccessFile32222;
+                                    j2 = this.downloadedBytes;
+                                    if (j2 != 0) {
+                                    }
+                                    r1 = 0;
+                                    z5 = true;
+                                    if (this.fileOutputStream != null) {
+                                    }
+                                }
                             } catch (Exception e12) {
                                 e = e12;
-                                this.downloadedBytes = j3;
-                                this.requestedBytesCount = j3;
-                                if (AndroidUtilities.isENOSPC(e)) {
-                                    LaunchActivity.checkFreeDiscSpaceStatic(1);
-                                    FileLog.e((Throwable) e, false);
-                                } else if (AndroidUtilities.isEROFS(e)) {
-                                    SharedConfig.checkSdCard(this.cacheFileFinal);
-                                    FileLog.e((Throwable) e, false);
-                                } else {
-                                    FileLog.e(e);
-                                }
-                                if (!this.isPreloadVideoOperation) {
-                                }
-                                updateProgress();
-                                RandomAccessFile randomAccessFile32222 = new RandomAccessFile(this.cacheFileTemp, str10);
-                                this.fileOutputStream = randomAccessFile32222;
-                                j2 = this.downloadedBytes;
-                                if (j2 != 0) {
-                                }
-                                r1 = 0;
-                                z5 = true;
-                                if (this.fileOutputStream != null) {
-                                }
+                                j3 = 0;
                             }
                         }
                     } catch (Exception e13) {
@@ -1686,34 +1689,34 @@ public class FileLoadOperation {
                 this.started = true;
                 try {
                     onFinishLoadingFile(false, 1, false);
-                } catch (Exception e15) {
-                    e = e15;
-                }
-                try {
-                    FilePathDatabase.PathData pathData = this.pathSaveData;
-                    if (pathData != null) {
-                        this.delegate.saveFilePath(pathData, this.cacheFileFinal);
+                    try {
+                        FilePathDatabase.PathData pathData = this.pathSaveData;
+                        if (pathData != null) {
+                            this.delegate.saveFilePath(pathData, this.cacheFileFinal);
+                        }
+                    } catch (Exception e15) {
+                        e = e15;
+                        z11 = false;
+                        FileLog.e(e, z11);
+                        if (AndroidUtilities.isENOSPC(e)) {
+                            z2 = true;
+                            LaunchActivity.checkFreeDiscSpaceStatic(1);
+                            i = -1;
+                            onFail(true, -1);
+                        } else {
+                            z2 = true;
+                            i = -1;
+                        }
+                        if (AndroidUtilities.isEROFS(e)) {
+                            SharedConfig.checkSdCard(this.cacheFileFinal);
+                            onFail(z2, i);
+                            return false;
+                        }
+                        onFail(z2, 0);
+                        return z2;
                     }
                 } catch (Exception e16) {
                     e = e16;
-                    z11 = false;
-                    FileLog.e(e, z11);
-                    if (AndroidUtilities.isENOSPC(e)) {
-                        z2 = true;
-                        LaunchActivity.checkFreeDiscSpaceStatic(1);
-                        i = -1;
-                        onFail(true, -1);
-                    } else {
-                        z2 = true;
-                        i = -1;
-                    }
-                    if (AndroidUtilities.isEROFS(e)) {
-                        SharedConfig.checkSdCard(this.cacheFileFinal);
-                        onFail(z2, i);
-                        return false;
-                    }
-                    onFail(z2, 0);
-                    return z2;
                 }
             }
             return true;

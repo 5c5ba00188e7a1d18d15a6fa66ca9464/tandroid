@@ -236,6 +236,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
     private AnimatorSet floatingDateAnimation;
     private ChatActionCell floatingDateView;
     public String highlightMessageQuote;
+    public boolean highlightMessageQuoteFirst;
     private boolean linviteLoading;
     private boolean loading;
     private int loadsCount;
@@ -330,7 +331,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                     placeProviderObject.parentView = ChannelAdminLogActivity.this.chatListView;
                     placeProviderObject.imageReceiver = imageReceiver;
                     placeProviderObject.thumb = imageReceiver.getBitmapSafe();
-                    placeProviderObject.radius = imageReceiver.getRoundRadius();
+                    placeProviderObject.radius = imageReceiver.getRoundRadius(true);
                     placeProviderObject.isEvent = true;
                     return placeProviderObject;
                 }
@@ -3222,8 +3223,28 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ void didPressDialogButton(ChatMessageCell chatMessageCell) {
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressDialogButton(this, chatMessageCell);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ void didPressEffect(ChatMessageCell chatMessageCell) {
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressEffect(this, chatMessageCell);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
             public /* synthetic */ void didPressExtendedMediaPreview(ChatMessageCell chatMessageCell, TLRPC$KeyboardButton tLRPC$KeyboardButton) {
                 ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressExtendedMediaPreview(this, chatMessageCell, tLRPC$KeyboardButton);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ void didPressFactCheck(ChatMessageCell chatMessageCell) {
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressFactCheck(this, chatMessageCell);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ void didPressFactCheckWhat(ChatMessageCell chatMessageCell, int i, int i2) {
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressFactCheckWhat(this, chatMessageCell, i, i2);
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -3298,6 +3319,11 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
             public /* synthetic */ boolean doNotShowLoadingReply(MessageObject messageObject) {
                 return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$doNotShowLoadingReply(this, messageObject);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ void forceUpdate(ChatMessageCell chatMessageCell, boolean z) {
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$forceUpdate(this, chatMessageCell, z);
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -3381,13 +3407,18 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ boolean shouldDrawThreadProgress(ChatMessageCell chatMessageCell) {
-                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$shouldDrawThreadProgress(this, chatMessageCell);
+            public /* synthetic */ boolean shouldDrawThreadProgress(ChatMessageCell chatMessageCell, boolean z) {
+                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$shouldDrawThreadProgress(this, chatMessageCell, z);
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
             public /* synthetic */ boolean shouldRepeatSticker(MessageObject messageObject) {
                 return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$shouldRepeatSticker(this, messageObject);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ boolean shouldShowDialogButton(ChatMessageCell chatMessageCell) {
+                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$shouldShowDialogButton(this, chatMessageCell);
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -3483,10 +3514,12 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                     if (userFull == null) {
                         of = AvatarPreviewer.Data.of(tLRPC$User, ((BaseFragment) ChannelAdminLogActivity.this).classGuid, menuItemArr);
                     } else {
-                        of = AvatarPreviewer.Data.of(userFull, menuItemArr);
+                        of = AvatarPreviewer.Data.of(tLRPC$User, userFull, menuItemArr);
                     }
                     if (AvatarPreviewer.canPreview(of)) {
-                        AvatarPreviewer.getInstance().show((ViewGroup) ChannelAdminLogActivity.this.fragmentView, of, new AvatarPreviewer.Callback() { // from class: org.telegram.ui.ChannelAdminLogActivity$ChatActivityAdapter$1$$ExternalSyntheticLambda1
+                        AvatarPreviewer avatarPreviewer = AvatarPreviewer.getInstance();
+                        ChannelAdminLogActivity channelAdminLogActivity = ChannelAdminLogActivity.this;
+                        avatarPreviewer.show((ViewGroup) channelAdminLogActivity.fragmentView, channelAdminLogActivity.getResourceProvider(), of, new AvatarPreviewer.Callback() { // from class: org.telegram.ui.ChannelAdminLogActivity$ChatActivityAdapter$1$$ExternalSyntheticLambda1
                             @Override // org.telegram.ui.AvatarPreviewer.Callback
                             public final void onMenuClick(AvatarPreviewer.MenuItem menuItem) {
                                 ChannelAdminLogActivity.ChatActivityAdapter.1.this.lambda$didLongPressUserAvatar$0(chatMessageCell, tLRPC$User, menuItem);
@@ -4586,6 +4619,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$startMessageUnselect$25() {
         this.highlightMessageId = ConnectionsManager.DEFAULT_DATACENTER_ID;
+        this.highlightMessageQuoteFirst = false;
         this.highlightMessageQuote = null;
         this.highlightMessageQuoteOffset = -1;
         this.showNoQuoteAlert = false;
@@ -4603,6 +4637,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             this.unselectRunnable = null;
         }
         this.highlightMessageId = ConnectionsManager.DEFAULT_DATACENTER_ID;
+        this.highlightMessageQuoteFirst = false;
         this.highlightMessageQuote = null;
     }
 
@@ -4625,6 +4660,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                 MessageObject messageObject = chatMessageCell.getMessageObject();
                 if (messageObject != null) {
                     if (this.actionBar.isActionModeShowed()) {
+                        this.highlightMessageQuoteFirst = false;
                         this.highlightMessageQuote = null;
                     } else {
                         chatMessageCell.setDrawSelectionBackground(false);
@@ -4636,9 +4672,10 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                         startMessageUnselect();
                     }
                     if (chatMessageCell.isHighlighted() && (str = this.highlightMessageQuote) != null) {
-                        if (!chatMessageCell.setHighlightedText(str, true, this.highlightMessageQuoteOffset) && this.showNoQuoteAlert) {
+                        if (!chatMessageCell.setHighlightedText(str, true, this.highlightMessageQuoteOffset, this.highlightMessageQuoteFirst) && this.showNoQuoteAlert) {
                             showNoQuoteFound();
                         }
+                        this.highlightMessageQuoteFirst = false;
                         this.showNoQuoteAlert = false;
                     } else if (!TextUtils.isEmpty(this.searchQuery)) {
                         chatMessageCell.setHighlightedText(this.searchQuery);
@@ -4716,9 +4753,9 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             int i3 = textLayoutBlock.charactersOffset;
             if (findQuoteStart > i3) {
                 if (findQuoteStart - i3 > charSequence3.length() - 1) {
-                    lineTop = i + ((int) (textLayoutBlock.textYOffset + textLayoutBlock.padTop + textLayoutBlock.height));
+                    lineTop = i + ((int) (textLayoutBlock.textYOffset(arrayList) + textLayoutBlock.padTop + textLayoutBlock.height));
                 } else {
-                    lineTop = staticLayout.getLineTop(staticLayout.getLineForOffset(findQuoteStart - textLayoutBlock.charactersOffset)) + i + textLayoutBlock.textYOffset + textLayoutBlock.padTop;
+                    lineTop = staticLayout.getLineTop(staticLayout.getLineForOffset(findQuoteStart - textLayoutBlock.charactersOffset)) + i + textLayoutBlock.textYOffset(arrayList) + textLayoutBlock.padTop;
                 }
                 if (lineTop > AndroidUtilities.displaySize.y * (isKeyboardVisible() ? 0.7f : 0.5f)) {
                     return (int) (lineTop - (AndroidUtilities.displaySize.y * (isKeyboardVisible() ? 0.7f : 0.5f)));

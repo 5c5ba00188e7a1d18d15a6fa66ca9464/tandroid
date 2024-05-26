@@ -68,13 +68,15 @@ public class PollEditTextCell extends FrameLayout implements SuggestEmojiView.An
     protected void onEditTextDraw(EditTextBoldCursor editTextBoldCursor, Canvas canvas) {
     }
 
+    protected void onEditTextFocusChanged(boolean z) {
+    }
+
     /* JADX INFO: Access modifiers changed from: protected */
     /* renamed from: onEmojiButtonClicked */
     public void lambda$new$1(PollEditTextCell pollEditTextCell) {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void onFieldTouchUp(EditTextBoldCursor editTextBoldCursor) {
+    protected void onFieldTouchUp(EditTextBoldCursor editTextBoldCursor) {
     }
 
     protected boolean shouldShowCheckBox() {
@@ -85,7 +87,7 @@ public class PollEditTextCell extends FrameLayout implements SuggestEmojiView.An
         this(context, false, 0, onClickListener);
     }
 
-    public PollEditTextCell(Context context, boolean z, final int i, View.OnClickListener onClickListener) {
+    public PollEditTextCell(Context context, boolean z, int i, View.OnClickListener onClickListener) {
         super(context);
         EditTextCaption editTextCaption = new EditTextCaption(context, null) { // from class: org.telegram.ui.Cells.PollEditTextCell.1
             @Override // org.telegram.ui.Components.EditTextEffects
@@ -124,16 +126,7 @@ public class PollEditTextCell extends FrameLayout implements SuggestEmojiView.An
             @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
             public void onFocusChanged(boolean z2, int i2, Rect rect) {
                 super.onFocusChanged(z2, i2, rect);
-                if (i == 1) {
-                    if (!z2 || PollEditTextCell.this.emojiButton.getVisibility() != 8) {
-                        if (z2 || PollEditTextCell.this.emojiButton.getVisibility() != 0) {
-                            return;
-                        }
-                        PollEditTextCell.this.setEmojiButtonVisibility(false);
-                        return;
-                    }
-                    PollEditTextCell.this.setEmojiButtonVisibility(true);
-                }
+                PollEditTextCell.this.onEditTextFocusChanged(z2);
             }
 
             @Override // org.telegram.ui.Components.EditTextCaption, org.telegram.ui.Components.EditTextBoldCursor, android.view.View
@@ -416,7 +409,6 @@ public class PollEditTextCell extends FrameLayout implements SuggestEmojiView.An
         return this.textView2;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public void setEmojiButtonVisibility(final boolean z) {
         ValueAnimator valueAnimator = this.valueAnimator;
         if (valueAnimator != null) {

@@ -1241,13 +1241,13 @@ public class PhonebookShareAlert extends BottomSheet {
             }, resourcesProvider);
             return;
         }
-        this.delegate.didSelectContact(this.currentUser, true, 0);
+        this.delegate.didSelectContact(this.currentUser, true, 0, 0L, false);
         dismiss();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$4(boolean z, int i) {
-        this.delegate.didSelectContact(this.currentUser, z, i);
+        this.delegate.didSelectContact(this.currentUser, z, i, 0L, false);
         dismiss();
     }
 

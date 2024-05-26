@@ -363,8 +363,8 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         return new Period(str, j, list, list2, descriptor);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:71:0x030d A[LOOP:0: B:3:0x007c->B:71:0x030d, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x02ce A[EDGE_INSN: B:72:0x02ce->B:65:0x02ce ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x030e A[LOOP:0: B:3:0x007d->B:71:0x030e, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x02cf A[EDGE_INSN: B:72:0x02cf->B:65:0x02cf ?: BREAK  , SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -617,9 +617,9 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         return "image".equals(attributeValue) ? 4 : -1;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:49:0x00b4  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x00bb  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x0119  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x00b5  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x00bc  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x011a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -755,8 +755,8 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         maybeSkipTag(xmlPullParser);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:57:0x01ee A[LOOP:0: B:3:0x006a->B:57:0x01ee, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x0198 A[EDGE_INSN: B:58:0x0198->B:47:0x0198 ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x01ef A[LOOP:0: B:3:0x006b->B:57:0x01ef, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x0199 A[EDGE_INSN: B:58:0x0199->B:47:0x0199 ?: BREAK  , SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

@@ -1235,12 +1235,12 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
                                 return;
                             }
                         }
-                        textCell.setTextAndValueAndIcon(LocaleController.getString(R.string.ArchivedStickers), str, R.drawable.msg2_archived_stickers, true);
+                        textCell.setTextAndValueAndIcon((CharSequence) LocaleController.getString(R.string.ArchivedStickers), (CharSequence) str, R.drawable.msg2_archived_stickers, true);
                         return;
                     } else if (i == StickersActivity.this.masksRow) {
                         MediaDataController mediaDataController = MediaDataController.getInstance(((BaseFragment) StickersActivity.this).currentAccount);
                         int size = MessagesController.getInstance(((BaseFragment) StickersActivity.this).currentAccount).filterPremiumStickers(mediaDataController.getStickerSets(1)).size() + mediaDataController.getArchivedStickersCount(1);
-                        textCell.setTextAndValueAndIcon(LocaleController.getString("Masks", R.string.Masks), size > 0 ? Integer.toString(size) : "", R.drawable.msg_mask, true);
+                        textCell.setTextAndValueAndIcon((CharSequence) LocaleController.getString("Masks", R.string.Masks), (CharSequence) (size > 0 ? Integer.toString(size) : ""), R.drawable.msg_mask, true);
                         return;
                     } else if (i == StickersActivity.this.featuredRow) {
                         List featuredSets = StickersActivity.this.getFeaturedSets();
@@ -1248,7 +1248,7 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
                         if (featuredSets != null) {
                             str = "" + featuredSets.size();
                         }
-                        textCell.setTextAndValueAndIcon(string3, str, R.drawable.msg2_trending, true);
+                        textCell.setTextAndValueAndIcon((CharSequence) string3, (CharSequence) str, R.drawable.msg2_trending, true);
                         return;
                     } else if (i != StickersActivity.this.emojiPacksRow) {
                         if (i == StickersActivity.this.suggestRow) {
@@ -1271,7 +1271,7 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
                     } else {
                         int size2 = MediaDataController.getInstance(((BaseFragment) StickersActivity.this).currentAccount).getStickerSets(5).size();
                         textCell.imageView.setTranslationX(-AndroidUtilities.dp(2.0f));
-                        textCell.setTextAndValueAndIcon(LocaleController.getString("Emoji", R.string.Emoji), size2 > 0 ? Integer.toString(size2) : "", R.drawable.msg2_smile_status, true);
+                        textCell.setTextAndValueAndIcon((CharSequence) LocaleController.getString("Emoji", R.string.Emoji), (CharSequence) (size2 > 0 ? Integer.toString(size2) : ""), R.drawable.msg2_smile_status, true);
                         return;
                     }
                 case 3:

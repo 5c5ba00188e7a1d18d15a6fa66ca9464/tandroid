@@ -62,7 +62,6 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
-import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.MrzRecognizer;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
@@ -75,6 +74,7 @@ import org.telegram.messenger.browser.Browser;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
+import org.telegram.tgnet.TLRPC$InputInvoice;
 import org.telegram.tgnet.TLRPC$ReplyMarkup;
 import org.telegram.tgnet.TLRPC$TL_attachMenuBot;
 import org.telegram.tgnet.TLRPC$TL_attachMenuBotIcon;
@@ -175,7 +175,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
 
         void onWebAppExpand();
 
-        void onWebAppOpenInvoice(String str, TLObject tLObject);
+        void onWebAppOpenInvoice(TLRPC$InputInvoice tLRPC$InputInvoice, String str, TLObject tLObject);
 
         void onWebAppReady();
 
@@ -214,7 +214,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
             this.parentActivity = (Activity) context;
         }
         cellFlickerDrawable.drawFrame = false;
-        cellFlickerDrawable.setColors(i, MessagesStorage.LAST_DB_VERSION, 204);
+        cellFlickerDrawable.setColors(i, 153, 204);
         BackupImageView backupImageView = new BackupImageView(context) { // from class: org.telegram.ui.bots.BotWebViewContainer.1
             {
                 this.imageReceiver = new 1(this);
@@ -689,7 +689,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
     }
 
     public void updateFlickerBackgroundColor(int i) {
-        this.flickerDrawable.setColors(i, MessagesStorage.LAST_DB_VERSION, 204);
+        this.flickerDrawable.setColors(i, 153, 204);
     }
 
     public boolean onBackPressed() {
@@ -1580,13 +1580,13 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                     } else {
                         this.currentPaymentSlug = optString2;
                         TLRPC$TL_payments_getPaymentForm tLRPC$TL_payments_getPaymentForm = new TLRPC$TL_payments_getPaymentForm();
-                        TLRPC$TL_inputInvoiceSlug tLRPC$TL_inputInvoiceSlug = new TLRPC$TL_inputInvoiceSlug();
+                        final TLRPC$TL_inputInvoiceSlug tLRPC$TL_inputInvoiceSlug = new TLRPC$TL_inputInvoiceSlug();
                         tLRPC$TL_inputInvoiceSlug.slug = optString2;
                         tLRPC$TL_payments_getPaymentForm.invoice = tLRPC$TL_inputInvoiceSlug;
                         ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_payments_getPaymentForm, new RequestDelegate() { // from class: org.telegram.ui.bots.BotWebViewContainer$$ExternalSyntheticLambda32
                             @Override // org.telegram.tgnet.RequestDelegate
                             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                                BotWebViewContainer.this.lambda$onEventReceived$12(optString2, tLObject, tLRPC$TL_error);
+                                BotWebViewContainer.this.lambda$onEventReceived$12(optString2, tLRPC$TL_inputInvoiceSlug, tLObject, tLRPC$TL_error);
                             }
                         });
                     }
@@ -2211,21 +2211,21 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onEventReceived$12(final String str, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$onEventReceived$12(final String str, final TLRPC$TL_inputInvoiceSlug tLRPC$TL_inputInvoiceSlug, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.bots.BotWebViewContainer$$ExternalSyntheticLambda22
             @Override // java.lang.Runnable
             public final void run() {
-                BotWebViewContainer.this.lambda$onEventReceived$11(tLRPC$TL_error, str, tLObject);
+                BotWebViewContainer.this.lambda$onEventReceived$11(tLRPC$TL_error, str, tLRPC$TL_inputInvoiceSlug, tLObject);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onEventReceived$11(TLRPC$TL_error tLRPC$TL_error, String str, TLObject tLObject) {
+    public /* synthetic */ void lambda$onEventReceived$11(TLRPC$TL_error tLRPC$TL_error, String str, TLRPC$TL_inputInvoiceSlug tLRPC$TL_inputInvoiceSlug, TLObject tLObject) {
         if (tLRPC$TL_error != null) {
             onInvoiceStatusUpdate(str, "failed");
         } else {
-            this.delegate.onWebAppOpenInvoice(str, tLObject);
+            this.delegate.onWebAppOpenInvoice(tLRPC$TL_inputInvoiceSlug, str, tLObject);
         }
     }
 

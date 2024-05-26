@@ -1478,6 +1478,14 @@ public class LocaleController {
         return "LOC_ERR:" + str;
     }
 
+    public static String formatNumber(long j, char c) {
+        StringBuilder sb = new StringBuilder(String.format("%d", Long.valueOf(j)));
+        for (int length = sb.length() - 3; length > 0; length -= 3) {
+            sb.insert(length, c);
+        }
+        return sb.toString();
+    }
+
     public static String formatString(int i, Object... objArr) {
         String str = resourcesCacheMap.get(Integer.valueOf(i));
         if (str == null) {
@@ -1766,6 +1774,12 @@ public class LocaleController {
                     break;
                 }
                 break;
+            case 87254:
+                if (upperCase.equals("XTR")) {
+                    c = 30;
+                    break;
+                }
+                break;
         }
         String str2 = " %.2f";
         switch (c) {
@@ -1801,6 +1815,7 @@ public class LocaleController {
             case 27:
             case 28:
             case 29:
+            case R.styleable.AppCompatTheme_actionModeTheme /* 30 */:
                 d = abs;
                 str2 = " %.0f";
                 break;

@@ -1,6 +1,8 @@
 package org.telegram.tgnet;
 /* loaded from: classes3.dex */
 public abstract class TLRPC$MessageEntity extends TLObject {
+    public boolean collapsed;
+    public int flags;
     public String language;
     public int length;
     public int offset;
@@ -59,11 +61,27 @@ public abstract class TLRPC$MessageEntity extends TLObject {
             case -595914432:
                 tLRPC$TL_messageEntityItalic = new TLRPC$TL_messageEntityMentionName();
                 break;
+            case -238245204:
+                tLRPC$TL_messageEntityItalic = new TLRPC$TL_messageEntityBlockquote();
+                break;
             case -100378723:
                 tLRPC$TL_messageEntityItalic = new TLRPC$TL_messageEntityMention();
                 break;
             case 34469328:
-                tLRPC$TL_messageEntityItalic = new TLRPC$TL_messageEntityBlockquote();
+                tLRPC$TL_messageEntityItalic = new TLRPC$TL_messageEntityBlockquote() { // from class: org.telegram.tgnet.TLRPC$TL_messageEntityBlockquote_layer180
+                    @Override // org.telegram.tgnet.TLRPC$TL_messageEntityBlockquote, org.telegram.tgnet.TLObject
+                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
+                        this.offset = abstractSerializedData2.readInt32(z2);
+                        this.length = abstractSerializedData2.readInt32(z2);
+                    }
+
+                    @Override // org.telegram.tgnet.TLRPC$TL_messageEntityBlockquote, org.telegram.tgnet.TLObject
+                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
+                        abstractSerializedData2.writeInt32(34469328);
+                        abstractSerializedData2.writeInt32(this.offset);
+                        abstractSerializedData2.writeInt32(this.length);
+                    }
+                };
                 break;
             case 546203849:
                 tLRPC$TL_messageEntityItalic = new TLRPC$TL_inputMessageEntityMentionName();

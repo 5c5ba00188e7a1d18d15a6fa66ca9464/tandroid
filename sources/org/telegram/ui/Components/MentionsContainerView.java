@@ -190,7 +190,7 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
                                     placeProviderObject.parentView = MentionsContainerView.this.getListView();
                                     placeProviderObject.imageReceiver = imageReceiver;
                                     placeProviderObject.thumb = imageReceiver.getBitmapSafe();
-                                    placeProviderObject.radius = imageReceiver.getRoundRadius();
+                                    placeProviderObject.radius = imageReceiver.getRoundRadius(true);
                                     return placeProviderObject;
                                 }
                             }

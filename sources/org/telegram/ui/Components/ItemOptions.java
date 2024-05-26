@@ -20,7 +20,6 @@ import android.widget.TextView;
 import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BotWebViewVibrationEffect;
-import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.ActionBarMenuSubItem;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
@@ -38,12 +37,15 @@ public class ItemOptions {
     private int dimAlpha;
     private View dimView;
     private Runnable dismissListener;
+    private boolean dontDismiss;
     private boolean forceTop;
+    private int foregroundIndex;
     private BaseFragment fragment;
     private int gravity;
     private boolean ignoreX;
     private ActionBarPopupWindow.ActionBarPopupWindowLayout lastLayout;
     private ViewGroup layout;
+    private LinearLayout linearLayout;
     private int maxHeight;
     private int minWidthDp;
     private float offsetX;
@@ -54,6 +56,7 @@ public class ItemOptions {
     private View scrimView;
     private Drawable scrimViewBackground;
     private int shiftDp;
+    public boolean swipeback;
     private float translateX;
     private float translateY;
     private android.graphics.Rect viewAdditionalOffsets;
@@ -62,18 +65,22 @@ public class ItemOptions {
     }
 
     public static ItemOptions makeOptions(BaseFragment baseFragment, View view) {
-        return new ItemOptions(baseFragment, view);
+        return new ItemOptions(baseFragment, view, false);
+    }
+
+    public static ItemOptions makeOptions(BaseFragment baseFragment, View view, boolean z) {
+        return new ItemOptions(baseFragment, view, z);
     }
 
     public static ItemOptions makeOptions(ViewGroup viewGroup, View view) {
-        return makeOptions(viewGroup, null, view);
+        return makeOptions(viewGroup, (Theme.ResourcesProvider) null, view);
     }
 
     public static ItemOptions makeOptions(ViewGroup viewGroup, Theme.ResourcesProvider resourcesProvider, View view) {
-        return new ItemOptions(viewGroup, resourcesProvider, view);
+        return new ItemOptions(viewGroup, resourcesProvider, view, false);
     }
 
-    private ItemOptions(BaseFragment baseFragment, View view) {
+    private ItemOptions(BaseFragment baseFragment, View view, boolean z) {
         this.gravity = 5;
         this.point = new float[2];
         this.viewAdditionalOffsets = new android.graphics.Rect();
@@ -86,15 +93,16 @@ public class ItemOptions {
         this.context = baseFragment.getContext();
         this.scrimView = view;
         this.dimAlpha = ((double) AndroidUtilities.computePerceivedBrightness(Theme.getColor(Theme.key_windowBackgroundWhite, this.resourcesProvider))) > 0.705d ? R.styleable.AppCompatTheme_textAppearanceLargePopupMenu : 51;
+        this.swipeback = z;
         init();
     }
 
-    private ItemOptions(ViewGroup viewGroup, Theme.ResourcesProvider resourcesProvider, View view) {
+    private ItemOptions(ViewGroup viewGroup, Theme.ResourcesProvider resourcesProvider, View view, boolean z) {
         this.gravity = 5;
         this.point = new float[2];
         this.viewAdditionalOffsets = new android.graphics.Rect();
         this.shiftDp = -4;
-        if (viewGroup.getContext() == null) {
+        if (viewGroup == null || viewGroup.getContext() == null) {
             return;
         }
         this.container = viewGroup;
@@ -102,11 +110,24 @@ public class ItemOptions {
         this.context = viewGroup.getContext();
         this.scrimView = view;
         this.dimAlpha = ((double) AndroidUtilities.computePerceivedBrightness(Theme.getColor(Theme.key_windowBackgroundWhite, resourcesProvider))) > 0.705d ? R.styleable.AppCompatTheme_textAppearanceLargePopupMenu : 51;
+        this.swipeback = z;
         init();
     }
 
+    private ItemOptions(ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout, Theme.ResourcesProvider resourcesProvider) {
+        this.gravity = 5;
+        this.point = new float[2];
+        this.viewAdditionalOffsets = new android.graphics.Rect();
+        this.shiftDp = -4;
+        this.context = actionBarPopupWindowLayout.getContext();
+        LinearLayout linearLayout = new LinearLayout(this.context);
+        this.linearLayout = linearLayout;
+        linearLayout.setOrientation(1);
+        this.resourcesProvider = resourcesProvider;
+    }
+
     private void init() {
-        ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(this.context, this.resourcesProvider) { // from class: org.telegram.ui.Components.ItemOptions.1
+        ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(this.context, R.drawable.popup_fixed_alert2, this.resourcesProvider, this.swipeback ? 1 : 0) { // from class: org.telegram.ui.Components.ItemOptions.1
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.ActionBar.ActionBarPopupWindow.ActionBarPopupWindowLayout, android.widget.FrameLayout, android.view.View
             public void onMeasure(int i, int i2) {
@@ -130,8 +151,31 @@ public class ItemOptions {
     public /* synthetic */ void lambda$init$0(KeyEvent keyEvent) {
         ActionBarPopupWindow actionBarPopupWindow;
         if (keyEvent.getKeyCode() == 4 && keyEvent.getRepeatCount() == 0 && (actionBarPopupWindow = this.actionBarPopupWindow) != null && actionBarPopupWindow.isShowing()) {
-            this.actionBarPopupWindow.dismiss();
+            dismiss();
         }
+    }
+
+    public ItemOptions makeSwipeback() {
+        ItemOptions itemOptions = new ItemOptions(this.lastLayout, this.resourcesProvider);
+        itemOptions.foregroundIndex = this.lastLayout.addViewToSwipeBack(itemOptions.linearLayout);
+        return itemOptions;
+    }
+
+    public void openSwipeback(ItemOptions itemOptions) {
+        dontDismiss();
+        this.lastLayout.getSwipeBack().openForeground(itemOptions.foregroundIndex);
+    }
+
+    public void closeSwipeback() {
+        dontDismiss();
+        this.lastLayout.getSwipeBack().closeForeground();
+    }
+
+    public ItemOptions setSwipebackGravity(boolean z, boolean z2) {
+        ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = this.lastLayout;
+        actionBarPopupWindowLayout.swipeBackGravityRight = z;
+        actionBarPopupWindowLayout.swipeBackGravityBottom = z2;
+        return this;
     }
 
     public ItemOptions ignoreX() {
@@ -176,7 +220,7 @@ public class ItemOptions {
             return this;
         }
         ActionBarMenuSubItem actionBarMenuSubItem = new ActionBarMenuSubItem(this.context, false, false, this.resourcesProvider);
-        actionBarMenuSubItem.setPadding(AndroidUtilities.dp(18.0f), 0, AndroidUtilities.dp((LocaleController.isRTL ? 0 : 8) + 18), 0);
+        actionBarMenuSubItem.setPadding(AndroidUtilities.dp(18.0f), 0, AndroidUtilities.dp(18.0f), 0);
         if (i != 0 || drawable != null) {
             actionBarMenuSubItem.setTextAndIcon(charSequence, i, drawable);
         } else {
@@ -193,22 +237,19 @@ public class ItemOptions {
         int i4 = this.minWidthDp;
         if (i4 > 0) {
             actionBarMenuSubItem.setMinimumWidth(AndroidUtilities.dp(i4));
-            this.lastLayout.addView((View) actionBarMenuSubItem, LayoutHelper.createLinear(this.minWidthDp, -2));
+            addView(actionBarMenuSubItem, LayoutHelper.createLinear(this.minWidthDp, -2));
         } else {
-            this.lastLayout.addView((View) actionBarMenuSubItem, LayoutHelper.createLinear(-1, -2));
+            addView(actionBarMenuSubItem, LayoutHelper.createLinear(-1, -2));
         }
         return this;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$add$1(Runnable runnable, View view) {
-        ActionBarPopupWindow actionBarPopupWindow = this.actionBarPopupWindow;
-        if (actionBarPopupWindow != null) {
-            actionBarPopupWindow.dismiss();
-        }
         if (runnable != null) {
             runnable.run();
         }
+        dismiss();
     }
 
     public ItemOptions makeMultiline(boolean z) {
@@ -284,7 +325,7 @@ public class ItemOptions {
     public ItemOptions addGap() {
         ActionBarPopupWindow.GapView gapView = new ActionBarPopupWindow.GapView(this.context, this.resourcesProvider);
         gapView.setTag(R.id.fit_width_tag, 1);
-        this.lastLayout.addView((View) gapView, LayoutHelper.createLinear(-1, 8));
+        addView(gapView, LayoutHelper.createLinear(-1, 8));
         return this;
     }
 
@@ -303,7 +344,7 @@ public class ItemOptions {
                 ItemOptions.this.lambda$addSpaceGap$3(keyEvent);
             }
         });
-        this.layout.addView(this.lastLayout, LayoutHelper.createLinear(-1, -2, 0.0f, -8.0f, 0.0f, 0.0f));
+        addView(this.lastLayout, LayoutHelper.createLinear(-1, -2, 0.0f, -8.0f, 0.0f, 0.0f));
         return this;
     }
 
@@ -311,7 +352,7 @@ public class ItemOptions {
     public /* synthetic */ void lambda$addSpaceGap$3(KeyEvent keyEvent) {
         ActionBarPopupWindow actionBarPopupWindow;
         if (keyEvent.getKeyCode() == 4 && keyEvent.getRepeatCount() == 0 && (actionBarPopupWindow = this.actionBarPopupWindow) != null && actionBarPopupWindow.isShowing()) {
-            this.actionBarPopupWindow.dismiss();
+            dismiss();
         }
     }
 
@@ -320,19 +361,43 @@ public class ItemOptions {
             return this;
         }
         view.setTag(R.id.fit_width_tag, 1);
-        this.lastLayout.addView(view, LayoutHelper.createLinear(-1, -2));
+        addView(view, LayoutHelper.createLinear(-1, -2));
+        return this;
+    }
+
+    public ItemOptions addView(View view, LinearLayout.LayoutParams layoutParams) {
+        if (view == null) {
+            return this;
+        }
+        LinearLayout linearLayout = this.linearLayout;
+        if (linearLayout != null) {
+            linearLayout.addView(view, layoutParams);
+        } else {
+            this.lastLayout.addView(view, layoutParams);
+        }
         return this;
     }
 
     public ItemOptions addText(CharSequence charSequence, int i) {
-        TextView textView = new TextView(this.context);
+        return addText(charSequence, i, -1);
+    }
+
+    public ItemOptions addText(CharSequence charSequence, int i, int i2) {
+        TextView textView = new TextView(this, this.context) { // from class: org.telegram.ui.Components.ItemOptions.2
+            @Override // android.widget.TextView, android.view.View
+            protected void onMeasure(int i3, int i4) {
+                super.onMeasure(i3, i4);
+            }
+        };
         textView.setTextSize(1, i);
         textView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack, this.resourcesProvider));
         textView.setPadding(AndroidUtilities.dp(13.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(13.0f), AndroidUtilities.dp(8.0f));
         textView.setText(charSequence);
         textView.setTag(R.id.fit_width_tag, 1);
-        textView.setMaxWidth(AndroidUtilities.dp(200.0f));
-        this.lastLayout.addView((View) textView, LayoutHelper.createLinear(-1, -2));
+        if (i2 > 0) {
+            textView.setMaxWidth(i2);
+        }
+        addView(textView, LayoutHelper.createLinear(-1, -2));
         return this;
     }
 
@@ -372,6 +437,10 @@ public class ItemOptions {
         return this;
     }
 
+    public ViewGroup getLayout() {
+        return this.layout;
+    }
+
     public ItemOptions setBlurBackground(BlurringShader.BlurManager blurManager, float f, float f2) {
         Drawable mutate = this.context.getResources().getDrawable(R.drawable.popup_fixed_alert2).mutate();
         ViewGroup viewGroup = this.layout;
@@ -405,39 +474,46 @@ public class ItemOptions {
         return i2;
     }
 
+    public void setupSelectors() {
+        if (this.layout == null) {
+            return;
+        }
+        int i = 0;
+        while (i < this.layout.getChildCount()) {
+            View childAt = i == this.layout.getChildCount() - 1 ? this.lastLayout : this.layout.getChildAt(i);
+            if (childAt instanceof ActionBarPopupWindow.ActionBarPopupWindowLayout) {
+                ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = (ActionBarPopupWindow.ActionBarPopupWindowLayout) childAt;
+                if (actionBarPopupWindowLayout.getItemsCount() > 0) {
+                    View itemAt = actionBarPopupWindowLayout.getItemAt(0);
+                    View itemAt2 = actionBarPopupWindowLayout.getItemAt(actionBarPopupWindowLayout.getItemsCount() - 1);
+                    if (itemAt instanceof ActionBarMenuSubItem) {
+                        ((ActionBarMenuSubItem) itemAt).updateSelectorBackground(true, itemAt == itemAt2);
+                    }
+                    if (itemAt2 instanceof ActionBarMenuSubItem) {
+                        ((ActionBarMenuSubItem) itemAt2).updateSelectorBackground(itemAt2 == itemAt, true);
+                    }
+                }
+            }
+            i++;
+        }
+    }
+
     public ItemOptions show() {
         int width;
         int height;
-        if (this.actionBarPopupWindow == null && getItemsCount() > 0) {
-            int i = 0;
-            while (i < this.layout.getChildCount()) {
-                View childAt = i == this.layout.getChildCount() - 1 ? this.lastLayout : this.layout.getChildAt(i);
-                if (childAt instanceof ActionBarPopupWindow.ActionBarPopupWindowLayout) {
-                    ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = (ActionBarPopupWindow.ActionBarPopupWindowLayout) childAt;
-                    if (actionBarPopupWindowLayout.getItemsCount() > 0) {
-                        View itemAt = actionBarPopupWindowLayout.getItemAt(0);
-                        View itemAt2 = actionBarPopupWindowLayout.getItemAt(actionBarPopupWindowLayout.getItemsCount() - 1);
-                        if (itemAt instanceof ActionBarMenuSubItem) {
-                            ((ActionBarMenuSubItem) itemAt).updateSelectorBackground(true, itemAt == itemAt2);
-                        }
-                        if (itemAt2 instanceof ActionBarMenuSubItem) {
-                            ((ActionBarMenuSubItem) itemAt2).updateSelectorBackground(itemAt2 == itemAt, true);
-                        }
-                    }
-                }
-                i++;
-            }
+        if (this.actionBarPopupWindow == null && this.linearLayout == null && getItemsCount() > 0) {
+            setupSelectors();
             if (this.minWidthDp > 0) {
-                int i2 = 0;
-                while (i2 < this.layout.getChildCount() - 1) {
-                    View childAt2 = i2 == this.layout.getChildCount() - 1 ? this.lastLayout : this.layout.getChildAt(i2);
-                    if (childAt2 instanceof ActionBarPopupWindow.ActionBarPopupWindowLayout) {
-                        ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout2 = (ActionBarPopupWindow.ActionBarPopupWindowLayout) childAt2;
-                        for (int i3 = 0; i3 < actionBarPopupWindowLayout2.getItemsCount(); i3++) {
-                            actionBarPopupWindowLayout2.getItemAt(i3).setMinimumWidth(AndroidUtilities.dp(this.minWidthDp));
+                int i = 0;
+                while (i < this.layout.getChildCount() - 1) {
+                    View childAt = i == this.layout.getChildCount() - 1 ? this.lastLayout : this.layout.getChildAt(i);
+                    if (childAt instanceof ActionBarPopupWindow.ActionBarPopupWindowLayout) {
+                        ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = (ActionBarPopupWindow.ActionBarPopupWindowLayout) childAt;
+                        for (int i2 = 0; i2 < actionBarPopupWindowLayout.getItemsCount(); i2++) {
+                            actionBarPopupWindowLayout.getItemAt(i2).setMinimumWidth(AndroidUtilities.dp(this.minWidthDp));
                         }
                     }
-                    i2++;
+                    i++;
                 }
             }
             final ViewGroup viewGroup = this.container;
@@ -451,6 +527,7 @@ public class ItemOptions {
                     getPointOnScreen(view, viewGroup, this.point);
                     f = this.point[1];
                 }
+                float f2 = f;
                 if (this.ignoreX) {
                     this.point[0] = 0.0f;
                 }
@@ -472,7 +549,7 @@ public class ItemOptions {
                 }
                 this.layout.measure(View.MeasureSpec.makeMeasureSpec(viewGroup.getMeasuredWidth(), Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(viewGroup.getMeasuredHeight(), Integer.MIN_VALUE));
                 final ViewGroup viewGroup2 = viewGroup;
-                ActionBarPopupWindow actionBarPopupWindow = new ActionBarPopupWindow(this.layout, -2, -2) { // from class: org.telegram.ui.Components.ItemOptions.2
+                ActionBarPopupWindow actionBarPopupWindow = new ActionBarPopupWindow(this.layout, -2, -2) { // from class: org.telegram.ui.Components.ItemOptions.3
                     @Override // org.telegram.ui.ActionBar.ActionBarPopupWindow, android.widget.PopupWindow
                     public void dismiss() {
                         super.dismiss();
@@ -484,7 +561,7 @@ public class ItemOptions {
                     }
                 };
                 this.actionBarPopupWindow = actionBarPopupWindow;
-                actionBarPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() { // from class: org.telegram.ui.Components.ItemOptions.3
+                actionBarPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() { // from class: org.telegram.ui.Components.ItemOptions.4
                     @Override // android.widget.PopupWindow.OnDismissListener
                     public void onDismiss() {
                         ItemOptions.this.actionBarPopupWindow = null;
@@ -502,7 +579,7 @@ public class ItemOptions {
                 this.actionBarPopupWindow.setInputMethodMode(2);
                 this.actionBarPopupWindow.setSoftInputMode(0);
                 if (AndroidUtilities.isTablet()) {
-                    f += viewGroup.getPaddingTop();
+                    f2 += viewGroup.getPaddingTop();
                     viewGroup.getPaddingLeft();
                 }
                 View view2 = this.scrimView;
@@ -516,10 +593,10 @@ public class ItemOptions {
                     width = (viewGroup.getWidth() - this.layout.getMeasuredWidth()) / 2;
                 }
                 if (this.scrimView != null) {
-                    if (this.forceTop || this.layout.getMeasuredHeight() + f + AndroidUtilities.dp(16.0f) > AndroidUtilities.displaySize.y) {
-                        f = (f - this.scrimView.getMeasuredHeight()) - this.layout.getMeasuredHeight();
+                    if (this.forceTop || this.layout.getMeasuredHeight() + f2 + AndroidUtilities.dp(16.0f) > AndroidUtilities.displaySize.y) {
+                        f2 = (f2 - this.scrimView.getMeasuredHeight()) - this.layout.getMeasuredHeight();
                     }
-                    height = (int) (f + this.scrimView.getMeasuredHeight() + viewGroup.getY());
+                    height = (int) (f2 + this.scrimView.getMeasuredHeight() + viewGroup.getY());
                 } else {
                     height = (viewGroup.getHeight() - this.layout.getMeasuredHeight()) / 2;
                 }
@@ -530,11 +607,11 @@ public class ItemOptions {
                     viewGroup.dispatchTouchEvent(AndroidUtilities.emptyMotionEvent());
                 }
                 ActionBarPopupWindow actionBarPopupWindow2 = this.actionBarPopupWindow;
-                float f2 = width + this.translateX;
-                this.offsetX = f2;
-                float f3 = height + this.translateY;
-                this.offsetY = f3;
-                actionBarPopupWindow2.showAtLocation(viewGroup, 0, (int) f2, (int) f3);
+                float f3 = width + this.translateX;
+                this.offsetX = f3;
+                float f4 = height + this.translateY;
+                this.offsetY = f4;
+                actionBarPopupWindow2.showAtLocation(viewGroup, 0, (int) f3, (int) f4);
             }
             return this;
         }
@@ -567,7 +644,7 @@ public class ItemOptions {
         }
         this.dimView = null;
         view.animate().cancel();
-        view.animate().alpha(0.0f).setDuration(150L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ItemOptions.4
+        view.animate().alpha(0.0f).setDuration(150L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ItemOptions.5
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
                 AndroidUtilities.removeFromParent(view);
@@ -587,10 +664,23 @@ public class ItemOptions {
     }
 
     public void dismiss() {
+        if (this.dontDismiss) {
+            this.dontDismiss = false;
+            return;
+        }
         ActionBarPopupWindow actionBarPopupWindow = this.actionBarPopupWindow;
         if (actionBarPopupWindow != null) {
             actionBarPopupWindow.dismiss();
+            return;
         }
+        Runnable runnable = this.dismissListener;
+        if (runnable != null) {
+            runnable.run();
+        }
+    }
+
+    public void dontDismiss() {
+        this.dontDismiss = true;
     }
 
     public static void getPointOnScreen(View view, ViewGroup viewGroup, float[] fArr) {

@@ -41,6 +41,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLoaderPriorityQueue;
@@ -83,9 +84,11 @@ public class EditTextBoldCursor extends EditTextEffects {
     private Matrix ellipsizeMatrix;
     private Paint ellipsizePaint;
     private int ellipsizeWidth;
+    private StaticLayout errorLayout;
     private int errorLineColor;
     private TextPaint errorPaint;
     private CharSequence errorText;
+    private boolean fixed;
     public FloatingActionMode floatingActionMode;
     private FloatingToolbar floatingToolbar;
     private ViewTreeObserver.OnPreDrawListener floatingToolbarPreDrawListener;
@@ -103,14 +106,18 @@ public class EditTextBoldCursor extends EditTextEffects {
     private long hintLastUpdateTime;
     private StaticLayout hintLayout;
     public float hintLayoutX;
+    public float hintLayoutY;
     public boolean hintLayoutYFix;
     private boolean hintVisible;
     private int ignoreBottomCount;
+    public boolean ignoreClipTop;
     private int ignoreTopCount;
     private Runnable invalidateRunnable;
     private boolean isTextWatchersSuppressed;
     private float lastLineActiveness;
+    int lastOffset;
     private int lastSize;
+    CharSequence lastText;
     private int lastTouchX;
     private boolean lineActive;
     private float lineActiveness;
@@ -120,6 +127,9 @@ public class EditTextBoldCursor extends EditTextEffects {
     private float lineSpacingExtra;
     private boolean lineVisible;
     private float lineY;
+    public boolean lineYFix;
+    private ViewTreeObserver.OnPreDrawListener listenerFixer;
+    private Drawable mCursorDrawable;
     private android.graphics.Rect mTempRect;
     private boolean nextSetTextAnimated;
     private Runnable onPremiumMenuLockClickListener;
@@ -233,6 +243,7 @@ public class EditTextBoldCursor extends EditTextEffects {
         this.lineActiveness = 0.0f;
         this.lastLineActiveness = 0.0f;
         this.activeLineWidth = 0.0f;
+        this.lastOffset = -1;
         this.registeredTextWatchers = new ArrayList();
         this.isTextWatchersSuppressed = false;
         this.padding = new android.graphics.Rect();
@@ -311,6 +322,10 @@ public class EditTextBoldCursor extends EditTextEffects {
                 textWatcher2.afterTextChanged(getText());
             }
         }
+    }
+
+    public boolean isTextWatchersSuppressed() {
+        return this.isTextWatchersSuppressed;
     }
 
     @Override // android.widget.TextView
@@ -426,6 +441,39 @@ public class EditTextBoldCursor extends EditTextEffects {
             }
         }
         this.cursorSize = AndroidUtilities.dp(24.0f);
+    }
+
+    @SuppressLint({"PrivateApi"})
+    public void fixHandleView(boolean z) {
+        if (z) {
+            this.fixed = false;
+        } else if (this.fixed) {
+        } else {
+            try {
+                if (editorClass == null) {
+                    editorClass = Class.forName("android.widget.Editor");
+                    Field declaredField = TextView.class.getDeclaredField("mEditor");
+                    mEditor = declaredField;
+                    declaredField.setAccessible(true);
+                    this.editor = mEditor.get(this);
+                }
+                if (this.listenerFixer == null) {
+                    Method declaredMethod = editorClass.getDeclaredMethod("getPositionListener", new Class[0]);
+                    declaredMethod.setAccessible(true);
+                    this.listenerFixer = (ViewTreeObserver.OnPreDrawListener) declaredMethod.invoke(this.editor, new Object[0]);
+                }
+                final ViewTreeObserver.OnPreDrawListener onPreDrawListener = this.listenerFixer;
+                Objects.requireNonNull(onPreDrawListener);
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.EditTextBoldCursor$$ExternalSyntheticLambda1
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        onPreDrawListener.onPreDraw();
+                    }
+                }, 500L);
+            } catch (Throwable unused) {
+            }
+            this.fixed = true;
+        }
     }
 
     public void setTransformHintToHeader(boolean z) {
@@ -818,11 +866,15 @@ public class EditTextBoldCursor extends EditTextEffects {
                     if (this.supportRtlHint && LocaleController.isRTL) {
                         float scrollX = i + getScrollX() + (getMeasuredWidth() - lineWidth);
                         this.hintLayoutX = scrollX;
-                        canvas.translate(scrollX, (this.lineY - this.hintLayout.getHeight()) - AndroidUtilities.dp(7.0f));
+                        float height = (this.lineY - this.hintLayout.getHeight()) - AndroidUtilities.dp(7.0f);
+                        this.hintLayoutY = height;
+                        canvas.translate(scrollX, height);
                     } else {
                         float scrollX2 = i + getScrollX();
                         this.hintLayoutX = scrollX2;
-                        canvas.translate(scrollX2, (this.lineY - this.hintLayout.getHeight()) - AndroidUtilities.dp2(7.0f));
+                        float height2 = (this.lineY - this.hintLayout.getHeight()) - AndroidUtilities.dp2(7.0f);
+                        this.hintLayoutY = height2;
+                        canvas.translate(scrollX2, height2);
                     }
                     if (this.transformHintToHeader) {
                         float f3 = 1.0f - (this.headerAnimationProgress * 0.3f);
@@ -848,7 +900,7 @@ public class EditTextBoldCursor extends EditTextEffects {
                     } else {
                         Utilities.Callback2<Canvas, Runnable> callback2 = this.drawHint;
                         if (callback2 != null) {
-                            callback2.run(canvas, new Runnable() { // from class: org.telegram.ui.Components.EditTextBoldCursor$$ExternalSyntheticLambda1
+                            callback2.run(canvas, new Runnable() { // from class: org.telegram.ui.Components.EditTextBoldCursor$$ExternalSyntheticLambda2
                                 @Override // java.lang.Runnable
                                 public final void run() {
                                     EditTextBoldCursor.this.lambda$drawHint$0(canvas);
@@ -871,8 +923,8 @@ public class EditTextBoldCursor extends EditTextEffects {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x0148 A[Catch: all -> 0x0171, TryCatch #0 {all -> 0x0171, blocks: (B:34:0x009d, B:36:0x00a1, B:38:0x00a5, B:40:0x00b7, B:45:0x00c5, B:48:0x00cb, B:50:0x00d2, B:52:0x00da, B:57:0x0100, B:59:0x0148, B:61:0x014b, B:62:0x0150, B:53:0x00ed, B:55:0x00f5, B:44:0x00c1), top: B:150:0x009d }] */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x01ff A[Catch: all -> 0x0229, TryCatch #3 {all -> 0x0229, blocks: (B:72:0x0182, B:74:0x0189, B:76:0x0191, B:81:0x01b7, B:83:0x01ff, B:85:0x0202, B:86:0x0207, B:77:0x01a4, B:79:0x01ac), top: B:157:0x0182 }] */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x0148 A[Catch: all -> 0x0171, TryCatch #0 {all -> 0x0171, blocks: (B:34:0x009d, B:36:0x00a1, B:38:0x00a5, B:40:0x00b7, B:45:0x00c5, B:48:0x00cb, B:50:0x00d2, B:52:0x00da, B:57:0x0100, B:59:0x0148, B:61:0x014b, B:62:0x0150, B:53:0x00ed, B:55:0x00f5, B:44:0x00c1), top: B:154:0x009d }] */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x01ff A[Catch: all -> 0x0229, TryCatch #3 {all -> 0x0229, blocks: (B:72:0x0182, B:74:0x0189, B:76:0x0191, B:81:0x01b7, B:83:0x01ff, B:85:0x0202, B:86:0x0207, B:77:0x01a4, B:79:0x01ac), top: B:161:0x0182 }] */
     @Override // org.telegram.ui.Components.EditTextEffects, android.widget.TextView, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1206,14 +1258,14 @@ public class EditTextBoldCursor extends EditTextEffects {
                     invalidate();
                 }
             }
-            int scrollY = ((int) this.lineY) + getScrollY() + Math.min(Math.max(0, ((((getLayout() == null ? 0 : getLayout().getHeight()) - getMeasuredHeight()) + getPaddingBottom()) + getPaddingTop()) - getScrollY()), AndroidUtilities.dp(2.0f));
+            int measuredHeight = this.lineYFix ? getMeasuredHeight() - AndroidUtilities.dp(2.0f) : Math.min(Math.max(0, ((((getLayout() == null ? 0 : getLayout().getHeight()) - getMeasuredHeight()) + getPaddingBottom()) + getPaddingTop()) - getScrollY()), AndroidUtilities.dp(2.0f)) + ((int) this.lineY) + getScrollY();
             int i6 = this.lastTouchX;
             if (i6 < 0) {
                 i6 = getMeasuredWidth() / 2;
             }
             int max = Math.max(i6, getMeasuredWidth() - i6) * 2;
             if (this.lineActiveness < 1.0f) {
-                canvas.drawRect(getScrollX(), scrollY - dp, getScrollX() + getMeasuredWidth(), scrollY, this.linePaint);
+                canvas.drawRect(getScrollX(), measuredHeight - dp, getScrollX() + getMeasuredWidth(), measuredHeight, this.linePaint);
             }
             float f3 = this.lineActiveness;
             if (f3 > 0.0f) {
@@ -1226,7 +1278,7 @@ public class EditTextBoldCursor extends EditTextEffects {
                     interpolation = 1.0f;
                 }
                 float f4 = i6;
-                canvas.drawRect(getScrollX() + Math.max(0.0f, f4 - (this.activeLineWidth / 2.0f)), scrollY - ((int) (interpolation * AndroidUtilities.dp(2.0f))), getScrollX() + Math.min(f4 + (this.activeLineWidth / 2.0f), getMeasuredWidth()), scrollY, this.activeLinePaint);
+                canvas.drawRect(getScrollX() + Math.max(0.0f, f4 - (this.activeLineWidth / 2.0f)), measuredHeight - ((int) (interpolation * AndroidUtilities.dp(2.0f))), getScrollX() + Math.min(f4 + (this.activeLineWidth / 2.0f), getMeasuredWidth()), measuredHeight, this.activeLinePaint);
             }
         }
         if (this.ellipsizeByGradient) {
@@ -1255,7 +1307,8 @@ public class EditTextBoldCursor extends EditTextEffects {
         int length = this.forceCursorEnd ? layout.getText().length() : getSelectionStart();
         int lineForOffset = layout.getLineForOffset(length);
         updateCursorPosition(layout.getLineTop(lineForOffset), layout.getLineTop(lineForOffset + 1), layout.getPrimaryHorizontal(length));
-        layout.getText();
+        this.lastText = layout.getText();
+        this.lastOffset = length;
         return true;
     }
 
@@ -1350,7 +1403,7 @@ public class EditTextBoldCursor extends EditTextEffects {
             FloatingToolbar floatingToolbar = new FloatingToolbar(context, view, getActionModeStyle(), getResourcesProvider());
             this.floatingToolbar = floatingToolbar;
             floatingToolbar.setOnPremiumLockClick(this.onPremiumMenuLockClickListener);
-            this.floatingToolbar.setQuoteShowVisible(new Utilities.Callback0Return() { // from class: org.telegram.ui.Components.EditTextBoldCursor$$ExternalSyntheticLambda2
+            this.floatingToolbar.setQuoteShowVisible(new Utilities.Callback0Return() { // from class: org.telegram.ui.Components.EditTextBoldCursor$$ExternalSyntheticLambda3
                 @Override // org.telegram.messenger.Utilities.Callback0Return
                 public final Object run() {
                     boolean shouldShowQuoteButton;

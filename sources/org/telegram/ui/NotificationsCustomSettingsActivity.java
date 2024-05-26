@@ -1279,10 +1279,10 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
     /* JADX WARN: Code restructure failed: missing block: B:96:0x02a4, code lost:
         if (r8.deleted != false) goto L122;
      */
-    /* JADX WARN: Removed duplicated region for block: B:138:0x0331  */
-    /* JADX WARN: Removed duplicated region for block: B:157:0x0376  */
-    /* JADX WARN: Removed duplicated region for block: B:164:0x0390 A[LOOP:5: B:163:0x038e->B:164:0x0390, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:167:0x03aa  */
+    /* JADX WARN: Removed duplicated region for block: B:138:0x032d  */
+    /* JADX WARN: Removed duplicated region for block: B:157:0x0372  */
+    /* JADX WARN: Removed duplicated region for block: B:164:0x038c A[LOOP:5: B:163:0x038a->B:164:0x038c, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:167:0x03a6  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1597,7 +1597,7 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
                         });
                     }
                     try {
-                        getMessagesStorage().getUsersInternal(TextUtils.join(",", arrayList18), arrayList4);
+                        getMessagesStorage().getUsersInternal(arrayList18, arrayList4);
                     } catch (Exception e4) {
                         e = e4;
                         arrayList3 = arrayList22;

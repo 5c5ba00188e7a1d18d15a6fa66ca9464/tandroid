@@ -796,7 +796,7 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
         canvas.save();
         float f40 = f5 * f28;
         float f41 = y2 * f29;
-        canvas.translate(f40 + ((f26 - this.toXOffset) * f6), ((f27 + this.textLayoutBlock.textYOffset) * f12) + f41);
+        canvas.translate(f40 + ((f26 - this.toXOffset) * f6), ((f27 + this.textLayoutBlock.textYOffset(this.messageView.getMessageObject().textLayoutBlocks, this.messageView.transitionParams)) * f12) + f41);
         float f42 = f38 * f39;
         canvas.scale(f38, f42, 0.0f, 0.0f);
         if (this.drawBitmaps) {
@@ -840,7 +840,7 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
         canvas.restore();
         if (this.rtlLayout != null) {
             canvas.save();
-            canvas.translate(f40 + ((f26 - this.toXOffsetRtl) * f6), f41 + ((f27 + this.textLayoutBlock.textYOffset) * f12));
+            canvas.translate(f40 + ((f26 - this.toXOffsetRtl) * f6), f41 + ((f27 + this.textLayoutBlock.textYOffset(this.messageView.getMessageObject().textLayoutBlocks, this.messageView.transitionParams)) * f12));
             f16 = f13;
             canvas.scale(f15, f16, 0.0f, 0.0f);
             if (this.drawBitmaps) {

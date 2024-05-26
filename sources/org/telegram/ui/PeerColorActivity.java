@@ -1099,8 +1099,9 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
         }
         frameLayout.addView(this.colorBar, LayoutHelper.createFrame(-1, -2, 55));
         ViewPagerFixed viewPagerFixed = new ViewPagerFixed(context) { // from class: org.telegram.ui.PeerColorActivity.5
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.ViewPagerFixed
-            protected void onTabAnimationUpdate(boolean z) {
+            public void onTabAnimationUpdate(boolean z) {
                 PeerColorActivity.this.tabsView.setSelected(PeerColorActivity.this.viewPager.getPositionAnimated());
                 PeerColorActivity.this.colorBar.setProgressToGradient(PeerColorActivity.this.viewPager.getPositionAnimated());
             }

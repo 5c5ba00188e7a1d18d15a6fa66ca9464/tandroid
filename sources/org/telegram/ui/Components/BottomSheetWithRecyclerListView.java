@@ -64,6 +64,10 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
         return false;
     }
 
+    protected boolean canHighlightChildAt(View view, float f, float f2) {
+        return true;
+    }
+
     protected abstract RecyclerListView.SelectionAdapter createAdapter(RecyclerListView recyclerListView);
 
     protected abstract CharSequence getTitle();
@@ -214,6 +218,12 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
             public void onLayout(boolean z5, int i, int i2, int i3, int i4) {
                 BottomSheetWithRecyclerListView.this.applyScrolledPosition();
                 super.onLayout(z5, i, i2, i3, i4);
+            }
+
+            /* JADX INFO: Access modifiers changed from: protected */
+            @Override // org.telegram.ui.Components.RecyclerListView
+            public boolean canHighlightChildAt(View view, float f, float f2) {
+                return BottomSheetWithRecyclerListView.this.canHighlightChildAt(view, f, f2);
             }
         };
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
@@ -552,6 +562,13 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
         ActionBar actionBar = this.actionBar;
         if (actionBar != null) {
             actionBar.setTitle(getTitle());
+        }
+    }
+
+    public void updateTitleAnimated() {
+        ActionBar actionBar = this.actionBar;
+        if (actionBar != null) {
+            actionBar.setTitleAnimated(getTitle(), false, 350L, CubicBezierInterpolator.EASE_OUT_QUINT);
         }
     }
 

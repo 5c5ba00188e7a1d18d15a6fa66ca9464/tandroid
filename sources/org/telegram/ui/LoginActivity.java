@@ -82,6 +82,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.play.core.integrity.IntegrityManagerFactory;
+import com.google.android.play.core.integrity.IntegrityTokenRequest;
+import com.google.android.play.core.integrity.IntegrityTokenResponse;
 import j$.util.Comparator$-CC;
 import j$.util.function.Function;
 import java.io.BufferedReader;
@@ -467,7 +470,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             }
         };
         this.sizeNotifierFrameLayout = sizeNotifierFrameLayout;
-        sizeNotifierFrameLayout.setDelegate(new SizeNotifierFrameLayout.SizeNotifierFrameLayoutDelegate() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda33
+        sizeNotifierFrameLayout.setDelegate(new SizeNotifierFrameLayout.SizeNotifierFrameLayoutDelegate() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda37
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout.SizeNotifierFrameLayoutDelegate
             public final void onSizeChanged(int i, boolean z2) {
                 LoginActivity.this.lambda$createView$0(i, z2);
@@ -729,7 +732,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         this.restoringState = false;
         updateColors();
         if (isInCancelAccountDeletionMode()) {
-            lambda$fillNextCodeParams$23(this.cancelDeletionParams, this.cancelDeletionCode, false);
+            lambda$fillNextCodeParams$27(this.cancelDeletionParams, this.cancelDeletionCode, false);
         }
         return this.fragmentView;
     }
@@ -948,7 +951,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             }
         } else if (i == 151 && z) {
             final LoginActivityRegisterView loginActivityRegisterView = (LoginActivityRegisterView) this.views[5];
-            loginActivityRegisterView.post(new Runnable() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda18
+            loginActivityRegisterView.post(new Runnable() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda20
                 @Override // java.lang.Runnable
                 public final void run() {
                     LoginActivity.lambda$onRequestPermissionsResultFragment$7(LoginActivity.LoginActivityRegisterView.this);
@@ -1055,7 +1058,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                     getParentActivity().requestPermissions((String[]) this.permissionsItems.toArray(new String[0]), 6);
                 } else if (dialog != this.permissionsShowDialog || this.permissionsShowItems.isEmpty() || getParentActivity() == null) {
                 } else {
-                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda19
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda21
                         @Override // java.lang.Runnable
                         public final void run() {
                             LoginActivity.this.lambda$onDialogDismiss$8();
@@ -1154,7 +1157,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             final EditText attachedEditText = outlineTextContainerView.getAttachedEditText();
             final 8 r3 = new 8(this, attachedEditText, atomicReference);
             outlineTextContainerView.animateError(1.0f);
-            Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda17
+            Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda19
                 @Override // java.lang.Runnable
                 public final void run() {
                     LoginActivity.lambda$onFieldError$10(OutlineTextContainerView.this, view, attachedEditText, r3);
@@ -1213,7 +1216,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         outlineTextContainerView.animateError(0.0f);
         view.setTag(R.id.timeout_callback, null);
         if (editText != null) {
-            editText.post(new Runnable() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda16
+            editText.post(new Runnable() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda18
                 @Override // java.lang.Runnable
                 public final void run() {
                     editText.removeTextChangedListener(textWatcher);
@@ -1450,7 +1453,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             return;
         }
         if (Looper.myLooper() != Looper.getMainLooper()) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda27
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda30
                 @Override // java.lang.Runnable
                 public final void run() {
                     LoginActivity.this.lambda$showEditDoneProgress$15(z, z2, z3);
@@ -1469,7 +1472,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                     return;
                 } else if (z) {
                     Runnable[] runnableArr = this.editDoneCallback;
-                    Runnable runnable = new Runnable() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda22
+                    Runnable runnable = new Runnable() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda24
                         @Override // java.lang.Runnable
                         public final void run() {
                             LoginActivity.this.lambda$showEditDoneProgress$16(i, z, z2);
@@ -1759,7 +1762,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             if (this.newAccount) {
                 this.newAccount = false;
                 this.pendingSwitchingAccount = true;
-                ((LaunchActivity) getParentActivity()).switchToAccount(this.currentAccount, false, new GenericProvider() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda28
+                ((LaunchActivity) getParentActivity()).switchToAccount(this.currentAccount, false, new GenericProvider() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda31
                     @Override // org.telegram.messenger.GenericProvider
                     public final Object provide(Object obj) {
                         DialogsActivity lambda$needFinishActivity$18;
@@ -1842,17 +1845,21 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
     /* JADX INFO: Access modifiers changed from: private */
     /* renamed from: fillNextCodeParams */
     public void lambda$resendCodeFromSafetyNet$19(Bundle bundle, TLRPC$auth_SentCode tLRPC$auth_SentCode) {
-        lambda$fillNextCodeParams$23(bundle, tLRPC$auth_SentCode, true);
+        lambda$fillNextCodeParams$27(bundle, tLRPC$auth_SentCode, true);
     }
 
-    private void resendCodeFromSafetyNet(final Bundle bundle, TLRPC$auth_SentCode tLRPC$auth_SentCode) {
+    private void resendCodeFromSafetyNet(final Bundle bundle, TLRPC$auth_SentCode tLRPC$auth_SentCode, String str) {
         if (this.isRequestingFirebaseSms) {
             needHideProgress(false);
             this.isRequestingFirebaseSms = false;
             TLRPC$TL_auth_resendCode tLRPC$TL_auth_resendCode = new TLRPC$TL_auth_resendCode();
             tLRPC$TL_auth_resendCode.phone_number = bundle.getString("phoneFormated");
             tLRPC$TL_auth_resendCode.phone_code_hash = tLRPC$auth_SentCode.phone_code_hash;
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_auth_resendCode, new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda29
+            if (str != null) {
+                tLRPC$TL_auth_resendCode.flags |= 1;
+                tLRPC$TL_auth_resendCode.reason = str;
+            }
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_auth_resendCode, new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda32
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     LoginActivity.this.lambda$resendCodeFromSafetyNet$22(bundle, tLObject, tLRPC$TL_error);
@@ -1863,15 +1870,15 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$resendCodeFromSafetyNet$22(final Bundle bundle, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        if (tLObject != null) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda23
+        if (tLObject != null && !(((TLRPC$auth_SentCode) tLObject).type instanceof TLRPC$TL_auth_sentCodeTypeFirebaseSms)) {
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda25
                 @Override // java.lang.Runnable
                 public final void run() {
                     LoginActivity.this.lambda$resendCodeFromSafetyNet$19(bundle, tLObject);
                 }
             });
         } else {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda20
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda22
                 @Override // java.lang.Runnable
                 public final void run() {
                     LoginActivity.this.lambda$resendCodeFromSafetyNet$21();
@@ -1901,29 +1908,60 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         }
     }
 
+    public static String errorString(Throwable th) {
+        if (th == null) {
+            return "NULL";
+        }
+        String simpleName = th.getClass().getSimpleName();
+        if (th.getMessage() != null) {
+            if (simpleName.length() > 0) {
+                simpleName = simpleName + " ";
+            }
+            simpleName = simpleName + th.getMessage();
+        }
+        return simpleName.toUpperCase().replaceAll(" ", "_");
+    }
+
     /* JADX INFO: Access modifiers changed from: private */
     /* renamed from: fillNextCodeParams */
-    public void lambda$fillNextCodeParams$23(final Bundle bundle, final TLRPC$auth_SentCode tLRPC$auth_SentCode, final boolean z) {
+    public void lambda$fillNextCodeParams$27(final Bundle bundle, final TLRPC$auth_SentCode tLRPC$auth_SentCode, final boolean z) {
         TLRPC$auth_SentCodeType tLRPC$auth_SentCodeType = tLRPC$auth_SentCode.type;
         if ((tLRPC$auth_SentCodeType instanceof TLRPC$TL_auth_sentCodeTypeFirebaseSms) && !tLRPC$auth_SentCodeType.verifiedFirebase && !this.isRequestingFirebaseSms) {
             if (PushListenerController.GooglePushListenerServiceProvider.INSTANCE.hasServices()) {
+                TLRPC$TL_auth_sentCodeTypeFirebaseSms tLRPC$TL_auth_sentCodeTypeFirebaseSms = (TLRPC$TL_auth_sentCodeTypeFirebaseSms) tLRPC$auth_SentCode.type;
                 needShowProgress(0);
                 this.isRequestingFirebaseSms = true;
-                SafetyNet.getClient(ApplicationLoader.applicationContext).attest(tLRPC$auth_SentCode.type.nonce, BuildVars.SAFETYNET_KEY).addOnSuccessListener(new OnSuccessListener() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda15
-                    @Override // com.google.android.gms.tasks.OnSuccessListener
-                    public final void onSuccess(Object obj) {
-                        LoginActivity.this.lambda$fillNextCodeParams$25(bundle, tLRPC$auth_SentCode, z, (SafetyNetApi$AttestationResponse) obj);
-                    }
-                }).addOnFailureListener(new OnFailureListener() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda14
-                    @Override // com.google.android.gms.tasks.OnFailureListener
-                    public final void onFailure(Exception exc) {
-                        LoginActivity.this.lambda$fillNextCodeParams$26(bundle, tLRPC$auth_SentCode, exc);
-                    }
-                });
-                return;
+                final String string = bundle.getString("phoneFormated");
+                if (tLRPC$TL_auth_sentCodeTypeFirebaseSms.play_integrity_nonce != null) {
+                    IntegrityManagerFactory.create(getContext()).requestIntegrityToken(IntegrityTokenRequest.builder().setNonce(Utilities.bytesToHex(tLRPC$TL_auth_sentCodeTypeFirebaseSms.play_integrity_nonce)).setCloudProjectNumber(760348033671L).build()).addOnSuccessListener(new OnSuccessListener() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda16
+                        @Override // com.google.android.gms.tasks.OnSuccessListener
+                        public final void onSuccess(Object obj) {
+                            LoginActivity.this.lambda$fillNextCodeParams$25(bundle, tLRPC$auth_SentCode, string, z, (IntegrityTokenResponse) obj);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda15
+                        @Override // com.google.android.gms.tasks.OnFailureListener
+                        public final void onFailure(Exception exc) {
+                            LoginActivity.this.lambda$fillNextCodeParams$26(bundle, tLRPC$auth_SentCode, exc);
+                        }
+                    });
+                    return;
+                } else {
+                    SafetyNet.getClient(ApplicationLoader.applicationContext).attest(tLRPC$auth_SentCode.type.nonce, BuildVars.SAFETYNET_KEY).addOnSuccessListener(new OnSuccessListener() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda17
+                        @Override // com.google.android.gms.tasks.OnSuccessListener
+                        public final void onSuccess(Object obj) {
+                            LoginActivity.this.lambda$fillNextCodeParams$29(string, tLRPC$auth_SentCode, bundle, z, (SafetyNetApi$AttestationResponse) obj);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda14
+                        @Override // com.google.android.gms.tasks.OnFailureListener
+                        public final void onFailure(Exception exc) {
+                            LoginActivity.this.lambda$fillNextCodeParams$30(bundle, tLRPC$auth_SentCode, exc);
+                        }
+                    });
+                    return;
+                }
             }
-            FileLog.d("Resend firebase sms because firebase is not available");
-            resendCodeFromSafetyNet(bundle, tLRPC$auth_SentCode);
+            FileLog.d("{GOOGLE_PLAY_SERVICES_NOT_AVAILABLE} Resend firebase sms because firebase is not available");
+            resendCodeFromSafetyNet(bundle, tLRPC$auth_SentCode, "GOOGLE_PLAY_SERVICES_NOT_AVAILABLE");
             return;
         }
         bundle.putString("phoneHash", tLRPC$auth_SentCode.phone_code_hash);
@@ -2000,43 +2038,24 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$fillNextCodeParams$25(final Bundle bundle, final TLRPC$auth_SentCode tLRPC$auth_SentCode, final boolean z, SafetyNetApi$AttestationResponse safetyNetApi$AttestationResponse) {
-        String jwsResult = safetyNetApi$AttestationResponse.getJwsResult();
-        if (jwsResult != null) {
-            TLRPC$TL_auth_requestFirebaseSms tLRPC$TL_auth_requestFirebaseSms = new TLRPC$TL_auth_requestFirebaseSms();
-            tLRPC$TL_auth_requestFirebaseSms.phone_number = bundle.getString("phoneFormated");
-            tLRPC$TL_auth_requestFirebaseSms.phone_code_hash = tLRPC$auth_SentCode.phone_code_hash;
-            tLRPC$TL_auth_requestFirebaseSms.safety_net_token = jwsResult;
-            tLRPC$TL_auth_requestFirebaseSms.flags |= 1;
-            String[] split = jwsResult.split("\\.");
-            if (split.length > 0) {
-                try {
-                    JSONObject jSONObject = new JSONObject(new String(Base64.decode(split[1].getBytes(StandardCharsets.UTF_8), 0)));
-                    if (jSONObject.optBoolean("basicIntegrity") && jSONObject.optBoolean("ctsProfileMatch")) {
-                        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_auth_requestFirebaseSms, new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda31
-                            @Override // org.telegram.tgnet.RequestDelegate
-                            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                                LoginActivity.this.lambda$fillNextCodeParams$24(tLRPC$auth_SentCode, bundle, z, tLObject, tLRPC$TL_error);
-                            }
-                        }, 10);
-                    } else {
-                        FileLog.d("Resend firebase sms because ctsProfileMatch or basicIntegrity = false");
-                        resendCodeFromSafetyNet(bundle, tLRPC$auth_SentCode);
-                    }
-                    return;
-                } catch (JSONException e) {
-                    FileLog.e(e);
-                    FileLog.d("Resend firebase sms because of exception");
-                    resendCodeFromSafetyNet(bundle, tLRPC$auth_SentCode);
-                    return;
-                }
-            }
-            FileLog.d("Resend firebase sms because can't split JWS token");
-            resendCodeFromSafetyNet(bundle, tLRPC$auth_SentCode);
+    public /* synthetic */ void lambda$fillNextCodeParams$25(final Bundle bundle, final TLRPC$auth_SentCode tLRPC$auth_SentCode, String str, final boolean z, IntegrityTokenResponse integrityTokenResponse) {
+        String str2 = integrityTokenResponse.token();
+        if (str2 == null) {
+            FileLog.d("Resend firebase sms because integrity token = null");
+            resendCodeFromSafetyNet(bundle, tLRPC$auth_SentCode, "PLAYINTEGRITY_TOKEN_NULL");
             return;
         }
-        FileLog.d("Resend firebase sms because JWS = null");
-        resendCodeFromSafetyNet(bundle, tLRPC$auth_SentCode);
+        TLRPC$TL_auth_requestFirebaseSms tLRPC$TL_auth_requestFirebaseSms = new TLRPC$TL_auth_requestFirebaseSms();
+        tLRPC$TL_auth_requestFirebaseSms.phone_number = str;
+        tLRPC$TL_auth_requestFirebaseSms.phone_code_hash = tLRPC$auth_SentCode.phone_code_hash;
+        tLRPC$TL_auth_requestFirebaseSms.play_integrity_token = str2;
+        tLRPC$TL_auth_requestFirebaseSms.flags |= 4;
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_auth_requestFirebaseSms, new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda34
+            @Override // org.telegram.tgnet.RequestDelegate
+            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                LoginActivity.this.lambda$fillNextCodeParams$24(tLRPC$auth_SentCode, bundle, z, tLObject, tLRPC$TL_error);
+            }
+        }, 10);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2045,7 +2064,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             needHideProgress(false);
             this.isRequestingFirebaseSms = false;
             tLRPC$auth_SentCode.type.verifiedFirebase = true;
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda24
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda26
                 @Override // java.lang.Runnable
                 public final void run() {
                     LoginActivity.this.lambda$fillNextCodeParams$23(bundle, tLRPC$auth_SentCode, z);
@@ -2053,15 +2072,89 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             });
             return;
         }
-        FileLog.d("Resend firebase sms because auth.requestFirebaseSms = false");
-        resendCodeFromSafetyNet(bundle, tLRPC$auth_SentCode);
+        FileLog.d("{PLAYINTEGRITY_REQUESTFIREBASESMS_FALSE} Resend firebase sms because auth.requestFirebaseSms = false");
+        resendCodeFromSafetyNet(bundle, tLRPC$auth_SentCode, "PLAYINTEGRITY_REQUESTFIREBASESMS_FALSE");
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$fillNextCodeParams$26(Bundle bundle, TLRPC$auth_SentCode tLRPC$auth_SentCode, Exception exc) {
+        String str = "PLAYINTEGRITY_EXCEPTION_" + errorString(exc);
+        FileLog.e("{" + str + "} Resend firebase sms because integrity threw error", exc);
+        resendCodeFromSafetyNet(bundle, tLRPC$auth_SentCode, str);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$fillNextCodeParams$29(String str, final TLRPC$auth_SentCode tLRPC$auth_SentCode, final Bundle bundle, final boolean z, SafetyNetApi$AttestationResponse safetyNetApi$AttestationResponse) {
+        String jwsResult = safetyNetApi$AttestationResponse.getJwsResult();
+        if (jwsResult != null) {
+            TLRPC$TL_auth_requestFirebaseSms tLRPC$TL_auth_requestFirebaseSms = new TLRPC$TL_auth_requestFirebaseSms();
+            tLRPC$TL_auth_requestFirebaseSms.phone_number = str;
+            tLRPC$TL_auth_requestFirebaseSms.phone_code_hash = tLRPC$auth_SentCode.phone_code_hash;
+            tLRPC$TL_auth_requestFirebaseSms.safety_net_token = jwsResult;
+            tLRPC$TL_auth_requestFirebaseSms.flags |= 1;
+            String[] split = jwsResult.split("\\.");
+            if (split.length > 0) {
+                try {
+                    JSONObject jSONObject = new JSONObject(new String(Base64.decode(split[1].getBytes(StandardCharsets.UTF_8), 0)));
+                    boolean optBoolean = jSONObject.optBoolean("basicIntegrity");
+                    boolean optBoolean2 = jSONObject.optBoolean("ctsProfileMatch");
+                    if (optBoolean && optBoolean2) {
+                        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_auth_requestFirebaseSms, new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda35
+                            @Override // org.telegram.tgnet.RequestDelegate
+                            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                                LoginActivity.this.lambda$fillNextCodeParams$28(tLRPC$auth_SentCode, bundle, z, tLObject, tLRPC$TL_error);
+                            }
+                        }, 10);
+                    } else if (!optBoolean && !optBoolean2) {
+                        FileLog.d("{SAFETYNET_BASICINTEGRITY_CTSPROFILEMATCH_FALSE} Resend firebase sms because ctsProfileMatch = false and basicIntegrity = false");
+                        resendCodeFromSafetyNet(bundle, tLRPC$auth_SentCode, "SAFETYNET_BASICINTEGRITY_CTSPROFILEMATCH_FALSE");
+                    } else if (!optBoolean) {
+                        FileLog.d("{SAFETYNET_BASICINTEGRITY_FALSE} Resend firebase sms because basicIntegrity = false");
+                        resendCodeFromSafetyNet(bundle, tLRPC$auth_SentCode, "SAFETYNET_BASICINTEGRITY_FALSE");
+                    } else if (!optBoolean2) {
+                        FileLog.d("{SAFETYNET_CTSPROFILEMATCH_FALSE} Resend firebase sms because ctsProfileMatch = false");
+                        resendCodeFromSafetyNet(bundle, tLRPC$auth_SentCode, "SAFETYNET_CTSPROFILEMATCH_FALSE");
+                    }
+                    return;
+                } catch (JSONException e) {
+                    FileLog.e(e);
+                    FileLog.d("{SAFETYNET_JSON_EXCEPTION} Resend firebase sms because of exception");
+                    resendCodeFromSafetyNet(bundle, tLRPC$auth_SentCode, "SAFETYNET_JSON_EXCEPTION");
+                    return;
+                }
+            }
+            FileLog.d("{SAFETYNET_CANT_SPLIT} Resend firebase sms because can't split JWS token");
+            resendCodeFromSafetyNet(bundle, tLRPC$auth_SentCode, "SAFETYNET_CANT_SPLIT");
+            return;
+        }
+        FileLog.d("{SAFETYNET_NULL_JWS} Resend firebase sms because JWS = null");
+        resendCodeFromSafetyNet(bundle, tLRPC$auth_SentCode, "SAFETYNET_NULL_JWS");
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$fillNextCodeParams$28(final TLRPC$auth_SentCode tLRPC$auth_SentCode, final Bundle bundle, final boolean z, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        if (tLObject instanceof TLRPC$TL_boolTrue) {
+            needHideProgress(false);
+            this.isRequestingFirebaseSms = false;
+            tLRPC$auth_SentCode.type.verifiedFirebase = true;
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda27
+                @Override // java.lang.Runnable
+                public final void run() {
+                    LoginActivity.this.lambda$fillNextCodeParams$27(bundle, tLRPC$auth_SentCode, z);
+                }
+            });
+            return;
+        }
+        FileLog.d("{SAFETYNET_REQUESTFIREBASESMS_FALSE} Resend firebase sms because auth.requestFirebaseSms = false");
+        resendCodeFromSafetyNet(bundle, tLRPC$auth_SentCode, "SAFETYNET_REQUESTFIREBASESMS_FALSE");
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$fillNextCodeParams$30(Bundle bundle, TLRPC$auth_SentCode tLRPC$auth_SentCode, Exception exc) {
         FileLog.e(exc);
-        FileLog.d("Resend firebase sms because of safetynet exception");
-        resendCodeFromSafetyNet(bundle, tLRPC$auth_SentCode);
+        String str = "SAFETYNET_EXCEPTION_" + errorString(exc);
+        FileLog.d("{" + str + "} Resend firebase sms because of safetynet exception");
+        resendCodeFromSafetyNet(bundle, tLRPC$auth_SentCode, str);
     }
 
     /* loaded from: classes4.dex */
@@ -2166,7 +2259,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 }
             });
             addView(this.countryOutlineView, LayoutHelper.createLinear(-1, 58, 16.0f, 24.0f, 16.0f, 14.0f));
-            this.countryOutlineView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.LoginActivity$PhoneView$$ExternalSyntheticLambda2
+            this.countryOutlineView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.LoginActivity$PhoneView$$ExternalSyntheticLambda1
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     LoginActivity.PhoneView.this.lambda$new$4(view);
@@ -2516,17 +2609,17 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 checkBoxCell.setText(LocaleController.getString("SyncContacts", R.string.SyncContacts), "", LoginActivity.this.syncContacts, false);
                 addView(this.syncContactsBox, LayoutHelper.createLinear(-2, -1, 51, 16, 0, 16 + ((LocaleController.isRTL && AndroidUtilities.isSmallScreen()) ? i3 >= 21 ? 56 : 60 : 0), 0));
                 i4 = 48;
-                this.syncContactsBox.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.LoginActivity$PhoneView$$ExternalSyntheticLambda3
+                this.syncContactsBox.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.LoginActivity$PhoneView$$ExternalSyntheticLambda2
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
                         LoginActivity.PhoneView.this.lambda$new$7(view);
                     }
                 });
             }
-            if (BuildVars.DEBUG_PRIVATE_VERSION && LoginActivity.this.activityMode == 0) {
+            if (LoginActivity.this.activityMode == 0) {
                 CheckBoxCell checkBoxCell2 = new CheckBoxCell(context, 2);
                 this.testBackendCheckBox = checkBoxCell2;
-                checkBoxCell2.setText(LocaleController.getString(R.string.DebugTestBackend), "", LoginActivity.this.testBackend, false);
+                checkBoxCell2.setText(LocaleController.getString(R.string.DebugTestBackend), "", LoginActivity.this.testBackend = LoginActivity.this.getConnectionsManager().isTestBackend(), false);
                 View view = this.testBackendCheckBox;
                 if (!LocaleController.isRTL || !AndroidUtilities.isSmallScreen()) {
                     i5 = 0;
@@ -2535,10 +2628,10 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 }
                 addView(view, LayoutHelper.createLinear(-2, -1, 51, 16, 0, 16 + i5, 0));
                 i4 -= 24;
-                this.testBackendCheckBox.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.LoginActivity$PhoneView$$ExternalSyntheticLambda1
+                this.testBackendCheckBox.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.LoginActivity$PhoneView$$ExternalSyntheticLambda3
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view2) {
-                        LoginActivity.PhoneView.this.lambda$new$8(view2);
+                        LoginActivity.PhoneView.this.lambda$new$8(r2, view2);
                     }
                 });
             }
@@ -2723,15 +2816,15 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$new$8(View view) {
+        public /* synthetic */ void lambda$new$8(boolean z, View view) {
             if (LoginActivity.this.getParentActivity() == null) {
                 return;
             }
             LoginActivity loginActivity = LoginActivity.this;
-            boolean z = true;
+            boolean z2 = true;
             loginActivity.testBackend = !loginActivity.testBackend;
             ((CheckBoxCell) view).setChecked(LoginActivity.this.testBackend, true);
-            if (((BuildVars.DEBUG_VERSION && LoginActivity.this.getConnectionsManager().isTestBackend()) ? false : false) != LoginActivity.this.testBackend) {
+            if (((z && LoginActivity.this.getConnectionsManager().isTestBackend()) ? false : false) != LoginActivity.this.testBackend) {
                 LoginActivity.this.getConnectionsManager().switchBackend(false);
             }
             loadCountries();
@@ -4773,6 +4866,9 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         /* JADX WARN: Code restructure failed: missing block: B:145:0x03cd, code lost:
             if (r15 != 3) goto L179;
          */
+        /* JADX WARN: Code restructure failed: missing block: B:190:0x0494, code lost:
+            if (r2 == 16) goto L188;
+         */
         /* JADX WARN: Removed duplicated region for block: B:180:0x0473  */
         /* JADX WARN: Removed duplicated region for block: B:181:0x047e  */
         @Override // org.telegram.ui.Components.SlideView
@@ -4784,10 +4880,9 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             String replaceTags;
             int i;
             int i2;
-            int i3;
             String str;
             String string;
-            int i4;
+            int i3;
             if (bundle == null) {
                 if (this.nextCodeParams == null || this.nextCodeAuth == null) {
                     return;
@@ -4798,27 +4893,27 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 if (loadingTextView != null) {
                     loadingTextView.setVisibility(0);
                     this.problemText.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteValueText));
-                    int i5 = this.nextType;
-                    if (i5 == 17) {
-                        i4 = R.string.ReturnEnteringPhrase;
-                    } else if (i5 == 16) {
-                        i4 = R.string.ReturnEnteringWord;
+                    int i4 = this.nextType;
+                    if (i4 == 17) {
+                        i3 = R.string.ReturnEnteringPhrase;
+                    } else if (i4 == 16) {
+                        i3 = R.string.ReturnEnteringWord;
                     } else {
-                        i4 = R.string.ReturnEnteringSMS;
+                        i3 = R.string.ReturnEnteringSMS;
                     }
-                    this.problemText.setText(AndroidUtilities.replaceArrows(LocaleController.getString(i4), true, AndroidUtilities.dp(1.0f), AndroidUtilities.dp(1.0f)));
+                    this.problemText.setText(AndroidUtilities.replaceArrows(LocaleController.getString(i3), true, AndroidUtilities.dp(1.0f), AndroidUtilities.dp(1.0f)));
                     return;
                 }
                 return;
             }
             this.waitingForEvent = true;
-            int i6 = this.currentType;
-            if (i6 == 15) {
+            int i5 = this.currentType;
+            if (i5 == 15) {
                 NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.didReceiveSmsCode);
-            } else if (i6 == 2) {
+            } else if (i5 == 2) {
                 AndroidUtilities.setWaitingForSms(true);
                 NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.didReceiveSmsCode);
-            } else if (i6 == 3) {
+            } else if (i5 == 3) {
                 AndroidUtilities.setWaitingForCall(true);
                 NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.didReceiveCall);
                 if (z) {
@@ -4859,11 +4954,11 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                     }
 
                     @Override // android.text.TextWatcher
-                    public void onTextChanged(CharSequence charSequence, int i7, int i8, int i9) {
+                    public void onTextChanged(CharSequence charSequence, int i6, int i7, int i8) {
                     }
 
                     @Override // android.text.TextWatcher
-                    public void beforeTextChanged(CharSequence charSequence, int i7, int i8, int i9) {
+                    public void beforeTextChanged(CharSequence charSequence, int i6, int i7, int i8) {
                         if (LoginActivitySmsView.this.postedErrorColorTimeout) {
                             LoginActivitySmsView loginActivitySmsView = LoginActivitySmsView.this;
                             loginActivitySmsView.removeCallbacks(loginActivitySmsView.errorColorTimeout);
@@ -4878,11 +4973,11 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                     }
                 });
             }
-            int i7 = this.prevType;
-            if (i7 == 17) {
+            int i6 = this.prevType;
+            if (i6 == 17) {
                 this.prevTypeTextView.setVisibility(0);
                 this.prevTypeTextView.setText(AndroidUtilities.replaceArrows(LocaleController.getString(R.string.BackEnteringPhrase), true, AndroidUtilities.dp(-1.0f), AndroidUtilities.dp(1.0f)));
-            } else if (i7 == 16) {
+            } else if (i6 == 16) {
                 this.prevTypeTextView.setVisibility(0);
                 this.prevTypeTextView.setText(AndroidUtilities.replaceArrows(LocaleController.getString(R.string.BackEnteringWord), true, AndroidUtilities.dp(-1.0f), AndroidUtilities.dp(1.0f)));
             } else {
@@ -4903,19 +4998,19 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                     replaceTags.setSpan(new URLSpanNoUnderline("tg://settings/change_number"), indexOf, lastIndexOf - 1, 33);
                 }
             } else {
-                int i8 = this.currentType;
-                replaceTags = i8 == 1 ? AndroidUtilities.replaceTags(LocaleController.formatString("SentAppCodeWithPhone", R.string.SentAppCodeWithPhone, LocaleController.addNbsp(format))) : i8 == 2 ? AndroidUtilities.replaceTags(LocaleController.formatString("SentSmsCode", R.string.SentSmsCode, LocaleController.addNbsp(format))) : i8 == 3 ? AndroidUtilities.replaceTags(LocaleController.formatString("SentCallCode", R.string.SentCallCode, LocaleController.addNbsp(format))) : i8 == 4 ? AndroidUtilities.replaceTags(LocaleController.formatString("SentCallOnly", R.string.SentCallOnly, LocaleController.addNbsp(format))) : i8 == 15 ? AndroidUtilities.replaceTags(LocaleController.formatString("SentFragmentCode", R.string.SentFragmentCode, LocaleController.addNbsp(format))) : "";
+                int i7 = this.currentType;
+                replaceTags = i7 == 1 ? AndroidUtilities.replaceTags(LocaleController.formatString("SentAppCodeWithPhone", R.string.SentAppCodeWithPhone, LocaleController.addNbsp(format))) : i7 == 2 ? AndroidUtilities.replaceTags(LocaleController.formatString("SentSmsCode", R.string.SentSmsCode, LocaleController.addNbsp(format))) : i7 == 3 ? AndroidUtilities.replaceTags(LocaleController.formatString("SentCallCode", R.string.SentCallCode, LocaleController.addNbsp(format))) : i7 == 4 ? AndroidUtilities.replaceTags(LocaleController.formatString("SentCallOnly", R.string.SentCallOnly, LocaleController.addNbsp(format))) : i7 == 15 ? AndroidUtilities.replaceTags(LocaleController.formatString("SentFragmentCode", R.string.SentFragmentCode, LocaleController.addNbsp(format))) : "";
             }
             this.confirmTextView.setText(replaceTags);
-            int i9 = this.currentType;
-            if (i9 != 15) {
-                if (i9 == 1) {
-                    int i10 = this.nextType;
-                    if (i10 == 3 || i10 == 4 || i10 == 11) {
+            int i8 = this.currentType;
+            if (i8 != 15) {
+                if (i8 == 1) {
+                    int i9 = this.nextType;
+                    if (i9 == 3 || i9 == 4 || i9 == 11) {
                         this.problemText.setText(LocaleController.getString("DidNotGetTheCodePhone", R.string.DidNotGetTheCodePhone));
-                    } else if (i10 == 15) {
+                    } else if (i9 == 15) {
                         this.problemText.setText(LocaleController.getString("DidNotGetTheCodeFragment", R.string.DidNotGetTheCodeFragment));
-                    } else if (i10 == 0) {
+                    } else if (i9 == 0) {
                         this.problemText.setText(LocaleController.getString("DidNotGetTheCode", R.string.DidNotGetTheCode));
                     } else {
                         this.problemText.setText(LocaleController.getString("DidNotGetTheCodeSms", R.string.DidNotGetTheCodeSms));
@@ -4933,24 +5028,24 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             destroyTimer();
             destroyCodeTimer();
             this.lastCurrentTime = System.currentTimeMillis();
-            int i11 = this.currentType;
-            if (i11 == 1) {
+            int i10 = this.currentType;
+            if (i10 == 1) {
                 setProblemTextVisible(true);
                 this.timeText.setVisibility(8);
                 LoadingTextView loadingTextView2 = this.problemText;
                 if (loadingTextView2 != null) {
                     loadingTextView2.setVisibility(0);
                 }
-            } else if (i11 == 3) {
-                int i12 = this.nextType;
-                if (i12 == 4 || i12 == 2 || i12 == 17 || i12 == 16 || i12 == 11) {
+            } else if (i10 == 3) {
+                int i11 = this.nextType;
+                if (i11 == 4 || i11 == 2 || i11 == 17 || i11 == 16 || i11 == 11) {
                     setProblemTextVisible(false);
                     this.timeText.setVisibility(0);
                     this.problemText.setVisibility(8);
-                    int i13 = this.nextType;
-                    if (i13 == 4 || i13 == 11) {
+                    int i12 = this.nextType;
+                    if (i12 == 4 || i12 == 11) {
                         this.timeText.setText(LocaleController.formatString("CallAvailableIn", R.string.CallAvailableIn, 1, 0));
-                    } else if (i13 == 2 || i13 == 17 || i13 == 16) {
+                    } else if (i12 == 2 || i12 == 17 || i12 == 16) {
                         this.timeText.setText(LocaleController.formatString("SmsAvailableIn", R.string.SmsAvailableIn, 1, 0));
                     }
                 }
@@ -4962,29 +5057,29 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                     if (str2 != null) {
                         onNextPressed(str2);
                     } else {
-                        int i14 = this.nextType;
-                        if (i14 == 4 || i14 == 2 || i14 == 17 || i14 == 16 || i14 == 11) {
+                        int i13 = this.nextType;
+                        if (i13 == 4 || i13 == 2 || i13 == 17 || i13 == 16 || i13 == 11) {
                             createTimer();
                         }
                     }
                 }
             } else {
-                if (i11 == 2) {
-                    int i15 = this.nextType;
-                    if (i15 != 2) {
-                        i3 = 17;
-                        i2 = 16;
-                        if (i15 != 17) {
-                            if (i15 != 16) {
-                                if (i15 != 4) {
+                if (i10 == 2) {
+                    int i14 = this.nextType;
+                    if (i14 != 2) {
+                        i2 = 17;
+                        i = 16;
+                        if (i14 != 17) {
+                            if (i14 != 16) {
+                                if (i14 != 4) {
                                 }
                             }
                         }
                     } else {
-                        i2 = 16;
-                        i3 = 17;
+                        i = 16;
+                        i2 = 17;
                     }
-                    if (i15 == 2 || i15 == i3 || i15 == i2) {
+                    if (i14 == 2 || i14 == i2 || i14 == i) {
                         this.timeText.setText(LocaleController.formatString("SmsAvailableIn", R.string.SmsAvailableIn, 1, 0));
                     } else {
                         this.timeText.setText(LocaleController.formatString("CallAvailableIn", R.string.CallAvailableIn, 2, 0));
@@ -5012,8 +5107,14 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                     if (str == null) {
                     }
                 }
-                if (i11 == 4 && ((i = this.nextType) == 2 || i == 17 || i == 16)) {
-                    this.timeText.setText(LocaleController.formatString("SmsAvailableIn", R.string.SmsAvailableIn, 2, 0));
+                if (i10 == 4) {
+                    int i15 = this.nextType;
+                    int i16 = (i15 == 2 || i15 == 17 || i15 == 11) ? 16 : 16;
+                    if (i15 == 2 || i15 == 17 || i15 == i16) {
+                        this.timeText.setText(LocaleController.formatString("SmsAvailableIn", R.string.SmsAvailableIn, 1, 0));
+                    } else {
+                        this.timeText.setText(LocaleController.formatString("CallAvailableIn", R.string.CallAvailableIn, 2, 0));
+                    }
                     setProblemTextVisible(this.time < 1000);
                     this.timeText.setVisibility(this.time < 1000 ? 8 : 0);
                     LoadingTextView loadingTextView4 = this.problemText;
@@ -5021,16 +5122,17 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                         loadingTextView4.setVisibility(this.time < 1000 ? 0 : 8);
                     }
                     createTimer();
-                } else if (i11 == 11) {
-                    int i16 = this.nextType;
-                    if (i16 == 4 || i16 == 2 || i16 == 17 || i16 == 16 || i16 == 11) {
+                }
+                if (i10 == 11) {
+                    int i17 = this.nextType;
+                    if (i17 == 4 || i17 == 2 || i17 == 17 || i17 == 16 || i17 == 11) {
                         setProblemTextVisible(false);
                         this.timeText.setVisibility(0);
                         this.problemText.setVisibility(8);
-                        int i17 = this.nextType;
-                        if (i17 == 4 || i17 == 11) {
+                        int i18 = this.nextType;
+                        if (i18 == 4 || i18 == 11) {
                             this.timeText.setText(LocaleController.formatString("CallAvailableIn", R.string.CallAvailableIn, 1, 0));
-                        } else if (i17 == 2 || i17 == 17 || i17 == 16) {
+                        } else if (i18 == 2 || i18 == 17 || i18 == 16) {
                             this.timeText.setText(LocaleController.formatString("SmsAvailableIn", R.string.SmsAvailableIn, 1, 0));
                         }
                         createTimer();
@@ -5047,11 +5149,11 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             }
             if (this.currentType == 11) {
                 String str3 = this.prefix;
-                for (int i18 = 0; i18 < this.length; i18++) {
+                for (int i19 = 0; i19 < this.length; i19++) {
                     str3 = str3 + "0";
                 }
                 String format2 = PhoneFormat.getInstance().format("+" + str3);
-                for (int i19 = 0; i19 < this.length; i19++) {
+                for (int i20 = 0; i20 < this.length; i20++) {
                     int lastIndexOf2 = format2.lastIndexOf("0");
                     if (lastIndexOf2 >= 0) {
                         format2 = format2.substring(0, lastIndexOf2);
@@ -10559,7 +10661,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda4
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                LoginActivity.this.lambda$onCustomTransitionAnimation$27(color, alpha, layoutParams, width, i, height, transformableLoginButtonView, f, width2, f2, height2, valueAnimator);
+                LoginActivity.this.lambda$onCustomTransitionAnimation$31(color, alpha, layoutParams, width, i, height, transformableLoginButtonView, f, width2, f2, height2, valueAnimator);
             }
         });
         ofFloat.setInterpolator(CubicBezierInterpolator.DEFAULT);
@@ -10571,7 +10673,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onCustomTransitionAnimation$27(int i, int i2, ViewGroup.MarginLayoutParams marginLayoutParams, int i3, int i4, int i5, TransformableLoginButtonView transformableLoginButtonView, float f, int i6, float f2, int i7, ValueAnimator valueAnimator) {
+    public /* synthetic */ void lambda$onCustomTransitionAnimation$31(int i, int i2, ViewGroup.MarginLayoutParams marginLayoutParams, int i3, int i4, int i5, TransformableLoginButtonView transformableLoginButtonView, float f, int i6, float f2, int i7, ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.keyboardLinearLayout.setAlpha(floatValue);
         this.fragmentView.setBackgroundColor(ColorUtils.setAlphaComponent(i, (int) (i2 * floatValue)));
@@ -10636,7 +10738,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public ArrayList<ThemeDescription> getThemeDescriptions() {
-        return SimpleThemeDescription.createThemeDescriptions(new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda32
+        return SimpleThemeDescription.createThemeDescriptions(new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda36
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
                 LoginActivity.this.updateColors();
@@ -10660,7 +10762,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         builder.setPositiveButton(LocaleController.getString("ResetMyAccountWarningReset", R.string.ResetMyAccountWarningReset), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda8
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
-                LoginActivity.this.lambda$tryResetAccount$30(str, str2, str3, dialogInterface, i);
+                LoginActivity.this.lambda$tryResetAccount$34(str, str2, str3, dialogInterface, i);
             }
         });
         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -10668,30 +10770,30 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$tryResetAccount$30(final String str, final String str2, final String str3, DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$tryResetAccount$34(final String str, final String str2, final String str3, DialogInterface dialogInterface, int i) {
         needShowProgress(0);
         TLRPC$TL_account_deleteAccount tLRPC$TL_account_deleteAccount = new TLRPC$TL_account_deleteAccount();
         tLRPC$TL_account_deleteAccount.reason = "Forgot password";
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_deleteAccount, new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda30
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_deleteAccount, new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda33
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                LoginActivity.this.lambda$tryResetAccount$29(str, str2, str3, tLObject, tLRPC$TL_error);
+                LoginActivity.this.lambda$tryResetAccount$33(str, str2, str3, tLObject, tLRPC$TL_error);
             }
         }, 10);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$tryResetAccount$29(final String str, final String str2, final String str3, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda25
+    public /* synthetic */ void lambda$tryResetAccount$33(final String str, final String str2, final String str3, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda28
             @Override // java.lang.Runnable
             public final void run() {
-                LoginActivity.this.lambda$tryResetAccount$28(tLRPC$TL_error, str, str2, str3);
+                LoginActivity.this.lambda$tryResetAccount$32(tLRPC$TL_error, str, str2, str3);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$tryResetAccount$28(TLRPC$TL_error tLRPC$TL_error, String str, String str2, String str3) {
+    public /* synthetic */ void lambda$tryResetAccount$32(TLRPC$TL_error tLRPC$TL_error, String str, String str2, String str3) {
         needHideProgress(false);
         if (tLRPC$TL_error == null) {
             if (str == null || str2 == null || str3 == null) {
@@ -11086,10 +11188,10 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             AndroidUtilities.cancelRunOnUIThread(runnable);
         }
         this.proxyButtonVisible = true;
-        Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda21
+        Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda23
             @Override // java.lang.Runnable
             public final void run() {
-                LoginActivity.this.lambda$showProxyButtonDelayed$31();
+                LoginActivity.this.lambda$showProxyButtonDelayed$35();
             }
         };
         this.showProxyButtonDelayed = runnable2;
@@ -11097,7 +11199,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showProxyButtonDelayed$31() {
+    public /* synthetic */ void lambda$showProxyButtonDelayed$35() {
         this.proxyButtonVisible = false;
         showProxyButton(true, true);
     }
@@ -11115,10 +11217,10 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         this.proxyButtonView.clearAnimation();
         if (z2) {
             this.proxyButtonView.setVisibility(0);
-            this.proxyButtonView.animate().alpha(z ? 1.0f : 0.0f).withEndAction(new Runnable() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda26
+            this.proxyButtonView.animate().alpha(z ? 1.0f : 0.0f).withEndAction(new Runnable() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda29
                 @Override // java.lang.Runnable
                 public final void run() {
-                    LoginActivity.this.lambda$showProxyButton$32(z);
+                    LoginActivity.this.lambda$showProxyButton$36(z);
                 }
             }).start();
             return;
@@ -11128,7 +11230,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showProxyButton$32(boolean z) {
+    public /* synthetic */ void lambda$showProxyButton$36(boolean z) {
         if (z) {
             return;
         }

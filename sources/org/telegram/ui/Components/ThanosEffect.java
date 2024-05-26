@@ -875,7 +875,7 @@ public class ThanosEffect extends TextureView {
                 this.bitmap = bitmap;
             }
 
-            /* JADX WARN: Code restructure failed: missing block: B:87:0x0217, code lost:
+            /* JADX WARN: Code restructure failed: missing block: B:87:0x0219, code lost:
                 if (r0.messages.size() != 1) goto L91;
              */
             /*
@@ -984,7 +984,7 @@ public class ThanosEffect extends TextureView {
                                                         arrayList12.add(chatMessageCell);
                                                     }
                                                 }
-                                                if ((position != null || chatMessageCell.getTransitionParams().transformGroupToSingleMessage || chatMessageCell.getTransitionParams().animateBackgroundBoundsInner) && (position == null || (position.flags & 8) != 0)) {
+                                                if ((position != null || chatMessageCell.getTransitionParams().transformGroupToSingleMessage || chatMessageCell.getTransitionParams().animateBackgroundBoundsInner) && (position == null || (position.flags & chatMessageCell.captionFlag()) != 0)) {
                                                     arrayList13.add(chatMessageCell);
                                                 }
                                             }

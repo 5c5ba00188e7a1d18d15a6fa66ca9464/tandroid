@@ -131,6 +131,10 @@ public class ActionBarMenuItem extends FrameLayout {
 
     /* loaded from: classes4.dex */
     public static class ActionBarMenuItemSearchListener {
+        public boolean canClearCaption() {
+            return true;
+        }
+
         public boolean canCollapseSearch() {
             return true;
         }
@@ -169,6 +173,10 @@ public class ActionBarMenuItem extends FrameLayout {
         }
 
         public void onTextChanged(EditText editText) {
+        }
+
+        public boolean showClearForCaption() {
+            return true;
         }
     }
 
@@ -284,7 +292,7 @@ public class ActionBarMenuItem extends FrameLayout {
         ActionBarPopupWindow actionBarPopupWindow3;
         if (motionEvent.getActionMasked() == 0) {
             if (this.longClickEnabled && hasSubMenu() && ((actionBarPopupWindow3 = this.popupWindow) == null || !actionBarPopupWindow3.isShowing())) {
-                Runnable runnable = new Runnable() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda13
+                Runnable runnable = new Runnable() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda14
                     @Override // java.lang.Runnable
                     public final void run() {
                         ActionBarMenuItem.this.lambda$onTouchEvent$0();
@@ -425,7 +433,7 @@ public class ActionBarMenuItem extends FrameLayout {
         this.location = new int[2];
         ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(getContext(), R.drawable.popup_fixed_alert2, this.resourcesProvider, 1);
         this.popupLayout = actionBarPopupWindowLayout;
-        actionBarPopupWindowLayout.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda9
+        actionBarPopupWindowLayout.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda10
             @Override // android.view.View.OnTouchListener
             public final boolean onTouch(View view, MotionEvent motionEvent) {
                 boolean lambda$createPopupLayout$1;
@@ -433,7 +441,7 @@ public class ActionBarMenuItem extends FrameLayout {
                 return lambda$createPopupLayout$1;
             }
         });
-        this.popupLayout.setDispatchKeyEventListener(new ActionBarPopupWindow.OnDispatchKeyEventListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda15
+        this.popupLayout.setDispatchKeyEventListener(new ActionBarPopupWindow.OnDispatchKeyEventListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda16
             @Override // org.telegram.ui.ActionBar.ActionBarPopupWindow.OnDispatchKeyEventListener
             public final void onDispatchKeyEvent(KeyEvent keyEvent) {
                 ActionBarMenuItem.this.lambda$createPopupLayout$2(keyEvent);
@@ -493,7 +501,7 @@ public class ActionBarMenuItem extends FrameLayout {
         view.setLayoutParams(new LinearLayout.LayoutParams(i2, i3));
         this.popupLayout.addView(view);
         view.setTag(Integer.valueOf(i));
-        view.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda4
+        view.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda5
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
                 ActionBarMenuItem.this.lambda$addSubItem$3(view2);
@@ -548,7 +556,7 @@ public class ActionBarMenuItem extends FrameLayout {
         layoutParams.width = -1;
         layoutParams.height = AndroidUtilities.dp(48.0f);
         textView.setLayoutParams(layoutParams);
-        textView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda3
+        textView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda4
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ActionBarMenuItem.this.lambda$addSubItem$4(view);
@@ -628,7 +636,7 @@ public class ActionBarMenuItem extends FrameLayout {
         layoutParams.width = -1;
         layoutParams.height = AndroidUtilities.dp(48.0f);
         actionBarMenuSubItem.setLayoutParams(layoutParams);
-        actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda6
+        actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda7
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ActionBarMenuItem.this.lambda$addSubItem$5(z, view);
@@ -658,6 +666,40 @@ public class ActionBarMenuItem extends FrameLayout {
         }
     }
 
+    public View addSubItem(int i, View view) {
+        createPopupLayout();
+        view.setMinimumWidth(AndroidUtilities.dp(196.0f));
+        view.setTag(Integer.valueOf(i));
+        this.popupLayout.addView(view);
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) view.getLayoutParams();
+        if (LocaleController.isRTL) {
+            layoutParams.gravity = 5;
+        }
+        layoutParams.width = -1;
+        layoutParams.height = AndroidUtilities.dp(48.0f);
+        view.setLayoutParams(layoutParams);
+        view.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda2
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view2) {
+                ActionBarMenuItem.this.lambda$addSubItem$6(view2);
+            }
+        });
+        return view;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$addSubItem$6(View view) {
+        ActionBarMenu actionBarMenu = this.parentMenu;
+        if (actionBarMenu != null) {
+            actionBarMenu.onItemClick(((Integer) view.getTag()).intValue());
+            return;
+        }
+        ActionBarMenuItemDelegate actionBarMenuItemDelegate = this.delegate;
+        if (actionBarMenuItemDelegate != null) {
+            actionBarMenuItemDelegate.onItemClick(((Integer) view.getTag()).intValue());
+        }
+    }
+
     public ActionBarMenuSubItem addSwipeBackItem(int i, Drawable drawable, String str, View view) {
         createPopupLayout();
         final ActionBarMenuSubItem actionBarMenuSubItem = new ActionBarMenuSubItem(getContext(), false, false, false, this.resourcesProvider);
@@ -673,13 +715,13 @@ public class ActionBarMenuItem extends FrameLayout {
         layoutParams.height = AndroidUtilities.dp(48.0f);
         actionBarMenuSubItem.setLayoutParams(layoutParams);
         final int addViewToSwipeBack = this.popupLayout.addViewToSwipeBack(view);
-        actionBarMenuSubItem.openSwipeBackLayout = new Runnable() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda14
+        actionBarMenuSubItem.openSwipeBackLayout = new Runnable() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda15
             @Override // java.lang.Runnable
             public final void run() {
-                ActionBarMenuItem.this.lambda$addSwipeBackItem$6(addViewToSwipeBack);
+                ActionBarMenuItem.this.lambda$addSwipeBackItem$7(addViewToSwipeBack);
             }
         };
-        actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda7
+        actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda8
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
                 ActionBarMenuSubItem.this.openSwipeBack();
@@ -690,7 +732,7 @@ public class ActionBarMenuItem extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$addSwipeBackItem$6(int i) {
+    public /* synthetic */ void lambda$addSwipeBackItem$7(int i) {
         if (this.popupLayout.getSwipeBack() != null) {
             this.popupLayout.getSwipeBack().openForeground(i);
         }
@@ -869,18 +911,18 @@ public class ActionBarMenuItem extends FrameLayout {
                 this.popupWindow.setInputMethodMode(2);
                 this.popupWindow.setSoftInputMode(0);
                 actionBarPopupWindowLayout.setFocusableInTouchMode(true);
-                actionBarPopupWindowLayout.setOnKeyListener(new View.OnKeyListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda8
+                actionBarPopupWindowLayout.setOnKeyListener(new View.OnKeyListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda9
                     @Override // android.view.View.OnKeyListener
                     public final boolean onKey(View view3, int i, KeyEvent keyEvent) {
-                        boolean lambda$toggleSubMenu$8;
-                        lambda$toggleSubMenu$8 = ActionBarMenuItem.this.lambda$toggleSubMenu$8(view3, i, keyEvent);
-                        return lambda$toggleSubMenu$8;
+                        boolean lambda$toggleSubMenu$9;
+                        lambda$toggleSubMenu$9 = ActionBarMenuItem.this.lambda$toggleSubMenu$9(view3, i, keyEvent);
+                        return lambda$toggleSubMenu$9;
                     }
                 });
-                this.popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda10
+                this.popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda11
                     @Override // android.widget.PopupWindow.OnDismissListener
                     public final void onDismiss() {
-                        ActionBarMenuItem.this.lambda$toggleSubMenu$9();
+                        ActionBarMenuItem.this.lambda$toggleSubMenu$10();
                     }
                 });
                 actionBarPopupWindowLayout.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.displaySize.x - AndroidUtilities.dp(40.0f), Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.displaySize.y, Integer.MIN_VALUE));
@@ -904,7 +946,7 @@ public class ActionBarMenuItem extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ boolean lambda$toggleSubMenu$8(View view, int i, KeyEvent keyEvent) {
+    public /* synthetic */ boolean lambda$toggleSubMenu$9(View view, int i, KeyEvent keyEvent) {
         ActionBarPopupWindow actionBarPopupWindow;
         if (i == 82 && keyEvent.getRepeatCount() == 0 && keyEvent.getAction() == 1 && (actionBarPopupWindow = this.popupWindow) != null && actionBarPopupWindow.isShowing()) {
             this.popupWindow.dismiss();
@@ -914,7 +956,7 @@ public class ActionBarMenuItem extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$toggleSubMenu$9() {
+    public /* synthetic */ void lambda$toggleSubMenu$10() {
         onDismiss();
         ActionBarSubMenuItemDelegate actionBarSubMenuItemDelegate = this.subMenuDelegate;
         if (actionBarSubMenuItemDelegate != null) {
@@ -933,17 +975,17 @@ public class ActionBarMenuItem extends FrameLayout {
     public void setOnMenuDismiss(final Utilities.Callback<Boolean> callback) {
         ActionBarPopupWindow actionBarPopupWindow = this.popupWindow;
         if (actionBarPopupWindow != null) {
-            actionBarPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda11
+            actionBarPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda12
                 @Override // android.widget.PopupWindow.OnDismissListener
                 public final void onDismiss() {
-                    ActionBarMenuItem.this.lambda$setOnMenuDismiss$10(callback);
+                    ActionBarMenuItem.this.lambda$setOnMenuDismiss$11(callback);
                 }
             });
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$setOnMenuDismiss$10(Utilities.Callback callback) {
+    public /* synthetic */ void lambda$setOnMenuDismiss$11(Utilities.Callback callback) {
         if (callback != null) {
             callback.run(Boolean.valueOf(this.processedPopupClick));
         }
@@ -1186,10 +1228,10 @@ public class ActionBarMenuItem extends FrameLayout {
                 searchFilterView = new SearchFilterView(getContext(), this.resourcesProvider);
             }
             searchFilterView.setData(mediaFilterData);
-            searchFilterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda5
+            searchFilterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda6
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
-                    ActionBarMenuItem.this.lambda$onFiltersChanged$11(searchFilterView, view);
+                    ActionBarMenuItem.this.lambda$onFiltersChanged$12(searchFilterView, view);
                 }
             });
             this.searchFilterLayout.addView(searchFilterView, LayoutHelper.createLinear(-2, -1, 0, 0, 0, 6, 0));
@@ -1218,7 +1260,7 @@ public class ActionBarMenuItem extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onFiltersChanged$11(SearchFilterView searchFilterView, View view) {
+    public /* synthetic */ void lambda$onFiltersChanged$12(SearchFilterView searchFilterView, View view) {
         int indexOf = this.currentSearchFilters.indexOf(searchFilterView.getFilter());
         if (this.selectedFilterIndex != indexOf) {
             this.selectedFilterIndex = indexOf;
@@ -1585,12 +1627,12 @@ public class ActionBarMenuItem extends FrameLayout {
                     }
                 });
             }
-            this.searchField.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda12
+            this.searchField.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda13
                 @Override // android.widget.TextView.OnEditorActionListener
                 public final boolean onEditorAction(TextView textView3, int i2, KeyEvent keyEvent) {
-                    boolean lambda$checkCreateSearchField$12;
-                    lambda$checkCreateSearchField$12 = ActionBarMenuItem.this.lambda$checkCreateSearchField$12(textView3, i2, keyEvent);
-                    return lambda$checkCreateSearchField$12;
+                    boolean lambda$checkCreateSearchField$13;
+                    lambda$checkCreateSearchField$13 = ActionBarMenuItem.this.lambda$checkCreateSearchField$13(textView3, i2, keyEvent);
+                    return lambda$checkCreateSearchField$13;
                 }
             });
             this.searchField.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem.11
@@ -1688,10 +1730,10 @@ public class ActionBarMenuItem extends FrameLayout {
             this.clearButton.setRotation(45.0f);
             this.clearButton.setScaleX(0.0f);
             this.clearButton.setScaleY(0.0f);
-            this.clearButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda2
+            this.clearButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda3
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
-                    ActionBarMenuItem.this.lambda$checkCreateSearchField$13(view);
+                    ActionBarMenuItem.this.lambda$checkCreateSearchField$14(view);
                 }
             });
             this.clearButton.setContentDescription(LocaleController.getString("ClearButton", R.string.ClearButton));
@@ -1704,7 +1746,7 @@ public class ActionBarMenuItem extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ boolean lambda$checkCreateSearchField$12(TextView textView, int i, KeyEvent keyEvent) {
+    public /* synthetic */ boolean lambda$checkCreateSearchField$13(TextView textView, int i, KeyEvent keyEvent) {
         if (keyEvent != null) {
             if ((keyEvent.getAction() == 1 && keyEvent.getKeyCode() == 84) || (keyEvent.getAction() == 0 && keyEvent.getKeyCode() == 66)) {
                 AndroidUtilities.hideKeyboard(this.searchField);
@@ -1721,7 +1763,8 @@ public class ActionBarMenuItem extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$checkCreateSearchField$13(View view) {
+    public /* synthetic */ void lambda$checkCreateSearchField$14(View view) {
+        ActionBarMenuItemSearchListener actionBarMenuItemSearchListener;
         if (this.searchField.length() != 0) {
             this.searchField.setText("");
         } else if (hasRemovableFilters()) {
@@ -1734,11 +1777,11 @@ public class ActionBarMenuItem extends FrameLayout {
             clearSearchFilters();
         } else {
             TextView textView = this.searchFieldCaption;
-            if (textView != null && textView.getVisibility() == 0) {
+            if (textView != null && textView.getVisibility() == 0 && ((actionBarMenuItemSearchListener = this.listener) == null || actionBarMenuItemSearchListener.canClearCaption())) {
                 this.searchFieldCaption.setVisibility(8);
-                ActionBarMenuItemSearchListener actionBarMenuItemSearchListener = this.listener;
-                if (actionBarMenuItemSearchListener != null) {
-                    actionBarMenuItemSearchListener.onCaptionCleared();
+                ActionBarMenuItemSearchListener actionBarMenuItemSearchListener2 = this.listener;
+                if (actionBarMenuItemSearchListener2 != null) {
+                    actionBarMenuItemSearchListener2.onCaptionCleared();
                 }
             }
         }
@@ -1760,8 +1803,9 @@ public class ActionBarMenuItem extends FrameLayout {
     public void checkClearButton() {
         ActionBarMenuItemSearchListener actionBarMenuItemSearchListener;
         TextView textView;
+        ActionBarMenuItemSearchListener actionBarMenuItemSearchListener2;
         if (this.clearButton != null) {
-            if (!hasRemovableFilters() && TextUtils.isEmpty(this.searchField.getText()) && (((actionBarMenuItemSearchListener = this.listener) == null || !actionBarMenuItemSearchListener.forceShowClear()) && ((textView = this.searchFieldCaption) == null || textView.getVisibility() != 0))) {
+            if (!hasRemovableFilters() && TextUtils.isEmpty(this.searchField.getText()) && (((actionBarMenuItemSearchListener = this.listener) == null || !actionBarMenuItemSearchListener.forceShowClear()) && ((textView = this.searchFieldCaption) == null || textView.getVisibility() != 0 || ((actionBarMenuItemSearchListener2 = this.listener) != null && !actionBarMenuItemSearchListener2.showClearForCaption())))) {
                 if (this.clearButton.getTag() != null) {
                     this.clearButton.setTag(null);
                     AnimatorSet animatorSet = this.clearButtonAnimator;
@@ -1772,10 +1816,10 @@ public class ActionBarMenuItem extends FrameLayout {
                         AnimatorSet duration = new AnimatorSet().setDuration(180L);
                         duration.setInterpolator(new DecelerateInterpolator());
                         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-                        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda0
+                        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda1
                             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                                ActionBarMenuItem.this.lambda$checkClearButton$14(valueAnimator);
+                                ActionBarMenuItem.this.lambda$checkClearButton$15(valueAnimator);
                             }
                         });
                         duration.playTogether(ObjectAnimator.ofFloat(this.clearButton, View.ALPHA, 0.0f), ObjectAnimator.ofFloat(this.clearButton, View.SCALE_X, 0.0f), ObjectAnimator.ofFloat(this.clearButton, View.SCALE_Y, 0.0f), ObjectAnimator.ofFloat(this.clearButton, View.ROTATION, 45.0f), ofFloat);
@@ -1808,10 +1852,10 @@ public class ActionBarMenuItem extends FrameLayout {
                     AnimatorSet duration2 = new AnimatorSet().setDuration(180L);
                     duration2.setInterpolator(new DecelerateInterpolator());
                     ValueAnimator ofFloat2 = ValueAnimator.ofFloat(1.0f, 0.0f);
-                    ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda1
+                    ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda0
                         @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                         public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                            ActionBarMenuItem.this.lambda$checkClearButton$15(valueAnimator);
+                            ActionBarMenuItem.this.lambda$checkClearButton$16(valueAnimator);
                         }
                     });
                     duration2.playTogether(ObjectAnimator.ofFloat(this.clearButton, View.ALPHA, 1.0f), ObjectAnimator.ofFloat(this.clearButton, View.SCALE_X, 1.0f), ObjectAnimator.ofFloat(this.clearButton, View.SCALE_Y, 1.0f), ObjectAnimator.ofFloat(this.clearButton, View.ROTATION, 0.0f), ofFloat2);
@@ -1839,7 +1883,7 @@ public class ActionBarMenuItem extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$checkClearButton$14(ValueAnimator valueAnimator) {
+    public /* synthetic */ void lambda$checkClearButton$15(ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         View view = this.searchAdditionalButton;
         if (view != null) {
@@ -1848,7 +1892,7 @@ public class ActionBarMenuItem extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$checkClearButton$15(ValueAnimator valueAnimator) {
+    public /* synthetic */ void lambda$checkClearButton$16(ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         View view = this.searchAdditionalButton;
         if (view != null) {

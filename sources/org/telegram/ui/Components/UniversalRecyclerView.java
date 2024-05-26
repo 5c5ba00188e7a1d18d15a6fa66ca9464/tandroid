@@ -30,7 +30,11 @@ public class UniversalRecyclerView extends RecyclerListView {
         this(baseFragment.getContext(), baseFragment.getCurrentAccount(), baseFragment.getClassGuid(), callback2, callback5, callback5Return, baseFragment.getResourceProvider());
     }
 
-    public UniversalRecyclerView(Context context, int i, int i2, Utilities.Callback2<ArrayList<UItem>, UniversalAdapter> callback2, final Utilities.Callback5<UItem, View, Integer, Float, Float> callback5, final Utilities.Callback5Return<UItem, View, Integer, Float, Float, Boolean> callback5Return, Theme.ResourcesProvider resourcesProvider) {
+    public UniversalRecyclerView(Context context, int i, int i2, Utilities.Callback2<ArrayList<UItem>, UniversalAdapter> callback2, Utilities.Callback5<UItem, View, Integer, Float, Float> callback5, Utilities.Callback5Return<UItem, View, Integer, Float, Float, Boolean> callback5Return, Theme.ResourcesProvider resourcesProvider) {
+        this(context, i, i2, false, callback2, callback5, callback5Return, resourcesProvider);
+    }
+
+    public UniversalRecyclerView(Context context, int i, int i2, boolean z, Utilities.Callback2<ArrayList<UItem>, UniversalAdapter> callback2, final Utilities.Callback5<UItem, View, Integer, Float, Float> callback5, final Utilities.Callback5Return<UItem, View, Integer, Float, Float, Boolean> callback5Return, Theme.ResourcesProvider resourcesProvider) {
         super(context, resourcesProvider);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, 1, false) { // from class: org.telegram.ui.Components.UniversalRecyclerView.1
             /* JADX INFO: Access modifiers changed from: protected */
@@ -41,7 +45,7 @@ public class UniversalRecyclerView extends RecyclerListView {
         };
         this.layoutManager = linearLayoutManager;
         setLayoutManager(linearLayoutManager);
-        UniversalAdapter universalAdapter = new UniversalAdapter(this, context, i, i2, callback2, resourcesProvider);
+        UniversalAdapter universalAdapter = new UniversalAdapter(this, context, i, i2, z, callback2, resourcesProvider);
         this.adapter = universalAdapter;
         setAdapter(universalAdapter);
         if (callback5 != null) {
@@ -189,9 +193,8 @@ public class UniversalRecyclerView extends RecyclerListView {
         return null;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public class TouchHelperCallback extends ItemTouchHelper.Callback {
+    private class TouchHelperCallback extends ItemTouchHelper.Callback {
         @Override // androidx.recyclerview.widget.ItemTouchHelper.Callback
         public void onSwiped(RecyclerView.ViewHolder viewHolder, int i) {
         }

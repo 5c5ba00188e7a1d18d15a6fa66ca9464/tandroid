@@ -660,7 +660,7 @@ public class BusinessIntroActivity extends UniversalFragment implements Notifica
         this.chatAttachAlert = chatAttachAlert;
         chatAttachAlert.setDelegate(new ChatAttachAlert.ChatAttachViewDelegate() { // from class: org.telegram.ui.Business.BusinessIntroActivity.10
             @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
-            public void didPressedButton(int i, boolean z, boolean z2, int i2, boolean z3) {
+            public void didPressedButton(int i, boolean z, boolean z2, int i2, long j, boolean z3, boolean z4) {
             }
 
             @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
@@ -694,8 +694,8 @@ public class BusinessIntroActivity extends UniversalFragment implements Notifica
             }
 
             @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
-            public /* synthetic */ void sendAudio(ArrayList arrayList, CharSequence charSequence, boolean z, int i) {
-                ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$sendAudio(this, arrayList, charSequence, z, i);
+            public /* synthetic */ void sendAudio(ArrayList arrayList, CharSequence charSequence, boolean z, int i, long j, boolean z2) {
+                ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$sendAudio(this, arrayList, charSequence, z, i, j, z2);
             }
 
             @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate

@@ -1,5 +1,5 @@
 package org.webrtc;
-/* loaded from: classes4.dex */
+/* loaded from: classes.dex */
 public interface AudioEncoderFactoryFactory {
     long createNativeAudioEncoderFactory();
 }

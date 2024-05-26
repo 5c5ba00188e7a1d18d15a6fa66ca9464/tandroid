@@ -82,7 +82,7 @@ public class VectorAvatarThumbDrawable extends Drawable implements AnimatedEmoji
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:21:0x0074  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x0075  */
     /* JADX WARN: Removed duplicated region for block: B:26:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

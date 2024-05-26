@@ -952,24 +952,24 @@ public class SavedMessagesController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:62:0x015b, code lost:
-        if (r18 != null) goto L42;
+    /* JADX WARN: Code restructure failed: missing block: B:62:0x0157, code lost:
+        if (r18 != null) goto L43;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:81:0x0185, code lost:
-        if (r18 != null) goto L42;
+    /* JADX WARN: Code restructure failed: missing block: B:81:0x0181, code lost:
+        if (r18 != null) goto L43;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:82:0x0187, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:82:0x0183, code lost:
         r18.dispose();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:83:0x018a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:83:0x0186, code lost:
         org.telegram.messenger.AndroidUtilities.runOnUIThread(new org.telegram.messenger.SavedMessagesController$$ExternalSyntheticLambda6(r31, r5, r6, r8, r7, r35));
      */
-    /* JADX WARN: Code restructure failed: missing block: B:84:0x019a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:84:0x0196, code lost:
         return;
      */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x0182  */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x019e  */
-    /* JADX WARN: Removed duplicated region for block: B:89:0x01a3  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x017e  */
+    /* JADX WARN: Removed duplicated region for block: B:87:0x019a  */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x019f  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -978,7 +978,7 @@ public class SavedMessagesController {
         SQLiteCursor sQLiteCursor2;
         SQLiteDatabase database = messagesStorage.getDatabase();
         final ArrayList arrayList = new ArrayList();
-        ArrayList arrayList2 = new ArrayList();
+        ArrayList<Long> arrayList2 = new ArrayList<>();
         ArrayList arrayList3 = new ArrayList();
         ArrayList arrayList4 = new ArrayList();
         final ArrayList<TLRPC$User> arrayList5 = new ArrayList<>();
@@ -1102,7 +1102,7 @@ public class SavedMessagesController {
         }
         try {
             if (!arrayList2.isEmpty()) {
-                messagesStorage.getUsersInternal(TextUtils.join(",", arrayList2), arrayList5);
+                messagesStorage.getUsersInternal(arrayList2, arrayList5);
             }
             if (!arrayList3.isEmpty()) {
                 messagesStorage.getChatsInternal(TextUtils.join(",", arrayList3), arrayList6);
@@ -1156,34 +1156,33 @@ public class SavedMessagesController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:28:0x00c6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:27:0x00c2, code lost:
         if (r11 != null) goto L20;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:44:0x00e0, code lost:
-        r4 = r6;
-        r5 = r10;
+    /* JADX WARN: Code restructure failed: missing block: B:43:0x00db, code lost:
+        r4 = r1;
+        r5 = r6;
         org.telegram.messenger.AndroidUtilities.runOnUIThread(new org.telegram.messenger.SavedMessagesController$$ExternalSyntheticLambda5(r19, r4, r5, r9, r7, r8));
      */
-    /* JADX WARN: Code restructure failed: missing block: B:45:0x00ee, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:44:0x00e9, code lost:
         return;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public /* synthetic */ void lambda$updateDialogsLastMessage$9(MessagesStorage messagesStorage, ArrayList arrayList, long j) {
-        ArrayList<TLRPC$Chat> arrayList2;
+        ArrayList<TLRPC$User> arrayList2;
         ArrayList<TLRPC$User> arrayList3;
-        ArrayList<TLRPC$User> arrayList4;
-        ArrayList<TLRPC$Chat> arrayList5;
+        ArrayList<TLRPC$Chat> arrayList4;
         SQLiteDatabase database = messagesStorage.getDatabase();
-        final ArrayList arrayList6 = new ArrayList();
+        final ArrayList arrayList5 = new ArrayList();
         final LongSparseArray longSparseArray = new LongSparseArray();
+        ArrayList<Long> arrayList6 = new ArrayList<>();
         ArrayList arrayList7 = new ArrayList();
         ArrayList arrayList8 = new ArrayList();
-        ArrayList arrayList9 = new ArrayList();
-        ArrayList<TLRPC$User> arrayList10 = new ArrayList<>();
-        ArrayList<TLRPC$Chat> arrayList11 = new ArrayList<>();
-        final ArrayList<TLRPC$Document> arrayList12 = new ArrayList<>();
+        ArrayList<TLRPC$User> arrayList9 = new ArrayList<>();
+        ArrayList<TLRPC$Chat> arrayList10 = new ArrayList<>();
+        final ArrayList<TLRPC$Document> arrayList11 = new ArrayList<>();
         SQLiteCursor sQLiteCursor = null;
         int i = 0;
         while (i < arrayList.size()) {
@@ -1192,8 +1191,8 @@ public class SavedMessagesController {
                     SavedDialog savedDialog = (SavedDialog) arrayList.get(i);
                     Object[] objArr = new Object[2];
                     objArr[0] = Long.valueOf(j);
+                    arrayList3 = arrayList9;
                     arrayList4 = arrayList10;
-                    arrayList5 = arrayList11;
                     try {
                         objArr[1] = Long.valueOf(savedDialog.dialogId);
                         sQLiteCursor = database.queryFinalized("SELECT mid, data FROM messages_topics WHERE uid = ? AND topic_id = ? ORDER BY mid DESC LIMIT 1", objArr);
@@ -1201,59 +1200,58 @@ public class SavedMessagesController {
                             sQLiteCursor.intValue(0);
                             NativeByteBuffer byteBufferValue = sQLiteCursor.byteBufferValue(1);
                             TLRPC$Message TLdeserialize = TLRPC$Message.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(true), true);
-                            MessagesStorage.addUsersAndChatsFromMessage(TLdeserialize, arrayList7, arrayList8, arrayList9);
+                            MessagesStorage.addUsersAndChatsFromMessage(TLdeserialize, arrayList6, arrayList7, arrayList8);
                             longSparseArray.put(savedDialog.dialogId, TLdeserialize);
                         } else {
-                            arrayList6.add(Long.valueOf(savedDialog.dialogId));
+                            arrayList5.add(Long.valueOf(savedDialog.dialogId));
                         }
                         sQLiteCursor.dispose();
                         i++;
+                        arrayList9 = arrayList3;
                         arrayList10 = arrayList4;
-                        arrayList11 = arrayList5;
                     } catch (Exception e) {
                         e = e;
-                        arrayList3 = arrayList4;
-                        arrayList2 = arrayList5;
+                        arrayList2 = arrayList3;
+                        arrayList10 = arrayList4;
                         FileLog.e(e);
                     }
-                } finally {
-                    if (sQLiteCursor != null) {
-                        sQLiteCursor.dispose();
-                    }
+                } catch (Exception e2) {
+                    e = e2;
+                    arrayList2 = arrayList9;
                 }
-            } catch (Exception e2) {
-                e = e2;
-                arrayList2 = arrayList11;
-                arrayList3 = arrayList10;
+            } finally {
+                if (sQLiteCursor != null) {
+                    sQLiteCursor.dispose();
+                }
             }
         }
+        arrayList3 = arrayList9;
         arrayList4 = arrayList10;
-        arrayList5 = arrayList11;
-        if (arrayList7.isEmpty()) {
-            arrayList3 = arrayList4;
+        if (arrayList6.isEmpty()) {
+            arrayList2 = arrayList3;
         } else {
-            arrayList3 = arrayList4;
+            arrayList2 = arrayList3;
             try {
-                messagesStorage.getUsersInternal(TextUtils.join(",", arrayList7), arrayList3);
+                messagesStorage.getUsersInternal(arrayList6, arrayList2);
             } catch (Exception e3) {
                 e = e3;
-                arrayList2 = arrayList5;
+                arrayList10 = arrayList4;
                 FileLog.e(e);
             }
         }
-        if (arrayList8.isEmpty()) {
-            arrayList2 = arrayList5;
+        if (arrayList7.isEmpty()) {
+            arrayList10 = arrayList4;
         } else {
-            arrayList2 = arrayList5;
+            arrayList10 = arrayList4;
             try {
-                messagesStorage.getChatsInternal(TextUtils.join(",", arrayList8), arrayList2);
+                messagesStorage.getChatsInternal(TextUtils.join(",", arrayList7), arrayList10);
             } catch (Exception e4) {
                 e = e4;
                 FileLog.e(e);
             }
         }
-        if (!arrayList9.isEmpty()) {
-            messagesStorage.getAnimatedEmoji(TextUtils.join(",", arrayList9), arrayList12);
+        if (!arrayList8.isEmpty()) {
+            messagesStorage.getAnimatedEmoji(TextUtils.join(",", arrayList8), arrayList11);
         }
     }
 

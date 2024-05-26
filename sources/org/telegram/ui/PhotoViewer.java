@@ -18,6 +18,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
+import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Insets;
 import android.graphics.LinearGradient;
 import android.graphics.Matrix;
@@ -28,8 +29,11 @@ import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.PorterDuffXfermode;
+import android.graphics.RecordingCanvas;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.RenderEffect;
+import android.graphics.RenderNode;
 import android.graphics.Shader;
 import android.graphics.SurfaceTexture;
 import android.graphics.drawable.BitmapDrawable;
@@ -645,6 +649,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     private QualityChooseView qualityChooseView;
     private AnimatorSet qualityChooseViewAnimation;
     private PickerBottomLayoutViewer qualityPicker;
+    private RenderNode renderNode;
     public TLRPC$Document replacedSticker;
     private boolean requestingPreview;
     private TextView resetButton;
@@ -9274,7 +9279,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 canvas.save();
                 canvas.translate(getPaddingLeft(), getPaddingTop());
                 for (int i = 0; i < this.quoteBlocks.size(); i++) {
-                    this.quoteBlocks.get(i).draw(canvas, 0.0f, ((getWidth() - getPaddingLeft()) - getPaddingRight()) + (this.hasQuote ? AndroidUtilities.dp(32.0f) : 0), -1, 1.0f);
+                    this.quoteBlocks.get(i).draw(canvas, 0.0f, ((getWidth() - getPaddingLeft()) - getPaddingRight()) + (this.hasQuote ? AndroidUtilities.dp(32.0f) : 0), -1, 1.0f, getPaint());
                 }
                 canvas.restore();
             }
@@ -19223,7 +19228,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                             MessageObject threadMessage = PhotoViewer.this.parentChatActivity.getThreadMessage();
                             ChatActivity.ReplyQuote replyQuote = PhotoViewer.this.parentChatActivity.getReplyQuote();
                             MediaController.PhotoEntry photoEntry3 = orientation;
-                            SendMessagesHelper.prepareSendingVideo(accountInstance, str, videoEditedInfo, dialogId, replyMessage, threadMessage, null, replyQuote, photoEntry3.entities, photoEntry3.ttl, messageObject2, z3, i2, z5, photoEntry3.hasSpoiler, photoEntry3.caption, PhotoViewer.this.parentChatActivity.quickReplyShortcut, PhotoViewer.this.parentChatActivity.getQuickReplyId());
+                            SendMessagesHelper.prepareSendingVideo(accountInstance, str, videoEditedInfo, dialogId, replyMessage, threadMessage, null, replyQuote, photoEntry3.entities, photoEntry3.ttl, messageObject2, z3, i2, z5, photoEntry3.hasSpoiler, photoEntry3.caption, PhotoViewer.this.parentChatActivity.quickReplyShortcut, PhotoViewer.this.parentChatActivity.getQuickReplyId(), 0L);
                             return;
                         }
                         AccountInstance accountInstance2 = PhotoViewer.this.parentChatActivity.getAccountInstance();
@@ -19233,7 +19238,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         MessageObject threadMessage2 = PhotoViewer.this.parentChatActivity.getThreadMessage();
                         ChatActivity.ReplyQuote replyQuote2 = PhotoViewer.this.parentChatActivity.getReplyQuote();
                         MediaController.PhotoEntry photoEntry4 = orientation;
-                        SendMessagesHelper.prepareSendingVideo(accountInstance2, str2, null, dialogId2, replyMessage2, threadMessage2, null, replyQuote2, photoEntry4.entities, photoEntry4.ttl, messageObject2, z3, i2, z5, photoEntry4.hasSpoiler, photoEntry4.caption, PhotoViewer.this.parentChatActivity.quickReplyShortcut, PhotoViewer.this.parentChatActivity.getQuickReplyId());
+                        SendMessagesHelper.prepareSendingVideo(accountInstance2, str2, null, dialogId2, replyMessage2, threadMessage2, null, replyQuote2, photoEntry4.entities, photoEntry4.ttl, messageObject2, z3, i2, z5, photoEntry4.hasSpoiler, photoEntry4.caption, PhotoViewer.this.parentChatActivity.quickReplyShortcut, PhotoViewer.this.parentChatActivity.getQuickReplyId(), 0L);
                     } else if (photoEntry2.imagePath != null) {
                         AccountInstance accountInstance3 = PhotoViewer.this.parentChatActivity.getAccountInstance();
                         MediaController.PhotoEntry photoEntry5 = orientation;
@@ -19244,7 +19249,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         MessageObject threadMessage3 = PhotoViewer.this.parentChatActivity.getThreadMessage();
                         ChatActivity.ReplyQuote replyQuote3 = PhotoViewer.this.parentChatActivity.getReplyQuote();
                         MediaController.PhotoEntry photoEntry6 = orientation;
-                        SendMessagesHelper.prepareSendingPhoto(accountInstance3, str3, str4, null, dialogId3, replyMessage3, threadMessage3, null, replyQuote3, photoEntry6.entities, photoEntry6.stickers, null, photoEntry6.ttl, messageObject2, videoEditedInfo, z3, i2, 0, z5, photoEntry6.caption, PhotoViewer.this.parentChatActivity.quickReplyShortcut, PhotoViewer.this.parentChatActivity.getQuickReplyId());
+                        SendMessagesHelper.prepareSendingPhoto(accountInstance3, str3, str4, null, dialogId3, replyMessage3, threadMessage3, null, replyQuote3, photoEntry6.entities, photoEntry6.stickers, null, photoEntry6.ttl, messageObject2, videoEditedInfo, z3, i2, 0, z5, photoEntry6.caption, PhotoViewer.this.parentChatActivity.quickReplyShortcut, PhotoViewer.this.parentChatActivity.getQuickReplyId(), 0L);
                     } else if (photoEntry2.path != null) {
                         AccountInstance accountInstance4 = PhotoViewer.this.parentChatActivity.getAccountInstance();
                         MediaController.PhotoEntry photoEntry7 = orientation;
@@ -19255,7 +19260,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         MessageObject threadMessage4 = PhotoViewer.this.parentChatActivity.getThreadMessage();
                         ChatActivity.ReplyQuote replyQuote4 = PhotoViewer.this.parentChatActivity.getReplyQuote();
                         MediaController.PhotoEntry photoEntry8 = orientation;
-                        SendMessagesHelper.prepareSendingPhoto(accountInstance4, str5, str6, null, dialogId4, replyMessage4, threadMessage4, null, replyQuote4, photoEntry8.entities, photoEntry8.stickers, null, photoEntry8.ttl, messageObject2, videoEditedInfo, z3, i2, 0, z5, photoEntry8.caption, PhotoViewer.this.parentChatActivity.quickReplyShortcut, PhotoViewer.this.parentChatActivity.getQuickReplyId());
+                        SendMessagesHelper.prepareSendingPhoto(accountInstance4, str5, str6, null, dialogId4, replyMessage4, threadMessage4, null, replyQuote4, photoEntry8.entities, photoEntry8.stickers, null, photoEntry8.ttl, messageObject2, videoEditedInfo, z3, i2, 0, z5, photoEntry8.caption, PhotoViewer.this.parentChatActivity.quickReplyShortcut, PhotoViewer.this.parentChatActivity.getQuickReplyId(), 0L);
                     }
                 }
             }
@@ -19287,14 +19292,16 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     private boolean checkAnimation() {
-        if (this.animationInProgress != 0 && Math.abs(this.transitionAnimationStartTime - System.currentTimeMillis()) >= 500) {
-            Runnable runnable = this.animationEndRunnable;
-            if (runnable != null) {
-                runnable.run();
-                this.animationEndRunnable = null;
-            }
-            this.animationInProgress = 0;
+        if (this.animationInProgress != 0) {
             invalidateBlur();
+            if (Math.abs(this.transitionAnimationStartTime - System.currentTimeMillis()) >= 500) {
+                Runnable runnable = this.animationEndRunnable;
+                if (runnable != null) {
+                    runnable.run();
+                    this.animationEndRunnable = null;
+                }
+                this.animationInProgress = 0;
+            }
         }
         return this.animationInProgress != 0;
     }
@@ -19339,9 +19346,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
 
     public boolean openPhoto(MessageObject messageObject, TLRPC$FileLocation tLRPC$FileLocation, ImageLocation imageLocation, ImageLocation imageLocation2, ArrayList<MessageObject> arrayList, ArrayList<SecureDocument> arrayList2, ArrayList<Object> arrayList3, int i, final PhotoViewerProvider photoViewerProvider, ChatActivity chatActivity, long j, long j2, long j3, boolean z, PageBlocksAdapter pageBlocksAdapter, final Integer num) {
         TLRPC$Message tLRPC$Message;
-        boolean z2;
         PhotoViewerProvider photoViewerProvider2;
-        float f;
+        int i2 = 0;
         if (this.parentActivity != null && !this.isVisible && ((photoViewerProvider != null || !checkAnimation()) && (messageObject != null || tLRPC$FileLocation != null || arrayList != null || arrayList3 != null || arrayList2 != null || imageLocation != null || pageBlocksAdapter != null))) {
             PlaceProviderObject placeForPhoto = photoViewerProvider.getPlaceForPhoto(messageObject, tLRPC$FileLocation, i, true);
             if (Build.VERSION.SDK_INT < 21) {
@@ -19418,9 +19424,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 this.isVisible = true;
                 this.isVisibleOrAnimating = true;
                 togglePhotosListView(false, false);
-                boolean z3 = !z;
-                this.openedFullScreenVideo = z3;
-                if (z3) {
+                boolean z2 = !z;
+                this.openedFullScreenVideo = z2;
+                if (z2) {
                     toggleActionBar(false, false);
                 } else if (this.sendPhotoType == 1) {
                     createCropView();
@@ -19455,7 +19461,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     } else if (pageBlocksAdapter != null) {
                         this.currentAnimation = placeForPhoto.imageReceiver.getAnimation();
                     }
-                    z2 = true;
+                    float f = 0.0f;
                     onPhotoShow(messageObject, tLRPC$FileLocation, imageLocation, imageLocation2, arrayList, arrayList2, arrayList3, i, placeForPhoto);
                     if (this.sendPhotoType == 1) {
                         this.photoCropView.setVisibility(0);
@@ -19472,12 +19478,12 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     }
                     ClippingImageView[] animatingImageViews = getAnimatingImageViews(placeForPhoto);
                     this.clippingImageProgress = 1.0f;
-                    for (int i2 = 0; i2 < animatingImageViews.length; i2++) {
-                        animatingImageViews[i2].setAnimationValues(this.animationValues);
-                        animatingImageViews[i2].setVisibility(0);
-                        animatingImageViews[i2].setRadius(placeForPhoto.radius);
-                        animatingImageViews[i2].setOrientation(orientation, placeForPhoto.imageReceiver.getInvert());
-                        animatingImageViews[i2].setImageBitmap(placeForPhoto.thumb);
+                    for (int i3 = 0; i3 < animatingImageViews.length; i3++) {
+                        animatingImageViews[i3].setAnimationValues(this.animationValues);
+                        animatingImageViews[i3].setVisibility(0);
+                        animatingImageViews[i3].setRadius(placeForPhoto.radius);
+                        animatingImageViews[i3].setOrientation(orientation, placeForPhoto.imageReceiver.getInvert());
+                        animatingImageViews[i3].setImageBitmap(placeForPhoto.thumb);
                     }
                     initCropView();
                     if (this.sendPhotoType == 1) {
@@ -19493,25 +19499,24 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     if (height <= 0) {
                         layoutParams2.height = 100;
                     }
-                    for (int i3 = 0; i3 < animatingImageViews.length; i3++) {
+                    while (i2 < animatingImageViews.length) {
                         if (animatingImageViews.length > 1) {
-                            f = 0.0f;
-                            animatingImageViews[i3].setAlpha(0.0f);
+                            animatingImageViews[i2].setAlpha(f);
                         } else {
-                            f = 0.0f;
-                            animatingImageViews[i3].setAlpha(1.0f);
+                            animatingImageViews[i2].setAlpha(1.0f);
                         }
-                        animatingImageViews[i3].setPivotX(f);
-                        animatingImageViews[i3].setPivotY(f);
-                        animatingImageViews[i3].setScaleX(placeForPhoto.scale);
-                        animatingImageViews[i3].setScaleY(placeForPhoto.scale);
-                        animatingImageViews[i3].setTranslationX(placeForPhoto.viewX + (drawRegion.left * placeForPhoto.scale));
-                        animatingImageViews[i3].setTranslationY(placeForPhoto.viewY + (drawRegion.top * placeForPhoto.scale));
-                        animatingImageViews[i3].setLayoutParams(layoutParams2);
+                        animatingImageViews[i2].setPivotX(f);
+                        animatingImageViews[i2].setPivotY(f);
+                        animatingImageViews[i2].setScaleX(placeForPhoto.scale);
+                        animatingImageViews[i2].setScaleY(placeForPhoto.scale);
+                        animatingImageViews[i2].setTranslationX(placeForPhoto.viewX + (drawRegion.left * placeForPhoto.scale));
+                        animatingImageViews[i2].setTranslationY(placeForPhoto.viewY + (drawRegion.top * placeForPhoto.scale));
+                        animatingImageViews[i2].setLayoutParams(layoutParams2);
+                        i2++;
+                        f = 0.0f;
                     }
-                    this.windowView.getViewTreeObserver().addOnPreDrawListener(new 71(animatingImageViews, layoutParams2, f2, placeForPhoto, f3, pageBlocksAdapter, photoViewerProvider, arrayList3, num));
+                    this.windowView.getViewTreeObserver().addOnPreDrawListener(new 71(animatingImageViews, layoutParams2, f2, placeForPhoto, f3, photoViewerProvider, arrayList3, num));
                 } else {
-                    z2 = true;
                     if (arrayList3 != null && this.sendPhotoType != 3 && ((photoViewerProvider2 = this.placeProvider) == null || !photoViewerProvider2.closeKeyboard())) {
                         makeFocusable();
                     }
@@ -19604,7 +19609,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     obtain.getText().add(LocaleController.getString("AccDescrPhotoViewer", R.string.AccDescrPhotoViewer));
                     accessibilityManager.sendAccessibilityEvent(obtain);
                 }
-                return z2;
+                return true;
             } catch (Exception e) {
                 FileLog.e(e);
             }
@@ -19619,19 +19624,17 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         final /* synthetic */ ViewGroup.LayoutParams val$layoutParams;
         final /* synthetic */ float val$left;
         final /* synthetic */ PlaceProviderObject val$object;
-        final /* synthetic */ PageBlocksAdapter val$pageBlocksAdapter;
         final /* synthetic */ ArrayList val$photos;
         final /* synthetic */ PhotoViewerProvider val$provider;
         final /* synthetic */ float val$top;
 
-        71(ClippingImageView[] clippingImageViewArr, ViewGroup.LayoutParams layoutParams, float f, PlaceProviderObject placeProviderObject, float f2, PageBlocksAdapter pageBlocksAdapter, PhotoViewerProvider photoViewerProvider, ArrayList arrayList, Integer num) {
+        71(ClippingImageView[] clippingImageViewArr, ViewGroup.LayoutParams layoutParams, float f, PlaceProviderObject placeProviderObject, float f2, PhotoViewerProvider photoViewerProvider, ArrayList arrayList, Integer num) {
             PhotoViewer.this = r1;
             this.val$animatingImageViews = clippingImageViewArr;
             this.val$layoutParams = layoutParams;
             this.val$left = f;
             this.val$object = placeProviderObject;
             this.val$top = f2;
-            this.val$pageBlocksAdapter = pageBlocksAdapter;
             this.val$provider = photoViewerProvider;
             this.val$photos = arrayList;
             this.val$embedSeekTime = num;
@@ -19678,7 +19681,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             }
             int abs = (int) Math.abs(this.val$left - this.val$object.imageReceiver.getImageX());
             int abs2 = (int) Math.abs(this.val$top - this.val$object.imageReceiver.getImageY());
-            if (this.val$pageBlocksAdapter != null && this.val$object.imageReceiver.isAspectFit()) {
+            if (this.val$object.imageReceiver.isAspectFit()) {
                 abs = 0;
             }
             int[] iArr = new int[2];
@@ -20026,15 +20029,15 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:416:0x01be  */
-    /* JADX WARN: Removed duplicated region for block: B:428:0x01f0  */
-    /* JADX WARN: Removed duplicated region for block: B:435:0x0218  */
-    /* JADX WARN: Removed duplicated region for block: B:443:0x0251  */
-    /* JADX WARN: Removed duplicated region for block: B:446:0x0258  */
-    /* JADX WARN: Removed duplicated region for block: B:454:0x0282  */
-    /* JADX WARN: Removed duplicated region for block: B:457:0x028b  */
-    /* JADX WARN: Removed duplicated region for block: B:458:0x02a2  */
-    /* JADX WARN: Removed duplicated region for block: B:595:0x01f6 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:414:0x01be  */
+    /* JADX WARN: Removed duplicated region for block: B:426:0x01f0  */
+    /* JADX WARN: Removed duplicated region for block: B:433:0x0218  */
+    /* JADX WARN: Removed duplicated region for block: B:441:0x0251  */
+    /* JADX WARN: Removed duplicated region for block: B:444:0x0258  */
+    /* JADX WARN: Removed duplicated region for block: B:452:0x0282  */
+    /* JADX WARN: Removed duplicated region for block: B:455:0x028b  */
+    /* JADX WARN: Removed duplicated region for block: B:456:0x02a2  */
+    /* JADX WARN: Removed duplicated region for block: B:591:0x01f6 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -20311,7 +20314,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                 placeForPhoto.imageReceiver.setVisible(false, true);
                                 int abs = (int) Math.abs(rectF.left - placeForPhoto.imageReceiver.getImageX());
                                 int abs2 = (int) Math.abs(rectF.top - placeForPhoto.imageReceiver.getImageY());
-                                if (this.pageBlocksAdapter != null && placeForPhoto.imageReceiver.isAspectFit()) {
+                                if (placeForPhoto.imageReceiver.isAspectFit()) {
                                     abs = 0;
                                 }
                                 int[] iArr2 = new int[2];
@@ -20479,7 +20482,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                             }
                                         }
                                         if (chatActivity2 != null) {
-                                            chatActivity2.lambda$openDiscussionMessageChat$315(PhotoViewer.this.animationEndRunnable);
+                                            chatActivity2.lambda$openDiscussionMessageChat$319(PhotoViewer.this.animationEndRunnable);
                                             return;
                                         }
                                         PhotoViewer.this.animationEndRunnable.run();
@@ -21585,88 +21588,88 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         return Build.VERSION.SDK_INT >= 21 && !this.inBubbleMode;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:1172:0x099c, code lost:
-        if (r6 == 2) goto L393;
+    /* JADX WARN: Code restructure failed: missing block: B:1218:0x0a10, code lost:
+        if (r6 == 2) goto L684;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1177:0x09a4, code lost:
-        if (r0 == (-1)) goto L661;
+    /* JADX WARN: Code restructure failed: missing block: B:1223:0x0a18, code lost:
+        if (r15 == (-1)) goto L689;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1185:0x09b0, code lost:
-        if (r0 == r2) goto L393;
+    /* JADX WARN: Code restructure failed: missing block: B:1231:0x0a24, code lost:
+        if (r15 == r0) goto L684;
      */
-    /* JADX WARN: Removed duplicated region for block: B:1001:0x04d5  */
-    /* JADX WARN: Removed duplicated region for block: B:1024:0x058f  */
-    /* JADX WARN: Removed duplicated region for block: B:1025:0x0597  */
-    /* JADX WARN: Removed duplicated region for block: B:1040:0x061c  */
-    /* JADX WARN: Removed duplicated region for block: B:1043:0x0676  */
-    /* JADX WARN: Removed duplicated region for block: B:1045:0x0681  */
-    /* JADX WARN: Removed duplicated region for block: B:1050:0x06a0  */
-    /* JADX WARN: Removed duplicated region for block: B:1062:0x06ce  */
-    /* JADX WARN: Removed duplicated region for block: B:1070:0x06e8  */
-    /* JADX WARN: Removed duplicated region for block: B:1076:0x0703  */
-    /* JADX WARN: Removed duplicated region for block: B:1077:0x0705  */
-    /* JADX WARN: Removed duplicated region for block: B:1080:0x0710 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:1087:0x0726  */
-    /* JADX WARN: Removed duplicated region for block: B:1093:0x073a  */
-    /* JADX WARN: Removed duplicated region for block: B:1094:0x0740  */
-    /* JADX WARN: Removed duplicated region for block: B:1098:0x07cb  */
-    /* JADX WARN: Removed duplicated region for block: B:1099:0x07ce  */
-    /* JADX WARN: Removed duplicated region for block: B:1102:0x07d9  */
-    /* JADX WARN: Removed duplicated region for block: B:1103:0x07dc  */
-    /* JADX WARN: Removed duplicated region for block: B:1106:0x07f8  */
-    /* JADX WARN: Removed duplicated region for block: B:1116:0x0854 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:1151:0x0940  */
-    /* JADX WARN: Removed duplicated region for block: B:1163:0x0986  */
-    /* JADX WARN: Removed duplicated region for block: B:1189:0x09b7  */
-    /* JADX WARN: Removed duplicated region for block: B:1192:0x09be  */
-    /* JADX WARN: Removed duplicated region for block: B:1225:0x0a48  */
-    /* JADX WARN: Removed duplicated region for block: B:1228:0x0a53  */
-    /* JADX WARN: Removed duplicated region for block: B:1236:0x0a6b  */
-    /* JADX WARN: Removed duplicated region for block: B:1240:0x0a8b  */
-    /* JADX WARN: Removed duplicated region for block: B:1250:0x0ab5  */
-    /* JADX WARN: Removed duplicated region for block: B:1271:0x0af9  */
-    /* JADX WARN: Removed duplicated region for block: B:1280:0x0b31  */
-    /* JADX WARN: Removed duplicated region for block: B:1283:0x0b3b  */
-    /* JADX WARN: Removed duplicated region for block: B:1295:0x0b73  */
-    /* JADX WARN: Removed duplicated region for block: B:1298:0x0b8f  */
-    /* JADX WARN: Removed duplicated region for block: B:1301:0x0bb3  */
-    /* JADX WARN: Removed duplicated region for block: B:1304:0x0bde  */
-    /* JADX WARN: Removed duplicated region for block: B:1307:0x0be6  */
-    /* JADX WARN: Removed duplicated region for block: B:1316:0x0c05  */
-    /* JADX WARN: Removed duplicated region for block: B:1318:0x0c11  */
-    /* JADX WARN: Removed duplicated region for block: B:1321:0x0c24  */
-    /* JADX WARN: Removed duplicated region for block: B:1326:0x0c4f  */
-    /* JADX WARN: Removed duplicated region for block: B:1330:0x0c6b  */
-    /* JADX WARN: Removed duplicated region for block: B:1336:0x0c83  */
-    /* JADX WARN: Removed duplicated region for block: B:1337:0x0ca2  */
-    /* JADX WARN: Removed duplicated region for block: B:1340:0x0cb3  */
-    /* JADX WARN: Removed duplicated region for block: B:1344:0x0cc0  */
-    /* JADX WARN: Removed duplicated region for block: B:1403:0x0dbe  */
-    /* JADX WARN: Removed duplicated region for block: B:1405:0x0dc2  */
-    /* JADX WARN: Removed duplicated region for block: B:1412:0x0ddd  */
-    /* JADX WARN: Removed duplicated region for block: B:1420:0x0df1  */
-    /* JADX WARN: Removed duplicated region for block: B:1424:0x0e0b  */
-    /* JADX WARN: Removed duplicated region for block: B:1428:0x0e17  */
-    /* JADX WARN: Removed duplicated region for block: B:1432:0x0e27  */
-    /* JADX WARN: Removed duplicated region for block: B:1459:0x0ee5  */
-    /* JADX WARN: Removed duplicated region for block: B:1503:0x1063  */
-    /* JADX WARN: Removed duplicated region for block: B:1508:0x1076  */
-    /* JADX WARN: Removed duplicated region for block: B:1533:0x10ce  */
-    /* JADX WARN: Removed duplicated region for block: B:1536:0x10d5  */
-    /* JADX WARN: Removed duplicated region for block: B:1549:0x0ed2 A[EDGE_INSN: B:1549:0x0ed2->B:1457:0x0ed2 ?: BREAK  , SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:915:0x030a  */
-    /* JADX WARN: Removed duplicated region for block: B:918:0x031a  */
-    /* JADX WARN: Removed duplicated region for block: B:921:0x0321  */
-    /* JADX WARN: Removed duplicated region for block: B:934:0x03a1 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:953:0x03f1  */
-    /* JADX WARN: Removed duplicated region for block: B:956:0x03fd  */
-    /* JADX WARN: Removed duplicated region for block: B:981:0x0450  */
-    /* JADX WARN: Removed duplicated region for block: B:993:0x049d  */
+    /* JADX WARN: Code restructure failed: missing block: B:1463:0x0e5a, code lost:
+        if (r45.switchingToMode == (-1)) goto L540;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:1026:0x04bd  */
+    /* JADX WARN: Removed duplicated region for block: B:1038:0x050c  */
+    /* JADX WARN: Removed duplicated region for block: B:1046:0x0541  */
+    /* JADX WARN: Removed duplicated region for block: B:1083:0x0683  */
+    /* JADX WARN: Removed duplicated region for block: B:1086:0x06dc  */
+    /* JADX WARN: Removed duplicated region for block: B:1088:0x06e7  */
+    /* JADX WARN: Removed duplicated region for block: B:1094:0x0706  */
+    /* JADX WARN: Removed duplicated region for block: B:1106:0x0734  */
+    /* JADX WARN: Removed duplicated region for block: B:1114:0x074e  */
+    /* JADX WARN: Removed duplicated region for block: B:1126:0x0778 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:1133:0x0791  */
+    /* JADX WARN: Removed duplicated region for block: B:1139:0x07a5  */
+    /* JADX WARN: Removed duplicated region for block: B:1140:0x07ac  */
+    /* JADX WARN: Removed duplicated region for block: B:1144:0x0839  */
+    /* JADX WARN: Removed duplicated region for block: B:1145:0x083c  */
+    /* JADX WARN: Removed duplicated region for block: B:1148:0x0848  */
+    /* JADX WARN: Removed duplicated region for block: B:1149:0x084b  */
+    /* JADX WARN: Removed duplicated region for block: B:1152:0x0868  */
+    /* JADX WARN: Removed duplicated region for block: B:1162:0x08c4 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:1197:0x09b2  */
+    /* JADX WARN: Removed duplicated region for block: B:1209:0x09f8  */
+    /* JADX WARN: Removed duplicated region for block: B:1235:0x0a2d  */
+    /* JADX WARN: Removed duplicated region for block: B:1238:0x0a34  */
+    /* JADX WARN: Removed duplicated region for block: B:1271:0x0abd  */
+    /* JADX WARN: Removed duplicated region for block: B:1274:0x0ac8  */
+    /* JADX WARN: Removed duplicated region for block: B:1282:0x0ae0  */
+    /* JADX WARN: Removed duplicated region for block: B:1286:0x0b00  */
+    /* JADX WARN: Removed duplicated region for block: B:1296:0x0b2a  */
+    /* JADX WARN: Removed duplicated region for block: B:1317:0x0b6e  */
+    /* JADX WARN: Removed duplicated region for block: B:1326:0x0ba6  */
+    /* JADX WARN: Removed duplicated region for block: B:1329:0x0bb0  */
+    /* JADX WARN: Removed duplicated region for block: B:1341:0x0be8  */
+    /* JADX WARN: Removed duplicated region for block: B:1344:0x0c04  */
+    /* JADX WARN: Removed duplicated region for block: B:1347:0x0c28  */
+    /* JADX WARN: Removed duplicated region for block: B:1350:0x0c53  */
+    /* JADX WARN: Removed duplicated region for block: B:1353:0x0c5b  */
+    /* JADX WARN: Removed duplicated region for block: B:1362:0x0c7a  */
+    /* JADX WARN: Removed duplicated region for block: B:1364:0x0c86  */
+    /* JADX WARN: Removed duplicated region for block: B:1367:0x0c99  */
+    /* JADX WARN: Removed duplicated region for block: B:1372:0x0cc5  */
+    /* JADX WARN: Removed duplicated region for block: B:1376:0x0cdd  */
+    /* JADX WARN: Removed duplicated region for block: B:1382:0x0cf5  */
+    /* JADX WARN: Removed duplicated region for block: B:1383:0x0d14  */
+    /* JADX WARN: Removed duplicated region for block: B:1386:0x0d25  */
+    /* JADX WARN: Removed duplicated region for block: B:1390:0x0d32  */
+    /* JADX WARN: Removed duplicated region for block: B:1449:0x0e2f  */
+    /* JADX WARN: Removed duplicated region for block: B:1451:0x0e33  */
+    /* JADX WARN: Removed duplicated region for block: B:1458:0x0e4e  */
+    /* JADX WARN: Removed duplicated region for block: B:1470:0x0e7a  */
+    /* JADX WARN: Removed duplicated region for block: B:1473:0x0e80  */
+    /* JADX WARN: Removed duplicated region for block: B:1477:0x0e8c  */
+    /* JADX WARN: Removed duplicated region for block: B:1481:0x0e9c  */
+    /* JADX WARN: Removed duplicated region for block: B:1508:0x0f59  */
+    /* JADX WARN: Removed duplicated region for block: B:1554:0x10e1  */
+    /* JADX WARN: Removed duplicated region for block: B:1559:0x10f4  */
+    /* JADX WARN: Removed duplicated region for block: B:1584:0x114c  */
+    /* JADX WARN: Removed duplicated region for block: B:1587:0x1153  */
+    /* JADX WARN: Removed duplicated region for block: B:1592:0x119b  */
+    /* JADX WARN: Removed duplicated region for block: B:1593:0x11a8  */
+    /* JADX WARN: Removed duplicated region for block: B:1608:0x0f47 A[EDGE_INSN: B:1608:0x0f47->B:1506:0x0f47 ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:958:0x036d  */
+    /* JADX WARN: Removed duplicated region for block: B:961:0x037e  */
+    /* JADX WARN: Removed duplicated region for block: B:964:0x0385  */
+    /* JADX WARN: Removed duplicated region for block: B:998:0x045e  */
     @SuppressLint({"NewApi", "DrawAllocation"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void onDraw(Canvas canvas) {
+        RecordingCanvas recordingCanvas;
         float f;
         float f2;
         float f3;
@@ -21674,113 +21677,127 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         float f5;
         float f6;
         float f7;
+        float f8;
         int i;
         PhotoViewerWebView photoViewerWebView;
         int i2;
         int i3;
         int i4;
-        int i5;
         long j;
+        int i5;
         int i6;
-        float f8;
         float f9;
         float f10;
-        boolean z;
         float f11;
         float f12;
         float f13;
+        float f14;
+        float f15;
+        boolean z;
         boolean z2;
         MaskPaintView maskPaintView;
-        float f14;
-        StickerMakerView stickerMakerView;
-        float f15;
         float f16;
+        StickerMakerView stickerMakerView;
         float f17;
-        int i7;
         float f18;
         float f19;
+        int i7;
         float f20;
         float f21;
         float f22;
+        float f23;
+        float f24;
         boolean z3;
         int bitmapWidth;
         int bitmapHeight;
-        float f23;
         int i8;
         int i9;
         boolean z4;
-        int i10;
         boolean z5;
-        float f24;
+        int i10;
+        boolean z6;
         float f25;
+        float f26;
         int i11;
         int i12;
-        float f26;
-        int i13;
         float f27;
+        int i13;
         float f28;
+        float f29;
         int i14;
-        boolean z6;
+        boolean z7;
         long j2;
         int i15;
         GradientDrawable[] gradientDrawableArr;
-        float f29;
+        float f30;
         int i16;
         int i17;
-        float f30;
-        int i18;
         float f31;
+        int i18;
         float f32;
         float f33;
         float f34;
         float f35;
         float f36;
-        TextureView textureView;
         float f37;
+        TextureView textureView;
         float f38;
+        float f39;
         float minScale;
         int i19;
         float rotation;
-        int i20;
         float min;
+        int i20;
         int i21;
-        int i22;
         int height;
+        int i22;
         int i23;
-        int i24;
         int containerViewHeight;
-        boolean z7;
+        boolean z8;
         ImageReceiver imageReceiver;
-        float f39;
-        int i25;
-        Drawable drawable;
         float f40;
+        int i24;
+        Canvas canvas2;
+        Drawable drawable;
         float f41;
+        float f42;
+        int i25;
+        float f43;
+        char c;
         int i26;
         int i27;
         int i28;
-        boolean z8;
-        AspectRatioFrameLayout aspectRatioFrameLayout;
-        float f42;
-        float f43;
+        boolean z9;
         float f44;
+        AspectRatioFrameLayout aspectRatioFrameLayout;
         float f45;
-        int i29;
         float f46;
         float f47;
-        int i30;
         float f48;
+        float f49;
+        float f50;
+        int i29;
+        float f51;
+        int i30;
         int i31;
         int i32;
         int i33;
+        boolean z10;
+        float f52;
         int i34;
-        boolean z9;
-        PaintingOverlay paintingOverlay;
-        float f49;
         int i35;
-        int i36;
-        float f50;
+        Canvas canvas3 = canvas;
+        if (BLUR_RENDERNODE()) {
+            if (this.renderNode == null) {
+                this.renderNode = new RenderNode("photo viewer");
+            }
+            this.renderNode.setPosition(0, 0, canvas.getWidth(), canvas.getHeight() + AndroidUtilities.navigationBarHeight);
+            recordingCanvas = this.renderNode.beginRecording();
+        } else {
+            recordingCanvas = canvas3;
+        }
         BaseFragment baseFragment = this.parentFragment;
+        float f53 = 1.0f;
         if (baseFragment != null && baseFragment.getFragmentView() != null) {
             if (!this.scroller.isFinished() && this.scroller.computeScrollOffset()) {
                 if (this.scroller.getStartX() < this.maxX && this.scroller.getStartX() > this.minX) {
@@ -21793,9 +21810,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 this.containerView.invalidate();
             }
             float abs = Math.abs(this.translationY) / (getContainerViewHeight() / 2.0f);
-            float f51 = this.clippingImageProgress;
-            if (f51 != 0.0f) {
-                abs += (1.0f - abs) * f51;
+            float f54 = this.clippingImageProgress;
+            if (f54 != 0.0f) {
+                abs += (1.0f - abs) * f54;
             }
             float clamp = ((1.0f - Utilities.clamp(abs, 1.0f, 0.0f)) * 0.1f) + 1.0f;
             if (!LiteMode.isEnabled(LiteMode.FLAG_CHAT_SCALE)) {
@@ -21818,155 +21835,154 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     container.setScaleY(clamp);
                 }
             }
-            int i37 = this.animationInProgress;
-            if (i37 == 1 || i37 == 2 || i37 == 3 || this.pipAnimationInProgress) {
+            int i36 = this.animationInProgress;
+            if (i36 == 1 || i36 == 2 || i36 == 3 || this.pipAnimationInProgress) {
                 this.containerView.invalidate();
             }
         }
-        int i38 = this.animationInProgress;
-        if (i38 == 1) {
+        int i37 = this.animationInProgress;
+        if (i37 == 1) {
             if (this.padImageForHorizontalInsets) {
                 canvas.save();
-                canvas.translate((getLeftInset() / 2) - (getRightInset() / 2), 0.0f);
+                canvas3.translate((getLeftInset() / 2) - (getRightInset() / 2), 0.0f);
             }
             if (this.animatingImageView != null) {
                 canvas.save();
-                canvas.translate(this.animatingImageView.getCenterX() - (canvas.getWidth() / 2), this.animatingImageView.getCenterY() - (canvas.getHeight() / 2));
+                canvas3.translate(this.animatingImageView.getCenterX() - (recordingCanvas.getWidth() / 2), this.animatingImageView.getCenterY() - (recordingCanvas.getHeight() / 2));
                 float animationProgress = this.animatingImageView.getAnimationProgress();
                 if (this.animationInProgress != 1) {
                     animationProgress = 1.0f - animationProgress;
                 }
-                canvas.scale(animationProgress, animationProgress, canvas.getWidth() / 2, canvas.getHeight() / 2);
-                f50 = animationProgress;
-            } else {
-                f50 = 1.0f;
+                canvas3.scale(animationProgress, animationProgress, recordingCanvas.getWidth() / 2, recordingCanvas.getHeight() / 2);
+                f53 = animationProgress;
             }
-            drawProgress(canvas, 0.0f, 1.0f, 0.0f, f50);
+            drawProgress(canvas, 0.0f, 1.0f, 0.0f, f53);
             if (this.animatingImageView != null) {
                 canvas.restore();
             }
             if (this.padImageForHorizontalInsets) {
                 canvas.restore();
             }
-            drawFancyShadows(canvas);
-        } else if (i38 != 3) {
-            if (this.isVisible || i38 == 2 || this.pipAnimationInProgress) {
-                if (this.padImageForHorizontalInsets) {
-                    canvas.save();
-                    canvas.translate((getLeftInset() / 2) - (getRightInset() / 2), 0.0f);
+            if (this.animatingImageView != null && recordingCanvas != canvas3) {
+                recordingCanvas.save();
+                recordingCanvas.translate(this.animatingImageView.getX(), this.animatingImageView.getY());
+                recordingCanvas.scale(this.animatingImageView.getScaleX(), this.animatingImageView.getScaleY());
+                this.animatingImageView.draw(recordingCanvas);
+                recordingCanvas.restore();
+            }
+            if (BLUR_RENDERNODE()) {
+                this.renderNode.endRecording();
+            } else {
+                canvas3 = recordingCanvas;
+            }
+            drawFancyShadows(canvas3);
+        } else if (i37 == 3 || (!this.isVisible && i37 != 2 && !this.pipAnimationInProgress)) {
+            if (BLUR_RENDERNODE()) {
+                this.renderNode.endRecording();
+                canvas3.drawRenderNode(this.renderNode);
+            }
+        } else {
+            if (this.padImageForHorizontalInsets) {
+                recordingCanvas.save();
+                recordingCanvas.translate((getLeftInset() / 2) - (getRightInset() / 2), 0.0f);
+            }
+            long currentTimeMillis = System.currentTimeMillis();
+            long j3 = currentTimeMillis - this.videoCrossfadeAlphaLastTime;
+            if (j3 > 20) {
+                j3 = 17;
+            }
+            long j4 = j3;
+            this.videoCrossfadeAlphaLastTime = currentTimeMillis;
+            if (this.imageMoveAnimation != null) {
+                if (!this.scroller.isFinished()) {
+                    this.scroller.abortAnimation();
                 }
-                long currentTimeMillis = System.currentTimeMillis();
-                long j3 = currentTimeMillis - this.videoCrossfadeAlphaLastTime;
-                if (j3 > 20) {
-                    j3 = 17;
+                float f55 = this.scale;
+                float f56 = this.animateToScale;
+                float f57 = this.animationValue;
+                f = ((f56 - f55) * f57) + f55;
+                float f58 = this.rotate;
+                f3 = f58 + ((this.animateToRotate - f58) * f57);
+                float f59 = this.translationX;
+                f5 = ((this.animateToX - f59) * f57) + f59;
+                float f60 = this.translationY;
+                f4 = f60 + ((this.animateToY - f60) * f57);
+                float f61 = this.mirror;
+                f2 = f61 + ((this.animateToMirror - f61) * f57);
+                f8 = (f56 == 1.0f && f55 == 1.0f && f59 == 0.0f) ? f4 : -1.0f;
+                updateMinMax(f);
+                this.containerView.invalidate();
+            } else {
+                if (this.animationStartTime != 0) {
+                    this.translationX = this.animateToX;
+                    this.translationY = this.animateToY;
+                    float f62 = this.animateToScale;
+                    this.scale = f62;
+                    this.rotate = this.animateToRotate;
+                    this.animationStartTime = 0L;
+                    updateMinMax(f62);
+                    this.zoomAnimation = false;
                 }
-                long j4 = j3;
-                this.videoCrossfadeAlphaLastTime = currentTimeMillis;
-                if (this.imageMoveAnimation != null) {
-                    if (!this.scroller.isFinished()) {
-                        this.scroller.abortAnimation();
+                if (!this.scroller.isFinished() && this.scroller.computeScrollOffset()) {
+                    if (this.scroller.getStartX() < this.maxX && this.scroller.getStartX() > this.minX) {
+                        this.translationX = this.scroller.getCurrX();
                     }
-                    float f52 = this.scale;
-                    float f53 = this.animateToScale;
-                    float f54 = this.animationValue;
-                    float f55 = ((f53 - f52) * f54) + f52;
-                    float f56 = this.rotate;
-                    f2 = f56 + ((this.animateToRotate - f56) * f54);
-                    float f57 = this.translationX;
-                    f4 = ((this.animateToX - f57) * f54) + f57;
-                    float f58 = this.translationY;
-                    f3 = f58 + ((this.animateToY - f58) * f54);
-                    float f59 = this.mirror;
-                    f = f59 + ((this.animateToMirror - f59) * f54);
-                    f7 = (f53 == 1.0f && f52 == 1.0f && f57 == 0.0f) ? f3 : -1.0f;
-                    updateMinMax(f55);
+                    if (this.scroller.getStartY() < this.maxY && this.scroller.getStartY() > this.minY) {
+                        this.translationY = this.scroller.getCurrY();
+                    }
+                    invalidateBlur();
                     this.containerView.invalidate();
-                    f5 = f55;
-                } else {
-                    if (this.animationStartTime != 0) {
-                        this.translationX = this.animateToX;
-                        this.translationY = this.animateToY;
-                        float f60 = this.animateToScale;
-                        this.scale = f60;
-                        this.rotate = this.animateToRotate;
-                        this.animationStartTime = 0L;
-                        updateMinMax(f60);
-                        this.zoomAnimation = false;
-                    }
-                    if (!this.scroller.isFinished() && this.scroller.computeScrollOffset()) {
-                        if (this.scroller.getStartX() < this.maxX && this.scroller.getStartX() > this.minX) {
-                            this.translationX = this.scroller.getCurrX();
+                }
+                if (this.switchImageAfterAnimation != 0) {
+                    this.openedFullScreenVideo = false;
+                    if (!this.imagesArrLocals.isEmpty() && (i = this.currentIndex) >= 0 && i < this.imagesArrLocals.size()) {
+                        Object obj = this.imagesArrLocals.get(this.currentIndex);
+                        if (obj instanceof MediaController.MediaEditState) {
+                            ((MediaController.MediaEditState) obj).editedInfo = getCurrentVideoEditedInfo();
                         }
-                        if (this.scroller.getStartY() < this.maxY && this.scroller.getStartY() > this.minY) {
-                            this.translationY = this.scroller.getCurrY();
-                        }
-                        invalidateBlur();
-                        this.containerView.invalidate();
                     }
-                    if (this.switchImageAfterAnimation != 0) {
-                        this.openedFullScreenVideo = false;
-                        if (!this.imagesArrLocals.isEmpty() && (i = this.currentIndex) >= 0 && i < this.imagesArrLocals.size()) {
-                            Object obj = this.imagesArrLocals.get(this.currentIndex);
-                            if (obj instanceof MediaController.MediaEditState) {
-                                ((MediaController.MediaEditState) obj).editedInfo = getCurrentVideoEditedInfo();
+                    int i38 = this.switchImageAfterAnimation;
+                    if (i38 == 1) {
+                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda68
+                            @Override // java.lang.Runnable
+                            public final void run() {
+                                PhotoViewer.this.lambda$onDraw$102();
                             }
-                        }
-                        int i39 = this.switchImageAfterAnimation;
-                        if (i39 == 1) {
-                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda68
-                                @Override // java.lang.Runnable
-                                public final void run() {
-                                    PhotoViewer.this.lambda$onDraw$102();
-                                }
-                            });
-                        } else if (i39 == 2) {
-                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda63
-                                @Override // java.lang.Runnable
-                                public final void run() {
-                                    PhotoViewer.this.lambda$onDraw$103();
-                                }
-                            });
-                        }
-                        this.switchImageAfterAnimation = 0;
+                        });
+                    } else if (i38 == 2) {
+                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda63
+                            @Override // java.lang.Runnable
+                            public final void run() {
+                                PhotoViewer.this.lambda$onDraw$103();
+                            }
+                        });
                     }
-                    float f61 = this.scale;
-                    f = this.mirror;
-                    f2 = this.rotate;
-                    f3 = this.translationY;
-                    f4 = this.translationX;
-                    f5 = f61;
-                    if (this.moving) {
-                        f6 = f2;
-                        f7 = -1.0f;
-                        float f62 = f;
-                        float f63 = f3 + this.translateY;
-                        if (this.currentEditMode == 3) {
-                            f63 += this.photoPaintView.getEmojiPadding(false) / 2.0f;
-                        }
-                        photoViewerWebView = this.photoViewerWebView;
-                        if (photoViewerWebView != null) {
-                            photoViewerWebView.setTranslationY(f63);
-                        }
-                        if (this.isActionBarVisible) {
-                            if (f5 <= 1.0001f) {
-                                if (!this.allowShowFullscreenButton) {
-                                    if (this.fullscreenButton[0].getTag() == null) {
-                                        this.fullscreenButton[0].animate().alpha(1.0f).setDuration(120L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.PhotoViewer.77
-                                            {
-                                                PhotoViewer.this = this;
-                                            }
-
-                                            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                                            public void onAnimationEnd(Animator animator) {
-                                                PhotoViewer.this.fullscreenButton[0].setTag(null);
-                                            }
-                                        }).start();
-                                        this.fullscreenButton[0].setTag(1);
-                                        this.allowShowFullscreenButton = true;
-                                    }
-                                }
-                            } else if (this.allowShowFullscreenButton) {
-                                this.fullscreenButton[0].animate().alpha(0.0f).setDuration(120L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.PhotoViewer.78
+                    this.switchImageAfterAnimation = 0;
+                }
+                f = this.scale;
+                f2 = this.mirror;
+                f3 = this.rotate;
+                f4 = this.translationY;
+                f5 = this.translationX;
+                if (this.moving) {
+                    f6 = f5;
+                    f7 = f3;
+                    f8 = -1.0f;
+                    float f63 = f2;
+                    float f64 = f;
+                    float f65 = f4 + this.translateY;
+                    if (this.currentEditMode == 3) {
+                        f65 += this.photoPaintView.getEmojiPadding(false) / 2.0f;
+                    }
+                    float f66 = f65;
+                    photoViewerWebView = this.photoViewerWebView;
+                    if (photoViewerWebView != null) {
+                        photoViewerWebView.setTranslationY(f66);
+                    }
+                    if (this.isActionBarVisible) {
+                        if (f64 <= 1.0001f) {
+                            if (!this.allowShowFullscreenButton && this.fullscreenButton[0].getTag() == null) {
+                                this.fullscreenButton[0].animate().alpha(1.0f).setDuration(120L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.PhotoViewer.77
                                     {
                                         PhotoViewer.this = this;
                                     }
@@ -21977,329 +21993,326 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                     }
                                 }).start();
                                 this.fullscreenButton[0].setTag(1);
-                                this.allowShowFullscreenButton = false;
+                                this.allowShowFullscreenButton = true;
                             }
-                            int containerViewWidth = getContainerViewWidth();
-                            int containerViewHeight2 = getContainerViewHeight();
-                            i2 = this.animationInProgress;
-                            if (i2 != 2 || i2 == 4 || this.pipAnimationInProgress || this.isInline) {
-                                if (i2 == 4) {
-                                    canvas.drawColor(-16777216);
+                        } else if (this.allowShowFullscreenButton) {
+                            this.fullscreenButton[0].animate().alpha(0.0f).setDuration(120L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.PhotoViewer.78
+                                {
+                                    PhotoViewer.this = this;
                                 }
-                            } else if (this.currentEditMode == 0 && (i36 = this.sendPhotoType) != 1 && i36 != 11 && this.scale == 1.0f && f7 != -1.0f && !this.zoomAnimation) {
-                                float f64 = containerViewWidth / 4.0f;
-                                this.backgroundDrawable.setAlpha((int) Math.max(127.0f, (1.0f - (Math.min(Math.abs(f7), f64) / f64)) * 255.0f));
+
+                                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                                public void onAnimationEnd(Animator animator) {
+                                    PhotoViewer.this.fullscreenButton[0].setTag(null);
+                                }
+                            }).start();
+                            this.fullscreenButton[0].setTag(1);
+                            this.allowShowFullscreenButton = false;
+                        }
+                    }
+                    int containerViewWidth = getContainerViewWidth();
+                    int containerViewHeight2 = getContainerViewHeight();
+                    i2 = this.animationInProgress;
+                    if (i2 != 2 || i2 == 4 || this.pipAnimationInProgress || this.isInline) {
+                        if (i2 == 4) {
+                            recordingCanvas.drawColor(-16777216);
+                        }
+                    } else if (this.currentEditMode == 0 && (i35 = this.sendPhotoType) != 1 && i35 != 11 && this.scale == 1.0f && f8 != -1.0f && !this.zoomAnimation) {
+                        float f67 = containerViewWidth / 4.0f;
+                        this.backgroundDrawable.setAlpha((int) Math.max(127.0f, (1.0f - (Math.min(Math.abs(f8), f67) / f67)) * 255.0f));
+                    } else {
+                        this.backgroundDrawable.setAlpha(255);
+                    }
+                    this.sideImage = null;
+                    if (this.currentEditMode != 0 && (i34 = this.sendPhotoType) != 1) {
+                        if (i34 != 11) {
+                            if (this.scale >= 1.0f && !this.zoomAnimation && !this.zooming) {
+                                if (f6 > this.maxX + AndroidUtilities.dp(5.0f)) {
+                                    this.sideImage = this.leftImage;
+                                } else if (f6 < this.minX - AndroidUtilities.dp(5.0f)) {
+                                    this.sideImage = this.rightImage;
+                                } else {
+                                    this.groupedPhotosListView.setMoveProgress(0.0f);
+                                }
+                            }
+                            this.changingPage = this.sideImage != null;
+                        }
+                    }
+                    i3 = 0;
+                    for (i4 = 3; i3 < i4; i4 = 3) {
+                        if (i3 != 1) {
+                            if (i3 == 2) {
+                                f52 = ((-this.containerView.getMeasuredWidth()) - AndroidUtilities.dp(15.0f)) + (f6 - this.maxX);
                             } else {
-                                this.backgroundDrawable.setAlpha(255);
-                            }
-                            this.sideImage = null;
-                            if (this.currentEditMode != 0 && (i35 = this.sendPhotoType) != 1) {
-                                if (i35 != 11) {
-                                    if (this.scale >= 1.0f && !this.zoomAnimation && !this.zooming) {
-                                        if (f4 > this.maxX + AndroidUtilities.dp(5.0f)) {
-                                            this.sideImage = this.leftImage;
-                                        } else if (f4 < this.minX - AndroidUtilities.dp(5.0f)) {
-                                            this.sideImage = this.rightImage;
-                                        } else {
-                                            this.groupedPhotosListView.setMoveProgress(0.0f);
-                                        }
-                                    }
-                                    this.changingPage = this.sideImage != null;
+                                float f68 = this.minX;
+                                if (f6 < f68) {
+                                    f52 = f6 - f68;
                                 }
                             }
-                            i4 = 0;
-                            for (i3 = 3; i4 < i3; i3 = 3) {
-                                if (i4 != 1) {
-                                    if (i4 == 2) {
-                                        f49 = ((-this.containerView.getMeasuredWidth()) - AndroidUtilities.dp(15.0f)) + (f4 - this.maxX);
-                                    } else {
-                                        float f65 = this.minX;
-                                        if (f4 < f65) {
-                                            f49 = f4 - f65;
-                                        }
-                                    }
-                                    this.fullscreenButton[i4].setTranslationX((f49 + this.containerView.getMeasuredWidth()) - AndroidUtilities.dp(48.0f));
-                                    i4++;
-                                }
-                                f49 = 0.0f;
-                                this.fullscreenButton[i4].setTranslationX((f49 + this.containerView.getMeasuredWidth()) - AndroidUtilities.dp(48.0f));
-                                i4++;
-                            }
-                            if (this.sideImage == this.rightImage) {
-                                if (!this.zoomAnimation) {
-                                    float f66 = this.minX;
-                                    if (f4 < f66) {
-                                        float min2 = Math.min(1.0f, (f66 - f4) / containerViewWidth);
-                                        f44 = (1.0f - min2) * 0.3f;
-                                        f43 = min2;
-                                        f42 = (-containerViewWidth) - (AndroidUtilities.dp(30.0f) / 2);
-                                        if (this.sideImage.hasBitmapImage()) {
-                                            f45 = f42;
-                                            i5 = containerViewHeight2;
-                                            j = j4;
-                                            i29 = containerViewWidth;
-                                            f46 = f63;
-                                            f8 = f62;
-                                            f9 = f6;
-                                            f10 = f4;
-                                            z = false;
-                                            f47 = f43;
-                                        } else {
-                                            canvas.save();
-                                            canvas.translate(containerViewWidth / 2, containerViewHeight2 / 2);
-                                            canvas.translate((AndroidUtilities.dp(30.0f) / 2) + containerViewWidth + f42, 0.0f);
-                                            float f67 = 1.0f - f44;
-                                            canvas.scale(f67, f67);
-                                            int bitmapWidth2 = this.sideImage.getBitmapWidth();
-                                            int bitmapHeight2 = this.sideImage.getBitmapHeight();
-                                            if (this.rightImageIsVideo || this.rightCropState == null || !this.rightCropTransform.hasViewTransform()) {
-                                                i30 = bitmapHeight2;
-                                                f48 = f43;
-                                                i31 = bitmapWidth2;
-                                                i32 = containerViewHeight2;
-                                                j = j4;
-                                                f46 = f63;
-                                                f8 = f62;
-                                                i33 = 1;
-                                                i34 = containerViewWidth;
-                                            } else {
-                                                f48 = f43;
-                                                i31 = bitmapWidth2;
-                                                i32 = containerViewHeight2;
-                                                i30 = bitmapHeight2;
-                                                j = j4;
-                                                f46 = f63;
-                                                f8 = f62;
-                                                i33 = 1;
-                                                applyCrop(canvas, containerViewWidth, containerViewHeight2, i31, bitmapHeight2, 1.0f, this.rightCropTransform, this.rightCropState);
-                                                i34 = containerViewWidth;
-                                            }
-                                            int i40 = i31;
-                                            float f68 = i40;
-                                            int i41 = i32;
-                                            int i42 = i30;
-                                            float f69 = i42;
-                                            float min3 = Math.min(i34 / f68, i41 / f69);
-                                            int i43 = (int) (f68 * min3);
-                                            int i44 = (int) (f69 * min3);
-                                            if (!this.imagesArrLocals.isEmpty()) {
-                                                if (this.currentEditMode == i33 || this.sendPhotoType == i33) {
-                                                    z9 = this.rightCropTransform.isMirrored();
-                                                } else {
-                                                    MediaController.CropState cropState = this.rightCropState;
-                                                    if (cropState != null && cropState.mirrored) {
-                                                        z9 = true;
-                                                    }
-                                                }
-                                                if (!z9) {
-                                                    canvas.scale(-1.0f, 1.0f);
-                                                }
-                                                f47 = f48;
-                                                this.sideImage.setAlpha(f47);
-                                                int i45 = (-i43) / 2;
-                                                i5 = i41;
-                                                f9 = f6;
-                                                int i46 = (-i44) / 2;
-                                                f10 = f4;
-                                                i29 = i34;
-                                                f45 = f42;
-                                                this.sideImage.setImageCoords(i45, i46, i43, i44);
-                                                this.sideImage.draw(canvas);
-                                                paintingOverlay = this.rightPaintingOverlay;
-                                                if (paintingOverlay == null && paintingOverlay.getVisibility() == 0) {
-                                                    canvas.clipRect(i45, i46, i43 / 2, i44 / 2);
-                                                    if (this.rightPaintingOverlay.getMeasuredWidth() == i40 && this.rightPaintingOverlay.getMeasuredHeight() == i42) {
-                                                        z = false;
-                                                    } else {
-                                                        this.rightPaintingOverlay.measure(View.MeasureSpec.makeMeasureSpec(i40, 1073741824), View.MeasureSpec.makeMeasureSpec(i42, 1073741824));
-                                                        z = false;
-                                                        this.rightPaintingOverlay.layout(0, 0, i40, i42);
-                                                    }
-                                                    canvas.scale(min3, min3);
-                                                    canvas.translate((-i40) / 2, (-i42) / 2);
-                                                    this.rightPaintingOverlay.setAlpha(1.0f);
-                                                    this.rightPaintingOverlay.draw(canvas);
-                                                } else {
-                                                    z = false;
-                                                }
-                                                canvas.restore();
-                                            }
-                                            z9 = false;
-                                            if (!z9) {
-                                            }
-                                            f47 = f48;
-                                            this.sideImage.setAlpha(f47);
-                                            int i452 = (-i43) / 2;
-                                            i5 = i41;
-                                            f9 = f6;
-                                            int i462 = (-i44) / 2;
-                                            f10 = f4;
-                                            i29 = i34;
-                                            f45 = f42;
-                                            this.sideImage.setImageCoords(i452, i462, i43, i44);
-                                            this.sideImage.draw(canvas);
-                                            paintingOverlay = this.rightPaintingOverlay;
-                                            if (paintingOverlay == null) {
-                                            }
-                                            z = false;
-                                            canvas.restore();
-                                        }
-                                        this.groupedPhotosListView.setMoveProgress(-f47);
-                                        canvas.save();
-                                        f63 = f46;
-                                        canvas.translate(f45, f63 / f5);
-                                        i6 = i29;
-                                        canvas.translate(((i6 * (this.scale + 1.0f)) + AndroidUtilities.dp(30.0f)) / 2.0f, (-f63) / f5);
-                                        this.photoProgressViews[1].setScale(1.0f - f44);
-                                        this.photoProgressViews[1].setAlpha(f47);
-                                        this.photoProgressViews[1].onDraw(canvas);
-                                        if (this.isActionBarVisible) {
-                                            this.fullscreenButton[1].setAlpha(f47);
-                                        }
-                                        canvas.restore();
-                                    }
-                                }
-                                f42 = f4;
-                                f43 = 1.0f;
-                                f44 = 0.0f;
+                            this.fullscreenButton[i3].setTranslationX((f52 + this.containerView.getMeasuredWidth()) - AndroidUtilities.dp(48.0f));
+                            i3++;
+                        }
+                        f52 = 0.0f;
+                        this.fullscreenButton[i3].setTranslationX((f52 + this.containerView.getMeasuredWidth()) - AndroidUtilities.dp(48.0f));
+                        i3++;
+                    }
+                    if (this.sideImage != this.rightImage) {
+                        if (!this.zoomAnimation) {
+                            float f69 = this.minX;
+                            if (f6 < f69) {
+                                float min2 = Math.min(1.0f, (f69 - f6) / containerViewWidth);
+                                f45 = (-containerViewWidth) - (AndroidUtilities.dp(30.0f) / 2);
+                                f47 = min2;
+                                f46 = (1.0f - min2) * 0.3f;
                                 if (this.sideImage.hasBitmapImage()) {
+                                    f48 = f46;
+                                    f49 = f47;
+                                    f50 = f45;
+                                    j = j4;
+                                    i5 = containerViewHeight2;
+                                    i29 = containerViewWidth;
+                                    f51 = f66;
+                                    f9 = f7;
+                                    f10 = f6;
+                                    f11 = f63;
+                                } else {
+                                    recordingCanvas.save();
+                                    float f70 = f47;
+                                    recordingCanvas.translate(containerViewWidth / 2, containerViewHeight2 / 2);
+                                    recordingCanvas.translate((AndroidUtilities.dp(30.0f) / 2) + containerViewWidth + f45, 0.0f);
+                                    float f71 = 1.0f - f46;
+                                    recordingCanvas.scale(f71, f71);
+                                    int bitmapWidth2 = this.sideImage.getBitmapWidth();
+                                    int bitmapHeight2 = this.sideImage.getBitmapHeight();
+                                    if (this.rightImageIsVideo || this.rightCropState == null || !this.rightCropTransform.hasViewTransform()) {
+                                        f50 = f45;
+                                        i30 = bitmapHeight2;
+                                        j = j4;
+                                        f51 = f66;
+                                        f9 = f7;
+                                        f10 = f6;
+                                        f49 = f70;
+                                        i31 = bitmapWidth2;
+                                        i32 = containerViewHeight2;
+                                        f11 = f63;
+                                        i33 = containerViewWidth;
+                                    } else {
+                                        f49 = f70;
+                                        i31 = bitmapWidth2;
+                                        f11 = f63;
+                                        i30 = bitmapHeight2;
+                                        f10 = f6;
+                                        j = j4;
+                                        i32 = containerViewHeight2;
+                                        f50 = f45;
+                                        i33 = containerViewWidth;
+                                        f51 = f66;
+                                        f9 = f7;
+                                        applyCrop(recordingCanvas, containerViewWidth, containerViewHeight2, i31, i30, 1.0f, this.rightCropTransform, this.rightCropState);
+                                    }
+                                    int i39 = i31;
+                                    float f72 = i39;
+                                    int i40 = i30;
+                                    float f73 = i40;
+                                    float min3 = Math.min(i33 / f72, i32 / f73);
+                                    int i41 = (int) (f72 * min3);
+                                    int i42 = (int) (f73 * min3);
+                                    if (this.imagesArrLocals.isEmpty()) {
+                                        z10 = false;
+                                    } else if (this.currentEditMode == 1 || this.sendPhotoType == 1) {
+                                        z10 = this.rightCropTransform.isMirrored();
+                                    } else {
+                                        MediaController.CropState cropState = this.rightCropState;
+                                        z10 = cropState != null && cropState.mirrored;
+                                    }
+                                    if (z10) {
+                                        recordingCanvas.scale(-1.0f, 1.0f);
+                                    }
+                                    this.sideImage.setAlpha(f49);
+                                    int i43 = (-i41) / 2;
+                                    i5 = i32;
+                                    int i44 = (-i42) / 2;
+                                    f48 = f46;
+                                    i29 = i33;
+                                    this.sideImage.setImageCoords(i43, i44, i41, i42);
+                                    this.sideImage.draw(recordingCanvas);
+                                    PaintingOverlay paintingOverlay = this.rightPaintingOverlay;
+                                    if (paintingOverlay != null && paintingOverlay.getVisibility() == 0) {
+                                        recordingCanvas.clipRect(i43, i44, i41 / 2, i42 / 2);
+                                        if (this.rightPaintingOverlay.getMeasuredWidth() != i39 || this.rightPaintingOverlay.getMeasuredHeight() != i40) {
+                                            this.rightPaintingOverlay.measure(View.MeasureSpec.makeMeasureSpec(i39, 1073741824), View.MeasureSpec.makeMeasureSpec(i40, 1073741824));
+                                            this.rightPaintingOverlay.layout(0, 0, i39, i40);
+                                        }
+                                        recordingCanvas.scale(min3, min3);
+                                        recordingCanvas.translate((-i39) / 2, (-i40) / 2);
+                                        this.rightPaintingOverlay.setAlpha(1.0f);
+                                        this.rightPaintingOverlay.draw(recordingCanvas);
+                                    }
+                                    recordingCanvas.restore();
                                 }
-                                this.groupedPhotosListView.setMoveProgress(-f47);
-                                canvas.save();
-                                f63 = f46;
-                                canvas.translate(f45, f63 / f5);
+                                this.groupedPhotosListView.setMoveProgress(-f49);
+                                recordingCanvas.save();
+                                f12 = f51;
+                                recordingCanvas.translate(f50, f12 / f64);
                                 i6 = i29;
-                                canvas.translate(((i6 * (this.scale + 1.0f)) + AndroidUtilities.dp(30.0f)) / 2.0f, (-f63) / f5);
-                                this.photoProgressViews[1].setScale(1.0f - f44);
-                                this.photoProgressViews[1].setAlpha(f47);
-                                this.photoProgressViews[1].onDraw(canvas);
+                                recordingCanvas.translate(((i6 * (this.scale + 1.0f)) + AndroidUtilities.dp(30.0f)) / 2.0f, (-f12) / f64);
+                                this.photoProgressViews[1].setScale(1.0f - f48);
+                                this.photoProgressViews[1].setAlpha(f49);
+                                this.photoProgressViews[1].onDraw(recordingCanvas);
                                 if (this.isActionBarVisible) {
+                                    this.fullscreenButton[1].setAlpha(f49);
                                 }
-                                canvas.restore();
-                            } else {
-                                i5 = containerViewHeight2;
-                                j = j4;
-                                i6 = containerViewWidth;
-                                f8 = f62;
-                                f9 = f6;
-                                f10 = f4;
-                                z = false;
-                                if (this.isActionBarVisible) {
-                                    this.fullscreenButton[1].setAlpha(0.0f);
-                                }
+                                recordingCanvas.restore();
                             }
+                        }
+                        f45 = f6;
+                        f46 = 0.0f;
+                        f47 = 1.0f;
+                        if (this.sideImage.hasBitmapImage()) {
+                        }
+                        this.groupedPhotosListView.setMoveProgress(-f49);
+                        recordingCanvas.save();
+                        f12 = f51;
+                        recordingCanvas.translate(f50, f12 / f64);
+                        i6 = i29;
+                        recordingCanvas.translate(((i6 * (this.scale + 1.0f)) + AndroidUtilities.dp(30.0f)) / 2.0f, (-f12) / f64);
+                        this.photoProgressViews[1].setScale(1.0f - f48);
+                        this.photoProgressViews[1].setAlpha(f49);
+                        this.photoProgressViews[1].onDraw(recordingCanvas);
+                        if (this.isActionBarVisible) {
+                        }
+                        recordingCanvas.restore();
+                    } else {
+                        j = j4;
+                        i5 = containerViewHeight2;
+                        i6 = containerViewWidth;
+                        f9 = f7;
+                        f10 = f6;
+                        f11 = f63;
+                        f12 = f66;
+                        if (this.isActionBarVisible) {
+                            this.fullscreenButton[1].setAlpha(0.0f);
                             if (!this.zoomAnimation) {
-                                float f70 = this.maxX;
-                                if (f10 > f70) {
-                                    int i47 = this.currentEditMode;
-                                    if ((i47 == 0 || i47 == 4) && this.sendPhotoType != 1) {
-                                        float min4 = Math.min(1.0f, (f10 - f70) / i6);
-                                        f12 = min4 * 0.3f;
-                                        f13 = 1.0f - min4;
-                                        f11 = this.maxX;
-                                        z2 = (this.videoSizeSet || (aspectRatioFrameLayout = this.aspectRatioFrameLayout) == null || aspectRatioFrameLayout.getVisibility() != 0) ? false : true;
+                                float f74 = this.maxX;
+                                if (f10 > f74) {
+                                    int i45 = this.currentEditMode;
+                                    if ((i45 == 0 || i45 == 4) && this.sendPhotoType != 1) {
+                                        float min4 = Math.min(1.0f, (f10 - f74) / i6);
+                                        f15 = min4 * 0.3f;
+                                        f14 = 1.0f - min4;
+                                        f13 = this.maxX;
+                                        if (this.videoSizeSet || (aspectRatioFrameLayout = this.aspectRatioFrameLayout) == null || aspectRatioFrameLayout.getVisibility() != 0) {
+                                            z = false;
+                                            z2 = false;
+                                        } else {
+                                            z = false;
+                                            z2 = true;
+                                        }
                                         this.centerImageTransformLocked = z;
                                         this.centerImageTransform.reset();
                                         maskPaintView = this.maskPaintView;
-                                        if (maskPaintView != null && !this.maskPaintViewShuttingDown && maskPaintView.getRenderView() != null) {
-                                            f13 = this.maskPaintView.getRenderView().getAlpha() <= 0.99f ? 0.0f : 1.0f;
+                                        if (maskPaintView != null || this.maskPaintViewShuttingDown || maskPaintView.getRenderView() == null) {
+                                            f16 = f14;
+                                        } else {
+                                            f16 = this.maskPaintView.getRenderView().getAlpha() > 0.99f ? 0.0f : 1.0f;
                                         }
-                                        f14 = f13;
                                         if (!this.centerImage.hasBitmapImage() || (z2 && this.textureUploaded)) {
                                             stickerMakerView = this.stickerMakerView;
                                             if (stickerMakerView != null && stickerMakerView.outlineVisible) {
                                                 try {
-                                                    z7 = ((MediaController.PhotoEntry) this.imagesArrLocals.get(this.currentIndex)).isCropped;
+                                                    z8 = ((MediaController.PhotoEntry) this.imagesArrLocals.get(this.currentIndex)).isCropped;
                                                 } catch (Exception unused) {
-                                                    z7 = false;
+                                                    z8 = false;
                                                 }
-                                                if (!z7) {
-                                                    this.stickerMakerView.updateOutlineBounds(z);
+                                                if (!z8) {
+                                                    this.stickerMakerView.updateOutlineBounds(false);
                                                 } else {
                                                     this.stickerMakerView.outlineMatrix.reset();
                                                     this.stickerMakerView.outlineMatrix.postTranslate(-0.5f, -0.5f);
                                                     float dp = i6 - AndroidUtilities.dp(20.0f);
                                                     this.stickerMakerView.outlineMatrix.postScale(dp, dp);
-                                                    float f71 = 1.0f / f5;
-                                                    this.stickerMakerView.outlineMatrix.postScale(f71, f71);
-                                                    f16 = f10;
-                                                    this.stickerMakerView.outlineMatrix.postTranslate((-f16) / f5, (-f63) / f5);
-                                                    f15 = f9;
-                                                    this.stickerMakerView.outlineMatrix.postRotate(-f15);
+                                                    float f75 = 1.0f / f64;
+                                                    this.stickerMakerView.outlineMatrix.postScale(f75, f75);
+                                                    f17 = f10;
+                                                    this.stickerMakerView.outlineMatrix.postTranslate((-f17) / f64, (-f12) / f64);
+                                                    f18 = f9;
+                                                    this.stickerMakerView.outlineMatrix.postRotate(-f18);
                                                     this.stickerMakerView.updateOutlineBounds(true);
-                                                    canvas.save();
-                                                    f17 = i6;
-                                                    float f72 = f17 / 2.0f;
+                                                    recordingCanvas.save();
+                                                    f19 = i6;
+                                                    float f76 = f19 / 2.0f;
                                                     i7 = i5;
-                                                    f18 = i7;
-                                                    float f73 = f18 / 2.0f;
-                                                    canvas.translate(f72 + getAdditionX(this.currentEditMode), f73 + getAdditionY(this.currentEditMode));
-                                                    this.centerImageTransform.preTranslate(f72 + getAdditionX(this.currentEditMode), f73 + getAdditionY(this.currentEditMode));
-                                                    canvas.translate(f11, (this.currentEditMode == 3 ? this.currentPanTranslationY : 0.0f) + f63);
-                                                    this.centerImageTransform.preTranslate(f11, (this.currentEditMode == 3 ? this.currentPanTranslationY : 0.0f) + f63);
-                                                    float f74 = f5 - f12;
-                                                    canvas.scale(f74, f74);
-                                                    this.centerImageTransform.preScale(f74, f74);
-                                                    canvas.rotate(f15);
-                                                    this.centerImageTransform.preRotate(f15);
+                                                    float f77 = i7;
+                                                    float f78 = f77 / 2.0f;
+                                                    recordingCanvas.translate(f76 + getAdditionX(this.currentEditMode), f78 + getAdditionY(this.currentEditMode));
+                                                    this.centerImageTransform.preTranslate(f76 + getAdditionX(this.currentEditMode), f78 + getAdditionY(this.currentEditMode));
+                                                    recordingCanvas.translate(f13, f12 + (this.currentEditMode == 3 ? this.currentPanTranslationY : 0.0f));
+                                                    this.centerImageTransform.preTranslate(f13, f12 + (this.currentEditMode == 3 ? this.currentPanTranslationY : 0.0f));
+                                                    float f79 = f64 - f15;
+                                                    recordingCanvas.scale(f79, f79);
+                                                    this.centerImageTransform.preScale(f79, f79);
+                                                    recordingCanvas.rotate(f18);
+                                                    this.centerImageTransform.preRotate(f18);
                                                     if (this.currentEditMode == 3 || this.photoPaintView == null) {
-                                                        f19 = f18;
+                                                        f20 = f19;
                                                     } else {
-                                                        f19 = f18;
+                                                        f20 = f19;
                                                         float emojiPadding = ((containerViewHeight - this.photoPaintView.getEmojiPadding(Math.abs((AndroidUtilities.displaySize.y + AndroidUtilities.statusBarHeight) - getContainerViewHeight(true, 0)) < AndroidUtilities.dp(20.0f))) - getContainerViewHeight(false, 0)) / 2.0f;
-                                                        canvas.translate(0.0f, (1.0f - this.photoPaintView.adjustPanLayoutHelperProgress()) * emojiPadding);
+                                                        recordingCanvas.translate(0.0f, (1.0f - this.photoPaintView.adjustPanLayoutHelperProgress()) * emojiPadding);
                                                         this.centerImageTransform.preTranslate(0.0f, emojiPadding * (1.0f - this.photoPaintView.adjustPanLayoutHelperProgress()));
                                                     }
                                                     if (!this.pipAnimationInProgress || (z2 && ((this.textureUploaded || this.videoSizeSet) && this.videoCrossfadeStarted && this.videoCrossfadeAlpha == 1.0f))) {
-                                                        f20 = f17;
-                                                        f21 = f15;
-                                                        f10 = f16;
+                                                        f21 = f18;
+                                                        f22 = f17;
                                                         i5 = i7;
-                                                        f22 = f14;
+                                                        f23 = f13;
+                                                        f24 = f16;
                                                     } else {
                                                         Bitmap bitmap = this.videoFrameBitmap;
                                                         if (bitmap != null && this.isCurrentVideo) {
                                                             int width = bitmap.getWidth();
-                                                            int i48 = (-width) / 2;
-                                                            f20 = f17;
-                                                            int i49 = (-this.videoFrameBitmap.getHeight()) / 2;
-                                                            if (f14 < 1.0f) {
-                                                                i23 = i48;
-                                                                i24 = i49;
-                                                                f21 = f15;
-                                                                f10 = f16;
+                                                            int i46 = (-width) / 2;
+                                                            float f80 = f18;
+                                                            int i47 = (-this.videoFrameBitmap.getHeight()) / 2;
+                                                            if (f16 < 1.0f) {
+                                                                i22 = i47;
+                                                                f21 = f80;
+                                                                f22 = f17;
                                                                 i5 = i7;
-                                                                f22 = f14;
-                                                                canvas.saveLayerAlpha(i48, i49, width + i48, height + i49, (int) (f14 * 255.0f), 31);
+                                                                i23 = i46;
+                                                                f23 = f13;
+                                                                f24 = f16;
+                                                                recordingCanvas.saveLayerAlpha(i46, i47, width + i46, height + i47, (int) (f16 * 255.0f), 31);
                                                             } else {
-                                                                i23 = i48;
-                                                                i24 = i49;
-                                                                f21 = f15;
-                                                                f10 = f16;
+                                                                i22 = i47;
+                                                                f22 = f17;
                                                                 i5 = i7;
-                                                                f22 = f14;
+                                                                f23 = f13;
+                                                                f21 = f80;
+                                                                i23 = i46;
+                                                                f24 = f16;
                                                             }
-                                                            canvas.drawBitmap(this.videoFrameBitmap, i23, i24, this.videoFrameBitmapPaint);
-                                                            if (f22 < 1.0f) {
-                                                                canvas.restore();
+                                                            recordingCanvas.drawBitmap(this.videoFrameBitmap, i23, i22, this.videoFrameBitmapPaint);
+                                                            if (f24 < 1.0f) {
+                                                                recordingCanvas.restore();
                                                             }
                                                         } else {
-                                                            f20 = f17;
-                                                            f21 = f15;
-                                                            f10 = f16;
+                                                            f21 = f18;
+                                                            f22 = f17;
                                                             i5 = i7;
-                                                            f22 = f14;
-                                                            this.centerImage.setAlpha(f22);
+                                                            f23 = f13;
+                                                            f24 = f16;
+                                                            this.centerImage.setAlpha(f24);
                                                             int bitmapWidth3 = this.centerImage.getBitmapWidth();
                                                             int bitmapHeight3 = this.centerImage.getBitmapHeight();
                                                             if (this.isCurrentVideo && this.currentEditMode == 0 && this.sendPhotoType == 1) {
                                                                 min = getCropFillScale(false);
                                                             } else {
-                                                                min = Math.min(f20 / bitmapWidth3, f19 / bitmapHeight3);
+                                                                min = Math.min(f20 / bitmapWidth3, f77 / bitmapHeight3);
                                                             }
-                                                            this.centerImage.setImageCoords((-i21) / 2, (-i22) / 2, (int) (bitmapWidth3 * min), (int) (bitmapHeight3 * min));
+                                                            this.centerImage.setImageCoords((-i20) / 2, (-i21) / 2, (int) (bitmapWidth3 * min), (int) (bitmapHeight3 * min));
                                                             if (this.isCurrentVideo) {
-                                                                this.centerImage.draw(canvas);
+                                                                this.centerImage.draw(recordingCanvas);
                                                                 this.centerImageTransformLocked = true;
                                                             } else {
                                                                 z3 = true;
@@ -22311,467 +22324,474 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                                                     bitmapWidth = this.centerImage.getBitmapWidth();
                                                                     bitmapHeight = this.centerImage.getBitmapHeight();
                                                                 }
-                                                                float f75 = bitmapWidth;
-                                                                float f76 = f20 / f75;
-                                                                float f77 = bitmapHeight;
-                                                                float f78 = f19 / f77;
-                                                                float min5 = Math.min(f76, f78);
-                                                                int i50 = bitmapHeight;
-                                                                int i51 = (int) (f75 * min5);
-                                                                int i52 = bitmapWidth;
-                                                                int i53 = (int) (f77 * min5);
-                                                                f23 = f11;
+                                                                float f81 = bitmapWidth;
+                                                                float f82 = f20 / f81;
+                                                                float f83 = bitmapHeight;
+                                                                float f84 = f77 / f83;
+                                                                float min5 = Math.min(f82, f84);
+                                                                int i48 = bitmapHeight;
+                                                                int i49 = (int) (f81 * min5);
+                                                                int i50 = bitmapWidth;
+                                                                int i51 = (int) (f83 * min5);
+                                                                i8 = i6;
                                                                 if (this.imagesArrLocals.isEmpty()) {
-                                                                    i8 = i6;
-                                                                    i9 = i53;
+                                                                    i9 = i51;
+                                                                    z4 = z2;
                                                                 } else {
-                                                                    int i54 = this.currentEditMode;
-                                                                    i8 = i6;
-                                                                    if (i54 == 3 || (i20 = this.switchingToMode) == 3) {
-                                                                        i9 = i53;
-                                                                    } else {
-                                                                        i9 = i53;
-                                                                        if (this.sendPhotoType != 1) {
-                                                                            int i55 = this.imageMoveAnimation != null ? -1 : -1;
-                                                                            if (i54 != 0) {
-                                                                                if (i54 != 4) {
-                                                                                    if (i54 != 1) {
+                                                                    int i52 = this.currentEditMode;
+                                                                    if (i52 != 3) {
+                                                                        z4 = z2;
+                                                                        int i53 = this.switchingToMode;
+                                                                        if (i53 != 3) {
+                                                                            i9 = i51;
+                                                                            if (this.sendPhotoType != 1) {
+                                                                                int i54 = this.imageMoveAnimation != null ? -1 : -1;
+                                                                                if (i52 != 0) {
+                                                                                    if (i52 != 4) {
+                                                                                        if (i52 != 1) {
+                                                                                        }
                                                                                     }
                                                                                 }
+                                                                            } else if (i53 != 0) {
                                                                             }
-                                                                        } else if (i20 != 0) {
-                                                                        }
-                                                                        if (z4) {
-                                                                            int orientation = this.cropTransform.getOrientation();
-                                                                            if (orientation == 90 || orientation == 270) {
-                                                                                i16 = i50;
-                                                                                i17 = i52;
-                                                                            } else {
-                                                                                i17 = i50;
-                                                                                i16 = i52;
-                                                                            }
-                                                                            i10 = i51;
-                                                                            if (this.sendPhotoType != 1 && (this.currentEditMode == 3 || this.switchingToMode == 3)) {
-                                                                                f24 = f22;
-                                                                            } else if (this.imageMoveAnimation != null && (i18 = this.switchingToMode) != -1) {
-                                                                                f24 = f22;
-                                                                                if (this.currentEditMode != 1 && i18 != 1) {
-                                                                                    if (i18 == 0) {
-                                                                                        f30 = this.animationValue;
-                                                                                    } else {
-                                                                                        f30 = 1.0f - this.animationValue;
-                                                                                    }
-                                                                                    float cropPw = this.cropTransform.getCropPw();
-                                                                                    float cropPh = this.cropTransform.getCropPh();
-                                                                                    f31 = i16;
-                                                                                    f32 = 1.0f - f30;
-                                                                                    int i56 = (int) ((cropPw + ((1.0f - cropPw) * f32)) * f31);
-                                                                                    f33 = i17;
-                                                                                    int i57 = (int) ((cropPh + ((1.0f - cropPh) * f32)) * f33);
-                                                                                    z5 = z3;
-                                                                                    f34 = i56;
-                                                                                    f35 = f20 / f34;
-                                                                                    f36 = i57;
-                                                                                    if (f35 * f36 > f19) {
-                                                                                    }
-                                                                                    f25 = f5;
-                                                                                    if (this.sendPhotoType != 1) {
-                                                                                        float f79 = f34 * f35;
-                                                                                        float f80 = f36 * f35;
-                                                                                        if (f76 * f77 > f19) {
-                                                                                        }
-                                                                                        float f81 = f79 + ((((f75 * f76) / f74) - f79) * f32);
-                                                                                        float f82 = f80 + ((((f77 * f76) / f74) - f80) * f32);
-                                                                                        canvas.clipRect((-f81) / 2.0f, (-f82) / 2.0f, f81 / 2.0f, f82 / 2.0f);
-                                                                                    }
-                                                                                    if (this.sendPhotoType != 1) {
-                                                                                    }
-                                                                                    if (this.currentEditMode != 1) {
-                                                                                    }
-                                                                                    textureView = this.videoTextureView;
-                                                                                    if (textureView != null) {
-                                                                                    }
-                                                                                    float scale = this.cropTransform.getScale() / (((this.cropTransform.getTrueCropScale() - 1.0f) * f32) + 1.0f);
-                                                                                    f37 = f20 / f31;
-                                                                                    if (f37 * f33 > f19) {
-                                                                                    }
-                                                                                    float f83 = scale * (f37 / min5);
-                                                                                    if (this.sendPhotoType == 1) {
-                                                                                    }
-                                                                                    f38 = f83;
-                                                                                    canvas.translate(this.cropTransform.getCropAreaX() * f30, this.cropTransform.getCropAreaY() * f30);
-                                                                                    if (!this.centerImageTransformLocked) {
-                                                                                    }
-                                                                                    canvas.scale(f38, f38);
-                                                                                    if (!this.centerImageTransformLocked) {
-                                                                                    }
-                                                                                    canvas.translate(this.cropTransform.getCropPx() * f31 * min5 * f30, this.cropTransform.getCropPy() * f33 * min5 * f30);
-                                                                                    if (!this.centerImageTransformLocked) {
-                                                                                    }
-                                                                                    rotation = this.cropTransform.getRotation() + orientation;
-                                                                                    if (rotation > 180.0f) {
-                                                                                    }
-                                                                                    if (this.sendPhotoType != 1) {
-                                                                                    }
-                                                                                    float f84 = rotation * f30;
-                                                                                    canvas.rotate(f84);
-                                                                                    if (!this.centerImageTransformLocked) {
-                                                                                    }
-                                                                                    f26 = f35;
-                                                                                    i12 = i56;
-                                                                                    i11 = i57;
+                                                                            if (z5) {
+                                                                                int orientation = this.cropTransform.getOrientation();
+                                                                                if (orientation == 90 || orientation == 270) {
+                                                                                    i16 = i48;
+                                                                                    i17 = i50;
+                                                                                } else {
+                                                                                    i17 = i48;
+                                                                                    i16 = i50;
                                                                                 }
-                                                                            } else {
-                                                                                f24 = f22;
-                                                                                int i58 = this.currentEditMode;
-                                                                                if (i58 == 2 || i58 == 3) {
-                                                                                    f30 = 0.0f;
-                                                                                    float cropPw2 = this.cropTransform.getCropPw();
-                                                                                    float cropPh2 = this.cropTransform.getCropPh();
-                                                                                    f31 = i16;
-                                                                                    f32 = 1.0f - f30;
-                                                                                    int i562 = (int) ((cropPw2 + ((1.0f - cropPw2) * f32)) * f31);
-                                                                                    f33 = i17;
-                                                                                    int i572 = (int) ((cropPh2 + ((1.0f - cropPh2) * f32)) * f33);
-                                                                                    z5 = z3;
-                                                                                    f34 = i562;
-                                                                                    f35 = f20 / f34;
-                                                                                    f36 = i572;
-                                                                                    if (f35 * f36 > f19) {
-                                                                                        f35 = f19 / f36;
-                                                                                    }
-                                                                                    f25 = f5;
-                                                                                    if (this.sendPhotoType != 1 && ((this.currentEditMode != 1 || this.switchingToMode == 0) && this.editState.cropState != null)) {
-                                                                                        float f792 = f34 * f35;
-                                                                                        float f802 = f36 * f35;
-                                                                                        if (f76 * f77 > f19) {
-                                                                                            f76 = f78;
-                                                                                        }
-                                                                                        float f812 = f792 + ((((f75 * f76) / f74) - f792) * f32);
-                                                                                        float f822 = f802 + ((((f77 * f76) / f74) - f802) * f32);
-                                                                                        canvas.clipRect((-f812) / 2.0f, (-f822) / 2.0f, f812 / 2.0f, f822 / 2.0f);
-                                                                                    }
-                                                                                    if (this.sendPhotoType != 1 || this.cropTransform.hasViewTransform()) {
-                                                                                        if (this.currentEditMode != 1 || this.sendPhotoType == 1) {
-                                                                                            textureView = this.videoTextureView;
-                                                                                            if (textureView != null) {
-                                                                                                textureView.setScaleX(this.cropTransform.isMirrored() ? -1.0f : 1.0f);
-                                                                                                FirstFrameView firstFrameView = this.firstFrameView;
-                                                                                                if (firstFrameView != null) {
-                                                                                                    firstFrameView.setScaleX(this.videoTextureView.getScaleX());
-                                                                                                }
-                                                                                            }
-                                                                                            float scale2 = this.cropTransform.getScale() / (((this.cropTransform.getTrueCropScale() - 1.0f) * f32) + 1.0f);
-                                                                                            f37 = f20 / f31;
-                                                                                            if (f37 * f33 > f19) {
-                                                                                                f37 = f19 / f33;
-                                                                                            }
-                                                                                            float f832 = scale2 * (f37 / min5);
-                                                                                            if (this.sendPhotoType == 1) {
-                                                                                                if (this.currentEditMode == 3 || (i19 = this.switchingToMode) == 3) {
-                                                                                                    minScale = ((this.cropTransform.getMinScale() - 1.0f) * f32) + 1.0f;
-                                                                                                } else if (i19 == 0) {
-                                                                                                    minScale = this.cropTransform.getMinScale();
-                                                                                                }
-                                                                                                f832 /= minScale;
-                                                                                            }
-                                                                                            f38 = f832;
+                                                                                i10 = i49;
+                                                                                if (this.sendPhotoType != 1 && (this.currentEditMode == 3 || this.switchingToMode == 3)) {
+                                                                                    f25 = f24;
+                                                                                } else if (this.imageMoveAnimation != null && (i18 = this.switchingToMode) != -1) {
+                                                                                    f25 = f24;
+                                                                                    if (this.currentEditMode != 1 && i18 != 1) {
+                                                                                        if (i18 == 0) {
+                                                                                            f31 = this.animationValue;
                                                                                         } else {
-                                                                                            TextureView textureView2 = this.videoTextureView;
-                                                                                            if (textureView2 != null) {
-                                                                                                MediaController.CropState cropState2 = this.editState.cropState;
-                                                                                                textureView2.setScaleX((cropState2 == null || !cropState2.mirrored) ? 1.0f : -1.0f);
-                                                                                                FirstFrameView firstFrameView2 = this.firstFrameView;
-                                                                                                if (firstFrameView2 != null) {
-                                                                                                    firstFrameView2.setScaleX(this.videoTextureView.getScaleX());
-                                                                                                }
+                                                                                            f31 = 1.0f - this.animationValue;
+                                                                                        }
+                                                                                        float cropPw = this.cropTransform.getCropPw();
+                                                                                        float cropPh = this.cropTransform.getCropPh();
+                                                                                        f32 = i16;
+                                                                                        f33 = 1.0f - f31;
+                                                                                        int i55 = (int) ((cropPw + ((1.0f - cropPw) * f33)) * f32);
+                                                                                        f34 = i17;
+                                                                                        int i56 = (int) ((cropPh + ((1.0f - cropPh) * f33)) * f34);
+                                                                                        z6 = z3;
+                                                                                        f35 = i55;
+                                                                                        f36 = f20 / f35;
+                                                                                        f37 = i56;
+                                                                                        if (f36 * f37 > f77) {
+                                                                                        }
+                                                                                        f26 = f64;
+                                                                                        if (this.sendPhotoType != 1) {
+                                                                                            float f85 = f35 * f36;
+                                                                                            float f86 = f37 * f36;
+                                                                                            if (f82 * f83 > f77) {
                                                                                             }
-                                                                                            MediaController.CropState cropState3 = this.editState.cropState;
-                                                                                            float f85 = cropState3 != null ? cropState3.cropScale : 1.0f;
-                                                                                            f38 = f85 * ((f35 / min5) / (((f85 - 1.0f) * f32) + 1.0f));
+                                                                                            float f87 = f85 + ((((f81 * f82) / f79) - f85) * f33);
+                                                                                            float f88 = f86 + ((((f83 * f82) / f79) - f86) * f33);
+                                                                                            recordingCanvas.clipRect((-f87) / 2.0f, (-f88) / 2.0f, f87 / 2.0f, f88 / 2.0f);
                                                                                         }
-                                                                                        canvas.translate(this.cropTransform.getCropAreaX() * f30, this.cropTransform.getCropAreaY() * f30);
-                                                                                        if (!this.centerImageTransformLocked) {
-                                                                                            this.centerImageTransform.preTranslate(this.cropTransform.getCropAreaX() * f30, this.cropTransform.getCropAreaY() * f30);
+                                                                                        if (this.sendPhotoType != 1) {
                                                                                         }
-                                                                                        canvas.scale(f38, f38);
-                                                                                        if (!this.centerImageTransformLocked) {
-                                                                                            this.centerImageTransform.preScale(f38, f38);
+                                                                                        if (this.currentEditMode != 1) {
                                                                                         }
-                                                                                        canvas.translate(this.cropTransform.getCropPx() * f31 * min5 * f30, this.cropTransform.getCropPy() * f33 * min5 * f30);
+                                                                                        textureView = this.videoTextureView;
+                                                                                        if (textureView != null) {
+                                                                                        }
+                                                                                        float scale = this.cropTransform.getScale() / (((this.cropTransform.getTrueCropScale() - 1.0f) * f33) + 1.0f);
+                                                                                        f38 = f20 / f32;
+                                                                                        if (f38 * f34 > f77) {
+                                                                                        }
+                                                                                        float f89 = scale * (f38 / min5);
+                                                                                        if (this.sendPhotoType == 1) {
+                                                                                        }
+                                                                                        f39 = f89;
+                                                                                        recordingCanvas.translate(this.cropTransform.getCropAreaX() * f31, this.cropTransform.getCropAreaY() * f31);
                                                                                         if (!this.centerImageTransformLocked) {
-                                                                                            this.centerImageTransform.preTranslate(this.cropTransform.getCropPx() * f31 * min5 * f30, this.cropTransform.getCropPy() * f33 * min5 * f30);
+                                                                                        }
+                                                                                        recordingCanvas.scale(f39, f39);
+                                                                                        if (!this.centerImageTransformLocked) {
+                                                                                        }
+                                                                                        recordingCanvas.translate(this.cropTransform.getCropPx() * f32 * min5 * f31, this.cropTransform.getCropPy() * f34 * min5 * f31);
+                                                                                        if (!this.centerImageTransformLocked) {
                                                                                         }
                                                                                         rotation = this.cropTransform.getRotation() + orientation;
                                                                                         if (rotation > 180.0f) {
-                                                                                            rotation -= 360.0f;
                                                                                         }
-                                                                                        if (this.sendPhotoType != 1 && (this.currentEditMode == 3 || this.switchingToMode == 3)) {
-                                                                                            canvas.rotate(rotation);
+                                                                                        if (this.sendPhotoType != 1) {
+                                                                                        }
+                                                                                        float f90 = rotation * f31;
+                                                                                        recordingCanvas.rotate(f90);
+                                                                                        if (!this.centerImageTransformLocked) {
+                                                                                        }
+                                                                                        f27 = f36;
+                                                                                        i12 = i55;
+                                                                                        i11 = i56;
+                                                                                    }
+                                                                                } else {
+                                                                                    f25 = f24;
+                                                                                    int i57 = this.currentEditMode;
+                                                                                    if (i57 == 2 || i57 == 3) {
+                                                                                        f31 = 0.0f;
+                                                                                        float cropPw2 = this.cropTransform.getCropPw();
+                                                                                        float cropPh2 = this.cropTransform.getCropPh();
+                                                                                        f32 = i16;
+                                                                                        f33 = 1.0f - f31;
+                                                                                        int i552 = (int) ((cropPw2 + ((1.0f - cropPw2) * f33)) * f32);
+                                                                                        f34 = i17;
+                                                                                        int i562 = (int) ((cropPh2 + ((1.0f - cropPh2) * f33)) * f34);
+                                                                                        z6 = z3;
+                                                                                        f35 = i552;
+                                                                                        f36 = f20 / f35;
+                                                                                        f37 = i562;
+                                                                                        if (f36 * f37 > f77) {
+                                                                                            f36 = f77 / f37;
+                                                                                        }
+                                                                                        f26 = f64;
+                                                                                        if (this.sendPhotoType != 1 && ((this.currentEditMode != 1 || this.switchingToMode == 0) && this.editState.cropState != null)) {
+                                                                                            float f852 = f35 * f36;
+                                                                                            float f862 = f37 * f36;
+                                                                                            if (f82 * f83 > f77) {
+                                                                                                f82 = f84;
+                                                                                            }
+                                                                                            float f872 = f852 + ((((f81 * f82) / f79) - f852) * f33);
+                                                                                            float f882 = f862 + ((((f83 * f82) / f79) - f862) * f33);
+                                                                                            recordingCanvas.clipRect((-f872) / 2.0f, (-f882) / 2.0f, f872 / 2.0f, f882 / 2.0f);
+                                                                                        }
+                                                                                        if (this.sendPhotoType != 1 || this.cropTransform.hasViewTransform()) {
+                                                                                            if (this.currentEditMode != 1 || this.sendPhotoType == 1) {
+                                                                                                textureView = this.videoTextureView;
+                                                                                                if (textureView != null) {
+                                                                                                    textureView.setScaleX(this.cropTransform.isMirrored() ? -1.0f : 1.0f);
+                                                                                                    FirstFrameView firstFrameView = this.firstFrameView;
+                                                                                                    if (firstFrameView != null) {
+                                                                                                        firstFrameView.setScaleX(this.videoTextureView.getScaleX());
+                                                                                                    }
+                                                                                                }
+                                                                                                float scale2 = this.cropTransform.getScale() / (((this.cropTransform.getTrueCropScale() - 1.0f) * f33) + 1.0f);
+                                                                                                f38 = f20 / f32;
+                                                                                                if (f38 * f34 > f77) {
+                                                                                                    f38 = f77 / f34;
+                                                                                                }
+                                                                                                float f892 = scale2 * (f38 / min5);
+                                                                                                if (this.sendPhotoType == 1) {
+                                                                                                    if (this.currentEditMode == 3 || (i19 = this.switchingToMode) == 3) {
+                                                                                                        minScale = ((this.cropTransform.getMinScale() - 1.0f) * f33) + 1.0f;
+                                                                                                    } else if (i19 == 0) {
+                                                                                                        minScale = this.cropTransform.getMinScale();
+                                                                                                    }
+                                                                                                    f892 /= minScale;
+                                                                                                }
+                                                                                                f39 = f892;
+                                                                                            } else {
+                                                                                                TextureView textureView2 = this.videoTextureView;
+                                                                                                if (textureView2 != null) {
+                                                                                                    MediaController.CropState cropState2 = this.editState.cropState;
+                                                                                                    textureView2.setScaleX((cropState2 == null || !cropState2.mirrored) ? 1.0f : -1.0f);
+                                                                                                    FirstFrameView firstFrameView2 = this.firstFrameView;
+                                                                                                    if (firstFrameView2 != null) {
+                                                                                                        firstFrameView2.setScaleX(this.videoTextureView.getScaleX());
+                                                                                                    }
+                                                                                                }
+                                                                                                MediaController.CropState cropState3 = this.editState.cropState;
+                                                                                                float f91 = cropState3 != null ? cropState3.cropScale : 1.0f;
+                                                                                                f39 = f91 * ((f36 / min5) / (((f91 - 1.0f) * f33) + 1.0f));
+                                                                                            }
+                                                                                            recordingCanvas.translate(this.cropTransform.getCropAreaX() * f31, this.cropTransform.getCropAreaY() * f31);
                                                                                             if (!this.centerImageTransformLocked) {
-                                                                                                this.centerImageTransform.preRotate(rotation);
+                                                                                                this.centerImageTransform.preTranslate(this.cropTransform.getCropAreaX() * f31, this.cropTransform.getCropAreaY() * f31);
+                                                                                            }
+                                                                                            recordingCanvas.scale(f39, f39);
+                                                                                            if (!this.centerImageTransformLocked) {
+                                                                                                this.centerImageTransform.preScale(f39, f39);
+                                                                                            }
+                                                                                            recordingCanvas.translate(this.cropTransform.getCropPx() * f32 * min5 * f31, this.cropTransform.getCropPy() * f34 * min5 * f31);
+                                                                                            if (!this.centerImageTransformLocked) {
+                                                                                                this.centerImageTransform.preTranslate(this.cropTransform.getCropPx() * f32 * min5 * f31, this.cropTransform.getCropPy() * f34 * min5 * f31);
+                                                                                            }
+                                                                                            rotation = this.cropTransform.getRotation() + orientation;
+                                                                                            if (rotation > 180.0f) {
+                                                                                                rotation -= 360.0f;
+                                                                                            }
+                                                                                            if (this.sendPhotoType != 1 && (this.currentEditMode == 3 || this.switchingToMode == 3)) {
+                                                                                                recordingCanvas.rotate(rotation);
+                                                                                                if (!this.centerImageTransformLocked) {
+                                                                                                    this.centerImageTransform.preRotate(rotation);
+                                                                                                }
+                                                                                            } else {
+                                                                                                float f902 = rotation * f31;
+                                                                                                recordingCanvas.rotate(f902);
+                                                                                                if (!this.centerImageTransformLocked) {
+                                                                                                    this.centerImageTransform.preRotate(f902);
+                                                                                                }
                                                                                             }
                                                                                         } else {
-                                                                                            float f842 = rotation * f30;
-                                                                                            canvas.rotate(f842);
-                                                                                            if (!this.centerImageTransformLocked) {
-                                                                                                this.centerImageTransform.preRotate(f842);
+                                                                                            TextureView textureView3 = this.videoTextureView;
+                                                                                            if (textureView3 != null) {
+                                                                                                textureView3.setScaleX(1.0f);
+                                                                                                this.videoTextureView.setScaleY(1.0f);
+                                                                                                FirstFrameView firstFrameView3 = this.firstFrameView;
+                                                                                                if (firstFrameView3 != null) {
+                                                                                                    firstFrameView3.setScaleX(1.0f);
+                                                                                                    this.firstFrameView.setScaleY(1.0f);
+                                                                                                }
                                                                                             }
                                                                                         }
-                                                                                    } else {
-                                                                                        TextureView textureView3 = this.videoTextureView;
-                                                                                        if (textureView3 != null) {
-                                                                                            textureView3.setScaleX(1.0f);
-                                                                                            this.videoTextureView.setScaleY(1.0f);
-                                                                                            FirstFrameView firstFrameView3 = this.firstFrameView;
-                                                                                            if (firstFrameView3 != null) {
-                                                                                                firstFrameView3.setScaleX(1.0f);
-                                                                                                this.firstFrameView.setScaleY(1.0f);
-                                                                                            }
-                                                                                        }
+                                                                                        f27 = f36;
+                                                                                        i12 = i552;
+                                                                                        i11 = i562;
                                                                                     }
-                                                                                    f26 = f35;
-                                                                                    i12 = i562;
-                                                                                    i11 = i572;
                                                                                 }
-                                                                            }
-                                                                            f30 = 1.0f;
-                                                                            float cropPw22 = this.cropTransform.getCropPw();
-                                                                            float cropPh22 = this.cropTransform.getCropPh();
-                                                                            f31 = i16;
-                                                                            f32 = 1.0f - f30;
-                                                                            int i5622 = (int) ((cropPw22 + ((1.0f - cropPw22) * f32)) * f31);
-                                                                            f33 = i17;
-                                                                            int i5722 = (int) ((cropPh22 + ((1.0f - cropPh22) * f32)) * f33);
-                                                                            z5 = z3;
-                                                                            f34 = i5622;
-                                                                            f35 = f20 / f34;
-                                                                            f36 = i5722;
-                                                                            if (f35 * f36 > f19) {
-                                                                            }
-                                                                            f25 = f5;
-                                                                            if (this.sendPhotoType != 1) {
-                                                                            }
-                                                                            if (this.sendPhotoType != 1) {
-                                                                            }
-                                                                            if (this.currentEditMode != 1) {
-                                                                            }
-                                                                            textureView = this.videoTextureView;
-                                                                            if (textureView != null) {
-                                                                            }
-                                                                            float scale22 = this.cropTransform.getScale() / (((this.cropTransform.getTrueCropScale() - 1.0f) * f32) + 1.0f);
-                                                                            f37 = f20 / f31;
-                                                                            if (f37 * f33 > f19) {
-                                                                            }
-                                                                            float f8322 = scale22 * (f37 / min5);
-                                                                            if (this.sendPhotoType == 1) {
-                                                                            }
-                                                                            f38 = f8322;
-                                                                            canvas.translate(this.cropTransform.getCropAreaX() * f30, this.cropTransform.getCropAreaY() * f30);
-                                                                            if (!this.centerImageTransformLocked) {
-                                                                            }
-                                                                            canvas.scale(f38, f38);
-                                                                            if (!this.centerImageTransformLocked) {
-                                                                            }
-                                                                            canvas.translate(this.cropTransform.getCropPx() * f31 * min5 * f30, this.cropTransform.getCropPy() * f33 * min5 * f30);
-                                                                            if (!this.centerImageTransformLocked) {
-                                                                            }
-                                                                            rotation = this.cropTransform.getRotation() + orientation;
-                                                                            if (rotation > 180.0f) {
-                                                                            }
-                                                                            if (this.sendPhotoType != 1) {
-                                                                            }
-                                                                            float f8422 = rotation * f30;
-                                                                            canvas.rotate(f8422);
-                                                                            if (!this.centerImageTransformLocked) {
-                                                                            }
-                                                                            f26 = f35;
-                                                                            i12 = i5622;
-                                                                            i11 = i5722;
-                                                                        } else {
-                                                                            i10 = i51;
-                                                                            z5 = z3;
-                                                                            f24 = f22;
-                                                                            f25 = f5;
-                                                                            i11 = i50;
-                                                                            i12 = i52;
-                                                                            f26 = 1.0f;
-                                                                        }
-                                                                        i13 = this.currentEditMode;
-                                                                        if (i13 == 3) {
-                                                                            LPhotoPaintView lPhotoPaintView = this.photoPaintView;
-                                                                            lPhotoPaintView.setTransform(f25, f10, f63 + ((this.sendPhotoType == 1 ? AndroidUtilities.statusBarHeight / 2.0f : 0.0f) * lPhotoPaintView.getRenderView().getScaleX()), i12 * f26, i11 * f26);
-                                                                        } else if (i13 == 4) {
-                                                                            this.maskPaintView.setTransform(f25, f10, f63, f21, i12 * f26, i11 * f26);
-                                                                        }
-                                                                        if (z5 || this.usedSurfaceView) {
-                                                                            f27 = f8;
-                                                                            f28 = f24;
-                                                                        } else {
-                                                                            f27 = f8;
-                                                                            f28 = f24;
-                                                                            drawCenterImageInternal(canvas, f27, f28);
-                                                                        }
-                                                                        canvas.save();
-                                                                        if (f27 > 0.0f) {
-                                                                            canvas.save();
-                                                                            canvas.scale(1.0f - (f27 * 2.0f), 1.0f);
-                                                                            canvas.skew(0.0f, f27 * 4.0f * (1.0f - f27) * 0.25f);
-                                                                            i14 = i10;
-                                                                            z6 = true;
-                                                                        } else {
-                                                                            i14 = i10;
-                                                                            z6 = false;
-                                                                        }
-                                                                        float f86 = (-i14) / 2;
-                                                                        int i59 = i9;
-                                                                        float f87 = (-i59) / 2;
-                                                                        canvas.translate(f86, f87);
-                                                                        if (!z2 || this.paintingOverlay.getVisibility() == 0) {
-                                                                            canvas.scale(min5, min5);
-                                                                        }
-                                                                        if (z2) {
-                                                                            if (!this.videoCrossfadeStarted && ((this.usedSurfaceView && this.firstFrameRendered) || (this.textureUploaded && this.videoSizeSet))) {
-                                                                                this.videoCrossfadeStarted = true;
-                                                                                this.videoCrossfadeAlpha = 0.0f;
-                                                                                this.videoCrossfadeAlphaLastTime = System.currentTimeMillis();
-                                                                                this.containerView.getMeasuredHeight();
-                                                                            }
-                                                                            TextureView textureView4 = this.videoTextureView;
-                                                                            if (textureView4 != null) {
-                                                                                textureView4.setAlpha(this.videoCrossfadeAlpha * f28);
-                                                                            }
-                                                                            TextureView textureView5 = this.videoTextureView;
-                                                                            if (textureView5 instanceof VideoEditTextureView) {
-                                                                                ((VideoEditTextureView) textureView5).setViewRect(((i8 - i14) / 2.0f) + getAdditionX(this.currentEditMode) + f23, ((i5 - i59) / 2.0f) + getAdditionY(this.currentEditMode) + f63 + this.currentPanTranslationY, i14, i59);
-                                                                            }
-                                                                            SurfaceView surfaceView = this.videoSurfaceView;
-                                                                            if (surfaceView != null && this.waitingForDraw == 0 && !this.changingTextureView && !this.switchingInlineMode && !this.pipAnimationInProgress && surfaceView.getVisibility() != 0) {
-                                                                                this.videoSurfaceView.setVisibility(0);
-                                                                            }
-                                                                            if (!this.usedSurfaceView || this.firstFrameRendered) {
-                                                                                this.aspectRatioFrameLayout.draw(canvas);
-                                                                            }
-                                                                            if (this.usedSurfaceView && f28 != 1.0f) {
-                                                                                if (this.surfaceBlackoutPaint == null) {
-                                                                                    this.surfaceBlackoutPaint = new Paint();
+                                                                                f31 = 1.0f;
+                                                                                float cropPw22 = this.cropTransform.getCropPw();
+                                                                                float cropPh22 = this.cropTransform.getCropPh();
+                                                                                f32 = i16;
+                                                                                f33 = 1.0f - f31;
+                                                                                int i5522 = (int) ((cropPw22 + ((1.0f - cropPw22) * f33)) * f32);
+                                                                                f34 = i17;
+                                                                                int i5622 = (int) ((cropPh22 + ((1.0f - cropPh22) * f33)) * f34);
+                                                                                z6 = z3;
+                                                                                f35 = i5522;
+                                                                                f36 = f20 / f35;
+                                                                                f37 = i5622;
+                                                                                if (f36 * f37 > f77) {
                                                                                 }
-                                                                                this.surfaceBlackoutPaint.setAlpha((int) ((1.0f - f28) * 255.0f));
-                                                                                canvas.drawRect(-1.0f, -1.0f, this.aspectRatioFrameLayout.getWidth() + 1.0f, this.aspectRatioFrameLayout.getHeight() + 1.0f, this.surfaceBlackoutPaint);
-                                                                            }
-                                                                            if (this.videoCrossfadeStarted) {
-                                                                                float f88 = this.videoCrossfadeAlpha;
-                                                                                if (f88 < 1.0f) {
-                                                                                    j2 = j;
-                                                                                    this.videoCrossfadeAlpha = f88 + (((float) j2) / (this.playerInjected ? 100.0f : 200.0f));
-                                                                                    this.containerView.invalidate();
-                                                                                    invalidateBlur();
-                                                                                    if (this.videoCrossfadeAlpha > 1.0f) {
-                                                                                        this.videoCrossfadeAlpha = 1.0f;
-                                                                                    }
-                                                                                    this.paintingOverlay.setAlpha(f28);
+                                                                                f26 = f64;
+                                                                                if (this.sendPhotoType != 1) {
                                                                                 }
-                                                                            }
-                                                                            j2 = j;
-                                                                            this.paintingOverlay.setAlpha(f28);
-                                                                        } else {
-                                                                            j2 = j;
-                                                                        }
-                                                                        if (z6) {
-                                                                            canvas.restore();
-                                                                            canvas.translate(f86, f87);
-                                                                            if (z2 || this.paintingOverlay.getVisibility() == 0) {
-                                                                                canvas.scale(min5, min5);
-                                                                            }
-                                                                        }
-                                                                        if (this.paintingOverlay.getVisibility() == 0 && (this.isCurrentVideo || this.currentEditMode != 2 || this.switchingToMode != -1)) {
-                                                                            if (this.sendPhotoType != 11) {
-                                                                                canvas.clipRect(0, 0, this.paintingOverlay.getMeasuredWidth(), this.paintingOverlay.getMeasuredHeight());
-                                                                            }
-                                                                            this.paintingOverlay.draw(canvas);
-                                                                        }
-                                                                        canvas.restore();
-                                                                        if (z5 && this.usedSurfaceView) {
-                                                                            f29 = this.videoCrossfadeAlpha;
-                                                                            if (f29 != 1.0f) {
-                                                                                drawCenterImageInternal(canvas, f27, (1.0f - f29) * f28);
-                                                                            }
-                                                                        }
-                                                                        canvas.restore();
-                                                                        i15 = 0;
-                                                                        while (true) {
-                                                                            gradientDrawableArr = this.pressedDrawable;
-                                                                            if (i15 >= gradientDrawableArr.length) {
-                                                                                break;
-                                                                            }
-                                                                            if (this.drawPressedDrawable[i15] || this.pressedDrawableAlpha[i15] != 0.0f) {
-                                                                                gradientDrawableArr[i15].setAlpha((int) (this.pressedDrawableAlpha[i15] * 255.0f));
-                                                                                if (i15 == 0) {
-                                                                                    this.pressedDrawable[i15].setBounds(0, 0, this.containerView.getMeasuredWidth() / 5, this.containerView.getMeasuredHeight());
-                                                                                } else {
-                                                                                    this.pressedDrawable[i15].setBounds(this.containerView.getMeasuredWidth() - (this.containerView.getMeasuredWidth() / 5), 0, this.containerView.getMeasuredWidth(), this.containerView.getMeasuredHeight());
+                                                                                if (this.sendPhotoType != 1) {
                                                                                 }
-                                                                                this.pressedDrawable[i15].draw(canvas);
-                                                                            }
-                                                                            if (this.drawPressedDrawable[i15]) {
-                                                                                float[] fArr = this.pressedDrawableAlpha;
-                                                                                if (fArr[i15] < 1.0f) {
-                                                                                    fArr[i15] = fArr[i15] + (((float) j2) / 180.0f);
-                                                                                    if (fArr[i15] > 1.0f) {
-                                                                                        fArr[i15] = 1.0f;
-                                                                                    }
-                                                                                    this.containerView.invalidate();
+                                                                                if (this.currentEditMode != 1) {
                                                                                 }
+                                                                                textureView = this.videoTextureView;
+                                                                                if (textureView != null) {
+                                                                                }
+                                                                                float scale22 = this.cropTransform.getScale() / (((this.cropTransform.getTrueCropScale() - 1.0f) * f33) + 1.0f);
+                                                                                f38 = f20 / f32;
+                                                                                if (f38 * f34 > f77) {
+                                                                                }
+                                                                                float f8922 = scale22 * (f38 / min5);
+                                                                                if (this.sendPhotoType == 1) {
+                                                                                }
+                                                                                f39 = f8922;
+                                                                                recordingCanvas.translate(this.cropTransform.getCropAreaX() * f31, this.cropTransform.getCropAreaY() * f31);
+                                                                                if (!this.centerImageTransformLocked) {
+                                                                                }
+                                                                                recordingCanvas.scale(f39, f39);
+                                                                                if (!this.centerImageTransformLocked) {
+                                                                                }
+                                                                                recordingCanvas.translate(this.cropTransform.getCropPx() * f32 * min5 * f31, this.cropTransform.getCropPy() * f34 * min5 * f31);
+                                                                                if (!this.centerImageTransformLocked) {
+                                                                                }
+                                                                                rotation = this.cropTransform.getRotation() + orientation;
+                                                                                if (rotation > 180.0f) {
+                                                                                }
+                                                                                if (this.sendPhotoType != 1) {
+                                                                                }
+                                                                                float f9022 = rotation * f31;
+                                                                                recordingCanvas.rotate(f9022);
+                                                                                if (!this.centerImageTransformLocked) {
+                                                                                }
+                                                                                f27 = f36;
+                                                                                i12 = i5522;
+                                                                                i11 = i5622;
                                                                             } else {
-                                                                                float[] fArr2 = this.pressedDrawableAlpha;
-                                                                                if (fArr2[i15] > 0.0f) {
-                                                                                    fArr2[i15] = fArr2[i15] - (((float) j2) / 180.0f);
-                                                                                    if (fArr2[i15] < 0.0f) {
-                                                                                        fArr2[i15] = 0.0f;
+                                                                                i10 = i49;
+                                                                                z6 = z3;
+                                                                                f25 = f24;
+                                                                                f26 = f64;
+                                                                                i11 = i48;
+                                                                                i12 = i50;
+                                                                                f27 = 1.0f;
+                                                                            }
+                                                                            i13 = this.currentEditMode;
+                                                                            if (i13 == 3) {
+                                                                                LPhotoPaintView lPhotoPaintView = this.photoPaintView;
+                                                                                lPhotoPaintView.setTransform(f26, f22, f12 + ((this.sendPhotoType == 1 ? AndroidUtilities.statusBarHeight / 2.0f : 0.0f) * lPhotoPaintView.getRenderView().getScaleX()), i12 * f27, i11 * f27);
+                                                                            } else if (i13 == 4) {
+                                                                                this.maskPaintView.setTransform(f26, f22, f12, f21, i12 * f27, i11 * f27);
+                                                                            }
+                                                                            if (z6 || this.usedSurfaceView) {
+                                                                                f28 = f11;
+                                                                                f29 = f25;
+                                                                            } else {
+                                                                                f28 = f11;
+                                                                                f29 = f25;
+                                                                                drawCenterImageInternal(recordingCanvas, f28, f29);
+                                                                            }
+                                                                            recordingCanvas.save();
+                                                                            if (f28 > 0.0f) {
+                                                                                recordingCanvas.save();
+                                                                                recordingCanvas.scale(1.0f - (f28 * 2.0f), 1.0f);
+                                                                                recordingCanvas.skew(0.0f, f28 * 4.0f * (1.0f - f28) * 0.25f);
+                                                                                i14 = i10;
+                                                                                z7 = true;
+                                                                            } else {
+                                                                                i14 = i10;
+                                                                                z7 = false;
+                                                                            }
+                                                                            float f92 = (-i14) / 2;
+                                                                            int i58 = i9;
+                                                                            float f93 = (-i58) / 2;
+                                                                            recordingCanvas.translate(f92, f93);
+                                                                            if (!z4 || this.paintingOverlay.getVisibility() == 0) {
+                                                                                recordingCanvas.scale(min5, min5);
+                                                                            }
+                                                                            if (z4) {
+                                                                                if (!this.videoCrossfadeStarted && ((this.usedSurfaceView && this.firstFrameRendered) || (this.textureUploaded && this.videoSizeSet))) {
+                                                                                    this.videoCrossfadeStarted = true;
+                                                                                    this.videoCrossfadeAlpha = 0.0f;
+                                                                                    this.videoCrossfadeAlphaLastTime = System.currentTimeMillis();
+                                                                                    this.containerView.getMeasuredHeight();
+                                                                                }
+                                                                                TextureView textureView4 = this.videoTextureView;
+                                                                                if (textureView4 != null) {
+                                                                                    textureView4.setAlpha(this.videoCrossfadeAlpha * f29);
+                                                                                }
+                                                                                TextureView textureView5 = this.videoTextureView;
+                                                                                if (textureView5 instanceof VideoEditTextureView) {
+                                                                                    ((VideoEditTextureView) textureView5).setViewRect(((i8 - i14) / 2.0f) + getAdditionX(this.currentEditMode) + f23, ((i5 - i58) / 2.0f) + getAdditionY(this.currentEditMode) + f12 + this.currentPanTranslationY, i14, i58);
+                                                                                }
+                                                                                SurfaceView surfaceView = this.videoSurfaceView;
+                                                                                if (surfaceView != null && this.waitingForDraw == 0 && !this.changingTextureView && !this.switchingInlineMode && !this.pipAnimationInProgress && surfaceView.getVisibility() != 0) {
+                                                                                    this.videoSurfaceView.setVisibility(0);
+                                                                                }
+                                                                                if (!this.usedSurfaceView || this.firstFrameRendered) {
+                                                                                    this.aspectRatioFrameLayout.draw(recordingCanvas);
+                                                                                }
+                                                                                if (this.usedSurfaceView && f29 != 1.0f) {
+                                                                                    if (this.surfaceBlackoutPaint == null) {
+                                                                                        this.surfaceBlackoutPaint = new Paint();
                                                                                     }
-                                                                                    this.containerView.invalidate();
-                                                                                    i15++;
+                                                                                    this.surfaceBlackoutPaint.setAlpha((int) ((1.0f - f29) * 255.0f));
+                                                                                    recordingCanvas.drawRect(-1.0f, -1.0f, this.aspectRatioFrameLayout.getWidth() + 1.0f, this.aspectRatioFrameLayout.getHeight() + 1.0f, this.surfaceBlackoutPaint);
+                                                                                }
+                                                                                if (this.videoCrossfadeStarted) {
+                                                                                    float f94 = this.videoCrossfadeAlpha;
+                                                                                    if (f94 < 1.0f) {
+                                                                                        j2 = j;
+                                                                                        this.videoCrossfadeAlpha = f94 + (((float) j2) / (this.playerInjected ? 100.0f : 200.0f));
+                                                                                        this.containerView.invalidate();
+                                                                                        invalidateBlur();
+                                                                                        if (this.videoCrossfadeAlpha > 1.0f) {
+                                                                                            this.videoCrossfadeAlpha = 1.0f;
+                                                                                        }
+                                                                                        this.paintingOverlay.setAlpha(f29);
+                                                                                    }
+                                                                                }
+                                                                                j2 = j;
+                                                                                this.paintingOverlay.setAlpha(f29);
+                                                                            } else {
+                                                                                j2 = j;
+                                                                            }
+                                                                            if (z7) {
+                                                                                recordingCanvas.restore();
+                                                                                recordingCanvas.translate(f92, f93);
+                                                                                if (z4 || this.paintingOverlay.getVisibility() == 0) {
+                                                                                    recordingCanvas.scale(min5, min5);
                                                                                 }
                                                                             }
-                                                                            i15++;
+                                                                            if (this.paintingOverlay.getVisibility() == 0) {
+                                                                                if (!this.isCurrentVideo) {
+                                                                                    if (this.currentEditMode == 2) {
+                                                                                    }
+                                                                                }
+                                                                                if (this.sendPhotoType != 11) {
+                                                                                    recordingCanvas.clipRect(0, 0, this.paintingOverlay.getMeasuredWidth(), this.paintingOverlay.getMeasuredHeight());
+                                                                                }
+                                                                                this.paintingOverlay.draw(recordingCanvas);
+                                                                            }
+                                                                            recordingCanvas.restore();
+                                                                            if (z6 && this.usedSurfaceView) {
+                                                                                f30 = this.videoCrossfadeAlpha;
+                                                                                if (f30 != 1.0f) {
+                                                                                    drawCenterImageInternal(recordingCanvas, f28, (1.0f - f30) * f29);
+                                                                                }
+                                                                            }
+                                                                            recordingCanvas.restore();
+                                                                            i15 = 0;
+                                                                            while (true) {
+                                                                                gradientDrawableArr = this.pressedDrawable;
+                                                                                if (i15 >= gradientDrawableArr.length) {
+                                                                                    break;
+                                                                                }
+                                                                                if (this.drawPressedDrawable[i15] || this.pressedDrawableAlpha[i15] != 0.0f) {
+                                                                                    gradientDrawableArr[i15].setAlpha((int) (this.pressedDrawableAlpha[i15] * 255.0f));
+                                                                                    if (i15 == 0) {
+                                                                                        this.pressedDrawable[i15].setBounds(0, 0, this.containerView.getMeasuredWidth() / 5, this.containerView.getMeasuredHeight());
+                                                                                    } else {
+                                                                                        this.pressedDrawable[i15].setBounds(this.containerView.getMeasuredWidth() - (this.containerView.getMeasuredWidth() / 5), 0, this.containerView.getMeasuredWidth(), this.containerView.getMeasuredHeight());
+                                                                                    }
+                                                                                    this.pressedDrawable[i15].draw(recordingCanvas);
+                                                                                }
+                                                                                if (this.drawPressedDrawable[i15]) {
+                                                                                    float[] fArr = this.pressedDrawableAlpha;
+                                                                                    if (fArr[i15] < 1.0f) {
+                                                                                        fArr[i15] = fArr[i15] + (((float) j2) / 180.0f);
+                                                                                        if (fArr[i15] > 1.0f) {
+                                                                                            fArr[i15] = 1.0f;
+                                                                                        }
+                                                                                        this.containerView.invalidate();
+                                                                                    }
+                                                                                } else {
+                                                                                    float[] fArr2 = this.pressedDrawableAlpha;
+                                                                                    if (fArr2[i15] > 0.0f) {
+                                                                                        fArr2[i15] = fArr2[i15] - (((float) j2) / 180.0f);
+                                                                                        if (fArr2[i15] < 0.0f) {
+                                                                                            fArr2[i15] = 0.0f;
+                                                                                        }
+                                                                                        this.containerView.invalidate();
+                                                                                        i15++;
+                                                                                    }
+                                                                                }
+                                                                                i15++;
+                                                                            }
+                                                                        } else {
+                                                                            i9 = i51;
                                                                         }
+                                                                    } else {
+                                                                        i9 = i51;
+                                                                        z4 = z2;
                                                                     }
-                                                                    z4 = true;
-                                                                    if (z4) {
+                                                                    z5 = true;
+                                                                    if (z5) {
                                                                     }
                                                                     i13 = this.currentEditMode;
                                                                     if (i13 == 3) {
                                                                     }
-                                                                    if (z5) {
-                                                                    }
-                                                                    f27 = f8;
-                                                                    f28 = f24;
-                                                                    canvas.save();
-                                                                    if (f27 > 0.0f) {
-                                                                    }
-                                                                    float f862 = (-i14) / 2;
-                                                                    int i592 = i9;
-                                                                    float f872 = (-i592) / 2;
-                                                                    canvas.translate(f862, f872);
-                                                                    if (!z2) {
-                                                                    }
-                                                                    canvas.scale(min5, min5);
-                                                                    if (z2) {
-                                                                    }
                                                                     if (z6) {
                                                                     }
+                                                                    f28 = f11;
+                                                                    f29 = f25;
+                                                                    recordingCanvas.save();
+                                                                    if (f28 > 0.0f) {
+                                                                    }
+                                                                    float f922 = (-i14) / 2;
+                                                                    int i582 = i9;
+                                                                    float f932 = (-i582) / 2;
+                                                                    recordingCanvas.translate(f922, f932);
+                                                                    if (!z4) {
+                                                                    }
+                                                                    recordingCanvas.scale(min5, min5);
+                                                                    if (z4) {
+                                                                    }
+                                                                    if (z7) {
+                                                                    }
                                                                     if (this.paintingOverlay.getVisibility() == 0) {
-                                                                        if (this.sendPhotoType != 11) {
-                                                                        }
-                                                                        this.paintingOverlay.draw(canvas);
                                                                     }
-                                                                    canvas.restore();
-                                                                    if (z5) {
-                                                                        f29 = this.videoCrossfadeAlpha;
-                                                                        if (f29 != 1.0f) {
+                                                                    recordingCanvas.restore();
+                                                                    if (z6) {
+                                                                        f30 = this.videoCrossfadeAlpha;
+                                                                        if (f30 != 1.0f) {
                                                                         }
                                                                     }
-                                                                    canvas.restore();
+                                                                    recordingCanvas.restore();
                                                                     i15 = 0;
                                                                     while (true) {
                                                                         gradientDrawableArr = this.pressedDrawable;
@@ -22780,36 +22800,36 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                                                         i15++;
                                                                     }
                                                                 }
-                                                                z4 = false;
-                                                                if (z4) {
+                                                                z5 = false;
+                                                                if (z5) {
                                                                 }
                                                                 i13 = this.currentEditMode;
                                                                 if (i13 == 3) {
                                                                 }
-                                                                if (z5) {
-                                                                }
-                                                                f27 = f8;
-                                                                f28 = f24;
-                                                                canvas.save();
-                                                                if (f27 > 0.0f) {
-                                                                }
-                                                                float f8622 = (-i14) / 2;
-                                                                int i5922 = i9;
-                                                                float f8722 = (-i5922) / 2;
-                                                                canvas.translate(f8622, f8722);
-                                                                if (!z2) {
-                                                                }
-                                                                canvas.scale(min5, min5);
-                                                                if (z2) {
-                                                                }
                                                                 if (z6) {
+                                                                }
+                                                                f28 = f11;
+                                                                f29 = f25;
+                                                                recordingCanvas.save();
+                                                                if (f28 > 0.0f) {
+                                                                }
+                                                                float f9222 = (-i14) / 2;
+                                                                int i5822 = i9;
+                                                                float f9322 = (-i5822) / 2;
+                                                                recordingCanvas.translate(f9222, f9322);
+                                                                if (!z4) {
+                                                                }
+                                                                recordingCanvas.scale(min5, min5);
+                                                                if (z4) {
+                                                                }
+                                                                if (z7) {
                                                                 }
                                                                 if (this.paintingOverlay.getVisibility() == 0) {
                                                                 }
-                                                                canvas.restore();
-                                                                if (z5) {
+                                                                recordingCanvas.restore();
+                                                                if (z6) {
                                                                 }
-                                                                canvas.restore();
+                                                                recordingCanvas.restore();
                                                                 i15 = 0;
                                                                 while (true) {
                                                                     gradientDrawableArr = this.pressedDrawable;
@@ -22825,48 +22845,48 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                                     }
                                                     bitmapWidth = this.centerImage.getBitmapWidth();
                                                     bitmapHeight = this.centerImage.getBitmapHeight();
-                                                    float f752 = bitmapWidth;
-                                                    float f762 = f20 / f752;
-                                                    float f772 = bitmapHeight;
-                                                    float f782 = f19 / f772;
-                                                    float min52 = Math.min(f762, f782);
-                                                    int i502 = bitmapHeight;
-                                                    int i512 = (int) (f752 * min52);
-                                                    int i522 = bitmapWidth;
-                                                    int i532 = (int) (f772 * min52);
-                                                    f23 = f11;
+                                                    float f812 = bitmapWidth;
+                                                    float f822 = f20 / f812;
+                                                    float f832 = bitmapHeight;
+                                                    float f842 = f77 / f832;
+                                                    float min52 = Math.min(f822, f842);
+                                                    int i482 = bitmapHeight;
+                                                    int i492 = (int) (f812 * min52);
+                                                    int i502 = bitmapWidth;
+                                                    int i512 = (int) (f832 * min52);
+                                                    i8 = i6;
                                                     if (this.imagesArrLocals.isEmpty()) {
                                                     }
-                                                    z4 = false;
-                                                    if (z4) {
+                                                    z5 = false;
+                                                    if (z5) {
                                                     }
                                                     i13 = this.currentEditMode;
                                                     if (i13 == 3) {
                                                     }
-                                                    if (z5) {
-                                                    }
-                                                    f27 = f8;
-                                                    f28 = f24;
-                                                    canvas.save();
-                                                    if (f27 > 0.0f) {
-                                                    }
-                                                    float f86222 = (-i14) / 2;
-                                                    int i59222 = i9;
-                                                    float f87222 = (-i59222) / 2;
-                                                    canvas.translate(f86222, f87222);
-                                                    if (!z2) {
-                                                    }
-                                                    canvas.scale(min52, min52);
-                                                    if (z2) {
-                                                    }
                                                     if (z6) {
+                                                    }
+                                                    f28 = f11;
+                                                    f29 = f25;
+                                                    recordingCanvas.save();
+                                                    if (f28 > 0.0f) {
+                                                    }
+                                                    float f92222 = (-i14) / 2;
+                                                    int i58222 = i9;
+                                                    float f93222 = (-i58222) / 2;
+                                                    recordingCanvas.translate(f92222, f93222);
+                                                    if (!z4) {
+                                                    }
+                                                    recordingCanvas.scale(min52, min52);
+                                                    if (z4) {
+                                                    }
+                                                    if (z7) {
                                                     }
                                                     if (this.paintingOverlay.getVisibility() == 0) {
                                                     }
-                                                    canvas.restore();
-                                                    if (z5) {
+                                                    recordingCanvas.restore();
+                                                    if (z6) {
                                                     }
-                                                    canvas.restore();
+                                                    recordingCanvas.restore();
                                                     i15 = 0;
                                                     while (true) {
                                                         gradientDrawableArr = this.pressedDrawable;
@@ -22876,80 +22896,80 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                                     }
                                                 }
                                             }
-                                            f15 = f9;
-                                            f16 = f10;
-                                            canvas.save();
-                                            f17 = i6;
-                                            float f722 = f17 / 2.0f;
+                                            f17 = f10;
+                                            f18 = f9;
+                                            recordingCanvas.save();
+                                            f19 = i6;
+                                            float f762 = f19 / 2.0f;
                                             i7 = i5;
-                                            f18 = i7;
-                                            float f732 = f18 / 2.0f;
-                                            canvas.translate(f722 + getAdditionX(this.currentEditMode), f732 + getAdditionY(this.currentEditMode));
-                                            this.centerImageTransform.preTranslate(f722 + getAdditionX(this.currentEditMode), f732 + getAdditionY(this.currentEditMode));
-                                            canvas.translate(f11, (this.currentEditMode == 3 ? this.currentPanTranslationY : 0.0f) + f63);
-                                            this.centerImageTransform.preTranslate(f11, (this.currentEditMode == 3 ? this.currentPanTranslationY : 0.0f) + f63);
-                                            float f742 = f5 - f12;
-                                            canvas.scale(f742, f742);
-                                            this.centerImageTransform.preScale(f742, f742);
-                                            canvas.rotate(f15);
-                                            this.centerImageTransform.preRotate(f15);
+                                            float f772 = i7;
+                                            float f782 = f772 / 2.0f;
+                                            recordingCanvas.translate(f762 + getAdditionX(this.currentEditMode), f782 + getAdditionY(this.currentEditMode));
+                                            this.centerImageTransform.preTranslate(f762 + getAdditionX(this.currentEditMode), f782 + getAdditionY(this.currentEditMode));
+                                            recordingCanvas.translate(f13, f12 + (this.currentEditMode == 3 ? this.currentPanTranslationY : 0.0f));
+                                            this.centerImageTransform.preTranslate(f13, f12 + (this.currentEditMode == 3 ? this.currentPanTranslationY : 0.0f));
+                                            float f792 = f64 - f15;
+                                            recordingCanvas.scale(f792, f792);
+                                            this.centerImageTransform.preScale(f792, f792);
+                                            recordingCanvas.rotate(f18);
+                                            this.centerImageTransform.preRotate(f18);
                                             if (this.currentEditMode == 3) {
                                             }
-                                            f19 = f18;
+                                            f20 = f19;
                                             if (this.pipAnimationInProgress) {
                                             }
-                                            f20 = f17;
-                                            f21 = f15;
-                                            f10 = f16;
+                                            f21 = f18;
+                                            f22 = f17;
                                             i5 = i7;
-                                            f22 = f14;
+                                            f23 = f13;
+                                            f24 = f16;
                                             z3 = false;
                                             if (!z2) {
                                             }
                                             bitmapWidth = this.centerImage.getBitmapWidth();
                                             bitmapHeight = this.centerImage.getBitmapHeight();
-                                            float f7522 = bitmapWidth;
-                                            float f7622 = f20 / f7522;
-                                            float f7722 = bitmapHeight;
-                                            float f7822 = f19 / f7722;
-                                            float min522 = Math.min(f7622, f7822);
-                                            int i5022 = bitmapHeight;
-                                            int i5122 = (int) (f7522 * min522);
-                                            int i5222 = bitmapWidth;
-                                            int i5322 = (int) (f7722 * min522);
-                                            f23 = f11;
+                                            float f8122 = bitmapWidth;
+                                            float f8222 = f20 / f8122;
+                                            float f8322 = bitmapHeight;
+                                            float f8422 = f772 / f8322;
+                                            float min522 = Math.min(f8222, f8422);
+                                            int i4822 = bitmapHeight;
+                                            int i4922 = (int) (f8122 * min522);
+                                            int i5022 = bitmapWidth;
+                                            int i5122 = (int) (f8322 * min522);
+                                            i8 = i6;
                                             if (this.imagesArrLocals.isEmpty()) {
                                             }
-                                            z4 = false;
-                                            if (z4) {
+                                            z5 = false;
+                                            if (z5) {
                                             }
                                             i13 = this.currentEditMode;
                                             if (i13 == 3) {
                                             }
-                                            if (z5) {
-                                            }
-                                            f27 = f8;
-                                            f28 = f24;
-                                            canvas.save();
-                                            if (f27 > 0.0f) {
-                                            }
-                                            float f862222 = (-i14) / 2;
-                                            int i592222 = i9;
-                                            float f872222 = (-i592222) / 2;
-                                            canvas.translate(f862222, f872222);
-                                            if (!z2) {
-                                            }
-                                            canvas.scale(min522, min522);
-                                            if (z2) {
-                                            }
                                             if (z6) {
+                                            }
+                                            f28 = f11;
+                                            f29 = f25;
+                                            recordingCanvas.save();
+                                            if (f28 > 0.0f) {
+                                            }
+                                            float f922222 = (-i14) / 2;
+                                            int i582222 = i9;
+                                            float f932222 = (-i582222) / 2;
+                                            recordingCanvas.translate(f922222, f932222);
+                                            if (!z4) {
+                                            }
+                                            recordingCanvas.scale(min522, min522);
+                                            if (z4) {
+                                            }
+                                            if (z7) {
                                             }
                                             if (this.paintingOverlay.getVisibility() == 0) {
                                             }
-                                            canvas.restore();
-                                            if (z5) {
+                                            recordingCanvas.restore();
+                                            if (z6) {
                                             }
-                                            canvas.restore();
+                                            recordingCanvas.restore();
                                             i15 = 0;
                                             while (true) {
                                                 gradientDrawableArr = this.pressedDrawable;
@@ -22959,104 +22979,111 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                             }
                                         } else {
                                             i8 = i6;
-                                            f28 = f14;
-                                            f25 = f5;
-                                            f23 = f11;
+                                            f29 = f16;
+                                            f23 = f13;
+                                            f26 = f64;
+                                            f22 = f10;
                                         }
-                                        drawProgress(canvas, f23, f25, f63, f28);
+                                        drawProgress(recordingCanvas, f23, f26, f12, f29);
                                         imageReceiver = this.sideImage;
                                         if (imageReceiver == this.leftImage) {
                                             if (imageReceiver.hasBitmapImage()) {
-                                                canvas.save();
-                                                canvas.translate(i8 / 2, i5 / 2);
-                                                int i60 = i8;
-                                                float f89 = i60;
-                                                float f90 = f10;
-                                                canvas.translate(((-(((this.scale + 1.0f) * f89) + AndroidUtilities.dp(30.0f))) / 2.0f) + f90, 0.0f);
+                                                recordingCanvas.save();
+                                                recordingCanvas.translate(i8 / 2, i5 / 2);
+                                                int i59 = i8;
+                                                float f95 = i59;
+                                                float f96 = f22;
+                                                recordingCanvas.translate(((-(((this.scale + 1.0f) * f95) + AndroidUtilities.dp(30.0f))) / 2.0f) + f96, 0.0f);
                                                 int bitmapWidth4 = this.sideImage.getBitmapWidth();
                                                 int bitmapHeight4 = this.sideImage.getBitmapHeight();
                                                 if (this.leftImageIsVideo || this.leftCropState == null || !this.leftCropTransform.hasViewTransform()) {
-                                                    f40 = f28;
+                                                    i25 = i59;
+                                                    f41 = f12;
+                                                    f42 = f96;
+                                                    i26 = i5;
+                                                    c = 2;
                                                     i27 = bitmapHeight4;
-                                                    f41 = f63;
-                                                    i26 = i60;
-                                                    f10 = f90;
-                                                    i28 = i5;
-                                                    f39 = 1.0f;
+                                                    i28 = bitmapWidth4;
                                                 } else {
-                                                    float f91 = f28;
+                                                    i25 = i59;
                                                     i27 = bitmapHeight4;
-                                                    f10 = f90;
-                                                    i28 = i5;
-                                                    f40 = f91;
-                                                    f39 = 1.0f;
-                                                    f41 = f63;
-                                                    i26 = i60;
-                                                    applyCrop(canvas, i60, i5, bitmapWidth4, bitmapHeight4, f25, this.leftCropTransform, this.leftCropState);
+                                                    f41 = f12;
+                                                    f42 = f96;
+                                                    i26 = i5;
+                                                    i28 = bitmapWidth4;
+                                                    c = 2;
+                                                    applyCrop(recordingCanvas, i59, i5, bitmapWidth4, bitmapHeight4, f26, this.leftCropTransform, this.leftCropState);
                                                 }
-                                                float f92 = bitmapWidth4;
-                                                float f93 = i27;
-                                                float min6 = Math.min(f89 / f92, i28 / f93);
-                                                int i61 = (int) (f92 * min6);
-                                                int i62 = (int) (f93 * min6);
+                                                float f97 = i28;
+                                                float f98 = i27;
+                                                float min6 = Math.min(f95 / f97, i26 / f98);
+                                                int i60 = (int) (f97 * min6);
+                                                int i61 = (int) (f98 * min6);
                                                 if (this.imagesArrLocals.isEmpty()) {
-                                                    z8 = false;
+                                                    z9 = false;
                                                 } else if (this.currentEditMode == 1 || this.sendPhotoType == 1) {
-                                                    z8 = this.leftCropTransform.isMirrored();
+                                                    z9 = this.leftCropTransform.isMirrored();
                                                 } else {
                                                     MediaController.CropState cropState4 = this.leftCropState;
-                                                    z8 = cropState4 != null && cropState4.mirrored;
+                                                    z9 = cropState4 != null && cropState4.mirrored;
                                                 }
-                                                if (z8) {
-                                                    canvas.scale(-1.0f, f39);
+                                                if (z9) {
+                                                    f44 = 1.0f;
+                                                    recordingCanvas.scale(-1.0f, 1.0f);
+                                                } else {
+                                                    f44 = 1.0f;
                                                 }
-                                                this.sideImage.setAlpha(f39);
+                                                this.sideImage.setAlpha(f44);
+                                                int i62 = (-i60) / 2;
                                                 int i63 = (-i61) / 2;
-                                                int i64 = (-i62) / 2;
-                                                this.sideImage.setImageCoords(i63, i64, i61, i62);
-                                                this.sideImage.draw(canvas);
+                                                this.sideImage.setImageCoords(i62, i63, i60, i61);
+                                                this.sideImage.draw(recordingCanvas);
                                                 PaintingOverlay paintingOverlay2 = this.leftPaintingOverlay;
-                                                if (paintingOverlay2 != null && paintingOverlay2.getVisibility() == 0) {
-                                                    canvas.clipRect(i63, i64, i61 / 2, i62 / 2);
-                                                    if (this.leftPaintingOverlay.getMeasuredWidth() != bitmapWidth4 || this.leftPaintingOverlay.getMeasuredHeight() != i27) {
-                                                        this.leftPaintingOverlay.measure(View.MeasureSpec.makeMeasureSpec(bitmapWidth4, 1073741824), View.MeasureSpec.makeMeasureSpec(i27, 1073741824));
-                                                        this.leftPaintingOverlay.layout(0, 0, bitmapWidth4, i27);
+                                                if (paintingOverlay2 == null || paintingOverlay2.getVisibility() != 0) {
+                                                    f43 = 1.0f;
+                                                } else {
+                                                    recordingCanvas.clipRect(i62, i63, i60 / 2, i61 / 2);
+                                                    if (this.leftPaintingOverlay.getMeasuredWidth() != i28 || this.leftPaintingOverlay.getMeasuredHeight() != i27) {
+                                                        this.leftPaintingOverlay.measure(View.MeasureSpec.makeMeasureSpec(i28, 1073741824), View.MeasureSpec.makeMeasureSpec(i27, 1073741824));
+                                                        this.leftPaintingOverlay.layout(0, 0, i28, i27);
                                                     }
-                                                    canvas.scale(min6, min6);
-                                                    canvas.translate((-bitmapWidth4) / 2, (-i27) / 2);
-                                                    this.leftPaintingOverlay.setAlpha(f39);
-                                                    this.leftPaintingOverlay.draw(canvas);
+                                                    recordingCanvas.scale(min6, min6);
+                                                    recordingCanvas.translate((-i28) / 2, (-i27) / 2);
+                                                    f43 = 1.0f;
+                                                    this.leftPaintingOverlay.setAlpha(1.0f);
+                                                    this.leftPaintingOverlay.draw(recordingCanvas);
                                                 }
-                                                canvas.restore();
+                                                recordingCanvas.restore();
                                             } else {
-                                                f40 = f28;
-                                                f41 = f63;
-                                                i26 = i8;
-                                                f39 = 1.0f;
+                                                f41 = f12;
+                                                f42 = f22;
+                                                i25 = i8;
+                                                f43 = 1.0f;
+                                                c = 2;
                                             }
-                                            this.groupedPhotosListView.setMoveProgress(f39 - f40);
-                                            canvas.save();
-                                            f63 = f41;
-                                            canvas.translate(f10, f63 / f25);
-                                            canvas.translate((-((i26 * (this.scale + f39)) + AndroidUtilities.dp(30.0f))) / 2.0f, (-f63) / f25);
-                                            this.photoProgressViews[2].setScale(f39);
-                                            this.photoProgressViews[2].setAlpha(f39);
-                                            this.photoProgressViews[2].onDraw(canvas);
+                                            this.groupedPhotosListView.setMoveProgress(f43 - f29);
+                                            recordingCanvas.save();
+                                            recordingCanvas.translate(f42, f41 / f26);
+                                            f40 = f41;
+                                            recordingCanvas.translate((-((i25 * (this.scale + f43)) + AndroidUtilities.dp(30.0f))) / 2.0f, (-f40) / f26);
+                                            this.photoProgressViews[c].setScale(1.0f);
+                                            this.photoProgressViews[c].setAlpha(1.0f);
+                                            this.photoProgressViews[c].onDraw(recordingCanvas);
                                             if (this.isActionBarVisible) {
-                                                this.fullscreenButton[2].setAlpha(f39);
+                                                this.fullscreenButton[c].setAlpha(1.0f);
                                             }
-                                            canvas.restore();
+                                            recordingCanvas.restore();
                                         } else {
-                                            f39 = 1.0f;
+                                            f40 = f12;
                                             if (this.isActionBarVisible) {
                                                 this.fullscreenButton[2].setAlpha(0.0f);
                                             }
                                         }
-                                        i25 = this.waitingForDraw;
-                                        if (i25 != 0) {
-                                            int i65 = i25 - 1;
-                                            this.waitingForDraw = i65;
-                                            if (i65 == 0) {
+                                        i24 = this.waitingForDraw;
+                                        if (i24 != 0) {
+                                            int i64 = i24 - 1;
+                                            this.waitingForDraw = i64;
+                                            if (i64 == 0) {
                                                 TextureView textureView6 = this.changedTextureView;
                                                 if (textureView6 != null && !this.usedSurfaceView) {
                                                     try {
@@ -23095,111 +23122,118 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                             }
                                         }
                                         if (this.padImageForHorizontalInsets) {
-                                            canvas.restore();
+                                            recordingCanvas.restore();
                                         }
                                         if (this.aspectRatioFrameLayout != null && this.videoForwardDrawable.isAnimating()) {
-                                            int measuredHeight = ((int) (this.aspectRatioFrameLayout.getMeasuredHeight() * (this.scale - f39))) / 2;
-                                            int i66 = (int) (f63 / f25);
-                                            this.videoForwardDrawable.setBounds(this.aspectRatioFrameLayout.getLeft(), (this.aspectRatioFrameLayout.getTop() - measuredHeight) + i66, this.aspectRatioFrameLayout.getRight(), this.aspectRatioFrameLayout.getBottom() + measuredHeight + i66);
-                                            this.videoForwardDrawable.draw(canvas);
+                                            int measuredHeight = ((int) (this.aspectRatioFrameLayout.getMeasuredHeight() * (this.scale - 1.0f))) / 2;
+                                            int i65 = (int) (f40 / f26);
+                                            this.videoForwardDrawable.setBounds(this.aspectRatioFrameLayout.getLeft(), (this.aspectRatioFrameLayout.getTop() - measuredHeight) + i65, this.aspectRatioFrameLayout.getRight(), this.aspectRatioFrameLayout.getBottom() + measuredHeight + i65);
+                                            this.videoForwardDrawable.draw(recordingCanvas);
                                         }
-                                        drawFancyShadows(canvas);
+                                        if (BLUR_RENDERNODE()) {
+                                            this.renderNode.endRecording();
+                                            canvas2 = canvas;
+                                            canvas2.drawRenderNode(this.renderNode);
+                                        } else {
+                                            canvas2 = recordingCanvas;
+                                        }
+                                        drawFancyShadows(canvas2);
                                     }
-                                    f11 = f10;
-                                    f13 = 1.0f;
-                                    f12 = 0.0f;
+                                    f13 = f10;
+                                    f15 = 0.0f;
+                                    f14 = 1.0f;
                                     if (this.videoSizeSet) {
                                     }
+                                    z = false;
+                                    z2 = false;
                                     this.centerImageTransformLocked = z;
                                     this.centerImageTransform.reset();
                                     maskPaintView = this.maskPaintView;
                                     if (maskPaintView != null) {
-                                        if (this.maskPaintView.getRenderView().getAlpha() <= 0.99f) {
-                                        }
                                     }
-                                    f14 = f13;
+                                    f16 = f14;
                                     if (this.centerImage.hasBitmapImage()) {
                                     }
                                     stickerMakerView = this.stickerMakerView;
                                     if (stickerMakerView != null) {
-                                        z7 = ((MediaController.PhotoEntry) this.imagesArrLocals.get(this.currentIndex)).isCropped;
-                                        if (!z7) {
+                                        z8 = ((MediaController.PhotoEntry) this.imagesArrLocals.get(this.currentIndex)).isCropped;
+                                        if (!z8) {
                                         }
                                     }
-                                    f15 = f9;
-                                    f16 = f10;
-                                    canvas.save();
-                                    f17 = i6;
-                                    float f7222 = f17 / 2.0f;
+                                    f17 = f10;
+                                    f18 = f9;
+                                    recordingCanvas.save();
+                                    f19 = i6;
+                                    float f7622 = f19 / 2.0f;
                                     i7 = i5;
-                                    f18 = i7;
-                                    float f7322 = f18 / 2.0f;
-                                    canvas.translate(f7222 + getAdditionX(this.currentEditMode), f7322 + getAdditionY(this.currentEditMode));
-                                    this.centerImageTransform.preTranslate(f7222 + getAdditionX(this.currentEditMode), f7322 + getAdditionY(this.currentEditMode));
-                                    canvas.translate(f11, (this.currentEditMode == 3 ? this.currentPanTranslationY : 0.0f) + f63);
-                                    this.centerImageTransform.preTranslate(f11, (this.currentEditMode == 3 ? this.currentPanTranslationY : 0.0f) + f63);
-                                    float f7422 = f5 - f12;
-                                    canvas.scale(f7422, f7422);
-                                    this.centerImageTransform.preScale(f7422, f7422);
-                                    canvas.rotate(f15);
-                                    this.centerImageTransform.preRotate(f15);
+                                    float f7722 = i7;
+                                    float f7822 = f7722 / 2.0f;
+                                    recordingCanvas.translate(f7622 + getAdditionX(this.currentEditMode), f7822 + getAdditionY(this.currentEditMode));
+                                    this.centerImageTransform.preTranslate(f7622 + getAdditionX(this.currentEditMode), f7822 + getAdditionY(this.currentEditMode));
+                                    recordingCanvas.translate(f13, f12 + (this.currentEditMode == 3 ? this.currentPanTranslationY : 0.0f));
+                                    this.centerImageTransform.preTranslate(f13, f12 + (this.currentEditMode == 3 ? this.currentPanTranslationY : 0.0f));
+                                    float f7922 = f64 - f15;
+                                    recordingCanvas.scale(f7922, f7922);
+                                    this.centerImageTransform.preScale(f7922, f7922);
+                                    recordingCanvas.rotate(f18);
+                                    this.centerImageTransform.preRotate(f18);
                                     if (this.currentEditMode == 3) {
                                     }
-                                    f19 = f18;
+                                    f20 = f19;
                                     if (this.pipAnimationInProgress) {
                                     }
-                                    f20 = f17;
-                                    f21 = f15;
-                                    f10 = f16;
+                                    f21 = f18;
+                                    f22 = f17;
                                     i5 = i7;
-                                    f22 = f14;
+                                    f23 = f13;
+                                    f24 = f16;
                                     z3 = false;
                                     if (!z2) {
                                     }
                                     bitmapWidth = this.centerImage.getBitmapWidth();
                                     bitmapHeight = this.centerImage.getBitmapHeight();
-                                    float f75222 = bitmapWidth;
-                                    float f76222 = f20 / f75222;
-                                    float f77222 = bitmapHeight;
-                                    float f78222 = f19 / f77222;
-                                    float min5222 = Math.min(f76222, f78222);
-                                    int i50222 = bitmapHeight;
-                                    int i51222 = (int) (f75222 * min5222);
-                                    int i52222 = bitmapWidth;
-                                    int i53222 = (int) (f77222 * min5222);
-                                    f23 = f11;
+                                    float f81222 = bitmapWidth;
+                                    float f82222 = f20 / f81222;
+                                    float f83222 = bitmapHeight;
+                                    float f84222 = f7722 / f83222;
+                                    float min5222 = Math.min(f82222, f84222);
+                                    int i48222 = bitmapHeight;
+                                    int i49222 = (int) (f81222 * min5222);
+                                    int i50222 = bitmapWidth;
+                                    int i51222 = (int) (f83222 * min5222);
+                                    i8 = i6;
                                     if (this.imagesArrLocals.isEmpty()) {
                                     }
-                                    z4 = false;
-                                    if (z4) {
+                                    z5 = false;
+                                    if (z5) {
                                     }
                                     i13 = this.currentEditMode;
                                     if (i13 == 3) {
                                     }
-                                    if (z5) {
-                                    }
-                                    f27 = f8;
-                                    f28 = f24;
-                                    canvas.save();
-                                    if (f27 > 0.0f) {
-                                    }
-                                    float f8622222 = (-i14) / 2;
-                                    int i5922222 = i9;
-                                    float f8722222 = (-i5922222) / 2;
-                                    canvas.translate(f8622222, f8722222);
-                                    if (!z2) {
-                                    }
-                                    canvas.scale(min5222, min5222);
-                                    if (z2) {
-                                    }
                                     if (z6) {
+                                    }
+                                    f28 = f11;
+                                    f29 = f25;
+                                    recordingCanvas.save();
+                                    if (f28 > 0.0f) {
+                                    }
+                                    float f9222222 = (-i14) / 2;
+                                    int i5822222 = i9;
+                                    float f9322222 = (-i5822222) / 2;
+                                    recordingCanvas.translate(f9222222, f9322222);
+                                    if (!z4) {
+                                    }
+                                    recordingCanvas.scale(min5222, min5222);
+                                    if (z4) {
+                                    }
+                                    if (z7) {
                                     }
                                     if (this.paintingOverlay.getVisibility() == 0) {
                                     }
-                                    canvas.restore();
-                                    if (z5) {
+                                    recordingCanvas.restore();
+                                    if (z6) {
                                     }
-                                    canvas.restore();
+                                    recordingCanvas.restore();
                                     i15 = 0;
                                     while (true) {
                                         gradientDrawableArr = this.pressedDrawable;
@@ -23207,114 +23241,118 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                         }
                                         i15++;
                                     }
-                                    drawProgress(canvas, f23, f25, f63, f28);
+                                    drawProgress(recordingCanvas, f23, f26, f12, f29);
                                     imageReceiver = this.sideImage;
                                     if (imageReceiver == this.leftImage) {
                                     }
-                                    i25 = this.waitingForDraw;
-                                    if (i25 != 0) {
+                                    i24 = this.waitingForDraw;
+                                    if (i24 != 0) {
                                     }
                                     if (this.padImageForHorizontalInsets) {
                                     }
                                     if (this.aspectRatioFrameLayout != null) {
-                                        int measuredHeight2 = ((int) (this.aspectRatioFrameLayout.getMeasuredHeight() * (this.scale - f39))) / 2;
-                                        int i662 = (int) (f63 / f25);
-                                        this.videoForwardDrawable.setBounds(this.aspectRatioFrameLayout.getLeft(), (this.aspectRatioFrameLayout.getTop() - measuredHeight2) + i662, this.aspectRatioFrameLayout.getRight(), this.aspectRatioFrameLayout.getBottom() + measuredHeight2 + i662);
-                                        this.videoForwardDrawable.draw(canvas);
+                                        int measuredHeight2 = ((int) (this.aspectRatioFrameLayout.getMeasuredHeight() * (this.scale - 1.0f))) / 2;
+                                        int i652 = (int) (f40 / f26);
+                                        this.videoForwardDrawable.setBounds(this.aspectRatioFrameLayout.getLeft(), (this.aspectRatioFrameLayout.getTop() - measuredHeight2) + i652, this.aspectRatioFrameLayout.getRight(), this.aspectRatioFrameLayout.getBottom() + measuredHeight2 + i652);
+                                        this.videoForwardDrawable.draw(recordingCanvas);
                                     }
-                                    drawFancyShadows(canvas);
+                                    if (BLUR_RENDERNODE()) {
+                                    }
+                                    drawFancyShadows(canvas2);
                                 }
                             }
-                            f11 = f10;
-                            f13 = 1.0f;
-                            f12 = 0.0f;
+                            f13 = f10;
+                            f15 = 0.0f;
+                            f14 = 1.0f;
                             if (this.videoSizeSet) {
                             }
+                            z = false;
+                            z2 = false;
                             this.centerImageTransformLocked = z;
                             this.centerImageTransform.reset();
                             maskPaintView = this.maskPaintView;
                             if (maskPaintView != null) {
                             }
-                            f14 = f13;
+                            f16 = f14;
                             if (this.centerImage.hasBitmapImage()) {
                             }
                             stickerMakerView = this.stickerMakerView;
                             if (stickerMakerView != null) {
                             }
-                            f15 = f9;
-                            f16 = f10;
-                            canvas.save();
-                            f17 = i6;
-                            float f72222 = f17 / 2.0f;
+                            f17 = f10;
+                            f18 = f9;
+                            recordingCanvas.save();
+                            f19 = i6;
+                            float f76222 = f19 / 2.0f;
                             i7 = i5;
-                            f18 = i7;
-                            float f73222 = f18 / 2.0f;
-                            canvas.translate(f72222 + getAdditionX(this.currentEditMode), f73222 + getAdditionY(this.currentEditMode));
-                            this.centerImageTransform.preTranslate(f72222 + getAdditionX(this.currentEditMode), f73222 + getAdditionY(this.currentEditMode));
-                            canvas.translate(f11, (this.currentEditMode == 3 ? this.currentPanTranslationY : 0.0f) + f63);
-                            this.centerImageTransform.preTranslate(f11, (this.currentEditMode == 3 ? this.currentPanTranslationY : 0.0f) + f63);
-                            float f74222 = f5 - f12;
-                            canvas.scale(f74222, f74222);
-                            this.centerImageTransform.preScale(f74222, f74222);
-                            canvas.rotate(f15);
-                            this.centerImageTransform.preRotate(f15);
+                            float f77222 = i7;
+                            float f78222 = f77222 / 2.0f;
+                            recordingCanvas.translate(f76222 + getAdditionX(this.currentEditMode), f78222 + getAdditionY(this.currentEditMode));
+                            this.centerImageTransform.preTranslate(f76222 + getAdditionX(this.currentEditMode), f78222 + getAdditionY(this.currentEditMode));
+                            recordingCanvas.translate(f13, f12 + (this.currentEditMode == 3 ? this.currentPanTranslationY : 0.0f));
+                            this.centerImageTransform.preTranslate(f13, f12 + (this.currentEditMode == 3 ? this.currentPanTranslationY : 0.0f));
+                            float f79222 = f64 - f15;
+                            recordingCanvas.scale(f79222, f79222);
+                            this.centerImageTransform.preScale(f79222, f79222);
+                            recordingCanvas.rotate(f18);
+                            this.centerImageTransform.preRotate(f18);
                             if (this.currentEditMode == 3) {
                             }
-                            f19 = f18;
+                            f20 = f19;
                             if (this.pipAnimationInProgress) {
                             }
-                            f20 = f17;
-                            f21 = f15;
-                            f10 = f16;
+                            f21 = f18;
+                            f22 = f17;
                             i5 = i7;
-                            f22 = f14;
+                            f23 = f13;
+                            f24 = f16;
                             z3 = false;
                             if (!z2) {
                             }
                             bitmapWidth = this.centerImage.getBitmapWidth();
                             bitmapHeight = this.centerImage.getBitmapHeight();
-                            float f752222 = bitmapWidth;
-                            float f762222 = f20 / f752222;
-                            float f772222 = bitmapHeight;
-                            float f782222 = f19 / f772222;
-                            float min52222 = Math.min(f762222, f782222);
-                            int i502222 = bitmapHeight;
-                            int i512222 = (int) (f752222 * min52222);
-                            int i522222 = bitmapWidth;
-                            int i532222 = (int) (f772222 * min52222);
-                            f23 = f11;
+                            float f812222 = bitmapWidth;
+                            float f822222 = f20 / f812222;
+                            float f832222 = bitmapHeight;
+                            float f842222 = f77222 / f832222;
+                            float min52222 = Math.min(f822222, f842222);
+                            int i482222 = bitmapHeight;
+                            int i492222 = (int) (f812222 * min52222);
+                            int i502222 = bitmapWidth;
+                            int i512222 = (int) (f832222 * min52222);
+                            i8 = i6;
                             if (this.imagesArrLocals.isEmpty()) {
                             }
-                            z4 = false;
-                            if (z4) {
+                            z5 = false;
+                            if (z5) {
                             }
                             i13 = this.currentEditMode;
                             if (i13 == 3) {
                             }
-                            if (z5) {
-                            }
-                            f27 = f8;
-                            f28 = f24;
-                            canvas.save();
-                            if (f27 > 0.0f) {
-                            }
-                            float f86222222 = (-i14) / 2;
-                            int i59222222 = i9;
-                            float f87222222 = (-i59222222) / 2;
-                            canvas.translate(f86222222, f87222222);
-                            if (!z2) {
-                            }
-                            canvas.scale(min52222, min52222);
-                            if (z2) {
-                            }
                             if (z6) {
+                            }
+                            f28 = f11;
+                            f29 = f25;
+                            recordingCanvas.save();
+                            if (f28 > 0.0f) {
+                            }
+                            float f92222222 = (-i14) / 2;
+                            int i58222222 = i9;
+                            float f93222222 = (-i58222222) / 2;
+                            recordingCanvas.translate(f92222222, f93222222);
+                            if (!z4) {
+                            }
+                            recordingCanvas.scale(min52222, min52222);
+                            if (z4) {
+                            }
+                            if (z7) {
                             }
                             if (this.paintingOverlay.getVisibility() == 0) {
                             }
-                            canvas.restore();
-                            if (z5) {
+                            recordingCanvas.restore();
+                            if (z6) {
                             }
-                            canvas.restore();
+                            recordingCanvas.restore();
                             i15 = 0;
                             while (true) {
                                 gradientDrawableArr = this.pressedDrawable;
@@ -23322,285 +23360,283 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                 }
                                 i15++;
                             }
-                            drawProgress(canvas, f23, f25, f63, f28);
+                            drawProgress(recordingCanvas, f23, f26, f12, f29);
                             imageReceiver = this.sideImage;
                             if (imageReceiver == this.leftImage) {
                             }
-                            i25 = this.waitingForDraw;
-                            if (i25 != 0) {
+                            i24 = this.waitingForDraw;
+                            if (i24 != 0) {
                             }
                             if (this.padImageForHorizontalInsets) {
                             }
                             if (this.aspectRatioFrameLayout != null) {
                             }
-                            drawFancyShadows(canvas);
-                        }
-                        int containerViewWidth2 = getContainerViewWidth();
-                        int containerViewHeight22 = getContainerViewHeight();
-                        i2 = this.animationInProgress;
-                        if (i2 != 2) {
-                        }
-                        if (i2 == 4) {
-                        }
-                        this.sideImage = null;
-                        if (this.currentEditMode != 0) {
-                        }
-                        i4 = 0;
-                        while (i4 < i3) {
-                        }
-                        if (this.sideImage == this.rightImage) {
-                        }
-                        if (!this.zoomAnimation) {
-                        }
-                        f11 = f10;
-                        f13 = 1.0f;
-                        f12 = 0.0f;
-                        if (this.videoSizeSet) {
-                        }
-                        this.centerImageTransformLocked = z;
-                        this.centerImageTransform.reset();
-                        maskPaintView = this.maskPaintView;
-                        if (maskPaintView != null) {
-                        }
-                        f14 = f13;
-                        if (this.centerImage.hasBitmapImage()) {
-                        }
-                        stickerMakerView = this.stickerMakerView;
-                        if (stickerMakerView != null) {
-                        }
-                        f15 = f9;
-                        f16 = f10;
-                        canvas.save();
-                        f17 = i6;
-                        float f722222 = f17 / 2.0f;
-                        i7 = i5;
-                        f18 = i7;
-                        float f732222 = f18 / 2.0f;
-                        canvas.translate(f722222 + getAdditionX(this.currentEditMode), f732222 + getAdditionY(this.currentEditMode));
-                        this.centerImageTransform.preTranslate(f722222 + getAdditionX(this.currentEditMode), f732222 + getAdditionY(this.currentEditMode));
-                        canvas.translate(f11, (this.currentEditMode == 3 ? this.currentPanTranslationY : 0.0f) + f63);
-                        this.centerImageTransform.preTranslate(f11, (this.currentEditMode == 3 ? this.currentPanTranslationY : 0.0f) + f63);
-                        float f742222 = f5 - f12;
-                        canvas.scale(f742222, f742222);
-                        this.centerImageTransform.preScale(f742222, f742222);
-                        canvas.rotate(f15);
-                        this.centerImageTransform.preRotate(f15);
-                        if (this.currentEditMode == 3) {
-                        }
-                        f19 = f18;
-                        if (this.pipAnimationInProgress) {
-                        }
-                        f20 = f17;
-                        f21 = f15;
-                        f10 = f16;
-                        i5 = i7;
-                        f22 = f14;
-                        z3 = false;
-                        if (!z2) {
-                        }
-                        bitmapWidth = this.centerImage.getBitmapWidth();
-                        bitmapHeight = this.centerImage.getBitmapHeight();
-                        float f7522222 = bitmapWidth;
-                        float f7622222 = f20 / f7522222;
-                        float f7722222 = bitmapHeight;
-                        float f7822222 = f19 / f7722222;
-                        float min522222 = Math.min(f7622222, f7822222);
-                        int i5022222 = bitmapHeight;
-                        int i5122222 = (int) (f7522222 * min522222);
-                        int i5222222 = bitmapWidth;
-                        int i5322222 = (int) (f7722222 * min522222);
-                        f23 = f11;
-                        if (this.imagesArrLocals.isEmpty()) {
-                        }
-                        z4 = false;
-                        if (z4) {
-                        }
-                        i13 = this.currentEditMode;
-                        if (i13 == 3) {
-                        }
-                        if (z5) {
-                        }
-                        f27 = f8;
-                        f28 = f24;
-                        canvas.save();
-                        if (f27 > 0.0f) {
-                        }
-                        float f862222222 = (-i14) / 2;
-                        int i592222222 = i9;
-                        float f872222222 = (-i592222222) / 2;
-                        canvas.translate(f862222222, f872222222);
-                        if (!z2) {
-                        }
-                        canvas.scale(min522222, min522222);
-                        if (z2) {
-                        }
-                        if (z6) {
-                        }
-                        if (this.paintingOverlay.getVisibility() == 0) {
-                        }
-                        canvas.restore();
-                        if (z5) {
-                        }
-                        canvas.restore();
-                        i15 = 0;
-                        while (true) {
-                            gradientDrawableArr = this.pressedDrawable;
-                            if (i15 >= gradientDrawableArr.length) {
+                            if (BLUR_RENDERNODE()) {
                             }
-                            i15++;
+                            drawFancyShadows(canvas2);
                         }
-                        drawProgress(canvas, f23, f25, f63, f28);
-                        imageReceiver = this.sideImage;
-                        if (imageReceiver == this.leftImage) {
-                        }
-                        i25 = this.waitingForDraw;
-                        if (i25 != 0) {
-                        }
-                        if (this.padImageForHorizontalInsets) {
-                        }
-                        if (this.aspectRatioFrameLayout != null) {
-                        }
-                        drawFancyShadows(canvas);
                     }
-                    f7 = f3;
-                }
-                f6 = f2;
-                float f622 = f;
-                float f632 = f3 + this.translateY;
-                if (this.currentEditMode == 3) {
-                }
-                photoViewerWebView = this.photoViewerWebView;
-                if (photoViewerWebView != null) {
-                }
-                if (this.isActionBarVisible) {
-                }
-                int containerViewWidth22 = getContainerViewWidth();
-                int containerViewHeight222 = getContainerViewHeight();
-                i2 = this.animationInProgress;
-                if (i2 != 2) {
-                }
-                if (i2 == 4) {
-                }
-                this.sideImage = null;
-                if (this.currentEditMode != 0) {
-                }
-                i4 = 0;
-                while (i4 < i3) {
-                }
-                if (this.sideImage == this.rightImage) {
-                }
-                if (!this.zoomAnimation) {
-                }
-                f11 = f10;
-                f13 = 1.0f;
-                f12 = 0.0f;
-                if (this.videoSizeSet) {
-                }
-                this.centerImageTransformLocked = z;
-                this.centerImageTransform.reset();
-                maskPaintView = this.maskPaintView;
-                if (maskPaintView != null) {
-                }
-                f14 = f13;
-                if (this.centerImage.hasBitmapImage()) {
-                }
-                stickerMakerView = this.stickerMakerView;
-                if (stickerMakerView != null) {
-                }
-                f15 = f9;
-                f16 = f10;
-                canvas.save();
-                f17 = i6;
-                float f7222222 = f17 / 2.0f;
-                i7 = i5;
-                f18 = i7;
-                float f7322222 = f18 / 2.0f;
-                canvas.translate(f7222222 + getAdditionX(this.currentEditMode), f7322222 + getAdditionY(this.currentEditMode));
-                this.centerImageTransform.preTranslate(f7222222 + getAdditionX(this.currentEditMode), f7322222 + getAdditionY(this.currentEditMode));
-                canvas.translate(f11, (this.currentEditMode == 3 ? this.currentPanTranslationY : 0.0f) + f632);
-                this.centerImageTransform.preTranslate(f11, (this.currentEditMode == 3 ? this.currentPanTranslationY : 0.0f) + f632);
-                float f7422222 = f5 - f12;
-                canvas.scale(f7422222, f7422222);
-                this.centerImageTransform.preScale(f7422222, f7422222);
-                canvas.rotate(f15);
-                this.centerImageTransform.preRotate(f15);
-                if (this.currentEditMode == 3) {
-                }
-                f19 = f18;
-                if (this.pipAnimationInProgress) {
-                }
-                f20 = f17;
-                f21 = f15;
-                f10 = f16;
-                i5 = i7;
-                f22 = f14;
-                z3 = false;
-                if (!z2) {
-                }
-                bitmapWidth = this.centerImage.getBitmapWidth();
-                bitmapHeight = this.centerImage.getBitmapHeight();
-                float f75222222 = bitmapWidth;
-                float f76222222 = f20 / f75222222;
-                float f77222222 = bitmapHeight;
-                float f78222222 = f19 / f77222222;
-                float min5222222 = Math.min(f76222222, f78222222);
-                int i50222222 = bitmapHeight;
-                int i51222222 = (int) (f75222222 * min5222222);
-                int i52222222 = bitmapWidth;
-                int i53222222 = (int) (f77222222 * min5222222);
-                f23 = f11;
-                if (this.imagesArrLocals.isEmpty()) {
-                }
-                z4 = false;
-                if (z4) {
-                }
-                i13 = this.currentEditMode;
-                if (i13 == 3) {
-                }
-                if (z5) {
-                }
-                f27 = f8;
-                f28 = f24;
-                canvas.save();
-                if (f27 > 0.0f) {
-                }
-                float f8622222222 = (-i14) / 2;
-                int i5922222222 = i9;
-                float f8722222222 = (-i5922222222) / 2;
-                canvas.translate(f8622222222, f8722222222);
-                if (!z2) {
-                }
-                canvas.scale(min5222222, min5222222);
-                if (z2) {
-                }
-                if (z6) {
-                }
-                if (this.paintingOverlay.getVisibility() == 0) {
-                }
-                canvas.restore();
-                if (z5) {
-                }
-                canvas.restore();
-                i15 = 0;
-                while (true) {
-                    gradientDrawableArr = this.pressedDrawable;
-                    if (i15 >= gradientDrawableArr.length) {
+                    if (!this.zoomAnimation) {
                     }
-                    i15++;
+                    f13 = f10;
+                    f15 = 0.0f;
+                    f14 = 1.0f;
+                    if (this.videoSizeSet) {
+                    }
+                    z = false;
+                    z2 = false;
+                    this.centerImageTransformLocked = z;
+                    this.centerImageTransform.reset();
+                    maskPaintView = this.maskPaintView;
+                    if (maskPaintView != null) {
+                    }
+                    f16 = f14;
+                    if (this.centerImage.hasBitmapImage()) {
+                    }
+                    stickerMakerView = this.stickerMakerView;
+                    if (stickerMakerView != null) {
+                    }
+                    f17 = f10;
+                    f18 = f9;
+                    recordingCanvas.save();
+                    f19 = i6;
+                    float f762222 = f19 / 2.0f;
+                    i7 = i5;
+                    float f772222 = i7;
+                    float f782222 = f772222 / 2.0f;
+                    recordingCanvas.translate(f762222 + getAdditionX(this.currentEditMode), f782222 + getAdditionY(this.currentEditMode));
+                    this.centerImageTransform.preTranslate(f762222 + getAdditionX(this.currentEditMode), f782222 + getAdditionY(this.currentEditMode));
+                    recordingCanvas.translate(f13, f12 + (this.currentEditMode == 3 ? this.currentPanTranslationY : 0.0f));
+                    this.centerImageTransform.preTranslate(f13, f12 + (this.currentEditMode == 3 ? this.currentPanTranslationY : 0.0f));
+                    float f792222 = f64 - f15;
+                    recordingCanvas.scale(f792222, f792222);
+                    this.centerImageTransform.preScale(f792222, f792222);
+                    recordingCanvas.rotate(f18);
+                    this.centerImageTransform.preRotate(f18);
+                    if (this.currentEditMode == 3) {
+                    }
+                    f20 = f19;
+                    if (this.pipAnimationInProgress) {
+                    }
+                    f21 = f18;
+                    f22 = f17;
+                    i5 = i7;
+                    f23 = f13;
+                    f24 = f16;
+                    z3 = false;
+                    if (!z2) {
+                    }
+                    bitmapWidth = this.centerImage.getBitmapWidth();
+                    bitmapHeight = this.centerImage.getBitmapHeight();
+                    float f8122222 = bitmapWidth;
+                    float f8222222 = f20 / f8122222;
+                    float f8322222 = bitmapHeight;
+                    float f8422222 = f772222 / f8322222;
+                    float min522222 = Math.min(f8222222, f8422222);
+                    int i4822222 = bitmapHeight;
+                    int i4922222 = (int) (f8122222 * min522222);
+                    int i5022222 = bitmapWidth;
+                    int i5122222 = (int) (f8322222 * min522222);
+                    i8 = i6;
+                    if (this.imagesArrLocals.isEmpty()) {
+                    }
+                    z5 = false;
+                    if (z5) {
+                    }
+                    i13 = this.currentEditMode;
+                    if (i13 == 3) {
+                    }
+                    if (z6) {
+                    }
+                    f28 = f11;
+                    f29 = f25;
+                    recordingCanvas.save();
+                    if (f28 > 0.0f) {
+                    }
+                    float f922222222 = (-i14) / 2;
+                    int i582222222 = i9;
+                    float f932222222 = (-i582222222) / 2;
+                    recordingCanvas.translate(f922222222, f932222222);
+                    if (!z4) {
+                    }
+                    recordingCanvas.scale(min522222, min522222);
+                    if (z4) {
+                    }
+                    if (z7) {
+                    }
+                    if (this.paintingOverlay.getVisibility() == 0) {
+                    }
+                    recordingCanvas.restore();
+                    if (z6) {
+                    }
+                    recordingCanvas.restore();
+                    i15 = 0;
+                    while (true) {
+                        gradientDrawableArr = this.pressedDrawable;
+                        if (i15 >= gradientDrawableArr.length) {
+                        }
+                        i15++;
+                    }
+                    drawProgress(recordingCanvas, f23, f26, f12, f29);
+                    imageReceiver = this.sideImage;
+                    if (imageReceiver == this.leftImage) {
+                    }
+                    i24 = this.waitingForDraw;
+                    if (i24 != 0) {
+                    }
+                    if (this.padImageForHorizontalInsets) {
+                    }
+                    if (this.aspectRatioFrameLayout != null) {
+                    }
+                    if (BLUR_RENDERNODE()) {
+                    }
+                    drawFancyShadows(canvas2);
                 }
-                drawProgress(canvas, f23, f25, f632, f28);
-                imageReceiver = this.sideImage;
-                if (imageReceiver == this.leftImage) {
-                }
-                i25 = this.waitingForDraw;
-                if (i25 != 0) {
-                }
-                if (this.padImageForHorizontalInsets) {
-                }
-                if (this.aspectRatioFrameLayout != null) {
-                }
-                drawFancyShadows(canvas);
+                f8 = f4;
             }
+            f6 = f5;
+            f7 = f3;
+            float f632 = f2;
+            float f642 = f;
+            float f652 = f4 + this.translateY;
+            if (this.currentEditMode == 3) {
+            }
+            float f662 = f652;
+            photoViewerWebView = this.photoViewerWebView;
+            if (photoViewerWebView != null) {
+            }
+            if (this.isActionBarVisible) {
+            }
+            int containerViewWidth2 = getContainerViewWidth();
+            int containerViewHeight22 = getContainerViewHeight();
+            i2 = this.animationInProgress;
+            if (i2 != 2) {
+            }
+            if (i2 == 4) {
+            }
+            this.sideImage = null;
+            if (this.currentEditMode != 0) {
+            }
+            i3 = 0;
+            while (i3 < i4) {
+            }
+            if (this.sideImage != this.rightImage) {
+            }
+            if (!this.zoomAnimation) {
+            }
+            f13 = f10;
+            f15 = 0.0f;
+            f14 = 1.0f;
+            if (this.videoSizeSet) {
+            }
+            z = false;
+            z2 = false;
+            this.centerImageTransformLocked = z;
+            this.centerImageTransform.reset();
+            maskPaintView = this.maskPaintView;
+            if (maskPaintView != null) {
+            }
+            f16 = f14;
+            if (this.centerImage.hasBitmapImage()) {
+            }
+            stickerMakerView = this.stickerMakerView;
+            if (stickerMakerView != null) {
+            }
+            f17 = f10;
+            f18 = f9;
+            recordingCanvas.save();
+            f19 = i6;
+            float f7622222 = f19 / 2.0f;
+            i7 = i5;
+            float f7722222 = i7;
+            float f7822222 = f7722222 / 2.0f;
+            recordingCanvas.translate(f7622222 + getAdditionX(this.currentEditMode), f7822222 + getAdditionY(this.currentEditMode));
+            this.centerImageTransform.preTranslate(f7622222 + getAdditionX(this.currentEditMode), f7822222 + getAdditionY(this.currentEditMode));
+            recordingCanvas.translate(f13, f12 + (this.currentEditMode == 3 ? this.currentPanTranslationY : 0.0f));
+            this.centerImageTransform.preTranslate(f13, f12 + (this.currentEditMode == 3 ? this.currentPanTranslationY : 0.0f));
+            float f7922222 = f642 - f15;
+            recordingCanvas.scale(f7922222, f7922222);
+            this.centerImageTransform.preScale(f7922222, f7922222);
+            recordingCanvas.rotate(f18);
+            this.centerImageTransform.preRotate(f18);
+            if (this.currentEditMode == 3) {
+            }
+            f20 = f19;
+            if (this.pipAnimationInProgress) {
+            }
+            f21 = f18;
+            f22 = f17;
+            i5 = i7;
+            f23 = f13;
+            f24 = f16;
+            z3 = false;
+            if (!z2) {
+            }
+            bitmapWidth = this.centerImage.getBitmapWidth();
+            bitmapHeight = this.centerImage.getBitmapHeight();
+            float f81222222 = bitmapWidth;
+            float f82222222 = f20 / f81222222;
+            float f83222222 = bitmapHeight;
+            float f84222222 = f7722222 / f83222222;
+            float min5222222 = Math.min(f82222222, f84222222);
+            int i48222222 = bitmapHeight;
+            int i49222222 = (int) (f81222222 * min5222222);
+            int i50222222 = bitmapWidth;
+            int i51222222 = (int) (f83222222 * min5222222);
+            i8 = i6;
+            if (this.imagesArrLocals.isEmpty()) {
+            }
+            z5 = false;
+            if (z5) {
+            }
+            i13 = this.currentEditMode;
+            if (i13 == 3) {
+            }
+            if (z6) {
+            }
+            f28 = f11;
+            f29 = f25;
+            recordingCanvas.save();
+            if (f28 > 0.0f) {
+            }
+            float f9222222222 = (-i14) / 2;
+            int i5822222222 = i9;
+            float f9322222222 = (-i5822222222) / 2;
+            recordingCanvas.translate(f9222222222, f9322222222);
+            if (!z4) {
+            }
+            recordingCanvas.scale(min5222222, min5222222);
+            if (z4) {
+            }
+            if (z7) {
+            }
+            if (this.paintingOverlay.getVisibility() == 0) {
+            }
+            recordingCanvas.restore();
+            if (z6) {
+            }
+            recordingCanvas.restore();
+            i15 = 0;
+            while (true) {
+                gradientDrawableArr = this.pressedDrawable;
+                if (i15 >= gradientDrawableArr.length) {
+                }
+                i15++;
+            }
+            drawProgress(recordingCanvas, f23, f26, f12, f29);
+            imageReceiver = this.sideImage;
+            if (imageReceiver == this.leftImage) {
+            }
+            i24 = this.waitingForDraw;
+            if (i24 != 0) {
+            }
+            if (this.padImageForHorizontalInsets) {
+            }
+            if (this.aspectRatioFrameLayout != null) {
+            }
+            if (BLUR_RENDERNODE()) {
+            }
+            drawFancyShadows(canvas2);
         }
     }
 
@@ -25358,58 +25394,62 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         return Theme.getColor(i);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:559:0x01de  */
-    /* JADX WARN: Removed duplicated region for block: B:570:0x021e  */
-    /* JADX WARN: Removed duplicated region for block: B:593:0x02cb  */
-    /* JADX WARN: Removed duplicated region for block: B:596:0x02dc  */
-    /* JADX WARN: Removed duplicated region for block: B:600:0x0345  */
-    /* JADX WARN: Removed duplicated region for block: B:605:0x035b  */
-    /* JADX WARN: Removed duplicated region for block: B:615:0x0383  */
-    /* JADX WARN: Removed duplicated region for block: B:623:0x0398 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:630:0x03ca  */
-    /* JADX WARN: Removed duplicated region for block: B:631:0x03cd  */
-    /* JADX WARN: Removed duplicated region for block: B:634:0x03dd  */
-    /* JADX WARN: Removed duplicated region for block: B:641:0x0412  */
-    /* JADX WARN: Removed duplicated region for block: B:645:0x0432  */
-    /* JADX WARN: Removed duplicated region for block: B:646:0x0434  */
-    /* JADX WARN: Removed duplicated region for block: B:649:0x0455  */
-    /* JADX WARN: Removed duplicated region for block: B:651:0x0466  */
-    /* JADX WARN: Removed duplicated region for block: B:663:0x04b6 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:687:0x0509  */
-    /* JADX WARN: Removed duplicated region for block: B:708:0x06d0  */
-    /* JADX WARN: Removed duplicated region for block: B:713:0x06f4  */
-    /* JADX WARN: Removed duplicated region for block: B:735:0x071d  */
-    /* JADX WARN: Removed duplicated region for block: B:773:0x07a2  */
-    /* JADX WARN: Removed duplicated region for block: B:776:0x07ad  */
-    /* JADX WARN: Removed duplicated region for block: B:784:0x07c5  */
-    /* JADX WARN: Removed duplicated region for block: B:788:0x07e7  */
-    /* JADX WARN: Removed duplicated region for block: B:792:0x07f3  */
-    /* JADX WARN: Removed duplicated region for block: B:813:0x083a  */
-    /* JADX WARN: Removed duplicated region for block: B:822:0x0871  */
-    /* JADX WARN: Removed duplicated region for block: B:825:0x087c  */
-    /* JADX WARN: Removed duplicated region for block: B:836:0x08cf  */
-    /* JADX WARN: Removed duplicated region for block: B:839:0x0914  */
-    /* JADX WARN: Removed duplicated region for block: B:842:0x091c  */
-    /* JADX WARN: Removed duplicated region for block: B:851:0x0937  */
-    /* JADX WARN: Removed duplicated region for block: B:852:0x093d  */
-    /* JADX WARN: Removed duplicated region for block: B:854:0x0943  */
-    /* JADX WARN: Removed duplicated region for block: B:869:0x096c  */
-    /* JADX WARN: Removed duplicated region for block: B:870:0x0979  */
-    /* JADX WARN: Removed duplicated region for block: B:873:0x0981  */
-    /* JADX WARN: Removed duplicated region for block: B:884:0x09b4  */
-    /* JADX WARN: Removed duplicated region for block: B:885:0x0a58  */
-    /* JADX WARN: Removed duplicated region for block: B:888:0x0a62  */
-    /* JADX WARN: Removed duplicated region for block: B:890:0x0a6c  */
-    /* JADX WARN: Removed duplicated region for block: B:895:0x0ad3  */
-    /* JADX WARN: Removed duplicated region for block: B:897:0x0ad8  */
-    /* JADX WARN: Removed duplicated region for block: B:900:0x0adf  */
-    /* JADX WARN: Removed duplicated region for block: B:904:0x0aee  */
-    /* JADX WARN: Removed duplicated region for block: B:907:0x0b37  */
-    /* JADX WARN: Removed duplicated region for block: B:914:0x0bb8  */
-    /* JADX WARN: Removed duplicated region for block: B:943:0x0c71  */
-    /* JADX WARN: Removed duplicated region for block: B:946:0x0c80  */
-    /* JADX WARN: Removed duplicated region for block: B:954:0x0cf3  */
-    /* JADX WARN: Removed duplicated region for block: B:964:? A[RETURN, SYNTHETIC] */
+    public static boolean BLUR_RENDERNODE() {
+        return Build.VERSION.SDK_INT >= 31 && SharedConfig.useNewBlur && SharedConfig.getDevicePerformanceClass() >= 2;
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:590:0x0250  */
+    /* JADX WARN: Removed duplicated region for block: B:601:0x028e  */
+    /* JADX WARN: Removed duplicated region for block: B:624:0x033a  */
+    /* JADX WARN: Removed duplicated region for block: B:627:0x034b  */
+    /* JADX WARN: Removed duplicated region for block: B:631:0x03b4  */
+    /* JADX WARN: Removed duplicated region for block: B:636:0x03ca  */
+    /* JADX WARN: Removed duplicated region for block: B:646:0x03f2  */
+    /* JADX WARN: Removed duplicated region for block: B:654:0x0407 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:661:0x0439  */
+    /* JADX WARN: Removed duplicated region for block: B:662:0x043c  */
+    /* JADX WARN: Removed duplicated region for block: B:665:0x044c  */
+    /* JADX WARN: Removed duplicated region for block: B:672:0x0481  */
+    /* JADX WARN: Removed duplicated region for block: B:676:0x04a1  */
+    /* JADX WARN: Removed duplicated region for block: B:677:0x04a3  */
+    /* JADX WARN: Removed duplicated region for block: B:680:0x04c4  */
+    /* JADX WARN: Removed duplicated region for block: B:682:0x04d5  */
+    /* JADX WARN: Removed duplicated region for block: B:694:0x0525 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:718:0x0578  */
+    /* JADX WARN: Removed duplicated region for block: B:739:0x073c  */
+    /* JADX WARN: Removed duplicated region for block: B:744:0x075f  */
+    /* JADX WARN: Removed duplicated region for block: B:766:0x0788  */
+    /* JADX WARN: Removed duplicated region for block: B:804:0x080d  */
+    /* JADX WARN: Removed duplicated region for block: B:807:0x0818  */
+    /* JADX WARN: Removed duplicated region for block: B:816:0x0831  */
+    /* JADX WARN: Removed duplicated region for block: B:820:0x0853  */
+    /* JADX WARN: Removed duplicated region for block: B:824:0x085f  */
+    /* JADX WARN: Removed duplicated region for block: B:845:0x08a6  */
+    /* JADX WARN: Removed duplicated region for block: B:854:0x08dd  */
+    /* JADX WARN: Removed duplicated region for block: B:857:0x08e8  */
+    /* JADX WARN: Removed duplicated region for block: B:868:0x093b  */
+    /* JADX WARN: Removed duplicated region for block: B:871:0x0980  */
+    /* JADX WARN: Removed duplicated region for block: B:874:0x0988  */
+    /* JADX WARN: Removed duplicated region for block: B:883:0x09a3  */
+    /* JADX WARN: Removed duplicated region for block: B:884:0x09a9  */
+    /* JADX WARN: Removed duplicated region for block: B:886:0x09af  */
+    /* JADX WARN: Removed duplicated region for block: B:901:0x09d8  */
+    /* JADX WARN: Removed duplicated region for block: B:902:0x09e5  */
+    /* JADX WARN: Removed duplicated region for block: B:905:0x09ed  */
+    /* JADX WARN: Removed duplicated region for block: B:916:0x0a20  */
+    /* JADX WARN: Removed duplicated region for block: B:917:0x0ac4  */
+    /* JADX WARN: Removed duplicated region for block: B:920:0x0ace  */
+    /* JADX WARN: Removed duplicated region for block: B:922:0x0ad8  */
+    /* JADX WARN: Removed duplicated region for block: B:927:0x0b3f  */
+    /* JADX WARN: Removed duplicated region for block: B:929:0x0b44  */
+    /* JADX WARN: Removed duplicated region for block: B:932:0x0b4c  */
+    /* JADX WARN: Removed duplicated region for block: B:936:0x0b5b  */
+    /* JADX WARN: Removed duplicated region for block: B:939:0x0ba4  */
+    /* JADX WARN: Removed duplicated region for block: B:946:0x0c25  */
+    /* JADX WARN: Removed duplicated region for block: B:975:0x0cde  */
+    /* JADX WARN: Removed duplicated region for block: B:978:0x0ced  */
+    /* JADX WARN: Removed duplicated region for block: B:986:0x0d60  */
+    /* JADX WARN: Removed duplicated region for block: B:996:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -25443,18 +25483,19 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         int i7;
         float f18;
         float f19;
-        float f20;
         ImageReceiver imageReceiver3;
         int i8;
+        float f20;
         float f21;
         float f22;
         boolean z5;
         float f23;
         float f24;
         boolean z6;
+        boolean z7;
         float f25;
         float f26;
-        boolean z7;
+        boolean z8;
         PhotoViewerWebView photoViewerWebView;
         float f27;
         Bitmap bitmap;
@@ -25491,7 +25532,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         ImageReceiver imageReceiver5;
         float f43;
         int i15;
-        boolean z8;
+        boolean z9;
         Bitmap bitmap4;
         Bitmap bitmap5;
         AspectRatioFrameLayout aspectRatioFrameLayout;
@@ -25502,11 +25543,31 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         int i17;
         ImageReceiver imageReceiver6;
         float f47;
-        boolean z9;
+        boolean z10;
         Bitmap bitmap6;
         ImageReceiver imageReceiver7;
         Paint paint2;
         BlurringShader.StoryBlurDrawer storyBlurDrawer2 = storyBlurDrawer;
+        if (BLUR_RENDERNODE()) {
+            if (this.renderNode != null) {
+                if (storyBlurDrawer2.renderNode == null) {
+                    RenderNode renderNode = new RenderNode("photoviewer blur");
+                    storyBlurDrawer2.renderNode = renderNode;
+                    renderNode.setRenderEffect(RenderEffect.createChainEffect(RenderEffect.createColorFilterEffect(new ColorMatrixColorFilter(storyBlurDrawer2.colorMatrix)), RenderEffect.createBlurEffect(AndroidUtilities.dp(35.0f), AndroidUtilities.dp(35.0f), Shader.TileMode.DECAL)));
+                }
+                storyBlurDrawer2.renderNode.setPosition(0, 0, this.renderNode.getWidth(), this.renderNode.getHeight());
+                RecordingCanvas beginRecording = storyBlurDrawer2.renderNode.beginRecording();
+                beginRecording.drawColor(i);
+                beginRecording.drawRenderNode(this.renderNode);
+                storyBlurDrawer2.renderNode.endRecording();
+            }
+            RenderNode renderNode2 = storyBlurDrawer2.renderNode;
+            if (renderNode2 != null && renderNode2.hasDisplayList()) {
+                canvas.drawRenderNode(storyBlurDrawer2.renderNode);
+            }
+            canvas.drawColor(i2);
+            return;
+        }
         if (SharedConfig.photoViewerBlur) {
             AnimatedFloat animatedFloat = this.blurAlpha;
             int i18 = this.animationInProgress;
@@ -25658,14 +25719,14 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                             int i20 = (int) (f58 * min3);
                             if (!this.imagesArrLocals.isEmpty()) {
                                 if (this.currentEditMode == i6 || this.sendPhotoType == i6) {
-                                    z9 = this.rightCropTransform.isMirrored();
+                                    z10 = this.rightCropTransform.isMirrored();
                                 } else {
                                     MediaController.CropState cropState = this.rightCropState;
                                     if (cropState != null && cropState.mirrored) {
-                                        z9 = true;
+                                        z10 = true;
                                     }
                                 }
-                                if (z9) {
+                                if (z10) {
                                     canvas.scale(-1.0f, 1.0f);
                                 }
                                 imageReceiver2 = imageReceiver6;
@@ -25735,17 +25796,18 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                             int i25 = bitmapHeight;
                                             float f62 = f61 / f17;
                                             float min5 = Math.min(f16, f62);
+                                            float f63 = f62;
                                             i7 = i3;
-                                            float f63 = (int) (f15 * min5);
-                                            float f64 = (int) (f17 * min5);
+                                            float f64 = (int) (f15 * min5);
+                                            float f65 = (int) (f17 * min5);
                                             if (!this.pipAnimationInProgress || ((z4 && ((this.textureUploaded || this.videoSizeSet) && this.videoCrossfadeStarted && this.videoCrossfadeAlpha == 1.0f)) || (this.videoFrameBitmap != null && this.isCurrentVideo))) {
-                                                f18 = f16;
-                                                f19 = f14;
-                                                f20 = f17;
+                                                f18 = f14;
+                                                f19 = f17;
                                                 imageReceiver3 = imageReceiver2;
                                                 i8 = i4;
-                                                f21 = f15;
-                                                f22 = f63;
+                                                f20 = f15;
+                                                f21 = f16;
+                                                f22 = f64;
                                             } else {
                                                 float bitmapWidth3 = this.centerImage.getBitmapWidth();
                                                 float bitmapHeight3 = this.centerImage.getBitmapHeight();
@@ -25753,57 +25815,56 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                                     i8 = i4;
                                                     if (this.sendPhotoType == 1) {
                                                         min = getCropFillScale(false);
-                                                        float f65 = bitmapWidth3 * min;
-                                                        f64 = min * bitmapHeight3;
+                                                        f22 = bitmapWidth3 * min;
+                                                        f65 = min * bitmapHeight3;
                                                         if (this.isCurrentVideo) {
-                                                            f18 = f16;
-                                                            f19 = f14;
-                                                            f20 = f17;
+                                                            f18 = f14;
+                                                            f19 = f17;
                                                             imageReceiver3 = imageReceiver2;
-                                                            f21 = f15;
-                                                            f22 = f65;
+                                                            f20 = f15;
+                                                            f21 = f16;
                                                         } else {
                                                             if (z3) {
                                                                 imageReceiver3 = imageReceiver2;
-                                                                this.imageBoundsMatrix.preTranslate((-f65) / 2.0f, (-f64) / 2.0f);
+                                                                this.imageBoundsMatrix.preTranslate((-f22) / 2.0f, (-f65) / 2.0f);
                                                                 float[] fArr = this.imageBoundsPoints;
                                                                 fArr[0] = 0.0f;
                                                                 fArr[1] = 0.0f;
-                                                                fArr[2] = f65;
+                                                                fArr[2] = f22;
                                                                 fArr[3] = 0.0f;
-                                                                fArr[4] = f65;
-                                                                fArr[5] = f64;
+                                                                fArr[4] = f22;
+                                                                fArr[5] = f65;
                                                                 fArr[6] = 0.0f;
-                                                                fArr[7] = f64;
+                                                                fArr[7] = f65;
                                                                 this.imageBoundsMatrix.mapPoints(fArr);
                                                                 RectF rectF = this.imageBounds;
                                                                 float[] fArr2 = this.imageBoundsPoints;
-                                                                f19 = f14;
+                                                                f18 = f14;
                                                                 float min6 = Math.min(fArr2[0], fArr2[2]);
                                                                 float[] fArr3 = this.imageBoundsPoints;
                                                                 float min7 = Math.min(min6, Math.min(fArr3[4], fArr3[6]));
                                                                 float[] fArr4 = this.imageBoundsPoints;
-                                                                f21 = f15;
+                                                                f20 = f15;
                                                                 float min8 = Math.min(fArr4[1], fArr4[3]);
                                                                 float[] fArr5 = this.imageBoundsPoints;
                                                                 float min9 = Math.min(min8, Math.min(fArr5[5], fArr5[7]));
                                                                 float[] fArr6 = this.imageBoundsPoints;
-                                                                f18 = f16;
+                                                                f19 = f17;
                                                                 float max = Math.max(fArr6[0], fArr6[2]);
                                                                 float[] fArr7 = this.imageBoundsPoints;
                                                                 float max2 = Math.max(max, Math.max(fArr7[4], fArr7[6]));
                                                                 float[] fArr8 = this.imageBoundsPoints;
-                                                                f20 = f17;
+                                                                f21 = f16;
                                                                 float max3 = Math.max(fArr8[1], fArr8[3]);
                                                                 float[] fArr9 = this.imageBoundsPoints;
                                                                 rectF.set(min7, min9, max2, Math.max(max3, Math.max(fArr9[5], fArr9[7])));
                                                                 f40 = this.centerImageInsideBlur[1].set(this.blurBounds.intersect(this.imageBounds));
                                                             } else {
-                                                                f18 = f16;
-                                                                f19 = f14;
-                                                                f20 = f17;
+                                                                f18 = f14;
+                                                                f19 = f17;
                                                                 imageReceiver3 = imageReceiver2;
-                                                                f21 = f15;
+                                                                f20 = f15;
+                                                                f21 = f16;
                                                                 f40 = 1.0f;
                                                             }
                                                             if (this.videoCrossfadeAlpha >= 1.0f || (bitmap3 = this.centerBlur.getBitmap(this.centerImage)) == null) {
@@ -25813,8 +25874,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                                                 storyBlurDrawer2.paint.setShader(null);
                                                                 storyBlurDrawer2.paint.setAlpha((int) (f40 * 255.0f * f12 * (1.0f - this.videoCrossfadeAlpha) * f9));
                                                                 canvas.scale(bitmap3.getWidth() / (bitmap3.getWidth() - 3.0f), bitmap3.getHeight() / (bitmap3.getHeight() - 3.0f));
-                                                                canvas.translate((-f65) / 2.0f, (-f64) / 2.0f);
-                                                                canvas.scale((f65 * 1.0f) / bitmap3.getWidth(), (f64 * 1.0f) / bitmap3.getHeight());
+                                                                canvas.translate((-f22) / 2.0f, (-f65) / 2.0f);
+                                                                canvas.scale((f22 * 1.0f) / bitmap3.getWidth(), (f65 * 1.0f) / bitmap3.getHeight());
                                                                 f41 = 0.0f;
                                                                 if (z) {
                                                                     int i26 = (int) 0.0f;
@@ -25828,8 +25889,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                                                 storyBlurDrawer2.paint.setShader(null);
                                                                 storyBlurDrawer2.paint.setAlpha((int) (f40 * 255.0f * f12 * this.videoCrossfadeAlpha * f9));
                                                                 canvas.scale(bitmap2.getWidth() / (bitmap2.getWidth() - 3.0f), bitmap2.getHeight() / (bitmap2.getHeight() - 3.0f));
-                                                                canvas.translate((-f65) / 2.0f, (-f64) / 2.0f);
-                                                                canvas.scale((f65 * 1.0f) / bitmap2.getWidth(), (f64 * 1.0f) / bitmap2.getHeight());
+                                                                canvas.translate((-f22) / 2.0f, (-f65) / 2.0f);
+                                                                canvas.scale((f22 * 1.0f) / bitmap2.getWidth(), (f65 * 1.0f) / bitmap2.getHeight());
                                                                 if (z) {
                                                                     int i27 = (int) 0.0f;
                                                                     canvas.clipRect(i27, i27, bitmap2.getWidth() - i27, bitmap2.getHeight() - i27);
@@ -25837,7 +25898,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                                                 canvas.drawBitmap(bitmap2, 0.0f, 0.0f, storyBlurDrawer2.paint);
                                                                 canvas.restore();
                                                             }
-                                                            f22 = f65;
                                                             z5 = true;
                                                             if (this.imagesArrLocals.isEmpty() && ((i13 = this.currentEditMode) == 3 || (i14 = this.switchingToMode) == 3 || (this.sendPhotoType != 1 ? !((this.imageMoveAnimation == null || i14 == -1) && i13 != 0 && i13 != 1 && i14 == -1) : !(i14 != 0 && (i13 == 3 || i13 == 2))))) {
                                                                 f23 = f12;
@@ -25875,10 +25935,10 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                                                             if (this.sendPhotoType != 1) {
                                                                                 float f66 = f33 * f34;
                                                                                 float f67 = f35 * f34;
-                                                                                if (f18 * f20 > f61) {
+                                                                                if (f21 * f19 <= f61) {
                                                                                 }
-                                                                                float f68 = f66 + ((((f21 * f18) / f19) - f66) * f31);
-                                                                                float f69 = f67 + ((((f20 * f18) / f19) - f67) * f31);
+                                                                                float f68 = f66 + ((((f20 * f63) / f18) - f66) * f31);
+                                                                                float f69 = f67 + ((((f19 * f63) / f18) - f67) * f31);
                                                                                 canvas.clipRect((-f68) / 2.0f, (-f69) / 2.0f, f68 / 2.0f, f69 / 2.0f);
                                                                             }
                                                                             if (this.sendPhotoType != 1) {
@@ -25930,11 +25990,11 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                                                             if (this.sendPhotoType != 1 && ((this.currentEditMode != 1 || this.switchingToMode == 0) && this.editState.cropState != null)) {
                                                                                 float f662 = f33 * f34;
                                                                                 float f672 = f35 * f34;
-                                                                                if (f18 * f20 > f61) {
-                                                                                    f18 = f62;
+                                                                                if (f21 * f19 <= f61) {
+                                                                                    f63 = f21;
                                                                                 }
-                                                                                float f682 = f662 + ((((f21 * f18) / f19) - f662) * f31);
-                                                                                float f692 = f672 + ((((f20 * f18) / f19) - f672) * f31);
+                                                                                float f682 = f662 + ((((f20 * f63) / f18) - f662) * f31);
+                                                                                float f692 = f672 + ((((f19 * f63) / f18) - f672) * f31);
                                                                                 canvas.clipRect((-f682) / 2.0f, (-f692) / 2.0f, f682 / 2.0f, f692 / 2.0f);
                                                                             }
                                                                             if (this.sendPhotoType != 1 || this.cropTransform.hasViewTransform()) {
@@ -26056,31 +26116,31 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                                             if (z5) {
                                                                 if (!this.imagesArrLocals.isEmpty()) {
                                                                     if (this.currentEditMode == 1 || this.sendPhotoType == 1) {
-                                                                        z6 = this.cropTransform.isMirrored();
+                                                                        z7 = this.cropTransform.isMirrored();
                                                                     } else {
                                                                         MediaController.CropState cropState4 = this.editState.cropState;
                                                                         if (cropState4 != null && cropState4.mirrored) {
-                                                                            z6 = true;
+                                                                            z7 = true;
                                                                         }
                                                                     }
-                                                                    if (z6) {
+                                                                    if (z7) {
                                                                         f25 = 1.0f;
                                                                         f26 = 0.0f;
-                                                                        z7 = false;
+                                                                        z8 = false;
                                                                     } else {
                                                                         canvas.save();
                                                                         f25 = 1.0f;
                                                                         canvas.scale(-1.0f, 1.0f);
                                                                         f26 = 0.0f;
-                                                                        z7 = true;
+                                                                        z8 = true;
                                                                     }
                                                                     if (f8 > f26) {
-                                                                        if (z7) {
+                                                                        if (z8) {
                                                                             f28 = 2.0f;
                                                                         } else {
                                                                             canvas.save();
                                                                             f28 = 2.0f;
-                                                                            z7 = true;
+                                                                            z8 = true;
                                                                         }
                                                                         canvas.scale(f25 - (f8 * f28), f25);
                                                                         canvas.skew(0.0f, f8 * 4.0f * (f25 - f8) * 0.25f);
@@ -26090,16 +26150,16 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                                                         if (z3) {
                                                                             f27 = 1.0f;
                                                                         } else {
-                                                                            this.imageBoundsMatrix.preTranslate((-f22) / 2.0f, (-f64) / 2.0f);
+                                                                            this.imageBoundsMatrix.preTranslate((-f22) / 2.0f, (-f65) / 2.0f);
                                                                             float[] fArr10 = this.imageBoundsPoints;
                                                                             fArr10[0] = 0.0f;
                                                                             fArr10[1] = 0.0f;
                                                                             fArr10[2] = f22;
                                                                             fArr10[3] = 0.0f;
                                                                             fArr10[4] = f22;
-                                                                            fArr10[5] = f64;
+                                                                            fArr10[5] = f65;
                                                                             fArr10[6] = 0.0f;
-                                                                            fArr10[7] = f64;
+                                                                            fArr10[7] = f65;
                                                                             this.imageBoundsMatrix.mapPoints(fArr10);
                                                                             RectF rectF2 = this.imageBounds;
                                                                             float[] fArr11 = this.imageBoundsPoints;
@@ -26129,26 +26189,26 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                                                             storyBlurDrawer2.paint.setShader(null);
                                                                             storyBlurDrawer2.paint.setAlpha((int) (f23 * 255.0f * f27 * f24));
                                                                             canvas.scale(bitmap.getWidth() / (bitmap.getWidth() - 3.0f), bitmap.getHeight() / (bitmap.getHeight() - 3.0f));
-                                                                            canvas.translate((-f22) / 2.0f, (-f64) / 2.0f);
-                                                                            canvas.scale((f22 * 1.0f) / bitmap.getWidth(), (f64 * 1.0f) / bitmap.getHeight());
+                                                                            canvas.translate((-f22) / 2.0f, (-f65) / 2.0f);
+                                                                            canvas.scale((f22 * 1.0f) / bitmap.getWidth(), (f65 * 1.0f) / bitmap.getHeight());
                                                                             if (z) {
                                                                                 int i30 = (int) 0.0f;
                                                                                 canvas.clipRect(i30, i30, bitmap.getWidth() - i30, bitmap.getHeight() - i30);
                                                                             }
                                                                             canvas.drawBitmap(bitmap, 0.0f, 0.0f, storyBlurDrawer2.paint);
-                                                                            if (z7) {
+                                                                            if (z8) {
                                                                                 canvas.restore();
                                                                             }
                                                                             z5 = true;
                                                                         }
                                                                     }
                                                                     storyBlurDrawer2 = storyBlurDrawer;
-                                                                    if (z7) {
+                                                                    if (z8) {
                                                                     }
                                                                     z5 = true;
                                                                 }
-                                                                z6 = false;
-                                                                if (z6) {
+                                                                z7 = false;
+                                                                if (z7) {
                                                                 }
                                                                 if (f8 > f26) {
                                                                 }
@@ -26163,21 +26223,22 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                                                 if (bitmap != null) {
                                                                 }
                                                                 storyBlurDrawer2 = storyBlurDrawer;
-                                                                if (z7) {
+                                                                if (z8) {
                                                                 }
                                                                 z5 = true;
                                                             } else {
                                                                 storyBlurDrawer2 = storyBlurDrawer;
                                                             }
                                                             canvas.restore();
+                                                            z6 = z5;
                                                         }
                                                     }
                                                 } else {
                                                     i8 = i4;
                                                 }
                                                 min = Math.min(f60 / bitmapWidth3, f61 / bitmapHeight3);
-                                                float f652 = bitmapWidth3 * min;
-                                                f64 = min * bitmapHeight3;
+                                                f22 = bitmapWidth3 * min;
+                                                f65 = min * bitmapHeight3;
                                                 if (this.isCurrentVideo) {
                                                 }
                                             }
@@ -26187,14 +26248,15 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                             if (z5) {
                                             }
                                             canvas.restore();
+                                            z6 = z5;
                                         } else {
                                             f24 = f9;
                                             imageReceiver3 = imageReceiver2;
                                             i8 = i4;
                                             i7 = i3;
-                                            z5 = false;
+                                            z6 = false;
                                         }
-                                        if (!z5 && this.animatingImageView.getVisibility() == 0) {
+                                        if (!z6 && this.animatingImageView.getVisibility() == 0) {
                                             canvas.save();
                                             if (this.padImageForHorizontalInsets) {
                                                 canvas.translate((getRightInset() / 2) - (getLeftInset() / 2), 0.0f);
@@ -26247,14 +26309,14 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                                 int i34 = (int) (f74 * min14);
                                                 if (!this.imagesArrLocals.isEmpty()) {
                                                     if (this.currentEditMode == 1 || this.sendPhotoType == 1) {
-                                                        z8 = this.leftCropTransform.isMirrored();
+                                                        z9 = this.leftCropTransform.isMirrored();
                                                     } else {
                                                         MediaController.CropState cropState5 = this.leftCropState;
                                                         if (cropState5 != null && cropState5.mirrored) {
-                                                            z8 = true;
+                                                            z9 = true;
                                                         }
                                                     }
-                                                    if (z8) {
+                                                    if (z9) {
                                                         canvas.scale(-1.0f, 1.0f);
                                                     }
                                                     bitmap4 = this.leftBlur.getBitmap(imageReceiver5);
@@ -26280,8 +26342,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                                     }
                                                     return;
                                                 }
-                                                z8 = false;
-                                                if (z8) {
+                                                z9 = false;
+                                                if (z9) {
                                                 }
                                                 bitmap4 = this.leftBlur.getBitmap(imageReceiver5);
                                                 if (bitmap4 != null) {
@@ -26334,25 +26396,27 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                 int i252 = bitmapHeight;
                                 float f622 = f612 / f17;
                                 float min52 = Math.min(f16, f622);
+                                float f632 = f622;
                                 i7 = i3;
-                                float f632 = (int) (f15 * min52);
-                                float f642 = (int) (f17 * min52);
+                                float f642 = (int) (f15 * min52);
+                                float f652 = (int) (f17 * min52);
                                 if (this.pipAnimationInProgress) {
                                 }
-                                f18 = f16;
-                                f19 = f14;
-                                f20 = f17;
+                                f18 = f14;
+                                f19 = f17;
                                 imageReceiver3 = imageReceiver2;
                                 i8 = i4;
-                                f21 = f15;
-                                f22 = f632;
+                                f20 = f15;
+                                f21 = f16;
+                                f22 = f642;
                                 z5 = false;
                                 if (this.imagesArrLocals.isEmpty() && ((i13 = this.currentEditMode) == 3 || (i14 = this.switchingToMode) == 3 || (this.sendPhotoType != 1 ? !((this.imageMoveAnimation == null || i14 == -1) && i13 != 0 && i13 != 1 && i14 == -1) : !(i14 != 0 && (i13 == 3 || i13 == 2))))) {
                                 }
                                 if (z5) {
                                 }
                                 canvas.restore();
-                                if (!z5) {
+                                z6 = z5;
+                                if (!z6) {
                                     canvas.save();
                                     if (this.padImageForHorizontalInsets) {
                                     }
@@ -26371,8 +26435,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                 if (i2 != 0) {
                                 }
                             }
-                            z9 = false;
-                            if (z9) {
+                            z10 = false;
+                            if (z10) {
                             }
                             imageReceiver2 = imageReceiver6;
                             bitmap6 = this.rightBlur.getBitmap(imageReceiver2);
@@ -26413,25 +26477,27 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                             int i2522 = bitmapHeight;
                             float f6222 = f6122 / f17;
                             float min522 = Math.min(f16, f6222);
+                            float f6322 = f6222;
                             i7 = i3;
-                            float f6322 = (int) (f15 * min522);
-                            float f6422 = (int) (f17 * min522);
+                            float f6422 = (int) (f15 * min522);
+                            float f6522 = (int) (f17 * min522);
                             if (this.pipAnimationInProgress) {
                             }
-                            f18 = f16;
-                            f19 = f14;
-                            f20 = f17;
+                            f18 = f14;
+                            f19 = f17;
                             imageReceiver3 = imageReceiver2;
                             i8 = i4;
-                            f21 = f15;
-                            f22 = f6322;
+                            f20 = f15;
+                            f21 = f16;
+                            f22 = f6422;
                             z5 = false;
                             if (this.imagesArrLocals.isEmpty() && ((i13 = this.currentEditMode) == 3 || (i14 = this.switchingToMode) == 3 || (this.sendPhotoType != 1 ? !((this.imageMoveAnimation == null || i14 == -1) && i13 != 0 && i13 != 1 && i14 == -1) : !(i14 != 0 && (i13 == 3 || i13 == 2))))) {
                             }
                             if (z5) {
                             }
                             canvas.restore();
-                            if (!z5) {
+                            z6 = z5;
+                            if (!z6) {
                             }
                             imageReceiver4 = imageReceiver3;
                             if (imageReceiver4 == this.leftImage) {
@@ -26491,25 +26557,27 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             int i25222 = bitmapHeight;
             float f62222 = f61222 / f17;
             float min5222 = Math.min(f16, f62222);
+            float f63222 = f62222;
             i7 = i3;
-            float f63222 = (int) (f15 * min5222);
-            float f64222 = (int) (f17 * min5222);
+            float f64222 = (int) (f15 * min5222);
+            float f65222 = (int) (f17 * min5222);
             if (this.pipAnimationInProgress) {
             }
-            f18 = f16;
-            f19 = f14;
-            f20 = f17;
+            f18 = f14;
+            f19 = f17;
             imageReceiver3 = imageReceiver2;
             i8 = i4;
-            f21 = f15;
-            f22 = f63222;
+            f20 = f15;
+            f21 = f16;
+            f22 = f64222;
             z5 = false;
             if (this.imagesArrLocals.isEmpty() && ((i13 = this.currentEditMode) == 3 || (i14 = this.switchingToMode) == 3 || (this.sendPhotoType != 1 ? !((this.imageMoveAnimation == null || i14 == -1) && i13 != 0 && i13 != 1 && i14 == -1) : !(i14 != 0 && (i13 == 3 || i13 == 2))))) {
             }
             if (z5) {
             }
             canvas.restore();
-            if (!z5) {
+            z6 = z5;
+            if (!z6) {
             }
             imageReceiver4 = imageReceiver3;
             if (imageReceiver4 == this.leftImage) {
@@ -26564,25 +26632,27 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         int i252222 = bitmapHeight;
         float f622222 = f612222 / f17;
         float min52222 = Math.min(f16, f622222);
+        float f632222 = f622222;
         i7 = i3;
-        float f632222 = (int) (f15 * min52222);
-        float f642222 = (int) (f17 * min52222);
+        float f642222 = (int) (f15 * min52222);
+        float f652222 = (int) (f17 * min52222);
         if (this.pipAnimationInProgress) {
         }
-        f18 = f16;
-        f19 = f14;
-        f20 = f17;
+        f18 = f14;
+        f19 = f17;
         imageReceiver3 = imageReceiver2;
         i8 = i4;
-        f21 = f15;
-        f22 = f632222;
+        f20 = f15;
+        f21 = f16;
+        f22 = f642222;
         z5 = false;
         if (this.imagesArrLocals.isEmpty() && ((i13 = this.currentEditMode) == 3 || (i14 = this.switchingToMode) == 3 || (this.sendPhotoType != 1 ? !((this.imageMoveAnimation == null || i14 == -1) && i13 != 0 && i13 != 1 && i14 == -1) : !(i14 != 0 && (i13 == 3 || i13 == 2))))) {
         }
         if (z5) {
         }
         canvas.restore();
-        if (!z5) {
+        z6 = z5;
+        if (!z6) {
         }
         imageReceiver4 = imageReceiver3;
         if (imageReceiver4 == this.leftImage) {
@@ -26604,7 +26674,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
 
     public void invalidateBlur() {
         StickerMakerView stickerMakerView = this.stickerMakerView;
-        if ((stickerMakerView == null || !stickerMakerView.isThanosInProgress) && this.animationInProgress == 0) {
+        if (stickerMakerView == null || !stickerMakerView.isThanosInProgress) {
             CaptionPhotoViewer captionPhotoViewer = this.captionEdit;
             if (captionPhotoViewer != null) {
                 captionPhotoViewer.invalidateBlur();

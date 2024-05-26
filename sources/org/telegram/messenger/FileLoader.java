@@ -384,6 +384,7 @@ public class FileLoader extends BaseController {
             sb2.append(attachFileName);
             sb2.append(z ? "p" : "");
             hashMap2.put(sb2.toString(), Boolean.TRUE);
+            getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.videoLoadingStateChanged, attachFileName);
         }
     }
 
@@ -1681,8 +1682,8 @@ public class FileLoader extends BaseController {
         return getPathToAttach(tLObject, null, str, z, z2);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:110:0x0171  */
-    /* JADX WARN: Removed duplicated region for block: B:112:0x0179  */
+    /* JADX WARN: Removed duplicated region for block: B:110:0x0172  */
+    /* JADX WARN: Removed duplicated region for block: B:112:0x017a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

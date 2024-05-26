@@ -2850,10 +2850,6 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
         return computeIfPresent(obj, j$.wrappers.s.a(biFunction));
     }
 
-    public boolean contains(Object obj) {
-        return containsValue(obj);
-    }
-
     @Override // java.util.AbstractMap, java.util.Map, j$.util.Map
     public boolean containsKey(Object obj) {
         return get(obj) != null;

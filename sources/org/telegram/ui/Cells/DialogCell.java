@@ -1747,16 +1747,16 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                                         if (tLRPC$MessagePeerReaction.unread) {
                                             long j3 = tLRPC$MessagePeerReaction.peer_id.user_id;
                                             if (j3 != 0 && j3 != UserConfig.getInstance(this.currentAccount).clientUserId) {
-                                                ReactionsLayoutInBubble.VisibleReaction fromTLReaction = ReactionsLayoutInBubble.VisibleReaction.fromTLReaction(tLRPC$MessagePeerReaction.reaction);
+                                                ReactionsLayoutInBubble.VisibleReaction fromTL = ReactionsLayoutInBubble.VisibleReaction.fromTL(tLRPC$MessagePeerReaction.reaction);
                                                 this.currentMessagePaint = Theme.dialogs_messagePrintingPaint[this.paintIndex];
-                                                String str15 = fromTLReaction.emojicon;
+                                                String str15 = fromTL.emojicon;
                                                 if (str15 != null) {
                                                     charSequence2 = LocaleController.formatString("ReactionInDialog", R.string.ReactionInDialog, str15);
                                                 } else {
                                                     String formatString = LocaleController.formatString("ReactionInDialog", R.string.ReactionInDialog, "**reaction**");
                                                     int indexOf2 = formatString.indexOf("**reaction**");
                                                     SpannableStringBuilder spannableStringBuilder13 = new SpannableStringBuilder(formatString.replace("**reaction**", "d"));
-                                                    long j4 = fromTLReaction.documentId;
+                                                    long j4 = fromTL.documentId;
                                                     TextPaint textPaint6 = this.currentMessagePaint;
                                                     spannableStringBuilder13.setSpan(new AnimatedEmojiSpan(j4, textPaint6 == null ? null : textPaint6.getFontMetricsInt()), indexOf2, indexOf2 + 1, 0);
                                                     charSequence2 = spannableStringBuilder13;
@@ -6469,12 +6469,10 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
             }
         }
         TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(arrayList, 40);
-        TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(arrayList, AndroidUtilities.getPhotoSize());
-        if (closestPhotoSizeWithSize == closestPhotoSizeWithSize2) {
-            closestPhotoSizeWithSize2 = null;
-        }
-        if (closestPhotoSizeWithSize2 == null || DownloadController.getInstance(this.currentAccount).canDownloadMedia(messageObject.messageOwner) == 0) {
-            closestPhotoSizeWithSize2 = closestPhotoSizeWithSize;
+        TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(arrayList, AndroidUtilities.getPhotoSize(), false, null, true);
+        TLRPC$PhotoSize tLRPC$PhotoSize = closestPhotoSizeWithSize != closestPhotoSizeWithSize2 ? closestPhotoSizeWithSize2 : null;
+        if (tLRPC$PhotoSize == null || DownloadController.getInstance(this.currentAccount).canDownloadMedia(messageObject.messageOwner) == 0) {
+            tLRPC$PhotoSize = closestPhotoSizeWithSize;
         }
         if (closestPhotoSizeWithSize != null) {
             this.hasVideoThumb = this.hasVideoThumb || messageObject.isVideo() || messageObject.isRoundVideo();
@@ -6483,9 +6481,9 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 this.thumbsCount = i2 + 1;
                 this.drawPlay[i] = (messageObject.isVideo() || messageObject.isRoundVideo()) && !messageObject.hasMediaSpoilers();
                 this.drawSpoiler[i] = messageObject.hasMediaSpoilers();
-                int i3 = (messageObject.type != 1 || closestPhotoSizeWithSize2 == null) ? 0 : closestPhotoSizeWithSize2.size;
+                int i3 = (messageObject.type != 1 || tLRPC$PhotoSize == null) ? 0 : tLRPC$PhotoSize.size;
                 String str = messageObject.hasMediaSpoilers() ? "5_5_b" : "20_20";
-                this.thumbImage[i].setImage(ImageLocation.getForObject(closestPhotoSizeWithSize2, tLObject), str, ImageLocation.getForObject(closestPhotoSizeWithSize, tLObject), str, i3, null, messageObject, 0);
+                this.thumbImage[i].setImage(ImageLocation.getForObject(tLRPC$PhotoSize, tLObject), str, ImageLocation.getForObject(closestPhotoSizeWithSize, tLObject), str, i3, null, messageObject, 0);
                 this.thumbImage[i].setRoundRadius(AndroidUtilities.dp(messageObject.isRoundVideo() ? 18.0f : 2.0f));
                 this.needEmoji = false;
             }

@@ -36,19 +36,19 @@ public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
         this(context, tLObject, 1, i, tLRPC$Document, resourcesProvider);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:101:0x030d  */
-    /* JADX WARN: Removed duplicated region for block: B:109:0x037d  */
+    /* JADX WARN: Removed duplicated region for block: B:101:0x030e  */
+    /* JADX WARN: Removed duplicated region for block: B:109:0x037e  */
     /* JADX WARN: Removed duplicated region for block: B:141:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:29:0x0075 A[ADDED_TO_REGION] */
     /* JADX WARN: Removed duplicated region for block: B:35:0x008c  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x0114  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x0127  */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x013b  */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x01c7  */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x0250  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x0264  */
-    /* JADX WARN: Removed duplicated region for block: B:89:0x0278  */
-    /* JADX WARN: Removed duplicated region for block: B:90:0x028c  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x0115  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x0128  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x013c  */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x01c8  */
+    /* JADX WARN: Removed duplicated region for block: B:87:0x0251  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x0265  */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x0279  */
+    /* JADX WARN: Removed duplicated region for block: B:90:0x028d  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -267,7 +267,7 @@ public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
     public static /* synthetic */ void lambda$new$0(Context context) {
         Activity findActivity = AndroidUtilities.findActivity(context);
         if (findActivity instanceof LaunchActivity) {
-            ((LaunchActivity) findActivity).lambda$runLinkRequest$86(new PremiumPreviewFragment(LimitReachedBottomSheet.limitTypeToServerString(10)));
+            ((LaunchActivity) findActivity).lambda$runLinkRequest$87(new PremiumPreviewFragment(LimitReachedBottomSheet.limitTypeToServerString(10)));
         }
     }
 
@@ -275,7 +275,7 @@ public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
     public static /* synthetic */ void lambda$new$1(Context context) {
         Activity findActivity = AndroidUtilities.findActivity(context);
         if (findActivity instanceof LaunchActivity) {
-            ((LaunchActivity) findActivity).lambda$runLinkRequest$86(new PremiumPreviewFragment(LimitReachedBottomSheet.limitTypeToServerString(9)));
+            ((LaunchActivity) findActivity).lambda$runLinkRequest$87(new PremiumPreviewFragment(LimitReachedBottomSheet.limitTypeToServerString(9)));
         }
     }
 }

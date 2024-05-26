@@ -206,7 +206,7 @@ public class QuickRepliesController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x013c  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x0138  */
     /* JADX WARN: Type inference failed for: r8v0 */
     /* JADX WARN: Type inference failed for: r8v1, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r8v3 */
@@ -216,7 +216,7 @@ public class QuickRepliesController {
     public /* synthetic */ void lambda$load$1(MessagesStorage messagesStorage, long j, final Runnable runnable) {
         SQLiteCursor sQLiteCursor;
         SQLiteDatabase sQLiteDatabase;
-        ArrayList arrayList;
+        ArrayList<Long> arrayList;
         NativeByteBuffer byteBufferValue;
         QuickRepliesController quickRepliesController = this;
         final ArrayList arrayList2 = new ArrayList();
@@ -264,7 +264,7 @@ public class QuickRepliesController {
                 }
             }
             queryFinalized.dispose();
-            ArrayList arrayList5 = new ArrayList();
+            ArrayList<Long> arrayList5 = new ArrayList<>();
             ArrayList arrayList6 = new ArrayList();
             int i = 0;
             while (i < arrayList2.size()) {
@@ -301,12 +301,12 @@ public class QuickRepliesController {
                 arrayList5 = arrayList;
                 database = sQLiteDatabase;
             }
-            ArrayList arrayList7 = arrayList5;
+            ArrayList<Long> arrayList7 = arrayList5;
             if (!arrayList6.isEmpty()) {
                 messagesStorage.getChatsInternal(TextUtils.join(",", arrayList6), arrayList4);
             }
             if (!arrayList7.isEmpty()) {
-                messagesStorage.getUsersInternal(TextUtils.join(",", arrayList7), arrayList3);
+                messagesStorage.getUsersInternal(arrayList7, arrayList3);
             }
             queryFinalized.dispose();
         } catch (Exception e2) {
@@ -709,7 +709,7 @@ public class QuickRepliesController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateTopMessage$16(MessagesStorage messagesStorage, final QuickReply quickReply, long j) {
-        ArrayList arrayList;
+        ArrayList<Long> arrayList;
         ArrayList arrayList2;
         SQLiteCursor queryFinalized;
         NativeByteBuffer byteBufferValue;
@@ -719,7 +719,7 @@ public class QuickRepliesController {
         sQLiteCursor = null;
         try {
             try {
-                arrayList = new ArrayList();
+                arrayList = new ArrayList<>();
                 arrayList2 = new ArrayList();
                 queryFinalized = messagesStorage.getDatabase().queryFinalized("SELECT data, send_state, mid, date, topic_id, ttl FROM quick_replies_messages WHERE topic_id = ? ORDER BY mid ASC", Integer.valueOf(quickReply.id));
             } catch (Exception e) {
@@ -750,7 +750,7 @@ public class QuickRepliesController {
                 messagesStorage.getChatsInternal(TextUtils.join(",", arrayList2), arrayList4);
             }
             if (!arrayList.isEmpty()) {
-                messagesStorage.getUsersInternal(TextUtils.join(",", arrayList), arrayList3);
+                messagesStorage.getUsersInternal(arrayList, arrayList3);
             }
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Business.QuickRepliesController$$ExternalSyntheticLambda7
                 @Override // java.lang.Runnable

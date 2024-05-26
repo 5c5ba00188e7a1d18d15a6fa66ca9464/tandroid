@@ -6,7 +6,7 @@ public class TLRPC$TL_payments_getPaymentReceipt extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        return TLRPC$TL_payments_paymentReceipt.TLdeserialize(abstractSerializedData, i, z);
+        return TLRPC$PaymentReceipt.TLdeserialize(abstractSerializedData, i, z);
     }
 
     @Override // org.telegram.tgnet.TLObject

@@ -18,17 +18,26 @@ import android.text.TextUtils;
 import android.view.MotionEvent;
 import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.ContactsController;
+import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.R;
+import org.telegram.messenger.UserObject;
+import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$TL_forumTopic;
+import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.ChatMessageCell;
 import org.telegram.ui.Components.AnimatedColor;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
+import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.StaticLayoutEx;
 /* loaded from: classes3.dex */
 public class MessageTopicButton {
+    private AvatarDrawable avatarDrawable;
+    private int avatarSize;
     private Context context;
+    private ImageReceiver imageReceiver;
     private boolean isGeneralTopic;
     private MessageObject lastMessageObject;
     private Theme.ResourcesProvider resourcesProvider;
@@ -72,51 +81,112 @@ public class MessageTopicButton {
         this.resourcesProvider = resourcesProvider;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:117:0x053f, code lost:
-        if (r1.type == 5) goto L97;
-     */
-    /* JADX WARN: Removed duplicated region for block: B:131:0x056e  */
-    /* JADX WARN: Removed duplicated region for block: B:132:0x057d  */
-    /* JADX WARN: Removed duplicated region for block: B:135:0x058e  */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    public int set(ChatMessageCell chatMessageCell, MessageObject messageObject, TLRPC$TL_forumTopic tLRPC$TL_forumTopic, int i) {
-        float f;
-        int i2;
-        int i3;
-        int i4;
-        int i5;
-        float f2;
-        float f3;
-        float f4;
-        MessageObject messageObject2;
-        int i6;
-        Drawable drawable;
-        int dp;
-        boolean z;
-        this.lastMessageObject = messageObject;
-        this.isGeneralTopic = tLRPC$TL_forumTopic.id == 1;
+    public int set(ChatMessageCell chatMessageCell, MessageObject messageObject, TLObject tLObject, int i) {
+        String formatName;
         if (chatMessageCell == null || messageObject == null) {
             return 0;
         }
-        int dp2 = AndroidUtilities.dp(7.0f) + ((int) Theme.chat_topicTextPaint.getTextSize());
-        float dp3 = AndroidUtilities.dp(this.isGeneralTopic ? 6.0f : 10.0f) + dp2;
-        float textSize = Theme.chat_topicTextPaint.getTextSize() - AndroidUtilities.dp(8.0f);
-        float dp4 = AndroidUtilities.dp(5.0f) + Theme.chat_topicTextPaint.getTextSize();
-        float f5 = dp3 + dp4;
-        int i7 = (int) (i - f5);
+        this.isGeneralTopic = false;
+        this.topicClosed = false;
+        if (tLObject instanceof TLRPC$User) {
+            formatName = UserObject.getForcedFirstName((TLRPC$User) tLObject);
+        } else {
+            formatName = ContactsController.formatName(tLObject);
+        }
+        String str = formatName;
+        this.topicIconDrawable = null;
+        this.topicNameColor = getThemedColor(Theme.key_chat_outReactionButtonText);
+        this.topicBackgroundColor = ColorUtils.setAlphaComponent(getThemedColor(Theme.key_chat_outReactionButtonBackground), 38);
+        this.avatarSize = AndroidUtilities.dp(11.0f) + ((int) Theme.chat_topicTextPaint.getTextSize());
+        this.avatarDrawable = new AvatarDrawable();
+        ImageReceiver imageReceiver = new ImageReceiver(chatMessageCell);
+        this.imageReceiver = imageReceiver;
+        imageReceiver.setRoundRadius(this.avatarSize / 2);
+        this.avatarDrawable.setInfo(messageObject.currentAccount, tLObject);
+        this.imageReceiver.setForUserOrChat(tLObject, this.avatarDrawable);
+        return setInternal(chatMessageCell, messageObject, i, str, 1);
+    }
+
+    public int set(ChatMessageCell chatMessageCell, MessageObject messageObject, TLRPC$TL_forumTopic tLRPC$TL_forumTopic, int i) {
+        int i2;
+        if (chatMessageCell == null || messageObject == null) {
+            return 0;
+        }
+        boolean z = tLRPC$TL_forumTopic.id == 1;
+        this.isGeneralTopic = z;
+        this.topicClosed = tLRPC$TL_forumTopic.closed;
         String str = tLRPC$TL_forumTopic.title;
         if (str == null) {
             str = "";
         }
-        boolean z2 = tLRPC$TL_forumTopic.closed;
-        this.topicClosed = z2;
-        if (z2) {
-            i7 -= AndroidUtilities.dp(18.0f);
+        String str2 = str;
+        if (z) {
+            i2 = getThemedColor(messageObject.isOutOwner() ? Theme.key_chat_outReactionButtonText : Theme.key_chat_inReactionButtonText);
+            this.topicIconDrawable = ForumUtilities.createGeneralTopicDrawable(this.context, 0.65f, i2, false);
+        } else {
+            long j = tLRPC$TL_forumTopic.icon_emoji_id;
+            if (j != 0) {
+                Drawable drawable = this.topicIconDrawable;
+                if (!(drawable instanceof AnimatedEmojiDrawable) || j != ((AnimatedEmojiDrawable) drawable).getDocumentId()) {
+                    Drawable drawable2 = this.topicIconDrawable;
+                    if (drawable2 instanceof AnimatedEmojiDrawable) {
+                        ((AnimatedEmojiDrawable) drawable2).removeView(new MessageTopicButton$$ExternalSyntheticLambda0(chatMessageCell));
+                        this.topicIconDrawable = null;
+                    }
+                    AnimatedEmojiDrawable make = AnimatedEmojiDrawable.make(messageObject.currentAccount, 0, tLRPC$TL_forumTopic.icon_emoji_id);
+                    this.topicIconDrawable = make;
+                    make.addView(new MessageTopicButton$$ExternalSyntheticLambda0(chatMessageCell));
+                }
+                this.topicIconWaiting = false;
+                Drawable drawable3 = this.topicIconDrawable;
+                int dominantColor = drawable3 instanceof AnimatedEmojiDrawable ? AnimatedEmojiDrawable.getDominantColor((AnimatedEmojiDrawable) drawable3) : 0;
+                if (dominantColor == 0) {
+                    this.topicIconWaiting = true;
+                    i2 = getThemedColor(messageObject.isOutOwner() ? Theme.key_chat_outReactionButtonText : Theme.key_chat_inReactionButtonText);
+                } else {
+                    i2 = dominantColor;
+                }
+            } else {
+                i2 = tLRPC$TL_forumTopic.icon_color;
+                this.topicIconDrawable = ForumUtilities.createSmallTopicDrawable(str2, i2);
+            }
         }
-        int i8 = i7;
-        this.topicNameLayout = StaticLayoutEx.createStaticLayout(str, Theme.chat_topicTextPaint, i8, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false, TextUtils.TruncateAt.END, i8, 2, false);
+        setupColors(i2);
+        return setInternal(chatMessageCell, messageObject, i, str2, 2);
+    }
+
+    /* JADX WARN: Code restructure failed: missing block: B:76:0x048f, code lost:
+        if (r1.type == 5) goto L83;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:91:0x04c0  */
+    /* JADX WARN: Removed duplicated region for block: B:92:0x04cf  */
+    /* JADX WARN: Removed duplicated region for block: B:95:0x04e0  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    private int setInternal(ChatMessageCell chatMessageCell, MessageObject messageObject, int i, String str, int i2) {
+        int i3;
+        int i4;
+        float f;
+        float f2;
+        float f3;
+        MessageObject messageObject2;
+        int i5;
+        Drawable drawable;
+        int dp;
+        boolean z;
+        this.lastMessageObject = messageObject;
+        int dp2 = AndroidUtilities.dp(7.0f) + ((int) Theme.chat_topicTextPaint.getTextSize());
+        float dp3 = AndroidUtilities.dp(this.isGeneralTopic ? 6.0f : 10.0f) + dp2;
+        float textSize = Theme.chat_topicTextPaint.getTextSize() - AndroidUtilities.dp(8.0f);
+        float dp4 = AndroidUtilities.dp(5.0f) + Theme.chat_topicTextPaint.getTextSize();
+        float f4 = dp3 + dp4;
+        int i6 = (int) (i - f4);
+        if (this.topicClosed) {
+            i6 -= AndroidUtilities.dp(18.0f);
+        }
+        int i7 = i6;
+        this.topicNameLayout = StaticLayoutEx.createStaticLayout(str, Theme.chat_topicTextPaint, i7, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false, TextUtils.TruncateAt.END, i7, i2, false);
         int dp5 = AndroidUtilities.dp(8.5f);
         int dp6 = AndroidUtilities.dp(24.0f);
         StaticLayout staticLayout = this.topicNameLayout;
@@ -132,43 +202,6 @@ public class MessageTopicButton {
         if (this.topicPaint == null) {
             this.topicPaint = new Paint(1);
         }
-        if (tLRPC$TL_forumTopic.id == 1) {
-            i3 = getThemedColor(messageObject.isOutOwner() ? Theme.key_chat_outReactionButtonText : Theme.key_chat_inReactionButtonText);
-            this.topicIconDrawable = ForumUtilities.createGeneralTopicDrawable(this.context, 0.65f, i3, false);
-            f = textSize;
-            i2 = dp2;
-        } else {
-            f = textSize;
-            long j = tLRPC$TL_forumTopic.icon_emoji_id;
-            if (j != 0) {
-                Drawable drawable2 = this.topicIconDrawable;
-                if ((drawable2 instanceof AnimatedEmojiDrawable) && j == ((AnimatedEmojiDrawable) drawable2).getDocumentId()) {
-                    i2 = dp2;
-                } else {
-                    Drawable drawable3 = this.topicIconDrawable;
-                    if (drawable3 instanceof AnimatedEmojiDrawable) {
-                        ((AnimatedEmojiDrawable) drawable3).removeView(new MessageTopicButton$$ExternalSyntheticLambda0(chatMessageCell));
-                        this.topicIconDrawable = null;
-                    }
-                    i2 = dp2;
-                    AnimatedEmojiDrawable make = AnimatedEmojiDrawable.make(messageObject.currentAccount, 0, tLRPC$TL_forumTopic.icon_emoji_id);
-                    this.topicIconDrawable = make;
-                    make.addView(new MessageTopicButton$$ExternalSyntheticLambda0(chatMessageCell));
-                }
-                this.topicIconWaiting = false;
-                Drawable drawable4 = this.topicIconDrawable;
-                i3 = drawable4 instanceof AnimatedEmojiDrawable ? AnimatedEmojiDrawable.getDominantColor((AnimatedEmojiDrawable) drawable4) : 0;
-                if (i3 == 0) {
-                    this.topicIconWaiting = true;
-                    i3 = getThemedColor(messageObject.isOutOwner() ? Theme.key_chat_outReactionButtonText : Theme.key_chat_inReactionButtonText);
-                }
-            } else {
-                i2 = dp2;
-                i3 = tLRPC$TL_forumTopic.icon_color;
-                this.topicIconDrawable = ForumUtilities.createSmallTopicDrawable(str, i3);
-            }
-        }
-        setupColors(i3);
         if (this.topicIconWaiting) {
             if (this.topicNameColorAnimated == null) {
                 this.topicNameColorAnimated = new AnimatedColor(chatMessageCell);
@@ -180,17 +213,17 @@ public class MessageTopicButton {
         if (this.topicArrowDrawable == null) {
             this.topicArrowDrawable = this.context.getResources().getDrawable(R.drawable.msg_mini_topicarrow).mutate();
         }
-        Drawable drawable5 = this.topicArrowDrawable;
+        Drawable drawable2 = this.topicArrowDrawable;
         int alphaComponent = ColorUtils.setAlphaComponent(this.topicNameColor, 140);
         this.topicArrowColor = alphaComponent;
-        drawable5.setColorFilter(new PorterDuffColorFilter(alphaComponent, PorterDuff.Mode.MULTIPLY));
+        drawable2.setColorFilter(new PorterDuffColorFilter(alphaComponent, PorterDuff.Mode.MULTIPLY));
         if (this.topicClosedDrawable == null) {
             this.topicClosedDrawable = this.context.getResources().getDrawable(R.drawable.msg_mini_lock2).mutate();
         }
-        Drawable drawable6 = this.topicClosedDrawable;
+        Drawable drawable3 = this.topicClosedDrawable;
         int alphaComponent2 = ColorUtils.setAlphaComponent(this.topicNameColor, 140);
         this.topicArrowColor = alphaComponent2;
-        drawable6.setColorFilter(new PorterDuffColorFilter(alphaComponent2, PorterDuff.Mode.MULTIPLY));
+        drawable3.setColorFilter(new PorterDuffColorFilter(alphaComponent2, PorterDuff.Mode.MULTIPLY));
         float dp7 = AndroidUtilities.dp(11.0f) + ((int) Theme.chat_topicTextPaint.getTextSize());
         int max = Math.max(1, ((int) Theme.chat_topicTextPaint.getTextSize()) + AndroidUtilities.dp(0.0f));
         int max2 = Math.max(1, ((int) Theme.chat_topicTextPaint.getTextSize()) - AndroidUtilities.dp(4.0f));
@@ -201,65 +234,65 @@ public class MessageTopicButton {
             if (this.topicClosed) {
                 abs2 += AndroidUtilities.dp(4.0f) + max2;
             }
-            i4 = i2;
+            i3 = dp2;
             float min = Math.min(this.topicNameLayout.getLineLeft(0), this.topicNameLayout.getLineLeft(1));
             this.topicNameLeft = min;
-            boolean z3 = min != 0.0f;
+            boolean z2 = min != 0.0f;
             float max3 = Math.max(abs, abs2);
             float dp8 = (AndroidUtilities.dp(11.0f) + ((int) Theme.chat_topicTextPaint.getTextSize())) / 1.5f;
             RectF rectF = AndroidUtilities.rectTmp;
             rectF.set(0.0f, 0.0f, dp7, dp7);
-            int i9 = lineCount;
+            int i8 = lineCount;
             this.topicPath.arcTo(rectF, 180.0f, 90.0f);
-            float f6 = dp4 - f;
-            if (Math.abs(abs - abs2) <= f6 || z3) {
-                abs = Math.max(abs, abs2 + f6);
-                abs2 = Math.max(abs2, abs - f6);
+            float f5 = dp4 - textSize;
+            if (Math.abs(abs - abs2) <= f5 || z2) {
+                abs = Math.max(abs, abs2 + f5);
+                abs2 = Math.max(abs2, abs - f5);
                 z = true;
             } else {
                 z = false;
             }
-            float f7 = dp3 + f + abs;
-            rectF.set(f7 - dp8, 0.0f, f7, dp8);
+            float f6 = dp3 + textSize + abs;
+            rectF.set(f6 - dp8, 0.0f, f6, dp8);
             this.topicPath.arcTo(rectF, 270.0f, 90.0f);
             float dp9 = AndroidUtilities.dp(11.0f) + Theme.chat_topicTextPaint.getTextSize();
             float min2 = Math.min(dp8, Math.abs((abs - AndroidUtilities.dp(13.0f)) - abs2));
             if (!z) {
-                if (abs - f6 > abs2) {
-                    rectF.set(f7 - min2, dp9 - min2, f7, dp9);
+                if (abs - f5 > abs2) {
+                    rectF.set(f6 - min2, dp9 - min2, f6, dp9);
                     this.topicPath.arcTo(rectF, 0.0f, 90.0f);
-                    float f8 = f5 + abs2;
-                    rectF.set(f8, dp9, f8 + min2, min2 + dp9);
+                    float f7 = f4 + abs2;
+                    rectF.set(f7, dp9, f7 + min2, min2 + dp9);
                     this.topicPath.arcTo(rectF, 270.0f, -90.0f);
                 } else {
-                    float f9 = this.topicHeight - dp9;
-                    rectF.set(f7, f9 - min2, f7 + min2, f9);
+                    float f8 = this.topicHeight - dp9;
+                    rectF.set(f6, f8 - min2, f6 + min2, f8);
                     this.topicPath.arcTo(rectF, 180.0f, -90.0f);
-                    float f10 = f5 + abs2;
-                    rectF.set(f10 - min2, f9, f10, min2 + f9);
+                    float f9 = f4 + abs2;
+                    rectF.set(f9 - min2, f8, f9, min2 + f8);
                     this.topicPath.arcTo(rectF, 270.0f, 90.0f);
                 }
             }
-            this.topicArrowDrawableVisible = !z3;
-            float f11 = max;
-            float f12 = max / 2;
-            this.topicArrowDrawable.setBounds((int) (((AndroidUtilities.dp(-4.0f) + f5) + abs2) - f11), (int) (((((this.topicHeight - AndroidUtilities.dp(11.0f)) - Theme.chat_topicTextPaint.getTextSize()) + this.topicHeight) / 2.0f) - f12), (int) (AndroidUtilities.dp(-4.0f) + f5 + abs2), (int) (((((this.topicHeight - AndroidUtilities.dp(11.0f)) - Theme.chat_topicTextPaint.getTextSize()) + this.topicHeight) / 2.0f) + f12));
-            float f13 = max2 / 2;
-            this.topicClosedDrawable.setBounds((int) ((((AndroidUtilities.dp(-4.0f) + f5) - f11) + abs2) - max2), (int) (((((this.topicHeight - AndroidUtilities.dp(11.0f)) - Theme.chat_topicTextPaint.getTextSize()) + this.topicHeight) / 2.0f) - f13), (int) (((AndroidUtilities.dp(-4.0f) + f5) - f11) + abs2), (int) (((((this.topicHeight - AndroidUtilities.dp(11.0f)) - Theme.chat_topicTextPaint.getTextSize()) + this.topicHeight) / 2.0f) + f13));
-            float f14 = abs2 + f5;
-            int i10 = this.topicHeight;
-            rectF.set(f14 - dp8, i10 - dp8, f14, i10);
+            this.topicArrowDrawableVisible = !z2;
+            float f10 = max;
+            float f11 = max / 2;
+            this.topicArrowDrawable.setBounds((int) (((AndroidUtilities.dp(-4.0f) + f4) + abs2) - f10), (int) (((((this.topicHeight - AndroidUtilities.dp(11.0f)) - Theme.chat_topicTextPaint.getTextSize()) + this.topicHeight) / 2.0f) - f11), (int) (AndroidUtilities.dp(-4.0f) + f4 + abs2), (int) (((((this.topicHeight - AndroidUtilities.dp(11.0f)) - Theme.chat_topicTextPaint.getTextSize()) + this.topicHeight) / 2.0f) + f11));
+            float f12 = max2 / 2;
+            this.topicClosedDrawable.setBounds((int) ((((AndroidUtilities.dp(-4.0f) + f4) - f10) + abs2) - max2), (int) (((((this.topicHeight - AndroidUtilities.dp(11.0f)) - Theme.chat_topicTextPaint.getTextSize()) + this.topicHeight) / 2.0f) - f12), (int) (((AndroidUtilities.dp(-4.0f) + f4) - f10) + abs2), (int) (((((this.topicHeight - AndroidUtilities.dp(11.0f)) - Theme.chat_topicTextPaint.getTextSize()) + this.topicHeight) / 2.0f) + f12));
+            float f13 = abs2 + f4;
+            int i9 = this.topicHeight;
+            rectF.set(f13 - dp8, i9 - dp8, f13, i9);
             this.topicPath.arcTo(rectF, 0.0f, 90.0f);
-            int i11 = this.topicHeight;
-            rectF.set(0.0f, i11 - dp7, dp7, i11);
+            int i10 = this.topicHeight;
+            rectF.set(0.0f, i10 - dp7, dp7, i10);
             this.topicPath.arcTo(rectF, 90.0f, 90.0f);
             this.topicPath.close();
-            f2 = max3;
-            i5 = i9;
+            f = max3;
+            i4 = i8;
         } else {
-            i4 = i2;
-            i5 = lineCount;
-            if (i5 == 1) {
+            i3 = dp2;
+            i4 = lineCount;
+            if (i4 == 1) {
                 this.topicHeight = AndroidUtilities.dp(11.0f) + ((int) Theme.chat_topicTextPaint.getTextSize());
                 float abs3 = Math.abs(this.topicNameLayout.getLineRight(0) - this.topicNameLayout.getLineLeft(0));
                 if (this.topicClosed) {
@@ -267,48 +300,48 @@ public class MessageTopicButton {
                 }
                 this.topicNameLeft = this.topicNameLayout.getLineLeft(0);
                 RectF rectF2 = AndroidUtilities.rectTmp;
-                rectF2.set(0.0f, 0.0f, f5 + abs3, this.topicHeight);
+                rectF2.set(0.0f, 0.0f, f4 + abs3, this.topicHeight);
                 this.topicArrowDrawableVisible = true;
-                float f15 = max;
-                float f16 = max / 2;
-                this.topicArrowDrawable.setBounds((int) (((AndroidUtilities.dp(-4.0f) + f5) + abs3) - f15), (int) ((this.topicHeight / 2.0f) - f16), (int) (AndroidUtilities.dp(-4.0f) + f5 + abs3), (int) ((this.topicHeight / 2.0f) + f16));
-                float f17 = max2 / 2;
-                this.topicClosedDrawable.setBounds((int) ((((AndroidUtilities.dp(-4.0f) + f5) + abs3) - f15) - max2), (int) ((this.topicHeight / 2.0f) - f17), (int) (((AndroidUtilities.dp(-4.0f) + f5) + abs3) - f15), (int) ((this.topicHeight / 2.0f) + f17));
+                float f14 = max;
+                float f15 = max / 2;
+                this.topicArrowDrawable.setBounds((int) (((AndroidUtilities.dp(-4.0f) + f4) + abs3) - f14), (int) ((this.topicHeight / 2.0f) - f15), (int) (AndroidUtilities.dp(-4.0f) + f4 + abs3), (int) ((this.topicHeight / 2.0f) + f15));
+                float f16 = max2 / 2;
+                this.topicClosedDrawable.setBounds((int) ((((AndroidUtilities.dp(-4.0f) + f4) + abs3) - f14) - max2), (int) ((this.topicHeight / 2.0f) - f16), (int) (((AndroidUtilities.dp(-4.0f) + f4) + abs3) - f14), (int) ((this.topicHeight / 2.0f) + f16));
                 this.topicPath.addRoundRect(rectF2, dp7, dp7, Path.Direction.CW);
-                f2 = abs3;
-            } else if (i5 == 0) {
+                f = abs3;
+            } else if (i4 == 0) {
                 this.topicHeight = AndroidUtilities.dp(11.0f) + ((int) Theme.chat_topicTextPaint.getTextSize());
                 if (this.topicClosed) {
-                    f3 = 0.0f;
-                    f4 = AndroidUtilities.dp(4.0f) + max2 + 0.0f;
+                    f2 = 0.0f;
+                    f3 = AndroidUtilities.dp(4.0f) + max2 + 0.0f;
                 } else {
+                    f2 = 0.0f;
                     f3 = 0.0f;
-                    f4 = 0.0f;
                 }
-                this.topicNameLeft = f3;
+                this.topicNameLeft = f2;
                 this.topicArrowDrawableVisible = true;
-                float f18 = max2;
-                float f19 = max / 2;
-                this.topicArrowDrawable.setBounds((int) (((AndroidUtilities.dp(-4.0f) + f5) + f4) - f18), (int) ((this.topicHeight / 2.0f) - f19), (int) (AndroidUtilities.dp(-4.0f) + f5 + f4), (int) ((this.topicHeight / 2.0f) + f19));
-                float f20 = max;
-                float f21 = max2 / 2;
-                this.topicClosedDrawable.setBounds((int) ((((AndroidUtilities.dp(-4.0f) + f5) + f4) - f20) - f18), (int) ((this.topicHeight / 2.0f) - f21), (int) (((AndroidUtilities.dp(-4.0f) + f5) + f4) - f20), (int) ((this.topicHeight / 2.0f) + f21));
+                float f17 = max2;
+                float f18 = max / 2;
+                this.topicArrowDrawable.setBounds((int) (((AndroidUtilities.dp(-4.0f) + f4) + f3) - f17), (int) ((this.topicHeight / 2.0f) - f18), (int) (AndroidUtilities.dp(-4.0f) + f4 + f3), (int) ((this.topicHeight / 2.0f) + f18));
+                float f19 = max;
+                float f20 = max2 / 2;
+                this.topicClosedDrawable.setBounds((int) ((((AndroidUtilities.dp(-4.0f) + f4) + f3) - f19) - f17), (int) ((this.topicHeight / 2.0f) - f20), (int) (((AndroidUtilities.dp(-4.0f) + f4) + f3) - f19), (int) ((this.topicHeight / 2.0f) + f20));
                 RectF rectF3 = AndroidUtilities.rectTmp;
-                rectF3.set(0.0f, 0.0f, f5 + f4, this.topicHeight);
+                rectF3.set(0.0f, 0.0f, f4 + f3, this.topicHeight);
                 this.topicPath.addRoundRect(rectF3, dp7, dp7, Path.Direction.CW);
-                f2 = f4;
+                f = f3;
             } else {
-                f2 = 0.0f;
+                f = 0.0f;
             }
         }
-        this.topicWidth = (int) ((f5 - AndroidUtilities.dp(1.0f)) + f2);
+        this.topicWidth = (int) ((f4 - AndroidUtilities.dp(1.0f)) + f);
         if (messageObject.isAnyKindOfSticker()) {
             messageObject2 = messageObject;
         } else {
             messageObject2 = messageObject;
         }
         if (messageObject2.type != 19) {
-            i6 = 0;
+            i5 = 0;
             drawable = this.topicSelectorDrawable;
             if (drawable == null) {
                 Drawable createSelectorDrawable = Theme.createSelectorDrawable(this.topicBackgroundColor, 2);
@@ -322,35 +355,35 @@ public class MessageTopicButton {
                 if (this.topicIconDrawableBounds == null) {
                     this.topicIconDrawableBounds = new Rect();
                 }
-                this.topicIconDrawableBounds.set(AndroidUtilities.dp(5.0f), AndroidUtilities.dp((i5 == 2 ? 3 : 0) + 2), AndroidUtilities.dp(5.0f) + i4, AndroidUtilities.dp((i5 == 2 ? 3 : 0) + 2) + i4);
+                this.topicIconDrawableBounds.set(AndroidUtilities.dp(5.0f), AndroidUtilities.dp((i4 == 2 ? 3 : 0) + 2), AndroidUtilities.dp(5.0f) + i3, AndroidUtilities.dp((i4 == 2 ? 3 : 0) + 2) + i3);
                 this.topicIconDrawable.setBounds(this.topicIconDrawableBounds);
             }
-            return i6;
+            return i5;
         }
-        i6 = 0 + AndroidUtilities.dp(6.0f) + this.topicHeight;
-        int i12 = messageObject2.type;
-        if (i12 == 19) {
+        int dp10 = AndroidUtilities.dp(6.0f) + this.topicHeight + 0;
+        int i11 = messageObject2.type;
+        if (i11 == 19) {
             dp = AndroidUtilities.dp(16.0f);
+        } else if (i11 != 0) {
+            dp = AndroidUtilities.dp(9.0f);
         } else {
-            if (i12 != 0) {
-                dp = AndroidUtilities.dp(9.0f);
-            }
+            i5 = dp10;
             drawable = this.topicSelectorDrawable;
             if (drawable == null) {
             }
             this.topicPaint.setColor(this.topicBackgroundColor);
             if (this.topicIconDrawable != null) {
             }
-            return i6;
+            return i5;
         }
-        i6 += dp;
+        i5 = dp + dp10;
         drawable = this.topicSelectorDrawable;
         if (drawable == null) {
         }
         this.topicPaint.setColor(this.topicBackgroundColor);
         if (this.topicIconDrawable != null) {
         }
-        return i6;
+        return i5;
     }
 
     public void onAttached(ChatMessageCell chatMessageCell) {
@@ -582,9 +615,19 @@ public class MessageTopicButton {
             canvas.save();
             RectF rectF = this.topicHitRect;
             canvas.translate(rectF.left, rectF.top);
-            this.topicIconDrawable.setAlpha((int) (f * 255.0f));
-            this.topicIconDrawable.setBounds(this.topicIconDrawableBounds);
-            this.topicIconDrawable.draw(canvas);
+            Drawable drawable = this.topicIconDrawable;
+            if (drawable != null) {
+                drawable.setAlpha((int) (f * 255.0f));
+                this.topicIconDrawable.setBounds(this.topicIconDrawableBounds);
+                this.topicIconDrawable.draw(canvas);
+            } else {
+                ImageReceiver imageReceiver = this.imageReceiver;
+                if (imageReceiver != null) {
+                    int i = this.avatarSize;
+                    imageReceiver.setImageCoords(0.0f, 0.0f, i, i);
+                    this.imageReceiver.draw(canvas);
+                }
+            }
             canvas.restore();
         }
     }

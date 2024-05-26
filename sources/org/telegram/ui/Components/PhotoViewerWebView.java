@@ -733,8 +733,8 @@ public class PhotoViewerWebView extends FrameLayout {
         this.setPlaybackSpeed = true;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:28:0x00ab A[Catch: Exception -> 0x00f0, LOOP:0: B:26:0x00a4->B:28:0x00ab, LOOP_END, TryCatch #0 {Exception -> 0x00f0, blocks: (B:3:0x0013, B:5:0x0017, B:7:0x0025, B:25:0x008c, B:26:0x00a4, B:28:0x00ab, B:29:0x00af, B:23:0x0088, B:30:0x00dc, B:9:0x0033, B:11:0x0039, B:13:0x004c, B:15:0x0054, B:17:0x005c, B:19:0x0062, B:20:0x007e), top: B:43:0x0013, inners: #1 }] */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x00af A[EDGE_INSN: B:45:0x00af->B:29:0x00af ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x00ad A[Catch: Exception -> 0x00f3, LOOP:0: B:26:0x00a6->B:28:0x00ad, LOOP_END, TryCatch #1 {Exception -> 0x00f3, blocks: (B:3:0x0013, B:5:0x0017, B:7:0x0025, B:25:0x008e, B:26:0x00a6, B:28:0x00ad, B:29:0x00b1, B:23:0x008a, B:30:0x00df, B:9:0x0033, B:11:0x0039, B:13:0x004c, B:15:0x0055, B:17:0x005e, B:19:0x0064, B:20:0x0080), top: B:44:0x0013, inners: #0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x00b1 A[EDGE_INSN: B:45:0x00b1->B:29:0x00b1 ?: BREAK  , SYNTHETIC] */
     @SuppressLint({"AddJavascriptInterface"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.

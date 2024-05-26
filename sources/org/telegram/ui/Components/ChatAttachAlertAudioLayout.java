@@ -83,7 +83,7 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
 
     /* loaded from: classes3.dex */
     public interface AudioSelectDelegate {
-        void didSelectAudio(ArrayList<MessageObject> arrayList, CharSequence charSequence, boolean z, int i);
+        void didSelectAudio(ArrayList<MessageObject> arrayList, CharSequence charSequence, boolean z, int i, long j, boolean z2);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -494,7 +494,7 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
         new AlertDialog.Builder(getContext(), this.resourcesProvider).setTitle(LocaleController.getString("AppName", R.string.AppName)).setMessage(str).setPositiveButton(LocaleController.getString("OK", R.string.OK), null).show();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:22:0x0085  */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x008a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -507,7 +507,7 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
                 this.sendPressed = true;
                 ArrayList<MessageObject> arrayList = new ArrayList<>();
                 arrayList.add(audioEntry.messageObject);
-                this.delegate.didSelectAudio(arrayList, this.parentAlert.commentTextView.getText(), false, 0);
+                this.delegate.didSelectAudio(arrayList, this.parentAlert.commentTextView.getText(), false, 0, 0L, false);
             } else if (this.selectedAudios.indexOfKey(audioEntry.id) >= 0) {
                 this.selectedAudios.remove(audioEntry.id);
                 this.selectedAudiosOrder.remove(audioEntry);
@@ -537,7 +537,7 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
     }
 
     @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
-    public void sendSelectedItems(boolean z, int i) {
+    public void sendSelectedItems(boolean z, int i, long j, boolean z2) {
         if (this.selectedAudios.size() == 0 || this.delegate == null || this.sendPressed) {
             return;
         }
@@ -546,7 +546,15 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
         for (int i2 = 0; i2 < this.selectedAudiosOrder.size(); i2++) {
             arrayList.add(this.selectedAudiosOrder.get(i2).messageObject);
         }
-        this.delegate.didSelectAudio(arrayList, this.parentAlert.commentTextView.getText(), z, i);
+        this.delegate.didSelectAudio(arrayList, this.parentAlert.commentTextView.getText(), z, i, j, z2);
+    }
+
+    public ArrayList<MessageObject> getSelected() {
+        ArrayList<MessageObject> arrayList = new ArrayList<>();
+        for (int i = 0; i < this.selectedAudiosOrder.size(); i++) {
+            arrayList.add(this.selectedAudiosOrder.get(i).messageObject);
+        }
+        return arrayList;
     }
 
     public void setDelegate(AudioSelectDelegate audioSelectDelegate) {

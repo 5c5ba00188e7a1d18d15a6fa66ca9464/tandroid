@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.INavigationLayout;
 import org.telegram.ui.Components.LayoutHelper;
 /* loaded from: classes4.dex */
@@ -16,10 +15,9 @@ public class ChatActivityContainer extends FrameLayout {
     private final INavigationLayout parentLayout;
 
     protected void onSearchLoadingUpdate(boolean z) {
-        throw null;
     }
 
-    public ChatActivityContainer(Context context, Utilities.Callback0Return<FrameLayout> callback0Return, INavigationLayout iNavigationLayout, Bundle bundle) {
+    public ChatActivityContainer(Context context, INavigationLayout iNavigationLayout, Bundle bundle) {
         super(context);
         this.isActive = true;
         this.parentLayout = iNavigationLayout;
@@ -34,13 +32,17 @@ public class ChatActivityContainer extends FrameLayout {
             }
         };
         this.chatActivity = chatActivity;
-        chatActivity.insideContainerResizableView = callback0Return;
         chatActivity.isInsideContainer = true;
     }
 
     @Override // android.view.ViewGroup, android.view.View
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
+        initChatActivity();
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public void initChatActivity() {
         if (this.chatActivity.onFragmentCreate()) {
             ChatActivity chatActivity = this.chatActivity;
             this.fragmentView = chatActivity.fragmentView;

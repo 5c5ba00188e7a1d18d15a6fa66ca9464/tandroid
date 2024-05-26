@@ -292,10 +292,10 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
     /* JADX WARN: Code restructure failed: missing block: B:38:0x016b, code lost:
         if (r0.deleted != false) goto L34;
      */
-    /* JADX WARN: Removed duplicated region for block: B:144:0x035b  */
-    /* JADX WARN: Removed duplicated region for block: B:162:0x039d  */
-    /* JADX WARN: Removed duplicated region for block: B:169:0x03b7 A[LOOP:5: B:168:0x03b5->B:169:0x03b7, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:172:0x03d1  */
+    /* JADX WARN: Removed duplicated region for block: B:144:0x0357  */
+    /* JADX WARN: Removed duplicated region for block: B:162:0x0399  */
+    /* JADX WARN: Removed duplicated region for block: B:169:0x03b3 A[LOOP:5: B:168:0x03b1->B:169:0x03b3, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:172:0x03cd  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -587,7 +587,7 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
                     try {
                         arrayList4 = arrayList17;
                         try {
-                            MessagesStorage.getInstance(this.currentAccount).getUsersInternal(TextUtils.join(",", arrayList14), arrayList4);
+                            MessagesStorage.getInstance(this.currentAccount).getUsersInternal(arrayList14, arrayList4);
                         } catch (Exception e3) {
                             e = e3;
                             arrayList3 = arrayList18;

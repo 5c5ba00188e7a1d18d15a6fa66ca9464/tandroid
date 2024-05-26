@@ -13,8 +13,6 @@ import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class ForwardBackground {
     public final ButtonBounce bounce;
-    public float cx;
-    public float cy;
     private Drawable rippleDrawable;
     private int rippleDrawableColor;
     private final View view;
@@ -98,6 +96,7 @@ public class ForwardBackground {
             } else {
                 Theme.setSelectorDrawableColor(drawable, i, true);
             }
+            this.rippleDrawable.setCallback(this.view);
             this.rippleDrawableColor = i;
         }
     }
@@ -107,18 +106,14 @@ public class ForwardBackground {
     }
 
     public void setPressed(boolean z, float f, float f2) {
+        Drawable drawable;
         this.bounce.setPressed(z);
-        Drawable drawable = this.rippleDrawable;
-        if (drawable != null) {
-            drawable.setState(z ? new int[]{16842910, 16842919} : new int[0]);
+        if (z && (drawable = this.rippleDrawable) != null && Build.VERSION.SDK_INT >= 21) {
+            drawable.setHotspot(f, f2);
         }
-        if (z) {
-            this.cx = f;
-            this.cy = f2;
-            Drawable drawable2 = this.rippleDrawable;
-            if (drawable2 != null && Build.VERSION.SDK_INT >= 21) {
-                drawable2.setHotspot(f, f2);
-            }
+        Drawable drawable2 = this.rippleDrawable;
+        if (drawable2 != null) {
+            drawable2.setState(z ? new int[]{16842910, 16842919} : new int[0]);
         }
         this.view.invalidate();
     }

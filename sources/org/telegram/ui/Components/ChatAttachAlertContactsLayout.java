@@ -76,13 +76,13 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
 
         /* loaded from: classes3.dex */
         public final /* synthetic */ class -CC {
-            public static void $default$didSelectContacts(PhonebookShareAlertDelegate phonebookShareAlertDelegate, ArrayList arrayList, String str, boolean z, int i) {
+            public static void $default$didSelectContacts(PhonebookShareAlertDelegate phonebookShareAlertDelegate, ArrayList arrayList, String str, boolean z, int i, long j, boolean z2) {
             }
         }
 
-        void didSelectContact(TLRPC$User tLRPC$User, boolean z, int i);
+        void didSelectContact(TLRPC$User tLRPC$User, boolean z, int i, long j, boolean z2);
 
-        void didSelectContacts(ArrayList<TLRPC$User> arrayList, String str, boolean z, int i);
+        void didSelectContacts(ArrayList<TLRPC$User> arrayList, String str, boolean z, int i, long j, boolean z2);
     }
 
     /* loaded from: classes3.dex */
@@ -578,13 +578,13 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
             PhonebookShareAlert phonebookShareAlert = new PhonebookShareAlert(this.parentAlert.baseFragment, contact, (TLRPC$User) null, (Uri) null, (File) null, str, str2, resourcesProvider);
             phonebookShareAlert.setDelegate(new PhonebookShareAlertDelegate() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$$ExternalSyntheticLambda1
                 @Override // org.telegram.ui.Components.ChatAttachAlertContactsLayout.PhonebookShareAlertDelegate
-                public final void didSelectContact(TLRPC$User tLRPC$User3, boolean z, int i2) {
-                    ChatAttachAlertContactsLayout.this.lambda$new$0(tLRPC$User3, z, i2);
+                public final void didSelectContact(TLRPC$User tLRPC$User3, boolean z, int i2, long j, boolean z2) {
+                    ChatAttachAlertContactsLayout.this.lambda$new$0(tLRPC$User3, z, i2, j, z2);
                 }
 
                 @Override // org.telegram.ui.Components.ChatAttachAlertContactsLayout.PhonebookShareAlertDelegate
-                public /* synthetic */ void didSelectContacts(ArrayList arrayList, String str7, boolean z, int i2) {
-                    ChatAttachAlertContactsLayout.PhonebookShareAlertDelegate.-CC.$default$didSelectContacts(this, arrayList, str7, z, i2);
+                public /* synthetic */ void didSelectContacts(ArrayList arrayList, String str7, boolean z, int i2, long j, boolean z2) {
+                    ChatAttachAlertContactsLayout.PhonebookShareAlertDelegate.-CC.$default$didSelectContacts(this, arrayList, str7, z, i2, j, z2);
                 }
             });
             phonebookShareAlert.show();
@@ -592,9 +592,9 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$0(TLRPC$User tLRPC$User, boolean z, int i) {
+    public /* synthetic */ void lambda$new$0(TLRPC$User tLRPC$User, boolean z, int i, long j, boolean z2) {
         this.parentAlert.dismiss(true);
-        this.delegate.didSelectContact(tLRPC$User, z, i);
+        this.delegate.didSelectContact(tLRPC$User, z, i, j, z2);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -802,7 +802,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
     }
 
     @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
-    public void sendSelectedItems(boolean z, int i) {
+    public void sendSelectedItems(boolean z, int i, long j, boolean z2) {
         if ((this.selectedContacts.size() == 0 && this.delegate == null) || this.sendPressed) {
             return;
         }
@@ -812,7 +812,16 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
         while (it.hasNext()) {
             arrayList.add(prepareContact(this.selectedContacts.get(it.next())));
         }
-        this.delegate.didSelectContacts(arrayList, this.parentAlert.commentTextView.getText().toString(), z, i);
+        this.delegate.didSelectContacts(arrayList, this.parentAlert.commentTextView.getText().toString(), z, i, j, z2);
+    }
+
+    public ArrayList<TLRPC$User> getSelected() {
+        ArrayList<TLRPC$User> arrayList = new ArrayList<>(this.selectedContacts.size());
+        Iterator<ListItemID> it = this.selectedContactsOrder.iterator();
+        while (it.hasNext()) {
+            arrayList.add(prepareContact(this.selectedContacts.get(it.next())));
+        }
+        return arrayList;
     }
 
     @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout

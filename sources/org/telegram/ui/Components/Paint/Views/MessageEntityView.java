@@ -1303,12 +1303,12 @@ public class MessageEntityView extends EntityView {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:28:0x006b  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x0070  */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x007c  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x0081  */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x0097  */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x00a7  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x006c  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x0071  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x007d  */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x0082  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x0098  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x00a8  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

@@ -81,8 +81,7 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public boolean onTabClick(int i) {
+    protected boolean onTabClick(int i) {
         return true;
     }
 
@@ -1082,7 +1081,7 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
 
         public void updateLockImageReceiver() {
             PremiumLockIconView premiumLockIconView = this.lockView;
-            if (premiumLockIconView == null || premiumLockIconView.ready() || !(getDrawable() instanceof AnimatedEmojiDrawable)) {
+            if (premiumLockIconView == null || premiumLockIconView.done() || !(getDrawable() instanceof AnimatedEmojiDrawable)) {
                 return;
             }
             if (((AnimatedEmojiDrawable) getDrawable()).canOverrideColor()) {

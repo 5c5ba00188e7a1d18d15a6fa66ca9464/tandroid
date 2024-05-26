@@ -2,6 +2,7 @@ package org.telegram.messenger;
 
 import android.os.Looper;
 import android.util.LongSparseArray;
+import j$.util.concurrent.ConcurrentHashMap;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,8 +26,9 @@ public class FilePathDatabase {
     private SQLiteDatabase database;
     boolean databaseCreated;
     private DispatchQueue dispatchQueue;
-    private final FileMeta metaTmp = new FileMeta();
     private File shmCacheFile;
+    private final ConcurrentHashMap<String, String> cache = new ConcurrentHashMap<>();
+    private final FileMeta metaTmp = new FileMeta();
 
     /* loaded from: classes3.dex */
     public static class FileMeta {
@@ -152,12 +154,28 @@ public class FilePathDatabase {
         return false;
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:60:0x0168  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x016e  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x0179  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public String getPath(final long j, final int i, final int i2, boolean z) {
-        SQLiteException sQLiteException;
+        SQLiteCursor sQLiteCursor;
         String str;
-        SQLiteCursor queryFinalized;
+        SQLiteException sQLiteException;
+        String str2;
+        String str3;
         DispatchQueue dispatchQueue;
-        if (z) {
+        final long currentTimeMillis = System.currentTimeMillis();
+        String str4 = j + "_" + i + "_" + i2;
+        String str5 = this.cache.get(str4);
+        if (str5 != null) {
+            if (BuildVars.DEBUG_VERSION) {
+                FileLog.d("get file path cached id=" + j + " dc=" + i + " type=" + i2 + " path=" + str5 + " in " + (System.currentTimeMillis() - currentTimeMillis) + "ms");
+            }
+            return str5;
+        } else if (z) {
             if (BuildVars.DEBUG_PRIVATE_VERSION && (dispatchQueue = this.dispatchQueue) != null && dispatchQueue.getHandler() != null && Thread.currentThread() == this.dispatchQueue.getHandler().getLooper().getThread()) {
                 throw new RuntimeException("Error, lead to infinity loop");
             }
@@ -166,63 +184,102 @@ public class FilePathDatabase {
             postRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
-                    FilePathDatabase.this.lambda$getPath$0(j, i, i2, strArr, countDownLatch);
+                    FilePathDatabase.this.lambda$getPath$0(j, i, i2, strArr, currentTimeMillis, countDownLatch);
                 }
             });
             try {
                 countDownLatch.await();
             } catch (Exception unused) {
             }
+            if (strArr[0] != null) {
+                this.cache.put(str4, strArr[0]);
+            }
             return strArr[0];
-        }
-        SQLiteDatabase sQLiteDatabase = this.database;
-        SQLiteCursor sQLiteCursor = null;
-        r2 = null;
-        String str2 = null;
-        sQLiteCursor = null;
-        if (sQLiteDatabase == null) {
-            return null;
-        }
-        try {
+        } else {
+            SQLiteDatabase sQLiteDatabase = this.database;
+            if (sQLiteDatabase == null) {
+                return null;
+            }
             try {
-                queryFinalized = sQLiteDatabase.queryFinalized("SELECT path FROM paths WHERE document_id = " + j + " AND dc_id = " + i + " AND type = " + i2, new Object[0]);
-            } catch (SQLiteException e) {
-                sQLiteException = e;
-                str = null;
-            }
-        } catch (Throwable th) {
-            th = th;
-        }
-        try {
-            if (queryFinalized.next()) {
-                str2 = queryFinalized.stringValue(0);
-                if (BuildVars.DEBUG_VERSION) {
-                    FileLog.d("get file path id=" + j + " dc=" + i + " type=" + i2 + " path=" + str2);
+                try {
+                    str = str4;
+                } catch (SQLiteException e) {
+                    e = e;
+                    str = str4;
                 }
+                try {
+                    SQLiteCursor queryFinalized = sQLiteDatabase.queryFinalized("SELECT path FROM paths WHERE document_id = " + j + " AND dc_id = " + i + " AND type = " + i2, new Object[0]);
+                    try {
+                        try {
+                            if (queryFinalized.next()) {
+                                str3 = queryFinalized.stringValue(0);
+                                try {
+                                    if (BuildVars.DEBUG_VERSION) {
+                                        FileLog.d("get file path id=" + j + " dc=" + i + " type=" + i2 + " path=" + str3 + " in " + (System.currentTimeMillis() - currentTimeMillis) + "ms");
+                                    }
+                                } catch (SQLiteException e2) {
+                                    sQLiteException = e2;
+                                    str2 = str3;
+                                    sQLiteCursor = queryFinalized;
+                                    try {
+                                        FileLog.e(sQLiteException);
+                                        if (sQLiteCursor != null) {
+                                            sQLiteCursor.dispose();
+                                        }
+                                        str3 = str2;
+                                        if (str3 != null) {
+                                        }
+                                        return str3;
+                                    } catch (Throwable th) {
+                                        th = th;
+                                        if (sQLiteCursor != null) {
+                                        }
+                                        throw th;
+                                    }
+                                }
+                            } else {
+                                str3 = null;
+                            }
+                            queryFinalized.dispose();
+                        } catch (Throwable th2) {
+                            th = th2;
+                            sQLiteCursor = queryFinalized;
+                            if (sQLiteCursor != null) {
+                                sQLiteCursor.dispose();
+                            }
+                            throw th;
+                        }
+                    } catch (SQLiteException e3) {
+                        sQLiteCursor = queryFinalized;
+                        sQLiteException = e3;
+                        str2 = null;
+                    }
+                } catch (SQLiteException e4) {
+                    e = e4;
+                    sQLiteException = e;
+                    str2 = null;
+                    sQLiteCursor = null;
+                    FileLog.e(sQLiteException);
+                    if (sQLiteCursor != null) {
+                    }
+                    str3 = str2;
+                    if (str3 != null) {
+                    }
+                    return str3;
+                }
+                if (str3 != null) {
+                    this.cache.put(str, str3);
+                }
+                return str3;
+            } catch (Throwable th3) {
+                th = th3;
+                sQLiteCursor = null;
             }
-            queryFinalized.dispose();
-            return str2;
-        } catch (SQLiteException e2) {
-            sQLiteException = e2;
-            str = str2;
-            sQLiteCursor = queryFinalized;
-            FileLog.e(sQLiteException);
-            if (sQLiteCursor != null) {
-                sQLiteCursor.dispose();
-            }
-            return str;
-        } catch (Throwable th2) {
-            th = th2;
-            sQLiteCursor = queryFinalized;
-            if (sQLiteCursor != null) {
-                sQLiteCursor.dispose();
-            }
-            throw th;
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$getPath$0(long j, int i, int i2, String[] strArr, CountDownLatch countDownLatch) {
+    public /* synthetic */ void lambda$getPath$0(long j, int i, int i2, String[] strArr, long j2, CountDownLatch countDownLatch) {
         ensureDatabaseCreated();
         SQLiteDatabase sQLiteDatabase = this.database;
         if (sQLiteDatabase != null) {
@@ -232,7 +289,7 @@ public class FilePathDatabase {
                 if (sQLiteCursor.next()) {
                     strArr[0] = sQLiteCursor.stringValue(0);
                     if (BuildVars.DEBUG_VERSION) {
-                        FileLog.d("get file path id=" + j + " dc=" + i + " type=" + i2 + " path=" + strArr[0]);
+                        FileLog.d("get file path id=" + j + " dc=" + i + " type=" + i2 + " path=" + strArr[0] + " in " + (System.currentTimeMillis() - j2) + "ms");
                     }
                 }
             } catch (Throwable th) {
@@ -280,8 +337,8 @@ public class FilePathDatabase {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x00c5  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x00ca  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x0102  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0107  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -312,6 +369,7 @@ public class FilePathDatabase {
                     sQLitePreparedStatement3.bindInteger(5, i3);
                     sQLitePreparedStatement3.step();
                     sQLitePreparedStatement3.dispose();
+                    this.cache.put(j + "_" + i + "_" + i2, str);
                     sQLitePreparedStatement2 = sQLitePreparedStatement3;
                     sQLitePreparedStatement3 = executeFast;
                 } catch (SQLiteException e) {
@@ -350,6 +408,7 @@ public class FilePathDatabase {
                 }
             } else {
                 sQLiteDatabase.executeFast("DELETE FROM paths WHERE document_id = " + j + " AND dc_id = " + i + " AND type = " + i2).stepThis().dispose();
+                this.cache.remove(j + "_" + i + "_" + i2);
                 sQLitePreparedStatement2 = null;
             }
             if (sQLitePreparedStatement3 != null) {
@@ -409,6 +468,7 @@ public class FilePathDatabase {
     }
 
     public void clear() {
+        this.cache.clear();
         postRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {

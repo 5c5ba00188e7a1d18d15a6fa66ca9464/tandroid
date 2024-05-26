@@ -639,8 +639,9 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
             }
         };
         this.viewPagerFixed = new ViewPagerFixed(getContext()) { // from class: org.telegram.ui.StatisticActivity.4
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.ViewPagerFixed
-            protected void onTabAnimationUpdate(boolean z2) {
+            public void onTabAnimationUpdate(boolean z2) {
                 if (z2) {
                     return;
                 }

@@ -1,8 +1,12 @@
 package androidx.core.graphics;
 
+import android.graphics.BlendMode;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.os.Build;
+import androidx.core.graphics.BlendModeUtils;
 import androidx.core.util.Pair;
 /* loaded from: classes.dex */
 public final class PaintCompat {
@@ -46,6 +50,20 @@ public final class PaintCompat {
         return !obtainEmptyRects.first.equals(obtainEmptyRects.second);
     }
 
+    public static boolean setBlendMode(Paint paint, BlendModeCompat blendModeCompat) {
+        if (Build.VERSION.SDK_INT >= 29) {
+            Api29Impl.setBlendMode(paint, blendModeCompat != null ? BlendModeUtils.Api29Impl.obtainBlendModeFromCompat(blendModeCompat) : null);
+            return true;
+        } else if (blendModeCompat != null) {
+            PorterDuff.Mode obtainPorterDuffFromCompat = BlendModeUtils.obtainPorterDuffFromCompat(blendModeCompat);
+            paint.setXfermode(obtainPorterDuffFromCompat != null ? new PorterDuffXfermode(obtainPorterDuffFromCompat) : null);
+            return obtainPorterDuffFromCompat != null;
+        } else {
+            paint.setXfermode(null);
+            return true;
+        }
+    }
+
     private static Pair<Rect, Rect> obtainEmptyRects() {
         ThreadLocal<Pair<Rect, Rect>> threadLocal = sRectThreadLocal;
         Pair<Rect, Rect> pair = threadLocal.get();
@@ -57,6 +75,13 @@ public final class PaintCompat {
         pair.first.setEmpty();
         pair.second.setEmpty();
         return pair;
+    }
+
+    /* loaded from: classes.dex */
+    static class Api29Impl {
+        static void setBlendMode(Paint paint, Object obj) {
+            paint.setBlendMode((BlendMode) obj);
+        }
     }
 
     /* loaded from: classes.dex */

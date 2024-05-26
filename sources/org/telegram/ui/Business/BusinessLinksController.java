@@ -118,8 +118,8 @@ public class BusinessLinksController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:35:0x00b0, code lost:
-        if (r0 == null) goto L39;
+    /* JADX WARN: Code restructure failed: missing block: B:34:0x00ac, code lost:
+        if (r0 == null) goto L38;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -137,7 +137,7 @@ public class BusinessLinksController {
                     arrayList.add(TLRPC$TL_businessChatLink.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(false), false));
                 }
                 sQLiteCursor.dispose();
-                ArrayList arrayList4 = new ArrayList();
+                ArrayList<Long> arrayList4 = new ArrayList<>();
                 ArrayList arrayList5 = new ArrayList();
                 for (int i = 0; i < arrayList.size(); i++) {
                     TLRPC$TL_businessChatLink tLRPC$TL_businessChatLink = (TLRPC$TL_businessChatLink) arrayList.get(i);
@@ -153,7 +153,7 @@ public class BusinessLinksController {
                     }
                 }
                 if (!arrayList4.isEmpty()) {
-                    messagesStorage.getUsersInternal(TextUtils.join(",", arrayList4), arrayList2);
+                    messagesStorage.getUsersInternal(arrayList4, arrayList2);
                 }
                 if (!arrayList5.isEmpty()) {
                     messagesStorage.getChatsInternal(TextUtils.join(",", arrayList5), arrayList3);

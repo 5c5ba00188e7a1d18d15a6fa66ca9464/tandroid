@@ -49,12 +49,14 @@ import org.telegram.messenger.browser.Browser;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
+import org.telegram.tgnet.TLRPC$InputInvoice;
+import org.telegram.tgnet.TLRPC$PaymentForm;
+import org.telegram.tgnet.TLRPC$PaymentReceipt;
 import org.telegram.tgnet.TLRPC$TL_dataJSON;
 import org.telegram.tgnet.TLRPC$TL_error;
 import org.telegram.tgnet.TLRPC$TL_messages_prolongWebView;
 import org.telegram.tgnet.TLRPC$TL_messages_requestWebView;
-import org.telegram.tgnet.TLRPC$TL_payments_paymentForm;
-import org.telegram.tgnet.TLRPC$TL_payments_paymentReceipt;
+import org.telegram.tgnet.TLRPC$TL_payments_paymentFormStars;
 import org.telegram.tgnet.TLRPC$TL_webViewResultUrl;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.ActionBar;
@@ -71,6 +73,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.SimpleFloatPropertyCompat;
 import org.telegram.ui.DialogsActivity;
 import org.telegram.ui.PaymentFormActivity;
+import org.telegram.ui.Stars.StarsController;
 import org.telegram.ui.TopicsFragment;
 import org.telegram.ui.bots.BotWebViewContainer;
 import org.telegram.ui.bots.BotWebViewMenuContainer;
@@ -429,7 +432,7 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
             bundle.putBoolean("allowChannels", list.contains("channels"));
             bundle.putBoolean("allowBots", list.contains("bots"));
             DialogsActivity dialogsActivity = new DialogsActivity(bundle);
-            dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.bots.BotWebViewMenuContainer$2$$ExternalSyntheticLambda3
+            dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.bots.BotWebViewMenuContainer$2$$ExternalSyntheticLambda4
                 @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
                 public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
                     boolean lambda$onWebAppSwitchInlineQuery$2;
@@ -460,21 +463,32 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         }
 
         @Override // org.telegram.ui.bots.BotWebViewContainer.Delegate
-        public void onWebAppOpenInvoice(final String str, TLObject tLObject) {
+        public void onWebAppOpenInvoice(TLRPC$InputInvoice tLRPC$InputInvoice, final String str, TLObject tLObject) {
             PaymentFormActivity paymentFormActivity;
             ChatActivity parentFragment = this.val$parentEnterView.getParentFragment();
-            if (tLObject instanceof TLRPC$TL_payments_paymentForm) {
-                TLRPC$TL_payments_paymentForm tLRPC$TL_payments_paymentForm = (TLRPC$TL_payments_paymentForm) tLObject;
-                MessagesController.getInstance(BotWebViewMenuContainer.this.currentAccount).putUsers(tLRPC$TL_payments_paymentForm.users, false);
-                paymentFormActivity = new PaymentFormActivity(tLRPC$TL_payments_paymentForm, str, parentFragment);
+            if (tLObject instanceof TLRPC$TL_payments_paymentFormStars) {
+                final AlertDialog alertDialog = new AlertDialog(BotWebViewMenuContainer.this.getContext(), 3);
+                alertDialog.showDelayed(150L);
+                StarsController.getInstance(BotWebViewMenuContainer.this.currentAccount).openPaymentForm(tLRPC$InputInvoice, (TLRPC$TL_payments_paymentFormStars) tLObject, new Runnable() { // from class: org.telegram.ui.bots.BotWebViewMenuContainer$2$$ExternalSyntheticLambda3
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        AlertDialog.this.dismiss();
+                    }
+                });
+                return;
+            }
+            if (tLObject instanceof TLRPC$PaymentForm) {
+                TLRPC$PaymentForm tLRPC$PaymentForm = (TLRPC$PaymentForm) tLObject;
+                MessagesController.getInstance(BotWebViewMenuContainer.this.currentAccount).putUsers(tLRPC$PaymentForm.users, false);
+                paymentFormActivity = new PaymentFormActivity(tLRPC$PaymentForm, str, parentFragment);
             } else {
-                paymentFormActivity = tLObject instanceof TLRPC$TL_payments_paymentReceipt ? new PaymentFormActivity((TLRPC$TL_payments_paymentReceipt) tLObject) : null;
+                paymentFormActivity = tLObject instanceof TLRPC$PaymentReceipt ? new PaymentFormActivity((TLRPC$PaymentReceipt) tLObject) : null;
             }
             if (paymentFormActivity != null) {
-                paymentFormActivity.setPaymentFormCallback(new PaymentFormActivity.PaymentFormCallback() { // from class: org.telegram.ui.bots.BotWebViewMenuContainer$2$$ExternalSyntheticLambda4
+                paymentFormActivity.setPaymentFormCallback(new PaymentFormActivity.PaymentFormCallback() { // from class: org.telegram.ui.bots.BotWebViewMenuContainer$2$$ExternalSyntheticLambda5
                     @Override // org.telegram.ui.PaymentFormActivity.PaymentFormCallback
                     public final void onInvoiceStatusChanged(PaymentFormActivity.InvoiceStatus invoiceStatus) {
-                        BotWebViewMenuContainer.2.this.lambda$onWebAppOpenInvoice$3(str, invoiceStatus);
+                        BotWebViewMenuContainer.2.this.lambda$onWebAppOpenInvoice$4(str, invoiceStatus);
                     }
                 });
                 parentFragment.presentFragment(paymentFormActivity);
@@ -482,7 +496,7 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onWebAppOpenInvoice$3(String str, PaymentFormActivity.InvoiceStatus invoiceStatus) {
+        public /* synthetic */ void lambda$onWebAppOpenInvoice$4(String str, PaymentFormActivity.InvoiceStatus invoiceStatus) {
             BotWebViewMenuContainer.this.webViewContainer.onInvoiceStatusUpdate(str, invoiceStatus.name().toLowerCase(Locale.ROOT));
         }
 
@@ -493,7 +507,7 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
             botWebViewButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.bots.BotWebViewMenuContainer$2$$ExternalSyntheticLambda2
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
-                    BotWebViewMenuContainer.2.this.lambda$onSetupMainButton$4(view);
+                    BotWebViewMenuContainer.2.this.lambda$onSetupMainButton$5(view);
                 }
             });
             if (z != BotWebViewMenuContainer.this.botWebViewButtonWasVisible) {
@@ -502,7 +516,7 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onSetupMainButton$4(View view) {
+        public /* synthetic */ void lambda$onSetupMainButton$5(View view) {
             BotWebViewMenuContainer.this.webViewContainer.onMainButtonPressed();
         }
 

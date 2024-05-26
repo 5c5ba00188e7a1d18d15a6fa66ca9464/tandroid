@@ -261,11 +261,11 @@ public class FileRefController extends BaseController {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:121:0x03ca, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:121:0x03cb, code lost:
         if ("update".equals(r1) != false) goto L37;
      */
-    /* JADX WARN: Removed duplicated region for block: B:126:0x03d7  */
-    /* JADX WARN: Removed duplicated region for block: B:130:0x03ee  */
+    /* JADX WARN: Removed duplicated region for block: B:126:0x03d8  */
+    /* JADX WARN: Removed duplicated region for block: B:130:0x03ef  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

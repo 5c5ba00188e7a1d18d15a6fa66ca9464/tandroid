@@ -2154,14 +2154,13 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                 return EmojiView.this.featuredEmojiSets.size() <= 0 || ((TLRPC$StickerSetCovered) EmojiView.this.featuredEmojiSets.get(0)).set == null || MessagesController.getEmojiSettings(EmojiView.this.currentAccount).getLong("emoji_featured_hidden", 0L) == ((TLRPC$StickerSetCovered) EmojiView.this.featuredEmojiSets.get(0)).set.id || !UserConfig.getInstance(UserConfig.selectedAccount).isPremium();
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             /* JADX WARN: Removed duplicated region for block: B:84:0x00dc  */
             /* JADX WARN: Removed duplicated region for block: B:89:? A[RETURN, SYNTHETIC] */
             @Override // org.telegram.ui.Components.EmojiTabsStrip
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
-            public boolean onTabClick(int i15) {
+            protected boolean onTabClick(int i15) {
                 Integer num;
                 int i16;
                 if (EmojiView.this.emojiSmoothScrolling) {
@@ -2797,29 +2796,31 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
             } else {
                 i5 = argb;
             }
-            ImageView imageView3 = new ImageView(context);
-            this.stickerSettingsButton = imageView3;
-            imageView3.setImageResource(R.drawable.smiles_tab_settings);
-            this.stickerSettingsButton.setColorFilter(new PorterDuffColorFilter(getThemedColor(i7), PorterDuff.Mode.MULTIPLY));
-            this.stickerSettingsButton.setScaleType(ImageView.ScaleType.CENTER);
-            this.stickerSettingsButton.setFocusable(true);
-            if (i13 >= 21) {
-                this.stickerSettingsButton.setBackground(Theme.createSelectorDrawable(i5, 1, AndroidUtilities.dp(18.0f)));
-            }
-            this.stickerSettingsButton.setContentDescription(LocaleController.getString("Settings", R.string.Settings));
-            this.bottomTabContainer.addView(this.stickerSettingsButton, LayoutHelper.createFrame(47, 40, 85));
-            this.stickerSettingsButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.EmojiView.29
-                {
-                    EmojiView.this = this;
+            if (z2) {
+                ImageView imageView3 = new ImageView(context);
+                this.stickerSettingsButton = imageView3;
+                imageView3.setImageResource(R.drawable.smiles_tab_settings);
+                this.stickerSettingsButton.setColorFilter(new PorterDuffColorFilter(getThemedColor(i7), PorterDuff.Mode.MULTIPLY));
+                this.stickerSettingsButton.setScaleType(ImageView.ScaleType.CENTER);
+                this.stickerSettingsButton.setFocusable(true);
+                if (i13 >= 21) {
+                    this.stickerSettingsButton.setBackground(Theme.createSelectorDrawable(i5, 1, AndroidUtilities.dp(18.0f)));
                 }
-
-                @Override // android.view.View.OnClickListener
-                public void onClick(View view5) {
-                    if (EmojiView.this.delegate != null) {
-                        EmojiView.this.delegate.onStickersSettingsClick();
+                this.stickerSettingsButton.setContentDescription(LocaleController.getString("Settings", R.string.Settings));
+                this.bottomTabContainer.addView(this.stickerSettingsButton, LayoutHelper.createFrame(47, 40, 85));
+                this.stickerSettingsButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.EmojiView.29
+                    {
+                        EmojiView.this = this;
                     }
-                }
-            });
+
+                    @Override // android.view.View.OnClickListener
+                    public void onClick(View view5) {
+                        if (EmojiView.this.delegate != null) {
+                            EmojiView.this.delegate.onStickersSettingsClick();
+                        }
+                    }
+                });
+            }
             resourcesProvider2 = resourcesProvider;
             PagerSlidingTabStrip pagerSlidingTabStrip = new PagerSlidingTabStrip(context, resourcesProvider2);
             this.typeTabs = pagerSlidingTabStrip;
@@ -5639,11 +5640,10 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
     }
 
     public void scrollEmojiToTop() {
-        try {
-            this.emojiTabs.scrollTo(0, 0);
-            this.emojiTabs.onTabClick(0);
-        } catch (Exception unused) {
-        }
+        this.emojiGridView.stopScroll();
+        this.emojiTabs.scrollTo(0, 0);
+        resetTabsY(1);
+        this.emojiLayoutManager.scrollToPositionWithOffset(0, 0);
     }
 
     public void checkEmojiSearchFieldScroll(boolean z) {

@@ -43,6 +43,7 @@ import androidx.core.graphics.ColorUtils;
 import java.util.ArrayList;
 import java.util.Map;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.BillingController$$ExternalSyntheticLambda8;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
@@ -84,6 +85,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
     private int[] containerViewLocation;
     private ScrollView contentScrollView;
     private int currentProgress;
+    private boolean customMaxHeight;
     private View customView;
     private int customViewHeight;
     private int customViewOffset;
@@ -257,8 +259,8 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
         this.dismissDialogByButtons = true;
         this.containerViewLocation = new int[2];
         this.checkFocusable = true;
-        this.dismissRunnable = new AlertDialog$$ExternalSyntheticLambda6(this);
-        this.showRunnable = new Runnable() { // from class: org.telegram.ui.ActionBar.AlertDialog$$ExternalSyntheticLambda7
+        this.dismissRunnable = new BillingController$$ExternalSyntheticLambda8(this);
+        this.showRunnable = new Runnable() { // from class: org.telegram.ui.ActionBar.AlertDialog$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
                 AlertDialog.this.lambda$new$0();
@@ -1152,7 +1154,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
                     }
                 }
             } else {
-                AndroidUtilities.makeGlobalBlurBitmap(new Utilities.Callback() { // from class: org.telegram.ui.ActionBar.AlertDialog$$ExternalSyntheticLambda8
+                AndroidUtilities.makeGlobalBlurBitmap(new Utilities.Callback() { // from class: org.telegram.ui.ActionBar.AlertDialog$$ExternalSyntheticLambda7
                     @Override // org.telegram.messenger.Utilities.Callback
                     public final void run(Object obj) {
                         AlertDialog.this.lambda$inflateContent$5(r1, (Bitmap) obj);
@@ -1437,7 +1439,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
     public void dismissUnless(long j) {
         long currentTimeMillis = System.currentTimeMillis() - this.shownAt;
         if (currentTimeMillis < j) {
-            AndroidUtilities.runOnUIThread(new AlertDialog$$ExternalSyntheticLambda6(this), currentTimeMillis - j);
+            AndroidUtilities.runOnUIThread(new BillingController$$ExternalSyntheticLambda8(this), currentTimeMillis - j);
         } else {
             dismiss();
         }
@@ -1449,7 +1451,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
         Utilities.Callback<Runnable> callback = this.overridenDissmissListener;
         if (callback != null) {
             this.overridenDissmissListener = null;
-            callback.run(new AlertDialog$$ExternalSyntheticLambda6(this));
+            callback.run(new BillingController$$ExternalSyntheticLambda8(this));
             return;
         }
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.emojiLoaded);
@@ -1795,6 +1797,11 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
 
         public Builder setAdditionalHorizontalPadding(int i) {
             this.alertDialog.additioanalHorizontalPadding = i;
+            return this;
+        }
+
+        public Builder makeCustomMaxHeight() {
+            this.alertDialog.customMaxHeight = true;
             return this;
         }
     }

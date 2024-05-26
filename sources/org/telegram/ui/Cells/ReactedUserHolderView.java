@@ -230,10 +230,10 @@ public class ReactedUserHolderView extends FrameLayout {
             formatString = LocaleController.formatString("AccDescrLike", R.string.AccDescrLike, new Object[0]);
             z5 = true;
         } else if (tLRPC$Reaction != null) {
-            ReactionsLayoutInBubble.VisibleReaction fromTLReaction = ReactionsLayoutInBubble.VisibleReaction.fromTLReaction(tLRPC$Reaction);
-            if (fromTLReaction.emojicon != null) {
+            ReactionsLayoutInBubble.VisibleReaction fromTL = ReactionsLayoutInBubble.VisibleReaction.fromTL(tLRPC$Reaction);
+            if (fromTL.emojicon != null) {
                 this.reactView.setAnimatedEmojiDrawable(null);
-                TLRPC$TL_availableReaction tLRPC$TL_availableReaction = MediaDataController.getInstance(this.currentAccount).getReactionsMap().get(fromTLReaction.emojicon);
+                TLRPC$TL_availableReaction tLRPC$TL_availableReaction = MediaDataController.getInstance(this.currentAccount).getReactionsMap().get(fromTL.emojicon);
                 if (tLRPC$TL_availableReaction != null) {
                     this.reactView.setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.center_icon), "40_40_lastreactframe", "webp", DocumentObject.getSvgThumb(tLRPC$TL_availableReaction.static_icon.thumbs, Theme.key_windowBackgroundGray, 1.0f), tLRPC$TL_availableReaction);
                     z6 = true;
@@ -243,7 +243,7 @@ public class ReactedUserHolderView extends FrameLayout {
                 }
                 this.reactView.setColorFilter(null);
             } else {
-                AnimatedEmojiDrawable animatedEmojiDrawable = new AnimatedEmojiDrawable(0, this.currentAccount, fromTLReaction.documentId);
+                AnimatedEmojiDrawable animatedEmojiDrawable = new AnimatedEmojiDrawable(0, this.currentAccount, fromTL.documentId);
                 animatedEmojiDrawable.setColorFilter(Theme.getAnimatedEmojiColorFilter(this.resourcesProvider));
                 this.reactView.setAnimatedEmojiDrawable(animatedEmojiDrawable);
                 z6 = true;
@@ -251,7 +251,7 @@ public class ReactedUserHolderView extends FrameLayout {
             int i = R.string.AccDescrReactedWith;
             Object[] objArr = new Object[2];
             objArr[0] = this.titleView.getText();
-            Object obj = fromTLReaction.emojicon;
+            Object obj = fromTL.emojicon;
             if (obj == null) {
                 obj = tLRPC$Reaction;
             }

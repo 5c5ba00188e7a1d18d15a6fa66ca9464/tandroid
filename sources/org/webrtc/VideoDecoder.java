@@ -1,8 +1,8 @@
 package org.webrtc;
-/* loaded from: classes4.dex */
+/* loaded from: classes.dex */
 public interface VideoDecoder {
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes.dex */
     public final /* synthetic */ class -CC {
         @CalledByNative
         public static long $default$createNativeVideoDecoder(VideoDecoder videoDecoder) {
@@ -10,7 +10,7 @@ public interface VideoDecoder {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes.dex */
     public interface Callback {
         void onDecodedFrame(VideoFrame videoFrame, Integer num, Integer num2);
     }
@@ -33,7 +33,7 @@ public interface VideoDecoder {
     @CalledByNative
     VideoCodecStatus release();
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes.dex */
     public static class Settings {
         public final int height;
         public final int numberOfCores;
@@ -47,7 +47,7 @@ public interface VideoDecoder {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes.dex */
     public static class DecodeInfo {
         public final boolean isMissingFrames;
         public final long renderTimeMs;

@@ -602,9 +602,9 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
             public void showEffect(StoryReactionWidgetView storyReactionWidgetView) {
                 PeerStoriesView peerStoriesView = PeerStoriesView.this;
                 if (!peerStoriesView.isSelf && peerStoriesView.currentStory.storyItem != null) {
-                    ReactionsLayoutInBubble.VisibleReaction fromTLReaction = ReactionsLayoutInBubble.VisibleReaction.fromTLReaction(storyReactionWidgetView.mediaArea.reaction);
-                    if (!Objects.equals(fromTLReaction, ReactionsLayoutInBubble.VisibleReaction.fromTLReaction(PeerStoriesView.this.currentStory.storyItem.sent_reaction))) {
-                        PeerStoriesView.this.likeStory(fromTLReaction);
+                    ReactionsLayoutInBubble.VisibleReaction fromTL = ReactionsLayoutInBubble.VisibleReaction.fromTL(storyReactionWidgetView.mediaArea.reaction);
+                    if (!Objects.equals(fromTL, ReactionsLayoutInBubble.VisibleReaction.fromTL(PeerStoriesView.this.currentStory.storyItem.sent_reaction))) {
+                        PeerStoriesView.this.likeStory(fromTL);
                     }
                 }
                 storyReactionWidgetView.performHapticFeedback(3);
@@ -2898,7 +2898,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
             z = false;
         } else {
             z2 = !z2;
-            this.storiesLikeButton.setReaction(ReactionsLayoutInBubble.VisibleReaction.fromTLReaction(tLRPC$Reaction));
+            this.storiesLikeButton.setReaction(ReactionsLayoutInBubble.VisibleReaction.fromTL(tLRPC$Reaction));
             performHapticFeedback(3);
             z = true;
         }
@@ -3336,7 +3336,9 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
         chatActivityEnterView.shouldDrawRecordedAudioPanelInParent = true;
         chatActivityEnterView.setAllowStickersAndGifs(true, true, true);
         this.chatActivityEnterView.updateColors();
-        addView(this.chatActivityEnterView, LayoutHelper.createFrame(-1, -2.0f, 83, 0.0f, 0.0f, 0.0f, 0.0f));
+        ChatActivityEnterView chatActivityEnterView2 = this.chatActivityEnterView;
+        chatActivityEnterView2.isStories = true;
+        addView(chatActivityEnterView2, LayoutHelper.createFrame(-1, -2.0f, 83, 0.0f, 0.0f, 0.0f, 0.0f));
         this.chatActivityEnterView.recordingGuid = this.classGuid;
         this.playerSharedScope.viewsToInvalidate.add(this.storyContainer);
         this.playerSharedScope.viewsToInvalidate.add(this);
@@ -3711,13 +3713,13 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
         }
 
         @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-        public void needStartRecordVideo(int i, boolean z, int i2, int i3) {
+        public void needStartRecordVideo(int i, boolean z, int i2, int i3, long j) {
             PeerStoriesView.this.checkInstantCameraView();
             if (PeerStoriesView.this.instantCameraView != null) {
                 if (i == 0) {
                     PeerStoriesView.this.instantCameraView.showCamera(false);
                 } else if (i == 1 || i == 3 || i == 4) {
-                    PeerStoriesView.this.instantCameraView.send(i, z, i2, i3);
+                    PeerStoriesView.this.instantCameraView.send(i, z, i2, i3, j);
                 } else if (i == 2 || i == 5) {
                     PeerStoriesView.this.instantCameraView.cancel(i == 2);
                 }
@@ -3956,7 +3958,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                 }
 
                 @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
-                public void didPressedButton(int i, boolean z, boolean z2, int i2, boolean z3) {
+                public void didPressedButton(int i, boolean z, boolean z2, int i2, long j, boolean z3, boolean z4) {
                     String str;
                     if (PeerStoriesView.this.storyViewer.isShowing) {
                         PeerStoriesView peerStoriesView = PeerStoriesView.this;
@@ -3985,8 +3987,8 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                                     if (i8 < selectedPhotosOrder.size()) {
                                         MediaController.PhotoEntry photoEntry = (MediaController.PhotoEntry) selectedPhotos.get(selectedPhotosOrder.get(i8));
                                         SendMessagesHelper.SendingMediaInfo sendingMediaInfo = new SendMessagesHelper.SendingMediaInfo();
-                                        boolean z4 = photoEntry.isVideo;
-                                        if (!z4 && (str = photoEntry.imagePath) != null) {
+                                        boolean z5 = photoEntry.isVideo;
+                                        if (!z5 && (str = photoEntry.imagePath) != null) {
                                             sendingMediaInfo.path = str;
                                         } else {
                                             String str2 = photoEntry.path;
@@ -3995,7 +3997,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                                             }
                                         }
                                         sendingMediaInfo.thumbPath = photoEntry.thumbPath;
-                                        sendingMediaInfo.isVideo = z4;
+                                        sendingMediaInfo.isVideo = z5;
                                         CharSequence charSequence = photoEntry.caption;
                                         sendingMediaInfo.caption = charSequence != null ? charSequence.toString() : null;
                                         sendingMediaInfo.entities = photoEntry.entities;
@@ -4009,7 +4011,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                                         photoEntry.reset();
                                     }
                                 }
-                                SendMessagesHelper.prepareSendingMedia(PeerStoriesView.this.getAccountInstance(), arrayList, PeerStoriesView.this.dialogId, null, null, tL_stories$StoryItem, null, i == i3 || z3, z, null, z2, i2, 0, i5 == 0 ? ((SendMessagesHelper.SendingMediaInfo) arrayList.get(i4)).updateStickersOrder : false, null, null, 0);
+                                SendMessagesHelper.prepareSendingMedia(PeerStoriesView.this.getAccountInstance(), arrayList, PeerStoriesView.this.dialogId, null, null, tL_stories$StoryItem, null, i == i3 || z4, z, null, z2, i2, 0, i5 == 0 ? ((SendMessagesHelper.SendingMediaInfo) arrayList.get(i4)).updateStickersOrder : false, null, null, 0, 0L, false);
                                 i5++;
                                 selectedPhotos = selectedPhotos;
                                 selectedPhotosOrder = selectedPhotosOrder;
@@ -4035,13 +4037,13 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                 }
 
                 @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
-                public void sendAudio(ArrayList<MessageObject> arrayList, CharSequence charSequence, boolean z, int i) {
+                public void sendAudio(ArrayList<MessageObject> arrayList, CharSequence charSequence, boolean z, int i, long j, boolean z2) {
                     PeerStoriesView peerStoriesView = PeerStoriesView.this;
                     TL_stories$StoryItem tL_stories$StoryItem = peerStoriesView.currentStory.storyItem;
                     if (tL_stories$StoryItem == null || (tL_stories$StoryItem instanceof TL_stories$TL_storyItemSkipped)) {
                         return;
                     }
-                    SendMessagesHelper.prepareSendingAudioDocuments(peerStoriesView.getAccountInstance(), arrayList, charSequence != null ? charSequence : null, PeerStoriesView.this.dialogId, null, null, tL_stories$StoryItem, z, i, null, null, 0);
+                    SendMessagesHelper.prepareSendingAudioDocuments(peerStoriesView.getAccountInstance(), arrayList, charSequence != null ? charSequence : null, PeerStoriesView.this.dialogId, null, null, tL_stories$StoryItem, z, i, null, null, 0, j, z2);
                     PeerStoriesView.this.afterMessageSend();
                 }
 
@@ -4065,13 +4067,13 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                 }
 
                 @Override // org.telegram.ui.Components.ChatAttachAlertDocumentLayout.DocumentSelectActivityDelegate
-                public void didSelectFiles(ArrayList<String> arrayList, String str, ArrayList<MessageObject> arrayList2, boolean z, int i) {
+                public void didSelectFiles(ArrayList<String> arrayList, String str, ArrayList<MessageObject> arrayList2, boolean z, int i, long j, boolean z2) {
                     PeerStoriesView peerStoriesView = PeerStoriesView.this;
                     TL_stories$StoryItem tL_stories$StoryItem = peerStoriesView.currentStory.storyItem;
                     if (tL_stories$StoryItem == null || (tL_stories$StoryItem instanceof TL_stories$TL_storyItemSkipped)) {
                         return;
                     }
-                    SendMessagesHelper.prepareSendingDocuments(peerStoriesView.getAccountInstance(), arrayList, arrayList, null, str, null, PeerStoriesView.this.dialogId, null, null, tL_stories$StoryItem, null, null, z, i, null, null, 0);
+                    SendMessagesHelper.prepareSendingDocuments(peerStoriesView.getAccountInstance(), arrayList, arrayList, null, str, null, PeerStoriesView.this.dialogId, null, null, tL_stories$StoryItem, null, null, z, i, null, null, 0, 0L, false);
                     PeerStoriesView.this.afterMessageSend();
                 }
 
@@ -5742,7 +5744,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
             if (tL_stories$StoryItem18 == null || (tLRPC$Reaction = tL_stories$StoryItem18.sent_reaction) == null) {
                 this.storiesLikeButton.setReaction(null);
             } else {
-                this.storiesLikeButton.setReaction(ReactionsLayoutInBubble.VisibleReaction.fromTLReaction(tLRPC$Reaction));
+                this.storiesLikeButton.setReaction(ReactionsLayoutInBubble.VisibleReaction.fromTL(tLRPC$Reaction));
             }
         }
         StoriesController.UploadingStory uploadingStory8 = this.currentStory.uploadingStory;
@@ -5978,7 +5980,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                         for (int i5 = 0; i5 < tL_stories$StoryItem.media_areas.size(); i5++) {
                             if (tL_stories$StoryItem.media_areas.get(i5) instanceof TL_stories$TL_mediaAreaSuggestedReaction) {
                                 ReactionImageHolder reactionImageHolder = new ReactionImageHolder(this);
-                                reactionImageHolder.setVisibleReaction(ReactionsLayoutInBubble.VisibleReaction.fromTLReaction(((TL_stories$TL_mediaAreaSuggestedReaction) tL_stories$StoryItem.media_areas.get(i5)).reaction));
+                                reactionImageHolder.setVisibleReaction(ReactionsLayoutInBubble.VisibleReaction.fromTL(((TL_stories$TL_mediaAreaSuggestedReaction) tL_stories$StoryItem.media_areas.get(i5)).reaction));
                                 reactionImageHolder.onAttachedToWindow(this.attachedToWindow);
                                 this.preloadReactionHolders.add(reactionImageHolder);
                             }
@@ -6617,7 +6619,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
     /* JADX WARN: Removed duplicated region for block: B:23:0x0051  */
     /* JADX WARN: Removed duplicated region for block: B:24:0x0053  */
     /* JADX WARN: Removed duplicated region for block: B:33:0x006c  */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x0087  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x0089  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -6658,10 +6660,10 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                 z = false;
             }
             if (!z) {
-                SendMessagesHelper.prepareSendingDocument(getAccountInstance(), null, null, parse, null, null, this.dialogId, null, null, tL_stories$StoryItem, null, null, true, 0, null, null, 0);
+                SendMessagesHelper.prepareSendingDocument(getAccountInstance(), null, null, parse, null, null, this.dialogId, null, null, tL_stories$StoryItem, null, null, true, 0, null, null, 0, false);
                 return;
             } else {
-                SendMessagesHelper.prepareSendingDocument(getAccountInstance(), path, str, null, null, null, this.dialogId, null, null, tL_stories$StoryItem, null, null, true, 0, null, null, 0);
+                SendMessagesHelper.prepareSendingDocument(getAccountInstance(), path, str, null, null, null, this.dialogId, null, null, tL_stories$StoryItem, null, null, true, 0, null, null, 0, false);
                 return;
             }
         }
@@ -7803,14 +7805,14 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                 tL_stories$StoryItem.dialogId = peerStoriesView.dialogId;
                 if (photoEntry.isVideo) {
                     if (videoEditedInfo != null) {
-                        SendMessagesHelper.prepareSendingVideo(PeerStoriesView.this.getAccountInstance(), photoEntry.path, videoEditedInfo, PeerStoriesView.this.dialogId, null, null, tL_stories$StoryItem, null, photoEntry.entities, photoEntry.ttl, null, z, i, z2, photoEntry.hasSpoiler, photoEntry.caption, null, 0);
+                        SendMessagesHelper.prepareSendingVideo(PeerStoriesView.this.getAccountInstance(), photoEntry.path, videoEditedInfo, PeerStoriesView.this.dialogId, null, null, tL_stories$StoryItem, null, photoEntry.entities, photoEntry.ttl, null, z, i, z2, photoEntry.hasSpoiler, photoEntry.caption, null, 0, 0L);
                     } else {
-                        SendMessagesHelper.prepareSendingVideo(PeerStoriesView.this.getAccountInstance(), photoEntry.path, null, PeerStoriesView.this.dialogId, null, null, tL_stories$StoryItem, null, photoEntry.entities, photoEntry.ttl, null, z, i, z2, photoEntry.hasSpoiler, photoEntry.caption, null, 0);
+                        SendMessagesHelper.prepareSendingVideo(PeerStoriesView.this.getAccountInstance(), photoEntry.path, null, PeerStoriesView.this.dialogId, null, null, tL_stories$StoryItem, null, photoEntry.entities, photoEntry.ttl, null, z, i, z2, photoEntry.hasSpoiler, photoEntry.caption, null, 0, 0L);
                     }
                 } else if (photoEntry.imagePath != null) {
-                    SendMessagesHelper.prepareSendingPhoto(PeerStoriesView.this.getAccountInstance(), photoEntry.imagePath, photoEntry.thumbPath, null, PeerStoriesView.this.dialogId, null, null, tL_stories$StoryItem, null, photoEntry.entities, photoEntry.stickers, null, photoEntry.ttl, null, videoEditedInfo, z, i, 0, z2, photoEntry.caption, null, 0);
+                    SendMessagesHelper.prepareSendingPhoto(PeerStoriesView.this.getAccountInstance(), photoEntry.imagePath, photoEntry.thumbPath, null, PeerStoriesView.this.dialogId, null, null, tL_stories$StoryItem, null, photoEntry.entities, photoEntry.stickers, null, photoEntry.ttl, null, videoEditedInfo, z, i, 0, z2, photoEntry.caption, null, 0, 0L);
                 } else if (photoEntry.path != null) {
-                    SendMessagesHelper.prepareSendingPhoto(PeerStoriesView.this.getAccountInstance(), photoEntry.path, photoEntry.thumbPath, null, PeerStoriesView.this.dialogId, null, null, tL_stories$StoryItem, null, photoEntry.entities, photoEntry.stickers, null, photoEntry.ttl, null, videoEditedInfo, z, i, 0, z2, photoEntry.caption, null, 0);
+                    SendMessagesHelper.prepareSendingPhoto(PeerStoriesView.this.getAccountInstance(), photoEntry.path, photoEntry.thumbPath, null, PeerStoriesView.this.dialogId, null, null, tL_stories$StoryItem, null, photoEntry.entities, photoEntry.stickers, null, photoEntry.ttl, null, videoEditedInfo, z, i, 0, z2, photoEntry.caption, null, 0, 0L);
                 }
                 PeerStoriesView.this.afterMessageSend();
             }

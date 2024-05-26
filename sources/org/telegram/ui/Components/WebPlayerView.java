@@ -426,14 +426,14 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         return downloadUrlContent(asyncTask, str, null, true);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:87:0x0168, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:87:0x0169, code lost:
         if (r3 == (-1)) goto L81;
      */
-    /* JADX WARN: Removed duplicated region for block: B:109:0x0190  */
-    /* JADX WARN: Removed duplicated region for block: B:111:0x0195  */
-    /* JADX WARN: Removed duplicated region for block: B:112:0x019a A[ORIG_RETURN, RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:125:0x0186 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:129:0x0129 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:109:0x0191  */
+    /* JADX WARN: Removed duplicated region for block: B:111:0x0196  */
+    /* JADX WARN: Removed duplicated region for block: B:112:0x019b A[ORIG_RETURN, RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:125:0x012a A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:128:0x0187 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2496,18 +2496,18 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         showProgress(true, false);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:101:0x014a  */
-    /* JADX WARN: Removed duplicated region for block: B:104:0x015d  */
-    /* JADX WARN: Removed duplicated region for block: B:107:0x0185  */
-    /* JADX WARN: Removed duplicated region for block: B:110:0x018b  */
-    /* JADX WARN: Removed duplicated region for block: B:113:0x0197  */
-    /* JADX WARN: Removed duplicated region for block: B:115:0x019c  */
-    /* JADX WARN: Removed duplicated region for block: B:119:0x01b5  */
-    /* JADX WARN: Removed duplicated region for block: B:134:0x024e A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:150:0x00b2 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:152:0x00d1 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:154:0x00f0 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:156:0x010f A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:101:0x014c  */
+    /* JADX WARN: Removed duplicated region for block: B:104:0x015f  */
+    /* JADX WARN: Removed duplicated region for block: B:107:0x0187  */
+    /* JADX WARN: Removed duplicated region for block: B:110:0x018d  */
+    /* JADX WARN: Removed duplicated region for block: B:113:0x0199  */
+    /* JADX WARN: Removed duplicated region for block: B:115:0x019e  */
+    /* JADX WARN: Removed duplicated region for block: B:119:0x01b7  */
+    /* JADX WARN: Removed duplicated region for block: B:134:0x0250 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:149:0x00b4 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:151:0x00d3 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:153:0x00f2 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:155:0x0111 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

@@ -782,9 +782,9 @@ public class ContactsController extends BaseController {
         return i > 3;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:252:0x058a A[Catch: all -> 0x05a2, TRY_LEAVE, TryCatch #1 {all -> 0x05a2, blocks: (B:250:0x0585, B:252:0x058a), top: B:276:0x0585 }] */
-    /* JADX WARN: Removed duplicated region for block: B:261:0x059c  */
-    /* JADX WARN: Removed duplicated region for block: B:288:0x058f A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:252:0x058b A[Catch: all -> 0x05a3, TRY_LEAVE, TryCatch #2 {all -> 0x05a3, blocks: (B:250:0x0586, B:252:0x058b), top: B:278:0x0586 }] */
+    /* JADX WARN: Removed duplicated region for block: B:261:0x059d  */
+    /* JADX WARN: Removed duplicated region for block: B:288:0x0590 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:330:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1184,8 +1184,14 @@ public class ContactsController extends BaseController {
                                                                         hashMap = hashMap11;
                                                                         FileLog.e(th);
                                                                         if (hashMap != null) {
+                                                                            hashMap.clear();
                                                                         }
                                                                         if (cursor != null) {
+                                                                            try {
+                                                                                cursor.close();
+                                                                            } catch (Exception e2) {
+                                                                                FileLog.e(e2);
+                                                                            }
                                                                         }
                                                                         hashMap2 = hashMap;
                                                                         if (hashMap2 == null) {
@@ -1205,14 +1211,8 @@ public class ContactsController extends BaseController {
                                                     hashMap = hashMap2;
                                                     FileLog.e(th);
                                                     if (hashMap != null) {
-                                                        hashMap.clear();
                                                     }
                                                     if (cursor != null) {
-                                                        try {
-                                                            cursor.close();
-                                                        } catch (Exception e2) {
-                                                            FileLog.e(e2);
-                                                        }
                                                     }
                                                     hashMap2 = hashMap;
                                                     if (hashMap2 == null) {

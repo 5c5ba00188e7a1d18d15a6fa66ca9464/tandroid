@@ -1688,7 +1688,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                     return lambda$onSubItemClick$11;
                 }
             });
-            this.parentActivity.lambda$runLinkRequest$86(dialogsActivity);
+            this.parentActivity.lambda$runLinkRequest$87(dialogsActivity);
             dismiss();
             return;
         }

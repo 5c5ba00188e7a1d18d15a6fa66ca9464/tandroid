@@ -459,8 +459,8 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
                 }
 
                 @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
-                public /* synthetic */ void sendAudio(ArrayList arrayList, CharSequence charSequence, boolean z, int i) {
-                    ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$sendAudio(this, arrayList, charSequence, z, i);
+                public /* synthetic */ void sendAudio(ArrayList arrayList, CharSequence charSequence, boolean z, int i, long j, boolean z2) {
+                    ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$sendAudio(this, arrayList, charSequence, z, i, j, z2);
                 }
 
                 {
@@ -468,7 +468,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
                 }
 
                 @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
-                public void didPressedButton(int i, boolean z, boolean z2, int i2, boolean z3) {
+                public void didPressedButton(int i, boolean z, boolean z2, int i2, long j, boolean z3, boolean z4) {
                     BaseFragment baseFragment2 = ImageUpdater.this.parentFragment;
                     if (baseFragment2 == null || baseFragment2.getParentActivity() == null || ImageUpdater.this.chatAttachAlert == null) {
                         return;
@@ -774,7 +774,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
             }
             PhotoCropActivity photoCropActivity = new PhotoCropActivity(bundle);
             photoCropActivity.setDelegate(this);
-            launchActivity.lambda$runLinkRequest$86(photoCropActivity);
+            launchActivity.lambda$runLinkRequest$87(photoCropActivity);
         } catch (Exception e) {
             FileLog.e(e);
             processBitmap(ImageLoader.loadBitmap(str, uri, 800.0f, 800.0f, true), null);

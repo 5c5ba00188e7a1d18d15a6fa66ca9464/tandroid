@@ -3229,17 +3229,17 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:321:0x0d28  */
-    /* JADX WARN: Removed duplicated region for block: B:339:0x0d94  */
-    /* JADX WARN: Removed duplicated region for block: B:346:0x0dd4  */
-    /* JADX WARN: Removed duplicated region for block: B:350:0x0e84  */
-    /* JADX WARN: Removed duplicated region for block: B:357:0x0ee1  */
-    /* JADX WARN: Removed duplicated region for block: B:361:0x0f2a  */
-    /* JADX WARN: Removed duplicated region for block: B:362:0x0f2d  */
-    /* JADX WARN: Removed duplicated region for block: B:365:0x0f3a  */
-    /* JADX WARN: Removed duplicated region for block: B:373:0x0fc1  */
-    /* JADX WARN: Removed duplicated region for block: B:374:0x0fcc  */
-    /* JADX WARN: Removed duplicated region for block: B:382:0x0ff6  */
+    /* JADX WARN: Removed duplicated region for block: B:321:0x0d26  */
+    /* JADX WARN: Removed duplicated region for block: B:339:0x0d92  */
+    /* JADX WARN: Removed duplicated region for block: B:346:0x0dd2  */
+    /* JADX WARN: Removed duplicated region for block: B:350:0x0e82  */
+    /* JADX WARN: Removed duplicated region for block: B:357:0x0edf  */
+    /* JADX WARN: Removed duplicated region for block: B:361:0x0f28  */
+    /* JADX WARN: Removed duplicated region for block: B:362:0x0f2b  */
+    /* JADX WARN: Removed duplicated region for block: B:365:0x0f38  */
+    /* JADX WARN: Removed duplicated region for block: B:373:0x0fbf  */
+    /* JADX WARN: Removed duplicated region for block: B:374:0x0fca  */
+    /* JADX WARN: Removed duplicated region for block: B:382:0x0ff4  */
     /* JADX WARN: Type inference failed for: r0v115, types: [org.telegram.ui.ActionBar.ActionBar] */
     /* JADX WARN: Type inference failed for: r0v17, types: [org.telegram.ui.ActionBar.ActionBar] */
     /* JADX WARN: Type inference failed for: r0v235, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, org.telegram.ui.Components.RecyclerListView] */
@@ -3316,11 +3316,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             ActionBarMenuItem addItem = createMenu.addItem(2, proxyDrawable);
             this.proxyItem = addItem;
             addItem.setContentDescription(LocaleController.getString("ProxySettings", R.string.ProxySettings));
-            RLottieDrawable rLottieDrawable = new RLottieDrawable(R.raw.passcode_lock_close, "passcode_lock_close", AndroidUtilities.dp(28.0f), AndroidUtilities.dp(28.0f), true, null);
+            RLottieDrawable rLottieDrawable = new RLottieDrawable(R.raw.passcode_lock, "passcode_lock", AndroidUtilities.dp(28.0f), AndroidUtilities.dp(28.0f), true, null);
             this.passcodeDrawable = rLottieDrawable;
             ActionBarMenuItem addItem2 = createMenu.addItem(1, rLottieDrawable);
             this.passcodeItem = addItem2;
-            addItem2.setContentDescription(LocaleController.getString("AccDescrPasscodeLock", R.string.AccDescrPasscodeLock));
+            addItem2.setContentDescription(LocaleController.getString(R.string.AccDescrPasscodeLock));
             ActionBarMenuItem addItem3 = createMenu.addItem(3, new ColorDrawable(0));
             this.downloadsItem = addItem3;
             addItem3.addView(new DownloadProgressIcon(this.currentAccount, context3));
@@ -4204,7 +4204,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     }
 
                     @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-                    public void needStartRecordVideo(int i22, boolean z6, int i23, int i24) {
+                    public void needStartRecordVideo(int i22, boolean z6, int i23, int i24, long j) {
                     }
 
                     @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
@@ -10300,7 +10300,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
     }
 
-    public ChatActivity highlightFoundQuote(ChatActivity chatActivity, MessageObject messageObject) {
+    public static ChatActivity highlightFoundQuote(ChatActivity chatActivity, MessageObject messageObject) {
         CharSequence charSequence;
         boolean z;
         if (messageObject != null && messageObject.hasHighlightedWords()) {
@@ -10340,7 +10340,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                             }
                             spanEnd = spanStart3;
                         }
-                        chatActivity.setHighlightQuote(messageObject.getId(), charSequence.subSequence(spanStart, spanEnd).toString(), spanStart);
+                        chatActivity.setHighlightQuote(messageObject.getRealId(), charSequence.subSequence(spanStart, spanEnd).toString(), spanStart);
                     }
                 }
             } catch (Exception e) {

@@ -298,8 +298,9 @@ public class CustomPhoneKeyboardView extends ViewGroup {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    private static final class NumberButtonView extends View {
+    public static final class NumberButtonView extends View {
         private String mNumber;
         private String mSymbols;
         private TextPaint numberTextPaint;

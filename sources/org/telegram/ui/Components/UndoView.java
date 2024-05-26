@@ -49,11 +49,11 @@ import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$Message;
+import org.telegram.tgnet.TLRPC$PaymentReceipt;
 import org.telegram.tgnet.TLRPC$TL_authorization;
 import org.telegram.tgnet.TLRPC$TL_error;
 import org.telegram.tgnet.TLRPC$TL_forumTopic;
 import org.telegram.tgnet.TLRPC$TL_payments_getPaymentReceipt;
-import org.telegram.tgnet.TLRPC$TL_payments_paymentReceipt;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
@@ -387,11 +387,11 @@ public class UndoView extends FrameLayout {
         showWithAction(arrayList, i, obj, obj2, runnable, runnable2);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:627:0x1880  */
-    /* JADX WARN: Removed duplicated region for block: B:630:0x18a0  */
-    /* JADX WARN: Removed duplicated region for block: B:633:0x18c7  */
-    /* JADX WARN: Removed duplicated region for block: B:637:0x190c  */
-    /* JADX WARN: Removed duplicated region for block: B:668:0x19be  */
+    /* JADX WARN: Removed duplicated region for block: B:627:0x1884  */
+    /* JADX WARN: Removed duplicated region for block: B:630:0x18a4  */
+    /* JADX WARN: Removed duplicated region for block: B:633:0x18cb  */
+    /* JADX WARN: Removed duplicated region for block: B:637:0x1910  */
+    /* JADX WARN: Removed duplicated region for block: B:668:0x19c2  */
     /* JADX WARN: Removed duplicated region for block: B:694:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1480,8 +1480,8 @@ public class UndoView extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showWithAction$4(TLObject tLObject) {
-        if (tLObject instanceof TLRPC$TL_payments_paymentReceipt) {
-            this.parentFragment.presentFragment(new PaymentFormActivity((TLRPC$TL_payments_paymentReceipt) tLObject));
+        if (tLObject instanceof TLRPC$PaymentReceipt) {
+            this.parentFragment.presentFragment(new PaymentFormActivity((TLRPC$PaymentReceipt) tLObject));
         }
     }
 

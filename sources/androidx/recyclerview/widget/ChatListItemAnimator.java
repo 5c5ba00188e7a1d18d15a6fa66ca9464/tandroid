@@ -391,7 +391,8 @@ public class ChatListItemAnimator extends DefaultItemAnimator {
         if (chatMessageCell == null || !chatMessageCell.getTransitionParams().ignoreAlpha) {
             viewHolder.itemView.setAlpha(1.0f);
         }
-        if (chatMessageCell != null && this.activity.animatingMessageObjects.contains(chatMessageCell.getMessageObject())) {
+        ChatActivity chatActivity = this.activity;
+        if (chatActivity != null && chatMessageCell != null && chatActivity.animatingMessageObjects.contains(chatMessageCell.getMessageObject())) {
             this.activity.animatingMessageObjects.remove(chatMessageCell.getMessageObject());
             if (this.activity.getChatActivityEnterView().canShowMessageTransition()) {
                 if (chatMessageCell.getMessageObject().isVoice()) {
@@ -399,8 +400,8 @@ public class ChatListItemAnimator extends DefaultItemAnimator {
                         new VoiceMessageEnterTransition(chatMessageCell, this.activity.getChatActivityEnterView(), this.recyclerListView, this.activity.messageEnterTransitionContainer, this.resourcesProvider).start();
                     }
                 } else if (SharedConfig.getDevicePerformanceClass() != 0 && Math.abs(view.getTranslationY()) < this.recyclerListView.getMeasuredHeight()) {
-                    ChatActivity chatActivity = this.activity;
-                    new TextMessageEnterTransition(chatMessageCell, chatActivity, this.recyclerListView, chatActivity.messageEnterTransitionContainer, this.resourcesProvider).start();
+                    ChatActivity chatActivity2 = this.activity;
+                    new TextMessageEnterTransition(chatMessageCell, chatActivity2, this.recyclerListView, chatActivity2.messageEnterTransitionContainer, this.resourcesProvider).start();
                 }
                 this.activity.getChatActivityEnterView().startMessageTransition();
             }

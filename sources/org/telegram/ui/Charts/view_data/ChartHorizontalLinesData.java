@@ -21,14 +21,14 @@ public class ChartHorizontalLinesData {
     public CharSequence[] valuesStr;
     public CharSequence[] valuesStr2;
 
-    /* JADX WARN: Removed duplicated region for block: B:20:0x0067  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x0069  */
     /* JADX WARN: Removed duplicated region for block: B:23:0x0078  */
     /* JADX WARN: Removed duplicated region for block: B:24:0x007a  */
     /* JADX WARN: Removed duplicated region for block: B:27:0x007e  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x0131  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x0141  */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x0143  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x0147  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x0132  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x0140  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0142  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x0146  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -38,7 +38,6 @@ public class ChartHorizontalLinesData {
         int i2;
         long max;
         int i3;
-        float f3;
         int i4;
         int i5;
         int i6;
@@ -46,7 +45,7 @@ public class ChartHorizontalLinesData {
             long round = j > 100 ? round(j) : j;
             double d = round;
             Double.isNaN(d);
-            int max2 = Math.max(1, (int) Math.ceil(d / 5.0d));
+            long max2 = Math.max(1L, (long) Math.ceil(d / 5.0d));
             if (round < 6) {
                 i5 = (int) Math.max(2L, round + 1);
             } else {
@@ -70,20 +69,23 @@ public class ChartHorizontalLinesData {
                     while (i6 < i4) {
                         long[] jArr = this.values;
                         jArr[i6] = i6 * max2;
-                        int i7 = max2;
+                        long j5 = max2;
                         this.valuesStr[i6] = format(0, textPaint, jArr[i6], i);
                         if (f > 0.0f) {
-                            float f4 = ((float) this.values[i6]) / f;
-                            if (!z2) {
-                                this.valuesStr2[i6] = format(1, textPaint2, f4, i);
-                            } else if (f4 - ((int) f4) < 0.01f || i == 1) {
-                                this.valuesStr2[i6] = format(1, textPaint2, f4, i);
+                            float f3 = ((float) this.values[i6]) / f;
+                            if (z2) {
+                                long j6 = f3;
+                                if (f3 - ((float) j6) < 0.01f || i == 1) {
+                                    this.valuesStr2[i6] = format(1, textPaint2, j6, i);
+                                } else {
+                                    this.valuesStr2[i6] = "";
+                                }
                             } else {
-                                this.valuesStr2[i6] = "";
+                                this.valuesStr2[i6] = format(1, textPaint2, f3, i);
                             }
                         }
                         i6++;
-                        max2 = i7;
+                        max2 = j5;
                     }
                     return;
                 }
@@ -101,27 +103,27 @@ public class ChartHorizontalLinesData {
             }
             return;
         }
-        long j5 = j - j2;
-        if (j5 == 0) {
+        long j7 = j - j2;
+        if (j7 == 0) {
             j3 = j2 - 1;
             i2 = 3;
         } else {
-            if (j5 < 6) {
-                max = Math.max(2L, j5 + 1);
+            if (j7 < 6) {
+                max = Math.max(2L, j7 + 1);
             } else {
-                long j6 = j5 / 2;
-                if (j6 < 6) {
-                    int i8 = (int) (j6 + (j5 % 2) + 1);
+                long j8 = j7 / 2;
+                if (j8 < 6) {
+                    int i7 = (int) (j8 + (j7 % 2) + 1);
                     j3 = j2;
-                    i2 = i8;
+                    i2 = i7;
                     f2 = 2.0f;
                 } else {
-                    float f5 = ((float) j5) / 5.0f;
-                    if (f5 <= 0.0f) {
-                        max = Math.max(2L, j5 + 1);
+                    float f4 = ((float) j7) / 5.0f;
+                    if (f4 <= 0.0f) {
+                        max = Math.max(2L, j7 + 1);
                     } else {
                         j3 = j2;
-                        f2 = f5;
+                        f2 = f4;
                         i2 = 6;
                     }
                 }
@@ -134,16 +136,20 @@ public class ChartHorizontalLinesData {
                 }
                 boolean z3 = f2 / f >= 1.0f;
                 for (i3 = 0; i3 < i2; i3++) {
-                    this.values[i3] = ((int) f3) + j3;
-                    this.valuesStr[i3] = format(0, textPaint, j3 + (i3 * f2), i);
+                    long j9 = j3 + (i3 * f2);
+                    this.values[i3] = j9;
+                    this.valuesStr[i3] = format(0, textPaint, j9, i);
                     if (f > 0.0f) {
-                        float f6 = ((float) this.values[i3]) / f;
-                        if (!z3) {
-                            this.valuesStr2[i3] = format(1, textPaint2, f6, i);
-                        } else if (f6 - ((int) f6) < 0.01f || i == 1) {
-                            this.valuesStr2[i3] = format(1, textPaint2, f6, i);
+                        float f5 = ((float) this.values[i3]) / f;
+                        if (z3) {
+                            long j10 = f5;
+                            if (f5 - ((float) j10) < 0.01f || i == 1) {
+                                this.valuesStr2[i3] = format(1, textPaint2, j10, i);
+                            } else {
+                                this.valuesStr2[i3] = "";
+                            }
                         } else {
-                            this.valuesStr2[i3] = "";
+                            this.valuesStr2[i3] = format(1, textPaint2, f5, i);
                         }
                     }
                 }
@@ -189,11 +195,11 @@ public class ChartHorizontalLinesData {
         return AndroidUtilities.formatWholeNumber((int) j, 0);
     }
 
-    public static int lookupHeight(long j) {
+    public static long lookupHeight(long j) {
         if (j > 100) {
             j = round(j);
         }
-        return ((int) Math.ceil(((float) j) / 5.0f)) * 5;
+        return ((long) Math.ceil(((float) j) / 5.0f)) * 5;
     }
 
     private static long round(long j) {

@@ -3,6 +3,7 @@ package org.telegram.messenger;
 public class AnimationNotificationsLocker {
     final int[] allowedNotifications;
     int currentAccount;
+    boolean disabled;
     int globalNotificationsIndex;
     int notificationsIndex;
 
@@ -18,6 +19,9 @@ public class AnimationNotificationsLocker {
     }
 
     public void lock() {
+        if (this.disabled) {
+            return;
+        }
         int i = UserConfig.selectedAccount;
         if (this.currentAccount != i) {
             NotificationCenter.getInstance(i).onAnimationFinish(this.notificationsIndex);
@@ -29,7 +33,14 @@ public class AnimationNotificationsLocker {
     }
 
     public void unlock() {
+        if (this.disabled) {
+            return;
+        }
         NotificationCenter.getInstance(this.currentAccount).onAnimationFinish(this.notificationsIndex);
         NotificationCenter.getGlobalInstance().onAnimationFinish(this.globalNotificationsIndex);
+    }
+
+    public void disable() {
+        this.disabled = true;
     }
 }

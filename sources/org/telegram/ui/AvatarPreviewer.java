@@ -2,49 +2,62 @@ package org.telegram.ui;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Rect;
-import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowInsets;
 import android.view.WindowManager;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
+import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 import androidx.core.content.ContextCompat;
+import androidx.core.math.MathUtils;
 import androidx.core.util.Consumer;
-import androidx.core.util.Preconditions;
+import java.util.Collections;
+import java.util.Objects;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.ImageLocation;
-import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
+import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$ChatFull;
+import org.telegram.tgnet.TLRPC$ChatPhoto;
 import org.telegram.tgnet.TLRPC$Photo;
 import org.telegram.tgnet.TLRPC$TL_photoStrippedSize;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$UserFull;
+import org.telegram.tgnet.TLRPC$UserProfilePhoto;
 import org.telegram.tgnet.TLRPC$VideoSize;
-import org.telegram.ui.ActionBar.BottomSheet;
+import org.telegram.ui.ActionBar.ActionBarMenuItem;
+import org.telegram.ui.ActionBar.ActionBarMenuSubItem;
+import org.telegram.ui.ActionBar.ActionBarPopupWindow;
+import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.AvatarPreviewer;
 import org.telegram.ui.Components.AnimatedFileDrawable;
+import org.telegram.ui.Components.BackupImageView;
+import org.telegram.ui.Components.CubicBezierInterpolator;
+import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RadialProgress2;
+import org.telegram.ui.Stories.RoundRectOutlineProvider;
 /* loaded from: classes4.dex */
 public class AvatarPreviewer {
+    @SuppressLint({"StaticFieldLeak"})
     private static AvatarPreviewer INSTANCE;
     private Layout layout;
     private ViewGroup view;
@@ -72,19 +85,29 @@ public class AvatarPreviewer {
         return (data == null || (data.imageLocation == null && data.thumbImageLocation == null)) ? false : true;
     }
 
-    public void show(ViewGroup viewGroup, Data data, Callback callback) {
-        Preconditions.checkNotNull(viewGroup);
-        Preconditions.checkNotNull(data);
-        Preconditions.checkNotNull(callback);
+    public void show(ViewGroup viewGroup, Theme.ResourcesProvider resourcesProvider, Data data, Callback callback) {
+        Objects.requireNonNull(viewGroup);
+        Objects.requireNonNull(data);
+        Objects.requireNonNull(callback);
         Context context = viewGroup.getContext();
         if (this.view != viewGroup) {
             close();
             this.view = viewGroup;
             this.windowManager = (WindowManager) ContextCompat.getSystemService(context, WindowManager.class);
-            this.layout = new Layout(context, callback) { // from class: org.telegram.ui.AvatarPreviewer.1
+            this.layout = new Layout(context, resourcesProvider, callback) { // from class: org.telegram.ui.AvatarPreviewer.1
                 @Override // org.telegram.ui.AvatarPreviewer.Layout
-                protected void onHide() {
-                    AvatarPreviewer.this.close();
+                protected void onHideFinish() {
+                    if (AvatarPreviewer.this.visible) {
+                        AvatarPreviewer.this.visible = false;
+                        if (AvatarPreviewer.this.layout.getParent() != null) {
+                            AvatarPreviewer.this.windowManager.removeView(AvatarPreviewer.this.layout);
+                        }
+                        AvatarPreviewer.this.layout.recycle();
+                        AvatarPreviewer.this.layout = null;
+                        AvatarPreviewer.this.view.requestDisallowInterceptTouchEvent(false);
+                        AvatarPreviewer.this.view = null;
+                        AvatarPreviewer.this.windowManager = null;
+                    }
                 }
             };
         }
@@ -95,9 +118,9 @@ public class AvatarPreviewer {
         if (this.layout.getParent() != null) {
             this.windowManager.removeView(this.layout);
         }
-        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams(-1, -1, 99, 0, -3);
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams(-1, -1, 1000, 0, -3);
         if (Build.VERSION.SDK_INT >= 21) {
-            layoutParams.flags = -2147286784;
+            layoutParams.flags = 196864;
         }
         this.windowManager.addView(this.layout, layoutParams);
         viewGroup.requestDisallowInterceptTouchEvent(true);
@@ -106,15 +129,7 @@ public class AvatarPreviewer {
 
     public void close() {
         if (this.visible) {
-            this.visible = false;
-            if (this.layout.getParent() != null) {
-                this.windowManager.removeView(this.layout);
-            }
-            this.layout.recycle();
-            this.layout = null;
-            this.view.requestDisallowInterceptTouchEvent(false);
-            this.view = null;
-            this.windowManager = null;
+            this.layout.setShowing(false);
         }
     }
 
@@ -143,6 +158,7 @@ public class AvatarPreviewer {
         private static final /* synthetic */ MenuItem[] $VALUES;
         public static final MenuItem MENTION;
         public static final MenuItem OPEN_GROUP;
+        public static final MenuItem SEARCH_MESSAGES;
         public static final MenuItem SEND_MESSAGE;
         private final int iconResId;
         private final String labelKey;
@@ -151,7 +167,7 @@ public class AvatarPreviewer {
         public static final MenuItem OPEN_CHANNEL = new MenuItem("OPEN_CHANNEL", 1, "OpenChannel2", R.string.OpenChannel2, R.drawable.msg_channel);
 
         private static /* synthetic */ MenuItem[] $values() {
-            return new MenuItem[]{OPEN_PROFILE, OPEN_CHANNEL, OPEN_GROUP, SEND_MESSAGE, MENTION};
+            return new MenuItem[]{OPEN_PROFILE, OPEN_CHANNEL, OPEN_GROUP, SEND_MESSAGE, MENTION, SEARCH_MESSAGES};
         }
 
         public static MenuItem valueOf(String str) {
@@ -168,6 +184,7 @@ public class AvatarPreviewer {
             OPEN_GROUP = new MenuItem("OPEN_GROUP", 2, "OpenGroup2", i, i2);
             SEND_MESSAGE = new MenuItem("SEND_MESSAGE", 3, "SendMessage", R.string.SendMessage, i2);
             MENTION = new MenuItem("MENTION", 4, "Mention", R.string.Mention, R.drawable.msg_mention);
+            SEARCH_MESSAGES = new MenuItem("SEARCH_MESSAGES", 5, "AvatarPreviewSearchMessages", R.string.AvatarPreviewSearchMessages, R.drawable.msg_search);
             $VALUES = $values();
         }
 
@@ -185,6 +202,7 @@ public class AvatarPreviewer {
         private final InfoLoadTask<?, ?> infoLoadTask;
         private final MenuItem[] menuItems;
         private final Object parentObject;
+        private final BitmapDrawable thumb;
         private final String thumbImageFilter;
         private final ImageLocation thumbImageLocation;
         private final String videoFileName;
@@ -192,59 +210,76 @@ public class AvatarPreviewer {
         private final ImageLocation videoLocation;
 
         public static Data of(TLRPC$User tLRPC$User, int i, MenuItem... menuItemArr) {
+            TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto;
             ImageLocation forUserOrChat = ImageLocation.getForUserOrChat(tLRPC$User, 0);
             ImageLocation forUserOrChat2 = ImageLocation.getForUserOrChat(tLRPC$User, 1);
-            return new Data(forUserOrChat, forUserOrChat2, null, null, (forUserOrChat2 == null || !(forUserOrChat2.photoSize instanceof TLRPC$TL_photoStrippedSize)) ? null : "b", null, null, tLRPC$User, menuItemArr, new UserInfoLoadTask(tLRPC$User, i));
+            BitmapDrawable bitmapDrawable = null;
+            String str = (forUserOrChat2 == null || !(forUserOrChat2.photoSize instanceof TLRPC$TL_photoStrippedSize)) ? null : "b";
+            if (tLRPC$User != null && (tLRPC$UserProfilePhoto = tLRPC$User.photo) != null) {
+                bitmapDrawable = tLRPC$UserProfilePhoto.strippedBitmap;
+            }
+            return new Data(forUserOrChat, forUserOrChat2, null, null, str, null, null, bitmapDrawable, tLRPC$User, menuItemArr, new UserInfoLoadTask(tLRPC$User, i));
         }
 
-        public static Data of(TLRPC$UserFull tLRPC$UserFull, MenuItem... menuItemArr) {
+        public static Data of(TLRPC$User tLRPC$User, TLRPC$UserFull tLRPC$UserFull, MenuItem... menuItemArr) {
             ImageLocation imageLocation;
             String str;
+            TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto;
+            TLRPC$Photo tLRPC$Photo;
             ImageLocation forUserOrChat = ImageLocation.getForUserOrChat(tLRPC$UserFull.user, 0);
+            if (forUserOrChat == null && (tLRPC$Photo = tLRPC$UserFull.profile_photo) != null) {
+                forUserOrChat = ImageLocation.getForPhoto(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Photo.sizes, 500), tLRPC$UserFull.profile_photo);
+            }
+            ImageLocation imageLocation2 = forUserOrChat;
             ImageLocation forUserOrChat2 = ImageLocation.getForUserOrChat(tLRPC$UserFull.user, 1);
-            String str2 = null;
-            String str3 = (forUserOrChat2 == null || !(forUserOrChat2.photoSize instanceof TLRPC$TL_photoStrippedSize)) ? null : "b";
-            TLRPC$Photo tLRPC$Photo = tLRPC$UserFull.profile_photo;
-            if (tLRPC$Photo == null || tLRPC$Photo.video_sizes.isEmpty()) {
+            String str2 = (forUserOrChat2 == null || !(forUserOrChat2.photoSize instanceof TLRPC$TL_photoStrippedSize)) ? null : "b";
+            BitmapDrawable bitmapDrawable = (tLRPC$User == null || (tLRPC$UserProfilePhoto = tLRPC$User.photo) == null) ? null : tLRPC$UserProfilePhoto.strippedBitmap;
+            TLRPC$Photo tLRPC$Photo2 = tLRPC$UserFull.profile_photo;
+            if (tLRPC$Photo2 == null || tLRPC$Photo2.video_sizes.isEmpty()) {
                 imageLocation = null;
                 str = null;
             } else {
-                TLRPC$VideoSize tLRPC$VideoSize = tLRPC$UserFull.profile_photo.video_sizes.get(0);
-                ImageLocation forPhoto = ImageLocation.getForPhoto(tLRPC$VideoSize, tLRPC$UserFull.profile_photo);
-                str = FileLoader.getAttachFileName(tLRPC$VideoSize);
+                TLRPC$VideoSize closestVideoSizeWithSize = FileLoader.getClosestVideoSizeWithSize(tLRPC$UserFull.profile_photo.video_sizes, 1000);
+                ImageLocation forPhoto = ImageLocation.getForPhoto(closestVideoSizeWithSize, tLRPC$UserFull.profile_photo);
+                str = FileLoader.getAttachFileName(closestVideoSizeWithSize);
                 imageLocation = forPhoto;
             }
-            if (imageLocation != null && imageLocation.imageType == 2) {
-                str2 = ImageLoader.AUTOPLAY_FILTER;
-            }
-            return new Data(forUserOrChat, forUserOrChat2, imageLocation, null, str3, str2, str, tLRPC$UserFull.user, menuItemArr, null);
+            return new Data(imageLocation2, forUserOrChat2, imageLocation, null, str2, (imageLocation == null || imageLocation.imageType != 2) ? null : ImageLoader.AUTOPLAY_FILTER, str, bitmapDrawable, tLRPC$UserFull.user, menuItemArr, null);
         }
 
         public static Data of(TLRPC$Chat tLRPC$Chat, int i, MenuItem... menuItemArr) {
+            TLRPC$ChatPhoto tLRPC$ChatPhoto;
             ImageLocation forUserOrChat = ImageLocation.getForUserOrChat(tLRPC$Chat, 0);
             ImageLocation forUserOrChat2 = ImageLocation.getForUserOrChat(tLRPC$Chat, 1);
-            return new Data(forUserOrChat, forUserOrChat2, null, null, (forUserOrChat2 == null || !(forUserOrChat2.photoSize instanceof TLRPC$TL_photoStrippedSize)) ? null : "b", null, null, tLRPC$Chat, menuItemArr, new ChatInfoLoadTask(tLRPC$Chat, i));
+            BitmapDrawable bitmapDrawable = null;
+            String str = (forUserOrChat2 == null || !(forUserOrChat2.photoSize instanceof TLRPC$TL_photoStrippedSize)) ? null : "b";
+            if (tLRPC$Chat != null && (tLRPC$ChatPhoto = tLRPC$Chat.photo) != null) {
+                bitmapDrawable = tLRPC$ChatPhoto.strippedBitmap;
+            }
+            return new Data(forUserOrChat, forUserOrChat2, null, null, str, null, null, bitmapDrawable, tLRPC$Chat, menuItemArr, new ChatInfoLoadTask(tLRPC$Chat, i));
         }
 
         public static Data of(TLRPC$Chat tLRPC$Chat, TLRPC$ChatFull tLRPC$ChatFull, MenuItem... menuItemArr) {
             ImageLocation imageLocation;
             String str;
+            TLRPC$ChatPhoto tLRPC$ChatPhoto;
             ImageLocation forUserOrChat = ImageLocation.getForUserOrChat(tLRPC$Chat, 0);
             ImageLocation forUserOrChat2 = ImageLocation.getForUserOrChat(tLRPC$Chat, 1);
             String str2 = (forUserOrChat2 == null || !(forUserOrChat2.photoSize instanceof TLRPC$TL_photoStrippedSize)) ? null : "b";
+            BitmapDrawable bitmapDrawable = (tLRPC$Chat == null || (tLRPC$ChatPhoto = tLRPC$Chat.photo) == null) ? null : tLRPC$ChatPhoto.strippedBitmap;
             TLRPC$Photo tLRPC$Photo = tLRPC$ChatFull.chat_photo;
             if (tLRPC$Photo == null || tLRPC$Photo.video_sizes.isEmpty()) {
                 imageLocation = null;
                 str = null;
             } else {
-                TLRPC$VideoSize tLRPC$VideoSize = tLRPC$ChatFull.chat_photo.video_sizes.get(0);
-                imageLocation = ImageLocation.getForPhoto(tLRPC$VideoSize, tLRPC$ChatFull.chat_photo);
-                str = FileLoader.getAttachFileName(tLRPC$VideoSize);
+                TLRPC$VideoSize closestVideoSizeWithSize = FileLoader.getClosestVideoSizeWithSize(tLRPC$ChatFull.chat_photo.video_sizes, 1000);
+                imageLocation = ImageLocation.getForPhoto(closestVideoSizeWithSize, tLRPC$ChatFull.chat_photo);
+                str = FileLoader.getAttachFileName(closestVideoSizeWithSize);
             }
-            return new Data(forUserOrChat, forUserOrChat2, imageLocation, null, str2, (imageLocation == null || imageLocation.imageType != 2) ? null : ImageLoader.AUTOPLAY_FILTER, str, tLRPC$Chat, menuItemArr, null);
+            return new Data(forUserOrChat, forUserOrChat2, imageLocation, null, str2, (imageLocation == null || imageLocation.imageType != 2) ? null : ImageLoader.AUTOPLAY_FILTER, str, bitmapDrawable, tLRPC$Chat, menuItemArr, null);
         }
 
-        private Data(ImageLocation imageLocation, ImageLocation imageLocation2, ImageLocation imageLocation3, String str, String str2, String str3, String str4, Object obj, MenuItem[] menuItemArr, InfoLoadTask<?, ?> infoLoadTask) {
+        private Data(ImageLocation imageLocation, ImageLocation imageLocation2, ImageLocation imageLocation3, String str, String str2, String str3, String str4, BitmapDrawable bitmapDrawable, Object obj, MenuItem[] menuItemArr, InfoLoadTask<?, ?> infoLoadTask) {
             this.imageLocation = imageLocation;
             this.thumbImageLocation = imageLocation2;
             this.videoLocation = imageLocation3;
@@ -252,6 +287,7 @@ public class AvatarPreviewer {
             this.thumbImageFilter = str2;
             this.videoFilter = str3;
             this.videoFileName = str4;
+            this.thumb = bitmapDrawable;
             this.parentObject = obj;
             this.menuItems = menuItemArr;
             this.infoLoadTask = infoLoadTask;
@@ -356,59 +392,82 @@ public class AvatarPreviewer {
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes4.dex */
     public static abstract class Layout extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
-        private final Drawable arrowDrawable;
-        private final ColorDrawable backgroundDrawable;
+        private final AvatarView avatarView;
+        private View blurView;
         private final Callback callback;
-        private float downY;
-        private final ImageReceiver imageReceiver;
+        private final FrameLayout container;
         private InfoLoadTask<?, ?> infoLoadTask;
-        private WindowInsets insets;
-        private final Interpolator interpolator;
-        private long lastUpdateTime;
+        private final ActionBarPopupWindow.ActionBarPopupWindowLayout menu;
         private MenuItem[] menuItems;
-        private ValueAnimator moveAnimator;
-        private float moveProgress;
-        private float progress;
-        private ValueAnimator progressHideAnimator;
-        private ValueAnimator progressShowAnimator;
-        private final RadialProgress2 radialProgress;
-        private final int radialProgressSize;
+        private AnimatorSet openAnimator;
+        private final Interpolator openInterpolator;
+        private boolean preparingBlur;
         private boolean recycled;
-        private boolean showProgress;
+        private final Theme.ResourcesProvider resourcesProvider;
         private boolean showing;
         private String videoFileName;
-        private BottomSheet visibleSheet;
 
-        protected abstract void onHide();
+        protected abstract void onHideFinish();
 
-        public Layout(Context context, Callback callback) {
+        public Layout(Context context, Theme.ResourcesProvider resourcesProvider, Callback callback) {
             super(context);
-            this.radialProgressSize = AndroidUtilities.dp(64.0f);
-            new Rect();
-            this.interpolator = new AccelerateDecelerateInterpolator();
-            this.backgroundDrawable = new ColorDrawable(1895825408);
-            ImageReceiver imageReceiver = new ImageReceiver();
-            this.imageReceiver = imageReceiver;
-            this.downY = -1.0f;
+            this.openInterpolator = new OvershootInterpolator(1.02f);
             this.callback = callback;
+            this.resourcesProvider = resourcesProvider;
             setWillNotDraw(false);
-            setFitsSystemWindows(true);
-            imageReceiver.setAspectFit(true);
-            imageReceiver.setInvalidateAll(true);
-            imageReceiver.setRoundRadius(AndroidUtilities.dp(6.0f));
-            imageReceiver.setParentView(this);
-            RadialProgress2 radialProgress2 = new RadialProgress2(this);
-            this.radialProgress = radialProgress2;
-            radialProgress2.setOverrideAlpha(0.0f);
-            radialProgress2.setIcon(10, false, false);
-            radialProgress2.setColors(1107296256, 1107296256, -1, -1);
-            this.arrowDrawable = ContextCompat.getDrawable(context, R.drawable.preview_arrow);
+            View view = new View(context);
+            this.blurView = view;
+            view.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.AvatarPreviewer$Layout$$ExternalSyntheticLambda2
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view2) {
+                    AvatarPreviewer.Layout.this.lambda$new$0(view2);
+                }
+            });
+            addView(this.blurView, LayoutHelper.createFrame(-1, -1.0f));
+            FrameLayout frameLayout = new FrameLayout(context) { // from class: org.telegram.ui.AvatarPreviewer.Layout.1
+                @Override // android.widget.FrameLayout, android.view.View
+                protected void onMeasure(int i, int i2) {
+                    setMeasuredDimension(View.MeasureSpec.getSize(i), View.MeasureSpec.getSize(i2));
+                }
+
+                @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
+                protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
+                    int paddingLeft = ((i3 - i) - getPaddingLeft()) - getPaddingRight();
+                    int paddingTop = ((i4 - i2) - getPaddingTop()) - getPaddingBottom();
+                    int min = Math.min(paddingLeft, paddingTop) - AndroidUtilities.dp(16.0f);
+                    int min2 = Math.min(AndroidUtilities.dp(60.0f), min);
+                    Layout.this.menu.measure(View.MeasureSpec.makeMeasureSpec(paddingLeft, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec((paddingTop - min2) - AndroidUtilities.dp(40.0f), Integer.MIN_VALUE));
+                    int clamp = MathUtils.clamp((paddingTop - Layout.this.menu.getMeasuredHeight()) - AndroidUtilities.dp(40.0f), min2, min);
+                    Layout.this.avatarView.measure(View.MeasureSpec.makeMeasureSpec(clamp, 1073741824), View.MeasureSpec.makeMeasureSpec(clamp, 1073741824));
+                    int measuredHeight = (((paddingTop - clamp) - Layout.this.menu.getMeasuredHeight()) - AndroidUtilities.dp(40.0f)) / 2;
+                    ((FrameLayout.LayoutParams) Layout.this.avatarView.getLayoutParams()).topMargin = AndroidUtilities.dp(8.0f) + measuredHeight;
+                    ((FrameLayout.LayoutParams) Layout.this.menu.getLayoutParams()).topMargin = measuredHeight + AndroidUtilities.dp(8.0f) + clamp;
+                    super.onLayout(z, i, i2, i3, i4);
+                }
+            };
+            this.container = frameLayout;
+            frameLayout.setFitsSystemWindows(true);
+            addView(frameLayout, LayoutHelper.createFrame(-1, -1.0f));
+            AvatarView avatarView = new AvatarView(context, resourcesProvider);
+            this.avatarView = avatarView;
+            if (Build.VERSION.SDK_INT >= 21) {
+                avatarView.setElevation(AndroidUtilities.dp(4.0f));
+                avatarView.setClipToOutline(true);
+            }
+            frameLayout.addView(avatarView, LayoutHelper.createFrame(0, 0, 1));
+            ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(context, R.drawable.popup_fixed_alert, resourcesProvider, 0);
+            this.menu = actionBarPopupWindowLayout;
+            frameLayout.addView(actionBarPopupWindowLayout, LayoutHelper.createFrameRelatively(-2.0f, -2.0f, 8388611));
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$new$0(View view) {
+            setShowing(false);
         }
 
         @Override // android.view.ViewGroup, android.view.View
         protected void onAttachedToWindow() {
             super.onAttachedToWindow();
-            this.imageReceiver.onAttachedToWindow();
             NotificationCenter.getInstance(UserConfig.selectedAccount).addObserver(this, NotificationCenter.fileLoaded);
             NotificationCenter.getInstance(UserConfig.selectedAccount).addObserver(this, NotificationCenter.fileLoadProgressChanged);
         }
@@ -416,369 +475,210 @@ public class AvatarPreviewer {
         @Override // android.view.ViewGroup, android.view.View
         protected void onDetachedFromWindow() {
             super.onDetachedFromWindow();
-            this.imageReceiver.onDetachedFromWindow();
             NotificationCenter.getInstance(UserConfig.selectedAccount).removeObserver(this, NotificationCenter.fileLoaded);
             NotificationCenter.getInstance(UserConfig.selectedAccount).removeObserver(this, NotificationCenter.fileLoadProgressChanged);
         }
 
         @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
         public void didReceivedNotification(int i, int i2, Object... objArr) {
-            if (!this.showProgress || TextUtils.isEmpty(this.videoFileName)) {
+            if (!this.avatarView.getShowProgress() || TextUtils.isEmpty(this.videoFileName)) {
                 return;
             }
             if (i == NotificationCenter.fileLoaded) {
                 if (TextUtils.equals((String) objArr[0], this.videoFileName)) {
-                    this.radialProgress.setProgress(1.0f, true);
+                    this.avatarView.setProgress(1.0f);
                 }
-            } else if (i == NotificationCenter.fileLoadProgressChanged && TextUtils.equals((String) objArr[0], this.videoFileName) && this.radialProgress != null) {
-                this.radialProgress.setProgress(Math.min(1.0f, ((float) ((Long) objArr[1]).longValue()) / ((float) ((Long) objArr[2]).longValue())), true);
+            } else if (i == NotificationCenter.fileLoadProgressChanged && TextUtils.equals((String) objArr[0], this.videoFileName)) {
+                this.avatarView.setProgress(Math.min(1.0f, ((float) ((Long) objArr[1]).longValue()) / ((float) ((Long) objArr[2]).longValue())));
             }
+        }
+
+        @Override // android.view.ViewGroup, android.view.View
+        public boolean dispatchKeyEvent(KeyEvent keyEvent) {
+            KeyEvent.DispatcherState keyDispatcherState;
+            if (keyEvent.getKeyCode() == 4 || keyEvent.getKeyCode() == 111) {
+                if (getKeyDispatcherState() == null) {
+                    return super.dispatchKeyEvent(keyEvent);
+                }
+                if (keyEvent.getAction() == 0 && keyEvent.getRepeatCount() == 0) {
+                    KeyEvent.DispatcherState keyDispatcherState2 = getKeyDispatcherState();
+                    if (keyDispatcherState2 != null) {
+                        keyDispatcherState2.startTracking(keyEvent, this);
+                    }
+                    return true;
+                } else if (keyEvent.getAction() == 1 && (keyDispatcherState = getKeyDispatcherState()) != null && keyDispatcherState.isTracking(keyEvent) && !keyEvent.isCanceled()) {
+                    setShowing(false);
+                    return true;
+                } else {
+                    return super.dispatchKeyEvent(keyEvent);
+                }
+            }
+            return super.dispatchKeyEvent(keyEvent);
         }
 
         @Override // android.view.View
-        public boolean onTouchEvent(MotionEvent motionEvent) {
-            if (this.showing) {
-                if (this.moveAnimator == null) {
-                    if (motionEvent.getActionMasked() == 1) {
-                        this.downY = -1.0f;
-                        setShowing(false);
-                    } else if (motionEvent.getActionMasked() == 2) {
-                        if (this.downY < 0.0f) {
-                            this.downY = motionEvent.getY();
-                        } else {
-                            float max = Math.max(-1.0f, Math.min(0.0f, (motionEvent.getY() - this.downY) / AndroidUtilities.dp(56.0f)));
-                            this.moveProgress = max;
-                            if (max == -1.0f) {
-                                performHapticFeedback(0);
-                                ValueAnimator ofFloat = ValueAnimator.ofFloat(this.moveProgress, 0.0f);
-                                this.moveAnimator = ofFloat;
-                                ofFloat.setDuration(200L);
-                                this.moveAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.AvatarPreviewer$Layout$$ExternalSyntheticLambda0
-                                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                                    public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                                        AvatarPreviewer.Layout.this.lambda$onTouchEvent$0(valueAnimator);
-                                    }
-                                });
-                                this.moveAnimator.start();
-                                showBottomSheet();
-                            }
-                            invalidate();
-                        }
-                    }
-                }
-                return true;
+        protected void onSizeChanged(int i, int i2, int i3, int i4) {
+            if (i == 0 || i2 == 0 || !this.showing) {
+                return;
             }
-            return false;
+            this.blurView.setBackground(null);
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.AvatarPreviewer$Layout$$ExternalSyntheticLambda5
+                @Override // java.lang.Runnable
+                public final void run() {
+                    AvatarPreviewer.Layout.this.prepareBlurBitmap();
+                }
+            });
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onTouchEvent$0(ValueAnimator valueAnimator) {
-            this.moveProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-            invalidate();
+        public void prepareBlurBitmap() {
+            if (this.preparingBlur) {
+                return;
+            }
+            this.preparingBlur = true;
+            AndroidUtilities.makeGlobalBlurBitmap(new Utilities.Callback() { // from class: org.telegram.ui.AvatarPreviewer$Layout$$ExternalSyntheticLambda6
+                @Override // org.telegram.messenger.Utilities.Callback
+                public final void run(Object obj) {
+                    AvatarPreviewer.Layout.this.lambda$prepareBlurBitmap$1((Bitmap) obj);
+                }
+            }, 6.0f, 7, this, Collections.singletonList(this));
         }
 
-        private void showBottomSheet() {
-            MenuItem[] menuItemArr = this.menuItems;
-            CharSequence[] charSequenceArr = new CharSequence[menuItemArr.length];
-            int[] iArr = new int[menuItemArr.length];
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$prepareBlurBitmap$1(Bitmap bitmap) {
+            this.blurView.setBackground(new BitmapDrawable(bitmap));
+            this.preparingBlur = false;
+        }
+
+        public void setData(final Data data) {
+            this.menuItems = data.menuItems;
+            this.avatarView.setShowProgress(data.videoLocation != null);
+            this.videoFileName = data.videoFileName;
+            recycleInfoLoadTask();
+            if (data.infoLoadTask != null) {
+                InfoLoadTask<?, ?> infoLoadTask = data.infoLoadTask;
+                this.infoLoadTask = infoLoadTask;
+                infoLoadTask.load(new Consumer() { // from class: org.telegram.ui.AvatarPreviewer$Layout$$ExternalSyntheticLambda4
+                    @Override // androidx.core.util.Consumer
+                    public final void accept(Object obj) {
+                        AvatarPreviewer.Layout.this.lambda$setData$2(data, obj);
+                    }
+                });
+            }
+            this.avatarView.setImage(UserConfig.selectedAccount, data.videoLocation, data.videoFilter, data.imageLocation, data.imageFilter, data.thumbImageLocation, data.thumbImageFilter, data.thumb, data.parentObject);
+            this.menu.removeInnerViews();
             int i = 0;
             while (true) {
-                MenuItem[] menuItemArr2 = this.menuItems;
-                if (i < menuItemArr2.length) {
-                    charSequenceArr[i] = LocaleController.getString(menuItemArr2[i].labelKey, this.menuItems[i].labelResId);
-                    iArr[i] = this.menuItems[i].iconResId;
-                    i++;
-                } else {
-                    BottomSheet dimBehind = new BottomSheet.Builder(getContext()).setItems(charSequenceArr, iArr, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.AvatarPreviewer$Layout$$ExternalSyntheticLambda3
-                        @Override // android.content.DialogInterface.OnClickListener
-                        public final void onClick(DialogInterface dialogInterface, int i2) {
-                            AvatarPreviewer.Layout.this.lambda$showBottomSheet$1(dialogInterface, i2);
-                        }
-                    }).setDimBehind(false);
-                    this.visibleSheet = dimBehind;
-                    dimBehind.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.AvatarPreviewer$Layout$$ExternalSyntheticLambda4
-                        @Override // android.content.DialogInterface.OnDismissListener
-                        public final void onDismiss(DialogInterface dialogInterface) {
-                            AvatarPreviewer.Layout.this.lambda$showBottomSheet$2(dialogInterface);
+                MenuItem[] menuItemArr = this.menuItems;
+                if (i < menuItemArr.length) {
+                    final MenuItem menuItem = menuItemArr[i];
+                    ActionBarMenuSubItem addItem = ActionBarMenuItem.addItem(i == 0, i == this.menuItems.length - 1, this.menu, menuItem.iconResId, LocaleController.getString(menuItem.labelKey, menuItem.labelResId), false, this.resourcesProvider);
+                    addItem.setTag(Integer.valueOf(i));
+                    addItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.AvatarPreviewer$Layout$$ExternalSyntheticLambda3
+                        @Override // android.view.View.OnClickListener
+                        public final void onClick(View view) {
+                            AvatarPreviewer.Layout.this.lambda$setData$3(menuItem, view);
                         }
                     });
-                    this.visibleSheet.show();
+                    i++;
+                } else {
+                    setShowing(true);
                     return;
                 }
             }
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$showBottomSheet$1(DialogInterface dialogInterface, int i) {
-            this.callback.onMenuClick(this.menuItems[i]);
-            setShowing(false);
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$showBottomSheet$2(DialogInterface dialogInterface) {
-            this.visibleSheet = null;
-            setShowing(false);
-        }
-
-        @Override // android.view.View
-        public WindowInsets onApplyWindowInsets(WindowInsets windowInsets) {
-            this.insets = windowInsets;
-            invalidateSize();
-            return windowInsets.consumeStableInsets();
-        }
-
-        @Override // android.view.View
-        protected void onSizeChanged(int i, int i2, int i3, int i4) {
-            invalidateSize();
-        }
-
-        public void invalidateSize() {
-            int i;
-            int i2;
-            int width = getWidth();
-            int height = getHeight();
-            if (width == 0 || height == 0) {
-                return;
-            }
-            this.backgroundDrawable.setBounds(0, 0, width, height);
-            int dp = AndroidUtilities.dp(8.0f);
-            if (Build.VERSION.SDK_INT >= 21) {
-                int stableInsetLeft = this.insets.getStableInsetLeft() + dp;
-                i2 = this.insets.getStableInsetRight() + dp;
-                i = dp + Math.max(this.insets.getStableInsetTop(), this.insets.getStableInsetBottom());
-                dp = stableInsetLeft;
-            } else {
-                i = dp;
-                i2 = i;
-            }
-            int intrinsicWidth = this.arrowDrawable.getIntrinsicWidth();
-            int intrinsicHeight = this.arrowDrawable.getIntrinsicHeight();
-            int dp2 = AndroidUtilities.dp(24.0f);
-            int i3 = width - (i2 + dp);
-            int i4 = height - (i * 2);
-            int min = Math.min(i3, i4);
-            int i5 = intrinsicHeight / 2;
-            int i6 = dp2 + i5;
-            int i7 = ((i3 - min) / 2) + dp;
-            int i8 = ((i4 - min) / 2) + i + (i3 > i4 ? i6 : 0);
-            this.imageReceiver.setImageCoords(i7, i8, min, min - (i3 > i4 ? i6 : 0));
-            int centerX = (int) this.imageReceiver.getCenterX();
-            int centerY = (int) this.imageReceiver.getCenterY();
-            RadialProgress2 radialProgress2 = this.radialProgress;
-            int i9 = this.radialProgressSize;
-            radialProgress2.setProgressRect(centerX - (i9 / 2), centerY - (i9 / 2), centerX + (i9 / 2), centerY + (i9 / 2));
-            int i10 = i7 + (min / 2);
-            int i11 = i8 - dp2;
-            int i12 = intrinsicWidth / 2;
-            this.arrowDrawable.setBounds(i10 - i12, i11 - i5, i10 + i12, i11 + i5);
-        }
-
-        /* JADX WARN: Removed duplicated region for block: B:19:0x005e  */
-        /* JADX WARN: Removed duplicated region for block: B:22:0x007f  */
-        /* JADX WARN: Removed duplicated region for block: B:23:0x0082  */
-        /* JADX WARN: Removed duplicated region for block: B:25:0x0085  */
-        /* JADX WARN: Removed duplicated region for block: B:26:0x008c  */
-        /* JADX WARN: Removed duplicated region for block: B:29:0x00c2  */
-        /* JADX WARN: Removed duplicated region for block: B:30:0x00cf  */
-        /* JADX WARN: Removed duplicated region for block: B:33:0x00ea  */
-        /* JADX WARN: Removed duplicated region for block: B:55:0x01ab  */
-        /* JADX WARN: Removed duplicated region for block: B:56:0x01b9  */
-        @Override // android.view.View
-        /*
-            Code decompiled incorrectly, please refer to instructions dump.
-        */
-        protected void onDraw(Canvas canvas) {
-            float interpolation;
-            int i;
-            float min;
-            ValueAnimator valueAnimator;
-            long currentAnimationTimeMillis = AnimationUtils.currentAnimationTimeMillis();
-            long j = currentAnimationTimeMillis - this.lastUpdateTime;
-            this.lastUpdateTime = currentAnimationTimeMillis;
-            boolean z = this.showing;
-            if (z) {
-                float f = this.progress;
-                if (f < 1.0f) {
-                    float f2 = f + (((float) j) / 150.0f);
-                    this.progress = f2;
-                    if (f2 < 1.0f) {
-                        postInvalidateOnAnimation();
-                    } else {
-                        this.progress = 1.0f;
-                    }
-                    interpolation = this.interpolator.getInterpolation(this.progress);
-                    this.backgroundDrawable.setAlpha((int) (180.0f * interpolation));
-                    this.backgroundDrawable.draw(canvas);
-                    if (interpolation < 1.0f) {
-                        canvas.scale(AndroidUtilities.lerp(0.95f, 1.0f, interpolation), AndroidUtilities.lerp(0.95f, 1.0f, interpolation), this.imageReceiver.getCenterX(), this.imageReceiver.getCenterY());
-                    }
-                    int i2 = Build.VERSION.SDK_INT;
-                    i = i2 < 21 ? AndroidUtilities.statusBarHeight : 0;
-                    min = Math.min(0.0f, (getHeight() - (((i2 < 21 ? this.insets.getStableInsetBottom() : 0) + ((this.menuItems.length * AndroidUtilities.dp(48.0f)) + AndroidUtilities.dp(16.0f))) + AndroidUtilities.dp(16.0f))) - this.imageReceiver.getImageY2());
-                    if (this.imageReceiver.getImageY() + min >= i) {
-                        canvas.translate(0.0f, this.moveProgress * AndroidUtilities.dp(16.0f));
-                    } else {
-                        canvas.translate(0.0f, min + (this.moveProgress * AndroidUtilities.dp(16.0f)));
-                    }
-                    this.imageReceiver.setAlpha(interpolation);
-                    this.imageReceiver.draw(canvas);
-                    if (this.showProgress) {
-                        Drawable drawable = this.imageReceiver.getDrawable();
-                        if ((drawable instanceof AnimatedFileDrawable) && ((AnimatedFileDrawable) drawable).getDurationMs() > 0) {
-                            ValueAnimator valueAnimator2 = this.progressShowAnimator;
-                            if (valueAnimator2 != null) {
-                                valueAnimator2.cancel();
-                                if (this.radialProgress.getProgress() < 1.0f) {
-                                    this.radialProgress.setProgress(1.0f, true);
-                                }
-                                ValueAnimator ofFloat = ValueAnimator.ofFloat(((Float) this.progressShowAnimator.getAnimatedValue()).floatValue(), 0.0f);
-                                this.progressHideAnimator = ofFloat;
-                                ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.AvatarPreviewer.Layout.1
-                                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                                    public void onAnimationEnd(Animator animator) {
-                                        Layout.this.showProgress = false;
-                                        Layout.this.invalidate();
-                                    }
-                                });
-                                this.progressHideAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.AvatarPreviewer$Layout$$ExternalSyntheticLambda1
-                                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                                    public final void onAnimationUpdate(ValueAnimator valueAnimator3) {
-                                        AvatarPreviewer.Layout.this.lambda$onDraw$3(valueAnimator3);
-                                    }
-                                });
-                                this.progressHideAnimator.setDuration(250L);
-                                this.progressHideAnimator.start();
-                            } else {
-                                this.showProgress = false;
-                            }
-                        } else if (this.progressShowAnimator == null) {
-                            ValueAnimator ofFloat2 = ValueAnimator.ofFloat(0.0f, 1.0f);
-                            this.progressShowAnimator = ofFloat2;
-                            ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.AvatarPreviewer$Layout$$ExternalSyntheticLambda2
-                                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                                public final void onAnimationUpdate(ValueAnimator valueAnimator3) {
-                                    AvatarPreviewer.Layout.this.lambda$onDraw$4(valueAnimator3);
-                                }
-                            });
-                            this.progressShowAnimator.setStartDelay(250L);
-                            this.progressShowAnimator.setDuration(250L);
-                            this.progressShowAnimator.start();
-                        }
-                        ValueAnimator valueAnimator3 = this.progressHideAnimator;
-                        if (valueAnimator3 != null) {
-                            this.radialProgress.setOverrideAlpha(((Float) valueAnimator3.getAnimatedValue()).floatValue());
-                            this.radialProgress.draw(canvas);
-                        } else {
-                            ValueAnimator valueAnimator4 = this.progressShowAnimator;
-                            if (valueAnimator4 != null) {
-                                this.radialProgress.setOverrideAlpha(((Float) valueAnimator4.getAnimatedValue()).floatValue());
-                                this.radialProgress.draw(canvas);
-                            }
-                        }
-                    }
-                    valueAnimator = this.moveAnimator;
-                    if (valueAnimator == null) {
-                        this.arrowDrawable.setAlpha((int) ((1.0f - valueAnimator.getAnimatedFraction()) * 255.0f));
-                    } else {
-                        this.arrowDrawable.setAlpha((int) (interpolation * 255.0f));
-                    }
-                    this.arrowDrawable.draw(canvas);
-                }
-            }
-            if (!z) {
-                float f3 = this.progress;
-                if (f3 > 0.0f) {
-                    float f4 = f3 - (((float) j) / 150.0f);
-                    this.progress = f4;
-                    if (f4 > 0.0f) {
-                        postInvalidateOnAnimation();
-                    } else {
-                        this.progress = 0.0f;
-                        onHide();
-                    }
-                }
-            }
-            interpolation = this.interpolator.getInterpolation(this.progress);
-            this.backgroundDrawable.setAlpha((int) (180.0f * interpolation));
-            this.backgroundDrawable.draw(canvas);
-            if (interpolation < 1.0f) {
-            }
-            int i22 = Build.VERSION.SDK_INT;
-            if (i22 < 21) {
-            }
-            min = Math.min(0.0f, (getHeight() - (((i22 < 21 ? this.insets.getStableInsetBottom() : 0) + ((this.menuItems.length * AndroidUtilities.dp(48.0f)) + AndroidUtilities.dp(16.0f))) + AndroidUtilities.dp(16.0f))) - this.imageReceiver.getImageY2());
-            if (this.imageReceiver.getImageY() + min >= i) {
-            }
-            this.imageReceiver.setAlpha(interpolation);
-            this.imageReceiver.draw(canvas);
-            if (this.showProgress) {
-            }
-            valueAnimator = this.moveAnimator;
-            if (valueAnimator == null) {
-            }
-            this.arrowDrawable.draw(canvas);
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onDraw$3(ValueAnimator valueAnimator) {
-            invalidate();
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onDraw$4(ValueAnimator valueAnimator) {
-            invalidate();
-        }
-
-        public void setData(final Data data) {
-            this.menuItems = data.menuItems;
-            this.showProgress = data.videoLocation != null;
-            this.videoFileName = data.videoFileName;
-            recycleInfoLoadTask();
-            if (data.infoLoadTask != null) {
-                InfoLoadTask<?, ?> infoLoadTask = data.infoLoadTask;
-                this.infoLoadTask = infoLoadTask;
-                infoLoadTask.load(new Consumer() { // from class: org.telegram.ui.AvatarPreviewer$Layout$$ExternalSyntheticLambda5
-                    @Override // androidx.core.util.Consumer
-                    public final void accept(Object obj) {
-                        AvatarPreviewer.Layout.this.lambda$setData$5(data, obj);
-                    }
-                });
-            }
-            this.imageReceiver.setCurrentAccount(UserConfig.selectedAccount);
-            this.imageReceiver.setImage(data.videoLocation, data.videoFilter, data.imageLocation, data.imageFilter, data.thumbImageLocation, data.thumbImageFilter, null, 0L, null, data.parentObject, 1);
-            setShowing(true);
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$setData$5(Data data, Object obj) {
+        public /* synthetic */ void lambda$setData$2(Data data, Object obj) {
             if (this.recycled) {
                 return;
             }
             if (obj instanceof TLRPC$UserFull) {
-                setData(Data.of((TLRPC$UserFull) obj, data.menuItems));
+                setData(Data.of((TLRPC$User) data.infoLoadTask.argument, (TLRPC$UserFull) obj, data.menuItems));
             } else if (obj instanceof TLRPC$ChatFull) {
                 setData(Data.of((TLRPC$Chat) data.infoLoadTask.argument, (TLRPC$ChatFull) obj, data.menuItems));
             }
         }
 
-        private void setShowing(boolean z) {
-            if (this.showing != z) {
-                this.showing = z;
-                this.lastUpdateTime = AnimationUtils.currentAnimationTimeMillis();
-                invalidate();
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$setData$3(MenuItem menuItem, View view) {
+            setShowing(false);
+            this.callback.onMenuClick(menuItem);
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public void setShowing(final boolean z) {
+            if (this.showing == z) {
+                return;
             }
+            this.showing = z;
+            ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
+            ofFloat.setInterpolator(z ? this.openInterpolator : CubicBezierInterpolator.EASE_OUT_QUINT);
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.AvatarPreviewer$Layout$$ExternalSyntheticLambda0
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    AvatarPreviewer.Layout.this.lambda$setShowing$4(z, valueAnimator);
+                }
+            });
+            ValueAnimator ofFloat2 = ValueAnimator.ofFloat(0.0f, 1.0f);
+            ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.AvatarPreviewer$Layout$$ExternalSyntheticLambda1
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    AvatarPreviewer.Layout.this.lambda$setShowing$5(z, valueAnimator);
+                }
+            });
+            AnimatorSet animatorSet = this.openAnimator;
+            if (animatorSet != null) {
+                animatorSet.cancel();
+            }
+            AnimatorSet animatorSet2 = new AnimatorSet();
+            this.openAnimator = animatorSet2;
+            animatorSet2.setDuration(z ? 190L : 150L);
+            this.openAnimator.playTogether(ofFloat, ofFloat2);
+            this.openAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.AvatarPreviewer.Layout.2
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    if (z) {
+                        return;
+                    }
+                    Layout.this.setVisibility(4);
+                    Layout.this.onHideFinish();
+                }
+            });
+            this.openAnimator.start();
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$setShowing$4(boolean z, ValueAnimator valueAnimator) {
+            float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
+            if (!z) {
+                floatValue = 1.0f - floatValue;
+            }
+            float clamp = MathUtils.clamp(floatValue, 0.0f, 1.0f);
+            float f = (0.3f * floatValue) + 0.7f;
+            this.container.setScaleX(f);
+            this.container.setScaleY(f);
+            this.container.setAlpha(clamp);
+            float f2 = 1.0f - floatValue;
+            this.avatarView.setTranslationY(AndroidUtilities.dp(40.0f) * f2);
+            this.menu.setTranslationY((-AndroidUtilities.dp(70.0f)) * f2);
+            float f3 = (floatValue * 0.05f) + 0.95f;
+            this.menu.setScaleX(f3);
+            this.menu.setScaleY(f3);
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$setShowing$5(boolean z, ValueAnimator valueAnimator) {
+            float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
+            if (!z) {
+                floatValue = 1.0f - floatValue;
+            }
+            this.blurView.setAlpha(floatValue);
+            invalidate();
         }
 
         public void recycle() {
             this.recycled = true;
-            ValueAnimator valueAnimator = this.moveAnimator;
-            if (valueAnimator != null) {
-                valueAnimator.cancel();
-            }
-            BottomSheet bottomSheet = this.visibleSheet;
-            if (bottomSheet != null) {
-                bottomSheet.cancel();
-            }
             recycleInfoLoadTask();
         }
 
@@ -788,6 +688,134 @@ public class AvatarPreviewer {
                 infoLoadTask.cancel();
                 this.infoLoadTask = null;
             }
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes4.dex */
+    public static class AvatarView extends FrameLayout {
+        private BackupImageView backupImageView;
+        private ValueAnimator progressHideAnimator;
+        private ValueAnimator progressShowAnimator;
+        private final RadialProgress2 radialProgress;
+        private final int radialProgressSize;
+        private boolean showProgress;
+
+        public AvatarView(Context context, Theme.ResourcesProvider resourcesProvider) {
+            super(context);
+            this.radialProgressSize = AndroidUtilities.dp(64.0f);
+            setWillNotDraw(false);
+            if (Build.VERSION.SDK_INT >= 21) {
+                setOutlineProvider(new RoundRectOutlineProvider(6));
+            }
+            BackupImageView backupImageView = new BackupImageView(context);
+            this.backupImageView = backupImageView;
+            backupImageView.setAspectFit(true);
+            this.backupImageView.setRoundRadius(AndroidUtilities.dp(6.0f));
+            addView(this.backupImageView, LayoutHelper.createFrame(-1, -1.0f));
+            RadialProgress2 radialProgress2 = new RadialProgress2(this, resourcesProvider);
+            this.radialProgress = radialProgress2;
+            radialProgress2.setOverrideAlpha(0.0f);
+            radialProgress2.setIcon(10, false, false);
+            radialProgress2.setColors(1107296256, 1107296256, -1, -1);
+        }
+
+        public void setImage(int i, ImageLocation imageLocation, String str, ImageLocation imageLocation2, String str2, ImageLocation imageLocation3, String str3, BitmapDrawable bitmapDrawable, Object obj) {
+            this.backupImageView.getImageReceiver().setCurrentAccount(i);
+            this.backupImageView.getImageReceiver().setImage(imageLocation, str, imageLocation2, str2, imageLocation3, str3, bitmapDrawable, 0L, null, obj, 1);
+            this.backupImageView.onNewImageSet();
+        }
+
+        public void setProgress(float f) {
+            this.radialProgress.setProgress(f, true);
+        }
+
+        public boolean getShowProgress() {
+            return this.showProgress;
+        }
+
+        public void setShowProgress(boolean z) {
+            this.showProgress = z;
+            invalidate();
+        }
+
+        @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
+        protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
+            super.onLayout(z, i, i2, i3, i4);
+            int width = getWidth() / 2;
+            int height = getHeight() / 2;
+            RadialProgress2 radialProgress2 = this.radialProgress;
+            int i5 = this.radialProgressSize;
+            radialProgress2.setProgressRect(width - i5, height - i5, width + i5, height + i5);
+        }
+
+        @Override // android.view.ViewGroup, android.view.View
+        protected void dispatchDraw(Canvas canvas) {
+            super.dispatchDraw(canvas);
+            if (this.showProgress) {
+                Drawable drawable = this.backupImageView.getImageReceiver().getDrawable();
+                if ((drawable instanceof AnimatedFileDrawable) && ((AnimatedFileDrawable) drawable).getDurationMs() > 0) {
+                    ValueAnimator valueAnimator = this.progressShowAnimator;
+                    if (valueAnimator != null) {
+                        valueAnimator.cancel();
+                        if (this.radialProgress.getProgress() < 1.0f) {
+                            this.radialProgress.setProgress(1.0f, true);
+                        }
+                        ValueAnimator ofFloat = ValueAnimator.ofFloat(((Float) this.progressShowAnimator.getAnimatedValue()).floatValue(), 0.0f);
+                        this.progressHideAnimator = ofFloat;
+                        ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.AvatarPreviewer.AvatarView.1
+                            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                            public void onAnimationEnd(Animator animator) {
+                                AvatarView.this.showProgress = false;
+                                AvatarView.this.invalidate();
+                            }
+                        });
+                        this.progressHideAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.AvatarPreviewer$AvatarView$$ExternalSyntheticLambda0
+                            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                            public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                                AvatarPreviewer.AvatarView.this.lambda$dispatchDraw$0(valueAnimator2);
+                            }
+                        });
+                        this.progressHideAnimator.setDuration(250L);
+                        this.progressHideAnimator.start();
+                    } else {
+                        this.showProgress = false;
+                    }
+                } else if (this.progressShowAnimator == null) {
+                    ValueAnimator ofFloat2 = ValueAnimator.ofFloat(0.0f, 1.0f);
+                    this.progressShowAnimator = ofFloat2;
+                    ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.AvatarPreviewer$AvatarView$$ExternalSyntheticLambda1
+                        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                        public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                            AvatarPreviewer.AvatarView.this.lambda$dispatchDraw$1(valueAnimator2);
+                        }
+                    });
+                    this.progressShowAnimator.setStartDelay(250L);
+                    this.progressShowAnimator.setDuration(250L);
+                    this.progressShowAnimator.start();
+                }
+                ValueAnimator valueAnimator2 = this.progressHideAnimator;
+                if (valueAnimator2 != null) {
+                    this.radialProgress.setOverrideAlpha(((Float) valueAnimator2.getAnimatedValue()).floatValue());
+                    this.radialProgress.draw(canvas);
+                    return;
+                }
+                ValueAnimator valueAnimator3 = this.progressShowAnimator;
+                if (valueAnimator3 != null) {
+                    this.radialProgress.setOverrideAlpha(((Float) valueAnimator3.getAnimatedValue()).floatValue());
+                    this.radialProgress.draw(canvas);
+                }
+            }
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$dispatchDraw$0(ValueAnimator valueAnimator) {
+            invalidate();
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$dispatchDraw$1(ValueAnimator valueAnimator) {
+            invalidate();
         }
     }
 }

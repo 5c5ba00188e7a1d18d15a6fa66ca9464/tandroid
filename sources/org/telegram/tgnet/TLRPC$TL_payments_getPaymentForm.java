@@ -7,7 +7,7 @@ public class TLRPC$TL_payments_getPaymentForm extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        return TLRPC$TL_payments_paymentForm.TLdeserialize(abstractSerializedData, i, z);
+        return TLRPC$PaymentForm.TLdeserialize(abstractSerializedData, i, z);
     }
 
     @Override // org.telegram.tgnet.TLObject

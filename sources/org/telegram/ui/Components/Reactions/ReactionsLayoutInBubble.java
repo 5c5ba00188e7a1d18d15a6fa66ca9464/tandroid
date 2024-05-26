@@ -43,6 +43,7 @@ import org.telegram.tgnet.TLRPC$Message;
 import org.telegram.tgnet.TLRPC$MessagePeerReaction;
 import org.telegram.tgnet.TLRPC$Reaction;
 import org.telegram.tgnet.TLRPC$ReactionCount;
+import org.telegram.tgnet.TLRPC$TL_availableEffect;
 import org.telegram.tgnet.TLRPC$TL_availableReaction;
 import org.telegram.tgnet.TLRPC$TL_messageReactions;
 import org.telegram.tgnet.TLRPC$TL_reactionCustomEmoji;
@@ -214,11 +215,11 @@ public class ReactionsLayoutInBubble {
                             int i5 = 0;
                             while (i5 < messageObject.messageOwner.reactions.recent_reactions.size()) {
                                 TLRPC$MessagePeerReaction tLRPC$MessagePeerReaction = messageObject.messageOwner.reactions.recent_reactions.get(i5);
-                                VisibleReaction fromTLReaction = VisibleReaction.fromTLReaction(tLRPC$MessagePeerReaction.reaction);
-                                VisibleReaction fromTLReaction2 = VisibleReaction.fromTLReaction(tLRPC$ReactionCount.reaction);
+                                VisibleReaction fromTL = VisibleReaction.fromTL(tLRPC$MessagePeerReaction.reaction);
+                                VisibleReaction fromTL2 = VisibleReaction.fromTL(tLRPC$ReactionCount.reaction);
                                 int i6 = i2;
                                 TLObject userOrChat = MessagesController.getInstance(this.currentAccount).getUserOrChat(MessageObject.getPeerId(tLRPC$MessagePeerReaction.peer_id));
-                                if (fromTLReaction.equals(fromTLReaction2) && userOrChat != null) {
+                                if (fromTL.equals(fromTL2) && userOrChat != null) {
                                     if (arrayList2 == null) {
                                         arrayList2 = new ArrayList<>();
                                     }
@@ -710,7 +711,7 @@ public class ReactionsLayoutInBubble {
             this.reactionCount = tLRPC$ReactionCount;
             TLRPC$Reaction tLRPC$Reaction = tLRPC$ReactionCount.reaction;
             this.reaction = tLRPC$Reaction;
-            this.visibleReaction = VisibleReaction.fromTLReaction(tLRPC$Reaction);
+            this.visibleReaction = VisibleReaction.fromTL(tLRPC$Reaction);
             int i2 = tLRPC$ReactionCount.count;
             this.count = i2;
             this.choosen = tLRPC$ReactionCount.chosen;
@@ -1256,10 +1257,14 @@ public class ReactionsLayoutInBubble {
     /* loaded from: classes3.dex */
     public static class VisibleReaction {
         public long documentId;
+        public long effectId;
         public String emojicon;
         public long hash;
+        public boolean isEffect;
+        public boolean premium;
+        public boolean sticker;
 
-        public static VisibleReaction fromTLReaction(TLRPC$Reaction tLRPC$Reaction) {
+        public static VisibleReaction fromTL(TLRPC$Reaction tLRPC$Reaction) {
             VisibleReaction visibleReaction = new VisibleReaction();
             if (tLRPC$Reaction instanceof TLRPC$TL_reactionEmoji) {
                 String str = ((TLRPC$TL_reactionEmoji) tLRPC$Reaction).emoticon;
@@ -1270,6 +1275,19 @@ public class ReactionsLayoutInBubble {
                 visibleReaction.documentId = j;
                 visibleReaction.hash = j;
             }
+            return visibleReaction;
+        }
+
+        public static VisibleReaction fromTL(TLRPC$TL_availableEffect tLRPC$TL_availableEffect) {
+            VisibleReaction visibleReaction = new VisibleReaction();
+            visibleReaction.isEffect = true;
+            long j = tLRPC$TL_availableEffect.id;
+            visibleReaction.effectId = j;
+            visibleReaction.sticker = tLRPC$TL_availableEffect.effect_animation_id == 0;
+            visibleReaction.documentId = tLRPC$TL_availableEffect.effect_sticker_id;
+            visibleReaction.hash = j;
+            visibleReaction.premium = tLRPC$TL_availableEffect.premium_required;
+            visibleReaction.emojicon = tLRPC$TL_availableEffect.emoticon;
             return visibleReaction;
         }
 

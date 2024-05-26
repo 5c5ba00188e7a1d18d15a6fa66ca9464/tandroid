@@ -61,7 +61,7 @@ public class StickerImageView extends BackupImageView implements NotificationCen
     /* JADX WARN: Removed duplicated region for block: B:12:0x0034  */
     /* JADX WARN: Removed duplicated region for block: B:15:0x0042  */
     /* JADX WARN: Removed duplicated region for block: B:17:0x0049  */
-    /* JADX WARN: Removed duplicated region for block: B:18:0x0056  */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x0057  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

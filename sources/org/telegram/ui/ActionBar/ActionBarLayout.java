@@ -195,6 +195,11 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
     }
 
     @Override // org.telegram.ui.ActionBar.INavigationLayout
+    public /* bridge */ /* synthetic */ BaseFragment getSafeLastFragment() {
+        return INavigationLayout.-CC.$default$getSafeLastFragment(this);
+    }
+
+    @Override // org.telegram.ui.ActionBar.INavigationLayout
     public /* bridge */ /* synthetic */ ViewGroup getView() {
         return INavigationLayout.-CC.$default$getView(this);
     }

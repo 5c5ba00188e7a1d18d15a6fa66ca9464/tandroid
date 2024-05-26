@@ -197,7 +197,7 @@ import org.telegram.ui.Cells.CheckBoxCell;
 import org.telegram.ui.Cells.RadioColorCell;
 import org.telegram.ui.Cells.TextColorCell;
 import org.telegram.ui.ChatActivity;
-import org.telegram.ui.ChatActivity$$ExternalSyntheticLambda301;
+import org.telegram.ui.ChatActivity$$ExternalSyntheticLambda319;
 import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.LinkSpanDrawable;
 import org.telegram.ui.Components.NumberPicker;
@@ -988,7 +988,7 @@ public class AlertsCreator {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$createLanguageAlert$8(LaunchActivity launchActivity, DialogInterface dialogInterface, int i) {
-        launchActivity.lambda$runLinkRequest$86(new LanguageSelectActivity());
+        launchActivity.lambda$runLinkRequest$87(new LanguageSelectActivity());
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -6914,7 +6914,7 @@ public class AlertsCreator {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$createFreeSpaceDialog$143(LaunchActivity launchActivity, DialogInterface dialogInterface, int i) {
-        launchActivity.lambda$runLinkRequest$86(new CacheControlActivity());
+        launchActivity.lambda$runLinkRequest$87(new CacheControlActivity());
     }
 
     public static Dialog createPrioritySelectDialog(Activity activity, long j, int i, int i2, Runnable runnable) {
@@ -7484,7 +7484,7 @@ public class AlertsCreator {
                     lambda$createDeleteMessagesAlert$151 = AlertsCreator.lambda$createDeleteMessagesAlert$151(clientUserId, (TLObject) obj);
                     return lambda$createDeleteMessagesAlert$151;
                 }
-            }).collect(Collectors.toCollection(ChatActivity$$ExternalSyntheticLambda301.INSTANCE));
+            }).collect(Collectors.toCollection(ChatActivity$$ExternalSyntheticLambda319.INSTANCE));
             if (!arrayList2.isEmpty()) {
                 if (tLRPC$ChannelParticipantArr == null) {
                     AlertDialog[] alertDialogArr = {new AlertDialog(activity, 3)};

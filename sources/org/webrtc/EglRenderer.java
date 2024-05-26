@@ -21,7 +21,7 @@ import org.webrtc.GlGenericDrawer;
 import org.webrtc.GlUtil;
 import org.webrtc.RendererCommon;
 import org.webrtc.VideoSink;
-/* loaded from: classes4.dex */
+/* loaded from: classes.dex */
 public class EglRenderer implements VideoSink {
     private static final long LOG_INTERVAL_SEC = 4;
     private static final String TAG = "EglRenderer";
@@ -55,12 +55,12 @@ public class EglRenderer implements VideoSink {
     private int rotation;
     private boolean usePresentationTimeStamp;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes.dex */
     public interface ErrorCallback {
         void onGlOutOfMemory();
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes.dex */
     public interface FrameListener {
         void onFrame(Bitmap bitmap);
     }
@@ -74,7 +74,7 @@ public class EglRenderer implements VideoSink {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes.dex */
     public static class FrameListenerAndParams {
         public final boolean applyFpsReduction;
         public final RendererCommon.GlDrawer drawer;
@@ -90,7 +90,7 @@ public class EglRenderer implements VideoSink {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes.dex */
     public class EglSurfaceCreation implements Runnable {
         private final boolean background;
         private Object surface;
@@ -143,7 +143,7 @@ public class EglRenderer implements VideoSink {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes.dex */
     public static class HandlerWithExceptionCallback extends Handler {
         private final Runnable exceptionCallback;
 

@@ -16,6 +16,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.Objects;
 import org.telegram.SQLite.SQLiteCursor;
@@ -483,6 +484,22 @@ public class AnimatedEmojiDrawable extends Drawable {
             }
         }
 
+        public void putDocuments(ArrayList<TLRPC$Document> arrayList) {
+            if (arrayList == null) {
+                return;
+            }
+            synchronized (this) {
+                if (this.emojiDocumentsCache == null) {
+                    this.emojiDocumentsCache = new HashMap<>();
+                }
+                Iterator<TLRPC$Document> it = arrayList.iterator();
+                while (it.hasNext()) {
+                    TLRPC$Document next = it.next();
+                    this.emojiDocumentsCache.put(Long.valueOf(next.id), next);
+                }
+            }
+        }
+
         public TLRPC$InputStickerSet findStickerSet(long j) {
             synchronized (this) {
                 HashMap<Long, TLRPC$Document> hashMap = this.emojiDocumentsCache;
@@ -574,6 +591,10 @@ public class AnimatedEmojiDrawable extends Drawable {
             this.sizedp = (int) (((Math.abs(Theme.chat_msgTextPaintEmoji[0].ascent()) + Math.abs(Theme.chat_msgTextPaintEmoji[0].descent())) * 1.15f) / AndroidUtilities.density);
         } else if (i == 14 || i == 15 || i == 17) {
             this.sizedp = 100;
+        } else if (i == 11 || i == 22) {
+            this.sizedp = 56;
+        } else if (i == 23) {
+            this.sizedp = 14;
         } else {
             this.sizedp = 34;
         }
@@ -617,7 +638,7 @@ public class AnimatedEmojiDrawable extends Drawable {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:106:0x01fd, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:110:0x0208, code lost:
         if (r3 != null) goto L67;
      */
     /*
@@ -629,13 +650,14 @@ public class AnimatedEmojiDrawable extends Drawable {
         SvgHelper.SvgDrawable svgThumb;
         ImageLocation imageLocation;
         String str;
+        int i2;
         ImageLocation imageLocation2;
         Drawable emojiDrawable;
         TLRPC$Document tLRPC$Document = this.document;
         if (tLRPC$Document != null) {
             if (this.imageReceiver == null || this.imageReceiverEmojiThumb || z) {
-                int i2 = this.cacheType;
-                if ((i2 == 20 || i2 == 21) && (tLRPC$Document instanceof TLRPC$TL_documentEmpty)) {
+                int i3 = this.cacheType;
+                if ((i3 == 20 || i3 == 21) && (tLRPC$Document instanceof TLRPC$TL_documentEmpty)) {
                     return;
                 }
                 this.imageReceiverEmojiThumb = false;
@@ -643,27 +665,27 @@ public class AnimatedEmojiDrawable extends Drawable {
                 if (this.colorFilterToSet != null && canOverrideColor()) {
                     this.imageReceiver.setColorFilter(this.colorFilterToSet);
                 }
-                int i3 = this.cacheType;
-                if (i3 != 0) {
-                    if (i3 == 12) {
-                        i3 = 2;
+                int i4 = this.cacheType;
+                if (i4 != 0) {
+                    if (i4 == 12) {
+                        i4 = 2;
                     }
-                    this.imageReceiver.setUniqKeyPrefix(i3 + "_");
+                    this.imageReceiver.setUniqKeyPrefix(i4 + "_");
                 }
                 this.imageReceiver.setVideoThumbIsSame(true);
                 boolean z2 = (SharedConfig.getDevicePerformanceClass() == 0 && this.cacheType == 5) || ((i = this.cacheType) == 2 && !liteModeKeyboard) || (i == 3 && !liteModeReactions);
-                int i4 = this.cacheType;
-                z2 = (i4 == 13 || i4 == 16) ? true : true;
+                int i5 = this.cacheType;
+                z2 = (i5 == 13 || i5 == 16) ? true : true;
                 String str2 = this.sizedp + "_" + this.sizedp;
                 if (this.cacheType == 12) {
                     str2 = str2 + "_d_nostream";
                 }
-                int i5 = this.cacheType;
-                if (i5 != 17 && i5 != 15 && i5 != 14 && i5 != 8 && ((i5 != 1 || SharedConfig.getDevicePerformanceClass() < 2) && this.cacheType != 12)) {
+                int i6 = this.cacheType;
+                if (i6 != 17 && i6 != 15 && i6 != 14 && i6 != 8 && ((i6 != 1 || SharedConfig.getDevicePerformanceClass() < 2) && this.cacheType != 12)) {
                     str2 = str2 + "_pcache";
                 }
-                int i6 = this.cacheType;
-                if (i6 != 17 && i6 != 0 && i6 != 1 && i6 != 14 && i6 != 15 && i6 != 19 && i6 != 20 && i6 != 21) {
+                int i7 = this.cacheType;
+                if (i7 != 17 && i7 != 0 && i7 != 1 && i7 != 14 && i7 != 15 && i7 != 19 && i7 != 20 && i7 != 21) {
                     str2 = str2 + "_compress";
                 }
                 if (this.cacheType == 8) {
@@ -688,14 +710,14 @@ public class AnimatedEmojiDrawable extends Drawable {
                     sb.append("@");
                     sb.append(str2);
                     String sb2 = sb.toString();
-                    if (SharedConfig.getDevicePerformanceClass() == 0 && this.cacheType != 2 && ImageLoader.getInstance().hasLottieMemCache(sb2)) {
-                        svgThumb = null;
-                    } else {
-                        SvgHelper.SvgDrawable svgThumb2 = DocumentObject.getSvgThumb(this.document.thumbs, Theme.key_windowBackgroundWhiteGrayIcon, 0.2f);
+                    if (SharedConfig.getDevicePerformanceClass() != 0 || (i2 = this.cacheType) == 2 || i2 == 22 || !ImageLoader.getInstance().hasLottieMemCache(sb2)) {
+                        SvgHelper.SvgDrawable svgThumb2 = DocumentObject.getSvgThumb(this.document.thumbs, Theme.key_windowBackgroundWhiteGrayIcon, this.cacheType == 22 ? 0.8f : 0.2f);
                         if (svgThumb2 != null && MessageObject.isAnimatedStickerDocument(this.document, true)) {
                             svgThumb2.overrideWidthAndHeight(LiteMode.FLAG_CALLS_ANIMATIONS, LiteMode.FLAG_CALLS_ANIMATIONS);
                         }
                         svgThumb = svgThumb2;
+                    } else {
+                        svgThumb = null;
                     }
                     imageLocation = ImageLocation.getForDocument(this.document);
                 } else {
@@ -706,8 +728,8 @@ public class AnimatedEmojiDrawable extends Drawable {
                     }
                     imageLocation = null;
                 }
-                int i7 = this.cacheType;
-                if (i7 == 20 || i7 == 21) {
+                int i8 = this.cacheType;
+                if (i8 == 20 || i8 == 21) {
                     imageLocation2 = null;
                     emojiDrawable = Emoji.getEmojiDrawable(MessageObject.findAnimatedEmojiEmoticon(this.document, null));
                 } else {
@@ -717,13 +739,13 @@ public class AnimatedEmojiDrawable extends Drawable {
                 if (this.absolutePath != null) {
                     this.imageReceiver.setImageBitmap(new AnimatedFileDrawable(new File(this.absolutePath), true, 0L, 0, null, null, null, 0L, this.currentAccount, true, LiteMode.FLAG_CALLS_ANIMATIONS, LiteMode.FLAG_CALLS_ANIMATIONS, null));
                 } else {
-                    int i8 = this.cacheType;
-                    if (i8 == 8) {
+                    int i9 = this.cacheType;
+                    if (i9 == 8) {
                         ImageReceiver imageReceiver = this.imageReceiver;
                         TLRPC$Document tLRPC$Document2 = this.document;
                         imageReceiver.setImage(null, null, imageLocation, str2, null, null, emojiDrawable, tLRPC$Document2.size, null, tLRPC$Document2, 1);
-                    } else if (z2 || (!liteModeKeyboard && i8 != 14)) {
-                        if (i8 == 16) {
+                    } else if (z2 || (!liteModeKeyboard && i9 != 14)) {
+                        if (i9 == 16) {
                             imageLocation2 = ImageLocation.getForDocument(tLRPC$PhotoSize, this.document);
                         }
                         if ("video/webm".equals(this.document.mime_type)) {
@@ -737,23 +759,23 @@ public class AnimatedEmojiDrawable extends Drawable {
                             this.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$PhotoSize, this.document), this.sizedp + "_" + this.sizedp, imageLocation2, null, emojiDrawable, tLRPC$Document5.size, null, tLRPC$Document5, 1);
                         }
                     } else {
-                        ImageLocation forDocument = i8 == 17 ? ImageLocation.getForDocument(tLRPC$PhotoSize, this.document) : imageLocation2;
+                        ImageLocation forDocument = i9 == 17 ? ImageLocation.getForDocument(tLRPC$PhotoSize, this.document) : imageLocation2;
                         TLRPC$Document tLRPC$Document6 = this.document;
                         this.imageReceiver.setImage(imageLocation, str2, ImageLocation.getForDocument(tLRPC$PhotoSize, this.document), this.sizedp + "_" + this.sizedp, forDocument, null, emojiDrawable, tLRPC$Document6.size, null, tLRPC$Document6, 1);
                     }
                 }
                 updateAutoRepeat(this.imageReceiver);
-                int i9 = this.cacheType;
-                if (i9 == 13 || i9 == 16 || i9 == 3 || i9 == 5 || i9 == 4) {
+                int i10 = this.cacheType;
+                if (i10 == 13 || i10 == 16 || i10 == 3 || i10 == 5 || i10 == 4) {
                     this.imageReceiver.setLayerNum(7);
                 }
-                int i10 = this.cacheType;
-                if (i10 == 9 || i10 == 21) {
+                int i11 = this.cacheType;
+                if (i11 == 9 || i11 == 21) {
                     this.imageReceiver.setLayerNum(6656);
                 }
                 this.imageReceiver.setAspectFit(true);
-                int i11 = this.cacheType;
-                if (i11 == 12 || i11 == 18 || i11 == 8 || i11 == 6 || i11 == 5) {
+                int i12 = this.cacheType;
+                if (i12 == 12 || i12 == 18 || i12 == 8 || i12 == 6 || i12 == 5) {
                     this.imageReceiver.setAllowStartAnimation(false);
                     this.imageReceiver.setAllowStartLottieAnimation(false);
                     this.imageReceiver.setAutoRepeat(0);
@@ -763,8 +785,8 @@ public class AnimatedEmojiDrawable extends Drawable {
                     this.imageReceiver.setAutoRepeat(1);
                 }
                 this.imageReceiver.setAllowDecodeSingleFrame(true);
-                int i12 = this.cacheType;
-                this.imageReceiver.setRoundRadius((i12 == 5 || i12 == 6) ? AndroidUtilities.dp(6.0f) : 0);
+                int i13 = this.cacheType;
+                this.imageReceiver.setRoundRadius((i13 == 5 || i13 == 6) ? AndroidUtilities.dp(6.0f) : 0);
                 updateAttachState();
                 invalidate();
             }
@@ -776,7 +798,7 @@ public class AnimatedEmojiDrawable extends Drawable {
         int i = this.cacheType;
         if (i == 7 || i == 9 || i == 10) {
             imageReceiver.setAutoRepeatCount(2);
-        } else if (i == 11 || i == 18 || i == 14 || i == 6 || i == 5) {
+        } else if (i == 11 || i == 18 || i == 14 || i == 6 || i == 5 || i == 22) {
             imageReceiver.setAutoRepeatCount(1);
         } else if (i == 17) {
             imageReceiver.setAutoRepeatCount(0);
@@ -1183,13 +1205,18 @@ public class AnimatedEmojiDrawable extends Drawable {
             Drawable[] drawableArr = this.drawables;
             if (drawableArr[1] != null && f < 1.0f) {
                 drawableArr[1].setAlpha((int) (this.alpha * (1.0f - f)));
+                int intrinsicWidth = this.drawables[1].getIntrinsicWidth() < 0 ? getIntrinsicWidth() : this.drawables[1].getIntrinsicWidth();
+                int intrinsicHeight = this.drawables[1].getIntrinsicHeight() < 0 ? getIntrinsicHeight() : this.drawables[1].getIntrinsicHeight();
                 Drawable[] drawableArr2 = this.drawables;
                 if (drawableArr2[1] instanceof AnimatedEmojiDrawable) {
                     drawableArr2[1].setBounds(bounds);
                 } else if (this.center) {
-                    drawableArr2[1].setBounds(bounds.centerX() - (this.drawables[1].getIntrinsicWidth() / 2), bounds.centerY() - (this.drawables[1].getIntrinsicHeight() / 2), bounds.centerX() + (this.drawables[1].getIntrinsicWidth() / 2), bounds.centerY() + (this.drawables[1].getIntrinsicHeight() / 2));
+                    int i = intrinsicWidth / 2;
+                    int i2 = intrinsicHeight / 2;
+                    drawableArr2[1].setBounds(bounds.centerX() - i, bounds.centerY() - i2, bounds.centerX() + i, bounds.centerY() + i2);
                 } else {
-                    drawableArr2[1].setBounds(bounds.left, bounds.centerY() - (this.drawables[1].getIntrinsicHeight() / 2), bounds.left + this.drawables[1].getIntrinsicWidth(), bounds.centerY() + (this.drawables[1].getIntrinsicHeight() / 2));
+                    int i3 = intrinsicHeight / 2;
+                    drawableArr2[1].setBounds(bounds.left, bounds.centerY() - i3, bounds.left + intrinsicWidth, bounds.centerY() + i3);
                 }
                 this.drawables[1].setColorFilter(this.colorFilter);
                 this.drawables[1].draw(canvas);
@@ -1197,6 +1224,8 @@ public class AnimatedEmojiDrawable extends Drawable {
             }
             if (this.drawables[0] != null) {
                 canvas.save();
+                int intrinsicWidth2 = this.drawables[0].getIntrinsicWidth() < 0 ? getIntrinsicWidth() : this.drawables[0].getIntrinsicWidth();
+                int intrinsicHeight2 = this.drawables[0].getIntrinsicHeight() < 0 ? getIntrinsicHeight() : this.drawables[0].getIntrinsicHeight();
                 Drawable[] drawableArr3 = this.drawables;
                 if (drawableArr3[0] instanceof AnimatedEmojiDrawable) {
                     if (((AnimatedEmojiDrawable) drawableArr3[0]).imageReceiver != null) {
@@ -1212,13 +1241,16 @@ public class AnimatedEmojiDrawable extends Drawable {
                         float interpolation2 = this.overshootInterpolator.getInterpolation(f);
                         canvas.scale(interpolation2, interpolation2, bounds.centerX(), bounds.centerY());
                     }
-                    this.drawables[0].setBounds(bounds.centerX() - (this.drawables[0].getIntrinsicWidth() / 2), bounds.centerY() - (this.drawables[0].getIntrinsicHeight() / 2), bounds.centerX() + (this.drawables[0].getIntrinsicWidth() / 2), bounds.centerY() + (this.drawables[0].getIntrinsicHeight() / 2));
+                    int i4 = intrinsicWidth2 / 2;
+                    int i5 = intrinsicHeight2 / 2;
+                    this.drawables[0].setBounds(bounds.centerX() - i4, bounds.centerY() - i5, bounds.centerX() + i4, bounds.centerY() + i5);
                 } else {
                     if (f < 1.0f) {
                         float interpolation3 = this.overshootInterpolator.getInterpolation(f);
-                        canvas.scale(interpolation3, interpolation3, bounds.left + (this.drawables[0].getIntrinsicWidth() / 2.0f), bounds.centerY());
+                        canvas.scale(interpolation3, interpolation3, bounds.left + (intrinsicWidth2 / 2.0f), bounds.centerY());
                     }
-                    this.drawables[0].setBounds(bounds.left, bounds.centerY() - (this.drawables[0].getIntrinsicHeight() / 2), bounds.left + this.drawables[0].getIntrinsicWidth(), bounds.centerY() + (this.drawables[0].getIntrinsicHeight() / 2));
+                    int i6 = intrinsicHeight2 / 2;
+                    this.drawables[0].setBounds(bounds.left, bounds.centerY() - i6, bounds.left + intrinsicWidth2, bounds.centerY() + i6);
                 }
                 this.drawables[0].setAlpha(this.alpha);
                 this.drawables[0].setColorFilter(this.colorFilter);

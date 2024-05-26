@@ -20,6 +20,7 @@ public class QuoteHighlight extends Path {
     private float minX;
     public final Paint paint;
     private final CornerPath path;
+    public final ArrayList<Integer> quotesToExpand;
     private final ArrayList<Rect> rectangles;
     public final int start;
     private final AnimatedFloat t;
@@ -46,6 +47,7 @@ public class QuoteHighlight extends Path {
         this.paint = paint;
         this.path = new CornerPath();
         this.rectangles = new ArrayList<>();
+        this.quotesToExpand = new ArrayList<>();
         this.t = new AnimatedFloat(0.0f, new Runnable() { // from class: org.telegram.ui.Components.QuoteHighlight$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
@@ -71,13 +73,16 @@ public class QuoteHighlight extends Path {
                 if (textLayoutBlock.code && !textLayoutBlock.quote) {
                     this.currentOffsetX = f2 + AndroidUtilities.dp(10.0f);
                 }
-                this.currentOffsetY = textLayoutBlock.textYOffset + textLayoutBlock.padTop;
+                this.currentOffsetY = textLayoutBlock.textYOffset(arrayList) + textLayoutBlock.padTop;
                 this.minX = textLayoutBlock.quote ? AndroidUtilities.dp(10.0f) : 0.0f;
                 z = z || AndroidUtilities.isRTL(textLayoutBlock.textLayout.getText());
                 if (z) {
                     textLayoutBlock.textLayout.getSelectionPath(max, min, this);
                 } else {
                     getSelectionPath(textLayoutBlock.textLayout, max, min);
+                }
+                if (textLayoutBlock.quoteCollapse && textLayoutBlock.collapsed()) {
+                    this.quotesToExpand.add(Integer.valueOf(textLayoutBlock.index));
                 }
             }
         }
@@ -152,6 +157,10 @@ public class QuoteHighlight extends Path {
         canvas.drawPath(this.path, this.paint);
         this.paint.setAlpha(alpha);
         canvas.restore();
+    }
+
+    public boolean done() {
+        return this.t.get() >= 1.0f;
     }
 
     @Override // android.graphics.Path

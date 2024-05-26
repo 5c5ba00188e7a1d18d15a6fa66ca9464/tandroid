@@ -245,6 +245,7 @@ public class AndroidUtilities {
     private static Pattern linksPattern;
     private static Field mAttachInfoField;
     private static Field mStableInsetsField;
+    public static boolean makingGlobalBlurBitmap;
     private static HashMap<Window, ValueAnimator> navigationBarColorAnimators;
     public static final String[] numbersSignatureArray;
     public static int roundMessageInset;
@@ -322,7 +323,7 @@ public class AndroidUtilities {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ String lambda$formatSpannableSimple$12(Integer num) {
+    public static /* synthetic */ String lambda$formatSpannableSimple$13(Integer num) {
         return "%s";
     }
 
@@ -1024,69 +1025,79 @@ public class AndroidUtilities {
         return addLinks(spannable, i, z, true);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:20:0x0040 A[ADDED_TO_REGION] */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     public static boolean addLinksSafe(Spannable spannable, final int i, final boolean z, final boolean z2) {
-        Future future;
-        boolean z3;
+        if (spannable == null) {
+            return false;
+        }
         final SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(spannable);
-        ExecutorService newSingleThreadExecutor = Executors.newSingleThreadExecutor();
-        Callable callable = new Callable() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda16
-            @Override // java.util.concurrent.Callable
-            public final Object call() {
+        boolean doSafe = doSafe(new Utilities.Callback0Return() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda19
+            @Override // org.telegram.messenger.Utilities.Callback0Return
+            public final Object run() {
                 Boolean lambda$addLinksSafe$6;
                 lambda$addLinksSafe$6 = AndroidUtilities.lambda$addLinksSafe$6(spannableStringBuilder, i, z, z2);
                 return lambda$addLinksSafe$6;
             }
-        };
-        try {
-            try {
-                try {
-                    try {
-                        z3 = ((Boolean) newSingleThreadExecutor.submit(callable).get(200L, TimeUnit.MILLISECONDS)).booleanValue();
-                    } catch (TimeoutException unused) {
-                        if (0 != 0) {
-                            future.cancel(true);
-                        }
-                        newSingleThreadExecutor.shutdownNow();
-                        z3 = false;
-                        if (z3) {
-                        }
-                        return false;
-                    }
-                } catch (Exception e) {
-                    FileLog.e(e);
-                    newSingleThreadExecutor.shutdownNow();
-                    z3 = false;
-                    if (z3) {
-                    }
-                    return false;
-                }
-            } finally {
-                newSingleThreadExecutor.shutdownNow();
+        });
+        if (doSafe) {
+            for (URLSpan uRLSpan : (URLSpan[]) spannable.getSpans(0, spannable.length(), URLSpan.class)) {
+                spannable.removeSpan(uRLSpan);
             }
-        } catch (TimeoutException unused2) {
-            future = null;
+            URLSpan[] uRLSpanArr = (URLSpan[]) spannableStringBuilder.getSpans(0, spannableStringBuilder.length(), URLSpan.class);
+            for (int i2 = 0; i2 < uRLSpanArr.length; i2++) {
+                spannable.setSpan(uRLSpanArr[i2], spannableStringBuilder.getSpanStart(uRLSpanArr[i2]), spannableStringBuilder.getSpanEnd(uRLSpanArr[i2]), 33);
+            }
         }
-        if (z3 || spannable == null) {
-            return false;
-        }
-        for (URLSpan uRLSpan : (URLSpan[]) spannable.getSpans(0, spannable.length(), URLSpan.class)) {
-            spannable.removeSpan(uRLSpan);
-        }
-        URLSpan[] uRLSpanArr = (URLSpan[]) spannableStringBuilder.getSpans(0, spannableStringBuilder.length(), URLSpan.class);
-        for (int i2 = 0; i2 < uRLSpanArr.length; i2++) {
-            spannable.setSpan(uRLSpanArr[i2], spannableStringBuilder.getSpanStart(uRLSpanArr[i2]), spannableStringBuilder.getSpanEnd(uRLSpanArr[i2]), 33);
-        }
-        return true;
+        return doSafe;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ Boolean lambda$addLinksSafe$6(SpannableStringBuilder spannableStringBuilder, int i, boolean z, boolean z2) throws Exception {
+    public static /* synthetic */ Boolean lambda$addLinksSafe$6(SpannableStringBuilder spannableStringBuilder, int i, boolean z, boolean z2) {
+        return Boolean.valueOf(addLinks(spannableStringBuilder, i, z, z2));
+    }
+
+    public static boolean doSafe(Utilities.Callback0Return<Boolean> callback0Return) {
+        return doSafe(callback0Return, 200);
+    }
+
+    public static boolean doSafe(final Utilities.Callback0Return<Boolean> callback0Return, int i) {
+        Future future;
+        ExecutorService newSingleThreadExecutor = Executors.newSingleThreadExecutor();
         try {
-            return Boolean.valueOf(addLinks(spannableStringBuilder, i, z, z2));
+            try {
+                try {
+                } finally {
+                    newSingleThreadExecutor.shutdownNow();
+                }
+            } catch (TimeoutException unused) {
+                future = null;
+            }
+            try {
+                return ((Boolean) newSingleThreadExecutor.submit(new Callable() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda16
+                    @Override // java.util.concurrent.Callable
+                    public final Object call() {
+                        Boolean lambda$doSafe$7;
+                        lambda$doSafe$7 = AndroidUtilities.lambda$doSafe$7(Utilities.Callback0Return.this);
+                        return lambda$doSafe$7;
+                    }
+                }).get(i, TimeUnit.MILLISECONDS)).booleanValue();
+            } catch (TimeoutException unused2) {
+                if (0 != 0) {
+                    future.cancel(true);
+                }
+                newSingleThreadExecutor.shutdownNow();
+                return false;
+            }
+        } catch (Exception e) {
+            FileLog.e(e);
+            newSingleThreadExecutor.shutdownNow();
+            return false;
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ Boolean lambda$doSafe$7(Utilities.Callback0Return callback0Return) throws Exception {
+        try {
+            return (Boolean) callback0Return.run();
         } catch (Exception e) {
             FileLog.e(e);
             return Boolean.FALSE;
@@ -1142,9 +1153,9 @@ public class AndroidUtilities {
         Collections.sort(arrayList, new Comparator() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda15
             @Override // java.util.Comparator
             public final int compare(Object obj, Object obj2) {
-                int lambda$pruneOverlaps$7;
-                lambda$pruneOverlaps$7 = AndroidUtilities.lambda$pruneOverlaps$7((AndroidUtilities.LinkSpec) obj, (AndroidUtilities.LinkSpec) obj2);
-                return lambda$pruneOverlaps$7;
+                int lambda$pruneOverlaps$8;
+                lambda$pruneOverlaps$8 = AndroidUtilities.lambda$pruneOverlaps$8((AndroidUtilities.LinkSpec) obj, (AndroidUtilities.LinkSpec) obj2);
+                return lambda$pruneOverlaps$8;
             }
         });
         int size = arrayList.size();
@@ -1168,7 +1179,7 @@ public class AndroidUtilities {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ int lambda$pruneOverlaps$7(LinkSpec linkSpec, LinkSpec linkSpec2) {
+    public static /* synthetic */ int lambda$pruneOverlaps$8(LinkSpec linkSpec, LinkSpec linkSpec2) {
         int i;
         int i2;
         int i3 = linkSpec.start;
@@ -1537,7 +1548,7 @@ public class AndroidUtilities {
             builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda3
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i) {
-                    AndroidUtilities.lambda$isMapsInstalled$8(mapsAppPackageName, baseFragment, dialogInterface, i);
+                    AndroidUtilities.lambda$isMapsInstalled$9(mapsAppPackageName, baseFragment, dialogInterface, i);
                 }
             });
             builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -1547,7 +1558,7 @@ public class AndroidUtilities {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$isMapsInstalled$8(String str, BaseFragment baseFragment, DialogInterface dialogInterface, int i) {
+    public static /* synthetic */ void lambda$isMapsInstalled$9(String str, BaseFragment baseFragment, DialogInterface dialogInterface, int i) {
         try {
             baseFragment.getParentActivity().startActivityForResult(new Intent("android.intent.action.VIEW", Uri.parse("market://details?id=" + str)), 500);
         } catch (Exception e) {
@@ -2221,7 +2232,7 @@ public class AndroidUtilities {
                 SmsRetriever.getClient(ApplicationLoader.applicationContext).startSmsRetriever().addOnSuccessListener(new OnSuccessListener() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda10
                     @Override // com.google.android.gms.tasks.OnSuccessListener
                     public final void onSuccess(Object obj) {
-                        AndroidUtilities.lambda$setWaitingForSms$9((Void) obj);
+                        AndroidUtilities.lambda$setWaitingForSms$10((Void) obj);
                     }
                 });
             }
@@ -2229,7 +2240,7 @@ public class AndroidUtilities {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$setWaitingForSms$9(Void r0) {
+    public static /* synthetic */ void lambda$setWaitingForSms$10(Void r0) {
         if (BuildVars.DEBUG_VERSION) {
             FileLog.d("sms listener registered");
         }
@@ -3096,7 +3107,7 @@ public class AndroidUtilities {
         ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda0
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                AndroidUtilities.lambda$shakeView$10(view, valueAnimator);
+                AndroidUtilities.lambda$shakeView$11(view, valueAnimator);
             }
         });
         ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.messenger.AndroidUtilities.6
@@ -3111,7 +3122,7 @@ public class AndroidUtilities {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$shakeView$10(View view, ValueAnimator valueAnimator) {
+    public static /* synthetic */ void lambda$shakeView$11(View view, ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         double d = floatValue * 4.0f * (1.0f - floatValue);
         double d2 = floatValue;
@@ -3155,7 +3166,7 @@ public class AndroidUtilities {
         SpringAnimation addEndListener = new SpringAnimation(view, DynamicAnimation.TRANSLATION_X, translationX).setSpring(new SpringForce(translationX).setStiffness(600.0f)).setStartVelocity((-dp) * 100).addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda9
             @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
             public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z, float f3, float f4) {
-                AndroidUtilities.lambda$shakeViewSpring$11(runnable, view, translationX, dynamicAnimation, z, f3, f4);
+                AndroidUtilities.lambda$shakeViewSpring$12(runnable, view, translationX, dynamicAnimation, z, f3, f4);
             }
         });
         view.setTag(i, addEndListener);
@@ -3163,7 +3174,7 @@ public class AndroidUtilities {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$shakeViewSpring$11(Runnable runnable, View view, float f, DynamicAnimation dynamicAnimation, boolean z, float f2, float f3) {
+    public static /* synthetic */ void lambda$shakeViewSpring$12(Runnable runnable, View view, float f, DynamicAnimation dynamicAnimation, boolean z, float f2, float f3) {
         if (runnable != null) {
             runnable.run();
         }
@@ -3239,19 +3250,19 @@ public class AndroidUtilities {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:40:0x00b3, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:40:0x00b4, code lost:
         if (r2 == 1) goto L38;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:41:0x00b5, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:41:0x00b6, code lost:
         if (r2 == 2) goto L37;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:42:0x00b7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:42:0x00b8, code lost:
         r1 = null;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:43:0x00b9, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:43:0x00ba, code lost:
         r1 = android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:44:0x00bc, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:44:0x00bd, code lost:
         r1 = android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
      */
     @SuppressLint({"NewApi"})
@@ -3829,9 +3840,9 @@ public class AndroidUtilities {
         return formatSpannable(charSequence, new GenericProvider() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda17
             @Override // org.telegram.messenger.GenericProvider
             public final Object provide(Object obj) {
-                String lambda$formatSpannableSimple$12;
-                lambda$formatSpannableSimple$12 = AndroidUtilities.lambda$formatSpannableSimple$12((Integer) obj);
-                return lambda$formatSpannableSimple$12;
+                String lambda$formatSpannableSimple$13;
+                lambda$formatSpannableSimple$13 = AndroidUtilities.lambda$formatSpannableSimple$13((Integer) obj);
+                return lambda$formatSpannableSimple$13;
             }
         }, charSequenceArr);
     }
@@ -3843,15 +3854,15 @@ public class AndroidUtilities {
         return formatSpannable(charSequence, new GenericProvider() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda18
             @Override // org.telegram.messenger.GenericProvider
             public final Object provide(Object obj) {
-                String lambda$formatSpannable$13;
-                lambda$formatSpannable$13 = AndroidUtilities.lambda$formatSpannable$13((Integer) obj);
-                return lambda$formatSpannable$13;
+                String lambda$formatSpannable$14;
+                lambda$formatSpannable$14 = AndroidUtilities.lambda$formatSpannable$14((Integer) obj);
+                return lambda$formatSpannable$14;
             }
         }, charSequenceArr);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ String lambda$formatSpannable$13(Integer num) {
+    public static /* synthetic */ String lambda$formatSpannable$14(Integer num) {
         return "%" + (num.intValue() + 1) + "$s";
     }
 
@@ -4260,10 +4271,10 @@ public class AndroidUtilities {
                 linearLayout.addView(textDetailSettingsCell, LayoutHelper.createLinear(-1, -2));
                 if (i3 == 5) {
                     try {
-                        ConnectionsManager.getInstance(UserConfig.selectedAccount).checkProxy(str, Integer.parseInt(str2), str3, str4, str5, new RequestTimeDelegate() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda19
+                        ConnectionsManager.getInstance(UserConfig.selectedAccount).checkProxy(str, Integer.parseInt(str2), str3, str4, str5, new RequestTimeDelegate() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda20
                             @Override // org.telegram.tgnet.RequestTimeDelegate
                             public final void run(long j) {
-                                AndroidUtilities.lambda$showProxyAlert$15(TextDetailSettingsCell.this, j);
+                                AndroidUtilities.lambda$showProxyAlert$16(TextDetailSettingsCell.this, j);
                             }
                         });
                     } catch (NumberFormatException unused) {
@@ -4297,24 +4308,24 @@ public class AndroidUtilities {
         pickerBottomLayout.doneButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda8
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
-                AndroidUtilities.lambda$showProxyAlert$17(str, str2, str5, str4, str3, activity, dismissRunnable, view2);
+                AndroidUtilities.lambda$showProxyAlert$18(str, str2, str5, str4, str3, activity, dismissRunnable, view2);
             }
         });
         builder.show();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showProxyAlert$15(final TextDetailSettingsCell textDetailSettingsCell, final long j) {
+    public static /* synthetic */ void lambda$showProxyAlert$16(final TextDetailSettingsCell textDetailSettingsCell, final long j) {
         runOnUIThread(new Runnable() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda11
             @Override // java.lang.Runnable
             public final void run() {
-                AndroidUtilities.lambda$showProxyAlert$14(j, textDetailSettingsCell);
+                AndroidUtilities.lambda$showProxyAlert$15(j, textDetailSettingsCell);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showProxyAlert$14(long j, TextDetailSettingsCell textDetailSettingsCell) {
+    public static /* synthetic */ void lambda$showProxyAlert$15(long j, TextDetailSettingsCell textDetailSettingsCell) {
         if (j == -1) {
             textDetailSettingsCell.getTextView().setText(LocaleController.getString(R.string.Unavailable));
             textDetailSettingsCell.getTextView().setTextColor(Theme.getColor(Theme.key_text_RedRegular));
@@ -4326,7 +4337,7 @@ public class AndroidUtilities {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showProxyAlert$17(String str, String str2, String str3, String str4, String str5, Activity activity, Runnable runnable, View view) {
+    public static /* synthetic */ void lambda$showProxyAlert$18(String str, String str2, String str3, String str4, String str5, Activity activity, Runnable runnable, View view) {
         SharedConfig.ProxyInfo proxyInfo;
         boolean z;
         UndoView undoView;
@@ -4638,9 +4649,23 @@ public class AndroidUtilities {
         }
     }
 
+    public static void lerp(int[] iArr, int[] iArr2, float f, int[] iArr3) {
+        if (iArr3 == null) {
+            return;
+        }
+        int i = 0;
+        while (i < iArr3.length) {
+            iArr3[i] = lerp((iArr == null || i >= iArr.length) ? 0 : iArr[i], (iArr2 == null || i >= iArr2.length) ? 0 : iArr2[i], f);
+            i++;
+        }
+    }
+
     public static float cascade(float f, float f2, float f3, float f4) {
-        float f5 = (1.0f / f3) * f4;
-        return MathUtils.clamp((f - ((f2 / f3) * (1.0f - f5))) / f5, 0.0f, 1.0f);
+        if (f3 <= 0.0f) {
+            return f;
+        }
+        float min = (1.0f / f3) * Math.min(f4, f3);
+        return MathUtils.clamp((f - ((f2 / f3) * (1.0f - min))) / min, 0.0f, 1.0f);
     }
 
     public static int multiplyAlphaComponent(int i, float f) {
@@ -4794,7 +4819,7 @@ public class AndroidUtilities {
             ofArgb.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda2
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                    AndroidUtilities.lambda$setNavigationBarColor$18(AndroidUtilities.IntColorCallback.this, window, valueAnimator2);
+                    AndroidUtilities.lambda$setNavigationBarColor$19(AndroidUtilities.IntColorCallback.this, window, valueAnimator2);
                 }
             });
             ofArgb.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.messenger.AndroidUtilities.8
@@ -4816,7 +4841,7 @@ public class AndroidUtilities {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$setNavigationBarColor$18(IntColorCallback intColorCallback, Window window, ValueAnimator valueAnimator) {
+    public static /* synthetic */ void lambda$setNavigationBarColor$19(IntColorCallback intColorCallback, Window window, ValueAnimator valueAnimator) {
         int intValue = ((Integer) valueAnimator.getAnimatedValue()).intValue();
         if (intColorCallback != null) {
             intColorCallback.run(intValue);
@@ -4884,12 +4909,12 @@ public class AndroidUtilities {
             Field declaredField = baseFragment.getClass().getDeclaredField("listView");
             declaredField.setAccessible(true);
             final RecyclerListView recyclerListView = (RecyclerListView) declaredField.get(baseFragment);
-            recyclerListView.highlightRow(new RecyclerListView.IntReturnCallback() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda20
+            recyclerListView.highlightRow(new RecyclerListView.IntReturnCallback() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda21
                 @Override // org.telegram.ui.Components.RecyclerListView.IntReturnCallback
                 public final int run() {
-                    int lambda$scrollToFragmentRow$19;
-                    lambda$scrollToFragmentRow$19 = AndroidUtilities.lambda$scrollToFragmentRow$19(BaseFragment.this, str, recyclerListView);
-                    return lambda$scrollToFragmentRow$19;
+                    int lambda$scrollToFragmentRow$20;
+                    lambda$scrollToFragmentRow$20 = AndroidUtilities.lambda$scrollToFragmentRow$20(BaseFragment.this, str, recyclerListView);
+                    return lambda$scrollToFragmentRow$20;
                 }
             });
             declaredField.setAccessible(false);
@@ -4898,7 +4923,7 @@ public class AndroidUtilities {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ int lambda$scrollToFragmentRow$19(BaseFragment baseFragment, String str, RecyclerListView recyclerListView) {
+    public static /* synthetic */ int lambda$scrollToFragmentRow$20(BaseFragment baseFragment, String str, RecyclerListView recyclerListView) {
         int i = -1;
         try {
             Field declaredField = baseFragment.getClass().getDeclaredField(str);
@@ -4944,14 +4969,14 @@ public class AndroidUtilities {
         duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda1
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                AndroidUtilities.lambda$updateImageViewImageAnimated$20(imageView, atomicBoolean, drawable, valueAnimator);
+                AndroidUtilities.lambda$updateImageViewImageAnimated$21(imageView, atomicBoolean, drawable, valueAnimator);
             }
         });
         duration.start();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$updateImageViewImageAnimated$20(ImageView imageView, AtomicBoolean atomicBoolean, Drawable drawable, ValueAnimator valueAnimator) {
+    public static /* synthetic */ void lambda$updateImageViewImageAnimated$21(ImageView imageView, AtomicBoolean atomicBoolean, Drawable drawable, ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         float abs = Math.abs(floatValue - 0.5f) + 0.5f;
         imageView.setScaleX(abs);
@@ -5310,7 +5335,31 @@ public class AndroidUtilities {
         return null;
     }
 
+    public static boolean hasDialogOnTop(BaseFragment baseFragment) {
+        List<View> allGlobalViews;
+        if (baseFragment == null) {
+            return false;
+        }
+        if (baseFragment.visibleDialog != null) {
+            return true;
+        }
+        return (baseFragment.getParentLayout() == null || (allGlobalViews = allGlobalViews()) == null || allGlobalViews.isEmpty() || allGlobalViews.get(allGlobalViews.size() - 1) == getRootView(baseFragment.getParentLayout().getView())) ? false : true;
+    }
+
+    public static View getRootView(View view) {
+        while (view != null && (view.getParent() instanceof View)) {
+            view = (View) view.getParent();
+        }
+        return view;
+    }
+
     public static void makeGlobalBlurBitmap(Utilities.Callback<Bitmap> callback, float f) {
+        makeGlobalBlurBitmap(callback, f, (int) f, null, null);
+    }
+
+    public static void makeGlobalBlurBitmap(Utilities.Callback<Bitmap> callback, float f, int i, View view, List<View> list) {
+        int width;
+        int height;
         if (callback == null) {
             return;
         }
@@ -5319,41 +5368,56 @@ public class AndroidUtilities {
             callback.run(null);
             return;
         }
+        makingGlobalBlurBitmap = true;
         try {
-            Point point = displaySize;
-            int i = (int) (point.x / f);
-            int i2 = (int) ((point.y + statusBarHeight) / f);
-            Bitmap createBitmap = Bitmap.createBitmap(i, i2, Bitmap.Config.ARGB_8888);
-            Canvas canvas = new Canvas(createBitmap);
-            float f2 = 1.0f / f;
-            canvas.scale(f2, f2);
-            canvas.drawColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-            int[] iArr = new int[2];
-            for (int i3 = 0; i3 < allGlobalViews.size(); i3++) {
-                View view = allGlobalViews.get(i3);
-                if (!(view instanceof PipRoundVideoView.PipFrameLayout) && !(view instanceof PipRoundVideoView.PipFrameLayout)) {
-                    ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
-                    if (layoutParams instanceof WindowManager.LayoutParams) {
-                        WindowManager.LayoutParams layoutParams2 = (WindowManager.LayoutParams) layoutParams;
-                        if ((layoutParams2.flags & 2) != 0) {
-                            canvas.drawColor(ColorUtils.setAlphaComponent(-16777216, (int) (layoutParams2.dimAmount * 255.0f)));
-                        }
-                    }
-                    canvas.save();
-                    view.getLocationOnScreen(iArr);
-                    canvas.translate(iArr[0] / f, iArr[1] / f);
-                    try {
-                        view.draw(canvas);
-                    } catch (Exception unused) {
-                    }
-                    canvas.restore();
+            try {
+                if (view == null) {
+                    Point point = displaySize;
+                    width = (int) (point.x / f);
+                    height = point.y + statusBarHeight;
+                } else {
+                    width = (int) (view.getWidth() / f);
+                    height = view.getHeight();
                 }
+                int i2 = (int) (height / f);
+                int[] iArr = new int[2];
+                Bitmap createBitmap = Bitmap.createBitmap(width, i2, Bitmap.Config.ARGB_8888);
+                Canvas canvas = new Canvas(createBitmap);
+                if (view != null) {
+                    view.getLocationOnScreen(iArr);
+                    canvas.translate((-iArr[0]) / f, (-iArr[1]) / f);
+                }
+                float f2 = 1.0f / f;
+                canvas.scale(f2, f2);
+                canvas.drawColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+                for (int i3 = 0; i3 < allGlobalViews.size(); i3++) {
+                    View view2 = allGlobalViews.get(i3);
+                    if (!(view2 instanceof PipRoundVideoView.PipFrameLayout) && !(view2 instanceof PipRoundVideoView.PipFrameLayout) && (list == null || !list.contains(view2))) {
+                        ViewGroup.LayoutParams layoutParams = view2.getLayoutParams();
+                        if (layoutParams instanceof WindowManager.LayoutParams) {
+                            WindowManager.LayoutParams layoutParams2 = (WindowManager.LayoutParams) layoutParams;
+                            if ((layoutParams2.flags & 2) != 0) {
+                                canvas.drawColor(ColorUtils.setAlphaComponent(-16777216, (int) (layoutParams2.dimAmount * 255.0f)));
+                            }
+                        }
+                        canvas.save();
+                        view2.getLocationOnScreen(iArr);
+                        canvas.translate(iArr[0] / f, iArr[1] / f);
+                        try {
+                            view2.draw(canvas);
+                        } catch (Exception unused) {
+                        }
+                        canvas.restore();
+                    }
+                }
+                Utilities.stackBlurBitmap(createBitmap, Math.max(i, Math.max(width, i2) / 180));
+                callback.run(createBitmap);
+            } catch (Exception e) {
+                FileLog.e(e);
+                callback.run(null);
             }
-            Utilities.stackBlurBitmap(createBitmap, Math.max((int) f, Math.max(i, i2) / 180));
-            callback.run(createBitmap);
-        } catch (Exception e) {
-            FileLog.e(e);
-            callback.run(null);
+        } finally {
+            makingGlobalBlurBitmap = false;
         }
     }
 

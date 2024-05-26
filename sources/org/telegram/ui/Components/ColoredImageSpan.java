@@ -21,6 +21,7 @@ public class ColoredImageSpan extends ReplacementSpan {
     private Paint.FontMetricsInt fontMetrics;
     private boolean isRelativeSize;
     private int overrideColor;
+    public boolean recolorDrawable;
     private float rotate;
     private float scaleX;
     private float scaleY;
@@ -47,6 +48,7 @@ public class ColoredImageSpan extends ReplacementSpan {
     }
 
     public ColoredImageSpan(Drawable drawable, int i) {
+        this.recolorDrawable = true;
         this.usePaintColor = true;
         this.useLinkPaintColor = false;
         this.topOffset = 0;
@@ -131,7 +133,7 @@ public class ColoredImageSpan extends ReplacementSpan {
         Runnable runnable = this.checkColorDelegate;
         if (runnable != null) {
             runnable.run();
-        } else {
+        } else if (this.recolorDrawable) {
             int i6 = this.overrideColor;
             if (i6 == 0) {
                 if (this.useLinkPaintColor && (paint instanceof TextPaint)) {
