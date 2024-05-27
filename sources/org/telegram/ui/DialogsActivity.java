@@ -2757,7 +2757,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                         DialogsActivity.this.checkAnimationFinished();
                         return;
                     }
-                    DialogsActivity.this.frozenDialogsList.remove(0);
+                    if (!DialogsActivity.this.frozenDialogsList.isEmpty()) {
+                        DialogsActivity.this.frozenDialogsList.remove(0);
+                    }
                     this.parentPage.dialogsItemAnimator.prepareForRemove();
                     this.parentPage.updateList(true);
                     return;
@@ -3229,17 +3231,17 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:321:0x0d26  */
-    /* JADX WARN: Removed duplicated region for block: B:339:0x0d92  */
-    /* JADX WARN: Removed duplicated region for block: B:346:0x0dd2  */
-    /* JADX WARN: Removed duplicated region for block: B:350:0x0e82  */
-    /* JADX WARN: Removed duplicated region for block: B:357:0x0edf  */
-    /* JADX WARN: Removed duplicated region for block: B:361:0x0f28  */
-    /* JADX WARN: Removed duplicated region for block: B:362:0x0f2b  */
-    /* JADX WARN: Removed duplicated region for block: B:365:0x0f38  */
-    /* JADX WARN: Removed duplicated region for block: B:373:0x0fbf  */
-    /* JADX WARN: Removed duplicated region for block: B:374:0x0fca  */
-    /* JADX WARN: Removed duplicated region for block: B:382:0x0ff4  */
+    /* JADX WARN: Removed duplicated region for block: B:321:0x0d31  */
+    /* JADX WARN: Removed duplicated region for block: B:339:0x0d9d  */
+    /* JADX WARN: Removed duplicated region for block: B:346:0x0ddd  */
+    /* JADX WARN: Removed duplicated region for block: B:350:0x0e8d  */
+    /* JADX WARN: Removed duplicated region for block: B:357:0x0eea  */
+    /* JADX WARN: Removed duplicated region for block: B:361:0x0f33  */
+    /* JADX WARN: Removed duplicated region for block: B:362:0x0f36  */
+    /* JADX WARN: Removed duplicated region for block: B:365:0x0f43  */
+    /* JADX WARN: Removed duplicated region for block: B:373:0x0fca  */
+    /* JADX WARN: Removed duplicated region for block: B:374:0x0fd5  */
+    /* JADX WARN: Removed duplicated region for block: B:382:0x0fff  */
     /* JADX WARN: Type inference failed for: r0v115, types: [org.telegram.ui.ActionBar.ActionBar] */
     /* JADX WARN: Type inference failed for: r0v17, types: [org.telegram.ui.ActionBar.ActionBar] */
     /* JADX WARN: Type inference failed for: r0v235, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, org.telegram.ui.Components.RecyclerListView] */
@@ -3247,13 +3249,13 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     /* JADX WARN: Type inference failed for: r13v0 */
     /* JADX WARN: Type inference failed for: r13v1, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r13v4 */
-    /* JADX WARN: Type inference failed for: r2v85, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, org.telegram.ui.Components.RecyclerListView] */
     /* JADX WARN: Type inference failed for: r2v86, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, org.telegram.ui.Components.RecyclerListView] */
     /* JADX WARN: Type inference failed for: r2v87, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, org.telegram.ui.Components.RecyclerListView] */
-    /* JADX WARN: Type inference failed for: r2v88, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, androidx.recyclerview.widget.RecyclerView] */
-    /* JADX WARN: Type inference failed for: r2v92, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, org.telegram.ui.Components.RecyclerListView] */
+    /* JADX WARN: Type inference failed for: r2v88, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, org.telegram.ui.Components.RecyclerListView] */
+    /* JADX WARN: Type inference failed for: r2v89, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, androidx.recyclerview.widget.RecyclerView] */
     /* JADX WARN: Type inference failed for: r2v93, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, org.telegram.ui.Components.RecyclerListView] */
-    /* JADX WARN: Type inference failed for: r2v95, types: [androidx.recyclerview.widget.LinearLayoutManager] */
+    /* JADX WARN: Type inference failed for: r2v94, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, org.telegram.ui.Components.RecyclerListView] */
+    /* JADX WARN: Type inference failed for: r2v96, types: [androidx.recyclerview.widget.LinearLayoutManager] */
     /* JADX WARN: Type inference failed for: r3v49, types: [android.graphics.drawable.BitmapDrawable] */
     /* JADX WARN: Type inference failed for: r7v0 */
     /* JADX WARN: Type inference failed for: r7v1, types: [int, boolean] */
@@ -4086,7 +4088,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             contentView3.addView(this.fragmentContextView);
             this.fragmentContextView.setAdditionalContextView(this.fragmentLocationContextView);
             this.fragmentLocationContextView.setAdditionalContextView(this.fragmentContextView);
-            this.dialogsHintCell = new DialogsHintCell(context2);
+            DialogsHintCell dialogsHintCell = new DialogsHintCell(context2, contentView3);
+            this.dialogsHintCell = dialogsHintCell;
+            dialogsHintCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite, this.resourceProvider));
             updateDialogsHint();
             CacheControlActivity.calculateTotalSize(new Utilities.Callback() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda112
                 @Override // org.telegram.messenger.Utilities.Callback
@@ -15217,7 +15221,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:102:0x004b A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:105:0x004b A[SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:19:0x0020  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -15302,6 +15306,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
         if (this.statusDrawable != null) {
             updateStatus(UserConfig.getInstance(this.currentAccount).getCurrentUser(), false);
+        }
+        DialogsHintCell dialogsHintCell = this.dialogsHintCell;
+        if (dialogsHintCell != null) {
+            dialogsHintCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite, this.resourceProvider));
         }
         ItemOptions itemOptions = this.filterOptions;
         if (itemOptions != null) {

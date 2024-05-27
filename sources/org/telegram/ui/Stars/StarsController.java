@@ -2,6 +2,7 @@ package org.telegram.ui.Stars;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import androidx.core.util.Consumer;
 import com.android.billingclient.api.BillingFlowParams;
 import com.android.billingclient.api.BillingResult;
@@ -69,6 +70,7 @@ public class StarsController {
     private ArrayList<TLRPC$TL_starsTopupOption> options;
     private boolean optionsLoaded;
     private boolean optionsLoading;
+    private boolean paymentFormOpened;
     public final ArrayList<TLRPC$TL_starsTransaction>[] transactions = {new ArrayList<>(), new ArrayList<>(), new ArrayList<>()};
     private String[] offset = new String[3];
     private boolean[] loading = new boolean[3];
@@ -113,7 +115,7 @@ public class StarsController {
             this.balanceLoading = true;
             TLRPC$TL_payments_getStarsStatus tLRPC$TL_payments_getStarsStatus = new TLRPC$TL_payments_getStarsStatus();
             tLRPC$TL_payments_getStarsStatus.peer = new TLRPC$TL_inputPeerSelf();
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_payments_getStarsStatus, new RequestDelegate() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda22
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_payments_getStarsStatus, new RequestDelegate() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda23
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     StarsController.this.lambda$getBalance$1(runnable, tLObject, tLRPC$TL_error);
@@ -125,7 +127,7 @@ public class StarsController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getBalance$1(final Runnable runnable, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda16
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda17
             @Override // java.lang.Runnable
             public final void run() {
                 StarsController.this.lambda$getBalance$0(tLObject, runnable);
@@ -218,7 +220,7 @@ public class StarsController {
             public void serializeToStream(AbstractSerializedData abstractSerializedData) {
                 abstractSerializedData.writeInt32(-1072773165);
             }
-        }, new RequestDelegate() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda20
+        }, new RequestDelegate() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda21
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 StarsController.this.lambda$getOptions$6(tLObject, tLRPC$TL_error);
@@ -229,7 +231,7 @@ public class StarsController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getOptions$6(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda14
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda15
             @Override // java.lang.Runnable
             public final void run() {
                 StarsController.this.lambda$getOptions$5(tLObject);
@@ -282,7 +284,7 @@ public class StarsController {
         for (int i = 0; i < arrayList.size(); i++) {
             arrayList2.add(QueryProductDetailsParams.Product.newBuilder().setProductType("inapp").setProductId(((TLRPC$TL_starsTopupOption) arrayList.get(i)).store_product).build());
         }
-        BillingController.getInstance().queryProductDetails(arrayList2, new ProductDetailsResponseListener() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda2
+        BillingController.getInstance().queryProductDetails(arrayList2, new ProductDetailsResponseListener() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda3
             @Override // com.android.billingclient.api.ProductDetailsResponseListener
             public final void onProductDetailsResponse(BillingResult billingResult, List list) {
                 StarsController.this.lambda$getOptions$3(arrayList, billingResult, list);
@@ -292,7 +294,7 @@ public class StarsController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getOptions$3(final ArrayList arrayList, final BillingResult billingResult, final List list) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda10
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda11
             @Override // java.lang.Runnable
             public final void run() {
                 StarsController.this.lambda$getOptions$2(billingResult, list, arrayList);
@@ -375,7 +377,7 @@ public class StarsController {
         if (str == null) {
             tLRPC$TL_payments_getStarsTransactions.offset = "";
         }
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_payments_getStarsTransactions, new RequestDelegate() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda21
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_payments_getStarsTransactions, new RequestDelegate() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda22
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 StarsController.this.lambda$loadTransactions$8(i, tLObject, tLRPC$TL_error);
@@ -385,7 +387,7 @@ public class StarsController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadTransactions$8(final int i, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda15
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda16
             @Override // java.lang.Runnable
             public final void run() {
                 StarsController.this.lambda$loadTransactions$7(tLObject, i);
@@ -471,7 +473,7 @@ public class StarsController {
             tLRPC$TL_inputStorePaymentStars2.stars = tLRPC$TL_starsTopupOption.stars;
             tLRPC$TL_inputStorePaymentStars2.currency = tLRPC$TL_starsTopupOption.currency;
             tLRPC$TL_inputStorePaymentStars2.amount = tLRPC$TL_starsTopupOption.amount;
-            BillingController.getInstance().queryProductDetails(Arrays.asList(QueryProductDetailsParams.Product.newBuilder().setProductType("inapp").setProductId(tLRPC$TL_starsTopupOption.store_product).build()), new ProductDetailsResponseListener() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda1
+            BillingController.getInstance().queryProductDetails(Arrays.asList(QueryProductDetailsParams.Product.newBuilder().setProductType("inapp").setProductId(tLRPC$TL_starsTopupOption.store_product).build()), new ProductDetailsResponseListener() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda2
                 @Override // com.android.billingclient.api.ProductDetailsResponseListener
                 public final void onProductDetailsResponse(BillingResult billingResult, List list) {
                     StarsController.lambda$buy$19(Utilities.Callback2.this, tLRPC$TL_inputStorePaymentStars2, tLRPC$TL_starsTopupOption, activity, billingResult, list);
@@ -482,7 +484,7 @@ public class StarsController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$buy$11(final Utilities.Callback2 callback2, final TLRPC$TL_inputInvoiceStars tLRPC$TL_inputInvoiceStars, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda17
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda18
             @Override // java.lang.Runnable
             public final void run() {
                 StarsController.this.lambda$buy$10(tLRPC$TL_error, callback2, tLObject, tLRPC$TL_inputInvoiceStars);
@@ -515,7 +517,7 @@ public class StarsController {
             }
             return;
         }
-        paymentFormActivity.setPaymentFormCallback(new PaymentFormActivity.PaymentFormCallback() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda25
+        paymentFormActivity.setPaymentFormCallback(new PaymentFormActivity.PaymentFormCallback() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda26
             @Override // org.telegram.ui.PaymentFormActivity.PaymentFormCallback
             public final void onInvoiceStatusChanged(PaymentFormActivity.InvoiceStatus invoiceStatus) {
                 StarsController.lambda$buy$9(Utilities.Callback2.this, invoiceStatus);
@@ -549,7 +551,7 @@ public class StarsController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$buy$19(final Utilities.Callback2 callback2, final TLRPC$TL_inputStorePaymentStars tLRPC$TL_inputStorePaymentStars, final TLRPC$TL_starsTopupOption tLRPC$TL_starsTopupOption, final Activity activity, final BillingResult billingResult, final List list) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda3
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 StarsController.lambda$buy$18(list, callback2, tLRPC$TL_inputStorePaymentStars, tLRPC$TL_starsTopupOption, billingResult, activity);
@@ -560,7 +562,7 @@ public class StarsController {
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$buy$18(List list, final Utilities.Callback2 callback2, TLRPC$TL_inputStorePaymentStars tLRPC$TL_inputStorePaymentStars, TLRPC$TL_starsTopupOption tLRPC$TL_starsTopupOption, final BillingResult billingResult, Activity activity) {
         if (list.isEmpty()) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda5
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda6
                 @Override // java.lang.Runnable
                 public final void run() {
                     StarsController.lambda$buy$12(Utilities.Callback2.this);
@@ -571,7 +573,7 @@ public class StarsController {
         ProductDetails productDetails = (ProductDetails) list.get(0);
         ProductDetails.OneTimePurchaseOfferDetails oneTimePurchaseOfferDetails = productDetails.getOneTimePurchaseOfferDetails();
         if (oneTimePurchaseOfferDetails == null) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda6
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda7
                 @Override // java.lang.Runnable
                 public final void run() {
                     StarsController.lambda$buy$13(Utilities.Callback2.this);
@@ -584,13 +586,13 @@ public class StarsController {
         double pow = Math.pow(10.0d, 6.0d);
         Double.isNaN(priceAmountMicros);
         tLRPC$TL_inputStorePaymentStars.amount = (long) ((priceAmountMicros / pow) * Math.pow(10.0d, BillingController.getInstance().getCurrencyExp(tLRPC$TL_starsTopupOption.currency)));
-        BillingController.getInstance().addResultListener(productDetails.getProductId(), new Consumer() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda0
+        BillingController.getInstance().addResultListener(productDetails.getProductId(), new Consumer() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda1
             @Override // androidx.core.util.Consumer
             public final void accept(Object obj) {
                 StarsController.lambda$buy$15(BillingResult.this, callback2, (BillingResult) obj);
             }
         });
-        BillingController.getInstance().setOnCanceled(new Runnable() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda7
+        BillingController.getInstance().setOnCanceled(new Runnable() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
                 StarsController.lambda$buy$17(Utilities.Callback2.this);
@@ -613,7 +615,7 @@ public class StarsController {
     public static /* synthetic */ void lambda$buy$15(BillingResult billingResult, final Utilities.Callback2 callback2, BillingResult billingResult2) {
         final boolean z = billingResult.getResponseCode() == 0;
         final String responseCodeString = z ? null : BillingController.getResponseCodeString(billingResult.getResponseCode());
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda8
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda9
             @Override // java.lang.Runnable
             public final void run() {
                 StarsController.lambda$buy$14(Utilities.Callback2.this, z, responseCodeString);
@@ -633,7 +635,7 @@ public class StarsController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$buy$17(final Utilities.Callback2 callback2) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda4
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 StarsController.lambda$buy$16(Utilities.Callback2.this);
@@ -643,7 +645,7 @@ public class StarsController {
 
     public void openPaymentForm(final TLRPC$InputInvoice tLRPC$InputInvoice, final TLRPC$TL_payments_paymentFormStars tLRPC$TL_payments_paymentFormStars, final Runnable runnable) {
         String str;
-        if (tLRPC$TL_payments_paymentFormStars == null || tLRPC$TL_payments_paymentFormStars.invoice == null) {
+        if (tLRPC$TL_payments_paymentFormStars == null || tLRPC$TL_payments_paymentFormStars.invoice == null || this.paymentFormOpened) {
             return;
         }
         Context context = LaunchActivity.instance;
@@ -669,36 +671,28 @@ public class StarsController {
         while (it.hasNext()) {
             j += it.next().amount;
         }
-        final long j2 = tLRPC$TL_payments_paymentFormStars.bot_id;
+        long j2 = tLRPC$TL_payments_paymentFormStars.bot_id;
         if (j2 >= 0) {
             str = UserObject.getUserName(MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(j2)));
         } else {
             TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-j2));
             str = chat == null ? "" : chat.title;
         }
-        String str2 = str;
-        final String str3 = tLRPC$TL_payments_paymentFormStars.title;
+        final String str2 = str;
+        String str3 = tLRPC$TL_payments_paymentFormStars.title;
         if (runnable != null) {
             runnable.run();
         }
-        if (this.balance < j) {
-            if (!MessagesController.getInstance(this.currentAccount).starsPurchaseAvailable()) {
-                showNoSupportDialog(context2, resourceProvider);
-                return;
-            }
-            final long j3 = j;
-            new StarsIntroActivity.StarsNeededSheet(context2, resourceProvider, j, str2, new Runnable() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda9
-                @Override // java.lang.Runnable
-                public final void run() {
-                    StarsController.this.lambda$openPaymentForm$24(context2, resourceProvider, j2, str3, j3, tLRPC$TL_payments_paymentFormStars, tLRPC$InputInvoice);
-                }
-            }).show();
-            return;
-        }
-        StarsIntroActivity.openConfirmPurchaseSheet(context2, resourceProvider, this.currentAccount, j2, str3, j, tLRPC$TL_payments_paymentFormStars.photo, new Utilities.Callback() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda18
+        final long j3 = j;
+        StarsIntroActivity.openConfirmPurchaseSheet(context2, resourceProvider, this.currentAccount, j2, str3, j, tLRPC$TL_payments_paymentFormStars.photo, new Utilities.Callback() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda20
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
-                StarsController.this.lambda$openPaymentForm$25(tLRPC$InputInvoice, tLRPC$TL_payments_paymentFormStars, (Runnable) obj);
+                StarsController.this.lambda$openPaymentForm$25(j3, context2, resourceProvider, str2, tLRPC$InputInvoice, tLRPC$TL_payments_paymentFormStars, (Utilities.Callback) obj);
+            }
+        }, new Runnable() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda10
+            @Override // java.lang.Runnable
+            public final void run() {
+                StarsController.this.lambda$openPaymentForm$26();
             }
         });
     }
@@ -717,22 +711,60 @@ public class StarsController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$openPaymentForm$24(Context context, Theme.ResourcesProvider resourcesProvider, long j, String str, long j2, final TLRPC$TL_payments_paymentFormStars tLRPC$TL_payments_paymentFormStars, final TLRPC$InputInvoice tLRPC$InputInvoice) {
-        StarsIntroActivity.openConfirmPurchaseSheet(context, resourcesProvider, this.currentAccount, j, str, j2, tLRPC$TL_payments_paymentFormStars.photo, new Utilities.Callback() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda19
-            @Override // org.telegram.messenger.Utilities.Callback
-            public final void run(Object obj) {
-                StarsController.this.lambda$openPaymentForm$23(tLRPC$InputInvoice, tLRPC$TL_payments_paymentFormStars, (Runnable) obj);
+    public /* synthetic */ void lambda$openPaymentForm$25(long j, Context context, Theme.ResourcesProvider resourcesProvider, String str, final TLRPC$InputInvoice tLRPC$InputInvoice, final TLRPC$TL_payments_paymentFormStars tLRPC$TL_payments_paymentFormStars, final Utilities.Callback callback) {
+        if (this.balance < j) {
+            if (!MessagesController.getInstance(this.currentAccount).starsPurchaseAvailable()) {
+                this.paymentFormOpened = false;
+                if (callback != null) {
+                    callback.run(Boolean.FALSE);
+                }
+                showNoSupportDialog(context, resourcesProvider);
+                return;
             }
-        });
+            final boolean[] zArr = {false};
+            StarsIntroActivity.StarsNeededSheet starsNeededSheet = new StarsIntroActivity.StarsNeededSheet(context, resourcesProvider, j, str, new Runnable() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda19
+                @Override // java.lang.Runnable
+                public final void run() {
+                    StarsController.this.lambda$openPaymentForm$23(zArr, tLRPC$InputInvoice, tLRPC$TL_payments_paymentFormStars, callback);
+                }
+            });
+            starsNeededSheet.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda0
+                @Override // android.content.DialogInterface.OnDismissListener
+                public final void onDismiss(DialogInterface dialogInterface) {
+                    StarsController.this.lambda$openPaymentForm$24(callback, zArr, dialogInterface);
+                }
+            });
+            starsNeededSheet.show();
+            return;
+        }
+        payAfterConfirmed(tLRPC$InputInvoice, tLRPC$TL_payments_paymentFormStars, callback);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$openPaymentForm$23(boolean[] zArr, TLRPC$InputInvoice tLRPC$InputInvoice, TLRPC$TL_payments_paymentFormStars tLRPC$TL_payments_paymentFormStars, Utilities.Callback callback) {
+        zArr[0] = true;
+        payAfterConfirmed(tLRPC$InputInvoice, tLRPC$TL_payments_paymentFormStars, callback);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$openPaymentForm$24(Utilities.Callback callback, boolean[] zArr, DialogInterface dialogInterface) {
+        if (callback == null || zArr[0]) {
+            return;
+        }
+        callback.run(Boolean.FALSE);
+        this.paymentFormOpened = false;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$openPaymentForm$26() {
+        this.paymentFormOpened = false;
     }
 
     private void showNoSupportDialog(Context context, Theme.ResourcesProvider resourcesProvider) {
         new AlertDialog.Builder(context, resourcesProvider).setTitle(LocaleController.getString(R.string.StarsNotAvailableTitle)).setMessage(LocaleController.getString(R.string.StarsNotAvailableText)).setPositiveButton(LocaleController.getString(R.string.OK), null).show();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* renamed from: payAfterConfirmed */
-    public void lambda$openPaymentForm$25(TLRPC$InputInvoice tLRPC$InputInvoice, TLRPC$TL_payments_paymentFormStars tLRPC$TL_payments_paymentFormStars, final Runnable runnable) {
+    private void payAfterConfirmed(TLRPC$InputInvoice tLRPC$InputInvoice, TLRPC$TL_payments_paymentFormStars tLRPC$TL_payments_paymentFormStars, final Utilities.Callback<Boolean> callback) {
         String str;
         if (tLRPC$TL_payments_paymentFormStars == null) {
             return;
@@ -769,29 +801,30 @@ public class StarsController {
         tLRPC$TL_payments_sendStarsForm.form_id = tLRPC$TL_payments_paymentFormStars.form_id;
         tLRPC$TL_payments_sendStarsForm.invoice = tLRPC$InputInvoice;
         final long j3 = j;
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_payments_sendStarsForm, new RequestDelegate() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda23
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_payments_sendStarsForm, new RequestDelegate() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda25
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                StarsController.this.lambda$payAfterConfirmed$27(runnable, context, j3, str3, str2, tLObject, tLRPC$TL_error);
+                StarsController.this.lambda$payAfterConfirmed$28(callback, context, j3, str3, str2, tLObject, tLRPC$TL_error);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$payAfterConfirmed$27(final Runnable runnable, final Context context, final long j, final String str, final String str2, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda11
+    public /* synthetic */ void lambda$payAfterConfirmed$28(final Utilities.Callback callback, final Context context, final long j, final String str, final String str2, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda14
             @Override // java.lang.Runnable
             public final void run() {
-                StarsController.this.lambda$payAfterConfirmed$26(runnable, tLObject, context, j, str, str2, tLRPC$TL_error);
+                StarsController.this.lambda$payAfterConfirmed$27(callback, tLObject, context, j, str, str2, tLRPC$TL_error);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$payAfterConfirmed$26(Runnable runnable, TLObject tLObject, Context context, long j, String str, String str2, TLRPC$TL_error tLRPC$TL_error) {
-        if (runnable != null) {
-            runnable.run();
+    public /* synthetic */ void lambda$payAfterConfirmed$27(Utilities.Callback callback, TLObject tLObject, Context context, long j, String str, String str2, TLRPC$TL_error tLRPC$TL_error) {
+        if (callback != null) {
+            callback.run(Boolean.valueOf(tLObject instanceof TLRPC$TL_payments_paymentResult));
         }
+        this.paymentFormOpened = false;
         BaseFragment lastFragment = LaunchActivity.getLastFragment();
         BulletinFactory global = (lastFragment == null || lastFragment.visibleDialog != null) ? BulletinFactory.global() : BulletinFactory.of(lastFragment);
         if (tLObject instanceof TLRPC$TL_payments_paymentResult) {

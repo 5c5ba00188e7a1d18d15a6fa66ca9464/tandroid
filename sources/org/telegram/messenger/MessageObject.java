@@ -2731,6 +2731,36 @@ public class MessageObject {
         this.totalAnimatedEmojiCount = 0;
     }
 
+    public TextPaint getTextPaint() {
+        if (this.emojiOnlyCount >= 1 && this.messageOwner != null && !hasNonEmojiEntities()) {
+            int i = this.emojiOnlyCount;
+            int i2 = this.animatedEmojiCount;
+            boolean z = i == i2;
+            switch (Math.max(i, i2)) {
+                case 0:
+                case 1:
+                case 2:
+                    TextPaint[] textPaintArr = Theme.chat_msgTextPaintEmoji;
+                    return z ? textPaintArr[0] : textPaintArr[2];
+                case 3:
+                    TextPaint[] textPaintArr2 = Theme.chat_msgTextPaintEmoji;
+                    return z ? textPaintArr2[1] : textPaintArr2[3];
+                case 4:
+                    TextPaint[] textPaintArr3 = Theme.chat_msgTextPaintEmoji;
+                    return z ? textPaintArr3[2] : textPaintArr3[4];
+                case 5:
+                    TextPaint[] textPaintArr4 = Theme.chat_msgTextPaintEmoji;
+                    return z ? textPaintArr4[3] : textPaintArr4[5];
+                case 6:
+                    TextPaint[] textPaintArr5 = Theme.chat_msgTextPaintEmoji;
+                    return z ? textPaintArr5[4] : textPaintArr5[5];
+                default:
+                    return Theme.chat_msgTextPaintEmoji[5];
+            }
+        }
+        return Theme.chat_msgTextPaint;
+    }
+
     /* JADX WARN: Removed duplicated region for block: B:1005:0x1bc7  */
     /* JADX WARN: Removed duplicated region for block: B:1008:0x1c18  */
     /* JADX WARN: Removed duplicated region for block: B:1010:0x1c1b  */
