@@ -414,7 +414,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
         this.buttonTextView.setGravity(17);
         this.buttonTextView.setTextColor(Theme.getColor(Theme.key_featuredStickers_buttonText));
         this.buttonTextView.setTextSize(1, 15.0f);
-        this.buttonTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.buttonTextView.setTypeface(AndroidUtilities.bold());
         this.buttonTextView.setBackground(Theme.AdaptiveRipple.filledRectByKey(Theme.key_featuredStickers_addButton, 6.0f));
         this.buttonTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda7
             @Override // android.view.View.OnClickListener
@@ -427,7 +427,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
             this.titleTextView.setTypeface(Typeface.DEFAULT);
             this.titleTextView.setTextSize(1, 24.0f);
         } else {
-            this.titleTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            this.titleTextView.setTypeface(AndroidUtilities.bold());
             this.titleTextView.setTextSize(1, 18.0f);
         }
         switch (this.currentType) {

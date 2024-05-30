@@ -170,22 +170,22 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:125:0x064c  */
-    /* JADX WARN: Removed duplicated region for block: B:128:0x0663  */
-    /* JADX WARN: Removed duplicated region for block: B:133:0x0676  */
-    /* JADX WARN: Removed duplicated region for block: B:138:0x0689  */
-    /* JADX WARN: Removed duplicated region for block: B:143:0x06a8  */
-    /* JADX WARN: Removed duplicated region for block: B:149:0x06d0  */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x04d3  */
-    /* JADX WARN: Removed duplicated region for block: B:77:0x04db  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x04e2  */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x04ec  */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x04f1  */
-    /* JADX WARN: Removed duplicated region for block: B:92:0x0517  */
-    /* JADX WARN: Removed duplicated region for block: B:94:0x0526  */
-    /* JADX WARN: Type inference failed for: r5v19 */
-    /* JADX WARN: Type inference failed for: r5v20, types: [int, boolean] */
-    /* JADX WARN: Type inference failed for: r5v21 */
+    /* JADX WARN: Removed duplicated region for block: B:124:0x063f  */
+    /* JADX WARN: Removed duplicated region for block: B:127:0x0656  */
+    /* JADX WARN: Removed duplicated region for block: B:132:0x0669  */
+    /* JADX WARN: Removed duplicated region for block: B:137:0x067c  */
+    /* JADX WARN: Removed duplicated region for block: B:142:0x069b  */
+    /* JADX WARN: Removed duplicated region for block: B:148:0x06c3  */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x04c6  */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x04ce  */
+    /* JADX WARN: Removed duplicated region for block: B:79:0x04d5  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x04df  */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x04e4  */
+    /* JADX WARN: Removed duplicated region for block: B:91:0x050a  */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x0519  */
+    /* JADX WARN: Type inference failed for: r5v18 */
+    /* JADX WARN: Type inference failed for: r5v19, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r5v20 */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -327,33 +327,35 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
         boolean z = this.type == 0;
         FrameLayout frameLayout4 = new FrameLayout(context);
         this.titlesContainer = frameLayout4;
+        int i7 = 119;
         frameLayout2.addView(frameLayout4, LayoutHelper.createFrame(-1, -1, 119));
-        int i7 = 0;
+        int i8 = 0;
         while (true) {
-            if (i7 >= (this.type == 1 ? 2 : 1)) {
+            if (i8 >= (this.type == 1 ? 2 : 1)) {
                 break;
             }
-            this.titles[i7] = new FrameLayout(context);
-            this.titlesContainer.addView(this.titles[i7], LayoutHelper.createFrame(-1, -1, 119));
-            this.nameTextView[i7] = new SimpleTextView(context);
-            this.nameTextView[i7].setPivotX(0.0f);
-            this.nameTextView[i7].setPivotY(AndroidUtilities.dp(9.0f));
-            this.nameTextView[i7].setTextSize(18);
-            this.nameTextView[i7].setGravity(3);
-            this.nameTextView[i7].setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-            this.nameTextView[i7].setLeftDrawableTopPadding(-AndroidUtilities.dp(1.3f));
-            this.nameTextView[i7].setScrollNonFitText(true);
-            this.nameTextView[i7].setImportantForAccessibility(2);
-            this.titles[i7].addView(this.nameTextView[i7], LayoutHelper.createFrame(-2, -2.0f, 51, z ? 118.0f : 72.0f, 0.0f, 56.0f, 0.0f));
-            this.subtitleTextView[i7] = new AnimatedTextView(context, true, true, true);
-            this.subtitleTextView[i7].setAnimationProperties(0.4f, 0L, 320L, CubicBezierInterpolator.EASE_OUT_QUINT);
-            this.subtitleTextView[i7].setTextSize(AndroidUtilities.dp(14.0f));
-            this.subtitleTextView[i7].setTextColor(Theme.getColor(Theme.key_player_actionBarSubtitle));
-            this.titles[i7].addView(this.subtitleTextView[i7], LayoutHelper.createFrame(-2, -2.0f, 51, z ? 118.0f : 72.0f, 0.0f, 56.0f, 0.0f));
-            if (i7 != 0) {
-                this.titles[i7].setAlpha(0.0f);
+            this.titles[i8] = new FrameLayout(context);
+            this.titlesContainer.addView(this.titles[i8], LayoutHelper.createFrame(-1, -1, i7));
+            this.nameTextView[i8] = new SimpleTextView(context);
+            this.nameTextView[i8].setPivotX(0.0f);
+            this.nameTextView[i8].setPivotY(AndroidUtilities.dp(9.0f));
+            this.nameTextView[i8].setTextSize(18);
+            this.nameTextView[i8].setGravity(3);
+            this.nameTextView[i8].setTypeface(AndroidUtilities.bold());
+            this.nameTextView[i8].setLeftDrawableTopPadding(-AndroidUtilities.dp(1.3f));
+            this.nameTextView[i8].setScrollNonFitText(true);
+            this.nameTextView[i8].setImportantForAccessibility(2);
+            this.titles[i8].addView(this.nameTextView[i8], LayoutHelper.createFrame(-2, -2.0f, 51, z ? 118.0f : 72.0f, 0.0f, 56.0f, 0.0f));
+            this.subtitleTextView[i8] = new AnimatedTextView(context, true, true, true);
+            this.subtitleTextView[i8].setAnimationProperties(0.4f, 0L, 320L, CubicBezierInterpolator.EASE_OUT_QUINT);
+            this.subtitleTextView[i8].setTextSize(AndroidUtilities.dp(14.0f));
+            this.subtitleTextView[i8].setTextColor(Theme.getColor(Theme.key_player_actionBarSubtitle));
+            this.titles[i8].addView(this.subtitleTextView[i8], LayoutHelper.createFrame(-2, -2.0f, 51, z ? 118.0f : 72.0f, 0.0f, 56.0f, 0.0f));
+            if (i8 != 0) {
+                this.titles[i8].setAlpha(0.0f);
             }
-            i7++;
+            i8++;
+            i7 = 119;
         }
         ProfileActivity.AvatarImageView avatarImageView = new ProfileActivity.AvatarImageView(this, context) { // from class: org.telegram.ui.Components.MediaActivity.3
             @Override // android.view.View
@@ -387,9 +389,9 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
         this.selectedTextView.setTextSize(AndroidUtilities.dp(20.0f));
         this.selectedTextView.setGravity(3);
         AnimatedTextView animatedTextView2 = this.selectedTextView;
-        int i8 = Theme.key_windowBackgroundWhiteBlackText;
-        animatedTextView2.setTextColor(getThemedColor(i8));
-        this.selectedTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        int i9 = Theme.key_windowBackgroundWhiteBlackText;
+        animatedTextView2.setTextColor(getThemedColor(i9));
+        this.selectedTextView.setTypeface(AndroidUtilities.bold());
         frameLayout2.addView(this.selectedTextView, LayoutHelper.createFrame(-2, -1.0f, 23, (z ? 48 : 0) + 72, -2.0f, 72.0f, 0.0f));
         if (this.type == 1) {
             StoriesTabsView storiesTabsView2 = new StoriesTabsView(this, context, getResourceProvider());
@@ -431,13 +433,13 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
                 }
 
                 @Override // org.telegram.ui.Components.Bulletin.Delegate
-                public /* synthetic */ boolean clipWithGradient(int i9) {
-                    return Bulletin.Delegate.-CC.$default$clipWithGradient(this, i9);
+                public /* synthetic */ boolean clipWithGradient(int i10) {
+                    return Bulletin.Delegate.-CC.$default$clipWithGradient(this, i10);
                 }
 
                 @Override // org.telegram.ui.Components.Bulletin.Delegate
-                public /* synthetic */ int getTopOffset(int i9) {
-                    return Bulletin.Delegate.-CC.$default$getTopOffset(this, i9);
+                public /* synthetic */ int getTopOffset(int i10) {
+                    return Bulletin.Delegate.-CC.$default$getTopOffset(this, i10);
                 }
 
                 @Override // org.telegram.ui.Components.Bulletin.Delegate
@@ -456,7 +458,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
                 }
 
                 @Override // org.telegram.ui.Components.Bulletin.Delegate
-                public int getBottomOffset(int i9) {
+                public int getBottomOffset(int i10) {
                     return AndroidUtilities.dp(64.0f);
                 }
             });
@@ -714,7 +716,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
         };
         this.sharedMediaLayout = sharedMediaLayout;
         if (sharedMediaLayout.getSearchOptionsItem() != null) {
-            this.sharedMediaLayout.getSearchOptionsItem().setColorFilter(new PorterDuffColorFilter(getThemedColor(i8), PorterDuff.Mode.MULTIPLY));
+            this.sharedMediaLayout.getSearchOptionsItem().setColorFilter(new PorterDuffColorFilter(getThemedColor(i9), PorterDuff.Mode.MULTIPLY));
         }
         this.sharedMediaLayout.setPinnedToTop(true);
         this.sharedMediaLayout.getSearchItem().setTranslationY(0.0f);
@@ -722,10 +724,10 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
         if (this.sharedMediaLayout.getSearchOptionsItem() != null) {
             this.sharedMediaLayout.getSearchOptionsItem().setTranslationY(0.0f);
         }
-        int i9 = this.type;
-        if (i9 != 1) {
+        int i10 = this.type;
+        if (i10 != 1) {
             i = 2;
-            if (i9 != 2) {
+            if (i10 != 2) {
                 sizeNotifierFrameLayout = sizeNotifierFrameLayout2;
                 sizeNotifierFrameLayout.addView(this.sharedMediaLayout);
                 sizeNotifierFrameLayout.addView(this.actionBar);

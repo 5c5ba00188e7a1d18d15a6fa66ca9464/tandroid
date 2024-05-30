@@ -508,7 +508,7 @@ public class CheckBoxBase {
                         if (this.textPaint == null) {
                             TextPaint textPaint = new TextPaint(1);
                             this.textPaint = textPaint;
-                            textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                            textPaint.setTypeface(AndroidUtilities.bold());
                         }
                         int length = this.checkedText.length();
                         if (length == 0 || length == 1 || length == 2) {

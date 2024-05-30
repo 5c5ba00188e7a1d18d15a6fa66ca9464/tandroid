@@ -585,32 +585,32 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         if (r12.email_requested == false) goto L170;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:609:0x195d  */
-    /* JADX WARN: Removed duplicated region for block: B:613:0x1975  */
-    /* JADX WARN: Removed duplicated region for block: B:619:0x19a3  */
-    /* JADX WARN: Removed duplicated region for block: B:632:0x19e1  */
-    /* JADX WARN: Removed duplicated region for block: B:635:0x19e9  */
-    /* JADX WARN: Removed duplicated region for block: B:636:0x19eb  */
-    /* JADX WARN: Removed duplicated region for block: B:646:0x1a02  */
-    /* JADX WARN: Removed duplicated region for block: B:647:0x1a05  */
-    /* JADX WARN: Removed duplicated region for block: B:650:0x1a29  */
-    /* JADX WARN: Removed duplicated region for block: B:656:0x1a7a  */
-    /* JADX WARN: Removed duplicated region for block: B:662:0x1acb  */
-    /* JADX WARN: Removed duplicated region for block: B:668:0x1b1a  */
-    /* JADX WARN: Removed duplicated region for block: B:674:0x1b4f  */
-    /* JADX WARN: Removed duplicated region for block: B:678:0x1b8c  */
+    /* JADX WARN: Removed duplicated region for block: B:609:0x195b  */
+    /* JADX WARN: Removed duplicated region for block: B:613:0x1973  */
+    /* JADX WARN: Removed duplicated region for block: B:619:0x19a1  */
+    /* JADX WARN: Removed duplicated region for block: B:632:0x19df  */
+    /* JADX WARN: Removed duplicated region for block: B:635:0x19e7  */
+    /* JADX WARN: Removed duplicated region for block: B:636:0x19e9  */
+    /* JADX WARN: Removed duplicated region for block: B:646:0x1a00  */
+    /* JADX WARN: Removed duplicated region for block: B:647:0x1a03  */
+    /* JADX WARN: Removed duplicated region for block: B:650:0x1a27  */
+    /* JADX WARN: Removed duplicated region for block: B:656:0x1a78  */
+    /* JADX WARN: Removed duplicated region for block: B:662:0x1ac9  */
+    /* JADX WARN: Removed duplicated region for block: B:668:0x1b18  */
+    /* JADX WARN: Removed duplicated region for block: B:674:0x1b4d  */
+    /* JADX WARN: Removed duplicated region for block: B:678:0x1b8a  */
     /* JADX WARN: Type inference failed for: r0v93, types: [org.telegram.ui.Cells.RecurrentPaymentsAcceptCell] */
-    /* JADX WARN: Type inference failed for: r10v102, types: [android.widget.LinearLayout] */
+    /* JADX WARN: Type inference failed for: r10v101, types: [android.widget.LinearLayout] */
     /* JADX WARN: Type inference failed for: r10v12, types: [java.lang.StringBuilder] */
-    /* JADX WARN: Type inference failed for: r10v137, types: [org.telegram.ui.Components.EditTextBoldCursor[]] */
-    /* JADX WARN: Type inference failed for: r10v138, types: [android.widget.EditText] */
-    /* JADX WARN: Type inference failed for: r10v143, types: [org.telegram.ui.Components.EditTextBoldCursor[]] */
-    /* JADX WARN: Type inference failed for: r10v144, types: [android.widget.EditText] */
-    /* JADX WARN: Type inference failed for: r10v171, types: [org.telegram.ui.Components.EditTextBoldCursor[]] */
-    /* JADX WARN: Type inference failed for: r10v172, types: [android.widget.EditText] */
-    /* JADX WARN: Type inference failed for: r10v237, types: [org.telegram.ui.Components.EditTextBoldCursor[]] */
-    /* JADX WARN: Type inference failed for: r10v238, types: [android.widget.EditText] */
-    /* JADX WARN: Type inference failed for: r10v240, types: [android.widget.LinearLayout] */
+    /* JADX WARN: Type inference failed for: r10v136, types: [org.telegram.ui.Components.EditTextBoldCursor[]] */
+    /* JADX WARN: Type inference failed for: r10v137, types: [android.widget.EditText] */
+    /* JADX WARN: Type inference failed for: r10v142, types: [org.telegram.ui.Components.EditTextBoldCursor[]] */
+    /* JADX WARN: Type inference failed for: r10v143, types: [android.widget.EditText] */
+    /* JADX WARN: Type inference failed for: r10v170, types: [org.telegram.ui.Components.EditTextBoldCursor[]] */
+    /* JADX WARN: Type inference failed for: r10v171, types: [android.widget.EditText] */
+    /* JADX WARN: Type inference failed for: r10v236, types: [org.telegram.ui.Components.EditTextBoldCursor[]] */
+    /* JADX WARN: Type inference failed for: r10v237, types: [android.widget.EditText] */
+    /* JADX WARN: Type inference failed for: r10v239, types: [android.widget.LinearLayout] */
     /* JADX WARN: Type inference failed for: r11v3 */
     /* JADX WARN: Type inference failed for: r11v4, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r11v7 */
@@ -628,10 +628,10 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     /* JADX WARN: Type inference failed for: r1v96, types: [org.telegram.ui.Cells.TextDetailSettingsCell[]] */
     /* JADX WARN: Type inference failed for: r1v97, types: [android.widget.FrameLayout] */
     /* JADX WARN: Type inference failed for: r2v44, types: [java.lang.String] */
-    /* JADX WARN: Type inference failed for: r3v229, types: [android.widget.FrameLayout, android.view.View, android.view.ViewGroup] */
-    /* JADX WARN: Type inference failed for: r3v233, types: [android.view.ViewGroup] */
-    /* JADX WARN: Type inference failed for: r3v234, types: [android.view.ViewGroup] */
-    /* JADX WARN: Type inference failed for: r3v271, types: [android.widget.LinearLayout, android.view.View, android.view.ViewGroup] */
+    /* JADX WARN: Type inference failed for: r3v227, types: [android.widget.FrameLayout, android.view.View, android.view.ViewGroup] */
+    /* JADX WARN: Type inference failed for: r3v231, types: [android.view.ViewGroup] */
+    /* JADX WARN: Type inference failed for: r3v232, types: [android.view.ViewGroup] */
+    /* JADX WARN: Type inference failed for: r3v269, types: [android.widget.LinearLayout, android.view.View, android.view.ViewGroup] */
     /* JADX WARN: Type inference failed for: r5v0 */
     /* JADX WARN: Type inference failed for: r5v217, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r5v218 */
@@ -2290,7 +2290,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                         String formatCurrencyString = LocaleController.getInstance().formatCurrencyString(longValue, this.paymentForm.invoice.currency);
                         final TextView textView2 = new TextView(context);
                         textView2.setTextSize(1, 14.0f);
-                        textView2.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                        textView2.setTypeface(AndroidUtilities.bold());
                         textView2.setLines(1);
                         textView2.setTag(Long.valueOf(longValue));
                         textView2.setMaxLines(1);
@@ -2464,7 +2464,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                         textView4.setText(LocaleController.formatString("PaymentCheckoutPay", i32, objArr2));
                         this.payTextView.setTextSize(1, 14.0f);
                         this.payTextView.setGravity(17);
-                        this.payTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                        this.payTextView.setTypeface(AndroidUtilities.bold());
                         this.bottomLayout.addView(this.payTextView, LayoutHelper.createFrame(-1, -1.0f));
                         ContextProgressView contextProgressView2 = new ContextProgressView(context, r11);
                         this.progressViewButton = contextProgressView2;
@@ -2513,7 +2513,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                             int indexOf2 = str11.indexOf("%1$s");
                             if (indexOf2 != -1) {
                                 spannableStringBuilder.replace(indexOf2, indexOf2 + 4, this.currentBotName);
-                                spannableStringBuilder.setSpan(new TypefaceSpan(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM)), indexOf2, this.currentBotName.length() + indexOf2, 33);
+                                spannableStringBuilder.setSpan(new TypefaceSpan(AndroidUtilities.bold()), indexOf2, this.currentBotName.length() + indexOf2, 33);
                             }
                             this.recurrentAcceptCell.setText(spannableStringBuilder);
                             this.recurrentAcceptCell.setBackground(Theme.createSelectorWithBackgroundDrawable(getThemedColor(Theme.key_windowBackgroundWhite), getThemedColor(Theme.key_listSelector)));

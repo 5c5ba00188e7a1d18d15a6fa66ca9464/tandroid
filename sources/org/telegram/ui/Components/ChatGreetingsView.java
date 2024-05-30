@@ -84,7 +84,7 @@ public class ChatGreetingsView extends LinearLayout {
         TextView textView = new TextView(context);
         this.titleView = textView;
         textView.setTextSize(1, 14.0f);
-        this.titleView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.titleView.setTypeface(AndroidUtilities.bold());
         this.titleView.setTextAlignment(4);
         this.titleView.setGravity(17);
         TextView textView2 = new TextView(context);
@@ -216,7 +216,7 @@ public class ChatGreetingsView extends LinearLayout {
                 this.premiumButtonView = textView4;
                 textView4.setTextAlignment(4);
                 this.premiumButtonView.setGravity(17);
-                this.premiumButtonView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                this.premiumButtonView.setTypeface(AndroidUtilities.bold());
                 this.premiumButtonView.setTextSize(1, 14.0f);
                 this.premiumButtonView.setPadding(AndroidUtilities.dp(13.0f), AndroidUtilities.dp(6.66f), AndroidUtilities.dp(13.0f), AndroidUtilities.dp(7.0f));
                 this.premiumButtonView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(15.0f), 503316480, AndroidUtilities.DARK_STATUS_BAR_OVERLAY));
@@ -612,7 +612,7 @@ public class ChatGreetingsView extends LinearLayout {
         linearLayout.addView(rLottieImageView, LayoutHelper.createLinear(80, 80, 1, 0, 16, 0, 16));
         boolean premiumFeaturesBlocked = MessagesController.getInstance(i).premiumFeaturesBlocked();
         TextView textView = new TextView(context);
-        textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        textView.setTypeface(AndroidUtilities.bold());
         textView.setGravity(17);
         int i2 = Theme.key_dialogTextBlack;
         textView.setTextColor(Theme.getColor(i2, resourcesProvider));

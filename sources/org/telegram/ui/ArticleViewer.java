@@ -1515,7 +1515,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             this.deleteView.setGravity(16);
             this.deleteView.setPadding(AndroidUtilities.dp(20.0f), 0, AndroidUtilities.dp(20.0f), 0);
             this.deleteView.setTextSize(1, 15.0f);
-            this.deleteView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            this.deleteView.setTypeface(AndroidUtilities.bold());
             this.deleteView.setText(LocaleController.getString("Copy", R.string.Copy).toUpperCase());
             this.deleteView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda11
                 @Override // android.view.View.OnClickListener
@@ -1975,7 +1975,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     }
                 };
                 textView.setTextSize(1, 16.0f);
-                textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                textView.setTypeface(AndroidUtilities.bold());
                 textView.setText(LocaleController.getString("InstantViewReference", R.string.InstantViewReference));
                 textView.setGravity((this.adapter[0].isRtl ? 5 : 3) | 16);
                 textView.setTextColor(getTextColor());
@@ -2680,13 +2680,13 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             if ((textFlags & 4) != 0) {
                 textPaint2.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MONO));
             } else if (tLRPC$PageBlock instanceof TLRPC$TL_pageBlockRelatedArticles) {
-                textPaint2.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                textPaint2.setTypeface(AndroidUtilities.bold());
             } else if (this.selectedFont != 1 && !(tLRPC$PageBlock instanceof TLRPC$TL_pageBlockTitle) && !(tLRPC$PageBlock instanceof TLRPC$TL_pageBlockKicker) && !(tLRPC$PageBlock instanceof TLRPC$TL_pageBlockHeader) && !(tLRPC$PageBlock instanceof TLRPC$TL_pageBlockSubtitle) && !(tLRPC$PageBlock instanceof TLRPC$TL_pageBlockSubheader)) {
                 int i2 = textFlags & 1;
                 if (i2 != 0 && (textFlags & 2) != 0) {
                     textPaint2.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM_ITALIC));
                 } else if (i2 != 0) {
-                    textPaint2.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                    textPaint2.setTypeface(AndroidUtilities.bold());
                 } else if ((textFlags & 2) != 0) {
                     textPaint2.setTypeface(AndroidUtilities.getTypeface("fonts/ritalic.ttf"));
                 }
@@ -2737,8 +2737,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Can't wrap try/catch for region: R(10:51|(3:52|53|(3:57|(3:(2:61|62)(2:64|65)|63|58)|66))|68|(2:69|70)|(10:74|75|76|(5:79|(1:81)(1:91)|(3:(1:84)(1:88)|85|86)(2:89|90)|87|77)|92|93|94|95|(7:99|101|102|(5:105|(1:107)(1:117)|(3:(1:110)(1:114)|111|112)(2:115|116)|113|103)|118|119|120)|123)|130|94|95|(8:97|99|101|102|(1:103)|118|119|120)|123) */
-    /* JADX WARN: Removed duplicated region for block: B:142:0x037f A[Catch: Exception -> 0x03bd, TryCatch #1 {Exception -> 0x03bd, blocks: (B:139:0x0378, B:140:0x037c, B:142:0x037f, B:144:0x0396, B:150:0x03a9, B:152:0x03b1, B:153:0x03ba), top: B:166:0x0378 }] */
+    /* JADX WARN: Can't wrap try/catch for region: R(13:51|52|53|(3:57|(3:(2:61|62)(2:64|65)|63|58)|66)|68|69|70|(10:74|75|76|(5:79|(1:81)(1:91)|(3:(1:84)(1:88)|85|86)(2:89|90)|87|77)|92|93|95|96|(7:100|102|103|(5:106|(1:108)(1:118)|(3:(1:111)(1:115)|112|113)(2:116|117)|114|104)|119|120|121)|124)|130|95|96|(8:98|100|102|103|(1:104)|119|120|121)|124) */
+    /* JADX WARN: Removed duplicated region for block: B:142:0x037d A[Catch: Exception -> 0x03bb, TryCatch #4 {Exception -> 0x03bb, blocks: (B:139:0x0376, B:140:0x037a, B:142:0x037d, B:144:0x0394, B:150:0x03a7, B:152:0x03af, B:153:0x03b8), top: B:172:0x0376 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2785,10 +2785,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             if (channelNamePaint == null) {
                 TextPaint textPaint4 = new TextPaint(1);
                 channelNamePaint = textPaint4;
-                textPaint4.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                textPaint4.setTypeface(AndroidUtilities.bold());
                 TextPaint textPaint5 = new TextPaint(1);
                 channelNamePhotoPaint = textPaint5;
-                textPaint5.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                textPaint5.setTypeface(AndroidUtilities.bold());
             }
             channelNamePaint.setColor(getTextColor());
             channelNamePaint.setTextSize(AndroidUtilities.dp(15.0f));
@@ -2801,7 +2801,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 if (relatedArticleHeaderPaint == null) {
                     TextPaint textPaint6 = new TextPaint(1);
                     relatedArticleHeaderPaint = textPaint6;
-                    textPaint6.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                    textPaint6.setTypeface(AndroidUtilities.bold());
                 }
                 relatedArticleHeaderPaint.setColor(getTextColor());
                 relatedArticleHeaderPaint.setTextSize(AndroidUtilities.dp(15.0f) + dp2);
@@ -3306,52 +3306,52 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         int i = this.selectedFont;
         Typeface typeface = i == 0 ? Typeface.DEFAULT : Typeface.SERIF;
         Typeface typeface2 = i == 0 ? AndroidUtilities.getTypeface("fonts/ritalic.ttf") : Typeface.create("serif", 2);
-        Typeface typeface3 = this.selectedFont == 0 ? AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM) : Typeface.create("serif", 1);
-        Typeface typeface4 = this.selectedFont == 0 ? AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM_ITALIC) : Typeface.create("serif", 3);
+        Typeface bold = this.selectedFont == 0 ? AndroidUtilities.bold() : Typeface.create("serif", 1);
+        Typeface typeface3 = this.selectedFont == 0 ? AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM_ITALIC) : Typeface.create("serif", 3);
         for (int i2 = 0; i2 < quoteTextPaints.size(); i2++) {
-            updateFontEntry(quoteTextPaints.keyAt(i2), quoteTextPaints.valueAt(i2), typeface, typeface4, typeface3, typeface2);
+            updateFontEntry(quoteTextPaints.keyAt(i2), quoteTextPaints.valueAt(i2), typeface, typeface3, bold, typeface2);
         }
         for (int i3 = 0; i3 < preformattedTextPaints.size(); i3++) {
-            updateFontEntry(preformattedTextPaints.keyAt(i3), preformattedTextPaints.valueAt(i3), typeface, typeface4, typeface3, typeface2);
+            updateFontEntry(preformattedTextPaints.keyAt(i3), preformattedTextPaints.valueAt(i3), typeface, typeface3, bold, typeface2);
         }
         for (int i4 = 0; i4 < paragraphTextPaints.size(); i4++) {
-            updateFontEntry(paragraphTextPaints.keyAt(i4), paragraphTextPaints.valueAt(i4), typeface, typeface4, typeface3, typeface2);
+            updateFontEntry(paragraphTextPaints.keyAt(i4), paragraphTextPaints.valueAt(i4), typeface, typeface3, bold, typeface2);
         }
         for (int i5 = 0; i5 < listTextPaints.size(); i5++) {
-            updateFontEntry(listTextPaints.keyAt(i5), listTextPaints.valueAt(i5), typeface, typeface4, typeface3, typeface2);
+            updateFontEntry(listTextPaints.keyAt(i5), listTextPaints.valueAt(i5), typeface, typeface3, bold, typeface2);
         }
         for (int i6 = 0; i6 < embedPostTextPaints.size(); i6++) {
-            updateFontEntry(embedPostTextPaints.keyAt(i6), embedPostTextPaints.valueAt(i6), typeface, typeface4, typeface3, typeface2);
+            updateFontEntry(embedPostTextPaints.keyAt(i6), embedPostTextPaints.valueAt(i6), typeface, typeface3, bold, typeface2);
         }
         for (int i7 = 0; i7 < mediaCaptionTextPaints.size(); i7++) {
-            updateFontEntry(mediaCaptionTextPaints.keyAt(i7), mediaCaptionTextPaints.valueAt(i7), typeface, typeface4, typeface3, typeface2);
+            updateFontEntry(mediaCaptionTextPaints.keyAt(i7), mediaCaptionTextPaints.valueAt(i7), typeface, typeface3, bold, typeface2);
         }
         for (int i8 = 0; i8 < mediaCreditTextPaints.size(); i8++) {
-            updateFontEntry(mediaCreditTextPaints.keyAt(i8), mediaCreditTextPaints.valueAt(i8), typeface, typeface4, typeface3, typeface2);
+            updateFontEntry(mediaCreditTextPaints.keyAt(i8), mediaCreditTextPaints.valueAt(i8), typeface, typeface3, bold, typeface2);
         }
         for (int i9 = 0; i9 < photoCaptionTextPaints.size(); i9++) {
-            updateFontEntry(photoCaptionTextPaints.keyAt(i9), photoCaptionTextPaints.valueAt(i9), typeface, typeface4, typeface3, typeface2);
+            updateFontEntry(photoCaptionTextPaints.keyAt(i9), photoCaptionTextPaints.valueAt(i9), typeface, typeface3, bold, typeface2);
         }
         for (int i10 = 0; i10 < photoCreditTextPaints.size(); i10++) {
-            updateFontEntry(photoCreditTextPaints.keyAt(i10), photoCreditTextPaints.valueAt(i10), typeface, typeface4, typeface3, typeface2);
+            updateFontEntry(photoCreditTextPaints.keyAt(i10), photoCreditTextPaints.valueAt(i10), typeface, typeface3, bold, typeface2);
         }
         for (int i11 = 0; i11 < authorTextPaints.size(); i11++) {
-            updateFontEntry(authorTextPaints.keyAt(i11), authorTextPaints.valueAt(i11), typeface, typeface4, typeface3, typeface2);
+            updateFontEntry(authorTextPaints.keyAt(i11), authorTextPaints.valueAt(i11), typeface, typeface3, bold, typeface2);
         }
         for (int i12 = 0; i12 < footerTextPaints.size(); i12++) {
-            updateFontEntry(footerTextPaints.keyAt(i12), footerTextPaints.valueAt(i12), typeface, typeface4, typeface3, typeface2);
+            updateFontEntry(footerTextPaints.keyAt(i12), footerTextPaints.valueAt(i12), typeface, typeface3, bold, typeface2);
         }
         for (int i13 = 0; i13 < embedPostCaptionTextPaints.size(); i13++) {
-            updateFontEntry(embedPostCaptionTextPaints.keyAt(i13), embedPostCaptionTextPaints.valueAt(i13), typeface, typeface4, typeface3, typeface2);
+            updateFontEntry(embedPostCaptionTextPaints.keyAt(i13), embedPostCaptionTextPaints.valueAt(i13), typeface, typeface3, bold, typeface2);
         }
         for (int i14 = 0; i14 < relatedArticleTextPaints.size(); i14++) {
-            updateFontEntry(relatedArticleTextPaints.keyAt(i14), relatedArticleTextPaints.valueAt(i14), typeface, typeface4, typeface3, typeface2);
+            updateFontEntry(relatedArticleTextPaints.keyAt(i14), relatedArticleTextPaints.valueAt(i14), typeface, typeface3, bold, typeface2);
         }
         for (int i15 = 0; i15 < detailsTextPaints.size(); i15++) {
-            updateFontEntry(detailsTextPaints.keyAt(i15), detailsTextPaints.valueAt(i15), typeface, typeface4, typeface3, typeface2);
+            updateFontEntry(detailsTextPaints.keyAt(i15), detailsTextPaints.valueAt(i15), typeface, typeface3, bold, typeface2);
         }
         for (int i16 = 0; i16 < tableTextPaints.size(); i16++) {
-            updateFontEntry(tableTextPaints.keyAt(i16), tableTextPaints.valueAt(i16), typeface, typeface4, typeface3, typeface2);
+            updateFontEntry(tableTextPaints.keyAt(i16), tableTextPaints.valueAt(i16), typeface, typeface3, bold, typeface2);
         }
     }
 
@@ -3715,7 +3715,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         this.titleTextView = simpleTextView;
         simpleTextView.setGravity(19);
         this.titleTextView.setTextSize(20);
-        this.titleTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.titleTextView.setTypeface(AndroidUtilities.bold());
         this.titleTextView.setTextColor(-5000269);
         this.titleTextView.setPivotX(0.0f);
         this.titleTextView.setPivotY(AndroidUtilities.dp(28.0f));
@@ -3961,7 +3961,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         this.searchCountText = simpleTextView2;
         simpleTextView2.setTextColor(Theme.getColor(i4));
         this.searchCountText.setTextSize(15);
-        this.searchCountText.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.searchCountText.setTypeface(AndroidUtilities.bold());
         this.searchCountText.setGravity(3);
         this.searchPanel.addView(this.searchCountText, LayoutHelper.createFrame(-2, -2.0f, 19, 18.0f, 0.0f, 108.0f, 0.0f));
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
@@ -7700,7 +7700,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                         spannableStringBuilder = new SpannableStringBuilder(musicAuthor);
                     }
                     if (!TextUtils.isEmpty(musicAuthor)) {
-                        spannableStringBuilder.setSpan(new TypefaceSpan(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM)), 0, musicAuthor.length(), 18);
+                        spannableStringBuilder.setSpan(new TypefaceSpan(AndroidUtilities.bold()), 0, musicAuthor.length(), 18);
                     }
                     CharSequence ellipsize = TextUtils.ellipsize(spannableStringBuilder, Theme.chat_audioTitlePaint, dp7, TextUtils.TruncateAt.END);
                     DrawingText drawingText = new DrawingText();
@@ -12205,7 +12205,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             TextView textView = new TextView(context);
             this.textView = textView;
             textView.setTextSize(1, 14.0f);
-            this.textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            this.textView.setTypeface(AndroidUtilities.bold());
             this.textView.setText(LocaleController.getString("ChannelJoin", R.string.ChannelJoin));
             this.textView.setGravity(19);
             addView(this.textView, LayoutHelper.createFrame(-2, 39, 53));

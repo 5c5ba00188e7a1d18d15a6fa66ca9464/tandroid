@@ -86,7 +86,7 @@ public class ClearHistoryAlert extends BottomSheet {
             this.textView.setGravity(17);
             this.textView.setTextColor(getThemedColor(Theme.key_featuredStickers_buttonText));
             this.textView.setTextSize(1, 14.0f);
-            this.textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            this.textView.setTypeface(AndroidUtilities.bold());
             addView(this.textView, LayoutHelper.createFrame(-2, -2, 17));
         }
 
@@ -106,10 +106,10 @@ public class ClearHistoryAlert extends BottomSheet {
 
     /* JADX WARN: Removed duplicated region for block: B:132:0x00d8  */
     /* JADX WARN: Removed duplicated region for block: B:133:0x00e1  */
-    /* JADX WARN: Removed duplicated region for block: B:142:0x0101  */
-    /* JADX WARN: Removed duplicated region for block: B:178:0x02ea  */
-    /* JADX WARN: Removed duplicated region for block: B:190:0x045b  */
-    /* JADX WARN: Removed duplicated region for block: B:191:0x0469  */
+    /* JADX WARN: Removed duplicated region for block: B:142:0x00ff  */
+    /* JADX WARN: Removed duplicated region for block: B:178:0x02e8  */
+    /* JADX WARN: Removed duplicated region for block: B:190:0x0459  */
+    /* JADX WARN: Removed duplicated region for block: B:191:0x0467  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -261,7 +261,7 @@ public class ClearHistoryAlert extends BottomSheet {
                 final boolean[] zArr = {false};
                 if (this.autoDeleteOnly) {
                     TextView textView = new TextView(context);
-                    textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                    textView.setTypeface(AndroidUtilities.bold());
                     textView.setTextSize(1, 20.0f);
                     int i5 = Theme.key_dialogTextBlack;
                     textView.setTextColor(getThemedColor(i5));
@@ -325,7 +325,7 @@ public class ClearHistoryAlert extends BottomSheet {
                     rLottieImageView.playAnimation();
                     this.linearLayout.addView(rLottieImageView, LayoutHelper.createLinear(160, 160, 49, 17, 0, 17, 0));
                     TextView textView3 = new TextView(context);
-                    textView3.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                    textView3.setTypeface(AndroidUtilities.bold());
                     textView3.setTextSize(1, 24.0f);
                     textView3.setTextColor(getThemedColor(Theme.key_dialogTextBlack));
                     textView3.setText(LocaleController.getString("AutoDeleteAlertTitle", R.string.AutoDeleteAlertTitle));

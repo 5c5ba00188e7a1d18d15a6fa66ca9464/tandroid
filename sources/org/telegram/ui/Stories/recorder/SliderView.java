@@ -53,7 +53,6 @@ public class SliderView extends View {
 
     public SliderView(Context context, int i) {
         super(context);
-        int i2;
         this.minVolume = 0.0f;
         this.maxVolume = 1.0f;
         CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
@@ -79,7 +78,7 @@ public class SliderView extends View {
         this.wave2Alpha = new AnimatedFloat(this, 0L, 350L, cubicBezierInterpolator);
         this.textPaint = new TextPaint(1);
         this.currentType = i;
-        animatedTextDrawable.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        animatedTextDrawable.setTypeface(AndroidUtilities.bold());
         animatedTextDrawable.setAnimationProperties(0.3f, 0L, 40L, cubicBezierInterpolator);
         animatedTextDrawable.setCallback(this);
         animatedTextDrawable.setTextColor(-1);
@@ -93,7 +92,6 @@ public class SliderView extends View {
             paint5.setColor(-1);
             paint5.setStyle(Paint.Style.STROKE);
             paint5.setStrokeCap(Paint.Cap.ROUND);
-            i2 = -1;
         } else {
             animatedTextDrawable.setTextSize(AndroidUtilities.dp(14.0f));
             animatedTextDrawable.setGravity(5);
@@ -101,8 +99,7 @@ public class SliderView extends View {
             this.text2 = animatedTextDrawable2;
             animatedTextDrawable2.setOverrideFullWidth(AndroidUtilities.displaySize.x);
             animatedTextDrawable2.setTextSize(AndroidUtilities.dp(14.0f));
-            animatedTextDrawable2.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-            i2 = -1;
+            animatedTextDrawable2.setTypeface(AndroidUtilities.bold());
             animatedTextDrawable2.setAnimationProperties(0.3f, 0L, 40L, cubicBezierInterpolator);
             animatedTextDrawable2.setCallback(this);
             animatedTextDrawable2.setTextColor(-1);
@@ -115,7 +112,7 @@ public class SliderView extends View {
             }
         }
         animatedTextDrawable.setText("");
-        paint.setColor(i2);
+        paint.setColor(-1);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.XOR));
     }
 

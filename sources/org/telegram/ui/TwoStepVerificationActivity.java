@@ -201,30 +201,30 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         AndroidUtilities.removeAdjustResize(getParentActivity(), this.classGuid);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:16:0x0219  */
-    /* JADX WARN: Removed duplicated region for block: B:17:0x021b  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x0238  */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x023a  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0267  */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x0269  */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x02c7  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x02ca  */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x032d  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x0330  */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x035b  */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x0401  */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0404  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x0408  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x040b  */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x042a  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x0460  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x0465  */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x046b  */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x046e  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x0538  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x055b  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x057a  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x058f  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x0217  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x0219  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x0236  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x0238  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x0265  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x0267  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x02c5  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x02c8  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x032b  */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x032e  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x0359  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x03ff  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0402  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x0406  */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x0409  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x0428  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x045e  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x0463  */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x0469  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x046c  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0536  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x0559  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x0578  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x058d  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -286,7 +286,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
                 textView.setTextColor(Theme.getColor(i5));
                 this.titleTextView.setTextSize(1, 18.0f);
                 this.titleTextView.setGravity(1);
-                this.titleTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                this.titleTextView.setTypeface(AndroidUtilities.bold());
                 linearLayout.addView(this.titleTextView, LayoutHelper.createLinear(-2, -2, 1, 24, 8, 24, 0));
                 TextView textView2 = new TextView(context);
                 this.subtitleTextView = textView2;
@@ -510,7 +510,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         textView6.setTextColor(Theme.getColor(i52));
         this.titleTextView.setTextSize(1, 18.0f);
         this.titleTextView.setGravity(1);
-        this.titleTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.titleTextView.setTypeface(AndroidUtilities.bold());
         linearLayout.addView(this.titleTextView, LayoutHelper.createLinear(-2, -2, 1, 24, 8, 24, 0));
         TextView textView22 = new TextView(context);
         this.subtitleTextView = textView22;

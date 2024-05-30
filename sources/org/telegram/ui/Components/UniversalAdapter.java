@@ -249,7 +249,7 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
         }
     }
 
-    /* JADX WARN: Type inference failed for: r15v48, types: [android.view.View] */
+    /* JADX WARN: Type inference failed for: r15v47, types: [android.view.View] */
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View headerCell;
@@ -342,7 +342,7 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
                     if (i == 9) {
                         textCheckCell.setDrawCheckRipple(true);
                         textCheckCell.setColors(Theme.key_windowBackgroundCheckText, Theme.key_switchTrackBlue, Theme.key_switchTrackBlueChecked, Theme.key_switchTrackBlueThumb, Theme.key_switchTrackBlueThumbChecked);
-                        textCheckCell.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                        textCheckCell.setTypeface(AndroidUtilities.bold());
                         textCheckCell.setHeight(56);
                     }
                     textCheckCell.setBackgroundColor(getThemedColor(i2));

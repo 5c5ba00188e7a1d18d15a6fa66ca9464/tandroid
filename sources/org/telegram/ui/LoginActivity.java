@@ -2211,7 +2211,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             TextView textView = new TextView(context);
             this.titleView = textView;
             textView.setTextSize(1, 18.0f);
-            this.titleView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            this.titleView.setTypeface(AndroidUtilities.bold());
             this.titleView.setText(LocaleController.getString(LoginActivity.this.activityMode == 2 ? R.string.ChangePhoneNewNumber : R.string.YourNumber));
             this.titleView.setGravity(17);
             this.titleView.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
@@ -4013,11 +4013,11 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
 
         /* JADX WARN: Removed duplicated region for block: B:61:0x03d6  */
         /* JADX WARN: Removed duplicated region for block: B:64:0x03f8  */
-        /* JADX WARN: Removed duplicated region for block: B:67:0x04cd  */
-        /* JADX WARN: Removed duplicated region for block: B:68:0x0539  */
-        /* JADX WARN: Removed duplicated region for block: B:71:0x0652  */
-        /* JADX WARN: Removed duplicated region for block: B:76:0x0682  */
-        /* JADX WARN: Removed duplicated region for block: B:79:0x06a0  */
+        /* JADX WARN: Removed duplicated region for block: B:67:0x04c9  */
+        /* JADX WARN: Removed duplicated region for block: B:68:0x0533  */
+        /* JADX WARN: Removed duplicated region for block: B:71:0x0648  */
+        /* JADX WARN: Removed duplicated region for block: B:76:0x0676  */
+        /* JADX WARN: Removed duplicated region for block: B:79:0x0694  */
         /* JADX WARN: Removed duplicated region for block: B:81:? A[RETURN, SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -4047,7 +4047,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             TextView textView2 = new TextView(context);
             this.titleTextView = textView2;
             textView2.setTextSize(1, 18.0f);
-            this.titleTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            this.titleTextView.setTypeface(AndroidUtilities.bold());
             this.titleTextView.setGravity(LocaleController.isRTL ? 5 : 3);
             this.titleTextView.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
             this.titleTextView.setGravity(49);
@@ -4083,7 +4083,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 this.prefixTextView = textView4;
                 textView4.setTextSize(1, 20.0f);
                 this.prefixTextView.setMaxLines(1);
-                this.prefixTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                this.prefixTextView.setTypeface(AndroidUtilities.bold());
                 this.prefixTextView.setPadding(0, 0, 0, 0);
                 this.prefixTextView.setGravity(16);
                 linearLayout.addView(this.prefixTextView, LayoutHelper.createLinear(-2, -1, 16, 0, 0, 4, 0));
@@ -4243,7 +4243,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                         this.openFragmentButtonText.setTextColor(-1);
                         this.openFragmentButtonText.setTextSize(1, 15.0f);
                         this.openFragmentButtonText.setGravity(17);
-                        this.openFragmentButtonText.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                        this.openFragmentButtonText.setTypeface(AndroidUtilities.bold());
                         this.openFragmentButton.addView(this.openFragmentButtonText);
                     }
                     TextView textView7 = new TextView(context);
@@ -6237,12 +6237,12 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             return true;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:13:0x0144  */
-        /* JADX WARN: Removed duplicated region for block: B:14:0x0146  */
-        /* JADX WARN: Removed duplicated region for block: B:17:0x01c9  */
-        /* JADX WARN: Removed duplicated region for block: B:18:0x01cc  */
-        /* JADX WARN: Removed duplicated region for block: B:21:0x01f4  */
-        /* JADX WARN: Removed duplicated region for block: B:27:0x0219  */
+        /* JADX WARN: Removed duplicated region for block: B:13:0x0142  */
+        /* JADX WARN: Removed duplicated region for block: B:14:0x0144  */
+        /* JADX WARN: Removed duplicated region for block: B:17:0x01c7  */
+        /* JADX WARN: Removed duplicated region for block: B:18:0x01ca  */
+        /* JADX WARN: Removed duplicated region for block: B:21:0x01f2  */
+        /* JADX WARN: Removed duplicated region for block: B:27:0x0217  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -6265,7 +6265,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                     TextView textView = new TextView(context);
                     this.titleView = textView;
                     textView.setTextSize(1, 18.0f);
-                    this.titleView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                    this.titleView.setTypeface(AndroidUtilities.bold());
                     this.titleView.setText(LocaleController.getString(R.string.YourPasswordHeader));
                     this.titleView.setGravity(17);
                     this.titleView.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
@@ -6349,7 +6349,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             TextView textView4 = new TextView(context);
             this.titleView = textView4;
             textView4.setTextSize(1, 18.0f);
-            this.titleView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            this.titleView.setTypeface(AndroidUtilities.bold());
             this.titleView.setText(LocaleController.getString(R.string.YourPasswordHeader));
             this.titleView.setGravity(17);
             this.titleView.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
@@ -6809,7 +6809,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             TextView textView = new TextView(context);
             this.titleView = textView;
             textView.setTextSize(1, 18.0f);
-            this.titleView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            this.titleView.setTypeface(AndroidUtilities.bold());
             TextView textView2 = this.titleView;
             int i = R.string.ResetAccount;
             textView2.setText(LocaleController.getString(i));
@@ -6834,14 +6834,14 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             this.resetAccountTime = textView5;
             textView5.setGravity(1);
             this.resetAccountTime.setTextSize(1, 20.0f);
-            this.resetAccountTime.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            this.resetAccountTime.setTypeface(AndroidUtilities.bold());
             this.resetAccountTime.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
             addView(this.resetAccountTime, LayoutHelper.createLinear(-2, -2, 1, 0, 8, 0, 0));
             TextView textView6 = new TextView(context);
             this.resetAccountButton = textView6;
             textView6.setGravity(17);
             this.resetAccountButton.setText(LocaleController.getString(i));
-            this.resetAccountButton.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            this.resetAccountButton.setTypeface(AndroidUtilities.bold());
             this.resetAccountButton.setTextSize(1, 15.0f);
             this.resetAccountButton.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
             this.resetAccountButton.setPadding(AndroidUtilities.dp(34.0f), 0, AndroidUtilities.dp(34.0f), 0);
@@ -7038,10 +7038,10 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             return true;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:13:0x0076  */
-        /* JADX WARN: Removed duplicated region for block: B:14:0x0079  */
-        /* JADX WARN: Removed duplicated region for block: B:17:0x00f3  */
-        /* JADX WARN: Removed duplicated region for block: B:18:0x00f6  */
+        /* JADX WARN: Removed duplicated region for block: B:13:0x0074  */
+        /* JADX WARN: Removed duplicated region for block: B:14:0x0077  */
+        /* JADX WARN: Removed duplicated region for block: B:17:0x00f1  */
+        /* JADX WARN: Removed duplicated region for block: B:18:0x00f4  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -7064,7 +7064,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                     TextView textView = new TextView(context);
                     this.titleView = textView;
                     textView.setTextSize(1, 18.0f);
-                    this.titleView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                    this.titleView.setTypeface(AndroidUtilities.bold());
                     this.titleView.setText(LocaleController.getString(LoginActivity.this.activityMode != 3 ? R.string.EnterNewEmail : R.string.AddEmailTitle));
                     this.titleView.setGravity(17);
                     this.titleView.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
@@ -7151,7 +7151,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             TextView textView4 = new TextView(context);
             this.titleView = textView4;
             textView4.setTextSize(1, 18.0f);
-            this.titleView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            this.titleView.setTypeface(AndroidUtilities.bold());
             this.titleView.setText(LocaleController.getString(LoginActivity.this.activityMode != 3 ? R.string.EnterNewEmail : R.string.AddEmailTitle));
             this.titleView.setGravity(17);
             this.titleView.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
@@ -7588,12 +7588,12 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             showResendCodeView(true);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:20:0x00a2  */
-        /* JADX WARN: Removed duplicated region for block: B:21:0x00a5  */
-        /* JADX WARN: Removed duplicated region for block: B:26:0x011e  */
-        /* JADX WARN: Removed duplicated region for block: B:27:0x0121  */
-        /* JADX WARN: Removed duplicated region for block: B:36:0x033a  */
-        /* JADX WARN: Removed duplicated region for block: B:37:0x0352  */
+        /* JADX WARN: Removed duplicated region for block: B:20:0x00a0  */
+        /* JADX WARN: Removed duplicated region for block: B:21:0x00a3  */
+        /* JADX WARN: Removed duplicated region for block: B:26:0x011c  */
+        /* JADX WARN: Removed duplicated region for block: B:27:0x011f  */
+        /* JADX WARN: Removed duplicated region for block: B:36:0x0338  */
+        /* JADX WARN: Removed duplicated region for block: B:37:0x0350  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -7638,7 +7638,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                     TextView textView = new TextView(context);
                     this.titleView = textView;
                     textView.setTextSize(1, 18.0f);
-                    this.titleView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                    this.titleView.setTypeface(AndroidUtilities.bold());
                     this.titleView.setText(LocaleController.getString(LoginActivity.this.activityMode != 3 ? R.string.CheckYourNewEmail : z ? R.string.VerificationCode : R.string.CheckYourEmail));
                     this.titleView.setGravity(17);
                     this.titleView.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
@@ -7789,7 +7789,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             TextView textView7 = new TextView(context);
             this.titleView = textView7;
             textView7.setTextSize(1, 18.0f);
-            this.titleView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            this.titleView.setTypeface(AndroidUtilities.bold());
             this.titleView.setText(LocaleController.getString(LoginActivity.this.activityMode != 3 ? R.string.CheckYourNewEmail : z ? R.string.VerificationCode : R.string.CheckYourEmail));
             this.titleView.setGravity(17);
             this.titleView.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
@@ -8824,7 +8824,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             }
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:13:0x00f5  */
+        /* JADX WARN: Removed duplicated region for block: B:13:0x00f3  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -8854,7 +8854,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                     TextView textView = new TextView(context);
                     this.titleView = textView;
                     textView.setTextSize(1, 18.0f);
-                    this.titleView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                    this.titleView.setTypeface(AndroidUtilities.bold());
                     this.titleView.setText(LocaleController.getString(R.string.EnterCode));
                     this.titleView.setGravity(17);
                     this.titleView.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
@@ -8927,7 +8927,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             TextView textView3 = new TextView(context);
             this.titleView = textView3;
             textView3.setTextSize(1, 18.0f);
-            this.titleView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            this.titleView.setTypeface(AndroidUtilities.bold());
             this.titleView.setText(LocaleController.getString(R.string.EnterCode));
             this.titleView.setGravity(17);
             this.titleView.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
@@ -9263,7 +9263,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             this.titleTextView = textView;
             float f = 18.0f;
             textView.setTextSize(1, 18.0f);
-            this.titleTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            this.titleTextView.setTypeface(AndroidUtilities.bold());
             this.titleTextView.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
             this.titleTextView.setGravity(49);
             this.titleTextView.setText(LocaleController.getString(R.string.SetNewPassword));
@@ -9967,7 +9967,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             this.titleTextView = textView;
             textView.setText(LocaleController.getString(R.string.RegistrationProfileInfo));
             this.titleTextView.setTextSize(1, 18.0f);
-            this.titleTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            this.titleTextView.setTypeface(AndroidUtilities.bold());
             this.titleTextView.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
             this.titleTextView.setGravity(1);
             addView(this.titleTextView, LayoutHelper.createLinear(-2, -2, 1, 8, 12, 8, 0));
@@ -10907,7 +10907,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             this.numberView = textView2;
             textView2.setText(str);
             this.numberView.setTextSize(1, 18.0f);
-            this.numberView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            this.numberView.setTypeface(AndroidUtilities.bold());
             this.numberView.setSingleLine();
             this.popupLayout.addView(this.numberView, LayoutHelper.createFrame(-1, -2.0f, LocaleController.isRTL ? 5 : 3, 24.0f, 48.0f, 24.0f, 0.0f));
             int dp = AndroidUtilities.dp(16.0f);
@@ -11299,22 +11299,22 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
 
         /* JADX WARN: Removed duplicated region for block: B:16:0x006c  */
         /* JADX WARN: Removed duplicated region for block: B:17:0x006f  */
-        /* JADX WARN: Removed duplicated region for block: B:20:0x00ad  */
-        /* JADX WARN: Removed duplicated region for block: B:21:0x00b0  */
-        /* JADX WARN: Removed duplicated region for block: B:24:0x00c1  */
-        /* JADX WARN: Removed duplicated region for block: B:25:0x00c6  */
-        /* JADX WARN: Removed duplicated region for block: B:28:0x0104  */
-        /* JADX WARN: Removed duplicated region for block: B:29:0x0107  */
-        /* JADX WARN: Removed duplicated region for block: B:32:0x013d  */
-        /* JADX WARN: Removed duplicated region for block: B:33:0x0140  */
-        /* JADX WARN: Removed duplicated region for block: B:36:0x0160  */
-        /* JADX WARN: Removed duplicated region for block: B:37:0x0162  */
-        /* JADX WARN: Removed duplicated region for block: B:40:0x02b3  */
-        /* JADX WARN: Removed duplicated region for block: B:41:0x02b6  */
-        /* JADX WARN: Removed duplicated region for block: B:44:0x0308  */
-        /* JADX WARN: Removed duplicated region for block: B:45:0x030b  */
-        /* JADX WARN: Removed duplicated region for block: B:48:0x037e  */
-        /* JADX WARN: Removed duplicated region for block: B:49:0x0381  */
+        /* JADX WARN: Removed duplicated region for block: B:20:0x00ab  */
+        /* JADX WARN: Removed duplicated region for block: B:21:0x00ae  */
+        /* JADX WARN: Removed duplicated region for block: B:24:0x00be  */
+        /* JADX WARN: Removed duplicated region for block: B:25:0x00c3  */
+        /* JADX WARN: Removed duplicated region for block: B:28:0x0100  */
+        /* JADX WARN: Removed duplicated region for block: B:29:0x0103  */
+        /* JADX WARN: Removed duplicated region for block: B:32:0x0139  */
+        /* JADX WARN: Removed duplicated region for block: B:33:0x013c  */
+        /* JADX WARN: Removed duplicated region for block: B:36:0x015c  */
+        /* JADX WARN: Removed duplicated region for block: B:37:0x015e  */
+        /* JADX WARN: Removed duplicated region for block: B:40:0x02ae  */
+        /* JADX WARN: Removed duplicated region for block: B:41:0x02b1  */
+        /* JADX WARN: Removed duplicated region for block: B:44:0x0303  */
+        /* JADX WARN: Removed duplicated region for block: B:45:0x0306  */
+        /* JADX WARN: Removed duplicated region for block: B:48:0x0379  */
+        /* JADX WARN: Removed duplicated region for block: B:49:0x037c  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -11355,7 +11355,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                     TextView textView = new TextView(context);
                     this.titleTextView = textView;
                     textView.setTextSize(1, 18.0f);
-                    textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                    textView.setTypeface(AndroidUtilities.bold());
                     textView.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
                     textView.setGravity(49);
                     textView.setText(LocaleController.getString(z2 ? R.string.SMSWordTitle : R.string.SMSPhraseTitle));
@@ -11369,18 +11369,18 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                     OutlineTextContainerView outlineTextContainerView = new OutlineTextContainerView(context);
                     this.outlineField = outlineTextContainerView;
                     outlineTextContainerView.setText(LocaleController.getString(z2 ? R.string.SMSWord : R.string.SMSPhrase));
-                    1 r12 = new 1(context, LoginActivity.this);
-                    this.codeField = r12;
-                    r12.setSingleLine();
-                    r12.setLines(1);
-                    r12.setCursorSize(AndroidUtilities.dp(20.0f));
-                    r12.setCursorWidth(1.5f);
-                    r12.setImeOptions(268435461);
-                    r12.setTextSize(1, 18.0f);
-                    r12.setMaxLines(1);
-                    r12.setBackground(null);
-                    r12.setHint(LocaleController.getString(z2 ? R.string.SMSWordHint : R.string.SMSPhraseHint));
-                    r12.addTextChangedListener(new TextWatcher(LoginActivity.this) { // from class: org.telegram.ui.LoginActivity.LoginActivityPhraseView.2
+                    1 r11 = new 1(context, LoginActivity.this);
+                    this.codeField = r11;
+                    r11.setSingleLine();
+                    r11.setLines(1);
+                    r11.setCursorSize(AndroidUtilities.dp(20.0f));
+                    r11.setCursorWidth(1.5f);
+                    r11.setImeOptions(268435461);
+                    r11.setTextSize(1, 18.0f);
+                    r11.setMaxLines(1);
+                    r11.setBackground(null);
+                    r11.setHint(LocaleController.getString(z2 ? R.string.SMSWordHint : R.string.SMSPhraseHint));
+                    r11.addTextChangedListener(new TextWatcher(LoginActivity.this) { // from class: org.telegram.ui.LoginActivity.LoginActivityPhraseView.2
                         private boolean ignoreTextChange;
                         private int trimmedLength;
 
@@ -11422,11 +11422,11 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                             this.ignoreTextChange = false;
                         }
                     });
-                    r12.setEllipsizeByGradient(true);
-                    r12.setInputType(1);
-                    r12.setTypeface(Typeface.DEFAULT);
-                    r12.setGravity(!LocaleController.isRTL ? 5 : 3);
-                    r12.setOnFocusChangeListener(new View.OnFocusChangeListener() { // from class: org.telegram.ui.LoginActivity$LoginActivityPhraseView$$ExternalSyntheticLambda3
+                    r11.setEllipsizeByGradient(true);
+                    r11.setInputType(1);
+                    r11.setTypeface(Typeface.DEFAULT);
+                    r11.setGravity(!LocaleController.isRTL ? 5 : 3);
+                    r11.setOnFocusChangeListener(new View.OnFocusChangeListener() { // from class: org.telegram.ui.LoginActivity$LoginActivityPhraseView$$ExternalSyntheticLambda3
                         @Override // android.view.View.OnFocusChangeListener
                         public final void onFocusChange(View view, boolean z3) {
                             LoginActivity.LoginActivityPhraseView.this.lambda$new$0(view, z3);
@@ -11435,7 +11435,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                     TextView textView3 = new TextView(context);
                     this.pasteTextView = textView3;
                     textView3.setTextSize(1, 12.0f);
-                    textView3.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                    textView3.setTypeface(AndroidUtilities.bold());
                     textView3.setText(LocaleController.getString(R.string.Paste));
                     textView3.setPadding(AndroidUtilities.dp(10.0f), 0, AndroidUtilities.dp(10.0f), 0);
                     textView3.setGravity(17);
@@ -11443,22 +11443,22 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                     textView3.setTextColor(color);
                     textView3.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.multAlpha(color, 0.12f), Theme.multAlpha(color, 0.15f)));
                     ScaleStateListAnimator.apply(textView3, 0.1f, 1.5f);
-                    r12.setPadding(AndroidUtilities.dp(16.0f), AndroidUtilities.dp(13.34f), AndroidUtilities.dp(16.0f), AndroidUtilities.dp(13.34f));
+                    r11.setPadding(AndroidUtilities.dp(16.0f), AndroidUtilities.dp(13.34f), AndroidUtilities.dp(16.0f), AndroidUtilities.dp(13.34f));
                     textView3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.LoginActivity$LoginActivityPhraseView$$ExternalSyntheticLambda1
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
                             LoginActivity.LoginActivityPhraseView.this.lambda$new$1(view);
                         }
                     });
-                    outlineTextContainerView.addView(r12, LayoutHelper.createFrame(-1, -2.0f, 119, 0.0f, 0.0f, 0.0f, 0.0f));
-                    outlineTextContainerView.attachEditText(r12);
+                    outlineTextContainerView.addView(r11, LayoutHelper.createFrame(-1, -2.0f, 119, 0.0f, 0.0f, 0.0f, 0.0f));
+                    outlineTextContainerView.attachEditText(r11);
                     outlineTextContainerView.addView(textView3, LayoutHelper.createFrame(-2, 26.0f, 21, 0.0f, 0.0f, 10.0f, 0.0f));
                     LinearLayout linearLayout = new LinearLayout(context);
                     this.fieldContainer = linearLayout;
                     linearLayout.setOrientation(1);
                     linearLayout.addView(outlineTextContainerView, LayoutHelper.createLinear(-1, -2, 1));
                     addView(linearLayout, LayoutHelper.createLinear(-1, -2, 1, 16, 3, 16, 0));
-                    r12.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.LoginActivity$LoginActivityPhraseView$$ExternalSyntheticLambda4
+                    r11.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.LoginActivity$LoginActivityPhraseView$$ExternalSyntheticLambda4
                         @Override // android.widget.TextView.OnEditorActionListener
                         public final boolean onEditorAction(TextView textView4, int i2, KeyEvent keyEvent) {
                             boolean lambda$new$2;
@@ -11544,7 +11544,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             TextView textView6 = new TextView(context);
             this.titleTextView = textView6;
             textView6.setTextSize(1, 18.0f);
-            textView6.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            textView6.setTypeface(AndroidUtilities.bold());
             textView6.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
             textView6.setGravity(49);
             textView6.setText(LocaleController.getString(z2 ? R.string.SMSWordTitle : R.string.SMSPhraseTitle));
@@ -11558,18 +11558,18 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             OutlineTextContainerView outlineTextContainerView2 = new OutlineTextContainerView(context);
             this.outlineField = outlineTextContainerView2;
             outlineTextContainerView2.setText(LocaleController.getString(z2 ? R.string.SMSWord : R.string.SMSPhrase));
-            1 r122 = new 1(context, LoginActivity.this);
-            this.codeField = r122;
-            r122.setSingleLine();
-            r122.setLines(1);
-            r122.setCursorSize(AndroidUtilities.dp(20.0f));
-            r122.setCursorWidth(1.5f);
-            r122.setImeOptions(268435461);
-            r122.setTextSize(1, 18.0f);
-            r122.setMaxLines(1);
-            r122.setBackground(null);
-            r122.setHint(LocaleController.getString(z2 ? R.string.SMSWordHint : R.string.SMSPhraseHint));
-            r122.addTextChangedListener(new TextWatcher(LoginActivity.this) { // from class: org.telegram.ui.LoginActivity.LoginActivityPhraseView.2
+            1 r112 = new 1(context, LoginActivity.this);
+            this.codeField = r112;
+            r112.setSingleLine();
+            r112.setLines(1);
+            r112.setCursorSize(AndroidUtilities.dp(20.0f));
+            r112.setCursorWidth(1.5f);
+            r112.setImeOptions(268435461);
+            r112.setTextSize(1, 18.0f);
+            r112.setMaxLines(1);
+            r112.setBackground(null);
+            r112.setHint(LocaleController.getString(z2 ? R.string.SMSWordHint : R.string.SMSPhraseHint));
+            r112.addTextChangedListener(new TextWatcher(LoginActivity.this) { // from class: org.telegram.ui.LoginActivity.LoginActivityPhraseView.2
                 private boolean ignoreTextChange;
                 private int trimmedLength;
 
@@ -11611,11 +11611,11 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                     this.ignoreTextChange = false;
                 }
             });
-            r122.setEllipsizeByGradient(true);
-            r122.setInputType(1);
-            r122.setTypeface(Typeface.DEFAULT);
-            r122.setGravity(!LocaleController.isRTL ? 5 : 3);
-            r122.setOnFocusChangeListener(new View.OnFocusChangeListener() { // from class: org.telegram.ui.LoginActivity$LoginActivityPhraseView$$ExternalSyntheticLambda3
+            r112.setEllipsizeByGradient(true);
+            r112.setInputType(1);
+            r112.setTypeface(Typeface.DEFAULT);
+            r112.setGravity(!LocaleController.isRTL ? 5 : 3);
+            r112.setOnFocusChangeListener(new View.OnFocusChangeListener() { // from class: org.telegram.ui.LoginActivity$LoginActivityPhraseView$$ExternalSyntheticLambda3
                 @Override // android.view.View.OnFocusChangeListener
                 public final void onFocusChange(View view, boolean z3) {
                     LoginActivity.LoginActivityPhraseView.this.lambda$new$0(view, z3);
@@ -11624,7 +11624,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             TextView textView32 = new TextView(context);
             this.pasteTextView = textView32;
             textView32.setTextSize(1, 12.0f);
-            textView32.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            textView32.setTypeface(AndroidUtilities.bold());
             textView32.setText(LocaleController.getString(R.string.Paste));
             textView32.setPadding(AndroidUtilities.dp(10.0f), 0, AndroidUtilities.dp(10.0f), 0);
             textView32.setGravity(17);
@@ -11632,22 +11632,22 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             textView32.setTextColor(color2);
             textView32.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.multAlpha(color2, 0.12f), Theme.multAlpha(color2, 0.15f)));
             ScaleStateListAnimator.apply(textView32, 0.1f, 1.5f);
-            r122.setPadding(AndroidUtilities.dp(16.0f), AndroidUtilities.dp(13.34f), AndroidUtilities.dp(16.0f), AndroidUtilities.dp(13.34f));
+            r112.setPadding(AndroidUtilities.dp(16.0f), AndroidUtilities.dp(13.34f), AndroidUtilities.dp(16.0f), AndroidUtilities.dp(13.34f));
             textView32.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.LoginActivity$LoginActivityPhraseView$$ExternalSyntheticLambda1
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     LoginActivity.LoginActivityPhraseView.this.lambda$new$1(view);
                 }
             });
-            outlineTextContainerView2.addView(r122, LayoutHelper.createFrame(-1, -2.0f, 119, 0.0f, 0.0f, 0.0f, 0.0f));
-            outlineTextContainerView2.attachEditText(r122);
+            outlineTextContainerView2.addView(r112, LayoutHelper.createFrame(-1, -2.0f, 119, 0.0f, 0.0f, 0.0f, 0.0f));
+            outlineTextContainerView2.attachEditText(r112);
             outlineTextContainerView2.addView(textView32, LayoutHelper.createFrame(-2, 26.0f, 21, 0.0f, 0.0f, 10.0f, 0.0f));
             LinearLayout linearLayout2 = new LinearLayout(context);
             this.fieldContainer = linearLayout2;
             linearLayout2.setOrientation(1);
             linearLayout2.addView(outlineTextContainerView2, LayoutHelper.createLinear(-1, -2, 1));
             addView(linearLayout2, LayoutHelper.createLinear(-1, -2, 1, 16, 3, 16, 0));
-            r122.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.LoginActivity$LoginActivityPhraseView$$ExternalSyntheticLambda4
+            r112.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.LoginActivity$LoginActivityPhraseView$$ExternalSyntheticLambda4
                 @Override // android.widget.TextView.OnEditorActionListener
                 public final boolean onEditorAction(TextView textView42, int i22, KeyEvent keyEvent) {
                     boolean lambda$new$2;

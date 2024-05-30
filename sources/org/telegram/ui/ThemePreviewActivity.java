@@ -775,58 +775,58 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         this.dimAmount = f;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:102:0x036e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:101:0x0366, code lost:
         if ("d".equals(((org.telegram.ui.WallpapersListActivity.ColorWallpaper) r1).slug) == false) goto L411;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:104:0x0374, code lost:
-        if ((r37.currentWallpaper instanceof org.telegram.tgnet.TLRPC$TL_wallPaper) != false) goto L411;
+    /* JADX WARN: Code restructure failed: missing block: B:103:0x036c, code lost:
+        if ((r35.currentWallpaper instanceof org.telegram.tgnet.TLRPC$TL_wallPaper) != false) goto L411;
      */
-    /* JADX WARN: Removed duplicated region for block: B:138:0x05a4  */
-    /* JADX WARN: Removed duplicated region for block: B:149:0x05d1  */
-    /* JADX WARN: Removed duplicated region for block: B:154:0x0603  */
-    /* JADX WARN: Removed duplicated region for block: B:155:0x0605  */
-    /* JADX WARN: Removed duplicated region for block: B:158:0x060d  */
-    /* JADX WARN: Removed duplicated region for block: B:159:0x0633  */
-    /* JADX WARN: Removed duplicated region for block: B:162:0x066d A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:166:0x0675  */
-    /* JADX WARN: Removed duplicated region for block: B:202:0x086e  */
-    /* JADX WARN: Removed duplicated region for block: B:221:0x08a7  */
+    /* JADX WARN: Removed duplicated region for block: B:137:0x059c  */
+    /* JADX WARN: Removed duplicated region for block: B:148:0x05cb  */
+    /* JADX WARN: Removed duplicated region for block: B:153:0x05fd  */
+    /* JADX WARN: Removed duplicated region for block: B:154:0x05ff  */
+    /* JADX WARN: Removed duplicated region for block: B:157:0x0607  */
+    /* JADX WARN: Removed duplicated region for block: B:158:0x062d  */
+    /* JADX WARN: Removed duplicated region for block: B:161:0x0667 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:165:0x066f  */
+    /* JADX WARN: Removed duplicated region for block: B:201:0x086a  */
+    /* JADX WARN: Removed duplicated region for block: B:220:0x08a3  */
     /* JADX WARN: Removed duplicated region for block: B:22:0x005d  */
-    /* JADX WARN: Removed duplicated region for block: B:252:0x098e  */
-    /* JADX WARN: Removed duplicated region for block: B:255:0x0992  */
+    /* JADX WARN: Removed duplicated region for block: B:251:0x098c  */
+    /* JADX WARN: Removed duplicated region for block: B:254:0x0990  */
     /* JADX WARN: Removed duplicated region for block: B:29:0x006f  */
-    /* JADX WARN: Removed duplicated region for block: B:304:0x0a7f  */
-    /* JADX WARN: Removed duplicated region for block: B:343:0x0bb6  */
-    /* JADX WARN: Removed duplicated region for block: B:348:0x0bc2  */
+    /* JADX WARN: Removed duplicated region for block: B:304:0x0a83  */
+    /* JADX WARN: Removed duplicated region for block: B:343:0x0bbe  */
+    /* JADX WARN: Removed duplicated region for block: B:348:0x0bca  */
     /* JADX WARN: Removed duplicated region for block: B:37:0x0112  */
     /* JADX WARN: Removed duplicated region for block: B:38:0x0114  */
-    /* JADX WARN: Removed duplicated region for block: B:412:0x0f6c  */
-    /* JADX WARN: Removed duplicated region for block: B:415:0x0f77  */
+    /* JADX WARN: Removed duplicated region for block: B:412:0x0f74  */
+    /* JADX WARN: Removed duplicated region for block: B:415:0x0f7f  */
     /* JADX WARN: Removed duplicated region for block: B:41:0x0120  */
-    /* JADX WARN: Removed duplicated region for block: B:420:0x0fdf  */
-    /* JADX WARN: Removed duplicated region for block: B:421:0x0fe4  */
-    /* JADX WARN: Removed duplicated region for block: B:424:0x101a  */
-    /* JADX WARN: Removed duplicated region for block: B:427:0x114d  */
+    /* JADX WARN: Removed duplicated region for block: B:420:0x0fe9  */
+    /* JADX WARN: Removed duplicated region for block: B:421:0x0fee  */
+    /* JADX WARN: Removed duplicated region for block: B:424:0x1025  */
+    /* JADX WARN: Removed duplicated region for block: B:427:0x1158  */
     /* JADX WARN: Removed duplicated region for block: B:42:0x0123  */
-    /* JADX WARN: Removed duplicated region for block: B:436:0x1176  */
-    /* JADX WARN: Removed duplicated region for block: B:439:0x1188  */
+    /* JADX WARN: Removed duplicated region for block: B:436:0x1181  */
+    /* JADX WARN: Removed duplicated region for block: B:439:0x1193  */
     /* JADX WARN: Removed duplicated region for block: B:45:0x0167  */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x01b6  */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x021f  */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x0224  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x022c  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x022f  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x0237  */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x0239  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x023e  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x0241  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x0247  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x024a  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x027b  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x0297 A[LOOP:0: B:73:0x0295->B:74:0x0297, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:77:0x02d8  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x02f3  */
-    /* JADX WARN: Removed duplicated region for block: B:82:0x030d  */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x01b4  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x021b  */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x0220  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x0226  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x0229  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x0231  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x0233  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0238  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x023b  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0241  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x0244  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x0275  */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x0291 A[LOOP:0: B:72:0x028f->B:73:0x0291, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x02d2  */
+    /* JADX WARN: Removed duplicated region for block: B:79:0x02eb  */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x0305  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     @SuppressLint({"Recycle"})
     /*
@@ -1194,7 +1194,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             TextView textView2 = this.dropDown;
                             int i16 = Theme.key_actionBarDefaultTitle;
                             textView2.setTextColor(getThemedColor(i16));
-                            this.dropDown.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                            this.dropDown.setTypeface(AndroidUtilities.bold());
                             this.dropDown.setText(LocaleController.getString("ColorPickerMainColor", i15));
                             Drawable mutate2 = context.getResources().getDrawable(R.drawable.ic_arrow_drop_down).mutate();
                             mutate2.setColorFilter(new PorterDuffColorFilter(getThemedColor(i16), PorterDuff.Mode.MULTIPLY));
@@ -1613,7 +1613,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             this.sheetDrawable.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_windowBackgroundWhite), PorterDuff.Mode.MULTIPLY));
                             TextPaint textPaint = new TextPaint(1);
                             textPaint.setTextSize(AndroidUtilities.dp(14.0f));
-                            textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                            textPaint.setTypeface(AndroidUtilities.bold());
                             obj = this.currentWallpaper;
                             if (!(obj instanceof WallpapersListActivity.EmojiWallpaper)) {
                                 if (this.screenType == 1 || (obj instanceof WallpapersListActivity.ColorWallpaper)) {
@@ -1924,7 +1924,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                         this.patternLayout[i8].addView(this.patternsButtonsContainer[i8], LayoutHelper.createFrame(-1, 51, 80));
                                         this.patternsCancelButton[i8] = new TextView(context);
                                         this.patternsCancelButton[i8].setTextSize(1, 15.0f);
-                                        this.patternsCancelButton[i8].setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                                        this.patternsCancelButton[i8].setTypeface(AndroidUtilities.bold());
                                         TextView textView3 = this.patternsCancelButton[i8];
                                         int i21 = Theme.key_chat_fieldOverlayText;
                                         textView3.setTextColor(getThemedColor(i21));
@@ -1943,7 +1943,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                         });
                                         this.patternsSaveButton[i8] = new TextView(context);
                                         this.patternsSaveButton[i8].setTextSize(1, 15.0f);
-                                        this.patternsSaveButton[i8].setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                                        this.patternsSaveButton[i8].setTypeface(AndroidUtilities.bold());
                                         this.patternsSaveButton[i8].setTextColor(getThemedColor(i21));
                                         this.patternsSaveButton[i8].setText(LocaleController.getString("ApplyTheme", R.string.ApplyTheme).toUpperCase());
                                         this.patternsSaveButton[i8].setGravity(17);
@@ -1965,7 +1965,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                         this.patternTitleView.setText(LocaleController.getString("BackgroundChoosePattern", R.string.BackgroundChoosePattern));
                                         this.patternTitleView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
                                         this.patternTitleView.setTextSize(1, 20.0f);
-                                        this.patternTitleView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                                        this.patternTitleView.setTypeface(AndroidUtilities.bold());
                                         this.patternTitleView.setPadding(AndroidUtilities.dp(21.0f), AndroidUtilities.dp(6.0f), AndroidUtilities.dp(21.0f), AndroidUtilities.dp(8.0f));
                                         this.patternTitleView.setEllipsize(TextUtils.TruncateAt.MIDDLE);
                                         this.patternTitleView.setGravity(16);
@@ -2211,7 +2211,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             this.cancelButton.setBackgroundDrawable(Theme.createSelectorDrawable(AndroidUtilities.LIGHT_STATUS_BAR_OVERLAY, 0));
                             this.cancelButton.setPadding(AndroidUtilities.dp(29.0f), 0, AndroidUtilities.dp(29.0f), 0);
                             this.cancelButton.setText(LocaleController.getString("Cancel", R.string.Cancel).toUpperCase());
-                            this.cancelButton.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                            this.cancelButton.setTypeface(AndroidUtilities.bold());
                             this.saveButtonsContainer.addView(this.cancelButton, LayoutHelper.createFrame(-2, -1, 51));
                             this.cancelButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda9
                                 @Override // android.view.View.OnClickListener
@@ -2227,7 +2227,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             this.doneButton.setBackgroundDrawable(Theme.createSelectorDrawable(AndroidUtilities.LIGHT_STATUS_BAR_OVERLAY, 0));
                             this.doneButton.setPadding(AndroidUtilities.dp(29.0f), 0, AndroidUtilities.dp(29.0f), 0);
                             this.doneButton.setText(LocaleController.getString("ApplyTheme", R.string.ApplyTheme).toUpperCase());
-                            this.doneButton.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                            this.doneButton.setTypeface(AndroidUtilities.bold());
                             this.saveButtonsContainer.addView(this.doneButton, LayoutHelper.createFrame(-2, -1, 53));
                             this.doneButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda10
                                 @Override // android.view.View.OnClickListener
@@ -2460,7 +2460,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 this.sheetDrawable.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_windowBackgroundWhite), PorterDuff.Mode.MULTIPLY));
                 TextPaint textPaint2 = new TextPaint(1);
                 textPaint2.setTextSize(AndroidUtilities.dp(14.0f));
-                textPaint2.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                textPaint2.setTypeface(AndroidUtilities.bold());
                 obj = this.currentWallpaper;
                 if (!(obj instanceof WallpapersListActivity.EmojiWallpaper)) {
                 }
@@ -3009,7 +3009,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         this.sheetDrawable.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_windowBackgroundWhite), PorterDuff.Mode.MULTIPLY));
         TextPaint textPaint22 = new TextPaint(1);
         textPaint22.setTextSize(AndroidUtilities.dp(14.0f));
-        textPaint22.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        textPaint22.setTypeface(AndroidUtilities.bold());
         obj = this.currentWallpaper;
         if (!(obj instanceof WallpapersListActivity.EmojiWallpaper)) {
         }
@@ -8437,7 +8437,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         }
 
         public void setText(CharSequence charSequence) {
-            this.text = new Text(charSequence, 14.0f, AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            this.text = new Text(charSequence, 14.0f, AndroidUtilities.bold());
         }
 
         public void setSubText(CharSequence charSequence, boolean z) {
@@ -8571,7 +8571,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             textPaint.setTextSize(AndroidUtilities.dp(Math.max(16, SharedConfig.fontSize) - 2));
             textPaint2.setTextSize(AndroidUtilities.dp(Math.max(16, SharedConfig.fontSize) - 2));
             textPaint3.setTextSize(AndroidUtilities.dp(15.0f));
-            textPaint3.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            textPaint3.setTypeface(AndroidUtilities.bold());
             paint.setColor(352321536);
         }
 

@@ -96,8 +96,8 @@ public class StoryReactionWidgetView extends StoryMediaAreasView.AreaView {
         }
     }
 
-    @Override // org.telegram.ui.Stories.StoryMediaAreasView.AreaView, android.view.View
-    protected void onDraw(Canvas canvas) {
+    @Override // org.telegram.ui.Stories.StoryMediaAreasView.AreaView
+    public void customDraw(Canvas canvas) {
         this.storyReactionWidgetBackground.setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight());
         this.storyReactionWidgetBackground.draw(canvas);
         float measuredWidth = ((int) (getMeasuredWidth() * 0.61f)) / 2.0f;
@@ -120,6 +120,14 @@ public class StoryReactionWidgetView extends StoryMediaAreasView.AreaView {
         canvas.scale(f3, f3, this.storyReactionWidgetBackground.getBounds().centerX(), height2);
         this.animatedTextDrawable.draw(canvas);
         canvas.restore();
+    }
+
+    @Override // android.view.View
+    public void invalidate() {
+        super.invalidate();
+        if (getParent() instanceof View) {
+            ((View) getParent()).invalidate();
+        }
     }
 
     @Override // android.view.View

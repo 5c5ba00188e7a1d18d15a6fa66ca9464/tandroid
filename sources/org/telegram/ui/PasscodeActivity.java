@@ -149,30 +149,30 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
         AndroidUtilities.removeAdjustResize(getParentActivity(), this.classGuid);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:31:0x0148  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x016c  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x01ec  */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x01ee  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x0201  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x0203  */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x021d  */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x0220  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x02b8  */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x02ba  */
-    /* JADX WARN: Removed duplicated region for block: B:54:0x02c7  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x02cf  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x03eb A[LOOP:0: B:63:0x03e9->B:64:0x03eb, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x0442  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x0456  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x04c7  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x04cc  */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x04d2  */
-    /* JADX WARN: Removed duplicated region for block: B:77:0x04d5  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x0523  */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x0526  */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x052a  */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x052d  */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x054c  */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x0146  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x016a  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x01ea  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x01ec  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x01ff  */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x0201  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x021b  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x021e  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x02b6  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x02b8  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x02c5  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x02cd  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x03e9 A[LOOP:0: B:63:0x03e7->B:64:0x03e9, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x0440  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x0454  */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x04c5  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x04ca  */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x04d0  */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x04d3  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x0521  */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x0524  */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x0528  */
+    /* JADX WARN: Removed duplicated region for block: B:84:0x052b  */
+    /* JADX WARN: Removed duplicated region for block: B:87:0x054a  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -328,7 +328,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
                     this.titleTextView = textView;
                     int i6 = Theme.key_windowBackgroundWhiteBlackText;
                     textView.setTextColor(Theme.getColor(i6));
-                    this.titleTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                    this.titleTextView.setTypeface(AndroidUtilities.bold());
                     if (this.type != 1) {
                         if (SharedConfig.passcodeHash.length() != 0) {
                             this.titleTextView.setText(LocaleController.getString("EnterNewPasscode", R.string.EnterNewPasscode));
@@ -585,7 +585,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
             this.titleTextView = textView4;
             int i62 = Theme.key_windowBackgroundWhiteBlackText;
             textView4.setTextColor(Theme.getColor(i62));
-            this.titleTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            this.titleTextView.setTypeface(AndroidUtilities.bold());
             if (this.type != 1) {
             }
             this.titleTextView.setTextSize(1, 18.0f);

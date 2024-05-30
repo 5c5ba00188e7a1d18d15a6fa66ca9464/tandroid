@@ -713,7 +713,7 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:41:0x01ae, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:41:0x01ac, code lost:
         if (r5 < 0) goto L51;
      */
     /*
@@ -767,7 +767,7 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
                 this.deleteView.setGravity(16);
                 this.deleteView.setPadding(AndroidUtilities.dp(20.0f), 0, AndroidUtilities.dp(20.0f), 0);
                 this.deleteView.setTextSize(1, 15.0f);
-                this.deleteView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                this.deleteView.setTypeface(AndroidUtilities.bold());
                 this.deleteView.setText(this.textSelectionOverlay.getContext().getString(17039361));
                 this.deleteView.setTextColor(getThemedColor(Theme.key_actionBarDefaultSubmenuItem));
                 this.deleteView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.TextSelectionHelper$$ExternalSyntheticLambda1

@@ -3037,7 +3037,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             this.scheduleStartInTextView = simpleTextView;
             simpleTextView.setGravity(17);
             this.scheduleStartInTextView.setTextColor(-1);
-            this.scheduleStartInTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            this.scheduleStartInTextView.setTypeface(AndroidUtilities.bold());
             this.scheduleStartInTextView.setTextSize(18);
             this.scheduleStartInTextView.setText(LocaleController.getString("VoipChatStartsIn", R.string.VoipChatStartsIn));
             this.containerView.addView(this.scheduleStartInTextView, LayoutHelper.createFrame(-2, -2.0f, 49, 21.0f, 0.0f, 21.0f, 311.0f));
@@ -3164,14 +3164,14 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             this.scheduleTimeTextView = simpleTextView2;
             simpleTextView2.setGravity(17);
             this.scheduleTimeTextView.setTextColor(-1);
-            this.scheduleTimeTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            this.scheduleTimeTextView.setTypeface(AndroidUtilities.bold());
             this.scheduleTimeTextView.setTextSize(60);
             this.containerView.addView(this.scheduleTimeTextView, LayoutHelper.createFrame(-2, -2.0f, 49, 21.0f, 0.0f, 21.0f, 231.0f));
             SimpleTextView simpleTextView3 = new SimpleTextView(context);
             this.scheduleStartAtTextView = simpleTextView3;
             simpleTextView3.setGravity(17);
             this.scheduleStartAtTextView.setTextColor(-1);
-            this.scheduleStartAtTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            this.scheduleStartAtTextView.setTypeface(AndroidUtilities.bold());
             this.scheduleStartAtTextView.setTextSize(18);
             this.containerView.addView(this.scheduleStartAtTextView, LayoutHelper.createFrame(-2, -2.0f, 49, 21.0f, 0.0f, 21.0f, 201.0f));
         }
@@ -3903,9 +3903,9 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                 }
             }
         });
-        27 r13 = new 27(context, this.listView, this.fullscreenUsersListView, this.attachedRenderers, this.call, this);
-        this.renderersContainer = r13;
-        r13.setClipChildren(false);
+        27 r15 = new 27(context, this.listView, this.fullscreenUsersListView, this.attachedRenderers, this.call, this);
+        this.renderersContainer = r15;
+        r15.setClipChildren(false);
         this.fullscreenAdapter.setRenderersPool(this.attachedRenderers, this.renderersContainer);
         if (this.tabletVideoGridView != null) {
             this.tabletGridAdapter.setRenderersPool(this.attachedRenderers, this.renderersContainer);
@@ -4091,7 +4091,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             this.scheduleButtonTextView.setGravity(17);
             this.scheduleButtonTextView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(8.0f), 0, 1056964608));
             this.scheduleButtonTextView.setTextColor(-1);
-            this.scheduleButtonTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            this.scheduleButtonTextView.setTypeface(AndroidUtilities.bold());
             this.scheduleButtonTextView.setTextSize(1, 14.0f);
             this.containerView.addView(this.scheduleButtonTextView, LayoutHelper.createFrame(-1, 48.0f, 81, 21.0f, 0.0f, 21.0f, 20.5f));
             final TLRPC$InputPeer tLRPC$InputPeer2 = groupCallPeer;
@@ -5883,7 +5883,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             final TextView textView = new TextView(this.val$context);
             textView.setTextColor(Theme.getColor(Theme.key_voipgroup_actionBarItems));
             textView.setTextSize(1, 20.0f);
-            textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            textView.setTypeface(AndroidUtilities.bold());
             textView.setGravity(51);
             textView.setSingleLine(true);
             textView.setEllipsize(TextUtils.TruncateAt.END);
@@ -6688,12 +6688,12 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                         }
                         if (user != null) {
                             if (Build.VERSION.SDK_INT >= 21) {
-                                spannableStringBuilder.append(UserObject.getFirstName(user), new TypefaceSpan(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM)), 0);
+                                spannableStringBuilder.append(UserObject.getFirstName(user), new TypefaceSpan(AndroidUtilities.bold()), 0);
                             } else {
                                 spannableStringBuilder.append((CharSequence) UserObject.getFirstName(user));
                             }
                         } else if (Build.VERSION.SDK_INT >= 21) {
-                            spannableStringBuilder.append(chat.title, new TypefaceSpan(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM)), 0);
+                            spannableStringBuilder.append(chat.title, new TypefaceSpan(AndroidUtilities.bold()), 0);
                         } else {
                             spannableStringBuilder.append((CharSequence) chat.title);
                         }
@@ -8394,7 +8394,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             TextView textView3 = new TextView(getContext());
             textView3.setTextColor(Theme.getColor(i2));
             textView3.setTextSize(1, 20.0f);
-            textView3.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            textView3.setTypeface(AndroidUtilities.bold());
             textView3.setLines(1);
             textView3.setMaxLines(1);
             textView3.setSingleLine(true);

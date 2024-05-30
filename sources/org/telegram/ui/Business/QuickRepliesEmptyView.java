@@ -39,9 +39,9 @@ public class QuickRepliesEmptyView extends LinearLayout {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:19:0x01b8  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x01bd  */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x01cd  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x01b6  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x01bb  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x01cb  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -54,7 +54,7 @@ public class QuickRepliesEmptyView extends LinearLayout {
         TextView textView2 = new TextView(context);
         this.titleView = textView2;
         textView2.setTextSize(1, 14.0f);
-        this.titleView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.titleView.setTypeface(AndroidUtilities.bold());
         this.titleView.setTextAlignment(4);
         this.titleView.setGravity(17);
         DotTextView dotTextView = new DotTextView(this, context);

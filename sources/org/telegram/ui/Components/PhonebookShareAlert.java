@@ -108,7 +108,7 @@ public class PhonebookShareAlert extends BottomSheet {
             backupImageView.setForUserOrChat(phonebookShareAlert.currentUser, avatarDrawable);
             addView(backupImageView, LayoutHelper.createLinear(80, 80, 49, 0, 32, 0, 0));
             TextView textView = new TextView(context);
-            textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            textView.setTypeface(AndroidUtilities.bold());
             textView.setTextSize(1, 17.0f);
             textView.setTextColor(phonebookShareAlert.getThemedColor(Theme.key_dialogTextBlack));
             textView.setSingleLine(true);
@@ -589,7 +589,7 @@ public class PhonebookShareAlert extends BottomSheet {
                 } else {
                     this.buttonTextView.setText(LocaleController.getString("ShareContactTitle", R.string.ShareContactTitle));
                 }
-                this.buttonTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                this.buttonTextView.setTypeface(AndroidUtilities.bold());
                 this.buttonTextView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(8.0f), getThemedColor(Theme.key_featuredStickers_addButton), getThemedColor(Theme.key_featuredStickers_addButtonPressed)));
                 frameLayout.addView(this.buttonTextView, LayoutHelper.createFrame(-1, 48.0f, 83, 14.0f, 14.0f, 14.0f, 14.0f));
                 this.buttonTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhonebookShareAlert$$ExternalSyntheticLambda2
@@ -787,7 +787,7 @@ public class PhonebookShareAlert extends BottomSheet {
         this.buttonTextView.setTextSize(1, 14.0f);
         if (!this.isImport) {
         }
-        this.buttonTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.buttonTextView.setTypeface(AndroidUtilities.bold());
         this.buttonTextView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(8.0f), getThemedColor(Theme.key_featuredStickers_addButton), getThemedColor(Theme.key_featuredStickers_addButtonPressed)));
         frameLayout2.addView(this.buttonTextView, LayoutHelper.createFrame(-1, 48.0f, 83, 14.0f, 14.0f, 14.0f, 14.0f));
         this.buttonTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhonebookShareAlert$$ExternalSyntheticLambda2

@@ -596,7 +596,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         textView.setVisibility(8);
         this.addButtonView.setBackground(Theme.AdaptiveRipple.filledRect(getThemedColor(i), 6.0f));
         this.addButtonView.setTextColor(getThemedColor(Theme.key_featuredStickers_buttonText));
-        this.addButtonView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.addButtonView.setTypeface(AndroidUtilities.bold());
         this.addButtonView.setGravity(17);
         this.buttonsView.addView(this.addButtonView, LayoutHelper.createFrame(-1, 48.0f, 80, 12.0f, 10.0f, 12.0f, 10.0f));
         TextView textView2 = new TextView(context);
@@ -606,7 +606,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         int i3 = Theme.key_text_RedBold;
         textView3.setBackground(Theme.createRadSelectorDrawable(268435455 & getThemedColor(i3), 0, 0));
         this.removeButtonView.setTextColor(getThemedColor(i3));
-        this.removeButtonView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.removeButtonView.setTypeface(AndroidUtilities.bold());
         this.removeButtonView.setGravity(17);
         this.removeButtonView.setClickable(true);
         this.buttonsView.addView(this.removeButtonView, LayoutHelper.createFrame(-1, -1.0f, 80, 0.0f, 0.0f, 0.0f, 19.0f));
@@ -702,7 +702,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         actionBarMenuSubItem.setPadding(AndroidUtilities.dp(26.0f), 0, AndroidUtilities.dp(26.0f), 0);
         actionBarMenuSubItem.setText(LocaleController.getString("Copy", R.string.Copy));
         actionBarMenuSubItem.getTextView().setTextSize(1, 14.4f);
-        actionBarMenuSubItem.getTextView().setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        actionBarMenuSubItem.getTextView().setTypeface(AndroidUtilities.bold());
         actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.EmojiPacksAlert$$ExternalSyntheticLambda4
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
@@ -1905,7 +1905,6 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         public EmojiPackHeader(Context context, boolean z) {
             super(context);
             float f;
-            float f2;
             this.dummyFragment = new BaseFragment() { // from class: org.telegram.ui.Components.EmojiPacksAlert.EmojiPackHeader.1
                 @Override // org.telegram.ui.ActionBar.BaseFragment
                 public int getCurrentAccount() {
@@ -1933,9 +1932,8 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
             if (z) {
                 f = 32.0f;
             } else {
-                if (UserConfig.getInstance(((BottomSheet) EmojiPacksAlert.this).currentAccount).isPremium()) {
-                    f2 = 8.0f;
-                } else {
+                float f2 = 8.0f;
+                if (!UserConfig.getInstance(((BottomSheet) EmojiPacksAlert.this).currentAccount).isPremium()) {
                     PremiumButtonView premiumButtonView = new PremiumButtonView(context, AndroidUtilities.dp(4.0f), false, ((BottomSheet) EmojiPacksAlert.this).resourcesProvider);
                     this.unlockButtonView = premiumButtonView;
                     premiumButtonView.setButton(LocaleController.getString("Unlock", R.string.Unlock), new View.OnClickListener() { // from class: org.telegram.ui.Components.EmojiPacksAlert$EmojiPackHeader$$ExternalSyntheticLambda2
@@ -1959,7 +1957,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                 }
                 TextView textView = new TextView(context);
                 this.addButtonView = textView;
-                textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                textView.setTypeface(AndroidUtilities.bold());
                 this.addButtonView.setTextColor(EmojiPacksAlert.this.getThemedColor(Theme.key_featuredStickers_buttonText));
                 TextView textView2 = this.addButtonView;
                 int i = Theme.key_featuredStickers_addButton;
@@ -1978,9 +1976,9 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                 float max = Math.max(f2, (this.addButtonView.getMeasuredWidth() + AndroidUtilities.dp(16.0f)) / AndroidUtilities.density);
                 TextView textView3 = new TextView(context);
                 this.removeButtonView = textView3;
-                textView3.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                textView3.setTypeface(AndroidUtilities.bold());
                 this.removeButtonView.setTextColor(EmojiPacksAlert.this.getThemedColor(i));
-                this.removeButtonView.setBackground(Theme.createRadSelectorDrawable(268435455 & EmojiPacksAlert.this.getThemedColor(i), 4, 4));
+                this.removeButtonView.setBackground(Theme.createRadSelectorDrawable(EmojiPacksAlert.this.getThemedColor(i) & 268435455, 4, 4));
                 this.removeButtonView.setText(LocaleController.getString("StickersRemove", R.string.StickersRemove));
                 this.removeButtonView.setPadding(AndroidUtilities.dp(12.0f), 0, AndroidUtilities.dp(12.0f), 0);
                 this.removeButtonView.setGravity(17);
@@ -2001,7 +1999,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
             LinkSpanDrawable.LinksTextView linksTextView = new LinkSpanDrawable.LinksTextView(context, ((BottomSheet) EmojiPacksAlert.this).resourcesProvider);
             this.titleView = linksTextView;
             linksTextView.setPadding(AndroidUtilities.dp(2.0f), 0, AndroidUtilities.dp(2.0f), 0);
-            this.titleView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            this.titleView.setTypeface(AndroidUtilities.bold());
             this.titleView.setEllipsize(TextUtils.TruncateAt.END);
             this.titleView.setSingleLine(true);
             this.titleView.setLines(1);

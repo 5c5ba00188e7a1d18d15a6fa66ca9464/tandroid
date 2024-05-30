@@ -376,7 +376,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         public void updateDrawState(TextPaint textPaint) {
             super.updateDrawState(textPaint);
             textPaint.setUnderlineText(true);
-            textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            textPaint.setTypeface(AndroidUtilities.bold());
         }
 
         @Override // android.text.style.ClickableSpan
@@ -2058,7 +2058,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         textView2.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText5));
         this.noPasswordSetTextView.setGravity(17);
         this.noPasswordSetTextView.setTextSize(1, 16.0f);
-        this.noPasswordSetTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.noPasswordSetTextView.setTypeface(AndroidUtilities.bold());
         this.noPasswordSetTextView.setText(LocaleController.getString("TelegramPassportCreatePassword", R.string.TelegramPassportCreatePassword));
         this.linearLayout2.addView(this.noPasswordSetTextView, LayoutHelper.createFrame(-1, 24.0f, (LocaleController.isRTL ? 5 : 3) | 48, 21.0f, 9.0f, 21.0f, 0.0f));
         this.noPasswordSetTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda15
@@ -2995,7 +2995,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         this.acceptTextView.setText(LocaleController.getString("PassportAuthorize", R.string.PassportAuthorize));
         this.acceptTextView.setTextSize(1, 14.0f);
         this.acceptTextView.setGravity(17);
-        this.acceptTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.acceptTextView.setTypeface(AndroidUtilities.bold());
         this.bottomLayout.addView(this.acceptTextView, LayoutHelper.createFrame(-2, -1, 17));
         ContextProgressView contextProgressView = new ContextProgressView(context, 0);
         this.progressViewButton = contextProgressView;
@@ -3272,8 +3272,8 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:18:0x02ef  */
-    /* JADX WARN: Removed duplicated region for block: B:19:0x02f1  */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x02ec  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x02ee  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3348,7 +3348,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         textView.setTextColor(Theme.getColor(i5));
         this.emptyTextView1.setGravity(17);
         this.emptyTextView1.setTextSize(1, 15.0f);
-        this.emptyTextView1.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.emptyTextView1.setTypeface(AndroidUtilities.bold());
         this.emptyTextView1.setText(LocaleController.getString("PassportNoDocuments", R.string.PassportNoDocuments));
         this.emptyLayout.addView(this.emptyTextView1, LayoutHelper.createLinear(-2, -2, 17, 0, 16, 0, 0));
         TextView textView2 = new TextView(context);
@@ -3367,7 +3367,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         this.emptyTextView3.setBackground(Theme.createSelectorDrawable(ColorUtils.setAlphaComponent(Theme.getColor(i6), 32), 7));
         this.emptyTextView3.setGravity(17);
         this.emptyTextView3.setTextSize(1, 15.0f);
-        this.emptyTextView3.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.emptyTextView3.setTypeface(AndroidUtilities.bold());
         this.emptyTextView3.setGravity(17);
         this.emptyTextView3.setText(LocaleController.getString("PassportNoDocumentsAdd", i3).toUpperCase());
         this.emptyLayout.addView(this.emptyTextView3, LayoutHelper.createLinear(-2, 30, 17, 0, 12, 0, 0));
@@ -9237,7 +9237,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             int i3 = Theme.key_windowBackgroundWhiteBlackText;
             textView2.setTextColor(Theme.getColor(i3));
             this.titleTextView.setTextSize(1, 18.0f);
-            this.titleTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            this.titleTextView.setTypeface(AndroidUtilities.bold());
             this.titleTextView.setGravity(LocaleController.isRTL ? 5 : 3);
             this.titleTextView.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
             this.titleTextView.setGravity(49);
@@ -9519,7 +9519,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                     this.codeField[i7].setImeOptions(268435461);
                     this.codeField[i7].setTextSize(1, 20.0f);
                     this.codeField[i7].setMaxLines(1);
-                    this.codeField[i7].setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                    this.codeField[i7].setTypeface(AndroidUtilities.bold());
                     this.codeField[i7].setPadding(0, 0, 0, 0);
                     this.codeField[i7].setGravity(49);
                     if (this.verificationType == 3) {

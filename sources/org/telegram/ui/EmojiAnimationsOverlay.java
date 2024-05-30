@@ -518,8 +518,10 @@ public class EmojiAnimationsOverlay implements NotificationCenter.NotificationCe
             }
             DrawingObject drawingObject = new DrawingObject();
             drawingObject.isPremiumSticker = true;
-            drawingObject.randomOffsetX = (imageWidth / 4.0f) * ((this.random.nextInt() % 101) / 100.0f);
-            drawingObject.randomOffsetY = (imageHeight / 4.0f) * ((this.random.nextInt() % 101) / 100.0f);
+            if (!drawingObject.isMessageEffect) {
+                drawingObject.randomOffsetX = (imageWidth / 4.0f) * ((this.random.nextInt() % 101) / 100.0f);
+                drawingObject.randomOffsetY = (imageHeight / 4.0f) * ((this.random.nextInt() % 101) / 100.0f);
+            }
             drawingObject.messageId = chatActionCell.getMessageObject().getId();
             drawingObject.isOut = true;
             drawingObject.imageReceiver.setAllowStartAnimation(true);
@@ -611,11 +613,12 @@ public class EmojiAnimationsOverlay implements NotificationCenter.NotificationCe
         return false;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:141:0x026c  */
-    /* JADX WARN: Removed duplicated region for block: B:148:0x02fd  */
-    /* JADX WARN: Removed duplicated region for block: B:158:0x0389  */
-    /* JADX WARN: Removed duplicated region for block: B:183:0x043d  */
-    /* JADX WARN: Removed duplicated region for block: B:203:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:141:0x0231  */
+    /* JADX WARN: Removed duplicated region for block: B:144:0x026e  */
+    /* JADX WARN: Removed duplicated region for block: B:151:0x02ff  */
+    /* JADX WARN: Removed duplicated region for block: B:161:0x038b  */
+    /* JADX WARN: Removed duplicated region for block: B:186:0x043f  */
+    /* JADX WARN: Removed duplicated region for block: B:206:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -747,8 +750,10 @@ public class EmojiAnimationsOverlay implements NotificationCenter.NotificationCe
                             drawingObject = new DrawingObject();
                             drawingObject.isPremiumSticker = z5;
                             drawingObject.isMessageEffect = z6;
-                            drawingObject.randomOffsetX = (f / 4.0f) * ((this.random.nextInt() % 101) / 100.0f);
-                            drawingObject.randomOffsetY = (f2 / 4.0f) * ((this.random.nextInt() % 101) / 100.0f);
+                            if (!z6) {
+                                drawingObject.randomOffsetX = (f / 4.0f) * ((this.random.nextInt() % 101) / 100.0f);
+                                drawingObject.randomOffsetY = (f2 / 4.0f) * ((this.random.nextInt() % 101) / 100.0f);
+                            }
                             drawingObject.messageId = i;
                             drawingObject.document = tLRPC$Document2;
                             drawingObject.isOut = z3;
@@ -861,8 +866,8 @@ public class EmojiAnimationsOverlay implements NotificationCenter.NotificationCe
                     drawingObject = new DrawingObject();
                     drawingObject.isPremiumSticker = z5;
                     drawingObject.isMessageEffect = z6;
-                    drawingObject.randomOffsetX = (f / 4.0f) * ((this.random.nextInt() % 101) / 100.0f);
-                    drawingObject.randomOffsetY = (f2 / 4.0f) * ((this.random.nextInt() % 101) / 100.0f);
+                    if (!z6) {
+                    }
                     drawingObject.messageId = i;
                     drawingObject.document = tLRPC$Document2;
                     drawingObject.isOut = z3;
@@ -1143,8 +1148,10 @@ public class EmojiAnimationsOverlay implements NotificationCenter.NotificationCe
         }
         DrawingObject drawingObject2 = new DrawingObject();
         drawingObject2.genericEffect = AnimatedEmojiEffect.createFrom(storyReactionWidgetView.getAnimatedEmojiDrawable(), z2, z2);
-        drawingObject2.randomOffsetX = (f3 / 4.0f) * ((this.random.nextInt() % 101) / 100.0f);
-        drawingObject2.randomOffsetY = (f / 4.0f) * ((this.random.nextInt() % 101) / 100.0f);
+        if (!drawingObject2.isMessageEffect) {
+            drawingObject2.randomOffsetX = (f3 / 4.0f) * ((this.random.nextInt() % 101) / 100.0f);
+            drawingObject2.randomOffsetY = (f / 4.0f) * ((this.random.nextInt() % 101) / 100.0f);
+        }
         drawingObject2.messageId = i;
         drawingObject2.document = null;
         drawingObject2.documentId = fromTL.documentId;

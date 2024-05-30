@@ -510,7 +510,7 @@ public class DataAutoDownloadActivity extends BaseFragment {
                 int i13 = Theme.key_dialogTextBlue2;
                 textView.setTextColor(Theme.getColor(i13));
                 textView.setGravity(17);
-                textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                textView.setTypeface(AndroidUtilities.bold());
                 textView.setText(LocaleController.getString("Cancel", R.string.Cancel).toUpperCase());
                 textView.setPadding(AndroidUtilities.dp(10.0f), 0, AndroidUtilities.dp(10.0f), 0);
                 frameLayout.addView(textView, LayoutHelper.createFrame(-2, 36, 51));
@@ -524,7 +524,7 @@ public class DataAutoDownloadActivity extends BaseFragment {
                 textView2.setTextSize(1, 14.0f);
                 textView2.setTextColor(Theme.getColor(i13));
                 textView2.setGravity(17);
-                textView2.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                textView2.setTypeface(AndroidUtilities.bold());
                 textView2.setText(LocaleController.getString("Save", R.string.Save).toUpperCase());
                 textView2.setPadding(AndroidUtilities.dp(10.0f), 0, AndroidUtilities.dp(10.0f), 0);
                 frameLayout.addView(textView2, LayoutHelper.createFrame(-2, 36, 53));
@@ -1023,7 +1023,7 @@ public class DataAutoDownloadActivity extends BaseFragment {
             if (i == 0) {
                 TextCheckCell textCheckCell = new TextCheckCell(this.mContext);
                 textCheckCell.setColors(Theme.key_windowBackgroundCheckText, Theme.key_switchTrackBlue, Theme.key_switchTrackBlueChecked, Theme.key_switchTrackBlueThumb, Theme.key_switchTrackBlueThumbChecked);
-                textCheckCell.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                textCheckCell.setTypeface(AndroidUtilities.bold());
                 textCheckCell.setHeight(56);
                 slideChooseView = textCheckCell;
             } else if (i == 1) {

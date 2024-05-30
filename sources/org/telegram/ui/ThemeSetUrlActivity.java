@@ -427,7 +427,7 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
         textView.setText(LocaleController.getString("ChooseTheme", R.string.ChooseTheme));
         textView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
         textView.setTextSize(1, 20.0f);
-        textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        textView.setTypeface(AndroidUtilities.bold());
         linearLayout.addView(textView, LayoutHelper.createLinear(-1, -2, 51, 22, 12, 22, 4));
         textView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ThemeSetUrlActivity$$ExternalSyntheticLambda4
             @Override // android.view.View.OnTouchListener

@@ -1764,7 +1764,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         this.selectedTextView = textView;
         textView.setTextColor(getThemedColor(i5));
         this.selectedTextView.setTextSize(1, 16.0f);
-        this.selectedTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.selectedTextView.setTypeface(AndroidUtilities.bold());
         this.selectedTextView.setGravity(19);
         this.selectedTextView.setMaxLines(1);
         this.selectedTextView.setEllipsize(TextUtils.TruncateAt.END);
@@ -1790,7 +1790,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         this.mediaPreviewTextView = textView2;
         textView2.setTextColor(getThemedColor(i5));
         this.mediaPreviewTextView.setTextSize(1, 16.0f);
-        this.mediaPreviewTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.mediaPreviewTextView.setTypeface(AndroidUtilities.bold());
         this.mediaPreviewTextView.setGravity(19);
         this.mediaPreviewTextView.setText(LocaleController.getString("AttachMediaPreview", R.string.AttachMediaPreview));
         this.mediaPreviewView.setAlpha(0.0f);
@@ -1874,7 +1874,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         this.botMainButtonTextView.setAlpha(0.0f);
         this.botMainButtonTextView.setSingleLine();
         this.botMainButtonTextView.setGravity(17);
-        this.botMainButtonTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.botMainButtonTextView.setTypeface(AndroidUtilities.bold());
         int dp = AndroidUtilities.dp(16.0f);
         this.botMainButtonTextView.setPadding(dp, 0, dp, 0);
         this.botMainButtonTextView.setTextSize(1, 14.0f);
@@ -1912,13 +1912,13 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         numberTextView.setVisibility(8);
         numberTextView.setTextSize(15);
         numberTextView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteGrayText));
-        numberTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        numberTextView.setTypeface(AndroidUtilities.bold());
         numberTextView.setCenterAlign(true);
         this.frameLayout2.addView(numberTextView, LayoutHelper.createFrame(56, 20.0f, 85, 3.0f, 0.0f, 14.0f, 78.0f));
         this.currentLimit = MessagesController.getInstance(UserConfig.selectedAccount).getCaptionMaxLengthLimit();
-        12 r15 = new 12(context, this.sizeNotifierFrameLayout, null, 1, true, resourcesProvider);
-        this.commentTextView = r15;
-        r15.setHint(LocaleController.getString("AddCaption", R.string.AddCaption));
+        12 r14 = new 12(context, this.sizeNotifierFrameLayout, null, 1, true, resourcesProvider);
+        this.commentTextView = r14;
+        r14.setHint(LocaleController.getString("AddCaption", R.string.AddCaption));
         this.commentTextView.onResume();
         this.commentTextView.getEditText().addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.Components.ChatAttachAlert.13
             private boolean processChange;
@@ -2082,7 +2082,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             }
         });
         this.textPaint.setTextSize(AndroidUtilities.dp(12.0f));
-        this.textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.textPaint.setTypeface(AndroidUtilities.bold());
         View view3 = new View(context) { // from class: org.telegram.ui.Components.ChatAttachAlert.16
             {
                 ChatAttachAlert.this = this;
@@ -3545,14 +3545,14 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         dismiss();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:339:0x02ea  */
-    /* JADX WARN: Removed duplicated region for block: B:408:0x0454  */
-    /* JADX WARN: Removed duplicated region for block: B:409:0x0459  */
-    /* JADX WARN: Removed duplicated region for block: B:412:0x0461  */
-    /* JADX WARN: Removed duplicated region for block: B:413:0x0499  */
-    /* JADX WARN: Removed duplicated region for block: B:416:0x04c6  */
-    /* JADX WARN: Removed duplicated region for block: B:417:0x04c9  */
-    /* JADX WARN: Removed duplicated region for block: B:429:0x0508  */
+    /* JADX WARN: Removed duplicated region for block: B:339:0x02f4  */
+    /* JADX WARN: Removed duplicated region for block: B:408:0x045e  */
+    /* JADX WARN: Removed duplicated region for block: B:409:0x0463  */
+    /* JADX WARN: Removed duplicated region for block: B:412:0x046b  */
+    /* JADX WARN: Removed duplicated region for block: B:413:0x04a3  */
+    /* JADX WARN: Removed duplicated region for block: B:416:0x04d6  */
+    /* JADX WARN: Removed duplicated region for block: B:417:0x04d9  */
+    /* JADX WARN: Removed duplicated region for block: B:429:0x051d  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3696,73 +3696,75 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                                                     } catch (IOException e) {
                                                         FileLog.e(e);
                                                     }
-                                                } catch (Exception e2) {
-                                                    e = e2;
-                                                    j3 = j8;
-                                                    photoEntry.videoOrientation = 0;
-                                                    FileLog.e(e);
-                                                    if (mediaMetadataRetriever2 != null) {
+                                                } catch (Throwable th2) {
+                                                    mediaMetadataRetriever = mediaMetadataRetriever2;
+                                                    th = th2;
+                                                    if (mediaMetadataRetriever != null) {
                                                         try {
-                                                            mediaMetadataRetriever2.close();
-                                                        } catch (IOException e3) {
-                                                            FileLog.e(e3);
+                                                            mediaMetadataRetriever.close();
+                                                        } catch (IOException e2) {
+                                                            FileLog.e(e2);
                                                         }
                                                     }
-                                                    i13 = photoEntry.videoOrientation;
-                                                    if ((i13 / 90) % 2 == 0) {
-                                                    }
-                                                    if (!photoEntry.isVideo) {
-                                                    }
-                                                    CharSequence charSequence2 = photoEntry.caption;
-                                                    if (charSequence2 != null) {
-                                                    }
-                                                    tLRPC$TL_message.message = charSequence;
-                                                    if (TextUtils.isEmpty(charSequence)) {
-                                                        CharSequence[] charSequenceArr = {this.commentTextView.getText()};
-                                                        tLRPC$TL_message.entities = MediaDataController.getInstance(this.currentAccount).getEntities(charSequenceArr, true);
-                                                        tLRPC$TL_message.message = charSequenceArr[0].toString();
-                                                    }
-                                                    if (i5 == 0) {
-                                                        TLRPC$TL_messageReplyHeader tLRPC$TL_messageReplyHeader = new TLRPC$TL_messageReplyHeader();
-                                                        if (messageObject5 != null) {
-                                                        }
-                                                        tLRPC$TL_messageReplyHeader.flags |= 16;
-                                                        tLRPC$TL_messageReplyHeader.reply_to_msg_id = messageObject.getId();
-                                                        tLRPC$TL_message.reply_to = tLRPC$TL_messageReplyHeader;
-                                                    }
-                                                    messageObject6 = new MessageObject(this.currentAccount, tLRPC$TL_message, true, false);
-                                                    if (i5 == 0) {
-                                                        messageObject6.replyMessageObject = messageObject;
-                                                    }
-                                                    messageObject6.sendPreviewEntry = photoEntry;
-                                                    messageObject6.sendPreview = true;
-                                                    messageObject6.notime = true;
-                                                    messageObject6.isOutOwnerCached = Boolean.TRUE;
-                                                    arrayList2 = arrayList3;
-                                                    arrayList2.add(messageObject6);
-                                                    if (messageObject8 == null) {
-                                                        messageObject8 = messageObject6;
-                                                    }
-                                                    i4 = i10;
-                                                    z = true;
-                                                    i7++;
-                                                    ceil = i8;
-                                                    nextLong = j4;
-                                                    selectedPhotos = hashMap;
-                                                    messageObject2 = messageObject5;
-                                                    j7 = j3;
+                                                    throw th;
                                                 }
-                                            } catch (Throwable th2) {
-                                                mediaMetadataRetriever = mediaMetadataRetriever2;
-                                                th = th2;
-                                                if (mediaMetadataRetriever != null) {
+                                            } catch (Exception e3) {
+                                                e = e3;
+                                                j3 = j8;
+                                                photoEntry.videoOrientation = 0;
+                                                FileLog.e(e);
+                                                if (mediaMetadataRetriever2 != null) {
                                                     try {
-                                                        mediaMetadataRetriever.close();
+                                                        mediaMetadataRetriever2.close();
                                                     } catch (IOException e4) {
                                                         FileLog.e(e4);
                                                     }
                                                 }
-                                                throw th;
+                                                i13 = photoEntry.videoOrientation;
+                                                if ((i13 / 90) % 2 == 0) {
+                                                }
+                                                if (!photoEntry.isVideo) {
+                                                }
+                                                tLRPC$TL_message.media.spoiler = photoEntry.hasSpoiler;
+                                                CharSequence charSequence2 = photoEntry.caption;
+                                                if (charSequence2 != null) {
+                                                }
+                                                tLRPC$TL_message.message = charSequence;
+                                                if (TextUtils.isEmpty(charSequence)) {
+                                                    CharSequence[] charSequenceArr = {this.commentTextView.getText()};
+                                                    MessageObject.addLinks(true, charSequenceArr[0]);
+                                                    tLRPC$TL_message.entities = MediaDataController.getInstance(this.currentAccount).getEntities(charSequenceArr, true);
+                                                    tLRPC$TL_message.message = charSequenceArr[0].toString();
+                                                }
+                                                if (i5 == 0) {
+                                                    TLRPC$TL_messageReplyHeader tLRPC$TL_messageReplyHeader = new TLRPC$TL_messageReplyHeader();
+                                                    if (messageObject5 != null) {
+                                                    }
+                                                    tLRPC$TL_messageReplyHeader.flags |= 16;
+                                                    tLRPC$TL_messageReplyHeader.reply_to_msg_id = messageObject.getId();
+                                                    tLRPC$TL_message.reply_to = tLRPC$TL_messageReplyHeader;
+                                                }
+                                                messageObject6 = new MessageObject(this.currentAccount, tLRPC$TL_message, true, false);
+                                                if (i5 == 0) {
+                                                    messageObject6.replyMessageObject = messageObject;
+                                                }
+                                                messageObject6.sendPreviewEntry = photoEntry;
+                                                messageObject6.sendPreview = true;
+                                                messageObject6.notime = true;
+                                                messageObject6.isOutOwnerCached = Boolean.TRUE;
+                                                arrayList2 = arrayList3;
+                                                arrayList2.add(messageObject6);
+                                                if (messageObject8 == null) {
+                                                    messageObject8 = messageObject6;
+                                                }
+                                                i4 = i10;
+                                                z = true;
+                                                i7++;
+                                                ceil = i8;
+                                                nextLong = j4;
+                                                selectedPhotos = hashMap;
+                                                messageObject2 = messageObject5;
+                                                j7 = j3;
                                             }
                                         } catch (Exception e5) {
                                             e = e5;
@@ -3807,11 +3809,13 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                                     tLRPC$TL_photoSize.location = new TLRPC$TL_fileLocationToBeDeprecated();
                                     tLRPC$TL_message.media.photo.sizes.add(tLRPC$TL_photoSize);
                                 }
+                                tLRPC$TL_message.media.spoiler = photoEntry.hasSpoiler;
                                 CharSequence charSequence22 = photoEntry.caption;
                                 charSequence = charSequence22 != null ? str3 : charSequence22.toString();
                                 tLRPC$TL_message.message = charSequence;
                                 if (TextUtils.isEmpty(charSequence) && i5 == 0 && i7 == 0) {
                                     CharSequence[] charSequenceArr2 = {this.commentTextView.getText()};
+                                    MessageObject.addLinks(true, charSequenceArr2[0]);
                                     tLRPC$TL_message.entities = MediaDataController.getInstance(this.currentAccount).getEntities(charSequenceArr2, true);
                                     tLRPC$TL_message.message = charSequenceArr2[0].toString();
                                 }
@@ -3869,6 +3873,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                         tLRPC$TL_message2.from_id = MessagesController.getInstance(this.currentAccount).getPeer(UserConfig.getInstance(this.currentAccount).getClientUserId());
                         tLRPC$TL_message2.peer_id = MessagesController.getInstance(this.currentAccount).getPeer(j);
                         CharSequence[] charSequenceArr3 = {this.commentTextView.getText()};
+                        MessageObject.addLinks(true, charSequenceArr3[0]);
                         tLRPC$TL_message2.entities = MediaDataController.getInstance(this.currentAccount).getEntities(charSequenceArr3, true);
                         tLRPC$TL_message2.message = charSequenceArr3[0].toString();
                         MessageObject messageObject9 = new MessageObject(this.currentAccount, tLRPC$TL_message2, true, false);
@@ -3972,6 +3977,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                             if (!arrayList2.isEmpty()) {
                                 MessageObject messageObject13 = arrayList2.get(0);
                                 CharSequence[] charSequenceArr5 = {this.commentTextView.getText()};
+                                MessageObject.addLinks(true, charSequenceArr5[0]);
                                 messageObject13.messageOwner.entities = MediaDataController.getInstance(this.currentAccount).getEntities(charSequenceArr5, true);
                                 messageObject13.messageOwner.message = charSequenceArr5[0].toString();
                                 if (!TextUtils.isEmpty(messageObject13.messageOwner.message)) {
@@ -4093,17 +4099,18 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                         ChatAttachAlert.this.lambda$new$18(selectedEffect, z, i);
                     }
                 }, resourcesProvider);
-                return;
+                this.captionAbove = false;
             }
         }
         AttachAlertLayout attachAlertLayout = this.currentAttachLayout;
         if (attachAlertLayout == this.photoLayout || attachAlertLayout == this.photoPreviewLayout) {
             sendPressed(true, 0, selectedEffect, isCaptionAbove());
-            return;
+        } else {
+            attachAlertLayout.sendSelectedItems(true, 0, selectedEffect, isCaptionAbove());
+            this.allowPassConfirmationAlert = true;
+            dismiss();
         }
-        attachAlertLayout.sendSelectedItems(true, 0, selectedEffect, isCaptionAbove());
-        this.allowPassConfirmationAlert = true;
-        dismiss();
+        this.captionAbove = false;
     }
 
     public /* synthetic */ void lambda$new$18(long j, boolean z, int i) {

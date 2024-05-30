@@ -631,7 +631,7 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
         int i5 = Theme.key_featuredStickers_buttonText;
         textView3.setTextColor(baseFragment.getThemedColor(i5));
         this.doneButton.setTextSize(1, 15.0f);
-        this.doneButton.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.doneButton.setTypeface(AndroidUtilities.bold());
         RadialProgressView radialProgressView = new RadialProgressView(context);
         this.progressView = radialProgressView;
         radialProgressView.setSize(AndroidUtilities.dp(20.0f));

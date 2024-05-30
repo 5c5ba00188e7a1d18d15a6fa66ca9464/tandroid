@@ -53,20 +53,20 @@ public class SessionCell extends FrameLayout {
     private boolean showStub;
     private AnimatedFloat showStubValue;
 
-    /* JADX WARN: Removed duplicated region for block: B:101:0x0266  */
-    /* JADX WARN: Removed duplicated region for block: B:102:0x0268  */
-    /* JADX WARN: Removed duplicated region for block: B:105:0x026e  */
-    /* JADX WARN: Removed duplicated region for block: B:106:0x0273  */
-    /* JADX WARN: Removed duplicated region for block: B:110:0x0299  */
-    /* JADX WARN: Removed duplicated region for block: B:113:0x02ba  */
-    /* JADX WARN: Removed duplicated region for block: B:114:0x02bc  */
-    /* JADX WARN: Removed duplicated region for block: B:118:0x02cc  */
-    /* JADX WARN: Removed duplicated region for block: B:121:0x02d1  */
-    /* JADX WARN: Removed duplicated region for block: B:122:0x02d6  */
-    /* JADX WARN: Removed duplicated region for block: B:93:0x0231  */
-    /* JADX WARN: Removed duplicated region for block: B:94:0x0234  */
-    /* JADX WARN: Removed duplicated region for block: B:97:0x0255  */
-    /* JADX WARN: Removed duplicated region for block: B:98:0x0257  */
+    /* JADX WARN: Removed duplicated region for block: B:101:0x0264  */
+    /* JADX WARN: Removed duplicated region for block: B:102:0x0266  */
+    /* JADX WARN: Removed duplicated region for block: B:105:0x026c  */
+    /* JADX WARN: Removed duplicated region for block: B:106:0x0271  */
+    /* JADX WARN: Removed duplicated region for block: B:110:0x0297  */
+    /* JADX WARN: Removed duplicated region for block: B:113:0x02b8  */
+    /* JADX WARN: Removed duplicated region for block: B:114:0x02ba  */
+    /* JADX WARN: Removed duplicated region for block: B:118:0x02ca  */
+    /* JADX WARN: Removed duplicated region for block: B:121:0x02cf  */
+    /* JADX WARN: Removed duplicated region for block: B:122:0x02d4  */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x022f  */
+    /* JADX WARN: Removed duplicated region for block: B:94:0x0232  */
+    /* JADX WARN: Removed duplicated region for block: B:97:0x0253  */
+    /* JADX WARN: Removed duplicated region for block: B:98:0x0255  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -117,7 +117,7 @@ public class SessionCell extends FrameLayout {
         textView.setTextColor(Theme.getColor(i4));
         this.nameTextView.setTextSize(1, i == 0 ? 15.0f : 16.0f);
         this.nameTextView.setLines(1);
-        this.nameTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.nameTextView.setTypeface(AndroidUtilities.bold());
         this.nameTextView.setMaxLines(1);
         this.nameTextView.setSingleLine(true);
         this.nameTextView.setEllipsize(TextUtils.TruncateAt.END);

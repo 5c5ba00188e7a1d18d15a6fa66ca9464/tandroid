@@ -1491,7 +1491,7 @@ public class Bulletin {
             textView.setSingleLine();
             textView.setTextColor(themedColor);
             textView.setTextSize(1, 14.0f);
-            textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            textView.setTypeface(AndroidUtilities.bold());
             linearLayout.addView(textView);
             TextView textView2 = new TextView(context);
             this.subtitleTextView = textView2;
@@ -1539,7 +1539,7 @@ public class Bulletin {
             linksTextView.setSingleLine();
             linksTextView.setTextColor(themedColor);
             linksTextView.setTextSize(1, 14.0f);
-            linksTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            linksTextView.setTypeface(AndroidUtilities.bold());
             linearLayout.addView(linksTextView);
             LinkSpanDrawable.LinksTextView linksTextView2 = new LinkSpanDrawable.LinksTextView(context);
             this.subtitleTextView = linksTextView2;
@@ -2030,7 +2030,7 @@ public class Bulletin {
                 this.undoTextView = textView;
                 textView.setBackground(Theme.createSelectorDrawable((themedColor & 16777215) | 419430400, 7));
                 this.undoTextView.setTextSize(1, 14.0f);
-                this.undoTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                this.undoTextView.setTypeface(AndroidUtilities.bold());
                 this.undoTextView.setTextColor(themedColor);
                 this.undoTextView.setText(LocaleController.getString("Undo", R.string.Undo));
                 this.undoTextView.setGravity(16);
@@ -2158,7 +2158,7 @@ public class Bulletin {
             TextPaint textPaint = new TextPaint(1);
             this.textPaint = textPaint;
             textPaint.setTextSize(AndroidUtilities.dp(12.0f));
-            this.textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            this.textPaint.setTypeface(AndroidUtilities.bold());
             TextPaint textPaint2 = this.textPaint;
             int i = Theme.key_undo_infoColor;
             textPaint2.setColor(Theme.getColor(i, resourcesProvider));

@@ -232,7 +232,7 @@ public class UndoView extends FrameLayout {
         TextView textView2 = new TextView(context);
         this.undoTextView = textView2;
         textView2.setTextSize(1, 14.0f);
-        this.undoTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.undoTextView.setTypeface(AndroidUtilities.bold());
         this.undoTextView.setTextColor(getThemedColor(i2));
         this.undoTextView.setText(LocaleController.getString("Undo", R.string.Undo));
         this.undoButton.addView(this.undoTextView, LayoutHelper.createLinear(-2, -2, 19, 6, 4, 8, 4));
@@ -246,7 +246,7 @@ public class UndoView extends FrameLayout {
         TextPaint textPaint = new TextPaint(1);
         this.textPaint = textPaint;
         textPaint.setTextSize(AndroidUtilities.dp(12.0f));
-        this.textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.textPaint.setTypeface(AndroidUtilities.bold());
         this.textPaint.setColor(getThemedColor(i));
         setWillNotDraw(false);
         this.backgroundDrawable = Theme.createRoundRectDrawable(AndroidUtilities.dp(10.0f), getThemedColor(i3));
@@ -387,11 +387,11 @@ public class UndoView extends FrameLayout {
         showWithAction(arrayList, i, obj, obj2, runnable, runnable2);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:627:0x1884  */
-    /* JADX WARN: Removed duplicated region for block: B:630:0x18a4  */
-    /* JADX WARN: Removed duplicated region for block: B:633:0x18cb  */
-    /* JADX WARN: Removed duplicated region for block: B:637:0x1910  */
-    /* JADX WARN: Removed duplicated region for block: B:668:0x19c2  */
+    /* JADX WARN: Removed duplicated region for block: B:627:0x1882  */
+    /* JADX WARN: Removed duplicated region for block: B:630:0x18a2  */
+    /* JADX WARN: Removed duplicated region for block: B:633:0x18c9  */
+    /* JADX WARN: Removed duplicated region for block: B:637:0x190e  */
+    /* JADX WARN: Removed duplicated region for block: B:668:0x19c0  */
     /* JADX WARN: Removed duplicated region for block: B:694:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -793,7 +793,7 @@ public class UndoView extends FrameLayout {
                 this.subinfoTextView.setText(r14);
                 this.subinfoTextView.setVisibility(0);
                 this.infoTextView.setTextSize(1, 14.0f);
-                this.infoTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                this.infoTextView.setTypeface(AndroidUtilities.bold());
                 i7 = 8;
             } else {
                 layoutParams.leftMargin = AndroidUtilities.dp(58.0f);
@@ -1076,7 +1076,7 @@ public class UndoView extends FrameLayout {
                 this.undoImageView.setVisibility(8);
                 this.leftImageView.setVisibility(0);
                 if (intValue4 != 0) {
-                    this.infoTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                    this.infoTextView.setTypeface(AndroidUtilities.bold());
                     this.infoTextView.setTextSize(1, 14.0f);
                     this.leftImageView.clearLayerColors();
                     RLottieImageView rLottieImageView = this.leftImageView;
@@ -1126,7 +1126,7 @@ public class UndoView extends FrameLayout {
                 this.subinfoTextView.setText(((TLRPC$TL_authorization) obj).app_name);
                 this.subinfoTextView.setVisibility(0);
                 this.infoTextView.setTextSize(1, 14.0f);
-                this.infoTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                this.infoTextView.setTypeface(AndroidUtilities.bold());
                 this.undoTextView.setTextColor(getThemedColor(Theme.key_text_RedRegular));
                 this.undoImageView.setVisibility(8);
                 this.undoButton.setVisibility(0);
@@ -1286,7 +1286,7 @@ public class UndoView extends FrameLayout {
             } else if (i11 == 85) {
                 this.infoTextView.setVisibility(0);
                 this.infoTextView.setTextSize(1, 15.0f);
-                this.infoTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                this.infoTextView.setTypeface(AndroidUtilities.bold());
                 this.infoTextView.setText(LocaleController.getString("SwipeToReplyHint", R.string.SwipeToReplyHint));
                 this.leftImageView.setVisibility(0);
                 this.leftImageView.setAnimation(R.raw.hint_swipe_reply, 64, 64);
@@ -1398,7 +1398,7 @@ public class UndoView extends FrameLayout {
                         layoutParams3.leftMargin = AndroidUtilities.dp(48.0f);
                         layoutParams3.rightMargin = ceil2;
                         this.infoTextView.setText(LocaleController.formatString("FolderLinkDeletedTitle", R.string.FolderLinkDeletedTitle, str13));
-                        this.infoTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                        this.infoTextView.setTypeface(AndroidUtilities.bold());
                         this.subinfoTextView.setVisibility(0);
                         this.subinfoTextView.setText(LocaleController.formatPluralString("FolderLinkDeletedSubtitle", intValue5, new Object[0]));
                     } else {

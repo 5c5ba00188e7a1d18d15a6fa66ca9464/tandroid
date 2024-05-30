@@ -148,8 +148,8 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:60:0x02fc A[EDGE_INSN: B:60:0x02fc->B:40:0x02fc ?: BREAK  , SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x02aa A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x02fa A[EDGE_INSN: B:60:0x02fa->B:40:0x02fa ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x02a8 A[SYNTHETIC] */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     @SuppressLint({"ClickableViewAccessibility"})
     /*
@@ -181,7 +181,7 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
         textCheckCell.setHeight(56);
         TextCheckCell textCheckCell2 = this.enableReactionsCell;
         textCheckCell2.setBackgroundColor(Theme.getColor(textCheckCell2.isChecked() ? Theme.key_windowBackgroundChecked : Theme.key_windowBackgroundUnchecked));
-        this.enableReactionsCell.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.enableReactionsCell.setTypeface(AndroidUtilities.bold());
         this.enableReactionsCell.setColors(Theme.key_windowBackgroundCheckText, Theme.key_switchTrackBlue, Theme.key_switchTrackBlueChecked, Theme.key_switchTrackBlueThumb, Theme.key_switchTrackBlueThumbChecked);
         this.enableReactionsCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda4
             @Override // android.view.View.OnClickListener

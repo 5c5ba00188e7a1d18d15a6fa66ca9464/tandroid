@@ -94,7 +94,7 @@ public class ChannelRecommendationsCell {
         this.dialogId = messageObject.getDialogId();
         MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-this.dialogId));
         this.chatId = -this.dialogId;
-        this.serviceTextPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.serviceTextPaint.setTypeface(AndroidUtilities.bold());
         this.serviceTextPaint.setTextSize(AndroidUtilities.dp(14.0f));
         this.serviceTextPaint.setColor(this.cell.getThemedColor(Theme.key_chat_serviceText));
         this.serviceText = new StaticLayout(LocaleController.getString(R.string.ChannelJoined), this.serviceTextPaint, this.msg.getMaxMessageTextWidth(), Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
@@ -111,7 +111,7 @@ public class ChannelRecommendationsCell {
         this.closePaint.setColor(this.cell.getThemedColor(Theme.key_dialogEmptyImage));
         this.cell.totalHeight = AndroidUtilities.dp(14.66f) + this.serviceTextHeight;
         if (this.headerText == null) {
-            this.headerText = new Text(LocaleController.getString(R.string.SimilarChannels), 14.0f, AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM)).hackClipBounds();
+            this.headerText = new Text(LocaleController.getString(R.string.SimilarChannels), 14.0f, AndroidUtilities.bold()).hackClipBounds();
         }
         for (int i4 = 0; i4 < this.channels.size(); i4++) {
             this.channels.get(i4).detach();
@@ -411,7 +411,7 @@ public class ChannelRecommendationsCell {
                 this.subscribersText = null;
                 return;
             }
-            this.subscribersText = new Text("+" + i2, 9.33f, AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            this.subscribersText = new Text("+" + i2, 9.33f, AndroidUtilities.bold());
         }
 
         private void checkNameText(int i) {
@@ -465,7 +465,7 @@ public class ChannelRecommendationsCell {
             if (tLRPC$Chat == null || (i2 = tLRPC$Chat.participants_count) <= 1) {
                 this.subscribersText = null;
             } else {
-                this.subscribersText = new Text(LocaleController.formatShortNumber(i2, null), 9.33f, AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                this.subscribersText = new Text(LocaleController.formatShortNumber(i2, null), 9.33f, AndroidUtilities.bold());
             }
         }
 

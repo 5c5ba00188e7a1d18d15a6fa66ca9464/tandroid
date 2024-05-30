@@ -283,8 +283,8 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         this(context, videoEditTextureView, bitmap, null, i, savedFilterState, paintingOverlay, i2, z, z2, blurManager, resourcesProvider);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:62:0x0503  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x0505  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x04ff  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x0501  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -452,7 +452,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         this.cancelTextView.setBackgroundDrawable(Theme.createSelectorDrawable(-12763843, 0));
         this.cancelTextView.setPadding(AndroidUtilities.dp(20.0f), 0, AndroidUtilities.dp(20.0f), 0);
         this.cancelTextView.setText(LocaleController.getString("Cancel", R.string.Cancel).toUpperCase());
-        this.cancelTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.cancelTextView.setTypeface(AndroidUtilities.bold());
         frameLayout2.addView(this.cancelTextView, LayoutHelper.createFrame(-2, -1, 51));
         TextView textView2 = new TextView(context);
         this.doneTextView = textView2;
@@ -464,7 +464,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         this.doneTextView.setBackgroundDrawable(Theme.createSelectorDrawable(-12763843, 0));
         this.doneTextView.setPadding(AndroidUtilities.dp(20.0f), 0, AndroidUtilities.dp(20.0f), 0);
         this.doneTextView.setText(LocaleController.getString("Done", R.string.Done).toUpperCase());
-        this.doneTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.doneTextView.setTypeface(AndroidUtilities.bold());
         frameLayout2.addView(this.doneTextView, LayoutHelper.createFrame(-2, -1, 53));
         LinearLayout linearLayout = new LinearLayout(context);
         frameLayout2.addView(linearLayout, LayoutHelper.createFrame(-2, -1, 1));

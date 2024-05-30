@@ -1914,7 +1914,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         NumberTextView numberTextView = new NumberTextView(context);
         this.selectedMessagesCountTextView = numberTextView;
         numberTextView.setTextSize(18);
-        this.selectedMessagesCountTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.selectedMessagesCountTextView.setTypeface(AndroidUtilities.bold());
         this.selectedMessagesCountTextView.setTextColor(getThemedColor(i12));
         this.actionModeLayout.addView(this.selectedMessagesCountTextView, LayoutHelper.createLinear(0, -1, 1.0f, 18, 0, 0, 0));
         this.actionModeViews.add(this.selectedMessagesCountTextView);
@@ -9629,7 +9629,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                 }
             });
             SpannableString spannableString2 = new SpannableString("" + MessagesController.getInstance(i).recommendedChannelsLimitPremium);
-            spannableString2.setSpan(new TypefaceSpan(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM)), 0, spannableString2.length(), 33);
+            spannableString2.setSpan(new TypefaceSpan(AndroidUtilities.bold()), 0, spannableString2.length(), 33);
             linksTextView.setText(AndroidUtilities.replaceCharSequence("%s", premiumText, spannableString2));
             addView(linksTextView, LayoutHelper.createFrame(-1, -2.0f, 49, 24.0f, 96.0f, 24.0f, 12.0f));
         }

@@ -1626,7 +1626,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             TextView textView = new TextView(getContext());
             this.webBotTitle = textView;
             textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
-            this.webBotTitle.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            this.webBotTitle.setTypeface(AndroidUtilities.bold());
             this.webBotTitle.setGravity(16);
             this.actionBar.addView(this.webBotTitle, LayoutHelper.createFrame(-1, -1.0f, 0, 72.0f, 0.0f, 72.0f, 0.0f));
         }
@@ -4226,42 +4226,42 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Removed duplicated region for block: B:396:0x0e7b  */
     /* JADX WARN: Removed duplicated region for block: B:399:0x0fbb  */
     /* JADX WARN: Removed duplicated region for block: B:400:0x0fda  */
-    /* JADX WARN: Removed duplicated region for block: B:403:0x10e6  */
-    /* JADX WARN: Removed duplicated region for block: B:404:0x1105  */
-    /* JADX WARN: Removed duplicated region for block: B:407:0x1175  */
-    /* JADX WARN: Removed duplicated region for block: B:412:0x1238  */
-    /* JADX WARN: Removed duplicated region for block: B:413:0x123a  */
-    /* JADX WARN: Removed duplicated region for block: B:416:0x12cd  */
-    /* JADX WARN: Removed duplicated region for block: B:421:0x13a0  */
-    /* JADX WARN: Removed duplicated region for block: B:422:0x13a2  */
-    /* JADX WARN: Removed duplicated region for block: B:425:0x13bf  */
-    /* JADX WARN: Removed duplicated region for block: B:426:0x13ca  */
-    /* JADX WARN: Removed duplicated region for block: B:429:0x13e2  */
-    /* JADX WARN: Removed duplicated region for block: B:432:0x1410  */
-    /* JADX WARN: Removed duplicated region for block: B:439:0x1426  */
-    /* JADX WARN: Removed duplicated region for block: B:442:0x1432  */
-    /* JADX WARN: Removed duplicated region for block: B:447:0x1444  */
-    /* JADX WARN: Removed duplicated region for block: B:452:0x1463  */
-    /* JADX WARN: Removed duplicated region for block: B:455:0x148e  */
-    /* JADX WARN: Removed duplicated region for block: B:458:0x150d  */
-    /* JADX WARN: Removed duplicated region for block: B:461:0x163a  */
-    /* JADX WARN: Removed duplicated region for block: B:471:0x17ff  */
-    /* JADX WARN: Removed duplicated region for block: B:484:0x18f9  */
-    /* JADX WARN: Removed duplicated region for block: B:487:0x1959  */
-    /* JADX WARN: Removed duplicated region for block: B:490:0x1991  */
-    /* JADX WARN: Removed duplicated region for block: B:500:0x19ff  */
-    /* JADX WARN: Removed duplicated region for block: B:503:0x1a1b  */
-    /* JADX WARN: Removed duplicated region for block: B:509:0x1a7f  */
-    /* JADX WARN: Removed duplicated region for block: B:512:0x1a8a  */
-    /* JADX WARN: Removed duplicated region for block: B:513:0x1a99  */
-    /* JADX WARN: Removed duplicated region for block: B:516:0x1add  */
-    /* JADX WARN: Removed duplicated region for block: B:517:0x1ae8  */
-    /* JADX WARN: Removed duplicated region for block: B:522:0x1b10  */
-    /* JADX WARN: Removed duplicated region for block: B:526:0x1b4f  */
-    /* JADX WARN: Removed duplicated region for block: B:527:0x1b57  */
-    /* JADX WARN: Removed duplicated region for block: B:530:0x1bf8  */
-    /* JADX WARN: Removed duplicated region for block: B:533:0x1c50  */
-    /* JADX WARN: Removed duplicated region for block: B:536:0x1c87  */
+    /* JADX WARN: Removed duplicated region for block: B:403:0x10e4  */
+    /* JADX WARN: Removed duplicated region for block: B:404:0x1103  */
+    /* JADX WARN: Removed duplicated region for block: B:407:0x1173  */
+    /* JADX WARN: Removed duplicated region for block: B:412:0x1236  */
+    /* JADX WARN: Removed duplicated region for block: B:413:0x1238  */
+    /* JADX WARN: Removed duplicated region for block: B:416:0x12cb  */
+    /* JADX WARN: Removed duplicated region for block: B:421:0x139e  */
+    /* JADX WARN: Removed duplicated region for block: B:422:0x13a0  */
+    /* JADX WARN: Removed duplicated region for block: B:425:0x13bd  */
+    /* JADX WARN: Removed duplicated region for block: B:426:0x13c8  */
+    /* JADX WARN: Removed duplicated region for block: B:429:0x13e0  */
+    /* JADX WARN: Removed duplicated region for block: B:432:0x140e  */
+    /* JADX WARN: Removed duplicated region for block: B:439:0x1424  */
+    /* JADX WARN: Removed duplicated region for block: B:442:0x1430  */
+    /* JADX WARN: Removed duplicated region for block: B:447:0x1442  */
+    /* JADX WARN: Removed duplicated region for block: B:452:0x1461  */
+    /* JADX WARN: Removed duplicated region for block: B:455:0x148c  */
+    /* JADX WARN: Removed duplicated region for block: B:458:0x150b  */
+    /* JADX WARN: Removed duplicated region for block: B:461:0x1636  */
+    /* JADX WARN: Removed duplicated region for block: B:471:0x17f6  */
+    /* JADX WARN: Removed duplicated region for block: B:484:0x18f0  */
+    /* JADX WARN: Removed duplicated region for block: B:487:0x1950  */
+    /* JADX WARN: Removed duplicated region for block: B:490:0x1988  */
+    /* JADX WARN: Removed duplicated region for block: B:500:0x19f6  */
+    /* JADX WARN: Removed duplicated region for block: B:503:0x1a12  */
+    /* JADX WARN: Removed duplicated region for block: B:509:0x1a76  */
+    /* JADX WARN: Removed duplicated region for block: B:512:0x1a81  */
+    /* JADX WARN: Removed duplicated region for block: B:513:0x1a90  */
+    /* JADX WARN: Removed duplicated region for block: B:516:0x1ad4  */
+    /* JADX WARN: Removed duplicated region for block: B:517:0x1adf  */
+    /* JADX WARN: Removed duplicated region for block: B:522:0x1b07  */
+    /* JADX WARN: Removed duplicated region for block: B:526:0x1b46  */
+    /* JADX WARN: Removed duplicated region for block: B:527:0x1b4e  */
+    /* JADX WARN: Removed duplicated region for block: B:530:0x1bef  */
+    /* JADX WARN: Removed duplicated region for block: B:533:0x1c47  */
+    /* JADX WARN: Removed duplicated region for block: B:536:0x1c7e  */
     /* JADX WARN: Removed duplicated region for block: B:545:0x0817 A[SYNTHETIC] */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
@@ -5561,7 +5561,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         SimpleTextView simpleTextView = new SimpleTextView(context);
                         this.mentiondownButtonCounter = simpleTextView;
                         simpleTextView.setVisibility(4);
-                        this.mentiondownButtonCounter.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                        this.mentiondownButtonCounter.setTypeface(AndroidUtilities.bold());
                         this.mentiondownButtonCounter.setTextSize(13);
                         this.mentiondownButtonCounter.setTextColor(getThemedColor(Theme.key_chat_goDownButtonCounter));
                         this.mentiondownButtonCounter.setGravity(17);
@@ -6156,7 +6156,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         this.replyNameTextView = simpleTextView2;
                         simpleTextView2.setTextSize(14);
                         this.replyNameTextView.setTextColor(getThemedColor(Theme.key_chat_replyPanelName));
-                        this.replyNameTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                        this.replyNameTextView.setTypeface(AndroidUtilities.bold());
                         frameLayout8.addView(this.replyNameTextView, LayoutHelper.createFrame(-1, 18.0f, 51, 52.0f, 6.0f, 0.0f, 0.0f));
                         SimpleTextView simpleTextView3 = new SimpleTextView(context);
                         this.replyObjectTextView = simpleTextView3;
@@ -6245,7 +6245,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             textView.setMaxLines(1);
                             textView.setSingleLine(true);
                             textView.setTextSize(1, 14.0f);
-                            textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                            textView.setTypeface(AndroidUtilities.bold());
                             textView.setGravity(19);
                             textView.setEllipsize(TextUtils.TruncateAt.END);
                             editViewButton.addTextView(textView, LayoutHelper.createLinear(-2, -1));
@@ -6352,7 +6352,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         this.bottomOverlayStartButton.setText(LocaleController.getString(R.string.BotStart));
                         this.bottomOverlayStartButton.setTextSize(1, 16.0f);
                         this.bottomOverlayStartButton.setGravity(17);
-                        this.bottomOverlayStartButton.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                        this.bottomOverlayStartButton.setTypeface(AndroidUtilities.bold());
                         this.bottomOverlayStartButton.setVisibility(8);
                         this.bottomOverlayStartButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda81
                             @Override // android.view.View.OnClickListener
@@ -7404,7 +7404,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 SimpleTextView simpleTextView6 = new SimpleTextView(context);
                 this.mentiondownButtonCounter = simpleTextView6;
                 simpleTextView6.setVisibility(4);
-                this.mentiondownButtonCounter.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                this.mentiondownButtonCounter.setTypeface(AndroidUtilities.bold());
                 this.mentiondownButtonCounter.setTextSize(13);
                 this.mentiondownButtonCounter.setTextColor(getThemedColor(Theme.key_chat_goDownButtonCounter));
                 this.mentiondownButtonCounter.setGravity(17);
@@ -7792,7 +7792,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 this.replyNameTextView = simpleTextView22;
                 simpleTextView22.setTextSize(14);
                 this.replyNameTextView.setTextColor(getThemedColor(Theme.key_chat_replyPanelName));
-                this.replyNameTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                this.replyNameTextView.setTypeface(AndroidUtilities.bold());
                 frameLayout82.addView(this.replyNameTextView, LayoutHelper.createFrame(-1, 18.0f, 51, 52.0f, 6.0f, 0.0f, 0.0f));
                 SimpleTextView simpleTextView32 = new SimpleTextView(context);
                 this.replyObjectTextView = simpleTextView32;
@@ -7944,7 +7944,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 this.bottomOverlayStartButton.setText(LocaleController.getString(R.string.BotStart));
                 this.bottomOverlayStartButton.setTextSize(1, 16.0f);
                 this.bottomOverlayStartButton.setGravity(17);
-                this.bottomOverlayStartButton.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                this.bottomOverlayStartButton.setTypeface(AndroidUtilities.bold());
                 this.bottomOverlayStartButton.setVisibility(8);
                 this.bottomOverlayStartButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda81
                     @Override // android.view.View.OnClickListener
@@ -8962,7 +8962,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         SimpleTextView simpleTextView62 = new SimpleTextView(context);
         this.mentiondownButtonCounter = simpleTextView62;
         simpleTextView62.setVisibility(4);
-        this.mentiondownButtonCounter.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.mentiondownButtonCounter.setTypeface(AndroidUtilities.bold());
         this.mentiondownButtonCounter.setTextSize(13);
         this.mentiondownButtonCounter.setTextColor(getThemedColor(Theme.key_chat_goDownButtonCounter));
         this.mentiondownButtonCounter.setGravity(17);
@@ -9219,7 +9219,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         this.replyNameTextView = simpleTextView222;
         simpleTextView222.setTextSize(14);
         this.replyNameTextView.setTextColor(getThemedColor(Theme.key_chat_replyPanelName));
-        this.replyNameTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.replyNameTextView.setTypeface(AndroidUtilities.bold());
         frameLayout822.addView(this.replyNameTextView, LayoutHelper.createFrame(-1, 18.0f, 51, 52.0f, 6.0f, 0.0f, 0.0f));
         SimpleTextView simpleTextView322 = new SimpleTextView(context);
         this.replyObjectTextView = simpleTextView322;
@@ -9371,7 +9371,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         this.bottomOverlayStartButton.setText(LocaleController.getString(R.string.BotStart));
         this.bottomOverlayStartButton.setTextSize(1, 16.0f);
         this.bottomOverlayStartButton.setGravity(17);
-        this.bottomOverlayStartButton.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.bottomOverlayStartButton.setTypeface(AndroidUtilities.bold());
         this.bottomOverlayStartButton.setVisibility(8);
         this.bottomOverlayStartButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda81
             @Override // android.view.View.OnClickListener
@@ -14360,7 +14360,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             int i = Theme.key_actionBarActionModeDefaultIcon;
             textView2.setTextColor(getThemedColor(i));
             this.replyButton.setCompoundDrawablePadding(AndroidUtilities.dp(7.0f));
-            this.replyButton.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            this.replyButton.setTypeface(AndroidUtilities.bold());
             Drawable mutate = getContext().getResources().getDrawable(R.drawable.input_reply).mutate();
             mutate.setColorFilter(new PorterDuffColorFilter(getThemedColor(i), PorterDuff.Mode.MULTIPLY));
             this.replyButton.setCompoundDrawablesWithIntrinsicBounds(mutate, (Drawable) null, (Drawable) null, (Drawable) null);
@@ -14383,7 +14383,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         TextView textView4 = this.forwardButton;
         int i2 = Theme.key_actionBarActionModeDefaultIcon;
         textView4.setTextColor(getThemedColor(i2));
-        this.forwardButton.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.forwardButton.setTypeface(AndroidUtilities.bold());
         Drawable mutate2 = getContext().getResources().getDrawable(R.drawable.input_forward).mutate();
         mutate2.setColorFilter(new PorterDuffColorFilter(getThemedColor(i2), PorterDuff.Mode.MULTIPLY));
         this.forwardButton.setCompoundDrawablesWithIntrinsicBounds(mutate2, (Drawable) null, (Drawable) null, (Drawable) null);
@@ -14451,9 +14451,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     /* JADX WARN: Removed duplicated region for block: B:17:0x00b3  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x0236  */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x02bb  */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x0307  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x0232  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x02b6  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0302  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -14535,7 +14535,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 }
                 this.reportSpamButton.setTag(Integer.valueOf(i4));
                 this.reportSpamButton.setTextSize(1, 14.0f);
-                this.reportSpamButton.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                this.reportSpamButton.setTypeface(AndroidUtilities.bold());
                 this.reportSpamButton.setSingleLine(true);
                 this.reportSpamButton.setMaxLines(1);
                 this.reportSpamButton.setGravity(17);
@@ -14608,7 +14608,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 textView2.setTextColor(getThemedColor(i6));
                 this.addToContactsButton.setVisibility(8);
                 this.addToContactsButton.setTextSize(1, 14.0f);
-                this.addToContactsButton.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                this.addToContactsButton.setTypeface(AndroidUtilities.bold());
                 this.addToContactsButton.setSingleLine(true);
                 this.addToContactsButton.setMaxLines(1);
                 this.addToContactsButton.setPadding(AndroidUtilities.dp(4.0f), 0, AndroidUtilities.dp(4.0f), 0);
@@ -14628,7 +14628,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 textView3.setTextColor(getThemedColor(i6));
                 this.restartTopicButton.setVisibility(8);
                 this.restartTopicButton.setTextSize(1, 14.0f);
-                this.restartTopicButton.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                this.restartTopicButton.setTypeface(AndroidUtilities.bold());
                 this.restartTopicButton.setSingleLine(true);
                 this.restartTopicButton.setMaxLines(1);
                 this.restartTopicButton.setPadding(AndroidUtilities.dp(4.0f), 0, AndroidUtilities.dp(4.0f), 0);
@@ -14673,7 +14673,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
         this.reportSpamButton.setTag(Integer.valueOf(i42));
         this.reportSpamButton.setTextSize(1, 14.0f);
-        this.reportSpamButton.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.reportSpamButton.setTypeface(AndroidUtilities.bold());
         this.reportSpamButton.setSingleLine(true);
         this.reportSpamButton.setMaxLines(1);
         this.reportSpamButton.setGravity(17);
@@ -14746,7 +14746,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         textView22.setTextColor(getThemedColor(i62));
         this.addToContactsButton.setVisibility(8);
         this.addToContactsButton.setTextSize(1, 14.0f);
-        this.addToContactsButton.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.addToContactsButton.setTypeface(AndroidUtilities.bold());
         this.addToContactsButton.setSingleLine(true);
         this.addToContactsButton.setMaxLines(1);
         this.addToContactsButton.setPadding(AndroidUtilities.dp(4.0f), 0, AndroidUtilities.dp(4.0f), 0);
@@ -14765,7 +14765,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         textView32.setTextColor(getThemedColor(i62));
         this.restartTopicButton.setVisibility(8);
         this.restartTopicButton.setTextSize(1, 14.0f);
-        this.restartTopicButton.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.restartTopicButton.setTypeface(AndroidUtilities.bold());
         this.restartTopicButton.setSingleLine(true);
         this.restartTopicButton.setMaxLines(1);
         this.restartTopicButton.setPadding(AndroidUtilities.dp(4.0f), 0, AndroidUtilities.dp(4.0f), 0);
@@ -14976,7 +14976,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         NumberTextView numberTextView = new NumberTextView(createActionMode.getContext());
         this.selectedMessagesCountTextView = numberTextView;
         numberTextView.setTextSize(18);
-        this.selectedMessagesCountTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.selectedMessagesCountTextView.setTypeface(AndroidUtilities.bold());
         this.selectedMessagesCountTextView.setTextColor(getThemedColor(Theme.key_actionBarActionModeDefaultIcon));
         this.selectedMessagesCountTextView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda133
             @Override // android.view.View.OnTouchListener
@@ -15332,7 +15332,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
         animatedTextView.setAnimationProperties(0.25f, 0L, 280L, cubicBezierInterpolator);
         this.searchCountText.setTextSize(AndroidUtilities.dp(15.0f));
-        this.searchCountText.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.searchCountText.setTypeface(AndroidUtilities.bold());
         this.searchCountText.setTextColor(getThemedColor(Theme.key_chat_searchPanelText));
         this.searchCountText.setGravity(3);
         this.searchContainer.addView(this.searchCountText, LayoutHelper.createFrame(-2, 30.0f, 16, 0.0f, -1.0f, 97.33f, 0.0f));
@@ -15347,7 +15347,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         this.searchExpandList.setScaleProperty(0.7f);
         this.searchExpandList.setTextSize(AndroidUtilities.dp(15.0f));
         this.searchExpandList.setGravity(5);
-        this.searchExpandList.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.searchExpandList.setTypeface(AndroidUtilities.bold());
         this.searchExpandList.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteBlueText2));
         AnimatedTextView animatedTextView3 = this.searchExpandList;
         FrameLayout frameLayout = this.messagesSearchListContainer;
@@ -15367,7 +15367,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         AnimatedTextView animatedTextView5 = new AnimatedTextView(getContext(), true, true, true);
         this.searchOtherButton = animatedTextView5;
         animatedTextView5.setGravity(17);
-        this.searchOtherButton.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.searchOtherButton.setTypeface(AndroidUtilities.bold());
         this.searchOtherButton.setTextColor(getThemedColor(Theme.key_chat_fieldOverlayText));
         this.searchOtherButton.setTextSize(AndroidUtilities.dp(15.0f));
         AnimatedTextView animatedTextView6 = this.searchOtherButton;
@@ -15656,7 +15656,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             setTextColor(chatActivity.getThemedColor(Theme.key_featuredStickers_buttonText));
             setBackground(Theme.AdaptiveRipple.filledRect(chatActivity.getThemedColor(Theme.key_featuredStickers_addButton), 16.0f));
             setTextSize(1, 14.0f);
-            setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            setTypeface(AndroidUtilities.bold());
             setGravity(17);
             setPadding(AndroidUtilities.dp(14.0f), 0, AndroidUtilities.dp(14.0f), 0);
         }
@@ -15679,7 +15679,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             createView.addSubItem(58, LocaleController.getString("Quote", R.string.Quote));
         }
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(LocaleController.getString("Bold", R.string.Bold));
-        spannableStringBuilder.setSpan(new TypefaceSpan(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM)), 0, spannableStringBuilder.length(), 33);
+        spannableStringBuilder.setSpan(new TypefaceSpan(AndroidUtilities.bold()), 0, spannableStringBuilder.length(), 33);
         createView.addSubItem(50, spannableStringBuilder);
         SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder(LocaleController.getString("Italic", R.string.Italic));
         spannableStringBuilder2.setSpan(new TypefaceSpan(AndroidUtilities.getTypeface("fonts/ritalic.ttf")), 0, spannableStringBuilder2.length(), 33);
@@ -16388,9 +16388,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         this.contentView.addView(undoView, 17, LayoutHelper.createFrame(-1, -2.0f, 51, 8.0f, 8.0f, 8.0f, 0.0f));
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:18:0x0130  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x027e  */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x032a  */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x012e  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x027b  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x0327  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -16436,13 +16436,13 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     numberTextView.setAddNumber();
                     this.pinnedCounterTextView.setTextSize(14);
                     this.pinnedCounterTextView.setTextColor(getThemedColor(Theme.key_chat_topPanelTitle));
-                    this.pinnedCounterTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                    this.pinnedCounterTextView.setTypeface(AndroidUtilities.bold());
                     this.pinnedMessageView.addView(this.pinnedCounterTextView, LayoutHelper.createFrame(-1, 18.0f, 51, 18.0f, 7.0f, 44.0f, 0.0f));
                     for (i2 = 0; i2 < 2; i2++) {
                         this.pinnedNameTextView[i2] = new TrackingWidthSimpleTextView(getContext());
                         this.pinnedNameTextView[i2].setTextSize(14);
                         this.pinnedNameTextView[i2].setTextColor(getThemedColor(Theme.key_chat_topPanelTitle));
-                        this.pinnedNameTextView[i2].setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                        this.pinnedNameTextView[i2].setTypeface(AndroidUtilities.bold());
                         this.pinnedMessageView.addView(this.pinnedNameTextView[i2], LayoutHelper.createFrame(-1, 18.0f, 51, 18.0f, 7.3f, 44.0f, 0.0f));
                         this.pinnedMessageTextView[i2] = new SimpleTextView(getContext()) { // from class: org.telegram.ui.ChatActivity.71
                             @Override // android.view.View
@@ -16581,7 +16581,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             numberTextView2.setAddNumber();
             this.pinnedCounterTextView.setTextSize(14);
             this.pinnedCounterTextView.setTextColor(getThemedColor(Theme.key_chat_topPanelTitle));
-            this.pinnedCounterTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            this.pinnedCounterTextView.setTypeface(AndroidUtilities.bold());
             this.pinnedMessageView.addView(this.pinnedCounterTextView, LayoutHelper.createFrame(-1, 18.0f, 51, 18.0f, 7.0f, 44.0f, 0.0f));
             while (i2 < 2) {
             }
@@ -25085,7 +25085,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             combinedDrawable.setCustomSize(AndroidUtilities.dp(14.0f), AndroidUtilities.dp(14.0f));
                             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder("d " + LocaleController.getString(R.string.BoostingBoostToSendMessages));
                             spannableStringBuilder.setSpan(new ForegroundColorSpan(getThemedColor(i)), 0, spannableStringBuilder.length(), 33);
-                            spannableStringBuilder.setSpan(new TypefaceSpan(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM)), 0, spannableStringBuilder.length(), 33);
+                            spannableStringBuilder.setSpan(new TypefaceSpan(AndroidUtilities.bold()), 0, spannableStringBuilder.length(), 33);
                             spannableStringBuilder.setSpan(new ImageSpan(combinedDrawable, 1), 0, 1, 33);
                             this.bottomOverlayText.setBackground(Theme.createSelectorWithBackgroundDrawable(Theme.getColor(Theme.key_windowBackgroundWhite), Theme.getColor(Theme.key_listSelector)));
                             this.bottomOverlayText.setText(spannableStringBuilder);
@@ -30353,7 +30353,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder("d");
         spannableStringBuilder.setSpan(new AnimatedEmojiSpan(j, this.groupEmojiPackHint.getTextPaint().getFontMetricsInt()), 0, spannableStringBuilder.length(), 33);
         SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder(chatFull.emojiset.title);
-        spannableStringBuilder2.setSpan(new TypefaceSpan(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM)), 0, spannableStringBuilder2.length(), 34);
+        spannableStringBuilder2.setSpan(new TypefaceSpan(AndroidUtilities.bold()), 0, spannableStringBuilder2.length(), 34);
         spannableStringBuilder.append((CharSequence) " ");
         spannableStringBuilder.append((CharSequence) spannableStringBuilder2);
         this.groupEmojiPackHint.setText(AndroidUtilities.replaceCharSequence("%s", LocaleController.getString(R.string.GroupEmojiPackHint), spannableStringBuilder));
@@ -30650,7 +30650,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         int i4 = i2 + 1;
         menu.add(i3, R.id.menu_spoiler, i2, LocaleController.getString("Spoiler", R.string.Spoiler));
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(LocaleController.getString("Bold", R.string.Bold));
-        spannableStringBuilder.setSpan(new TypefaceSpan(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM)), 0, spannableStringBuilder.length(), 33);
+        spannableStringBuilder.setSpan(new TypefaceSpan(AndroidUtilities.bold()), 0, spannableStringBuilder.length(), 33);
         int i5 = i4 + 1;
         menu.add(i3, i, i4, spannableStringBuilder);
         SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder(LocaleController.getString("Italic", R.string.Italic));
@@ -31229,7 +31229,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         this.alertNameTextView = textView;
         textView.setTextSize(1, 14.0f);
         this.alertNameTextView.setTextColor(getThemedColor(Theme.key_chat_topPanelTitle));
-        this.alertNameTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.alertNameTextView.setTypeface(AndroidUtilities.bold());
         this.alertNameTextView.setSingleLine(true);
         this.alertNameTextView.setEllipsize(TextUtils.TruncateAt.END);
         this.alertNameTextView.setMaxLines(1);
@@ -38383,7 +38383,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 this.emptyView.setGravity(17);
                 this.emptyView.setTextColor(getThemedColor(Theme.key_chat_serviceText));
                 this.emptyView.setBackground(Theme.createServiceDrawable(AndroidUtilities.dp(6.0f), this.emptyView, this.contentView, getThemedPaint("paintChatActionBackground")));
-                this.emptyView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                this.emptyView.setTypeface(AndroidUtilities.bold());
                 this.emptyView.setPadding(AndroidUtilities.dp(10.0f), AndroidUtilities.dp(2.0f), AndroidUtilities.dp(10.0f), AndroidUtilities.dp(3.0f));
                 this.emptyViewContainer.addView(this.emptyView, new FrameLayout.LayoutParams(-2, -2, 17));
                 return;
@@ -38502,7 +38502,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         this.emptyView.setGravity(17);
                         this.emptyView.setTextColor(getThemedColor(Theme.key_chat_serviceText));
                         this.emptyView.setBackground(Theme.createServiceDrawable(AndroidUtilities.dp(6.0f), this.emptyView, this.contentView, getThemedPaint("paintChatActionBackground")));
-                        this.emptyView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                        this.emptyView.setTypeface(AndroidUtilities.bold());
                         this.emptyView.setPadding(AndroidUtilities.dp(10.0f), AndroidUtilities.dp(2.0f), AndroidUtilities.dp(10.0f), AndroidUtilities.dp(3.0f));
                         this.emptyViewContainer.addView(this.emptyView, new FrameLayout.LayoutParams(-2, -2, 17));
                     }
@@ -50650,7 +50650,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         double round = Math.round(f * 10.0f);
         Double.isNaN(round);
         SpannableString spannableString = new SpannableString(Double.toString(round / 10.0d).replaceAll("\\.0$", ""));
-        spannableString.setSpan(new TypefaceSpan(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM)), 0, spannableString.length(), 33);
+        spannableString.setSpan(new TypefaceSpan(AndroidUtilities.bold()), 0, spannableString.length(), 33);
         if (hasStoryViewer()) {
             return;
         }

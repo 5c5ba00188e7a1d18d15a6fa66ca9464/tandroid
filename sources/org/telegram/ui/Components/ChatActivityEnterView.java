@@ -3546,7 +3546,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         numberTextView.setVisibility(8);
         this.captionLimitView.setTextSize(15);
         this.captionLimitView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteGrayText));
-        this.captionLimitView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.captionLimitView.setTypeface(AndroidUtilities.bold());
         this.captionLimitView.setCenterAlign(true);
         addView(this.captionLimitView, 3, LayoutHelper.createFrame(48, 20.0f, 85, 3.0f, 0.0f, 0.0f, 48.0f));
     }
@@ -4654,11 +4654,11 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         }
     }
 
-    /* JADX WARN: Can't wrap try/catch for region: R(17:137|(1:226)(1:141)|142|(8:144|(1:172)(1:148)|(1:171)(1:154)|155|(4:157|(1:159)(1:165)|160|(1:164))|(1:167)|168|(1:170))|173|(3:175|(1:177)(1:179)|178)|180|(3:182|(2:186|(1:196))|197)|198|(3:200|(2:202|(1:206))|207)|208|(4:210|(1:224)(1:214)|215|(5:217|218|219|220|221))|225|218|219|220|221) */
-    /* JADX WARN: Can't wrap try/catch for region: R(29:13|(1:15)|16|(1:126)(1:22)|23|(3:25|(1:29)|30)(1:(9:91|(1:93)(1:118)|94|(3:98|(1:100)|101)|102|(3:104|(1:110)|111)|112|(1:116)|117)(2:119|(18:125|32|(1:36)|37|(1:89)|40|(1:86)(1:44)|45|(1:85)(1:49)|(1:84)|(4:56|(1:58)(1:64)|59|(1:63))|(1:66)|67|(3:69|(2:71|(1:75))|76)|77|78|79|80)))|31|32|(2:34|36)|37|(0)|87|89|40|(1:42)|86|45|(1:47)|85|(2:51|53)|84|(0)|(0)|67|(0)|77|78|79|80) */
-    /* JADX WARN: Removed duplicated region for block: B:346:0x024b  */
-    /* JADX WARN: Removed duplicated region for block: B:356:0x0280  */
-    /* JADX WARN: Removed duplicated region for block: B:359:0x0297  */
+    /* JADX WARN: Can't wrap try/catch for region: R(15:147|(1:229)(1:151)|152|(8:154|(1:182)(1:158)|(1:181)(1:164)|165|(4:167|(1:169)(1:175)|170|(1:174))|(1:177)|178|(1:180))|183|(3:185|(1:187)(1:189)|188)|190|(4:192|(1:194)(1:210)|(2:198|(1:208))|209)|211|(4:213|(1:227)(1:217)|218|(5:220|221|222|223|224))|228|221|222|223|224) */
+    /* JADX WARN: Can't wrap try/catch for region: R(29:13|(1:15)|16|(1:136)(1:22)|23|(3:25|(1:29)|30)(1:(9:101|(1:103)(1:128)|104|(3:108|(1:110)|111)|112|(3:114|(1:120)|121)|122|(1:126)|127)(2:129|(18:135|32|(1:36)|37|(1:99)|40|(1:96)(1:44)|45|(1:95)(1:49)|(1:94)|(4:56|(1:58)(1:64)|59|(1:63))|(1:66)|67|(4:69|(1:71)|(2:75|(1:85))|86)|87|88|89|90)))|31|32|(2:34|36)|37|(0)|97|99|40|(1:42)|96|45|(1:47)|95|(2:51|53)|94|(0)|(0)|67|(0)|87|88|89|90) */
+    /* JADX WARN: Removed duplicated region for block: B:350:0x024b  */
+    /* JADX WARN: Removed duplicated region for block: B:360:0x0280  */
+    /* JADX WARN: Removed duplicated region for block: B:363:0x0297  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -4791,20 +4791,11 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                 actionBarMenuSubItem4.setVisibility(this.voiceOnce ? 8 : 0);
             }
             if (this.sendWhenOnlineButton != null) {
-                TLRPC$User currentUser = this.parentFragment.getCurrentUser();
+                ChatActivity chatActivity5 = this.parentFragment;
+                TLRPC$User currentUser = chatActivity5 == null ? null : chatActivity5.getCurrentUser();
                 if (currentUser != null && !currentUser.bot) {
                     TLRPC$UserStatus tLRPC$UserStatus = currentUser.status;
                     if (!(tLRPC$UserStatus instanceof TLRPC$TL_userStatusEmpty) && !(tLRPC$UserStatus instanceof TLRPC$TL_userStatusOnline) && !(tLRPC$UserStatus instanceof TLRPC$TL_userStatusRecently) && !(tLRPC$UserStatus instanceof TLRPC$TL_userStatusLastMonth) && !(tLRPC$UserStatus instanceof TLRPC$TL_userStatusLastWeek)) {
-                        this.sendWhenOnlineButton.setVisibility(0);
-                    }
-                }
-                this.sendWhenOnlineButton.setVisibility(8);
-            }
-            if (this.sendWhenOnlineButton != null) {
-                TLRPC$User currentUser2 = this.parentFragment.getCurrentUser();
-                if (currentUser2 != null) {
-                    TLRPC$UserStatus tLRPC$UserStatus2 = currentUser2.status;
-                    if (!(tLRPC$UserStatus2 instanceof TLRPC$TL_userStatusEmpty) && !(tLRPC$UserStatus2 instanceof TLRPC$TL_userStatusOnline)) {
                         this.sendWhenOnlineButton.setVisibility(0);
                     }
                 }
@@ -4896,8 +4887,8 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             if (this.messageWebPage != null) {
                 TLRPC$TL_messageMediaWebPage tLRPC$TL_messageMediaWebPage = new TLRPC$TL_messageMediaWebPage();
                 tLRPC$TL_messageMediaWebPage.webpage = this.messageWebPage;
-                ChatActivity chatActivity5 = this.parentFragment;
-                if (chatActivity5 != null && (messagePreviewParams2 = chatActivity5.messagePreviewParams) != null && messagePreviewParams2.hasMedia) {
+                ChatActivity chatActivity6 = this.parentFragment;
+                if (chatActivity6 != null && (messagePreviewParams2 = chatActivity6.messagePreviewParams) != null && messagePreviewParams2.hasMedia) {
                     boolean z9 = messagePreviewParams2.webpageSmall;
                     tLRPC$TL_messageMediaWebPage.force_small_media = z9;
                     tLRPC$TL_messageMediaWebPage.force_large_media = !z9;
@@ -4917,8 +4908,8 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             messageObject5.notime = true;
             arrayList2.add(messageObject5);
         } else {
-            ChatActivity chatActivity6 = this.parentFragment;
-            if (chatActivity6 != null && (instantCameraView = chatActivity6.instantCameraView) != null && instantCameraView.getTextureView() != null) {
+            ChatActivity chatActivity7 = this.parentFragment;
+            if (chatActivity7 != null && (instantCameraView = chatActivity7.instantCameraView) != null && instantCameraView.getTextureView() != null) {
                 this.messageSendPreview.setCameraTexture(this.parentFragment.instantCameraView.getTextureView());
                 z = true;
                 this.messageSendPreview.setMessageObjects(arrayList2);
@@ -4945,10 +4936,10 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                     this.messageSendPreview.allowEffectSelector(this.parentFragment);
                 }
                 ItemOptions makeOptions = ItemOptions.makeOptions(this, this.resourcesProvider, this.sendButton);
-                ChatActivity chatActivity7 = this.parentFragment;
-                z2 = chatActivity7 == null && UserObject.isUserSelf(chatActivity7.getCurrentUser());
                 ChatActivity chatActivity8 = this.parentFragment;
-                z3 = chatActivity8 == null && chatActivity8.canScheduleMessage();
+                z2 = chatActivity8 == null && UserObject.isUserSelf(chatActivity8.getCurrentUser());
+                ChatActivity chatActivity9 = this.parentFragment;
+                z3 = chatActivity9 == null && chatActivity9.canScheduleMessage();
                 if (!z2 || (this.slowModeTimer > 0 && !isInScheduleMode())) {
                     z4 = false;
                 }
@@ -4979,10 +4970,11 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                 }
                 makeOptions.setupSelectors();
                 if (this.sendWhenOnlineButton != null) {
-                    TLRPC$User currentUser3 = this.parentFragment.getCurrentUser();
-                    if (currentUser3 != null) {
-                        TLRPC$UserStatus tLRPC$UserStatus3 = currentUser3.status;
-                        if (!(tLRPC$UserStatus3 instanceof TLRPC$TL_userStatusEmpty) && !(tLRPC$UserStatus3 instanceof TLRPC$TL_userStatusOnline)) {
+                    ChatActivity chatActivity10 = this.parentFragment;
+                    TLRPC$User currentUser2 = chatActivity10 != null ? chatActivity10.getCurrentUser() : null;
+                    if (currentUser2 != null && !currentUser2.bot) {
+                        TLRPC$UserStatus tLRPC$UserStatus2 = currentUser2.status;
+                        if (!(tLRPC$UserStatus2 instanceof TLRPC$TL_userStatusEmpty) && !(tLRPC$UserStatus2 instanceof TLRPC$TL_userStatusOnline) && !(tLRPC$UserStatus2 instanceof TLRPC$TL_userStatusRecently) && !(tLRPC$UserStatus2 instanceof TLRPC$TL_userStatusLastMonth) && !(tLRPC$UserStatus2 instanceof TLRPC$TL_userStatusLastWeek)) {
                             this.sendWhenOnlineButton.setVisibility(0);
                         }
                     }
@@ -5019,11 +5011,11 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         }
         this.messageSendPreview.allowEffectSelector(this.parentFragment);
         ItemOptions makeOptions2 = ItemOptions.makeOptions(this, this.resourcesProvider, this.sendButton);
-        ChatActivity chatActivity72 = this.parentFragment;
-        if (chatActivity72 == null) {
-        }
         ChatActivity chatActivity82 = this.parentFragment;
         if (chatActivity82 == null) {
+        }
+        ChatActivity chatActivity92 = this.parentFragment;
+        if (chatActivity92 == null) {
         }
         if (!z2) {
         }
@@ -10264,6 +10256,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         }
         doneEditingMessage();
         messageSendPreview.dismiss(true);
+        this.captionAbove = false;
     }
 
     public /* synthetic */ void lambda$setEditingMessageObject$56(CharSequence charSequence) {
@@ -13751,7 +13744,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             TextPaint textPaint2 = new TextPaint(1);
             this.bluePaint = textPaint2;
             textPaint2.setTextSize(AndroidUtilities.dp(15.0f));
-            this.bluePaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            this.bluePaint.setTypeface(AndroidUtilities.bold());
             this.arrowPaint.setColor(r4.getThemedColor(Theme.key_chat_messagePanelIcons));
             this.arrowPaint.setStyle(Paint.Style.STROKE);
             this.arrowPaint.setStrokeWidth(AndroidUtilities.dpf2(this.smallSize ? 1.0f : 1.6f));
@@ -13975,7 +13968,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                 TextPaint textPaint = new TextPaint(1);
                 this.textPaint = textPaint;
                 textPaint.setTextSize(AndroidUtilities.dp(15.0f));
-                this.textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                this.textPaint.setTypeface(AndroidUtilities.bold());
                 this.textPaint.setColor(ChatActivityEnterView.this.getThemedColor(Theme.key_chat_recordTime));
             }
             long currentTimeMillis = System.currentTimeMillis();

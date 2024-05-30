@@ -349,7 +349,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
             this.actionBtn.setEllipsize(TextUtils.TruncateAt.END);
             this.actionBtn.setSingleLine(true);
             this.actionBtn.setTextSize(1, 14.0f);
-            this.actionBtn.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            this.actionBtn.setTypeface(AndroidUtilities.bold());
             this.actionBtn.setText(this.premiumButtonView.getTextView().getText());
             this.actionBtn.setTextColor(Theme.getColor(Theme.key_featuredStickers_buttonText, resourcesProvider));
             this.actionBtn.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda8
@@ -1740,19 +1740,19 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
         /* JADX WARN: Removed duplicated region for block: B:204:0x04c7  */
         /* JADX WARN: Removed duplicated region for block: B:205:0x04ca  */
         /* JADX WARN: Removed duplicated region for block: B:208:0x04d4  */
-        /* JADX WARN: Removed duplicated region for block: B:281:0x0885  */
-        /* JADX WARN: Removed duplicated region for block: B:312:0x0947  */
-        /* JADX WARN: Removed duplicated region for block: B:315:0x09a3  */
-        /* JADX WARN: Removed duplicated region for block: B:318:0x09b6  */
-        /* JADX WARN: Removed duplicated region for block: B:375:0x0b0f A[ADDED_TO_REGION] */
-        /* JADX WARN: Removed duplicated region for block: B:386:0x0b4e  */
-        /* JADX WARN: Removed duplicated region for block: B:389:0x0b59  */
-        /* JADX WARN: Removed duplicated region for block: B:394:0x0ba8  */
-        /* JADX WARN: Removed duplicated region for block: B:404:0x0cf9  */
-        /* JADX WARN: Removed duplicated region for block: B:408:0x0d1f  */
-        /* JADX WARN: Removed duplicated region for block: B:411:0x0d32  */
-        /* JADX WARN: Removed duplicated region for block: B:412:0x0d4a  */
-        /* JADX WARN: Removed duplicated region for block: B:415:0x0d65  */
+        /* JADX WARN: Removed duplicated region for block: B:281:0x0881  */
+        /* JADX WARN: Removed duplicated region for block: B:312:0x0943  */
+        /* JADX WARN: Removed duplicated region for block: B:315:0x099d  */
+        /* JADX WARN: Removed duplicated region for block: B:318:0x09b0  */
+        /* JADX WARN: Removed duplicated region for block: B:375:0x0b09 A[ADDED_TO_REGION] */
+        /* JADX WARN: Removed duplicated region for block: B:386:0x0b48  */
+        /* JADX WARN: Removed duplicated region for block: B:389:0x0b53  */
+        /* JADX WARN: Removed duplicated region for block: B:394:0x0ba2  */
+        /* JADX WARN: Removed duplicated region for block: B:404:0x0cf3  */
+        /* JADX WARN: Removed duplicated region for block: B:408:0x0d19  */
+        /* JADX WARN: Removed duplicated region for block: B:411:0x0d2c  */
+        /* JADX WARN: Removed duplicated region for block: B:412:0x0d44  */
+        /* JADX WARN: Removed duplicated region for block: B:415:0x0d5f  */
         @SuppressLint({"SetTextI18n"})
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1922,7 +1922,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
                                     addView(avatarsImageView, LayoutHelper.createLinear(((min - 1) * 30) + 72, 72, 1, 0, 16, 0, 13));
                                     TextView textView = new TextView(context);
                                     textView.setGravity(17);
-                                    textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                                    textView.setTypeface(AndroidUtilities.bold());
                                     textView.setTextSize(1, 20.0f);
                                     int i22 = Theme.key_dialogTextBlack;
                                     textView.setTextColor(Theme.getColor(i22));
@@ -1983,7 +1983,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
                                         addView(simpleTextView, LayoutHelper.createLinear(190, -2, 1, 12, 0, 12, 20));
                                         TextView textView3 = new TextView(context);
                                         textView3.setGravity(17);
-                                        textView3.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                                        textView3.setTypeface(AndroidUtilities.bold());
                                         textView3.setTextSize(1, 20.0f);
                                         textView3.setTextColor(Theme.getColor(i22));
                                         textView3.setText(LocaleController.getString(R.string.InviteBlockedTitle));
@@ -2052,7 +2052,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
                                 }
                                 TextView textView5 = new TextView(context);
                                 this.title = textView5;
-                                textView5.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                                textView5.setTypeface(AndroidUtilities.bold());
                                 i5 = LimitReachedBottomSheet.this.type;
                                 if (i5 != 31) {
                                     this.title.setText(LocaleController.getString(R.string.BoostingAdditionalFeaturesTitle));
@@ -2270,7 +2270,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
                         }
                         TextView textView52 = new TextView(context);
                         this.title = textView52;
-                        textView52.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                        textView52.setTypeface(AndroidUtilities.bold());
                         i5 = LimitReachedBottomSheet.this.type;
                         if (i5 != 31) {
                         }
@@ -2317,7 +2317,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
                 }
                 TextView textView522 = new TextView(context);
                 this.title = textView522;
-                textView522.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                textView522.setTypeface(AndroidUtilities.bold());
                 i5 = LimitReachedBottomSheet.this.type;
                 if (i5 != 31) {
                 }
@@ -2382,7 +2382,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
             }
             TextView textView5222 = new TextView(context);
             this.title = textView5222;
-            textView5222.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            textView5222.setTypeface(AndroidUtilities.bold());
             i5 = LimitReachedBottomSheet.this.type;
             if (i5 != 31) {
             }
@@ -2454,7 +2454,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
                 removeView(this.title);
                 TextView textView = new TextView(getContext());
                 this.title = textView;
-                textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                textView.setTypeface(AndroidUtilities.bold());
                 this.title.setTextSize(1, 20.0f);
                 this.title.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, ((BottomSheet) LimitReachedBottomSheet.this).resourcesProvider));
                 this.title.setGravity(17);
@@ -3141,7 +3141,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
             this.levelTextView = simpleTextView2;
             simpleTextView2.setTextColor(-1);
             simpleTextView2.setWidthWrapContent(true);
-            simpleTextView2.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            simpleTextView2.setTypeface(AndroidUtilities.bold());
             simpleTextView2.setTextSize(14);
             FrameLayout frameLayout = new FrameLayout(context, limitReachedBottomSheet, resourcesProvider) { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet.BoostFeatureCell.1
                 private final Paint dividerPaint;
@@ -3209,7 +3209,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
                     if (indexOf >= 0) {
                         spannableStringBuilder = new SpannableStringBuilder(string);
                         SpannableString spannableString = new SpannableString(this.feature.countPlural + "");
-                        spannableString.setSpan(new TypefaceSpan(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM)), 0, spannableString.length(), 33);
+                        spannableString.setSpan(new TypefaceSpan(AndroidUtilities.bold()), 0, spannableString.length(), 33);
                         spannableStringBuilder.replace(indexOf, indexOf + 2, (CharSequence) spannableString);
                     }
                     this.textView.setText(spannableStringBuilder);
@@ -3222,7 +3222,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
                         if (indexOf2 >= 0) {
                             spannableStringBuilder2 = new SpannableStringBuilder(str);
                             SpannableString spannableString2 = new SpannableString(this.feature.countValue);
-                            spannableString2.setSpan(new TypefaceSpan(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM)), 0, spannableString2.length(), 33);
+                            spannableString2.setSpan(new TypefaceSpan(AndroidUtilities.bold()), 0, spannableString2.length(), 33);
                             spannableStringBuilder2.replace(indexOf2, indexOf2 + 2, (CharSequence) spannableString2);
                         }
                         this.textView.setText(spannableStringBuilder2);

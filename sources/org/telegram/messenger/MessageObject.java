@@ -1130,7 +1130,7 @@ public class MessageObject {
             boolean z2 = i >= 75 && !z;
             this.hasCodeCopyButton = z2;
             if (z2) {
-                this.copyText = new Text(LocaleController.getString(R.string.CopyCode).toUpperCase(), SharedConfig.fontSize - 3, AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                this.copyText = new Text(LocaleController.getString(R.string.CopyCode).toUpperCase(), SharedConfig.fontSize - 3, AndroidUtilities.bold());
                 Drawable mutate = ApplicationLoader.applicationContext.getResources().getDrawable(R.drawable.msg_copy).mutate();
                 this.copyIcon = mutate;
                 mutate.setColorFilter(new PorterDuffColorFilter(this.copyIconColor, PorterDuff.Mode.SRC_IN));
@@ -1143,7 +1143,7 @@ public class MessageObject {
                 return;
             }
             this.language = str;
-            Text text = new Text(capitalizeLanguage(str), (SharedConfig.fontSize - 1) - (CodeHighlighting.getTextSizeDecrement(i) / 2), AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            Text text = new Text(capitalizeLanguage(str), (SharedConfig.fontSize - 1) - (CodeHighlighting.getTextSizeDecrement(i) / 2), AndroidUtilities.bold());
             this.languageLayout = text;
             this.languageHeight = ((int) (text.getTextSize() * 1.714f)) + AndroidUtilities.dp(4.0f);
         }
@@ -5305,27 +5305,27 @@ public class MessageObject {
     /* JADX WARN: Removed duplicated region for block: B:11:0x002a  */
     /* JADX WARN: Removed duplicated region for block: B:12:0x002c  */
     /* JADX WARN: Removed duplicated region for block: B:15:0x0041  */
-    /* JADX WARN: Removed duplicated region for block: B:248:0x06d7  */
-    /* JADX WARN: Removed duplicated region for block: B:249:0x06da  */
-    /* JADX WARN: Removed duplicated region for block: B:252:0x06e1  */
-    /* JADX WARN: Removed duplicated region for block: B:253:0x06e4  */
-    /* JADX WARN: Removed duplicated region for block: B:265:0x0712  */
-    /* JADX WARN: Removed duplicated region for block: B:266:0x071d  */
-    /* JADX WARN: Removed duplicated region for block: B:272:0x072a  */
-    /* JADX WARN: Removed duplicated region for block: B:282:0x0750  */
-    /* JADX WARN: Removed duplicated region for block: B:303:0x07b2  */
-    /* JADX WARN: Removed duplicated region for block: B:347:0x085a  */
-    /* JADX WARN: Removed duplicated region for block: B:351:0x0878  */
-    /* JADX WARN: Removed duplicated region for block: B:370:0x08d8  */
-    /* JADX WARN: Removed duplicated region for block: B:371:0x08ee  */
-    /* JADX WARN: Removed duplicated region for block: B:387:0x0938  */
-    /* JADX WARN: Removed duplicated region for block: B:388:0x0944  */
-    /* JADX WARN: Removed duplicated region for block: B:476:0x0b4a  */
-    /* JADX WARN: Removed duplicated region for block: B:497:0x0bf5  */
-    /* JADX WARN: Removed duplicated region for block: B:814:0x14f6  */
-    /* JADX WARN: Removed duplicated region for block: B:828:0x153d  */
-    /* JADX WARN: Removed duplicated region for block: B:829:0x1540  */
-    /* JADX WARN: Removed duplicated region for block: B:961:0x18b5  */
+    /* JADX WARN: Removed duplicated region for block: B:248:0x06d3  */
+    /* JADX WARN: Removed duplicated region for block: B:249:0x06d6  */
+    /* JADX WARN: Removed duplicated region for block: B:252:0x06dd  */
+    /* JADX WARN: Removed duplicated region for block: B:253:0x06e0  */
+    /* JADX WARN: Removed duplicated region for block: B:265:0x070e  */
+    /* JADX WARN: Removed duplicated region for block: B:266:0x0719  */
+    /* JADX WARN: Removed duplicated region for block: B:272:0x0726  */
+    /* JADX WARN: Removed duplicated region for block: B:282:0x074c  */
+    /* JADX WARN: Removed duplicated region for block: B:303:0x07ae  */
+    /* JADX WARN: Removed duplicated region for block: B:347:0x0856  */
+    /* JADX WARN: Removed duplicated region for block: B:351:0x0874  */
+    /* JADX WARN: Removed duplicated region for block: B:370:0x08d4  */
+    /* JADX WARN: Removed duplicated region for block: B:371:0x08ea  */
+    /* JADX WARN: Removed duplicated region for block: B:387:0x0934  */
+    /* JADX WARN: Removed duplicated region for block: B:388:0x0940  */
+    /* JADX WARN: Removed duplicated region for block: B:476:0x0b46  */
+    /* JADX WARN: Removed duplicated region for block: B:497:0x0bf1  */
+    /* JADX WARN: Removed duplicated region for block: B:814:0x14f2  */
+    /* JADX WARN: Removed duplicated region for block: B:828:0x1539  */
+    /* JADX WARN: Removed duplicated region for block: B:829:0x153c  */
+    /* JADX WARN: Removed duplicated region for block: B:961:0x18b1  */
     /* JADX WARN: Removed duplicated region for block: B:987:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -5422,14 +5422,14 @@ public class MessageObject {
                                 } else if (tLRPC$TL_messageActionSetChatWallPaper.for_both && user3 != null) {
                                     this.messageText = LocaleController.getString(R.string.ActionSetWallpaperForThisChatSelfBoth);
                                     SpannableString spannableString = new SpannableString(UserObject.getFirstName(user3));
-                                    spannableString.setSpan(new TypefaceSpan(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM)), 0, spannableString.length(), 33);
+                                    spannableString.setSpan(new TypefaceSpan(AndroidUtilities.bold()), 0, spannableString.length(), 33);
                                     this.messageText = AndroidUtilities.replaceCharSequence("%s", this.messageText, spannableString);
                                 } else {
                                     this.messageText = LocaleController.getString(R.string.ActionSetWallpaperForThisChatSelf);
                                 }
                             } else {
                                 SpannableString spannableString2 = new SpannableString(UserObject.getFirstName(user2));
-                                spannableString2.setSpan(new TypefaceSpan(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM)), 0, spannableString2.length(), 33);
+                                spannableString2.setSpan(new TypefaceSpan(AndroidUtilities.bold()), 0, spannableString2.length(), 33);
                                 if (tLRPC$TL_messageActionSetChatWallPaper.same) {
                                     this.type = 10;
                                     this.messageText = LocaleController.getString(R.string.ActionSetSameWallpaperForThisChat);

@@ -2765,7 +2765,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
         MediaDataController.getInstance(this.currentAccount).setPlaceholderImage(backupImageView, AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME_2, "😎", "150_150");
         linearLayout.addView(backupImageView, LayoutHelper.createLinear((int) ImageReceiver.DEFAULT_CROSSFADE_DURATION, (int) ImageReceiver.DEFAULT_CROSSFADE_DURATION, 1, 0, 16, 0, 16));
         TextView textView = new TextView(getContext());
-        textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        textView.setTypeface(AndroidUtilities.bold());
         textView.setGravity(17);
         textView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack, this.resourcesProvider));
         textView.setTextSize(1, 20.0f);
@@ -4599,7 +4599,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
         LinearLayout linearLayout = new LinearLayout(getContext());
         linearLayout.setOrientation(1);
         TextView textView = new TextView(getContext());
-        textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        textView.setTypeface(AndroidUtilities.bold());
         textView.setGravity(1);
         textView.setTextSize(1, 16.0f);
         textView.setText(LocaleController.getString("StoryUnsupported", R.string.StoryUnsupported));
@@ -4611,7 +4611,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
         textView2.setTextColor(Theme.getColor(i, this.resourcesProvider));
         textView2.setPadding(AndroidUtilities.dp(16.0f), AndroidUtilities.dp(12.0f), AndroidUtilities.dp(16.0f), AndroidUtilities.dp(12.0f));
         textView2.setGravity(17);
-        textView2.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        textView2.setTypeface(AndroidUtilities.bold());
         textView2.setTextSize(1, 15.0f);
         textView2.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(8.0f), Theme.getColor(Theme.key_featuredStickers_addButton, this.resourcesProvider), ColorUtils.setAlphaComponent(Theme.getColor(i, this.resourcesProvider), 30)));
         textView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.PeerStoriesView$$ExternalSyntheticLambda15
@@ -6861,7 +6861,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
             SimpleTextView simpleTextView = new SimpleTextView(context);
             this.titleView = simpleTextView;
             simpleTextView.setTextSize(14);
-            this.titleView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            this.titleView.setTypeface(AndroidUtilities.bold());
             this.titleView.setMaxLines(1);
             this.titleView.setEllipsizeByGradient(AndroidUtilities.dp(4.0f));
             NotificationCenter.listenEmojiLoading(this.titleView);

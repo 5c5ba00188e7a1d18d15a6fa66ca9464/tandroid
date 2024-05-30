@@ -79,7 +79,7 @@ public class CreateGroupCallBottomSheet extends BottomSheetWithRecyclerListView 
         textView.setEllipsize(TextUtils.TruncateAt.END);
         textView.setSingleLine(true);
         textView.setTextSize(1, 14.0f);
-        textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        textView.setTypeface(AndroidUtilities.bold());
         if (isChannelOrGiga) {
             formatString = LocaleController.formatString("VoipChannelStartVoiceChat", R.string.VoipChannelStartVoiceChat, new Object[0]);
         } else {
@@ -96,7 +96,7 @@ public class CreateGroupCallBottomSheet extends BottomSheetWithRecyclerListView 
         textView2.setEllipsize(TextUtils.TruncateAt.END);
         textView2.setSingleLine(true);
         textView2.setTextSize(1, 14.0f);
-        textView2.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        textView2.setTypeface(AndroidUtilities.bold());
         if (isChannelOrGiga) {
             formatString2 = LocaleController.formatString("VoipChannelScheduleVoiceChat", R.string.VoipChannelScheduleVoiceChat, new Object[0]);
         } else {
@@ -269,7 +269,7 @@ public class CreateGroupCallBottomSheet extends BottomSheetWithRecyclerListView 
             rLottieImageView.playAnimation();
             addView(rLottieImageView, LayoutHelper.createLinear((int) R.styleable.AppCompatTheme_toolbarNavigationButtonStyle, (int) R.styleable.AppCompatTheme_toolbarNavigationButtonStyle, 49, 0, 24, 0, 0));
             TextView textView = new TextView(context);
-            textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            textView.setTypeface(AndroidUtilities.bold());
             if (z) {
                 formatString = LocaleController.formatString("StartVoipChannelTitle", R.string.StartVoipChannelTitle, new Object[0]);
             } else {

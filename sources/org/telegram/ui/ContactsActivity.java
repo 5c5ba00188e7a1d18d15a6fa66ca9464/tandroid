@@ -242,31 +242,31 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX WARN: Can't wrap try/catch for region: R(17:1|(2:3|(1:5)(2:95|(1:97)(1:98)))(1:99)|6|(3:10|(1:12)(1:14)|13)|15|(1:17)(2:86|(2:88|(1:93)(1:92))(11:94|19|20|21|(2:23|(1:25)(1:82))(1:83)|26|(20:30|(1:32)(1:75)|33|(1:35)(1:74)|36|(1:38)(1:73)|39|(1:41)(1:72)|42|(1:44)(1:71)|45|(1:47)|48|(3:50|(1:52)(1:65)|53)(3:66|(1:68)(1:70)|69)|54|(1:56)|57|(1:59)(1:64)|(1:61)(1:63)|62)|76|(1:78)|79|80))|18|19|20|21|(0)(0)|26|(21:28|30|(0)(0)|33|(0)(0)|36|(0)(0)|39|(0)(0)|42|(0)(0)|45|(0)|48|(0)(0)|54|(0)|57|(0)(0)|(0)(0)|62)|76|(0)|79|80) */
-    /* JADX WARN: Code restructure failed: missing block: B:36:0x018e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:36:0x018c, code lost:
         r25.hasGps = false;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x01b2  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x01ba  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x02a3  */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x02a6  */
-    /* JADX WARN: Removed duplicated region for block: B:54:0x02ac  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x02af  */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x02b8  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x02ba  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x02c2  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x02c5  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x02cb  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x02ce  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x0309  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x0360  */
-    /* JADX WARN: Removed duplicated region for block: B:78:0x036d  */
-    /* JADX WARN: Removed duplicated region for block: B:85:0x038a  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x03f0  */
-    /* JADX WARN: Removed duplicated region for block: B:89:0x03f3  */
-    /* JADX WARN: Removed duplicated region for block: B:91:0x03f7  */
-    /* JADX WARN: Removed duplicated region for block: B:92:0x03fa  */
-    /* JADX WARN: Removed duplicated region for block: B:96:0x0414  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x01b0  */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x01b8  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x02a1  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x02a4  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x02aa  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x02ad  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x02b6  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x02b8  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x02c0  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x02c3  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x02c9  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x02cc  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x0307  */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x035e  */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x036b  */
+    /* JADX WARN: Removed duplicated region for block: B:85:0x0388  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x03ee  */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x03f1  */
+    /* JADX WARN: Removed duplicated region for block: B:91:0x03f5  */
+    /* JADX WARN: Removed duplicated region for block: B:92:0x03f8  */
+    /* JADX WARN: Removed duplicated region for block: B:96:0x0412  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -301,7 +301,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         NumberTextView numberTextView = new NumberTextView(createActionMode.getContext());
         this.selectedContactsCountTextView = numberTextView;
         numberTextView.setTextSize(18);
-        this.selectedContactsCountTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.selectedContactsCountTextView.setTypeface(AndroidUtilities.bold());
         this.selectedContactsCountTextView.setTextColor(Theme.getColor(Theme.key_actionBarActionModeDefaultIcon));
         createActionMode.addView(this.selectedContactsCountTextView, LayoutHelper.createLinear(0, -1, 1.0f, 72, 0, 0, 0));
         this.selectedContactsCountTextView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ContactsActivity$$ExternalSyntheticLambda7

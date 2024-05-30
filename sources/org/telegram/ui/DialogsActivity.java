@@ -3231,17 +3231,17 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:321:0x0d31  */
-    /* JADX WARN: Removed duplicated region for block: B:339:0x0d9d  */
-    /* JADX WARN: Removed duplicated region for block: B:346:0x0ddd  */
-    /* JADX WARN: Removed duplicated region for block: B:350:0x0e8d  */
-    /* JADX WARN: Removed duplicated region for block: B:357:0x0eea  */
-    /* JADX WARN: Removed duplicated region for block: B:361:0x0f33  */
-    /* JADX WARN: Removed duplicated region for block: B:362:0x0f36  */
-    /* JADX WARN: Removed duplicated region for block: B:365:0x0f43  */
-    /* JADX WARN: Removed duplicated region for block: B:373:0x0fca  */
-    /* JADX WARN: Removed duplicated region for block: B:374:0x0fd5  */
-    /* JADX WARN: Removed duplicated region for block: B:382:0x0fff  */
+    /* JADX WARN: Removed duplicated region for block: B:321:0x0d2f  */
+    /* JADX WARN: Removed duplicated region for block: B:339:0x0d9b  */
+    /* JADX WARN: Removed duplicated region for block: B:346:0x0ddb  */
+    /* JADX WARN: Removed duplicated region for block: B:350:0x0e89  */
+    /* JADX WARN: Removed duplicated region for block: B:357:0x0ee6  */
+    /* JADX WARN: Removed duplicated region for block: B:361:0x0f2f  */
+    /* JADX WARN: Removed duplicated region for block: B:362:0x0f32  */
+    /* JADX WARN: Removed duplicated region for block: B:365:0x0f3f  */
+    /* JADX WARN: Removed duplicated region for block: B:373:0x0fc6  */
+    /* JADX WARN: Removed duplicated region for block: B:374:0x0fd1  */
+    /* JADX WARN: Removed duplicated region for block: B:382:0x0ffb  */
     /* JADX WARN: Type inference failed for: r0v115, types: [org.telegram.ui.ActionBar.ActionBar] */
     /* JADX WARN: Type inference failed for: r0v17, types: [org.telegram.ui.ActionBar.ActionBar] */
     /* JADX WARN: Type inference failed for: r0v235, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, org.telegram.ui.Components.RecyclerListView] */
@@ -3249,13 +3249,13 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     /* JADX WARN: Type inference failed for: r13v0 */
     /* JADX WARN: Type inference failed for: r13v1, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r13v4 */
+    /* JADX WARN: Type inference failed for: r2v85, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, org.telegram.ui.Components.RecyclerListView] */
     /* JADX WARN: Type inference failed for: r2v86, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, org.telegram.ui.Components.RecyclerListView] */
     /* JADX WARN: Type inference failed for: r2v87, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, org.telegram.ui.Components.RecyclerListView] */
-    /* JADX WARN: Type inference failed for: r2v88, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, org.telegram.ui.Components.RecyclerListView] */
-    /* JADX WARN: Type inference failed for: r2v89, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, androidx.recyclerview.widget.RecyclerView] */
+    /* JADX WARN: Type inference failed for: r2v88, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, androidx.recyclerview.widget.RecyclerView] */
+    /* JADX WARN: Type inference failed for: r2v92, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, org.telegram.ui.Components.RecyclerListView] */
     /* JADX WARN: Type inference failed for: r2v93, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, org.telegram.ui.Components.RecyclerListView] */
-    /* JADX WARN: Type inference failed for: r2v94, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, org.telegram.ui.Components.RecyclerListView] */
-    /* JADX WARN: Type inference failed for: r2v96, types: [androidx.recyclerview.widget.LinearLayoutManager] */
+    /* JADX WARN: Type inference failed for: r2v95, types: [androidx.recyclerview.widget.LinearLayoutManager] */
     /* JADX WARN: Type inference failed for: r3v49, types: [android.graphics.drawable.BitmapDrawable] */
     /* JADX WARN: Type inference failed for: r7v0 */
     /* JADX WARN: Type inference failed for: r7v1, types: [int, boolean] */
@@ -4348,7 +4348,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 this.writeButtonContainer.setAlpha(0.0f);
                 contentView3.addView(this.writeButtonContainer, LayoutHelper.createFrame(60, 60.0f, 85, 0.0f, 0.0f, 6.0f, 10.0f));
                 this.textPaint.setTextSize(AndroidUtilities.dp(12.0f));
-                this.textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                this.textPaint.setTypeface(AndroidUtilities.bold());
                 View view2 = new View(context2) { // from class: org.telegram.ui.DialogsActivity.27
                     @Override // android.view.View
                     protected void onDraw(Canvas canvas) {
@@ -4528,7 +4528,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     TextView textView = new TextView(context2);
                     this.updateTextView = textView;
                     textView.setTextSize(1, 15.0f);
-                    this.updateTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                    this.updateTextView.setTypeface(AndroidUtilities.bold());
                     this.updateTextView.setText(LocaleController.getString("AppUpdateNow", R.string.AppUpdateNow).toUpperCase());
                     this.updateTextView.setTextColor(-1);
                     this.updateTextView.setPadding(AndroidUtilities.dp(30.0f), 0, 0, 0);
@@ -4888,7 +4888,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             TextView textView2 = new TextView(context2);
             this.updateTextView = textView2;
             textView2.setTextSize(1, 15.0f);
-            this.updateTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            this.updateTextView.setTypeface(AndroidUtilities.bold());
             this.updateTextView.setText(LocaleController.getString("AppUpdateNow", R.string.AppUpdateNow).toUpperCase());
             this.updateTextView.setTextColor(-1);
             this.updateTextView.setPadding(AndroidUtilities.dp(30.0f), 0, 0, 0);
@@ -8142,7 +8142,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         NumberTextView numberTextView = new NumberTextView(createActionMode.getContext());
         this.selectedDialogsCountTextView = numberTextView;
         numberTextView.setTextSize(18);
-        this.selectedDialogsCountTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.selectedDialogsCountTextView.setTypeface(AndroidUtilities.bold());
         this.selectedDialogsCountTextView.setTextColor(Theme.getColor(Theme.key_actionBarActionModeDefaultIcon));
         createActionMode.addView(this.selectedDialogsCountTextView, LayoutHelper.createLinear(0, -1, 1.0f, 72, 0, 0, 0));
         this.selectedDialogsCountTextView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda55

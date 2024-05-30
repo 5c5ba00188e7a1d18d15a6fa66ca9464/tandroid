@@ -281,9 +281,9 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
         this.textPaint.setTextAlign(Paint.Align.CENTER);
         this.textPaint2.setTextSize(AndroidUtilities.dp(11.0f));
         this.textPaint2.setTextAlign(Paint.Align.CENTER);
-        this.textPaint2.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.textPaint2.setTypeface(AndroidUtilities.bold());
         this.activeTextPaint.setTextSize(AndroidUtilities.dp(16.0f));
-        this.activeTextPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.activeTextPaint.setTypeface(AndroidUtilities.bold());
         this.activeTextPaint.setTextAlign(Paint.Align.CENTER);
         this.contentView = new FrameLayout(context) { // from class: org.telegram.ui.CalendarActivity.2
             int lastSize;
@@ -394,7 +394,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
             this.selectDaysButton = textView;
             textView.setGravity(17);
             this.selectDaysButton.setTextSize(1, 15.0f);
-            this.selectDaysButton.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            this.selectDaysButton.setTypeface(AndroidUtilities.bold());
             this.selectDaysButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CalendarActivity$$ExternalSyntheticLambda2
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
@@ -408,7 +408,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
             this.removeDaysButton = textView2;
             textView2.setGravity(17);
             this.removeDaysButton.setTextSize(1, 15.0f);
-            this.removeDaysButton.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            this.removeDaysButton.setTypeface(AndroidUtilities.bold());
             this.removeDaysButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CalendarActivity$$ExternalSyntheticLambda1
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
@@ -823,7 +823,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
             }
             this.titleView.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_listSelector), 2));
             this.titleView.setTextSize(15);
-            this.titleView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            this.titleView.setTypeface(AndroidUtilities.bold());
             this.titleView.setGravity(17);
             this.titleView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
             addView(this.titleView, LayoutHelper.createFrame(-1, 28.0f, 0, 0.0f, 12.0f, 0.0f, 4.0f));
