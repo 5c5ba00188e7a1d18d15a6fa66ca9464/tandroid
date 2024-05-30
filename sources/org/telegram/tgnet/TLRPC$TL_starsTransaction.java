@@ -7,6 +7,7 @@ public class TLRPC$TL_starsTransaction extends TLObject {
     public String id;
     public TLRPC$StarsTransactionPeer peer;
     public TLRPC$WebDocument photo;
+    public boolean refund;
     public long stars;
     public String title;
 
@@ -24,7 +25,9 @@ public class TLRPC$TL_starsTransaction extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
-        this.flags = abstractSerializedData.readInt32(z);
+        int readInt32 = abstractSerializedData.readInt32(z);
+        this.flags = readInt32;
+        this.refund = (readInt32 & 8) != 0;
         this.id = abstractSerializedData.readString(z);
         this.stars = abstractSerializedData.readInt64(z);
         this.date = abstractSerializedData.readInt32(z);
@@ -43,7 +46,9 @@ public class TLRPC$TL_starsTransaction extends TLObject {
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
         abstractSerializedData.writeInt32(-865044046);
-        abstractSerializedData.writeInt32(this.flags);
+        int i = this.refund ? this.flags | 8 : this.flags & (-9);
+        this.flags = i;
+        abstractSerializedData.writeInt32(i);
         abstractSerializedData.writeInt64(this.stars);
         abstractSerializedData.writeInt32(this.date);
         this.peer.serializeToStream(abstractSerializedData);

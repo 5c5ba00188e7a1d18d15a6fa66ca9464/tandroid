@@ -29,6 +29,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.webkit.GeolocationPermissions;
 import android.webkit.JavascriptInterface;
 import android.webkit.PermissionRequest;
+import android.webkit.RenderProcessGoneDetail;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -380,25 +381,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
         }
         GeolocationPermissions.getInstance().clearAll();
         this.webView.setVerticalScrollBarEnabled(false);
-        this.webView.setWebViewClient(new WebViewClient() { // from class: org.telegram.ui.bots.BotWebViewContainer.3
-            @Override // android.webkit.WebViewClient
-            public boolean shouldOverrideUrlLoading(WebView webView3, String str) {
-                Uri parse = Uri.parse(str);
-                if (Browser.isInternalUri(parse, null)) {
-                    if (BotWebViewContainer.WHITELISTED_SCHEMES.contains(parse.getScheme())) {
-                        BotWebViewContainer.this.onOpenUri(parse);
-                        return true;
-                    }
-                    return true;
-                }
-                return false;
-            }
-
-            @Override // android.webkit.WebViewClient
-            public void onPageFinished(WebView webView3, String str) {
-                BotWebViewContainer.this.setPageLoaded(str);
-            }
-        });
+        this.webView.setWebViewClient(new 3());
         this.webView.setWebChromeClient(new 4());
         this.webView.setAlpha(0.0f);
         addView(this.webView);
@@ -410,22 +393,110 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes4.dex */
+    public class 3 extends WebViewClient {
+        3() {
+        }
+
+        @Override // android.webkit.WebViewClient
+        public boolean onRenderProcessGone(WebView webView, RenderProcessGoneDetail renderProcessGoneDetail) {
+            new AlertDialog.Builder(BotWebViewContainer.this.getContext(), BotWebViewContainer.this.resourcesProvider).setTitle(LocaleController.getString(R.string.ChromeCrashTitle)).setMessage(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.ChromeCrashMessage), new Runnable() { // from class: org.telegram.ui.bots.BotWebViewContainer$3$$ExternalSyntheticLambda1
+                @Override // java.lang.Runnable
+                public final void run() {
+                    BotWebViewContainer.3.this.lambda$onRenderProcessGone$0();
+                }
+            })).setPositiveButton(LocaleController.getString(R.string.OK), null).setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.bots.BotWebViewContainer$3$$ExternalSyntheticLambda0
+                @Override // android.content.DialogInterface.OnDismissListener
+                public final void onDismiss(DialogInterface dialogInterface) {
+                    BotWebViewContainer.3.this.lambda$onRenderProcessGone$1(dialogInterface);
+                }
+            }).show();
+            return true;
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onRenderProcessGone$0() {
+            Browser.openUrl(BotWebViewContainer.this.getContext(), "https://play.google.com/store/apps/details?id=com.google.android.webview");
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onRenderProcessGone$1(DialogInterface dialogInterface) {
+            if (BotWebViewContainer.this.delegate != null) {
+                BotWebViewContainer.this.delegate.onCloseRequested(null);
+            }
+        }
+
+        @Override // android.webkit.WebViewClient
+        public boolean shouldOverrideUrlLoading(WebView webView, String str) {
+            Uri parse = Uri.parse(str);
+            if (Browser.isInternalUri(parse, null)) {
+                if (BotWebViewContainer.WHITELISTED_SCHEMES.contains(parse.getScheme())) {
+                    BotWebViewContainer.this.onOpenUri(parse);
+                    return true;
+                }
+                return true;
+            }
+            return false;
+        }
+
+        @Override // android.webkit.WebViewClient
+        public void onPageFinished(WebView webView, String str) {
+            BotWebViewContainer.this.setPageLoaded(str);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes4.dex */
     public class 4 extends WebChromeClient {
         private Dialog lastPermissionsDialog;
 
         4() {
         }
 
+        /* JADX INFO: Access modifiers changed from: package-private */
+        /* loaded from: classes4.dex */
+        public class 1 extends WebViewClient {
+            1() {
+            }
+
+            @Override // android.webkit.WebViewClient
+            public boolean onRenderProcessGone(WebView webView, RenderProcessGoneDetail renderProcessGoneDetail) {
+                new AlertDialog.Builder(BotWebViewContainer.this.getContext(), BotWebViewContainer.this.resourcesProvider).setTitle(LocaleController.getString(R.string.ChromeCrashTitle)).setMessage(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.ChromeCrashMessage), new Runnable() { // from class: org.telegram.ui.bots.BotWebViewContainer$4$1$$ExternalSyntheticLambda1
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        BotWebViewContainer.4.1.this.lambda$onRenderProcessGone$0();
+                    }
+                })).setPositiveButton(LocaleController.getString(R.string.OK), null).setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.bots.BotWebViewContainer$4$1$$ExternalSyntheticLambda0
+                    @Override // android.content.DialogInterface.OnDismissListener
+                    public final void onDismiss(DialogInterface dialogInterface) {
+                        BotWebViewContainer.4.1.this.lambda$onRenderProcessGone$1(dialogInterface);
+                    }
+                }).show();
+                return true;
+            }
+
+            /* JADX INFO: Access modifiers changed from: private */
+            public /* synthetic */ void lambda$onRenderProcessGone$0() {
+                Browser.openUrl(BotWebViewContainer.this.getContext(), "https://play.google.com/store/apps/details?id=com.google.android.webview");
+            }
+
+            /* JADX INFO: Access modifiers changed from: private */
+            public /* synthetic */ void lambda$onRenderProcessGone$1(DialogInterface dialogInterface) {
+                if (BotWebViewContainer.this.delegate != null) {
+                    BotWebViewContainer.this.delegate.onCloseRequested(null);
+                }
+            }
+
+            @Override // android.webkit.WebViewClient
+            public boolean shouldOverrideUrlLoading(WebView webView, String str) {
+                BotWebViewContainer.this.onOpenUri(Uri.parse(str));
+                return true;
+            }
+        }
+
         @Override // android.webkit.WebChromeClient
         public boolean onCreateWindow(WebView webView, boolean z, boolean z2, Message message) {
             WebView webView2 = new WebView(webView.getContext());
-            webView2.setWebViewClient(new WebViewClient() { // from class: org.telegram.ui.bots.BotWebViewContainer.4.1
-                @Override // android.webkit.WebViewClient
-                public boolean shouldOverrideUrlLoading(WebView webView3, String str) {
-                    BotWebViewContainer.this.onOpenUri(Uri.parse(str));
-                    return true;
-                }
-            });
+            webView2.setWebViewClient(new 1());
             ((WebView.WebViewTransport) message.obj).setWebView(webView2);
             message.sendToTarget();
             return true;
@@ -786,6 +857,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
             jSONObject.put("slug", str);
             jSONObject.put("status", str2);
             notifyEvent("invoice_closed", jSONObject);
+            FileLog.d("invoice_closed " + jSONObject);
             if (z || !Objects.equals(this.currentPaymentSlug, str)) {
                 return;
             }

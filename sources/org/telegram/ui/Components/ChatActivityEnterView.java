@@ -4656,9 +4656,9 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
 
     /* JADX WARN: Can't wrap try/catch for region: R(17:137|(1:226)(1:141)|142|(8:144|(1:172)(1:148)|(1:171)(1:154)|155|(4:157|(1:159)(1:165)|160|(1:164))|(1:167)|168|(1:170))|173|(3:175|(1:177)(1:179)|178)|180|(3:182|(2:186|(1:196))|197)|198|(3:200|(2:202|(1:206))|207)|208|(4:210|(1:224)(1:214)|215|(5:217|218|219|220|221))|225|218|219|220|221) */
     /* JADX WARN: Can't wrap try/catch for region: R(29:13|(1:15)|16|(1:126)(1:22)|23|(3:25|(1:29)|30)(1:(9:91|(1:93)(1:118)|94|(3:98|(1:100)|101)|102|(3:104|(1:110)|111)|112|(1:116)|117)(2:119|(18:125|32|(1:36)|37|(1:89)|40|(1:86)(1:44)|45|(1:85)(1:49)|(1:84)|(4:56|(1:58)(1:64)|59|(1:63))|(1:66)|67|(3:69|(2:71|(1:75))|76)|77|78|79|80)))|31|32|(2:34|36)|37|(0)|87|89|40|(1:42)|86|45|(1:47)|85|(2:51|53)|84|(0)|(0)|67|(0)|77|78|79|80) */
-    /* JADX WARN: Removed duplicated region for block: B:346:0x0241  */
-    /* JADX WARN: Removed duplicated region for block: B:356:0x0276  */
-    /* JADX WARN: Removed duplicated region for block: B:359:0x028d  */
+    /* JADX WARN: Removed duplicated region for block: B:346:0x024b  */
+    /* JADX WARN: Removed duplicated region for block: B:356:0x0280  */
+    /* JADX WARN: Removed duplicated region for block: B:359:0x0297  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -4877,7 +4877,8 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             tLRPC$TL_message2.from_id = MessagesController.getInstance(this.currentAccount).getPeer(UserConfig.getInstance(this.currentAccount).getClientUserId());
             CharSequence[] charSequenceArr = new CharSequence[1];
             EditTextCaption editTextCaption3 = this.messageEditText;
-            charSequenceArr[0] = editTextCaption3 == null ? "" : editTextCaption3.getTextToUse();
+            charSequenceArr[0] = new SpannableStringBuilder(editTextCaption3 == null ? "" : editTextCaption3.getTextToUse());
+            MessageObject.addLinks(true, charSequenceArr[0]);
             tLRPC$TL_message2.entities.addAll(MediaDataController.getInstance(this.currentAccount).getEntities(charSequenceArr, true));
             tLRPC$TL_message2.message = charSequenceArr[0].toString();
             MessageObject messageObject3 = this.replyingMessageObject;
@@ -7650,7 +7651,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         if (baseFragment != null) {
             new PremiumFeatureBottomSheet(baseFragment, 11, false).show();
         } else if (baseFragment.getContext() instanceof LaunchActivity) {
-            ((LaunchActivity) baseFragment.getContext()).lambda$runLinkRequest$87(new PremiumPreviewFragment(null));
+            ((LaunchActivity) baseFragment.getContext()).lambda$runLinkRequest$88(new PremiumPreviewFragment(null));
         }
     }
 
@@ -10193,59 +10194,54 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
     }
 
     public /* synthetic */ boolean lambda$setEditingMessageObject$55(final MessageObject messageObject, final MessageObject.GroupedMessages groupedMessages, View view) {
-        if (messageObject.isMediaEmpty() || TextUtils.isEmpty(this.messageEditText.getTextToUse())) {
+        EditTextCaption editTextCaption;
+        if (messageObject.isMediaEmpty() || (editTextCaption = this.messageEditText) == null || TextUtils.isEmpty(editTextCaption.getTextToUse())) {
             return false;
         }
-        if (groupedMessages == null || groupedMessages.hasCaption) {
-            final MessageSendPreview messageSendPreview = new MessageSendPreview(getContext(), this.resourcesProvider);
-            messageSendPreview.allowRelayout = true;
-            final ArrayList<MessageObject> arrayList = new ArrayList<>();
-            if (groupedMessages != null) {
-                int i = 0;
-                while (i < groupedMessages.messages.size()) {
-                    arrayList.add(editingMessageObjectPreview(groupedMessages.messages.get(i), i == 0));
-                    i++;
+        if (groupedMessages == null || (groupedMessages.hasCaption && !groupedMessages.isDocuments)) {
+            int i = messageObject.type;
+            if (i == 1 || i == 3 || i == 8) {
+                final MessageSendPreview messageSendPreview = new MessageSendPreview(getContext(), this.resourcesProvider);
+                messageSendPreview.allowRelayout = true;
+                final ArrayList<MessageObject> arrayList = new ArrayList<>();
+                if (groupedMessages != null) {
+                    int i2 = 0;
+                    while (i2 < groupedMessages.messages.size()) {
+                        arrayList.add(editingMessageObjectPreview(groupedMessages.messages.get(i2), i2 == 0));
+                        i2++;
+                    }
+                } else {
+                    arrayList.add(editingMessageObjectPreview(messageObject, true));
                 }
-            } else {
-                arrayList.add(editingMessageObjectPreview(messageObject, true));
+                messageSendPreview.setMessageObjects(arrayList);
+                ItemOptions makeOptions = ItemOptions.makeOptions(this.sizeNotifierLayout, this.resourcesProvider, this.doneButton);
+                final MessagePreviewView.ToggleButton toggleButton = new MessagePreviewView.ToggleButton(getContext(), R.raw.position_below, LocaleController.getString(R.string.CaptionAbove), R.raw.position_above, LocaleController.getString(R.string.CaptionBelow), this.resourcesProvider);
+                toggleButton.setState(!this.captionAbove, false);
+                toggleButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatActivityEnterView$$ExternalSyntheticLambda29
+                    @Override // android.view.View.OnClickListener
+                    public final void onClick(View view2) {
+                        ChatActivityEnterView.this.lambda$setEditingMessageObject$53(arrayList, toggleButton, messageSendPreview, view2);
+                    }
+                });
+                makeOptions.addView(toggleButton);
+                makeOptions.setupSelectors();
+                messageSendPreview.setItemOptions(makeOptions);
+                messageSendPreview.setSendButton(this.doneButton, false, new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatActivityEnterView$$ExternalSyntheticLambda30
+                    @Override // android.view.View.OnClickListener
+                    public final void onClick(View view2) {
+                        ChatActivityEnterView.this.lambda$setEditingMessageObject$54(groupedMessages, messageObject, messageSendPreview, view2);
+                    }
+                });
+                messageSendPreview.show();
+                return true;
             }
-            messageSendPreview.setMessageObjects(arrayList);
-            ItemOptions makeOptions = ItemOptions.makeOptions(this.sizeNotifierLayout, this.resourcesProvider, this.doneButton);
-            final MessagePreviewView.ToggleButton toggleButton = new MessagePreviewView.ToggleButton(getContext(), R.raw.position_below, LocaleController.getString(R.string.CaptionAbove), R.raw.position_above, LocaleController.getString(R.string.CaptionBelow), this.resourcesProvider);
-            toggleButton.setState(!this.captionAbove, false);
-            toggleButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatActivityEnterView$$ExternalSyntheticLambda29
-                @Override // android.view.View.OnClickListener
-                public final void onClick(View view2) {
-                    ChatActivityEnterView.this.lambda$setEditingMessageObject$53(groupedMessages, messageObject, arrayList, toggleButton, messageSendPreview, view2);
-                }
-            });
-            makeOptions.addView(toggleButton);
-            makeOptions.setupSelectors();
-            messageSendPreview.setItemOptions(makeOptions);
-            messageSendPreview.setSendButton(this.doneButton, false, new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatActivityEnterView$$ExternalSyntheticLambda30
-                @Override // android.view.View.OnClickListener
-                public final void onClick(View view2) {
-                    ChatActivityEnterView.this.lambda$setEditingMessageObject$54(messageSendPreview, view2);
-                }
-            });
-            messageSendPreview.show();
-            return true;
+            return false;
         }
         return false;
     }
 
-    public /* synthetic */ void lambda$setEditingMessageObject$53(MessageObject.GroupedMessages groupedMessages, MessageObject messageObject, ArrayList arrayList, MessagePreviewView.ToggleButton toggleButton, MessageSendPreview messageSendPreview, View view) {
-        boolean z = !this.captionAbove;
-        this.captionAbove = z;
-        if (groupedMessages != null) {
-            Iterator<MessageObject> it = groupedMessages.messages.iterator();
-            while (it.hasNext()) {
-                it.next().messageOwner.invert_media = this.captionAbove;
-            }
-            groupedMessages.calculate();
-        } else {
-            messageObject.messageOwner.invert_media = z;
-        }
+    public /* synthetic */ void lambda$setEditingMessageObject$53(ArrayList arrayList, MessagePreviewView.ToggleButton toggleButton, MessageSendPreview messageSendPreview, View view) {
+        this.captionAbove = !this.captionAbove;
         for (int i = 0; i < arrayList.size(); i++) {
             ((MessageObject) arrayList.get(i)).messageOwner.invert_media = this.captionAbove;
         }
@@ -10256,7 +10252,16 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         messageSendPreview.scrollTo(!this.captionAbove);
     }
 
-    public /* synthetic */ void lambda$setEditingMessageObject$54(MessageSendPreview messageSendPreview, View view) {
+    public /* synthetic */ void lambda$setEditingMessageObject$54(MessageObject.GroupedMessages groupedMessages, MessageObject messageObject, MessageSendPreview messageSendPreview, View view) {
+        if (groupedMessages != null) {
+            Iterator<MessageObject> it = groupedMessages.messages.iterator();
+            while (it.hasNext()) {
+                it.next().messageOwner.invert_media = this.captionAbove;
+            }
+            groupedMessages.calculate();
+        } else {
+            messageObject.messageOwner.invert_media = this.captionAbove;
+        }
         doneEditingMessage();
         messageSendPreview.dismiss(true);
     }

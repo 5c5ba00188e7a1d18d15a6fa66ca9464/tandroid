@@ -395,16 +395,16 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
         return layout.getLineRight(i) == ((float) layout.getWidth()) && layout.getLineLeft(i) != 0.0f;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:107:0x0477, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:107:0x047c, code lost:
         if (android.text.TextUtils.isEmpty(r6.caption) != false) goto L251;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:111:0x0493, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:111:0x0498, code lost:
         if ((org.telegram.messenger.MessageObject.getMedia(r45.currentMessageObject.replyMessageObject.messageOwner) instanceof org.telegram.tgnet.TLRPC$TL_messageMediaInvoice) != false) goto L251;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:87:0x040f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:87:0x0414, code lost:
         if (android.text.TextUtils.isEmpty(r5.caption) != false) goto L232;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:91:0x042b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:91:0x0430, code lost:
         if ((org.telegram.messenger.MessageObject.getMedia(r45.currentMessageObject.replyMessageObject.messageOwner) instanceof org.telegram.tgnet.TLRPC$TL_messageMediaInvoice) != false) goto L232;
      */
     @Override // org.telegram.ui.MessageEnterTransitionContainer.Transition
@@ -544,6 +544,7 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
         this.messageView.drawNamesLayout(canvas, f7);
         this.messageView.drawCommentButton(canvas, f7);
         this.messageView.drawCaptionLayout(canvas, z, f7);
+        this.messageView.drawReactionsLayout(canvas, f7);
         this.messageView.drawLinkPreview(canvas, f7);
         canvas.restore();
         if (this.hasReply) {

@@ -495,6 +495,7 @@ public class MessagePreviewView extends FrameLayout {
                         chatMessageCell.drawMessageText(canvas);
                         if (chatMessageCell.getCurrentMessagesGroup() == null || ((chatMessageCell.getCurrentPosition() != null && (((chatMessageCell.getCurrentPosition().flags & chatMessageCell.captionFlag()) != 0 && (chatMessageCell.getCurrentPosition().flags & 1) != 0) || (chatMessageCell.getCurrentMessagesGroup() != null && chatMessageCell.getCurrentMessagesGroup().isDocuments))) || chatMessageCell.getTransitionParams().animateBackgroundBoundsInner)) {
                             chatMessageCell.drawCaptionLayout(canvas, false, chatMessageCell.getAlpha());
+                            chatMessageCell.drawReactionsLayout(canvas, chatMessageCell.getAlpha());
                         }
                         if (chatMessageCell.getCurrentMessagesGroup() != null || chatMessageCell.getTransitionParams().animateBackgroundBoundsInner) {
                             chatMessageCell.drawNamesLayout(canvas, chatMessageCell.getAlpha());

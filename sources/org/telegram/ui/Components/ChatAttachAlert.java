@@ -459,10 +459,17 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             if (tLObject instanceof TLRPC$TL_payments_paymentFormStars) {
                 final AlertDialog alertDialog = new AlertDialog(ChatAttachAlert.this.getContext(), 3);
                 alertDialog.showDelayed(150L);
-                StarsController.getInstance(ChatAttachAlert.this.currentAccount).openPaymentForm(tLRPC$InputInvoice, (TLRPC$TL_payments_paymentFormStars) tLObject, new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlert$1$$ExternalSyntheticLambda3
+                Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlert$1$$ExternalSyntheticLambda3
                     @Override // java.lang.Runnable
                     public final void run() {
                         AlertDialog.this.dismiss();
+                    }
+                };
+                final ChatAttachAlertBotWebViewLayout chatAttachAlertBotWebViewLayout = this.val$webViewLayout;
+                StarsController.getInstance(ChatAttachAlert.this.currentAccount).openPaymentForm(tLRPC$InputInvoice, (TLRPC$TL_payments_paymentFormStars) tLObject, runnable, new Utilities.Callback() { // from class: org.telegram.ui.Components.ChatAttachAlert$1$$ExternalSyntheticLambda4
+                    @Override // org.telegram.messenger.Utilities.Callback
+                    public final void run(Object obj) {
+                        ChatAttachAlert.1.lambda$onWebAppOpenInvoice$3(ChatAttachAlertBotWebViewLayout.this, str, (String) obj);
                     }
                 });
                 AndroidUtilities.hideKeyboard(this.val$webViewLayout);
@@ -480,11 +487,11 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                 AndroidUtilities.hideKeyboard(this.val$webViewLayout);
                 final OverlayActionBarLayoutDialog overlayActionBarLayoutDialog = new OverlayActionBarLayoutDialog(baseFragment.getParentActivity(), ((BottomSheet) ChatAttachAlert.this).resourcesProvider);
                 overlayActionBarLayoutDialog.show();
-                final ChatAttachAlertBotWebViewLayout chatAttachAlertBotWebViewLayout = this.val$webViewLayout;
-                paymentFormActivity.setPaymentFormCallback(new PaymentFormActivity.PaymentFormCallback() { // from class: org.telegram.ui.Components.ChatAttachAlert$1$$ExternalSyntheticLambda5
+                final ChatAttachAlertBotWebViewLayout chatAttachAlertBotWebViewLayout2 = this.val$webViewLayout;
+                paymentFormActivity.setPaymentFormCallback(new PaymentFormActivity.PaymentFormCallback() { // from class: org.telegram.ui.Components.ChatAttachAlert$1$$ExternalSyntheticLambda6
                     @Override // org.telegram.ui.PaymentFormActivity.PaymentFormCallback
                     public final void onInvoiceStatusChanged(PaymentFormActivity.InvoiceStatus invoiceStatus) {
-                        ChatAttachAlert.1.lambda$onWebAppOpenInvoice$3(OverlayActionBarLayoutDialog.this, chatAttachAlertBotWebViewLayout, str, invoiceStatus);
+                        ChatAttachAlert.1.lambda$onWebAppOpenInvoice$4(OverlayActionBarLayoutDialog.this, chatAttachAlertBotWebViewLayout2, str, invoiceStatus);
                     }
                 });
                 paymentFormActivity.setResourcesProvider(((BottomSheet) ChatAttachAlert.this).resourcesProvider);
@@ -492,7 +499,11 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             }
         }
 
-        public static /* synthetic */ void lambda$onWebAppOpenInvoice$3(OverlayActionBarLayoutDialog overlayActionBarLayoutDialog, ChatAttachAlertBotWebViewLayout chatAttachAlertBotWebViewLayout, String str, PaymentFormActivity.InvoiceStatus invoiceStatus) {
+        public static /* synthetic */ void lambda$onWebAppOpenInvoice$3(ChatAttachAlertBotWebViewLayout chatAttachAlertBotWebViewLayout, String str, String str2) {
+            chatAttachAlertBotWebViewLayout.getWebViewContainer().onInvoiceStatusUpdate(str, str2);
+        }
+
+        public static /* synthetic */ void lambda$onWebAppOpenInvoice$4(OverlayActionBarLayoutDialog overlayActionBarLayoutDialog, ChatAttachAlertBotWebViewLayout chatAttachAlertBotWebViewLayout, String str, PaymentFormActivity.InvoiceStatus invoiceStatus) {
             if (invoiceStatus != PaymentFormActivity.InvoiceStatus.PENDING) {
                 overlayActionBarLayoutDialog.dismiss();
             }
@@ -530,19 +541,19 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             bundle.putBoolean("allowBots", list.contains("bots"));
             DialogsActivity dialogsActivity = new DialogsActivity(bundle);
             final OverlayActionBarLayoutDialog overlayActionBarLayoutDialog = new OverlayActionBarLayoutDialog(ChatAttachAlert.this.getContext(), ((BottomSheet) ChatAttachAlert.this).resourcesProvider);
-            dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.Components.ChatAttachAlert$1$$ExternalSyntheticLambda4
+            dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.Components.ChatAttachAlert$1$$ExternalSyntheticLambda5
                 @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
                 public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
-                    boolean lambda$onWebAppSwitchInlineQuery$4;
-                    lambda$onWebAppSwitchInlineQuery$4 = ChatAttachAlert.1.this.lambda$onWebAppSwitchInlineQuery$4(tLRPC$User, str, overlayActionBarLayoutDialog, dialogsActivity2, arrayList, charSequence, z, topicsFragment);
-                    return lambda$onWebAppSwitchInlineQuery$4;
+                    boolean lambda$onWebAppSwitchInlineQuery$5;
+                    lambda$onWebAppSwitchInlineQuery$5 = ChatAttachAlert.1.this.lambda$onWebAppSwitchInlineQuery$5(tLRPC$User, str, overlayActionBarLayoutDialog, dialogsActivity2, arrayList, charSequence, z, topicsFragment);
+                    return lambda$onWebAppSwitchInlineQuery$5;
                 }
             });
             overlayActionBarLayoutDialog.show();
             overlayActionBarLayoutDialog.addFragment(dialogsActivity);
         }
 
-        public /* synthetic */ boolean lambda$onWebAppSwitchInlineQuery$4(TLRPC$User tLRPC$User, String str, OverlayActionBarLayoutDialog overlayActionBarLayoutDialog, DialogsActivity dialogsActivity, ArrayList arrayList, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
+        public /* synthetic */ boolean lambda$onWebAppSwitchInlineQuery$5(TLRPC$User tLRPC$User, String str, OverlayActionBarLayoutDialog overlayActionBarLayoutDialog, DialogsActivity dialogsActivity, ArrayList arrayList, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
             long j = ((MessagesStorage.TopicKey) arrayList.get(0)).dialogId;
             Bundle bundle = new Bundle();
             bundle.putBoolean("scrollToTopOnResume", true);
@@ -588,7 +599,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                         duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.ChatAttachAlert$1$$ExternalSyntheticLambda0
                             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                             public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                                ChatAttachAlert.1.this.lambda$onSetupMainButton$5(valueAnimator2);
+                                ChatAttachAlert.1.this.lambda$onSetupMainButton$6(valueAnimator2);
                             }
                         });
                         this.botButtonAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatAttachAlert.1.1
@@ -655,7 +666,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             }
         }
 
-        public /* synthetic */ void lambda$onSetupMainButton$5(ValueAnimator valueAnimator) {
+        public /* synthetic */ void lambda$onSetupMainButton$6(ValueAnimator valueAnimator) {
             float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
             ChatAttachAlert.this.buttonsRecyclerView.setAlpha(1.0f - floatValue);
             ChatAttachAlert.this.botMainButtonTextView.setAlpha(floatValue);
@@ -3534,14 +3545,14 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         dismiss();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:342:0x02ea  */
-    /* JADX WARN: Removed duplicated region for block: B:414:0x0459  */
-    /* JADX WARN: Removed duplicated region for block: B:415:0x045e  */
-    /* JADX WARN: Removed duplicated region for block: B:418:0x0466  */
-    /* JADX WARN: Removed duplicated region for block: B:419:0x049e  */
-    /* JADX WARN: Removed duplicated region for block: B:422:0x04cb  */
-    /* JADX WARN: Removed duplicated region for block: B:423:0x04ce  */
-    /* JADX WARN: Removed duplicated region for block: B:435:0x050d  */
+    /* JADX WARN: Removed duplicated region for block: B:339:0x02ea  */
+    /* JADX WARN: Removed duplicated region for block: B:408:0x0454  */
+    /* JADX WARN: Removed duplicated region for block: B:409:0x0459  */
+    /* JADX WARN: Removed duplicated region for block: B:412:0x0461  */
+    /* JADX WARN: Removed duplicated region for block: B:413:0x0499  */
+    /* JADX WARN: Removed duplicated region for block: B:416:0x04c6  */
+    /* JADX WARN: Removed duplicated region for block: B:417:0x04c9  */
+    /* JADX WARN: Removed duplicated region for block: B:429:0x0508  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3565,6 +3576,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         long j4;
         String charSequence;
         MessageObject messageObject6;
+        Throwable th;
         MediaMetadataRetriever mediaMetadataRetriever;
         MediaMetadataRetriever mediaMetadataRetriever2;
         String str;
@@ -3682,7 +3694,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                                                     try {
                                                         mediaMetadataRetriever2.close();
                                                     } catch (IOException e) {
-                                                        throw new RuntimeException(e);
+                                                        FileLog.e(e);
                                                     }
                                                 } catch (Exception e2) {
                                                     e = e2;
@@ -3693,7 +3705,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                                                         try {
                                                             mediaMetadataRetriever2.close();
                                                         } catch (IOException e3) {
-                                                            throw new RuntimeException(e3);
+                                                            FileLog.e(e3);
                                                         }
                                                     }
                                                     i13 = photoEntry.videoOrientation;
@@ -3740,14 +3752,14 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                                                     messageObject2 = messageObject5;
                                                     j7 = j3;
                                                 }
-                                            } catch (Throwable th) {
-                                                th = th;
+                                            } catch (Throwable th2) {
                                                 mediaMetadataRetriever = mediaMetadataRetriever2;
+                                                th = th2;
                                                 if (mediaMetadataRetriever != null) {
                                                     try {
                                                         mediaMetadataRetriever.close();
                                                     } catch (IOException e4) {
-                                                        throw new RuntimeException(e4);
+                                                        FileLog.e(e4);
                                                     }
                                                 }
                                                 throw th;
@@ -3756,8 +3768,8 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                                             e = e5;
                                             j3 = j8;
                                             mediaMetadataRetriever2 = null;
-                                        } catch (Throwable th2) {
-                                            th = th2;
+                                        } catch (Throwable th3) {
+                                            th = th3;
                                             mediaMetadataRetriever = null;
                                         }
                                     }

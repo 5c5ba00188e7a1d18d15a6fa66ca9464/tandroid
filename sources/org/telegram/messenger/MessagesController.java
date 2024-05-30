@@ -29014,25 +29014,28 @@ public class MessagesController extends BaseController implements NotificationCe
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:1303:0x0625, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1303:0x062f, code lost:
         if (r2 == r6) goto L292;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1305:0x0629, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1305:0x0633, code lost:
         if (r7 == r4) goto L294;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1541:0x0b30, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1541:0x0b3a, code lost:
         if (r4.getCallState() == 0) goto L557;
      */
-    /* JADX WARN: Removed duplicated region for block: B:1309:0x0654  */
-    /* JADX WARN: Removed duplicated region for block: B:1576:0x0bbf  */
-    /* JADX WARN: Removed duplicated region for block: B:1842:0x127c  */
-    /* JADX WARN: Removed duplicated region for block: B:1847:0x1298  */
-    /* JADX WARN: Removed duplicated region for block: B:1891:0x13a6  */
-    /* JADX WARN: Removed duplicated region for block: B:1893:0x13b4  */
-    /* JADX WARN: Removed duplicated region for block: B:1895:0x13ba  */
-    /* JADX WARN: Removed duplicated region for block: B:1898:0x13c6  */
-    /* JADX WARN: Removed duplicated region for block: B:1908:0x1402  */
-    /* JADX WARN: Removed duplicated region for block: B:1911:0x1418  */
+    /* JADX WARN: Removed duplicated region for block: B:1309:0x065e  */
+    /* JADX WARN: Removed duplicated region for block: B:1576:0x0bc9  */
+    /* JADX WARN: Removed duplicated region for block: B:1821:0x123d  */
+    /* JADX WARN: Removed duplicated region for block: B:1834:0x126e  */
+    /* JADX WARN: Removed duplicated region for block: B:1842:0x1286  */
+    /* JADX WARN: Removed duplicated region for block: B:1847:0x12a2  */
+    /* JADX WARN: Removed duplicated region for block: B:1891:0x13b0  */
+    /* JADX WARN: Removed duplicated region for block: B:1893:0x13be  */
+    /* JADX WARN: Removed duplicated region for block: B:1895:0x13c4  */
+    /* JADX WARN: Removed duplicated region for block: B:1898:0x13d0  */
+    /* JADX WARN: Removed duplicated region for block: B:1902:0x13e9 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:1908:0x140c  */
+    /* JADX WARN: Removed duplicated region for block: B:1911:0x1422  */
     /* JADX WARN: Removed duplicated region for block: B:2063:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -29325,6 +29328,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                             }
                                         } else if (tLRPC$Update instanceof TLRPC$TL_updateStarsBalance) {
                                             StarsController.getInstance(this.currentAccount).updateBalance(((TLRPC$TL_updateStarsBalance) tLRPC$Update).balance);
+                                            StarsController.getInstance(this.currentAccount).invalidateTransactions(false);
                                         } else if (tLRPC$Update instanceof TLRPC$TL_updateUser) {
                                             TLRPC$TL_updateUser tLRPC$TL_updateUser = (TLRPC$TL_updateUser) tLRPC$Update;
                                             TLRPC$User user6 = getUser(Long.valueOf(tLRPC$TL_updateUser.user_id));
@@ -30095,120 +30099,144 @@ public class MessagesController extends BaseController implements NotificationCe
                     i39++;
                 }
             }
+            if (longSparseArray9 == null) {
+                int size7 = longSparseArray3.size();
+                boolean z18 = false;
+                for (int i40 = 0; i40 < size7; i40++) {
+                    if (updateInterfaceWithMessages(longSparseArray9.keyAt(i40), (ArrayList) longSparseArray9.valueAt(i40), 0)) {
+                        z18 = true;
+                    }
+                }
+                if (applyFoldersUpdates(arrayList3) || (!z18 && z3)) {
+                    sortDialogs(null);
+                }
+            } else {
+                boolean applyFoldersUpdates = applyFoldersUpdates(arrayList3);
+                if (!z3 && !applyFoldersUpdates) {
+                    longSparseArray10 = longSparseArray4;
+                    z4 = false;
+                    if (longSparseArray10 != null) {
+                        int size8 = longSparseArray4.size();
+                        for (int i41 = 0; i41 < size8; i41++) {
+                            updateInterfaceWithMessages(longSparseArray10.keyAt(i41), (ArrayList) longSparseArray10.valueAt(i41), 1);
+                        }
+                    }
+                    if (longSparseArray5 != null) {
+                        int size9 = longSparseArray5.size();
+                        boolean z19 = z4;
+                        for (int i42 = 0; i42 < size9; i42++) {
+                            long keyAt2 = longSparseArray5.keyAt(i42);
+                            ArrayList<MessageObject> arrayList22 = (ArrayList) longSparseArray5.valueAt(i42);
+                            int size10 = arrayList22.size();
+                            SparseBooleanArray sparseBooleanArray = null;
+                            for (int i43 = 0; i43 < size10; i43++) {
+                                MessageObject messageObject3 = arrayList22.get(i43);
+                                if (keyAt2 > 0) {
+                                    if (sparseBooleanArray == null) {
+                                        sparseBooleanArray = new SparseBooleanArray();
+                                    }
+                                    sparseBooleanArray.put(messageObject3.getId(), MessageObject.hasUnreadReactions(messageObject3.messageOwner));
+                                }
+                            }
+                            if (keyAt2 > 0) {
+                                checkUnreadReactions(keyAt2, 0L, sparseBooleanArray);
+                            }
+                            ArrayList<MessageObject> arrayList23 = this.dialogMessage.get(keyAt2);
+                            if (arrayList23 != null) {
+                                for (int i44 = 0; i44 < arrayList23.size(); i44++) {
+                                    MessageObject messageObject4 = arrayList23.get(i44);
+                                    int size11 = arrayList22.size();
+                                    int i45 = 0;
+                                    while (true) {
+                                        if (i45 >= size11) {
+                                            break;
+                                        }
+                                        MessageObject messageObject5 = arrayList22.get(i45);
+                                        if (messageObject4.getId() == messageObject5.getId()) {
+                                            arrayList23.set(i44, messageObject5);
+                                            TLRPC$Peer tLRPC$Peer8 = messageObject5.messageOwner.peer_id;
+                                            if (tLRPC$Peer8 != null && tLRPC$Peer8.channel_id == 0) {
+                                                this.dialogMessagesByIds.put(messageObject5.getId(), messageObject5);
+                                            }
+                                            z19 = true;
+                                        } else if (messageObject4.getDialogId() == messageObject5.getDialogId() && (messageObject4.messageOwner.action instanceof TLRPC$TL_messageActionPinMessage) && (messageObject = messageObject4.replyMessageObject) != null && messageObject.getId() == messageObject5.getId()) {
+                                            messageObject4.replyMessageObject = messageObject5;
+                                            messageObject4.generatePinMessageText(null, null);
+                                            z19 = true;
+                                            break;
+                                        } else {
+                                            i45++;
+                                        }
+                                    }
+                                }
+                            }
+                            getMediaDataController().loadReplyMessagesForMessages(arrayList22, keyAt2, 0, 0L, null, 0);
+                            getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.replaceMessagesObjects, Long.valueOf(keyAt2), arrayList22, Boolean.FALSE);
+                        }
+                        z4 = z19;
+                    }
+                    if (z4) {
+                        getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.dialogsNeedReload, new Object[0]);
+                    }
+                    if (z) {
+                        i3 |= UPDATE_MASK_USER_PRINT;
+                    }
+                    if (arrayList4 != null) {
+                        i3 = i3 | UPDATE_MASK_NAME | UPDATE_MASK_USER_PHONE;
+                    }
+                    if (arrayList5 != null) {
+                        int size12 = arrayList5.size();
+                        for (int i46 = 0; i46 < size12; i46++) {
+                            getMessagesStorage().updateChatParticipants((TLRPC$ChatParticipants) arrayList5.get(i46));
+                        }
+                    }
+                    if (longSparseArray6 != null && longSparseArray7 == null && longSparseArray8 == null) {
+                        i5 = 1;
+                    } else {
+                        i5 = 1;
+                        getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didUpdateMessagesViews, longSparseArray6, longSparseArray7, longSparseArray8, Boolean.TRUE);
+                    }
+                    if (i3 != 0) {
+                        NotificationCenter notificationCenter2 = getNotificationCenter();
+                        int i47 = NotificationCenter.updateInterfaces;
+                        Object[] objArr = new Object[i5];
+                        objArr[0] = Integer.valueOf(i3);
+                        notificationCenter2.lambda$postNotificationNameOnUIThread$1(i47, objArr);
+                    }
+                    if (arrayList6 != null) {
+                        ImageLoader.getInstance().putThumbsToCache(arrayList6);
+                        return;
+                    }
+                    return;
+                }
+                sortDialogs(null);
+            }
+            longSparseArray10 = longSparseArray4;
+            z4 = true;
+            if (longSparseArray10 != null) {
+            }
+            if (longSparseArray5 != null) {
+            }
+            if (z4) {
+            }
+            if (z) {
+            }
+            if (arrayList4 != null) {
+            }
+            if (arrayList5 != null) {
+            }
+            if (longSparseArray6 != null) {
+            }
+            i5 = 1;
+            getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didUpdateMessagesViews, longSparseArray6, longSparseArray7, longSparseArray8, Boolean.TRUE);
+            if (i3 != 0) {
+            }
+            if (arrayList6 != null) {
+            }
         }
         longSparseArray9 = longSparseArray3;
         z3 = z2;
-        if (longSparseArray9 != null) {
-            int size7 = longSparseArray3.size();
-            boolean z18 = false;
-            for (int i40 = 0; i40 < size7; i40++) {
-                if (updateInterfaceWithMessages(longSparseArray9.keyAt(i40), (ArrayList) longSparseArray9.valueAt(i40), 0)) {
-                    z18 = true;
-                }
-            }
-            if (applyFoldersUpdates(arrayList3) || (!z18 && z3)) {
-                sortDialogs(null);
-            }
-        } else {
-            boolean applyFoldersUpdates = applyFoldersUpdates(arrayList3);
-            if (!z3 && !applyFoldersUpdates) {
-                longSparseArray10 = longSparseArray4;
-                z4 = false;
-                if (longSparseArray10 != null) {
-                    int size8 = longSparseArray4.size();
-                    for (int i41 = 0; i41 < size8; i41++) {
-                        updateInterfaceWithMessages(longSparseArray10.keyAt(i41), (ArrayList) longSparseArray10.valueAt(i41), 1);
-                    }
-                }
-                if (longSparseArray5 != null) {
-                    int size9 = longSparseArray5.size();
-                    boolean z19 = z4;
-                    for (int i42 = 0; i42 < size9; i42++) {
-                        long keyAt2 = longSparseArray5.keyAt(i42);
-                        ArrayList<MessageObject> arrayList22 = (ArrayList) longSparseArray5.valueAt(i42);
-                        int size10 = arrayList22.size();
-                        SparseBooleanArray sparseBooleanArray = null;
-                        for (int i43 = 0; i43 < size10; i43++) {
-                            MessageObject messageObject3 = arrayList22.get(i43);
-                            if (keyAt2 > 0) {
-                                if (sparseBooleanArray == null) {
-                                    sparseBooleanArray = new SparseBooleanArray();
-                                }
-                                sparseBooleanArray.put(messageObject3.getId(), MessageObject.hasUnreadReactions(messageObject3.messageOwner));
-                            }
-                        }
-                        if (keyAt2 > 0) {
-                            checkUnreadReactions(keyAt2, 0L, sparseBooleanArray);
-                        }
-                        ArrayList<MessageObject> arrayList23 = this.dialogMessage.get(keyAt2);
-                        if (arrayList23 != null) {
-                            for (int i44 = 0; i44 < arrayList23.size(); i44++) {
-                                MessageObject messageObject4 = arrayList23.get(i44);
-                                int size11 = arrayList22.size();
-                                int i45 = 0;
-                                while (true) {
-                                    if (i45 >= size11) {
-                                        break;
-                                    }
-                                    MessageObject messageObject5 = arrayList22.get(i45);
-                                    if (messageObject4.getId() == messageObject5.getId()) {
-                                        arrayList23.set(i44, messageObject5);
-                                        TLRPC$Peer tLRPC$Peer8 = messageObject5.messageOwner.peer_id;
-                                        if (tLRPC$Peer8 != null && tLRPC$Peer8.channel_id == 0) {
-                                            this.dialogMessagesByIds.put(messageObject5.getId(), messageObject5);
-                                        }
-                                        z19 = true;
-                                    } else if (messageObject4.getDialogId() == messageObject5.getDialogId() && (messageObject4.messageOwner.action instanceof TLRPC$TL_messageActionPinMessage) && (messageObject = messageObject4.replyMessageObject) != null && messageObject.getId() == messageObject5.getId()) {
-                                        messageObject4.replyMessageObject = messageObject5;
-                                        messageObject4.generatePinMessageText(null, null);
-                                        z19 = true;
-                                        break;
-                                    } else {
-                                        i45++;
-                                    }
-                                }
-                            }
-                        }
-                        getMediaDataController().loadReplyMessagesForMessages(arrayList22, keyAt2, 0, 0L, null, 0);
-                        getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.replaceMessagesObjects, Long.valueOf(keyAt2), arrayList22, Boolean.FALSE);
-                    }
-                    z4 = z19;
-                }
-                if (z4) {
-                    getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.dialogsNeedReload, new Object[0]);
-                }
-                if (z) {
-                    i3 |= UPDATE_MASK_USER_PRINT;
-                }
-                if (arrayList4 != null) {
-                    i3 = i3 | UPDATE_MASK_NAME | UPDATE_MASK_USER_PHONE;
-                }
-                if (arrayList5 != null) {
-                    int size12 = arrayList5.size();
-                    for (int i46 = 0; i46 < size12; i46++) {
-                        getMessagesStorage().updateChatParticipants((TLRPC$ChatParticipants) arrayList5.get(i46));
-                    }
-                }
-                if (longSparseArray6 != null && longSparseArray7 == null && longSparseArray8 == null) {
-                    i5 = 1;
-                } else {
-                    i5 = 1;
-                    getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didUpdateMessagesViews, longSparseArray6, longSparseArray7, longSparseArray8, Boolean.TRUE);
-                }
-                if (i3 != 0) {
-                    NotificationCenter notificationCenter2 = getNotificationCenter();
-                    int i47 = NotificationCenter.updateInterfaces;
-                    Object[] objArr = new Object[i5];
-                    objArr[0] = Integer.valueOf(i3);
-                    notificationCenter2.lambda$postNotificationNameOnUIThread$1(i47, objArr);
-                }
-                if (arrayList6 == null) {
-                    ImageLoader.getInstance().putThumbsToCache(arrayList6);
-                    return;
-                }
-                return;
-            }
-            sortDialogs(null);
+        if (longSparseArray9 == null) {
         }
         longSparseArray10 = longSparseArray4;
         z4 = true;
@@ -30230,7 +30258,7 @@ public class MessagesController extends BaseController implements NotificationCe
         getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didUpdateMessagesViews, longSparseArray6, longSparseArray7, longSparseArray8, Boolean.TRUE);
         if (i3 != 0) {
         }
-        if (arrayList6 == null) {
+        if (arrayList6 != null) {
         }
     }
 

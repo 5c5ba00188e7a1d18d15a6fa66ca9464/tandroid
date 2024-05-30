@@ -36,6 +36,7 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.webkit.CookieManager;
 import android.webkit.JavascriptInterface;
+import android.webkit.RenderProcessGoneDetail;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
@@ -103,6 +104,7 @@ import org.telegram.messenger.SRPHelper;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
+import org.telegram.messenger.browser.Browser;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
@@ -597,7 +599,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     /* JADX WARN: Removed duplicated region for block: B:668:0x1b1a  */
     /* JADX WARN: Removed duplicated region for block: B:674:0x1b4f  */
     /* JADX WARN: Removed duplicated region for block: B:678:0x1b8c  */
-    /* JADX WARN: Type inference failed for: r0v91, types: [org.telegram.ui.Cells.RecurrentPaymentsAcceptCell] */
+    /* JADX WARN: Type inference failed for: r0v93, types: [org.telegram.ui.Cells.RecurrentPaymentsAcceptCell] */
     /* JADX WARN: Type inference failed for: r10v102, types: [android.widget.LinearLayout] */
     /* JADX WARN: Type inference failed for: r10v12, types: [java.lang.StringBuilder] */
     /* JADX WARN: Type inference failed for: r10v137, types: [org.telegram.ui.Components.EditTextBoldCursor[]] */
@@ -639,7 +641,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public View createView(final Context context) {
+    public View createView(Context context) {
         String str;
         FrameLayout frameLayout;
         ?? r11;
@@ -1341,49 +1343,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 if (i12 >= 17) {
                     this.webView.addJavascriptInterface(new TelegramWebviewProxy(), "TelegramWebviewProxy");
                 }
-                this.webView.setWebViewClient(new WebViewClient() { // from class: org.telegram.ui.PaymentFormActivity.6
-                    @Override // android.webkit.WebViewClient
-                    public void onLoadResource(WebView webView2, String str10) {
-                        super.onLoadResource(webView2, str10);
-                    }
-
-                    @Override // android.webkit.WebViewClient
-                    public boolean shouldOverrideUrlLoading(WebView webView2, String str10) {
-                        Uri parse;
-                        PaymentFormActivity paymentFormActivity = PaymentFormActivity.this;
-                        paymentFormActivity.shouldNavigateBack = !str10.equals(paymentFormActivity.webViewUrl);
-                        try {
-                            parse = Uri.parse(str10);
-                        } catch (Exception unused) {
-                        }
-                        if ("t.me".equals(parse.getHost())) {
-                            PaymentFormActivity.this.goToNextStep();
-                            return true;
-                        } else if (PaymentFormActivity.BLACKLISTED_PROTOCOLS.contains(parse.getScheme())) {
-                            return true;
-                        } else {
-                            if (!PaymentFormActivity.WEBVIEW_PROTOCOLS.contains(parse.getScheme())) {
-                                try {
-                                    if (PaymentFormActivity.this.getContext() instanceof Activity) {
-                                        ((Activity) PaymentFormActivity.this.getContext()).startActivityForResult(new Intent("android.intent.action.VIEW", parse), 210);
-                                    }
-                                } catch (ActivityNotFoundException unused2) {
-                                    new AlertDialog.Builder(context).setTitle(PaymentFormActivity.this.currentBotName).setMessage(LocaleController.getString(R.string.PaymentAppNotFoundForDeeplink)).setPositiveButton(LocaleController.getString(R.string.OK), null).show();
-                                }
-                                return true;
-                            }
-                            return super.shouldOverrideUrlLoading(webView2, str10);
-                        }
-                    }
-
-                    @Override // android.webkit.WebViewClient
-                    public void onPageFinished(WebView webView2, String str10) {
-                        super.onPageFinished(webView2, str10);
-                        PaymentFormActivity.this.webviewLoading = false;
-                        PaymentFormActivity.this.showEditDoneProgress(true, false);
-                        PaymentFormActivity.this.updateSavePaymentField();
-                    }
-                });
+                this.webView.setWebViewClient(new 6(context));
                 this.linearLayout2.addView(this.webView, LayoutHelper.createFrame(-1, -2.0f));
                 this.sectionCell[2] = new ShadowSectionCell(context, this.resourcesProvider);
                 this.linearLayout2.addView(this.sectionCell[2], LayoutHelper.createLinear(-1, -2));
@@ -2475,6 +2435,9 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                     }
                     if (this.currentStep == 4) {
                         this.recurrentAccepted = !this.isCheckoutPreview;
+                        if (this.invoiceInput instanceof TLRPC$TL_inputInvoiceStars) {
+                            this.recurrentAccepted = true;
+                        }
                         this.bottomLayout = new BottomFrameLayout(context, this.paymentForm);
                         int i30 = Build.VERSION.SDK_INT;
                         if (i30 >= 21) {
@@ -2529,42 +2492,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                             this.webView.getSettings().setMixedContentMode(r11);
                             CookieManager.getInstance().setAcceptThirdPartyCookies(this.webView, true);
                         }
-                        this.webView.setWebViewClient(new WebViewClient() { // from class: org.telegram.ui.PaymentFormActivity.18
-                            @Override // android.webkit.WebViewClient
-                            public void onPageFinished(WebView webView3, String str11) {
-                                super.onPageFinished(webView3, str11);
-                                PaymentFormActivity.this.webviewLoading = false;
-                                PaymentFormActivity.this.showEditDoneProgress(true, false);
-                                PaymentFormActivity.this.updateSavePaymentField();
-                            }
-
-                            @Override // android.webkit.WebViewClient
-                            public boolean shouldOverrideUrlLoading(WebView webView3, String str11) {
-                                try {
-                                    Uri parse = Uri.parse(str11);
-                                    if ("t.me".equals(parse.getHost())) {
-                                        PaymentFormActivity.this.goToNextStep();
-                                        return true;
-                                    } else if (PaymentFormActivity.BLACKLISTED_PROTOCOLS.contains(parse.getScheme())) {
-                                        return true;
-                                    } else {
-                                        if (PaymentFormActivity.WEBVIEW_PROTOCOLS.contains(parse.getScheme())) {
-                                            return false;
-                                        }
-                                        try {
-                                            if (PaymentFormActivity.this.getContext() instanceof Activity) {
-                                                ((Activity) PaymentFormActivity.this.getContext()).startActivityForResult(new Intent("android.intent.action.VIEW", parse), 210);
-                                            }
-                                        } catch (ActivityNotFoundException unused5) {
-                                            new AlertDialog.Builder(context).setTitle(PaymentFormActivity.this.currentBotName).setMessage(LocaleController.getString(R.string.PaymentAppNotFoundForDeeplink)).setPositiveButton(LocaleController.getString(R.string.OK), null).show();
-                                        }
-                                        return true;
-                                    }
-                                } catch (Exception unused6) {
-                                    return false;
-                                }
-                            }
-                        });
+                        this.webView.setWebViewClient(new 18(context));
                         this.recurrentAcceptCell = null;
                         if (this.paymentForm.invoice.terms_url != null) {
                             RecurrentPaymentsAcceptCell recurrentPaymentsAcceptCell = new RecurrentPaymentsAcceptCell(context, getResourceProvider());
@@ -2880,6 +2808,74 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         boolean z = !this.saveShippingInfo;
         this.saveShippingInfo = z;
         this.checkCell1.setChecked(z);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes4.dex */
+    public class 6 extends WebViewClient {
+        final /* synthetic */ Context val$context;
+
+        6(Context context) {
+            this.val$context = context;
+        }
+
+        @Override // android.webkit.WebViewClient
+        public boolean onRenderProcessGone(WebView webView, RenderProcessGoneDetail renderProcessGoneDetail) {
+            new AlertDialog.Builder(PaymentFormActivity.this.getContext(), PaymentFormActivity.this.resourcesProvider).setTitle(LocaleController.getString(R.string.ChromeCrashTitle)).setMessage(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.ChromeCrashMessage), new Runnable() { // from class: org.telegram.ui.PaymentFormActivity$6$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    PaymentFormActivity.6.this.lambda$onRenderProcessGone$0();
+                }
+            })).setPositiveButton(LocaleController.getString(R.string.OK), null).show();
+            return true;
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onRenderProcessGone$0() {
+            Browser.openUrl(PaymentFormActivity.this.getContext(), "https://play.google.com/store/apps/details?id=com.google.android.webview");
+        }
+
+        @Override // android.webkit.WebViewClient
+        public void onLoadResource(WebView webView, String str) {
+            super.onLoadResource(webView, str);
+        }
+
+        @Override // android.webkit.WebViewClient
+        public boolean shouldOverrideUrlLoading(WebView webView, String str) {
+            Uri parse;
+            PaymentFormActivity paymentFormActivity = PaymentFormActivity.this;
+            paymentFormActivity.shouldNavigateBack = !str.equals(paymentFormActivity.webViewUrl);
+            try {
+                parse = Uri.parse(str);
+            } catch (Exception unused) {
+            }
+            if ("t.me".equals(parse.getHost())) {
+                PaymentFormActivity.this.goToNextStep();
+                return true;
+            } else if (PaymentFormActivity.BLACKLISTED_PROTOCOLS.contains(parse.getScheme())) {
+                return true;
+            } else {
+                if (!PaymentFormActivity.WEBVIEW_PROTOCOLS.contains(parse.getScheme())) {
+                    try {
+                        if (PaymentFormActivity.this.getContext() instanceof Activity) {
+                            ((Activity) PaymentFormActivity.this.getContext()).startActivityForResult(new Intent("android.intent.action.VIEW", parse), 210);
+                        }
+                    } catch (ActivityNotFoundException unused2) {
+                        new AlertDialog.Builder(this.val$context).setTitle(PaymentFormActivity.this.currentBotName).setMessage(LocaleController.getString(R.string.PaymentAppNotFoundForDeeplink)).setPositiveButton(LocaleController.getString(R.string.OK), null).show();
+                    }
+                    return true;
+                }
+                return super.shouldOverrideUrlLoading(webView, str);
+            }
+        }
+
+        @Override // android.webkit.WebViewClient
+        public void onPageFinished(WebView webView, String str) {
+            super.onPageFinished(webView, str);
+            PaymentFormActivity.this.webviewLoading = false;
+            PaymentFormActivity.this.showEditDoneProgress(true, false);
+            PaymentFormActivity.this.updateSavePaymentField();
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -3257,6 +3253,67 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$22(DialogInterface dialogInterface, int i) {
         showPayAlert(this.totalPrice[0]);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes4.dex */
+    public class 18 extends WebViewClient {
+        final /* synthetic */ Context val$context;
+
+        18(Context context) {
+            this.val$context = context;
+        }
+
+        @Override // android.webkit.WebViewClient
+        public boolean onRenderProcessGone(WebView webView, RenderProcessGoneDetail renderProcessGoneDetail) {
+            new AlertDialog.Builder(PaymentFormActivity.this.getContext(), PaymentFormActivity.this.resourcesProvider).setTitle(LocaleController.getString(R.string.ChromeCrashTitle)).setMessage(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.ChromeCrashMessage), new Runnable() { // from class: org.telegram.ui.PaymentFormActivity$18$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    PaymentFormActivity.18.this.lambda$onRenderProcessGone$0();
+                }
+            })).setPositiveButton(LocaleController.getString(R.string.OK), null).show();
+            return true;
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onRenderProcessGone$0() {
+            Browser.openUrl(PaymentFormActivity.this.getContext(), "https://play.google.com/store/apps/details?id=com.google.android.webview");
+        }
+
+        @Override // android.webkit.WebViewClient
+        public void onPageFinished(WebView webView, String str) {
+            super.onPageFinished(webView, str);
+            PaymentFormActivity.this.webviewLoading = false;
+            PaymentFormActivity.this.showEditDoneProgress(true, false);
+            PaymentFormActivity.this.updateSavePaymentField();
+        }
+
+        @Override // android.webkit.WebViewClient
+        public boolean shouldOverrideUrlLoading(WebView webView, String str) {
+            try {
+                Uri parse = Uri.parse(str);
+                if ("t.me".equals(parse.getHost())) {
+                    PaymentFormActivity.this.goToNextStep();
+                    return true;
+                } else if (PaymentFormActivity.BLACKLISTED_PROTOCOLS.contains(parse.getScheme())) {
+                    return true;
+                } else {
+                    if (PaymentFormActivity.WEBVIEW_PROTOCOLS.contains(parse.getScheme())) {
+                        return false;
+                    }
+                    try {
+                        if (PaymentFormActivity.this.getContext() instanceof Activity) {
+                            ((Activity) PaymentFormActivity.this.getContext()).startActivityForResult(new Intent("android.intent.action.VIEW", parse), 210);
+                        }
+                    } catch (ActivityNotFoundException unused) {
+                        new AlertDialog.Builder(this.val$context).setTitle(PaymentFormActivity.this.currentBotName).setMessage(LocaleController.getString(R.string.PaymentAppNotFoundForDeeplink)).setPositiveButton(LocaleController.getString(R.string.OK), null).show();
+                    }
+                    return true;
+                }
+            } catch (Exception unused2) {
+                return false;
+            }
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */

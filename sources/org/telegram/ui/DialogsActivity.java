@@ -1652,7 +1652,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 if (DialogsActivity.this.viewPages[i3] != null && DialogsActivity.this.viewPages[i3].getVisibility() == 0) {
                     for (int i4 = 0; i4 < DialogsActivity.this.viewPages[i3].listView.getChildCount(); i4++) {
                         View childAt2 = DialogsActivity.this.viewPages[i3].listView.getChildAt(i4);
-                        if (childAt2.getY() < DialogsActivity.this.viewPages[i3].listView.blurTopPadding + AndroidUtilities.dp(100.0f)) {
+                        if (childAt2.getY() < DialogsActivity.this.viewPages[i3].listView.blurTopPadding + AndroidUtilities.dp(100.0f) + ((DialogsActivity.this.authHintCell == null || DialogsActivity.this.authHintCell.getVisibility() != 0) ? 0 : AndroidUtilities.dp(200.0f))) {
                             int save = canvas.save();
                             canvas.translate(DialogsActivity.this.viewPages[i3].getX(), DialogsActivity.this.viewPages[i3].getY() + DialogsActivity.this.viewPages[i3].listView.getY());
                             if (childAt2 instanceof DialogCell) {
@@ -7042,8 +7042,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:105:0x03c0  */
-    /* JADX WARN: Removed duplicated region for block: B:92:0x0369  */
+    /* JADX WARN: Removed duplicated region for block: B:108:0x03c9  */
+    /* JADX WARN: Removed duplicated region for block: B:95:0x0372  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -7069,7 +7069,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             this.dialogsHintCellVisible = false;
             this.dialogsHintCell.setVisibility(8);
             if (this.authHintCell == null) {
-                UnconfirmedAuthHintCell unconfirmedAuthHintCell = new UnconfirmedAuthHintCell(getContext());
+                Context context = getContext();
+                View view = this.fragmentView;
+                UnconfirmedAuthHintCell unconfirmedAuthHintCell = new UnconfirmedAuthHintCell(context, view instanceof SizeNotifierFrameLayout ? (SizeNotifierFrameLayout) view : null);
                 this.authHintCell = unconfirmedAuthHintCell;
                 ((ContentView) this.fragmentView).addView(unconfirmedAuthHintCell);
             }
@@ -7081,8 +7083,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             this.dialogsHintCell.setCompact(true);
             this.dialogsHintCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda43
                 @Override // android.view.View.OnClickListener
-                public final void onClick(View view) {
-                    DialogsActivity.this.lambda$updateDialogsHint$30(view);
+                public final void onClick(View view2) {
+                    DialogsActivity.this.lambda$updateDialogsHint$30(view2);
                 }
             });
             this.dialogsHintCell.setText(Emoji.replaceWithRestrictedEmoji(LocaleController.getString(R.string.GraceTitle), this.dialogsHintCell.titleView, new Runnable() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda74
@@ -7093,8 +7095,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }), LocaleController.getString(R.string.GraceMessage));
             this.dialogsHintCell.setOnCloseListener(new View.OnClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda33
                 @Override // android.view.View.OnClickListener
-                public final void onClick(View view) {
-                    DialogsActivity.this.lambda$updateDialogsHint$31(view);
+                public final void onClick(View view2) {
+                    DialogsActivity.this.lambda$updateDialogsHint$31(view2);
                 }
             });
             updateAuthHintCellVisibility(false);
@@ -7106,7 +7108,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             this.dialogsHintCell.setCompact(true);
             this.dialogsHintCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda24
                 @Override // android.view.View.OnClickListener
-                public final void onClick(View view) {
+                public final void onClick(View view2) {
                     UserSelectorBottomSheet.open(0L, BirthdayController.BirthdayState.this);
                 }
             });
@@ -7125,8 +7127,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }), LocaleController.formatString(arrayList.size() == 1 ? R.string.BirthdayTodaySingleMessage : R.string.BirthdayTodayMultipleMessage, new Object[0]));
             this.dialogsHintCell.setOnCloseListener(new View.OnClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda30
                 @Override // android.view.View.OnClickListener
-                public final void onClick(View view) {
-                    DialogsActivity.this.lambda$updateDialogsHint$33(view);
+                public final void onClick(View view2) {
+                    DialogsActivity.this.lambda$updateDialogsHint$33(view2);
                 }
             });
             updateAuthHintCellVisibility(false);
@@ -7137,8 +7139,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             this.dialogsHintCell.setCompact(true);
             this.dialogsHintCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda38
                 @Override // android.view.View.OnClickListener
-                public final void onClick(View view) {
-                    DialogsActivity.this.lambda$updateDialogsHint$38(view);
+                public final void onClick(View view2) {
+                    DialogsActivity.this.lambda$updateDialogsHint$38(view2);
                 }
             });
             this.dialogsHintCell.setText(Emoji.replaceWithRestrictedEmoji(LocaleController.getString(R.string.BirthdaySetupTitle), this.dialogsHintCell.titleView, new Runnable() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda74
@@ -7149,8 +7151,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }), LocaleController.formatString(R.string.BirthdaySetupMessage, new Object[0]));
             this.dialogsHintCell.setOnCloseListener(new View.OnClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda31
                 @Override // android.view.View.OnClickListener
-                public final void onClick(View view) {
-                    DialogsActivity.this.lambda$updateDialogsHint$40(view);
+                public final void onClick(View view2) {
+                    DialogsActivity.this.lambda$updateDialogsHint$40(view2);
                 }
             });
             updateAuthHintCellVisibility(false);
@@ -7160,15 +7162,15 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             this.dialogsHintCell.setCompact(false);
             this.dialogsHintCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda52
                 @Override // android.view.View.OnClickListener
-                public final void onClick(View view) {
+                public final void onClick(View view2) {
                     UserSelectorBottomSheet.open();
                 }
             });
             this.dialogsHintCell.setText(Emoji.replaceEmoji(AndroidUtilities.replaceSingleTag(LocaleController.getString("GiftPremiumEventAdsTitle", R.string.GiftPremiumEventAdsTitle), Theme.key_windowBackgroundWhiteValueText, 2, null), null, false), LocaleController.formatString("BoostingPremiumChristmasSubTitle", R.string.BoostingPremiumChristmasSubTitle, new Object[0]));
             this.dialogsHintCell.setOnCloseListener(new View.OnClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda25
                 @Override // android.view.View.OnClickListener
-                public final void onClick(View view) {
-                    DialogsActivity.this.lambda$updateDialogsHint$42(view);
+                public final void onClick(View view2) {
+                    DialogsActivity.this.lambda$updateDialogsHint$42(view2);
                 }
             });
             updateAuthHintCellVisibility(false);
@@ -7178,8 +7180,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             this.dialogsHintCell.setCompact(false);
             this.dialogsHintCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda41
                 @Override // android.view.View.OnClickListener
-                public final void onClick(View view) {
-                    DialogsActivity.this.lambda$updateDialogsHint$44(view);
+                public final void onClick(View view2) {
+                    DialogsActivity.this.lambda$updateDialogsHint$44(view2);
                 }
             });
             this.dialogsHintCell.setText(AndroidUtilities.replaceSingleTag(LocaleController.formatString(R.string.RestorePremiumHintTitle, MediaDataController.getInstance(this.currentAccount).getPremiumHintAnnualDiscount(false)), Theme.key_windowBackgroundWhiteValueText, 2, null), LocaleController.getString(R.string.RestorePremiumHintMessage));
@@ -7190,8 +7192,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             this.dialogsHintCell.setCompact(false);
             this.dialogsHintCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda37
                 @Override // android.view.View.OnClickListener
-                public final void onClick(View view) {
-                    DialogsActivity.this.lambda$updateDialogsHint$46(view);
+                public final void onClick(View view2) {
+                    DialogsActivity.this.lambda$updateDialogsHint$46(view2);
                 }
             });
             this.dialogsHintCell.setText(AndroidUtilities.replaceSingleTag(LocaleController.formatString(this.isPremiumHintUpgrade ? R.string.SaveOnAnnualPremiumTitle : R.string.UpgradePremiumTitle, MediaDataController.getInstance(this.currentAccount).getPremiumHintAnnualDiscount(false)), Theme.key_windowBackgroundWhiteValueText, 2, null), LocaleController.getString(this.isPremiumHintUpgrade ? R.string.UpgradePremiumMessage : R.string.SaveOnAnnualPremiumMessage));
@@ -7202,8 +7204,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             this.dialogsHintCell.setCompact(false);
             this.dialogsHintCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda36
                 @Override // android.view.View.OnClickListener
-                public final void onClick(View view) {
-                    DialogsActivity.this.lambda$updateDialogsHint$48(view);
+                public final void onClick(View view2) {
+                    DialogsActivity.this.lambda$updateDialogsHint$48(view2);
                 }
             });
             this.dialogsHintCell.setText(AndroidUtilities.replaceSingleTag(LocaleController.formatString(R.string.ClearStorageHintTitle, AndroidUtilities.formatFileSize(this.cacheSize.longValue())), Theme.key_windowBackgroundWhiteValueText, 2, null), LocaleController.getString(R.string.ClearStorageHintMessage));
@@ -7226,8 +7228,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     this.dialogsHintCell.setCompact(false);
                     this.dialogsHintCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda23
                         @Override // android.view.View.OnClickListener
-                        public final void onClick(View view) {
-                            DialogsActivity.lambda$updateDialogsHint$49(str, view);
+                        public final void onClick(View view2) {
+                            DialogsActivity.lambda$updateDialogsHint$49(str, view2);
                         }
                     });
                     DialogsHintCell dialogsHintCell3 = this.dialogsHintCell;
@@ -7240,8 +7242,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     if (zArr[0] && str != null) {
                         this.dialogsHintCell.setOnCloseListener(new View.OnClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda45
                             @Override // android.view.View.OnClickListener
-                            public final void onClick(View view) {
-                                DialogsActivity.this.lambda$updateDialogsHint$51(str, view);
+                            public final void onClick(View view2) {
+                                DialogsActivity.this.lambda$updateDialogsHint$51(str, view2);
                             }
                         });
                     }

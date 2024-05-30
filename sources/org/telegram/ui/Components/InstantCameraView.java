@@ -125,7 +125,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
     private File cameraFile;
     private volatile boolean cameraReady;
     private CameraSession cameraSession;
-    private int[] cameraTexture;
+    private final int[] cameraTexture;
     private float cameraTextureAlpha;
     private volatile boolean cameraTextureAvailable;
     private CameraGLThread cameraThread;
@@ -151,7 +151,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
     private AnimatorSet muteAnimation;
     private ImageView muteImageView;
     private boolean needDrawFlickerStub;
-    private int[] oldCameraTexture;
+    private final int[] oldCameraTexture;
     private org.telegram.messenger.camera.Size oldTexturePreviewSize;
     private FloatBuffer oldTextureTextureBuffer;
     public boolean opened;
@@ -163,7 +163,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
     float pinchStartDistance;
     private int pointerId1;
     private int pointerId2;
-    private int[] position;
+    private final int[] position;
     private File previewFile;
     private org.telegram.messenger.camera.Size[] previewSize;
     private float progress;
@@ -1608,7 +1608,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
     /* loaded from: classes3.dex */
     public class CameraGLThread extends DispatchQueue {
         private Integer cameraId;
-        private SurfaceTexture[] cameraSurface;
+        private final SurfaceTexture[] cameraSurface;
         private Object currentSession;
         private int drawProgram;
         private EGL10 egl10;
@@ -1809,11 +1809,13 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
 
         public void finish() {
             EGLContext eGLContext;
-            for (int i = 0; i < 2; i++) {
-                SurfaceTexture[] surfaceTextureArr = this.cameraSurface;
-                if (surfaceTextureArr[i] != null) {
-                    surfaceTextureArr[i].release();
-                    this.cameraSurface[i] = null;
+            if (this.cameraSurface != null) {
+                for (int i = 0; i < 2; i++) {
+                    SurfaceTexture[] surfaceTextureArr = this.cameraSurface;
+                    if (surfaceTextureArr[i] != null) {
+                        surfaceTextureArr[i].release();
+                        this.cameraSurface[i] = null;
+                    }
                 }
             }
             InstantCameraView.this.cameraTextureAvailable = false;
@@ -1824,7 +1826,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                     EGLSurface eGLSurface = this.eglSurface;
                     egl10.eglMakeCurrent(eGLDisplay, eGLSurface, eGLSurface, this.eglContext);
                 }
-                if (InstantCameraView.this.cameraTexture[0] != 0) {
+                if (InstantCameraView.this.cameraTexture != null && InstantCameraView.this.cameraTexture[0] != 0) {
                     GLES20.glDeleteTextures(1, InstantCameraView.this.cameraTexture, 0);
                     InstantCameraView.this.cameraTexture[0] = 0;
                 }

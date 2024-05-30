@@ -875,8 +875,11 @@ public class ThanosEffect extends TextureView {
                 this.bitmap = bitmap;
             }
 
-            /* JADX WARN: Code restructure failed: missing block: B:87:0x0219, code lost:
-                if (r0.messages.size() != 1) goto L91;
+            /* JADX WARN: Code restructure failed: missing block: B:88:0x0221, code lost:
+                if ((r2 & 1) != 0) goto L79;
+             */
+            /* JADX WARN: Code restructure failed: missing block: B:93:0x0231, code lost:
+                if (r12.messages.size() != 1) goto L97;
              */
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -887,17 +890,19 @@ public class ThanosEffect extends TextureView {
                 ArrayList arrayList2;
                 ArrayList arrayList3;
                 float f;
+                float f2;
                 ArrayList arrayList4;
                 ArrayList arrayList5;
                 ChatActivity chatActivity2;
-                float f2;
-                ArrayList arrayList6;
                 int i;
+                ArrayList arrayList6;
                 ArrayList arrayList7;
                 ArrayList arrayList8;
-                float f3;
-                int i2;
                 ArrayList arrayList9;
+                float f3;
+                float f4;
+                ArrayList arrayList10;
+                ArrayList arrayList11;
                 Animation animation = this;
                 DrawingThread.this = drawingThread;
                 animation.views = new ArrayList<>();
@@ -912,6 +917,7 @@ public class ThanosEffect extends TextureView {
                 animation.longevity = 1.5f;
                 animation.timeScale = 1.15f;
                 animation.invalidateMatrix = true;
+                int i2 = 0;
                 animation.customMatrix = false;
                 animation.glMatrixValues = new float[9];
                 animation.matrixValues = new float[9];
@@ -932,10 +938,10 @@ public class ThanosEffect extends TextureView {
                     i6 = Math.min(i6, (int) view.getY());
                     i5 = Math.max(i5, ((int) view.getY()) + view.getHeight());
                 }
-                float f4 = i6;
-                animation.top = f4;
-                float f5 = i7;
-                animation.left = f5;
+                float f5 = i6;
+                animation.top = f5;
+                float f6 = i7;
+                animation.left = f6;
                 animation.viewWidth = i4 - i7;
                 animation.viewHeight = i5 - i6;
                 animation.doneCallback = runnable;
@@ -957,41 +963,52 @@ public class ThanosEffect extends TextureView {
                     if (recyclerListView.getParent() instanceof ChatActivity.ChatActivityFragmentView) {
                         ChatActivity.ChatActivityFragmentView chatActivityFragmentView = (ChatActivity.ChatActivityFragmentView) recyclerListView.getParent();
                         ChatActivity chatActivity3 = chatActivityFragmentView.getChatActivity();
-                        ArrayList arrayList10 = new ArrayList(10);
-                        ArrayList arrayList11 = new ArrayList();
-                        ArrayList arrayList12 = new ArrayList();
+                        ArrayList arrayList12 = new ArrayList(10);
                         ArrayList arrayList13 = new ArrayList();
+                        ArrayList arrayList14 = new ArrayList();
+                        ArrayList arrayList15 = new ArrayList();
+                        ArrayList arrayList16 = new ArrayList();
                         canvas2.save();
-                        int i10 = 0;
-                        while (i10 < 3) {
-                            arrayList10.clear();
-                            if (i10 != i3 || recyclerListView.isFastScrollAnimationRunning()) {
-                                int i11 = 0;
-                                while (i11 < arrayList.size()) {
-                                    View view2 = arrayList.get(i11);
+                        while (i2 < 3) {
+                            arrayList12.clear();
+                            if (i2 != i3 || recyclerListView.isFastScrollAnimationRunning()) {
+                                int i10 = 0;
+                                while (i10 < arrayList.size()) {
+                                    View view2 = arrayList.get(i10);
                                     if (view2 instanceof ChatMessageCell) {
                                         ChatMessageCell chatMessageCell = (ChatMessageCell) view2;
-                                        if (view2.getY() <= recyclerListView.getHeight() && view2.getY() + view2.getHeight() >= 0.0f && chatMessageCell.getVisibility() != 4 && chatMessageCell.getVisibility() != 8) {
+                                        f3 = f5;
+                                        if (view2.getY() > recyclerListView.getHeight() || view2.getY() + view2.getHeight() < 0.0f || chatMessageCell.getVisibility() == 4 || chatMessageCell.getVisibility() == 8) {
+                                            arrayList9 = arrayList14;
+                                        } else {
                                             MessageObject.GroupedMessages currentMessagesGroup = chatMessageCell.getCurrentMessagesGroup();
                                             MessageObject.GroupedMessagePosition position = (currentMessagesGroup == null || currentMessagesGroup.positions == null) ? null : currentMessagesGroup.getPosition(chatMessageCell.getMessageObject());
-                                            f3 = f4;
-                                            if (i10 == 0 && (position != null || chatMessageCell.getTransitionParams().animateBackgroundBoundsInner)) {
+                                            f4 = f6;
+                                            if (i2 == 0 && (position != null || chatMessageCell.getTransitionParams().animateBackgroundBoundsInner)) {
                                                 if (position == null || position.last || (position.minX == 0 && position.minY == 0)) {
                                                     if (position == null || position.last) {
-                                                        arrayList11.add(chatMessageCell);
+                                                        arrayList13.add(chatMessageCell);
                                                     }
                                                     if ((position == null || (position.minX == 0 && position.minY == 0)) && chatMessageCell.hasNameLayout()) {
-                                                        arrayList12.add(chatMessageCell);
+                                                        arrayList14.add(chatMessageCell);
                                                     }
                                                 }
-                                                if ((position != null || chatMessageCell.getTransitionParams().transformGroupToSingleMessage || chatMessageCell.getTransitionParams().animateBackgroundBoundsInner) && (position == null || (position.flags & chatMessageCell.captionFlag()) != 0)) {
-                                                    arrayList13.add(chatMessageCell);
+                                                if (position != null || chatMessageCell.getTransitionParams().transformGroupToSingleMessage || chatMessageCell.getTransitionParams().animateBackgroundBoundsInner) {
+                                                    if (position == null || (position.flags & chatMessageCell.captionFlag()) != 0) {
+                                                        arrayList15.add(chatMessageCell);
+                                                    }
+                                                    if (position != null) {
+                                                        int i11 = position.flags;
+                                                        if ((i11 & 8) != 0) {
+                                                        }
+                                                    }
+                                                    arrayList16.add(chatMessageCell);
                                                 }
                                             }
                                             if (currentMessagesGroup != null) {
-                                                int i12 = i10 == 0 ? 1 : 1;
-                                                if ((i10 != i12 || currentMessagesGroup.transitionParams.drawBackgroundForDeletedItems) && ((i10 != 0 || !chatMessageCell.getMessageObject().deleted) && ((i10 != 1 || chatMessageCell.getMessageObject().deleted) && ((i10 != 2 || chatMessageCell.willRemovedAfterAnimation()) && (i10 == 2 || !chatMessageCell.willRemovedAfterAnimation()))))) {
-                                                    if (!arrayList10.contains(currentMessagesGroup)) {
+                                                int i12 = i2 == 0 ? 1 : 1;
+                                                if ((i2 != i12 || currentMessagesGroup.transitionParams.drawBackgroundForDeletedItems) && ((i2 != 0 || !chatMessageCell.getMessageObject().deleted) && ((i2 != 1 || chatMessageCell.getMessageObject().deleted) && ((i2 != 2 || chatMessageCell.willRemovedAfterAnimation()) && (i2 == 2 || !chatMessageCell.willRemovedAfterAnimation()))))) {
+                                                    if (!arrayList12.contains(currentMessagesGroup)) {
                                                         MessageObject.GroupedMessages.TransitionParams transitionParams = currentMessagesGroup.transitionParams;
                                                         transitionParams.left = 0;
                                                         transitionParams.top = 0;
@@ -1000,7 +1017,7 @@ public class ThanosEffect extends TextureView {
                                                         transitionParams.pinnedBotton = false;
                                                         transitionParams.pinnedTop = false;
                                                         transitionParams.cell = chatMessageCell;
-                                                        arrayList10.add(currentMessagesGroup);
+                                                        arrayList12.add(currentMessagesGroup);
                                                     }
                                                     currentMessagesGroup.transitionParams.pinnedTop = chatMessageCell.isPinnedTop();
                                                     currentMessagesGroup.transitionParams.pinnedBotton = chatMessageCell.isPinnedBottom();
@@ -1008,15 +1025,15 @@ public class ThanosEffect extends TextureView {
                                                     int left2 = chatMessageCell.getLeft() + chatMessageCell.getBackgroundDrawableRight();
                                                     int top = chatMessageCell.getTop() + chatMessageCell.getBackgroundDrawableTop();
                                                     int top2 = chatMessageCell.getTop() + chatMessageCell.getBackgroundDrawableBottom();
-                                                    arrayList8 = arrayList12;
+                                                    arrayList9 = arrayList14;
                                                     int dp = (chatMessageCell.getCurrentPosition().flags & 4) == 0 ? top - AndroidUtilities.dp(10.0f) : top;
-                                                    i2 = i10;
+                                                    arrayList10 = arrayList16;
                                                     int dp2 = (chatMessageCell.getCurrentPosition().flags & 8) == 0 ? top2 + AndroidUtilities.dp(10.0f) : top2;
                                                     if (chatMessageCell.willRemovedAfterAnimation()) {
-                                                        arrayList9 = arrayList13;
+                                                        arrayList11 = arrayList15;
                                                         currentMessagesGroup.transitionParams.cell = chatMessageCell;
                                                     } else {
-                                                        arrayList9 = arrayList13;
+                                                        arrayList11 = arrayList15;
                                                     }
                                                     MessageObject.GroupedMessages.TransitionParams transitionParams2 = currentMessagesGroup.transitionParams;
                                                     int i13 = transitionParams2.top;
@@ -1035,136 +1052,145 @@ public class ThanosEffect extends TextureView {
                                                     if (i16 == 0 || left2 > i16) {
                                                         transitionParams2.right = left2;
                                                     }
-                                                    i11++;
-                                                    arrayList13 = arrayList9;
-                                                    i10 = i2;
-                                                    f4 = f3;
-                                                    arrayList12 = arrayList8;
+                                                    i10++;
+                                                    arrayList15 = arrayList11;
+                                                    arrayList16 = arrayList10;
+                                                    f5 = f3;
+                                                    f6 = f4;
+                                                    arrayList14 = arrayList9;
                                                 }
                                             }
-                                            arrayList8 = arrayList12;
-                                            i2 = i10;
-                                            arrayList9 = arrayList13;
-                                            i11++;
-                                            arrayList13 = arrayList9;
-                                            i10 = i2;
-                                            f4 = f3;
-                                            arrayList12 = arrayList8;
+                                            arrayList9 = arrayList14;
+                                            arrayList10 = arrayList16;
+                                            arrayList11 = arrayList15;
+                                            i10++;
+                                            arrayList15 = arrayList11;
+                                            arrayList16 = arrayList10;
+                                            f5 = f3;
+                                            f6 = f4;
+                                            arrayList14 = arrayList9;
                                         }
+                                    } else {
+                                        arrayList9 = arrayList14;
+                                        f3 = f5;
                                     }
-                                    arrayList8 = arrayList12;
-                                    f3 = f4;
-                                    i2 = i10;
-                                    arrayList9 = arrayList13;
-                                    i11++;
-                                    arrayList13 = arrayList9;
-                                    i10 = i2;
-                                    f4 = f3;
-                                    arrayList12 = arrayList8;
+                                    f4 = f6;
+                                    arrayList10 = arrayList16;
+                                    arrayList11 = arrayList15;
+                                    i10++;
+                                    arrayList15 = arrayList11;
+                                    arrayList16 = arrayList10;
+                                    f5 = f3;
+                                    f6 = f4;
+                                    arrayList14 = arrayList9;
                                 }
-                                arrayList3 = arrayList12;
-                                f = f4;
-                                int i17 = i10;
-                                ArrayList arrayList14 = arrayList13;
-                                int i18 = 0;
-                                while (i18 < arrayList10.size()) {
-                                    MessageObject.GroupedMessages groupedMessages = (MessageObject.GroupedMessages) arrayList10.get(i18);
+                                arrayList3 = arrayList14;
+                                f = f5;
+                                f2 = f6;
+                                ArrayList arrayList17 = arrayList16;
+                                ArrayList arrayList18 = arrayList15;
+                                int i17 = 0;
+                                while (i17 < arrayList12.size()) {
+                                    MessageObject.GroupedMessages groupedMessages = (MessageObject.GroupedMessages) arrayList12.get(i17);
                                     float nonAnimationTranslationX = groupedMessages.transitionParams.cell.getNonAnimationTranslationX(true);
                                     MessageObject.GroupedMessages.TransitionParams transitionParams3 = groupedMessages.transitionParams;
-                                    float f6 = transitionParams3.left + nonAnimationTranslationX + transitionParams3.offsetLeft;
-                                    float f7 = transitionParams3.top + transitionParams3.offsetTop;
-                                    float f8 = transitionParams3.right + nonAnimationTranslationX + transitionParams3.offsetRight;
-                                    float f9 = transitionParams3.bottom + transitionParams3.offsetBottom;
+                                    float f7 = transitionParams3.left + nonAnimationTranslationX + transitionParams3.offsetLeft;
+                                    float f8 = transitionParams3.top + transitionParams3.offsetTop;
+                                    float f9 = transitionParams3.right + nonAnimationTranslationX + transitionParams3.offsetRight;
+                                    float f10 = transitionParams3.bottom + transitionParams3.offsetBottom;
                                     if (!transitionParams3.backgroundChangeBounds) {
-                                        f7 += transitionParams3.cell.getTranslationY();
-                                        f9 += groupedMessages.transitionParams.cell.getTranslationY();
+                                        f8 += transitionParams3.cell.getTranslationY();
+                                        f10 += groupedMessages.transitionParams.cell.getTranslationY();
                                     }
-                                    ArrayList arrayList15 = arrayList10;
-                                    f7 = f7 < (chatActivity3.chatListViewPaddingTop - ((float) chatActivity3.chatListViewPaddingVisibleOffset)) - ((float) AndroidUtilities.dp(20.0f)) ? (chatActivity3.chatListViewPaddingTop - chatActivity3.chatListViewPaddingVisibleOffset) - AndroidUtilities.dp(20.0f) : f7;
-                                    f9 = f9 > ((float) (recyclerListView.getMeasuredHeight() + AndroidUtilities.dp(20.0f))) ? recyclerListView.getMeasuredHeight() + AndroidUtilities.dp(20.0f) : f9;
-                                    float f10 = animation.top;
-                                    float f11 = f7 - f10;
-                                    float f12 = f9 - f10;
-                                    float f13 = animation.left;
-                                    float f14 = f6 - f13;
-                                    float f15 = f8 - f13;
+                                    ArrayList arrayList19 = arrayList12;
+                                    f8 = f8 < (chatActivity3.chatListViewPaddingTop - ((float) chatActivity3.chatListViewPaddingVisibleOffset)) - ((float) AndroidUtilities.dp(20.0f)) ? (chatActivity3.chatListViewPaddingTop - chatActivity3.chatListViewPaddingVisibleOffset) - AndroidUtilities.dp(20.0f) : f8;
+                                    f10 = f10 > ((float) (recyclerListView.getMeasuredHeight() + AndroidUtilities.dp(20.0f))) ? recyclerListView.getMeasuredHeight() + AndroidUtilities.dp(20.0f) : f10;
+                                    float f11 = animation.top;
+                                    float f12 = f8 - f11;
+                                    float f13 = f10 - f11;
+                                    float f14 = animation.left;
+                                    float f15 = f7 - f14;
+                                    float f16 = f9 - f14;
                                     boolean z = (groupedMessages.transitionParams.cell.getScaleX() == 1.0f && groupedMessages.transitionParams.cell.getScaleY() == 1.0f) ? false : true;
                                     if (z) {
                                         canvas2.save();
-                                        arrayList7 = arrayList11;
-                                        canvas2.scale(groupedMessages.transitionParams.cell.getScaleX(), groupedMessages.transitionParams.cell.getScaleY(), f14 + ((f15 - f14) / 2.0f), f11 + ((f12 - f11) / 2.0f));
+                                        arrayList8 = arrayList13;
+                                        canvas2.scale(groupedMessages.transitionParams.cell.getScaleX(), groupedMessages.transitionParams.cell.getScaleY(), f15 + ((f16 - f15) / 2.0f), f12 + ((f13 - f12) / 2.0f));
                                     } else {
-                                        arrayList7 = arrayList11;
+                                        arrayList8 = arrayList13;
                                     }
                                     MessageObject.GroupedMessages.TransitionParams transitionParams4 = groupedMessages.transitionParams;
                                     ChatActivity chatActivity4 = chatActivity3;
-                                    float f16 = f5;
-                                    int i19 = i18;
-                                    int i20 = i17;
-                                    ArrayList arrayList16 = arrayList14;
-                                    transitionParams4.cell.drawBackground(canvas2, (int) f14, (int) f11, (int) f15, (int) f12, transitionParams4.pinnedTop, transitionParams4.pinnedBotton, false, chatActivityFragmentView.getKeyboardHeight());
+                                    int i18 = i2;
+                                    int i19 = i17;
+                                    ArrayList arrayList20 = arrayList17;
+                                    ArrayList arrayList21 = arrayList18;
+                                    transitionParams4.cell.drawBackground(canvas2, (int) f15, (int) f12, (int) f16, (int) f13, transitionParams4.pinnedTop, transitionParams4.pinnedBotton, false, chatActivityFragmentView.getKeyboardHeight());
                                     MessageObject.GroupedMessages.TransitionParams transitionParams5 = groupedMessages.transitionParams;
                                     transitionParams5.cell = null;
                                     transitionParams5.drawCaptionLayout = groupedMessages.hasCaption;
                                     if (z) {
                                         canvas2.restore();
-                                        for (int i21 = 0; i21 < arrayList.size(); i21++) {
-                                            View view3 = arrayList.get(i21);
+                                        for (int i20 = 0; i20 < arrayList.size(); i20++) {
+                                            View view3 = arrayList.get(i20);
                                             if (view3 instanceof ChatMessageCell) {
                                                 ChatMessageCell chatMessageCell2 = (ChatMessageCell) view3;
                                                 if (chatMessageCell2.getCurrentMessagesGroup() == groupedMessages) {
                                                     int left3 = chatMessageCell2.getLeft();
                                                     int top3 = chatMessageCell2.getTop();
-                                                    view3.setPivotX((f14 - left3) + ((f15 - f14) / 2.0f));
-                                                    view3.setPivotY((f11 - top3) + ((f12 - f11) / 2.0f));
+                                                    view3.setPivotX((f15 - left3) + ((f16 - f15) / 2.0f));
+                                                    view3.setPivotY((f12 - top3) + ((f13 - f12) / 2.0f));
                                                 }
                                             }
                                         }
                                     }
-                                    i18 = i19 + 1;
+                                    i17 = i19 + 1;
                                     animation = this;
-                                    arrayList10 = arrayList15;
-                                    arrayList11 = arrayList7;
+                                    arrayList12 = arrayList19;
+                                    arrayList13 = arrayList8;
                                     chatActivity3 = chatActivity4;
-                                    f5 = f16;
-                                    i17 = i20;
-                                    arrayList14 = arrayList16;
+                                    i2 = i18;
+                                    arrayList17 = arrayList20;
+                                    arrayList18 = arrayList21;
                                 }
-                                arrayList4 = arrayList10;
-                                arrayList5 = arrayList11;
+                                arrayList4 = arrayList12;
+                                arrayList5 = arrayList13;
                                 chatActivity2 = chatActivity3;
-                                f2 = f5;
-                                arrayList6 = arrayList14;
-                                i = i17;
+                                i = i2;
+                                arrayList6 = arrayList18;
+                                arrayList7 = arrayList17;
                             } else {
-                                arrayList4 = arrayList10;
-                                arrayList3 = arrayList12;
-                                arrayList5 = arrayList11;
+                                arrayList4 = arrayList12;
+                                arrayList3 = arrayList14;
+                                arrayList5 = arrayList13;
                                 chatActivity2 = chatActivity3;
-                                f = f4;
-                                f2 = f5;
-                                i = i10;
-                                arrayList6 = arrayList13;
+                                i = i2;
+                                f = f5;
+                                f2 = f6;
+                                arrayList7 = arrayList16;
+                                arrayList6 = arrayList15;
                             }
-                            i10 = i + 1;
+                            i2 = i + 1;
                             animation = this;
-                            f4 = f;
-                            arrayList12 = arrayList3;
-                            arrayList10 = arrayList4;
-                            arrayList11 = arrayList5;
+                            f5 = f;
+                            f6 = f2;
+                            arrayList14 = arrayList3;
+                            arrayList12 = arrayList4;
+                            arrayList13 = arrayList5;
                             chatActivity3 = chatActivity2;
-                            f5 = f2;
-                            arrayList13 = arrayList6;
+                            arrayList16 = arrayList7;
+                            arrayList15 = arrayList6;
                             i3 = 2;
                         }
-                        ArrayList arrayList17 = arrayList12;
-                        ArrayList arrayList18 = arrayList11;
+                        ArrayList arrayList22 = arrayList14;
+                        ArrayList arrayList23 = arrayList13;
                         ChatActivity chatActivity5 = chatActivity3;
-                        float f17 = f4;
-                        float f18 = f5;
-                        ArrayList arrayList19 = arrayList13;
-                        for (int i22 = 0; i22 < arrayList.size(); i22++) {
-                            View view4 = arrayList.get(i22);
+                        float f17 = f5;
+                        float f18 = f6;
+                        ArrayList arrayList24 = arrayList16;
+                        ArrayList arrayList25 = arrayList15;
+                        for (int i21 = 0; i21 < arrayList.size(); i21++) {
+                            View view4 = arrayList.get(i21);
                             canvas2.save();
                             canvas2.translate(view4.getX() - f18, view4.getY() - f17);
                             view4.draw(canvas2);
@@ -1177,48 +1203,62 @@ public class ThanosEffect extends TextureView {
                         }
                         ChatActivity chatActivity6 = chatActivity5;
                         float y = ((recyclerListView.getY() + chatActivity6.chatListViewPaddingTop) - chatActivity6.chatListViewPaddingVisibleOffset) - AndroidUtilities.dp(4.0f);
-                        int size = arrayList18.size();
+                        int size = arrayList23.size();
                         if (size > 0) {
-                            int i23 = 0;
-                            while (i23 < size) {
-                                ArrayList arrayList20 = arrayList18;
-                                ChatMessageCell chatMessageCell3 = (ChatMessageCell) arrayList20.get(i23);
+                            int i22 = 0;
+                            while (i22 < size) {
+                                ArrayList arrayList26 = arrayList23;
+                                ChatMessageCell chatMessageCell3 = (ChatMessageCell) arrayList26.get(i22);
                                 drawChildElement(recyclerListView, chatActivity6, canvas2, y, chatMessageCell3, 0, chatMessageCell3.getX() - f18, chatMessageCell3.getY() - f17);
-                                i23++;
+                                i22++;
                                 chatActivity6 = chatActivity6;
                                 canvas2 = canvas2;
-                                arrayList18 = arrayList20;
+                                arrayList23 = arrayList26;
                             }
                             chatActivity = chatActivity6;
                             canvas = canvas2;
-                            arrayList2 = arrayList17;
-                            arrayList18.clear();
+                            arrayList2 = arrayList22;
+                            arrayList23.clear();
                         } else {
                             chatActivity = chatActivity6;
                             canvas = canvas2;
-                            arrayList2 = arrayList17;
+                            arrayList2 = arrayList22;
                         }
                         int size2 = arrayList2.size();
                         if (size2 > 0) {
-                            for (int i24 = 0; i24 < size2; i24++) {
-                                ChatMessageCell chatMessageCell4 = (ChatMessageCell) arrayList2.get(i24);
+                            for (int i23 = 0; i23 < size2; i23++) {
+                                ChatMessageCell chatMessageCell4 = (ChatMessageCell) arrayList2.get(i23);
                                 drawChildElement(recyclerListView, chatActivity, canvas, y, chatMessageCell4, 1, chatMessageCell4.getX() - f18, chatMessageCell4.getY() - f17);
                             }
                             arrayList2.clear();
                         }
-                        int size3 = arrayList19.size();
+                        int size3 = arrayList25.size();
                         if (size3 > 0) {
-                            int i25 = 0;
-                            while (i25 < size3) {
-                                ArrayList arrayList21 = arrayList19;
-                                ChatMessageCell chatMessageCell5 = (ChatMessageCell) arrayList21.get(i25);
+                            int i24 = 0;
+                            while (i24 < size3) {
+                                ArrayList arrayList27 = arrayList25;
+                                ChatMessageCell chatMessageCell5 = (ChatMessageCell) arrayList27.get(i24);
                                 if (chatMessageCell5.getCurrentPosition() != null || chatMessageCell5.getTransitionParams().animateBackgroundBoundsInner) {
                                     drawChildElement(recyclerListView, chatActivity, canvas, y, chatMessageCell5, 2, chatMessageCell5.getX() - f18, chatMessageCell5.getY() - f17);
                                 }
-                                i25++;
-                                arrayList19 = arrayList21;
+                                i24++;
+                                arrayList25 = arrayList27;
                             }
-                            arrayList19.clear();
+                            arrayList25.clear();
+                        }
+                        int size4 = arrayList24.size();
+                        if (size4 > 0) {
+                            int i25 = 0;
+                            while (i25 < size4) {
+                                ArrayList arrayList28 = arrayList24;
+                                ChatMessageCell chatMessageCell6 = (ChatMessageCell) arrayList28.get(i25);
+                                if (chatMessageCell6.getCurrentPosition() != null || chatMessageCell6.getTransitionParams().animateBackgroundBoundsInner) {
+                                    drawChildElement(recyclerListView, chatActivity, canvas, y, chatMessageCell6, 3, chatMessageCell6.getX() - f18, chatMessageCell6.getY() - f17);
+                                }
+                                i25++;
+                                arrayList24 = arrayList28;
+                            }
+                            arrayList24.clear();
                         }
                         canvas.restore();
                         for (int i26 = 0; i26 < arrayList.size(); i26++) {
@@ -1251,8 +1291,10 @@ public class ThanosEffect extends TextureView {
                     chatMessageCell.drawTime(canvas, alpha, true);
                 } else if (i == 1) {
                     chatMessageCell.drawNamesLayout(canvas, alpha);
-                } else {
+                } else if (i == 2) {
                     chatMessageCell.drawCaptionLayout(canvas, (chatMessageCell.getCurrentPosition() == null || (chatMessageCell.getCurrentPosition().flags & 1) != 0) ? false : false, alpha);
+                } else if (chatMessageCell.getCurrentPosition() == null || (1 & chatMessageCell.getCurrentPosition().flags) != 0) {
+                    chatMessageCell.drawReactionsLayout(canvas, alpha);
                 }
                 chatMessageCell.setInvalidatesParent(false);
                 canvas.restore();

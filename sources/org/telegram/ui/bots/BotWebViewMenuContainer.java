@@ -45,6 +45,7 @@ import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserObject;
+import org.telegram.messenger.Utilities;
 import org.telegram.messenger.browser.Browser;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
@@ -432,7 +433,7 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
             bundle.putBoolean("allowChannels", list.contains("channels"));
             bundle.putBoolean("allowBots", list.contains("bots"));
             DialogsActivity dialogsActivity = new DialogsActivity(bundle);
-            dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.bots.BotWebViewMenuContainer$2$$ExternalSyntheticLambda4
+            dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.bots.BotWebViewMenuContainer$2$$ExternalSyntheticLambda5
                 @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
                 public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
                     boolean lambda$onWebAppSwitchInlineQuery$2;
@@ -474,6 +475,11 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
                     public final void run() {
                         AlertDialog.this.dismiss();
                     }
+                }, new Utilities.Callback() { // from class: org.telegram.ui.bots.BotWebViewMenuContainer$2$$ExternalSyntheticLambda4
+                    @Override // org.telegram.messenger.Utilities.Callback
+                    public final void run(Object obj) {
+                        BotWebViewMenuContainer.2.this.lambda$onWebAppOpenInvoice$4(str, (String) obj);
+                    }
                 });
                 return;
             }
@@ -485,10 +491,10 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
                 paymentFormActivity = tLObject instanceof TLRPC$PaymentReceipt ? new PaymentFormActivity((TLRPC$PaymentReceipt) tLObject) : null;
             }
             if (paymentFormActivity != null) {
-                paymentFormActivity.setPaymentFormCallback(new PaymentFormActivity.PaymentFormCallback() { // from class: org.telegram.ui.bots.BotWebViewMenuContainer$2$$ExternalSyntheticLambda5
+                paymentFormActivity.setPaymentFormCallback(new PaymentFormActivity.PaymentFormCallback() { // from class: org.telegram.ui.bots.BotWebViewMenuContainer$2$$ExternalSyntheticLambda6
                     @Override // org.telegram.ui.PaymentFormActivity.PaymentFormCallback
                     public final void onInvoiceStatusChanged(PaymentFormActivity.InvoiceStatus invoiceStatus) {
-                        BotWebViewMenuContainer.2.this.lambda$onWebAppOpenInvoice$4(str, invoiceStatus);
+                        BotWebViewMenuContainer.2.this.lambda$onWebAppOpenInvoice$5(str, invoiceStatus);
                     }
                 });
                 parentFragment.presentFragment(paymentFormActivity);
@@ -496,7 +502,12 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onWebAppOpenInvoice$4(String str, PaymentFormActivity.InvoiceStatus invoiceStatus) {
+        public /* synthetic */ void lambda$onWebAppOpenInvoice$4(String str, String str2) {
+            BotWebViewMenuContainer.this.webViewContainer.onInvoiceStatusUpdate(str, str2);
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onWebAppOpenInvoice$5(String str, PaymentFormActivity.InvoiceStatus invoiceStatus) {
             BotWebViewMenuContainer.this.webViewContainer.onInvoiceStatusUpdate(str, invoiceStatus.name().toLowerCase(Locale.ROOT));
         }
 
@@ -507,7 +518,7 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
             botWebViewButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.bots.BotWebViewMenuContainer$2$$ExternalSyntheticLambda2
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
-                    BotWebViewMenuContainer.2.this.lambda$onSetupMainButton$5(view);
+                    BotWebViewMenuContainer.2.this.lambda$onSetupMainButton$6(view);
                 }
             });
             if (z != BotWebViewMenuContainer.this.botWebViewButtonWasVisible) {
@@ -516,7 +527,7 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onSetupMainButton$5(View view) {
+        public /* synthetic */ void lambda$onSetupMainButton$6(View view) {
             BotWebViewMenuContainer.this.webViewContainer.onMainButtonPressed();
         }
 
