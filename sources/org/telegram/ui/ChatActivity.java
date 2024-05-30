@@ -14988,14 +14988,17 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         });
         createActionMode.addView(this.selectedMessagesCountTextView, LayoutHelper.createLinear(0, -1, 1.0f, 65, 0, 0, 0));
         if (this.currentEncryptedChat == null) {
+            boolean z = getDialogId() == getUserConfig().getClientUserId() && ((i = this.chatMode) == 0 || i == 3);
             this.actionModeViews.add(createActionMode.addItemWithWidth(25, R.drawable.msg_download, AndroidUtilities.dp(54.0f), LocaleController.getString(R.string.SaveToMusic)));
             this.actionModeViews.add(createActionMode.addItemWithWidth(23, R.drawable.msg_edit, AndroidUtilities.dp(54.0f), LocaleController.getString(R.string.Edit)));
-            if (getDialogId() == getUserConfig().getClientUserId() && ((i = this.chatMode) == 0 || i == 3)) {
+            if (z) {
                 this.actionModeViews.add(createActionMode.addItemWithWidth(28, R.drawable.menu_tag_edit, AndroidUtilities.dp(54.0f), LocaleController.getString(R.string.AccDescrTagMessage)));
             }
             this.actionModeViews.add(createActionMode.addItemWithWidth(22, R.drawable.msg_fave, AndroidUtilities.dp(54.0f), LocaleController.getString(R.string.AddToFavorites)));
             this.actionModeViews.add(createActionMode.addItemWithWidth(10, R.drawable.msg_copy, AndroidUtilities.dp(54.0f), LocaleController.getString(R.string.Copy)));
-            this.actionModeViews.add(createActionMode.addItemWithWidth(11, R.drawable.msg_forward, AndroidUtilities.dp(54.0f), LocaleController.getString(R.string.Forward)));
+            if (!z) {
+                this.actionModeViews.add(createActionMode.addItemWithWidth(11, R.drawable.msg_forward, AndroidUtilities.dp(54.0f), LocaleController.getString(R.string.Forward)));
+            }
             this.actionModeViews.add(createActionMode.addItemWithWidth(12, R.drawable.msg_delete, AndroidUtilities.dp(54.0f), LocaleController.getString(R.string.Delete)));
         } else {
             this.actionModeViews.add(createActionMode.addItemWithWidth(23, R.drawable.msg_edit, AndroidUtilities.dp(54.0f), LocaleController.getString(R.string.Edit)));
@@ -25446,26 +25449,37 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         addToSelectedMessages(messageObject, z, true);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:406:0x0641  */
-    /* JADX WARN: Removed duplicated region for block: B:412:0x0662  */
+    /* JADX WARN: Code restructure failed: missing block: B:400:0x0650, code lost:
+        r6 = 8;
+        r13 = 8;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:430:0x073d  */
+    /* JADX WARN: Removed duplicated region for block: B:450:0x07e9  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private void addToSelectedMessages(MessageObject messageObject, boolean z, boolean z2) {
+        ActionBarMenuItem actionBarMenuItem;
         int i;
         int i2;
         int i3;
         int i4;
+        ActionBarMenuItem actionBarMenuItem2;
+        ActionBarMenuItem actionBarMenuItem3;
+        ActionBarMenuItem actionBarMenuItem4;
+        ActionBarMenuItem actionBarMenuItem5;
         int i5;
+        int i6;
         TLRPC$Chat tLRPC$Chat;
-        final int i6;
-        int size;
-        int i7;
+        final int i7;
         int i8;
+        int i9;
+        int i10;
+        int i11;
         String str;
         TLRPC$Message tLRPC$Message;
         TLRPC$Message tLRPC$Message2;
-        int i9 = this.cantForwardMessagesCount;
+        int i12 = this.cantForwardMessagesCount;
         if (messageObject != null) {
             ArrayList<MessageObject> arrayList = this.threadMessageObjects;
             if (arrayList != null && arrayList.contains(messageObject) && !isThreadChat()) {
@@ -25476,27 +25490,27 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 MessageObject.GroupedMessages groupedMessages = this.groupedMessagesMap.get(messageObject.getGroupId());
                 if (groupedMessages != null) {
                     boolean z3 = false;
-                    int i10 = 0;
-                    for (int i11 = 0; i11 < groupedMessages.messages.size(); i11++) {
-                        if (this.selectedMessagesIds[c].indexOfKey(groupedMessages.messages.get(i11).getId()) < 0) {
-                            i10 = i11;
+                    int i13 = 0;
+                    for (int i14 = 0; i14 < groupedMessages.messages.size(); i14++) {
+                        if (this.selectedMessagesIds[c].indexOfKey(groupedMessages.messages.get(i14).getId()) < 0) {
+                            i13 = i14;
                             z3 = true;
                         }
                     }
-                    int i12 = 0;
-                    while (i12 < groupedMessages.messages.size()) {
-                        MessageObject messageObject2 = groupedMessages.messages.get(i12);
+                    int i15 = 0;
+                    while (i15 < groupedMessages.messages.size()) {
+                        MessageObject messageObject2 = groupedMessages.messages.get(i15);
                         if (z3) {
                             if (this.selectedMessagesIds[c].indexOfKey(messageObject2.getId()) < 0) {
-                                addToSelectedMessages(messageObject2, false, i12 == i10);
+                                addToSelectedMessages(messageObject2, false, i15 == i13);
                             }
                         } else {
-                            addToSelectedMessages(messageObject2, false, i12 == groupedMessages.messages.size() - 1);
+                            addToSelectedMessages(messageObject2, false, i15 == groupedMessages.messages.size() - 1);
                         }
                         if (!TextUtils.isEmpty(messageObject2.caption)) {
                             showTextSelectionHint(messageObject);
                         }
-                        i12++;
+                        i15++;
                     }
                     return;
                 }
@@ -25578,8 +25592,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             this.forwardButtonAnimation = null;
         }
         if (z2 && this.actionBar.isActionModeShowed() && this.reportType < 0) {
-            int size2 = this.selectedMessagesIds[0].size() + this.selectedMessagesIds[1].size();
-            if (size2 == 0) {
+            int size = this.selectedMessagesIds[0].size() + this.selectedMessagesIds[1].size();
+            if (size == 0) {
                 hideActionMode();
                 updatePinnedMessageView(true);
             } else {
@@ -25590,9 +25604,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 final ActionBarMenuItem item4 = this.actionBar.createActionMode().getItem(23);
                 ActionBarMenuItem item5 = this.actionBar.createActionMode().getItem(11);
                 ActionBarMenuItem item6 = this.actionBar.createActionMode().getItem(12);
+                ActionBarMenuItem item7 = this.actionBar.createActionMode().getItem(28);
                 createBottomMessagesActionButtons();
                 boolean z4 = getMessagesController().isChatNoForwards(this.currentChat) || hasSelectedNoforwardsMessage();
-                if ((i9 == 0 && this.cantForwardMessagesCount != 0) || (i9 != 0 && this.cantForwardMessagesCount == 0)) {
+                if ((i12 == 0 && this.cantForwardMessagesCount != 0) || (i12 != 0 && this.cantForwardMessagesCount == 0)) {
                     this.forwardButtonAnimation = new AnimatorSet();
                     ArrayList arrayList2 = new ArrayList();
                     if (item5 != null) {
@@ -25656,29 +25671,38 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     }
                 }
                 if (item != null) {
-                    int i13 = this.canSaveMusicCount;
-                    item.setVisibility((((i13 <= 0 || this.canSaveDocumentsCount != 0) && (i13 != 0 || this.canSaveDocumentsCount <= 0)) || this.cantSaveMessagesCount != 0) ? 8 : 0);
+                    int i16 = this.canSaveMusicCount;
+                    if (((i16 <= 0 || this.canSaveDocumentsCount != 0) && (i16 != 0 || this.canSaveDocumentsCount <= 0)) || this.cantSaveMessagesCount != 0) {
+                        actionBarMenuItem = item;
+                        i10 = 8;
+                    } else {
+                        actionBarMenuItem = item;
+                        i10 = 0;
+                    }
+                    actionBarMenuItem.setVisibility(i10);
                     if (this.canSaveMusicCount > 0) {
-                        i8 = R.string.SaveToMusic;
+                        i11 = R.string.SaveToMusic;
                         str = "SaveToMusic";
                     } else {
-                        i8 = R.string.SaveToDownloads;
+                        i11 = R.string.SaveToDownloads;
                         str = "SaveToDownloads";
                     }
-                    item.setContentDescription(LocaleController.getString(str, i8));
+                    actionBarMenuItem.setContentDescription(LocaleController.getString(str, i11));
+                } else {
+                    actionBarMenuItem = item;
                 }
                 if (item2 != null) {
-                    i = item2.getVisibility();
-                    item2.setVisibility((z4 || this.selectedMessagesCanCopyIds[0].size() + this.selectedMessagesCanCopyIds[1].size() == 0) ? 8 : 0);
                     i2 = item2.getVisibility();
+                    item2.setVisibility((z4 || this.selectedMessagesCanCopyIds[0].size() + this.selectedMessagesCanCopyIds[1].size() == 0) ? 8 : 0);
+                    i = item2.getVisibility();
                 } else {
                     i = 8;
                     i2 = 8;
                 }
                 if (item3 != null) {
-                    i3 = item3.getVisibility();
-                    item3.setVisibility((getMediaDataController().canAddStickerToFavorites() && this.selectedMessagesCanStarIds[0].size() + this.selectedMessagesCanStarIds[1].size() == size2) ? 0 : 8);
                     i4 = item3.getVisibility();
+                    item3.setVisibility((getMediaDataController().canAddStickerToFavorites() && this.selectedMessagesCanStarIds[0].size() + this.selectedMessagesCanStarIds[1].size() == size) ? 0 : 8);
+                    i3 = item3.getVisibility();
                 } else {
                     i3 = 8;
                     i4 = 8;
@@ -25687,169 +25711,221 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     item6.setVisibility(this.cantDeleteMessagesCount == 0 ? 0 : 8);
                 }
                 this.hasUnfavedSelected = false;
-                int i14 = 0;
+                int i17 = 0;
                 while (true) {
-                    if (i14 >= 2) {
+                    if (i17 >= 2) {
+                        actionBarMenuItem2 = item6;
                         break;
                     }
-                    int i15 = 0;
+                    int i18 = 0;
                     while (true) {
-                        if (i15 >= this.selectedMessagesCanStarIds[i14].size()) {
+                        if (i18 >= this.selectedMessagesCanStarIds[i17].size()) {
+                            actionBarMenuItem2 = item6;
                             break;
                         }
-                        MessageObject valueAt = this.selectedMessagesCanStarIds[i14].valueAt(i15);
+                        MessageObject valueAt = this.selectedMessagesCanStarIds[i17].valueAt(i18);
+                        actionBarMenuItem2 = item6;
                         if (valueAt != null && !getMediaDataController().isStickerInFavorites(valueAt.getDocument())) {
                             this.hasUnfavedSelected = true;
                             break;
+                        } else {
+                            i18++;
+                            item6 = actionBarMenuItem2;
                         }
-                        i15++;
                     }
                     if (this.hasUnfavedSelected) {
                         break;
                     }
-                    i14++;
+                    i17++;
+                    item6 = actionBarMenuItem2;
                 }
                 if (item3 != null) {
                     item3.setIcon(this.hasUnfavedSelected ? R.drawable.msg_fave : R.drawable.msg_unfave);
                 }
-                final int i16 = (this.canEditMessagesCount == 1 && size2 == 1) ? 0 : 8;
+                final int i19 = (this.canEditMessagesCount == 1 && size == 1) ? 0 : 8;
                 createBottomMessagesActionButtons();
                 if (this.replyButton != null) {
                     BlurredFrameLayout blurredFrameLayout = this.bottomOverlayChat;
                     boolean z5 = (blurredFrameLayout == null || blurredFrameLayout.getVisibility() != 0 || this.bottomOverlayChatWaitsReply) && ((tLRPC$Chat = this.currentChat) == null || ((!ChatObject.isNotInChat(tLRPC$Chat) || isThreadChat()) && ((!ChatObject.isChannel(this.currentChat) || ChatObject.canPost(this.currentChat) || this.currentChat.megagroup) && ChatObject.canSendMessages(this.currentChat))));
-                    if (this.chatMode != 1 && z5 && (this.selectedMessagesIds[0].size() == 0 || this.selectedMessagesIds[1].size() == 0)) {
-                        if (size2 == 1) {
-                            int size3 = this.selectedMessagesIds[0].size();
-                            for (int i17 = 0; i17 < size3; i17++) {
-                                MessageObject valueAt2 = this.selectedMessagesIds[0].valueAt(i17);
-                                if (!ChatObject.isForum(this.currentChat) || canSendMessageToTopic(valueAt2)) {
-                                }
+                    if (this.chatMode == 1 || !z5 || (this.selectedMessagesIds[0].size() != 0 && this.selectedMessagesIds[1].size() != 0)) {
+                        i7 = 8;
+                    } else if (size != 1) {
+                        int i20 = 0;
+                        int i21 = 0;
+                        int i22 = 2;
+                        long j = 0;
+                        while (true) {
+                            if (i20 >= i22) {
+                                i7 = i21;
+                                break;
                             }
-                            i6 = 0;
-                        } else {
-                            i6 = 0;
-                            int i18 = 0;
-                            long j = 0;
-                            for (i5 = 2; i18 < i5; i5 = 2) {
-                                int size4 = this.selectedMessagesIds[i18].size();
-                                int i19 = 0;
-                                while (i19 < size4) {
-                                    MessageObject valueAt3 = this.selectedMessagesIds[i18].valueAt(i19);
-                                    long groupId = valueAt3.getGroupId();
-                                    if (groupId == 0 || (!(j == 0 || j == groupId) || (ChatObject.isForum(this.currentChat) && !canSendMessageToTopic(valueAt3)))) {
-                                        i6 = 8;
-                                        break;
-                                    } else {
-                                        i19++;
-                                        j = groupId;
-                                    }
-                                }
-                                if (i6 == 8) {
+                            int size2 = this.selectedMessagesIds[i20].size();
+                            int i23 = 0;
+                            while (true) {
+                                int i24 = i21;
+                                if (i23 >= size2) {
+                                    i8 = i24;
+                                    i9 = 8;
                                     break;
                                 }
-                                i18++;
-                            }
-                        }
-                        if (this.threadMessageObjects != null && i6 == 0) {
-                            char c2 = 0;
-                            size = this.selectedMessagesIds[0].size();
-                            i7 = 0;
-                            while (i7 < size) {
-                                if (this.threadMessageObjects.contains(this.selectedMessagesIds[c2].valueAt(i7))) {
-                                    i6 = 8;
+                                MessageObject valueAt2 = this.selectedMessagesIds[i20].valueAt(i23);
+                                long groupId = valueAt2.getGroupId();
+                                if (groupId == 0 || (j != 0 && j != groupId)) {
+                                    break;
                                 }
-                                i7++;
+                                int i25 = size2;
+                                if (ChatObject.isForum(this.currentChat) && !canSendMessageToTopic(valueAt2)) {
+                                    break;
+                                }
+                                i23++;
+                                i21 = i24;
+                                j = groupId;
+                                size2 = i25;
+                            }
+                            if (i8 == i9) {
+                                i7 = i8;
+                                break;
+                            }
+                            i20++;
+                            i21 = i8;
+                            i22 = 2;
+                        }
+                    } else {
+                        char c2 = 0;
+                        int size3 = this.selectedMessagesIds[0].size();
+                        int i26 = 0;
+                        while (true) {
+                            if (i26 >= size3) {
+                                i7 = 0;
+                                break;
+                            }
+                            MessageObject valueAt3 = this.selectedMessagesIds[c2].valueAt(i26);
+                            if (ChatObject.isForum(this.currentChat) && !canSendMessageToTopic(valueAt3)) {
+                                i7 = 8;
+                                break;
+                            } else {
+                                i26++;
                                 c2 = 0;
                             }
                         }
-                        if (this.replyButton.getVisibility() != i6) {
-                            AnimatorSet animatorSet2 = this.replyButtonAnimation;
-                            if (animatorSet2 != null) {
-                                animatorSet2.cancel();
-                            }
-                            AnimatorSet animatorSet3 = new AnimatorSet();
-                            this.replyButtonAnimation = animatorSet3;
-                            if (i6 == 0) {
-                                this.replyButton.setVisibility(i6);
-                                this.replyButtonAnimation.playTogether(ObjectAnimator.ofFloat(this.replyButton, View.ALPHA, 1.0f), ObjectAnimator.ofFloat(this.replyButton, View.SCALE_Y, 1.0f));
-                            } else {
-                                animatorSet3.playTogether(ObjectAnimator.ofFloat(this.replyButton, View.ALPHA, 0.0f), ObjectAnimator.ofFloat(this.replyButton, View.SCALE_Y, 0.0f));
-                            }
-                            this.replyButtonAnimation.setDuration(100L);
-                            this.replyButtonAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ChatActivity.100
-                                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                                public void onAnimationEnd(Animator animator) {
-                                    if (ChatActivity.this.replyButtonAnimation == null || !ChatActivity.this.replyButtonAnimation.equals(animator) || ChatActivity.this.replyButton == null || i6 != 8) {
-                                        return;
-                                    }
-                                    ChatActivity.this.replyButton.setVisibility(8);
-                                }
-
-                                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                                public void onAnimationCancel(Animator animator) {
-                                    if (ChatActivity.this.replyButtonAnimation == null || !ChatActivity.this.replyButtonAnimation.equals(animator)) {
-                                        return;
-                                    }
-                                    ChatActivity.this.replyButtonAnimation = null;
-                                }
-                            });
-                            this.replyButtonAnimation.start();
+                    }
+                    if (this.threadMessageObjects != null && i7 == 0) {
+                        char c3 = 0;
+                        int size4 = this.selectedMessagesIds[0].size();
+                        int i27 = 0;
+                        while (i27 < size4) {
+                            i7 = this.threadMessageObjects.contains(this.selectedMessagesIds[c3].valueAt(i27)) ? 8 : i7;
+                            i27++;
+                            c3 = 0;
                         }
                     }
-                    i6 = 8;
-                    if (this.threadMessageObjects != null) {
-                        char c22 = 0;
-                        size = this.selectedMessagesIds[0].size();
-                        i7 = 0;
-                        while (i7 < size) {
+                    if (this.replyButton.getVisibility() != i7) {
+                        AnimatorSet animatorSet2 = this.replyButtonAnimation;
+                        if (animatorSet2 != null) {
+                            animatorSet2.cancel();
                         }
-                    }
-                    if (this.replyButton.getVisibility() != i6) {
-                    }
-                }
-                if (item4 != null) {
-                    if (i != i2 || i3 != i4) {
-                        if (i16 == 0) {
-                            item4.setAlpha(1.0f);
-                            item4.setScaleX(1.0f);
+                        AnimatorSet animatorSet3 = new AnimatorSet();
+                        this.replyButtonAnimation = animatorSet3;
+                        if (i7 == 0) {
+                            this.replyButton.setVisibility(i7);
+                            actionBarMenuItem5 = item3;
+                            actionBarMenuItem3 = actionBarMenuItem;
+                            actionBarMenuItem4 = item2;
+                            this.replyButtonAnimation.playTogether(ObjectAnimator.ofFloat(this.replyButton, View.ALPHA, 1.0f), ObjectAnimator.ofFloat(this.replyButton, View.SCALE_Y, 1.0f));
                         } else {
-                            item4.setAlpha(0.0f);
-                            item4.setScaleX(0.0f);
+                            actionBarMenuItem3 = actionBarMenuItem;
+                            actionBarMenuItem4 = item2;
+                            actionBarMenuItem5 = item3;
+                            animatorSet3.playTogether(ObjectAnimator.ofFloat(this.replyButton, View.ALPHA, 0.0f), ObjectAnimator.ofFloat(this.replyButton, View.SCALE_Y, 0.0f));
                         }
-                        item4.setVisibility(i16);
-                    } else if (item4.getVisibility() != i16) {
-                        AnimatorSet animatorSet4 = this.editButtonAnimation;
-                        if (animatorSet4 != null) {
-                            animatorSet4.cancel();
-                        }
-                        this.editButtonAnimation = new AnimatorSet();
-                        item4.setPivotX(AndroidUtilities.dp(54.0f));
-                        item4.setPivotX(AndroidUtilities.dp(54.0f));
-                        if (i16 == 0) {
-                            item4.setVisibility(i16);
-                            this.editButtonAnimation.playTogether(ObjectAnimator.ofFloat(item4, View.ALPHA, 1.0f), ObjectAnimator.ofFloat(item4, View.SCALE_X, 1.0f));
-                        } else {
-                            this.editButtonAnimation.playTogether(ObjectAnimator.ofFloat(item4, View.ALPHA, 0.0f), ObjectAnimator.ofFloat(item4, View.SCALE_X, 0.0f));
-                        }
-                        this.editButtonAnimation.setDuration(100L);
-                        this.editButtonAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ChatActivity.101
+                        this.replyButtonAnimation.setDuration(100L);
+                        this.replyButtonAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ChatActivity.100
                             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                             public void onAnimationEnd(Animator animator) {
-                                if (ChatActivity.this.editButtonAnimation != null && ChatActivity.this.editButtonAnimation.equals(animator) && i16 == 8) {
-                                    item4.setVisibility(8);
+                                if (ChatActivity.this.replyButtonAnimation == null || !ChatActivity.this.replyButtonAnimation.equals(animator) || ChatActivity.this.replyButton == null || i7 != 8) {
+                                    return;
                                 }
+                                ChatActivity.this.replyButton.setVisibility(8);
                             }
 
                             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                             public void onAnimationCancel(Animator animator) {
-                                if (ChatActivity.this.editButtonAnimation == null || !ChatActivity.this.editButtonAnimation.equals(animator)) {
+                                if (ChatActivity.this.replyButtonAnimation == null || !ChatActivity.this.replyButtonAnimation.equals(animator)) {
                                     return;
                                 }
-                                ChatActivity.this.editButtonAnimation = null;
+                                ChatActivity.this.replyButtonAnimation = null;
                             }
                         });
-                        this.editButtonAnimation.start();
+                        this.replyButtonAnimation.start();
+                        if (item4 != null) {
+                            if (i2 != i || i4 != i3) {
+                                i5 = 1;
+                                if (i19 == 0) {
+                                    item4.setAlpha(1.0f);
+                                    item4.setScaleX(1.0f);
+                                } else {
+                                    item4.setAlpha(0.0f);
+                                    item4.setScaleX(0.0f);
+                                }
+                                item4.setVisibility(i19);
+                            } else if (item4.getVisibility() != i19) {
+                                AnimatorSet animatorSet4 = this.editButtonAnimation;
+                                if (animatorSet4 != null) {
+                                    animatorSet4.cancel();
+                                }
+                                this.editButtonAnimation = new AnimatorSet();
+                                item4.setPivotX(AndroidUtilities.dp(54.0f));
+                                item4.setPivotX(AndroidUtilities.dp(54.0f));
+                                if (i19 == 0) {
+                                    item4.setVisibility(i19);
+                                    i5 = 1;
+                                    this.editButtonAnimation.playTogether(ObjectAnimator.ofFloat(item4, View.ALPHA, 1.0f), ObjectAnimator.ofFloat(item4, View.SCALE_X, 1.0f));
+                                } else {
+                                    i5 = 1;
+                                    this.editButtonAnimation.playTogether(ObjectAnimator.ofFloat(item4, View.ALPHA, 0.0f), ObjectAnimator.ofFloat(item4, View.SCALE_X, 0.0f));
+                                }
+                                this.editButtonAnimation.setDuration(100L);
+                                this.editButtonAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ChatActivity.101
+                                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                                    public void onAnimationEnd(Animator animator) {
+                                        if (ChatActivity.this.editButtonAnimation != null && ChatActivity.this.editButtonAnimation.equals(animator) && i19 == 8) {
+                                            item4.setVisibility(8);
+                                        }
+                                    }
+
+                                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                                    public void onAnimationCancel(Animator animator) {
+                                        if (ChatActivity.this.editButtonAnimation == null || !ChatActivity.this.editButtonAnimation.equals(animator)) {
+                                            return;
+                                        }
+                                        ChatActivity.this.editButtonAnimation = null;
+                                    }
+                                });
+                                this.editButtonAnimation.start();
+                            }
+                            if (item7 != null) {
+                                if (getUserConfig().isPremium()) {
+                                    if (((item4 == null || item4.getVisibility() != 0) ? 0 : 1) + ((item5 == null || item5.getVisibility() != 0) ? 0 : 1) + ((actionBarMenuItem3 == null || actionBarMenuItem3.getVisibility() != 0) ? 0 : 1) + ((actionBarMenuItem4 == null || actionBarMenuItem4.getVisibility() != 0) ? 0 : 1) + ((actionBarMenuItem2 == null || actionBarMenuItem2.getVisibility() != 0) ? 0 : 1) + ((actionBarMenuItem5 == null || actionBarMenuItem5.getVisibility() != 0) ? 0 : 0) < 4) {
+                                        i6 = 0;
+                                        item7.setVisibility(i6);
+                                    }
+                                }
+                                i6 = 8;
+                                item7.setVisibility(i6);
+                            }
+                        }
+                        i5 = 1;
+                        if (item7 != null) {
+                        }
                     }
+                }
+                actionBarMenuItem3 = actionBarMenuItem;
+                actionBarMenuItem4 = item2;
+                actionBarMenuItem5 = item3;
+                if (item4 != null) {
+                }
+                i5 = 1;
+                if (item7 != null) {
                 }
             }
         }

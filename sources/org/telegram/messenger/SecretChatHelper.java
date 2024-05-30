@@ -72,6 +72,7 @@ import org.telegram.tgnet.TLRPC$TL_document;
 import org.telegram.tgnet.TLRPC$TL_documentAttributeAudio;
 import org.telegram.tgnet.TLRPC$TL_documentAttributeFilename;
 import org.telegram.tgnet.TLRPC$TL_documentAttributeVideo;
+import org.telegram.tgnet.TLRPC$TL_documentAttributeVideo_layer159;
 import org.telegram.tgnet.TLRPC$TL_documentEncrypted;
 import org.telegram.tgnet.TLRPC$TL_encryptedChat;
 import org.telegram.tgnet.TLRPC$TL_encryptedChatDiscarded;
@@ -1148,13 +1149,13 @@ public class SecretChatHelper extends BaseController {
                         }
                         tLRPC$TL_message_secret.media.document.thumbs.add(tLRPC$TL_photoSizeEmpty2);
                         tLRPC$TL_message_secret.media.document.flags |= 1;
-                        TLRPC$TL_documentAttributeVideo tLRPC$TL_documentAttributeVideo = new TLRPC$TL_documentAttributeVideo();
+                        TLRPC$TL_documentAttributeVideo_layer159 tLRPC$TL_documentAttributeVideo_layer159 = new TLRPC$TL_documentAttributeVideo_layer159();
                         TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia11 = tLRPC$TL_decryptedMessage.media;
-                        tLRPC$TL_documentAttributeVideo.w = tLRPC$DecryptedMessageMedia11.w;
-                        tLRPC$TL_documentAttributeVideo.h = tLRPC$DecryptedMessageMedia11.h;
-                        tLRPC$TL_documentAttributeVideo.duration = tLRPC$DecryptedMessageMedia11.duration;
-                        tLRPC$TL_documentAttributeVideo.supports_streaming = false;
-                        tLRPC$TL_message_secret.media.document.attributes.add(tLRPC$TL_documentAttributeVideo);
+                        tLRPC$TL_documentAttributeVideo_layer159.w = tLRPC$DecryptedMessageMedia11.w;
+                        tLRPC$TL_documentAttributeVideo_layer159.h = tLRPC$DecryptedMessageMedia11.h;
+                        tLRPC$TL_documentAttributeVideo_layer159.duration = tLRPC$DecryptedMessageMedia11.duration;
+                        tLRPC$TL_documentAttributeVideo_layer159.supports_streaming = false;
+                        tLRPC$TL_message_secret.media.document.attributes.add(tLRPC$TL_documentAttributeVideo_layer159);
                         int i8 = tLRPC$TL_message_secret.ttl;
                         if (i8 != 0) {
                             TLRPC$MessageMedia tLRPC$MessageMedia2 = tLRPC$TL_message_secret.media;

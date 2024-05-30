@@ -2266,7 +2266,22 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
             }
             tLRPC$TL_document_layer822.size = tLRPC$Document.size;
             tLRPC$TL_document_layer822.dc_id = tLRPC$Document.dc_id;
-            tLRPC$TL_document_layer822.attributes = new ArrayList<>(tLRPC$Document.attributes);
+            tLRPC$TL_document_layer822.attributes = new ArrayList<>();
+            for (int i3 = 0; i3 < tLRPC$Document.attributes.size(); i3++) {
+                TLRPC$DocumentAttribute tLRPC$DocumentAttribute = tLRPC$Document.attributes.get(i3);
+                if (tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeVideo) {
+                    TLRPC$TL_documentAttributeVideo_layer159 tLRPC$TL_documentAttributeVideo_layer159 = new TLRPC$TL_documentAttributeVideo_layer159();
+                    tLRPC$TL_documentAttributeVideo_layer159.flags = tLRPC$DocumentAttribute.flags;
+                    tLRPC$TL_documentAttributeVideo_layer159.round_message = tLRPC$DocumentAttribute.round_message;
+                    tLRPC$TL_documentAttributeVideo_layer159.supports_streaming = tLRPC$DocumentAttribute.supports_streaming;
+                    tLRPC$TL_documentAttributeVideo_layer159.duration = tLRPC$DocumentAttribute.duration;
+                    tLRPC$TL_documentAttributeVideo_layer159.w = tLRPC$DocumentAttribute.w;
+                    tLRPC$TL_documentAttributeVideo_layer159.h = tLRPC$DocumentAttribute.h;
+                    tLRPC$TL_document_layer822.attributes.add(tLRPC$TL_documentAttributeVideo_layer159);
+                } else {
+                    tLRPC$TL_document_layer822.attributes.add(tLRPC$DocumentAttribute);
+                }
+            }
             if (tLRPC$TL_document_layer822.mime_type == null) {
                 tLRPC$TL_document_layer822.mime_type = "";
             }
