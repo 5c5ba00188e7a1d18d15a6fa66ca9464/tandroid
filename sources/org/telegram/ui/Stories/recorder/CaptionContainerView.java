@@ -268,6 +268,11 @@ public class CaptionContainerView extends FrameLayout {
         EditTextEmoji editTextEmoji = new EditTextEmoji(context, sizeNotifierFrameLayout, null, getEditTextStyle(), true, new DarkThemeResourceProvider()) { // from class: org.telegram.ui.Stories.recorder.CaptionContainerView.1
             private BlurringShader.StoryBlurDrawer blurDrawer;
 
+            @Override // org.telegram.ui.Components.EditTextEmoji
+            protected boolean allowSearch() {
+                return true;
+            }
+
             @Override // android.view.ViewGroup, android.view.View
             public boolean dispatchTouchEvent(MotionEvent motionEvent) {
                 CaptionContainerView captionContainerView = CaptionContainerView.this;
@@ -275,6 +280,11 @@ public class CaptionContainerView extends FrameLayout {
                     return false;
                 }
                 return super.dispatchTouchEvent(motionEvent);
+            }
+
+            @Override // org.telegram.ui.Components.EditTextEmoji
+            protected void updatedEmojiExpanded() {
+                CaptionContainerView.this.keyboardNotifier.fire();
             }
 
             @Override // org.telegram.ui.Components.EditTextEmoji
@@ -886,7 +896,15 @@ public class CaptionContainerView extends FrameLayout {
     }
 
     public boolean onBackPressed() {
-        if (this.editText.isPopupShowing()) {
+        EditTextEmoji editTextEmoji = this.editText;
+        if (editTextEmoji.emojiExpanded && editTextEmoji.getEmojiView() != null) {
+            if (this.keyboardNotifier.keyboardVisible()) {
+                this.editText.getEmojiView().hideSearchKeyboard();
+            } else {
+                this.editText.collapseEmojiView();
+            }
+            return true;
+        } else if (this.editText.isPopupShowing()) {
             this.editText.hidePopup(true);
             return true;
         } else if (!this.editText.isKeyboardVisible() || this.keyboardNotifier.ignoring) {
