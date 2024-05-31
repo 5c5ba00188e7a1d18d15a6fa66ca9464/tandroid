@@ -4143,6 +4143,13 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
 
         @Override // org.telegram.ui.Cells.TextSelectionHelper
+        protected boolean canCopy() {
+            Cell cell;
+            ChatActivity chatActivity = this.chatActivity;
+            return chatActivity == null || ((chatActivity.getDialogId() >= 0 || !this.chatActivity.getMessagesController().isChatNoForwards(-this.chatActivity.getDialogId())) && ((cell = this.selectedView) == 0 || ((ChatMessageCell) cell).getMessageObject() == null || ((ChatMessageCell) this.selectedView).getMessageObject().messageOwner == null || !((ChatMessageCell) this.selectedView).getMessageObject().messageOwner.noforwards));
+        }
+
+        @Override // org.telegram.ui.Cells.TextSelectionHelper
         protected void onQuoteClick(MessageObject messageObject, int i, int i2, CharSequence charSequence) {
             ChatActivity chatActivity;
             MessageObject.GroupedMessages group;
