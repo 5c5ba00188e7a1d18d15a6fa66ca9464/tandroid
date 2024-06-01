@@ -8491,12 +8491,16 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
             @Override // android.webkit.WebViewClient
             public boolean onRenderProcessGone(WebView webView, RenderProcessGoneDetail renderProcessGoneDetail) {
-                new AlertDialog.Builder(BlockEmbedCell.this.getContext(), null).setTitle(LocaleController.getString(R.string.ChromeCrashTitle)).setMessage(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.ChromeCrashMessage), new Runnable() { // from class: org.telegram.ui.ArticleViewer$BlockEmbedCell$3$$ExternalSyntheticLambda0
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        ArticleViewer.BlockEmbedCell.3.this.lambda$onRenderProcessGone$0();
-                    }
-                })).setPositiveButton(LocaleController.getString(R.string.OK), null).show();
+                LaunchActivity launchActivity = LaunchActivity.instance;
+                if (launchActivity == null || !launchActivity.isFinishing()) {
+                    new AlertDialog.Builder(BlockEmbedCell.this.getContext(), null).setTitle(LocaleController.getString(R.string.ChromeCrashTitle)).setMessage(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.ChromeCrashMessage), new Runnable() { // from class: org.telegram.ui.ArticleViewer$BlockEmbedCell$3$$ExternalSyntheticLambda0
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            ArticleViewer.BlockEmbedCell.3.this.lambda$onRenderProcessGone$0();
+                        }
+                    })).setPositiveButton(LocaleController.getString(R.string.OK), null).show();
+                    return true;
+                }
                 return true;
             }
 

@@ -812,12 +812,16 @@ public class EmbedBottomSheet extends BottomSheet {
 
         @Override // android.webkit.WebViewClient
         public boolean onRenderProcessGone(WebView webView, RenderProcessGoneDetail renderProcessGoneDetail) {
-            new AlertDialog.Builder(EmbedBottomSheet.this.getContext(), ((BottomSheet) EmbedBottomSheet.this).resourcesProvider).setTitle(LocaleController.getString(R.string.ChromeCrashTitle)).setMessage(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.ChromeCrashMessage), new Runnable() { // from class: org.telegram.ui.Components.EmbedBottomSheet$5$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    EmbedBottomSheet.5.this.lambda$onRenderProcessGone$0();
-                }
-            })).setPositiveButton(LocaleController.getString(R.string.OK), null).show();
+            LaunchActivity launchActivity = LaunchActivity.instance;
+            if (launchActivity == null || !launchActivity.isFinishing()) {
+                new AlertDialog.Builder(EmbedBottomSheet.this.getContext(), ((BottomSheet) EmbedBottomSheet.this).resourcesProvider).setTitle(LocaleController.getString(R.string.ChromeCrashTitle)).setMessage(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.ChromeCrashMessage), new Runnable() { // from class: org.telegram.ui.Components.EmbedBottomSheet$5$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        EmbedBottomSheet.5.this.lambda$onRenderProcessGone$0();
+                    }
+                })).setPositiveButton(LocaleController.getString(R.string.OK), null).show();
+                return true;
+            }
             return true;
         }
 

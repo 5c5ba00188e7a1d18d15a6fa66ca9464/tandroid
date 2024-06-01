@@ -10479,9 +10479,17 @@ public class NotificationsController extends BaseController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$showExtraNotifications$42(Uri uri, File file) {
-        ApplicationLoader.applicationContext.revokeUriPermission(uri, 1);
+        try {
+            ApplicationLoader.applicationContext.revokeUriPermission(uri, 1);
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
         if (file != null) {
-            file.delete();
+            try {
+                file.delete();
+            } catch (Exception e2) {
+                FileLog.e(e2);
+            }
         }
     }
 

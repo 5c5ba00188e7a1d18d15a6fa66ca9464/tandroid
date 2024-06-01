@@ -475,7 +475,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
         this.backgroundSpringNextQueue = new LinkedList<>();
         this.innerAnimators = new ArrayList<>();
         this.shiftDp = -12;
-        this.checkRunnable = new Runnable() { // from class: org.telegram.ui.Components.PasscodeView.5
+        this.checkRunnable = new Runnable() { // from class: org.telegram.ui.Components.PasscodeView.6
             @Override // java.lang.Runnable
             public void run() {
                 PasscodeView.this.checkRetryTextView();
@@ -622,7 +622,19 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
         FrameLayout frameLayout3 = new FrameLayout(context);
         this.numbersContainer = frameLayout3;
         this.backgroundFrameLayout.addView(frameLayout3, LayoutHelper.createFrame(-1, -1, 51));
-        FrameLayout frameLayout4 = new FrameLayout(context);
+        FrameLayout frameLayout4 = new FrameLayout(this, context) { // from class: org.telegram.ui.Components.PasscodeView.4
+            @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
+            protected void onLayout(boolean z, int i3, int i4, int i5, int i6) {
+                super.onLayout(z, i3, i4, i5, i6);
+                if (getParent() instanceof View) {
+                    float min = Math.min(((View) getParent()).getHeight() / getHeight(), 1.0f);
+                    setPivotX(getWidth() / 2.0f);
+                    setPivotY(((FrameLayout.LayoutParams) getLayoutParams()).gravity == 17 ? getHeight() / 2.0f : 0.0f);
+                    setScaleX(min);
+                    setScaleY(min);
+                }
+            }
+        };
         this.numbersFrameLayout = frameLayout4;
         this.numbersContainer.addView(frameLayout4, LayoutHelper.createFrame(-2, -2, 17));
         FrameLayout frameLayout5 = new FrameLayout(context);
@@ -1086,7 +1098,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
                 PasscodeView.this.lambda$processDone$10(valueAnimator);
             }
         });
-        ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.PasscodeView.4
+        ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.PasscodeView.5
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
                 PasscodeView.this.setVisibility(8);
@@ -1271,7 +1283,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
                 PasscodeView.this.lambda$showPin$14(valueAnimator2);
             }
         });
-        this.pinAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.PasscodeView.6
+        this.pinAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.PasscodeView.7
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
                 float f = z ? 1.0f : 0.0f;
@@ -1307,7 +1319,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
             if (!(activity instanceof LaunchActivity) || ((LaunchActivity) activity).allowShowFingerprintDialog(this)) {
                 try {
                     if (BiometricManager.from(getContext()).canAuthenticate(15) == 0 && FingerprintController.isKeyReady() && !FingerprintController.checkDeviceFingerprintsChanged()) {
-                        new BiometricPrompt(LaunchActivity.instance, ContextCompat.getMainExecutor(getContext()), new BiometricPrompt.AuthenticationCallback() { // from class: org.telegram.ui.Components.PasscodeView.7
+                        new BiometricPrompt(LaunchActivity.instance, ContextCompat.getMainExecutor(getContext()), new BiometricPrompt.AuthenticationCallback() { // from class: org.telegram.ui.Components.PasscodeView.8
                             @Override // androidx.biometric.BiometricPrompt.AuthenticationCallback
                             public void onAuthenticationError(int i, CharSequence charSequence) {
                                 FileLog.d("PasscodeView onAuthenticationError " + i + " \"" + ((Object) charSequence) + "\"");
@@ -1493,7 +1505,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
         this.passwordEditText2.eraseAllCharacters(false);
         if (z2) {
             setAlpha(0.0f);
-            getViewTreeObserver().addOnGlobalLayoutListener(new 8(i, i2, runnable));
+            getViewTreeObserver().addOnGlobalLayoutListener(new 9(i, i2, runnable));
             requestLayout();
         } else {
             setAlpha(1.0f);
@@ -1519,12 +1531,12 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
-    public class 8 implements ViewTreeObserver.OnGlobalLayoutListener {
+    public class 9 implements ViewTreeObserver.OnGlobalLayoutListener {
         final /* synthetic */ Runnable val$onShow;
         final /* synthetic */ int val$x;
         final /* synthetic */ int val$y;
 
-        8(int i, int i2, Runnable runnable) {
+        9(int i, int i2, Runnable runnable) {
             this.val$x = i;
             this.val$y = i2;
             this.val$onShow = runnable;
@@ -1545,10 +1557,10 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
             PasscodeView.this.imageView.playAnimation();
             int i2 = 1;
             PasscodeView.this.showPin(true);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PasscodeView$8$$ExternalSyntheticLambda2
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PasscodeView$9$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
-                    PasscodeView.8.this.lambda$onGlobalLayout$0();
+                    PasscodeView.9.this.lambda$onGlobalLayout$0();
                 }
             }, 350L);
             AnimatorSet animatorSet2 = new AnimatorSet();
@@ -1633,7 +1645,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
                     animatorArr2[c] = ObjectAnimator.ofFloat(childAt, property4, fArr4);
                     animatorArr2[2] = ObjectAnimator.ofFloat(childAt, View.ALPHA, 0.0f, 1.0f);
                     animatorSet4.playTogether(animatorArr2);
-                    innerAnimator.animatorSet.addListener(new AnimatorListenerAdapter(this) { // from class: org.telegram.ui.Components.PasscodeView.8.1
+                    innerAnimator.animatorSet.addListener(new AnimatorListenerAdapter(this) { // from class: org.telegram.ui.Components.PasscodeView.9.1
                         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                         public void onAnimationEnd(Animator animator) {
                             AnimatorSet animatorSet5 = animatorSet;
@@ -1654,10 +1666,10 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
                 arrayList.add(ObjectAnimator.ofFloat(PasscodeView.this.backgroundFrameLayout, View.ALPHA, 0.0f, 1.0f));
                 ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
                 arrayList.add(ofFloat);
-                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.PasscodeView$8$$ExternalSyntheticLambda1
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.PasscodeView$9$$ExternalSyntheticLambda1
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                        PasscodeView.8.this.lambda$onGlobalLayout$1(d2, valueAnimator);
+                        PasscodeView.9.this.lambda$onGlobalLayout$1(d2, valueAnimator);
                     }
                 });
                 animatorSet2.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
@@ -1666,13 +1678,13 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
                 animatorSet2.setDuration(350L);
             }
             ValueAnimator ofFloat2 = ValueAnimator.ofFloat(PasscodeView.this.shownT, 1.0f);
-            ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.PasscodeView$8$$ExternalSyntheticLambda0
+            ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.PasscodeView$9$$ExternalSyntheticLambda0
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    PasscodeView.8.this.lambda$onGlobalLayout$2(valueAnimator);
+                    PasscodeView.9.this.lambda$onGlobalLayout$2(valueAnimator);
                 }
             });
-            ofFloat2.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.PasscodeView.8.2
+            ofFloat2.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.PasscodeView.9.2
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
                     PasscodeView passcodeView = PasscodeView.this;
@@ -1683,10 +1695,10 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
             ofFloat2.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
             arrayList.add(ofFloat2);
             animatorSet2.playTogether(arrayList);
-            animatorSet2.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.PasscodeView.8.3
+            animatorSet2.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.PasscodeView.9.3
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
-                    Runnable runnable = 8.this.val$onShow;
+                    Runnable runnable = 9.this.val$onShow;
                     if (runnable != null) {
                         runnable.run();
                     }

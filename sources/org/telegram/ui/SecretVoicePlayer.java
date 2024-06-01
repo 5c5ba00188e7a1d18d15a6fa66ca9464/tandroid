@@ -1135,18 +1135,20 @@ public class SecretVoicePlayer extends Dialog {
 
     @Override // android.app.Dialog
     public void show() {
-        super.show();
-        prepareBlur(this.cell);
-        this.setCellInvisible = true;
-        animateOpenTo(true, null);
-        Runnable runnable = this.openAction;
-        if (runnable != null) {
-            AndroidUtilities.runOnUIThread(runnable);
-            this.openAction = null;
-        }
-        EarListener earListener = this.earListener;
-        if (earListener != null) {
-            earListener.attach();
+        if (AndroidUtilities.isSafeToShow(getContext())) {
+            super.show();
+            prepareBlur(this.cell);
+            this.setCellInvisible = true;
+            animateOpenTo(true, null);
+            Runnable runnable = this.openAction;
+            if (runnable != null) {
+                AndroidUtilities.runOnUIThread(runnable);
+                this.openAction = null;
+            }
+            EarListener earListener = this.earListener;
+            if (earListener != null) {
+                earListener.attach();
+            }
         }
     }
 

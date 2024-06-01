@@ -3703,7 +3703,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                                                     mediaMetadataRetriever2.setDataSource(photoEntry.path);
                                                     photoEntry.videoOrientation = Integer.parseInt(mediaMetadataRetriever2.extractMetadata(24));
                                                     try {
-                                                        mediaMetadataRetriever2.close();
+                                                        mediaMetadataRetriever2.release();
                                                     } catch (IOException e) {
                                                         FileLog.e(e);
                                                     }
@@ -3712,7 +3712,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                                                     th = th2;
                                                     if (mediaMetadataRetriever != null) {
                                                         try {
-                                                            mediaMetadataRetriever.close();
+                                                            mediaMetadataRetriever.release();
                                                         } catch (IOException e2) {
                                                             FileLog.e(e2);
                                                         }
@@ -3726,7 +3726,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                                                 FileLog.e(e);
                                                 if (mediaMetadataRetriever2 != null) {
                                                     try {
-                                                        mediaMetadataRetriever2.close();
+                                                        mediaMetadataRetriever2.release();
                                                     } catch (IOException e4) {
                                                         FileLog.e(e4);
                                                     }

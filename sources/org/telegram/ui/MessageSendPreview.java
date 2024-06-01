@@ -1918,13 +1918,15 @@ public class MessageSendPreview extends Dialog implements NotificationCenter.Not
 
     @Override // android.app.Dialog
     public void show() {
-        super.show();
-        prepareBlur(null);
-        FrameLayout frameLayout = this.effectsView;
-        if (frameLayout != null) {
-            frameLayout.bringToFront();
+        if (AndroidUtilities.isSafeToShow(getContext())) {
+            super.show();
+            prepareBlur(null);
+            FrameLayout frameLayout = this.effectsView;
+            if (frameLayout != null) {
+                frameLayout.bringToFront();
+            }
+            animateOpenTo(true, null);
         }
-        animateOpenTo(true, null);
     }
 
     /* JADX INFO: Access modifiers changed from: private */

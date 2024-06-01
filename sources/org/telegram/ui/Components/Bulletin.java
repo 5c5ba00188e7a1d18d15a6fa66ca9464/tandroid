@@ -2363,6 +2363,13 @@ public class Bulletin {
             return windowInsets.consumeSystemWindowInsets();
         }
 
+        @Override // android.app.Dialog
+        public void show() {
+            if (AndroidUtilities.isSafeToShow(getContext())) {
+                super.show();
+            }
+        }
+
         private void applyInsets(WindowInsets windowInsets) {
             BulletinWindowLayout bulletinWindowLayout = this.container;
             if (bulletinWindowLayout != null) {
