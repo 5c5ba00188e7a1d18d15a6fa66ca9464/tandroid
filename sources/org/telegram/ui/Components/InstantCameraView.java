@@ -258,7 +258,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         this.switchCameraDrawable = null;
         this.isFrontface = true;
         this.position = new int[2];
-        this.cameraTexture = new int[2];
+        this.cameraTexture = new int[]{Integer.MIN_VALUE, Integer.MIN_VALUE};
         this.oldCameraTexture = new int[1];
         this.cameraTextureAlpha = 1.0f;
         this.previewSize = new org.telegram.messenger.camera.Size[2];
@@ -1833,9 +1833,13 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                     EGLSurface eGLSurface = this.eglSurface;
                     egl10.eglMakeCurrent(eGLDisplay, eGLSurface, eGLSurface, this.eglContext);
                 }
-                if (InstantCameraView.this.cameraTexture != null && InstantCameraView.this.cameraTexture[0] != 0) {
+                if (InstantCameraView.this.cameraTexture != null && InstantCameraView.this.cameraTexture[0] != Integer.MIN_VALUE) {
                     GLES20.glDeleteTextures(1, InstantCameraView.this.cameraTexture, 0);
-                    InstantCameraView.this.cameraTexture[0] = 0;
+                    InstantCameraView.this.cameraTexture[0] = Integer.MIN_VALUE;
+                }
+                if (InstantCameraView.this.cameraTexture != null && InstantCameraView.this.cameraTexture[1] != Integer.MIN_VALUE) {
+                    GLES20.glDeleteTextures(1, InstantCameraView.this.cameraTexture, 1);
+                    InstantCameraView.this.cameraTexture[1] = Integer.MIN_VALUE;
                 }
             }
             if (this.eglSurface != null) {
@@ -2698,11 +2702,11 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
             }
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:134:0x0082, code lost:
-            if (r11 < 0) goto L84;
+        /* JADX WARN: Code restructure failed: missing block: B:137:0x0082, code lost:
+            if (r11 < 0) goto L87;
          */
-        /* JADX WARN: Removed duplicated region for block: B:139:0x0095  */
-        /* JADX WARN: Removed duplicated region for block: B:145:0x00b1  */
+        /* JADX WARN: Removed duplicated region for block: B:142:0x0095  */
+        /* JADX WARN: Removed duplicated region for block: B:148:0x00b1  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -2794,10 +2798,13 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                         GLES20.glUniform2f(this.previewSizeHandle, InstantCameraView.this.previewSize[InstantCameraView.this.surfaceIndex].getWidth(), InstantCameraView.this.previewSize[InstantCameraView.this.surfaceIndex].getHeight());
                         GLES20.glUniform2f(this.texelSizeHandle, (1.0f / InstantCameraView.this.previewSize[InstantCameraView.this.surfaceIndex].getWidth()) / 2.0f, (1.0f / InstantCameraView.this.previewSize[InstantCameraView.this.surfaceIndex].getHeight()) / 2.0f);
                     }
-                    GLES20.glUniformMatrix4fv(this.textureMatrixHandle, 1, false, InstantCameraView.this.mSTMatrix, 0);
-                    GLES20.glUniform1f(this.alphaHandle, InstantCameraView.this.cameraTextureAlpha);
-                    GLES20.glBindTexture(36197, InstantCameraView.this.cameraTexture[InstantCameraView.this.surfaceIndex]);
-                    GLES20.glDrawArrays(5, 0, 4);
+                    int i = InstantCameraView.this.cameraTexture[InstantCameraView.this.surfaceIndex];
+                    if (i != Integer.MIN_VALUE) {
+                        GLES20.glUniformMatrix4fv(this.textureMatrixHandle, 1, false, InstantCameraView.this.mSTMatrix, 0);
+                        GLES20.glUniform1f(this.alphaHandle, InstantCameraView.this.cameraTextureAlpha);
+                        GLES20.glBindTexture(36197, i);
+                        GLES20.glDrawArrays(5, 0, 4);
+                    }
                     GLES20.glDisableVertexAttribArray(this.positionHandle);
                     GLES20.glDisableVertexAttribArray(this.textureHandle);
                     GLES20.glBindTexture(36197, 0);

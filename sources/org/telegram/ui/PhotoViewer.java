@@ -6606,7 +6606,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         /* JADX WARN: Removed duplicated region for block: B:943:? A[RETURN, SYNTHETIC] */
         /* JADX WARN: Type inference failed for: r10v33 */
         /* JADX WARN: Type inference failed for: r10v34 */
-        /* JADX WARN: Type inference failed for: r10v35, types: [boolean, int] */
+        /* JADX WARN: Type inference failed for: r10v35, types: [int, boolean] */
         /* JADX WARN: Type inference failed for: r10v36 */
         @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
         /*
@@ -12018,7 +12018,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     /* JADX WARN: Removed duplicated region for block: B:523:0x0600  */
     /* JADX WARN: Type inference failed for: r10v27 */
     /* JADX WARN: Type inference failed for: r10v5 */
-    /* JADX WARN: Type inference failed for: r10v6, types: [android.net.Uri, int[]] */
+    /* JADX WARN: Type inference failed for: r10v6, types: [int[], android.net.Uri] */
     /* JADX WARN: Type inference failed for: r15v1 */
     /* JADX WARN: Type inference failed for: r15v10 */
     /* JADX WARN: Type inference failed for: r15v11 */
@@ -12030,7 +12030,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     /* JADX WARN: Type inference failed for: r15v17 */
     /* JADX WARN: Type inference failed for: r15v18 */
     /* JADX WARN: Type inference failed for: r15v19 */
-    /* JADX WARN: Type inference failed for: r15v2, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r15v2, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r15v24 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -15824,7 +15824,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     /* JADX WARN: Removed duplicated region for block: B:1503:0x0e50  */
     /* JADX WARN: Removed duplicated region for block: B:951:0x0363  */
     /* JADX WARN: Type inference failed for: r2v124 */
-    /* JADX WARN: Type inference failed for: r2v125, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r2v125, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r2v142 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -17103,7 +17103,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     /* JADX WARN: Removed duplicated region for block: B:489:0x04cc  */
     /* JADX WARN: Removed duplicated region for block: B:493:0x04da  */
     /* JADX WARN: Type inference failed for: r5v5 */
-    /* JADX WARN: Type inference failed for: r5v6, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r5v6, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r5v7 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

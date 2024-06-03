@@ -195,7 +195,7 @@ public class QuoteSpan implements LeadingMarginSpan {
         return i3;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:55:0x010b  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x0110  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -250,26 +250,27 @@ public class QuoteSpan implements LeadingMarginSpan {
                     }
                     if (spannable instanceof SpannableStringBuilder) {
                         SpannableStringBuilder spannableStringBuilder = (SpannableStringBuilder) spannable;
-                        boolean z3 = spannableStringBuilder.charAt(block.span.end - 1) == '\n';
+                        int i6 = block.span.end;
+                        boolean z3 = i6 + (-1) >= 0 && spannableStringBuilder.charAt(i6 + (-1)) == '\n';
                         if (block.hasButton()) {
-                            int i6 = block.span.end;
-                            if (i6 - 2 >= 0 && layout.getLineRight(layout.getLineForOffset(i6 - 1)) - AndroidUtilities.dp(12.0f) > block.width - block.buttonWidth()) {
+                            int i7 = block.span.end;
+                            if (i7 - 2 >= 0 && layout.getLineRight(layout.getLineForOffset(i7 - 1)) - AndroidUtilities.dp(12.0f) > block.width - block.buttonWidth()) {
                                 z = true;
                                 if (z3 != z) {
-                                    int i7 = block.span.end;
+                                    int i8 = block.span.end;
                                     if (z3) {
-                                        i2 = i7 - 1;
-                                        spannableStringBuilder.delete(i7 - 1, i7);
+                                        i2 = i8 - 1;
+                                        spannableStringBuilder.delete(i8 - 1, i8);
                                     } else {
-                                        i2 = i7 + 2;
+                                        i2 = i8 + 2;
                                         boolean z4 = Selection.getSelectionStart(spannableStringBuilder) == block.span.end && Selection.getSelectionStart(spannableStringBuilder) == Selection.getSelectionEnd(spannableStringBuilder);
                                         QuoteSpan quoteSpan3 = block.span;
                                         spannableStringBuilder.insert(quoteSpan3.end, (CharSequence) quoteSpan3.getNewlineHack());
                                         if (z4) {
                                             int selectionStart = Selection.getSelectionStart(spannableStringBuilder);
-                                            int i8 = block.span.end;
-                                            if (selectionStart != i8) {
-                                                Selection.setSelection(spannableStringBuilder, i8, i8);
+                                            int i9 = block.span.end;
+                                            if (selectionStart != i9) {
+                                                Selection.setSelection(spannableStringBuilder, i9, i9);
                                             }
                                         }
                                     }
