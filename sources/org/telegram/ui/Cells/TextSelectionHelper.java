@@ -2755,6 +2755,10 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
                 clear(true);
             }
         }
+
+        public boolean isMenuEmpty() {
+            return (canCopy() || canShowQuote()) ? false : true;
+        }
     }
 
     /* loaded from: classes4.dex */

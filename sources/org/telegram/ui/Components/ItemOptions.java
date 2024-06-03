@@ -337,7 +337,7 @@ public class ItemOptions {
     }
 
     public ItemOptions addSpaceGap() {
-        if (this.layout == this.lastLayout) {
+        if (!(this.layout instanceof LinearLayout)) {
             LinearLayout linearLayout = new LinearLayout(this.context);
             this.layout = linearLayout;
             linearLayout.setOrientation(1);
@@ -351,7 +351,7 @@ public class ItemOptions {
                 ItemOptions.this.lambda$addSpaceGap$3(keyEvent);
             }
         });
-        addView(this.lastLayout, LayoutHelper.createLinear(-1, -2, 0.0f, -8.0f, 0.0f, 0.0f));
+        this.layout.addView(this.lastLayout, LayoutHelper.createLinear(-1, -2, 0.0f, -8.0f, 0.0f, 0.0f));
         return this;
     }
 
