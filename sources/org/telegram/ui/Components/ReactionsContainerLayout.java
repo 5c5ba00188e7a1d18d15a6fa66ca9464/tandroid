@@ -472,7 +472,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.ReactionsContainerLayout$$ExternalSyntheticLambda4
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i3) {
-                ReactionsContainerLayout.this.lambda$new$0(i, view, i3);
+                ReactionsContainerLayout.this.lambda$new$0(view, i3);
             }
         });
         recyclerListView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.Components.ReactionsContainerLayout$$ExternalSyntheticLambda5
@@ -498,32 +498,20 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         MediaDataController.getInstance(i2).preloadDefaultReactions();
     }
 
-    public /* synthetic */ void lambda$new$0(int i, View view, int i2) {
+    public /* synthetic */ void lambda$new$0(View view, int i) {
         ReactionsContainerDelegate reactionsContainerDelegate = this.delegate;
         if (reactionsContainerDelegate == null || !(view instanceof ReactionHolderView)) {
             return;
         }
         reactionsContainerDelegate.onReactionClicked(this, ((ReactionHolderView) view).currentReaction, false, false);
-        if (i == 5) {
-            try {
-                performHapticFeedback(3, 1);
-            } catch (Exception unused) {
-            }
-        }
     }
 
     public /* synthetic */ boolean lambda$new$1(int i, View view, int i2) {
-        ReactionsContainerDelegate reactionsContainerDelegate = this.delegate;
-        if (reactionsContainerDelegate == null || !(view instanceof ReactionHolderView)) {
+        ReactionsContainerDelegate reactionsContainerDelegate;
+        if (i == 5 || (reactionsContainerDelegate = this.delegate) == null || !(view instanceof ReactionHolderView)) {
             return false;
         }
         reactionsContainerDelegate.onReactionClicked(this, ((ReactionHolderView) view).currentReaction, true, false);
-        if (i == 5) {
-            try {
-                performHapticFeedback(3, 1);
-            } catch (Exception unused) {
-            }
-        }
         return true;
     }
 
@@ -700,17 +688,17 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         this.listAdapter.updateItems(z);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:208:0x004b  */
-    /* JADX WARN: Removed duplicated region for block: B:211:0x0081  */
-    /* JADX WARN: Removed duplicated region for block: B:214:0x0088  */
-    /* JADX WARN: Removed duplicated region for block: B:229:0x00d4  */
-    /* JADX WARN: Removed duplicated region for block: B:239:0x0106  */
-    /* JADX WARN: Removed duplicated region for block: B:242:0x016b  */
-    /* JADX WARN: Removed duplicated region for block: B:245:0x01d9  */
-    /* JADX WARN: Removed duplicated region for block: B:256:0x0226  */
-    /* JADX WARN: Removed duplicated region for block: B:259:0x0243  */
-    /* JADX WARN: Removed duplicated region for block: B:369:0x04b9  */
-    /* JADX WARN: Removed duplicated region for block: B:379:0x04e8  */
+    /* JADX WARN: Removed duplicated region for block: B:210:0x004b  */
+    /* JADX WARN: Removed duplicated region for block: B:213:0x0081  */
+    /* JADX WARN: Removed duplicated region for block: B:220:0x0093  */
+    /* JADX WARN: Removed duplicated region for block: B:233:0x00d9  */
+    /* JADX WARN: Removed duplicated region for block: B:243:0x010b  */
+    /* JADX WARN: Removed duplicated region for block: B:246:0x0170  */
+    /* JADX WARN: Removed duplicated region for block: B:249:0x01de  */
+    /* JADX WARN: Removed duplicated region for block: B:260:0x022f  */
+    /* JADX WARN: Removed duplicated region for block: B:263:0x024e  */
+    /* JADX WARN: Removed duplicated region for block: B:369:0x04c1  */
+    /* JADX WARN: Removed duplicated region for block: B:379:0x04f0  */
     @Override // android.view.ViewGroup, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -728,17 +716,18 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         ChatScrimPopupContainerLayout chatScrimPopupContainerLayout;
         float f6;
         float f7;
+        int i;
         float f8;
         boolean showCustomEmojiReaction;
         int dp;
-        boolean z;
+        float f9;
         long min = Math.min(16L, System.currentTimeMillis() - this.lastUpdate);
         this.lastUpdate = System.currentTimeMillis();
-        boolean z2 = this.isFlippedVertically;
-        if (z2) {
-            float f9 = this.flipVerticalProgress;
-            if (f9 != 1.0f) {
-                this.flipVerticalProgress = Math.min(1.0f, f9 + (((float) min) / 220.0f));
+        boolean z = this.isFlippedVertically;
+        if (z) {
+            float f10 = this.flipVerticalProgress;
+            if (f10 != 1.0f) {
+                this.flipVerticalProgress = Math.min(1.0f, f10 + (((float) min) / 220.0f));
                 invalidate();
                 textView = this.hintView;
                 if (textView != null) {
@@ -753,10 +742,10 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                 if (this.prepareAnimation) {
                     invalidate();
                 }
-                if (this.pressedReaction != null) {
-                    float f10 = this.pressedProgress;
-                    if (f10 != 1.0f) {
-                        float f11 = f10 + 0.010666667f;
+                if (this.pressedReaction != null && this.type != 5) {
+                    f9 = this.pressedProgress;
+                    if (f9 != 1.0f) {
+                        float f11 = f9 + 0.010666667f;
                         this.pressedProgress = f11;
                         if (f11 >= 1.0f) {
                             this.pressedProgress = 1.0f;
@@ -802,8 +791,8 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                     Drawable drawable = this.shadow;
                     int width3 = getWidth() - getPaddingRight();
                     android.graphics.Rect rect = this.shadowPad;
-                    int i = (int) expandSize;
-                    drawable.setBounds((int) ((getPaddingLeft() + ((width3 + rect.right) * f5)) - rect.left), (getPaddingTop() - this.shadowPad.top) - i, (int) (((getWidth() - getPaddingRight()) + this.shadowPad.right) * max2), (getHeight() - getPaddingBottom()) + this.shadowPad.bottom + i);
+                    int i2 = (int) expandSize;
+                    drawable.setBounds((int) ((getPaddingLeft() + ((width3 + rect.right) * f5)) - rect.left), (getPaddingTop() - this.shadowPad.top) - i2, (int) (((getWidth() - getPaddingRight()) + this.shadowPad.right) * max2), (getHeight() - getPaddingBottom()) + this.shadowPad.bottom + i2);
                     this.shadow.draw(canvas);
                 }
                 canvas.restoreToCount(save);
@@ -816,6 +805,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                     if (this.type == 1 || this.delegate.drawBackground()) {
                         f7 = width2;
                         f6 = f13;
+                        i = 5;
                         this.delegate.drawRoundRect(canvas, this.rect, this.radius, getX(), getY(), 255, false);
                     } else {
                         RectF rectF = this.rect;
@@ -823,11 +813,13 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                         canvas.drawRoundRect(rectF, f15, f15, this.bgPaint);
                         f6 = f13;
                         f7 = width2;
+                        i = 5;
                     }
                     canvas.restoreToCount(save2);
                 } else {
                     f6 = f13;
                     f7 = width2;
+                    i = 5;
                 }
                 this.mPath.rewind();
                 Path path = this.mPath;
@@ -839,25 +831,25 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                 if (f8 != 1.0f) {
                     canvas.scale(f8, f8, f6, getHeight() / 2.0f);
                 }
-                if (this.transitionProgress == 0.0f && (getAlpha() == 1.0f || this.type == 5)) {
-                    int i2 = 0;
+                if (this.transitionProgress == 0.0f && (getAlpha() == 1.0f || this.type == i)) {
                     int i3 = 0;
-                    for (int i4 = 0; i4 < this.recyclerListView.getChildCount(); i4++) {
-                        View childAt = this.recyclerListView.getChildAt(i4);
+                    int i4 = 0;
+                    for (int i5 = 0; i5 < this.recyclerListView.getChildCount(); i5++) {
+                        View childAt = this.recyclerListView.getChildAt(i5);
                         if (this.transitionProgress != 1.0f && allowSmoothEnterTransition()) {
-                            i3 = (int) (Math.abs(((childAt.getLeft() + (childAt.getMeasuredWidth() / 2.0f)) / this.recyclerListView.getMeasuredWidth()) - 0.8f) * 200.0f);
+                            i4 = (int) (Math.abs(((childAt.getLeft() + (childAt.getMeasuredWidth() / 2.0f)) / this.recyclerListView.getMeasuredWidth()) - 0.8f) * 200.0f);
                         }
                         if (childAt instanceof ReactionHolderView) {
-                            ReactionHolderView reactionHolderView = (ReactionHolderView) this.recyclerListView.getChildAt(i4);
+                            ReactionHolderView reactionHolderView = (ReactionHolderView) this.recyclerListView.getChildAt(i5);
                             checkPressedProgress(canvas, reactionHolderView);
-                            if (childAt.getLeft() > i2) {
-                                i2 = childAt.getLeft();
+                            if (childAt.getLeft() > i3) {
+                                i3 = childAt.getLeft();
                             }
                             if (!this.skipEnterAnimation && (!reactionHolderView.hasEnterAnimation || reactionHolderView.enterImageView.getImageReceiver().getLottieAnimation() != null)) {
                                 if (reactionHolderView.getX() + (reactionHolderView.getMeasuredWidth() / 2.0f) > 0.0f && reactionHolderView.getX() + (reactionHolderView.getMeasuredWidth() / 2.0f) < this.recyclerListView.getWidth()) {
                                     if (!this.lastVisibleViewsTmp.contains(reactionHolderView)) {
-                                        reactionHolderView.play(i3);
-                                        i3 += 30;
+                                        reactionHolderView.play(i4);
+                                        i4 += 30;
                                     }
                                     this.lastVisibleViews.add(reactionHolderView);
                                 } else if (!reactionHolderView.isEnter) {
@@ -871,8 +863,8 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                                         if (this.transitionProgress != 1.0f) {
                                             this.premiumLockIconView.resetAnimation();
                                         }
-                                        this.premiumLockIconView.play(i3);
-                                        i3 += 30;
+                                        this.premiumLockIconView.play(i4);
+                                        i4 += 30;
                                     }
                                     this.lastVisibleViews.add(childAt);
                                 } else {
@@ -885,15 +877,8 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                                         if (this.transitionProgress != 1.0f) {
                                             this.customEmojiReactionsIconView.resetAnimation();
                                         }
-                                        InternalImageView internalImageView = this.customEmojiReactionsIconView;
-                                        if (!LiteMode.isEnabled(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS) && SharedConfig.getDevicePerformanceClass() < 1) {
-                                            z = false;
-                                            internalImageView.play(i3, z);
-                                            i3 += 30;
-                                        }
-                                        z = true;
-                                        internalImageView.play(i3, z);
-                                        i3 += 30;
+                                        this.customEmojiReactionsIconView.play(i4, LiteMode.isEnabled(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS) || SharedConfig.getDevicePerformanceClass() >= 1);
+                                        i4 += 30;
                                     }
                                     this.lastVisibleViews.add(childAt);
                                 } else {
@@ -906,7 +891,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                     if (pullingLeftProgress > 0.0f) {
                         float pullingLeftProgress2 = getPullingLeftProgress();
                         int measuredWidth = this.nextRecentReaction.getMeasuredWidth() - AndroidUtilities.dp(2.0f);
-                        float f17 = i2 + measuredWidth;
+                        float f17 = i3 + measuredWidth;
                         float clamp = Utilities.clamp(f17 / (getMeasuredWidth() - this.nextRecentReaction.getMeasuredWidth()), 1.0f, 0.0f) * pullingLeftProgress2 * measuredWidth;
                         if (this.nextRecentReaction.getTag() == null) {
                             this.nextRecentReaction.setTag(Float.valueOf(1.0f));
@@ -916,8 +901,8 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                         float clamp2 = Utilities.clamp(pullingLeftProgress2, 1.0f, 0.0f);
                         this.nextRecentReaction.setScaleX(clamp2);
                         this.nextRecentReaction.setScaleY(clamp2);
-                        int i5 = this.type;
-                        if (i5 != 1 && i5 != 2) {
+                        int i6 = this.type;
+                        if (i6 != 1 && i6 != 2) {
                             dp = AndroidUtilities.dp(20.0f);
                         } else {
                             dp = AndroidUtilities.dp(8.0f);
@@ -963,7 +948,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                 invalidate();
             }
         }
-        if (!z2) {
+        if (!z) {
             float f18 = this.flipVerticalProgress;
             if (f18 != 0.0f) {
                 this.flipVerticalProgress = Math.max(0.0f, f18 - (((float) min) / 220.0f));
@@ -982,6 +967,9 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         if (this.prepareAnimation) {
         }
         if (this.pressedReaction != null) {
+            f9 = this.pressedProgress;
+            if (f9 != 1.0f) {
+            }
         }
         float f122 = this.pressedProgress;
         this.pressedViewScale = (f122 * 2.0f) + 1.0f;
@@ -1153,12 +1141,6 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                     if (System.currentTimeMillis() - this.lastReactionSentTime > 300) {
                         this.lastReactionSentTime = System.currentTimeMillis();
                         this.delegate.onReactionClicked(reactionHolderView, reactionHolderView.currentReaction, true, false);
-                        if (this.type == 5) {
-                            try {
-                                performHapticFeedback(3, 1);
-                            } catch (Exception unused) {
-                            }
-                        }
                     }
                 }
             }
@@ -2433,7 +2415,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                     this.pressed = true;
                     this.pressedX = motionEvent.getX();
                     this.pressedY = motionEvent.getY();
-                    if (this.sideScale == 1.0f && !this.isLocked && ReactionsContainerLayout.this.type != 3 && ReactionsContainerLayout.this.type != 4) {
+                    if (this.sideScale == 1.0f && !this.isLocked && ReactionsContainerLayout.this.type != 3 && ReactionsContainerLayout.this.type != 4 && ReactionsContainerLayout.this.type != 5) {
                         AndroidUtilities.runOnUIThread(this.longPressRunnable, ViewConfiguration.getLongPressTimeout());
                     }
                 }
@@ -2446,12 +2428,6 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                         if (currentTimeMillis - reactionsContainerLayout.lastReactionSentTime > 300) {
                             reactionsContainerLayout.lastReactionSentTime = System.currentTimeMillis();
                             ReactionsContainerLayout.this.delegate.onReactionClicked(this, this.currentReaction, ReactionsContainerLayout.this.pressedProgress > 0.8f, false);
-                            if (ReactionsContainerLayout.this.type == 5) {
-                                try {
-                                    performHapticFeedback(3, 1);
-                                } catch (Exception unused) {
-                                }
-                            }
                         }
                     }
                     if (!ReactionsContainerLayout.this.clicked) {

@@ -2886,34 +2886,34 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         this.preventReopenSearchWithText = false;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:127:0x0397  */
-    /* JADX WARN: Removed duplicated region for block: B:138:0x04cd  */
-    /* JADX WARN: Removed duplicated region for block: B:141:0x04da  */
-    /* JADX WARN: Removed duplicated region for block: B:144:0x0703  */
-    /* JADX WARN: Removed duplicated region for block: B:147:0x0710  */
-    /* JADX WARN: Removed duplicated region for block: B:150:0x071d  */
-    /* JADX WARN: Removed duplicated region for block: B:153:0x072a  */
-    /* JADX WARN: Removed duplicated region for block: B:160:0x07e6  */
-    /* JADX WARN: Removed duplicated region for block: B:173:0x080d  */
-    /* JADX WARN: Removed duplicated region for block: B:174:0x080f  */
-    /* JADX WARN: Removed duplicated region for block: B:180:0x081d  */
-    /* JADX WARN: Removed duplicated region for block: B:183:0x083d  */
-    /* JADX WARN: Removed duplicated region for block: B:186:0x088e  */
-    /* JADX WARN: Removed duplicated region for block: B:189:0x0899  */
-    /* JADX WARN: Removed duplicated region for block: B:213:0x0934  */
-    /* JADX WARN: Removed duplicated region for block: B:225:0x0956  */
-    /* JADX WARN: Removed duplicated region for block: B:228:0x096e  */
-    /* JADX WARN: Removed duplicated region for block: B:232:0x0978  */
-    /* JADX WARN: Removed duplicated region for block: B:239:0x098a  */
-    /* JADX WARN: Removed duplicated region for block: B:247:0x099c  */
-    /* JADX WARN: Removed duplicated region for block: B:250:0x09a3  */
-    /* JADX WARN: Removed duplicated region for block: B:287:0x0a6d  */
-    /* JADX WARN: Removed duplicated region for block: B:297:0x0a9b  */
-    /* JADX WARN: Removed duplicated region for block: B:300:0x0aa9  */
-    /* JADX WARN: Removed duplicated region for block: B:303:0x0ab6  */
-    /* JADX WARN: Removed duplicated region for block: B:310:0x0ada  */
-    /* JADX WARN: Removed duplicated region for block: B:313:0x0af0  */
-    /* JADX WARN: Removed duplicated region for block: B:316:0x0b00  */
+    /* JADX WARN: Removed duplicated region for block: B:122:0x0382  */
+    /* JADX WARN: Removed duplicated region for block: B:133:0x04b8  */
+    /* JADX WARN: Removed duplicated region for block: B:136:0x04c5  */
+    /* JADX WARN: Removed duplicated region for block: B:139:0x06ee  */
+    /* JADX WARN: Removed duplicated region for block: B:142:0x06fb  */
+    /* JADX WARN: Removed duplicated region for block: B:145:0x0708  */
+    /* JADX WARN: Removed duplicated region for block: B:148:0x0715  */
+    /* JADX WARN: Removed duplicated region for block: B:155:0x07d1  */
+    /* JADX WARN: Removed duplicated region for block: B:168:0x07f8  */
+    /* JADX WARN: Removed duplicated region for block: B:169:0x07fa  */
+    /* JADX WARN: Removed duplicated region for block: B:175:0x0808  */
+    /* JADX WARN: Removed duplicated region for block: B:178:0x0828  */
+    /* JADX WARN: Removed duplicated region for block: B:181:0x0879  */
+    /* JADX WARN: Removed duplicated region for block: B:184:0x0884  */
+    /* JADX WARN: Removed duplicated region for block: B:208:0x091f  */
+    /* JADX WARN: Removed duplicated region for block: B:220:0x0941  */
+    /* JADX WARN: Removed duplicated region for block: B:223:0x0959  */
+    /* JADX WARN: Removed duplicated region for block: B:227:0x0963  */
+    /* JADX WARN: Removed duplicated region for block: B:234:0x0975  */
+    /* JADX WARN: Removed duplicated region for block: B:242:0x0987  */
+    /* JADX WARN: Removed duplicated region for block: B:245:0x098e  */
+    /* JADX WARN: Removed duplicated region for block: B:282:0x0a58  */
+    /* JADX WARN: Removed duplicated region for block: B:292:0x0a86  */
+    /* JADX WARN: Removed duplicated region for block: B:295:0x0a94  */
+    /* JADX WARN: Removed duplicated region for block: B:298:0x0aa1  */
+    /* JADX WARN: Removed duplicated region for block: B:305:0x0ac5  */
+    /* JADX WARN: Removed duplicated region for block: B:308:0x0adb  */
+    /* JADX WARN: Removed duplicated region for block: B:311:0x0aeb  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -3118,12 +3118,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         this.searchType = this.arguments.getInt("searchType", 0);
                         String string3 = this.arguments.getString("searchHashtag", null);
                         this.searchingHashtag = string3;
-                        if (string3.startsWith("$")) {
-                            this.searchingQuery = this.searchingHashtag.substring(1);
-                        } else {
-                            this.searchingQuery = this.searchingHashtag;
-                        }
-                        if (this.searchType == 0 || this.searchingHashtag == null) {
+                        this.searchingQuery = string3;
+                        if (this.searchType == 0 || string3 == null) {
                             return false;
                         }
                         this.dialog_id_Long = Long.valueOf(this.dialog_id);
@@ -3704,11 +3700,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         if (this.chatMode == 7 && !TextUtils.equals(this.searchingHashtag, str)) {
             showMessagesSearchListView(true);
             this.searchingHashtag = str;
-            if (str.startsWith("$")) {
-                this.searchingQuery = this.searchingHashtag.substring(1);
-            } else {
-                this.searchingQuery = this.searchingHashtag;
-            }
+            this.searchingQuery = str;
             clearChatData(true);
             this.startMessageAppearTransitionMs = 0L;
             this.firstMessagesLoaded = false;
@@ -11391,7 +11383,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
 
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Type inference failed for: r13v23, types: [int, boolean] */
+        /* JADX WARN: Type inference failed for: r13v23, types: [boolean, int] */
         /* JADX WARN: Type inference failed for: r13v24 */
         /* JADX WARN: Type inference failed for: r13v25 */
         private void drawChatBackgroundElements(Canvas canvas) {
@@ -27964,7 +27956,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Type inference failed for: r5v17 */
     /* JADX WARN: Type inference failed for: r5v19 */
     /* JADX WARN: Type inference failed for: r7v22 */
-    /* JADX WARN: Type inference failed for: r7v23, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r7v23, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r7v25 */
     /* JADX WARN: Type inference failed for: r7v26 */
     /*
@@ -35019,7 +35011,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Removed duplicated region for block: B:437:0x08b5  */
     /* JADX WARN: Type inference failed for: r0v782 */
     /* JADX WARN: Type inference failed for: r15v18 */
-    /* JADX WARN: Type inference failed for: r15v19, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r15v19, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r15v43 */
     /* JADX WARN: Type inference failed for: r17v3 */
     /* JADX WARN: Type inference failed for: r17v4, types: [java.lang.String] */
@@ -41223,110 +41215,113 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* renamed from: openHashtagSearch */
     public void lambda$openHashtagSearch$307(final String str) {
         boolean z;
+        SpannableString spannableString;
         ActionBarMenuItem actionBarMenuItem;
         if (str.isEmpty()) {
             return;
         }
-        HintView2 hintView2 = this.savedMessagesHint;
-        if (hintView2 == null || !hintView2.shown()) {
-            z = false;
-        } else {
-            this.savedMessagesHint.hide();
-            z = true;
-        }
-        HintView2 hintView22 = this.savedMessagesSearchHint;
-        if (hintView22 != null && hintView22.shown()) {
-            this.savedMessagesSearchHint.hide();
-            z = true;
-        }
-        if (z) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda249
-                @Override // java.lang.Runnable
-                public final void run() {
-                    ChatActivity.this.lambda$openHashtagSearch$307(str);
+        if (str.startsWith("#") || str.startsWith("$")) {
+            HintView2 hintView2 = this.savedMessagesHint;
+            if (hintView2 == null || !hintView2.shown()) {
+                z = false;
+            } else {
+                this.savedMessagesHint.hide();
+                z = true;
+            }
+            HintView2 hintView22 = this.savedMessagesSearchHint;
+            if (hintView22 != null && hintView22.shown()) {
+                this.savedMessagesSearchHint.hide();
+                z = true;
+            }
+            if (z) {
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda249
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        ChatActivity.this.lambda$openHashtagSearch$307(str);
+                    }
+                }, 200L);
+                return;
+            }
+            this.searchingHashtag = str;
+            this.searchingQuery = str;
+            if (!this.actionBar.isSearchFieldVisible()) {
+                AndroidUtilities.updateViewVisibilityAnimated(this.avatarContainer, false, 0.95f, true);
+                ActionBarMenuItem actionBarMenuItem2 = this.headerItem;
+                if (actionBarMenuItem2 != null) {
+                    actionBarMenuItem2.setVisibility(8);
                 }
-            }, 200L);
-            return;
-        }
-        this.searchingHashtag = str;
-        if (str.startsWith("$")) {
-            this.searchingQuery = this.searchingHashtag.substring(1);
-        } else {
-            this.searchingQuery = this.searchingHashtag;
-        }
-        if (!this.actionBar.isSearchFieldVisible()) {
-            AndroidUtilities.updateViewVisibilityAnimated(this.avatarContainer, false, 0.95f, true);
-            ActionBarMenuItem actionBarMenuItem2 = this.headerItem;
-            if (actionBarMenuItem2 != null) {
-                actionBarMenuItem2.setVisibility(8);
+                ActionBarMenu.LazyItem lazyItem = this.attachItem;
+                if (lazyItem != null) {
+                    lazyItem.setVisibility(8);
+                }
+                ActionBarMenu.LazyItem lazyItem2 = this.editTextItem;
+                if (lazyItem2 != null) {
+                    lazyItem2.setVisibility(8);
+                }
+                if ((this.threadMessageId == 0 || this.chatMode == 3) && (actionBarMenuItem = this.searchItem) != null) {
+                    actionBarMenuItem.setVisibility(0);
+                }
+                ActionBarMenuItem actionBarMenuItem3 = this.searchIconItem;
+                if (actionBarMenuItem3 != null && this.showSearchAsIcon) {
+                    actionBarMenuItem3.setVisibility(8);
+                }
+                ActionBarMenu.LazyItem lazyItem3 = this.audioCallIconItem;
+                if (lazyItem3 != null && this.showAudioCallAsIcon) {
+                    lazyItem3.setVisibility(8);
+                }
+                this.searchItemVisible = true;
+                updateSearchButtons(0, 0, -1);
+                updateBottomOverlay();
             }
-            ActionBarMenu.LazyItem lazyItem = this.attachItem;
-            if (lazyItem != null) {
-                lazyItem.setVisibility(8);
+            SearchTagsList searchTagsList = this.actionBarSearchTags;
+            if (searchTagsList != null && searchTagsList.shown()) {
+                this.actionBarSearchTags.show(false);
             }
-            ActionBarMenu.LazyItem lazyItem2 = this.editTextItem;
-            if (lazyItem2 != null) {
-                lazyItem2.setVisibility(8);
+            ImageView imageView = this.searchUserButton;
+            if (imageView != null) {
+                imageView.setVisibility(8);
             }
-            if ((this.threadMessageId == 0 || this.chatMode == 3) && (actionBarMenuItem = this.searchItem) != null) {
-                actionBarMenuItem.setVisibility(0);
+            if (ChatObject.isChannelAndNotMegaGroup(this.currentChat) && ChatObject.isPublic(this.currentChat) && this.searchingHashtag != null) {
+                this.defaultSearchPage = 2;
+            } else {
+                this.defaultSearchPage = 0;
             }
-            ActionBarMenuItem actionBarMenuItem3 = this.searchIconItem;
-            if (actionBarMenuItem3 != null && this.showSearchAsIcon) {
-                actionBarMenuItem3.setVisibility(8);
+            this.openSearchKeyboard = false;
+            ActionBarMenuItem actionBarMenuItem4 = this.searchItem;
+            if (actionBarMenuItem4 != null) {
+                this.preventReopenSearchWithText = true;
+                actionBarMenuItem4.openSearch(false);
+                this.preventReopenSearchWithText = false;
             }
-            ActionBarMenu.LazyItem lazyItem3 = this.audioCallIconItem;
-            if (lazyItem3 != null && this.showAudioCallAsIcon) {
-                lazyItem3.setVisibility(8);
+            if (this.searchItem != null) {
+                if (str.startsWith("$")) {
+                    spannableString = new SpannableString("$");
+                } else {
+                    spannableString = new SpannableString("#");
+                }
+                spannableString.setSpan(new ForegroundColorSpan(getThemedColor(Theme.key_windowBackgroundWhiteGrayText)), 0, 1, 33);
+                this.searchItem.setSearchFieldCaption(spannableString);
+                this.searchItem.setSearchFieldText(str.substring(1), false);
+                this.searchItem.setSearchFieldHint(LocaleController.getString(R.string.SearchHashtagsHint));
             }
-            this.searchItemVisible = true;
-            updateSearchButtons(0, 0, -1);
-            updateBottomOverlay();
-        }
-        SearchTagsList searchTagsList = this.actionBarSearchTags;
-        if (searchTagsList != null && searchTagsList.shown()) {
-            this.actionBarSearchTags.show(false);
-        }
-        ImageView imageView = this.searchUserButton;
-        if (imageView != null) {
-            imageView.setVisibility(8);
-        }
-        if (ChatObject.isChannelAndNotMegaGroup(this.currentChat) && ChatObject.isPublic(this.currentChat) && this.searchingHashtag != null) {
-            this.defaultSearchPage = 2;
-        } else {
-            this.defaultSearchPage = 0;
-        }
-        this.openSearchKeyboard = false;
-        ActionBarMenuItem actionBarMenuItem4 = this.searchItem;
-        if (actionBarMenuItem4 != null) {
-            this.preventReopenSearchWithText = true;
-            actionBarMenuItem4.openSearch(false);
-            this.preventReopenSearchWithText = false;
-        }
-        if (this.searchItem != null) {
-            SpannableString spannableString = new SpannableString("#");
-            spannableString.setSpan(new ForegroundColorSpan(getThemedColor(Theme.key_windowBackgroundWhiteGrayText)), 0, 1, 33);
-            this.searchItem.setSearchFieldCaption(spannableString);
-            this.searchItem.setSearchFieldText(str.substring(1), false);
-            this.searchItem.setSearchFieldHint(LocaleController.getString(R.string.SearchHashtagsHint));
-        }
-        getMediaDataController().searchMessagesInChat(this.searchingQuery, this.dialog_id, this.mergeDialogId, this.classGuid, 0, this.threadMessageId, false, this.searchingUserMessages, this.searchingChatMessages, false, this.searchingReaction);
-        updatePinnedMessageView(true);
-        this.hashtagSearchEmptyView.showProgress(true);
-        showMessagesSearchListView(true);
-        ChatSearchTabs chatSearchTabs = this.hashtagSearchTabs;
-        if (chatSearchTabs != null) {
-            chatSearchTabs.show(true);
-            this.messagesSearchListContainer.setPadding(0, this.hashtagSearchTabs.getLayoutParams().height, 0, 0);
-            updateSearchListEmptyView();
-        }
-        HashtagSearchController.getInstance(this.currentAccount).clearSearchResults();
-        HashtagSearchController.getInstance(this.currentAccount).putToHistory(this.searchingHashtag);
-        this.hashtagHistoryView.update();
-        View currentView = this.searchViewPager.getCurrentView();
-        HashtagSearchController.getInstance(this.currentAccount).clearSearchResults();
-        if (currentView instanceof ChatActivityContainer) {
-            ((ChatActivityContainer) currentView).chatActivity.updateSearchingHashtag(this.searchingHashtag);
+            getMediaDataController().searchMessagesInChat(this.searchingQuery, this.dialog_id, this.mergeDialogId, this.classGuid, 0, this.threadMessageId, false, this.searchingUserMessages, this.searchingChatMessages, false, this.searchingReaction);
+            updatePinnedMessageView(true);
+            this.hashtagSearchEmptyView.showProgress(true);
+            showMessagesSearchListView(true);
+            ChatSearchTabs chatSearchTabs = this.hashtagSearchTabs;
+            if (chatSearchTabs != null) {
+                chatSearchTabs.show(true);
+                this.messagesSearchListContainer.setPadding(0, this.hashtagSearchTabs.getLayoutParams().height, 0, 0);
+                updateSearchListEmptyView();
+            }
+            HashtagSearchController.getInstance(this.currentAccount).clearSearchResults();
+            HashtagSearchController.getInstance(this.currentAccount).putToHistory(this.searchingHashtag);
+            this.hashtagHistoryView.update();
+            View currentView = this.searchViewPager.getCurrentView();
+            HashtagSearchController.getInstance(this.currentAccount).clearSearchResults();
+            if (currentView instanceof ChatActivityContainer) {
+                ((ChatActivityContainer) currentView).chatActivity.updateSearchingHashtag(this.searchingHashtag);
+            }
         }
     }
 
@@ -45383,10 +45378,15 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 if (TextUtils.isEmpty(ChatActivity.this.searchingQuery)) {
                     return;
                 }
-                ChatActivity chatActivity2 = ChatActivity.this;
-                chatActivity2.searchingHashtag = "#" + ChatActivity.this.searchingQuery;
-                ChatActivity chatActivity3 = ChatActivity.this;
-                chatActivity3.searchingQuery = chatActivity3.searchingHashtag;
+                if (ChatActivity.this.searchingHashtag.startsWith("$")) {
+                    ChatActivity chatActivity2 = ChatActivity.this;
+                    chatActivity2.searchingHashtag = "$" + ChatActivity.this.searchingQuery;
+                } else {
+                    ChatActivity chatActivity3 = ChatActivity.this;
+                    chatActivity3.searchingHashtag = "#" + ChatActivity.this.searchingQuery;
+                }
+                ChatActivity chatActivity4 = ChatActivity.this;
+                chatActivity4.searchingQuery = chatActivity4.searchingHashtag;
                 HashtagSearchController.getInstance(((BaseFragment) ChatActivity.this).currentAccount).putToHistory(ChatActivity.this.searchingHashtag);
                 ChatActivity.this.hashtagHistoryView.update();
                 View currentView = ChatActivity.this.searchViewPager.getCurrentView();
