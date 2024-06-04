@@ -2530,11 +2530,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r12v2 */
-    /* JADX WARN: Type inference failed for: r12v3, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r12v3, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r12v5 */
     /* JADX WARN: Type inference failed for: r12v6 */
     /* JADX WARN: Type inference failed for: r14v2 */
-    /* JADX WARN: Type inference failed for: r14v3, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r14v3, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r14v5 */
     /* JADX WARN: Type inference failed for: r14v6 */
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -7004,6 +7004,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     public void onWriteButtonClick() {
+        INavigationLayout iNavigationLayout;
         if (this.userId != 0) {
             boolean z = true;
             if (this.imageUpdater != null) {
@@ -7038,7 +7039,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     return;
                 }
                 return;
-            } else if (this.playProfileAnimation != 0 && (this.parentLayout.getFragmentStack().get(this.parentLayout.getFragmentStack().size() - 2) instanceof ChatActivity)) {
+            } else if (this.playProfileAnimation != 0 && (iNavigationLayout = this.parentLayout) != null && iNavigationLayout.getFragmentStack() != null && this.parentLayout.getFragmentStack().size() >= 2 && (this.parentLayout.getFragmentStack().get(this.parentLayout.getFragmentStack().size() - 2) instanceof ChatActivity)) {
                 finishFragment();
                 return;
             } else {

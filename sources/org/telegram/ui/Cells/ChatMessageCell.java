@@ -4655,7 +4655,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r1v141 */
     /* JADX WARN: Type inference failed for: r1v54 */
-    /* JADX WARN: Type inference failed for: r1v55, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r1v55, types: [boolean, int] */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -6939,18 +6939,18 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Type inference failed for: r1v17, types: [android.graphics.Canvas, java.lang.String] */
     /* JADX WARN: Type inference failed for: r1v76, types: [org.telegram.ui.Components.StickerSetLinkIcon, org.telegram.messenger.MessageObject$TextLayoutBlocks, android.graphics.Bitmap, org.telegram.tgnet.TLRPC$Document, java.lang.Object, org.telegram.tgnet.TLRPC$PhotoSize, android.graphics.drawable.Drawable] */
     /* JADX WARN: Type inference failed for: r2v17 */
-    /* JADX WARN: Type inference failed for: r2v18, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r2v18, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r2v26 */
-    /* JADX WARN: Type inference failed for: r2v27, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r2v27, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r2v31 */
-    /* JADX WARN: Type inference failed for: r2v32, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r2v32, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r2v489, types: [org.telegram.tgnet.TLRPC$InputStickerSet] */
     /* JADX WARN: Type inference failed for: r2v721 */
     /* JADX WARN: Type inference failed for: r2v740 */
     /* JADX WARN: Type inference failed for: r2v741 */
     /* JADX WARN: Type inference failed for: r2v748 */
     /* JADX WARN: Type inference failed for: r3v17 */
-    /* JADX WARN: Type inference failed for: r3v18, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r3v18, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r3v925 */
     /* JADX WARN: Type inference failed for: r41v37, types: [android.text.TextPaint] */
     /* JADX WARN: Type inference failed for: r66v1 */
@@ -6966,7 +6966,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Type inference failed for: r72v51 */
     /* JADX WARN: Type inference failed for: r72v52 */
     /* JADX WARN: Type inference failed for: r72v58 */
-    /* JADX WARN: Type inference failed for: r9v34, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r9v34, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r9v501 */
     /* JADX WARN: Type inference failed for: r9v52 */
     /*
@@ -30913,11 +30913,11 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Type inference failed for: r4v101 */
     /* JADX WARN: Type inference failed for: r4v2, types: [org.telegram.tgnet.TLRPC$Chat, org.telegram.tgnet.TLRPC$User, java.lang.String] */
     /* JADX WARN: Type inference failed for: r5v1 */
-    /* JADX WARN: Type inference failed for: r5v2, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r5v2, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r5v68 */
+    /* JADX WARN: Type inference failed for: r9v113 */
+    /* JADX WARN: Type inference failed for: r9v114, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r9v115 */
-    /* JADX WARN: Type inference failed for: r9v116, types: [int, boolean] */
-    /* JADX WARN: Type inference failed for: r9v117 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -30929,6 +30929,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         ?? r4;
         ?? r5;
         boolean z;
+        CharSequence ellipsize;
         int i;
         int i2;
         SpannableStringBuilder spannableStringBuilder;
@@ -30983,7 +30984,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         boolean z8;
         SpannableStringBuilder spannableStringBuilder2;
         int i8;
-        String ellipsize;
+        String ellipsize2;
         int i9;
         TextStyleSpan[] textStyleSpanArr;
         int i10;
@@ -31098,9 +31099,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 removeDiacritics3 = Emoji.replaceEmoji(removeDiacritics3, Theme.chat_namePaint.getFontMetricsInt(), AndroidUtilities.dp(14.0f), false);
             } catch (Exception unused) {
             }
-            CharSequence ellipsize2 = TextUtils.ellipsize(removeDiacritics3, Theme.chat_namePaint, (this.nameWidth + dp2) - (z10 ? this.viaWidth : 0), TextUtils.TruncateAt.END);
+            CharSequence ellipsize3 = TextUtils.ellipsize(removeDiacritics3, Theme.chat_namePaint, (this.nameWidth + dp2) - (z10 ? this.viaWidth : 0), TextUtils.TruncateAt.END);
             if (z10) {
-                int ceil = (int) Math.ceil(Theme.chat_namePaint.measureText(ellipsize2, 0, ellipsize2.length()));
+                int ceil = (int) Math.ceil(Theme.chat_namePaint.measureText(ellipsize3, 0, ellipsize3.length()));
                 this.viaNameWidth = ceil;
                 if (ceil != 0) {
                     this.viaNameWidth = ceil + AndroidUtilities.dp(4.0f);
@@ -31113,19 +31114,19 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 String string = LocaleController.getString("ViaBot", R.string.ViaBot);
                 if (this.currentNameString.length() > 0) {
                     spannableStringBuilder5 = new SpannableStringBuilder();
-                    spannableStringBuilder5.append(ellipsize2).append((CharSequence) " ").append((CharSequence) string).append((CharSequence) " ").append((CharSequence) str);
+                    spannableStringBuilder5.append(ellipsize3).append((CharSequence) " ").append((CharSequence) string).append((CharSequence) " ").append((CharSequence) str);
                     str3 = "";
                     TypefaceSpan typefaceSpan = new TypefaceSpan(Typeface.DEFAULT, 0, themedColor);
                     this.viaSpan1 = typefaceSpan;
                     str2 = "ViaBot";
-                    spannableStringBuilder5.setSpan(typefaceSpan, ellipsize2.length() + 1, ellipsize2.length() + 1 + string.length(), 33);
+                    spannableStringBuilder5.setSpan(typefaceSpan, ellipsize3.length() + 1, ellipsize3.length() + 1 + string.length(), 33);
                     if (this.currentNameStatus != null) {
                         this.viaNameWidth += AndroidUtilities.dp(28.0f);
-                        spannableStringBuilder5.setSpan(new DialogCell.FixedWidthSpan(AndroidUtilities.dp(28.0f)), ellipsize2.length(), ellipsize2.length() + 1, 33);
+                        spannableStringBuilder5.setSpan(new DialogCell.FixedWidthSpan(AndroidUtilities.dp(28.0f)), ellipsize3.length(), ellipsize3.length() + 1, 33);
                     }
                     TypefaceSpan typefaceSpan2 = new TypefaceSpan(AndroidUtilities.bold(), 0, themedColor);
                     this.viaSpan2 = typefaceSpan2;
-                    spannableStringBuilder5.setSpan(typefaceSpan2, ellipsize2.length() + 2 + string.length(), spannableStringBuilder5.length(), 33);
+                    spannableStringBuilder5.setSpan(typefaceSpan2, ellipsize3.length() + 2 + string.length(), spannableStringBuilder5.length(), 33);
                 } else {
                     str2 = "ViaBot";
                     str3 = "";
@@ -31139,13 +31140,13 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     this.viaSpan2 = typefaceSpan4;
                     spannableStringBuilder5.setSpan(typefaceSpan4, string.length() + 1, spannableStringBuilder5.length(), 33);
                 }
-                ellipsize2 = TextUtils.ellipsize(spannableStringBuilder5, Theme.chat_namePaint, this.nameWidth + dp2, TextUtils.TruncateAt.END);
+                ellipsize3 = TextUtils.ellipsize(spannableStringBuilder5, Theme.chat_namePaint, this.nameWidth + dp2, TextUtils.TruncateAt.END);
             } else {
                 str2 = "ViaBot";
                 str3 = "";
             }
             try {
-                StaticLayout staticLayout = new StaticLayout(ellipsize2, Theme.chat_namePaint, this.nameWidth + dp2 + AndroidUtilities.dp(2.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                StaticLayout staticLayout = new StaticLayout(ellipsize3, Theme.chat_namePaint, this.nameWidth + dp2 + AndroidUtilities.dp(2.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
                 this.nameLayout = staticLayout;
                 if (staticLayout.getLineCount() > 0) {
                     int ceil2 = (int) Math.ceil(this.nameLayout.getLineWidth(0));
@@ -31301,8 +31302,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                             StringBuilder sb2 = new StringBuilder();
                             sb2.append(!z ? "A " : str3);
                             sb2.append(this.currentForwardNameString.replace('\n', ' '));
-                            CharSequence ellipsize3 = TextUtils.ellipsize(sb2.toString(), Theme.chat_replyNamePaint, (this.forwardedNameWidth - this.viaWidth) - AndroidUtilities.dp(!z ? 17.33f : 0.0f), TextUtils.TruncateAt.END);
-                            String removeDiacritics5 = AndroidUtilities.removeDiacritics(ellipsize3.toString());
+                            String removeDiacritics5 = AndroidUtilities.removeDiacritics(TextUtils.ellipsize(sb2.toString(), Theme.chat_replyNamePaint, (this.forwardedNameWidth - this.viaWidth) - AndroidUtilities.dp(!z ? 17.33f : 0.0f), TextUtils.TruncateAt.END).toString());
                             if (replaceTags == null) {
                                 SpannableStringBuilder spannableStringBuilder7 = new SpannableStringBuilder(String.format("%s %s %s", removeDiacritics5, LocaleController.getString(str2, R.string.ViaBot), str));
                                 this.viaNameWidth = (int) Math.ceil(Theme.chat_forwardNamePaint.measureText(removeDiacritics5));
@@ -31323,12 +31323,12 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                 i3 = 0;
                                 spannableStringBuilder.setSpan(this.forwardAvatar, 0, i, i2);
                             }
-                            this.forwardNameCenterX = ((int) Math.ceil(Theme.chat_forwardNamePaint.measureText(ellipsize3, i3, ellipsize3.length()))) / 2;
+                            this.forwardNameCenterX = ((int) Math.ceil(Theme.chat_forwardNamePaint.measureText(ellipsize, i3, ellipsize.length()))) / 2;
                             if (this.currentForwardName == null && messageObject.messageOwner.fwd_from.from_id == null) {
                                 z2 = false;
                             } else {
                                 z2 = false;
-                                spannableStringBuilder.setSpan(new TypefaceSpan(AndroidUtilities.bold()), 0, ellipsize3.length(), 33);
+                                spannableStringBuilder.setSpan(new TypefaceSpan(AndroidUtilities.bold()), 0, spannableStringBuilder.length(), 33);
                             }
                             str4 = forwardedMessageText;
                             charSequence = spannableStringBuilder;
@@ -31342,18 +31342,17 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     StringBuilder sb22 = new StringBuilder();
                     sb22.append(!z ? "A " : str3);
                     sb22.append(this.currentForwardNameString.replace('\n', ' '));
-                    CharSequence ellipsize32 = TextUtils.ellipsize(sb22.toString(), Theme.chat_replyNamePaint, (this.forwardedNameWidth - this.viaWidth) - AndroidUtilities.dp(!z ? 17.33f : 0.0f), TextUtils.TruncateAt.END);
-                    String removeDiacritics52 = AndroidUtilities.removeDiacritics(ellipsize32.toString());
+                    String removeDiacritics52 = AndroidUtilities.removeDiacritics(TextUtils.ellipsize(sb22.toString(), Theme.chat_replyNamePaint, (this.forwardedNameWidth - this.viaWidth) - AndroidUtilities.dp(!z ? 17.33f : 0.0f), TextUtils.TruncateAt.END).toString());
                     if (replaceTags == null) {
                     }
                     if (z) {
                     }
                     i3 = 0;
-                    this.forwardNameCenterX = ((int) Math.ceil(Theme.chat_forwardNamePaint.measureText(ellipsize32, i3, ellipsize32.length()))) / 2;
+                    this.forwardNameCenterX = ((int) Math.ceil(Theme.chat_forwardNamePaint.measureText(ellipsize, i3, ellipsize.length()))) / 2;
                     if (this.currentForwardName == null) {
                     }
                     z2 = false;
-                    spannableStringBuilder.setSpan(new TypefaceSpan(AndroidUtilities.bold()), 0, ellipsize32.length(), 33);
+                    spannableStringBuilder.setSpan(new TypefaceSpan(AndroidUtilities.bold()), 0, spannableStringBuilder.length(), 33);
                     str4 = forwardedMessageText2;
                     charSequence = spannableStringBuilder;
                 }
@@ -31782,10 +31781,10 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                             maxNameWidth4 -= AndroidUtilities.dp(24.0f);
                         }
                         int i17 = maxNameWidth4;
-                        ellipsize = removeDiacritics == null ? str6 : TextUtils.ellipsize(AndroidUtilities.replaceCharSequence("\n", removeDiacritics, charSequence2), Theme.chat_replyNamePaint, i17, TextUtils.TruncateAt.END);
+                        ellipsize2 = removeDiacritics == null ? str6 : TextUtils.ellipsize(AndroidUtilities.replaceCharSequence("\n", removeDiacritics, charSequence2), Theme.chat_replyNamePaint, i17, TextUtils.TruncateAt.END);
                         this.replyNameWidth = AndroidUtilities.dp(4.0f) + (this.needReplyImage ? AndroidUtilities.dp(16.0f) + ((int) (textPaint2.getTextSize() + Theme.chat_replyNamePaint.getTextSize())) : 0);
-                        if (ellipsize != null) {
-                            StaticLayout staticLayout3 = new StaticLayout(ellipsize, Theme.chat_replyNamePaint, i17 + AndroidUtilities.dp(6.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                        if (ellipsize2 != null) {
+                            StaticLayout staticLayout3 = new StaticLayout(ellipsize2, Theme.chat_replyNamePaint, i17 + AndroidUtilities.dp(6.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
                             this.replyNameLayout = staticLayout3;
                             if (staticLayout3.getLineCount() > 0) {
                                 this.replyNameWidth += ((int) Math.ceil(this.replyNameLayout.getLineWidth(0))) + AndroidUtilities.dp(4.0f);
@@ -31995,7 +31994,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                             if (removeDiacritics == null) {
                             }
                             this.replyNameWidth = AndroidUtilities.dp(4.0f) + (this.needReplyImage ? AndroidUtilities.dp(16.0f) + ((int) (textPaint2.getTextSize() + Theme.chat_replyNamePaint.getTextSize())) : 0);
-                            if (ellipsize != null) {
+                            if (ellipsize2 != null) {
                             }
                             if (this.isReplyQuote) {
                             }
@@ -32027,7 +32026,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 if (removeDiacritics == null) {
                 }
                 this.replyNameWidth = AndroidUtilities.dp(4.0f) + (this.needReplyImage ? AndroidUtilities.dp(16.0f) + ((int) (textPaint2.getTextSize() + Theme.chat_replyNamePaint.getTextSize())) : 0);
-                if (ellipsize != null) {
+                if (ellipsize2 != null) {
                 }
                 if (this.isReplyQuote) {
                 }
@@ -37728,7 +37727,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Removed duplicated region for block: B:982:0x18ca  */
     /* JADX WARN: Type inference failed for: r2v110 */
     /* JADX WARN: Type inference failed for: r2v47 */
-    /* JADX WARN: Type inference failed for: r2v48, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r2v48, types: [boolean, int] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
