@@ -498,7 +498,9 @@ public class GiveawayMessageCell {
         if (this.selectorDrawable == null) {
             int color = Theme.getColor(Theme.key_listSelector);
             this.selectorColor = color;
-            this.selectorDrawable = Theme.createRadSelectorDrawable(color, 12, 12);
+            Drawable createRadSelectorDrawable = Theme.createRadSelectorDrawable(color, 12, 12);
+            this.selectorDrawable = createRadSelectorDrawable;
+            createRadSelectorDrawable.setCallback(this.parentView);
         }
         this.textPaint.setColor(Theme.chat_msgTextPaint.getColor());
         this.textDividerPaint.setColor(Theme.multAlpha(Theme.chat_msgTextPaint.getColor(), 0.45f));
@@ -645,7 +647,7 @@ public class GiveawayMessageCell {
                 Theme.setSelectorDrawableColor(drawable, multAlpha, true);
             }
             this.selectorDrawable.setBounds(this.clickRect[this.pressedPos]);
-            this.selectorDrawable.draw(canvas);
+            this.selectorDrawable.setCallback(this.parentView);
         }
     }
 

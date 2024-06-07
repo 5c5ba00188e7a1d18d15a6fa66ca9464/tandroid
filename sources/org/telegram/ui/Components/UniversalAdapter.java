@@ -242,6 +242,9 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$update$0(boolean z) {
+        if (this.listView.isComputingLayout()) {
+            return;
+        }
         if (z) {
             setItems(this.oldItems, this.items);
         } else {

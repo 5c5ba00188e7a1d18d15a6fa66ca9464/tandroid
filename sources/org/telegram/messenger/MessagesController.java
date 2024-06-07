@@ -2554,7 +2554,7 @@ public class MessagesController extends BaseController implements NotificationCe
         this.newNoncontactPeersRequirePremiumWithoutOwnpremium = this.mainPreferences.getBoolean("newNoncontactPeersRequirePremiumWithoutOwnpremium", false);
         this.reactionsUniqMax = this.mainPreferences.getInt("reactionsUniqMax", 11);
         this.premiumManageSubscriptionUrl = this.mainPreferences.getString("premiumManageSubscriptionUrl", ApplicationLoader.isStandaloneBuild() ? "https://t.me/premiumbot?start=status" : "https://play.google.com/store/account/subscriptions?sku=telegram_premium&package=org.telegram.messenger");
-        this.androidDisableRoundCamera2 = this.mainPreferences.getBoolean("androidDisableRoundCamera2", false);
+        this.androidDisableRoundCamera2 = this.mainPreferences.getBoolean("androidDisableRoundCamera2", true);
         this.storiesPinnedToTopCountMax = this.mainPreferences.getInt("storiesPinnedToTopCountMax", 3);
         this.showAnnualPerMonth = this.mainPreferences.getBoolean("showAnnualPerMonth", false);
         this.canEditFactcheck = this.mainPreferences.getBoolean("canEditFactcheck", false);

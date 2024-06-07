@@ -47938,11 +47938,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         public void didPressGiveawayChatButton(ChatMessageCell chatMessageCell, int i) {
             if (chatMessageCell.getMessageObject().messageOwner.media instanceof TLRPC$TL_messageMediaGiveaway) {
                 long j = -((TLRPC$TL_messageMediaGiveaway) chatMessageCell.getMessageObject().messageOwner.media).channels.get(i).longValue();
-                if (ChatActivity.this.dialog_id != j) {
-                    ChatActivity.this.presentFragment(ChatActivity.of(j));
+                if (ChatActivity.this.dialog_id == j) {
+                    ChatActivity.this.avatarContainer.openProfile(false);
                 } else {
-                    AndroidUtilities.shakeViewSpring(ChatActivity.this.getChatListView(), 5.0f);
-                    BotWebViewVibrationEffect.APP_ERROR.vibrate();
+                    ChatActivity.this.presentFragment(ChatActivity.of(j));
                 }
             }
             if (chatMessageCell.getMessageObject().messageOwner.media instanceof TLRPC$TL_messageMediaGiveawayResults) {

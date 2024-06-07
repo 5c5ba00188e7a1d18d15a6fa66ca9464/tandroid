@@ -3230,7 +3230,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                 }
             } else if (intValue == 11) {
                 openQuickRepliesLayout();
-            } else {
+            } else if (view.getTag() instanceof Integer) {
                 this.delegate.didPressedButton(((Integer) view.getTag()).intValue(), true, true, 0, 0L, isCaptionAbove(), false);
             }
             int left = view.getLeft();

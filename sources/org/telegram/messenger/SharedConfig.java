@@ -682,7 +682,7 @@ public class SharedConfig {
                             dayNightWallpaperSwitchHint = sharedPreferences.getInt("dayNightWallpaperSwitchHint", 0);
                             bigCameraForRound = sharedPreferences.getBoolean("bigCameraForRound", false);
                             useNewBlur = sharedPreferences.getBoolean("useNewBlur", true);
-                            if (!sharedPreferences.contains("useCamera2Force")) {
+                            if (!sharedPreferences.contains("useCamera2Force_2")) {
                             }
                             useCamera2Force = bool;
                             i = Build.VERSION.SDK_INT;
@@ -789,8 +789,8 @@ public class SharedConfig {
                 dayNightWallpaperSwitchHint = sharedPreferences.getInt("dayNightWallpaperSwitchHint", 0);
                 bigCameraForRound = sharedPreferences.getBoolean("bigCameraForRound", false);
                 useNewBlur = sharedPreferences.getBoolean("useNewBlur", true);
-                if (!sharedPreferences.contains("useCamera2Force")) {
-                    bool = Boolean.valueOf(sharedPreferences.getBoolean("useCamera2Force", false));
+                if (!sharedPreferences.contains("useCamera2Force_2")) {
+                    bool = Boolean.valueOf(sharedPreferences.getBoolean("useCamera2Force_2", false));
                 }
                 useCamera2Force = bool;
                 i = Build.VERSION.SDK_INT;
@@ -1864,7 +1864,7 @@ public class SharedConfig {
         SharedPreferences.Editor edit = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0).edit();
         Boolean valueOf = Boolean.valueOf(!isUsingCamera2(i));
         useCamera2Force = valueOf;
-        edit.putBoolean("useCamera2", valueOf.booleanValue()).apply();
+        edit.putBoolean("useCamera2Force_2", valueOf.booleanValue()).apply();
     }
 
     @Deprecated

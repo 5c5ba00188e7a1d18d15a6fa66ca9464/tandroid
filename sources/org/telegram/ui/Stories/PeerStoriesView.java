@@ -3365,7 +3365,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
         public boolean dispatchTouchEvent(MotionEvent motionEvent) {
             if (!isEnabled()) {
                 RectF rectF = AndroidUtilities.rectTmp;
-                rectF.set(0.0f, 0.0f, getWidth(), getHeight());
+                rectF.set(0.0f, 0.0f, getWidth() + (PeerStoriesView.this.premiumBlockedText2 != null ? this.attachLayoutPaddingTranslationX * 1.5f : 0.0f), getHeight());
                 boolean contains = rectF.contains(motionEvent.getX(), motionEvent.getY());
                 if (motionEvent.getAction() == 0) {
                     if (contains && PeerStoriesView.this.premiumBlockedText2 != null) {

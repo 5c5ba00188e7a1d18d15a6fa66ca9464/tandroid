@@ -93,7 +93,7 @@ public class BotCommandsMenuContainer extends FrameLayout implements NestedScrol
     }
 
     public float clipBottom() {
-        return getMeasuredHeight() - this.containerY;
+        return Math.max(0.0f, getMeasuredHeight() - (this.containerY + this.listView.getTranslationY()));
     }
 
     @Override // android.view.ViewGroup, android.view.ViewParent, androidx.core.view.NestedScrollingParent

@@ -282,7 +282,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
     private LinearLayout attachLayout;
     private float attachLayoutAlpha;
     private float attachLayoutPaddingAlpha;
-    private float attachLayoutPaddingTranslationX;
+    protected float attachLayoutPaddingTranslationX;
     private float attachLayoutTranslationX;
     private TLRPC$TL_document audioToSend;
     private MessageObject audioToSendMessageObject;

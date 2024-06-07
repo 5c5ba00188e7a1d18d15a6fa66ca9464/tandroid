@@ -1314,9 +1314,9 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
     }
 
     private void checkFingerprint() {
-        Activity activity;
-        if (Build.VERSION.SDK_INT >= 23 && (activity = (Activity) getContext()) != null && this.fingerprintView.getVisibility() == 0 && !ApplicationLoader.mainInterfacePaused) {
-            if (!(activity instanceof LaunchActivity) || ((LaunchActivity) activity).allowShowFingerprintDialog(this)) {
+        Activity findActivity;
+        if (Build.VERSION.SDK_INT >= 23 && (findActivity = AndroidUtilities.findActivity(getContext())) != null && this.fingerprintView.getVisibility() == 0 && !ApplicationLoader.mainInterfacePaused) {
+            if (!(findActivity instanceof LaunchActivity) || ((LaunchActivity) findActivity).allowShowFingerprintDialog(this)) {
                 try {
                     if (BiometricManager.from(getContext()).canAuthenticate(15) == 0 && FingerprintController.isKeyReady() && !FingerprintController.checkDeviceFingerprintsChanged()) {
                         new BiometricPrompt(LaunchActivity.instance, ContextCompat.getMainExecutor(getContext()), new BiometricPrompt.AuthenticationCallback() { // from class: org.telegram.ui.Components.PasscodeView.8
@@ -1352,8 +1352,8 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
     }
 
     private boolean hasFingerprint() {
-        Activity activity = (Activity) getContext();
-        if (Build.VERSION.SDK_INT >= 23 && activity != null && SharedConfig.useFingerprintLock) {
+        Activity findActivity = AndroidUtilities.findActivity(getContext());
+        if (Build.VERSION.SDK_INT >= 23 && findActivity != null && SharedConfig.useFingerprintLock) {
             try {
                 FingerprintManagerCompat from = FingerprintManagerCompat.from(ApplicationLoader.applicationContext);
                 if (from.isHardwareDetected() && from.hasEnrolledFingerprints() && FingerprintController.isKeyReady()) {
@@ -1367,16 +1367,16 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
         return false;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:26:0x0057  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x0066  */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x0069  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0059  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x0068  */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x006b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private void checkFingerprintButton() {
-        Activity activity = (Activity) getContext();
+        Activity findActivity = AndroidUtilities.findActivity(getContext());
         boolean z = false;
-        if (Build.VERSION.SDK_INT >= 23 && activity != null && SharedConfig.useFingerprintLock) {
+        if (Build.VERSION.SDK_INT >= 23 && findActivity != null && SharedConfig.useFingerprintLock) {
             try {
                 FingerprintManagerCompat from = FingerprintManagerCompat.from(ApplicationLoader.applicationContext);
                 if (from.isHardwareDetected() && from.hasEnrolledFingerprints() && FingerprintController.isKeyReady() && !FingerprintController.checkDeviceFingerprintsChanged()) {
@@ -1413,15 +1413,15 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
         EditTextBoldCursor editTextBoldCursor;
         checkFingerprintButton();
         checkRetryTextView();
-        Activity activity = (Activity) getContext();
+        Activity findActivity = AndroidUtilities.findActivity(getContext());
         if (SharedConfig.passcodeType == 1) {
             if (!z2 && this.retryTextView.getVisibility() != 0 && (editTextBoldCursor = this.passwordEditText) != null) {
                 editTextBoldCursor.requestFocus();
                 AndroidUtilities.showKeyboard(this.passwordEditText);
             }
-        } else if (activity != null && (currentFocus = activity.getCurrentFocus()) != null) {
+        } else if (findActivity != null && (currentFocus = findActivity.getCurrentFocus()) != null) {
             currentFocus.clearFocus();
-            AndroidUtilities.hideKeyboard(((Activity) getContext()).getCurrentFocus());
+            AndroidUtilities.hideKeyboard(findActivity.getCurrentFocus());
         }
         if (getVisibility() == 0) {
             return;

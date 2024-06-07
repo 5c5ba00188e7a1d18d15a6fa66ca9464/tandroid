@@ -4521,7 +4521,7 @@ public class MessageObject {
         MessageObject messageObject = this.replyMessageObject;
         boolean z2 = messageObject != null && messageObject.updateTranslation(z);
         TranslateController translateController = MessagesController.getInstance(this.currentAccount).getTranslateController();
-        if (TranslateController.isTranslatable(this) && translateController.isTranslatingDialog(getDialogId()) && (tLRPC$Message = this.messageOwner) != null && tLRPC$Message.translatedText != null && TextUtils.equals(translateController.getDialogTranslateTo(getDialogId()), this.messageOwner.translatedToLanguage)) {
+        if (TranslateController.isTranslatable(this) && translateController.isTranslatingDialog(getDialogId()) && !translateController.isTranslateDialogHidden(getDialogId()) && (tLRPC$Message = this.messageOwner) != null && tLRPC$Message.translatedText != null && TextUtils.equals(translateController.getDialogTranslateTo(getDialogId()), this.messageOwner.translatedToLanguage)) {
             if (this.translated) {
                 return z2;
             }

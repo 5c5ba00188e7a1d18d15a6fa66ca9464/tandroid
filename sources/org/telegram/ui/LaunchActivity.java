@@ -10768,7 +10768,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$processWebAppBot$105(BaseFragment baseFragment, int i, TLRPC$User tLRPC$User, TLRPC$TL_messages_botApp tLRPC$TL_messages_botApp, AtomicBoolean atomicBoolean, String str, boolean z) {
-        if (!isActive || isFinishing()) {
+        if (!isActive || isFinishing() || isDestroyed()) {
             return;
         }
         BotWebViewSheet botWebViewSheet = new BotWebViewSheet(this, baseFragment == null ? null : baseFragment.getResourceProvider());

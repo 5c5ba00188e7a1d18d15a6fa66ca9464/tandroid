@@ -1309,12 +1309,12 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
             backupImageView.setImage(ImageLocation.getForWebFile(WebFile.createWithWebDocument(tLRPC$WebDocument)), "80_80", (Drawable) null, 0, (Object) null);
         }
         frameLayout.addView(backupImageView, LayoutHelper.createFrame(80, 80, 17));
-        StarsBalanceView starsBalanceView = new StarsBalanceView(context, i);
+        final StarsBalanceView starsBalanceView = new StarsBalanceView(context, i);
         ScaleStateListAnimator.apply(starsBalanceView);
-        starsBalanceView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda4
+        starsBalanceView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda3
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
-                StarsIntroActivity.lambda$openConfirmPurchaseSheet$3(view);
+                StarsIntroActivity.lambda$openConfirmPurchaseSheet$3(StarsIntroActivity.StarsBalanceView.this, view);
             }
         });
         frameLayout.addView(starsBalanceView, LayoutHelper.createFrame(-2, -2.0f, 53, 0.0f, 0.0f, -8.0f, 0.0f));
@@ -1358,9 +1358,9 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$openConfirmPurchaseSheet$3(View view) {
-        BaseFragment lastFragment = LaunchActivity.getLastFragment();
-        if (lastFragment != null) {
+    public static /* synthetic */ void lambda$openConfirmPurchaseSheet$3(StarsBalanceView starsBalanceView, View view) {
+        BaseFragment lastFragment;
+        if (starsBalanceView.lastBalance > 0 && (lastFragment = LaunchActivity.getLastFragment()) != null) {
             BaseFragment.BottomSheetParams bottomSheetParams = new BaseFragment.BottomSheetParams();
             bottomSheetParams.transitionFromLeft = true;
             bottomSheetParams.allowNestedScroll = false;
@@ -1465,6 +1465,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
 
         public StarsNeededSheet(Context context, Theme.ResourcesProvider resourcesProvider, long j, String str, Runnable runnable) {
             super(context, null, false, false, false, resourcesProvider);
+            this.topPadding = 0.2f;
             this.whenPurchased = runnable;
             NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.starOptionsLoaded);
             NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.starBalanceUpdated);
@@ -1674,7 +1675,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
                 starsBalanceView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$StarsNeededSheet$HeaderView$$ExternalSyntheticLambda0
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
-                        StarsIntroActivity.StarsNeededSheet.HeaderView.lambda$new$0(view);
+                        StarsIntroActivity.StarsNeededSheet.HeaderView.this.lambda$new$0(view);
                     }
                 });
                 frameLayout.addView(starsBalanceView, LayoutHelper.createFrame(-2, -2.0f, 53, 0.0f, 0.0f, 0.0f, 0.0f));
@@ -1696,9 +1697,9 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
             }
 
             /* JADX INFO: Access modifiers changed from: private */
-            public static /* synthetic */ void lambda$new$0(View view) {
-                BaseFragment lastFragment = LaunchActivity.getLastFragment();
-                if (lastFragment != null) {
+            public /* synthetic */ void lambda$new$0(View view) {
+                BaseFragment lastFragment;
+                if (this.balanceView.lastBalance > 0 && (lastFragment = LaunchActivity.getLastFragment()) != null) {
                     BaseFragment.BottomSheetParams bottomSheetParams = new BaseFragment.BottomSheetParams();
                     bottomSheetParams.transitionFromLeft = true;
                     bottomSheetParams.allowNestedScroll = false;
@@ -1993,7 +1994,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         linearLayout.addView(buttonWithCounterView, LayoutHelper.createLinear(-1, 48));
         builder.setCustomView(linearLayout);
         bottomSheetArr[0] = builder.create();
-        buttonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda3
+        buttonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda4
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 StarsIntroActivity.lambda$showTransactionSheet$10(bottomSheetArr, view);

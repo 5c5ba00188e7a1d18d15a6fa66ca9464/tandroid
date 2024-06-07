@@ -267,6 +267,7 @@ public class TranslateController extends BaseController {
             synchronized (this) {
                 if (z) {
                     this.hideTranslateDialogs.add(Long.valueOf(j));
+                    this.translatingDialogs.remove(Long.valueOf(j));
                 } else {
                     this.hideTranslateDialogs.remove(Long.valueOf(j));
                 }
@@ -300,6 +301,7 @@ public class TranslateController extends BaseController {
         synchronized (this) {
             if (z) {
                 this.hideTranslateDialogs.add(Long.valueOf(j));
+                this.translatingDialogs.remove(Long.valueOf(j));
             } else {
                 this.hideTranslateDialogs.remove(Long.valueOf(j));
             }
@@ -543,32 +545,33 @@ public class TranslateController extends BaseController {
         if (isTranslatable(messageObject)) {
             if (!isTranslatingDialog(dialogId)) {
                 checkLanguage(messageObject);
-                return;
-            }
-            String dialogTranslateTo = getDialogTranslateTo(dialogId);
-            if (!z2) {
-                TLRPC$Message tLRPC$Message = messageObject.messageOwner;
-                if ((tLRPC$Message.translatedText == null || !dialogTranslateTo.equals(tLRPC$Message.translatedToLanguage)) && (findReplyMessageObject = findReplyMessageObject(dialogId, messageObject.getId())) != null) {
-                    TLRPC$Message tLRPC$Message2 = messageObject.messageOwner;
-                    TLRPC$Message tLRPC$Message3 = findReplyMessageObject.messageOwner;
-                    tLRPC$Message2.translatedToLanguage = tLRPC$Message3.translatedToLanguage;
-                    tLRPC$Message2.translatedText = tLRPC$Message3.translatedText;
-                    messageObject = findReplyMessageObject;
+            } else if (isTranslateDialogHidden(dialogId)) {
+            } else {
+                String dialogTranslateTo = getDialogTranslateTo(dialogId);
+                if (!z2) {
+                    TLRPC$Message tLRPC$Message = messageObject.messageOwner;
+                    if ((tLRPC$Message.translatedText == null || !dialogTranslateTo.equals(tLRPC$Message.translatedToLanguage)) && (findReplyMessageObject = findReplyMessageObject(dialogId, messageObject.getId())) != null) {
+                        TLRPC$Message tLRPC$Message2 = messageObject.messageOwner;
+                        TLRPC$Message tLRPC$Message3 = findReplyMessageObject.messageOwner;
+                        tLRPC$Message2.translatedToLanguage = tLRPC$Message3.translatedToLanguage;
+                        tLRPC$Message2.translatedText = tLRPC$Message3.translatedText;
+                        messageObject = findReplyMessageObject;
+                    }
                 }
-            }
-            if (z && isTranslatingDialog(dialogId)) {
-                TLRPC$Message tLRPC$Message4 = messageObject.messageOwner;
-                if (tLRPC$Message4.translatedText == null || !dialogTranslateTo.equals(tLRPC$Message4.translatedToLanguage)) {
-                    NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageTranslating, messageObject);
-                    final MessageObject messageObject3 = messageObject;
-                    pushToTranslate(messageObject, dialogTranslateTo, new Utilities.Callback3() { // from class: org.telegram.messenger.TranslateController$$ExternalSyntheticLambda30
-                        @Override // org.telegram.messenger.Utilities.Callback3
-                        public final void run(Object obj, Object obj2, Object obj3) {
-                            TranslateController.this.lambda$checkTranslation$4(messageObject3, z2, dialogId, (Integer) obj, (TLRPC$TL_textWithEntities) obj2, (String) obj3);
-                        }
-                    });
-                } else if (z2) {
-                    keepReplyMessage(messageObject);
+                if (z && isTranslatingDialog(dialogId)) {
+                    TLRPC$Message tLRPC$Message4 = messageObject.messageOwner;
+                    if (tLRPC$Message4.translatedText == null || !dialogTranslateTo.equals(tLRPC$Message4.translatedToLanguage)) {
+                        NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageTranslating, messageObject);
+                        final MessageObject messageObject3 = messageObject;
+                        pushToTranslate(messageObject, dialogTranslateTo, new Utilities.Callback3() { // from class: org.telegram.messenger.TranslateController$$ExternalSyntheticLambda30
+                            @Override // org.telegram.messenger.Utilities.Callback3
+                            public final void run(Object obj, Object obj2, Object obj3) {
+                                TranslateController.this.lambda$checkTranslation$4(messageObject3, z2, dialogId, (Integer) obj, (TLRPC$TL_textWithEntities) obj2, (String) obj3);
+                            }
+                        });
+                    } else if (z2) {
+                        keepReplyMessage(messageObject);
+                    }
                 }
             }
         }
@@ -977,6 +980,9 @@ public class TranslateController extends BaseController {
             toggleTranslatingDialog(j, false);
             NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.showBulletin, 1, LocaleController.getString("TranslationFailedAlert2", R.string.TranslationFailedAlert2));
         } else {
+            if (tLRPC$TL_error != null && "QUOTA_EXCEEDED".equals(tLRPC$TL_error.text)) {
+                NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.showBulletin, 1, LocaleController.getString(R.string.TranslationFailedAlert1));
+            }
             for (int i2 = 0; i2 < arrayList2.size(); i2++) {
                 arrayList2.get(i2).run(arrayList.get(i2), null, pendingTranslation.language);
             }
