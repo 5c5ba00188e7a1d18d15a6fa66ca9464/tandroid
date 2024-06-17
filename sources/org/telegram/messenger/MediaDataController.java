@@ -8657,7 +8657,7 @@ public class MediaDataController extends BaseController {
     /* JADX WARN: Type inference failed for: r3v1, types: [java.lang.Object[]] */
     /* JADX WARN: Type inference failed for: r4v1 */
     /* JADX WARN: Type inference failed for: r4v11 */
-    /* JADX WARN: Type inference failed for: r4v2, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r4v2, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r7v1, types: [java.lang.String] */
     /* JADX WARN: Type inference failed for: r7v13, types: [java.lang.StringBuilder] */
     /* JADX WARN: Type inference failed for: r7v2 */
@@ -9322,7 +9322,7 @@ public class MediaDataController extends BaseController {
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Type inference failed for: r15v4 */
-    /* JADX WARN: Type inference failed for: r15v5, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r15v5, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r15v9 */
     public /* synthetic */ void lambda$loadReplyMessagesForMessages$174(LongSparseArray longSparseArray, final AtomicInteger atomicInteger, final Runnable runnable, int i, final LongSparseArray longSparseArray2, LongSparseArray longSparseArray3, final boolean z, final long j) {
         int i2;
@@ -10428,7 +10428,7 @@ public class MediaDataController extends BaseController {
         if (charSequence == null || charSequence2 == null || !TextUtils.equals(charSequence, charSequence2)) {
             return false;
         }
-        return entitiesEqual(getInstance(UserConfig.selectedAccount).getEntities(new CharSequence[]{charSequence}, true), getInstance(UserConfig.selectedAccount).getEntities(new CharSequence[]{charSequence2}, true));
+        return entitiesEqual(getInstance(UserConfig.selectedAccount).getEntities(new CharSequence[]{new SpannableStringBuilder(charSequence)}, true), getInstance(UserConfig.selectedAccount).getEntities(new CharSequence[]{new SpannableStringBuilder(charSequence2)}, true));
     }
 
     public static boolean entitiesEqual(ArrayList<TLRPC$MessageEntity> arrayList, ArrayList<TLRPC$MessageEntity> arrayList2) {
@@ -10594,75 +10594,80 @@ public class MediaDataController extends BaseController {
         return longSparseArray.get(j2);
     }
 
-    public void saveDraft(long j, int i, CharSequence charSequence, ArrayList<TLRPC$MessageEntity> arrayList, TLRPC$Message tLRPC$Message, boolean z) {
-        saveDraft(j, i, charSequence, arrayList, tLRPC$Message, null, z, false);
+    public void saveDraft(long j, int i, CharSequence charSequence, ArrayList<TLRPC$MessageEntity> arrayList, TLRPC$Message tLRPC$Message, boolean z, long j2) {
+        saveDraft(j, i, charSequence, arrayList, tLRPC$Message, null, j2, z, false);
     }
 
-    public void saveDraft(long j, long j2, CharSequence charSequence, ArrayList<TLRPC$MessageEntity> arrayList, TLRPC$Message tLRPC$Message, ChatActivity.ReplyQuote replyQuote, boolean z, boolean z2) {
+    /* JADX WARN: Code restructure failed: missing block: B:63:0x0151, code lost:
+        r7 = true;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public void saveDraft(long j, long j2, CharSequence charSequence, ArrayList<TLRPC$MessageEntity> arrayList, TLRPC$Message tLRPC$Message, ChatActivity.ReplyQuote replyQuote, long j3, boolean z, boolean z2) {
         TLRPC$DraftMessage tLRPC$TL_draftMessage;
-        TLRPC$InputReplyTo tLRPC$InputReplyTo;
         TLRPC$Message tLRPC$Message2 = (getMessagesController().isForum(j) && j2 == 0) ? null : tLRPC$Message;
         if (!TextUtils.isEmpty(charSequence) || tLRPC$Message2 != null) {
             tLRPC$TL_draftMessage = new TLRPC$TL_draftMessage();
         } else {
             tLRPC$TL_draftMessage = new TLRPC$TL_draftMessageEmpty();
         }
-        TLRPC$DraftMessage tLRPC$DraftMessage = tLRPC$TL_draftMessage;
-        tLRPC$DraftMessage.date = (int) (System.currentTimeMillis() / 1000);
-        tLRPC$DraftMessage.message = charSequence == null ? "" : charSequence.toString();
-        tLRPC$DraftMessage.no_webpage = z;
+        tLRPC$TL_draftMessage.date = (int) (System.currentTimeMillis() / 1000);
+        tLRPC$TL_draftMessage.message = charSequence == null ? "" : charSequence.toString();
+        tLRPC$TL_draftMessage.no_webpage = z;
+        if (j3 != 0) {
+            tLRPC$TL_draftMessage.flags |= 128;
+            tLRPC$TL_draftMessage.effect = j3;
+        }
         if (tLRPC$Message2 != null) {
             TLRPC$TL_inputReplyToMessage tLRPC$TL_inputReplyToMessage = new TLRPC$TL_inputReplyToMessage();
-            tLRPC$DraftMessage.reply_to = tLRPC$TL_inputReplyToMessage;
-            tLRPC$DraftMessage.flags |= 16;
+            tLRPC$TL_draftMessage.reply_to = tLRPC$TL_inputReplyToMessage;
+            tLRPC$TL_draftMessage.flags |= 16;
             tLRPC$TL_inputReplyToMessage.reply_to_msg_id = tLRPC$Message2.id;
             if (replyQuote != null) {
                 tLRPC$TL_inputReplyToMessage.quote_text = replyQuote.getText();
-                TLRPC$InputReplyTo tLRPC$InputReplyTo2 = tLRPC$DraftMessage.reply_to;
-                if (tLRPC$InputReplyTo2.quote_text != null) {
-                    int i = tLRPC$InputReplyTo2.flags | 4;
-                    tLRPC$InputReplyTo2.flags = i;
-                    tLRPC$InputReplyTo2.flags = i | 16;
-                    tLRPC$InputReplyTo2.quote_offset = replyQuote.start;
+                TLRPC$InputReplyTo tLRPC$InputReplyTo = tLRPC$TL_draftMessage.reply_to;
+                if (tLRPC$InputReplyTo.quote_text != null) {
+                    int i = tLRPC$InputReplyTo.flags | 4;
+                    tLRPC$InputReplyTo.flags = i;
+                    tLRPC$InputReplyTo.flags = i | 16;
+                    tLRPC$InputReplyTo.quote_offset = replyQuote.start;
                 }
-                tLRPC$InputReplyTo2.quote_entities = replyQuote.getEntities();
-                ArrayList<TLRPC$MessageEntity> arrayList2 = tLRPC$DraftMessage.reply_to.quote_entities;
+                tLRPC$InputReplyTo.quote_entities = replyQuote.getEntities();
+                ArrayList<TLRPC$MessageEntity> arrayList2 = tLRPC$TL_draftMessage.reply_to.quote_entities;
                 if (arrayList2 != null && !arrayList2.isEmpty()) {
-                    tLRPC$DraftMessage.reply_to.quote_entities = new ArrayList<>(tLRPC$DraftMessage.reply_to.quote_entities);
-                    tLRPC$DraftMessage.reply_to.flags |= 8;
+                    tLRPC$TL_draftMessage.reply_to.quote_entities = new ArrayList<>(tLRPC$TL_draftMessage.reply_to.quote_entities);
+                    tLRPC$TL_draftMessage.reply_to.flags |= 8;
                 }
                 MessageObject messageObject = replyQuote.message;
                 if (messageObject != null && messageObject.messageOwner != null) {
                     TLRPC$Peer peer = getMessagesController().getPeer(j);
                     TLRPC$Peer tLRPC$Peer = replyQuote.message.messageOwner.peer_id;
                     if (peer != null && !MessageObject.peersEqual(peer, tLRPC$Peer)) {
-                        TLRPC$InputReplyTo tLRPC$InputReplyTo3 = tLRPC$DraftMessage.reply_to;
-                        tLRPC$InputReplyTo3.flags |= 2;
-                        tLRPC$InputReplyTo3.reply_to_peer_id = getMessagesController().getInputPeer(tLRPC$Peer);
+                        TLRPC$InputReplyTo tLRPC$InputReplyTo2 = tLRPC$TL_draftMessage.reply_to;
+                        tLRPC$InputReplyTo2.flags |= 2;
+                        tLRPC$InputReplyTo2.reply_to_peer_id = getMessagesController().getInputPeer(tLRPC$Peer);
                     }
                 }
             } else if (j != MessageObject.getDialogId(tLRPC$Message2)) {
-                TLRPC$InputReplyTo tLRPC$InputReplyTo4 = tLRPC$DraftMessage.reply_to;
-                tLRPC$InputReplyTo4.flags |= 2;
-                tLRPC$InputReplyTo4.reply_to_peer_id = getMessagesController().getInputPeer(getMessagesController().getPeer(MessageObject.getDialogId(tLRPC$Message2)));
+                TLRPC$InputReplyTo tLRPC$InputReplyTo3 = tLRPC$TL_draftMessage.reply_to;
+                tLRPC$InputReplyTo3.flags |= 2;
+                tLRPC$InputReplyTo3.reply_to_peer_id = getMessagesController().getInputPeer(getMessagesController().getPeer(MessageObject.getDialogId(tLRPC$Message2)));
             }
         }
         if (arrayList != null && !arrayList.isEmpty()) {
-            tLRPC$DraftMessage.entities = arrayList;
-            tLRPC$DraftMessage.flags |= 8;
+            tLRPC$TL_draftMessage.entities = arrayList;
+            tLRPC$TL_draftMessage.flags |= 8;
         }
         LongSparseArray<TLRPC$DraftMessage> longSparseArray = this.drafts.get(j);
-        TLRPC$DraftMessage tLRPC$DraftMessage2 = longSparseArray == null ? null : longSparseArray.get(j2);
+        TLRPC$DraftMessage tLRPC$DraftMessage = longSparseArray == null ? null : longSparseArray.get(j2);
         if (!z2) {
-            boolean z3 = true;
-            if (tLRPC$DraftMessage2 == null ? !TextUtils.isEmpty(tLRPC$DraftMessage.message) || ((tLRPC$InputReplyTo = tLRPC$DraftMessage.reply_to) != null && tLRPC$InputReplyTo.reply_to_msg_id != 0) : !tLRPC$DraftMessage2.message.equals(tLRPC$DraftMessage.message) || !replyToEquals(tLRPC$DraftMessage2.reply_to, tLRPC$DraftMessage.reply_to) || tLRPC$DraftMessage2.no_webpage != tLRPC$DraftMessage.no_webpage) {
-                z3 = false;
-            }
+            boolean z3 = tLRPC$DraftMessage != null ? false : false;
             if (z3) {
                 return;
             }
         }
-        saveDraft(j, j2, tLRPC$DraftMessage, tLRPC$Message2, false);
+        saveDraft(j, j2, tLRPC$TL_draftMessage, tLRPC$Message2, false);
         if (j2 == 0 || ChatObject.isForum(this.currentAccount, j)) {
             if (!DialogObject.isEncryptedDialog(j)) {
                 TLRPC$TL_messages_saveDraft tLRPC$TL_messages_saveDraft = new TLRPC$TL_messages_saveDraft();
@@ -10671,16 +10676,21 @@ public class MediaDataController extends BaseController {
                 if (inputPeer == null) {
                     return;
                 }
-                tLRPC$TL_messages_saveDraft.message = tLRPC$DraftMessage.message;
-                tLRPC$TL_messages_saveDraft.no_webpage = tLRPC$DraftMessage.no_webpage;
-                TLRPC$InputReplyTo tLRPC$InputReplyTo5 = tLRPC$DraftMessage.reply_to;
-                tLRPC$TL_messages_saveDraft.reply_to = tLRPC$InputReplyTo5;
-                if (tLRPC$InputReplyTo5 != null) {
+                tLRPC$TL_messages_saveDraft.message = tLRPC$TL_draftMessage.message;
+                tLRPC$TL_messages_saveDraft.no_webpage = tLRPC$TL_draftMessage.no_webpage;
+                TLRPC$InputReplyTo tLRPC$InputReplyTo4 = tLRPC$TL_draftMessage.reply_to;
+                tLRPC$TL_messages_saveDraft.reply_to = tLRPC$InputReplyTo4;
+                if (tLRPC$InputReplyTo4 != null) {
                     tLRPC$TL_messages_saveDraft.flags |= 16;
                 }
-                if ((tLRPC$DraftMessage.flags & 8) != 0) {
-                    tLRPC$TL_messages_saveDraft.entities = tLRPC$DraftMessage.entities;
+                int i2 = tLRPC$TL_draftMessage.flags;
+                if ((i2 & 8) != 0) {
+                    tLRPC$TL_messages_saveDraft.entities = tLRPC$TL_draftMessage.entities;
                     tLRPC$TL_messages_saveDraft.flags |= 8;
+                }
+                if ((i2 & 128) != 0) {
+                    tLRPC$TL_messages_saveDraft.effect = tLRPC$TL_draftMessage.effect;
+                    tLRPC$TL_messages_saveDraft.flags |= 128;
                 }
                 getConnectionsManager().sendRequest(tLRPC$TL_messages_saveDraft, new RequestDelegate() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda239
                     @Override // org.telegram.tgnet.RequestDelegate
@@ -11071,7 +11081,7 @@ public class MediaDataController extends BaseController {
                 tLRPC$InputReplyTo.reply_to_msg_id = 0;
             }
             tLRPC$DraftMessage.flags &= -2;
-            saveDraft(j, j2, tLRPC$DraftMessage.message, tLRPC$DraftMessage.entities, null, null, tLRPC$DraftMessage.no_webpage, true);
+            saveDraft(j, j2, tLRPC$DraftMessage.message, tLRPC$DraftMessage.entities, null, null, 0L, tLRPC$DraftMessage.no_webpage, true);
         }
     }
 

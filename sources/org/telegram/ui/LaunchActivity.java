@@ -2117,7 +2117,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX WARN: Type inference failed for: r11v33 */
     /* JADX WARN: Type inference failed for: r11v34 */
     /* JADX WARN: Type inference failed for: r11v4 */
-    /* JADX WARN: Type inference failed for: r11v5, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r11v5, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r11v7 */
     /* JADX WARN: Type inference failed for: r11v8 */
     /* JADX WARN: Type inference failed for: r7v10 */
@@ -10288,7 +10288,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         }
         if (MessagesController.getInstance(i).checkCanOpenChat(bundle, dialogsActivity)) {
             NotificationCenter.getInstance(i).lambda$postNotificationNameOnUIThread$1(NotificationCenter.closeChats, new Object[0]);
-            MediaDataController.getInstance(i).saveDraft(j, 0, str, null, null, false);
+            MediaDataController.getInstance(i).saveDraft(j, 0, str, null, null, false, 0L);
             getActionBarLayout().presentFragment(new ChatActivity(bundle), true, false, true, false);
         }
         return true;

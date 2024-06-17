@@ -1272,14 +1272,14 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Removed duplicated region for block: B:162:0x027b  */
-    /* JADX WARN: Removed duplicated region for block: B:166:0x0283 A[Catch: JSONException -> 0x0295, TryCatch #22 {JSONException -> 0x0295, blocks: (B:144:0x0232, B:146:0x0241, B:148:0x0247, B:149:0x024f, B:168:0x0287, B:165:0x0280, B:166:0x0283, B:154:0x0264, B:157:0x026e), top: B:552:0x0232 }] */
-    /* JADX WARN: Removed duplicated region for block: B:168:0x0287 A[Catch: JSONException -> 0x0295, TRY_LEAVE, TryCatch #22 {JSONException -> 0x0295, blocks: (B:144:0x0232, B:146:0x0241, B:148:0x0247, B:149:0x024f, B:168:0x0287, B:165:0x0280, B:166:0x0283, B:154:0x0264, B:157:0x026e), top: B:552:0x0232 }] */
-    /* JADX WARN: Removed duplicated region for block: B:240:0x03b7  */
-    /* JADX WARN: Removed duplicated region for block: B:264:0x03fe  */
-    /* JADX WARN: Removed duplicated region for block: B:271:0x040c A[Catch: Exception -> 0x0477, TryCatch #5 {Exception -> 0x0477, blocks: (B:222:0x0377, B:308:0x0472, B:245:0x03bf, B:246:0x03c3, B:269:0x0406, B:270:0x0409, B:271:0x040c, B:253:0x03dd, B:256:0x03e7, B:259:0x03f1, B:273:0x0411, B:274:0x041b, B:302:0x0461, B:303:0x0464, B:304:0x0467, B:305:0x046a, B:306:0x046d, B:276:0x041f, B:279:0x0429, B:282:0x0433, B:285:0x043d, B:288:0x0447, B:229:0x0396, B:232:0x03a0, B:235:0x03aa), top: B:527:0x0377 }] */
-    /* JADX WARN: Removed duplicated region for block: B:273:0x0411 A[Catch: Exception -> 0x0477, TryCatch #5 {Exception -> 0x0477, blocks: (B:222:0x0377, B:308:0x0472, B:245:0x03bf, B:246:0x03c3, B:269:0x0406, B:270:0x0409, B:271:0x040c, B:253:0x03dd, B:256:0x03e7, B:259:0x03f1, B:273:0x0411, B:274:0x041b, B:302:0x0461, B:303:0x0464, B:304:0x0467, B:305:0x046a, B:306:0x046d, B:276:0x041f, B:279:0x0429, B:282:0x0433, B:285:0x043d, B:288:0x0447, B:229:0x0396, B:232:0x03a0, B:235:0x03aa), top: B:527:0x0377 }] */
-    /* JADX WARN: Removed duplicated region for block: B:308:0x0472 A[Catch: Exception -> 0x0477, TRY_LEAVE, TryCatch #5 {Exception -> 0x0477, blocks: (B:222:0x0377, B:308:0x0472, B:245:0x03bf, B:246:0x03c3, B:269:0x0406, B:270:0x0409, B:271:0x040c, B:253:0x03dd, B:256:0x03e7, B:259:0x03f1, B:273:0x0411, B:274:0x041b, B:302:0x0461, B:303:0x0464, B:304:0x0467, B:305:0x046a, B:306:0x046d, B:276:0x041f, B:279:0x0429, B:282:0x0433, B:285:0x043d, B:288:0x0447, B:229:0x0396, B:232:0x03a0, B:235:0x03aa), top: B:527:0x0377 }] */
+    /* JADX WARN: Removed duplicated region for block: B:162:0x0297  */
+    /* JADX WARN: Removed duplicated region for block: B:166:0x029f A[Catch: JSONException -> 0x02b1, TryCatch #6 {JSONException -> 0x02b1, blocks: (B:144:0x024e, B:146:0x025d, B:148:0x0263, B:149:0x026b, B:168:0x02a3, B:165:0x029c, B:166:0x029f, B:154:0x0280, B:157:0x028a), top: B:528:0x024e }] */
+    /* JADX WARN: Removed duplicated region for block: B:168:0x02a3 A[Catch: JSONException -> 0x02b1, TRY_LEAVE, TryCatch #6 {JSONException -> 0x02b1, blocks: (B:144:0x024e, B:146:0x025d, B:148:0x0263, B:149:0x026b, B:168:0x02a3, B:165:0x029c, B:166:0x029f, B:154:0x0280, B:157:0x028a), top: B:528:0x024e }] */
+    /* JADX WARN: Removed duplicated region for block: B:240:0x03d3  */
+    /* JADX WARN: Removed duplicated region for block: B:264:0x041a  */
+    /* JADX WARN: Removed duplicated region for block: B:271:0x0428 A[Catch: Exception -> 0x0493, TryCatch #14 {Exception -> 0x0493, blocks: (B:222:0x0393, B:308:0x048e, B:245:0x03db, B:246:0x03df, B:269:0x0422, B:270:0x0425, B:271:0x0428, B:253:0x03f9, B:256:0x0403, B:259:0x040d, B:273:0x042d, B:274:0x0437, B:302:0x047d, B:303:0x0480, B:304:0x0483, B:305:0x0486, B:306:0x0489, B:276:0x043b, B:279:0x0445, B:282:0x044f, B:285:0x0459, B:288:0x0463, B:229:0x03b2, B:232:0x03bc, B:235:0x03c6), top: B:542:0x0393 }] */
+    /* JADX WARN: Removed duplicated region for block: B:273:0x042d A[Catch: Exception -> 0x0493, TryCatch #14 {Exception -> 0x0493, blocks: (B:222:0x0393, B:308:0x048e, B:245:0x03db, B:246:0x03df, B:269:0x0422, B:270:0x0425, B:271:0x0428, B:253:0x03f9, B:256:0x0403, B:259:0x040d, B:273:0x042d, B:274:0x0437, B:302:0x047d, B:303:0x0480, B:304:0x0483, B:305:0x0486, B:306:0x0489, B:276:0x043b, B:279:0x0445, B:282:0x044f, B:285:0x0459, B:288:0x0463, B:229:0x03b2, B:232:0x03bc, B:235:0x03c6), top: B:542:0x0393 }] */
+    /* JADX WARN: Removed duplicated region for block: B:308:0x048e A[Catch: Exception -> 0x0493, TRY_LEAVE, TryCatch #14 {Exception -> 0x0493, blocks: (B:222:0x0393, B:308:0x048e, B:245:0x03db, B:246:0x03df, B:269:0x0422, B:270:0x0425, B:271:0x0428, B:253:0x03f9, B:256:0x0403, B:259:0x040d, B:273:0x042d, B:274:0x0437, B:302:0x047d, B:303:0x0480, B:304:0x0483, B:305:0x0486, B:306:0x0489, B:276:0x043b, B:279:0x0445, B:282:0x044f, B:285:0x0459, B:288:0x0463, B:229:0x03b2, B:232:0x03bc, B:235:0x03c6), top: B:542:0x0393 }] */
     /* JADX WARN: Removed duplicated region for block: B:577:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:583:? A[RETURN, SYNTHETIC] */
     /*
@@ -1288,14 +1288,15 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
     public void onEventReceived(String str, String str2) {
         char c;
         char c2;
-        int i;
         char c3;
-        char c4;
         BotWebViewVibrationEffect botWebViewVibrationEffect;
+        char c4;
         char c5;
+        int i;
         if (this.webView == null || this.delegate == null) {
             return;
         }
+        FileLog.d("webview event " + str + " " + str2);
         str.hashCode();
         switch (str.hashCode()) {
             case -2016939055:
@@ -1787,7 +1788,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                 return;
             case '\f':
                 try {
-                    str5 = new JSONObject(str2).getString("reason");
+                    str4 = new JSONObject(str2).getString("reason");
                 } catch (Exception unused) {
                 }
                 createBiometry();
@@ -1806,7 +1807,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                         return;
                     }
                 }
-                botBiometry.requestToken(str5, new Utilities.Callback2() { // from class: org.telegram.ui.bots.BotWebViewContainer$$ExternalSyntheticLambda27
+                botBiometry.requestToken(str4, new Utilities.Callback2() { // from class: org.telegram.ui.bots.BotWebViewContainer$$ExternalSyntheticLambda27
                     @Override // org.telegram.messenger.Utilities.Callback2
                     public final void run(Object obj2, Object obj3) {
                         BotWebViewContainer.this.lambda$onEventReceived$31((Boolean) obj2, (String) obj3);
@@ -1944,60 +1945,60 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                     int hashCode = optString4.hashCode();
                     if (hashCode == -1184809658) {
                         if (optString4.equals("impact")) {
-                            c3 = 0;
-                            if (c3 == 0) {
+                            c2 = 0;
+                            if (c2 == 0) {
                             }
                         }
-                        c3 = 65535;
-                        if (c3 == 0) {
+                        c2 = 65535;
+                        if (c2 == 0) {
                         }
                     } else if (hashCode != 193071555) {
                         if (hashCode == 595233003 && optString4.equals("notification")) {
-                            c3 = 1;
-                            if (c3 == 0) {
-                                if (c3 == 1) {
+                            c2 = 1;
+                            if (c2 == 0) {
+                                if (c2 == 1) {
                                     String optString5 = jSONObject7.optString("notification_type");
                                     int hashCode2 = optString5.hashCode();
                                     if (hashCode2 == -1867169789) {
                                         if (optString5.equals("success")) {
-                                            c5 = 1;
-                                            if (c5 != 0) {
+                                            c4 = 1;
+                                            if (c4 != 0) {
                                             }
                                             botWebViewVibrationEffect2 = botWebViewVibrationEffect;
                                         }
-                                        c5 = 65535;
-                                        if (c5 != 0) {
+                                        c4 = 65535;
+                                        if (c4 != 0) {
                                         }
                                         botWebViewVibrationEffect2 = botWebViewVibrationEffect;
                                     } else if (hashCode2 != 96784904) {
                                         if (hashCode2 == 1124446108 && optString5.equals("warning")) {
-                                            c5 = 2;
-                                            if (c5 != 0) {
+                                            c4 = 2;
+                                            if (c4 != 0) {
                                                 botWebViewVibrationEffect = BotWebViewVibrationEffect.NOTIFICATION_ERROR;
-                                            } else if (c5 == 1) {
+                                            } else if (c4 == 1) {
                                                 botWebViewVibrationEffect = BotWebViewVibrationEffect.NOTIFICATION_SUCCESS;
-                                            } else if (c5 == 2) {
+                                            } else if (c4 == 2) {
                                                 botWebViewVibrationEffect = BotWebViewVibrationEffect.NOTIFICATION_WARNING;
                                             }
                                             botWebViewVibrationEffect2 = botWebViewVibrationEffect;
                                         }
-                                        c5 = 65535;
-                                        if (c5 != 0) {
+                                        c4 = 65535;
+                                        if (c4 != 0) {
                                         }
                                         botWebViewVibrationEffect2 = botWebViewVibrationEffect;
                                     } else {
                                         if (optString5.equals("error")) {
-                                            c5 = 0;
-                                            if (c5 != 0) {
+                                            c4 = 0;
+                                            if (c4 != 0) {
                                             }
                                             botWebViewVibrationEffect2 = botWebViewVibrationEffect;
                                         }
-                                        c5 = 65535;
-                                        if (c5 != 0) {
+                                        c4 = 65535;
+                                        if (c4 != 0) {
                                         }
                                         botWebViewVibrationEffect2 = botWebViewVibrationEffect;
                                     }
-                                } else if (c3 == 2) {
+                                } else if (c2 == 2) {
                                     botWebViewVibrationEffect2 = BotWebViewVibrationEffect.SELECTION_CHANGE;
                                 }
                                 if (botWebViewVibrationEffect2 != null) {
@@ -2010,52 +2011,52 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                             switch (optString6.hashCode()) {
                                 case -1078030475:
                                     if (optString6.equals("medium")) {
-                                        c4 = 1;
+                                        c3 = 1;
                                         break;
                                     }
-                                    c4 = 65535;
+                                    c3 = 65535;
                                     break;
                                 case 3535914:
                                     if (optString6.equals("soft")) {
-                                        c4 = 4;
+                                        c3 = 4;
                                         break;
                                     }
-                                    c4 = 65535;
+                                    c3 = 65535;
                                     break;
                                 case 99152071:
                                     if (optString6.equals("heavy")) {
-                                        c4 = 2;
+                                        c3 = 2;
                                         break;
                                     }
-                                    c4 = 65535;
+                                    c3 = 65535;
                                     break;
                                 case 102970646:
                                     if (optString6.equals("light")) {
-                                        c4 = 0;
+                                        c3 = 0;
                                         break;
                                     }
-                                    c4 = 65535;
+                                    c3 = 65535;
                                     break;
                                 case 108511787:
                                     if (optString6.equals("rigid")) {
-                                        c4 = 3;
+                                        c3 = 3;
                                         break;
                                     }
-                                    c4 = 65535;
+                                    c3 = 65535;
                                     break;
                                 default:
-                                    c4 = 65535;
+                                    c3 = 65535;
                                     break;
                             }
-                            if (c4 == 0) {
+                            if (c3 == 0) {
                                 botWebViewVibrationEffect = BotWebViewVibrationEffect.IMPACT_LIGHT;
-                            } else if (c4 == 1) {
+                            } else if (c3 == 1) {
                                 botWebViewVibrationEffect = BotWebViewVibrationEffect.IMPACT_MEDIUM;
-                            } else if (c4 == 2) {
+                            } else if (c3 == 2) {
                                 botWebViewVibrationEffect = BotWebViewVibrationEffect.IMPACT_HEAVY;
-                            } else if (c4 == 3) {
+                            } else if (c3 == 3) {
                                 botWebViewVibrationEffect = BotWebViewVibrationEffect.IMPACT_RIGID;
-                            } else if (c4 == 4) {
+                            } else if (c3 == 4) {
                                 botWebViewVibrationEffect = BotWebViewVibrationEffect.IMPACT_SOFT;
                             } else if (botWebViewVibrationEffect2 != null) {
                             }
@@ -2063,17 +2064,17 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                             if (botWebViewVibrationEffect2 != null) {
                             }
                         }
-                        c3 = 65535;
-                        if (c3 == 0) {
+                        c2 = 65535;
+                        if (c2 == 0) {
                         }
                     } else {
                         if (optString4.equals("selection_change")) {
-                            c3 = 2;
-                            if (c3 == 0) {
+                            c2 = 2;
+                            if (c2 == 0) {
                             }
                         }
-                        c3 = 65535;
-                        if (c3 == 0) {
+                        c2 = 65535;
+                        if (c2 == 0) {
                         }
                     }
                 } catch (Exception e14) {
@@ -2119,7 +2120,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                     JSONObject jSONObject9 = new JSONObject(str2);
                     final String string5 = jSONObject9.getString("token");
                     try {
-                        str4 = jSONObject9.getString("reason");
+                        str5 = jSONObject9.getString("reason");
                     } catch (Exception unused3) {
                     }
                     createBiometry();
@@ -2138,7 +2139,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                             return;
                         }
                     }
-                    botBiometry3.updateToken(str4, string5, new Utilities.Callback() { // from class: org.telegram.ui.bots.BotWebViewContainer$$ExternalSyntheticLambda28
+                    botBiometry3.updateToken(str5, string5, new Utilities.Callback() { // from class: org.telegram.ui.bots.BotWebViewContainer$$ExternalSyntheticLambda28
                         @Override // org.telegram.messenger.Utilities.Callback
                         public final void run(Object obj2) {
                             BotWebViewContainer.this.lambda$onEventReceived$32(string5, (Boolean) obj2);
@@ -2171,11 +2172,11 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                     int hashCode3 = optString8.hashCode();
                     if (hashCode3 != -1265068311) {
                         if (hashCode3 == -210781868 && optString8.equals("secondary_bg_color")) {
-                            c2 = 1;
-                            if (c2 != 0) {
+                            c5 = 1;
+                            if (c5 != 0) {
                                 i = Theme.key_windowBackgroundWhite;
                             } else {
-                                i = c2 != 1 ? -1 : Theme.key_windowBackgroundGray;
+                                i = c5 != 1 ? -1 : Theme.key_windowBackgroundGray;
                             }
                             if (i < 0) {
                                 this.delegate.onWebAppSetActionBarColor(Theme.getColor(i, this.resourcesProvider), false);
@@ -2183,21 +2184,21 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                             }
                             return;
                         }
-                        c2 = 65535;
-                        if (c2 != 0) {
+                        c5 = 65535;
+                        if (c5 != 0) {
                         }
                         if (i < 0) {
                         }
                     } else {
                         if (optString8.equals("bg_color")) {
-                            c2 = 0;
-                            if (c2 != 0) {
+                            c5 = 0;
+                            if (c5 != 0) {
                             }
                             if (i < 0) {
                             }
                         }
-                        c2 = 65535;
-                        if (c2 != 0) {
+                        c5 = 65535;
+                        if (c5 != 0) {
                         }
                         if (i < 0) {
                         }

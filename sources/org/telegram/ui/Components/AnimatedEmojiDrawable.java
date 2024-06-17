@@ -76,6 +76,7 @@ public class AnimatedEmojiDrawable extends Drawable {
     private ArrayList<AnimatedEmojiSpan.InvalidateHolder> holders;
     private ImageReceiver imageReceiver;
     private boolean imageReceiverEmojiThumb;
+    public boolean preloading;
     public int sizedp;
     private ArrayList<View> views;
     private float alpha = 1.0f;
@@ -793,6 +794,11 @@ public class AnimatedEmojiDrawable extends Drawable {
         }
     }
 
+    public void preload() {
+        this.preloading = true;
+        updateAttachState();
+    }
+
     /* JADX INFO: Access modifiers changed from: private */
     public void updateAutoRepeat(ImageReceiver imageReceiver) {
         int i = this.cacheType;
@@ -867,6 +873,7 @@ public class AnimatedEmojiDrawable extends Drawable {
         if (view instanceof SelectAnimatedEmojiDialog.EmojiListView) {
             throw new RuntimeException();
         }
+        this.preloading = false;
         if (this.views == null) {
             this.views = new ArrayList<>(10);
         }
@@ -880,6 +887,7 @@ public class AnimatedEmojiDrawable extends Drawable {
         if (this.holders == null) {
             this.holders = new ArrayList<>(10);
         }
+        this.preloading = false;
         if (!this.holders.contains(invalidateHolder)) {
             this.holders.add(invalidateHolder);
         }
@@ -891,6 +899,7 @@ public class AnimatedEmojiDrawable extends Drawable {
         if (arrayList != null) {
             arrayList.remove(invalidateHolder);
         }
+        this.preloading = false;
         updateAttachState();
     }
 
@@ -899,6 +908,7 @@ public class AnimatedEmojiDrawable extends Drawable {
         if (arrayList != null) {
             arrayList.remove(view);
         }
+        this.preloading = false;
         updateAttachState();
     }
 
@@ -908,7 +918,7 @@ public class AnimatedEmojiDrawable extends Drawable {
             return;
         }
         ArrayList<View> arrayList2 = this.views;
-        boolean z = (arrayList2 != null && arrayList2.size() > 0) || ((arrayList = this.holders) != null && arrayList.size() > 0);
+        boolean z = (arrayList2 != null && arrayList2.size() > 0) || ((arrayList = this.holders) != null && arrayList.size() > 0) || this.preloading;
         if (z != this.attached) {
             this.attached = z;
             if (z) {

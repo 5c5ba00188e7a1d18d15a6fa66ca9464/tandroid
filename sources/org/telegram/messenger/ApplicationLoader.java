@@ -278,7 +278,7 @@ public class ApplicationLoader extends Application {
             ContactsController.getInstance(i2).checkAppAccount();
             DownloadController.getInstance(i2);
         }
-        BillingController.getInstance().lambda$onBillingServiceDisconnected$6();
+        BillingController.getInstance().lambda$onBillingServiceDisconnected$9();
     }
 
     @Override // android.app.Application

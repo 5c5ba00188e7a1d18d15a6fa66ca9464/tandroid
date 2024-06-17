@@ -57,6 +57,7 @@ import org.telegram.ui.Components.EditTextEffects;
 import org.telegram.ui.Components.FilterShaders;
 import org.telegram.ui.Components.Paint.PaintTypeface;
 import org.telegram.ui.Components.Paint.Views.EditTextOutline;
+import org.telegram.ui.Components.Paint.Views.LinkPreview;
 import org.telegram.ui.Components.Paint.Views.LocationMarker;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Stories.recorder.PreviewView;
@@ -152,14 +153,14 @@ public class TextureRenderer {
     private final RectF roundDst = new RectF();
     private boolean firstFrame = true;
 
-    /* JADX WARN: Removed duplicated region for block: B:38:0x0223  */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x0246  */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x0386  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x03b4  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x03d6  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x03f9  */
-    /* JADX WARN: Removed duplicated region for block: B:77:0x0418  */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x0420  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0224  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x0247  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x0387  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x03b5  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x03d7  */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x03fa  */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x0419  */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x0421  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1137,6 +1138,8 @@ public class TextureRenderer {
                         initTextEntity(mediaEntity);
                     } else if (b == 3) {
                         initLocationEntity(mediaEntity);
+                    } else if (b == 7) {
+                        initLinkEntity(mediaEntity);
                     }
                 }
                 initStickerEntity(mediaEntity);
@@ -1265,7 +1268,7 @@ public class TextureRenderer {
 
     private void initLocationEntity(VideoEditedInfo.MediaEntity mediaEntity) {
         float f;
-        LocationMarker locationMarker = new LocationMarker(ApplicationLoader.applicationContext, mediaEntity.density);
+        LocationMarker locationMarker = new LocationMarker(ApplicationLoader.applicationContext, mediaEntity.density, 0);
         locationMarker.setText(mediaEntity.text);
         locationMarker.setType(mediaEntity.subType, mediaEntity.color);
         locationMarker.setMaxWidth(mediaEntity.viewWidth);
@@ -1329,6 +1332,27 @@ public class TextureRenderer {
             mediaEntity3.rotation = mediaEntity.rotation;
             initStickerEntity(mediaEntity3);
         }
+    }
+
+    private void initLinkEntity(VideoEditedInfo.MediaEntity mediaEntity) {
+        LinkPreview linkPreview = new LinkPreview(ApplicationLoader.applicationContext, mediaEntity.density);
+        linkPreview.set(UserConfig.selectedAccount, mediaEntity.linkSettings);
+        linkPreview.setType(mediaEntity.subType, mediaEntity.color);
+        linkPreview.setMaxWidth(mediaEntity.viewWidth);
+        linkPreview.measure(View.MeasureSpec.makeMeasureSpec(mediaEntity.viewWidth, 1073741824), View.MeasureSpec.makeMeasureSpec(mediaEntity.viewHeight, 1073741824));
+        linkPreview.layout(0, 0, mediaEntity.viewWidth, mediaEntity.viewHeight);
+        float f = mediaEntity.width * this.transformedWidth;
+        int i = mediaEntity.viewWidth;
+        float f2 = f / i;
+        mediaEntity.bitmap = Bitmap.createBitmap(((int) (i * f2)) + 8 + 8, ((int) (mediaEntity.viewHeight * f2)) + 8 + 8, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(mediaEntity.bitmap);
+        float f3 = 8;
+        canvas.translate(f3, f3);
+        canvas.scale(f2, f2);
+        linkPreview.draw(canvas);
+        float f4 = 16 * f2;
+        mediaEntity.additionalWidth = f4 / this.transformedWidth;
+        mediaEntity.additionalHeight = f4 / this.transformedHeight;
     }
 
     /* JADX INFO: Access modifiers changed from: private */

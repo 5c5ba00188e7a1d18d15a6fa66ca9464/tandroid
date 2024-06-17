@@ -196,7 +196,7 @@ public class BusinessIntroActivity extends UniversalFragment implements Notifica
         imageView.setImageDrawable(PreviewView.getBackgroundDrawable((Drawable) null, this.currentAccount, getUserConfig().getClientUserId(), Theme.isCurrentThemeDark()));
         this.previewContainer.addView(imageView, LayoutHelper.createFrame(-1, -1, 119));
         this.previewContainer.addView(this.greetingsView, LayoutHelper.createFrame(-2, -2.0f, 17, 42.0f, 18.0f, 42.0f, 18.0f));
-        EditTextCell editTextCell = new EditTextCell(context, LocaleController.getString(R.string.BusinessIntroTitleHint), false, getMessagesController().introTitleLengthLimit) { // from class: org.telegram.ui.Business.BusinessIntroActivity.4
+        EditTextCell editTextCell = new EditTextCell(context, LocaleController.getString(R.string.BusinessIntroTitleHint), false, getMessagesController().introTitleLengthLimit, this.resourceProvider) { // from class: org.telegram.ui.Business.BusinessIntroActivity.4
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Cells.EditTextCell
             public void onTextChanged(CharSequence charSequence) {
@@ -221,7 +221,7 @@ public class BusinessIntroActivity extends UniversalFragment implements Notifica
         editTextCell2.setBackgroundColor(getThemedColor(i));
         this.titleEdit.setDivider(true);
         this.titleEdit.hideKeyboardOnEnter();
-        EditTextCell editTextCell3 = new EditTextCell(context, LocaleController.getString(R.string.BusinessIntroMessageHint), true, getMessagesController().introDescriptionLengthLimit) { // from class: org.telegram.ui.Business.BusinessIntroActivity.5
+        EditTextCell editTextCell3 = new EditTextCell(context, LocaleController.getString(R.string.BusinessIntroMessageHint), true, getMessagesController().introDescriptionLengthLimit, this.resourceProvider) { // from class: org.telegram.ui.Business.BusinessIntroActivity.5
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Cells.EditTextCell
             public void onTextChanged(CharSequence charSequence) {

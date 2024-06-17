@@ -1103,7 +1103,7 @@ public abstract class FragmentManager {
     /* JADX WARN: Removed duplicated region for block: B:83:0x01be  */
     /* JADX WARN: Type inference failed for: r1v17 */
     /* JADX WARN: Type inference failed for: r1v3 */
-    /* JADX WARN: Type inference failed for: r1v4, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r1v4, types: [int, boolean] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

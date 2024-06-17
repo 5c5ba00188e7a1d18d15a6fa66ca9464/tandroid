@@ -224,7 +224,7 @@ public class BarChartView extends BaseChartView<ChartData, BarViewData> {
 
     @Override // org.telegram.ui.Charts.BaseChartView
     public BarViewData createLineViewData(ChartData.Line line) {
-        return new BarViewData(line);
+        return new BarViewData(line, this.resourcesProvider);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */

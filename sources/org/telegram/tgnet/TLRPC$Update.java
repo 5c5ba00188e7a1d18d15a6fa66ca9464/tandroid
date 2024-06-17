@@ -199,6 +199,9 @@ public abstract class TLRPC$Update extends TLObject {
                     }
                 };
                 break;
+            case -1518030823:
+                tLRPC$TL_updateTheme = new TLRPC$TL_updateStarsRevenueStatus();
+                break;
             case -1512627963:
                 tLRPC$TL_updateTheme = new TLRPC$Update() { // from class: org.telegram.tgnet.TLRPC$TL_updateDialogFilterOrder
                     public ArrayList<Integer> order = new ArrayList<>();

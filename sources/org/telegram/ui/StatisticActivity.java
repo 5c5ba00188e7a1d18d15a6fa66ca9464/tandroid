@@ -2503,7 +2503,7 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
     /* loaded from: classes4.dex */
     public static class ChartViewData {
         public long activeZoom;
-        ChartData chartData;
+        public ChartData chartData;
         ChartData childChartData;
         public String errorMessage;
         final int graphType;

@@ -1164,7 +1164,7 @@ public class MessageEntityView extends EntityView {
         return null;
     }
 
-    public void getBubbleBounds(RectF rectF) {
+    public float getBubbleBounds(RectF rectF) {
         float y;
         float f;
         float f2;
@@ -1201,6 +1201,7 @@ public class MessageEntityView extends EntityView {
             }
         }
         rectF.set(f6, f7, f4, f5);
+        return AndroidUtilities.dp(SharedConfig.bubbleRadius);
     }
 
     public void invalidateAll() {

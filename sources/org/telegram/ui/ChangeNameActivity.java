@@ -85,9 +85,8 @@ public class ChangeNameActivity extends BaseFragment {
             }
         });
         EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(context) { // from class: org.telegram.ui.ChangeNameActivity.2
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextBoldCursor
-            public Theme.ResourcesProvider getResourcesProvider() {
+            protected Theme.ResourcesProvider getResourcesProvider() {
                 return ChangeNameActivity.this.resourcesProvider;
             }
         };
@@ -127,9 +126,8 @@ public class ChangeNameActivity extends BaseFragment {
             }
         });
         EditTextBoldCursor editTextBoldCursor5 = new EditTextBoldCursor(context) { // from class: org.telegram.ui.ChangeNameActivity.3
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextBoldCursor
-            public Theme.ResourcesProvider getResourcesProvider() {
+            protected Theme.ResourcesProvider getResourcesProvider() {
                 return ChangeNameActivity.this.resourcesProvider;
             }
         };

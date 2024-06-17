@@ -133,6 +133,7 @@ public class BottomSheet extends Dialog {
     private boolean skipDismissAnimation;
     private long smoothContainerViewLayoutUntil;
     public boolean smoothKeyboardAnimationEnabled;
+    public boolean smoothKeyboardByBottom;
     protected Runnable startAnimationRunnable;
     private int statusBarHeight;
     private int tag;
@@ -738,9 +739,15 @@ public class BottomSheet extends Dialog {
             }
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:72:0x01cd  */
-        /* JADX WARN: Removed duplicated region for block: B:76:0x01da  */
-        /* JADX WARN: Removed duplicated region for block: B:80:0x01ed  */
+        /* JADX WARN: Code restructure failed: missing block: B:44:0x00df, code lost:
+            if (java.lang.System.currentTimeMillis() < r16.this$0.smoothContainerViewLayoutUntil) goto L27;
+         */
+        /* JADX WARN: Removed duplicated region for block: B:47:0x00e9  */
+        /* JADX WARN: Removed duplicated region for block: B:48:0x00f8  */
+        /* JADX WARN: Removed duplicated region for block: B:51:0x0114  */
+        /* JADX WARN: Removed duplicated region for block: B:81:0x01f4  */
+        /* JADX WARN: Removed duplicated region for block: B:85:0x0201  */
+        /* JADX WARN: Removed duplicated region for block: B:89:0x0214  */
         @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -786,36 +793,79 @@ public class BottomSheet extends Dialog {
                     measuredWidth += BottomSheet.this.getLeftInset();
                 }
                 BottomSheet bottomSheet4 = BottomSheet.this;
-                if ((bottomSheet4.smoothKeyboardAnimationEnabled && bottomSheet4.startAnimationRunnable == null && this.keyboardChanged && !bottomSheet4.dismissed && BottomSheet.this.containerView.getTop() != measuredHeight) || (BottomSheet.this.smoothContainerViewLayoutUntil > 0 && System.currentTimeMillis() < BottomSheet.this.smoothContainerViewLayoutUntil)) {
-                    BottomSheet.this.containerView.setTranslationY(viewGroup.getTop() - measuredHeight);
+                if (bottomSheet4.smoothKeyboardAnimationEnabled && bottomSheet4.startAnimationRunnable == null && this.keyboardChanged && !bottomSheet4.dismissed) {
                     BottomSheet bottomSheet5 = BottomSheet.this;
-                    bottomSheet5.onSmoothContainerViewLayout(bottomSheet5.containerView.getTranslationY());
-                    if (BottomSheet.this.keyboardContentAnimator != null) {
-                        BottomSheet.this.keyboardContentAnimator.cancel();
+                    boolean z2 = bottomSheet5.smoothKeyboardByBottom;
+                    ViewGroup viewGroup3 = bottomSheet5.containerView;
+                    if (!z2) {
+                        BottomSheet bottomSheet6 = BottomSheet.this;
+                        bottomSheet6.containerView.setTranslationY(!bottomSheet6.smoothKeyboardByBottom ? viewGroup.getBottom() - (BottomSheet.this.containerView.getMeasuredHeight() + measuredHeight) : viewGroup.getTop() - measuredHeight);
+                        BottomSheet bottomSheet7 = BottomSheet.this;
+                        bottomSheet7.onSmoothContainerViewLayout(bottomSheet7.containerView.getTranslationY());
+                        if (BottomSheet.this.keyboardContentAnimator != null) {
+                            BottomSheet.this.keyboardContentAnimator.cancel();
+                        }
+                        BottomSheet bottomSheet8 = BottomSheet.this;
+                        bottomSheet8.keyboardContentAnimator = ValueAnimator.ofFloat(bottomSheet8.containerView.getTranslationY(), 0.0f);
+                        BottomSheet.this.keyboardContentAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.BottomSheet$ContainerView$$ExternalSyntheticLambda3
+                            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                                BottomSheet.ContainerView.this.lambda$onLayout$3(valueAnimator);
+                            }
+                        });
+                        BottomSheet.this.keyboardContentAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.BottomSheet.ContainerView.4
+                            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                            public void onAnimationEnd(Animator animator) {
+                                BottomSheet.this.containerView.setTranslationY(0.0f);
+                                BottomSheet bottomSheet9 = BottomSheet.this;
+                                bottomSheet9.onSmoothContainerViewLayout(bottomSheet9.containerView.getTranslationY());
+                                ContainerView.this.invalidate();
+                            }
+                        });
+                        BottomSheet.this.keyboardContentAnimator.setDuration(250L).setInterpolator(AdjustPanLayoutHelper.keyboardInterpolator);
+                        BottomSheet.this.keyboardContentAnimator.start();
+                        BottomSheet.this.smoothContainerViewLayoutUntil = -1L;
+                        ViewGroup viewGroup4 = BottomSheet.this.containerView;
+                        viewGroup4.layout(measuredWidth, measuredHeight, viewGroup4.getMeasuredWidth() + measuredWidth, BottomSheet.this.containerView.getMeasuredHeight() + measuredHeight);
+                        i5 = i13;
+                        i6 = i14;
+                    } else {
+                        BottomSheet bottomSheet62 = BottomSheet.this;
+                        bottomSheet62.containerView.setTranslationY(!bottomSheet62.smoothKeyboardByBottom ? viewGroup.getBottom() - (BottomSheet.this.containerView.getMeasuredHeight() + measuredHeight) : viewGroup.getTop() - measuredHeight);
+                        BottomSheet bottomSheet72 = BottomSheet.this;
+                        bottomSheet72.onSmoothContainerViewLayout(bottomSheet72.containerView.getTranslationY());
+                        if (BottomSheet.this.keyboardContentAnimator != null) {
+                        }
+                        BottomSheet bottomSheet82 = BottomSheet.this;
+                        bottomSheet82.keyboardContentAnimator = ValueAnimator.ofFloat(bottomSheet82.containerView.getTranslationY(), 0.0f);
+                        BottomSheet.this.keyboardContentAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.BottomSheet$ContainerView$$ExternalSyntheticLambda3
+                            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                                BottomSheet.ContainerView.this.lambda$onLayout$3(valueAnimator);
+                            }
+                        });
+                        BottomSheet.this.keyboardContentAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.BottomSheet.ContainerView.4
+                            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                            public void onAnimationEnd(Animator animator) {
+                                BottomSheet.this.containerView.setTranslationY(0.0f);
+                                BottomSheet bottomSheet9 = BottomSheet.this;
+                                bottomSheet9.onSmoothContainerViewLayout(bottomSheet9.containerView.getTranslationY());
+                                ContainerView.this.invalidate();
+                            }
+                        });
+                        BottomSheet.this.keyboardContentAnimator.setDuration(250L).setInterpolator(AdjustPanLayoutHelper.keyboardInterpolator);
+                        BottomSheet.this.keyboardContentAnimator.start();
+                        BottomSheet.this.smoothContainerViewLayoutUntil = -1L;
+                        ViewGroup viewGroup42 = BottomSheet.this.containerView;
+                        viewGroup42.layout(measuredWidth, measuredHeight, viewGroup42.getMeasuredWidth() + measuredWidth, BottomSheet.this.containerView.getMeasuredHeight() + measuredHeight);
+                        i5 = i13;
+                        i6 = i14;
                     }
-                    BottomSheet bottomSheet6 = BottomSheet.this;
-                    bottomSheet6.keyboardContentAnimator = ValueAnimator.ofFloat(bottomSheet6.containerView.getTranslationY(), 0.0f);
-                    BottomSheet.this.keyboardContentAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.BottomSheet$ContainerView$$ExternalSyntheticLambda3
-                        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                        public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                            BottomSheet.ContainerView.this.lambda$onLayout$3(valueAnimator);
-                        }
-                    });
-                    BottomSheet.this.keyboardContentAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.BottomSheet.ContainerView.4
-                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                        public void onAnimationEnd(Animator animator) {
-                            BottomSheet.this.containerView.setTranslationY(0.0f);
-                            BottomSheet bottomSheet7 = BottomSheet.this;
-                            bottomSheet7.onSmoothContainerViewLayout(bottomSheet7.containerView.getTranslationY());
-                            ContainerView.this.invalidate();
-                        }
-                    });
-                    BottomSheet.this.keyboardContentAnimator.setDuration(250L).setInterpolator(AdjustPanLayoutHelper.keyboardInterpolator);
-                    BottomSheet.this.keyboardContentAnimator.start();
-                    BottomSheet.this.smoothContainerViewLayoutUntil = -1L;
                 }
-                ViewGroup viewGroup3 = BottomSheet.this.containerView;
-                viewGroup3.layout(measuredWidth, measuredHeight, viewGroup3.getMeasuredWidth() + measuredWidth, BottomSheet.this.containerView.getMeasuredHeight() + measuredHeight);
+                if (BottomSheet.this.smoothContainerViewLayoutUntil > 0) {
+                }
+                ViewGroup viewGroup422 = BottomSheet.this.containerView;
+                viewGroup422.layout(measuredWidth, measuredHeight, viewGroup422.getMeasuredWidth() + measuredWidth, BottomSheet.this.containerView.getMeasuredHeight() + measuredHeight);
                 i5 = i13;
                 i6 = i14;
             } else {
@@ -826,9 +876,9 @@ public class BottomSheet extends Dialog {
             for (int i16 = 0; i16 < childCount; i16++) {
                 View childAt = getChildAt(i16);
                 if (childAt.getVisibility() != 8) {
-                    BottomSheet bottomSheet7 = BottomSheet.this;
-                    if (childAt != bottomSheet7.containerView) {
-                        if (!bottomSheet7.onCustomLayout(childAt, i5, i2, i6, i4 - (bottomSheet7.drawNavigationBar ? bottomSheet7.getBottomInset() : 0))) {
+                    BottomSheet bottomSheet9 = BottomSheet.this;
+                    if (childAt != bottomSheet9.containerView) {
+                        if (!bottomSheet9.onCustomLayout(childAt, i5, i2, i6, i4 - (bottomSheet9.drawNavigationBar ? bottomSheet9.getBottomInset() : 0))) {
                             FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) childAt.getLayoutParams();
                             int measuredWidth2 = childAt.getMeasuredWidth();
                             int measuredHeight2 = childAt.getMeasuredHeight();
@@ -882,9 +932,9 @@ public class BottomSheet extends Dialog {
                 BottomSheet.this.startAnimationRunnable.run();
                 BottomSheet.this.startAnimationRunnable = null;
             }
-            BottomSheet bottomSheet8 = BottomSheet.this;
-            if (bottomSheet8.waitingKeyboard && bottomSheet8.keyboardVisible) {
-                Runnable runnable2 = bottomSheet8.startAnimationRunnable;
+            BottomSheet bottomSheet10 = BottomSheet.this;
+            if (bottomSheet10.waitingKeyboard && bottomSheet10.keyboardVisible) {
+                Runnable runnable2 = bottomSheet10.startAnimationRunnable;
                 if (runnable2 != null) {
                     AndroidUtilities.cancelRunOnUIThread(runnable2);
                     BottomSheet.this.startAnimationRunnable.run();

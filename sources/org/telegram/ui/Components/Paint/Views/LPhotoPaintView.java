@@ -1797,10 +1797,12 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
                 return lambda$openStickersView$19;
             }
         });
-        emojiBottomSheet.whenWidgetSelected(new Utilities.Callback() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda46
-            @Override // org.telegram.messenger.Utilities.Callback
-            public final void run(Object obj) {
-                LPhotoPaintView.this.lambda$openStickersView$20((Integer) obj);
+        emojiBottomSheet.whenWidgetSelected(new Utilities.CallbackReturn() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda46
+            @Override // org.telegram.messenger.Utilities.CallbackReturn
+            public final Object run(Object obj) {
+                Boolean lambda$openStickersView$20;
+                lambda$openStickersView$20 = LPhotoPaintView.this.lambda$openStickersView$20((Integer) obj);
+                return lambda$openStickersView$20;
             }
         });
         emojiBottomSheet.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda6
@@ -1830,10 +1832,11 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$openStickersView$20(Integer num) {
+    public /* synthetic */ Boolean lambda$openStickersView$20(Integer num) {
         if (num.intValue() == 2) {
             showPhotoAlert();
         }
+        return Boolean.TRUE;
     }
 
     /* JADX INFO: Access modifiers changed from: private */

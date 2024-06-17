@@ -1073,15 +1073,15 @@ public class FileLoadOperation {
     /* JADX WARN: Removed duplicated region for block: B:288:0x07cf  */
     /* JADX WARN: Removed duplicated region for block: B:295:0x07fa  */
     /* JADX WARN: Removed duplicated region for block: B:301:0x0826  */
-    /* JADX WARN: Removed duplicated region for block: B:306:0x086d  */
-    /* JADX WARN: Removed duplicated region for block: B:337:0x08e2  */
-    /* JADX WARN: Removed duplicated region for block: B:345:0x0907 A[Catch: Exception -> 0x090d, TRY_LEAVE, TryCatch #1 {Exception -> 0x090d, blocks: (B:343:0x08f6, B:345:0x0907), top: B:384:0x08f6 }] */
-    /* JADX WARN: Removed duplicated region for block: B:358:0x0939  */
-    /* JADX WARN: Removed duplicated region for block: B:360:0x093d  */
-    /* JADX WARN: Removed duplicated region for block: B:361:0x094a  */
-    /* JADX WARN: Removed duplicated region for block: B:386:0x06a3 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:306:0x086f  */
+    /* JADX WARN: Removed duplicated region for block: B:337:0x08e4  */
+    /* JADX WARN: Removed duplicated region for block: B:345:0x0909 A[Catch: Exception -> 0x090f, TRY_LEAVE, TryCatch #0 {Exception -> 0x090f, blocks: (B:343:0x08f8, B:345:0x0909), top: B:382:0x08f8 }] */
+    /* JADX WARN: Removed duplicated region for block: B:358:0x093b  */
+    /* JADX WARN: Removed duplicated region for block: B:360:0x093f  */
+    /* JADX WARN: Removed duplicated region for block: B:361:0x094c  */
+    /* JADX WARN: Removed duplicated region for block: B:384:0x06a3 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r1v41 */
-    /* JADX WARN: Type inference failed for: r1v42, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r1v42, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r1v46 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1604,39 +1604,39 @@ public class FileLoadOperation {
                                 } else {
                                     j3 = 0;
                                 }
-                                try {
-                                    this.downloadedBytes = j3;
-                                    this.requestedBytesCount = j3;
-                                } catch (Exception e11) {
-                                    e = e11;
-                                    this.downloadedBytes = j3;
-                                    this.requestedBytesCount = j3;
-                                    if (AndroidUtilities.isENOSPC(e)) {
-                                        LaunchActivity.checkFreeDiscSpaceStatic(1);
-                                        FileLog.e((Throwable) e, false);
-                                    } else if (AndroidUtilities.isEROFS(e)) {
-                                        SharedConfig.checkSdCard(this.cacheFileFinal);
-                                        FileLog.e((Throwable) e, false);
-                                    } else {
-                                        FileLog.e(e);
-                                    }
-                                    if (!this.isPreloadVideoOperation) {
-                                        copyNotLoadedRanges();
-                                    }
-                                    updateProgress();
-                                    RandomAccessFile randomAccessFile32222 = new RandomAccessFile(this.cacheFileTemp, str10);
-                                    this.fileOutputStream = randomAccessFile32222;
-                                    j2 = this.downloadedBytes;
-                                    if (j2 != 0) {
-                                    }
-                                    r1 = 0;
-                                    z5 = true;
-                                    if (this.fileOutputStream != null) {
-                                    }
-                                }
+                            } catch (Exception e11) {
+                                e = e11;
+                                j3 = 0;
+                            }
+                            try {
+                                this.downloadedBytes = j3;
+                                this.requestedBytesCount = j3;
                             } catch (Exception e12) {
                                 e = e12;
-                                j3 = 0;
+                                this.downloadedBytes = j3;
+                                this.requestedBytesCount = j3;
+                                if (AndroidUtilities.isENOSPC(e)) {
+                                    LaunchActivity.checkFreeDiscSpaceStatic(1);
+                                    FileLog.e((Throwable) e, false);
+                                } else if (AndroidUtilities.isEROFS(e)) {
+                                    SharedConfig.checkSdCard(this.cacheFileFinal);
+                                    FileLog.e((Throwable) e, false);
+                                } else {
+                                    FileLog.e(e);
+                                }
+                                if (!this.isPreloadVideoOperation) {
+                                    copyNotLoadedRanges();
+                                }
+                                updateProgress();
+                                RandomAccessFile randomAccessFile32222 = new RandomAccessFile(this.cacheFileTemp, str10);
+                                this.fileOutputStream = randomAccessFile32222;
+                                j2 = this.downloadedBytes;
+                                if (j2 != 0) {
+                                }
+                                r1 = 0;
+                                z5 = true;
+                                if (this.fileOutputStream != null) {
+                                }
                             }
                         }
                     } catch (Exception e13) {
@@ -3102,7 +3102,7 @@ public class FileLoadOperation {
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:59:0x00c3  */
     /* JADX WARN: Type inference failed for: r11v0 */
-    /* JADX WARN: Type inference failed for: r11v1, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r11v1, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r11v11 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

@@ -131,6 +131,7 @@ import org.telegram.tgnet.TLRPC$UserFull;
 import org.telegram.tgnet.TLRPC$WebPage;
 import org.telegram.tgnet.TLRPC$messages_Chats;
 import org.telegram.tgnet.TLRPC$messages_Messages;
+import org.telegram.tgnet.tl.TL_stories$MediaArea;
 import org.telegram.tgnet.tl.TL_stories$StoryItem;
 import org.telegram.tgnet.tl.TL_stories$TL_stories_storyViews;
 import org.telegram.ui.ActionBar.ActionBar;
@@ -289,6 +290,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     private ActionBarMenuItem searchItem;
     public ActionBarMenuItem searchItemIcon;
     private int searchItemState;
+    private StoriesController.StoriesList searchStoriesList;
     public SearchTagsList searchTagsList;
     private boolean searchWas;
     private boolean searching;
@@ -380,6 +382,14 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         return 0;
     }
 
+    public TL_stories$MediaArea getStoriesArea() {
+        return null;
+    }
+
+    public String getStoriesHashtag() {
+        return null;
+    }
+
     protected boolean includeSavedDialogs() {
         return false;
     }
@@ -435,6 +445,10 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
 
     @Override // org.telegram.ui.Cells.DialogCell.DialogCellDelegate
     public void openHiddenStories() {
+    }
+
+    public int overrideColumnsCount() {
+        return -1;
     }
 
     protected int processColor(int i) {
@@ -731,11 +745,11 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             return 0.0f;
         }
         MediaPage[] mediaPageArr = this.mediaPages;
-        if (mediaPageArr[1] != null && (mediaPageArr[1].selectedType == 0 || this.mediaPages[1].selectedType == 8 || this.mediaPages[1].selectedType == 9 || this.mediaPages[1].selectedType == 11)) {
+        if (mediaPageArr[1] != null && (mediaPageArr[1].selectedType == 0 || ((this.mediaPages[1].selectedType == 8 && TextUtils.isEmpty(getStoriesHashtag())) || this.mediaPages[1].selectedType == 9 || this.mediaPages[1].selectedType == 11))) {
             f2 = 0.0f + f;
         }
         MediaPage[] mediaPageArr2 = this.mediaPages;
-        return mediaPageArr2[0] != null ? (mediaPageArr2[0].selectedType == 0 || this.mediaPages[0].selectedType == 8 || this.mediaPages[0].selectedType == 9 || this.mediaPages[0].selectedType == 11) ? f2 + (1.0f - f) : f2 : f2;
+        return mediaPageArr2[0] != null ? (mediaPageArr2[0].selectedType == 0 || (this.mediaPages[0].selectedType == 8 && TextUtils.isEmpty(getStoriesHashtag())) || this.mediaPages[0].selectedType == 9 || this.mediaPages[0].selectedType == 11) ? f2 + (1.0f - f) : f2 : f2;
     }
 
     public float getSearchAlpha(float f) {
@@ -1779,9 +1793,8 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         }
         this.profileActivity = baseFragment;
         this.actionBar = baseFragment.getActionBar();
-        int[] iArr3 = this.mediaColumnsCount;
-        iArr3[0] = SharedConfig.mediaColumnsCount;
-        iArr3[1] = SharedConfig.storiesColumnsCount;
+        this.mediaColumnsCount[0] = overrideColumnsCount() <= 0 ? SharedConfig.mediaColumnsCount : overrideColumnsCount();
+        this.mediaColumnsCount[1] = overrideColumnsCount() <= 0 ? SharedConfig.storiesColumnsCount : overrideColumnsCount();
         this.profileActivity.getNotificationCenter().addObserver(this, NotificationCenter.mediaDidLoad);
         this.profileActivity.getNotificationCenter().addObserver(this, NotificationCenter.messagesDeleted);
         this.profileActivity.getNotificationCenter().addObserver(this, NotificationCenter.didReceiveNewMessages);
@@ -1863,7 +1876,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         imageView.setContentDescription(LocaleController.getString("AccDescrMoreOptions", R.string.AccDescrMoreOptions));
         this.photoVideoOptionsItem.setTranslationY(AndroidUtilities.dp(10.0f));
         this.photoVideoOptionsItem.setVisibility(4);
-        if (!isArchivedOnlyStoriesView()) {
+        if (!isArchivedOnlyStoriesView() && !isSearchingStories()) {
             this.actionBar.addView(this.photoVideoOptionsItem, LayoutHelper.createFrame(48, 56, 85));
             RLottieImageView rLottieImageView = new RLottieImageView(context);
             this.optionsSearchImageView = rLottieImageView;
@@ -2189,7 +2202,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                     SharedMediaLayout.this.invalidateBlur();
                 }
             };
-            addView(mediaPage, LayoutHelper.createFrame(-1, -1.0f, 51, 0.0f, customTabs() ? 0.0f : 48.0f, 0.0f, 0.0f));
+            addView(mediaPage, LayoutHelper.createFrame(-1, -1.0f, 51, 0.0f, mediaPageTopMargin(), 0.0f, 0.0f));
             if (i15 == 1) {
                 mediaPage.setTranslationX(AndroidUtilities.displaySize.x);
             }
@@ -2205,16 +2218,16 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
 
                 /* JADX INFO: Access modifiers changed from: protected */
                 @Override // androidx.recyclerview.widget.LinearLayoutManager
-                public void calculateExtraLayoutSpace(RecyclerView.State state, int[] iArr4) {
-                    super.calculateExtraLayoutSpace(state, iArr4);
+                public void calculateExtraLayoutSpace(RecyclerView.State state, int[] iArr3) {
+                    super.calculateExtraLayoutSpace(state, iArr3);
                     if (mediaPage.selectedType != 0 && mediaPage.selectedType != 8 && mediaPage.selectedType != 9) {
                         if (mediaPage.selectedType == 1) {
-                            iArr4[1] = Math.max(iArr4[1], AndroidUtilities.dp(56.0f) * 2);
+                            iArr3[1] = Math.max(iArr3[1], AndroidUtilities.dp(56.0f) * 2);
                             return;
                         }
                         return;
                     }
-                    iArr4[1] = Math.max(iArr4[1], SharedPhotoVideoCell.getItemSize(1) * 2);
+                    iArr3[1] = Math.max(iArr3[1], SharedPhotoVideoCell.getItemSize(1) * 2);
                 }
 
                 @Override // org.telegram.ui.Components.ExtendedGridLayoutManager
@@ -3801,6 +3814,10 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         storiesList.updateFilters(z, z2);
     }
 
+    public int mediaPageTopMargin() {
+        return customTabs() ? 0 : 48;
+    }
+
     public void setForwardRestrictedHint(HintView hintView) {
         this.fwdRestrictedHint = hintView;
     }
@@ -4765,7 +4782,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         if (i == 7) {
             return this.delegate.canSearchMembers();
         }
-        return (i == 0 || i == 8 || i == 9 || i == 2 || i == 5 || i == 6 || i == 11 || i == 10) ? false : true;
+        return (isSearchingStories() || i == 0 || i == 8 || i == 9 || i == 2 || i == 5 || i == 6 || i == 11 || i == 10) ? false : true;
     }
 
     public boolean isCalendarItemVisible() {
@@ -4870,7 +4887,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     }
 
     private void loadFastScrollData(boolean z) {
-        if (this.topicId != 0) {
+        if (this.topicId != 0 || isSearchingStories()) {
             return;
         }
         int i = 0;
@@ -6671,95 +6688,95 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:100:0x0118, code lost:
-        r5 = r5 + 1;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:102:0x011e, code lost:
-        if (r17.hasMedia[6] > 0) goto L214;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:103:0x0120, code lost:
-        r2 = true;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:104:0x0122, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:100:0x011d, code lost:
         r2 = false;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:106:0x0129, code lost:
-        if (r2 != r17.scrollSlidingTextTabStrip.hasTab(6)) goto L74;
+    /* JADX WARN: Code restructure failed: missing block: B:102:0x0124, code lost:
+        if (r2 != r17.scrollSlidingTextTabStrip.hasTab(5)) goto L71;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:107:0x012b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:103:0x0126, code lost:
         r5 = r5 + 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:108:0x012d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:105:0x012c, code lost:
+        if (r17.hasMedia[6] > 0) goto L223;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:106:0x012e, code lost:
+        r2 = true;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:107:0x0130, code lost:
+        r2 = false;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:109:0x0137, code lost:
+        if (r2 != r17.scrollSlidingTextTabStrip.hasTab(6)) goto L77;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:110:0x0139, code lost:
+        r5 = r5 + 1;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:111:0x013b, code lost:
         r2 = !r17.channelRecommendationsAdapter.chats.isEmpty();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:109:0x013e, code lost:
-        if (r2 == r17.scrollSlidingTextTabStrip.hasTab(10)) goto L77;
+    /* JADX WARN: Code restructure failed: missing block: B:112:0x014c, code lost:
+        if (r2 == r17.scrollSlidingTextTabStrip.hasTab(10)) goto L80;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:110:0x0140, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:113:0x014e, code lost:
         r5 = r5 + 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:112:0x0146, code lost:
-        if (includeSavedDialogs() == false) goto L213;
+    /* JADX WARN: Code restructure failed: missing block: B:115:0x0154, code lost:
+        if (includeSavedDialogs() == false) goto L222;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:114:0x0154, code lost:
-        if (r17.profileActivity.getMessagesController().getSavedMessagesController().unsupported != false) goto L213;
+    /* JADX WARN: Code restructure failed: missing block: B:117:0x0162, code lost:
+        if (r17.profileActivity.getMessagesController().getSavedMessagesController().unsupported != false) goto L222;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:116:0x0164, code lost:
-        if (r17.profileActivity.getMessagesController().getSavedMessagesController().hasDialogs() == false) goto L213;
+    /* JADX WARN: Code restructure failed: missing block: B:119:0x0172, code lost:
+        if (r17.profileActivity.getMessagesController().getSavedMessagesController().hasDialogs() == false) goto L222;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:117:0x0166, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:120:0x0174, code lost:
         r3 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:118:0x0168, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:121:0x0176, code lost:
         r3 = false;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:120:0x016f, code lost:
-        if (r3 == r17.scrollSlidingTextTabStrip.hasTab(11)) goto L87;
+    /* JADX WARN: Code restructure failed: missing block: B:123:0x017d, code lost:
+        if (r3 == r17.scrollSlidingTextTabStrip.hasTab(11)) goto L90;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:121:0x0171, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:124:0x017f, code lost:
         r5 = r5 + 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:123:0x017b, code lost:
-        if (r9 == r17.scrollSlidingTextTabStrip.hasTab(12)) goto L90;
+    /* JADX WARN: Code restructure failed: missing block: B:126:0x0189, code lost:
+        if (r9 == r17.scrollSlidingTextTabStrip.hasTab(12)) goto L93;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:124:0x017d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:127:0x018b, code lost:
         r5 = r5 + 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:78:0x00de, code lost:
-        if ((r17.hasMedia[4] <= 0) == r17.scrollSlidingTextTabStrip.hasTab(4)) goto L217;
+    /* JADX WARN: Code restructure failed: missing block: B:81:0x00ec, code lost:
+        if ((r17.hasMedia[4] <= 0) == r17.scrollSlidingTextTabStrip.hasTab(4)) goto L226;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:85:0x00f0, code lost:
-        if ((r17.hasMedia[4] <= 0) == r17.scrollSlidingTextTabStrip.hasTab(4)) goto L217;
+    /* JADX WARN: Code restructure failed: missing block: B:88:0x00fe, code lost:
+        if ((r17.hasMedia[4] <= 0) == r17.scrollSlidingTextTabStrip.hasTab(4)) goto L226;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:86:0x00f2, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:89:0x0100, code lost:
         r5 = r5 + 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:88:0x00f8, code lost:
-        if (r17.hasMedia[2] > 0) goto L216;
+    /* JADX WARN: Code restructure failed: missing block: B:91:0x0106, code lost:
+        if (r17.hasMedia[2] > 0) goto L225;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:89:0x00fa, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:92:0x0108, code lost:
         r2 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:90:0x00fc, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:93:0x010a, code lost:
         r2 = false;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:92:0x0103, code lost:
-        if (r2 != r17.scrollSlidingTextTabStrip.hasTab(2)) goto L62;
+    /* JADX WARN: Code restructure failed: missing block: B:95:0x0111, code lost:
+        if (r2 != r17.scrollSlidingTextTabStrip.hasTab(2)) goto L65;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:93:0x0105, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:96:0x0113, code lost:
         r5 = r5 + 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:95:0x010b, code lost:
-        if (r17.hasMedia[5] > 0) goto L215;
+    /* JADX WARN: Code restructure failed: missing block: B:98:0x0119, code lost:
+        if (r17.hasMedia[5] > 0) goto L224;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:96:0x010d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:99:0x011b, code lost:
         r2 = true;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:97:0x010f, code lost:
-        r2 = false;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:99:0x0116, code lost:
-        if (r2 != r17.scrollSlidingTextTabStrip.hasTab(5)) goto L68;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -6779,6 +6796,9 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         boolean z5 = !this.delegate.isFragmentOpened() ? false : z;
         boolean z6 = (this.savedMessagesContainer == null || (sharedMediaPreloader = this.sharedMediaPreloader) == null || !sharedMediaPreloader.hasSavedMessages) ? false : true;
         int i = ((DialogObject.isUserDialog(this.dialog_id) || DialogObject.isChatDialog(this.dialog_id)) && !DialogObject.isEncryptedDialog(this.dialog_id) && ((((tLRPC$UserFull = this.userInfo) != null && tLRPC$UserFull.stories_pinned_available) || (((tLRPC$ChatFull = this.info) != null && tLRPC$ChatFull.stories_pinned_available) || isStoriesView())) && includeStories())) != this.scrollSlidingTextTabStrip.hasTab(8) ? 1 : 0;
+        if (isSearchingStories() != this.scrollSlidingTextTabStrip.hasTab(8)) {
+            i++;
+        }
         if (isStoriesView()) {
             z2 = z6;
             z3 = false;
@@ -6829,6 +6849,12 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             SparseArray<View> removeTabs = this.scrollSlidingTextTabStrip.removeTabs();
             if (i > 3) {
                 removeTabs = null;
+            }
+            if (isSearchingStories()) {
+                if (!this.scrollSlidingTextTabStrip.hasTab(8)) {
+                    this.scrollSlidingTextTabStrip.addTextTab(8, LocaleController.getString(R.string.ProfileStories), removeTabs);
+                }
+                this.scrollSlidingTextTabStrip.animationDuration = 420L;
             }
             if ((DialogObject.isUserDialog(this.dialog_id) || DialogObject.isChatDialog(this.dialog_id)) && !DialogObject.isEncryptedDialog(this.dialog_id) && ((((tLRPC$UserFull2 = this.userInfo) != null && tLRPC$UserFull2.stories_pinned_available) || (((tLRPC$ChatFull2 = this.info) != null && tLRPC$ChatFull2.stories_pinned_available) || isStoriesView())) && includeStories())) {
                 if (isArchivedOnlyStoriesView()) {
@@ -6932,13 +6958,13 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Code restructure failed: missing block: B:326:0x0755, code lost:
-        if (r6.getCount() > 0) goto L240;
+        if (r6.getCount() > 0) goto L247;
      */
     /* JADX WARN: Code restructure failed: missing block: B:327:0x0757, code lost:
         r3 = true;
      */
     /* JADX WARN: Code restructure failed: missing block: B:344:0x0798, code lost:
-        if (r6.getCount() > 0) goto L240;
+        if (r6.getCount() > 0) goto L247;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -7223,10 +7249,10 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                 } else {
                     this.mediaPages[z ? 1 : 0].emptyView.stickerView.setVisibility(0);
                     this.mediaPages[z ? 1 : 0].emptyView.setStickerType(11);
-                    this.mediaPages[z ? 1 : 0].emptyView.button.setVisibility(0);
+                    this.mediaPages[z ? 1 : 0].emptyView.button.setVisibility(!isSearchingStories() ? 0 : 8);
                     this.mediaPages[z ? 1 : 0].emptyView.button.setText(addPostText(), false);
                 }
-                this.mediaPages[z ? 1 : 0].emptyView.title.setText(LocaleController.getString(isStoriesView() ? R.string.NoPublicStoriesTitle2 : R.string.NoStoriesTitle));
+                this.mediaPages[z ? 1 : 0].emptyView.title.setText(LocaleController.getString(!isSearchingStories() ? isStoriesView() ? R.string.NoPublicStoriesTitle2 : R.string.NoStoriesTitle : R.string.NoHashtagStoriesTitle));
                 this.mediaPages[z ? 1 : 0].emptyView.subtitle.setText(isStoriesView() ? LocaleController.getString(R.string.NoStoriesSubtitle2) : "");
                 this.mediaPages[z ? 1 : 0].emptyView.button.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.SharedMediaLayout$$ExternalSyntheticLambda8
                     @Override // android.view.View.OnClickListener
@@ -8316,6 +8342,9 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
 
         @Override // org.telegram.ui.Components.RecyclerListView.FastScrollAdapter
         public boolean fastScrollIsVisible(RecyclerListView recyclerListView) {
+            if (SharedMediaLayout.this.isSearchingStories()) {
+                return false;
+            }
             return recyclerListView.getChildCount() != 0 && ((int) Math.ceil((double) (((float) getTotalItemsCount()) / ((float) ((this == SharedMediaLayout.this.photoVideoAdapter || this == SharedMediaLayout.this.storiesAdapter || this == SharedMediaLayout.this.archivedStoriesAdapter) ? SharedMediaLayout.this.mediaColumnsCount[0] : SharedMediaLayout.this.animateToColumnsCount))))) * recyclerListView.getChildAt(0).getMeasuredHeight() > recyclerListView.getMeasuredHeight();
         }
 
@@ -9805,7 +9834,6 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         return 0;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class StoriesAdapter extends SharedPhotoVideoAdapter {
         public boolean applyingReorder;
@@ -9835,7 +9863,17 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             super(context);
             this.lastPinnedIds = new ArrayList<>();
             this.isArchive = z;
-            if ((!z || SharedMediaLayout.this.isStoriesView()) && (z || !SharedMediaLayout.this.isArchivedOnlyStoriesView())) {
+            if (!TextUtils.isEmpty(SharedMediaLayout.this.getStoriesHashtag())) {
+                if (SharedMediaLayout.this.searchStoriesList == null) {
+                    SharedMediaLayout.this.searchStoriesList = new StoriesController.SearchStoriesList(SharedMediaLayout.this.profileActivity.getCurrentAccount(), SharedMediaLayout.this.getStoriesHashtag());
+                }
+                this.storiesList = SharedMediaLayout.this.searchStoriesList;
+            } else if (SharedMediaLayout.this.getStoriesArea() != null) {
+                if (SharedMediaLayout.this.searchStoriesList == null) {
+                    SharedMediaLayout.this.searchStoriesList = new StoriesController.SearchStoriesList(SharedMediaLayout.this.profileActivity.getCurrentAccount(), SharedMediaLayout.this.getStoriesArea());
+                }
+                this.storiesList = SharedMediaLayout.this.searchStoriesList;
+            } else if ((!z || SharedMediaLayout.this.isStoriesView()) && (z || !SharedMediaLayout.this.isArchivedOnlyStoriesView())) {
                 this.storiesList = SharedMediaLayout.this.profileActivity.getMessagesController().getStoriesController().getStoriesList(SharedMediaLayout.this.dialog_id, z ? 1 : 0);
             } else {
                 this.storiesList = null;
@@ -9979,6 +10017,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                     }
                     MessageObject messageObject = this.storiesList.messageObjects.get(topOffset);
                     sharedPhotoVideoCell2.isStoryPinned = messageObject != null && this.storiesList.isPinned(messageObject.getId());
+                    sharedPhotoVideoCell2.isSearchingHashtag = SharedMediaLayout.this.isSearchingStories();
                     sharedPhotoVideoCell2.setMessageObject(messageObject, columnsCount());
                     SharedMediaLayout sharedMediaLayout = SharedMediaLayout.this;
                     if (!sharedMediaLayout.isActionModeShowed || messageObject == null) {
@@ -10923,5 +10962,9 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
 
     public void openStoryRecorder() {
         StoryRecorder.getInstance(this.profileActivity.getParentActivity(), this.profileActivity.getCurrentAccount()).open(null);
+    }
+
+    public boolean isSearchingStories() {
+        return (TextUtils.isEmpty(getStoriesHashtag()) && getStoriesArea() == null) ? false : true;
     }
 }

@@ -157,8 +157,7 @@ public class EditTextBoldCursor extends EditTextEffects {
         return 0;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public Theme.ResourcesProvider getResourcesProvider() {
+    protected Theme.ResourcesProvider getResourcesProvider() {
         return null;
     }
 

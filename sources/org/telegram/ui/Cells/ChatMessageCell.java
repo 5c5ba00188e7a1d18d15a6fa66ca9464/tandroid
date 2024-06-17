@@ -4655,7 +4655,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r1v141 */
     /* JADX WARN: Type inference failed for: r1v54 */
-    /* JADX WARN: Type inference failed for: r1v55, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r1v55, types: [int, boolean] */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -6939,18 +6939,18 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Type inference failed for: r1v17, types: [android.graphics.Canvas, java.lang.String] */
     /* JADX WARN: Type inference failed for: r1v76, types: [org.telegram.ui.Components.StickerSetLinkIcon, org.telegram.messenger.MessageObject$TextLayoutBlocks, android.graphics.Bitmap, org.telegram.tgnet.TLRPC$Document, java.lang.Object, org.telegram.tgnet.TLRPC$PhotoSize, android.graphics.drawable.Drawable] */
     /* JADX WARN: Type inference failed for: r2v17 */
-    /* JADX WARN: Type inference failed for: r2v18, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r2v18, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r2v26 */
-    /* JADX WARN: Type inference failed for: r2v27, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r2v27, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r2v31 */
-    /* JADX WARN: Type inference failed for: r2v32, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r2v32, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r2v489, types: [org.telegram.tgnet.TLRPC$InputStickerSet] */
     /* JADX WARN: Type inference failed for: r2v721 */
     /* JADX WARN: Type inference failed for: r2v740 */
     /* JADX WARN: Type inference failed for: r2v741 */
     /* JADX WARN: Type inference failed for: r2v748 */
     /* JADX WARN: Type inference failed for: r3v17 */
-    /* JADX WARN: Type inference failed for: r3v18, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r3v18, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r3v925 */
     /* JADX WARN: Type inference failed for: r41v37, types: [android.text.TextPaint] */
     /* JADX WARN: Type inference failed for: r66v1 */
@@ -6966,7 +6966,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Type inference failed for: r72v51 */
     /* JADX WARN: Type inference failed for: r72v52 */
     /* JADX WARN: Type inference failed for: r72v58 */
-    /* JADX WARN: Type inference failed for: r9v34, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r9v34, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r9v501 */
     /* JADX WARN: Type inference failed for: r9v52 */
     /*
@@ -30913,10 +30913,10 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Type inference failed for: r4v101 */
     /* JADX WARN: Type inference failed for: r4v2, types: [org.telegram.tgnet.TLRPC$Chat, org.telegram.tgnet.TLRPC$User, java.lang.String] */
     /* JADX WARN: Type inference failed for: r5v1 */
-    /* JADX WARN: Type inference failed for: r5v2, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r5v2, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r5v68 */
     /* JADX WARN: Type inference failed for: r9v113 */
-    /* JADX WARN: Type inference failed for: r9v114, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r9v114, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r9v115 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -36444,6 +36444,10 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     if (shouldDrawTimeOnMedia() && this.currentMessageObject.sendPreview) {
                         timeX -= AndroidUtilities.dp(1.0f);
                     }
+                    MessageObject messageObject4 = this.currentMessageObject;
+                    if (messageObject4 != null && (messageObject4.type == 15 || messageObject4.isAnyKindOfSticker())) {
+                        timeX -= AndroidUtilities.dp(6.0f);
+                    }
                     int dp = AndroidUtilities.dp(14.0f) / 2;
                     int i2 = timeY + dp;
                     float f8 = timeX + dp;
@@ -37727,7 +37731,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Removed duplicated region for block: B:982:0x18ca  */
     /* JADX WARN: Type inference failed for: r2v110 */
     /* JADX WARN: Type inference failed for: r2v47 */
-    /* JADX WARN: Type inference failed for: r2v48, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r2v48, types: [int, boolean] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -41718,6 +41722,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         int i;
         int i2;
         MessageObject messageObject = this.currentMessageObject;
+        if (messageObject == null) {
+            return null;
+        }
         int i3 = messageObject.type;
         if (i3 == 1) {
             TLRPC$PhotoSize tLRPC$PhotoSize = this.currentPhotoObject;

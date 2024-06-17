@@ -1874,23 +1874,29 @@ public class AndroidUtilities {
         }
 
         /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-        /* JADX WARN: Code restructure failed: missing block: B:36:0x0090, code lost:
-            if (r0.equals("OTHER") == false) goto L37;
+        /* JADX WARN: Code restructure failed: missing block: B:48:0x00a9, code lost:
+            if (r0.equals("WORK") == false) goto L45;
          */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public String getType() {
             int i = this.type;
-            char c = 5;
+            char c = 4;
+            if (i == 4) {
+                return LocaleController.getString(R.string.ContactNote);
+            }
+            if (i == 3) {
+                return LocaleController.getString(R.string.ContactUrl);
+            }
             if (i == 5) {
-                return LocaleController.getString("ContactBirthday", R.string.ContactBirthday);
+                return LocaleController.getString(R.string.ContactBirthday);
             }
             if (i == 6) {
                 if ("ORG".equalsIgnoreCase(getRawType(true))) {
-                    return LocaleController.getString("ContactJob", R.string.ContactJob);
+                    return LocaleController.getString(R.string.ContactJob);
                 }
-                return LocaleController.getString("ContactJobTitle", R.string.ContactJobTitle);
+                return LocaleController.getString(R.string.ContactJobTitle);
             }
             int indexOf = this.fullData.indexOf(58);
             if (indexOf < 0) {
@@ -1940,13 +1946,13 @@ public class AndroidUtilities {
                         c = 65535;
                         break;
                     case 2670353:
-                        if (substring.equals("WORK")) {
-                            c = 4;
+                        break;
+                    case 75532016:
+                        if (substring.equals("OTHER")) {
+                            c = 5;
                             break;
                         }
                         c = 65535;
-                        break;
-                    case 75532016:
                         break;
                     default:
                         c = 65535;

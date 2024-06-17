@@ -2134,10 +2134,10 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                     if (!z || (StoryRecorder.this.paintView.getSelectedEntity() instanceof RoundView) || StoryRecorder.this.paintView.findRoundView() == null) {
                         return;
                     }
-                    StoryRecorder.this.paintView.lambda$createRound$55(StoryRecorder.this.paintView.findRoundView());
+                    StoryRecorder.this.paintView.lambda$createRound$60(StoryRecorder.this.paintView.findRoundView());
                     return;
                 }
-                StoryRecorder.this.paintView.lambda$createRound$55(null);
+                StoryRecorder.this.paintView.lambda$createRound$60(null);
             }
 
             @Override // org.telegram.ui.Stories.recorder.PreviewView
@@ -5251,11 +5251,11 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
     /* JADX WARN: Removed duplicated region for block: B:109:0x009b  */
     /* JADX WARN: Removed duplicated region for block: B:117:0x00b7  */
     /* JADX WARN: Removed duplicated region for block: B:118:0x00ba  */
-    /* JADX WARN: Removed duplicated region for block: B:121:0x010d  */
-    /* JADX WARN: Removed duplicated region for block: B:124:0x0126  */
-    /* JADX WARN: Removed duplicated region for block: B:127:0x0135  */
-    /* JADX WARN: Removed duplicated region for block: B:130:0x0144  */
-    /* JADX WARN: Removed duplicated region for block: B:133:0x0153  */
+    /* JADX WARN: Removed duplicated region for block: B:121:0x0111  */
+    /* JADX WARN: Removed duplicated region for block: B:124:0x012a  */
+    /* JADX WARN: Removed duplicated region for block: B:127:0x0139  */
+    /* JADX WARN: Removed duplicated region for block: B:130:0x0148  */
+    /* JADX WARN: Removed duplicated region for block: B:133:0x0157  */
     /* JADX WARN: Removed duplicated region for block: B:99:0x0063  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -5300,7 +5300,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                 int orientation = this.previewView.getOrientation();
                 StoryEntry storyEntry4 = this.outputEntry;
                 boolean z4 = z;
-                22 r13 = new 22(activity, z2, file3, z3, windowView, activity, i, bitmap2, createBitmap, null, orientation, storyEntry4 != null ? null : storyEntry4.mediaEntities, storyEntry4, measuredWidth, measuredHeight, new MediaController.CropState(), null, this.blurManager, this.resourcesProvider, this.videoTextureHolder);
+                22 r13 = new 22(activity, z2, file3, z3, windowView, activity, i, bitmap2, createBitmap, null, orientation, storyEntry4 != null ? null : storyEntry4.mediaEntities, storyEntry4, measuredWidth, measuredHeight, new MediaController.CropState(), null, this.blurManager, this.resourcesProvider, this.videoTextureHolder, this.previewView);
                 this.paintView = r13;
                 r13.setBlurManager(this.blurManager);
                 this.containerView.addView(this.paintView);
@@ -5364,7 +5364,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         int orientation2 = this.previewView.getOrientation();
         StoryEntry storyEntry42 = this.outputEntry;
         boolean z42 = z;
-        22 r132 = new 22(activity2, z2, file3, z3, windowView2, activity2, i2, bitmap2, createBitmap, null, orientation2, storyEntry42 != null ? null : storyEntry42.mediaEntities, storyEntry42, measuredWidth2, measuredHeight2, new MediaController.CropState(), null, this.blurManager, this.resourcesProvider, this.videoTextureHolder);
+        22 r132 = new 22(activity2, z2, file3, z3, windowView2, activity2, i2, bitmap2, createBitmap, null, orientation2, storyEntry42 != null ? null : storyEntry42.mediaEntities, storyEntry42, measuredWidth2, measuredHeight2, new MediaController.CropState(), null, this.blurManager, this.resourcesProvider, this.videoTextureHolder, this.previewView);
         this.paintView = r132;
         r132.setBlurManager(this.blurManager);
         this.containerView.addView(this.paintView);
@@ -5412,9 +5412,9 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
 
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        22(Context context, boolean z, File file, boolean z2, WindowView windowView, Activity activity, int i, Bitmap bitmap, Bitmap bitmap2, Bitmap bitmap3, int i2, ArrayList arrayList, StoryEntry storyEntry, int i3, int i4, MediaController.CropState cropState, Runnable runnable, BlurringShader.BlurManager blurManager, Theme.ResourcesProvider resourcesProvider, PreviewView.TextureViewHolder textureViewHolder) {
-            super(context, z, file, z2, windowView, activity, i, bitmap, bitmap2, bitmap3, i2, arrayList, storyEntry, i3, i4, cropState, runnable, blurManager, resourcesProvider, textureViewHolder);
-            StoryRecorder.this = r23;
+        22(Context context, boolean z, File file, boolean z2, WindowView windowView, Activity activity, int i, Bitmap bitmap, Bitmap bitmap2, Bitmap bitmap3, int i2, ArrayList arrayList, StoryEntry storyEntry, int i3, int i4, MediaController.CropState cropState, Runnable runnable, BlurringShader.BlurManager blurManager, Theme.ResourcesProvider resourcesProvider, PreviewView.TextureViewHolder textureViewHolder, PreviewView previewView) {
+            super(context, z, file, z2, windowView, activity, i, bitmap, bitmap2, bitmap3, i2, arrayList, storyEntry, i3, i4, cropState, runnable, blurManager, resourcesProvider, textureViewHolder, previewView);
+            StoryRecorder.this = r24;
         }
 
         @Override // org.telegram.ui.Stories.recorder.PaintView, org.telegram.ui.Components.Paint.Views.EntityView.EntityViewDelegate
