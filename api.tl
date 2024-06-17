@@ -278,7 +278,7 @@ documentAttributeSticker#6319d612 flags:# mask:flags.1?true alt:string stickerse
 documentAttributeVideo#d38ff1c2 flags:# round_message:flags.0?true supports_streaming:flags.1?true nosound:flags.3?true duration:double w:int h:int preload_prefix_size:flags.2?int = DocumentAttribute;
 documentEmpty#36f8c871 id:long = Document;
 documentEncrypted#55555558 id:long access_hash:long date:int mime_type:string size:int thumbs:Vector<PhotoSize> dc_id:int attributes:Vector<DocumentAttribute> key:bytes iv:bytes = Document;
-draftMessage#3fccf7ef flags:# no_webpage:flags.1?true invert_media:flags.6?true reply_to:flags.4?InputReplyTo message:string entities:flags.3?Vector<MessageEntity> media:flags.5?InputMedia date:int = DraftMessage;
+draftMessage#2d65321f flags:# no_webpage:flags.1?true invert_media:flags.6?true reply_to:flags.4?InputReplyTo message:string entities:flags.3?Vector<MessageEntity> media:flags.5?InputMedia date:int effect:flags.7?long = DraftMessage;
 draftMessageEmpty#1b0c841a flags:# date:flags.0?int = DraftMessage;
 emailVerificationCode#922e55a9 code:string = EmailVerification;
 emailVerificationGoogle#db909ec2 token:string = EmailVerification;
@@ -816,6 +816,8 @@ payments.paymentReceipt#70c4fe03 flags:# date:int bot_id:long provider_id:long t
 payments.paymentReceiptStars#dabbf83a flags:# date:int bot_id:long title:string description:string photo:flags.2?WebDocument invoice:Invoice currency:string total_amount:long transaction_id:string users:Vector<User> = PaymentReceipt;
 payments.paymentResult#4e5f810d updates:Updates = payments.PaymentResult;
 payments.paymentVerificationNeeded#d8411139 url:string = payments.PaymentResult;
+payments.starsRevenueStats#c92bb73b revenue_graph:StatsGraph status:StarsRevenueStatus usd_rate:double = payments.StarsRevenueStats;
+payments.starsRevenueWithdrawalUrl#1dab80b7 url:string = payments.StarsRevenueWithdrawalUrl;
 payments.starsStatus#8cf4ee60 flags:# balance:long history:Vector<StarsTransaction> next_offset:flags.0?string chats:Vector<Chat> users:Vector<User> = payments.StarsStatus;
 payments.validatedRequestedInfo#d1451883 flags:# id:flags.0?string shipping_options:flags.1?Vector<ShippingOption> = payments.ValidatedRequestedInfo;
 peerBlocked#e8fd8014 peer_id:Peer date:int = PeerBlocked;
@@ -973,8 +975,9 @@ simpleWebViewResultUrl#882f76bb url:string = SimpleWebViewResultUrl;
 speakingInGroupCallAction#d92c2285 = SendMessageAction;
 sponsoredMessage#bdedf566 flags:# recommended:flags.5?true can_report:flags.12?true random_id:bytes url:string title:string message:string entities:flags.1?Vector<MessageEntity> photo:flags.6?Photo color:flags.13?PeerColor button_text:string sponsor_info:flags.7?string additional_info:flags.8?string = SponsoredMessage;
 sponsoredMessageReportOption#430d3150 text:string option:bytes = SponsoredMessageReportOption;
+starsRevenueStatus#79342946 flags:# withdrawal_enabled:flags.0?true current_balance:long available_balance:long overall_revenue:long next_withdrawal_at:flags.1?int = StarsRevenueStatus;
 starsTopupOption#bd915c0 flags:# stars:long store_product:flags.0?string currency:string amount:long = StarsTopupOption;
-starsTransaction#cc7079b2 flags:# refund:flags.3?true stars:long date:int peer:StarsTransactionPeer title:flags.0?string description:flags.1?string photo:flags.2?WebDocument = StarsTransaction;
+starsTransaction#aa00c898 flags:# refund:flags.3?true pending:flags.4?true failed:flags.6?true stars:long date:int peer:StarsTransactionPeer title:flags.0?string description:flags.1?string photo:flags.2?WebDocument transaction_date:flags.5?int transaction_url:flags.5?string = StarsTransaction;
 starsTransactionPeer#d80da15d peer:Peer = StarsTransactionPeer;
 starsTransactionPeerAppStore#b457b375 = StarsTransactionPeer;
 starsTransactionPeerFragment#e92fd902 = StarsTransactionPeer;
@@ -1134,6 +1137,7 @@ updateServiceNotification#ebe46819 flags:# popup:flags.0?true invert_media:flags
 // updateShortMessage# = Updates; /* error */
 // updateShortSentMessage# = Updates; /* error */
 updateStarsBalance#fb85198 balance:long = Update;
+updateStarsRevenueStatus#a584b019 peer:Peer status:StarsRevenueStatus = Update;
 updateStickerSets#31c24808 flags:# masks:flags.0?true emojis:flags.1?true = Update;
 updateStickerSetsOrder#bb2d201 flags:# masks:flags.0?true emojis:flags.1?true order:Vector<long> = Update;
 updateStoryID#1bf335b9 id:int random_id:long = Update;
@@ -1235,12 +1239,16 @@ statsGroupTopPoster#9d04af9b user_id:long messages:int avg_chars:int = StatsGrou
 statsPercentValue#cbce2fe0 part:double total:double = StatsPercentValue;
 boost#2a1c8c71 flags:# gift:flags.1?true giveaway:flags.2?true unclaimed:flags.3?true id:string user_id:flags.0?long giveaway_msg_id:flags.2?int date:int expires:int used_gift_slug:flags.4?string multiplier:flags.5?int = Boost;
 exportedStoryLink#3fc9053b link:string = ExportedStoryLink;
+foundStories#e2de7737 flags:# count:int stories:Vector<FoundStory> next_offset:flags.0?string chats:Vector<Chat> users:Vector<User> = FoundStories;
+foundStory#e87acbc0 peer:Peer storyItem:StoryItem = FoundStory;
+geoPointAddress#de4c5d93 flags:# country_iso2:string state:flags.0?string city:flags.1?string street:flags.2?string = GeoPointAddress;
 inputMediaAreaChannelPost#2271f2bf coordinates:MediaAreaCoordinates channel:InputChannel msg_id:int = MediaArea;
 inputMediaAreaVenue#b282217f coordinates:MediaAreaCoordinates query_id:long result_id:string = MediaArea;
 mediaAreaChannelPost#770416af coordinates:MediaAreaCoordinates channel_id:long msg_id:int = MediaArea;
-mediaAreaCoordinates#3d1ea4e x:double y:double w:double h:double rotation:double = MediaAreaCoordinates;
-mediaAreaGeoPoint#df8b3b22 coordinates:MediaAreaCoordinates geo:GeoPoint = MediaArea;
+mediaAreaCoordinates#cfc9e002 flags:# x:double y:double w:double h:double rotation:double radius:flags.0?double = MediaAreaCoordinates;
+mediaAreaGeoPoint#cad5452d flags:# coordinates:MediaAreaCoordinates geo:GeoPoint address:flags.0?GeoPointAddress = MediaArea;
 mediaAreaSuggestedReaction#14455871 flags:# dark:flags.0?true flipped:flags.1?true coordinates:MediaAreaCoordinates reaction:Reaction = MediaArea;
+mediaAreaUrl#37381085 coordinates:MediaAreaCoordinates url:string = MediaArea;
 mediaAreaVenue#be82db9c coordinates:MediaAreaCoordinates geo:GeoPoint title:string address:string provider:string venue_id:string venue_type:string = MediaArea;
 myBoost#c448415c flags:# slot:int peer:flags.0?Peer date:int expires:int cooldown_until_date:flags.1?int = MyBoost;
 peerStories#9a35e999 flags:# peer:Peer max_read_id:flags.0?int stories:Vector<StoryItem> = PeerStories;
@@ -1653,7 +1661,7 @@ messages.requestSimpleWebView#1a46500a flags:# from_switch_webview:flags.1?true 
 messages.requestUrlAuth#198fb446 flags:# peer:flags.1?InputPeer msg_id:flags.1?int button_id:flags.1?int url:flags.2?string = UrlAuthResult;
 messages.requestWebView#269dc2c1 flags:# from_bot_menu:flags.4?true silent:flags.5?true peer:InputPeer bot:InputUser url:flags.1?string start_param:flags.3?string theme_params:flags.2?DataJSON platform:string reply_to:flags.0?InputReplyTo send_as:flags.13?InputPeer = WebViewResultUrl;
 messages.saveDefaultSendAs#ccfddf96 peer:InputPeer send_as:InputPeer = Bool;
-messages.saveDraft#7ff3b806 flags:# no_webpage:flags.1?true invert_media:flags.6?true reply_to:flags.4?InputReplyTo peer:InputPeer message:string entities:flags.3?Vector<MessageEntity> media:flags.5?InputMedia = Bool;
+messages.saveDraft#d372c5ce flags:# no_webpage:flags.1?true invert_media:flags.6?true reply_to:flags.4?InputReplyTo peer:InputPeer message:string entities:flags.3?Vector<MessageEntity> media:flags.5?InputMedia effect:flags.7?long = Bool;
 messages.saveGif#327a30cb id:InputDocument unsave:Bool = Bool;
 messages.saveRecentSticker#392718f8 flags:# attached:flags.0?true id:InputDocument unsave:Bool = Bool;
 messages.search#29ee847a flags:# peer:InputPeer q:string from_id:flags.0?InputPeer saved_peer_id:flags.2?InputPeer saved_reaction:flags.3?Vector<Reaction> top_msg_id:flags.1?int filter:MessagesFilter min_date:int max_date:int offset_id:int add_offset:int limit:int max_id:int min_id:int hash:long = messages.Messages;
@@ -1711,6 +1719,8 @@ payments.getGiveawayInfo#f4239425 peer:InputPeer msg_id:int = payments.GiveawayI
 payments.getPaymentForm#37148dbb flags:# invoice:InputInvoice theme_params:flags.0?DataJSON = PaymentForm;
 payments.getPaymentReceipt#2478d1cc peer:InputPeer msg_id:int = PaymentReceipt;
 payments.getPremiumGiftCodeOptions#2757ba54 flags:# boost_peer:flags.0?InputPeer = Vector<PremiumGiftCodeOption>;
+payments.getStarsRevenueStats#d91ffad6 flags:# dark:flags.0?true peer:InputPeer = payments.StarsRevenueStats;
+payments.getStarsRevenueWithdrawalUrl#13bbe8b3 peer:InputPeer stars:long password:InputCheckPasswordSRP = payments.StarsRevenueWithdrawalUrl;
 payments.getStarsStatus#104fcfa7 peer:InputPeer = payments.StarsStatus;
 payments.getStarsTopupOptions#c00ec7d3 = Vector<StarsTopupOption>;
 payments.getStarsTransactions#673ac2f9 flags:# inbound:flags.0?true outbound:flags.1?true peer:InputPeer offset:string = payments.StarsStatus;
@@ -1819,10 +1829,11 @@ stories.getStoryViewsList#7ed23c57 flags:# just_contacts:flags.0?true reactions_
 stories.incrementStoryViews#b2028afb peer:InputPeer id:Vector<int> = Bool;
 stories.readStories#a556dac8 peer:InputPeer max_id:int = Vector<int>;
 stories.report#1923fa8c peer:InputPeer id:Vector<int> reason:ReportReason message:string = Bool;
+stories.searchPosts#6cea116a flags:# hashtag:flags.0?string area:flags.1?MediaArea offset:string limit:int = FoundStories;
 stories.sendReaction#7fd736b2 flags:# add_to_recent:flags.0?true peer:InputPeer story_id:int reaction:Reaction = Updates;
 stories.sendStory#e4e6694b flags:# pinned:flags.2?true noforwards:flags.4?true fwd_modified:flags.7?true peer:InputPeer media:InputMedia media_areas:flags.5?Vector<MediaArea> caption:flags.0?string entities:flags.1?Vector<MessageEntity> privacy_rules:Vector<InputPrivacyRule> random_id:long period:flags.3?int fwd_from_id:flags.6?InputPeer fwd_from_story:flags.6?int = Updates;
 stories.togglePeerStoriesHidden#bd0415c4 peer:InputPeer hidden:Bool = Bool;
 stories.togglePinned#9a75a1ef peer:InputPeer id:Vector<int> pinned:Bool = Vector<int>;
 togglePinnedToTop#b297e9b peer:InputPeer id:Vector<int> = Bool;
 
-// Layer 181
+// Layer 182
