@@ -5287,7 +5287,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             bitmap = BitmapFactory.decodeFile(file.getPath());
             if (bitmap != null) {
                 z = true;
-                Bitmap createBitmap = bitmap != null ? Bitmap.createBitmap(((Integer) paintSize.first).intValue(), ((Integer) paintSize.second).intValue(), Bitmap.Config.ALPHA_8) : bitmap;
+                Bitmap createBitmap = bitmap != null ? Bitmap.createBitmap(((Integer) paintSize.first).intValue(), ((Integer) paintSize.second).intValue(), Bitmap.Config.ARGB_8888) : bitmap;
                 int measuredWidth = this.previewContainer.getMeasuredWidth();
                 int measuredHeight = this.previewContainer.getMeasuredHeight();
                 Activity activity = this.activity;

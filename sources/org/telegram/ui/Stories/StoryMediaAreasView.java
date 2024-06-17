@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
 import java.util.ArrayList;
+import java.util.Objects;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
@@ -749,6 +750,12 @@ public class StoryMediaAreasView extends FrameLayout implements View.OnClickList
         @Override // android.view.View
         public boolean dispatchTouchEvent(MotionEvent motionEvent) {
             if (motionEvent.getAction() == 0) {
+                if (getParent() instanceof View) {
+                    ButtonBounce buttonBounce = this.bounce;
+                    View view = (View) getParent();
+                    Objects.requireNonNull(view);
+                    buttonBounce.setAdditionalInvalidate(new StoriesUtilities$StoryGradientTools$$ExternalSyntheticLambda0(view));
+                }
                 this.bounce.setPressed(true);
                 if (Build.VERSION.SDK_INT >= 21) {
                     this.rippleDrawable.setHotspot(motionEvent.getX(), motionEvent.getY());

@@ -3055,10 +3055,10 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
         return false;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:164:0x04af  */
-    /* JADX WARN: Removed duplicated region for block: B:168:0x0642  */
-    /* JADX WARN: Removed duplicated region for block: B:169:0x0703  */
+    /* JADX WARN: Removed duplicated region for block: B:167:0x04c6  */
     /* JADX WARN: Removed duplicated region for block: B:16:0x0059  */
+    /* JADX WARN: Removed duplicated region for block: B:171:0x0659  */
+    /* JADX WARN: Removed duplicated region for block: B:172:0x071a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3264,14 +3264,21 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
                                         mediaEntity.width = linkView.marker.getWidth();
                                         mediaEntity.height = linkView.marker.getHeight();
                                         mediaEntity.color = linkView.getColor();
-                                        mediaEntity.density = linkView.marker.density;
+                                        LinkPreview linkPreview = linkView.marker;
+                                        mediaEntity.density = linkPreview.density;
                                         mediaEntity.linkSettings = linkView.link;
+                                        if (linkPreview.hasPhoto) {
+                                            linkPreview.pushPhotoToCache();
+                                            LinkPreview.WebPagePreview webPagePreview = mediaEntity.linkSettings;
+                                            webPagePreview.flags |= 4;
+                                            webPagePreview.photoSize = linkView.marker.getPhotoSide();
+                                        }
                                         TL_stories$TL_mediaAreaUrl tL_stories$TL_mediaAreaUrl = new TL_stories$TL_mediaAreaUrl();
                                         mediaEntity.mediaArea = tL_stories$TL_mediaAreaUrl;
-                                        LinkPreview.WebPagePreview webPagePreview = linkView.link;
-                                        if (webPagePreview != null) {
+                                        LinkPreview.WebPagePreview webPagePreview2 = linkView.link;
+                                        if (webPagePreview2 != null) {
                                             TL_stories$TL_mediaAreaUrl tL_stories$TL_mediaAreaUrl2 = tL_stories$TL_mediaAreaUrl;
-                                            TLRPC$WebPage tLRPC$WebPage = webPagePreview.webpage;
+                                            TLRPC$WebPage tLRPC$WebPage = webPagePreview2.webpage;
                                             tL_stories$TL_mediaAreaUrl2.url = (tLRPC$WebPage == null || TextUtils.isEmpty(tLRPC$WebPage.url)) ? linkView.link.url : linkView.link.webpage.url;
                                             mediaEntity.mediaArea.coordinates = new TL_stories$TL_mediaAreaCoordinates();
                                         }

@@ -1512,13 +1512,8 @@ public class StoriesUtilities {
         private final GradientTools tools;
 
         /* JADX WARN: 'this' call moved to the top of the method (can break code semantics) */
-        public StoryGradientTools(final View view, boolean z) {
-            this(new Runnable() { // from class: org.telegram.ui.Stories.StoriesUtilities$StoryGradientTools$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    view.invalidate();
-                }
-            }, z);
+        public StoryGradientTools(View view, boolean z) {
+            this(new StoriesUtilities$StoryGradientTools$$ExternalSyntheticLambda0(view), z);
             Objects.requireNonNull(view);
         }
 
