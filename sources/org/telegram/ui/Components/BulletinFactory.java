@@ -2,6 +2,7 @@ package org.telegram.ui.Components;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Typeface;
@@ -148,18 +149,18 @@ public final class BulletinFactory {
             VIDEO = new FileType("VIDEO", 2, "VideoSavedHint", R.string.VideoSavedHint, icon);
             VIDEOS = new FileType("VIDEOS", 3, "VideosSavedHint", icon);
             MEDIA = new FileType("MEDIA", 4, "MediaSavedHint", icon);
-            int i2 = R.string.PhotoSavedToDownloadsHint;
+            int i2 = R.string.PhotoSavedToDownloadsHintLinked;
             Icon icon2 = Icon.SAVED_TO_DOWNLOADS;
-            PHOTO_TO_DOWNLOADS = new FileType("PHOTO_TO_DOWNLOADS", 5, "PhotoSavedToDownloadsHint", i2, icon2);
-            VIDEO_TO_DOWNLOADS = new FileType("VIDEO_TO_DOWNLOADS", 6, "VideoSavedToDownloadsHint", R.string.VideoSavedToDownloadsHint, icon2);
+            PHOTO_TO_DOWNLOADS = new FileType("PHOTO_TO_DOWNLOADS", 5, "PhotoSavedToDownloadsHintLinked", i2, icon2);
+            VIDEO_TO_DOWNLOADS = new FileType("VIDEO_TO_DOWNLOADS", 6, "VideoSavedToDownloadsHintLinked", R.string.VideoSavedToDownloadsHintLinked, icon2);
             GIF = new FileType("GIF", 7, "GifSavedHint", R.string.GifSavedHint, Icon.SAVED_TO_GIFS);
-            GIF_TO_DOWNLOADS = new FileType("GIF_TO_DOWNLOADS", 8, "GifSavedToDownloadsHint", R.string.GifSavedToDownloadsHint, icon2);
+            GIF_TO_DOWNLOADS = new FileType("GIF_TO_DOWNLOADS", 8, "GifSavedToDownloadsHintLinked", R.string.GifSavedToDownloadsHintLinked, icon2);
             int i3 = R.string.AudioSavedHint;
             Icon icon3 = Icon.SAVED_TO_MUSIC;
             AUDIO = new FileType("AUDIO", 9, "AudioSavedHint", i3, icon3);
             AUDIOS = new FileType("AUDIOS", 10, "AudiosSavedHint", icon3);
-            UNKNOWN = new FileType("UNKNOWN", 11, "FileSavedHint", R.string.FileSavedHint, icon2);
-            UNKNOWNS = new FileType("UNKNOWNS", 12, "FilesSavedHint", icon2);
+            UNKNOWN = new FileType("UNKNOWN", 11, "FileSavedHintLinked", R.string.FileSavedHintLinked, icon2);
+            UNKNOWNS = new FileType("UNKNOWNS", 12, "FilesSavedHintLinked", icon2);
             $VALUES = $values();
         }
 
@@ -642,7 +643,7 @@ public final class BulletinFactory {
             if (loadingSpan != null && (createEmojiLoadingBulletin.getLayout() instanceof Bulletin.LoadingLottieLayout)) {
                 loadingSpan.setView(((Bulletin.LoadingLottieLayout) createEmojiLoadingBulletin.getLayout()).textLoadingView);
             }
-            MediaDataController.getInstance(UserConfig.selectedAccount).getStickerSet(inputStickerSet, null, false, new Utilities.Callback() { // from class: org.telegram.ui.Components.BulletinFactory$$ExternalSyntheticLambda6
+            MediaDataController.getInstance(UserConfig.selectedAccount).getStickerSet(inputStickerSet, null, false, new Utilities.Callback() { // from class: org.telegram.ui.Components.BulletinFactory$$ExternalSyntheticLambda7
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
                     BulletinFactory.lambda$createContainsEmojiBulletin$2(i, createEmojiLoadingBulletin, currentTimeMillis, (TLRPC$TL_messages_stickerSet) obj);
@@ -706,11 +707,27 @@ public final class BulletinFactory {
             lottieLayout = new Bulletin.LottieLayout(getContext(), resourcesProvider);
         }
         lottieLayout.setAnimation(fileType.icon.resId, fileType.icon.layers);
-        lottieLayout.textView.setText(fileType.getText(i));
+        lottieLayout.textView.setText(AndroidUtilities.replaceSingleTag(fileType.getText(i), new Runnable() { // from class: org.telegram.ui.Components.BulletinFactory$$ExternalSyntheticLambda6
+            @Override // java.lang.Runnable
+            public final void run() {
+                BulletinFactory.lambda$createDownloadBulletin$4();
+            }
+        }));
         if (fileType.icon.paddingBottom != 0) {
             lottieLayout.setIconPaddingBottom(fileType.icon.paddingBottom);
         }
         return create(lottieLayout, 1500);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$createDownloadBulletin$4() {
+        LaunchActivity launchActivity = LaunchActivity.instance;
+        if (launchActivity == null || launchActivity.isFinishing()) {
+            return;
+        }
+        Intent intent = new Intent("android.intent.action.VIEW_DOWNLOADS");
+        intent.setFlags(268468224);
+        LaunchActivity.instance.startActivity(intent);
     }
 
     public Bulletin createErrorBulletin(CharSequence charSequence) {
@@ -1019,7 +1036,7 @@ public final class BulletinFactory {
                 i5 = -1;
                 lottieLayout.textView.setText(spannableStringBuilder);
                 if (i5 > 0) {
-                    lottieLayout.postDelayed(new Runnable() { // from class: org.telegram.ui.Components.BulletinFactory$$ExternalSyntheticLambda3
+                    lottieLayout.postDelayed(new Runnable() { // from class: org.telegram.ui.Components.BulletinFactory$$ExternalSyntheticLambda2
                         @Override // java.lang.Runnable
                         public final void run() {
                             Bulletin.LottieLayout.this.performHapticFeedback(3, 2);
@@ -1103,7 +1120,7 @@ public final class BulletinFactory {
                 i5 = -1;
                 lottieLayout.textView.setText(spannableStringBuilder);
                 if (i5 > 0) {
-                    lottieLayout.postDelayed(new Runnable() { // from class: org.telegram.ui.Components.BulletinFactory$$ExternalSyntheticLambda2
+                    lottieLayout.postDelayed(new Runnable() { // from class: org.telegram.ui.Components.BulletinFactory$$ExternalSyntheticLambda3
                         @Override // java.lang.Runnable
                         public final void run() {
                             Bulletin.LottieLayout.this.performHapticFeedback(3, 2);

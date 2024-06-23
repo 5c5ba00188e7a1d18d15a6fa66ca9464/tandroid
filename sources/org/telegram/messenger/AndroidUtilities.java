@@ -605,6 +605,37 @@ public class AndroidUtilities {
         return spannableStringBuilder;
     }
 
+    public static SpannableStringBuilder replaceMultipleTags(String str, Runnable... runnableArr) {
+        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(str);
+        for (final Runnable runnable : runnableArr) {
+            int charSequenceIndexOf = charSequenceIndexOf(spannableStringBuilder, "**");
+            int i = charSequenceIndexOf + 2;
+            int charSequenceIndexOf2 = charSequenceIndexOf(spannableStringBuilder, "**", i);
+            if (charSequenceIndexOf < 0 || charSequenceIndexOf2 < 0) {
+                break;
+            }
+            spannableStringBuilder.delete(charSequenceIndexOf, i);
+            int i2 = charSequenceIndexOf2 - 2;
+            spannableStringBuilder.delete(i2, i2 + 2);
+            spannableStringBuilder.setSpan(new ClickableSpan() { // from class: org.telegram.messenger.AndroidUtilities.3
+                @Override // android.text.style.ClickableSpan, android.text.style.CharacterStyle
+                public void updateDrawState(TextPaint textPaint) {
+                    super.updateDrawState(textPaint);
+                    textPaint.setUnderlineText(false);
+                }
+
+                @Override // android.text.style.ClickableSpan
+                public void onClick(View view) {
+                    Runnable runnable2 = runnable;
+                    if (runnable2 != null) {
+                        runnable2.run();
+                    }
+                }
+            }, charSequenceIndexOf, i2, 33);
+        }
+        return spannableStringBuilder;
+    }
+
     public static SpannableStringBuilder replaceSingleLink(String str, int i) {
         return replaceSingleLink(str, i, null);
     }
@@ -623,7 +654,7 @@ public class AndroidUtilities {
         }
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(replace);
         if (indexOf >= 0) {
-            spannableStringBuilder.setSpan(new ClickableSpan() { // from class: org.telegram.messenger.AndroidUtilities.3
+            spannableStringBuilder.setSpan(new ClickableSpan() { // from class: org.telegram.messenger.AndroidUtilities.4
                 @Override // android.text.style.ClickableSpan, android.text.style.CharacterStyle
                 public void updateDrawState(TextPaint textPaint) {
                     super.updateDrawState(textPaint);
@@ -967,7 +998,7 @@ public class AndroidUtilities {
     }
 
     public static void doOnLayout(final View view, final Runnable runnable) {
-        view.addOnLayoutChangeListener(new View.OnLayoutChangeListener() { // from class: org.telegram.messenger.AndroidUtilities.4
+        view.addOnLayoutChangeListener(new View.OnLayoutChangeListener() { // from class: org.telegram.messenger.AndroidUtilities.5
             @Override // android.view.View.OnLayoutChangeListener
             public void onLayoutChange(View view2, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8) {
                 view.removeOnLayoutChangeListener(this);
@@ -3070,7 +3101,7 @@ public class AndroidUtilities {
             String group = matcher.group(1);
             final String group2 = matcher.group(2);
             spannableStringBuilder.append((CharSequence) group);
-            spannableStringBuilder.setSpan(new ClickableSpan() { // from class: org.telegram.messenger.AndroidUtilities.5
+            spannableStringBuilder.setSpan(new ClickableSpan() { // from class: org.telegram.messenger.AndroidUtilities.6
                 @Override // android.text.style.ClickableSpan
                 public void onClick(View view) {
                     Browser.openUrl(ApplicationLoader.applicationContext, group2);
@@ -3137,7 +3168,7 @@ public class AndroidUtilities {
                 AndroidUtilities.lambda$shakeView$11(view, valueAnimator);
             }
         });
-        ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.messenger.AndroidUtilities.6
+        ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.messenger.AndroidUtilities.7
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
                 view.setTranslationX(0.0f);
@@ -4264,7 +4295,7 @@ public class AndroidUtilities {
             }
             if (!TextUtils.isEmpty(charSequence2)) {
                 final AtomicReference atomicReference = new AtomicReference();
-                final TextDetailSettingsCell textDetailSettingsCell = new TextDetailSettingsCell(activity) { // from class: org.telegram.messenger.AndroidUtilities.7
+                final TextDetailSettingsCell textDetailSettingsCell = new TextDetailSettingsCell(activity) { // from class: org.telegram.messenger.AndroidUtilities.8
                     @Override // android.view.ViewGroup, android.view.View
                     protected void onAttachedToWindow() {
                         super.onAttachedToWindow();
@@ -4849,7 +4880,7 @@ public class AndroidUtilities {
                     AndroidUtilities.lambda$setNavigationBarColor$19(AndroidUtilities.IntColorCallback.this, window, valueAnimator2);
                 }
             });
-            ofArgb.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.messenger.AndroidUtilities.8
+            ofArgb.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.messenger.AndroidUtilities.9
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
                     if (AndroidUtilities.navigationBarColorAnimators != null) {
@@ -5793,7 +5824,7 @@ public class AndroidUtilities {
 
     public static CharSequence withLearnMore(CharSequence charSequence, final Runnable runnable) {
         SpannableString spannableString = new SpannableString(LocaleController.getString(R.string.LearnMoreArrow));
-        spannableString.setSpan(new ClickableSpan() { // from class: org.telegram.messenger.AndroidUtilities.9
+        spannableString.setSpan(new ClickableSpan() { // from class: org.telegram.messenger.AndroidUtilities.10
             @Override // android.text.style.ClickableSpan
             public void onClick(View view) {
                 Runnable runnable2 = runnable;

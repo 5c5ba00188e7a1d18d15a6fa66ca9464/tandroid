@@ -98,7 +98,6 @@ import org.telegram.tgnet.TLRPC$TL_documentAttributeAudio;
 import org.telegram.tgnet.TLRPC$TL_encryptedChat;
 import org.telegram.tgnet.TLRPC$TL_error;
 import org.telegram.tgnet.TLRPC$TL_inputMessagesFilterEmpty;
-import org.telegram.tgnet.TLRPC$TL_message_secret;
 import org.telegram.tgnet.TLRPC$TL_messages_messages;
 import org.telegram.tgnet.TLRPC$TL_messages_search;
 import org.telegram.tgnet.TLRPC$TL_messages_searchGlobal;
@@ -5363,10 +5362,6 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* JADX WARN: Removed duplicated region for block: B:27:0x006f A[Catch: Exception -> 0x01be, TryCatch #0 {Exception -> 0x01be, blocks: (B:2:0x0000, B:4:0x0009, B:6:0x0011, B:8:0x0023, B:10:0x0029, B:14:0x0037, B:28:0x0083, B:30:0x008e, B:31:0x009d, B:34:0x00a3, B:36:0x00a9, B:40:0x00b0, B:41:0x00b8, B:16:0x003d, B:18:0x004b, B:20:0x0051, B:22:0x0057, B:24:0x0062, B:27:0x006f, B:83:0x01ba, B:42:0x00bc, B:44:0x00c0, B:46:0x00cd, B:48:0x00d9, B:50:0x00f0, B:56:0x0102, B:58:0x013c, B:61:0x0149, B:57:0x0125, B:62:0x014d, B:64:0x0153, B:65:0x0156, B:67:0x015c, B:69:0x0162, B:73:0x0170, B:76:0x018a, B:78:0x0195, B:79:0x01a4, B:81:0x01aa, B:82:0x01b6, B:75:0x0176, B:45:0x00c7), top: B:88:0x0000 }] */
-        /*
-            Code decompiled incorrectly, please refer to instructions dump.
-        */
         public /* synthetic */ void lambda$start$2() {
             File externalStoragePublicDirectory;
             try {
@@ -5379,21 +5374,8 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                         if (str != null && str.length() > 0 && !new File(str).exists()) {
                             str = null;
                         }
-                        if (str == null || str.length() == 0) {
-                            TLRPC$Document document = messageObject.getDocument();
-                            if (!TextUtils.isEmpty(FileLoader.getDocumentFileName(document)) && !(messageObject.messageOwner instanceof TLRPC$TL_message_secret) && FileLoader.canSaveAsFile(messageObject)) {
-                                String documentFileName = FileLoader.getDocumentFileName(document);
-                                File directory = FileLoader.getDirectory(5);
-                                if (directory != null) {
-                                    str = new File(directory, documentFileName).getAbsolutePath();
-                                    if (str == null) {
-                                        str = FileLoader.getInstance(this.currentAccount.getCurrentAccount()).getPathToMessage(messageObject.messageOwner).toString();
-                                    }
-                                }
-                            }
-                            str = null;
-                            if (str == null) {
-                            }
+                        if (TextUtils.isEmpty(str)) {
+                            str = FileLoader.getInstance(this.currentAccount.getCurrentAccount()).getPathToMessage(messageObject.messageOwner).toString();
                         }
                         File file = new File(str);
                         if (!file.exists()) {
