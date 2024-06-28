@@ -57,6 +57,7 @@ public class SharedConfig {
     public static int autoLockIn = 0;
     public static int badPasscodeTries = 0;
     public static boolean bigCameraForRound = false;
+    public static boolean botTabs3DEffect = false;
     public static int bubbleRadius = 0;
     public static int callEncryptionHintDisplayedCount = 0;
     public static boolean chatBubbles = false;
@@ -511,17 +512,17 @@ public class SharedConfig {
         return i;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:38:0x0173 A[Catch: Exception -> 0x0197, all -> 0x0460, TryCatch #4 {Exception -> 0x0197, blocks: (B:22:0x0122, B:24:0x012a, B:26:0x013c, B:27:0x0150, B:38:0x0173, B:40:0x0179, B:41:0x017b, B:43:0x017f, B:45:0x0185, B:47:0x018b, B:49:0x018f, B:36:0x016d), top: B:98:0x0122, outer: #0 }] */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0179 A[Catch: Exception -> 0x0197, all -> 0x0460, TryCatch #4 {Exception -> 0x0197, blocks: (B:22:0x0122, B:24:0x012a, B:26:0x013c, B:27:0x0150, B:38:0x0173, B:40:0x0179, B:41:0x017b, B:43:0x017f, B:45:0x0185, B:47:0x018b, B:49:0x018f, B:36:0x016d), top: B:98:0x0122, outer: #0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0173 A[Catch: Exception -> 0x0197, all -> 0x046c, TryCatch #2 {Exception -> 0x0197, blocks: (B:22:0x0122, B:24:0x012a, B:26:0x013c, B:27:0x0150, B:38:0x0173, B:40:0x0179, B:41:0x017b, B:43:0x017f, B:45:0x0185, B:47:0x018b, B:49:0x018f, B:36:0x016d), top: B:95:0x0122, outer: #4 }] */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0179 A[Catch: Exception -> 0x0197, all -> 0x046c, TryCatch #2 {Exception -> 0x0197, blocks: (B:22:0x0122, B:24:0x012a, B:26:0x013c, B:27:0x0150, B:38:0x0173, B:40:0x0179, B:41:0x017b, B:43:0x017f, B:45:0x0185, B:47:0x018b, B:49:0x018f, B:36:0x016d), top: B:95:0x0122, outer: #4 }] */
     /* JADX WARN: Removed duplicated region for block: B:61:0x0217  */
     /* JADX WARN: Removed duplicated region for block: B:62:0x021a  */
     /* JADX WARN: Removed duplicated region for block: B:65:0x022a  */
     /* JADX WARN: Removed duplicated region for block: B:66:0x022c  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x03f9  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x03fa A[Catch: all -> 0x0460, TryCatch #0 {, blocks: (B:4:0x0003, B:6:0x0007, B:9:0x000d, B:11:0x00de, B:12:0x00e4, B:14:0x00ec, B:16:0x00f0, B:17:0x00fd, B:19:0x010b, B:21:0x0116, B:22:0x0122, B:24:0x012a, B:26:0x013c, B:27:0x0150, B:29:0x0154, B:30:0x0166, B:38:0x0173, B:40:0x0179, B:41:0x017b, B:43:0x017f, B:45:0x0185, B:47:0x018b, B:49:0x018f, B:36:0x016d, B:53:0x019b, B:55:0x01e8, B:59:0x01f3, B:63:0x021c, B:67:0x022d, B:71:0x0404, B:75:0x0411, B:78:0x0450, B:80:0x0454, B:84:0x045c, B:83:0x0459, B:70:0x03fa, B:52:0x0198, B:20:0x0112, B:86:0x045e), top: B:91:0x0003, inners: #3, #4 }] */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x040e  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x0410  */
-    /* JADX WARN: Removed duplicated region for block: B:96:0x0450 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x03fc  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x03fd A[Catch: all -> 0x046c, TryCatch #4 {, blocks: (B:4:0x0003, B:6:0x0007, B:9:0x000d, B:11:0x00de, B:12:0x00e4, B:14:0x00ec, B:16:0x00f0, B:17:0x00fd, B:19:0x010b, B:21:0x0116, B:22:0x0122, B:24:0x012a, B:26:0x013c, B:27:0x0150, B:29:0x0154, B:30:0x0166, B:38:0x0173, B:40:0x0179, B:41:0x017b, B:43:0x017f, B:45:0x0185, B:47:0x018b, B:49:0x018f, B:36:0x016d, B:53:0x019b, B:55:0x01e8, B:59:0x01f3, B:63:0x021c, B:67:0x022d, B:71:0x0407, B:75:0x0415, B:78:0x045c, B:80:0x0460, B:84:0x0468, B:83:0x0465, B:70:0x03fd, B:52:0x0198, B:20:0x0112, B:86:0x046a), top: B:99:0x0003, inners: #2, #3 }] */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x0412  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x0414  */
+    /* JADX WARN: Removed duplicated region for block: B:97:0x045c A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -691,6 +692,7 @@ public class SharedConfig {
                             photoViewerBlur = sharedPreferences.getBoolean("photoViewerBlur", true);
                             multipleReactionsPromoShowed = sharedPreferences.getBoolean("multipleReactionsPromoShowed", false);
                             callEncryptionHintDisplayedCount = sharedPreferences.getInt("callEncryptionHintDisplayedCount", 0);
+                            botTabs3DEffect = sharedPreferences.getBoolean("botTabs3DEffect", true);
                             loadDebugConfig(sharedPreferences);
                             showNotificationsForAllAccounts = ApplicationLoader.applicationContext.getSharedPreferences("Notifications", 0).getBoolean("AllAccounts", true);
                             configLoaded = true;
@@ -799,6 +801,7 @@ public class SharedConfig {
                 photoViewerBlur = sharedPreferences.getBoolean("photoViewerBlur", true);
                 multipleReactionsPromoShowed = sharedPreferences.getBoolean("multipleReactionsPromoShowed", false);
                 callEncryptionHintDisplayedCount = sharedPreferences.getInt("callEncryptionHintDisplayedCount", 0);
+                botTabs3DEffect = sharedPreferences.getBoolean("botTabs3DEffect", true);
                 loadDebugConfig(sharedPreferences);
                 showNotificationsForAllAccounts = ApplicationLoader.applicationContext.getSharedPreferences("Notifications", 0).getBoolean("AllAccounts", true);
                 configLoaded = true;
@@ -1238,6 +1241,13 @@ public class SharedConfig {
         callEncryptionHintDisplayedCount += i;
         SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
         edit.putInt("callEncryptionHintDisplayedCount", callEncryptionHintDisplayedCount);
+        edit.apply();
+    }
+
+    public static void setBotTabs3DEffect(boolean z) {
+        SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
+        botTabs3DEffect = z;
+        edit.putBoolean("botTabs3DEffect", z);
         edit.apply();
     }
 

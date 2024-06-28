@@ -83,6 +83,7 @@ import org.telegram.tgnet.TLRPC$InputReplyTo;
 import org.telegram.tgnet.TLRPC$Message;
 import org.telegram.tgnet.TLRPC$MessageAction;
 import org.telegram.tgnet.TLRPC$MessageEntity;
+import org.telegram.tgnet.TLRPC$MessageExtendedMedia;
 import org.telegram.tgnet.TLRPC$MessageFwdHeader;
 import org.telegram.tgnet.TLRPC$MessageMedia;
 import org.telegram.tgnet.TLRPC$MessagePeerReaction;
@@ -101,11 +102,14 @@ import org.telegram.tgnet.TLRPC$TL_messageActionChannelMigrateFrom;
 import org.telegram.tgnet.TLRPC$TL_messageActionHistoryClear;
 import org.telegram.tgnet.TLRPC$TL_messageActionSetChatTheme;
 import org.telegram.tgnet.TLRPC$TL_messageActionTopicCreate;
+import org.telegram.tgnet.TLRPC$TL_messageExtendedMedia;
+import org.telegram.tgnet.TLRPC$TL_messageExtendedMediaPreview;
 import org.telegram.tgnet.TLRPC$TL_messageMediaDocument;
 import org.telegram.tgnet.TLRPC$TL_messageMediaGame;
 import org.telegram.tgnet.TLRPC$TL_messageMediaGiveaway;
 import org.telegram.tgnet.TLRPC$TL_messageMediaGiveawayResults;
 import org.telegram.tgnet.TLRPC$TL_messageMediaInvoice;
+import org.telegram.tgnet.TLRPC$TL_messageMediaPaidMedia;
 import org.telegram.tgnet.TLRPC$TL_messageMediaPhoto;
 import org.telegram.tgnet.TLRPC$TL_messageMediaPoll;
 import org.telegram.tgnet.TLRPC$TL_messageMediaStory;
@@ -150,6 +154,7 @@ import org.telegram.ui.Components.VectorAvatarThumbDrawable;
 import org.telegram.ui.Components.spoilers.SpoilerEffect;
 import org.telegram.ui.DialogsActivity;
 import org.telegram.ui.RightSlidingDialogContainer;
+import org.telegram.ui.Stars.StarsIntroActivity;
 import org.telegram.ui.Stories.StoriesListPlaceProvider;
 import org.telegram.ui.Stories.StoriesUtilities;
 import org.telegram.ui.Stories.StoryViewer;
@@ -1061,55 +1066,56 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
     /* JADX WARN: Code restructure failed: missing block: B:295:0x061c, code lost:
         if (r2.post_messages == false) goto L833;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:955:0x132b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:966:0x1376, code lost:
         if (r2 == null) goto L907;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:1487:0x1fdb  */
-    /* JADX WARN: Removed duplicated region for block: B:1564:0x21e7  */
-    /* JADX WARN: Removed duplicated region for block: B:1622:0x2308  */
-    /* JADX WARN: Removed duplicated region for block: B:1623:0x2310  */
+    /* JADX WARN: Removed duplicated region for block: B:1001:0x140f  */
+    /* JADX WARN: Removed duplicated region for block: B:1498:0x2026  */
+    /* JADX WARN: Removed duplicated region for block: B:1575:0x2232  */
+    /* JADX WARN: Removed duplicated region for block: B:1633:0x2353  */
+    /* JADX WARN: Removed duplicated region for block: B:1634:0x235b  */
     /* JADX WARN: Removed duplicated region for block: B:226:0x052c  */
     /* JADX WARN: Removed duplicated region for block: B:313:0x0645  */
     /* JADX WARN: Removed duplicated region for block: B:328:0x06ad  */
     /* JADX WARN: Removed duplicated region for block: B:425:0x08ec  */
-    /* JADX WARN: Removed duplicated region for block: B:622:0x0c19  */
-    /* JADX WARN: Removed duplicated region for block: B:623:0x0c1c  */
-    /* JADX WARN: Removed duplicated region for block: B:757:0x0f84  */
-    /* JADX WARN: Removed duplicated region for block: B:762:0x0f95  */
-    /* JADX WARN: Removed duplicated region for block: B:772:0x0ff9  */
-    /* JADX WARN: Removed duplicated region for block: B:773:0x100b  */
-    /* JADX WARN: Removed duplicated region for block: B:821:0x10f3  */
-    /* JADX WARN: Removed duplicated region for block: B:822:0x10fb  */
-    /* JADX WARN: Removed duplicated region for block: B:863:0x119c  */
-    /* JADX WARN: Removed duplicated region for block: B:864:0x11a1  */
-    /* JADX WARN: Removed duplicated region for block: B:867:0x11a8  */
-    /* JADX WARN: Removed duplicated region for block: B:868:0x11ab  */
-    /* JADX WARN: Removed duplicated region for block: B:934:0x12a9  */
-    /* JADX WARN: Removed duplicated region for block: B:935:0x12b3  */
-    /* JADX WARN: Removed duplicated region for block: B:945:0x12ed  */
-    /* JADX WARN: Removed duplicated region for block: B:947:0x1300  */
-    /* JADX WARN: Removed duplicated region for block: B:990:0x13c4  */
+    /* JADX WARN: Removed duplicated region for block: B:633:0x0c64  */
+    /* JADX WARN: Removed duplicated region for block: B:634:0x0c67  */
+    /* JADX WARN: Removed duplicated region for block: B:768:0x0fcf  */
+    /* JADX WARN: Removed duplicated region for block: B:773:0x0fe0  */
+    /* JADX WARN: Removed duplicated region for block: B:783:0x1044  */
+    /* JADX WARN: Removed duplicated region for block: B:784:0x1056  */
+    /* JADX WARN: Removed duplicated region for block: B:832:0x113e  */
+    /* JADX WARN: Removed duplicated region for block: B:833:0x1146  */
+    /* JADX WARN: Removed duplicated region for block: B:874:0x11e7  */
+    /* JADX WARN: Removed duplicated region for block: B:875:0x11ec  */
+    /* JADX WARN: Removed duplicated region for block: B:878:0x11f3  */
+    /* JADX WARN: Removed duplicated region for block: B:879:0x11f6  */
+    /* JADX WARN: Removed duplicated region for block: B:945:0x12f4  */
+    /* JADX WARN: Removed duplicated region for block: B:946:0x12fe  */
+    /* JADX WARN: Removed duplicated region for block: B:956:0x1338  */
+    /* JADX WARN: Removed duplicated region for block: B:958:0x134b  */
     /* JADX WARN: Type inference failed for: r0v168, types: [java.lang.CharSequence] */
+    /* JADX WARN: Type inference failed for: r10v44, types: [android.text.SpannableStringBuilder] */
     /* JADX WARN: Type inference failed for: r11v29, types: [android.text.SpannableStringBuilder] */
-    /* JADX WARN: Type inference failed for: r1v148 */
-    /* JADX WARN: Type inference failed for: r1v204 */
-    /* JADX WARN: Type inference failed for: r1v205, types: [java.lang.CharSequence] */
-    /* JADX WARN: Type inference failed for: r1v216 */
-    /* JADX WARN: Type inference failed for: r1v255 */
+    /* JADX WARN: Type inference failed for: r1v159 */
+    /* JADX WARN: Type inference failed for: r1v215 */
+    /* JADX WARN: Type inference failed for: r1v216, types: [java.lang.CharSequence] */
+    /* JADX WARN: Type inference failed for: r1v227 */
+    /* JADX WARN: Type inference failed for: r1v266 */
     /* JADX WARN: Type inference failed for: r1v32 */
     /* JADX WARN: Type inference failed for: r1v33 */
-    /* JADX WARN: Type inference failed for: r1v355 */
+    /* JADX WARN: Type inference failed for: r1v366 */
     /* JADX WARN: Type inference failed for: r1v46 */
     /* JADX WARN: Type inference failed for: r1v49, types: [android.text.SpannableStringBuilder] */
     /* JADX WARN: Type inference failed for: r1v64, types: [android.text.SpannableStringBuilder] */
-    /* JADX WARN: Type inference failed for: r1v82, types: [java.lang.CharSequence] */
+    /* JADX WARN: Type inference failed for: r1v81, types: [java.lang.CharSequence] */
     /* JADX WARN: Type inference failed for: r37v0, types: [android.view.View, org.telegram.ui.Cells.DialogCell, android.view.ViewGroup] */
     /* JADX WARN: Type inference failed for: r3v177, types: [java.lang.CharSequence] */
     /* JADX WARN: Type inference failed for: r3v178, types: [java.lang.CharSequence] */
-    /* JADX WARN: Type inference failed for: r4v138, types: [java.lang.CharSequence] */
-    /* JADX WARN: Type inference failed for: r4v139, types: [java.lang.CharSequence] */
-    /* JADX WARN: Type inference failed for: r4v140 */
+    /* JADX WARN: Type inference failed for: r4v143, types: [java.lang.CharSequence] */
+    /* JADX WARN: Type inference failed for: r4v144, types: [java.lang.CharSequence] */
+    /* JADX WARN: Type inference failed for: r4v145 */
     /* JADX WARN: Type inference failed for: r6v70, types: [java.lang.CharSequence] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1144,6 +1150,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
         SpannableStringBuilder spannableStringBuilder5;
         boolean isChannelAndNotMegaGroup;
         String formatPluralString;
+        String formatPluralString2;
         String str3;
         SpannableStringBuilder append;
         String str4;
@@ -1941,101 +1948,113 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                                                                                     append = new SpannableStringBuilder(str3).append((CharSequence) spannableStringBuilder19);
                                                                                 }
                                                                                 spannableStringBuilder18 = append;
-                                                                            } else if (this.thumbsCount > 1) {
-                                                                                if (this.hasVideoThumb) {
-                                                                                    ArrayList<MessageObject> arrayList4 = this.groupMessages;
-                                                                                    formatPluralString = LocaleController.formatPluralString("Media", arrayList4 == null ? 0 : arrayList4.size(), new Object[0]);
-                                                                                } else {
-                                                                                    ArrayList<MessageObject> arrayList5 = this.groupMessages;
-                                                                                    formatPluralString = LocaleController.formatPluralString("Photos", arrayList5 == null ? 0 : arrayList5.size(), new Object[0]);
-                                                                                }
-                                                                                spannableStringBuilder18 = formatPluralString;
-                                                                                this.currentMessagePaint = Theme.dialogs_messagePrintingPaint[this.paintIndex];
                                                                             } else {
                                                                                 MessageObject messageObject11 = this.message;
                                                                                 TLRPC$Message tLRPC$Message = messageObject11.messageOwner;
                                                                                 TLRPC$MessageMedia tLRPC$MessageMedia2 = tLRPC$Message.media;
-                                                                                if (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaGiveaway) {
-                                                                                    TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader = tLRPC$Message.fwd_from;
-                                                                                    if (tLRPC$MessageFwdHeader != null) {
-                                                                                        TLRPC$Peer tLRPC$Peer = tLRPC$MessageFwdHeader.from_id;
-                                                                                        if (tLRPC$Peer instanceof TLRPC$TL_peerChannel) {
-                                                                                            isChannelAndNotMegaGroup = ChatObject.isChannelAndNotMegaGroup(tLRPC$Peer.channel_id, this.currentAccount);
-                                                                                            spannableStringBuilder5 = LocaleController.getString(!isChannelAndNotMegaGroup ? R.string.BoostingGiveawayChannelStarted : R.string.BoostingGiveawayGroupStarted);
-                                                                                        }
-                                                                                    }
-                                                                                    isChannelAndNotMegaGroup = ChatObject.isChannelAndNotMegaGroup(this.chat);
-                                                                                    spannableStringBuilder5 = LocaleController.getString(!isChannelAndNotMegaGroup ? R.string.BoostingGiveawayChannelStarted : R.string.BoostingGiveawayGroupStarted);
-                                                                                } else if (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaGiveawayResults) {
-                                                                                    spannableStringBuilder5 = LocaleController.getString("BoostingGiveawayResults", R.string.BoostingGiveawayResults);
-                                                                                } else if (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaPoll) {
-                                                                                    TLRPC$TL_messageMediaPoll tLRPC$TL_messageMediaPoll = (TLRPC$TL_messageMediaPoll) tLRPC$MessageMedia2;
-                                                                                    TLRPC$TL_textWithEntities tLRPC$TL_textWithEntities = tLRPC$TL_messageMediaPoll.poll.question;
-                                                                                    if (tLRPC$TL_textWithEntities == null || tLRPC$TL_textWithEntities.entities == null) {
-                                                                                        spannableStringBuilder5 = "📊 " + tLRPC$TL_messageMediaPoll.poll.question.text;
+                                                                                if (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaPaidMedia) {
+                                                                                    int size = ((TLRPC$TL_messageMediaPaidMedia) tLRPC$MessageMedia2).extended_media.size();
+                                                                                    if (this.hasVideoThumb) {
+                                                                                        formatPluralString2 = size > 1 ? LocaleController.formatPluralString("Media", size, new Object[0]) : LocaleController.getString(R.string.AttachVideo);
                                                                                     } else {
-                                                                                        SpannableStringBuilder spannableStringBuilder20 = new SpannableStringBuilder(tLRPC$TL_messageMediaPoll.poll.question.text);
-                                                                                        TLRPC$TL_textWithEntities tLRPC$TL_textWithEntities2 = tLRPC$TL_messageMediaPoll.poll.question;
-                                                                                        MediaDataController.addTextStyleRuns(tLRPC$TL_textWithEntities2.entities, tLRPC$TL_textWithEntities2.text, spannableStringBuilder20);
-                                                                                        MediaDataController.addAnimatedEmojiSpans(tLRPC$TL_messageMediaPoll.poll.question.entities, spannableStringBuilder20, Theme.dialogs_messagePaint[this.paintIndex].getFontMetricsInt());
-                                                                                        spannableStringBuilder5 = new SpannableStringBuilder("📊 ").append((CharSequence) spannableStringBuilder20);
+                                                                                        formatPluralString2 = size > 1 ? LocaleController.formatPluralString("Photos", size, new Object[0]) : LocaleController.getString(R.string.AttachPhoto);
                                                                                     }
-                                                                                } else if (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaGame) {
-                                                                                    spannableStringBuilder5 = "🎮 " + this.message.messageOwner.media.game.title;
-                                                                                } else if (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaInvoice) {
-                                                                                    spannableStringBuilder5 = tLRPC$MessageMedia2.title;
-                                                                                } else if (messageObject11.type == 14) {
-                                                                                    spannableStringBuilder5 = String.format("🎧 %s - %s", messageObject11.getMusicAuthor(), this.message.getMusicTitle());
-                                                                                } else if ((tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaStory) && tLRPC$MessageMedia2.via_mention) {
-                                                                                    if (messageObject11.isOut()) {
-                                                                                        TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(this.message.getDialogId()));
-                                                                                        if (user != null) {
-                                                                                            str2 = UserObject.getFirstName(user);
-                                                                                            int indexOf3 = str2.indexOf(32);
-                                                                                            if (indexOf3 >= 0) {
-                                                                                                str2 = str2.substring(0, indexOf3);
-                                                                                            }
-                                                                                        } else {
-                                                                                            str2 = "";
-                                                                                        }
-                                                                                        spannableStringBuilder5 = LocaleController.formatString("StoryYouMentionInDialog", R.string.StoryYouMentionInDialog, str2);
+                                                                                    ?? replaceStars = StarsIntroActivity.replaceStars(LocaleController.formatString(R.string.AttachPaidMedia, formatPluralString2));
+                                                                                    this.currentMessagePaint = Theme.dialogs_messagePrintingPaint[this.paintIndex];
+                                                                                    spannableStringBuilder18 = replaceStars;
+                                                                                } else if (this.thumbsCount > 1) {
+                                                                                    if (this.hasVideoThumb) {
+                                                                                        ArrayList<MessageObject> arrayList4 = this.groupMessages;
+                                                                                        formatPluralString = LocaleController.formatPluralString("Media", arrayList4 == null ? 0 : arrayList4.size(), new Object[0]);
                                                                                     } else {
-                                                                                        spannableStringBuilder5 = LocaleController.getString("StoryMentionInDialog", R.string.StoryMentionInDialog);
+                                                                                        ArrayList<MessageObject> arrayList5 = this.groupMessages;
+                                                                                        formatPluralString = LocaleController.formatPluralString("Photos", arrayList5 == null ? 0 : arrayList5.size(), new Object[0]);
                                                                                     }
+                                                                                    spannableStringBuilder18 = formatPluralString;
+                                                                                    this.currentMessagePaint = Theme.dialogs_messagePrintingPaint[this.paintIndex];
                                                                                 } else {
-                                                                                    if (messageObject11.hasHighlightedWords() && !TextUtils.isEmpty(this.message.messageOwner.message)) {
-                                                                                        spannableStringBuilder4 = AndroidUtilities.ellipsizeCenterEnd(this.message.messageTrimmedToHighlight, this.message.highlightedWords.get(0), getMeasuredWidth() - AndroidUtilities.dp(this.messagePaddingStart + 23), this.currentMessagePaint, 130);
-                                                                                    } else {
-                                                                                        SpannableStringBuilder spannableStringBuilder21 = new SpannableStringBuilder(spannableStringBuilder8);
-                                                                                        MessageObject messageObject12 = this.message;
-                                                                                        if (messageObject12 != null) {
-                                                                                            messageObject12.spoilLoginCode();
-                                                                                        }
-                                                                                        MediaDataController.addTextStyleRuns(this.message, spannableStringBuilder21, 264);
-                                                                                        MessageObject messageObject13 = this.message;
-                                                                                        spannableStringBuilder4 = spannableStringBuilder21;
-                                                                                        if (messageObject13 != null) {
-                                                                                            TLRPC$Message tLRPC$Message2 = messageObject13.messageOwner;
-                                                                                            spannableStringBuilder4 = spannableStringBuilder21;
-                                                                                            if (tLRPC$Message2 != null) {
-                                                                                                ArrayList<TLRPC$MessageEntity> arrayList6 = tLRPC$Message2.entities;
-                                                                                                TextPaint textPaint8 = this.currentMessagePaint;
-                                                                                                MediaDataController.addAnimatedEmojiSpans(arrayList6, spannableStringBuilder21, textPaint8 == null ? null : textPaint8.getFontMetricsInt());
-                                                                                                spannableStringBuilder4 = spannableStringBuilder21;
+                                                                                    if (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaGiveaway) {
+                                                                                        TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader = tLRPC$Message.fwd_from;
+                                                                                        if (tLRPC$MessageFwdHeader != null) {
+                                                                                            TLRPC$Peer tLRPC$Peer = tLRPC$MessageFwdHeader.from_id;
+                                                                                            if (tLRPC$Peer instanceof TLRPC$TL_peerChannel) {
+                                                                                                isChannelAndNotMegaGroup = ChatObject.isChannelAndNotMegaGroup(tLRPC$Peer.channel_id, this.currentAccount);
+                                                                                                spannableStringBuilder5 = LocaleController.getString(!isChannelAndNotMegaGroup ? R.string.BoostingGiveawayChannelStarted : R.string.BoostingGiveawayGroupStarted);
                                                                                             }
                                                                                         }
+                                                                                        isChannelAndNotMegaGroup = ChatObject.isChannelAndNotMegaGroup(this.chat);
+                                                                                        spannableStringBuilder5 = LocaleController.getString(!isChannelAndNotMegaGroup ? R.string.BoostingGiveawayChannelStarted : R.string.BoostingGiveawayGroupStarted);
+                                                                                    } else if (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaGiveawayResults) {
+                                                                                        spannableStringBuilder5 = LocaleController.getString("BoostingGiveawayResults", R.string.BoostingGiveawayResults);
+                                                                                    } else if (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaPoll) {
+                                                                                        TLRPC$TL_messageMediaPoll tLRPC$TL_messageMediaPoll = (TLRPC$TL_messageMediaPoll) tLRPC$MessageMedia2;
+                                                                                        TLRPC$TL_textWithEntities tLRPC$TL_textWithEntities = tLRPC$TL_messageMediaPoll.poll.question;
+                                                                                        if (tLRPC$TL_textWithEntities == null || tLRPC$TL_textWithEntities.entities == null) {
+                                                                                            spannableStringBuilder5 = "📊 " + tLRPC$TL_messageMediaPoll.poll.question.text;
+                                                                                        } else {
+                                                                                            SpannableStringBuilder spannableStringBuilder20 = new SpannableStringBuilder(tLRPC$TL_messageMediaPoll.poll.question.text);
+                                                                                            TLRPC$TL_textWithEntities tLRPC$TL_textWithEntities2 = tLRPC$TL_messageMediaPoll.poll.question;
+                                                                                            MediaDataController.addTextStyleRuns(tLRPC$TL_textWithEntities2.entities, tLRPC$TL_textWithEntities2.text, spannableStringBuilder20);
+                                                                                            MediaDataController.addAnimatedEmojiSpans(tLRPC$TL_messageMediaPoll.poll.question.entities, spannableStringBuilder20, Theme.dialogs_messagePaint[this.paintIndex].getFontMetricsInt());
+                                                                                            spannableStringBuilder5 = new SpannableStringBuilder("📊 ").append((CharSequence) spannableStringBuilder20);
+                                                                                        }
+                                                                                    } else if (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaGame) {
+                                                                                        spannableStringBuilder5 = "🎮 " + this.message.messageOwner.media.game.title;
+                                                                                    } else if (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaInvoice) {
+                                                                                        spannableStringBuilder5 = tLRPC$MessageMedia2.title;
+                                                                                    } else if (messageObject11.type == 14) {
+                                                                                        spannableStringBuilder5 = String.format("🎧 %s - %s", messageObject11.getMusicAuthor(), this.message.getMusicTitle());
+                                                                                    } else if ((tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaStory) && tLRPC$MessageMedia2.via_mention) {
+                                                                                        if (messageObject11.isOut()) {
+                                                                                            TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(this.message.getDialogId()));
+                                                                                            if (user != null) {
+                                                                                                str2 = UserObject.getFirstName(user);
+                                                                                                int indexOf3 = str2.indexOf(32);
+                                                                                                if (indexOf3 >= 0) {
+                                                                                                    str2 = str2.substring(0, indexOf3);
+                                                                                                }
+                                                                                            } else {
+                                                                                                str2 = "";
+                                                                                            }
+                                                                                            spannableStringBuilder5 = LocaleController.formatString("StoryYouMentionInDialog", R.string.StoryYouMentionInDialog, str2);
+                                                                                        } else {
+                                                                                            spannableStringBuilder5 = LocaleController.getString("StoryMentionInDialog", R.string.StoryMentionInDialog);
+                                                                                        }
+                                                                                    } else {
+                                                                                        if (messageObject11.hasHighlightedWords() && !TextUtils.isEmpty(this.message.messageOwner.message)) {
+                                                                                            spannableStringBuilder4 = AndroidUtilities.ellipsizeCenterEnd(this.message.messageTrimmedToHighlight, this.message.highlightedWords.get(0), getMeasuredWidth() - AndroidUtilities.dp(this.messagePaddingStart + 23), this.currentMessagePaint, 130);
+                                                                                        } else {
+                                                                                            SpannableStringBuilder spannableStringBuilder21 = new SpannableStringBuilder(spannableStringBuilder8);
+                                                                                            MessageObject messageObject12 = this.message;
+                                                                                            if (messageObject12 != null) {
+                                                                                                messageObject12.spoilLoginCode();
+                                                                                            }
+                                                                                            MediaDataController.addTextStyleRuns(this.message, spannableStringBuilder21, 264);
+                                                                                            MessageObject messageObject13 = this.message;
+                                                                                            spannableStringBuilder4 = spannableStringBuilder21;
+                                                                                            if (messageObject13 != null) {
+                                                                                                TLRPC$Message tLRPC$Message2 = messageObject13.messageOwner;
+                                                                                                spannableStringBuilder4 = spannableStringBuilder21;
+                                                                                                if (tLRPC$Message2 != null) {
+                                                                                                    ArrayList<TLRPC$MessageEntity> arrayList6 = tLRPC$Message2.entities;
+                                                                                                    TextPaint textPaint8 = this.currentMessagePaint;
+                                                                                                    MediaDataController.addAnimatedEmojiSpans(arrayList6, spannableStringBuilder21, textPaint8 == null ? null : textPaint8.getFontMetricsInt());
+                                                                                                    spannableStringBuilder4 = spannableStringBuilder21;
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                        AndroidUtilities.highlightText(spannableStringBuilder4, this.message.highlightedWords, this.resourcesProvider);
+                                                                                        spannableStringBuilder5 = spannableStringBuilder4;
                                                                                     }
-                                                                                    AndroidUtilities.highlightText(spannableStringBuilder4, this.message.highlightedWords, this.resourcesProvider);
-                                                                                    spannableStringBuilder5 = spannableStringBuilder4;
-                                                                                }
-                                                                                SpannableStringBuilder spannableStringBuilder22 = spannableStringBuilder5;
-                                                                                MessageObject messageObject14 = this.message;
-                                                                                spannableStringBuilder18 = spannableStringBuilder22;
-                                                                                if (messageObject14.messageOwner.media != null) {
+                                                                                    SpannableStringBuilder spannableStringBuilder22 = spannableStringBuilder5;
+                                                                                    MessageObject messageObject14 = this.message;
                                                                                     spannableStringBuilder18 = spannableStringBuilder22;
-                                                                                    if (!messageObject14.isMediaEmpty()) {
-                                                                                        this.currentMessagePaint = Theme.dialogs_messagePrintingPaint[this.paintIndex];
+                                                                                    if (messageObject14.messageOwner.media != null) {
                                                                                         spannableStringBuilder18 = spannableStringBuilder22;
+                                                                                        if (!messageObject14.isMediaEmpty()) {
+                                                                                            this.currentMessagePaint = Theme.dialogs_messagePrintingPaint[this.paintIndex];
+                                                                                            spannableStringBuilder18 = spannableStringBuilder22;
+                                                                                        }
                                                                                     }
                                                                                 }
                                                                             }
@@ -6129,11 +6148,39 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
     }
 
     public void updateMessageThumbs() {
+        TLRPC$Message tLRPC$Message;
+        int i;
         MessageObject messageObject = this.message;
         if (messageObject == null) {
             return;
         }
         String restrictionReason = MessagesController.getRestrictionReason(messageObject.messageOwner.restriction_reason);
+        MessageObject messageObject2 = this.message;
+        int i2 = 0;
+        if (messageObject2 != null && (tLRPC$Message = messageObject2.messageOwner) != null) {
+            TLRPC$MessageMedia tLRPC$MessageMedia = tLRPC$Message.media;
+            if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaPaidMedia) {
+                this.thumbsCount = 0;
+                this.hasVideoThumb = false;
+                TLRPC$TL_messageMediaPaidMedia tLRPC$TL_messageMediaPaidMedia = (TLRPC$TL_messageMediaPaidMedia) tLRPC$MessageMedia;
+                int i3 = 0;
+                while (i2 < tLRPC$TL_messageMediaPaidMedia.extended_media.size() && this.thumbsCount < 3) {
+                    TLRPC$MessageExtendedMedia tLRPC$MessageExtendedMedia = tLRPC$TL_messageMediaPaidMedia.extended_media.get(i2);
+                    if (tLRPC$MessageExtendedMedia instanceof TLRPC$TL_messageExtendedMediaPreview) {
+                        i = i3 + 1;
+                        setThumb(i3, ((TLRPC$TL_messageExtendedMediaPreview) tLRPC$MessageExtendedMedia).thumb);
+                    } else if (tLRPC$MessageExtendedMedia instanceof TLRPC$TL_messageExtendedMedia) {
+                        i = i3 + 1;
+                        setThumb(i3, ((TLRPC$TL_messageExtendedMedia) tLRPC$MessageExtendedMedia).media);
+                    } else {
+                        i2++;
+                    }
+                    i3 = i;
+                    i2++;
+                }
+                return;
+            }
+        }
         ArrayList<MessageObject> arrayList = this.groupMessages;
         if (arrayList != null && arrayList.size() > 1 && TextUtils.isEmpty(restrictionReason) && this.currentDialogFolderId == 0 && this.encryptedChat == null) {
             this.thumbsCount = 0;
@@ -6144,24 +6191,25 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                     return ((MessageObject) obj).getId();
                 }
             }));
-            for (int i = 0; i < Math.min(3, this.groupMessages.size()); i++) {
-                MessageObject messageObject2 = this.groupMessages.get(i);
-                if (messageObject2 != null && !messageObject2.needDrawBluredPreview() && (messageObject2.isPhoto() || messageObject2.isNewGif() || messageObject2.isVideo() || messageObject2.isRoundVideo() || messageObject2.isStoryMedia())) {
-                    String str = messageObject2.isWebpage() ? messageObject2.messageOwner.media.webpage.type : null;
+            while (i2 < Math.min(3, this.groupMessages.size())) {
+                MessageObject messageObject3 = this.groupMessages.get(i2);
+                if (messageObject3 != null && !messageObject3.needDrawBluredPreview() && (messageObject3.isPhoto() || messageObject3.isNewGif() || messageObject3.isVideo() || messageObject3.isRoundVideo() || messageObject3.isStoryMedia())) {
+                    String str = messageObject3.isWebpage() ? messageObject3.messageOwner.media.webpage.type : null;
                     if (!"app".equals(str) && !"profile".equals(str) && !"article".equals(str) && (str == null || !str.startsWith("telegram_"))) {
-                        setThumb(i, messageObject2);
+                        setThumb(i2, messageObject3);
                     }
                 }
+                i2++;
             }
             return;
         }
-        MessageObject messageObject3 = this.message;
-        if (messageObject3 == null || this.currentDialogFolderId != 0) {
+        MessageObject messageObject4 = this.message;
+        if (messageObject4 == null || this.currentDialogFolderId != 0) {
             return;
         }
         this.thumbsCount = 0;
         this.hasVideoThumb = false;
-        if (messageObject3.needDrawBluredPreview()) {
+        if (messageObject4.needDrawBluredPreview()) {
             return;
         }
         if (this.message.isPhoto() || this.message.isNewGif() || this.message.isVideo() || this.message.isRoundVideo() || this.message.isStoryMedia()) {
@@ -6213,6 +6261,79 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 String str = messageObject.hasMediaSpoilers() ? "5_5_b" : "20_20";
                 this.thumbImage[i].setImage(ImageLocation.getForObject(tLRPC$PhotoSize, tLObject), str, ImageLocation.getForObject(closestPhotoSizeWithSize, tLObject), str, i3, null, messageObject, 0);
                 this.thumbImage[i].setRoundRadius(AndroidUtilities.dp(messageObject.isRoundVideo() ? 18.0f : 2.0f));
+                this.needEmoji = false;
+            }
+        }
+    }
+
+    /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x0035  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x004b  */
+    /* JADX WARN: Removed duplicated region for block: B:34:? A[RETURN, SYNTHETIC] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    private void setThumb(int i, TLRPC$MessageMedia tLRPC$MessageMedia) {
+        TLRPC$Document tLRPC$Document;
+        ArrayList<TLRPC$PhotoSize> arrayList;
+        boolean isVideoDocument;
+        TLRPC$PhotoSize closestPhotoSizeWithSize;
+        TLRPC$PhotoSize tLRPC$PhotoSize;
+        if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaPhoto) {
+            TLRPC$Photo tLRPC$Photo = tLRPC$MessageMedia.photo;
+            arrayList = tLRPC$Photo.sizes;
+            tLRPC$Document = tLRPC$Photo;
+        } else if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaDocument) {
+            isVideoDocument = MessageObject.isVideoDocument(tLRPC$MessageMedia.document);
+            tLRPC$Document = tLRPC$MessageMedia.document;
+            arrayList = tLRPC$Document.thumbs;
+            closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(arrayList, 40);
+            TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(arrayList, AndroidUtilities.getPhotoSize(), false, null, true);
+            tLRPC$PhotoSize = closestPhotoSizeWithSize != closestPhotoSizeWithSize2 ? closestPhotoSizeWithSize2 : null;
+            if (tLRPC$PhotoSize != null || DownloadController.getInstance(this.currentAccount).canDownloadMedia(this.message.messageOwner, tLRPC$MessageMedia) == 0) {
+                tLRPC$PhotoSize = closestPhotoSizeWithSize;
+            }
+            if (closestPhotoSizeWithSize == null) {
+                this.hasVideoThumb = this.hasVideoThumb || isVideoDocument;
+                int i2 = this.thumbsCount;
+                if (i2 < 3) {
+                    this.thumbsCount = i2 + 1;
+                    this.drawPlay[i] = isVideoDocument;
+                    this.drawSpoiler[i] = false;
+                    this.thumbImage[i].setImage(ImageLocation.getForObject(tLRPC$PhotoSize, tLRPC$Document), "20_20", ImageLocation.getForObject(closestPhotoSizeWithSize, tLRPC$Document), "20_20", (isVideoDocument || tLRPC$PhotoSize == null) ? 0 : tLRPC$PhotoSize.size, null, this.message, 0);
+                    this.thumbImage[i].setRoundRadius(AndroidUtilities.dp(2.0f));
+                    this.needEmoji = false;
+                    return;
+                }
+                return;
+            }
+            return;
+        } else {
+            tLRPC$Document = null;
+            arrayList = null;
+        }
+        isVideoDocument = false;
+        closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(arrayList, 40);
+        TLRPC$PhotoSize closestPhotoSizeWithSize22 = FileLoader.getClosestPhotoSizeWithSize(arrayList, AndroidUtilities.getPhotoSize(), false, null, true);
+        if (closestPhotoSizeWithSize != closestPhotoSizeWithSize22) {
+        }
+        if (tLRPC$PhotoSize != null) {
+        }
+        tLRPC$PhotoSize = closestPhotoSizeWithSize;
+        if (closestPhotoSizeWithSize == null) {
+        }
+    }
+
+    private void setThumb(int i, TLRPC$PhotoSize tLRPC$PhotoSize) {
+        if (tLRPC$PhotoSize != null) {
+            this.hasVideoThumb = false;
+            int i2 = this.thumbsCount;
+            if (i2 < 3) {
+                this.thumbsCount = i2 + 1;
+                this.drawPlay[i] = false;
+                this.drawSpoiler[i] = true;
+                this.thumbImage[i].setImage(ImageLocation.getForObject(tLRPC$PhotoSize, this.message.messageOwner), "2_2_b", null, null, 0, null, this.message, 0);
+                this.thumbImage[i].setRoundRadius(AndroidUtilities.dp(2.0f));
                 this.needEmoji = false;
             }
         }
@@ -6309,6 +6430,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
         TLRPC$Message tLRPC$Message;
         CharSequence charSequence2;
         String formatPluralString;
+        String formatPluralString2;
         CharSequence charSequence3;
         String str2;
         SpannableStringBuilder valueOf;
@@ -6421,6 +6543,15 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 charSequence2 = tLRPC$MessageMedia.title;
             } else if (messageObject3.type == 14) {
                 charSequence2 = Build.VERSION.SDK_INT >= 18 ? String.format("🎧 \u2068%s - %s\u2069", messageObject3.getMusicAuthor(), this.message.getMusicTitle()) : String.format("🎧 %s - %s", messageObject3.getMusicAuthor(), this.message.getMusicTitle());
+            } else if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaPaidMedia) {
+                int size = ((TLRPC$TL_messageMediaPaidMedia) tLRPC$MessageMedia).extended_media.size();
+                if (this.hasVideoThumb) {
+                    formatPluralString2 = size > 1 ? LocaleController.formatPluralString("Media", size, new Object[0]) : LocaleController.getString(R.string.AttachVideo);
+                } else {
+                    formatPluralString2 = size > 1 ? LocaleController.formatPluralString("Photos", size, new Object[0]) : LocaleController.getString(R.string.AttachPhoto);
+                }
+                charSequence2 = StarsIntroActivity.replaceStars(LocaleController.formatString(R.string.AttachPaidMedia, formatPluralString2));
+                i2 = Theme.key_chats_actionMessage;
             } else if (this.thumbsCount > 1) {
                 if (this.hasVideoThumb) {
                     ArrayList<MessageObject> arrayList2 = this.groupMessages;

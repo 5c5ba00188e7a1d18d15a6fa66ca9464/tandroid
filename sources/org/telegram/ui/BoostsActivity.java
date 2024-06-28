@@ -254,7 +254,7 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
                 if (BoostsActivity.this.boostsStatus.premium_audience == null || BoostsActivity.this.boostsStatus.premium_audience.total == 0.0d) {
                     overviewCell.setData(1, "~0", "0%", LocaleController.getString(BoostsActivity.this.isChannel() ? R.string.PremiumSubscribers : R.string.PremiumMembers));
                 } else {
-                    overviewCell.setData(1, "~" + ((int) BoostsActivity.this.boostsStatus.premium_audience.part), String.format(Locale.US, "%.1f", Float.valueOf((((float) BoostsActivity.this.boostsStatus.premium_audience.part) / ((float) BoostsActivity.this.boostsStatus.premium_audience.total)) * 100.0f)) + "%", LocaleController.getString(BoostsActivity.this.isChannel() ? R.string.PremiumSubscribers : R.string.PremiumMembers));
+                    overviewCell.setData(1, "≈" + ((int) BoostsActivity.this.boostsStatus.premium_audience.part), String.format(Locale.US, "%.1f", Float.valueOf((((float) BoostsActivity.this.boostsStatus.premium_audience.part) / ((float) BoostsActivity.this.boostsStatus.premium_audience.total)) * 100.0f)) + "%", LocaleController.getString(BoostsActivity.this.isChannel() ? R.string.PremiumSubscribers : R.string.PremiumMembers));
                 }
                 overviewCell.setData(2, String.valueOf(BoostsActivity.this.boostsStatus.boosts), null, LocaleController.getString("BoostsExisting", R.string.BoostsExisting));
                 overviewCell.setData(3, String.valueOf(Math.max(0, BoostsActivity.this.boostsStatus.next_level_boosts - BoostsActivity.this.boostsStatus.boosts)), null, LocaleController.getString("BoostsToLevel", R.string.BoostsToLevel));

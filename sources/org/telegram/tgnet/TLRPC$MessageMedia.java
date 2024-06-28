@@ -1,5 +1,6 @@
 package org.telegram.tgnet;
 
+import java.util.ArrayList;
 import org.telegram.messenger.MessagesController;
 import org.telegram.tgnet.tl.TL_stories$StoryItem;
 import org.telegram.ui.Stories.MessageMediaStoryFull;
@@ -14,7 +15,7 @@ public abstract class TLRPC$MessageMedia extends TLObject {
     public String currency;
     public String description;
     public TLRPC$Document document;
-    public TLRPC$MessageExtendedMedia extended_media;
+    public ArrayList<TLRPC$MessageExtendedMedia> extended_media = new ArrayList<>();
     public String first_name;
     public int flags;
     public boolean force_large_media;
@@ -37,6 +38,7 @@ public abstract class TLRPC$MessageMedia extends TLObject {
     public boolean safe;
     public boolean shipping_address_requested;
     public boolean spoiler;
+    public long stars_amount;
     public String start_param;
     public TL_stories$StoryItem storyItem;
     public boolean test;
@@ -53,13 +55,13 @@ public abstract class TLRPC$MessageMedia extends TLObject {
     public boolean voice;
     public TLRPC$WebPage webpage;
 
-    /* JADX WARN: Code restructure failed: missing block: B:60:0x019f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:61:0x01a6, code lost:
         if (r6.captionLegacy == null) goto L22;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:73:0x0222, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:74:0x0229, code lost:
         if (r6.captionLegacy == null) goto L22;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:74:0x0224, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:75:0x022b, code lost:
         r6.captionLegacy = "";
      */
     /*
@@ -181,6 +183,9 @@ public abstract class TLRPC$MessageMedia extends TLObject {
                         this.webpage.serializeToStream(abstractSerializedData2);
                     }
                 };
+                break;
+            case -1467669359:
+                tLRPC$MessageMedia = new TLRPC$TL_messageMediaPaidMedia();
                 break;
             case -1256047857:
                 tLRPC$MessageMedia = new TLRPC$TL_messageMediaPhoto() { // from class: org.telegram.tgnet.TLRPC$TL_messageMediaPhoto_layer74

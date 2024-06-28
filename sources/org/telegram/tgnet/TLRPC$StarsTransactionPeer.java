@@ -57,6 +57,18 @@ public class TLRPC$StarsTransactionPeer extends TLObject {
                     }
                 };
                 break;
+            case 1617438738:
+                tLRPC$StarsTransactionPeer = new TLRPC$StarsTransactionPeer() { // from class: org.telegram.tgnet.TLRPC$TL_starsTransactionPeerAds
+                    @Override // org.telegram.tgnet.TLObject
+                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
+                    }
+
+                    @Override // org.telegram.tgnet.TLObject
+                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
+                        abstractSerializedData2.writeInt32(1617438738);
+                    }
+                };
+                break;
             case 2069236235:
                 tLRPC$StarsTransactionPeer = new TLRPC$StarsTransactionPeer() { // from class: org.telegram.tgnet.TLRPC$TL_starsTransactionPeerPlayMarket
                     @Override // org.telegram.tgnet.TLObject

@@ -5444,7 +5444,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             if (i4 >= 2 || BuildVars.DEBUG_PRIVATE_VERSION) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this.getParentActivity(), ProfileActivity.this.resourcesProvider);
                 builder.setTitle(LocaleController.getString("DebugMenu", R.string.DebugMenu));
-                CharSequence[] charSequenceArr = new CharSequence[31];
+                CharSequence[] charSequenceArr = new CharSequence[32];
                 charSequenceArr[0] = LocaleController.getString("DebugMenuImportContacts", R.string.DebugMenuImportContacts);
                 charSequenceArr[1] = LocaleController.getString("DebugMenuReloadContacts", R.string.DebugMenuReloadContacts);
                 charSequenceArr[2] = LocaleController.getString("DebugMenuResetContacts", R.string.DebugMenuResetContacts);
@@ -5513,6 +5513,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 charSequenceArr[28] = BuildVars.DEBUG_VERSION ? "Clear bot biometry data" : null;
                 charSequenceArr[29] = BuildVars.DEBUG_PRIVATE_VERSION ? "Clear all login tokens" : null;
                 charSequenceArr[30] = (!SharedConfig.canBlurChat() || i5 < 31) ? null : SharedConfig.useNewBlur ? "back to cpu blur" : "use new gpu blur";
+                charSequenceArr[31] = BuildVars.DEBUG_PRIVATE_VERSION ? SharedConfig.botTabs3DEffect ? "disable tabs 3d effect" : "enable tabs 3d effect" : null;
                 final Context context = this.val$context;
                 builder.setItems(charSequenceArr, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$16$$ExternalSyntheticLambda1
                     @Override // android.content.DialogInterface.OnClickListener
@@ -5534,8 +5535,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
         public /* synthetic */ void lambda$onItemClick$3(Context context, DialogInterface dialogInterface, int i) {
             long j;
-            String str;
-            int i2 = 0;
+            int i2;
+            int i3 = 0;
             if (i == 0) {
                 ProfileActivity.this.getUserConfig().syncContacts = true;
                 ProfileActivity.this.getUserConfig().saveConfig(false);
@@ -5587,9 +5588,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 SharedPreferences mainSettings = ProfileActivity.this.getMessagesController().getMainSettings();
                 SharedPreferences.Editor edit = mainSettings.edit();
                 edit.remove("peerColors").remove("profilePeerColors").remove("boostingappearance").remove("bizbothint");
-                for (String str2 : mainSettings.getAll().keySet()) {
-                    if (str2.contains("show_gift_for_") || str2.contains("bdayhint_") || str2.contains("bdayanim_")) {
-                        edit.remove(str2);
+                for (String str : mainSettings.getAll().keySet()) {
+                    if (str.contains("show_gift_for_") || str.contains("bdayhint_") || str.contains("bdayanim_")) {
+                        edit.remove(str);
                     }
                 }
                 edit.commit();
@@ -5640,8 +5641,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     }
                 });
             } else if (i == 19) {
-                int i3 = ConnectionsManager.CPU_COUNT;
-                String str3 = "activity";
+                int i4 = ConnectionsManager.CPU_COUNT;
                 int memoryClass = ((ActivityManager) ApplicationLoader.applicationContext.getSystemService("activity")).getMemoryClass();
                 StringBuilder sb = new StringBuilder();
                 long j2 = 0;
@@ -5652,39 +5652,29 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 long j7 = 0;
                 long j8 = 0;
                 long j9 = 0;
-                while (i2 < i3) {
+                while (i3 < i4) {
+                    Long sysInfoLong = AndroidUtilities.getSysInfoLong("/sys/devices/system/cpu/cpu" + i3 + "/cpufreq/cpuinfo_min_freq");
+                    Long sysInfoLong2 = AndroidUtilities.getSysInfoLong("/sys/devices/system/cpu/cpu" + i3 + "/cpufreq/cpuinfo_cur_freq");
                     StringBuilder sb2 = new StringBuilder();
                     sb2.append("/sys/devices/system/cpu/cpu");
-                    sb2.append(i2);
-                    int i4 = i3;
-                    sb2.append("/cpufreq/cpuinfo_min_freq");
-                    Long sysInfoLong = AndroidUtilities.getSysInfoLong(sb2.toString());
-                    StringBuilder sb3 = new StringBuilder();
-                    sb3.append("/sys/devices/system/cpu/cpu");
-                    sb3.append(i2);
-                    int i5 = memoryClass;
-                    sb3.append("/cpufreq/cpuinfo_cur_freq");
-                    Long sysInfoLong2 = AndroidUtilities.getSysInfoLong(sb3.toString());
-                    StringBuilder sb4 = new StringBuilder();
-                    sb4.append("/sys/devices/system/cpu/cpu");
-                    sb4.append(i2);
-                    String str4 = str3;
-                    sb4.append("/cpufreq/cpuinfo_max_freq");
-                    Long sysInfoLong3 = AndroidUtilities.getSysInfoLong(sb4.toString());
-                    Long sysInfoLong4 = AndroidUtilities.getSysInfoLong("/sys/devices/system/cpu/cpu" + i2 + "/cpu_capacity");
+                    sb2.append(i3);
+                    int i5 = i4;
+                    sb2.append("/cpufreq/cpuinfo_max_freq");
+                    Long sysInfoLong3 = AndroidUtilities.getSysInfoLong(sb2.toString());
+                    Long sysInfoLong4 = AndroidUtilities.getSysInfoLong("/sys/devices/system/cpu/cpu" + i3 + "/cpu_capacity");
                     sb.append("#");
-                    sb.append(i2);
+                    sb.append(i3);
                     sb.append(" ");
-                    int i6 = i2;
+                    int i6 = memoryClass;
                     if (sysInfoLong != null) {
                         sb.append("min=");
-                        str = "\n";
+                        i2 = i3;
                         sb.append(sysInfoLong.longValue() / 1000);
                         sb.append(" ");
                         j2 += sysInfoLong.longValue() / 1000;
                         j3++;
                     } else {
-                        str = "\n";
+                        i2 = i3;
                     }
                     if (sysInfoLong2 != null) {
                         sb.append("cur=");
@@ -5707,131 +5697,129 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         j8 += sysInfoLong4.longValue();
                         j9++;
                     }
-                    sb.append(str);
-                    i2 = i6 + 1;
-                    i3 = i4;
-                    memoryClass = i5;
-                    str3 = str4;
+                    sb.append("\n");
+                    i3 = i2 + 1;
+                    i4 = i5;
+                    memoryClass = i6;
                 }
-                int i7 = i3;
+                int i7 = i4;
                 int i8 = memoryClass;
-                String str5 = str3;
-                StringBuilder sb5 = new StringBuilder();
-                sb5.append(Build.MANUFACTURER);
-                sb5.append(", ");
-                sb5.append(Build.MODEL);
-                sb5.append(" (");
-                sb5.append(Build.PRODUCT);
-                sb5.append(", ");
-                sb5.append(Build.DEVICE);
-                sb5.append(") ");
-                sb5.append(" (android ");
+                StringBuilder sb3 = new StringBuilder();
+                sb3.append(Build.MANUFACTURER);
+                sb3.append(", ");
+                sb3.append(Build.MODEL);
+                sb3.append(" (");
+                sb3.append(Build.PRODUCT);
+                sb3.append(", ");
+                sb3.append(Build.DEVICE);
+                sb3.append(") ");
+                sb3.append(" (android ");
                 int i9 = Build.VERSION.SDK_INT;
-                sb5.append(i9);
-                sb5.append(")\n");
+                sb3.append(i9);
+                sb3.append(")\n");
                 if (i9 >= 31) {
-                    sb5.append("SoC: ");
-                    sb5.append(Build.SOC_MANUFACTURER);
-                    sb5.append(", ");
-                    sb5.append(Build.SOC_MODEL);
-                    sb5.append("\n");
+                    sb3.append("SoC: ");
+                    sb3.append(Build.SOC_MANUFACTURER);
+                    sb3.append(", ");
+                    sb3.append(Build.SOC_MODEL);
+                    sb3.append("\n");
                 }
                 String sysInfoString = AndroidUtilities.getSysInfoString("/sys/kernel/gpu/gpu_model");
                 if (sysInfoString != null) {
-                    sb5.append("GPU: ");
-                    sb5.append(sysInfoString);
+                    sb3.append("GPU: ");
+                    sb3.append(sysInfoString);
                     Long sysInfoLong5 = AndroidUtilities.getSysInfoLong("/sys/kernel/gpu/gpu_min_clock");
                     Long sysInfoLong6 = AndroidUtilities.getSysInfoLong("/sys/kernel/gpu/gpu_mm_min_clock");
                     Long sysInfoLong7 = AndroidUtilities.getSysInfoLong("/sys/kernel/gpu/gpu_max_clock");
                     if (sysInfoLong5 != null) {
-                        sb5.append(", min=");
+                        sb3.append(", min=");
                         j = j4;
-                        sb5.append(sysInfoLong5.longValue() / 1000);
+                        sb3.append(sysInfoLong5.longValue() / 1000);
                     } else {
                         j = j4;
                     }
                     if (sysInfoLong6 != null) {
-                        sb5.append(", mmin=");
-                        sb5.append(sysInfoLong6.longValue() / 1000);
+                        sb3.append(", mmin=");
+                        sb3.append(sysInfoLong6.longValue() / 1000);
                     }
                     if (sysInfoLong7 != null) {
-                        sb5.append(", max=");
-                        sb5.append(sysInfoLong7.longValue() / 1000);
+                        sb3.append(", max=");
+                        sb3.append(sysInfoLong7.longValue() / 1000);
                     }
-                    sb5.append("\n");
+                    sb3.append("\n");
                 } else {
                     j = j4;
                 }
-                ConfigurationInfo deviceConfigurationInfo = ((ActivityManager) ApplicationLoader.applicationContext.getSystemService(str5)).getDeviceConfigurationInfo();
-                sb5.append("GLES Version: ");
-                sb5.append(deviceConfigurationInfo.getGlEsVersion());
-                sb5.append("\n");
-                sb5.append("Memory: class=");
-                sb5.append(AndroidUtilities.formatFileSize(i8 * 1024 * 1024));
+                ConfigurationInfo deviceConfigurationInfo = ((ActivityManager) ApplicationLoader.applicationContext.getSystemService("activity")).getDeviceConfigurationInfo();
+                sb3.append("GLES Version: ");
+                sb3.append(deviceConfigurationInfo.getGlEsVersion());
+                sb3.append("\n");
+                sb3.append("Memory: class=");
+                sb3.append(AndroidUtilities.formatFileSize(i8 * 1024 * 1024));
                 ActivityManager.MemoryInfo memoryInfo = new ActivityManager.MemoryInfo();
-                ((ActivityManager) ApplicationLoader.applicationContext.getSystemService(str5)).getMemoryInfo(memoryInfo);
-                sb5.append(", total=");
-                sb5.append(AndroidUtilities.formatFileSize(memoryInfo.totalMem));
-                sb5.append(", avail=");
-                sb5.append(AndroidUtilities.formatFileSize(memoryInfo.availMem));
-                sb5.append(", low?=");
-                sb5.append(memoryInfo.lowMemory);
-                sb5.append(" (threshold=");
-                sb5.append(AndroidUtilities.formatFileSize(memoryInfo.threshold));
-                sb5.append(")");
-                sb5.append("\n");
-                sb5.append("Current class: ");
-                sb5.append(SharedConfig.performanceClassName(SharedConfig.getDevicePerformanceClass()));
-                sb5.append(", measured: ");
-                sb5.append(SharedConfig.performanceClassName(SharedConfig.measureDevicePerformanceClass()));
+                ((ActivityManager) ApplicationLoader.applicationContext.getSystemService("activity")).getMemoryInfo(memoryInfo);
+                sb3.append(", total=");
+                sb3.append(AndroidUtilities.formatFileSize(memoryInfo.totalMem));
+                sb3.append(", avail=");
+                sb3.append(AndroidUtilities.formatFileSize(memoryInfo.availMem));
+                sb3.append(", low?=");
+                sb3.append(memoryInfo.lowMemory);
+                sb3.append(" (threshold=");
+                sb3.append(AndroidUtilities.formatFileSize(memoryInfo.threshold));
+                sb3.append(")");
+                sb3.append("\n");
+                sb3.append("Current class: ");
+                sb3.append(SharedConfig.performanceClassName(SharedConfig.getDevicePerformanceClass()));
+                sb3.append(", measured: ");
+                sb3.append(SharedConfig.performanceClassName(SharedConfig.measureDevicePerformanceClass()));
                 if (i9 >= 31) {
-                    sb5.append(", suggest=");
-                    sb5.append(Build.VERSION.MEDIA_PERFORMANCE_CLASS);
+                    sb3.append(", suggest=");
+                    sb3.append(Build.VERSION.MEDIA_PERFORMANCE_CLASS);
                 }
-                sb5.append("\n");
-                sb5.append(i7);
-                sb5.append(" CPUs");
+                sb3.append("\n");
+                sb3.append(i7);
+                sb3.append(" CPUs");
                 if (j3 > 0) {
-                    sb5.append(", avgMinFreq=");
-                    sb5.append(j2 / j3);
+                    sb3.append(", avgMinFreq=");
+                    sb3.append(j2 / j3);
                 }
                 if (j5 > 0) {
-                    sb5.append(", avgCurFreq=");
-                    sb5.append(j / j5);
+                    sb3.append(", avgCurFreq=");
+                    sb3.append(j / j5);
                 }
                 if (j7 > 0) {
-                    sb5.append(", avgMaxFreq=");
-                    sb5.append(j6 / j7);
+                    sb3.append(", avgMaxFreq=");
+                    sb3.append(j6 / j7);
                 }
                 if (j9 > 0) {
-                    sb5.append(", avgCapacity=");
-                    sb5.append(j8 / j9);
+                    sb3.append(", avgCapacity=");
+                    sb3.append(j8 / j9);
                 }
-                sb5.append("\n");
-                sb5.append((CharSequence) sb);
-                ProfileActivity.this.listCodecs(MediaController.VIDEO_MIME_TYPE, sb5);
-                ProfileActivity.this.listCodecs("video/hevc", sb5);
-                ProfileActivity.this.listCodecs("video/x-vnd.on2.vp8", sb5);
-                ProfileActivity.this.listCodecs("video/x-vnd.on2.vp9", sb5);
-                ProfileActivity.this.showDialog(new 1(ProfileActivity.this.getParentActivity(), null, sb5.toString(), false, null, false));
+                sb3.append("\n");
+                sb3.append((CharSequence) sb);
+                ProfileActivity.this.listCodecs(MediaController.VIDEO_MIME_TYPE, sb3);
+                ProfileActivity.this.listCodecs("video/hevc", sb3);
+                ProfileActivity.this.listCodecs("video/x-vnd.on2.vp8", sb3);
+                ProfileActivity.this.listCodecs("video/x-vnd.on2.vp9", sb3);
+                ProfileActivity.this.showDialog(new 1(ProfileActivity.this.getParentActivity(), null, sb3.toString(), false, null, false));
             } else if (i == 20) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this.getParentActivity(), ProfileActivity.this.resourcesProvider);
                 builder.setTitle("Force performance class");
                 int devicePerformanceClass = SharedConfig.getDevicePerformanceClass();
                 final int measureDevicePerformanceClass = SharedConfig.measureDevicePerformanceClass();
                 CharSequence[] charSequenceArr = new CharSequence[3];
+                StringBuilder sb4 = new StringBuilder();
+                sb4.append(devicePerformanceClass == 2 ? "**HIGH**" : "HIGH");
+                sb4.append(measureDevicePerformanceClass == 2 ? " (measured)" : "");
+                charSequenceArr[0] = AndroidUtilities.replaceTags(sb4.toString());
+                StringBuilder sb5 = new StringBuilder();
+                sb5.append(devicePerformanceClass == 1 ? "**AVERAGE**" : "AVERAGE");
+                sb5.append(measureDevicePerformanceClass == 1 ? " (measured)" : "");
+                charSequenceArr[1] = AndroidUtilities.replaceTags(sb5.toString());
                 StringBuilder sb6 = new StringBuilder();
-                sb6.append(devicePerformanceClass == 2 ? "**HIGH**" : "HIGH");
-                sb6.append(measureDevicePerformanceClass == 2 ? " (measured)" : "");
-                charSequenceArr[0] = AndroidUtilities.replaceTags(sb6.toString());
-                StringBuilder sb7 = new StringBuilder();
-                sb7.append(devicePerformanceClass == 1 ? "**AVERAGE**" : "AVERAGE");
-                sb7.append(measureDevicePerformanceClass == 1 ? " (measured)" : "");
-                charSequenceArr[1] = AndroidUtilities.replaceTags(sb7.toString());
-                StringBuilder sb8 = new StringBuilder();
-                sb8.append(devicePerformanceClass == 0 ? "**LOW**" : "LOW");
-                sb8.append(measureDevicePerformanceClass != 0 ? "" : " (measured)");
-                charSequenceArr[2] = AndroidUtilities.replaceTags(sb8.toString());
+                sb6.append(devicePerformanceClass == 0 ? "**LOW**" : "LOW");
+                sb6.append(measureDevicePerformanceClass != 0 ? "" : " (measured)");
+                charSequenceArr[2] = AndroidUtilities.replaceTags(sb6.toString());
                 builder.setItems(charSequenceArr, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$16$$ExternalSyntheticLambda0
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface2, int i10) {
@@ -5851,9 +5839,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
             } else if (i == 23) {
                 SharedConfig.toggleSurfaceInStories();
-                while (i2 < ProfileActivity.this.getParentLayout().getFragmentStack().size()) {
-                    ProfileActivity.this.getParentLayout().getFragmentStack().get(i2).clearStoryViewers();
-                    i2++;
+                while (i3 < ProfileActivity.this.getParentLayout().getFragmentStack().size()) {
+                    ProfileActivity.this.getParentLayout().getFragmentStack().get(i3).clearSheets();
+                    i3++;
                 }
             } else if (i == 24) {
                 SharedConfig.togglePhotoViewerBlur();
@@ -5869,6 +5857,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 AuthTokensHelper.clearLogInTokens();
             } else if (i == 30) {
                 SharedConfig.toggleUseNewBlur();
+            } else if (i == 31) {
+                SharedConfig.setBotTabs3DEffect(!SharedConfig.botTabs3DEffect);
             }
         }
 
@@ -9552,7 +9542,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean onBackPressed() {
         SharedMediaLayout sharedMediaLayout;
-        if (!closeStoryViewer() && this.actionBar.isEnabled()) {
+        if (!closeSheet() && this.actionBar.isEnabled()) {
             return this.sharedMediaRow == -1 || (sharedMediaLayout = this.sharedMediaLayout) == null || !sharedMediaLayout.closeActionMode();
         }
         return false;

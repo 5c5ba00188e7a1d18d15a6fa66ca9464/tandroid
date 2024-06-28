@@ -25,6 +25,7 @@ import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$Message;
+import org.telegram.tgnet.TLRPC$MessageMedia;
 import org.telegram.tgnet.TLRPC$Peer;
 import org.telegram.tgnet.TLRPC$Photo;
 import org.telegram.tgnet.TLRPC$PhotoSize;
@@ -32,6 +33,7 @@ import org.telegram.tgnet.TLRPC$TL_account_autoDownloadSettings;
 import org.telegram.tgnet.TLRPC$TL_account_saveAutoDownloadSettings;
 import org.telegram.tgnet.TLRPC$TL_autoDownloadSettings;
 import org.telegram.tgnet.TLRPC$TL_error;
+import org.telegram.tgnet.TLRPC$TL_messageMediaPhoto;
 import org.telegram.tgnet.TLRPC$TL_messageMediaStory;
 import org.telegram.tgnet.TLRPC$TL_peerUser;
 import org.telegram.ui.LaunchActivity;
@@ -823,6 +825,130 @@ public class DownloadController extends BaseController implements NotificationCe
         }
         long messageSize22 = MessageObject.getMessageSize(tLRPC$Message);
         if (!isVideoMessage) {
+        }
+        if (i != 1) {
+        }
+        if (i == 2) {
+        }
+    }
+
+    /* JADX WARN: Code restructure failed: missing block: B:25:0x0050, code lost:
+        if (getContactsController().contactsDict.containsKey(java.lang.Long.valueOf(r7.user_id)) != false) goto L14;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:32:0x0072, code lost:
+        if (getContactsController().contactsDict.containsKey(java.lang.Long.valueOf(r18.from_id.user_id)) != false) goto L14;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:46:0x00b1, code lost:
+        if (getContactsController().contactsDict.containsKey(java.lang.Long.valueOf(r18.from_id.user_id)) != false) goto L14;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x00bd  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x00c9  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x00e8  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x00f8  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x0107  */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x011f  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x0129  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public int canDownloadMedia(TLRPC$Message tLRPC$Message, TLRPC$MessageMedia tLRPC$MessageMedia) {
+        int i;
+        boolean z;
+        char c;
+        int autodownloadNetworkType;
+        Preset currentMobilePreset;
+        int i2;
+        long j;
+        if (tLRPC$Message == null || (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaStory)) {
+            return canPreloadStories() ? 2 : 0;
+        }
+        if (MessageObject.isVideoDocument(tLRPC$MessageMedia.document)) {
+            i = 4;
+            z = true;
+        } else {
+            if (MessageObject.isVoiceDocument(tLRPC$MessageMedia.document)) {
+                i = 2;
+            } else if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaPhoto) {
+                i = 1;
+            } else if (tLRPC$MessageMedia.document == null) {
+                return 0;
+            } else {
+                i = 8;
+            }
+            z = false;
+        }
+        TLRPC$Peer tLRPC$Peer = tLRPC$Message.peer_id;
+        if (tLRPC$Peer != null) {
+            if (tLRPC$Peer.user_id == 0) {
+                if (tLRPC$Peer.chat_id != 0) {
+                    if (tLRPC$Message.from_id instanceof TLRPC$TL_peerUser) {
+                    }
+                    c = 2;
+                } else {
+                    TLRPC$Chat chat = tLRPC$Peer.channel_id != 0 ? getMessagesController().getChat(Long.valueOf(tLRPC$Message.peer_id.channel_id)) : null;
+                    if (ChatObject.isChannel(chat) && chat.megagroup) {
+                        if (tLRPC$Message.from_id instanceof TLRPC$TL_peerUser) {
+                        }
+                        c = 2;
+                    } else {
+                        c = 3;
+                    }
+                }
+                autodownloadNetworkType = ApplicationLoader.getAutodownloadNetworkType();
+                if (autodownloadNetworkType == 1) {
+                    if (!this.wifiPreset.enabled) {
+                        return 0;
+                    }
+                    currentMobilePreset = getCurrentWiFiPreset();
+                } else if (autodownloadNetworkType == 2) {
+                    if (!this.roamingPreset.enabled) {
+                        return 0;
+                    }
+                    currentMobilePreset = getCurrentRoamingPreset();
+                } else if (!this.mobilePreset.enabled) {
+                    return 0;
+                } else {
+                    currentMobilePreset = getCurrentMobilePreset();
+                }
+                i2 = currentMobilePreset.mask[c];
+                if (i == 2) {
+                    j = Math.max(524288L, currentMobilePreset.sizes[typeToIndex(i)]);
+                } else {
+                    j = currentMobilePreset.sizes[typeToIndex(i)];
+                }
+                long messageSize = MessageObject.getMessageSize(tLRPC$Message);
+                if (!z && currentMobilePreset.preloadVideo && messageSize > j && j > 2097152) {
+                    return (i2 & i) != 0 ? 2 : 0;
+                } else if (i != 1 || (messageSize != 0 && messageSize <= j)) {
+                    return (i == 2 && (i2 & i) == 0) ? 0 : 1;
+                } else {
+                    return 0;
+                }
+            }
+            c = 0;
+            autodownloadNetworkType = ApplicationLoader.getAutodownloadNetworkType();
+            if (autodownloadNetworkType == 1) {
+            }
+            i2 = currentMobilePreset.mask[c];
+            if (i == 2) {
+            }
+            long messageSize2 = MessageObject.getMessageSize(tLRPC$Message);
+            if (!z) {
+            }
+            if (i != 1) {
+            }
+            if (i == 2) {
+            }
+        }
+        c = 1;
+        autodownloadNetworkType = ApplicationLoader.getAutodownloadNetworkType();
+        if (autodownloadNetworkType == 1) {
+        }
+        i2 = currentMobilePreset.mask[c];
+        if (i == 2) {
+        }
+        long messageSize22 = MessageObject.getMessageSize(tLRPC$Message);
+        if (!z) {
         }
         if (i != 1) {
         }

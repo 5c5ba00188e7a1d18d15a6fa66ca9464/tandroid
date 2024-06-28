@@ -258,8 +258,8 @@ import org.telegram.ui.TopicsFragment;
 import org.telegram.ui.bots.BotCommandsMenuContainer;
 import org.telegram.ui.bots.BotCommandsMenuView;
 import org.telegram.ui.bots.BotKeyboardView;
+import org.telegram.ui.bots.BotWebViewAttachedSheet;
 import org.telegram.ui.bots.BotWebViewMenuContainer;
-import org.telegram.ui.bots.BotWebViewSheet;
 import org.telegram.ui.bots.ChatActivityBotWebViewButton;
 /* loaded from: classes3.dex */
 public class ChatActivityEnterView extends BlurredFrameLayout implements NotificationCenter.NotificationCenterDelegate, SizeNotifierFrameLayout.SizeNotifierFrameLayoutDelegate, StickersAlert.StickersAlertDelegate, SuggestEmojiView.AnchorViewDelegate {
@@ -311,7 +311,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
     private MessageObject botMessageObject;
     private TLRPC$TL_replyKeyboardMarkup botReplyMarkup;
     private ChatActivityBotWebViewButton botWebViewButton;
-    private BotWebViewMenuContainer botWebViewMenuContainer;
+    public BotWebViewMenuContainer botWebViewMenuContainer;
     private final AnimatedFloat bottomGradientAlpha;
     private boolean calledRecordRunnable;
     private Drawable cameraDrawable;
@@ -4496,12 +4496,12 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
     public /* synthetic */ void lambda$openWebViewMenu$23() {
         AndroidUtilities.hideKeyboard(this);
         if (AndroidUtilities.isTablet()) {
-            BotWebViewSheet botWebViewSheet = new BotWebViewSheet(getContext(), this.parentFragment.getResourceProvider());
-            botWebViewSheet.setParentActivity(this.parentActivity);
+            BotWebViewAttachedSheet createBotViewer = this.parentFragment.createBotViewer();
+            createBotViewer.setParentActivity(this.parentActivity);
             int i = this.currentAccount;
             long j = this.dialog_id;
-            botWebViewSheet.requestWebView(i, j, j, this.botMenuWebViewTitle, this.botMenuWebViewUrl, 2, 0, false);
-            this.parentFragment.showDialog(botWebViewSheet);
+            createBotViewer.requestWebView(i, j, j, this.botMenuWebViewTitle, this.botMenuWebViewUrl, 2, 0, false);
+            createBotViewer.show();
             BotCommandsMenuView botCommandsMenuView = this.botCommandsMenuButton;
             if (botCommandsMenuView != null) {
                 botCommandsMenuView.setOpened(false);
@@ -11456,27 +11456,27 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
 
                     @Override // java.lang.Runnable
                     public void run() {
-                        if (ChatActivityEnterView.this.sizeNotifierLayout.measureKeyboardHeight() > AndroidUtilities.dp(20.0f)) {
-                            AndroidUtilities.hideKeyboard(ChatActivityEnterView.this);
-                            AndroidUtilities.runOnUIThread(this, 150L);
+                        if (ChatActivityEnterView.this.sizeNotifierLayout.measureKeyboardHeight() <= AndroidUtilities.dp(20.0f) && !ChatActivityEnterView.this.isPopupShowing()) {
+                            if (ChatActivityEnterView.this.parentFragment == null) {
+                                return;
+                            }
+                            BotWebViewAttachedSheet createBotViewer = ChatActivityEnterView.this.parentFragment.createBotViewer();
+                            createBotViewer.setParentActivity(ChatActivityEnterView.this.parentActivity);
+                            int i2 = ChatActivityEnterView.this.currentAccount;
+                            long j3 = messageObject2.messageOwner.dialog_id;
+                            long j4 = j2;
+                            TLRPC$KeyboardButton tLRPC$KeyboardButton2 = tLRPC$KeyboardButton;
+                            String str = tLRPC$KeyboardButton2.text;
+                            String str2 = tLRPC$KeyboardButton2.url;
+                            boolean z = tLRPC$KeyboardButton2 instanceof TLRPC$TL_keyboardButtonSimpleWebView;
+                            MessageObject messageObject3 = messageObject;
+                            createBotViewer.requestWebView(i2, j3, j4, str, str2, z ? 1 : 0, messageObject3 != null ? messageObject3.messageOwner.id : 0, false);
+                            createBotViewer.show();
                             return;
                         }
-                        BotWebViewSheet botWebViewSheet = new BotWebViewSheet(ChatActivityEnterView.this.getContext(), ChatActivityEnterView.this.resourcesProvider);
-                        botWebViewSheet.setParentActivity(ChatActivityEnterView.this.parentActivity);
-                        int i2 = ChatActivityEnterView.this.currentAccount;
-                        long j3 = messageObject2.messageOwner.dialog_id;
-                        long j4 = j2;
-                        TLRPC$KeyboardButton tLRPC$KeyboardButton2 = tLRPC$KeyboardButton;
-                        String str = tLRPC$KeyboardButton2.text;
-                        String str2 = tLRPC$KeyboardButton2.url;
-                        boolean z = tLRPC$KeyboardButton2 instanceof TLRPC$TL_keyboardButtonSimpleWebView;
-                        MessageObject messageObject3 = messageObject;
-                        botWebViewSheet.requestWebView(i2, j3, j4, str, str2, z ? 1 : 0, messageObject3 != null ? messageObject3.messageOwner.id : 0, false);
-                        if (ChatActivityEnterView.this.parentFragment != null) {
-                            ChatActivityEnterView.this.parentFragment.showDialog(botWebViewSheet);
-                        } else {
-                            botWebViewSheet.show();
-                        }
+                        ChatActivityEnterView.this.hidePopup(false);
+                        AndroidUtilities.hideKeyboard(ChatActivityEnterView.this);
+                        AndroidUtilities.runOnUIThread(this, 150L);
                     }
                 };
                 if (SharedPrefsHelper.isWebViewConfirmShown(this.currentAccount, j2)) {
@@ -12388,6 +12388,10 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             }
             android.graphics.Point point = AndroidUtilities.displaySize;
             int i6 = point.x > point.y ? this.keyboardHeightLand : this.keyboardHeight;
+            ChatActivity chatActivity = this.parentFragment;
+            if (chatActivity != null && chatActivity.getParentLayout() != null) {
+                i6 -= this.parentFragment.getParentLayout().getBottomTabsHeight(false);
+            }
             if (i2 == 1) {
                 i6 = Math.min(this.botKeyboardView.getKeyboardHeight(), i6);
             }
@@ -12918,6 +12922,10 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         }
         if (isPopupShowing()) {
             int i2 = z ? this.keyboardHeightLand : this.keyboardHeight;
+            ChatActivity chatActivity = this.parentFragment;
+            if (chatActivity != null && chatActivity.getParentLayout() != null) {
+                i2 -= this.parentFragment.getParentLayout().getBottomTabsHeight(false);
+            }
             if (this.currentPopupContentType == 1 && !this.botKeyboardView.isFullSize()) {
                 i2 = Math.min(this.botKeyboardView.getKeyboardHeight(), i2);
             }

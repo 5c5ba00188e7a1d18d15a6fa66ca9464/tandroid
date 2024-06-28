@@ -1155,7 +1155,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean onBackPressed() {
-        if (closeStoryViewer()) {
+        if (closeSheet()) {
             return false;
         }
         if (this.sharedMediaLayout.isActionModeShown()) {

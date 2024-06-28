@@ -81,7 +81,6 @@ import org.telegram.tgnet.TLRPC$FileLocation;
 import org.telegram.tgnet.TLRPC$InputEncryptedFile;
 import org.telegram.tgnet.TLRPC$InputFile;
 import org.telegram.tgnet.TLRPC$Message;
-import org.telegram.tgnet.TLRPC$MessageExtendedMedia;
 import org.telegram.tgnet.TLRPC$MessageMedia;
 import org.telegram.tgnet.TLRPC$Photo;
 import org.telegram.tgnet.TLRPC$PhotoSize;
@@ -7219,12 +7218,8 @@ public class ImageLoader {
                 return null;
             }
             return null;
-        } else if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaInvoice) {
-            TLRPC$MessageExtendedMedia tLRPC$MessageExtendedMedia = tLRPC$MessageMedia.extended_media;
-            if (tLRPC$MessageExtendedMedia instanceof TLRPC$TL_messageExtendedMediaPreview) {
-                return ((TLRPC$TL_messageExtendedMediaPreview) tLRPC$MessageExtendedMedia).thumb;
-            }
-            return null;
+        } else if ((tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaInvoice) && !tLRPC$MessageMedia.extended_media.isEmpty() && (tLRPC$Message.media.extended_media.get(0) instanceof TLRPC$TL_messageExtendedMediaPreview)) {
+            return ((TLRPC$TL_messageExtendedMediaPreview) tLRPC$Message.media.extended_media.get(0)).thumb;
         } else {
             return null;
         }

@@ -9066,7 +9066,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean onBackPressed() {
-        if (closeStoryViewer()) {
+        if (closeSheet()) {
             return false;
         }
         if (this.rightSlidingDialogContainer.hasFragment()) {

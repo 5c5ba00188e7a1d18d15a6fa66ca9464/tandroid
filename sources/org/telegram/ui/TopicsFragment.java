@@ -393,7 +393,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             chatActivity.getParentLayout().addFragmentToStack(new TopicsFragment(bundle), chatActivity.getParentLayout().getFragmentStack().size() - 1);
         }
         chatActivity.setSwitchFromTopics(true);
-        chatActivity.lambda$onBackPressed$303();
+        chatActivity.lambda$onBackPressed$305();
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment

@@ -179,13 +179,13 @@ public class ChartHorizontalLinesData {
         if (i2 != 1) {
             if (i2 == 2) {
                 if (i == 1) {
-                    return "~" + BillingController.getInstance().formatCurrency(j, "USD");
+                    return "≈" + BillingController.getInstance().formatCurrency(j, "USD");
                 }
                 return StarsIntroActivity.replaceStarsWithPlain("XTR " + LocaleController.formatNumber(j, ' '), 0.65f);
             }
             return AndroidUtilities.formatWholeNumber((int) j, 0);
         } else if (i == 1) {
-            return "~" + BillingController.getInstance().formatCurrency(j, "USD");
+            return "≈" + BillingController.getInstance().formatCurrency(j, "USD");
         } else {
             if (this.formatterTON == null) {
                 DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(Locale.US);

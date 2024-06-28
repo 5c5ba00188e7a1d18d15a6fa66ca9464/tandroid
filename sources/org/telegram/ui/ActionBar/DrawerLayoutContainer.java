@@ -449,7 +449,7 @@ public class DrawerLayoutContainer extends FrameLayout {
             }
             return true;
         }
-        if ((this.allowOpenDrawerBySwipe || this.drawerOpened) && this.allowOpenDrawer && this.parentActionBarLayout.getFragmentStack().size() == 1 && (this.parentActionBarLayout.getLastFragment().getLastStoryViewer() == null || !this.parentActionBarLayout.getLastFragment().getLastStoryViewer().attachedToParent())) {
+        if ((this.allowOpenDrawerBySwipe || this.drawerOpened) && this.allowOpenDrawer && this.parentActionBarLayout.getFragmentStack().size() == 1 && (this.parentActionBarLayout.getLastFragment().getLastSheet() == null || !this.parentActionBarLayout.getLastFragment().getLastSheet().attachedToParent())) {
             if (motionEvent != null && ((motionEvent.getAction() == 0 || motionEvent.getAction() == 2) && !this.startedTracking && !this.maybeStartTracking)) {
                 if (findScrollingChild(this, motionEvent.getX(), motionEvent.getY()) != null) {
                     return false;
@@ -679,8 +679,9 @@ public class DrawerLayoutContainer extends FrameLayout {
         invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.ViewGroup, android.view.View
-    protected void dispatchDraw(Canvas canvas) {
+    public void dispatchDraw(Canvas canvas) {
         INavigationLayout iNavigationLayout;
         super.dispatchDraw(canvas);
         if (!this.drawCurrentPreviewFragmentAbove || (iNavigationLayout = this.parentActionBarLayout) == null) {

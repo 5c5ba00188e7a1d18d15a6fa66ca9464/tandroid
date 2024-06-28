@@ -373,9 +373,8 @@ public class CustomEmojiReactionsWindow {
             CustomEmojiReactionsWindow.this.showUnlockPremiumAlert();
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.SelectAnimatedEmojiDialog
-        public void invalidateParent() {
+        protected void invalidateParent() {
             CustomEmojiReactionsWindow.this.containerView.invalidate();
         }
     }

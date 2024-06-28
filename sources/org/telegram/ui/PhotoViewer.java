@@ -833,6 +833,11 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         }
 
         @Override // org.telegram.ui.PhotoViewer.PhotoViewerProvider
+        public /* synthetic */ boolean forceAllInGroup() {
+            return PhotoViewerProvider.-CC.$default$forceAllInGroup(this);
+        }
+
+        @Override // org.telegram.ui.PhotoViewer.PhotoViewerProvider
         public String getDeleteMessageString() {
             return null;
         }
@@ -1004,6 +1009,10 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 return true;
             }
 
+            public static boolean $default$forceAllInGroup(PhotoViewerProvider photoViewerProvider) {
+                return false;
+            }
+
             public static boolean $default$onDeletePhoto(PhotoViewerProvider photoViewerProvider, int i) {
                 return true;
             }
@@ -1038,6 +1047,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         boolean closeKeyboard();
 
         void deleteImageAtIndex(int i);
+
+        boolean forceAllInGroup();
 
         String getDeleteMessageString();
 
@@ -5244,6 +5255,11 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     PhotoViewer.this.onActionClick(true);
                     PhotoViewer.this.checkProgress(0, false, true);
                 }
+            }
+
+            @Override // org.telegram.ui.Components.GroupedPhotosListView.GroupedPhotosListViewDelegate
+            public boolean forceAll() {
+                return PhotoViewer.this.placeProvider != null && PhotoViewer.this.placeProvider.forceAllInGroup();
             }
         });
         for (int i4 = 0; i4 < 3; i4++) {
@@ -15798,31 +15814,31 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:1074:0x05f7  */
-    /* JADX WARN: Removed duplicated region for block: B:1079:0x0608  */
-    /* JADX WARN: Removed duplicated region for block: B:1100:0x0650  */
-    /* JADX WARN: Removed duplicated region for block: B:1106:0x065f  */
-    /* JADX WARN: Removed duplicated region for block: B:1153:0x077b  */
-    /* JADX WARN: Removed duplicated region for block: B:1154:0x0782  */
-    /* JADX WARN: Removed duplicated region for block: B:1317:0x0b64  */
-    /* JADX WARN: Removed duplicated region for block: B:1320:0x0b73  */
-    /* JADX WARN: Removed duplicated region for block: B:1323:0x0b7b  */
-    /* JADX WARN: Removed duplicated region for block: B:1326:0x0b8b  */
-    /* JADX WARN: Removed duplicated region for block: B:1329:0x0b90  */
-    /* JADX WARN: Removed duplicated region for block: B:1362:0x0c42  */
-    /* JADX WARN: Removed duplicated region for block: B:1363:0x0c44  */
-    /* JADX WARN: Removed duplicated region for block: B:1366:0x0c4c  */
-    /* JADX WARN: Removed duplicated region for block: B:1367:0x0c4e  */
-    /* JADX WARN: Removed duplicated region for block: B:1370:0x0c56  */
-    /* JADX WARN: Removed duplicated region for block: B:1371:0x0c58  */
-    /* JADX WARN: Removed duplicated region for block: B:1374:0x0c60  */
-    /* JADX WARN: Removed duplicated region for block: B:1386:0x0c79  */
-    /* JADX WARN: Removed duplicated region for block: B:1470:0x0dfa  */
-    /* JADX WARN: Removed duplicated region for block: B:1478:0x0e0b  */
-    /* JADX WARN: Removed duplicated region for block: B:1485:0x0e24  */
-    /* JADX WARN: Removed duplicated region for block: B:1491:0x0e33  */
-    /* JADX WARN: Removed duplicated region for block: B:1503:0x0e50  */
-    /* JADX WARN: Removed duplicated region for block: B:951:0x0363  */
+    /* JADX WARN: Removed duplicated region for block: B:1078:0x05ff  */
+    /* JADX WARN: Removed duplicated region for block: B:1083:0x0610  */
+    /* JADX WARN: Removed duplicated region for block: B:1104:0x0658  */
+    /* JADX WARN: Removed duplicated region for block: B:1110:0x0667  */
+    /* JADX WARN: Removed duplicated region for block: B:1157:0x0783  */
+    /* JADX WARN: Removed duplicated region for block: B:1158:0x078a  */
+    /* JADX WARN: Removed duplicated region for block: B:1321:0x0b6c  */
+    /* JADX WARN: Removed duplicated region for block: B:1324:0x0b7b  */
+    /* JADX WARN: Removed duplicated region for block: B:1327:0x0b83  */
+    /* JADX WARN: Removed duplicated region for block: B:1330:0x0b93  */
+    /* JADX WARN: Removed duplicated region for block: B:1333:0x0b98  */
+    /* JADX WARN: Removed duplicated region for block: B:1366:0x0c4a  */
+    /* JADX WARN: Removed duplicated region for block: B:1367:0x0c4c  */
+    /* JADX WARN: Removed duplicated region for block: B:1370:0x0c54  */
+    /* JADX WARN: Removed duplicated region for block: B:1371:0x0c56  */
+    /* JADX WARN: Removed duplicated region for block: B:1374:0x0c5e  */
+    /* JADX WARN: Removed duplicated region for block: B:1375:0x0c60  */
+    /* JADX WARN: Removed duplicated region for block: B:1378:0x0c68  */
+    /* JADX WARN: Removed duplicated region for block: B:1390:0x0c81  */
+    /* JADX WARN: Removed duplicated region for block: B:1474:0x0e02  */
+    /* JADX WARN: Removed duplicated region for block: B:1482:0x0e13  */
+    /* JADX WARN: Removed duplicated region for block: B:1489:0x0e2c  */
+    /* JADX WARN: Removed duplicated region for block: B:1495:0x0e3b  */
+    /* JADX WARN: Removed duplicated region for block: B:1507:0x0e58  */
+    /* JADX WARN: Removed duplicated region for block: B:955:0x036b  */
     /* JADX WARN: Type inference failed for: r2v124 */
     /* JADX WARN: Type inference failed for: r2v125, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r2v142 */
@@ -15984,7 +16000,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         if (z23) {
                             setItemVisible(this.masksItem, false, false);
                         }
-                        if (!this.pipAvailable) {
+                        if (z21) {
+                            setItemVisible(this.pipItem, false, true);
+                        } else if (!this.pipAvailable) {
                             this.pipItem.setEnabled(false);
                             setItemVisible(this.pipItem, true, !z23 && this.editItem.getAlpha() <= 0.0f, 0.5f);
                         } else {
@@ -20479,7 +20497,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                             }
                                         }
                                         if (chatActivity2 != null) {
-                                            chatActivity2.lambda$openDiscussionMessageChat$319(PhotoViewer.this.animationEndRunnable);
+                                            chatActivity2.lambda$openDiscussionMessageChat$321(PhotoViewer.this.animationEndRunnable);
                                             return;
                                         }
                                         PhotoViewer.this.animationEndRunnable.run();

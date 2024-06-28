@@ -394,6 +394,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
     private float viewsThumbAlpha;
     private SelfStoriesPreviewView.ImageHolder viewsThumbImageReceiver;
     private float viewsThumbScale;
+    private boolean wasBigScreen;
 
     /* loaded from: classes4.dex */
     public interface Delegate {
@@ -4284,7 +4285,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                         dialogStoriesCell = dialogStoriesCell2;
                         baseFragment = this.storyViewer.fragment;
                         if (baseFragment != null) {
-                            baseFragment.clearStoryViewers();
+                            baseFragment.clearSheets();
                         }
                         this.storyViewer.instantClose();
                         this.editOpened = false;
@@ -5145,12 +5146,12 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
         updatePosition(false);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:306:0x0846, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:316:0x0860, code lost:
         if (r1.captionTranslated != (r4 != null && r4.translated && r4.translatedText != null && android.text.TextUtils.equals(r4.translatedLng, org.telegram.ui.Components.TranslateAlert2.getToLanguage()))) goto L343;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:402:0x097b  */
-    /* JADX WARN: Removed duplicated region for block: B:403:0x097d  */
+    /* JADX WARN: Removed duplicated region for block: B:412:0x0995  */
+    /* JADX WARN: Removed duplicated region for block: B:413:0x0997  */
     /* JADX WARN: Type inference failed for: r2v4 */
     /* JADX WARN: Type inference failed for: r2v5, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r2v88 */
@@ -5374,6 +5375,10 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                 if (z13) {
                     this.allowShare = this.currentStory.allowScreenshots() && this.currentStory.storyItem.isPublic;
                 }
+                if (this.allowShare) {
+                    TL_stories$StoryItem tL_stories$StoryItem13 = this.currentStory.storyItem;
+                    this.allowShare = tL_stories$StoryItem13.pinned || !StoriesUtilities.isExpired(this.currentAccount, tL_stories$StoryItem13);
+                }
                 boolean z14 = this.allowShare;
                 this.allowRepost = z14;
                 if (z14 && this.isChannel) {
@@ -5393,9 +5398,9 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
             }
             i2 = i;
         }
-        TL_stories$StoryItem tL_stories$StoryItem13 = this.currentStory.storyItem;
-        if (tL_stories$StoryItem13 != null && !z) {
-            this.storyViewer.dayStoryId = tL_stories$StoryItem13.id;
+        TL_stories$StoryItem tL_stories$StoryItem14 = this.currentStory.storyItem;
+        if (tL_stories$StoryItem14 != null && !z) {
+            this.storyViewer.dayStoryId = tL_stories$StoryItem14.id;
         }
         this.storyViewer.storiesViewPager.checkAllowScreenshots();
         this.imageChanged = true;
@@ -5444,10 +5449,10 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                     spannableStringBuilder = StoriesUtilities.getUploadingStr(this.headerView.subtitleView[0], false, this.isEditing);
                 }
             } else {
-                TL_stories$StoryItem tL_stories$StoryItem14 = storyItemHolder3.storyItem;
-                if (tL_stories$StoryItem14 == null) {
+                TL_stories$StoryItem tL_stories$StoryItem15 = storyItemHolder3.storyItem;
+                if (tL_stories$StoryItem15 == null) {
                     spannableStringBuilder = null;
-                } else if (tL_stories$StoryItem14.date == -1) {
+                } else if (tL_stories$StoryItem15.date == -1) {
                     spannableStringBuilder = LocaleController.getString("CachedStory", R.string.CachedStory);
                 } else {
                     if (storyItemHolder3.getReply() != null) {
@@ -5546,11 +5551,11 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                     StoriesController.StoriesList storiesList = storyViewer2.storiesList;
                     spannableStringBuilder5 = spannableStringBuilder;
                     if (storiesList != null) {
-                        TL_stories$StoryItem tL_stories$StoryItem15 = this.currentStory.storyItem;
+                        TL_stories$StoryItem tL_stories$StoryItem16 = this.currentStory.storyItem;
                         spannableStringBuilder5 = spannableStringBuilder;
-                        if (tL_stories$StoryItem15 != null) {
+                        if (tL_stories$StoryItem16 != null) {
                             spannableStringBuilder5 = spannableStringBuilder;
-                            if (storiesList.isPinned(tL_stories$StoryItem15.id)) {
+                            if (storiesList.isPinned(tL_stories$StoryItem16.id)) {
                                 boolean z17 = spannableStringBuilder instanceof SpannableStringBuilder;
                                 SpannableStringBuilder spannableStringBuilder6 = spannableStringBuilder;
                                 if (!z17) {
@@ -5576,8 +5581,8 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
             }
         }
         StoryItemHolder storyItemHolder4 = this.currentStory;
-        TL_stories$StoryItem tL_stories$StoryItem16 = storyItemHolder4.storyItem;
-        if (tL_stories$StoryItem10 == tL_stories$StoryItem16 && uploadingStory3 == storyItemHolder4.uploadingStory) {
+        TL_stories$StoryItem tL_stories$StoryItem17 = storyItemHolder4.storyItem;
+        if (tL_stories$StoryItem10 == tL_stories$StoryItem17 && uploadingStory3 == storyItemHolder4.uploadingStory) {
         }
         this.currentStory.updateCaption();
         StoryItemHolder storyItemHolder5 = this.currentStory;
@@ -5746,9 +5751,9 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
         if (uploadingStory7 != null) {
             this.privacyButton.set(this.isSelf, uploadingStory7, z15 && this.editedPrivacy);
         } else {
-            TL_stories$StoryItem tL_stories$StoryItem17 = storyItemHolder9.storyItem;
-            if (tL_stories$StoryItem17 != null) {
-                this.privacyButton.set(this.isSelf, tL_stories$StoryItem17, z15 && this.editedPrivacy);
+            TL_stories$StoryItem tL_stories$StoryItem18 = storyItemHolder9.storyItem;
+            if (tL_stories$StoryItem18 != null) {
+                this.privacyButton.set(this.isSelf, tL_stories$StoryItem18, z15 && this.editedPrivacy);
             } else {
                 this.privacyButton.set(this.isSelf, (TL_stories$StoryItem) null, z15 && this.editedPrivacy);
             }
@@ -5757,8 +5762,8 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
         this.privacyButton.setTranslationX(this.muteIconContainer.getVisibility() == 0 ? -AndroidUtilities.dp(44.0f) : 0.0f);
         if (z5) {
             this.drawReactionEffect = false;
-            TL_stories$StoryItem tL_stories$StoryItem18 = this.currentStory.storyItem;
-            if (tL_stories$StoryItem18 == null || (tLRPC$Reaction = tL_stories$StoryItem18.sent_reaction) == null) {
+            TL_stories$StoryItem tL_stories$StoryItem19 = this.currentStory.storyItem;
+            if (tL_stories$StoryItem19 == null || (tLRPC$Reaction = tL_stories$StoryItem19.sent_reaction) == null) {
                 this.storiesLikeButton.setReaction(null);
             } else {
                 this.storiesLikeButton.setReaction(ReactionsLayoutInBubble.VisibleReaction.fromTL(tLRPC$Reaction));
@@ -7501,6 +7506,9 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
         } else {
             this.enterViewBottomOffset = ((-dp) + size) - size2;
         }
+        if (this.BIG_SCREEN != this.wasBigScreen) {
+            this.storyContainer.setLayoutParams(layoutParams);
+        }
         FrameLayout frameLayout = this.selfView;
         if (frameLayout != null) {
             FrameLayout.LayoutParams layoutParams2 = (FrameLayout.LayoutParams) frameLayout.getLayoutParams();
@@ -7534,10 +7542,18 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
             ((FrameLayout.LayoutParams) this.bottomActionsLinearLayout.getLayoutParams()).topMargin = ((dp + size2) - AndroidUtilities.dp(12.0f)) - AndroidUtilities.dp(40.0f);
             int dp2 = this.isSelf ? AndroidUtilities.dp(40.0f) : AndroidUtilities.dp(56.0f);
             ((FrameLayout.LayoutParams) this.storyCaptionView.getLayoutParams()).bottomMargin = dp2;
+            if (this.wasBigScreen != this.BIG_SCREEN) {
+                StoryCaptionView storyCaptionView = this.storyCaptionView;
+                storyCaptionView.setLayoutParams((FrameLayout.LayoutParams) storyCaptionView.getLayoutParams());
+            }
             this.storyCaptionView.blackoutBottomOffset = dp2;
         } else {
             ((FrameLayout.LayoutParams) this.bottomActionsLinearLayout.getLayoutParams()).topMargin = dp + size2 + AndroidUtilities.dp(12.0f);
             ((FrameLayout.LayoutParams) this.storyCaptionView.getLayoutParams()).bottomMargin = AndroidUtilities.dp(8.0f);
+            if (this.wasBigScreen != this.BIG_SCREEN) {
+                StoryCaptionView storyCaptionView2 = this.storyCaptionView;
+                storyCaptionView2.setLayoutParams((FrameLayout.LayoutParams) storyCaptionView2.getLayoutParams());
+            }
             this.storyCaptionView.blackoutBottomOffset = AndroidUtilities.dp(8.0f);
         }
         this.forceUpdateOffsets = true;
@@ -7557,6 +7573,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
             this.headerView.forceLayout();
         }
         super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(size, 1073741824));
+        this.wasBigScreen = this.BIG_SCREEN;
     }
 
     /* JADX INFO: Access modifiers changed from: private */

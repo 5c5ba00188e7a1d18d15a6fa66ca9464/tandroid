@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.security.keystore.KeyGenParameterSpec;
 import android.text.TextUtils;
-import android.util.Log;
 import androidx.biometric.BiometricManager;
 import androidx.biometric.BiometricPrompt;
 import androidx.core.content.ContextCompat;
@@ -110,7 +109,6 @@ public class BotBiometry {
                         cryptoObject = authenticationResult.getCryptoObject();
                     }
                     if (cryptoObject != null) {
-                        Log.i("lolkek", "requestToken: encrypted_token=" + this.encrypted_token + " cipher iv=" + Utilities.bytesToHex(cryptoObject.getCipher().getIV()) + " myiv=" + this.iv);
                         if (!TextUtils.isEmpty(this.encrypted_token)) {
                             str = new String(cryptoObject.getCipher().doFinal(Utilities.hexToBytes(this.encrypted_token)), StandardCharsets.UTF_8);
                         } else {
@@ -218,10 +216,8 @@ public class BotBiometry {
                 Cipher cipher = getCipher();
                 SecretKey secretKey = getSecretKey();
                 if (z) {
-                    Log.i("lolkek", "makeCryptoObject decrypt iv=" + this.iv);
                     cipher.init(2, secretKey, new IvParameterSpec(Utilities.hexToBytes(this.iv)));
                 } else {
-                    Log.i("lolkek", "makeCryptoObject encrypt");
                     cipher.init(1, secretKey);
                 }
                 return new BiometricPrompt.CryptoObject(cipher);

@@ -1,11 +1,16 @@
 package org.telegram.tgnet;
+
+import java.util.ArrayList;
 /* loaded from: classes3.dex */
 public class TLRPC$StarsTransaction extends TLObject {
+    public byte[] bot_payload;
     public int date;
     public String description;
+    public ArrayList<TLRPC$MessageMedia> extended_media = new ArrayList<>();
     public boolean failed;
     public int flags;
     public String id;
+    public int msg_id;
     public TLRPC$StarsTransactionPeer peer;
     public boolean pending;
     public TLRPC$WebDocument photo;
@@ -16,7 +21,7 @@ public class TLRPC$StarsTransaction extends TLObject {
     public String transaction_url;
 
     public static TLRPC$StarsTransaction TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        TLRPC$StarsTransaction tLRPC$StarsTransaction = i != -1442789224 ? i != -865044046 ? null : new TLRPC$StarsTransaction() { // from class: org.telegram.tgnet.TLRPC$TL_starsTransaction_layer181
+        TLRPC$StarsTransaction tLRPC$TL_starsTransaction = i != -1442789224 ? i != -865044046 ? i != 766853519 ? null : new TLRPC$TL_starsTransaction() : new TLRPC$StarsTransaction() { // from class: org.telegram.tgnet.TLRPC$TL_starsTransaction_layer181
             @Override // org.telegram.tgnet.TLObject
             public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                 int readInt32 = abstractSerializedData2.readInt32(z2);
@@ -56,8 +61,8 @@ public class TLRPC$StarsTransaction extends TLObject {
                     this.photo.serializeToStream(abstractSerializedData2);
                 }
             }
-        } : new TLRPC$StarsTransaction() { // from class: org.telegram.tgnet.TLRPC$TL_starsTransaction
-            @Override // org.telegram.tgnet.TLObject
+        } : new TLRPC$TL_starsTransaction() { // from class: org.telegram.tgnet.TLRPC$TL_starsTransaction_layer182
+            @Override // org.telegram.tgnet.TLRPC$TL_starsTransaction, org.telegram.tgnet.TLObject
             public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                 int readInt32 = abstractSerializedData2.readInt32(z2);
                 this.flags = readInt32;
@@ -83,7 +88,7 @@ public class TLRPC$StarsTransaction extends TLObject {
                 }
             }
 
-            @Override // org.telegram.tgnet.TLObject
+            @Override // org.telegram.tgnet.TLRPC$TL_starsTransaction, org.telegram.tgnet.TLObject
             public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
                 abstractSerializedData2.writeInt32(-1442789224);
                 int i2 = this.refund ? this.flags | 8 : this.flags & (-9);
@@ -111,12 +116,12 @@ public class TLRPC$StarsTransaction extends TLObject {
                 }
             }
         };
-        if (tLRPC$StarsTransaction == null && z) {
+        if (tLRPC$TL_starsTransaction == null && z) {
             throw new RuntimeException(String.format("can't parse magic %x in StarsTransaction", Integer.valueOf(i)));
         }
-        if (tLRPC$StarsTransaction != null) {
-            tLRPC$StarsTransaction.readParams(abstractSerializedData, z);
+        if (tLRPC$TL_starsTransaction != null) {
+            tLRPC$TL_starsTransaction.readParams(abstractSerializedData, z);
         }
-        return tLRPC$StarsTransaction;
+        return tLRPC$TL_starsTransaction;
     }
 }

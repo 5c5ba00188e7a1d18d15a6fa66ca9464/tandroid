@@ -113,6 +113,7 @@ import org.telegram.tgnet.TLRPC$TL_messageEntityMentionName;
 import org.telegram.tgnet.TLRPC$TL_messageMediaDocument;
 import org.telegram.tgnet.TLRPC$TL_messageMediaGiveaway;
 import org.telegram.tgnet.TLRPC$TL_messageMediaGiveawayResults;
+import org.telegram.tgnet.TLRPC$TL_messageMediaPaidMedia;
 import org.telegram.tgnet.TLRPC$TL_messageMediaPhoto;
 import org.telegram.tgnet.TLRPC$TL_messageMediaPoll;
 import org.telegram.tgnet.TLRPC$TL_messageMediaStory;
@@ -14665,15 +14666,15 @@ public class MessagesStorage extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:164:0x0410  */
-    /* JADX WARN: Removed duplicated region for block: B:169:0x0418  */
-    /* JADX WARN: Removed duplicated region for block: B:198:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Type inference failed for: r12v10, types: [int, boolean] */
-    /* JADX WARN: Type inference failed for: r12v13 */
-    /* JADX WARN: Type inference failed for: r12v9 */
-    /* JADX WARN: Type inference failed for: r14v2 */
-    /* JADX WARN: Type inference failed for: r14v28 */
-    /* JADX WARN: Type inference failed for: r14v3, types: [int, boolean] */
+    /* JADX WARN: Removed duplicated region for block: B:175:0x0462  */
+    /* JADX WARN: Removed duplicated region for block: B:180:0x046a  */
+    /* JADX WARN: Removed duplicated region for block: B:212:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Type inference failed for: r8v11 */
+    /* JADX WARN: Type inference failed for: r8v20 */
+    /* JADX WARN: Type inference failed for: r8v3 */
+    /* JADX WARN: Type inference failed for: r8v4, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r8v5 */
+    /* JADX WARN: Type inference failed for: r8v6, types: [int, boolean] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -14682,118 +14683,122 @@ public class MessagesStorage extends BaseController {
         Throwable th;
         SQLiteCursor sQLiteCursor2;
         Exception exc;
-        int i2;
-        int i3;
         SQLiteCursor sQLiteCursor3;
-        SQLiteCursor sQLiteCursor4;
-        ArrayList<TLRPC$User> arrayList;
-        ArrayList<TLRPC$Chat> arrayList2;
-        SparseArray sparseArray;
-        ArrayList<TLRPC$User> arrayList3;
-        ArrayList<TLRPC$Chat> arrayList4;
+        ArrayList<TLRPC$Message> arrayList;
+        ArrayList arrayList2;
+        ArrayList<TLRPC$EncryptedChat> arrayList3;
+        ArrayList<Long> arrayList4;
+        ArrayList arrayList5;
+        ArrayList arrayList6;
+        ArrayList<TLRPC$User> arrayList7;
+        ArrayList<TLRPC$Chat> arrayList8;
+        ArrayList<TLRPC$User> arrayList9;
+        ArrayList<TLRPC$Chat> arrayList10;
+        ArrayList<TLRPC$User> arrayList11;
+        ArrayList<TLRPC$Chat> arrayList12;
         try {
-            SparseArray sparseArray2 = new SparseArray();
-            ArrayList<TLRPC$Message> arrayList5 = new ArrayList<>();
-            ArrayList arrayList6 = new ArrayList();
-            ArrayList<TLRPC$User> arrayList7 = new ArrayList<>();
-            ArrayList<TLRPC$Chat> arrayList8 = new ArrayList<>();
-            ArrayList<TLRPC$EncryptedChat> arrayList9 = new ArrayList<>();
-            ArrayList<Long> arrayList10 = new ArrayList<>();
-            ArrayList arrayList11 = new ArrayList();
-            ArrayList arrayList12 = new ArrayList();
-            ?? r14 = 0;
-            SQLiteCursor queryFinalized = this.database.queryFinalized("SELECT m.read_state, m.data, m.send_state, m.mid, m.date, r.random_id, m.uid, s.seq_in, s.seq_out, m.ttl FROM messages_v2 as m LEFT JOIN randoms_v2 as r ON r.mid = m.mid AND r.uid = m.uid LEFT JOIN messages_seq as s ON m.mid = s.mid WHERE (m.mid < 0 AND m.send_state = 1) OR (m.mid > 0 AND m.send_state = 3) ORDER BY m.mid DESC LIMIT " + i, new Object[0]);
-            while (true) {
-                try {
-                    i2 = 2;
-                    i3 = 1;
-                    if (!queryFinalized.next()) {
-                        break;
-                    }
-                    NativeByteBuffer byteBufferValue = queryFinalized.byteBufferValue(1);
-                    if (byteBufferValue != null) {
-                        TLRPC$Message TLdeserialize = TLRPC$Message.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(false), false);
-                        TLdeserialize.send_state = queryFinalized.intValue(2);
-                        arrayList3 = arrayList7;
-                        arrayList4 = arrayList8;
-                        TLdeserialize.readAttachPath(byteBufferValue, getUserConfig().clientUserId);
-                        byteBufferValue.reuse();
-                        if (sparseArray2.indexOfKey(TLdeserialize.id) < 0) {
-                            MessageObject.setUnreadFlags(TLdeserialize, queryFinalized.intValue(0));
-                            TLdeserialize.id = queryFinalized.intValue(3);
-                            TLdeserialize.date = queryFinalized.intValue(4);
-                            if (!queryFinalized.isNull(5)) {
-                                TLdeserialize.random_id = queryFinalized.longValue(5);
-                            }
-                            TLdeserialize.dialog_id = queryFinalized.longValue(6);
-                            TLdeserialize.seq_in = queryFinalized.intValue(7);
-                            TLdeserialize.seq_out = queryFinalized.intValue(8);
-                            TLdeserialize.ttl = queryFinalized.intValue(9);
-                            arrayList5.add(TLdeserialize);
-                            sparseArray2.put(TLdeserialize.id, TLdeserialize);
-                            if (DialogObject.isEncryptedDialog(TLdeserialize.dialog_id)) {
-                                int encryptedChatId = DialogObject.getEncryptedChatId(TLdeserialize.dialog_id);
-                                if (!arrayList12.contains(Integer.valueOf(encryptedChatId))) {
-                                    arrayList12.add(Integer.valueOf(encryptedChatId));
-                                }
-                            } else if (DialogObject.isUserDialog(TLdeserialize.dialog_id)) {
-                                if (!arrayList10.contains(Long.valueOf(TLdeserialize.dialog_id))) {
-                                    arrayList10.add(Long.valueOf(TLdeserialize.dialog_id));
-                                }
-                            } else if (!arrayList11.contains(Long.valueOf(-TLdeserialize.dialog_id))) {
-                                arrayList11.add(Long.valueOf(-TLdeserialize.dialog_id));
-                            }
-                            addUsersAndChatsFromMessage(TLdeserialize, arrayList10, arrayList11, null);
-                            if (TLdeserialize.send_state != 3 && ((TLdeserialize.peer_id.channel_id == 0 && !MessageObject.isUnread(TLdeserialize) && !DialogObject.isEncryptedDialog(TLdeserialize.dialog_id)) || TLdeserialize.id > 0)) {
-                                TLdeserialize.send_state = 0;
-                            }
-                        }
-                    } else {
-                        arrayList3 = arrayList7;
-                        arrayList4 = arrayList8;
-                    }
-                    arrayList7 = arrayList3;
-                    arrayList8 = arrayList4;
-                } catch (Exception e) {
-                    e = e;
-                    exc = e;
-                    sQLiteCursor2 = sQLiteCursor;
+            try {
+                SparseArray sparseArray = new SparseArray();
+                arrayList = new ArrayList<>();
+                arrayList2 = new ArrayList();
+                ArrayList<TLRPC$User> arrayList13 = new ArrayList<>();
+                ArrayList<TLRPC$Chat> arrayList14 = new ArrayList<>();
+                arrayList3 = new ArrayList<>();
+                arrayList4 = new ArrayList<>();
+                arrayList5 = new ArrayList();
+                arrayList6 = new ArrayList();
+                ArrayList arrayList15 = new ArrayList();
+                boolean z = false;
+                SQLiteCursor queryFinalized = this.database.queryFinalized("SELECT m.read_state, m.data, m.send_state, m.mid, m.date, r.random_id, m.uid, s.seq_in, s.seq_out, m.ttl FROM messages_v2 as m LEFT JOIN randoms_v2 as r ON r.mid = m.mid AND r.uid = m.uid LEFT JOIN messages_seq as s ON m.mid = s.mid WHERE (m.mid < 0 AND m.send_state = 1) OR (m.mid > 0 AND m.send_state = 3) ORDER BY m.mid DESC LIMIT " + i, new Object[0]);
+                while (queryFinalized.next()) {
                     try {
-                        checkSQLException(exc);
-                        if (sQLiteCursor2 == null) {
-                            sQLiteCursor2.dispose();
-                            return;
+                        NativeByteBuffer byteBufferValue = queryFinalized.byteBufferValue(1);
+                        if (byteBufferValue != null) {
+                            TLRPC$Message TLdeserialize = TLRPC$Message.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(z), z);
+                            TLdeserialize.send_state = queryFinalized.intValue(2);
+                            arrayList11 = arrayList13;
+                            arrayList12 = arrayList14;
+                            TLdeserialize.readAttachPath(byteBufferValue, getUserConfig().clientUserId);
+                            byteBufferValue.reuse();
+                            if (sparseArray.indexOfKey(TLdeserialize.id) < 0) {
+                                MessageObject.setUnreadFlags(TLdeserialize, queryFinalized.intValue(0));
+                                TLdeserialize.id = queryFinalized.intValue(3);
+                                TLdeserialize.date = queryFinalized.intValue(4);
+                                if (!queryFinalized.isNull(5)) {
+                                    TLdeserialize.random_id = queryFinalized.longValue(5);
+                                }
+                                TLdeserialize.dialog_id = queryFinalized.longValue(6);
+                                TLdeserialize.seq_in = queryFinalized.intValue(7);
+                                TLdeserialize.seq_out = queryFinalized.intValue(8);
+                                TLdeserialize.ttl = queryFinalized.intValue(9);
+                                if (TLdeserialize.media instanceof TLRPC$TL_messageMediaPaidMedia) {
+                                    arrayList15.add(TLdeserialize);
+                                } else {
+                                    arrayList.add(TLdeserialize);
+                                }
+                                sparseArray.put(TLdeserialize.id, TLdeserialize);
+                                if (DialogObject.isEncryptedDialog(TLdeserialize.dialog_id)) {
+                                    int encryptedChatId = DialogObject.getEncryptedChatId(TLdeserialize.dialog_id);
+                                    if (!arrayList6.contains(Integer.valueOf(encryptedChatId))) {
+                                        arrayList6.add(Integer.valueOf(encryptedChatId));
+                                    }
+                                } else if (DialogObject.isUserDialog(TLdeserialize.dialog_id)) {
+                                    if (!arrayList4.contains(Long.valueOf(TLdeserialize.dialog_id))) {
+                                        arrayList4.add(Long.valueOf(TLdeserialize.dialog_id));
+                                    }
+                                } else if (!arrayList5.contains(Long.valueOf(-TLdeserialize.dialog_id))) {
+                                    arrayList5.add(Long.valueOf(-TLdeserialize.dialog_id));
+                                }
+                                addUsersAndChatsFromMessage(TLdeserialize, arrayList4, arrayList5, null);
+                                if (TLdeserialize.send_state != 3 && ((TLdeserialize.peer_id.channel_id == 0 && !MessageObject.isUnread(TLdeserialize) && !DialogObject.isEncryptedDialog(TLdeserialize.dialog_id)) || TLdeserialize.id > 0)) {
+                                    TLdeserialize.send_state = 0;
+                                }
+                            }
+                        } else {
+                            arrayList11 = arrayList13;
+                            arrayList12 = arrayList14;
                         }
-                        return;
+                        arrayList13 = arrayList11;
+                        arrayList14 = arrayList12;
+                        z = false;
+                    } catch (Exception e) {
+                        exc = e;
+                    }
+                }
+                arrayList7 = arrayList13;
+                arrayList8 = arrayList14;
+                queryFinalized.dispose();
+                if (!arrayList15.isEmpty()) {
+                    try {
+                        Iterator it = arrayList15.iterator();
+                        while (it.hasNext()) {
+                            TLRPC$Message tLRPC$Message = (TLRPC$Message) it.next();
+                            this.database.executeFast("DELETE FROM messages_v2 WHERE uid = " + tLRPC$Message.dialog_id + " AND mid = " + tLRPC$Message.id).stepThis().dispose();
+                        }
+                    } catch (Exception e2) {
+                        exc = e2;
+                        sQLiteCursor3 = null;
+                        checkSQLException(exc);
+                        if (sQLiteCursor3 == null) {
+                        }
                     } catch (Throwable th2) {
                         th = th2;
+                        sQLiteCursor2 = null;
                         if (sQLiteCursor2 != null) {
-                            sQLiteCursor2.dispose();
                         }
                         throw th;
                     }
-                } catch (Throwable th3) {
-                    th = th3;
-                    th = th;
-                    sQLiteCursor2 = sQLiteCursor;
-                    if (sQLiteCursor2 != null) {
-                    }
-                    throw th;
                 }
-            }
-            ArrayList<TLRPC$User> arrayList13 = arrayList7;
-            ArrayList<TLRPC$Chat> arrayList14 = arrayList8;
-            queryFinalized.dispose();
-            SQLiteCursor queryFinalized2 = this.database.queryFinalized("SELECT m.data, m.send_state, m.mid, m.date, r.random_id, m.uid, m.ttl FROM scheduled_messages_v2 as m LEFT JOIN randoms_v2 as r ON r.mid = m.mid AND r.uid = m.uid WHERE (m.mid < 0 AND m.send_state = 1) OR (m.mid > 0 AND m.send_state = 3) ORDER BY date ASC", new Object[0]);
-            while (queryFinalized2.next()) {
-                try {
-                    NativeByteBuffer byteBufferValue2 = queryFinalized2.byteBufferValue(r14);
+                ?? r8 = 0;
+                SQLiteCursor queryFinalized2 = this.database.queryFinalized("SELECT m.data, m.send_state, m.mid, m.date, r.random_id, m.uid, m.ttl FROM scheduled_messages_v2 as m LEFT JOIN randoms_v2 as r ON r.mid = m.mid AND r.uid = m.uid WHERE (m.mid < 0 AND m.send_state = 1) OR (m.mid > 0 AND m.send_state = 3) ORDER BY date ASC", new Object[0]);
+                while (queryFinalized2.next()) {
+                    NativeByteBuffer byteBufferValue2 = queryFinalized2.byteBufferValue(r8);
                     if (byteBufferValue2 != null) {
-                        TLRPC$Message TLdeserialize2 = TLRPC$Message.TLdeserialize(byteBufferValue2, byteBufferValue2.readInt32(r14), r14);
-                        TLdeserialize2.send_state = queryFinalized2.intValue(i3);
+                        TLRPC$Message TLdeserialize2 = TLRPC$Message.TLdeserialize(byteBufferValue2, byteBufferValue2.readInt32(r8), r8);
+                        TLdeserialize2.send_state = queryFinalized2.intValue(1);
                         TLdeserialize2.readAttachPath(byteBufferValue2, getUserConfig().clientUserId);
                         byteBufferValue2.reuse();
-                        if (sparseArray2.indexOfKey(TLdeserialize2.id) < 0) {
+                        if (sparseArray.indexOfKey(TLdeserialize2.id) < 0) {
                             TLdeserialize2.id = queryFinalized2.intValue(2);
                             TLdeserialize2.date = queryFinalized2.intValue(3);
                             if (!queryFinalized2.isNull(4)) {
@@ -14801,140 +14806,131 @@ public class MessagesStorage extends BaseController {
                             }
                             TLdeserialize2.dialog_id = queryFinalized2.longValue(5);
                             TLdeserialize2.ttl = queryFinalized2.intValue(6);
-                            arrayList6.add(TLdeserialize2);
-                            sparseArray2.put(TLdeserialize2.id, TLdeserialize2);
+                            arrayList2.add(TLdeserialize2);
+                            sparseArray.put(TLdeserialize2.id, TLdeserialize2);
                             if (DialogObject.isEncryptedDialog(TLdeserialize2.dialog_id)) {
                                 int encryptedChatId2 = DialogObject.getEncryptedChatId(TLdeserialize2.dialog_id);
-                                if (!arrayList12.contains(Integer.valueOf(encryptedChatId2))) {
-                                    arrayList12.add(Integer.valueOf(encryptedChatId2));
+                                if (!arrayList6.contains(Integer.valueOf(encryptedChatId2))) {
+                                    arrayList6.add(Integer.valueOf(encryptedChatId2));
                                 }
                             } else if (DialogObject.isUserDialog(TLdeserialize2.dialog_id)) {
-                                if (!arrayList10.contains(Long.valueOf(TLdeserialize2.dialog_id))) {
-                                    arrayList10.add(Long.valueOf(TLdeserialize2.dialog_id));
+                                if (!arrayList4.contains(Long.valueOf(TLdeserialize2.dialog_id))) {
+                                    arrayList4.add(Long.valueOf(TLdeserialize2.dialog_id));
                                 }
-                            } else if (!arrayList11.contains(Long.valueOf(-TLdeserialize2.dialog_id))) {
-                                arrayList11.add(Long.valueOf(-TLdeserialize2.dialog_id));
+                            } else if (!arrayList5.contains(Long.valueOf(-TLdeserialize2.dialog_id))) {
+                                arrayList5.add(Long.valueOf(-TLdeserialize2.dialog_id));
                             }
-                            addUsersAndChatsFromMessage(TLdeserialize2, arrayList10, arrayList11, null);
+                            addUsersAndChatsFromMessage(TLdeserialize2, arrayList4, arrayList5, null);
                             if (TLdeserialize2.send_state != 3 && ((TLdeserialize2.peer_id.channel_id == 0 && !MessageObject.isUnread(TLdeserialize2) && !DialogObject.isEncryptedDialog(TLdeserialize2.dialog_id)) || TLdeserialize2.id > 0)) {
                                 TLdeserialize2.send_state = 0;
                             }
-                            r14 = 0;
-                            i3 = 1;
+                            r8 = 0;
                         }
                     }
-                    r14 = 0;
-                    i3 = 1;
-                } catch (Exception e2) {
-                    exc = e2;
-                    sQLiteCursor2 = sQLiteCursor4;
-                    checkSQLException(exc);
-                    if (sQLiteCursor2 == null) {
-                    }
-                } catch (Throwable th4) {
-                    th = th4;
-                    sQLiteCursor2 = sQLiteCursor3;
-                    if (sQLiteCursor2 != null) {
-                    }
-                    throw th;
+                    r8 = 0;
                 }
-            }
-            queryFinalized2.dispose();
-            getUserConfig().getClientUserId();
-            ?? r12 = 0;
-            SQLiteCursor queryFinalized3 = this.database.queryFinalized("SELECT m.data, m.send_state, m.mid, m.date, m.topic_id, m.ttl FROM quick_replies_messages as m WHERE (m.mid < 0 AND m.send_state = 1) OR (m.mid > 0 AND m.send_state = 3) ORDER BY mid DESC", new Object[0]);
-            while (queryFinalized3.next()) {
-                NativeByteBuffer byteBufferValue3 = queryFinalized3.byteBufferValue(r12);
-                if (byteBufferValue3 != null) {
-                    TLRPC$Message TLdeserialize3 = TLRPC$Message.TLdeserialize(byteBufferValue3, byteBufferValue3.readInt32(r12), r12);
-                    TLdeserialize3.send_state = queryFinalized3.intValue(1);
-                    TLdeserialize3.readAttachPath(byteBufferValue3, getUserConfig().clientUserId);
-                    byteBufferValue3.reuse();
-                    if (sparseArray2.indexOfKey(TLdeserialize3.id) < 0) {
-                        TLdeserialize3.id = queryFinalized3.intValue(i2);
-                        int intValue = queryFinalized3.intValue(4);
-                        SQLiteCursor queryFinalized4 = this.database.queryFinalized("SELECT name FROM business_replies WHERE topic_id = ?", Integer.valueOf(intValue));
-                        String stringValue = queryFinalized4.next() ? queryFinalized4.stringValue(1) : null;
-                        queryFinalized4.dispose();
-                        if (stringValue == null) {
-                            this.database.executeFast("DELETE FROM quick_replies_messages WHERE mid = " + TLdeserialize3.id + " AND topic_id = " + intValue).stepThis().dispose();
-                            i2 = 2;
-                            r12 = 0;
-                        } else {
-                            TLRPC$TL_inputQuickReplyShortcut tLRPC$TL_inputQuickReplyShortcut = new TLRPC$TL_inputQuickReplyShortcut();
-                            tLRPC$TL_inputQuickReplyShortcut.shortcut = stringValue;
-                            TLdeserialize3.quick_reply_shortcut = tLRPC$TL_inputQuickReplyShortcut;
-                            TLdeserialize3.quick_reply_shortcut_id = intValue;
-                            if (intValue != 0) {
-                                TLdeserialize3.flags |= 1073741824;
-                            }
-                            TLdeserialize3.date = queryFinalized3.intValue(3);
-                            TLdeserialize3.ttl = queryFinalized3.intValue(5);
-                            arrayList6.add(TLdeserialize3);
-                            sparseArray2.put(TLdeserialize3.id, TLdeserialize3);
-                            if (DialogObject.isEncryptedDialog(TLdeserialize3.dialog_id)) {
-                                int encryptedChatId3 = DialogObject.getEncryptedChatId(TLdeserialize3.dialog_id);
-                                if (!arrayList12.contains(Integer.valueOf(encryptedChatId3))) {
-                                    arrayList12.add(Integer.valueOf(encryptedChatId3));
-                                }
-                            } else if (DialogObject.isUserDialog(TLdeserialize3.dialog_id)) {
-                                if (!arrayList10.contains(Long.valueOf(TLdeserialize3.dialog_id))) {
-                                    arrayList10.add(Long.valueOf(TLdeserialize3.dialog_id));
-                                }
-                            } else if (!arrayList11.contains(Long.valueOf(-TLdeserialize3.dialog_id))) {
-                                arrayList11.add(Long.valueOf(-TLdeserialize3.dialog_id));
-                            }
-                            addUsersAndChatsFromMessage(TLdeserialize3, arrayList10, arrayList11, null);
-                            if (TLdeserialize3.send_state != 3) {
-                                sparseArray = sparseArray2;
-                                if ((TLdeserialize3.peer_id.channel_id == 0 && !MessageObject.isUnread(TLdeserialize3) && !DialogObject.isEncryptedDialog(TLdeserialize3.dialog_id)) || TLdeserialize3.id > 0) {
-                                    TLdeserialize3.send_state = 0;
-                                    sparseArray2 = sparseArray;
-                                    i2 = 2;
-                                    r12 = 0;
-                                }
+                queryFinalized2.dispose();
+                getUserConfig().getClientUserId();
+                ?? r82 = 0;
+                SQLiteCursor queryFinalized3 = this.database.queryFinalized("SELECT m.data, m.send_state, m.mid, m.date, m.topic_id, m.ttl FROM quick_replies_messages as m WHERE (m.mid < 0 AND m.send_state = 1) OR (m.mid > 0 AND m.send_state = 3) ORDER BY mid DESC", new Object[0]);
+                while (queryFinalized3.next()) {
+                    NativeByteBuffer byteBufferValue3 = queryFinalized3.byteBufferValue(r82);
+                    if (byteBufferValue3 != null) {
+                        TLRPC$Message TLdeserialize3 = TLRPC$Message.TLdeserialize(byteBufferValue3, byteBufferValue3.readInt32(r82), r82);
+                        TLdeserialize3.send_state = queryFinalized3.intValue(1);
+                        TLdeserialize3.readAttachPath(byteBufferValue3, getUserConfig().clientUserId);
+                        byteBufferValue3.reuse();
+                        if (sparseArray.indexOfKey(TLdeserialize3.id) < 0) {
+                            TLdeserialize3.id = queryFinalized3.intValue(2);
+                            int intValue = queryFinalized3.intValue(4);
+                            SQLiteCursor queryFinalized4 = this.database.queryFinalized("SELECT name FROM business_replies WHERE topic_id = ?", Integer.valueOf(intValue));
+                            String stringValue = queryFinalized4.next() ? queryFinalized4.stringValue(1) : null;
+                            queryFinalized4.dispose();
+                            if (stringValue == null) {
+                                this.database.executeFast("DELETE FROM quick_replies_messages WHERE mid = " + TLdeserialize3.id + " AND topic_id = " + intValue).stepThis().dispose();
                             } else {
-                                sparseArray = sparseArray2;
+                                TLRPC$TL_inputQuickReplyShortcut tLRPC$TL_inputQuickReplyShortcut = new TLRPC$TL_inputQuickReplyShortcut();
+                                tLRPC$TL_inputQuickReplyShortcut.shortcut = stringValue;
+                                TLdeserialize3.quick_reply_shortcut = tLRPC$TL_inputQuickReplyShortcut;
+                                TLdeserialize3.quick_reply_shortcut_id = intValue;
+                                if (intValue != 0) {
+                                    TLdeserialize3.flags |= 1073741824;
+                                }
+                                TLdeserialize3.date = queryFinalized3.intValue(3);
+                                TLdeserialize3.ttl = queryFinalized3.intValue(5);
+                                arrayList2.add(TLdeserialize3);
+                                sparseArray.put(TLdeserialize3.id, TLdeserialize3);
+                                if (DialogObject.isEncryptedDialog(TLdeserialize3.dialog_id)) {
+                                    int encryptedChatId3 = DialogObject.getEncryptedChatId(TLdeserialize3.dialog_id);
+                                    if (!arrayList6.contains(Integer.valueOf(encryptedChatId3))) {
+                                        arrayList6.add(Integer.valueOf(encryptedChatId3));
+                                    }
+                                } else if (DialogObject.isUserDialog(TLdeserialize3.dialog_id)) {
+                                    if (!arrayList4.contains(Long.valueOf(TLdeserialize3.dialog_id))) {
+                                        arrayList4.add(Long.valueOf(TLdeserialize3.dialog_id));
+                                    }
+                                } else if (!arrayList5.contains(Long.valueOf(-TLdeserialize3.dialog_id))) {
+                                    arrayList5.add(Long.valueOf(-TLdeserialize3.dialog_id));
+                                }
+                                addUsersAndChatsFromMessage(TLdeserialize3, arrayList4, arrayList5, null);
+                                if (TLdeserialize3.send_state != 3 && ((TLdeserialize3.peer_id.channel_id == 0 && !MessageObject.isUnread(TLdeserialize3) && !DialogObject.isEncryptedDialog(TLdeserialize3.dialog_id)) || TLdeserialize3.id > 0)) {
+                                    TLdeserialize3.send_state = 0;
+                                }
                             }
-                            sparseArray2 = sparseArray;
-                            i2 = 2;
-                            r12 = 0;
+                            r82 = 0;
                         }
                     }
+                    r82 = 0;
                 }
-                sparseArray = sparseArray2;
-                sparseArray2 = sparseArray;
-                i2 = 2;
-                r12 = 0;
+                sQLiteCursor = null;
+                queryFinalized3.dispose();
+            } catch (Throwable th3) {
+                th = th3;
             }
-            sQLiteCursor = null;
-            queryFinalized3.dispose();
-            if (!arrayList12.isEmpty()) {
-                getEncryptedChatsInternal(TextUtils.join(",", arrayList12), arrayList9, arrayList10);
-            }
-            if (arrayList10.isEmpty()) {
-                arrayList = arrayList13;
-            } else {
-                arrayList = arrayList13;
-                getUsersInternal(arrayList10, arrayList);
-            }
-            if (arrayList11.isEmpty()) {
-                arrayList2 = arrayList14;
-            } else {
-                StringBuilder sb = new StringBuilder();
-                for (int i4 = 0; i4 < arrayList11.size(); i4++) {
-                    Long l = (Long) arrayList11.get(i4);
-                    if (sb.length() != 0) {
-                        sb.append(",");
+            try {
+                if (!arrayList6.isEmpty()) {
+                    getEncryptedChatsInternal(TextUtils.join(",", arrayList6), arrayList3, arrayList4);
+                }
+                if (arrayList4.isEmpty()) {
+                    arrayList9 = arrayList7;
+                } else {
+                    arrayList9 = arrayList7;
+                    getUsersInternal(arrayList4, arrayList9);
+                }
+                if (arrayList5.isEmpty()) {
+                    arrayList10 = arrayList8;
+                } else {
+                    StringBuilder sb = new StringBuilder();
+                    for (int i2 = 0; i2 < arrayList5.size(); i2++) {
+                        Long l = (Long) arrayList5.get(i2);
+                        if (sb.length() != 0) {
+                            sb.append(",");
+                        }
+                        sb.append(l);
                     }
-                    sb.append(l);
+                    arrayList10 = arrayList8;
+                    getChatsInternal(sb.toString(), arrayList10);
                 }
-                arrayList2 = arrayList14;
-                getChatsInternal(sb.toString(), arrayList2);
+                getSendMessagesHelper().processUnsentMessages(arrayList, arrayList2, arrayList9, arrayList10, arrayList3);
+            } catch (Exception e3) {
+                e = e3;
+                exc = e;
+                sQLiteCursor3 = sQLiteCursor;
+                checkSQLException(exc);
+                if (sQLiteCursor3 == null) {
+                    sQLiteCursor3.dispose();
+                }
+            } catch (Throwable th4) {
+                th = th4;
+                th = th;
+                sQLiteCursor2 = sQLiteCursor;
+                if (sQLiteCursor2 != null) {
+                    sQLiteCursor2.dispose();
+                }
+                throw th;
             }
-            getSendMessagesHelper().processUnsentMessages(arrayList5, arrayList6, arrayList, arrayList2, arrayList9);
-        } catch (Exception e3) {
-            e = e3;
+        } catch (Exception e4) {
+            e = e4;
             sQLiteCursor = null;
         } catch (Throwable th5) {
             th = th5;
@@ -28229,12 +28225,12 @@ public class MessagesStorage extends BaseController {
         TLRPC$MessageMedia tLRPC$MessageMedia = tLRPC$Message.media;
         if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaUnsupported_old) {
             if (tLRPC$MessageMedia.bytes.length == 0) {
-                tLRPC$MessageMedia.bytes = Utilities.intToBytes(182);
+                tLRPC$MessageMedia.bytes = Utilities.intToBytes(183);
             }
         } else if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaUnsupported) {
             TLRPC$TL_messageMediaUnsupported_old tLRPC$TL_messageMediaUnsupported_old = new TLRPC$TL_messageMediaUnsupported_old();
             tLRPC$Message.media = tLRPC$TL_messageMediaUnsupported_old;
-            tLRPC$TL_messageMediaUnsupported_old.bytes = Utilities.intToBytes(182);
+            tLRPC$TL_messageMediaUnsupported_old.bytes = Utilities.intToBytes(183);
             tLRPC$Message.flags |= LiteMode.FLAG_CALLS_ANIMATIONS;
         }
     }

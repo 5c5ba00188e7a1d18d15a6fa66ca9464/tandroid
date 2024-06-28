@@ -45,6 +45,7 @@ public class BotCommandsMenuView extends View {
     int lastSize;
     private String menuText;
     StaticLayout menuTextLayout;
+    private float menuTextWidth;
     final Paint paint;
     final RectF rectTmp;
     final TextPaint textPaint;
@@ -139,23 +140,26 @@ public class BotCommandsMenuView extends View {
             this.backDrawable.setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight());
             this.textPaint.setTextSize(AndroidUtilities.dp(15.0f));
             this.lastSize = size;
-            int measureText = (int) this.textPaint.measureText(this.menuText);
-            this.menuTextLayout = StaticLayoutEx.createStaticLayout(this.menuText, this.textPaint, measureText, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false, TextUtils.TruncateAt.END, measureText, 1);
+            CharSequence replaceEmoji = Emoji.replaceEmoji(this.menuText, this.textPaint.getFontMetricsInt(), false);
+            int i3 = (int) (AndroidUtilities.displaySize.x * 0.6f);
+            StaticLayout createStaticLayout = StaticLayoutEx.createStaticLayout(replaceEmoji, this.textPaint, i3, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false, TextUtils.TruncateAt.END, i3, 1);
+            this.menuTextLayout = createStaticLayout;
+            this.menuTextWidth = createStaticLayout.getLineCount() > 0 ? this.menuTextLayout.getLineWidth(0) : 0.0f;
         }
-        onTranslationChanged((this.menuTextLayout.getWidth() + AndroidUtilities.dp(4.0f)) * this.expandProgress);
+        onTranslationChanged((this.menuTextWidth + AndroidUtilities.dp(4.0f)) * this.expandProgress);
         int dp = AndroidUtilities.dp(40.0f);
         if (this.expanded) {
-            dp += this.menuTextLayout.getWidth() + AndroidUtilities.dp(4.0f);
+            dp += ((int) this.menuTextWidth) + AndroidUtilities.dp(4.0f);
         }
         super.onMeasure(View.MeasureSpec.makeMeasureSpec(dp, 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(32.0f), 1073741824));
     }
 
     /* JADX WARN: Removed duplicated region for block: B:22:0x0045  */
     /* JADX WARN: Removed duplicated region for block: B:27:0x0059  */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x00a8  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x00d9  */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x00f7  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x011d  */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x00a4  */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x00d5  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x00f3  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0119  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -180,7 +184,7 @@ public class BotCommandsMenuView extends View {
                         this.textPaint.setAlpha((int) (255.0f * interpolation));
                     }
                     if (this.drawBackgroundDrawable) {
-                        this.rectTmp.set(0.0f, 0.0f, AndroidUtilities.dp(40.0f) + ((this.menuTextLayout.getWidth() + AndroidUtilities.dp(4.0f)) * interpolation), getMeasuredHeight());
+                        this.rectTmp.set(0.0f, 0.0f, AndroidUtilities.dp(40.0f) + ((this.menuTextWidth + AndroidUtilities.dp(4.0f)) * interpolation), getMeasuredHeight());
                         canvas.drawRoundRect(this.rectTmp, AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f), this.paint);
                         Drawable drawable = this.backgroundDrawable;
                         RectF rectF = this.rectTmp;
@@ -210,7 +214,7 @@ public class BotCommandsMenuView extends View {
                         canvas.restore();
                     }
                     if (z2) {
-                        onTranslationChanged((this.menuTextLayout.getWidth() + AndroidUtilities.dp(4.0f)) * interpolation);
+                        onTranslationChanged((this.menuTextWidth + AndroidUtilities.dp(4.0f)) * interpolation);
                     }
                 }
             }

@@ -2119,7 +2119,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                 imageView.setOrientation(0, true);
                 if (PhotoPickerActivity.this.selectedAlbum != null) {
                     MediaController.PhotoEntry photoEntry = PhotoPickerActivity.this.selectedAlbum.photos.get(i);
-                    photoAttachPhotoCell.setPhotoEntry(photoEntry, true, false);
+                    photoAttachPhotoCell.setPhotoEntry(photoEntry, PhotoPickerActivity.this.selectedPhotosOrder.size() > 1, true, false);
                     photoAttachPhotoCell.setChecked(PhotoPickerActivity.this.allowIndices ? PhotoPickerActivity.this.selectedPhotosOrder.indexOf(Integer.valueOf(photoEntry.imageId)) : -1, PhotoPickerActivity.this.selectedPhotos.containsKey(Integer.valueOf(photoEntry.imageId)), false);
                     isShowingImage = PhotoViewer.isShowingImage(photoEntry.path);
                 } else {

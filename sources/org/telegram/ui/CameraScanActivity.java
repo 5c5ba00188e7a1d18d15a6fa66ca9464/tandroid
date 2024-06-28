@@ -262,14 +262,14 @@ public class CameraScanActivity extends BaseFragment {
         if (activity == null) {
             return null;
         }
-        1 r0 = new 1(activity, false, new INavigationLayout[]{INavigationLayout.-CC.newLayout(activity)}, i, z, cameraScanActivityDelegate);
-        r0.setUseLightStatusBar(false);
-        AndroidUtilities.setLightNavigationBar(r0.getWindow(), false);
-        AndroidUtilities.setNavigationBarColor(r0.getWindow(), -16777216, false);
-        r0.setUseLightStatusBar(false);
-        r0.getWindow().addFlags(LiteMode.FLAG_CALLS_ANIMATIONS);
-        r0.show();
-        return r0;
+        1 r8 = new 1(activity, false, new INavigationLayout[]{INavigationLayout.-CC.newLayout(activity, false)}, i, z, cameraScanActivityDelegate);
+        r8.setUseLightStatusBar(false);
+        AndroidUtilities.setLightNavigationBar(r8.getWindow(), false);
+        AndroidUtilities.setNavigationBarColor(r8.getWindow(), -16777216, false);
+        r8.setUseLightStatusBar(false);
+        r8.getWindow().addFlags(LiteMode.FLAG_CALLS_ANIMATIONS);
+        r8.show();
+        return r8;
     }
 
     public CameraScanActivity(int i) {

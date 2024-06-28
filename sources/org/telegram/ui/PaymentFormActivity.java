@@ -5415,7 +5415,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     public /* synthetic */ void lambda$sendData$56(TLObject tLObject) {
         BaseFragment lastFragment;
         if (tLObject instanceof TLRPC$TL_payments_paymentReceiptStars) {
-            StarsIntroActivity.showTransactionSheet(getContext(), this.currentAccount, (TLRPC$TL_payments_paymentReceiptStars) tLObject, getResourceProvider());
+            StarsIntroActivity.showTransactionSheet(getContext(), false, this.currentAccount, (TLRPC$TL_payments_paymentReceiptStars) tLObject, getResourceProvider());
         } else if (!(tLObject instanceof TLRPC$PaymentReceipt) || (lastFragment = LaunchActivity.getLastFragment()) == null) {
         } else {
             BaseFragment.BottomSheetParams bottomSheetParams = new BaseFragment.BottomSheetParams();
@@ -5547,7 +5547,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     public /* synthetic */ void lambda$sendData$60(TLObject tLObject) {
         BaseFragment lastFragment;
         if (tLObject instanceof TLRPC$TL_payments_paymentReceiptStars) {
-            StarsIntroActivity.showTransactionSheet(getContext(), this.currentAccount, (TLRPC$TL_payments_paymentReceiptStars) tLObject, getResourceProvider());
+            StarsIntroActivity.showTransactionSheet(getContext(), false, this.currentAccount, (TLRPC$TL_payments_paymentReceiptStars) tLObject, getResourceProvider());
         } else if (!(tLObject instanceof TLRPC$PaymentReceipt) || (lastFragment = LaunchActivity.getLastFragment()) == null) {
         } else {
             BaseFragment.BottomSheetParams bottomSheetParams = new BaseFragment.BottomSheetParams();

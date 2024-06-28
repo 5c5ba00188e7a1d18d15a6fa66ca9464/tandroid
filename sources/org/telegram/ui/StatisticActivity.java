@@ -660,7 +660,9 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
             this.boostLayout = new ChannelBoostLayout(this, -this.chatId, getResourceProvider());
         }
         if (z) {
-            this.monetizationLayout = new ChannelMonetizationLayout(getContext(), this, this.currentAccount, -this.chatId, getResourceProvider());
+            ChannelMonetizationLayout channelMonetizationLayout = new ChannelMonetizationLayout(getContext(), this, this.currentAccount, -this.chatId, getResourceProvider());
+            this.monetizationLayout = channelMonetizationLayout;
+            channelMonetizationLayout.setActionBar(this.actionBar);
         }
         boolean z2 = isBoostSupported && !this.onlyBoostsStat;
         if (z2 && this.startFromBoosts) {

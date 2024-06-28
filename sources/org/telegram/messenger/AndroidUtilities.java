@@ -81,6 +81,7 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityManager;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.Interpolator;
 import android.view.animation.OvershootInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.view.inputmethod.InputMethodSubtype;
@@ -4151,13 +4152,13 @@ public class AndroidUtilities {
         return accessibilityManager.isEnabled() && accessibilityManager.isTouchExplorationEnabled();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:54:0x0108 A[Catch: Exception -> 0x0125, TRY_LEAVE, TryCatch #0 {Exception -> 0x0125, blocks: (B:5:0x0008, B:8:0x0012, B:10:0x0018, B:12:0x0020, B:15:0x0032, B:18:0x003b, B:20:0x0043, B:23:0x0053, B:25:0x0059, B:27:0x005f, B:29:0x0065, B:31:0x0083, B:32:0x0087, B:52:0x0102, B:54:0x0108, B:67:0x0121, B:33:0x009d, B:35:0x00ad, B:37:0x00b5, B:39:0x00bd, B:41:0x00c3, B:43:0x00cb, B:45:0x00d3, B:47:0x00dd, B:48:0x00e1), top: B:71:0x0008 }] */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x0112  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x0114  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0117  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x0119  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x011c  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x011e  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x0109 A[Catch: Exception -> 0x0126, TRY_LEAVE, TryCatch #0 {Exception -> 0x0126, blocks: (B:5:0x0008, B:8:0x0012, B:10:0x0018, B:12:0x0020, B:15:0x0033, B:18:0x003c, B:20:0x0044, B:23:0x0054, B:25:0x005a, B:27:0x0060, B:29:0x0066, B:31:0x0084, B:32:0x0088, B:52:0x0103, B:54:0x0109, B:67:0x0122, B:33:0x009e, B:35:0x00ae, B:37:0x00b6, B:39:0x00be, B:41:0x00c4, B:43:0x00cc, B:45:0x00d4, B:47:0x00de, B:48:0x00e2), top: B:71:0x0008 }] */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x0113  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x0115  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0118  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x011a  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x011d  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x011f  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -4705,6 +4706,17 @@ public class AndroidUtilities {
         if (rect3 != null) {
             rect3.set(lerp(rect.left, rect2.left, f), lerp(rect.top, rect2.top, f), lerp(rect.right, rect2.right, f), lerp(rect.bottom, rect2.bottom, f));
         }
+    }
+
+    public static void lerpCentered(RectF rectF, RectF rectF2, float f, RectF rectF3) {
+        if (rectF3 == null) {
+            return;
+        }
+        float lerp = lerp(rectF.centerX(), rectF2.centerX(), f);
+        float lerp2 = lerp(rectF.centerY(), rectF2.centerY(), f);
+        float lerp3 = lerp(rectF.width(), rectF2.width(), Math.min(1.0f, f)) / 2.0f;
+        float lerp4 = lerp(rectF.height(), rectF2.height(), Math.min(1.0f, f)) / 2.0f;
+        rectF3.set(lerp - lerp3, lerp2 - lerp4, lerp + lerp3, lerp2 + lerp4);
     }
 
     public static void lerp(int[] iArr, int[] iArr2, float f, int[] iArr3) {
@@ -5885,5 +5897,45 @@ public class AndroidUtilities {
             } catch (Exception unused) {
             }
         }
+    }
+
+    public static void applySpring(Animator animator, float f, float f2) {
+        applySpring(animator, f, f2, 1.0f);
+    }
+
+    public static void applySpring(Animator animator, float f, float f2, float f3) {
+        double d = f2;
+        double d2 = f * f3;
+        Double.isNaN(d);
+        final double sqrt = d / (Math.sqrt(d2) * 2.0d);
+        double d3 = f / f3;
+        final double sqrt2 = Math.sqrt(d3);
+        double sqrt3 = Math.sqrt(d3);
+        Double.isNaN(d);
+        animator.setDuration((long) ((Math.log(0.0025d) / ((-(d / (Math.sqrt(d2) * 2.0d))) * sqrt3)) * 1000.0d));
+        animator.setInterpolator(new Interpolator() { // from class: org.telegram.messenger.AndroidUtilities.11
+            @Override // android.animation.TimeInterpolator
+            public float getInterpolation(float f4) {
+                double exp;
+                double d4 = sqrt;
+                if (d4 < 1.0d) {
+                    double sqrt4 = sqrt2 * Math.sqrt(1.0d - (d4 * d4));
+                    double d5 = (-sqrt) * sqrt2;
+                    double d6 = f4;
+                    Double.isNaN(d6);
+                    double exp2 = Math.exp(d5 * d6);
+                    Double.isNaN(d6);
+                    double d7 = d6 * sqrt4;
+                    exp = 1.0d - (exp2 * (Math.cos(d7) + (((sqrt * sqrt2) / sqrt4) * Math.sin(d7))));
+                } else {
+                    double d8 = (-d4) * sqrt2;
+                    double d9 = f4;
+                    Double.isNaN(d9);
+                    double d10 = d8 * d9;
+                    exp = 1.0d - ((d10 + 1.0d) * Math.exp(d10));
+                }
+                return (float) exp;
+            }
+        });
     }
 }

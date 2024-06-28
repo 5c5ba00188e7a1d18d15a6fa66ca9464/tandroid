@@ -82,6 +82,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.play.core.integrity.IntegrityManager;
 import com.google.android.play.core.integrity.IntegrityManagerFactory;
 import com.google.android.play.core.integrity.IntegrityTokenRequest;
 import com.google.android.play.core.integrity.IntegrityTokenResponse;
@@ -1933,7 +1934,10 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 this.isRequestingFirebaseSms = true;
                 final String string = bundle.getString("phoneFormated");
                 if (tLRPC$TL_auth_sentCodeTypeFirebaseSms.play_integrity_nonce != null) {
-                    IntegrityManagerFactory.create(getContext()).requestIntegrityToken(IntegrityTokenRequest.builder().setNonce(Utilities.bytesToHex(tLRPC$TL_auth_sentCodeTypeFirebaseSms.play_integrity_nonce)).setCloudProjectNumber(760348033671L).build()).addOnSuccessListener(new OnSuccessListener() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda16
+                    IntegrityManager create = IntegrityManagerFactory.create(getContext());
+                    String str = new String(Base64.encode(tLRPC$TL_auth_sentCodeTypeFirebaseSms.play_integrity_nonce, 8));
+                    FileLog.d("getting classic integrity with nonce = " + str);
+                    create.requestIntegrityToken(IntegrityTokenRequest.builder().setNonce(str).setCloudProjectNumber(tLRPC$TL_auth_sentCodeTypeFirebaseSms.play_integrity_project_id).build()).addOnSuccessListener(new OnSuccessListener() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda16
                         @Override // com.google.android.gms.tasks.OnSuccessListener
                         public final void onSuccess(Object obj) {
                             LoginActivity.this.lambda$fillNextCodeParams$25(bundle, tLRPC$auth_SentCode, string, z, (IntegrityTokenResponse) obj);
@@ -1945,20 +1949,19 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                         }
                     });
                     return;
-                } else {
-                    SafetyNet.getClient(ApplicationLoader.applicationContext).attest(tLRPC$auth_SentCode.type.nonce, BuildVars.SAFETYNET_KEY).addOnSuccessListener(new OnSuccessListener() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda17
-                        @Override // com.google.android.gms.tasks.OnSuccessListener
-                        public final void onSuccess(Object obj) {
-                            LoginActivity.this.lambda$fillNextCodeParams$29(string, tLRPC$auth_SentCode, bundle, z, (SafetyNetApi$AttestationResponse) obj);
-                        }
-                    }).addOnFailureListener(new OnFailureListener() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda14
-                        @Override // com.google.android.gms.tasks.OnFailureListener
-                        public final void onFailure(Exception exc) {
-                            LoginActivity.this.lambda$fillNextCodeParams$30(bundle, tLRPC$auth_SentCode, exc);
-                        }
-                    });
-                    return;
                 }
+                SafetyNet.getClient(ApplicationLoader.applicationContext).attest(tLRPC$auth_SentCode.type.nonce, BuildVars.SAFETYNET_KEY).addOnSuccessListener(new OnSuccessListener() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda17
+                    @Override // com.google.android.gms.tasks.OnSuccessListener
+                    public final void onSuccess(Object obj) {
+                        LoginActivity.this.lambda$fillNextCodeParams$29(string, tLRPC$auth_SentCode, bundle, z, (SafetyNetApi$AttestationResponse) obj);
+                    }
+                }).addOnFailureListener(new OnFailureListener() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda14
+                    @Override // com.google.android.gms.tasks.OnFailureListener
+                    public final void onFailure(Exception exc) {
+                        LoginActivity.this.lambda$fillNextCodeParams$30(bundle, tLRPC$auth_SentCode, exc);
+                    }
+                });
+                return;
             }
             FileLog.d("{GOOGLE_PLAY_SERVICES_NOT_AVAILABLE} Resend firebase sms because firebase is not available");
             resendCodeFromSafetyNet(bundle, tLRPC$auth_SentCode, "GOOGLE_PLAY_SERVICES_NOT_AVAILABLE");
@@ -2023,15 +2026,15 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             bundle.putInt("resetPendingDate", tLRPC$auth_SentCode.type.reset_pending_date);
             setPage(14, z, bundle, false);
         } else if (tLRPC$auth_SentCodeType2 instanceof TLRPC$TL_auth_sentCodeTypeSmsWord) {
-            String str = tLRPC$auth_SentCodeType2.beginning;
-            if (str != null) {
-                bundle.putString("beginning", str);
-            }
-            setPage(16, z, bundle, false);
-        } else if (tLRPC$auth_SentCodeType2 instanceof TLRPC$TL_auth_sentCodeTypeSmsPhrase) {
             String str2 = tLRPC$auth_SentCodeType2.beginning;
             if (str2 != null) {
                 bundle.putString("beginning", str2);
+            }
+            setPage(16, z, bundle, false);
+        } else if (tLRPC$auth_SentCodeType2 instanceof TLRPC$TL_auth_sentCodeTypeSmsPhrase) {
+            String str3 = tLRPC$auth_SentCodeType2.beginning;
+            if (str3 != null) {
+                bundle.putString("beginning", str3);
             }
             setPage(17, z, bundle, false);
         }
@@ -12523,7 +12526,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             }
             this.actionBar = null;
         }
-        clearStoryViewers();
+        clearSheets();
         this.parentLayout = null;
     }
 }

@@ -76,6 +76,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
     private int currentConnectionState;
     StatusDrawable currentTypingDrawable;
     private AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable emojiStatusDrawable;
+    public boolean ignoreTouches;
     private boolean[] isOnline;
     private int largerWidth;
     private CharSequence lastSubtitle;
@@ -489,6 +490,14 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         canvas.scale(scale, scale, getWidth() / 2.0f, getHeight() / 2.0f);
         super.dispatchDraw(canvas);
         canvas.restore();
+    }
+
+    @Override // android.view.ViewGroup, android.view.View
+    public boolean dispatchTouchEvent(MotionEvent motionEvent) {
+        if (this.ignoreTouches) {
+            return false;
+        }
+        return super.dispatchTouchEvent(motionEvent);
     }
 
     public void setTitleExpand(boolean z) {

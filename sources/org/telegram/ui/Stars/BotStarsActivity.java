@@ -211,6 +211,7 @@ public class BotStarsActivity extends BaseFragment implements NotificationCenter
         };
         this.balanceEditTextContainer = outlineTextContainerView;
         outlineTextContainerView.setText(LocaleController.getString(R.string.BotStarsWithdrawPlaceholder));
+        this.balanceEditTextContainer.setLeftPadding(AndroidUtilities.dp(36.0f));
         EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(this, context) { // from class: org.telegram.ui.Stars.BotStarsActivity.4
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextBoldCursor, org.telegram.ui.Components.EditTextEffects, android.view.View
@@ -472,7 +473,7 @@ public class BotStarsActivity extends BaseFragment implements NotificationCenter
     /* JADX INFO: Access modifiers changed from: private */
     public void onItemClick(UItem uItem, View view, int i, float f, float f2) {
         if (uItem.instanceOf(StarsIntroActivity.StarsTransactionView.Factory.class)) {
-            StarsIntroActivity.showTransactionSheet(getContext(), this.currentAccount, (TLRPC$StarsTransaction) uItem.object, getResourceProvider());
+            StarsIntroActivity.showTransactionSheet(getContext(), true, this.bot_id, this.currentAccount, (TLRPC$StarsTransaction) uItem.object, getResourceProvider());
         }
     }
 
@@ -533,7 +534,7 @@ public class BotStarsActivity extends BaseFragment implements NotificationCenter
         this.balanceButton.setText(StarsIntroActivity.replaceStars(this.balanceEditTextAll ? LocaleController.getString(R.string.BotStarsButtonWithdrawAll) : LocaleController.formatPluralStringComma("BotStarsButtonWithdraw", (int) this.balanceEditTextValue, ' '), this.starRef), true);
     }
 
-    private String untilString(int i) {
+    public static String untilString(int i) {
         int i2 = i / 86400;
         int i3 = i - (86400 * i2);
         int i4 = i3 / 3600;
