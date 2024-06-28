@@ -3559,13 +3559,13 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         dismiss();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:348:0x02e9  */
-    /* JADX WARN: Removed duplicated region for block: B:416:0x0444  */
-    /* JADX WARN: Removed duplicated region for block: B:417:0x0448  */
-    /* JADX WARN: Removed duplicated region for block: B:420:0x044e  */
-    /* JADX WARN: Removed duplicated region for block: B:421:0x0486  */
-    /* JADX WARN: Removed duplicated region for block: B:424:0x04b9  */
-    /* JADX WARN: Removed duplicated region for block: B:425:0x04bc  */
+    /* JADX WARN: Removed duplicated region for block: B:352:0x02e9  */
+    /* JADX WARN: Removed duplicated region for block: B:420:0x0444  */
+    /* JADX WARN: Removed duplicated region for block: B:421:0x0448  */
+    /* JADX WARN: Removed duplicated region for block: B:424:0x044e  */
+    /* JADX WARN: Removed duplicated region for block: B:425:0x0486  */
+    /* JADX WARN: Removed duplicated region for block: B:428:0x04b9  */
+    /* JADX WARN: Removed duplicated region for block: B:429:0x04bc  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -4063,7 +4063,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                     }
                 });
             }
-            if (chatActivity != null && chatActivity.isChannel()) {
+            if (chatActivity != null && ChatObject.isChannelAndNotMegaGroup(chatActivity.getCurrentChat()) && chatActivity.getCurrentChatInfo() != null && chatActivity.getCurrentChatInfo().paid_media_allowed) {
                 int i25 = R.drawable.menu_feature_paid;
                 int i26 = R.string.PaidMediaButton;
                 final ActionBarMenuSubItem last = makeOptions.add(i25, LocaleController.getString(i26), null).getLast();
