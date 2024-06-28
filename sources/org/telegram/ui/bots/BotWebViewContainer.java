@@ -49,7 +49,6 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -116,8 +115,7 @@ import org.telegram.ui.bots.BotWebViewContainer;
 import org.telegram.ui.bots.ChatAttachAlertBotWebViewLayout;
 /* loaded from: classes4.dex */
 public abstract class BotWebViewContainer extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
-    private static final List<String> WHITELISTED_SCHEMES = Arrays.asList("http", "https");
-    private static int tags = 0;
+    private static int tags;
     private BotBiometry biometry;
     private long blockedDialogsUntil;
     private TLRPC$User botUser;
@@ -958,16 +956,16 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Removed duplicated region for block: B:1214:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1220:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:797:0x0290  */
-    /* JADX WARN: Removed duplicated region for block: B:801:0x0298 A[Catch: JSONException -> 0x02aa, TryCatch #11 {JSONException -> 0x02aa, blocks: (B:779:0x0246, B:781:0x0255, B:783:0x025b, B:784:0x0264, B:803:0x029c, B:800:0x0295, B:801:0x0298, B:789:0x0279, B:792:0x0283), top: B:1171:0x0246 }] */
-    /* JADX WARN: Removed duplicated region for block: B:803:0x029c A[Catch: JSONException -> 0x02aa, TRY_LEAVE, TryCatch #11 {JSONException -> 0x02aa, blocks: (B:779:0x0246, B:781:0x0255, B:783:0x025b, B:784:0x0264, B:803:0x029c, B:800:0x0295, B:801:0x0298, B:789:0x0279, B:792:0x0283), top: B:1171:0x0246 }] */
-    /* JADX WARN: Removed duplicated region for block: B:875:0x03cc  */
-    /* JADX WARN: Removed duplicated region for block: B:899:0x0413  */
-    /* JADX WARN: Removed duplicated region for block: B:906:0x0421 A[Catch: Exception -> 0x048c, TryCatch #15 {Exception -> 0x048c, blocks: (B:857:0x038c, B:943:0x0487, B:880:0x03d4, B:881:0x03d8, B:904:0x041b, B:905:0x041e, B:906:0x0421, B:888:0x03f2, B:891:0x03fc, B:894:0x0406, B:908:0x0426, B:909:0x0430, B:937:0x0476, B:938:0x0479, B:939:0x047c, B:940:0x047f, B:941:0x0482, B:911:0x0434, B:914:0x043e, B:917:0x0448, B:920:0x0452, B:923:0x045c, B:864:0x03ab, B:867:0x03b5, B:870:0x03bf), top: B:1177:0x038c }] */
-    /* JADX WARN: Removed duplicated region for block: B:908:0x0426 A[Catch: Exception -> 0x048c, TryCatch #15 {Exception -> 0x048c, blocks: (B:857:0x038c, B:943:0x0487, B:880:0x03d4, B:881:0x03d8, B:904:0x041b, B:905:0x041e, B:906:0x0421, B:888:0x03f2, B:891:0x03fc, B:894:0x0406, B:908:0x0426, B:909:0x0430, B:937:0x0476, B:938:0x0479, B:939:0x047c, B:940:0x047f, B:941:0x0482, B:911:0x0434, B:914:0x043e, B:917:0x0448, B:920:0x0452, B:923:0x045c, B:864:0x03ab, B:867:0x03b5, B:870:0x03bf), top: B:1177:0x038c }] */
-    /* JADX WARN: Removed duplicated region for block: B:943:0x0487 A[Catch: Exception -> 0x048c, TRY_LEAVE, TryCatch #15 {Exception -> 0x048c, blocks: (B:857:0x038c, B:943:0x0487, B:880:0x03d4, B:881:0x03d8, B:904:0x041b, B:905:0x041e, B:906:0x0421, B:888:0x03f2, B:891:0x03fc, B:894:0x0406, B:908:0x0426, B:909:0x0430, B:937:0x0476, B:938:0x0479, B:939:0x047c, B:940:0x047f, B:941:0x0482, B:911:0x0434, B:914:0x043e, B:917:0x0448, B:920:0x0452, B:923:0x045c, B:864:0x03ab, B:867:0x03b5, B:870:0x03bf), top: B:1177:0x038c }] */
+    /* JADX WARN: Removed duplicated region for block: B:1219:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1225:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:800:0x0290  */
+    /* JADX WARN: Removed duplicated region for block: B:804:0x0298 A[Catch: JSONException -> 0x02aa, TryCatch #9 {JSONException -> 0x02aa, blocks: (B:782:0x0246, B:784:0x0255, B:786:0x025b, B:787:0x0264, B:806:0x029c, B:803:0x0295, B:804:0x0298, B:792:0x0279, B:795:0x0283), top: B:1173:0x0246 }] */
+    /* JADX WARN: Removed duplicated region for block: B:806:0x029c A[Catch: JSONException -> 0x02aa, TRY_LEAVE, TryCatch #9 {JSONException -> 0x02aa, blocks: (B:782:0x0246, B:784:0x0255, B:786:0x025b, B:787:0x0264, B:806:0x029c, B:803:0x0295, B:804:0x0298, B:792:0x0279, B:795:0x0283), top: B:1173:0x0246 }] */
+    /* JADX WARN: Removed duplicated region for block: B:878:0x03cc  */
+    /* JADX WARN: Removed duplicated region for block: B:902:0x0413  */
+    /* JADX WARN: Removed duplicated region for block: B:909:0x0421 A[Catch: Exception -> 0x048c, TryCatch #11 {Exception -> 0x048c, blocks: (B:860:0x038c, B:946:0x0487, B:883:0x03d4, B:884:0x03d8, B:907:0x041b, B:908:0x041e, B:909:0x0421, B:891:0x03f2, B:894:0x03fc, B:897:0x0406, B:911:0x0426, B:912:0x0430, B:940:0x0476, B:941:0x0479, B:942:0x047c, B:943:0x047f, B:944:0x0482, B:914:0x0434, B:917:0x043e, B:920:0x0448, B:923:0x0452, B:926:0x045c, B:867:0x03ab, B:870:0x03b5, B:873:0x03bf), top: B:1176:0x038c }] */
+    /* JADX WARN: Removed duplicated region for block: B:911:0x0426 A[Catch: Exception -> 0x048c, TryCatch #11 {Exception -> 0x048c, blocks: (B:860:0x038c, B:946:0x0487, B:883:0x03d4, B:884:0x03d8, B:907:0x041b, B:908:0x041e, B:909:0x0421, B:891:0x03f2, B:894:0x03fc, B:897:0x0406, B:911:0x0426, B:912:0x0430, B:940:0x0476, B:941:0x0479, B:942:0x047c, B:943:0x047f, B:944:0x0482, B:914:0x0434, B:917:0x043e, B:920:0x0448, B:923:0x0452, B:926:0x045c, B:867:0x03ab, B:870:0x03b5, B:873:0x03bf), top: B:1176:0x038c }] */
+    /* JADX WARN: Removed duplicated region for block: B:946:0x0487 A[Catch: Exception -> 0x048c, TRY_LEAVE, TryCatch #11 {Exception -> 0x048c, blocks: (B:860:0x038c, B:946:0x0487, B:883:0x03d4, B:884:0x03d8, B:907:0x041b, B:908:0x041e, B:909:0x0421, B:891:0x03f2, B:894:0x03fc, B:897:0x0406, B:911:0x0426, B:912:0x0430, B:940:0x0476, B:941:0x0479, B:942:0x047c, B:943:0x047f, B:944:0x0482, B:914:0x0434, B:917:0x043e, B:920:0x0448, B:923:0x0452, B:926:0x045c, B:867:0x03ab, B:870:0x03b5, B:873:0x03bf), top: B:1176:0x038c }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1242,10 +1240,10 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                 try {
                     JSONObject jSONObject2 = new JSONObject(str2);
                     Uri parse = Uri.parse(jSONObject2.optString("url"));
-                    if (WHITELISTED_SCHEMES.contains(parse.getScheme())) {
-                        onOpenUri(parse, jSONObject2.optBoolean("try_instant_view"), true);
+                    if (MessagesController.getInstance(this.currentAccount).webAppAllowedProtocols == null || !MessagesController.getInstance(this.currentAccount).webAppAllowedProtocols.contains(parse.getScheme())) {
                         return;
                     }
+                    onOpenUri(parse, jSONObject2.optBoolean("try_instant_view"), true);
                     return;
                 } catch (Exception e2) {
                     FileLog.e(e2);
@@ -1511,7 +1509,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                     if (optString3.startsWith("/")) {
                         optString3 = optString3.substring(1);
                     }
-                    onOpenUri(Uri.parse("https://t.me/" + optString3));
+                    onOpenUri(Uri.parse("https://t.me/" + optString3), false, true);
                     return;
                 } catch (JSONException e9) {
                     FileLog.e(e9);
@@ -2532,7 +2530,6 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
 
             @Override // android.webkit.WebViewClient
             public boolean onRenderProcessGone(WebView webView, RenderProcessGoneDetail renderProcessGoneDetail) {
-                LaunchActivity launchActivity;
                 MyWebView myWebView = MyWebView.this;
                 StringBuilder sb = new StringBuilder();
                 sb.append("onRenderProcessGone priority=");
@@ -2540,8 +2537,8 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                 sb.append(" didCrash=");
                 sb.append(renderProcessGoneDetail == null ? null : Boolean.valueOf(renderProcessGoneDetail.didCrash()));
                 myWebView.d(sb.toString());
-                if (MyWebView.this.botWebViewContainer == null || (launchActivity = LaunchActivity.instance) == null || !launchActivity.isFinishing()) {
-                    new AlertDialog.Builder(MyWebView.this.getContext(), MyWebView.this.botWebViewContainer.resourcesProvider).setTitle(LocaleController.getString(R.string.ChromeCrashTitle)).setMessage(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.ChromeCrashMessage), new Runnable() { // from class: org.telegram.ui.bots.BotWebViewContainer$MyWebView$1$$ExternalSyntheticLambda1
+                if (AndroidUtilities.isSafeToShow(MyWebView.this.getContext())) {
+                    new AlertDialog.Builder(MyWebView.this.getContext(), MyWebView.this.botWebViewContainer == null ? null : MyWebView.this.botWebViewContainer.resourcesProvider).setTitle(LocaleController.getString(R.string.ChromeCrashTitle)).setMessage(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.ChromeCrashMessage), new Runnable() { // from class: org.telegram.ui.bots.BotWebViewContainer$MyWebView$1$$ExternalSyntheticLambda1
                         @Override // java.lang.Runnable
                         public final void run() {
                             BotWebViewContainer.MyWebView.1.this.lambda$onRenderProcessGone$0();
@@ -2572,7 +2569,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
             public boolean shouldOverrideUrlLoading(WebView webView, String str) {
                 Uri parse = Uri.parse(str);
                 if (MyWebView.this.botWebViewContainer != null && Browser.isInternalUri(parse, null)) {
-                    if (BotWebViewContainer.WHITELISTED_SCHEMES.contains(parse.getScheme())) {
+                    if (MessagesController.getInstance(MyWebView.this.botWebViewContainer.currentAccount).webAppAllowedProtocols != null && MessagesController.getInstance(MyWebView.this.botWebViewContainer.currentAccount).webAppAllowedProtocols.contains(parse.getScheme())) {
                         MyWebView.this.botWebViewContainer.onOpenUri(parse);
                     }
                     MyWebView myWebView = MyWebView.this;
@@ -2668,7 +2665,6 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
 
                 @Override // android.webkit.WebViewClient
                 public boolean onRenderProcessGone(WebView webView, RenderProcessGoneDetail renderProcessGoneDetail) {
-                    LaunchActivity launchActivity;
                     MyWebView myWebView = MyWebView.this;
                     StringBuilder sb = new StringBuilder();
                     sb.append("newWebView.onRenderProcessGone priority=");
@@ -2676,8 +2672,8 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                     sb.append(" didCrash=");
                     sb.append(renderProcessGoneDetail == null ? null : Boolean.valueOf(renderProcessGoneDetail.didCrash()));
                     myWebView.d(sb.toString());
-                    if (MyWebView.this.botWebViewContainer != null && ((launchActivity = LaunchActivity.instance) == null || !launchActivity.isFinishing())) {
-                        new AlertDialog.Builder(MyWebView.this.getContext(), MyWebView.this.botWebViewContainer.resourcesProvider).setTitle(LocaleController.getString(R.string.ChromeCrashTitle)).setMessage(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.ChromeCrashMessage), new Runnable() { // from class: org.telegram.ui.bots.BotWebViewContainer$MyWebView$2$1$$ExternalSyntheticLambda1
+                    if (AndroidUtilities.isSafeToShow(MyWebView.this.getContext())) {
+                        new AlertDialog.Builder(MyWebView.this.getContext(), MyWebView.this.botWebViewContainer == null ? null : MyWebView.this.botWebViewContainer.resourcesProvider).setTitle(LocaleController.getString(R.string.ChromeCrashTitle)).setMessage(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.ChromeCrashMessage), new Runnable() { // from class: org.telegram.ui.bots.BotWebViewContainer$MyWebView$2$1$$ExternalSyntheticLambda1
                             @Override // java.lang.Runnable
                             public final void run() {
                                 BotWebViewContainer.MyWebView.2.1.this.lambda$onRenderProcessGone$0();
@@ -2688,6 +2684,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                                 BotWebViewContainer.MyWebView.2.1.this.lambda$onRenderProcessGone$1(dialogInterface);
                             }
                         }).show();
+                        return true;
                     }
                     return true;
                 }

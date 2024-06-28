@@ -6451,19 +6451,19 @@ public class MessageObject {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:47:0x00f2, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:47:0x00ec, code lost:
         if (isVideoDocument(r4.document) != false) goto L47;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:48:0x00f4, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:48:0x00ee, code lost:
         r4 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:53:0x0102, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:53:0x00fc, code lost:
         if ((((org.telegram.tgnet.TLRPC$TL_messageExtendedMediaPreview) r5).flags & 4) != 0) goto L47;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:90:0x017c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:90:0x0176, code lost:
         if (r0 != null) goto L108;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:92:0x0180, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:92:0x017a, code lost:
         if (r8.ttl_seconds == 0) goto L108;
      */
     /*
@@ -6502,7 +6502,7 @@ public class MessageObject {
                 }
                 return LocaleController.getString("Poll", R.string.Poll);
             } else if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaPaidMedia) {
-                TLRPC$TL_messageMediaPaidMedia tLRPC$TL_messageMediaPaidMedia = (TLRPC$TL_messageMediaPaidMedia) getMedia(this.messageOwner);
+                TLRPC$TL_messageMediaPaidMedia tLRPC$TL_messageMediaPaidMedia = (TLRPC$TL_messageMediaPaidMedia) tLRPC$MessageMedia;
                 int size = tLRPC$TL_messageMediaPaidMedia.extended_media.size();
                 boolean z = false;
                 for (int i = 0; i < size; i++) {
@@ -7310,6 +7310,19 @@ public class MessageObject {
             return (!(getMedia(tLRPC$Message) instanceof TLRPC$TL_messageMediaWebPage) || getMedia(tLRPC$Message).webpage == null) ? "" : FileLoader.getAttachFileName(getMedia(tLRPC$Message).webpage.document);
         }
         ArrayList<TLRPC$PhotoSize> arrayList = getMedia(tLRPC$Message).photo.sizes;
+        return (arrayList.size() <= 0 || (closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(arrayList, AndroidUtilities.getPhotoSize())) == null) ? "" : FileLoader.getAttachFileName(closestPhotoSizeWithSize);
+    }
+
+    public static String getFileName(TLRPC$MessageMedia tLRPC$MessageMedia) {
+        TLRPC$WebPage tLRPC$WebPage;
+        TLRPC$PhotoSize closestPhotoSizeWithSize;
+        if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaDocument) {
+            return FileLoader.getAttachFileName(tLRPC$MessageMedia.document);
+        }
+        if (!(tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaPhoto)) {
+            return (!(tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaWebPage) || (tLRPC$WebPage = tLRPC$MessageMedia.webpage) == null) ? "" : FileLoader.getAttachFileName(tLRPC$WebPage.document);
+        }
+        ArrayList<TLRPC$PhotoSize> arrayList = tLRPC$MessageMedia.photo.sizes;
         return (arrayList.size() <= 0 || (closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(arrayList, AndroidUtilities.getPhotoSize())) == null) ? "" : FileLoader.getAttachFileName(closestPhotoSizeWithSize);
     }
 
@@ -10750,13 +10763,20 @@ public class MessageObject {
     }
 
     public static TLRPC$Document getDocument(TLRPC$Message tLRPC$Message) {
+        TLRPC$MessageMedia tLRPC$MessageMedia;
+        TLRPC$Document tLRPC$Document;
         if (getMedia(tLRPC$Message) instanceof TLRPC$TL_messageMediaWebPage) {
             return getMedia(tLRPC$Message).webpage.document;
         }
         if (getMedia(tLRPC$Message) instanceof TLRPC$TL_messageMediaGame) {
             return getMedia(tLRPC$Message).game.document;
         }
-        if (getMedia(tLRPC$Message) instanceof TLRPC$TL_messageMediaPaidMedia) {
+        if (getMedia(tLRPC$Message) instanceof TLRPC$TL_messageMediaStory) {
+            TL_stories$StoryItem tL_stories$StoryItem = ((TLRPC$TL_messageMediaStory) getMedia(tLRPC$Message)).storyItem;
+            if (tL_stories$StoryItem != null && (tLRPC$MessageMedia = tL_stories$StoryItem.media) != null && (tLRPC$Document = tLRPC$MessageMedia.document) != null) {
+                return tLRPC$Document;
+            }
+        } else if (getMedia(tLRPC$Message) instanceof TLRPC$TL_messageMediaPaidMedia) {
             TLRPC$TL_messageMediaPaidMedia tLRPC$TL_messageMediaPaidMedia = (TLRPC$TL_messageMediaPaidMedia) getMedia(tLRPC$Message);
             if (tLRPC$TL_messageMediaPaidMedia.extended_media.size() == 1 && (tLRPC$TL_messageMediaPaidMedia.extended_media.get(0) instanceof TLRPC$TL_messageExtendedMedia)) {
                 return ((TLRPC$TL_messageExtendedMedia) tLRPC$TL_messageMediaPaidMedia.extended_media.get(0)).media.document;

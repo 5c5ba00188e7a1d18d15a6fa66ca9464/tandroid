@@ -28,6 +28,7 @@ import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.R;
+import org.telegram.messenger.SendMessagesHelper;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLRPC$Document;
@@ -57,7 +58,6 @@ public class GroupMedia {
     public boolean attached;
     private final ButtonBounce bounce;
     private Text buttonText;
-    private long buttonTextPrice;
     public final ChatMessageCell cell;
     public int height;
     public boolean hidden;
@@ -65,6 +65,7 @@ public class GroupMedia {
     private LoadingDrawable loadingDrawable;
     public int maxWidth;
     private int overrideWidth;
+    private boolean pressButton;
     private MediaHolder pressHolder;
     private Text priceText;
     private long priceTextPrice;
@@ -107,7 +108,11 @@ public class GroupMedia {
             if (i > 0) {
                 this.maxWidth = i;
             } else {
-                this.maxWidth = Math.min(this.cell.getParentWidth(), AndroidUtilities.displaySize.y) - AndroidUtilities.dp((this.cell.checkNeedDrawShareButton(messageObject) ? 10 : 0) + 64);
+                if (AndroidUtilities.isTablet()) {
+                    this.maxWidth = AndroidUtilities.getMinTabletSide() - AndroidUtilities.dp(122.0f);
+                } else {
+                    this.maxWidth = Math.min(this.cell.getParentWidth(), AndroidUtilities.displaySize.y) - AndroidUtilities.dp((this.cell.checkNeedDrawShareButton(messageObject) ? 10 : 0) + 64);
+                }
                 if (this.cell.needDrawAvatar()) {
                     this.maxWidth -= AndroidUtilities.dp(52.0f);
                 }
@@ -159,125 +164,181 @@ public class GroupMedia {
                 }
             }
             updateHolders(messageObject);
-            if (this.hidden && (this.buttonText == null || this.buttonTextPrice != tLRPC$TL_messageMediaPaidMedia.stars_amount)) {
-                long j = tLRPC$TL_messageMediaPaidMedia.stars_amount;
-                this.buttonTextPrice = j;
-                this.buttonText = new Text(StarsIntroActivity.replaceStarsWithPlain(LocaleController.formatPluralStringComma("UnlockPaidContent", (int) j), 0.7f), 14.0f, AndroidUtilities.bold());
-            }
-            if (this.priceText == null || this.priceTextPrice != tLRPC$TL_messageMediaPaidMedia.stars_amount) {
-                long j2 = tLRPC$TL_messageMediaPaidMedia.stars_amount;
-                this.priceTextPrice = j2;
-                this.priceText = new Text(StarsIntroActivity.replaceStars(LocaleController.formatPluralStringComma("PaidMediaPrice", (int) j2), 0.9f), 12.0f, AndroidUtilities.bold());
-            }
             GroupedMessages groupedMessages = this.layout;
             this.width = (int) ((groupedMessages.width / 1000.0f) * this.maxWidth);
             this.height = (int) (groupedMessages.height * groupedMessages.maxSizeHeight);
+            if (this.hidden) {
+                Text text = new Text(StarsIntroActivity.replaceStarsWithPlain(LocaleController.formatPluralStringComma("UnlockPaidContent", (int) tLRPC$TL_messageMediaPaidMedia.stars_amount), 0.7f), 14.0f, AndroidUtilities.bold());
+                this.buttonText = text;
+                if (text.getCurrentWidth() > this.width - AndroidUtilities.dp(30.0f)) {
+                    this.buttonText = new Text(StarsIntroActivity.replaceStarsWithPlain(LocaleController.formatPluralStringComma("UnlockPaidContentShort", (int) tLRPC$TL_messageMediaPaidMedia.stars_amount), 0.7f), 14.0f, AndroidUtilities.bold());
+                }
+            }
+            if (this.priceText == null || this.priceTextPrice != tLRPC$TL_messageMediaPaidMedia.stars_amount) {
+                long j = tLRPC$TL_messageMediaPaidMedia.stars_amount;
+                this.priceTextPrice = j;
+                this.priceText = new Text(StarsIntroActivity.replaceStars(LocaleController.formatPluralStringComma("PaidMediaPrice", (int) j), 0.9f), 12.0f, AndroidUtilities.bold());
+            }
         }
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:115:0x01f6  */
+    /* JADX WARN: Removed duplicated region for block: B:126:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x0043  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x004d  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x00c4  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x00c6  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x00e0  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public void updateHolders(MessageObject messageObject) {
-        float f;
+        boolean z;
         int i;
+        float f;
         int i2;
+        int i3;
+        int i4;
         ChatMessageCell chatMessageCell = this.cell;
-        boolean z = chatMessageCell.namesOffset > 0 || (chatMessageCell.captionAbove && !TextUtils.isEmpty(messageObject.caption));
-        boolean z2 = (this.cell.captionAbove || TextUtils.isEmpty(messageObject.caption)) ? false : true;
-        int i3 = this.overrideWidth;
-        float f2 = 1000.0f;
-        if (i3 > 0) {
-            f = 1000.0f / this.layout.width;
-            this.maxWidth = i3;
-        } else {
-            this.maxWidth = Math.min(this.cell.getParentWidth(), AndroidUtilities.displaySize.y) - AndroidUtilities.dp((this.cell.checkNeedDrawShareButton(messageObject) ? 10 : 0) + 64);
-            if (this.cell.needDrawAvatar()) {
-                this.maxWidth -= AndroidUtilities.dp(52.0f);
+        boolean z2 = chatMessageCell.namesOffset > 0 || (chatMessageCell.captionAbove && !TextUtils.isEmpty(messageObject.caption));
+        if (this.cell.captionAbove || TextUtils.isEmpty(messageObject.caption)) {
+            ChatMessageCell chatMessageCell2 = this.cell;
+            if (chatMessageCell2.reactionsLayoutInBubble.isEmpty && !chatMessageCell2.hasCommentLayout()) {
+                z = false;
+                i = this.overrideWidth;
+                float f2 = 1000.0f;
+                if (i <= 0) {
+                    f = 1000.0f / this.layout.width;
+                    this.maxWidth = i;
+                } else {
+                    if (AndroidUtilities.isTablet()) {
+                        this.maxWidth = AndroidUtilities.getMinTabletSide() - AndroidUtilities.dp(122.0f);
+                    } else {
+                        this.maxWidth = Math.min(this.cell.getParentWidth(), AndroidUtilities.displaySize.y) - AndroidUtilities.dp((this.cell.checkNeedDrawShareButton(messageObject) ? 10 : 0) + 64);
+                    }
+                    if (this.cell.needDrawAvatar()) {
+                        this.maxWidth -= AndroidUtilities.dp(52.0f);
+                    }
+                    f = 1.0f;
+                }
+                GroupedMessages groupedMessages = this.layout;
+                this.width = (int) ((groupedMessages.width / 1000.0f) * f * this.maxWidth);
+                this.height = (int) (groupedMessages.height * groupedMessages.maxSizeHeight);
+                this.hidden = false;
+                int dp = AndroidUtilities.dp(1.0f);
+                int dp2 = AndroidUtilities.dp(4.0f);
+                int dp3 = AndroidUtilities.dp(i2 - (SharedConfig.bubbleRadius <= 2 ? 2 : 0));
+                int min = Math.min(AndroidUtilities.dp(3.0f), dp3);
+                i3 = 0;
+                while (i3 < this.holders.size()) {
+                    MediaHolder mediaHolder = this.holders.get(i3);
+                    MessageObject.GroupedMessagePosition position = this.layout.getPosition(mediaHolder.media);
+                    if (position == null) {
+                        i4 = dp2;
+                    } else {
+                        int i5 = this.maxWidth;
+                        int i6 = (int) ((position.left / f2) * f * i5);
+                        float f3 = position.top;
+                        float f4 = this.layout.maxSizeHeight;
+                        int i7 = (int) (f3 * f4);
+                        i4 = dp2;
+                        int i8 = (int) ((position.pw / 1000.0f) * f * i5);
+                        int i9 = (int) (position.ph * f4);
+                        int i10 = position.flags;
+                        if ((i10 & 1) == 0) {
+                            i6 += dp;
+                            i8 -= dp;
+                        }
+                        if ((i10 & 4) == 0) {
+                            i7 += dp;
+                            i9 -= dp;
+                        }
+                        if ((i10 & 2) == 0) {
+                            i8 -= dp;
+                        }
+                        if ((i10 & 8) == 0) {
+                            i9 -= dp;
+                        }
+                        mediaHolder.l = i6;
+                        mediaHolder.t = i7;
+                        mediaHolder.r = i6 + i8;
+                        mediaHolder.b = i7 + i9;
+                        mediaHolder.imageReceiver.setImageCoords(i6, i7, i8, i9);
+                        int i11 = position.flags;
+                        int i12 = ((i11 & 4) == 0 || (i11 & 1) == 0 || z2) ? i4 : dp3;
+                        int i13 = ((i11 & 4) == 0 || (i11 & 2) == 0 || z2) ? i4 : dp3;
+                        int i14 = ((i11 & 8) == 0 || (i11 & 1) == 0 || z) ? i4 : dp3;
+                        int i15 = ((i11 & 8) == 0 || (i11 & 2) == 0 || z) ? i4 : dp3;
+                        if (!z) {
+                            if (messageObject.isOutOwner()) {
+                                i15 = i4;
+                            } else {
+                                i14 = i4;
+                            }
+                        }
+                        if (!z2 && this.cell.pinnedTop) {
+                            if (messageObject.isOutOwner()) {
+                                i13 = min;
+                            } else {
+                                i12 = min;
+                            }
+                        }
+                        mediaHolder.imageReceiver.setRoundRadius(i12, i13, i15, i14);
+                        float[] fArr = mediaHolder.radii;
+                        float f5 = i12;
+                        fArr[1] = f5;
+                        fArr[0] = f5;
+                        float f6 = i13;
+                        fArr[3] = f6;
+                        fArr[2] = f6;
+                        float f7 = i15;
+                        fArr[5] = f7;
+                        fArr[4] = f7;
+                        float f8 = i14;
+                        fArr[7] = f8;
+                        fArr[6] = f8;
+                        if (messageObject != null && messageObject.isSending()) {
+                            mediaHolder.setIcon(3);
+                        }
+                        this.hidden = this.hidden || mediaHolder.hidden;
+                    }
+                    i3++;
+                    dp2 = i4;
+                    f2 = 1000.0f;
+                }
+                if (this.hidden) {
+                    return;
+                }
+                TLRPC$TL_messageMediaPaidMedia tLRPC$TL_messageMediaPaidMedia = messageObject == null ? null : (TLRPC$TL_messageMediaPaidMedia) messageObject.messageOwner.media;
+                if (tLRPC$TL_messageMediaPaidMedia != null) {
+                    Text text = new Text(StarsIntroActivity.replaceStarsWithPlain(LocaleController.formatPluralStringComma("UnlockPaidContent", (int) tLRPC$TL_messageMediaPaidMedia.stars_amount), 0.7f), 14.0f, AndroidUtilities.bold());
+                    this.buttonText = text;
+                    if (text.getCurrentWidth() > this.width - AndroidUtilities.dp(30.0f)) {
+                        this.buttonText = new Text(StarsIntroActivity.replaceStarsWithPlain(LocaleController.formatPluralStringComma("UnlockPaidContentShort", (int) tLRPC$TL_messageMediaPaidMedia.stars_amount), 0.7f), 14.0f, AndroidUtilities.bold());
+                        return;
+                    }
+                    return;
+                }
+                return;
             }
-            f = 1.0f;
         }
-        GroupedMessages groupedMessages = this.layout;
-        this.width = (int) ((groupedMessages.width / 1000.0f) * f * this.maxWidth);
-        this.height = (int) (groupedMessages.height * groupedMessages.maxSizeHeight);
+        z = true;
+        i = this.overrideWidth;
+        float f22 = 1000.0f;
+        if (i <= 0) {
+        }
+        GroupedMessages groupedMessages2 = this.layout;
+        this.width = (int) ((groupedMessages2.width / 1000.0f) * f * this.maxWidth);
+        this.height = (int) (groupedMessages2.height * groupedMessages2.maxSizeHeight);
         this.hidden = false;
-        int dp = AndroidUtilities.dp(1.0f);
-        int dp2 = AndroidUtilities.dp(4.0f);
-        int dp3 = AndroidUtilities.dp(i - (SharedConfig.bubbleRadius > 2 ? 2 : 0));
-        int min = Math.min(AndroidUtilities.dp(3.0f), dp3);
-        int i4 = 0;
-        while (i4 < this.holders.size()) {
-            MediaHolder mediaHolder = this.holders.get(i4);
-            MessageObject.GroupedMessagePosition position = this.layout.getPosition(mediaHolder.media);
-            if (position == null) {
-                i2 = dp2;
-            } else {
-                int i5 = this.maxWidth;
-                int i6 = (int) ((position.left / f2) * f * i5);
-                float f3 = position.top;
-                float f4 = this.layout.maxSizeHeight;
-                int i7 = (int) (f3 * f4);
-                i2 = dp2;
-                int i8 = (int) ((position.pw / 1000.0f) * f * i5);
-                int i9 = (int) (position.ph * f4);
-                int i10 = position.flags;
-                if ((i10 & 1) == 0) {
-                    i6 += dp;
-                    i8 -= dp;
-                }
-                if ((i10 & 4) == 0) {
-                    i7 += dp;
-                    i9 -= dp;
-                }
-                if ((i10 & 2) == 0) {
-                    i8 -= dp;
-                }
-                if ((i10 & 8) == 0) {
-                    i9 -= dp;
-                }
-                mediaHolder.l = i6;
-                mediaHolder.t = i7;
-                mediaHolder.r = i6 + i8;
-                mediaHolder.b = i7 + i9;
-                mediaHolder.imageReceiver.setImageCoords(i6, i7, i8, i9);
-                int i11 = position.flags;
-                int i12 = ((i11 & 4) == 0 || (i11 & 1) == 0 || z) ? i2 : dp3;
-                int i13 = ((i11 & 4) == 0 || (i11 & 2) == 0 || z) ? i2 : dp3;
-                int i14 = ((i11 & 8) == 0 || (i11 & 1) == 0 || z2) ? i2 : dp3;
-                int i15 = ((i11 & 8) == 0 || (i11 & 2) == 0 || z2) ? i2 : dp3;
-                if (!z2) {
-                    if (messageObject.isOutOwner()) {
-                        i15 = i2;
-                    } else {
-                        i14 = i2;
-                    }
-                }
-                if (!z && this.cell.pinnedTop) {
-                    if (messageObject.isOutOwner()) {
-                        i13 = min;
-                    } else {
-                        i12 = min;
-                    }
-                }
-                mediaHolder.imageReceiver.setRoundRadius(i12, i13, i15, i14);
-                float[] fArr = mediaHolder.radii;
-                float f5 = i12;
-                fArr[1] = f5;
-                fArr[0] = f5;
-                float f6 = i13;
-                fArr[3] = f6;
-                fArr[2] = f6;
-                float f7 = i15;
-                fArr[5] = f7;
-                fArr[4] = f7;
-                float f8 = i14;
-                fArr[7] = f8;
-                fArr[6] = f8;
-                if (messageObject != null && messageObject.isSending()) {
-                    mediaHolder.setIcon(3);
-                }
-                this.hidden = this.hidden || mediaHolder.hidden;
-            }
-            i4++;
-            dp2 = i2;
-            f2 = 1000.0f;
+        int dp4 = AndroidUtilities.dp(1.0f);
+        int dp22 = AndroidUtilities.dp(4.0f);
+        int dp32 = AndroidUtilities.dp(i2 - (SharedConfig.bubbleRadius <= 2 ? 2 : 0));
+        int min2 = Math.min(AndroidUtilities.dp(3.0f), dp32);
+        i3 = 0;
+        while (i3 < this.holders.size()) {
+        }
+        if (this.hidden) {
         }
     }
 
@@ -285,14 +346,27 @@ public class GroupMedia {
         float x = motionEvent.getX();
         float y = motionEvent.getY();
         if (motionEvent.getAction() == 0) {
-            this.pressHolder = getHolderAt(x, y);
+            MediaHolder holderAt = getHolderAt(x, y);
+            this.pressHolder = holderAt;
+            this.pressButton = (holderAt == null || holderAt.radialProgress.getIcon() == 4 || !this.pressHolder.radialProgress.getProgressRect().contains(x, y)) ? false : true;
         } else if (motionEvent.getAction() == 1 || motionEvent.getAction() == 3) {
-            if (this.pressHolder != null && this.cell.getDelegate() != null && motionEvent.getAction() == 1) {
-                ChatMessageCell.ChatMessageCellDelegate delegate = this.cell.getDelegate();
-                ChatMessageCell chatMessageCell = this.cell;
-                MediaHolder mediaHolder = this.pressHolder;
-                delegate.didPressGroupImage(chatMessageCell, mediaHolder.imageReceiver, mediaHolder.media, motionEvent.getX(), motionEvent.getY());
+            MediaHolder holderAt2 = getHolderAt(x, y);
+            boolean z = (holderAt2 == null || holderAt2.radialProgress.getIcon() == 4 || !holderAt2.radialProgress.getProgressRect().contains(x, y)) ? false : true;
+            MediaHolder mediaHolder = this.pressHolder;
+            if (mediaHolder != null && mediaHolder == holderAt2 && this.cell.getDelegate() != null && motionEvent.getAction() == 1) {
+                MessageObject messageObject = this.cell.getMessageObject();
+                if (this.pressButton && z && holderAt2.radialProgress.getIcon() == 3 && messageObject != null) {
+                    if (messageObject.isSending()) {
+                        SendMessagesHelper.getInstance(messageObject.currentAccount).cancelSendingMessage(messageObject);
+                    }
+                } else {
+                    ChatMessageCell.ChatMessageCellDelegate delegate = this.cell.getDelegate();
+                    ChatMessageCell chatMessageCell = this.cell;
+                    MediaHolder mediaHolder2 = this.pressHolder;
+                    delegate.didPressGroupImage(chatMessageCell, mediaHolder2.imageReceiver, mediaHolder2.media, motionEvent.getX(), motionEvent.getY());
+                }
             }
+            this.pressButton = false;
             this.pressHolder = null;
         }
         this.bounce.setPressed(this.pressHolder != null);
@@ -503,31 +577,37 @@ public class GroupMedia {
             canvas.save();
             canvas.clipPath(this.clipPath2);
             canvas.translate(f4, f5);
-            this.spoilerEffect.draw(canvas, this.cell, (int) (f2 - f4), (int) (f3 - f5), f);
+            int i8 = (int) (f2 - f4);
+            int i9 = (int) (f3 - f5);
+            canvas.saveLayerAlpha(0.0f, 0.0f, i8, i9, (int) (f * 255.0f), 31);
+            this.spoilerEffect.draw(canvas, this.cell, i8, i9, 1.0f);
+            canvas.restore();
             canvas.restore();
             this.cell.invalidate();
         }
-        for (int i8 = 0; i8 < this.holders.size(); i8++) {
-            MediaHolder mediaHolder2 = this.holders.get(i8);
+        for (int i10 = 0; i10 < this.holders.size(); i10++) {
+            MediaHolder mediaHolder2 = this.holders.get(i10);
             if (mediaHolder2.durationText != null) {
                 float dp = AndroidUtilities.dp(11.4f) + mediaHolder2.durationText.getCurrentWidth();
                 float dp2 = AndroidUtilities.dp(17.0f);
                 float dp3 = AndroidUtilities.dp(5.0f);
                 RectF rectF2 = this.clipRect;
-                int i9 = this.x;
-                int i10 = mediaHolder2.l;
-                int i11 = this.y;
-                int i12 = mediaHolder2.t;
-                rectF2.set(i9 + i10 + dp3, i11 + i12 + dp3, i9 + i10 + dp3 + dp, i11 + i12 + dp3 + dp2);
-                this.clipPath.rewind();
-                float f7 = dp2 / 2.0f;
-                this.clipPath.addRoundRect(this.clipRect, f7, f7, Path.Direction.CW);
-                canvas.save();
-                canvas.clipPath(this.clipPath);
-                drawBlurred(canvas, f);
-                canvas.drawColor(Theme.multAlpha(1073741824, 1.0f));
-                mediaHolder2.durationText.draw(canvas, this.x + mediaHolder2.l + dp3 + AndroidUtilities.dp(5.66f), this.y + mediaHolder2.t + dp3 + f7, -1, 1.0f);
-                canvas.restore();
+                int i11 = this.x;
+                int i12 = mediaHolder2.l;
+                int i13 = this.y;
+                int i14 = mediaHolder2.t;
+                rectF2.set(i11 + i12 + dp3, i13 + i14 + dp3, i11 + i12 + dp3 + dp, i13 + i14 + dp3 + dp2);
+                if (this.priceText == null || this.clipRect.right <= ((this.x + this.width) - (AndroidUtilities.dp(11.32f) + this.priceText.getCurrentWidth())) - dp3 || this.clipRect.top > this.y + dp3) {
+                    this.clipPath.rewind();
+                    float f7 = dp2 / 2.0f;
+                    this.clipPath.addRoundRect(this.clipRect, f7, f7, Path.Direction.CW);
+                    canvas.save();
+                    canvas.clipPath(this.clipPath);
+                    drawBlurred(canvas, f);
+                    canvas.drawColor(Theme.multAlpha(1073741824, 1.0f));
+                    mediaHolder2.durationText.draw(canvas, this.x + mediaHolder2.l + dp3 + AndroidUtilities.dp(5.66f), this.y + mediaHolder2.t + dp3 + f7, -1, 1.0f);
+                    canvas.restore();
+                }
             }
         }
     }
@@ -708,19 +788,20 @@ public class GroupMedia {
                     TLRPC$TL_messageMediaDocument tLRPC$TL_messageMediaDocument = (TLRPC$TL_messageMediaDocument) tLRPC$MessageMedia;
                     this.autoplay = !this.album && this.video && SharedConfig.isAutoplayVideo();
                     if (!this.album && this.video && (tLRPC$Document = tLRPC$TL_messageMediaDocument.document) != null) {
-                        TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, Math.min(this.w, this.h) / 100, false, null, false);
+                        TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, Math.min(this.w, this.h), true, null, true);
+                        TLRPC$PhotoSize closestPhotoSizeWithSize3 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$TL_messageMediaDocument.document.thumbs, Math.min(this.w, this.h) / 100, false, null, false);
                         ImageReceiver imageReceiver = this.imageReceiver;
                         ImageLocation forDocument = ImageLocation.getForDocument(tLRPC$TL_messageMediaDocument.document);
                         StringBuilder sb = new StringBuilder();
                         sb.append(str);
                         sb.append(this.autoplay ? "_g" : "");
-                        imageReceiver.setImage(forDocument, sb.toString(), ImageLocation.getForDocument(closestPhotoSizeWithSize2, tLRPC$TL_messageMediaDocument.document), str, 0L, null, messageObject, 0);
+                        imageReceiver.setImage(forDocument, sb.toString(), ImageLocation.getForDocument(closestPhotoSizeWithSize2, tLRPC$TL_messageMediaDocument.document), str, ImageLocation.getForDocument(closestPhotoSizeWithSize3, tLRPC$TL_messageMediaDocument.document), str, null, 0L, null, messageObject, 0);
                         return;
                     }
                     TLRPC$Document tLRPC$Document2 = tLRPC$TL_messageMediaDocument.document;
                     if (tLRPC$Document2 != null) {
-                        TLRPC$PhotoSize closestPhotoSizeWithSize3 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document2.thumbs, Math.min(this.w, this.h), true, null, true);
-                        this.imageReceiver.setImage(ImageLocation.getForDocument(closestPhotoSizeWithSize3, tLRPC$TL_messageMediaDocument.document), str, ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(tLRPC$TL_messageMediaDocument.document.thumbs, Math.min(this.w, this.h) / 100, false, closestPhotoSizeWithSize3, false), tLRPC$TL_messageMediaDocument.document), str, 0L, null, messageObject, 0);
+                        TLRPC$PhotoSize closestPhotoSizeWithSize4 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document2.thumbs, Math.min(this.w, this.h), true, null, true);
+                        this.imageReceiver.setImage(ImageLocation.getForDocument(closestPhotoSizeWithSize4, tLRPC$TL_messageMediaDocument.document), str, ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(tLRPC$TL_messageMediaDocument.document.thumbs, Math.min(this.w, this.h) / 100, false, closestPhotoSizeWithSize4, false), tLRPC$TL_messageMediaDocument.document), str, 0L, null, messageObject, 0);
                     }
                 }
             }

@@ -4498,21 +4498,25 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         AndroidUtilities.hideKeyboard(this);
         int i = this.currentAccount;
         long j = this.dialog_id;
-        BotWebViewAttachedSheet.WebViewRequestProps of = BotWebViewAttachedSheet.WebViewRequestProps.of(i, j, j, this.botMenuWebViewTitle, this.botMenuWebViewUrl, 2, 0, false, null, false, null, null, 0);
+        BotWebViewAttachedSheet.WebViewRequestProps of = BotWebViewAttachedSheet.WebViewRequestProps.of(i, j, j, this.botMenuWebViewTitle, this.botMenuWebViewUrl, 2, 0, false, null, false, null, null, 0, false);
         LaunchActivity launchActivity = LaunchActivity.instance;
-        if (launchActivity == null || launchActivity.getBottomSheetTabs() == null || LaunchActivity.instance.getBottomSheetTabs().tryReopenTab(of) == null) {
-            if (AndroidUtilities.isTablet()) {
-                BotWebViewSheet botWebViewSheet = new BotWebViewSheet(getContext(), this.resourcesProvider);
-                botWebViewSheet.setParentActivity(this.parentActivity);
-                botWebViewSheet.requestWebView(null, of);
-                botWebViewSheet.show();
-                BotCommandsMenuView botCommandsMenuView = this.botCommandsMenuButton;
-                if (botCommandsMenuView != null) {
-                    botCommandsMenuView.setOpened(false);
-                    return;
-                }
-                return;
+        if (launchActivity != null && launchActivity.getBottomSheetTabs() != null && LaunchActivity.instance.getBottomSheetTabs().tryReopenTab(of) != null) {
+            BotCommandsMenuView botCommandsMenuView = this.botCommandsMenuButton;
+            if (botCommandsMenuView != null) {
+                botCommandsMenuView.setOpened(false);
             }
+        } else if (AndroidUtilities.isTablet()) {
+            BotWebViewSheet botWebViewSheet = new BotWebViewSheet(getContext(), this.resourcesProvider);
+            botWebViewSheet.setDefaultFullsize(false);
+            botWebViewSheet.setNeedsContext(true);
+            botWebViewSheet.setParentActivity(this.parentActivity);
+            botWebViewSheet.requestWebView(null, of);
+            botWebViewSheet.show();
+            BotCommandsMenuView botCommandsMenuView2 = this.botCommandsMenuButton;
+            if (botCommandsMenuView2 != null) {
+                botCommandsMenuView2.setOpened(false);
+            }
+        } else {
             this.botWebViewMenuContainer.show(this.currentAccount, this.dialog_id, this.botMenuWebViewUrl);
         }
     }
@@ -11473,23 +11477,29 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                             String str2 = tLRPC$KeyboardButton2.url;
                             boolean z = tLRPC$KeyboardButton2 instanceof TLRPC$TL_keyboardButtonSimpleWebView;
                             MessageObject messageObject3 = messageObject;
-                            BotWebViewAttachedSheet.WebViewRequestProps of2 = BotWebViewAttachedSheet.WebViewRequestProps.of(i2, j3, j4, str, str2, z ? 1 : 0, messageObject3 != null ? messageObject3.messageOwner.id : 0, false, null, false, null, null, 0);
+                            BotWebViewAttachedSheet.WebViewRequestProps of2 = BotWebViewAttachedSheet.WebViewRequestProps.of(i2, j3, j4, str, str2, z ? 1 : 0, messageObject3 != null ? messageObject3.messageOwner.id : 0, false, null, false, null, null, 0, false);
                             LaunchActivity launchActivity = LaunchActivity.instance;
-                            if (launchActivity == null || launchActivity.getBottomSheetTabs() == null || LaunchActivity.instance.getBottomSheetTabs().tryReopenTab(of2) == null) {
-                                if (!AndroidUtilities.isTablet()) {
-                                    BotWebViewAttachedSheet createBotViewer = ChatActivityEnterView.this.parentFragment.createBotViewer();
-                                    createBotViewer.setParentActivity(ChatActivityEnterView.this.parentActivity);
-                                    createBotViewer.requestWebView(null, of2);
-                                    createBotViewer.show();
+                            if (launchActivity != null && launchActivity.getBottomSheetTabs() != null && LaunchActivity.instance.getBottomSheetTabs().tryReopenTab(of2) != null) {
+                                if (ChatActivityEnterView.this.botCommandsMenuButton != null) {
+                                    ChatActivityEnterView.this.botCommandsMenuButton.setOpened(false);
                                     return;
                                 }
+                                return;
+                            } else if (!AndroidUtilities.isTablet()) {
+                                BotWebViewAttachedSheet createBotViewer = ChatActivityEnterView.this.parentFragment.createBotViewer();
+                                createBotViewer.setDefaultFullsize(false);
+                                createBotViewer.setNeedsContext(true);
+                                createBotViewer.setParentActivity(ChatActivityEnterView.this.parentActivity);
+                                createBotViewer.requestWebView(null, of2);
+                                createBotViewer.show();
+                                return;
+                            } else {
                                 BotWebViewSheet botWebViewSheet = new BotWebViewSheet(ChatActivityEnterView.this.getContext(), ChatActivityEnterView.this.resourcesProvider);
                                 botWebViewSheet.setParentActivity(ChatActivityEnterView.this.parentActivity);
                                 botWebViewSheet.requestWebView(null, of2);
                                 botWebViewSheet.show();
                                 return;
                             }
-                            return;
                         }
                         ChatActivityEnterView.this.hidePopup(false);
                         AndroidUtilities.hideKeyboard(ChatActivityEnterView.this);

@@ -95,11 +95,7 @@ public class ReactedUserHolderView extends FrameLayout {
         forwardDrawable = new MessageSeenCheckDrawable(R.drawable.mini_forward_story, i4);
     }
 
-    public ReactedUserHolderView(int i, int i2, Context context, Theme.ResourcesProvider resourcesProvider) {
-        this(i, i2, context, resourcesProvider, true);
-    }
-
-    public ReactedUserHolderView(final int i, int i2, Context context, Theme.ResourcesProvider resourcesProvider, boolean z) {
+    public ReactedUserHolderView(final int i, int i2, Context context, Theme.ResourcesProvider resourcesProvider, boolean z, boolean z2) {
         super(context);
         this.avatarDrawable = new AvatarDrawable();
         this.alphaInternal = 1.0f;
@@ -168,12 +164,14 @@ public class ReactedUserHolderView extends FrameLayout {
         this.subtitleView.setImportantForAccessibility(2);
         this.subtitleView.setTranslationX(LocaleController.isRTL ? AndroidUtilities.dp(30.0f) : 0.0f);
         addView(this.subtitleView, LayoutHelper.createFrameRelatively(-1.0f, -2.0f, 55, f3, i == STYLE_STORY ? 24.0f : 19.0f, 20.0f, 0.0f));
-        BackupImageView backupImageView2 = new BackupImageView(context);
-        this.reactView = backupImageView2;
-        addView(backupImageView2, LayoutHelper.createFrameRelatively(24.0f, 24.0f, 8388629, 0.0f, 0.0f, 12.0f, 0.0f));
-        BackupImageView backupImageView3 = new BackupImageView(context);
-        this.storyPreviewView = backupImageView3;
-        addView(backupImageView3, LayoutHelper.createFrameRelatively(22.0f, 35.0f, 8388629, 0.0f, 0.0f, 12.0f, 0.0f));
+        if (z2) {
+            BackupImageView backupImageView2 = new BackupImageView(context);
+            this.reactView = backupImageView2;
+            addView(backupImageView2, LayoutHelper.createFrameRelatively(24.0f, 24.0f, 8388629, 0.0f, 0.0f, 12.0f, 0.0f));
+            BackupImageView backupImageView3 = new BackupImageView(context);
+            this.storyPreviewView = backupImageView3;
+            addView(backupImageView3, LayoutHelper.createFrameRelatively(22.0f, 35.0f, 8388629, 0.0f, 0.0f, 12.0f, 0.0f));
+        }
         if (z) {
             View view = new View(context);
             this.overlaySelectorView = view;
@@ -183,11 +181,11 @@ public class ReactedUserHolderView extends FrameLayout {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x01bc  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x01de  */
-    /* JADX WARN: Removed duplicated region for block: B:95:0x02e8  */
-    /* JADX WARN: Removed duplicated region for block: B:98:0x02ff  */
-    /* JADX WARN: Removed duplicated region for block: B:99:0x0302  */
+    /* JADX WARN: Removed duplicated region for block: B:114:0x02fa  */
+    /* JADX WARN: Removed duplicated region for block: B:117:0x0311  */
+    /* JADX WARN: Removed duplicated region for block: B:118:0x0314  */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x01ce  */
+    /* JADX WARN: Removed duplicated region for block: B:86:0x01f0  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -223,7 +221,10 @@ public class ReactedUserHolderView extends FrameLayout {
         }
         this.avatarView.setImage(ImageLocation.getForUserOrChat(tLRPC$User2, 1), "50_50", drawable2, tLRPC$User2);
         if (z) {
-            this.reactView.setAnimatedEmojiDrawable(null);
+            BackupImageView backupImageView = this.reactView;
+            if (backupImageView != null) {
+                backupImageView.setAnimatedEmojiDrawable(null);
+            }
             Drawable mutate = ContextCompat.getDrawable(getContext(), R.drawable.media_like_active).mutate();
             this.reactView.setColorFilter(new PorterDuffColorFilter(-53704, PorterDuff.Mode.MULTIPLY));
             this.reactView.setImageDrawable(mutate);
@@ -232,20 +233,31 @@ public class ReactedUserHolderView extends FrameLayout {
         } else if (tLRPC$Reaction != null) {
             ReactionsLayoutInBubble.VisibleReaction fromTL = ReactionsLayoutInBubble.VisibleReaction.fromTL(tLRPC$Reaction);
             if (fromTL.emojicon != null) {
-                this.reactView.setAnimatedEmojiDrawable(null);
+                BackupImageView backupImageView2 = this.reactView;
+                if (backupImageView2 != null) {
+                    backupImageView2.setAnimatedEmojiDrawable(null);
+                }
                 TLRPC$TL_availableReaction tLRPC$TL_availableReaction = MediaDataController.getInstance(this.currentAccount).getReactionsMap().get(fromTL.emojicon);
-                if (tLRPC$TL_availableReaction != null) {
-                    this.reactView.setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.center_icon), "40_40_lastreactframe", "webp", DocumentObject.getSvgThumb(tLRPC$TL_availableReaction.static_icon.thumbs, Theme.key_windowBackgroundGray, 1.0f), tLRPC$TL_availableReaction);
-                    z6 = true;
+                BackupImageView backupImageView3 = this.reactView;
+                if (backupImageView3 != null) {
+                    if (tLRPC$TL_availableReaction != null) {
+                        this.reactView.setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.center_icon), "40_40_lastreactframe", "webp", DocumentObject.getSvgThumb(tLRPC$TL_availableReaction.static_icon.thumbs, Theme.key_windowBackgroundGray, 1.0f), tLRPC$TL_availableReaction);
+                        z6 = true;
+                    } else {
+                        backupImageView3.setImageDrawable(null);
+                        z6 = false;
+                    }
+                    this.reactView.setColorFilter(null);
                 } else {
-                    this.reactView.setImageDrawable(null);
                     z6 = false;
                 }
-                this.reactView.setColorFilter(null);
             } else {
                 AnimatedEmojiDrawable animatedEmojiDrawable = new AnimatedEmojiDrawable(0, this.currentAccount, fromTL.documentId);
                 animatedEmojiDrawable.setColorFilter(Theme.getAnimatedEmojiColorFilter(this.resourcesProvider));
-                this.reactView.setAnimatedEmojiDrawable(animatedEmojiDrawable);
+                BackupImageView backupImageView4 = this.reactView;
+                if (backupImageView4 != null) {
+                    backupImageView4.setAnimatedEmojiDrawable(animatedEmojiDrawable);
+                }
                 z6 = true;
             }
             int i = R.string.AccDescrReactedWith;
@@ -259,20 +271,25 @@ public class ReactedUserHolderView extends FrameLayout {
             formatString = LocaleController.formatString("AccDescrReactedWith", i, objArr);
             z5 = z6;
         } else {
-            this.reactView.setAnimatedEmojiDrawable(null);
-            this.reactView.setImageDrawable(null);
+            BackupImageView backupImageView5 = this.reactView;
+            if (backupImageView5 != null) {
+                backupImageView5.setAnimatedEmojiDrawable(null);
+                this.reactView.setImageDrawable(null);
+            }
             formatString = LocaleController.formatString("AccDescrPersonHasSeen", R.string.AccDescrPersonHasSeen, this.titleView.getText());
             z5 = false;
         }
         if (tL_stories$StoryItem != null) {
             this.storyId = tL_stories$StoryItem.id;
-            TLRPC$MessageMedia tLRPC$MessageMedia = tL_stories$StoryItem.media;
-            if (tLRPC$MessageMedia != null && (tLRPC$Photo = tLRPC$MessageMedia.photo) != null) {
-                this.storyPreviewView.setImage(ImageLocation.getForPhoto(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Photo.sizes, 35, false, null, true), tL_stories$StoryItem.media.photo), "22_35", (ImageLocation) null, (String) null, -1, tL_stories$StoryItem);
-            } else if (tLRPC$MessageMedia != null && (tLRPC$Document = tLRPC$MessageMedia.document) != null) {
-                this.storyPreviewView.setImage(ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 35, false, null, true), tL_stories$StoryItem.media.document), "22_35", (ImageLocation) null, (String) null, -1, tL_stories$StoryItem);
+            if (this.storyPreviewView != null) {
+                TLRPC$MessageMedia tLRPC$MessageMedia = tL_stories$StoryItem.media;
+                if (tLRPC$MessageMedia != null && (tLRPC$Photo = tLRPC$MessageMedia.photo) != null) {
+                    this.storyPreviewView.setImage(ImageLocation.getForPhoto(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Photo.sizes, 35, false, null, true), tL_stories$StoryItem.media.photo), "22_35", (ImageLocation) null, (String) null, -1, tL_stories$StoryItem);
+                } else if (tLRPC$MessageMedia != null && (tLRPC$Document = tLRPC$MessageMedia.document) != null) {
+                    this.storyPreviewView.setImage(ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 35, false, null, true), tL_stories$StoryItem.media.document), "22_35", (ImageLocation) null, (String) null, -1, tL_stories$StoryItem);
+                }
+                this.storyPreviewView.setRoundRadius(AndroidUtilities.dp(3.33f));
             }
-            this.storyPreviewView.setRoundRadius(AndroidUtilities.dp(3.33f));
             if (j <= 0) {
                 j2 = tL_stories$StoryItem.date;
                 if (j2 != 0) {
@@ -339,7 +356,10 @@ public class ReactedUserHolderView extends FrameLayout {
             }
         } else {
             this.storyId = -1;
-            this.storyPreviewView.setImageDrawable(null);
+            BackupImageView backupImageView6 = this.storyPreviewView;
+            if (backupImageView6 != null) {
+                backupImageView6.setImageDrawable(null);
+            }
         }
         j2 = j;
         if (j2 != 0) {

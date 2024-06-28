@@ -646,10 +646,10 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         super.onMeasure(i, i2);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:19:0x0068  */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x007c  */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x008d  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x00b4  */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x006f  */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x0083  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x0094  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x00bb  */
     @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -670,6 +670,10 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         for (int i12 = 0; i12 < childCount; i12++) {
             View childAt = getChildAt(i12);
             if (childAt.getVisibility() != 8) {
+                BottomSheetTabs bottomSheetTabs = this.bottomSheetTabs;
+                if (childAt == bottomSheetTabs) {
+                    bottomSheetTabs.updateCurrentAccount();
+                }
                 FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) childAt.getLayoutParams();
                 int measuredWidth = childAt.getMeasuredWidth();
                 int measuredHeight = childAt.getMeasuredHeight();

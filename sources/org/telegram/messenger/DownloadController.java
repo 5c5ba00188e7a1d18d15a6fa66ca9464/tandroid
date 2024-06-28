@@ -36,6 +36,7 @@ import org.telegram.tgnet.TLRPC$TL_error;
 import org.telegram.tgnet.TLRPC$TL_messageMediaPhoto;
 import org.telegram.tgnet.TLRPC$TL_messageMediaStory;
 import org.telegram.tgnet.TLRPC$TL_peerUser;
+import org.telegram.tgnet.tl.TL_stories$StoryItem;
 import org.telegram.ui.LaunchActivity;
 /* loaded from: classes.dex */
 public class DownloadController extends BaseController implements NotificationCenter.NotificationCenterDelegate {
@@ -683,7 +684,9 @@ public class DownloadController extends BaseController implements NotificationCe
     }
 
     public boolean canDownloadMedia(MessageObject messageObject) {
-        return canDownloadMedia(messageObject.messageOwner) == 1;
+        TL_stories$StoryItem tL_stories$StoryItem;
+        TLRPC$MessageMedia tLRPC$MessageMedia;
+        return messageObject.type == 23 ? (!SharedConfig.isAutoplayVideo() || (tL_stories$StoryItem = ((TLRPC$TL_messageMediaStory) MessageObject.getMedia(messageObject)).storyItem) == null || (tLRPC$MessageMedia = tL_stories$StoryItem.media) == null || tLRPC$MessageMedia.document == null || !tL_stories$StoryItem.isPublic) ? false : true : canDownloadMedia(messageObject.messageOwner) == 1;
     }
 
     public boolean canDownloadMedia(int i, long j) {

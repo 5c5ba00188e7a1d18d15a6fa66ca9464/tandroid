@@ -5938,4 +5938,70 @@ public class AndroidUtilities {
             }
         });
     }
+
+    /* JADX WARN: Code restructure failed: missing block: B:28:0x004b, code lost:
+        if (r4 == 1) goto L30;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:29:0x004d, code lost:
+        if (r4 == 2) goto L24;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:32:0x0057, code lost:
+        if (r9.startsWith("tg:resolve") != false) goto L28;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:34:0x005f, code lost:
+        if (r9.startsWith("tg://resolve") == false) goto L23;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:36:0x006c, code lost:
+        return !android.text.TextUtils.isEmpty(r1.getQueryParameter("appname"));
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public static boolean isWebAppLink(String str) {
+        Uri parse;
+        String scheme;
+        String path;
+        if (str == null) {
+            return false;
+        }
+        try {
+            parse = Uri.parse(str);
+            scheme = parse.getScheme();
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
+        if (scheme == null || (path = parse.getPath()) == null) {
+            return false;
+        }
+        char c = 65535;
+        int hashCode = scheme.hashCode();
+        if (hashCode != 3699) {
+            if (hashCode != 3213448) {
+                if (hashCode == 99617003 && scheme.equals("https")) {
+                    c = 1;
+                }
+            } else if (scheme.equals("http")) {
+                c = 0;
+            }
+        } else if (scheme.equals("tg")) {
+            c = 2;
+        }
+        if (path.isEmpty()) {
+            return false;
+        }
+        ArrayList arrayList = new ArrayList(parse.getPathSegments());
+        if (arrayList.size() > 0 && ((String) arrayList.get(0)).equals("s")) {
+            arrayList.remove(0);
+        }
+        if (arrayList.size() <= 0 || (arrayList.size() >= 3 && "s".equals(arrayList.get(1)))) {
+            return false;
+        }
+        if (arrayList.size() > 1) {
+            return !TextUtils.isEmpty((CharSequence) arrayList.get(1));
+        }
+        if (arrayList.size() == 1) {
+            return !TextUtils.isEmpty(parse.getQueryParameter("startapp"));
+        }
+        return false;
+    }
 }

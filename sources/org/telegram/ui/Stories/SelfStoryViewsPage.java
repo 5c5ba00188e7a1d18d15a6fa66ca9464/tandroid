@@ -935,7 +935,7 @@ public class SelfStoryViewsPage extends FrameLayout implements NotificationCente
                 case 1:
                     int i2 = ReactedUserHolderView.STYLE_STORY;
                     SelfStoryViewsPage selfStoryViewsPage = SelfStoryViewsPage.this;
-                    linksTextView = new ReactedUserHolderView(i2, selfStoryViewsPage.currentAccount, selfStoryViewsPage.getContext(), SelfStoryViewsPage.this.resourcesProvider, false) { // from class: org.telegram.ui.Stories.SelfStoryViewsPage.ListAdapter.2
+                    linksTextView = new ReactedUserHolderView(i2, selfStoryViewsPage.currentAccount, selfStoryViewsPage.getContext(), SelfStoryViewsPage.this.resourcesProvider, false, true) { // from class: org.telegram.ui.Stories.SelfStoryViewsPage.ListAdapter.2
                         @Override // org.telegram.ui.Cells.ReactedUserHolderView
                         public void openStory(long j, Runnable runnable) {
                             BaseFragment lastFragment = LaunchActivity.getLastFragment();
