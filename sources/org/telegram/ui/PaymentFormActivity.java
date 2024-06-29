@@ -578,27 +578,27 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:469:0x0fb0, code lost:
-        if (r10.email_requested == false) goto L471;
+    /* JADX WARN: Code restructure failed: missing block: B:473:0x0fb4, code lost:
+        if (r10.email_requested == false) goto L475;
      */
     /* JADX WARN: Code restructure failed: missing block: B:79:0x031d, code lost:
         if (r12.email_requested == false) goto L170;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:609:0x195b  */
-    /* JADX WARN: Removed duplicated region for block: B:613:0x1973  */
-    /* JADX WARN: Removed duplicated region for block: B:619:0x19a1  */
-    /* JADX WARN: Removed duplicated region for block: B:632:0x19df  */
-    /* JADX WARN: Removed duplicated region for block: B:635:0x19e7  */
-    /* JADX WARN: Removed duplicated region for block: B:636:0x19e9  */
-    /* JADX WARN: Removed duplicated region for block: B:646:0x1a00  */
-    /* JADX WARN: Removed duplicated region for block: B:647:0x1a03  */
-    /* JADX WARN: Removed duplicated region for block: B:650:0x1a27  */
-    /* JADX WARN: Removed duplicated region for block: B:656:0x1a78  */
-    /* JADX WARN: Removed duplicated region for block: B:662:0x1ac9  */
-    /* JADX WARN: Removed duplicated region for block: B:668:0x1b18  */
-    /* JADX WARN: Removed duplicated region for block: B:674:0x1b4d  */
-    /* JADX WARN: Removed duplicated region for block: B:678:0x1b8a  */
+    /* JADX WARN: Removed duplicated region for block: B:613:0x195f  */
+    /* JADX WARN: Removed duplicated region for block: B:617:0x1977  */
+    /* JADX WARN: Removed duplicated region for block: B:623:0x19a5  */
+    /* JADX WARN: Removed duplicated region for block: B:636:0x19e3  */
+    /* JADX WARN: Removed duplicated region for block: B:639:0x19eb  */
+    /* JADX WARN: Removed duplicated region for block: B:640:0x19ed  */
+    /* JADX WARN: Removed duplicated region for block: B:650:0x1a04  */
+    /* JADX WARN: Removed duplicated region for block: B:651:0x1a07  */
+    /* JADX WARN: Removed duplicated region for block: B:654:0x1a2b  */
+    /* JADX WARN: Removed duplicated region for block: B:660:0x1a7c  */
+    /* JADX WARN: Removed duplicated region for block: B:666:0x1acd  */
+    /* JADX WARN: Removed duplicated region for block: B:672:0x1b1c  */
+    /* JADX WARN: Removed duplicated region for block: B:678:0x1b51  */
+    /* JADX WARN: Removed duplicated region for block: B:682:0x1b8e  */
     /* JADX WARN: Type inference failed for: r0v93, types: [org.telegram.ui.Cells.RecurrentPaymentsAcceptCell] */
     /* JADX WARN: Type inference failed for: r10v101, types: [android.widget.LinearLayout] */
     /* JADX WARN: Type inference failed for: r10v12, types: [java.lang.StringBuilder] */
@@ -1843,7 +1843,8 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 }
             }
         } else if (i7 == 1) {
-            int size = this.requestedInfo.shipping_options.size();
+            ArrayList<TLRPC$TL_shippingOption> arrayList = this.requestedInfo.shipping_options;
+            int size = arrayList == null ? 0 : arrayList.size();
             this.radioCells = new RadioCell[size];
             int i17 = 0;
             while (i17 < size) {
@@ -1998,11 +1999,11 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
             this.linearLayout2.addView(this.paymentInfoCell, LayoutHelper.createLinear(-1, -2));
             this.sectionCell[0] = new ShadowSectionCell(context, this.resourcesProvider);
             this.linearLayout2.addView(this.sectionCell[0], LayoutHelper.createLinear(-1, -2));
-            ArrayList<TLRPC$TL_labeledPrice> arrayList = new ArrayList<>(this.paymentForm.invoice.prices);
-            this.prices = arrayList;
+            ArrayList<TLRPC$TL_labeledPrice> arrayList2 = new ArrayList<>(this.paymentForm.invoice.prices);
+            this.prices = arrayList2;
             TLRPC$TL_shippingOption tLRPC$TL_shippingOption2 = this.shippingOption;
             if (tLRPC$TL_shippingOption2 != null) {
-                arrayList.addAll(tLRPC$TL_shippingOption2.prices);
+                arrayList2.addAll(tLRPC$TL_shippingOption2.prices);
             }
             this.totalPrice = new String[1];
             for (int i25 = 0; i25 < this.prices.size(); i25++) {

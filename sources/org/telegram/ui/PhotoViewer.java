@@ -15186,8 +15186,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         updateActionBarTitlePadding();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:890:0x0891  */
-    /* JADX WARN: Removed duplicated region for block: B:972:0x0a44  */
+    /* JADX WARN: Removed duplicated region for block: B:894:0x0891  */
+    /* JADX WARN: Removed duplicated region for block: B:980:0x0a4e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -15209,6 +15209,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         boolean z4;
         ChatActivity chatActivity2;
         MessageObject messageObject3;
+        PhotoViewerProvider photoViewerProvider2;
         ChatActivity chatActivity3;
         boolean z5;
         int i4;
@@ -15412,8 +15413,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             groupedPhotosListView.reset();
             this.groupedPhotosListView.setAnimateBackground(!ApplicationLoader.isNetworkOnline());
         }
-        PhotoViewerProvider photoViewerProvider2 = this.placeProvider;
-        if (photoViewerProvider2 != null && photoViewerProvider2.getTotalImageCount() > 0) {
+        PhotoViewerProvider photoViewerProvider3 = this.placeProvider;
+        if (photoViewerProvider3 != null && photoViewerProvider3.getTotalImageCount() > 0) {
             this.totalImagesCount = this.placeProvider.getTotalImageCount();
         }
         if (messageObject != null) {
@@ -15730,7 +15731,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                             z5 = false;
                         }
                         this.isFirstLoading = z5;
-                    } else if (MediaDataController.getMediaType(messageObject3.messageOwner) == this.sharedMediaType) {
+                    } else if (MediaDataController.getMediaType(messageObject3.messageOwner) == this.sharedMediaType && ((photoViewerProvider2 = this.placeProvider) == null || !photoViewerProvider2.forceAllInGroup())) {
                         MediaDataController.getInstance(this.currentAccount).getMediaCount(this.currentDialogId, this.topicId, this.sharedMediaType, this.classGuid, true);
                         if (this.mergeDialogId != 0) {
                             MediaDataController.getInstance(this.currentAccount).getMediaCount(this.mergeDialogId, this.topicId, this.sharedMediaType, this.classGuid, true);
@@ -15750,8 +15751,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 ChatActivity chatActivity5 = this.parentChatActivity;
                 TLRPC$User currentUser = chatActivity5 != null ? chatActivity5.getCurrentUser() : null;
                 boolean z7 = (this.isDocumentsPicker || (chatActivity2 = this.parentChatActivity) == null || chatActivity2.isSecretChat() || this.parentChatActivity.isInScheduleMode() || currentUser == null || currentUser.bot || UserObject.isUserSelf(currentUser) || this.parentChatActivity.isEditingMessageMedia()) ? false : true;
-                PhotoViewerProvider photoViewerProvider3 = this.placeProvider;
-                if (photoViewerProvider3 != null && photoViewerProvider3.getEditingMessageObject() != null) {
+                PhotoViewerProvider photoViewerProvider4 = this.placeProvider;
+                if (photoViewerProvider4 != null && photoViewerProvider4.getEditingMessageObject() != null) {
                     z7 = false;
                 }
                 if (!(obj2 instanceof TLRPC$BotInlineResult)) {

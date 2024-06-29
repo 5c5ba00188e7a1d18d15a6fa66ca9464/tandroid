@@ -41,6 +41,7 @@ import java.io.RandomAccessFile;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -11472,7 +11473,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda54
             @Override // java.lang.Runnable
             public final void run() {
-                SendMessagesHelper.this.lambda$performSendMessageRequestMulti$46(tLRPC$TL_error, tLObject2, arrayList2, arrayList3, z, tLObject);
+                SendMessagesHelper.this.lambda$performSendMessageRequestMulti$46(tLRPC$TL_error, tLObject2, arrayList2, arrayList3, tLObject, z);
             }
         });
     }
@@ -11604,70 +11605,73 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$performSendMessageRequestMulti$46(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, ArrayList arrayList, ArrayList arrayList2, final boolean z, TLObject tLObject2) {
-        final SendMessagesHelper sendMessagesHelper;
+    public /* synthetic */ void lambda$performSendMessageRequestMulti$46(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, ArrayList arrayList, ArrayList arrayList2, TLObject tLObject2, final boolean z) {
         boolean z2;
         final TLRPC$Updates tLRPC$Updates;
-        boolean z3;
         TLRPC$Message tLRPC$Message;
         TLRPC$Updates tLRPC$Updates2;
+        ArrayList arrayList3;
         int i;
+        TLRPC$Message tLRPC$Message2;
+        MessageObject messageObject;
         int i2;
-        int i3;
-        String quickReplyName;
+        LongSparseArray longSparseArray;
+        SparseArray sparseArray;
+        TLRPC$Updates tLRPC$Updates3;
         TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader;
-        int i4;
+        ArrayList arrayList4 = arrayList;
+        Object[] objArr = z ? 1 : 0;
         if (tLRPC$TL_error == null) {
-            SparseArray sparseArray = new SparseArray();
-            LongSparseArray longSparseArray = new LongSparseArray();
-            TLRPC$Updates tLRPC$Updates3 = (TLRPC$Updates) tLObject;
-            ArrayList<TLRPC$Update> arrayList3 = tLRPC$Updates3.updates;
-            int i5 = 0;
-            LongSparseArray<SparseArray<TLRPC$MessageReplies>> longSparseArray2 = null;
-            while (i5 < arrayList3.size()) {
-                TLRPC$Update tLRPC$Update = arrayList3.get(i5);
+            SparseArray sparseArray2 = new SparseArray();
+            LongSparseArray longSparseArray2 = new LongSparseArray();
+            TLRPC$Updates tLRPC$Updates4 = (TLRPC$Updates) tLObject;
+            ArrayList<TLRPC$Update> arrayList5 = tLRPC$Updates4.updates;
+            int i3 = 0;
+            LongSparseArray<SparseArray<TLRPC$MessageReplies>> longSparseArray3 = null;
+            while (i3 < arrayList5.size()) {
+                TLRPC$Update tLRPC$Update = arrayList5.get(i3);
                 if (tLRPC$Update instanceof TLRPC$TL_updateMessageID) {
                     TLRPC$TL_updateMessageID tLRPC$TL_updateMessageID = (TLRPC$TL_updateMessageID) tLRPC$Update;
-                    longSparseArray.put(tLRPC$TL_updateMessageID.random_id, Integer.valueOf(tLRPC$TL_updateMessageID.id));
-                    arrayList3.remove(i5);
+                    longSparseArray2.put(tLRPC$TL_updateMessageID.random_id, Integer.valueOf(tLRPC$TL_updateMessageID.id));
+                    arrayList5.remove(i3);
                 } else if (tLRPC$Update instanceof TLRPC$TL_updateNewMessage) {
                     final TLRPC$TL_updateNewMessage tLRPC$TL_updateNewMessage = (TLRPC$TL_updateNewMessage) tLRPC$Update;
-                    TLRPC$Message tLRPC$Message2 = tLRPC$TL_updateNewMessage.message;
-                    sparseArray.put(tLRPC$Message2.id, tLRPC$Message2);
+                    TLRPC$Message tLRPC$Message3 = tLRPC$TL_updateNewMessage.message;
+                    sparseArray2.put(tLRPC$Message3.id, tLRPC$Message3);
                     Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda65
                         @Override // java.lang.Runnable
                         public final void run() {
                             SendMessagesHelper.this.lambda$performSendMessageRequestMulti$40(tLRPC$TL_updateNewMessage);
                         }
                     });
-                    arrayList3.remove(i5);
+                    arrayList5.remove(i3);
                 } else {
                     if (tLRPC$Update instanceof TLRPC$TL_updateNewChannelMessage) {
                         final TLRPC$TL_updateNewChannelMessage tLRPC$TL_updateNewChannelMessage = (TLRPC$TL_updateNewChannelMessage) tLRPC$Update;
                         final long updateChannelId = MessagesController.getUpdateChannelId(tLRPC$TL_updateNewChannelMessage);
                         TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(updateChannelId));
                         if (!(chat == null || chat.megagroup) || (tLRPC$MessageReplyHeader = tLRPC$TL_updateNewChannelMessage.message.reply_to) == null || (tLRPC$MessageReplyHeader.reply_to_top_id == 0 && tLRPC$MessageReplyHeader.reply_to_msg_id == 0)) {
-                            i4 = i5;
+                            tLRPC$Updates3 = tLRPC$Updates4;
                         } else {
-                            if (longSparseArray2 == null) {
-                                longSparseArray2 = new LongSparseArray<>();
+                            if (longSparseArray3 == null) {
+                                longSparseArray3 = new LongSparseArray<>();
                             }
-                            i4 = i5;
+                            tLRPC$Updates3 = tLRPC$Updates4;
                             long dialogId = MessageObject.getDialogId(tLRPC$TL_updateNewChannelMessage.message);
-                            SparseArray<TLRPC$MessageReplies> sparseArray2 = longSparseArray2.get(dialogId);
-                            if (sparseArray2 == null) {
-                                sparseArray2 = new SparseArray<>();
-                                longSparseArray2.put(dialogId, sparseArray2);
+                            SparseArray<TLRPC$MessageReplies> sparseArray3 = longSparseArray3.get(dialogId);
+                            if (sparseArray3 == null) {
+                                sparseArray3 = new SparseArray<>();
+                                longSparseArray3.put(dialogId, sparseArray3);
                             }
                             TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader2 = tLRPC$TL_updateNewChannelMessage.message.reply_to;
-                            int i6 = tLRPC$MessageReplyHeader2.reply_to_top_id;
-                            if (i6 == 0) {
-                                i6 = tLRPC$MessageReplyHeader2.reply_to_msg_id;
+                            int i4 = tLRPC$MessageReplyHeader2.reply_to_top_id;
+                            if (i4 == 0) {
+                                i4 = tLRPC$MessageReplyHeader2.reply_to_msg_id;
                             }
-                            TLRPC$MessageReplies tLRPC$MessageReplies = sparseArray2.get(i6);
+                            TLRPC$MessageReplies tLRPC$MessageReplies = sparseArray3.get(i4);
                             if (tLRPC$MessageReplies == null) {
                                 tLRPC$MessageReplies = new TLRPC$TL_messageReplies();
-                                sparseArray2.put(i6, tLRPC$MessageReplies);
+                                sparseArray3.put(i4, tLRPC$MessageReplies);
                             }
                             TLRPC$Peer tLRPC$Peer = tLRPC$TL_updateNewChannelMessage.message.from_id;
                             if (tLRPC$Peer != null) {
@@ -11675,17 +11679,16 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                             }
                             tLRPC$MessageReplies.replies++;
                         }
-                        TLRPC$Message tLRPC$Message3 = tLRPC$TL_updateNewChannelMessage.message;
-                        sparseArray.put(tLRPC$Message3.id, tLRPC$Message3);
+                        TLRPC$Message tLRPC$Message4 = tLRPC$TL_updateNewChannelMessage.message;
+                        sparseArray2.put(tLRPC$Message4.id, tLRPC$Message4);
                         Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda60
                             @Override // java.lang.Runnable
                             public final void run() {
                                 SendMessagesHelper.this.lambda$performSendMessageRequestMulti$41(tLRPC$TL_updateNewChannelMessage);
                             }
                         });
-                        int i7 = i4;
-                        arrayList3.remove(i7);
-                        i2 = i7 - 1;
+                        arrayList5.remove(i3);
+                        i3--;
                         if (tLRPC$TL_updateNewChannelMessage.message.pinned) {
                             Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda62
                                 @Override // java.lang.Runnable
@@ -11695,120 +11698,135 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                             });
                         }
                     } else {
-                        int i8 = i5;
+                        tLRPC$Updates3 = tLRPC$Updates4;
                         if (tLRPC$Update instanceof TLRPC$TL_updateNewScheduledMessage) {
-                            TLRPC$Message tLRPC$Message4 = ((TLRPC$TL_updateNewScheduledMessage) tLRPC$Update).message;
-                            sparseArray.put(tLRPC$Message4.id, tLRPC$Message4);
-                            arrayList3.remove(i8);
+                            TLRPC$Message tLRPC$Message5 = ((TLRPC$TL_updateNewScheduledMessage) tLRPC$Update).message;
+                            sparseArray2.put(tLRPC$Message5.id, tLRPC$Message5);
+                            arrayList5.remove(i3);
                         } else if (tLRPC$Update instanceof TLRPC$TL_updateQuickReplyMessage) {
-                            QuickRepliesController quickRepliesController = QuickRepliesController.getInstance(this.currentAccount);
-                            if (arrayList.isEmpty()) {
-                                i3 = 0;
-                                quickReplyName = null;
-                            } else {
-                                i3 = 0;
-                                quickReplyName = ((MessageObject) arrayList.get(0)).getQuickReplyName();
-                            }
-                            quickRepliesController.processUpdate(tLRPC$Update, quickReplyName, (arrayList.isEmpty() ? null : Integer.valueOf(((MessageObject) arrayList.get(i3)).getQuickReplyId())).intValue());
-                            TLRPC$Message tLRPC$Message5 = ((TLRPC$TL_updateQuickReplyMessage) tLRPC$Update).message;
-                            sparseArray.put(tLRPC$Message5.id, tLRPC$Message5);
-                            arrayList3.remove(i8);
-                        } else {
-                            i2 = i8;
+                            QuickRepliesController.getInstance(this.currentAccount).processUpdate(tLRPC$Update, arrayList.isEmpty() ? null : ((MessageObject) arrayList4.get(0)).getQuickReplyName(), (arrayList.isEmpty() ? null : Integer.valueOf(((MessageObject) arrayList4.get(0)).getQuickReplyId())).intValue());
+                            TLRPC$Message tLRPC$Message6 = ((TLRPC$TL_updateQuickReplyMessage) tLRPC$Update).message;
+                            sparseArray2.put(tLRPC$Message6.id, tLRPC$Message6);
+                            arrayList5.remove(i3);
                         }
-                        i2 = i8 - 1;
+                        i3--;
                     }
-                    i5 = i2 + 1;
+                    i3++;
+                    tLRPC$Updates4 = tLRPC$Updates3;
                 }
-                i2 = i5 - 1;
-                i5 = i2 + 1;
+                i3--;
+                tLRPC$Updates3 = tLRPC$Updates4;
+                i3++;
+                tLRPC$Updates4 = tLRPC$Updates3;
             }
-            if (longSparseArray2 != null) {
-                getMessagesStorage().putChannelViews(null, null, longSparseArray2, true);
-                getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didUpdateMessagesViews, null, null, longSparseArray2, Boolean.TRUE);
+            TLRPC$Updates tLRPC$Updates5 = tLRPC$Updates4;
+            if (longSparseArray3 != null) {
+                getMessagesStorage().putChannelViews(null, null, longSparseArray3, true);
+                getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didUpdateMessagesViews, null, null, longSparseArray3, Boolean.TRUE);
             }
-            int i9 = 0;
-            while (i9 < arrayList.size()) {
-                MessageObject messageObject = (MessageObject) arrayList.get(i9);
-                String str = (String) arrayList2.get(i9);
-                final TLRPC$Message tLRPC$Message6 = messageObject.messageOwner;
-                final int i10 = tLRPC$Message6.id;
-                final ArrayList arrayList4 = new ArrayList();
-                Integer num = (Integer) longSparseArray.get(tLRPC$Message6.random_id);
-                if (num == null || (tLRPC$Message = (TLRPC$Message) sparseArray.get(num.intValue())) == null) {
-                    tLRPC$Updates = tLRPC$Updates3;
-                    z3 = true;
+            int i5 = 0;
+            while (i5 < arrayList.size()) {
+                MessageObject messageObject2 = (MessageObject) arrayList4.get(i5);
+                String str = (String) arrayList2.get(i5);
+                TLRPC$Message tLRPC$Message7 = messageObject2.messageOwner;
+                int i6 = tLRPC$Message7.id;
+                ArrayList arrayList6 = new ArrayList();
+                Integer num = (Integer) longSparseArray2.get(tLRPC$Message7.random_id);
+                if (num == null || (tLRPC$Message = (TLRPC$Message) sparseArray2.get(num.intValue())) == null) {
+                    tLRPC$Updates = tLRPC$Updates5;
+                    z2 = true;
                     break;
                 }
                 MessageObject.getDialogId(tLRPC$Message);
-                arrayList4.add(tLRPC$Message);
+                arrayList6.add(tLRPC$Message);
                 if ((tLRPC$Message.flags & ConnectionsManager.FileTypeVideo) != 0) {
-                    TLRPC$Message tLRPC$Message7 = messageObject.messageOwner;
-                    tLRPC$Message7.ttl_period = tLRPC$Message.ttl_period;
-                    tLRPC$Message7.flags = 33554432 | tLRPC$Message7.flags;
+                    TLRPC$Message tLRPC$Message8 = messageObject2.messageOwner;
+                    tLRPC$Message8.ttl_period = tLRPC$Message.ttl_period;
+                    tLRPC$Message8.flags = 33554432 | tLRPC$Message8.flags;
                 }
-                updateMediaPaths(messageObject, tLRPC$Message, tLRPC$Message.id, str, false);
+                if (tLObject2 instanceof TLRPC$TL_messages_sendMedia) {
+                    arrayList3 = arrayList6;
+                    i = i6;
+                    tLRPC$Message2 = tLRPC$Message7;
+                    messageObject = messageObject2;
+                    tLRPC$Updates2 = tLRPC$Updates5;
+                    i2 = i5;
+                    updateMediaPaths((MessageObject) arrayList4.get(0), tLRPC$Message, tLRPC$Message.id, arrayList2, false, -1);
+                } else {
+                    tLRPC$Updates2 = tLRPC$Updates5;
+                    arrayList3 = arrayList6;
+                    i = i6;
+                    tLRPC$Message2 = tLRPC$Message7;
+                    messageObject = messageObject2;
+                    i2 = i5;
+                    updateMediaPaths(messageObject, tLRPC$Message, tLRPC$Message.id, str, false);
+                }
                 final int mediaExistanceFlags = messageObject.getMediaExistanceFlags();
-                tLRPC$Message6.id = tLRPC$Message.id;
-                int i11 = tLRPC$Message.quick_reply_shortcut_id;
-                tLRPC$Message6.quick_reply_shortcut_id = i11;
-                if (i11 != 0) {
-                    tLRPC$Message6.flags |= 1073741824;
+                final TLRPC$Message tLRPC$Message9 = tLRPC$Message2;
+                tLRPC$Message9.id = tLRPC$Message.id;
+                int i7 = tLRPC$Message.quick_reply_shortcut_id;
+                tLRPC$Message9.quick_reply_shortcut_id = i7;
+                if (i7 != 0) {
+                    tLRPC$Message9.flags |= 1073741824;
                 }
                 final long j = tLRPC$Message.grouped_id;
-                if (z) {
-                    tLRPC$Updates2 = tLRPC$Updates3;
-                    i = i9;
-                } else {
+                if (objArr == null) {
                     Integer num2 = getMessagesController().dialogs_read_outbox_max.get(Long.valueOf(tLRPC$Message.dialog_id));
                     if (num2 == null) {
-                        tLRPC$Updates2 = tLRPC$Updates3;
-                        i = i9;
+                        longSparseArray = longSparseArray2;
+                        sparseArray = sparseArray2;
                         num2 = Integer.valueOf(getMessagesStorage().getDialogReadMax(tLRPC$Message.out, tLRPC$Message.dialog_id));
                         getMessagesController().dialogs_read_outbox_max.put(Long.valueOf(tLRPC$Message.dialog_id), num2);
                     } else {
-                        tLRPC$Updates2 = tLRPC$Updates3;
-                        i = i9;
+                        longSparseArray = longSparseArray2;
+                        sparseArray = sparseArray2;
                     }
                     tLRPC$Message.unread = num2.intValue() < tLRPC$Message.id;
+                } else {
+                    longSparseArray = longSparseArray2;
+                    sparseArray = sparseArray2;
                 }
                 getStatsController().incrementSentItemsCount(ApplicationLoader.getCurrentNetworkType(), 1, 1);
-                tLRPC$Message6.send_state = 0;
-                getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageReceivedByServer, Integer.valueOf(i10), Integer.valueOf(tLRPC$Message6.id), tLRPC$Message6, Long.valueOf(tLRPC$Message6.dialog_id), Long.valueOf(j), Integer.valueOf(mediaExistanceFlags), Boolean.valueOf(z));
-                getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageReceivedByServer2, Integer.valueOf(i10), Integer.valueOf(tLRPC$Message6.id), tLRPC$Message6, Long.valueOf(tLRPC$Message6.dialog_id), Long.valueOf(j), Integer.valueOf(mediaExistanceFlags), Boolean.valueOf(z));
+                tLRPC$Message9.send_state = 0;
+                getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageReceivedByServer, Integer.valueOf(i), Integer.valueOf(tLRPC$Message9.id), tLRPC$Message9, Long.valueOf(tLRPC$Message9.dialog_id), Long.valueOf(j), Integer.valueOf(mediaExistanceFlags), Boolean.valueOf(z));
+                getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageReceivedByServer2, Integer.valueOf(i), Integer.valueOf(tLRPC$Message9.id), tLRPC$Message9, Long.valueOf(tLRPC$Message9.dialog_id), Long.valueOf(j), Integer.valueOf(mediaExistanceFlags), Boolean.valueOf(z));
+                final int i8 = i;
+                final ArrayList arrayList7 = arrayList3;
+                LongSparseArray longSparseArray4 = longSparseArray;
+                SparseArray sparseArray4 = sparseArray;
                 getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda71
                     @Override // java.lang.Runnable
                     public final void run() {
-                        SendMessagesHelper.this.lambda$performSendMessageRequestMulti$44(z, tLRPC$Message6, i10, arrayList4, j, mediaExistanceFlags);
+                        SendMessagesHelper.this.lambda$performSendMessageRequestMulti$44(z, tLRPC$Message9, i8, arrayList7, j, mediaExistanceFlags);
                     }
                 });
-                i9 = i + 1;
-                tLRPC$Updates3 = tLRPC$Updates2;
-                longSparseArray = longSparseArray;
+                i5 = i2 + 1;
+                objArr = z ? 1 : 0;
+                tLRPC$Updates5 = tLRPC$Updates2;
+                longSparseArray2 = longSparseArray4;
+                sparseArray2 = sparseArray4;
+                arrayList4 = arrayList;
             }
-            tLRPC$Updates = tLRPC$Updates3;
-            z3 = false;
-            sendMessagesHelper = this;
+            tLRPC$Updates = tLRPC$Updates5;
+            z2 = false;
             Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda67
                 @Override // java.lang.Runnable
                 public final void run() {
                     SendMessagesHelper.this.lambda$performSendMessageRequestMulti$45(tLRPC$Updates);
                 }
             });
-            z2 = z3;
         } else {
-            sendMessagesHelper = this;
-            AlertsCreator.processError(sendMessagesHelper.currentAccount, tLRPC$TL_error, null, tLObject2, new Object[0]);
+            AlertsCreator.processError(this.currentAccount, tLRPC$TL_error, null, tLObject2, new Object[0]);
             z2 = true;
         }
         if (z2) {
-            for (int i12 = 0; i12 < arrayList.size(); i12++) {
-                TLRPC$Message tLRPC$Message8 = ((MessageObject) arrayList.get(i12)).messageOwner;
-                getMessagesStorage().markMessageAsSendError(tLRPC$Message8, z ? 1 : 0);
-                tLRPC$Message8.send_state = 2;
-                getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message8.id));
-                sendMessagesHelper.processSentMessage(tLRPC$Message8.id);
-                sendMessagesHelper.removeFromSendingMessages(tLRPC$Message8.id, z);
+            for (int i9 = 0; i9 < arrayList.size(); i9++) {
+                TLRPC$Message tLRPC$Message10 = ((MessageObject) arrayList.get(i9)).messageOwner;
+                getMessagesStorage().markMessageAsSendError(tLRPC$Message10, z ? 1 : 0);
+                tLRPC$Message10.send_state = 2;
+                getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageSendError, Integer.valueOf(tLRPC$Message10.id));
+                processSentMessage(tLRPC$Message10.id);
+                removeFromSendingMessages(tLRPC$Message10.id, z);
             }
         }
     }
@@ -12402,308 +12420,499 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messageReceivedByAck, Integer.valueOf(i));
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:144:0x02fa  */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x00fd  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x0111  */
+    private void updateMediaPaths(MessageObject messageObject, TLRPC$Message tLRPC$Message, int i, String str, boolean z) {
+        updateMediaPaths(messageObject, tLRPC$Message, i, Collections.singletonList(str), z, -1);
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:119:0x01ce  */
+    /* JADX WARN: Removed duplicated region for block: B:194:0x03d4  */
+    /* JADX WARN: Removed duplicated region for block: B:318:0x072b  */
+    /* JADX WARN: Removed duplicated region for block: B:319:0x072e  */
+    /* JADX WARN: Removed duplicated region for block: B:355:0x07bf  */
+    /* JADX WARN: Removed duplicated region for block: B:356:0x07c2  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    private void updateMediaPaths(MessageObject messageObject, TLRPC$Message tLRPC$Message, int i, String str, boolean z) {
+    private void updateMediaPaths(MessageObject messageObject, TLRPC$Message tLRPC$Message, int i, List<String> list, boolean z, int i2) {
+        TLRPC$MessageMedia tLRPC$MessageMedia;
+        TLRPC$MessageMedia tLRPC$MessageMedia2;
+        boolean z2;
         TLRPC$PhotoSize tLRPC$PhotoSize;
+        TLRPC$TL_messageExtendedMedia tLRPC$TL_messageExtendedMedia;
+        TLRPC$TL_messageExtendedMedia tLRPC$TL_messageExtendedMedia2;
+        TLRPC$TL_messageExtendedMedia tLRPC$TL_messageExtendedMedia3;
+        TLRPC$MessageMedia tLRPC$MessageMedia3;
         TLRPC$FileLocation tLRPC$FileLocation;
         byte[] bArr;
-        boolean z2;
-        String str2;
+        SendMessagesHelper sendMessagesHelper;
+        TLRPC$TL_messageExtendedMedia tLRPC$TL_messageExtendedMedia4;
+        String str;
         TLRPC$FileLocation tLRPC$FileLocation2;
         VideoEditedInfo videoEditedInfo;
-        boolean z3;
-        String str3;
-        File file;
-        TLRPC$PhotoSize closestPhotoSizeWithSize;
-        TLObject tLObject;
-        TLRPC$MessageMedia tLRPC$MessageMedia;
-        TLRPC$WebPage tLRPC$WebPage;
-        TLRPC$Document tLRPC$Document;
-        TLRPC$MessageMedia tLRPC$MessageMedia2;
-        TLRPC$WebPage tLRPC$WebPage2;
-        TLRPC$Photo tLRPC$Photo;
-        TLRPC$MessageMedia tLRPC$MessageMedia3;
-        TLRPC$Document tLRPC$Document2;
         TLRPC$MessageMedia tLRPC$MessageMedia4;
+        TLRPC$TL_messageExtendedMedia tLRPC$TL_messageExtendedMedia5;
+        TLRPC$Message tLRPC$Message2;
+        int i3;
+        boolean z3;
+        TLRPC$TL_messageExtendedMedia tLRPC$TL_messageExtendedMedia6;
+        boolean z4;
+        boolean z5;
+        String str2;
+        File file;
+        TLRPC$TL_messageExtendedMedia tLRPC$TL_messageExtendedMedia7;
+        boolean z6;
+        TLRPC$PhotoSize tLRPC$PhotoSize2;
+        TLRPC$TL_messageExtendedMedia tLRPC$TL_messageExtendedMedia8;
+        TLObject tLObject;
+        TLRPC$PhotoSize tLRPC$PhotoSize3;
+        TLRPC$PhotoSize tLRPC$PhotoSize4;
+        TLRPC$Document tLRPC$Document;
+        TLRPC$Photo tLRPC$Photo;
+        TLObject tLObject2;
+        TLRPC$WebPage tLRPC$WebPage;
+        TLRPC$Document tLRPC$Document2;
+        TLRPC$WebPage tLRPC$WebPage2;
         TLRPC$Photo tLRPC$Photo2;
-        TLRPC$Message tLRPC$Message2 = messageObject.messageOwner;
-        TLRPC$MessageMedia tLRPC$MessageMedia5 = tLRPC$Message2.media;
-        if (tLRPC$MessageMedia5 != null) {
-            if (tLRPC$MessageMedia5.storyItem != null) {
-                tLRPC$Message.media = tLRPC$MessageMedia5;
+        TLRPC$Document tLRPC$Document3;
+        TLRPC$Photo tLRPC$Photo3;
+        TLRPC$Message tLRPC$Message3 = messageObject.messageOwner;
+        int i4 = 0;
+        String str3 = (list.isEmpty() || Math.max(0, i2) >= list.size()) ? null : list.get(Math.max(0, i2));
+        TLRPC$MessageMedia tLRPC$MessageMedia5 = tLRPC$Message.media;
+        TLRPC$MessageMedia tLRPC$MessageMedia6 = tLRPC$Message3.media;
+        if (tLRPC$MessageMedia6 != null) {
+            if (tLRPC$MessageMedia6.storyItem != null) {
+                tLRPC$Message.media = tLRPC$MessageMedia6;
             } else {
                 if (messageObject.isLiveLocation()) {
-                    TLRPC$MessageMedia tLRPC$MessageMedia6 = tLRPC$Message.media;
-                    if (tLRPC$MessageMedia6 instanceof TLRPC$TL_messageMediaGeoLive) {
-                        tLRPC$Message2.media.period = tLRPC$MessageMedia6.period;
+                    TLRPC$MessageMedia tLRPC$MessageMedia7 = tLRPC$Message.media;
+                    if (tLRPC$MessageMedia7 instanceof TLRPC$TL_messageMediaGeoLive) {
+                        tLRPC$Message3.media.period = tLRPC$MessageMedia7.period;
                     }
                 }
                 if (messageObject.isDice()) {
-                    ((TLRPC$TL_messageMediaDice) tLRPC$Message2.media).value = ((TLRPC$TL_messageMediaDice) tLRPC$Message.media).value;
+                    ((TLRPC$TL_messageMediaDice) tLRPC$Message3.media).value = ((TLRPC$TL_messageMediaDice) tLRPC$Message.media).value;
                 } else {
-                    TLRPC$MessageMedia tLRPC$MessageMedia7 = tLRPC$Message2.media;
-                    TLRPC$Photo tLRPC$Photo3 = tLRPC$MessageMedia7.photo;
-                    if (tLRPC$Photo3 != null) {
-                        closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Photo3.sizes, 40);
-                        tLRPC$PhotoSize = (tLRPC$Message == null || (tLRPC$MessageMedia4 = tLRPC$Message.media) == null || (tLRPC$Photo2 = tLRPC$MessageMedia4.photo) == null) ? closestPhotoSizeWithSize : FileLoader.getClosestPhotoSizeWithSize(tLRPC$Photo2.sizes, 40);
-                        tLObject = tLRPC$Message2.media.photo;
+                    TLRPC$MessageMedia tLRPC$MessageMedia8 = tLRPC$Message3.media;
+                    TLRPC$Photo tLRPC$Photo4 = tLRPC$MessageMedia8.photo;
+                    if (tLRPC$Photo4 != null) {
+                        tLRPC$PhotoSize2 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Photo4.sizes, 40);
+                        TLRPC$MessageMedia tLRPC$MessageMedia9 = tLRPC$Message.media;
+                        tLRPC$PhotoSize = (tLRPC$MessageMedia9 == null || (tLRPC$Photo3 = tLRPC$MessageMedia9.photo) == null) ? tLRPC$PhotoSize2 : FileLoader.getClosestPhotoSizeWithSize(tLRPC$Photo3.sizes, 40);
+                        tLObject2 = tLRPC$Message3.media.photo;
                     } else {
-                        TLRPC$Document tLRPC$Document3 = tLRPC$MessageMedia7.document;
-                        if (tLRPC$Document3 != null) {
-                            closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document3.thumbs, 40);
-                            tLRPC$PhotoSize = (tLRPC$Message == null || (tLRPC$MessageMedia3 = tLRPC$Message.media) == null || (tLRPC$Document2 = tLRPC$MessageMedia3.document) == null) ? closestPhotoSizeWithSize : FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document2.thumbs, 40);
-                            tLObject = tLRPC$Message2.media.document;
+                        TLRPC$Document tLRPC$Document4 = tLRPC$MessageMedia8.document;
+                        if (tLRPC$Document4 != null) {
+                            tLRPC$PhotoSize2 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document4.thumbs, 40);
+                            TLRPC$MessageMedia tLRPC$MessageMedia10 = tLRPC$Message.media;
+                            tLRPC$PhotoSize = (tLRPC$MessageMedia10 == null || (tLRPC$Document3 = tLRPC$MessageMedia10.document) == null) ? tLRPC$PhotoSize2 : FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document3.thumbs, 40);
+                            tLObject2 = tLRPC$Message3.media.document;
                         } else {
-                            TLRPC$WebPage tLRPC$WebPage3 = tLRPC$MessageMedia7.webpage;
+                            TLRPC$WebPage tLRPC$WebPage3 = tLRPC$MessageMedia8.webpage;
                             if (tLRPC$WebPage3 != null) {
-                                TLRPC$Photo tLRPC$Photo4 = tLRPC$WebPage3.photo;
-                                if (tLRPC$Photo4 != null) {
-                                    closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Photo4.sizes, 40);
-                                    tLRPC$PhotoSize = (tLRPC$Message == null || (tLRPC$MessageMedia2 = tLRPC$Message.media) == null || (tLRPC$WebPage2 = tLRPC$MessageMedia2.webpage) == null || (tLRPC$Photo = tLRPC$WebPage2.photo) == null) ? closestPhotoSizeWithSize : FileLoader.getClosestPhotoSizeWithSize(tLRPC$Photo.sizes, 40);
-                                    tLObject = tLRPC$Message2.media.webpage.photo;
+                                TLRPC$Photo tLRPC$Photo5 = tLRPC$WebPage3.photo;
+                                if (tLRPC$Photo5 != null) {
+                                    tLRPC$PhotoSize2 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Photo5.sizes, 40);
+                                    TLRPC$MessageMedia tLRPC$MessageMedia11 = tLRPC$Message.media;
+                                    tLRPC$PhotoSize = (tLRPC$MessageMedia11 == null || (tLRPC$WebPage2 = tLRPC$MessageMedia11.webpage) == null || (tLRPC$Photo2 = tLRPC$WebPage2.photo) == null) ? tLRPC$PhotoSize2 : FileLoader.getClosestPhotoSizeWithSize(tLRPC$Photo2.sizes, 40);
+                                    tLObject2 = tLRPC$Message3.media.webpage.photo;
                                 } else {
-                                    TLRPC$Document tLRPC$Document4 = tLRPC$WebPage3.document;
-                                    if (tLRPC$Document4 != null) {
-                                        closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document4.thumbs, 40);
-                                        tLRPC$PhotoSize = (tLRPC$Message == null || (tLRPC$MessageMedia = tLRPC$Message.media) == null || (tLRPC$WebPage = tLRPC$MessageMedia.webpage) == null || (tLRPC$Document = tLRPC$WebPage.document) == null) ? closestPhotoSizeWithSize : FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 40);
-                                        tLObject = tLRPC$Message2.media.webpage.document;
+                                    TLRPC$Document tLRPC$Document5 = tLRPC$WebPage3.document;
+                                    if (tLRPC$Document5 != null) {
+                                        tLRPC$PhotoSize2 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document5.thumbs, 40);
+                                        TLRPC$MessageMedia tLRPC$MessageMedia12 = tLRPC$Message.media;
+                                        tLRPC$PhotoSize = (tLRPC$MessageMedia12 == null || (tLRPC$WebPage = tLRPC$MessageMedia12.webpage) == null || (tLRPC$Document2 = tLRPC$WebPage.document) == null) ? tLRPC$PhotoSize2 : FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document2.thumbs, 40);
+                                        tLObject2 = tLRPC$Message3.media.webpage.document;
                                     }
                                 }
+                            } else if ((tLRPC$MessageMedia8 instanceof TLRPC$TL_messageMediaPaidMedia) && (tLRPC$MessageMedia5 instanceof TLRPC$TL_messageMediaPaidMedia)) {
+                                TLRPC$TL_messageMediaPaidMedia tLRPC$TL_messageMediaPaidMedia = (TLRPC$TL_messageMediaPaidMedia) tLRPC$MessageMedia8;
+                                TLRPC$TL_messageMediaPaidMedia tLRPC$TL_messageMediaPaidMedia2 = (TLRPC$TL_messageMediaPaidMedia) tLRPC$MessageMedia5;
+                                if (tLRPC$TL_messageMediaPaidMedia.extended_media.isEmpty() || tLRPC$TL_messageMediaPaidMedia2.extended_media.isEmpty()) {
+                                    return;
+                                }
+                                if (i2 == -1) {
+                                    while (i4 < tLRPC$TL_messageMediaPaidMedia.extended_media.size()) {
+                                        updateMediaPaths(messageObject, tLRPC$Message, i, list, z, i4);
+                                        i4++;
+                                        tLRPC$TL_messageMediaPaidMedia = tLRPC$TL_messageMediaPaidMedia;
+                                    }
+                                    return;
+                                }
+                                boolean z7 = tLRPC$TL_messageMediaPaidMedia2.extended_media.size() > 1;
+                                if (i2 < 0 || i2 >= tLRPC$TL_messageMediaPaidMedia2.extended_media.size()) {
+                                    return;
+                                }
+                                TLRPC$MessageExtendedMedia tLRPC$MessageExtendedMedia = tLRPC$TL_messageMediaPaidMedia2.extended_media.get(i2);
+                                if (tLRPC$MessageExtendedMedia instanceof TLRPC$TL_messageExtendedMedia) {
+                                    tLRPC$TL_messageExtendedMedia7 = (TLRPC$TL_messageExtendedMedia) tLRPC$MessageExtendedMedia;
+                                    tLRPC$MessageMedia5 = tLRPC$TL_messageExtendedMedia7.media;
+                                } else {
+                                    tLRPC$TL_messageExtendedMedia7 = null;
+                                }
+                                TLRPC$MessageExtendedMedia tLRPC$MessageExtendedMedia2 = tLRPC$TL_messageMediaPaidMedia.extended_media.get(i2);
+                                if (tLRPC$MessageExtendedMedia2 instanceof TLRPC$TL_messageExtendedMedia) {
+                                    TLRPC$TL_messageExtendedMedia tLRPC$TL_messageExtendedMedia9 = (TLRPC$TL_messageExtendedMedia) tLRPC$MessageExtendedMedia2;
+                                    TLRPC$MessageMedia tLRPC$MessageMedia13 = tLRPC$TL_messageExtendedMedia9.media;
+                                    TLRPC$Photo tLRPC$Photo6 = tLRPC$MessageMedia13.photo;
+                                    if (tLRPC$Photo6 != null) {
+                                        tLRPC$PhotoSize3 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Photo6.sizes, 40);
+                                        tLRPC$PhotoSize4 = (tLRPC$MessageMedia5 == null || (tLRPC$Photo = tLRPC$MessageMedia5.photo) == null) ? tLRPC$PhotoSize3 : FileLoader.getClosestPhotoSizeWithSize(tLRPC$Photo.sizes, 40);
+                                        tLObject = tLRPC$MessageMedia13.photo;
+                                    } else {
+                                        TLRPC$Document tLRPC$Document6 = tLRPC$MessageMedia13.document;
+                                        if (tLRPC$Document6 != null) {
+                                            tLRPC$PhotoSize3 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document6.thumbs, 40);
+                                            tLRPC$PhotoSize4 = (tLRPC$MessageMedia5 == null || (tLRPC$Document = tLRPC$MessageMedia5.document) == null) ? tLRPC$PhotoSize3 : FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 40);
+                                            tLObject = tLRPC$MessageMedia13.document;
+                                        } else {
+                                            tLRPC$PhotoSize3 = null;
+                                            tLRPC$PhotoSize4 = null;
+                                            tLObject = null;
+                                        }
+                                    }
+                                    tLRPC$TL_messageExtendedMedia8 = tLRPC$TL_messageExtendedMedia9;
+                                    tLRPC$PhotoSize2 = tLRPC$PhotoSize3;
+                                    tLRPC$MessageMedia6 = tLRPC$MessageMedia13;
+                                    boolean z8 = z7;
+                                    tLRPC$TL_messageExtendedMedia = tLRPC$TL_messageExtendedMedia7;
+                                    tLRPC$PhotoSize = tLRPC$PhotoSize4;
+                                    z6 = z8;
+                                } else {
+                                    z6 = z7;
+                                    tLRPC$PhotoSize2 = null;
+                                    tLRPC$TL_messageExtendedMedia8 = null;
+                                    tLObject = null;
+                                    tLRPC$TL_messageExtendedMedia = tLRPC$TL_messageExtendedMedia7;
+                                    tLRPC$PhotoSize = null;
+                                }
+                                if ((tLRPC$PhotoSize instanceof TLRPC$TL_photoStrippedSize) && (tLRPC$PhotoSize2 instanceof TLRPC$TL_photoStrippedSize)) {
+                                    ImageLoader.getInstance().replaceImageInCache("stripped" + FileRefController.getKeyForParentObject(messageObject), "stripped" + FileRefController.getKeyForParentObject(tLRPC$Message), ImageLocation.getForObject(tLRPC$PhotoSize, tLObject), z);
+                                }
+                                tLRPC$MessageMedia = tLRPC$MessageMedia5;
+                                tLRPC$MessageMedia2 = tLRPC$MessageMedia6;
+                                z2 = z6;
+                                tLRPC$TL_messageExtendedMedia2 = tLRPC$TL_messageExtendedMedia8;
                             }
                         }
                     }
-                    if ((tLRPC$PhotoSize instanceof TLRPC$TL_photoStrippedSize) && (closestPhotoSizeWithSize instanceof TLRPC$TL_photoStrippedSize)) {
-                        ImageLoader.getInstance().replaceImageInCache("stripped" + FileRefController.getKeyForParentObject(messageObject), tLRPC$Message == null ? "stripped" + FileRefController.getKeyForParentObject(tLRPC$Message) : "strippedmessage" + i + "_" + messageObject.getChannelId() + "_" + messageObject.scheduled, ImageLocation.getForObject(tLRPC$PhotoSize, tLObject), z);
+                    tLObject = tLObject2;
+                    tLRPC$TL_messageExtendedMedia8 = null;
+                    tLRPC$TL_messageExtendedMedia = null;
+                    z6 = false;
+                    if (tLRPC$PhotoSize instanceof TLRPC$TL_photoStrippedSize) {
+                        ImageLoader.getInstance().replaceImageInCache("stripped" + FileRefController.getKeyForParentObject(messageObject), "stripped" + FileRefController.getKeyForParentObject(tLRPC$Message), ImageLocation.getForObject(tLRPC$PhotoSize, tLObject), z);
                     }
+                    tLRPC$MessageMedia = tLRPC$MessageMedia5;
+                    tLRPC$MessageMedia2 = tLRPC$MessageMedia6;
+                    z2 = z6;
+                    tLRPC$TL_messageExtendedMedia2 = tLRPC$TL_messageExtendedMedia8;
                 }
             }
-            closestPhotoSizeWithSize = null;
+            tLRPC$PhotoSize2 = null;
+            tLRPC$TL_messageExtendedMedia8 = null;
             tLRPC$PhotoSize = null;
+            tLRPC$TL_messageExtendedMedia = null;
+            z6 = false;
             tLObject = null;
             if (tLRPC$PhotoSize instanceof TLRPC$TL_photoStrippedSize) {
-                if (tLRPC$Message == null) {
-                }
-                ImageLoader.getInstance().replaceImageInCache("stripped" + FileRefController.getKeyForParentObject(messageObject), tLRPC$Message == null ? "stripped" + FileRefController.getKeyForParentObject(tLRPC$Message) : "strippedmessage" + i + "_" + messageObject.getChannelId() + "_" + messageObject.scheduled, ImageLocation.getForObject(tLRPC$PhotoSize, tLObject), z);
             }
+            tLRPC$MessageMedia = tLRPC$MessageMedia5;
+            tLRPC$MessageMedia2 = tLRPC$MessageMedia6;
+            z2 = z6;
+            tLRPC$TL_messageExtendedMedia2 = tLRPC$TL_messageExtendedMedia8;
         } else {
+            tLRPC$MessageMedia = tLRPC$MessageMedia5;
+            tLRPC$MessageMedia2 = tLRPC$MessageMedia6;
+            z2 = false;
             tLRPC$PhotoSize = null;
+            tLRPC$TL_messageExtendedMedia = null;
+            tLRPC$TL_messageExtendedMedia2 = null;
         }
-        if (tLRPC$Message == null) {
-            return;
-        }
-        TLRPC$MessageMedia tLRPC$MessageMedia8 = tLRPC$Message.media;
-        int i2 = 1;
-        if ((tLRPC$MessageMedia8 instanceof TLRPC$TL_messageMediaPhoto) && tLRPC$MessageMedia8.photo != null) {
-            TLRPC$MessageMedia tLRPC$MessageMedia9 = tLRPC$Message2.media;
-            if ((tLRPC$MessageMedia9 instanceof TLRPC$TL_messageMediaPhoto) && tLRPC$MessageMedia9.photo != null) {
-                if (tLRPC$MessageMedia8.ttl_seconds == 0 && !messageObject.scheduled) {
-                    getMessagesStorage().putSentFile(str, tLRPC$Message.media.photo, 0, "sent_" + tLRPC$Message.peer_id.channel_id + "_" + tLRPC$Message.id + "_" + DialogObject.getPeerDialogId(tLRPC$Message.peer_id) + "_1_" + messageObject.getSize());
-                }
-                if (tLRPC$Message2.media.photo.sizes.size() == 1 && (tLRPC$Message2.media.photo.sizes.get(0).location instanceof TLRPC$TL_fileLocationUnavailable)) {
-                    tLRPC$Message2.media.photo.sizes = tLRPC$Message.media.photo.sizes;
-                } else {
-                    int i3 = 0;
-                    while (i3 < tLRPC$Message2.media.photo.sizes.size()) {
-                        TLRPC$PhotoSize tLRPC$PhotoSize2 = tLRPC$Message2.media.photo.sizes.get(i3);
-                        if (tLRPC$PhotoSize2 != null && tLRPC$PhotoSize2.location != null && tLRPC$PhotoSize2.type != null) {
-                            int i4 = 0;
-                            while (i4 < tLRPC$Message.media.photo.sizes.size()) {
-                                TLRPC$PhotoSize tLRPC$PhotoSize3 = tLRPC$Message.media.photo.sizes.get(i4);
-                                if (tLRPC$PhotoSize3 == null || tLRPC$PhotoSize3.location == null || (tLRPC$PhotoSize3 instanceof TLRPC$TL_photoSizeEmpty) || (str3 = tLRPC$PhotoSize3.type) == null || !((tLRPC$PhotoSize2.location.volume_id == -2147483648L && str3.equals(tLRPC$PhotoSize2.type)) || (tLRPC$PhotoSize3.w == tLRPC$PhotoSize2.w && tLRPC$PhotoSize3.h == tLRPC$PhotoSize2.h))) {
-                                    i4++;
-                                    i2 = 1;
-                                } else {
-                                    String str4 = tLRPC$PhotoSize2.location.volume_id + "_" + tLRPC$PhotoSize2.location.local_id;
-                                    String str5 = tLRPC$PhotoSize3.location.volume_id + "_" + tLRPC$PhotoSize3.location.local_id;
-                                    if (!str4.equals(str5)) {
+        if ((tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaPhoto) && tLRPC$MessageMedia.photo != null && (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaPhoto) && tLRPC$MessageMedia2.photo != null) {
+            if (tLRPC$MessageMedia.ttl_seconds != 0 || messageObject.scheduled) {
+                tLRPC$TL_messageExtendedMedia5 = tLRPC$TL_messageExtendedMedia;
+                tLRPC$Message2 = tLRPC$Message3;
+                i3 = 0;
+            } else {
+                MessagesStorage messagesStorage = getMessagesStorage();
+                TLRPC$Photo tLRPC$Photo7 = tLRPC$MessageMedia.photo;
+                tLRPC$TL_messageExtendedMedia5 = tLRPC$TL_messageExtendedMedia;
+                StringBuilder sb = new StringBuilder();
+                sb.append("sent_");
+                tLRPC$Message2 = tLRPC$Message3;
+                sb.append(tLRPC$Message.peer_id.channel_id);
+                sb.append("_");
+                sb.append(tLRPC$Message.id);
+                sb.append("_");
+                sb.append(DialogObject.getPeerDialogId(tLRPC$Message.peer_id));
+                sb.append("_");
+                sb.append(1);
+                sb.append("_");
+                sb.append(MessageObject.getMediaSize(tLRPC$MessageMedia2));
+                i3 = 0;
+                messagesStorage.putSentFile(str3, tLRPC$Photo7, 0, sb.toString());
+            }
+            if (tLRPC$MessageMedia2.photo.sizes.size() == 1 && (tLRPC$MessageMedia2.photo.sizes.get(i3).location instanceof TLRPC$TL_fileLocationUnavailable)) {
+                tLRPC$MessageMedia2.photo.sizes = tLRPC$MessageMedia.photo.sizes;
+            } else {
+                int i5 = 0;
+                while (i5 < tLRPC$MessageMedia2.photo.sizes.size()) {
+                    TLRPC$PhotoSize tLRPC$PhotoSize5 = tLRPC$MessageMedia2.photo.sizes.get(i5);
+                    if (tLRPC$PhotoSize5 == null || tLRPC$PhotoSize5.location == null || tLRPC$PhotoSize5.type == null) {
+                        z3 = z2;
+                        tLRPC$TL_messageExtendedMedia6 = tLRPC$TL_messageExtendedMedia2;
+                    } else {
+                        int i6 = 0;
+                        while (i6 < tLRPC$MessageMedia.photo.sizes.size()) {
+                            TLRPC$PhotoSize tLRPC$PhotoSize6 = tLRPC$MessageMedia.photo.sizes.get(i6);
+                            if (tLRPC$PhotoSize6 == null || tLRPC$PhotoSize6.location == null || (tLRPC$PhotoSize6 instanceof TLRPC$TL_photoSizeEmpty) || (str2 = tLRPC$PhotoSize6.type) == null) {
+                                z5 = z2;
+                                tLRPC$TL_messageExtendedMedia6 = tLRPC$TL_messageExtendedMedia2;
+                            } else {
+                                tLRPC$TL_messageExtendedMedia6 = tLRPC$TL_messageExtendedMedia2;
+                                if ((tLRPC$PhotoSize5.location.volume_id == -2147483648L && str2.equals(tLRPC$PhotoSize5.type)) || (tLRPC$PhotoSize6.w == tLRPC$PhotoSize5.w && tLRPC$PhotoSize6.h == tLRPC$PhotoSize5.h)) {
+                                    String str4 = tLRPC$PhotoSize5.location.volume_id + "_" + tLRPC$PhotoSize5.location.local_id;
+                                    String str5 = tLRPC$PhotoSize6.location.volume_id + "_" + tLRPC$PhotoSize6.location.local_id;
+                                    if (str4.equals(str5)) {
+                                        z3 = z2;
+                                    } else {
                                         File file2 = new File(FileLoader.getDirectory(4), str4 + ".jpg");
-                                        TLRPC$MessageMedia tLRPC$MessageMedia10 = tLRPC$Message.media;
-                                        if (tLRPC$MessageMedia10.ttl_seconds == 0 && (tLRPC$MessageMedia10.photo.sizes.size() == i2 || tLRPC$PhotoSize3.w > 90 || tLRPC$PhotoSize3.h > 90)) {
-                                            file = FileLoader.getInstance(this.currentAccount).getPathToAttach(tLRPC$PhotoSize3);
+                                        if (tLRPC$MessageMedia.ttl_seconds == 0 && ((tLRPC$MessageMedia.photo.sizes.size() == 1 || tLRPC$PhotoSize6.w > 90 || tLRPC$PhotoSize6.h > 90) && !z2)) {
+                                            file = FileLoader.getInstance(this.currentAccount).getPathToAttach(tLRPC$PhotoSize6);
+                                            z3 = z2;
                                         } else {
+                                            z3 = z2;
                                             file = new File(FileLoader.getDirectory(4), str5 + ".jpg");
                                         }
                                         file2.renameTo(file);
-                                        ImageLoader.getInstance().replaceImageInCache(str4, str5, ImageLocation.getForPhoto(tLRPC$PhotoSize3, tLRPC$Message.media.photo), z);
-                                        tLRPC$PhotoSize2.location = tLRPC$PhotoSize3.location;
-                                        tLRPC$PhotoSize2.size = tLRPC$PhotoSize3.size;
+                                        ImageLoader.getInstance().replaceImageInCache(str4, str5, ImageLocation.getForPhoto(tLRPC$PhotoSize6, tLRPC$MessageMedia.photo), z);
+                                        tLRPC$PhotoSize5.location = tLRPC$PhotoSize6.location;
+                                        tLRPC$PhotoSize5.size = tLRPC$PhotoSize6.size;
                                     }
-                                    z3 = true;
-                                    if (!z3) {
-                                        String str6 = tLRPC$PhotoSize2.location.volume_id + "_" + tLRPC$PhotoSize2.location.local_id;
+                                    z4 = true;
+                                    if (!z4) {
+                                        String str6 = tLRPC$PhotoSize5.location.volume_id + "_" + tLRPC$PhotoSize5.location.local_id;
                                         new File(FileLoader.getDirectory(4), str6 + ".jpg").delete();
-                                        if ("s".equals(tLRPC$PhotoSize2.type) && tLRPC$PhotoSize != null) {
-                                            tLRPC$Message2.media.photo.sizes.set(i3, tLRPC$PhotoSize);
-                                            ImageLocation forPhoto = ImageLocation.getForPhoto(tLRPC$PhotoSize, tLRPC$Message.media.photo);
+                                        if ("s".equals(tLRPC$PhotoSize5.type) && tLRPC$PhotoSize != null) {
+                                            tLRPC$MessageMedia2.photo.sizes.set(i5, tLRPC$PhotoSize);
+                                            ImageLocation forPhoto = ImageLocation.getForPhoto(tLRPC$PhotoSize, tLRPC$MessageMedia.photo);
                                             ImageLoader.getInstance().replaceImageInCache(str6, forPhoto.getKey(tLRPC$Message, null, false), forPhoto, z);
-                                            i3++;
-                                            i2 = 1;
+                                            i5++;
+                                            tLRPC$TL_messageExtendedMedia2 = tLRPC$TL_messageExtendedMedia6;
+                                            z2 = z3;
                                         }
                                     }
+                                } else {
+                                    z5 = z2;
                                 }
                             }
-                            z3 = false;
-                            if (!z3) {
-                            }
+                            i6++;
+                            tLRPC$TL_messageExtendedMedia2 = tLRPC$TL_messageExtendedMedia6;
+                            z2 = z5;
                         }
-                        i3++;
-                        i2 = 1;
-                    }
-                }
-                tLRPC$Message2.message = tLRPC$Message.message;
-                tLRPC$Message.attachPath = tLRPC$Message2.attachPath;
-                TLRPC$Photo tLRPC$Photo5 = tLRPC$Message2.media.photo;
-                TLRPC$Photo tLRPC$Photo6 = tLRPC$Message.media.photo;
-                tLRPC$Photo5.id = tLRPC$Photo6.id;
-                tLRPC$Photo5.dc_id = tLRPC$Photo6.dc_id;
-                tLRPC$Photo5.access_hash = tLRPC$Photo6.access_hash;
-                return;
-            }
-        }
-        if ((tLRPC$MessageMedia8 instanceof TLRPC$TL_messageMediaDocument) && tLRPC$MessageMedia8.document != null) {
-            TLRPC$MessageMedia tLRPC$MessageMedia11 = tLRPC$Message2.media;
-            if ((tLRPC$MessageMedia11 instanceof TLRPC$TL_messageMediaDocument) && tLRPC$MessageMedia11.document != null) {
-                if (tLRPC$MessageMedia8.ttl_seconds == 0 && ((videoEditedInfo = messageObject.videoEditedInfo) == null || (videoEditedInfo.mediaEntities == null && TextUtils.isEmpty(videoEditedInfo.paintPath) && messageObject.videoEditedInfo.cropState == null))) {
-                    boolean isVideoMessage = MessageObject.isVideoMessage(tLRPC$Message);
-                    if ((isVideoMessage || MessageObject.isGifMessage(tLRPC$Message)) && MessageObject.isGifDocument(tLRPC$Message.media.document) == MessageObject.isGifDocument(tLRPC$Message2.media.document)) {
-                        if (!messageObject.scheduled) {
-                            MessageObject messageObject2 = new MessageObject(this.currentAccount, tLRPC$Message, false, false);
-                            getMessagesStorage().putSentFile(str, tLRPC$Message.media.document, 2, "sent_" + tLRPC$Message.peer_id.channel_id + "_" + tLRPC$Message.id + "_" + DialogObject.getPeerDialogId(tLRPC$Message.peer_id) + "_" + messageObject2.type + "_" + messageObject2.getSize());
+                        z3 = z2;
+                        tLRPC$TL_messageExtendedMedia6 = tLRPC$TL_messageExtendedMedia2;
+                        z4 = false;
+                        if (!z4) {
                         }
-                        if (isVideoMessage) {
-                            tLRPC$Message.attachPath = tLRPC$Message2.attachPath;
-                        }
-                    } else if (!MessageObject.isVoiceMessage(tLRPC$Message) && !MessageObject.isRoundVideoMessage(tLRPC$Message) && !messageObject.scheduled) {
-                        MessageObject messageObject3 = new MessageObject(this.currentAccount, tLRPC$Message, false, false);
-                        getMessagesStorage().putSentFile(str, tLRPC$Message.media.document, 1, "sent_" + tLRPC$Message.peer_id.channel_id + "_" + tLRPC$Message.id + "_" + DialogObject.getPeerDialogId(tLRPC$Message.peer_id) + "_" + messageObject3.type + "_" + messageObject3.getSize());
-                    }
-                }
-                TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Message2.media.document.thumbs, 320);
-                TLRPC$PhotoSize closestPhotoSizeWithSize3 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Message.media.document.thumbs, 320);
-                if (closestPhotoSizeWithSize2 != null && (tLRPC$FileLocation2 = closestPhotoSizeWithSize2.location) != null && tLRPC$FileLocation2.volume_id == -2147483648L && closestPhotoSizeWithSize3 != null && closestPhotoSizeWithSize3.location != null && !(closestPhotoSizeWithSize3 instanceof TLRPC$TL_photoSizeEmpty) && !(closestPhotoSizeWithSize2 instanceof TLRPC$TL_photoSizeEmpty)) {
-                    String str7 = closestPhotoSizeWithSize2.location.volume_id + "_" + closestPhotoSizeWithSize2.location.local_id;
-                    String str8 = closestPhotoSizeWithSize3.location.volume_id + "_" + closestPhotoSizeWithSize3.location.local_id;
-                    if (!str7.equals(str8)) {
-                        new File(FileLoader.getDirectory(4), str7 + ".jpg").renameTo(new File(FileLoader.getDirectory(4), str8 + ".jpg"));
-                        ImageLoader.getInstance().replaceImageInCache(str7, str8, ImageLocation.getForDocument(closestPhotoSizeWithSize3, tLRPC$Message.media.document), z);
-                        closestPhotoSizeWithSize2.location = closestPhotoSizeWithSize3.location;
-                        closestPhotoSizeWithSize2.size = closestPhotoSizeWithSize3.size;
-                    }
-                } else if (closestPhotoSizeWithSize3 != null && closestPhotoSizeWithSize2 != null && MessageObject.isStickerMessage(tLRPC$Message) && (tLRPC$FileLocation = closestPhotoSizeWithSize2.location) != null) {
-                    closestPhotoSizeWithSize3.location = tLRPC$FileLocation;
-                } else if (closestPhotoSizeWithSize2 == null || (closestPhotoSizeWithSize2.location instanceof TLRPC$TL_fileLocationUnavailable) || (closestPhotoSizeWithSize2 instanceof TLRPC$TL_photoSizeEmpty)) {
-                    tLRPC$Message2.media.document.thumbs = tLRPC$Message.media.document.thumbs;
-                }
-                TLRPC$Document tLRPC$Document5 = tLRPC$Message2.media.document;
-                TLRPC$Document tLRPC$Document6 = tLRPC$Message.media.document;
-                tLRPC$Document5.dc_id = tLRPC$Document6.dc_id;
-                tLRPC$Document5.id = tLRPC$Document6.id;
-                tLRPC$Document5.access_hash = tLRPC$Document6.access_hash;
-                int i5 = 0;
-                while (true) {
-                    if (i5 >= tLRPC$Message2.media.document.attributes.size()) {
-                        bArr = null;
-                        break;
-                    }
-                    TLRPC$DocumentAttribute tLRPC$DocumentAttribute = tLRPC$Message2.media.document.attributes.get(i5);
-                    if (tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeAudio) {
-                        bArr = tLRPC$DocumentAttribute.waveform;
-                        break;
                     }
                     i5++;
+                    tLRPC$TL_messageExtendedMedia2 = tLRPC$TL_messageExtendedMedia6;
+                    z2 = z3;
                 }
-                tLRPC$Message2.media.document.attributes = tLRPC$Message.media.document.attributes;
-                if (bArr != null) {
-                    for (int i6 = 0; i6 < tLRPC$Message2.media.document.attributes.size(); i6++) {
-                        TLRPC$DocumentAttribute tLRPC$DocumentAttribute2 = tLRPC$Message2.media.document.attributes.get(i6);
-                        if (tLRPC$DocumentAttribute2 instanceof TLRPC$TL_documentAttributeAudio) {
-                            tLRPC$DocumentAttribute2.waveform = bArr;
-                            tLRPC$DocumentAttribute2.flags |= 4;
-                        }
+            }
+            TLRPC$TL_messageExtendedMedia tLRPC$TL_messageExtendedMedia10 = tLRPC$TL_messageExtendedMedia2;
+            if (!z2) {
+                TLRPC$Message tLRPC$Message4 = tLRPC$Message2;
+                tLRPC$Message4.message = tLRPC$Message.message;
+                tLRPC$Message.attachPath = tLRPC$Message4.attachPath;
+            } else if (tLRPC$TL_messageExtendedMedia10 != null && tLRPC$TL_messageExtendedMedia5 != null) {
+                tLRPC$TL_messageExtendedMedia10.attachPath = tLRPC$TL_messageExtendedMedia5.attachPath;
+            }
+            TLRPC$Photo tLRPC$Photo8 = tLRPC$MessageMedia2.photo;
+            TLRPC$Photo tLRPC$Photo9 = tLRPC$MessageMedia.photo;
+            tLRPC$Photo8.id = tLRPC$Photo9.id;
+            tLRPC$Photo8.dc_id = tLRPC$Photo9.dc_id;
+            tLRPC$Photo8.access_hash = tLRPC$Photo9.access_hash;
+        } else if ((tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaDocument) && tLRPC$MessageMedia.document != null && (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaDocument) && tLRPC$MessageMedia2.document != null) {
+            if (tLRPC$MessageMedia.ttl_seconds == 0 && ((videoEditedInfo = messageObject.videoEditedInfo) == null || (videoEditedInfo.mediaEntities == null && TextUtils.isEmpty(videoEditedInfo.paintPath) && messageObject.videoEditedInfo.cropState == null))) {
+                boolean isVideoMessage = MessageObject.isVideoMessage(tLRPC$Message);
+                if ((isVideoMessage || MessageObject.isGifMessage(tLRPC$Message)) && MessageObject.isGifDocument(tLRPC$MessageMedia.document) == MessageObject.isGifDocument(tLRPC$MessageMedia2.document)) {
+                    if (messageObject.scheduled) {
+                        tLRPC$TL_messageExtendedMedia3 = tLRPC$TL_messageExtendedMedia2;
+                        tLRPC$MessageMedia4 = tLRPC$MessageMedia2;
+                    } else {
+                        MessageObject messageObject2 = new MessageObject(this.currentAccount, tLRPC$Message, false, false);
+                        MessagesStorage messagesStorage2 = getMessagesStorage();
+                        TLRPC$Document tLRPC$Document7 = tLRPC$MessageMedia.document;
+                        tLRPC$TL_messageExtendedMedia3 = tLRPC$TL_messageExtendedMedia2;
+                        StringBuilder sb2 = new StringBuilder();
+                        sb2.append("sent_");
+                        tLRPC$MessageMedia4 = tLRPC$MessageMedia2;
+                        sb2.append(tLRPC$Message.peer_id.channel_id);
+                        sb2.append("_");
+                        sb2.append(tLRPC$Message.id);
+                        sb2.append("_");
+                        sb2.append(DialogObject.getPeerDialogId(tLRPC$Message.peer_id));
+                        sb2.append("_");
+                        sb2.append(messageObject2.type);
+                        sb2.append("_");
+                        sb2.append(messageObject2.getSize());
+                        messagesStorage2.putSentFile(str3, tLRPC$Document7, 2, sb2.toString());
+                    }
+                    if (isVideoMessage) {
+                        tLRPC$Message.attachPath = tLRPC$Message3.attachPath;
+                    }
+                } else {
+                    tLRPC$TL_messageExtendedMedia3 = tLRPC$TL_messageExtendedMedia2;
+                    tLRPC$MessageMedia4 = tLRPC$MessageMedia2;
+                    if (!MessageObject.isVoiceMessage(tLRPC$Message) && !MessageObject.isRoundVideoMessage(tLRPC$Message) && !messageObject.scheduled) {
+                        MessageObject messageObject3 = new MessageObject(this.currentAccount, tLRPC$Message, false, false);
+                        getMessagesStorage().putSentFile(str3, tLRPC$MessageMedia.document, 1, "sent_" + tLRPC$Message.peer_id.channel_id + "_" + tLRPC$Message.id + "_" + DialogObject.getPeerDialogId(tLRPC$Message.peer_id) + "_" + messageObject3.type + "_" + messageObject3.getSize());
                     }
                 }
-                TLRPC$Document tLRPC$Document7 = tLRPC$Message2.media.document;
-                TLRPC$Document tLRPC$Document8 = tLRPC$Message.media.document;
-                tLRPC$Document7.size = tLRPC$Document8.size;
-                tLRPC$Document7.mime_type = tLRPC$Document8.mime_type;
-                if ((tLRPC$Message.flags & 4) == 0 && ((MessageObject.isOut(tLRPC$Message) || tLRPC$Message.dialog_id == getUserConfig().getClientUserId()) && !MessageObject.isQuickReply(tLRPC$Message))) {
-                    if (MessageObject.isNewGifDocument(tLRPC$Message.media.document)) {
-                        if (MessageObject.isDocumentHasAttachedStickers(tLRPC$Message.media.document) ? getMessagesController().saveGifsWithStickers : true) {
-                            getMediaDataController().addRecentGif(tLRPC$Message.media.document, tLRPC$Message.date, true);
+                tLRPC$MessageMedia3 = tLRPC$MessageMedia4;
+            } else {
+                tLRPC$TL_messageExtendedMedia3 = tLRPC$TL_messageExtendedMedia2;
+                tLRPC$MessageMedia3 = tLRPC$MessageMedia2;
+            }
+            TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$MessageMedia3.document.thumbs, 320);
+            TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$MessageMedia.document.thumbs, 320);
+            if (closestPhotoSizeWithSize != null && (tLRPC$FileLocation2 = closestPhotoSizeWithSize.location) != null && tLRPC$FileLocation2.volume_id == -2147483648L && closestPhotoSizeWithSize2 != null && closestPhotoSizeWithSize2.location != null && !(closestPhotoSizeWithSize2 instanceof TLRPC$TL_photoSizeEmpty) && !(closestPhotoSizeWithSize instanceof TLRPC$TL_photoSizeEmpty)) {
+                String str7 = closestPhotoSizeWithSize.location.volume_id + "_" + closestPhotoSizeWithSize.location.local_id;
+                String str8 = closestPhotoSizeWithSize2.location.volume_id + "_" + closestPhotoSizeWithSize2.location.local_id;
+                if (!str7.equals(str8)) {
+                    new File(FileLoader.getDirectory(4), str7 + ".jpg").renameTo(new File(FileLoader.getDirectory(4), str8 + ".jpg"));
+                    ImageLoader.getInstance().replaceImageInCache(str7, str8, ImageLocation.getForDocument(closestPhotoSizeWithSize2, tLRPC$MessageMedia.document), z);
+                    closestPhotoSizeWithSize.location = closestPhotoSizeWithSize2.location;
+                    closestPhotoSizeWithSize.size = closestPhotoSizeWithSize2.size;
+                }
+            } else if (closestPhotoSizeWithSize2 != null && closestPhotoSizeWithSize != null && MessageObject.isStickerMessage(tLRPC$Message) && (tLRPC$FileLocation = closestPhotoSizeWithSize.location) != null) {
+                closestPhotoSizeWithSize2.location = tLRPC$FileLocation;
+            } else if (closestPhotoSizeWithSize == null || (closestPhotoSizeWithSize.location instanceof TLRPC$TL_fileLocationUnavailable) || (closestPhotoSizeWithSize instanceof TLRPC$TL_photoSizeEmpty)) {
+                tLRPC$MessageMedia3.document.thumbs = tLRPC$MessageMedia.document.thumbs;
+            }
+            TLRPC$Document tLRPC$Document8 = tLRPC$MessageMedia3.document;
+            TLRPC$Document tLRPC$Document9 = tLRPC$MessageMedia.document;
+            tLRPC$Document8.dc_id = tLRPC$Document9.dc_id;
+            tLRPC$Document8.id = tLRPC$Document9.id;
+            tLRPC$Document8.access_hash = tLRPC$Document9.access_hash;
+            int i7 = 0;
+            while (true) {
+                if (i7 >= tLRPC$MessageMedia3.document.attributes.size()) {
+                    bArr = null;
+                    break;
+                }
+                TLRPC$DocumentAttribute tLRPC$DocumentAttribute = tLRPC$MessageMedia3.document.attributes.get(i7);
+                if (tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeAudio) {
+                    bArr = tLRPC$DocumentAttribute.waveform;
+                    break;
+                }
+                i7++;
+            }
+            tLRPC$MessageMedia3.document.attributes = tLRPC$MessageMedia.document.attributes;
+            if (bArr != null) {
+                for (int i8 = 0; i8 < tLRPC$MessageMedia3.document.attributes.size(); i8++) {
+                    TLRPC$DocumentAttribute tLRPC$DocumentAttribute2 = tLRPC$MessageMedia3.document.attributes.get(i8);
+                    if (tLRPC$DocumentAttribute2 instanceof TLRPC$TL_documentAttributeAudio) {
+                        tLRPC$DocumentAttribute2.waveform = bArr;
+                        tLRPC$DocumentAttribute2.flags |= 4;
+                    }
+                }
+            }
+            TLRPC$Document tLRPC$Document10 = tLRPC$MessageMedia3.document;
+            TLRPC$Document tLRPC$Document11 = tLRPC$MessageMedia.document;
+            tLRPC$Document10.size = tLRPC$Document11.size;
+            tLRPC$Document10.mime_type = tLRPC$Document11.mime_type;
+            if ((tLRPC$Message.flags & 4) == 0 && ((MessageObject.isOut(tLRPC$Message) || tLRPC$Message.dialog_id == getUserConfig().getClientUserId()) && !MessageObject.isQuickReply(tLRPC$Message))) {
+                if (MessageObject.isNewGifDocument(tLRPC$MessageMedia.document)) {
+                    if (MessageObject.isDocumentHasAttachedStickers(tLRPC$MessageMedia.document) ? getMessagesController().saveGifsWithStickers : true) {
+                        getMediaDataController().addRecentGif(tLRPC$MessageMedia.document, tLRPC$Message.date, true);
+                    }
+                } else if (MessageObject.isStickerDocument(tLRPC$MessageMedia.document) || MessageObject.isAnimatedStickerDocument(tLRPC$MessageMedia.document, true)) {
+                    sendMessagesHelper = this;
+                    getMediaDataController().addRecentSticker(0, tLRPC$Message, tLRPC$MessageMedia.document, tLRPC$Message.date, false);
+                    tLRPC$TL_messageExtendedMedia4 = tLRPC$TL_messageExtendedMedia3;
+                    str = tLRPC$TL_messageExtendedMedia3 == null ? tLRPC$TL_messageExtendedMedia4.attachPath : tLRPC$Message3.attachPath;
+                    if (str != null || !str.startsWith(FileLoader.getDirectory(4).getAbsolutePath()) || MessageObject.isGifDocument(tLRPC$MessageMedia.document)) {
+                        if (tLRPC$TL_messageExtendedMedia4 == null) {
+                            tLRPC$TL_messageExtendedMedia4.attachPath = str;
+                            return;
                         }
-                    } else if (MessageObject.isStickerDocument(tLRPC$Message.media.document) || MessageObject.isAnimatedStickerDocument(tLRPC$Message.media.document, true)) {
-                        z2 = true;
-                        getMediaDataController().addRecentSticker(0, tLRPC$Message, tLRPC$Message.media.document, tLRPC$Message.date, false);
-                        str2 = tLRPC$Message2.attachPath;
-                        if (str2 == null && str2.startsWith(FileLoader.getDirectory(4).getAbsolutePath()) && !MessageObject.isGifDocument(tLRPC$Message.media.document)) {
-                            File file3 = new File(tLRPC$Message2.attachPath);
-                            FileLoader fileLoader = FileLoader.getInstance(this.currentAccount);
-                            TLRPC$MessageMedia tLRPC$MessageMedia12 = tLRPC$Message.media;
-                            File pathToAttach = fileLoader.getPathToAttach(tLRPC$MessageMedia12.document, tLRPC$MessageMedia12.ttl_seconds != 0);
-                            if (!file3.renameTo(pathToAttach)) {
-                                if (file3.exists()) {
-                                    tLRPC$Message.attachPath = tLRPC$Message2.attachPath;
-                                } else {
-                                    messageObject.attachPathExists = false;
-                                }
-                                messageObject.mediaExists = pathToAttach.exists();
-                                tLRPC$Message.message = tLRPC$Message2.message;
-                                return;
-                            } else if (MessageObject.isVideoMessage(tLRPC$Message)) {
-                                messageObject.attachPathExists = z2;
-                                return;
+                        tLRPC$Message.attachPath = str;
+                        tLRPC$Message.message = tLRPC$Message3.message;
+                        return;
+                    }
+                    File file3 = new File(str);
+                    File pathToAttach = FileLoader.getInstance(sendMessagesHelper.currentAccount).getPathToAttach(tLRPC$MessageMedia.document, tLRPC$MessageMedia.ttl_seconds != 0);
+                    if (!file3.renameTo(pathToAttach)) {
+                        if (file3.exists()) {
+                            if (tLRPC$TL_messageExtendedMedia4 != null) {
+                                tLRPC$TL_messageExtendedMedia4.attachPath = str;
                             } else {
-                                messageObject.mediaExists = messageObject.attachPathExists;
-                                messageObject.attachPathExists = false;
-                                tLRPC$Message2.attachPath = "";
-                                if (str == null || !str.startsWith("http")) {
-                                    return;
-                                }
-                                getMessagesStorage().addRecentLocalFile(str, pathToAttach.toString(), tLRPC$Message2.media.document);
-                                return;
+                                tLRPC$Message.attachPath = str;
                             }
+                        } else if (tLRPC$TL_messageExtendedMedia4 == null) {
+                            messageObject.attachPathExists = false;
                         }
-                        tLRPC$Message.attachPath = tLRPC$Message2.attachPath;
-                        tLRPC$Message.message = tLRPC$Message2.message;
+                        if (tLRPC$TL_messageExtendedMedia4 == null) {
+                            messageObject.mediaExists = pathToAttach.exists();
+                        }
+                        tLRPC$Message.message = tLRPC$Message3.message;
+                        return;
+                    } else if (MessageObject.isVideoMessage(tLRPC$Message)) {
+                        messageObject.attachPathExists = true;
+                        return;
+                    } else {
+                        messageObject.mediaExists = messageObject.attachPathExists;
+                        messageObject.attachPathExists = false;
+                        if (tLRPC$TL_messageExtendedMedia4 != null) {
+                            tLRPC$TL_messageExtendedMedia4.attachPath = "";
+                        } else {
+                            tLRPC$Message3.attachPath = "";
+                        }
+                        if (str3 == null || !str3.startsWith("http")) {
+                            return;
+                        }
+                        getMessagesStorage().addRecentLocalFile(str3, pathToAttach.toString(), tLRPC$MessageMedia3.document);
                         return;
                     }
                 }
-                z2 = true;
-                str2 = tLRPC$Message2.attachPath;
-                if (str2 == null) {
+            }
+            sendMessagesHelper = this;
+            tLRPC$TL_messageExtendedMedia4 = tLRPC$TL_messageExtendedMedia3;
+            if (tLRPC$TL_messageExtendedMedia3 == null) {
+            }
+            if (str != null) {
+            }
+            if (tLRPC$TL_messageExtendedMedia4 == null) {
+            }
+        } else {
+            TLRPC$MessageMedia tLRPC$MessageMedia14 = tLRPC$Message.media;
+            if ((tLRPC$MessageMedia14 instanceof TLRPC$TL_messageMediaContact) && (tLRPC$Message3.media instanceof TLRPC$TL_messageMediaContact)) {
+                tLRPC$Message3.media = tLRPC$MessageMedia14;
+            } else if (tLRPC$MessageMedia14 instanceof TLRPC$TL_messageMediaWebPage) {
+                tLRPC$Message3.media = tLRPC$MessageMedia14;
+            } else if (tLRPC$MessageMedia14 instanceof TLRPC$TL_messageMediaGeo) {
+                TLRPC$GeoPoint tLRPC$GeoPoint = tLRPC$MessageMedia14.geo;
+                TLRPC$GeoPoint tLRPC$GeoPoint2 = tLRPC$Message3.media.geo;
+                tLRPC$GeoPoint.lat = tLRPC$GeoPoint2.lat;
+                tLRPC$GeoPoint._long = tLRPC$GeoPoint2._long;
+            } else if ((tLRPC$MessageMedia14 instanceof TLRPC$TL_messageMediaGame) || (tLRPC$MessageMedia14 instanceof TLRPC$TL_messageMediaInvoice)) {
+                tLRPC$Message3.media = tLRPC$MessageMedia14;
+                if (!TextUtils.isEmpty(tLRPC$Message.message)) {
+                    tLRPC$Message3.entities = tLRPC$Message.entities;
+                    tLRPC$Message3.message = tLRPC$Message.message;
                 }
-                tLRPC$Message.attachPath = tLRPC$Message2.attachPath;
-                tLRPC$Message.message = tLRPC$Message2.message;
-                return;
+                TLRPC$ReplyMarkup tLRPC$ReplyMarkup = tLRPC$Message.reply_markup;
+                if (tLRPC$ReplyMarkup != null) {
+                    tLRPC$Message3.reply_markup = tLRPC$ReplyMarkup;
+                    tLRPC$Message3.flags |= 64;
+                }
+            } else if (tLRPC$MessageMedia14 instanceof TLRPC$TL_messageMediaPoll) {
+                tLRPC$Message3.media = tLRPC$MessageMedia14;
             }
-        }
-        if ((tLRPC$MessageMedia8 instanceof TLRPC$TL_messageMediaContact) && (tLRPC$Message2.media instanceof TLRPC$TL_messageMediaContact)) {
-            tLRPC$Message2.media = tLRPC$MessageMedia8;
-        } else if (tLRPC$MessageMedia8 instanceof TLRPC$TL_messageMediaWebPage) {
-            tLRPC$Message2.media = tLRPC$MessageMedia8;
-        } else if (tLRPC$MessageMedia8 instanceof TLRPC$TL_messageMediaGeo) {
-            TLRPC$GeoPoint tLRPC$GeoPoint = tLRPC$MessageMedia8.geo;
-            TLRPC$GeoPoint tLRPC$GeoPoint2 = tLRPC$Message2.media.geo;
-            tLRPC$GeoPoint.lat = tLRPC$GeoPoint2.lat;
-            tLRPC$GeoPoint._long = tLRPC$GeoPoint2._long;
-        } else if ((tLRPC$MessageMedia8 instanceof TLRPC$TL_messageMediaGame) || (tLRPC$MessageMedia8 instanceof TLRPC$TL_messageMediaInvoice)) {
-            tLRPC$Message2.media = tLRPC$MessageMedia8;
-            if (!TextUtils.isEmpty(tLRPC$Message.message)) {
-                tLRPC$Message2.entities = tLRPC$Message.entities;
-                tLRPC$Message2.message = tLRPC$Message.message;
-            }
-            TLRPC$ReplyMarkup tLRPC$ReplyMarkup = tLRPC$Message.reply_markup;
-            if (tLRPC$ReplyMarkup != null) {
-                tLRPC$Message2.reply_markup = tLRPC$ReplyMarkup;
-                tLRPC$Message2.flags |= 64;
-            }
-        } else if (tLRPC$MessageMedia8 instanceof TLRPC$TL_messageMediaPoll) {
-            tLRPC$Message2.media = tLRPC$MessageMedia8;
         }
     }
 
