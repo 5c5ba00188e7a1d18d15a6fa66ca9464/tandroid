@@ -1677,7 +1677,7 @@ public class AlertsCreator {
         }
         final long inlineReturn = baseFragment instanceof ChatActivity ? ((ChatActivity) baseFragment).getInlineReturn() : 0L;
         if (Browser.isInternalUrl(str, null) || !z3) {
-            Browser.openUrl(baseFragment.getParentActivity(), Uri.parse(str), inlineReturn == 0, z2, z4 && checkInternalBotApp(str), progress);
+            Browser.openUrl(baseFragment.getParentActivity(), Uri.parse(str), inlineReturn == 0, z2, z4 && checkInternalBotApp(str), progress, null);
             return;
         }
         if (z) {

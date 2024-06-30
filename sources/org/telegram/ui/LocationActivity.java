@@ -3192,7 +3192,6 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             LocationActivityAdapter locationActivityAdapter5 = this.adapter;
             if (locationActivityAdapter5 != null) {
                 locationActivityAdapter5.notifyDataSetChanged();
-                this.adapter.updateLiveLocationCell();
             }
         } else if (i == NotificationCenter.didReceiveNewMessages) {
             if (((Boolean) objArr[2]).booleanValue() || ((Long) objArr[0]).longValue() != this.dialogId || this.messageObject == null) {
@@ -3262,7 +3261,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             if (!z2 || (locationActivityAdapter = this.adapter) == null) {
                 return;
             }
-            locationActivityAdapter.updateLiveLocations();
+            locationActivityAdapter.notifyDataSetChanged();
             ProximitySheet proximitySheet = this.proximitySheet;
             if (proximitySheet != null) {
                 proximitySheet.updateText(true, true);

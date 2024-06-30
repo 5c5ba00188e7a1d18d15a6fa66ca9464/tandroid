@@ -10731,19 +10731,19 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         return this.messageEditText.getText();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:86:0x008d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:86:0x008e, code lost:
         if (org.telegram.messenger.MessagesController.getInstance(r7.currentAccount).getMainSettings().getBoolean("show_gift_for_" + r7.parentFragment.getDialogId(), true) == false) goto L56;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:90:0x00cd, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:90:0x00ce, code lost:
         if (org.telegram.messenger.MessagesController.getInstance(r7.currentAccount).getMainSettings().getBoolean(java.util.Calendar.getInstance().get(1) + "show_gift_for_" + r7.parentFragment.getDialogId(), true) != false) goto L23;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:91:0x00cf, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:91:0x00d0, code lost:
         r0 = r7.parentFragment;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:92:0x00d1, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:92:0x00d2, code lost:
         if (r0 == null) goto L60;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:94:0x00d7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:94:0x00d8, code lost:
         if (r0.getChatMode() != 0) goto L60;
      */
     /*

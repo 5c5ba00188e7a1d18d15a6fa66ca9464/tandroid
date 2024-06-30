@@ -44,6 +44,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -11419,6 +11420,44 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
     }
 
     public boolean isSendingMessage(int i) {
+        return this.sendingMessages.indexOfKey(i) >= 0 || this.editingMessages.indexOfKey(i) >= 0;
+    }
+
+    /* JADX WARN: Code restructure failed: missing block: B:32:0x0040, code lost:
+        continue;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public boolean isSendingPaidMessage(int i, int i2) {
+        DelayedMessage delayedMessage = null;
+        for (ArrayList<DelayedMessage> arrayList : this.delayedMessages.values()) {
+            Iterator<DelayedMessage> it = arrayList.iterator();
+            while (it.hasNext()) {
+                DelayedMessage next = it.next();
+                Iterator<TLRPC$Message> it2 = next.messages.iterator();
+                while (true) {
+                    if (it2.hasNext()) {
+                        if (it2.next().id == i) {
+                            delayedMessage = next;
+                            continue;
+                            break;
+                        }
+                    } else {
+                        break;
+                    }
+                }
+                if (delayedMessage != null) {
+                    break;
+                }
+            }
+            if (delayedMessage != null) {
+                break;
+            }
+        }
+        if (delayedMessage != null && i2 >= 0 && i2 < delayedMessage.messages.size()) {
+            i = delayedMessage.messages.get(i2).id;
+        }
         return this.sendingMessages.indexOfKey(i) >= 0 || this.editingMessages.indexOfKey(i) >= 0;
     }
 

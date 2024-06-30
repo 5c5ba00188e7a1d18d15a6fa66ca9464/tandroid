@@ -1363,12 +1363,12 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
                 if (subscriptionTier == null || (tLRPC$TL_premiumSubscriptionOption = subscriptionTier.subscriptionOption) == null || (str2 = tLRPC$TL_premiumSubscriptionOption.bot_url) == null) {
                     if (!TextUtils.isEmpty(baseFragment.getMessagesController().premiumBotUsername)) {
                         launchActivity.setNavigateToPremiumBot(true);
-                        launchActivity.onNewIntent(new Intent("android.intent.action.VIEW", Uri.parse("https://t.me/" + baseFragment.getMessagesController().premiumBotUsername + "?start=" + str)));
+                        launchActivity.onNewIntent(new Intent("android.intent.action.VIEW", Uri.parse("https://t.me/" + baseFragment.getMessagesController().premiumBotUsername + "?start=" + str)), null);
                         return;
                     } else if (TextUtils.isEmpty(baseFragment.getMessagesController().premiumInvoiceSlug)) {
                         return;
                     } else {
-                        launchActivity.onNewIntent(new Intent("android.intent.action.VIEW", Uri.parse("https://t.me/$" + baseFragment.getMessagesController().premiumInvoiceSlug)));
+                        launchActivity.onNewIntent(new Intent("android.intent.action.VIEW", Uri.parse("https://t.me/$" + baseFragment.getMessagesController().premiumInvoiceSlug)), null);
                         return;
                     }
                 }

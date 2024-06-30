@@ -153,6 +153,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
     private Theme.ResourcesProvider resourcesProvider;
     private int shownDialogsCount;
     private final int tag;
+    private boolean wasOpenedByLinkIntent;
     private MyWebView webView;
     private boolean webViewNotAvailable;
     private TextView webViewNotAvailableText;
@@ -378,31 +379,25 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
     }
 
     public void onOpenUri(Uri uri) {
-        onOpenUri(uri, false, false);
+        onOpenUri(uri, null, false, false);
     }
 
-    private void onOpenUri(Uri uri, boolean z, boolean z2) {
+    private void onOpenUri(Uri uri, String str, boolean z, boolean z2) {
         if (this.isRequestingPageOpen) {
             return;
         }
         if (System.currentTimeMillis() - this.lastClickMs <= 1000 || !z2) {
             this.lastClickMs = 0L;
             boolean[] zArr = {false};
-            if (Browser.isInternalUri(uri, zArr) && !zArr[0]) {
-                if (this.delegate != null) {
-                    setDescendantFocusability(393216);
-                    setFocusable(false);
-                    this.webView.setFocusable(false);
-                    this.webView.setDescendantFocusability(393216);
-                    this.webView.clearFocus();
-                    ((InputMethodManager) getContext().getSystemService("input_method")).hideSoftInputFromWindow(getWindowToken(), 2);
-                    Browser.openUrl(getContext(), uri, true, z);
-                    return;
-                }
-                Browser.openUrl(getContext(), uri, true, z);
-                return;
+            if (Browser.isInternalUri(uri, zArr) && !zArr[0] && this.delegate != null) {
+                setDescendantFocusability(393216);
+                setFocusable(false);
+                this.webView.setFocusable(false);
+                this.webView.setDescendantFocusability(393216);
+                this.webView.clearFocus();
+                ((InputMethodManager) getContext().getSystemService("input_method")).hideSoftInputFromWindow(getWindowToken(), 2);
             }
-            Browser.openUrl(getContext(), uri, true, z);
+            Browser.openUrl(getContext(), uri, true, z, false, null, str);
         }
     }
 
@@ -951,21 +946,25 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
         }
     }
 
+    public void setWasOpenedByLinkIntent(boolean z) {
+        this.wasOpenedByLinkIntent = z;
+    }
+
     public void setDelegate(Delegate delegate) {
         this.delegate = delegate;
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Removed duplicated region for block: B:1219:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1225:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:800:0x0290  */
-    /* JADX WARN: Removed duplicated region for block: B:804:0x0298 A[Catch: JSONException -> 0x02aa, TryCatch #9 {JSONException -> 0x02aa, blocks: (B:782:0x0246, B:784:0x0255, B:786:0x025b, B:787:0x0264, B:806:0x029c, B:803:0x0295, B:804:0x0298, B:792:0x0279, B:795:0x0283), top: B:1173:0x0246 }] */
-    /* JADX WARN: Removed duplicated region for block: B:806:0x029c A[Catch: JSONException -> 0x02aa, TRY_LEAVE, TryCatch #9 {JSONException -> 0x02aa, blocks: (B:782:0x0246, B:784:0x0255, B:786:0x025b, B:787:0x0264, B:806:0x029c, B:803:0x0295, B:804:0x0298, B:792:0x0279, B:795:0x0283), top: B:1173:0x0246 }] */
-    /* JADX WARN: Removed duplicated region for block: B:878:0x03cc  */
-    /* JADX WARN: Removed duplicated region for block: B:902:0x0413  */
-    /* JADX WARN: Removed duplicated region for block: B:909:0x0421 A[Catch: Exception -> 0x048c, TryCatch #11 {Exception -> 0x048c, blocks: (B:860:0x038c, B:946:0x0487, B:883:0x03d4, B:884:0x03d8, B:907:0x041b, B:908:0x041e, B:909:0x0421, B:891:0x03f2, B:894:0x03fc, B:897:0x0406, B:911:0x0426, B:912:0x0430, B:940:0x0476, B:941:0x0479, B:942:0x047c, B:943:0x047f, B:944:0x0482, B:914:0x0434, B:917:0x043e, B:920:0x0448, B:923:0x0452, B:926:0x045c, B:867:0x03ab, B:870:0x03b5, B:873:0x03bf), top: B:1176:0x038c }] */
-    /* JADX WARN: Removed duplicated region for block: B:911:0x0426 A[Catch: Exception -> 0x048c, TryCatch #11 {Exception -> 0x048c, blocks: (B:860:0x038c, B:946:0x0487, B:883:0x03d4, B:884:0x03d8, B:907:0x041b, B:908:0x041e, B:909:0x0421, B:891:0x03f2, B:894:0x03fc, B:897:0x0406, B:911:0x0426, B:912:0x0430, B:940:0x0476, B:941:0x0479, B:942:0x047c, B:943:0x047f, B:944:0x0482, B:914:0x0434, B:917:0x043e, B:920:0x0448, B:923:0x0452, B:926:0x045c, B:867:0x03ab, B:870:0x03b5, B:873:0x03bf), top: B:1176:0x038c }] */
-    /* JADX WARN: Removed duplicated region for block: B:946:0x0487 A[Catch: Exception -> 0x048c, TRY_LEAVE, TryCatch #11 {Exception -> 0x048c, blocks: (B:860:0x038c, B:946:0x0487, B:883:0x03d4, B:884:0x03d8, B:907:0x041b, B:908:0x041e, B:909:0x0421, B:891:0x03f2, B:894:0x03fc, B:897:0x0406, B:911:0x0426, B:912:0x0430, B:940:0x0476, B:941:0x0479, B:942:0x047c, B:943:0x047f, B:944:0x0482, B:914:0x0434, B:917:0x043e, B:920:0x0448, B:923:0x0452, B:926:0x045c, B:867:0x03ab, B:870:0x03b5, B:873:0x03bf), top: B:1176:0x038c }] */
+    /* JADX WARN: Removed duplicated region for block: B:1258:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1264:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:822:0x0290  */
+    /* JADX WARN: Removed duplicated region for block: B:826:0x0298 A[Catch: JSONException -> 0x02aa, TryCatch #11 {JSONException -> 0x02aa, blocks: (B:804:0x0246, B:806:0x0255, B:808:0x025b, B:809:0x0264, B:828:0x029c, B:825:0x0295, B:826:0x0298, B:814:0x0279, B:817:0x0283), top: B:1212:0x0246 }] */
+    /* JADX WARN: Removed duplicated region for block: B:828:0x029c A[Catch: JSONException -> 0x02aa, TRY_LEAVE, TryCatch #11 {JSONException -> 0x02aa, blocks: (B:804:0x0246, B:806:0x0255, B:808:0x025b, B:809:0x0264, B:828:0x029c, B:825:0x0295, B:826:0x0298, B:814:0x0279, B:817:0x0283), top: B:1212:0x0246 }] */
+    /* JADX WARN: Removed duplicated region for block: B:900:0x03cc  */
+    /* JADX WARN: Removed duplicated region for block: B:924:0x0413  */
+    /* JADX WARN: Removed duplicated region for block: B:931:0x0421 A[Catch: Exception -> 0x048c, TryCatch #14 {Exception -> 0x048c, blocks: (B:882:0x038c, B:968:0x0487, B:905:0x03d4, B:906:0x03d8, B:929:0x041b, B:930:0x041e, B:931:0x0421, B:913:0x03f2, B:916:0x03fc, B:919:0x0406, B:933:0x0426, B:934:0x0430, B:962:0x0476, B:963:0x0479, B:964:0x047c, B:965:0x047f, B:966:0x0482, B:936:0x0434, B:939:0x043e, B:942:0x0448, B:945:0x0452, B:948:0x045c, B:889:0x03ab, B:892:0x03b5, B:895:0x03bf), top: B:1218:0x038c }] */
+    /* JADX WARN: Removed duplicated region for block: B:933:0x0426 A[Catch: Exception -> 0x048c, TryCatch #14 {Exception -> 0x048c, blocks: (B:882:0x038c, B:968:0x0487, B:905:0x03d4, B:906:0x03d8, B:929:0x041b, B:930:0x041e, B:931:0x0421, B:913:0x03f2, B:916:0x03fc, B:919:0x0406, B:933:0x0426, B:934:0x0430, B:962:0x0476, B:963:0x0479, B:964:0x047c, B:965:0x047f, B:966:0x0482, B:936:0x0434, B:939:0x043e, B:942:0x0448, B:945:0x0452, B:948:0x045c, B:889:0x03ab, B:892:0x03b5, B:895:0x03bf), top: B:1218:0x038c }] */
+    /* JADX WARN: Removed duplicated region for block: B:968:0x0487 A[Catch: Exception -> 0x048c, TRY_LEAVE, TryCatch #14 {Exception -> 0x048c, blocks: (B:882:0x038c, B:968:0x0487, B:905:0x03d4, B:906:0x03d8, B:929:0x041b, B:930:0x041e, B:931:0x0421, B:913:0x03f2, B:916:0x03fc, B:919:0x0406, B:933:0x0426, B:934:0x0430, B:962:0x0476, B:963:0x0479, B:964:0x047c, B:965:0x047f, B:966:0x0482, B:936:0x0434, B:939:0x043e, B:942:0x0448, B:945:0x0452, B:948:0x045c, B:889:0x03ab, B:892:0x03b5, B:895:0x03bf), top: B:1218:0x038c }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -975,6 +974,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
         char c3;
         BotWebViewVibrationEffect botWebViewVibrationEffect;
         char c4;
+        boolean z;
         char c5;
         int i;
         if (this.webView == null || this.delegate == null) {
@@ -1240,10 +1240,11 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                 try {
                     JSONObject jSONObject2 = new JSONObject(str2);
                     Uri parse = Uri.parse(jSONObject2.optString("url"));
+                    String optString = jSONObject2.optString("try_browser");
                     if (MessagesController.getInstance(this.currentAccount).webAppAllowedProtocols == null || !MessagesController.getInstance(this.currentAccount).webAppAllowedProtocols.contains(parse.getScheme())) {
                         return;
                     }
-                    onOpenUri(parse, jSONObject2.optBoolean("try_instant_view"), true);
+                    onOpenUri(parse, optString, jSONObject2.optBoolean("try_instant_view"), true);
                     return;
                 } catch (Exception e2) {
                     FileLog.e(e2);
@@ -1267,10 +1268,10 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                         return;
                     }
                     JSONObject jSONObject3 = new JSONObject(str2);
-                    String optString = jSONObject3.optString("title", null);
+                    String optString2 = jSONObject3.optString("title", null);
                     String string3 = jSONObject3.getString("message");
                     JSONArray jSONArray = jSONObject3.getJSONArray("buttons");
-                    AlertDialog.Builder message = new AlertDialog.Builder(getContext()).setTitle(optString).setMessage(string3);
+                    AlertDialog.Builder message = new AlertDialog.Builder(getContext()).setTitle(optString2).setMessage(string3);
                     ArrayList arrayList = new ArrayList();
                     for (int i3 = 0; i3 < jSONArray.length(); i3++) {
                         arrayList.add(new PopupButton(jSONArray.getJSONObject(i3)));
@@ -1340,19 +1341,19 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                 }
             case 5:
                 try {
-                    final String optString2 = new JSONObject(str2).optString("slug");
+                    final String optString3 = new JSONObject(str2).optString("slug");
                     if (this.currentPaymentSlug != null) {
-                        onInvoiceStatusUpdate(optString2, "cancelled", true);
+                        onInvoiceStatusUpdate(optString3, "cancelled", true);
                     } else {
-                        this.currentPaymentSlug = optString2;
+                        this.currentPaymentSlug = optString3;
                         TLRPC$TL_payments_getPaymentForm tLRPC$TL_payments_getPaymentForm = new TLRPC$TL_payments_getPaymentForm();
                         final TLRPC$TL_inputInvoiceSlug tLRPC$TL_inputInvoiceSlug = new TLRPC$TL_inputInvoiceSlug();
-                        tLRPC$TL_inputInvoiceSlug.slug = optString2;
+                        tLRPC$TL_inputInvoiceSlug.slug = optString3;
                         tLRPC$TL_payments_getPaymentForm.invoice = tLRPC$TL_inputInvoiceSlug;
                         ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_payments_getPaymentForm, new RequestDelegate() { // from class: org.telegram.ui.bots.BotWebViewContainer$$ExternalSyntheticLambda32
                             @Override // org.telegram.tgnet.RequestDelegate
                             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                                BotWebViewContainer.this.lambda$onEventReceived$12(optString2, tLRPC$TL_inputInvoiceSlug, tLObject, tLRPC$TL_error);
+                                BotWebViewContainer.this.lambda$onEventReceived$12(optString3, tLRPC$TL_inputInvoiceSlug, tLObject, tLRPC$TL_error);
                             }
                         });
                     }
@@ -1430,8 +1431,8 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                 } else {
                     spannableStringBuilder.append((CharSequence) AndroidUtilities.replaceTags(LocaleController.formatString(R.string.AreYouSureShareMyContactInfoWebapp, userName)));
                 }
-                final boolean z = MessagesController.getInstance(this.currentAccount).blockePeers.indexOfKey(this.botUser.id) >= 0;
-                if (z) {
+                final boolean z2 = MessagesController.getInstance(this.currentAccount).blockePeers.indexOfKey(this.botUser.id) >= 0;
+                if (z2) {
                     spannableStringBuilder.append((CharSequence) "\n\n");
                     spannableStringBuilder.append((CharSequence) LocaleController.getString(R.string.AreYouSureShareMyContactInfoBotUnblock));
                 }
@@ -1439,7 +1440,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                 builder.setPositiveButton(LocaleController.getString("ShareContact", R.string.ShareContact), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.bots.BotWebViewContainer$$ExternalSyntheticLambda6
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i4) {
-                        BotWebViewContainer.this.lambda$onEventReceived$23(strArr, z, dialogInterface, i4);
+                        BotWebViewContainer.this.lambda$onEventReceived$23(strArr, z2, dialogInterface, i4);
                     }
                 });
                 builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.bots.BotWebViewContainer$$ExternalSyntheticLambda8
@@ -1505,18 +1506,35 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                 return;
             case '\r':
                 try {
-                    String optString3 = new JSONObject(str2).optString("path_full");
-                    if (optString3.startsWith("/")) {
-                        optString3 = optString3.substring(1);
+                    String optString4 = new JSONObject(str2).optString("path_full");
+                    if (optString4.startsWith("/")) {
+                        optString4 = optString4.substring(1);
                     }
-                    onOpenUri(Uri.parse("https://t.me/" + optString3), false, true);
+                    onOpenUri(Uri.parse("https://t.me/" + optString4), null, false, true);
                     return;
                 } catch (JSONException e9) {
                     FileLog.e(e9);
                     return;
                 }
             case 14:
+                try {
+                    z = new JSONObject(str2).optBoolean("return_back");
+                } catch (Exception e10) {
+                    FileLog.e(e10);
+                    z = false;
+                }
                 this.delegate.onCloseRequested(null);
+                if (this.wasOpenedByLinkIntent && z && LaunchActivity.instance != null) {
+                    Activity findActivity = AndroidUtilities.findActivity(getContext());
+                    if (findActivity == null) {
+                        findActivity = LaunchActivity.instance;
+                    }
+                    if (findActivity == null || findActivity.isFinishing()) {
+                        return;
+                    }
+                    findActivity.moveTaskToBack(true);
+                    return;
+                }
                 return;
             case 15:
                 setPageLoaded(this.webView.getUrl());
@@ -1531,16 +1549,16 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                     }
                     notifyEvent("clipboard_text_received", new JSONObject().put("req_id", string4));
                     return;
-                } catch (JSONException e10) {
-                    FileLog.e(e10);
+                } catch (JSONException e11) {
+                    FileLog.e(e11);
                     return;
                 }
             case 17:
                 try {
                     this.delegate.onSendWebViewData(new JSONObject(str2).optString("data"));
                     return;
-                } catch (JSONException e11) {
-                    FileLog.e(e11);
+                } catch (JSONException e12) {
+                    FileLog.e(e12);
                     return;
                 }
             case 18:
@@ -1553,8 +1571,8 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                     }
                     this.delegate.onWebAppSwitchInlineQuery(this.botUser, jSONObject6.getString("query"), arrayList2);
                     return;
-                } catch (JSONException e12) {
-                    FileLog.e(e12);
+                } catch (JSONException e13) {
+                    FileLog.e(e13);
                     return;
                 }
             case 19:
@@ -1566,8 +1584,8 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                         return;
                     }
                     return;
-                } catch (JSONException e13) {
-                    FileLog.e(e13);
+                } catch (JSONException e14) {
+                    FileLog.e(e14);
                     return;
                 }
             case 20:
@@ -1580,8 +1598,8 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                 if (botBiometry2 == null) {
                     return;
                 }
-                boolean z2 = botBiometry2.access_requested;
-                if (z2 && botBiometry2.disabled) {
+                boolean z3 = botBiometry2.access_requested;
+                if (z3 && botBiometry2.disabled) {
                     notifyBiometryReceived();
                     return;
                 } else if (!botBiometry2.access_granted) {
@@ -1620,7 +1638,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                     builder2.show();
                     return;
                 } else {
-                    if (!z2) {
+                    if (!z3) {
                         botBiometry2.access_requested = true;
                         botBiometry2.save();
                     }
@@ -1630,10 +1648,10 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
             case 21:
                 try {
                     JSONObject jSONObject7 = new JSONObject(str2);
-                    String optString4 = jSONObject7.optString("type");
-                    int hashCode = optString4.hashCode();
+                    String optString5 = jSONObject7.optString("type");
+                    int hashCode = optString5.hashCode();
                     if (hashCode == -1184809658) {
-                        if (optString4.equals("impact")) {
+                        if (optString5.equals("impact")) {
                             c2 = 0;
                             if (c2 == 0) {
                             }
@@ -1642,14 +1660,14 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                         if (c2 == 0) {
                         }
                     } else if (hashCode != 193071555) {
-                        if (hashCode == 595233003 && optString4.equals("notification")) {
+                        if (hashCode == 595233003 && optString5.equals("notification")) {
                             c2 = 1;
                             if (c2 == 0) {
                                 if (c2 == 1) {
-                                    String optString5 = jSONObject7.optString("notification_type");
-                                    int hashCode2 = optString5.hashCode();
+                                    String optString6 = jSONObject7.optString("notification_type");
+                                    int hashCode2 = optString6.hashCode();
                                     if (hashCode2 == -1867169789) {
-                                        if (optString5.equals("success")) {
+                                        if (optString6.equals("success")) {
                                             c4 = 1;
                                             if (c4 != 0) {
                                             }
@@ -1660,7 +1678,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                                         }
                                         botWebViewVibrationEffect2 = botWebViewVibrationEffect;
                                     } else if (hashCode2 != 96784904) {
-                                        if (hashCode2 == 1124446108 && optString5.equals("warning")) {
+                                        if (hashCode2 == 1124446108 && optString6.equals("warning")) {
                                             c4 = 2;
                                             if (c4 != 0) {
                                                 botWebViewVibrationEffect = BotWebViewVibrationEffect.NOTIFICATION_ERROR;
@@ -1676,7 +1694,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                                         }
                                         botWebViewVibrationEffect2 = botWebViewVibrationEffect;
                                     } else {
-                                        if (optString5.equals("error")) {
+                                        if (optString6.equals("error")) {
                                             c4 = 0;
                                             if (c4 != 0) {
                                             }
@@ -1696,38 +1714,38 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                                 }
                                 return;
                             }
-                            String optString6 = jSONObject7.optString("impact_style");
-                            switch (optString6.hashCode()) {
+                            String optString7 = jSONObject7.optString("impact_style");
+                            switch (optString7.hashCode()) {
                                 case -1078030475:
-                                    if (optString6.equals("medium")) {
+                                    if (optString7.equals("medium")) {
                                         c3 = 1;
                                         break;
                                     }
                                     c3 = 65535;
                                     break;
                                 case 3535914:
-                                    if (optString6.equals("soft")) {
+                                    if (optString7.equals("soft")) {
                                         c3 = 4;
                                         break;
                                     }
                                     c3 = 65535;
                                     break;
                                 case 99152071:
-                                    if (optString6.equals("heavy")) {
+                                    if (optString7.equals("heavy")) {
                                         c3 = 2;
                                         break;
                                     }
                                     c3 = 65535;
                                     break;
                                 case 102970646:
-                                    if (optString6.equals("light")) {
+                                    if (optString7.equals("light")) {
                                         c3 = 0;
                                         break;
                                     }
                                     c3 = 65535;
                                     break;
                                 case 108511787:
-                                    if (optString6.equals("rigid")) {
+                                    if (optString7.equals("rigid")) {
                                         c3 = 3;
                                         break;
                                     }
@@ -1757,7 +1775,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                         if (c2 == 0) {
                         }
                     } else {
-                        if (optString4.equals("selection_change")) {
+                        if (optString5.equals("selection_change")) {
                             c2 = 2;
                             if (c2 == 0) {
                             }
@@ -1766,29 +1784,29 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                         if (c2 == 0) {
                         }
                     }
-                } catch (Exception e14) {
-                    FileLog.e(e14);
+                } catch (Exception e15) {
+                    FileLog.e(e15);
                     return;
                 }
-                FileLog.e(e14);
+                FileLog.e(e15);
                 return;
             case 22:
                 try {
                     JSONObject jSONObject8 = new JSONObject(str2);
                     boolean optBoolean2 = jSONObject8.optBoolean("is_active", false);
                     String trim = jSONObject8.optString("text", this.lastButtonText).trim();
-                    boolean z3 = jSONObject8.optBoolean("is_visible", false) && !TextUtils.isEmpty(trim);
+                    boolean z4 = jSONObject8.optBoolean("is_visible", false) && !TextUtils.isEmpty(trim);
                     int parseColor = jSONObject8.has("color") ? Color.parseColor(jSONObject8.optString("color")) : this.lastButtonColor;
                     int parseColor2 = jSONObject8.has("text_color") ? Color.parseColor(jSONObject8.optString("text_color")) : this.lastButtonTextColor;
-                    boolean z4 = jSONObject8.optBoolean("is_progress_visible", false) && z3;
+                    boolean z5 = jSONObject8.optBoolean("is_progress_visible", false) && z4;
                     this.lastButtonColor = parseColor;
                     this.lastButtonTextColor = parseColor2;
                     this.lastButtonText = trim;
                     this.buttonData = str2;
-                    this.delegate.onSetupMainButton(z3, optBoolean2, trim, parseColor, parseColor2, z4);
+                    this.delegate.onSetupMainButton(z4, optBoolean2, trim, parseColor, parseColor2, z5);
                     return;
-                } catch (IllegalArgumentException | JSONException e15) {
-                    FileLog.e(e15);
+                } catch (IllegalArgumentException | JSONException e16) {
+                    FileLog.e(e16);
                     return;
                 }
             case 23:
@@ -1800,8 +1818,8 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                         return;
                     }
                     return;
-                } catch (JSONException e16) {
-                    FileLog.e(e16);
+                } catch (JSONException e17) {
+                    FileLog.e(e17);
                     return;
                 }
             case 24:
@@ -1823,8 +1841,8 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                             jSONObject10.put("status", "failed");
                             notifyEvent("biometry_token_updated", jSONObject10);
                             return;
-                        } catch (Exception e17) {
-                            FileLog.e(e17);
+                        } catch (Exception e18) {
+                            FileLog.e(e18);
                             return;
                         }
                     }
@@ -1835,9 +1853,9 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                         }
                     });
                     return;
-                } catch (Exception e18) {
-                    FileLog.e(e18);
-                    if (e18 instanceof JSONException) {
+                } catch (Exception e19) {
+                    FileLog.e(e19);
+                    if (e19 instanceof JSONException) {
                         error("JSON Parse error");
                         return;
                     } else {
@@ -1848,19 +1866,19 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
             case 25:
                 try {
                     JSONObject jSONObject11 = new JSONObject(str2);
-                    String optString7 = jSONObject11.optString("color", null);
-                    if (!TextUtils.isEmpty(optString7)) {
-                        int parseColor3 = Color.parseColor(optString7);
+                    String optString8 = jSONObject11.optString("color", null);
+                    if (!TextUtils.isEmpty(optString8)) {
+                        int parseColor3 = Color.parseColor(optString8);
                         if (parseColor3 != 0) {
                             this.delegate.onWebAppSetActionBarColor(-1, parseColor3, true);
                             return;
                         }
                         return;
                     }
-                    String optString8 = jSONObject11.optString("color_key");
-                    int hashCode3 = optString8.hashCode();
+                    String optString9 = jSONObject11.optString("color_key");
+                    int hashCode3 = optString9.hashCode();
                     if (hashCode3 != -1265068311) {
-                        if (hashCode3 == -210781868 && optString8.equals("secondary_bg_color")) {
+                        if (hashCode3 == -210781868 && optString9.equals("secondary_bg_color")) {
                             c5 = 1;
                             if (c5 != 0) {
                                 i = Theme.key_windowBackgroundWhite;
@@ -1879,7 +1897,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                         if (i < 0) {
                         }
                     } else {
-                        if (optString8.equals("bg_color")) {
+                        if (optString9.equals("bg_color")) {
                             c5 = 0;
                             if (c5 != 0) {
                             }
@@ -1892,8 +1910,8 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                         if (i < 0) {
                         }
                     }
-                } catch (JSONException e19) {
-                    FileLog.e(e19);
+                } catch (JSONException e20) {
+                    FileLog.e(e20);
                     return;
                 }
                 break;
@@ -1901,8 +1919,8 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                 try {
                     this.delegate.onWebAppSetBackgroundColor(Color.parseColor(new JSONObject(str2).optString("color", "#ffffff")) | (-16777216));
                     return;
-                } catch (IllegalArgumentException | JSONException e20) {
-                    FileLog.e(e20);
+                } catch (IllegalArgumentException | JSONException e21) {
+                    FileLog.e(e21);
                     return;
                 }
             case 27:
@@ -1912,8 +1930,8 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                         jSONObject12.put("status", "cancelled");
                         notifyEvent("write_access_requested", jSONObject12);
                         return;
-                    } catch (Exception e21) {
-                        FileLog.e(e21);
+                    } catch (Exception e22) {
+                        FileLog.e(e22);
                         return;
                     }
                 }

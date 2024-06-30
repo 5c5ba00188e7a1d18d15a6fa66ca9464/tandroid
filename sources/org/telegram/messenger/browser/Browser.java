@@ -6,6 +6,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -247,32 +248,44 @@ public class Browser {
     }
 
     public static void openUrl(Context context, Uri uri, boolean z, boolean z2) {
-        openUrl(context, uri, z, z2, false, null);
+        openUrl(context, uri, z, z2, false, null, null);
     }
 
     public static void openUrl(Context context, Uri uri, boolean z, boolean z2, Progress progress) {
-        openUrl(context, uri, z, z2, false, progress);
+        openUrl(context, uri, z, z2, false, progress, null);
     }
 
-    /* JADX WARN: Can't wrap try/catch for region: R(15:43|44|45|(11:49|50|(5:54|(2:56|57)(1:59)|58|51|52)|60|61|(3:63|(4:66|(2:67|(1:1)(2:69|(3:72|73|74)(1:71)))|75|64)|77)(3:100|(4:103|(2:109|110)(1:107)|108|101)|111)|78|(3:80|(3:83|84|81)|85)|87|88|(2:93|(2:95|96)(2:98|99)))|116|60|61|(0)(0)|78|(0)|87|88|(0)|93|(0)(0)) */
-    /* JADX WARN: Can't wrap try/catch for region: R(20:4|(3:146|147|(5:159|160|161|162|(2:164|165)(2:166|167)))|6|7|8|(1:10)(1:143)|11|(12:135|136|137|16|17|(9:19|(1:25)|26|27|(1:29)|30|(1:32)(1:36)|(1:34)|35)|(15:43|44|45|(11:49|50|(5:54|(2:56|57)(1:59)|58|51|52)|60|61|(3:63|(4:66|(2:67|(1:1)(2:69|(3:72|73|74)(1:71)))|75|64)|77)(3:100|(4:103|(2:109|110)(1:107)|108|101)|111)|78|(3:80|(3:83|84|81)|85)|87|88|(2:93|(2:95|96)(2:98|99)))|116|60|61|(0)(0)|78|(0)|87|88|(0)|93|(0)(0))|118|119|(1:121)|122|(2:128|129)(2:126|127))|15|16|17|(0)|(17:38|41|43|44|45|(14:47|49|50|(2:51|52)|60|61|(0)(0)|78|(0)|87|88|(0)|93|(0)(0))|116|60|61|(0)(0)|78|(0)|87|88|(0)|93|(0)(0))|118|119|(0)|122|(1:124)|128|129) */
-    /* JADX WARN: Code restructure failed: missing block: B:124:0x0365, code lost:
+    /* JADX WARN: Can't wrap try/catch for region: R(14:(2:46|47)|(12:51|52|(5:56|(2:58|59)(1:61)|60|53|54)|62|63|65|(3:67|(4:70|(2:71|(1:1)(2:73|(3:76|77|78)(1:75)))|79|68)|81)(3:104|(4:107|(2:113|114)(1:111)|112|105)|115)|82|(3:84|(3:87|88|85)|89)|91|92|(2:97|(2:99|100)(2:102|103)))|122|62|63|65|(0)(0)|82|(0)|91|92|(0)|97|(0)(0)) */
+    /* JADX WARN: Can't wrap try/catch for region: R(15:46|47|(12:51|52|(5:56|(2:58|59)(1:61)|60|53|54)|62|63|65|(3:67|(4:70|(2:71|(1:1)(2:73|(3:76|77|78)(1:75)))|79|68)|81)(3:104|(4:107|(2:113|114)(1:111)|112|105)|115)|82|(3:84|(3:87|88|85)|89)|91|92|(2:97|(2:99|100)(2:102|103)))|122|62|63|65|(0)(0)|82|(0)|91|92|(0)|97|(0)(0)) */
+    /* JADX WARN: Can't wrap try/catch for region: R(24:4|(1:6)(1:180)|7|(3:155|156|(5:168|169|170|171|(2:173|174)(2:175|176)))|9|10|11|(1:13)(1:152)|14|(14:144|145|146|19|20|(9:22|(1:28)|29|30|(1:32)|33|(1:35)(1:39)|(1:37)|38)|(15:46|47|(12:51|52|(5:56|(2:58|59)(1:61)|60|53|54)|62|63|65|(3:67|(4:70|(2:71|(1:1)(2:73|(3:76|77|78)(1:75)))|79|68)|81)(3:104|(4:107|(2:113|114)(1:111)|112|105)|115)|82|(3:84|(3:87|88|85)|89)|91|92|(2:97|(2:99|100)(2:102|103)))|122|62|63|65|(0)(0)|82|(0)|91|92|(0)|97|(0)(0))|124|125|(1:127)|128|(1:130)|131|(2:137|138)(2:135|136))|18|19|20|(0)|(17:41|44|46|47|(15:49|51|52|(2:53|54)|62|63|65|(0)(0)|82|(0)|91|92|(0)|97|(0)(0))|122|62|63|65|(0)(0)|82|(0)|91|92|(0)|97|(0)(0))|124|125|(0)|128|(0)|131|(1:133)|137|138) */
+    /* JADX WARN: Code restructure failed: missing block: B:115:0x02ec, code lost:
+        r17 = r1;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:116:0x02ee, code lost:
+        r1 = r17;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:129:0x0384, code lost:
         r0 = e;
      */
-    /* JADX WARN: Removed duplicated region for block: B:107:0x029d  */
-    /* JADX WARN: Removed duplicated region for block: B:115:0x02d6 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:120:0x02ea A[Catch: Exception -> 0x0365, TryCatch #4 {Exception -> 0x0365, blocks: (B:42:0x00e4, B:44:0x0100, B:48:0x0132, B:50:0x013f, B:51:0x0145, B:55:0x014e, B:56:0x0166, B:58:0x016e, B:61:0x0199, B:62:0x01ab, B:59:0x0183, B:64:0x01c2, B:67:0x01c8, B:113:0x02d2, B:116:0x02d8, B:118:0x02de, B:120:0x02ea, B:122:0x02fa), top: B:154:0x00e4 }] */
-    /* JADX WARN: Removed duplicated region for block: B:122:0x02fa A[Catch: Exception -> 0x0365, TRY_LEAVE, TryCatch #4 {Exception -> 0x0365, blocks: (B:42:0x00e4, B:44:0x0100, B:48:0x0132, B:50:0x013f, B:51:0x0145, B:55:0x014e, B:56:0x0166, B:58:0x016e, B:61:0x0199, B:62:0x01ab, B:59:0x0183, B:64:0x01c2, B:67:0x01c8, B:113:0x02d2, B:116:0x02d8, B:118:0x02de, B:120:0x02ea, B:122:0x02fa), top: B:154:0x00e4 }] */
-    /* JADX WARN: Removed duplicated region for block: B:131:0x0374 A[Catch: Exception -> 0x03ad, TryCatch #1 {Exception -> 0x03ad, blocks: (B:129:0x036d, B:131:0x0374, B:132:0x0386, B:134:0x0397, B:136:0x039b, B:137:0x03a9), top: B:149:0x036d }] */
-    /* JADX WARN: Removed duplicated region for block: B:134:0x0397 A[Catch: Exception -> 0x03ad, TryCatch #1 {Exception -> 0x03ad, blocks: (B:129:0x036d, B:131:0x0374, B:132:0x0386, B:134:0x0397, B:136:0x039b, B:137:0x03a9), top: B:149:0x036d }] */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x0100 A[Catch: Exception -> 0x0365, TryCatch #4 {Exception -> 0x0365, blocks: (B:42:0x00e4, B:44:0x0100, B:48:0x0132, B:50:0x013f, B:51:0x0145, B:55:0x014e, B:56:0x0166, B:58:0x016e, B:61:0x0199, B:62:0x01ab, B:59:0x0183, B:64:0x01c2, B:67:0x01c8, B:113:0x02d2, B:116:0x02d8, B:118:0x02de, B:120:0x02ea, B:122:0x02fa), top: B:154:0x00e4 }] */
-    /* JADX WARN: Removed duplicated region for block: B:78:0x01fb A[Catch: Exception -> 0x0225, TryCatch #3 {Exception -> 0x0225, blocks: (B:76:0x01f5, B:78:0x01fb, B:80:0x020b), top: B:152:0x01f5 }] */
-    /* JADX WARN: Removed duplicated region for block: B:85:0x0235  */
-    /* JADX WARN: Removed duplicated region for block: B:96:0x025e  */
+    /* JADX WARN: Removed duplicated region for block: B:110:0x02b8  */
+    /* JADX WARN: Removed duplicated region for block: B:120:0x02f5 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:125:0x0309 A[Catch: Exception -> 0x0384, TryCatch #9 {Exception -> 0x0384, blocks: (B:46:0x00ff, B:48:0x011b, B:52:0x014d, B:54:0x015a, B:55:0x0160, B:59:0x0169, B:60:0x0181, B:62:0x0189, B:65:0x01b4, B:66:0x01c6, B:63:0x019e, B:68:0x01dd, B:71:0x01e3, B:118:0x02f1, B:121:0x02f7, B:123:0x02fd, B:125:0x0309, B:127:0x0319), top: B:171:0x00ff }] */
+    /* JADX WARN: Removed duplicated region for block: B:127:0x0319 A[Catch: Exception -> 0x0384, TRY_LEAVE, TryCatch #9 {Exception -> 0x0384, blocks: (B:46:0x00ff, B:48:0x011b, B:52:0x014d, B:54:0x015a, B:55:0x0160, B:59:0x0169, B:60:0x0181, B:62:0x0189, B:65:0x01b4, B:66:0x01c6, B:63:0x019e, B:68:0x01dd, B:71:0x01e3, B:118:0x02f1, B:121:0x02f7, B:123:0x02fd, B:125:0x0309, B:127:0x0319), top: B:171:0x00ff }] */
+    /* JADX WARN: Removed duplicated region for block: B:136:0x0393 A[Catch: Exception -> 0x03d7, TryCatch #7 {Exception -> 0x03d7, blocks: (B:134:0x038c, B:136:0x0393, B:137:0x03a5, B:139:0x03ab, B:140:0x03b0, B:142:0x03c1, B:144:0x03c5, B:145:0x03d3), top: B:168:0x038c }] */
+    /* JADX WARN: Removed duplicated region for block: B:139:0x03ab A[Catch: Exception -> 0x03d7, TryCatch #7 {Exception -> 0x03d7, blocks: (B:134:0x038c, B:136:0x0393, B:137:0x03a5, B:139:0x03ab, B:140:0x03b0, B:142:0x03c1, B:144:0x03c5, B:145:0x03d3), top: B:168:0x038c }] */
+    /* JADX WARN: Removed duplicated region for block: B:142:0x03c1 A[Catch: Exception -> 0x03d7, TryCatch #7 {Exception -> 0x03d7, blocks: (B:134:0x038c, B:136:0x0393, B:137:0x03a5, B:139:0x03ab, B:140:0x03b0, B:142:0x03c1, B:144:0x03c5, B:145:0x03d3), top: B:168:0x038c }] */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x011b A[Catch: Exception -> 0x0384, TryCatch #9 {Exception -> 0x0384, blocks: (B:46:0x00ff, B:48:0x011b, B:52:0x014d, B:54:0x015a, B:55:0x0160, B:59:0x0169, B:60:0x0181, B:62:0x0189, B:65:0x01b4, B:66:0x01c6, B:63:0x019e, B:68:0x01dd, B:71:0x01e3, B:118:0x02f1, B:121:0x02f7, B:123:0x02fd, B:125:0x0309, B:127:0x0319), top: B:171:0x00ff }] */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x0215 A[Catch: Exception -> 0x0240, TryCatch #0 {Exception -> 0x0240, blocks: (B:79:0x020f, B:81:0x0215, B:83:0x0225), top: B:155:0x020f }] */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x0250  */
+    /* JADX WARN: Removed duplicated region for block: B:99:0x0279  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public static void openUrl(final Context context, final Uri uri, final boolean z, boolean z2, boolean z3, final Progress progress) {
+    public static void openUrl(final Context context, final Uri uri, boolean z, boolean z2, boolean z3, final Progress progress, String str) {
+        boolean z4;
+        boolean z5;
+        String str2;
+        String str3;
         Uri uri2;
         Intent intent;
         String lowerCase;
@@ -286,18 +299,31 @@ public class Browser {
         final int i2 = UserConfig.selectedAccount;
         boolean[] zArr = {false};
         boolean isInternalUri = isInternalUri(uri, zArr);
-        if (z2) {
+        String browserPackageName = getBrowserPackageName(str);
+        List<ResolveInfo> list = null;
+        if (isBrowserPackageInstalled(context, browserPackageName, uri)) {
+            str2 = browserPackageName;
+            z5 = false;
+            z4 = false;
+        } else {
+            z4 = z;
+            z5 = z2;
+            str2 = null;
+        }
+        if (z5) {
             try {
                 String hostAuthority2 = AndroidUtilities.getHostAuthority(uri);
                 if (UserConfig.getInstance(UserConfig.selectedAccount).getCurrentUser() != null && (isTelegraphUrl(hostAuthority2, true) || ("telegram.org".equalsIgnoreCase(hostAuthority2) && (uri.toString().toLowerCase().contains("telegram.org/faq") || uri.toString().toLowerCase().contains("telegram.org/privacy") || uri.toString().toLowerCase().contains("telegram.org/blog"))))) {
                     final AlertDialog[] alertDialogArr = {new AlertDialog(context, 3)};
                     TLRPC$TL_messages_getWebPagePreview tLRPC$TL_messages_getWebPagePreview = new TLRPC$TL_messages_getWebPagePreview();
                     tLRPC$TL_messages_getWebPagePreview.message = uri.toString();
+                    str3 = str2;
+                    final boolean z6 = z4;
                     try {
                         final int sendRequest = ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_messages_getWebPagePreview, new RequestDelegate() { // from class: org.telegram.messenger.browser.Browser$$ExternalSyntheticLambda3
                             @Override // org.telegram.tgnet.RequestDelegate
                             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                                Browser.lambda$openUrl$1(Browser.Progress.this, alertDialogArr, i2, uri, context, z, tLObject, tLRPC$TL_error);
+                                Browser.lambda$openUrl$1(Browser.Progress.this, alertDialogArr, i2, uri, context, z6, tLObject, tLRPC$TL_error);
                             }
                         });
                         if (progress != null) {
@@ -318,6 +344,7 @@ public class Browser {
             } catch (Exception unused2) {
             }
         }
+        str3 = str2;
         try {
             try {
                 lowerCase = uri.getScheme() != null ? uri.getScheme().toLowerCase() : "";
@@ -327,6 +354,8 @@ public class Browser {
                 FileLog.e(e);
                 intent = new Intent("android.intent.action.VIEW", uri2);
                 if (isInternalUri) {
+                }
+                if (!TextUtils.isEmpty(str3)) {
                 }
                 intent.putExtra("create_new_tab", true);
                 intent.putExtra("com.android.browser.application_id", context.getPackageName());
@@ -343,7 +372,7 @@ public class Browser {
                 }
                 hostAuthority = AndroidUtilities.getHostAuthority(uri2.toString().toLowerCase());
                 if (AccountInstance.getInstance(i2).getMessagesController().autologinDomains.contains(hostAuthority)) {
-                    String str = "autologin_token=" + URLEncoder.encode(AccountInstance.getInstance(UserConfig.selectedAccount).getMessagesController().autologinToken, "UTF-8");
+                    String str4 = "autologin_token=" + URLEncoder.encode(AccountInstance.getInstance(UserConfig.selectedAccount).getMessagesController().autologinToken, "UTF-8");
                     String uri3 = uri2.toString();
                     int indexOf = uri3.indexOf("://");
                     if (indexOf >= 0 && indexOf <= 5 && !uri3.substring(0, indexOf).contains(".")) {
@@ -353,14 +382,13 @@ public class Browser {
                     if (encodedFragment != null) {
                         uri3 = uri3.substring(0, uri3.indexOf("#" + encodedFragment));
                     }
-                    String str2 = uri3.indexOf(63) >= 0 ? uri3 + "&" + str : uri3 + "?" + str;
+                    String str5 = uri3.indexOf(63) >= 0 ? uri3 + "&" + str4 : uri3 + "?" + str4;
                     if (encodedFragment != null) {
-                        str2 = str2 + "#" + encodedFragment;
+                        str5 = str5 + "#" + encodedFragment;
                     }
-                    uri2 = Uri.parse("https://" + str2);
+                    uri2 = Uri.parse("https://" + str5);
                 }
-                if (z && SharedConfig.customTabs && !isInternalUri && !lowerCase.equals("tel")) {
-                    List<ResolveInfo> list = null;
+                if (z4 && SharedConfig.customTabs && !isInternalUri && !lowerCase.equals("tel")) {
                     try {
                         queryIntentActivities = context.getPackageManager().queryIntentActivities(new Intent("android.intent.action.VIEW", Uri.parse("http://www.google.com")), 0);
                     } catch (Exception unused3) {
@@ -376,16 +404,16 @@ public class Browser {
                             } catch (Exception unused4) {
                             }
                         }
-                        list = context.getPackageManager().queryIntentActivities(new Intent("android.intent.action.VIEW", uri2), 0);
+                        List<ResolveInfo> list2 = context.getPackageManager().queryIntentActivities(new Intent("android.intent.action.VIEW", uri2), 0);
                         if (strArr == null) {
                             int i3 = 0;
-                            while (i3 < list.size()) {
+                            while (i3 < list2.size()) {
                                 int i4 = 0;
                                 while (true) {
                                     if (i4 >= strArr.length) {
                                         break;
-                                    } else if (strArr[i4].equals(list.get(i3).activityInfo.packageName)) {
-                                        list.remove(i3);
+                                    } else if (strArr[i4].equals(list2.get(i3).activityInfo.packageName)) {
+                                        list2.remove(i3);
                                         i3--;
                                         break;
                                     } else {
@@ -396,21 +424,21 @@ public class Browser {
                             }
                         } else {
                             int i5 = 0;
-                            while (i5 < list.size()) {
-                                if (list.get(i5).activityInfo.packageName.toLowerCase().contains("browser") || list.get(i5).activityInfo.packageName.toLowerCase().contains("chrome")) {
-                                    list.remove(i5);
+                            while (i5 < list2.size()) {
+                                if (list2.get(i5).activityInfo.packageName.toLowerCase().contains("browser") || list2.get(i5).activityInfo.packageName.toLowerCase().contains("chrome")) {
+                                    list2.remove(i5);
                                     i5--;
                                 }
                                 i5++;
                             }
                         }
                         if (BuildVars.LOGS_ENABLED) {
-                            for (int i6 = 0; i6 < list.size(); i6++) {
-                                FileLog.d("device has " + list.get(i6).activityInfo.packageName + " to open " + uri2.toString());
+                            for (int i6 = 0; i6 < list2.size(); i6++) {
+                                FileLog.d("device has " + list2.get(i6).activityInfo.packageName + " to open " + uri2.toString());
                             }
                         }
-                        if (!zArr[0] || list == null || list.isEmpty()) {
-                            if (!MessagesController.getInstance(i2).authDomains.contains(hostAuthority)) {
+                        if (!zArr[0] || list2 == null || list2.isEmpty()) {
+                            if (MessagesController.getInstance(i2).authDomains.contains(hostAuthority)) {
                                 Intent intent2 = new Intent("android.intent.action.VIEW", uri2);
                                 intent2.addFlags(268435456);
                                 ApplicationLoader.applicationContext.startActivity(intent2);
@@ -431,19 +459,22 @@ public class Browser {
                         }
                     }
                     strArr = null;
-                    list = context.getPackageManager().queryIntentActivities(new Intent("android.intent.action.VIEW", uri2), 0);
+                    List<ResolveInfo> list22 = context.getPackageManager().queryIntentActivities(new Intent("android.intent.action.VIEW", uri2), 0);
                     if (strArr == null) {
                     }
                     if (BuildVars.LOGS_ENABLED) {
                     }
                     if (!zArr[0]) {
                     }
-                    if (!MessagesController.getInstance(i2).authDomains.contains(hostAuthority)) {
+                    if (MessagesController.getInstance(i2).authDomains.contains(hostAuthority)) {
                     }
                 }
                 intent = new Intent("android.intent.action.VIEW", uri2);
                 if (isInternalUri) {
                     intent.setComponent(new ComponentName(context.getPackageName(), LaunchActivity.class.getName()));
+                }
+                if (!TextUtils.isEmpty(str3)) {
+                    intent.setPackage(str3);
                 }
                 intent.putExtra("create_new_tab", true);
                 intent.putExtra("com.android.browser.application_id", context.getPackageName());
@@ -457,6 +488,8 @@ public class Browser {
             }
             intent = new Intent("android.intent.action.VIEW", uri2);
             if (isInternalUri) {
+            }
+            if (!TextUtils.isEmpty(str3)) {
             }
             intent.putExtra("create_new_tab", true);
             intent.putExtra("com.android.browser.application_id", context.getPackageName());
@@ -472,32 +505,31 @@ public class Browser {
         hostAuthority = AndroidUtilities.getHostAuthority(uri2.toString().toLowerCase());
         if (AccountInstance.getInstance(i2).getMessagesController().autologinDomains.contains(hostAuthority)) {
         }
-        if (z) {
-            List<ResolveInfo> list2 = null;
+        if (z4) {
             queryIntentActivities = context.getPackageManager().queryIntentActivities(new Intent("android.intent.action.VIEW", Uri.parse("http://www.google.com")), 0);
             if (queryIntentActivities != null) {
                 strArr = new String[queryIntentActivities.size()];
                 while (i < queryIntentActivities.size()) {
                 }
-                list2 = context.getPackageManager().queryIntentActivities(new Intent("android.intent.action.VIEW", uri2), 0);
+                List<ResolveInfo> list222 = context.getPackageManager().queryIntentActivities(new Intent("android.intent.action.VIEW", uri2), 0);
                 if (strArr == null) {
                 }
                 if (BuildVars.LOGS_ENABLED) {
                 }
                 if (!zArr[0]) {
                 }
-                if (!MessagesController.getInstance(i2).authDomains.contains(hostAuthority)) {
+                if (MessagesController.getInstance(i2).authDomains.contains(hostAuthority)) {
                 }
             }
             strArr = null;
-            list2 = context.getPackageManager().queryIntentActivities(new Intent("android.intent.action.VIEW", uri2), 0);
+            List<ResolveInfo> list2222 = context.getPackageManager().queryIntentActivities(new Intent("android.intent.action.VIEW", uri2), 0);
             if (strArr == null) {
             }
             if (BuildVars.LOGS_ENABLED) {
             }
             if (!zArr[0]) {
             }
-            if (!MessagesController.getInstance(i2).authDomains.contains(hostAuthority)) {
+            if (MessagesController.getInstance(i2).authDomains.contains(hostAuthority)) {
             }
         }
     }
@@ -693,6 +725,195 @@ public class Browser {
             }
             return false;
         }
+    }
+
+    public static String getBrowserPackageName(String str) {
+        if (str == null) {
+            return null;
+        }
+        char c = 65535;
+        switch (str.hashCode()) {
+            case -1973822757:
+                if (str.equals("brave-browser")) {
+                    c = 0;
+                    break;
+                }
+                break;
+            case -1451156338:
+                if (str.equals("google-chrome")) {
+                    c = 1;
+                    break;
+                }
+                break;
+            case -1361128838:
+                if (str.equals("chrome")) {
+                    c = 2;
+                    break;
+                }
+                break;
+            case -1270430916:
+                if (str.equals("microsoft-edge")) {
+                    c = 3;
+                    break;
+                }
+                break;
+            case -1249474382:
+                if (str.equals("tor-browser")) {
+                    c = 4;
+                    break;
+                }
+                break;
+            case -1051190859:
+                if (str.equals("duckduckgo-browser")) {
+                    c = 5;
+                    break;
+                }
+                break;
+            case -849452327:
+                if (str.equals("firefox")) {
+                    c = 6;
+                    break;
+                }
+                break;
+            case -329108395:
+                if (str.equals("samsung-browser")) {
+                    c = 7;
+                    break;
+                }
+                break;
+            case -220816629:
+                if (str.equals("kiwi-browser")) {
+                    c = '\b';
+                    break;
+                }
+                break;
+            case -61272559:
+                if (str.equals("opera-mini")) {
+                    c = '\t';
+                    break;
+                }
+                break;
+            case 3726:
+                if (str.equals("uc")) {
+                    c = '\n';
+                    break;
+                }
+                break;
+            case 115031:
+                if (str.equals("tor")) {
+                    c = 11;
+                    break;
+                }
+                break;
+            case 3108285:
+                if (str.equals("edge")) {
+                    c = '\f';
+                    break;
+                }
+                break;
+            case 3292336:
+                if (str.equals("kiwi")) {
+                    c = '\r';
+                    break;
+                }
+                break;
+            case 93998208:
+                if (str.equals("brave")) {
+                    c = 14;
+                    break;
+                }
+                break;
+            case 105948115:
+                if (str.equals("opera")) {
+                    c = 15;
+                    break;
+                }
+                break;
+            case 469285011:
+                if (str.equals("vivaldi")) {
+                    c = 16;
+                    break;
+                }
+                break;
+            case 557649660:
+                if (str.equals("mozilla-firefox")) {
+                    c = 17;
+                    break;
+                }
+                break;
+            case 696911194:
+                if (str.equals("duckduckgo")) {
+                    c = 18;
+                    break;
+                }
+                break;
+            case 1117815790:
+                if (str.equals("vivaldi-browser")) {
+                    c = 19;
+                    break;
+                }
+                break;
+            case 1201385193:
+                if (str.equals("uc-browser")) {
+                    c = 20;
+                    break;
+                }
+                break;
+            case 1864941562:
+                if (str.equals("samsung")) {
+                    c = 21;
+                    break;
+                }
+                break;
+        }
+        switch (c) {
+            case 0:
+            case 14:
+                return "com.brave.browser";
+            case 1:
+            case 2:
+                return "com.android.chrome";
+            case 3:
+            case '\f':
+                return "com.microsoft.emmx";
+            case 4:
+            case 11:
+                return "org.torproject.torbrowser";
+            case 5:
+            case 18:
+                return "com.duckduckgo.mobile.android";
+            case 6:
+            case 17:
+                return "org.mozilla.firefox";
+            case 7:
+            case 21:
+                return "com.sec.android.app.sbrowser";
+            case '\b':
+            case '\r':
+                return "com.kiwibrowser.browser";
+            case '\t':
+                return "com.opera.mini.native";
+            case '\n':
+            case 20:
+                return "com.UCMobile.intl";
+            case 15:
+                return "com.opera.browser";
+            case 16:
+            case 19:
+                return "com.vivaldi.browser";
+            default:
+                return null;
+        }
+    }
+
+    public static boolean isBrowserPackageInstalled(Context context, String str, Uri uri) {
+        if (str == null) {
+            return false;
+        }
+        PackageManager packageManager = context.getPackageManager();
+        Intent intent = new Intent("android.intent.action.VIEW", uri);
+        intent.setPackage(str);
+        return packageManager.resolveActivity(intent, 0) != null;
     }
 
     public static String replaceHostname(Uri uri, String str) {
