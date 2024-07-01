@@ -5322,7 +5322,7 @@ public class MessageObject {
         return tLRPC$Chat == null ? MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(j)) : tLRPC$Chat;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:1014:0x16ac A[EDGE_INSN: B:1014:0x16ac->B:879:0x16ac ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1014:0x16b4 A[EDGE_INSN: B:1014:0x16b4->B:879:0x16b4 ?: BREAK  , SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:1016:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:11:0x002a  */
     /* JADX WARN: Removed duplicated region for block: B:12:0x002c  */
@@ -5344,11 +5344,11 @@ public class MessageObject {
     /* JADX WARN: Removed duplicated region for block: B:388:0x0948  */
     /* JADX WARN: Removed duplicated region for block: B:473:0x0b4c  */
     /* JADX WARN: Removed duplicated region for block: B:494:0x0bf8  */
-    /* JADX WARN: Removed duplicated region for block: B:809:0x14ef  */
-    /* JADX WARN: Removed duplicated region for block: B:823:0x1535  */
-    /* JADX WARN: Removed duplicated region for block: B:824:0x1538  */
-    /* JADX WARN: Removed duplicated region for block: B:878:0x16a9 A[LOOP:3: B:860:0x1673->B:878:0x16a9, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:988:0x1932  */
+    /* JADX WARN: Removed duplicated region for block: B:809:0x14f7  */
+    /* JADX WARN: Removed duplicated region for block: B:823:0x153d  */
+    /* JADX WARN: Removed duplicated region for block: B:824:0x1540  */
+    /* JADX WARN: Removed duplicated region for block: B:878:0x16b1 A[LOOP:3: B:860:0x167b->B:878:0x16b1, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:988:0x193a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -5977,7 +5977,7 @@ public class MessageObject {
                                 }
                             } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionLoginUnknownLocation) {
                                 long j12 = tLRPC$Message.date * 1000;
-                                String formatString3 = (LocaleController.getInstance().formatterDay != null && LocaleController.getInstance().formatterYear != null) ? LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().formatterYear.format(j12), LocaleController.getInstance().formatterDay.format(j12)) : "" + this.messageOwner.date;
+                                String formatString3 = (LocaleController.getInstance().getFormatterDay() != null && LocaleController.getInstance().getFormatterYear() != null) ? LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().getFormatterYear().format(j12), LocaleController.getInstance().getFormatterDay().format(j12)) : "" + this.messageOwner.date;
                                 TLRPC$User currentUser = UserConfig.getInstance(this.currentAccount).getCurrentUser();
                                 if (currentUser == null) {
                                     currentUser = getUser(abstractMap, longSparseArray, this.messageOwner.peer_id.user_id);
@@ -10348,7 +10348,7 @@ public class MessageObject {
 
     public static boolean shouldEncryptPhotoOrVideo(int i, TLRPC$Message tLRPC$Message) {
         int i2;
-        if (tLRPC$Message == null || tLRPC$Message.media == null || !((isVoiceDocument(getDocument(tLRPC$Message)) || isRoundVideoMessage(tLRPC$Message)) && tLRPC$Message.media.ttl_seconds == Integer.MAX_VALUE)) {
+        if ((tLRPC$Message == null || tLRPC$Message.media == null || !((isVoiceDocument(getDocument(tLRPC$Message)) || isRoundVideoMessage(tLRPC$Message)) && tLRPC$Message.media.ttl_seconds == Integer.MAX_VALUE)) && !(getMedia(tLRPC$Message) instanceof TLRPC$TL_messageMediaPaidMedia)) {
             return tLRPC$Message instanceof TLRPC$TL_message_secret ? ((getMedia(tLRPC$Message) instanceof TLRPC$TL_messageMediaPhoto) || isVideoMessage(tLRPC$Message)) && (i2 = tLRPC$Message.ttl) > 0 && i2 <= 60 : ((getMedia(tLRPC$Message) instanceof TLRPC$TL_messageMediaPhoto) || (getMedia(tLRPC$Message) instanceof TLRPC$TL_messageMediaDocument)) && getMedia(tLRPC$Message).ttl_seconds != 0;
         }
         return true;

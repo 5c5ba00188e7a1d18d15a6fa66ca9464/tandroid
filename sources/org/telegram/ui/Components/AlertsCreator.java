@@ -3844,7 +3844,7 @@ public class AlertsCreator {
             } else if (i5 == 3) {
                 i6 += 9;
             }
-            textView.setText(LocaleController.getInstance().formatterScheduleSend[i6].format(timeInMillis2));
+            textView.setText(LocaleController.getInstance().getFormatterScheduleSend(i6).format(timeInMillis2));
         }
         if (textView2 != null) {
             int i11 = (int) ((timeInMillis2 - currentTimeMillis) / 1000);
@@ -4207,9 +4207,9 @@ public class AlertsCreator {
         long j2 = j + (i2 * 86400000);
         calendar.setTimeInMillis(j2);
         if (calendar.get(1) == i) {
-            return LocaleController.getInstance().formatterWeek.format(j2) + ", " + LocaleController.getInstance().formatterScheduleDay.format(j2);
+            return LocaleController.getInstance().getFormatterWeek().format(j2) + ", " + LocaleController.getInstance().getFormatterScheduleDay().format(j2);
         }
-        return LocaleController.getInstance().formatterScheduleYear.format(j2);
+        return LocaleController.getInstance().getFormatterScheduleYear().format(j2);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -4429,9 +4429,9 @@ public class AlertsCreator {
         long j2 = j + (i2 * 86400000);
         calendar.setTimeInMillis(j2);
         if (calendar.get(1) == i) {
-            return LocaleController.getInstance().formatterScheduleDay.format(j2);
+            return LocaleController.getInstance().getFormatterScheduleDay().format(j2);
         }
-        return LocaleController.getInstance().formatterScheduleYear.format(j2);
+        return LocaleController.getInstance().getFormatterScheduleYear().format(j2);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -4975,11 +4975,11 @@ public class AlertsCreator {
         int i5 = calendar.get(6);
         if (i4 != i || i5 >= i2 + 7) {
             if (i4 == i) {
-                return LocaleController.getInstance().formatterScheduleDay.format(j2);
+                return LocaleController.getInstance().getFormatterScheduleDay().format(j2);
             }
-            return LocaleController.getInstance().formatterScheduleYear.format(j2);
+            return LocaleController.getInstance().getFormatterScheduleYear().format(j2);
         }
-        return LocaleController.getInstance().formatterWeek.format(j2) + ", " + LocaleController.getInstance().formatterScheduleDay.format(j2);
+        return LocaleController.getInstance().getFormatterWeek().format(j2) + ", " + LocaleController.getInstance().getFormatterScheduleDay().format(j2);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -7304,12 +7304,12 @@ public class AlertsCreator {
     /* JADX WARN: Removed duplicated region for block: B:268:0x058f  */
     /* JADX WARN: Removed duplicated region for block: B:271:0x05a7  */
     /* JADX WARN: Removed duplicated region for block: B:303:0x066a  */
-    /* JADX WARN: Removed duplicated region for block: B:314:0x06a1  */
-    /* JADX WARN: Removed duplicated region for block: B:337:0x06fd A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:341:0x0731  */
-    /* JADX WARN: Removed duplicated region for block: B:342:0x0734  */
-    /* JADX WARN: Removed duplicated region for block: B:346:0x0764  */
-    /* JADX WARN: Removed duplicated region for block: B:349:0x0776  */
+    /* JADX WARN: Removed duplicated region for block: B:314:0x06a3  */
+    /* JADX WARN: Removed duplicated region for block: B:337:0x0701 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:341:0x0735  */
+    /* JADX WARN: Removed duplicated region for block: B:342:0x0738  */
+    /* JADX WARN: Removed duplicated region for block: B:346:0x0768  */
+    /* JADX WARN: Removed duplicated region for block: B:349:0x077a  */
     /* JADX WARN: Removed duplicated region for block: B:380:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -7695,7 +7695,7 @@ public class AlertsCreator {
                             z4 = messageObject.isGiveaway() && !messageObject.isForwarded();
                             if (z4) {
                                 long j4 = ((TLRPC$TL_messageMediaGiveaway) messageObject.messageOwner.media).until_date * 1000;
-                                str2 = LocaleController.getInstance().formatterGiveawayMonthDayYear.format(new Date(j4));
+                                str2 = LocaleController.getInstance().getFormatterGiveawayMonthDayYear().format(new Date(j4));
                                 if (System.currentTimeMillis() < j4) {
                                     z4 = true;
                                 }
@@ -7715,7 +7715,7 @@ public class AlertsCreator {
                                         boolean z13 = valueAt3.isGiveaway() && !valueAt3.isForwarded();
                                         if (z13) {
                                             long j5 = ((TLRPC$TL_messageMediaGiveaway) valueAt3.messageOwner.media).until_date * 1000;
-                                            str2 = LocaleController.getInstance().formatterGiveawayMonthDayYear.format(new Date(j5));
+                                            str2 = LocaleController.getInstance().getFormatterGiveawayMonthDayYear().format(new Date(j5));
                                             z12 = System.currentTimeMillis() < j5;
                                         } else {
                                             z12 = z13;

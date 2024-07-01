@@ -617,9 +617,9 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         return "image".equals(attributeValue) ? 4 : -1;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:49:0x00b8  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x00bf  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x011d  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x00b9  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x00c0  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x011e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -702,7 +702,6 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
                         bArr2 = uuid2;
                         break;
                     }
-                    break;
             }
             do {
                 xmlPullParser.next();

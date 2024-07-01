@@ -1875,7 +1875,7 @@ public class AndroidUtilities {
                             calendar.set(1, Utilities.parseInt((CharSequence) split4[0]).intValue());
                             calendar.set(2, Utilities.parseInt((CharSequence) split4[1]).intValue() - 1);
                             calendar.set(5, Utilities.parseInt((CharSequence) split4[2]).intValue());
-                            return LocaleController.getInstance().formatterYearMax.format(calendar.getTime());
+                            return LocaleController.getInstance().getFormatterYearMax().format(calendar.getTime());
                         }
                     }
                 }
@@ -5989,18 +5989,22 @@ public class AndroidUtilities {
         if (path.isEmpty()) {
             return false;
         }
-        ArrayList arrayList = new ArrayList(parse.getPathSegments());
-        if (arrayList.size() > 0 && ((String) arrayList.get(0)).equals("s")) {
-            arrayList.remove(0);
-        }
-        if (arrayList.size() <= 0 || (arrayList.size() >= 3 && "s".equals(arrayList.get(1)))) {
-            return false;
-        }
-        if (arrayList.size() > 1) {
-            return !TextUtils.isEmpty((CharSequence) arrayList.get(1));
-        }
-        if (arrayList.size() == 1) {
-            return !TextUtils.isEmpty(parse.getQueryParameter("startapp"));
+        String lowerCase = parse.getHost().toLowerCase();
+        boolean find = LaunchActivity.PREFIX_T_ME_PATTERN.matcher(lowerCase).find();
+        if (lowerCase.equals("telegram.me") || lowerCase.equals("t.me") || lowerCase.equals("telegram.dog") || find) {
+            ArrayList arrayList = new ArrayList(parse.getPathSegments());
+            if (arrayList.size() > 0 && ((String) arrayList.get(0)).equals("s")) {
+                arrayList.remove(0);
+            }
+            if (arrayList.size() <= 0 || (arrayList.size() >= 3 && "s".equals(arrayList.get(1)))) {
+                return false;
+            }
+            if (arrayList.size() > 1) {
+                return !TextUtils.isEmpty((CharSequence) arrayList.get(1));
+            }
+            if (arrayList.size() == 1) {
+                return !TextUtils.isEmpty(parse.getQueryParameter("startapp"));
+            }
         }
         return false;
     }

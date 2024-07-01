@@ -11423,36 +11423,37 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         return this.sendingMessages.indexOfKey(i) >= 0 || this.editingMessages.indexOfKey(i) >= 0;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:32:0x0040, code lost:
-        continue;
-     */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     public boolean isSendingPaidMessage(int i, int i2) {
+        HashMap<String, ArrayList<DelayedMessage>> hashMap = this.delayedMessages;
         DelayedMessage delayedMessage = null;
-        for (ArrayList<DelayedMessage> arrayList : this.delayedMessages.values()) {
-            Iterator<DelayedMessage> it = arrayList.iterator();
-            while (it.hasNext()) {
-                DelayedMessage next = it.next();
-                Iterator<TLRPC$Message> it2 = next.messages.iterator();
-                while (true) {
-                    if (it2.hasNext()) {
-                        if (it2.next().id == i) {
-                            delayedMessage = next;
-                            continue;
-                            break;
+        if (hashMap != null) {
+            for (ArrayList<DelayedMessage> arrayList : hashMap.values()) {
+                if (arrayList != null) {
+                    Iterator<DelayedMessage> it = arrayList.iterator();
+                    while (it.hasNext()) {
+                        DelayedMessage next = it.next();
+                        ArrayList<TLRPC$Message> arrayList2 = next.messages;
+                        if (arrayList2 != null) {
+                            Iterator<TLRPC$Message> it2 = arrayList2.iterator();
+                            while (true) {
+                                if (!it2.hasNext()) {
+                                    break;
+                                }
+                                TLRPC$Message next2 = it2.next();
+                                if (next2 != null && next2.id == i) {
+                                    delayedMessage = next;
+                                    break;
+                                }
+                            }
+                            if (delayedMessage != null) {
+                                break;
+                            }
                         }
-                    } else {
+                    }
+                    if (delayedMessage != null) {
                         break;
                     }
                 }
-                if (delayedMessage != null) {
-                    break;
-                }
-            }
-            if (delayedMessage != null) {
-                break;
             }
         }
         if (delayedMessage != null && i2 >= 0 && i2 < delayedMessage.messages.size()) {

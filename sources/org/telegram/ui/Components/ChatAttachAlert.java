@@ -3559,13 +3559,13 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         dismiss();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:352:0x02e9  */
-    /* JADX WARN: Removed duplicated region for block: B:420:0x0444  */
-    /* JADX WARN: Removed duplicated region for block: B:421:0x0448  */
-    /* JADX WARN: Removed duplicated region for block: B:424:0x044e  */
-    /* JADX WARN: Removed duplicated region for block: B:425:0x0486  */
-    /* JADX WARN: Removed duplicated region for block: B:428:0x04b9  */
-    /* JADX WARN: Removed duplicated region for block: B:429:0x04bc  */
+    /* JADX WARN: Removed duplicated region for block: B:354:0x02e9  */
+    /* JADX WARN: Removed duplicated region for block: B:423:0x0447  */
+    /* JADX WARN: Removed duplicated region for block: B:424:0x044b  */
+    /* JADX WARN: Removed duplicated region for block: B:427:0x0451  */
+    /* JADX WARN: Removed duplicated region for block: B:428:0x0489  */
+    /* JADX WARN: Removed duplicated region for block: B:431:0x04bc  */
+    /* JADX WARN: Removed duplicated region for block: B:432:0x04bf  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3576,8 +3576,9 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         MessageObject messageObject2;
         ChatActivity chatActivity;
         boolean z;
-        MessageObject messageObject3;
         boolean z2;
+        MessageObject messageObject3;
+        boolean z3;
         final MessageObject messageObject4;
         HashMap<Object, Object> hashMap;
         MessageObject messageObject5;
@@ -3596,10 +3597,10 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         final long j4;
         AttachAlertLayout attachAlertLayout;
         MessageObject messageObject7;
-        boolean z3;
         boolean z4;
-        int i4;
         boolean z5;
+        int i4;
+        boolean z6;
         long j5 = this.dialogId;
         if ((j5 != 0 || (this.baseFragment instanceof ChatActivity)) && this.editingMessageObject == null && this.currentLimit - this.codepointCount >= 0) {
             BaseFragment baseFragment2 = this.baseFragment;
@@ -3639,19 +3640,21 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             ChatAttachAlertPhotoLayout chatAttachAlertPhotoLayout = this.photoLayout;
             String str2 = "";
             int i5 = 10;
-            boolean z6 = true;
+            boolean z7 = true;
             if (attachAlertLayout2 == chatAttachAlertPhotoLayout || attachAlertLayout2 == this.photoPreviewLayout) {
                 HashMap<Object, Object> selectedPhotos = chatAttachAlertPhotoLayout.getSelectedPhotos();
                 ArrayList<Object> selectedPhotosOrder = this.photoLayout.getSelectedPhotosOrder();
                 if (selectedPhotos.isEmpty()) {
                     z = false;
+                    z2 = false;
                     messageObject3 = null;
                 } else {
                     int ceil = (int) Math.ceil(selectedPhotos.size() / 10.0f);
                     MessageObject messageObject8 = null;
                     int i6 = 0;
                     int i7 = 0;
-                    boolean z7 = false;
+                    z2 = false;
+                    boolean z8 = false;
                     while (i6 < ceil) {
                         int i8 = i6 * 10;
                         MessageObject messageObject9 = messageObject8;
@@ -3679,8 +3682,8 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                                 messageObject5 = messageObject2;
                                 tLRPC$TL_message.from_id = MessagesController.getInstance(this.currentAccount).getPeer(UserConfig.getInstance(this.currentAccount).getClientUserId());
                                 tLRPC$TL_message.peer_id = MessagesController.getInstance(this.currentAccount).getPeer(j);
-                                boolean z8 = photoEntry.isVideo;
-                                if (!z8 && (str = photoEntry.imagePath) != null) {
+                                boolean z9 = photoEntry.isVideo;
+                                if (!z9 && (str = photoEntry.imagePath) != null) {
                                     tLRPC$TL_message.attachPath = str;
                                 } else {
                                     String str4 = photoEntry.path;
@@ -3694,7 +3697,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                                 int i13 = photoEntry.width;
                                 int i14 = photoEntry.height;
                                 int i15 = photoEntry.orientation;
-                                if (z8) {
+                                if (z9) {
                                     if (photoEntry.videoOrientation == -1) {
                                         try {
                                             mediaMetadataRetriever = new MediaMetadataRetriever();
@@ -3753,7 +3756,8 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                                                         messageObject9 = messageObject6;
                                                     }
                                                     i7 = i12;
-                                                    z7 = true;
+                                                    z2 = true;
+                                                    z8 = true;
                                                     i10++;
                                                     arrayList4 = arrayList;
                                                     selectedPhotos = hashMap;
@@ -3853,7 +3857,8 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                                     messageObject9 = messageObject6;
                                 }
                                 i7 = i12;
-                                z7 = true;
+                                z2 = true;
+                                z8 = true;
                             }
                             i10++;
                             arrayList4 = arrayList;
@@ -3868,15 +3873,15 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                         messageObject8 = messageObject9;
                     }
                     messageObject3 = messageObject8;
-                    z = z7;
+                    z = z8;
                 }
-                z2 = z;
+                z3 = z;
                 messageObject4 = messageObject3;
             } else {
                 if (attachAlertLayout2 == this.contactsLayout) {
                     if (TextUtils.isEmpty(this.commentTextView.getText())) {
                         i4 = 0;
-                        z5 = false;
+                        z6 = false;
                     } else {
                         TLRPC$TL_message tLRPC$TL_message2 = new TLRPC$TL_message();
                         tLRPC$TL_message2.id = 0;
@@ -3893,7 +3898,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                         messageObject11.isOutOwnerCached = Boolean.TRUE;
                         arrayList3.add(messageObject11);
                         i4 = 1;
-                        z5 = true;
+                        z6 = true;
                     }
                     ArrayList<TLRPC$User> selected = this.contactsLayout.getSelected();
                     int i16 = 0;
@@ -3902,7 +3907,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                         TLRPC$TL_message tLRPC$TL_message3 = new TLRPC$TL_message();
                         int i17 = i4 + 1;
                         tLRPC$TL_message3.id = i4;
-                        tLRPC$TL_message3.out = z6;
+                        tLRPC$TL_message3.out = z7;
                         tLRPC$TL_message3.from_id = MessagesController.getInstance(this.currentAccount).getPeer(UserConfig.getInstance(this.currentAccount).getClientUserId());
                         tLRPC$TL_message3.peer_id = MessagesController.getInstance(this.currentAccount).getPeer(j);
                         TLRPC$TL_messageMediaContact tLRPC$TL_messageMediaContact = new TLRPC$TL_messageMediaContact();
@@ -3923,101 +3928,105 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                         arrayList3.add(messageObject12);
                         i16++;
                         i4 = i17;
-                        z5 = true;
                         z6 = true;
+                        z7 = true;
                     }
-                    z2 = z5;
-                } else if (attachAlertLayout2 == this.documentLayout) {
-                    MessageObject messageObject13 = null;
-                    boolean z9 = false;
-                    int i18 = 0;
-                    for (int i19 = 0; i19 < this.documentLayout.selectedFilesOrder.size(); i19++) {
-                        String str5 = this.documentLayout.selectedFilesOrder.get(i19);
-                        if (str5 != null) {
-                            int lastIndexOf = str5.lastIndexOf(File.separator);
-                            String substring = lastIndexOf < 0 ? str5 : str5.substring(lastIndexOf + 1);
-                            if (!TextUtils.isEmpty(substring)) {
-                                TLRPC$TL_message tLRPC$TL_message4 = new TLRPC$TL_message();
-                                int i20 = i18 + 1;
-                                tLRPC$TL_message4.id = i18;
-                                tLRPC$TL_message4.out = true;
-                                tLRPC$TL_message4.from_id = MessagesController.getInstance(this.currentAccount).getPeer(UserConfig.getInstance(this.currentAccount).getClientUserId());
-                                tLRPC$TL_message4.peer_id = MessagesController.getInstance(this.currentAccount).getPeer(j);
-                                TLRPC$TL_messageMediaDocument tLRPC$TL_messageMediaDocument2 = new TLRPC$TL_messageMediaDocument();
-                                tLRPC$TL_message4.media = tLRPC$TL_messageMediaDocument2;
-                                tLRPC$TL_message4.attachPath = str5;
-                                tLRPC$TL_messageMediaDocument2.document = new TLRPC$TL_document();
-                                TLRPC$Document tLRPC$Document = tLRPC$TL_message4.media.document;
-                                tLRPC$Document.file_name = substring;
-                                tLRPC$Document.size = new File(str5).length();
-                                if (TextUtils.isEmpty(tLRPC$TL_message4.message) && i19 == 0) {
-                                    z3 = true;
-                                    z4 = false;
-                                    CharSequence[] charSequenceArr4 = {this.commentTextView.getText()};
-                                    tLRPC$TL_message4.entities = MediaDataController.getInstance(this.currentAccount).getEntities(charSequenceArr4, true);
-                                    tLRPC$TL_message4.message = charSequenceArr4[0].toString();
-                                } else {
-                                    z3 = true;
-                                    z4 = false;
-                                }
-                                MessageObject messageObject14 = new MessageObject(this.currentAccount, tLRPC$TL_message4, z3, z4);
-                                messageObject14.attachPathExists = z3;
-                                messageObject14.sendPreview = z3;
-                                messageObject14.notime = z3;
-                                messageObject14.isOutOwnerCached = Boolean.TRUE;
-                                arrayList3.add(messageObject14);
-                                if (i19 == 0 && messageObject13 == null && !TextUtils.isEmpty(tLRPC$TL_message4.message)) {
-                                    messageObject13 = messageObject14;
-                                }
-                                i18 = i20;
-                                z9 = true;
-                            }
-                        }
-                    }
-                    messageObject4 = messageObject13;
-                    z2 = z9;
+                    z3 = z6;
                 } else {
-                    ChatAttachAlertAudioLayout chatAttachAlertAudioLayout = this.audioLayout;
-                    if (attachAlertLayout2 == chatAttachAlertAudioLayout) {
-                        arrayList3.addAll(chatAttachAlertAudioLayout.getSelected());
-                        if (!arrayList3.isEmpty()) {
-                            messageObject7 = arrayList3.get(0);
-                            CharSequence[] charSequenceArr5 = {this.commentTextView.getText()};
-                            MessageObject.addLinks(true, charSequenceArr5[0]);
-                            messageObject7.messageOwner.entities = MediaDataController.getInstance(this.currentAccount).getEntities(charSequenceArr5, true);
-                            messageObject7.messageOwner.message = charSequenceArr5[0].toString();
-                            if (!TextUtils.isEmpty(messageObject7.messageOwner.message)) {
-                                messageObject7.generateCaption();
-                                if (arrayList3.size() > 1) {
-                                    int i21 = 0;
-                                    while (i21 < Math.ceil(arrayList3.size() / 10.0f)) {
-                                        int i22 = i21 * 10;
-                                        int min2 = Math.min(i5, arrayList3.size() - i22);
-                                        long nextLong2 = Utilities.random.nextLong();
-                                        for (int i23 = 0; i23 < min2; i23++) {
-                                            int i24 = i22 + i23;
-                                            if (i24 < arrayList3.size()) {
-                                                arrayList3.get(i24).messageOwner.grouped_id = nextLong2;
-                                            }
-                                        }
-                                        i21++;
-                                        i5 = 10;
+                    if (attachAlertLayout2 == this.documentLayout) {
+                        MessageObject messageObject13 = null;
+                        boolean z10 = false;
+                        int i18 = 0;
+                        for (int i19 = 0; i19 < this.documentLayout.selectedFilesOrder.size(); i19++) {
+                            String str5 = this.documentLayout.selectedFilesOrder.get(i19);
+                            if (str5 != null) {
+                                int lastIndexOf = str5.lastIndexOf(File.separator);
+                                String substring = lastIndexOf < 0 ? str5 : str5.substring(lastIndexOf + 1);
+                                if (!TextUtils.isEmpty(substring)) {
+                                    TLRPC$TL_message tLRPC$TL_message4 = new TLRPC$TL_message();
+                                    int i20 = i18 + 1;
+                                    tLRPC$TL_message4.id = i18;
+                                    tLRPC$TL_message4.out = true;
+                                    tLRPC$TL_message4.from_id = MessagesController.getInstance(this.currentAccount).getPeer(UserConfig.getInstance(this.currentAccount).getClientUserId());
+                                    tLRPC$TL_message4.peer_id = MessagesController.getInstance(this.currentAccount).getPeer(j);
+                                    TLRPC$TL_messageMediaDocument tLRPC$TL_messageMediaDocument2 = new TLRPC$TL_messageMediaDocument();
+                                    tLRPC$TL_message4.media = tLRPC$TL_messageMediaDocument2;
+                                    tLRPC$TL_message4.attachPath = str5;
+                                    tLRPC$TL_messageMediaDocument2.document = new TLRPC$TL_document();
+                                    TLRPC$Document tLRPC$Document = tLRPC$TL_message4.media.document;
+                                    tLRPC$Document.file_name = substring;
+                                    tLRPC$Document.size = new File(str5).length();
+                                    if (TextUtils.isEmpty(tLRPC$TL_message4.message) && i19 == 0) {
+                                        z4 = true;
+                                        z5 = false;
+                                        CharSequence[] charSequenceArr4 = {this.commentTextView.getText()};
+                                        tLRPC$TL_message4.entities = MediaDataController.getInstance(this.currentAccount).getEntities(charSequenceArr4, true);
+                                        tLRPC$TL_message4.message = charSequenceArr4[0].toString();
+                                    } else {
+                                        z4 = true;
+                                        z5 = false;
                                     }
+                                    MessageObject messageObject14 = new MessageObject(this.currentAccount, tLRPC$TL_message4, z4, z5);
+                                    messageObject14.attachPathExists = z4;
+                                    messageObject14.sendPreview = z4;
+                                    messageObject14.notime = z4;
+                                    messageObject14.isOutOwnerCached = Boolean.TRUE;
+                                    arrayList3.add(messageObject14);
+                                    if (i19 == 0 && messageObject13 == null && !TextUtils.isEmpty(tLRPC$TL_message4.message)) {
+                                        messageObject13 = messageObject14;
+                                    }
+                                    i18 = i20;
+                                    z10 = true;
                                 }
-                                messageObject4 = messageObject7;
-                                z2 = true;
                             }
                         }
-                        messageObject7 = null;
-                        if (arrayList3.size() > 1) {
-                        }
-                        messageObject4 = messageObject7;
-                        z2 = true;
+                        messageObject4 = messageObject13;
+                        z3 = z10;
                     } else {
-                        z2 = false;
+                        ChatAttachAlertAudioLayout chatAttachAlertAudioLayout = this.audioLayout;
+                        if (attachAlertLayout2 == chatAttachAlertAudioLayout) {
+                            arrayList3.addAll(chatAttachAlertAudioLayout.getSelected());
+                            if (!arrayList3.isEmpty()) {
+                                messageObject7 = arrayList3.get(0);
+                                CharSequence[] charSequenceArr5 = {this.commentTextView.getText()};
+                                MessageObject.addLinks(true, charSequenceArr5[0]);
+                                messageObject7.messageOwner.entities = MediaDataController.getInstance(this.currentAccount).getEntities(charSequenceArr5, true);
+                                messageObject7.messageOwner.message = charSequenceArr5[0].toString();
+                                if (!TextUtils.isEmpty(messageObject7.messageOwner.message)) {
+                                    messageObject7.generateCaption();
+                                    if (arrayList3.size() > 1) {
+                                        int i21 = 0;
+                                        while (i21 < Math.ceil(arrayList3.size() / 10.0f)) {
+                                            int i22 = i21 * 10;
+                                            int min2 = Math.min(i5, arrayList3.size() - i22);
+                                            long nextLong2 = Utilities.random.nextLong();
+                                            for (int i23 = 0; i23 < min2; i23++) {
+                                                int i24 = i22 + i23;
+                                                if (i24 < arrayList3.size()) {
+                                                    arrayList3.get(i24).messageOwner.grouped_id = nextLong2;
+                                                }
+                                            }
+                                            i21++;
+                                            i5 = 10;
+                                        }
+                                    }
+                                    messageObject4 = messageObject7;
+                                    z3 = true;
+                                }
+                            }
+                            messageObject7 = null;
+                            if (arrayList3.size() > 1) {
+                            }
+                            messageObject4 = messageObject7;
+                            z3 = true;
+                        } else {
+                            z3 = false;
+                        }
                     }
+                    z2 = false;
                 }
                 messageObject4 = null;
+                z2 = false;
             }
             if (arrayList3.isEmpty()) {
                 return false;
@@ -4031,9 +4040,9 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                 j3 = j;
                 final MessagePreviewView.ToggleButton toggleButton = new MessagePreviewView.ToggleButton(context, R.raw.position_below, LocaleController.getString(R.string.CaptionAbove), R.raw.position_above, LocaleController.getString(R.string.CaptionBelow), resourcesProvider);
                 TLRPC$Message tLRPC$Message = messageObject4.messageOwner;
-                boolean z10 = this.captionAbove;
-                tLRPC$Message.invert_media = z10;
-                toggleButton.setState(!z10, false);
+                boolean z11 = this.captionAbove;
+                tLRPC$Message.invert_media = z11;
+                toggleButton.setState(!z11, false);
                 toggleButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatAttachAlert$$ExternalSyntheticLambda12
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view2) {
@@ -4063,7 +4072,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                     }
                 });
             }
-            if (chatActivity != null && ChatObject.isChannelAndNotMegaGroup(chatActivity.getCurrentChat()) && chatActivity.getCurrentChatInfo() != null && chatActivity.getCurrentChatInfo().paid_media_allowed) {
+            if (z2 && chatActivity != null && ChatObject.isChannelAndNotMegaGroup(chatActivity.getCurrentChat()) && chatActivity.getCurrentChatInfo() != null && chatActivity.getCurrentChatInfo().paid_media_allowed) {
                 int i25 = R.drawable.menu_feature_paid;
                 int i26 = R.string.PaidMediaButton;
                 final ActionBarMenuSubItem last = makeOptions.add(i25, LocaleController.getString(i26), null).getLast();
@@ -4086,7 +4095,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             makeOptions.setupSelectors();
             this.messageSendPreview.setItemOptions(makeOptions);
             this.messageSendPreview.setMessageObjects(arrayList2);
-            if (j4 >= 0 && z2) {
+            if (j4 >= 0 && z3) {
                 this.messageSendPreview.allowEffectSelector(baseFragment);
             }
             this.messageSendPreview.show();

@@ -234,10 +234,10 @@ public class GiveawayMessageCell {
         this.parentView.invalidate();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:58:0x03a7  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x03b8  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x041d  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x043b  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x03ab  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x03bc  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x0421  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x043f  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -299,8 +299,8 @@ public class GiveawayMessageCell {
             SpannableStringBuilder spannableStringBuilder4 = new SpannableStringBuilder(replaceTags3);
             spannableStringBuilder4.setSpan(new RelativeSizeSpan(1.05f), 0, replaceTags3.length(), 33);
             Date date = new Date(tLRPC$TL_messageMediaGiveaway.until_date * 1000);
-            String format = LocaleController.getInstance().formatterGiveawayCard.format(date);
-            String format2 = LocaleController.getInstance().formatterDay.format(date);
+            String format = LocaleController.getInstance().getFormatterGiveawayCard().format(date);
+            String format2 = LocaleController.getInstance().getFormatterDay().format(date);
             spannableStringBuilder4.append((CharSequence) "\n");
             spannableStringBuilder4.append((CharSequence) LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, format, format2));
             int i4 = dp;

@@ -19760,7 +19760,7 @@ public class MessagesController extends BaseController implements NotificationCe
         tLRPC$TL_messages_getDialogs.offset_id = i;
         tLRPC$TL_messages_getDialogs.offset_date = i2;
         if (BuildVars.LOGS_ENABLED) {
-            FileLog.d("start migrate with id " + i + " date " + LocaleController.getInstance().formatterStats.format(i2 * 1000));
+            FileLog.d("start migrate with id " + i + " date " + LocaleController.getInstance().getFormatterStats().format(i2 * 1000));
         }
         if (i == 0) {
             tLRPC$TL_messages_getDialogs.offset_peer = new TLRPC$TL_inputPeerEmpty();
@@ -19807,8 +19807,8 @@ public class MessagesController extends BaseController implements NotificationCe
         });
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:261:0x0344 A[Catch: Exception -> 0x0420, TryCatch #0 {Exception -> 0x0420, blocks: (B:165:0x0004, B:166:0x001d, B:169:0x0029, B:171:0x0035, B:173:0x0062, B:176:0x0069, B:177:0x006c, B:179:0x0070, B:180:0x009b, B:182:0x00a7, B:190:0x00f1, B:191:0x0104, B:193:0x010c, B:195:0x011d, B:196:0x0122, B:197:0x012f, B:198:0x014e, B:200:0x0154, B:202:0x0164, B:205:0x0169, B:206:0x016f, B:208:0x0177, B:214:0x0198, B:211:0x0188, B:213:0x0195, B:215:0x019a, B:216:0x019e, B:218:0x01a5, B:219:0x01bf, B:221:0x01d5, B:222:0x01e1, B:225:0x01eb, B:231:0x01fd, B:232:0x024c, B:234:0x0256, B:237:0x027f, B:239:0x0295, B:241:0x029d, B:244:0x02ad, B:250:0x02bc, B:251:0x02f9, B:253:0x0301, B:259:0x032f, B:261:0x0344, B:262:0x035b, B:264:0x0363, B:266:0x0377, B:267:0x0381, B:286:0x040e, B:268:0x0384, B:270:0x038a, B:271:0x03a1, B:273:0x03a9, B:275:0x03bd, B:276:0x03c6, B:277:0x03c9, B:279:0x03cf, B:280:0x03e6, B:282:0x03ee, B:284:0x0402, B:285:0x040b, B:183:0x00aa, B:185:0x00ae, B:188:0x00b6), top: B:291:0x0004 }] */
-    /* JADX WARN: Removed duplicated region for block: B:268:0x0384 A[Catch: Exception -> 0x0420, TryCatch #0 {Exception -> 0x0420, blocks: (B:165:0x0004, B:166:0x001d, B:169:0x0029, B:171:0x0035, B:173:0x0062, B:176:0x0069, B:177:0x006c, B:179:0x0070, B:180:0x009b, B:182:0x00a7, B:190:0x00f1, B:191:0x0104, B:193:0x010c, B:195:0x011d, B:196:0x0122, B:197:0x012f, B:198:0x014e, B:200:0x0154, B:202:0x0164, B:205:0x0169, B:206:0x016f, B:208:0x0177, B:214:0x0198, B:211:0x0188, B:213:0x0195, B:215:0x019a, B:216:0x019e, B:218:0x01a5, B:219:0x01bf, B:221:0x01d5, B:222:0x01e1, B:225:0x01eb, B:231:0x01fd, B:232:0x024c, B:234:0x0256, B:237:0x027f, B:239:0x0295, B:241:0x029d, B:244:0x02ad, B:250:0x02bc, B:251:0x02f9, B:253:0x0301, B:259:0x032f, B:261:0x0344, B:262:0x035b, B:264:0x0363, B:266:0x0377, B:267:0x0381, B:286:0x040e, B:268:0x0384, B:270:0x038a, B:271:0x03a1, B:273:0x03a9, B:275:0x03bd, B:276:0x03c6, B:277:0x03c9, B:279:0x03cf, B:280:0x03e6, B:282:0x03ee, B:284:0x0402, B:285:0x040b, B:183:0x00aa, B:185:0x00ae, B:188:0x00b6), top: B:291:0x0004 }] */
+    /* JADX WARN: Removed duplicated region for block: B:261:0x034c A[Catch: Exception -> 0x0428, TryCatch #0 {Exception -> 0x0428, blocks: (B:165:0x0004, B:166:0x001d, B:169:0x0029, B:171:0x0035, B:173:0x0064, B:176:0x006b, B:177:0x006e, B:179:0x0072, B:180:0x009f, B:182:0x00ab, B:190:0x00f5, B:191:0x0108, B:193:0x0110, B:195:0x0121, B:196:0x0126, B:197:0x0133, B:198:0x0152, B:200:0x0158, B:202:0x0168, B:205:0x016d, B:206:0x0173, B:208:0x017b, B:214:0x019c, B:211:0x018c, B:213:0x0199, B:215:0x019e, B:216:0x01a2, B:218:0x01a9, B:219:0x01c3, B:221:0x01d9, B:222:0x01e5, B:225:0x01ef, B:231:0x0201, B:232:0x0250, B:234:0x025a, B:237:0x0285, B:239:0x029b, B:241:0x02a3, B:244:0x02b3, B:250:0x02c2, B:251:0x02ff, B:253:0x0307, B:259:0x0337, B:261:0x034c, B:262:0x0363, B:264:0x036b, B:266:0x037f, B:267:0x0389, B:286:0x0416, B:268:0x038c, B:270:0x0392, B:271:0x03a9, B:273:0x03b1, B:275:0x03c5, B:276:0x03ce, B:277:0x03d1, B:279:0x03d7, B:280:0x03ee, B:282:0x03f6, B:284:0x040a, B:285:0x0413, B:183:0x00ae, B:185:0x00b2, B:188:0x00ba), top: B:291:0x0004 }] */
+    /* JADX WARN: Removed duplicated region for block: B:268:0x038c A[Catch: Exception -> 0x0428, TryCatch #0 {Exception -> 0x0428, blocks: (B:165:0x0004, B:166:0x001d, B:169:0x0029, B:171:0x0035, B:173:0x0064, B:176:0x006b, B:177:0x006e, B:179:0x0072, B:180:0x009f, B:182:0x00ab, B:190:0x00f5, B:191:0x0108, B:193:0x0110, B:195:0x0121, B:196:0x0126, B:197:0x0133, B:198:0x0152, B:200:0x0158, B:202:0x0168, B:205:0x016d, B:206:0x0173, B:208:0x017b, B:214:0x019c, B:211:0x018c, B:213:0x0199, B:215:0x019e, B:216:0x01a2, B:218:0x01a9, B:219:0x01c3, B:221:0x01d9, B:222:0x01e5, B:225:0x01ef, B:231:0x0201, B:232:0x0250, B:234:0x025a, B:237:0x0285, B:239:0x029b, B:241:0x02a3, B:244:0x02b3, B:250:0x02c2, B:251:0x02ff, B:253:0x0307, B:259:0x0337, B:261:0x034c, B:262:0x0363, B:264:0x036b, B:266:0x037f, B:267:0x0389, B:286:0x0416, B:268:0x038c, B:270:0x0392, B:271:0x03a9, B:273:0x03b1, B:275:0x03c5, B:276:0x03ce, B:277:0x03d1, B:279:0x03d7, B:280:0x03ee, B:282:0x03f6, B:284:0x040a, B:285:0x0413, B:183:0x00ae, B:185:0x00b2, B:188:0x00ba), top: B:291:0x0004 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -19827,14 +19827,14 @@ public class MessagesController extends BaseController implements NotificationCe
             for (int i5 = 0; i5 < tLRPC$messages_Dialogs.messages.size(); i5++) {
                 TLRPC$Message tLRPC$Message5 = tLRPC$messages_Dialogs.messages.get(i5);
                 if (BuildVars.LOGS_ENABLED) {
-                    FileLog.d("search migrate id " + tLRPC$Message5.id + " date " + LocaleController.getInstance().formatterStats.format(tLRPC$Message5.date * 1000));
+                    FileLog.d("search migrate id " + tLRPC$Message5.id + " date " + LocaleController.getInstance().getFormatterStats().format(tLRPC$Message5.date * 1000));
                 }
                 if (tLRPC$Message4 == null || tLRPC$Message5.date < tLRPC$Message4.date) {
                     tLRPC$Message4 = tLRPC$Message5;
                 }
             }
             if (BuildVars.LOGS_ENABLED) {
-                FileLog.d("migrate step with id " + tLRPC$Message4.id + " date " + LocaleController.getInstance().formatterStats.format(tLRPC$Message4.date * 1000));
+                FileLog.d("migrate step with id " + tLRPC$Message4.id + " date " + LocaleController.getInstance().getFormatterStats().format(tLRPC$Message4.date * 1000));
             }
             int i6 = -1;
             if (tLRPC$messages_Dialogs.dialogs.size() >= 100) {
@@ -19918,7 +19918,7 @@ public class MessagesController extends BaseController implements NotificationCe
                             tLRPC$Message3 = tLRPC$Message7;
                             String str2 = str;
                             if (BuildVars.LOGS_ENABLED) {
-                                FileLog.d(str2 + LocaleController.getInstance().formatterStats.format(max * 1000));
+                                FileLog.d(str2 + LocaleController.getInstance().getFormatterStats().format(max * 1000));
                             }
                             i2 = -1;
                         } else {
@@ -19955,7 +19955,7 @@ public class MessagesController extends BaseController implements NotificationCe
                         sQLiteCursor = queryFinalized2;
                         int i16 = max;
                         if (BuildVars.LOGS_ENABLED) {
-                            FileLog.d("migrate stop due to reached loaded dialogs " + LocaleController.getInstance().formatterStats.format(i16 * 1000));
+                            FileLog.d("migrate stop due to reached loaded dialogs " + LocaleController.getInstance().getFormatterStats().format(i16 * 1000));
                         }
                         i3 = -1;
                         sQLiteCursor.dispose();

@@ -2168,11 +2168,11 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
     /* JADX WARN: Removed duplicated region for block: B:121:0x04bb  */
     /* JADX WARN: Removed duplicated region for block: B:125:0x04f1 A[LOOP:0: B:110:0x0466->B:125:0x04f1, LOOP_END] */
     /* JADX WARN: Removed duplicated region for block: B:135:0x0576  */
-    /* JADX WARN: Removed duplicated region for block: B:138:0x067f  */
-    /* JADX WARN: Removed duplicated region for block: B:141:0x070d  */
-    /* JADX WARN: Removed duplicated region for block: B:142:0x0718  */
-    /* JADX WARN: Removed duplicated region for block: B:145:0x073e  */
-    /* JADX WARN: Removed duplicated region for block: B:146:0x0747  */
+    /* JADX WARN: Removed duplicated region for block: B:138:0x0683  */
+    /* JADX WARN: Removed duplicated region for block: B:141:0x0715  */
+    /* JADX WARN: Removed duplicated region for block: B:142:0x0720  */
+    /* JADX WARN: Removed duplicated region for block: B:145:0x0746  */
+    /* JADX WARN: Removed duplicated region for block: B:146:0x074f  */
     /* JADX WARN: Removed duplicated region for block: B:152:0x04fe A[EDGE_INSN: B:152:0x04fe->B:127:0x04fe ?: BREAK  , SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r10v24, types: [android.text.SpannableStringBuilder, java.lang.CharSequence] */
     /* JADX WARN: Type inference failed for: r15v1 */
@@ -2534,11 +2534,11 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
                 }
                 String string = LocaleController.getString(R.string.StarsTransactionDate);
                 int i9 = R.string.formatDateAtTime;
-                tableView.addRow(string, LocaleController.formatString(i9, LocaleController.getInstance().formatterGiveawayCard.format(new Date(tLRPC$StarsTransaction.date * 1000)), LocaleController.getInstance().formatterDay.format(new Date(tLRPC$StarsTransaction.date * 1000))));
+                tableView.addRow(string, LocaleController.formatString(i9, LocaleController.getInstance().getFormatterGiveawayCard().format(new Date(tLRPC$StarsTransaction.date * 1000)), LocaleController.getInstance().getFormatterDay().format(new Date(tLRPC$StarsTransaction.date * 1000))));
                 ?? r6 = obj;
                 r6.addView(tableView, LayoutHelper.createLinear(-1, -2, 0.0f, 17.0f, 0.0f, 0.0f));
                 if ((tLRPC$StarsTransaction.flags & 32) != 0) {
-                    tableView.addRow(LocaleController.getString(R.string.StarsTransactionTONDate), LocaleController.formatString(i9, LocaleController.getInstance().formatterGiveawayCard.format(new Date(tLRPC$StarsTransaction.transaction_date * 1000)), LocaleController.getInstance().formatterDay.format(new Date(tLRPC$StarsTransaction.transaction_date * 1000))));
+                    tableView.addRow(LocaleController.getString(R.string.StarsTransactionTONDate), LocaleController.formatString(i9, LocaleController.getInstance().getFormatterGiveawayCard().format(new Date(tLRPC$StarsTransaction.transaction_date * 1000)), LocaleController.getInstance().getFormatterDay().format(new Date(tLRPC$StarsTransaction.transaction_date * 1000))));
                 }
                 LinkSpanDrawable.LinksTextView linksTextView3 = new LinkSpanDrawable.LinksTextView(context, resourcesProvider);
                 linksTextView3.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText2, resourcesProvider));
@@ -2590,7 +2590,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         }
         String string2 = LocaleController.getString(R.string.StarsTransactionDate);
         int i92 = R.string.formatDateAtTime;
-        tableView.addRow(string2, LocaleController.formatString(i92, LocaleController.getInstance().formatterGiveawayCard.format(new Date(tLRPC$StarsTransaction.date * 1000)), LocaleController.getInstance().formatterDay.format(new Date(tLRPC$StarsTransaction.date * 1000))));
+        tableView.addRow(string2, LocaleController.formatString(i92, LocaleController.getInstance().getFormatterGiveawayCard().format(new Date(tLRPC$StarsTransaction.date * 1000)), LocaleController.getInstance().getFormatterDay().format(new Date(tLRPC$StarsTransaction.date * 1000))));
         ?? r62 = obj;
         r62.addView(tableView, LayoutHelper.createLinear(-1, -2, 0.0f, 17.0f, 0.0f, 0.0f));
         if ((tLRPC$StarsTransaction.flags & 32) != 0) {
