@@ -5939,21 +5939,9 @@ public class AndroidUtilities {
         });
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:28:0x004b, code lost:
-        if (r4 == 1) goto L30;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:29:0x004d, code lost:
-        if (r4 == 2) goto L24;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:32:0x0057, code lost:
-        if (r9.startsWith("tg:resolve") != false) goto L28;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:34:0x005f, code lost:
-        if (r9.startsWith("tg://resolve") == false) goto L23;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:36:0x006c, code lost:
-        return !android.text.TextUtils.isEmpty(r1.getQueryParameter("appname"));
-     */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x004d A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0075 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x0076 A[Catch: Exception -> 0x01a2, TryCatch #0 {Exception -> 0x01a2, blocks: (B:5:0x0004, B:8:0x000f, B:11:0x0016, B:32:0x0053, B:34:0x005b, B:36:0x0063, B:38:0x006f, B:41:0x0076, B:43:0x0090, B:45:0x0098, B:48:0x00a2, B:51:0x00b3, B:53:0x00bf, B:54:0x00c2, B:56:0x00c8, B:58:0x00cf, B:61:0x00da, B:63:0x00e0, B:66:0x00ed, B:67:0x00f1, B:111:0x018b, B:69:0x00f6, B:72:0x0101, B:75:0x010d, B:78:0x0118, B:81:0x0123, B:84:0x012d, B:87:0x0137, B:90:0x0142, B:93:0x014c, B:96:0x0157, B:99:0x0162, B:102:0x016d, B:105:0x0177, B:108:0x0182, B:114:0x0190, B:116:0x0196, B:18:0x002c, B:21:0x0036, B:24:0x0040), top: B:122:0x0004 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -5961,6 +5949,7 @@ public class AndroidUtilities {
         Uri parse;
         String scheme;
         String path;
+        char c;
         if (str == null) {
             return false;
         }
@@ -5973,39 +5962,175 @@ public class AndroidUtilities {
         if (scheme == null || (path = parse.getPath()) == null) {
             return false;
         }
-        char c = 65535;
         int hashCode = scheme.hashCode();
-        if (hashCode != 3699) {
-            if (hashCode != 3213448) {
-                if (hashCode == 99617003 && scheme.equals("https")) {
-                    c = 1;
+        char c2 = 65535;
+        if (hashCode == 3699) {
+            if (scheme.equals("tg")) {
+                c = 2;
+                if (c != 0) {
                 }
-            } else if (scheme.equals("http")) {
-                c = 0;
+                if (!path.isEmpty()) {
+                }
             }
-        } else if (scheme.equals("tg")) {
-            c = 2;
-        }
-        if (path.isEmpty()) {
-            return false;
-        }
-        String lowerCase = parse.getHost().toLowerCase();
-        boolean find = LaunchActivity.PREFIX_T_ME_PATTERN.matcher(lowerCase).find();
-        if (lowerCase.equals("telegram.me") || lowerCase.equals("t.me") || lowerCase.equals("telegram.dog") || find) {
-            ArrayList arrayList = new ArrayList(parse.getPathSegments());
-            if (arrayList.size() > 0 && ((String) arrayList.get(0)).equals("s")) {
-                arrayList.remove(0);
+            c = 65535;
+            if (c != 0) {
             }
-            if (arrayList.size() <= 0 || (arrayList.size() >= 3 && "s".equals(arrayList.get(1)))) {
+            if (!path.isEmpty()) {
+            }
+        } else if (hashCode != 3213448) {
+            if (hashCode == 99617003 && scheme.equals("https")) {
+                c = 1;
+                if (c != 0 || c == 1) {
+                    if (!path.isEmpty()) {
+                        return false;
+                    }
+                    String lowerCase = parse.getHost().toLowerCase();
+                    boolean find = LaunchActivity.PREFIX_T_ME_PATTERN.matcher(lowerCase).find();
+                    if (lowerCase.equals("telegram.me") || lowerCase.equals("t.me") || lowerCase.equals("telegram.dog") || find) {
+                        ArrayList arrayList = new ArrayList(parse.getPathSegments());
+                        if (arrayList.size() > 0 && ((String) arrayList.get(0)).equals("s")) {
+                            arrayList.remove(0);
+                        }
+                        if (arrayList.size() <= 0 || (arrayList.size() >= 3 && "s".equals(arrayList.get(1)))) {
+                            return false;
+                        }
+                        if (arrayList.size() > 1) {
+                            String str2 = (String) arrayList.get(1);
+                            if (TextUtils.isEmpty(str2)) {
+                                return false;
+                            }
+                            switch (str2.hashCode()) {
+                                case -1401304190:
+                                    if (str2.equals("joinchat")) {
+                                        c2 = 0;
+                                        break;
+                                    }
+                                    break;
+                                case -1268966290:
+                                    if (str2.equals("folder")) {
+                                        c2 = '\f';
+                                        break;
+                                    }
+                                    break;
+                                case -1230486459:
+                                    if (str2.equals("addemoji")) {
+                                        c2 = 3;
+                                        break;
+                                    }
+                                    break;
+                                case -1216792120:
+                                    if (str2.equals("addtheme")) {
+                                        c2 = '\b';
+                                        break;
+                                    }
+                                    break;
+                                case -1147866945:
+                                    if (str2.equals("addlist")) {
+                                        c2 = '\r';
+                                        break;
+                                    }
+                                    break;
+                                case R.styleable.AppCompatTheme_spinnerDropDownItemStyle /* 99 */:
+                                    if (str2.equals("c")) {
+                                        c2 = '\n';
+                                        break;
+                                    }
+                                    break;
+                                case 108417:
+                                    if (str2.equals("msg")) {
+                                        c2 = 4;
+                                        break;
+                                    }
+                                    break;
+                                case 93922211:
+                                    if (str2.equals("boost")) {
+                                        c2 = '\t';
+                                        break;
+                                    }
+                                    break;
+                                case 103149417:
+                                    if (str2.equals("login")) {
+                                        c2 = 1;
+                                        break;
+                                    }
+                                    break;
+                                case 109400031:
+                                    if (str2.equals("share")) {
+                                        c2 = 5;
+                                        break;
+                                    }
+                                    break;
+                                case 311086522:
+                                    if (str2.equals("setlanguage")) {
+                                        c2 = 7;
+                                        break;
+                                    }
+                                    break;
+                                case 492791415:
+                                    if (str2.equals("addstickers")) {
+                                        c2 = 2;
+                                        break;
+                                    }
+                                    break;
+                                case 951526432:
+                                    if (str2.equals("contact")) {
+                                        c2 = 11;
+                                        break;
+                                    }
+                                    break;
+                                case 2112655022:
+                                    if (str2.equals("confirmphone")) {
+                                        c2 = 6;
+                                        break;
+                                    }
+                                    break;
+                            }
+                            switch (c2) {
+                                case 0:
+                                case 1:
+                                case 2:
+                                case 3:
+                                case 4:
+                                case 5:
+                                case 6:
+                                case 7:
+                                case '\b':
+                                case '\t':
+                                case '\n':
+                                case 11:
+                                case '\f':
+                                case '\r':
+                                    return false;
+                                default:
+                                    return true;
+                            }
+                        } else if (arrayList.size() == 1) {
+                            return !TextUtils.isEmpty(parse.getQueryParameter("startapp"));
+                        }
+                    }
+                } else if (c == 2 && (str.startsWith("tg:resolve") || str.startsWith("tg://resolve"))) {
+                    return !TextUtils.isEmpty(parse.getQueryParameter("appname"));
+                }
                 return false;
             }
-            if (arrayList.size() > 1) {
-                return !TextUtils.isEmpty((CharSequence) arrayList.get(1));
+            c = 65535;
+            if (c != 0) {
             }
-            if (arrayList.size() == 1) {
-                return !TextUtils.isEmpty(parse.getQueryParameter("startapp"));
+            if (!path.isEmpty()) {
+            }
+        } else {
+            if (scheme.equals("http")) {
+                c = 0;
+                if (c != 0) {
+                }
+                if (!path.isEmpty()) {
+                }
+            }
+            c = 65535;
+            if (c != 0) {
+            }
+            if (!path.isEmpty()) {
             }
         }
-        return false;
     }
 }

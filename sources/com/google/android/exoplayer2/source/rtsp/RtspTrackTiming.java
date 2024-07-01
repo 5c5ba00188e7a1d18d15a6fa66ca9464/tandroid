@@ -12,8 +12,8 @@ final class RtspTrackTiming {
     public final int sequenceNumber;
     public final Uri uri;
 
-    /* JADX WARN: Removed duplicated region for block: B:25:0x006c  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x0083 A[Catch: Exception -> 0x0091, TRY_LEAVE, TryCatch #0 {Exception -> 0x0091, blocks: (B:7:0x0027, B:28:0x0071, B:29:0x0076, B:30:0x007b, B:31:0x007c, B:33:0x0083, B:14:0x004b, B:17:0x0055, B:20:0x005f), top: B:51:0x0027 }] */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x006d  */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x0084 A[Catch: Exception -> 0x0092, TRY_LEAVE, TryCatch #0 {Exception -> 0x0092, blocks: (B:7:0x0027, B:28:0x0072, B:29:0x0077, B:30:0x007c, B:31:0x007d, B:33:0x0084, B:14:0x004b, B:17:0x0055, B:20:0x0060), top: B:51:0x0027 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
