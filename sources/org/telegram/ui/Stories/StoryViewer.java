@@ -214,6 +214,11 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
+    public /* synthetic */ void dismiss(boolean z) {
+        dismiss();
+    }
+
+    @Override // org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
     public void setOnDismissListener(Runnable runnable) {
     }
 
@@ -2776,7 +2781,6 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
         }
     }
 
-    @Override // org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
     public void release() {
         ArrayList<BaseFragment.AttachedSheet> arrayList;
         this.lastUri = null;

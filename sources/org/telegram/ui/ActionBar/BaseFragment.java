@@ -77,31 +77,6 @@ public abstract class BaseFragment {
     protected int classGuid = ConnectionsManager.generateClassGuid();
 
     /* loaded from: classes4.dex */
-    public interface AttachedSheet {
-        boolean attachedToParent();
-
-        void dismiss();
-
-        int getNavigationBarColor(int i);
-
-        View getWindowView();
-
-        boolean isFullyVisible();
-
-        boolean isShown();
-
-        boolean onBackPressed();
-
-        void release();
-
-        void setKeyboardHeightFromParent(int i);
-
-        void setOnDismissListener(Runnable runnable);
-
-        boolean showDialog(Dialog dialog);
-    }
-
-    /* loaded from: classes4.dex */
     public interface AttachedSheetWindow {
     }
 
@@ -148,7 +123,6 @@ public abstract class BaseFragment {
         return false;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     public Animator getCustomSlideTransition(boolean z, boolean z2, float f) {
         return null;
     }
@@ -161,7 +135,6 @@ public abstract class BaseFragment {
         return false;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     public boolean hideKeyboardOnShow() {
         return true;
     }
@@ -190,7 +163,6 @@ public abstract class BaseFragment {
         return null;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     public void onDialogDismiss(Dialog dialog) {
     }
 
@@ -205,9 +177,6 @@ public abstract class BaseFragment {
     }
 
     public void onPreviewOpenAnimationEnd() {
-    }
-
-    public void onRemoveFromParent() {
     }
 
     public void onRequestPermissionsResultFragment(int i, String[] strArr, int[] iArr) {
@@ -240,9 +209,40 @@ public abstract class BaseFragment {
     public void setProgressToDrawerOpened(float f) {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     public boolean shouldOverrideSlideTransition(boolean z, boolean z2) {
         return false;
+    }
+
+    /* loaded from: classes4.dex */
+    public interface AttachedSheet {
+        boolean attachedToParent();
+
+        void dismiss();
+
+        void dismiss(boolean z);
+
+        int getNavigationBarColor(int i);
+
+        View getWindowView();
+
+        boolean isFullyVisible();
+
+        boolean isShown();
+
+        boolean onBackPressed();
+
+        void setKeyboardHeightFromParent(int i);
+
+        void setOnDismissListener(Runnable runnable);
+
+        boolean showDialog(Dialog dialog);
+
+        /* loaded from: classes4.dex */
+        public final /* synthetic */ class -CC {
+            public static void $default$dismiss(AttachedSheet _this, boolean z) {
+                _this.dismiss();
+            }
+        }
     }
 
     public StoryViewer getLastStoryViewer() {
@@ -279,7 +279,7 @@ public abstract class BaseFragment {
             return;
         }
         for (int size = this.sheetsStack.size() - 1; size >= 0; size--) {
-            this.sheetsStack.get(size).release();
+            this.sheetsStack.get(size).dismiss(true);
         }
         this.sheetsStack.clear();
     }
@@ -378,6 +378,10 @@ public abstract class BaseFragment {
         }
         clearSheets();
         this.parentLayout = null;
+    }
+
+    public void onRemoveFromParent() {
+        clearSheets();
     }
 
     public void setParentFragment(BaseFragment baseFragment) {
@@ -501,7 +505,6 @@ public abstract class BaseFragment {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     public boolean isFinishing() {
         return this.finishing;
     }
@@ -520,7 +523,6 @@ public abstract class BaseFragment {
         AndroidUtilities.setLightStatusBar(getParentActivity().getWindow(), Theme.getColor(Theme.key_actionBarDefault) == -1);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     public void resumeDelayedFragmentAnimation() {
         INavigationLayout iNavigationLayout = this.parentLayout;
         if (iNavigationLayout != null) {
@@ -650,7 +652,6 @@ public abstract class BaseFragment {
         return getParentActivity();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     public void setParentActivityTitle(CharSequence charSequence) {
         Activity parentActivity = getParentActivity();
         if (parentActivity != null) {
@@ -770,7 +771,6 @@ public abstract class BaseFragment {
         return null;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showDialog$0(DialogInterface.OnDismissListener onDismissListener, DialogInterface dialogInterface) {
         if (onDismissListener != null) {
             onDismissListener.onDismiss(dialogInterface);
@@ -801,7 +801,6 @@ public abstract class BaseFragment {
         return getAccountInstance().getMessagesController();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     public ContactsController getContactsController() {
         return getAccountInstance().getContactsController();
     }
@@ -818,7 +817,6 @@ public abstract class BaseFragment {
         return getAccountInstance().getLocationController();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     public NotificationsController getNotificationsController() {
         return getAccountInstance().getNotificationsController();
     }
@@ -835,7 +833,6 @@ public abstract class BaseFragment {
         return getAccountInstance().getFileLoader();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     public SecretChatHelper getSecretChatHelper() {
         return getAccountInstance().getSecretChatHelper();
     }
@@ -844,7 +841,6 @@ public abstract class BaseFragment {
         return getAccountInstance().getDownloadController();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     public SharedPreferences getNotificationsSettings() {
         return getAccountInstance().getNotificationsSettings();
     }
@@ -898,12 +894,10 @@ public abstract class BaseFragment {
         return iNavigationLayoutArr;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ BottomSheet lambda$showAsSheet$1(BottomSheet[] bottomSheetArr) {
         return bottomSheetArr[0];
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes4.dex */
     public class 1 extends BottomSheet {
         final /* synthetic */ INavigationLayout[] val$actionBarLayout;
@@ -942,7 +936,6 @@ public abstract class BaseFragment {
             });
         }
 
-        /* JADX INFO: Access modifiers changed from: private */
         public static /* synthetic */ void lambda$new$0(BaseFragment baseFragment, BottomSheetParams bottomSheetParams, DialogInterface dialogInterface) {
             Runnable runnable;
             baseFragment.onPause();
@@ -953,8 +946,9 @@ public abstract class BaseFragment {
             runnable.run();
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
-        protected void onCreate(Bundle bundle) {
+        public void onCreate(Bundle bundle) {
             super.onCreate(bundle);
             this.val$actionBarLayout[0].setWindow(this.val$bottomSheet[0].getWindow());
             BottomSheetParams bottomSheetParams = this.val$params;

@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.AnimationNotificationsLocker;
+import org.telegram.ui.LaunchActivity;
 /* loaded from: classes4.dex */
 public class AdjustPanLayoutHelper {
     public static boolean USE_ANDROID11_INSET_ANIMATOR = false;
@@ -116,13 +117,14 @@ public class AdjustPanLayoutHelper {
         updateTransition(((Float) valueAnimator.getAnimatedValue()).floatValue());
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:13:0x0044  */
-    /* JADX WARN: Removed duplicated region for block: B:14:0x0058  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x005b  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x0071  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void startTransition(int i, int i2, boolean z) {
         int i3;
+        int expandedHeight;
         ValueAnimator valueAnimator = this.animator;
         if (valueAnimator != null) {
             valueAnimator.cancel();
@@ -133,7 +135,8 @@ public class AdjustPanLayoutHelper {
             ViewParent parent = this.parent.getParent();
             if (parent instanceof View) {
                 i3 = ((View) parent).getHeight() - i2;
-                setViewHeight(Math.max(i, i3 + i2));
+                LaunchActivity launchActivity = LaunchActivity.instance;
+                setViewHeight(Math.max(i, i3 + i2 + ((launchActivity != null || launchActivity.getBottomSheetTabs() == null) ? 0 : LaunchActivity.instance.getBottomSheetTabs().getExpandedHeight() + 0)));
                 this.resizableView.requestLayout();
                 onTransitionStart(z, i, i2);
                 float f = i2 - i;
@@ -145,7 +148,7 @@ public class AdjustPanLayoutHelper {
                     this.parent.setTranslationY(f3);
                     onPanTranslationUpdate(f2, 1.0f, z);
                     this.from = f3;
-                    this.to = 0.0f;
+                    this.to = -expandedHeight;
                     this.inverse = true;
                 } else {
                     this.parent.setTranslationY(this.previousStartOffset);
@@ -159,7 +162,10 @@ public class AdjustPanLayoutHelper {
             }
         }
         i3 = 0;
-        setViewHeight(Math.max(i, i3 + i2));
+        LaunchActivity launchActivity2 = LaunchActivity.instance;
+        if (launchActivity2 != null) {
+        }
+        setViewHeight(Math.max(i, i3 + i2 + ((launchActivity2 != null || launchActivity2.getBottomSheetTabs() == null) ? 0 : LaunchActivity.instance.getBottomSheetTabs().getExpandedHeight() + 0)));
         this.resizableView.requestLayout();
         onTransitionStart(z, i, i2);
         float f4 = i2 - i;

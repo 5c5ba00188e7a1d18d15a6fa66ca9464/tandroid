@@ -19410,6 +19410,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         } else {
             MediaController.getInstance().setTextureView(this.videoTextureView, null, null, false);
         }
+        super.onRemoveFromParent();
     }
 
     /* JADX INFO: Access modifiers changed from: protected */

@@ -13386,6 +13386,11 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
 
         @Override // org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
+        public /* synthetic */ void dismiss(boolean z) {
+            BaseFragment.AttachedSheet.-CC.$default$dismiss(this, z);
+        }
+
+        @Override // org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
         public int getNavigationBarColor(int i) {
             return 0;
         }
@@ -13403,10 +13408,6 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         @Override // org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
         public boolean onBackPressed() {
             return false;
-        }
-
-        @Override // org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
-        public void release() {
         }
 
         @Override // org.telegram.ui.ActionBar.BaseFragment.AttachedSheet

@@ -2695,6 +2695,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onRemoveFromParent() {
         MediaController.getInstance().setTextureView(this.videoTextureView, null, null, false);
+        super.onRemoveFromParent();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
