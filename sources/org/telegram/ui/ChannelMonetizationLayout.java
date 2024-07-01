@@ -141,6 +141,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
     private SpannableStringBuilder lock;
     private NestedScrollingParentHelper nestedScrollingParentHelper;
     private boolean proceedsAvailable;
+    private final CharSequence proceedsInfo;
     private final FrameLayout progress;
     private final Theme.ResourcesProvider resourcesProvider;
     private StatisticActivity.ChartViewData revenueChart;
@@ -206,7 +207,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
         this.availableValue = ProceedOverview.as("TON", "XTR", LocaleController.getString(R.string.MonetizationOverviewAvailable));
         this.lastWithdrawalValue = ProceedOverview.as("TON", "XTR", LocaleController.getString(R.string.MonetizationOverviewLastWithdrawal));
         this.lifetimeValue = ProceedOverview.as("TON", "XTR", LocaleController.getString(R.string.MonetizationOverviewTotal));
-        this.sendCpmUpdateRunnable = new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda14
+        this.sendCpmUpdateRunnable = new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda16
             @Override // java.lang.Runnable
             public final void run() {
                 ChannelMonetizationLayout.this.sendCpmUpdate();
@@ -233,16 +234,22 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
                 ChannelMonetizationLayout.this.lambda$new$0();
             }
         }, resourcesProvider), true);
-        this.balanceInfo = AndroidUtilities.replaceArrows(AndroidUtilities.replaceSingleTag(LocaleController.getString(MessagesController.getInstance(i).channelRevenueWithdrawalEnabled ? R.string.MonetizationBalanceInfo : R.string.MonetizationBalanceInfoNotAvailable), -1, 3, new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda13
+        this.balanceInfo = AndroidUtilities.replaceArrows(AndroidUtilities.replaceSingleTag(LocaleController.getString(MessagesController.getInstance(i).channelRevenueWithdrawalEnabled ? R.string.MonetizationBalanceInfo : R.string.MonetizationBalanceInfoNotAvailable), -1, 3, new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda14
             @Override // java.lang.Runnable
             public final void run() {
                 ChannelMonetizationLayout.this.lambda$new$1();
             }
         }), true);
-        this.starsBalanceInfo = AndroidUtilities.replaceArrows(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.MonetizationStarsInfo), new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda12
+        this.proceedsInfo = AndroidUtilities.replaceArrows(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.MonetizationProceedsInfo), -1, 3, new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda13
             @Override // java.lang.Runnable
             public final void run() {
                 ChannelMonetizationLayout.this.lambda$new$2();
+            }
+        }, resourcesProvider), true);
+        this.starsBalanceInfo = AndroidUtilities.replaceArrows(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.MonetizationStarsInfo), new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda12
+            @Override // java.lang.Runnable
+            public final void run() {
+                ChannelMonetizationLayout.this.lambda$new$3();
             }
         }), true);
         setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray, resourcesProvider));
@@ -287,7 +294,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
         buttonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda6
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
-                ChannelMonetizationLayout.this.lambda$new$5(baseFragment, view);
+                ChannelMonetizationLayout.this.lambda$new$6(baseFragment, view);
             }
         });
         linearLayout.addView(buttonWithCounterView, LayoutHelper.createFrame(-1, 48.0f, 55, 18.0f, 13.0f, 18.0f, 0.0f));
@@ -359,7 +366,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
         this.starsBalanceEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda7
             @Override // android.view.View.OnFocusChangeListener
             public final void onFocusChange(View view, boolean z3) {
-                ChannelMonetizationLayout.this.lambda$new$6(view, z3);
+                ChannelMonetizationLayout.this.lambda$new$7(view, z3);
             }
         });
         this.starsBalanceEditText.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.ChannelMonetizationLayout.5
@@ -417,7 +424,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
         buttonWithCounterView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda5
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
-                ChannelMonetizationLayout.this.lambda$new$10(i, baseFragment, view);
+                ChannelMonetizationLayout.this.lambda$new$11(i, baseFragment, view);
             }
         });
         ButtonWithCounterView buttonWithCounterView3 = new ButtonWithCounterView(context, resourcesProvider);
@@ -427,7 +434,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
         buttonWithCounterView3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda4
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
-                ChannelMonetizationLayout.this.lambda$new$14(i, j, context, view);
+                ChannelMonetizationLayout.this.lambda$new$15(i, j, context, view);
             }
         });
         linearLayout4.addView(buttonWithCounterView2, LayoutHelper.createLinear(-1, 48, 1.0f, 119));
@@ -437,28 +444,28 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
         this.starsBalanceEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda8
             @Override // android.widget.TextView.OnEditorActionListener
             public final boolean onEditorAction(TextView textView, int i5, KeyEvent keyEvent) {
-                boolean lambda$new$17;
-                lambda$new$17 = ChannelMonetizationLayout.this.lambda$new$17(baseFragment, textView, i5, keyEvent);
-                return lambda$new$17;
+                boolean lambda$new$18;
+                lambda$new$18 = ChannelMonetizationLayout.this.lambda$new$18(baseFragment, textView, i5, keyEvent);
+                return lambda$new$18;
             }
         });
-        this.setStarsBalanceButtonText = new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda21
+        this.setStarsBalanceButtonText = new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda22
             @Override // java.lang.Runnable
             public final void run() {
-                ChannelMonetizationLayout.this.lambda$new$18(i);
+                ChannelMonetizationLayout.this.lambda$new$19(i);
             }
         };
-        UniversalRecyclerView universalRecyclerView = new UniversalRecyclerView(baseFragment, new Utilities.Callback2() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda32
+        UniversalRecyclerView universalRecyclerView = new UniversalRecyclerView(baseFragment, new Utilities.Callback2() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda34
             @Override // org.telegram.messenger.Utilities.Callback2
             public final void run(Object obj, Object obj2) {
                 ChannelMonetizationLayout.this.fillItems((ArrayList) obj, (UniversalAdapter) obj2);
             }
-        }, new Utilities.Callback5() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda33
+        }, new Utilities.Callback5() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda35
             @Override // org.telegram.messenger.Utilities.Callback5
             public final void run(Object obj, Object obj2, Object obj3, Object obj4, Object obj5) {
                 ChannelMonetizationLayout.this.onClick((UItem) obj, (View) obj2, ((Integer) obj3).intValue(), ((Float) obj4).floatValue(), ((Float) obj5).floatValue());
             }
-        }, new Utilities.Callback5Return() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda34
+        }, new Utilities.Callback5Return() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda36
             @Override // org.telegram.messenger.Utilities.Callback5Return
             public final Object run(Object obj, Object obj2, Object obj3, Object obj4, Object obj5) {
                 boolean onLongClick;
@@ -506,51 +513,56 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2() {
+        Browser.openUrl(getContext(), LocaleController.getString(R.string.MonetizationProceedsInfoLink));
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$3() {
         Browser.openUrl(getContext(), LocaleController.getString(R.string.MonetizationStarsInfoLink));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$5(final BaseFragment baseFragment, View view) {
+    public /* synthetic */ void lambda$new$6(final BaseFragment baseFragment, View view) {
         if (!view.isEnabled() || this.balanceButton.isLoading()) {
             return;
         }
         ButtonWithCounterView buttonWithCounterView = this.starsBalanceButton;
         if (buttonWithCounterView == null || !buttonWithCounterView.isLoading()) {
             final TwoStepVerificationActivity twoStepVerificationActivity = new TwoStepVerificationActivity();
-            twoStepVerificationActivity.setDelegate(1, new TwoStepVerificationActivity.TwoStepVerificationActivityDelegate() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda41
+            twoStepVerificationActivity.setDelegate(1, new TwoStepVerificationActivity.TwoStepVerificationActivityDelegate() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda43
                 @Override // org.telegram.ui.TwoStepVerificationActivity.TwoStepVerificationActivityDelegate
                 public final void didEnterPassword(TLRPC$InputCheckPasswordSRP tLRPC$InputCheckPasswordSRP) {
-                    ChannelMonetizationLayout.this.lambda$new$3(twoStepVerificationActivity, tLRPC$InputCheckPasswordSRP);
+                    ChannelMonetizationLayout.this.lambda$new$4(twoStepVerificationActivity, tLRPC$InputCheckPasswordSRP);
                 }
             });
             this.balanceButton.setLoading(true);
-            twoStepVerificationActivity.preload(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda29
+            twoStepVerificationActivity.preload(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda32
                 @Override // java.lang.Runnable
                 public final void run() {
-                    ChannelMonetizationLayout.this.lambda$new$4(baseFragment, twoStepVerificationActivity);
+                    ChannelMonetizationLayout.this.lambda$new$5(baseFragment, twoStepVerificationActivity);
                 }
             });
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$3(TwoStepVerificationActivity twoStepVerificationActivity, TLRPC$InputCheckPasswordSRP tLRPC$InputCheckPasswordSRP) {
+    public /* synthetic */ void lambda$new$4(TwoStepVerificationActivity twoStepVerificationActivity, TLRPC$InputCheckPasswordSRP tLRPC$InputCheckPasswordSRP) {
         initWithdraw(false, tLRPC$InputCheckPasswordSRP, twoStepVerificationActivity);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$4(BaseFragment baseFragment, TwoStepVerificationActivity twoStepVerificationActivity) {
+    public /* synthetic */ void lambda$new$5(BaseFragment baseFragment, TwoStepVerificationActivity twoStepVerificationActivity) {
         this.balanceButton.setLoading(false);
         baseFragment.presentFragment(twoStepVerificationActivity);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$6(View view, boolean z) {
+    public /* synthetic */ void lambda$new$7(View view, boolean z) {
         this.starsBalanceEditTextContainer.animateSelection(z ? 1.0f : 0.0f);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$10(final int i, final BaseFragment baseFragment, View view) {
+    public /* synthetic */ void lambda$new$11(final int i, final BaseFragment baseFragment, View view) {
         if (!view.isEnabled() || this.starsBalanceButton.isLoading() || this.balanceButton.isLoading()) {
             return;
         }
@@ -558,32 +570,32 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
         if (this.starsBalanceBlockedUntil > currentTime) {
             this.withdrawalBulletin = BulletinFactory.of(baseFragment).createSimpleBulletin(R.raw.timer_3, AndroidUtilities.replaceTags(LocaleController.formatString(R.string.BotStarsWithdrawalToast, BotStarsActivity.untilString(this.starsBalanceBlockedUntil - currentTime)))).show();
         } else if (this.starsBalanceEditTextValue < MessagesController.getInstance(i).starsRevenueWithdrawalMin) {
-            BulletinFactory.of(baseFragment).createSimpleBulletin(getContext().getResources().getDrawable(R.drawable.star_small_inner).mutate(), AndroidUtilities.replaceSingleTag(LocaleController.formatPluralString("BotStarsWithdrawMinLimit", (int) MessagesController.getInstance(i).starsRevenueWithdrawalMin, new Object[0]), new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda20
+            BulletinFactory.of(baseFragment).createSimpleBulletin(getContext().getResources().getDrawable(R.drawable.star_small_inner).mutate(), AndroidUtilities.replaceSingleTag(LocaleController.formatPluralString("BotStarsWithdrawMinLimit", (int) MessagesController.getInstance(i).starsRevenueWithdrawalMin, new Object[0]), new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda23
                 @Override // java.lang.Runnable
                 public final void run() {
-                    ChannelMonetizationLayout.this.lambda$new$7(i);
+                    ChannelMonetizationLayout.this.lambda$new$8(i);
                 }
             })).show();
         } else {
             final TwoStepVerificationActivity twoStepVerificationActivity = new TwoStepVerificationActivity();
-            twoStepVerificationActivity.setDelegate(1, new TwoStepVerificationActivity.TwoStepVerificationActivityDelegate() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda42
+            twoStepVerificationActivity.setDelegate(1, new TwoStepVerificationActivity.TwoStepVerificationActivityDelegate() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda44
                 @Override // org.telegram.ui.TwoStepVerificationActivity.TwoStepVerificationActivityDelegate
                 public final void didEnterPassword(TLRPC$InputCheckPasswordSRP tLRPC$InputCheckPasswordSRP) {
-                    ChannelMonetizationLayout.this.lambda$new$8(twoStepVerificationActivity, tLRPC$InputCheckPasswordSRP);
+                    ChannelMonetizationLayout.this.lambda$new$9(twoStepVerificationActivity, tLRPC$InputCheckPasswordSRP);
                 }
             });
             this.starsBalanceButton.setLoading(true);
             twoStepVerificationActivity.preload(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda31
                 @Override // java.lang.Runnable
                 public final void run() {
-                    ChannelMonetizationLayout.this.lambda$new$9(baseFragment, twoStepVerificationActivity);
+                    ChannelMonetizationLayout.this.lambda$new$10(baseFragment, twoStepVerificationActivity);
                 }
             });
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$7(int i) {
+    public /* synthetic */ void lambda$new$8(int i) {
         Bulletin.hideVisible();
         long j = this.starsBalance;
         if (j < MessagesController.getInstance(i).starsRevenueWithdrawalMin) {
@@ -603,75 +615,75 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$8(TwoStepVerificationActivity twoStepVerificationActivity, TLRPC$InputCheckPasswordSRP tLRPC$InputCheckPasswordSRP) {
+    public /* synthetic */ void lambda$new$9(TwoStepVerificationActivity twoStepVerificationActivity, TLRPC$InputCheckPasswordSRP tLRPC$InputCheckPasswordSRP) {
         initWithdraw(true, tLRPC$InputCheckPasswordSRP, twoStepVerificationActivity);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$9(BaseFragment baseFragment, TwoStepVerificationActivity twoStepVerificationActivity) {
+    public /* synthetic */ void lambda$new$10(BaseFragment baseFragment, TwoStepVerificationActivity twoStepVerificationActivity) {
         this.starsBalanceButton.setLoading(false);
         baseFragment.presentFragment(twoStepVerificationActivity);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$14(int i, long j, final Context context, View view) {
+    public /* synthetic */ void lambda$new$15(int i, long j, final Context context, View view) {
         if (!view.isEnabled() || this.starsAdsButton.isLoading()) {
             return;
         }
         this.starsAdsButton.setLoading(true);
         TLRPC$TL_payments_getStarsRevenueAdsAccountUrl tLRPC$TL_payments_getStarsRevenueAdsAccountUrl = new TLRPC$TL_payments_getStarsRevenueAdsAccountUrl();
         tLRPC$TL_payments_getStarsRevenueAdsAccountUrl.peer = MessagesController.getInstance(i).getInputPeer(j);
-        ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_payments_getStarsRevenueAdsAccountUrl, new RequestDelegate() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda38
+        ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_payments_getStarsRevenueAdsAccountUrl, new RequestDelegate() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda40
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                ChannelMonetizationLayout.this.lambda$new$13(context, tLObject, tLRPC$TL_error);
+                ChannelMonetizationLayout.this.lambda$new$14(context, tLObject, tLRPC$TL_error);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$13(final Context context, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda24
+    public /* synthetic */ void lambda$new$14(final Context context, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda26
             @Override // java.lang.Runnable
             public final void run() {
-                ChannelMonetizationLayout.this.lambda$new$12(tLObject, context);
+                ChannelMonetizationLayout.this.lambda$new$13(tLObject, context);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$12(TLObject tLObject, Context context) {
+    public /* synthetic */ void lambda$new$13(TLObject tLObject, Context context) {
         if (tLObject instanceof TLRPC$TL_payments_starsRevenueAdsAccountUrl) {
             Browser.openUrl(context, ((TLRPC$TL_payments_starsRevenueAdsAccountUrl) tLObject).url);
         }
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda15
             @Override // java.lang.Runnable
             public final void run() {
-                ChannelMonetizationLayout.this.lambda$new$11();
+                ChannelMonetizationLayout.this.lambda$new$12();
             }
         }, 1000L);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$11() {
+    public /* synthetic */ void lambda$new$12() {
         this.starsAdsButton.setLoading(false);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ boolean lambda$new$17(final BaseFragment baseFragment, TextView textView, int i, KeyEvent keyEvent) {
+    public /* synthetic */ boolean lambda$new$18(final BaseFragment baseFragment, TextView textView, int i, KeyEvent keyEvent) {
         if (i == 5) {
             final TwoStepVerificationActivity twoStepVerificationActivity = new TwoStepVerificationActivity();
-            twoStepVerificationActivity.setDelegate(1, new TwoStepVerificationActivity.TwoStepVerificationActivityDelegate() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda43
+            twoStepVerificationActivity.setDelegate(1, new TwoStepVerificationActivity.TwoStepVerificationActivityDelegate() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda45
                 @Override // org.telegram.ui.TwoStepVerificationActivity.TwoStepVerificationActivityDelegate
                 public final void didEnterPassword(TLRPC$InputCheckPasswordSRP tLRPC$InputCheckPasswordSRP) {
-                    ChannelMonetizationLayout.this.lambda$new$15(twoStepVerificationActivity, tLRPC$InputCheckPasswordSRP);
+                    ChannelMonetizationLayout.this.lambda$new$16(twoStepVerificationActivity, tLRPC$InputCheckPasswordSRP);
                 }
             });
             this.starsBalanceButton.setLoading(true);
-            twoStepVerificationActivity.preload(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda30
+            twoStepVerificationActivity.preload(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda33
                 @Override // java.lang.Runnable
                 public final void run() {
-                    ChannelMonetizationLayout.this.lambda$new$16(baseFragment, twoStepVerificationActivity);
+                    ChannelMonetizationLayout.this.lambda$new$17(baseFragment, twoStepVerificationActivity);
                 }
             });
             return true;
@@ -680,18 +692,18 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$15(TwoStepVerificationActivity twoStepVerificationActivity, TLRPC$InputCheckPasswordSRP tLRPC$InputCheckPasswordSRP) {
+    public /* synthetic */ void lambda$new$16(TwoStepVerificationActivity twoStepVerificationActivity, TLRPC$InputCheckPasswordSRP tLRPC$InputCheckPasswordSRP) {
         initWithdraw(true, tLRPC$InputCheckPasswordSRP, twoStepVerificationActivity);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$16(BaseFragment baseFragment, TwoStepVerificationActivity twoStepVerificationActivity) {
+    public /* synthetic */ void lambda$new$17(BaseFragment baseFragment, TwoStepVerificationActivity twoStepVerificationActivity) {
         this.starsBalanceButton.setLoading(false);
         baseFragment.presentFragment(twoStepVerificationActivity);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$18(int i) {
+    public /* synthetic */ void lambda$new$19(int i) {
         int currentTime = ConnectionsManager.getInstance(i).getCurrentTime();
         this.starsBalanceButton.setEnabled(this.starsBalanceEditTextValue > 0 || this.starsBalanceBlockedUntil > currentTime);
         if (currentTime < this.starsBalanceBlockedUntil) {
@@ -747,26 +759,26 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
             tL_stats$TL_getBroadcastRevenueWithdrawalUrl2.password = tLRPC$InputCheckPasswordSRP;
             tL_stats$TL_getBroadcastRevenueWithdrawalUrl = tL_stats$TL_getBroadcastRevenueWithdrawalUrl2;
         }
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_stats$TL_getBroadcastRevenueWithdrawalUrl, new RequestDelegate() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda39
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_stats$TL_getBroadcastRevenueWithdrawalUrl, new RequestDelegate() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda41
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                ChannelMonetizationLayout.this.lambda$initWithdraw$23(twoStepVerificationActivity, parentActivity, z, tLObject, tLRPC$TL_error);
+                ChannelMonetizationLayout.this.lambda$initWithdraw$24(twoStepVerificationActivity, parentActivity, z, tLObject, tLRPC$TL_error);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$initWithdraw$23(final TwoStepVerificationActivity twoStepVerificationActivity, final Activity activity, final boolean z, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda27
+    public /* synthetic */ void lambda$initWithdraw$24(final TwoStepVerificationActivity twoStepVerificationActivity, final Activity activity, final boolean z, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda29
             @Override // java.lang.Runnable
             public final void run() {
-                ChannelMonetizationLayout.this.lambda$initWithdraw$22(tLRPC$TL_error, twoStepVerificationActivity, activity, z, tLObject);
+                ChannelMonetizationLayout.this.lambda$initWithdraw$23(tLRPC$TL_error, twoStepVerificationActivity, activity, z, tLObject);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$initWithdraw$22(TLRPC$TL_error tLRPC$TL_error, final TwoStepVerificationActivity twoStepVerificationActivity, Activity activity, final boolean z, TLObject tLObject) {
+    public /* synthetic */ void lambda$initWithdraw$23(TLRPC$TL_error tLRPC$TL_error, final TwoStepVerificationActivity twoStepVerificationActivity, Activity activity, final boolean z, TLObject tLObject) {
         int i;
         if (tLRPC$TL_error != null) {
             if ("PASSWORD_MISSING".equals(tLRPC$TL_error.text) || tLRPC$TL_error.text.startsWith("PASSWORD_TOO_FRESH_") || tLRPC$TL_error.text.startsWith("SESSION_TOO_FRESH_")) {
@@ -831,7 +843,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
                     builder.setPositiveButton(LocaleController.getString("EditAdminTransferSetPassword", R.string.EditAdminTransferSetPassword), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda0
                         @Override // android.content.DialogInterface.OnClickListener
                         public final void onClick(DialogInterface dialogInterface, int i4) {
-                            ChannelMonetizationLayout.this.lambda$initWithdraw$19(dialogInterface, i4);
+                            ChannelMonetizationLayout.this.lambda$initWithdraw$20(dialogInterface, i4);
                         }
                     });
                     builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -855,10 +867,10 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
                     return;
                 }
             } else if ("SRP_ID_INVALID".equals(tLRPC$TL_error.text)) {
-                ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLRPC$TL_account_getPassword(), new RequestDelegate() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda40
+                ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLRPC$TL_account_getPassword(), new RequestDelegate() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda42
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error2) {
-                        ChannelMonetizationLayout.this.lambda$initWithdraw$21(twoStepVerificationActivity, z, tLObject2, tLRPC$TL_error2);
+                        ChannelMonetizationLayout.this.lambda$initWithdraw$22(twoStepVerificationActivity, z, tLObject2, tLRPC$TL_error2);
                     }
                 }, 8);
                 return;
@@ -882,22 +894,22 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$initWithdraw$19(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$initWithdraw$20(DialogInterface dialogInterface, int i) {
         this.fragment.presentFragment(new TwoStepVerificationSetupActivity(6, null));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$initWithdraw$21(final TwoStepVerificationActivity twoStepVerificationActivity, final boolean z, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda26
+    public /* synthetic */ void lambda$initWithdraw$22(final TwoStepVerificationActivity twoStepVerificationActivity, final boolean z, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda28
             @Override // java.lang.Runnable
             public final void run() {
-                ChannelMonetizationLayout.this.lambda$initWithdraw$20(tLRPC$TL_error, tLObject, twoStepVerificationActivity, z);
+                ChannelMonetizationLayout.this.lambda$initWithdraw$21(tLRPC$TL_error, tLObject, twoStepVerificationActivity, z);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$initWithdraw$20(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, TwoStepVerificationActivity twoStepVerificationActivity, boolean z) {
+    public /* synthetic */ void lambda$initWithdraw$21(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, TwoStepVerificationActivity twoStepVerificationActivity, boolean z) {
         if (tLRPC$TL_error == null) {
             TLRPC$account_Password tLRPC$account_Password = (TLRPC$account_Password) tLObject;
             twoStepVerificationActivity.setCurrentPasswordInfo(null, tLRPC$account_Password);
@@ -966,27 +978,27 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
             TLRPC$TL_payments_getStarsRevenueStats tLRPC$TL_payments_getStarsRevenueStats = new TLRPC$TL_payments_getStarsRevenueStats();
             tLRPC$TL_payments_getStarsRevenueStats.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(this.dialogId);
             tLRPC$TL_payments_getStarsRevenueStats.dark = Theme.isCurrentThemeDark();
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_payments_getStarsRevenueStats, new RequestDelegate() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda36
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_payments_getStarsRevenueStats, new RequestDelegate() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda38
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    ChannelMonetizationLayout.this.lambda$loadStarsStats$25(tLObject, tLRPC$TL_error);
+                    ChannelMonetizationLayout.this.lambda$loadStarsStats$27(tLObject, tLRPC$TL_error);
                 }
             });
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadStarsStats$25(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda23
+    public /* synthetic */ void lambda$loadStarsStats$27(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda24
             @Override // java.lang.Runnable
             public final void run() {
-                ChannelMonetizationLayout.this.lambda$loadStarsStats$24(tLObject);
+                ChannelMonetizationLayout.this.lambda$loadStarsStats$26(tLObject);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadStarsStats$24(TLObject tLObject) {
+    public /* synthetic */ void lambda$loadStarsStats$26(TLObject tLObject) {
         ChartData chartData;
         ArrayList<ChartData.Line> arrayList;
         if (tLObject instanceof TLRPC$TL_payments_starsRevenueStats) {
@@ -999,11 +1011,24 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
                 this.starsRevenueChart.chartData.yRate = (float) ((1.0d / this.stars_rate) / 100.0d);
             }
             setupBalances(tLRPC$TL_payments_starsRevenueStats.status);
+            if (!this.tonRevenueAvailable) {
+                this.progress.animate().alpha(0.0f).setDuration(380L).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).withEndAction(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda21
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        ChannelMonetizationLayout.this.lambda$loadStarsStats$25();
+                    }
+                }).start();
+            }
             UniversalRecyclerView universalRecyclerView = this.listView;
             if (universalRecyclerView != null) {
                 universalRecyclerView.adapter.update(true);
             }
         }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$loadStarsStats$25() {
+        this.progress.setVisibility(8);
     }
 
     private void initLevel() {
@@ -1015,7 +1040,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
         MessagesController.getInstance(this.currentAccount).getBoostsController().getBoostsStats(this.dialogId, new Consumer() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda9
             @Override // com.google.android.exoplayer2.util.Consumer
             public final void accept(Object obj) {
-                ChannelMonetizationLayout.this.lambda$initLevel$27((TL_stories$TL_premium_boostsStatus) obj);
+                ChannelMonetizationLayout.this.lambda$initLevel$29((TL_stories$TL_premium_boostsStatus) obj);
             }
         });
         loadStarsStats();
@@ -1038,26 +1063,26 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
         if (i == -1) {
             return;
         }
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_stats$TL_getBroadcastRevenueStats, new RequestDelegate() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda37
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_stats$TL_getBroadcastRevenueStats, new RequestDelegate() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda39
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                ChannelMonetizationLayout.this.lambda$initLevel$30(tLObject, tLRPC$TL_error);
+                ChannelMonetizationLayout.this.lambda$initLevel$32(tLObject, tLRPC$TL_error);
             }
         }, null, null, 0, i, 1, true);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$initLevel$27(final TL_stories$TL_premium_boostsStatus tL_stories$TL_premium_boostsStatus) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda28
+    public /* synthetic */ void lambda$initLevel$29(final TL_stories$TL_premium_boostsStatus tL_stories$TL_premium_boostsStatus) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda30
             @Override // java.lang.Runnable
             public final void run() {
-                ChannelMonetizationLayout.this.lambda$initLevel$26(tL_stories$TL_premium_boostsStatus);
+                ChannelMonetizationLayout.this.lambda$initLevel$28(tL_stories$TL_premium_boostsStatus);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$initLevel$26(TL_stories$TL_premium_boostsStatus tL_stories$TL_premium_boostsStatus) {
+    public /* synthetic */ void lambda$initLevel$28(TL_stories$TL_premium_boostsStatus tL_stories$TL_premium_boostsStatus) {
         UniversalAdapter universalAdapter;
         this.boostsStatus = tL_stories$TL_premium_boostsStatus;
         if (tL_stories$TL_premium_boostsStatus != null) {
@@ -1071,17 +1096,17 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$initLevel$30(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda22
+    public /* synthetic */ void lambda$initLevel$32(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda25
             @Override // java.lang.Runnable
             public final void run() {
-                ChannelMonetizationLayout.this.lambda$initLevel$29(tLObject);
+                ChannelMonetizationLayout.this.lambda$initLevel$31(tLObject);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$initLevel$29(TLObject tLObject) {
+    public /* synthetic */ void lambda$initLevel$31(TLObject tLObject) {
         if (tLObject instanceof TL_stats$TL_broadcastRevenueStats) {
             TL_stats$TL_broadcastRevenueStats tL_stats$TL_broadcastRevenueStats = (TL_stats$TL_broadcastRevenueStats) tLObject;
             this.impressionsChart = StatisticActivity.createViewData(tL_stats$TL_broadcastRevenueStats.top_hours_graph, LocaleController.getString(R.string.MonetizationGraphImpressions), 0);
@@ -1096,10 +1121,10 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
             }
             this.ton_rate = tL_stats$TL_broadcastRevenueStats.usd_rate;
             setupBalances(tL_stats$TL_broadcastRevenueStats.balances);
-            this.progress.animate().alpha(0.0f).setDuration(380L).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).withEndAction(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda19
+            this.progress.animate().alpha(0.0f).setDuration(380L).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).withEndAction(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda18
                 @Override // java.lang.Runnable
                 public final void run() {
-                    ChannelMonetizationLayout.this.lambda$initLevel$28();
+                    ChannelMonetizationLayout.this.lambda$initLevel$30();
                 }
             }).start();
             checkLearnSheet();
@@ -1107,7 +1132,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$initLevel$28() {
+    public /* synthetic */ void lambda$initLevel$30() {
         this.progress.setVisibility(8);
     }
 
@@ -1256,7 +1281,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
             arrayList.add(UItem.asProceedOverview(this.availableValue));
             arrayList.add(UItem.asProceedOverview(this.lastWithdrawalValue));
             arrayList.add(UItem.asProceedOverview(this.lifetimeValue));
-            arrayList.add(UItem.asShadow(-4, null));
+            arrayList.add(UItem.asShadow(-4, this.proceedsInfo));
         }
         if (chat != null && chat.creator) {
             if (this.tonRevenueAvailable) {
@@ -1294,7 +1319,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
                 MessagesController.getInstance(this.currentAccount).getBoostsController().userCanBoostChannel(this.dialogId, this.boostsStatus, new Consumer() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda10
                     @Override // com.google.android.exoplayer2.util.Consumer
                     public final void accept(Object obj) {
-                        ChannelMonetizationLayout.this.lambda$onClick$31(limitReachedBottomSheet, (ChannelBoostsController.CanApplyBoost) obj);
+                        ChannelMonetizationLayout.this.lambda$onClick$33(limitReachedBottomSheet, (ChannelBoostsController.CanApplyBoost) obj);
                     }
                 });
                 return;
@@ -1307,7 +1332,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onClick$31(LimitReachedBottomSheet limitReachedBottomSheet, ChannelBoostsController.CanApplyBoost canApplyBoost) {
+    public /* synthetic */ void lambda$onClick$33(LimitReachedBottomSheet limitReachedBottomSheet, ChannelBoostsController.CanApplyBoost canApplyBoost) {
         limitReachedBottomSheet.setCanApplyBoost(canApplyBoost);
         this.fragment.showDialog(limitReachedBottomSheet);
     }
@@ -1321,26 +1346,26 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
         TLRPC$TL_channels_restrictSponsoredMessages tLRPC$TL_channels_restrictSponsoredMessages = new TLRPC$TL_channels_restrictSponsoredMessages();
         tLRPC$TL_channels_restrictSponsoredMessages.channel = MessagesController.getInstance(this.currentAccount).getInputChannel(-this.dialogId);
         tLRPC$TL_channels_restrictSponsoredMessages.restricted = this.switchOffValue;
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_restrictSponsoredMessages, new RequestDelegate() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda35
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_restrictSponsoredMessages, new RequestDelegate() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda37
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                ChannelMonetizationLayout.this.lambda$sendCpmUpdate$33(tLObject, tLRPC$TL_error);
+                ChannelMonetizationLayout.this.lambda$sendCpmUpdate$35(tLObject, tLRPC$TL_error);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$sendCpmUpdate$33(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda25
+    public /* synthetic */ void lambda$sendCpmUpdate$35(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda27
             @Override // java.lang.Runnable
             public final void run() {
-                ChannelMonetizationLayout.this.lambda$sendCpmUpdate$32(tLRPC$TL_error, tLObject);
+                ChannelMonetizationLayout.this.lambda$sendCpmUpdate$34(tLRPC$TL_error, tLObject);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$sendCpmUpdate$32(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
+    public /* synthetic */ void lambda$sendCpmUpdate$34(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
         if (tLRPC$TL_error != null) {
             BulletinFactory.showError(tLRPC$TL_error);
         } else if (tLObject instanceof TLRPC$Updates) {
@@ -1501,6 +1526,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
 
         public static ProceedOverview as(String str, String str2, CharSequence charSequence) {
             ProceedOverview proceedOverview = new ProceedOverview();
+            proceedOverview.contains1 = false;
             proceedOverview.crypto_currency = str;
             proceedOverview.crypto_currency2 = str2;
             proceedOverview.text = charSequence;
@@ -1776,7 +1802,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
                 buttonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda1
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
-                        ChannelMonetizationLayout.lambda$showTransactionSheet$34(context, tL_stats$TL_broadcastRevenueTransactionWithdrawal2, view);
+                        ChannelMonetizationLayout.lambda$showTransactionSheet$36(context, tL_stats$TL_broadcastRevenueTransactionWithdrawal2, view);
                     }
                 });
                 bottomSheet = bottomSheet2;
@@ -1799,7 +1825,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showTransactionSheet$34(Context context, TL_stats$TL_broadcastRevenueTransactionWithdrawal tL_stats$TL_broadcastRevenueTransactionWithdrawal, View view) {
+    public static /* synthetic */ void lambda$showTransactionSheet$36(Context context, TL_stats$TL_broadcastRevenueTransactionWithdrawal tL_stats$TL_broadcastRevenueTransactionWithdrawal, View view) {
         Browser.openUrl(context, tL_stats$TL_broadcastRevenueTransactionWithdrawal.transaction_url);
     }
 
@@ -1850,10 +1876,10 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
         linksTextView.setTextSize(1, 14.0f);
         linksTextView.setTextColor(Theme.getColor(i, this.resourcesProvider));
         linksTextView.setLinkTextColor(Theme.getColor(Theme.key_chat_messageLinkIn, this.resourcesProvider));
-        linksTextView.setText(AndroidUtilities.withLearnMore(AndroidUtilities.replaceTags(LocaleController.getString(R.string.MonetizationInfoTONText)), new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda16
+        linksTextView.setText(AndroidUtilities.withLearnMore(AndroidUtilities.replaceTags(LocaleController.getString(R.string.MonetizationInfoTONText)), new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda20
             @Override // java.lang.Runnable
             public final void run() {
-                ChannelMonetizationLayout.this.lambda$showLearnSheet$36();
+                ChannelMonetizationLayout.this.lambda$showLearnSheet$38();
             }
         }));
         linearLayout.addView(linksTextView, LayoutHelper.createLinear(-1, -2, 28.0f, 9.0f, 28.0f, 0.0f));
@@ -1871,7 +1897,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showLearnSheet$36() {
+    public /* synthetic */ void lambda$showLearnSheet$38() {
         Browser.openUrl(getContext(), LocaleController.getString(R.string.MonetizationInfoTONLink));
     }
 
@@ -1909,7 +1935,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
     }
 
     /* loaded from: classes4.dex */
-    public static class ChannelTransactionsView extends LinearLayout {
+    public class ChannelTransactionsView extends LinearLayout {
         private final PageAdapter adapter;
         private final int currentAccount;
         private final long dialogId;
@@ -2091,7 +2117,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
             if (i == 1) {
                 int size = this.tonTransactions.size();
                 int i2 = this.tonTransactionsTotalCount;
-                if (size < i2 || i2 == 0) {
+                if ((size < i2 || i2 == 0) && ChannelMonetizationLayout.this.tonRevenueAvailable) {
                     this.loadingTransactions[i] = true;
                     TL_stats$TL_getBroadcastRevenueTransactions tL_stats$TL_getBroadcastRevenueTransactions = new TL_stats$TL_getBroadcastRevenueTransactions();
                     tL_stats$TL_getBroadcastRevenueTransactions.channel = MessagesController.getInstance(this.currentAccount).getInputChannel(-this.dialogId);
@@ -2104,8 +2130,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
                         }
                     });
                 }
-            } else if (i != 0 || this.starsLastOffset == null) {
-            } else {
+            } else if (i == 0 && this.starsLastOffset != null && ChannelMonetizationLayout.this.starsRevenueAvailable) {
                 this.loadingTransactions[i] = true;
                 TLRPC$TL_payments_getStarsTransactions tLRPC$TL_payments_getStarsTransactions = new TLRPC$TL_payments_getStarsTransactions();
                 tLRPC$TL_payments_getStarsTransactions.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(this.dialogId);
@@ -2298,17 +2323,17 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
             }
         } catch (Throwable th) {
             FileLog.e(th);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda18
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda19
                 @Override // java.lang.Runnable
                 public final void run() {
-                    ChannelMonetizationLayout.this.lambda$onNestedScroll$38();
+                    ChannelMonetizationLayout.this.lambda$onNestedScroll$40();
                 }
             });
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onNestedScroll$38() {
+    public /* synthetic */ void lambda$onNestedScroll$40() {
         try {
             RecyclerListView currentListView = this.transactionsLayout.getCurrentListView();
             if (currentListView == null || currentListView.getAdapter() == null) {
