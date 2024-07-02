@@ -459,6 +459,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     private String searchString;
     private ViewPagerFixed.TabsView searchTabsView;
     private SearchViewPager searchViewPager;
+    private int searchViewPagerIndex;
     float searchViewPagerTranslationY;
     private boolean searchWas;
     private boolean searchWasFullyShowed;
@@ -3235,18 +3236,18 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:315:0x0cca  */
-    /* JADX WARN: Removed duplicated region for block: B:318:0x0d00  */
-    /* JADX WARN: Removed duplicated region for block: B:321:0x0d11  */
-    /* JADX WARN: Removed duplicated region for block: B:334:0x0d37  */
-    /* JADX WARN: Removed duplicated region for block: B:341:0x0d77  */
-    /* JADX WARN: Removed duplicated region for block: B:345:0x0e21  */
-    /* JADX WARN: Removed duplicated region for block: B:357:0x0ec7  */
-    /* JADX WARN: Removed duplicated region for block: B:358:0x0eca  */
-    /* JADX WARN: Removed duplicated region for block: B:361:0x0ed7  */
-    /* JADX WARN: Removed duplicated region for block: B:369:0x0f5c  */
-    /* JADX WARN: Removed duplicated region for block: B:370:0x0f67  */
-    /* JADX WARN: Removed duplicated region for block: B:378:0x0f91  */
+    /* JADX WARN: Removed duplicated region for block: B:315:0x0ccd  */
+    /* JADX WARN: Removed duplicated region for block: B:318:0x0d03  */
+    /* JADX WARN: Removed duplicated region for block: B:321:0x0d14  */
+    /* JADX WARN: Removed duplicated region for block: B:334:0x0d3a  */
+    /* JADX WARN: Removed duplicated region for block: B:341:0x0d7a  */
+    /* JADX WARN: Removed duplicated region for block: B:345:0x0e24  */
+    /* JADX WARN: Removed duplicated region for block: B:357:0x0eca  */
+    /* JADX WARN: Removed duplicated region for block: B:358:0x0ecd  */
+    /* JADX WARN: Removed duplicated region for block: B:361:0x0eda  */
+    /* JADX WARN: Removed duplicated region for block: B:369:0x0f5f  */
+    /* JADX WARN: Removed duplicated region for block: B:370:0x0f6a  */
+    /* JADX WARN: Removed duplicated region for block: B:378:0x0f94  */
     /* JADX WARN: Type inference failed for: r0v100, types: [org.telegram.ui.ActionBar.ActionBar] */
     /* JADX WARN: Type inference failed for: r0v17, types: [org.telegram.ui.ActionBar.ActionBar] */
     /* JADX WARN: Type inference failed for: r0v221, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, org.telegram.ui.Components.RecyclerListView] */
@@ -3261,7 +3262,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     /* JADX WARN: Type inference failed for: r2v109, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, org.telegram.ui.Components.RecyclerListView] */
     /* JADX WARN: Type inference failed for: r2v110, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, org.telegram.ui.Components.RecyclerListView] */
     /* JADX WARN: Type inference failed for: r2v112, types: [androidx.recyclerview.widget.LinearLayoutManager] */
-    /* JADX WARN: Type inference failed for: r3v63, types: [android.graphics.drawable.BitmapDrawable] */
+    /* JADX WARN: Type inference failed for: r3v64, types: [android.graphics.drawable.BitmapDrawable] */
     /* JADX WARN: Type inference failed for: r7v0 */
     /* JADX WARN: Type inference failed for: r7v1, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r7v4 */
@@ -3837,7 +3838,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             f2 = 0.0f;
         }
         final ContentView contentView3 = contentView;
-        contentView3.getChildCount();
+        this.searchViewPagerIndex = contentView3.getChildCount();
         FiltersView filtersView = new FiltersView(getParentActivity(), null);
         this.filtersView = filtersView;
         filtersView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda128
@@ -15781,7 +15782,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
     public void createSearchViewPager() {
         int i;
-        if (this.searchViewPager != null || this.fragmentView == null || getContext() == null) {
+        SearchViewPager searchViewPager = this.searchViewPager;
+        if ((searchViewPager != null && searchViewPager.getParent() == this.fragmentView) || this.fragmentView == null || getContext() == null) {
             return;
         }
         if (this.searchString != null) {
@@ -15789,7 +15791,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         } else {
             i = !this.onlySelect ? 1 : 0;
         }
-        SearchViewPager searchViewPager = new SearchViewPager(getContext(), this, i, this.initialDialogsType, this.folderId, new SearchViewPager.ChatPreviewDelegate() { // from class: org.telegram.ui.DialogsActivity.56
+        SearchViewPager searchViewPager2 = new SearchViewPager(getContext(), this, i, this.initialDialogsType, this.folderId, new SearchViewPager.ChatPreviewDelegate() { // from class: org.telegram.ui.DialogsActivity.56
             @Override // org.telegram.ui.Components.SearchViewPager.ChatPreviewDelegate
             public void startChatPreview(RecyclerListView recyclerListView, DialogCell dialogCell) {
                 DialogsActivity.this.showChatPreview(dialogCell);
@@ -15827,8 +15829,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 return rightSlidingDialogContainer == null || !rightSlidingDialogContainer.hasFragment();
             }
         };
-        this.searchViewPager = searchViewPager;
-        ((ContentView) this.fragmentView).addView(searchViewPager);
+        this.searchViewPager = searchViewPager2;
+        ((ContentView) this.fragmentView).addView(searchViewPager2, this.searchViewPagerIndex);
         this.searchViewPager.dialogsSearchAdapter.setDelegate(new 58());
         this.searchViewPager.channelsSearchListView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda129
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
