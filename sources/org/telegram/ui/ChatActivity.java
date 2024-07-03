@@ -1207,6 +1207,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     private int startLoadFromMessageId;
     private int startLoadFromMessageOffset;
     private long startMessageAppearTransitionMs;
+    private int startReplyTo;
     private String startVideoEdit;
     private boolean startedTrackingSlidingView;
     private SuggestEmojiView suggestEmojiPanel;
@@ -2920,34 +2921,34 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         this.preventReopenSearchWithText = false;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:122:0x0382  */
-    /* JADX WARN: Removed duplicated region for block: B:133:0x04b8  */
-    /* JADX WARN: Removed duplicated region for block: B:136:0x04c5  */
-    /* JADX WARN: Removed duplicated region for block: B:139:0x06ee  */
-    /* JADX WARN: Removed duplicated region for block: B:142:0x06fb  */
-    /* JADX WARN: Removed duplicated region for block: B:145:0x0708  */
-    /* JADX WARN: Removed duplicated region for block: B:148:0x0715  */
-    /* JADX WARN: Removed duplicated region for block: B:155:0x07d1  */
-    /* JADX WARN: Removed duplicated region for block: B:168:0x07f8  */
-    /* JADX WARN: Removed duplicated region for block: B:169:0x07fa  */
-    /* JADX WARN: Removed duplicated region for block: B:175:0x0808  */
-    /* JADX WARN: Removed duplicated region for block: B:178:0x0828  */
-    /* JADX WARN: Removed duplicated region for block: B:181:0x0879  */
-    /* JADX WARN: Removed duplicated region for block: B:184:0x0884  */
-    /* JADX WARN: Removed duplicated region for block: B:208:0x091f  */
-    /* JADX WARN: Removed duplicated region for block: B:220:0x0941  */
-    /* JADX WARN: Removed duplicated region for block: B:223:0x0959  */
-    /* JADX WARN: Removed duplicated region for block: B:227:0x0963  */
-    /* JADX WARN: Removed duplicated region for block: B:234:0x0975  */
-    /* JADX WARN: Removed duplicated region for block: B:242:0x0987  */
-    /* JADX WARN: Removed duplicated region for block: B:245:0x098e  */
-    /* JADX WARN: Removed duplicated region for block: B:282:0x0a58  */
-    /* JADX WARN: Removed duplicated region for block: B:292:0x0a86  */
-    /* JADX WARN: Removed duplicated region for block: B:295:0x0a94  */
-    /* JADX WARN: Removed duplicated region for block: B:298:0x0aa1  */
-    /* JADX WARN: Removed duplicated region for block: B:305:0x0ac5  */
-    /* JADX WARN: Removed duplicated region for block: B:308:0x0adb  */
-    /* JADX WARN: Removed duplicated region for block: B:311:0x0aeb  */
+    /* JADX WARN: Removed duplicated region for block: B:122:0x038c  */
+    /* JADX WARN: Removed duplicated region for block: B:133:0x04c2  */
+    /* JADX WARN: Removed duplicated region for block: B:136:0x04cf  */
+    /* JADX WARN: Removed duplicated region for block: B:139:0x06f8  */
+    /* JADX WARN: Removed duplicated region for block: B:142:0x0705  */
+    /* JADX WARN: Removed duplicated region for block: B:145:0x0712  */
+    /* JADX WARN: Removed duplicated region for block: B:148:0x071f  */
+    /* JADX WARN: Removed duplicated region for block: B:155:0x07db  */
+    /* JADX WARN: Removed duplicated region for block: B:168:0x0802  */
+    /* JADX WARN: Removed duplicated region for block: B:169:0x0804  */
+    /* JADX WARN: Removed duplicated region for block: B:175:0x0812  */
+    /* JADX WARN: Removed duplicated region for block: B:178:0x0832  */
+    /* JADX WARN: Removed duplicated region for block: B:181:0x0883  */
+    /* JADX WARN: Removed duplicated region for block: B:184:0x088e  */
+    /* JADX WARN: Removed duplicated region for block: B:208:0x0929  */
+    /* JADX WARN: Removed duplicated region for block: B:220:0x094b  */
+    /* JADX WARN: Removed duplicated region for block: B:223:0x0963  */
+    /* JADX WARN: Removed duplicated region for block: B:227:0x096d  */
+    /* JADX WARN: Removed duplicated region for block: B:234:0x097f  */
+    /* JADX WARN: Removed duplicated region for block: B:242:0x0991  */
+    /* JADX WARN: Removed duplicated region for block: B:245:0x0998  */
+    /* JADX WARN: Removed duplicated region for block: B:282:0x0a62  */
+    /* JADX WARN: Removed duplicated region for block: B:292:0x0a90  */
+    /* JADX WARN: Removed duplicated region for block: B:295:0x0a9e  */
+    /* JADX WARN: Removed duplicated region for block: B:298:0x0aab  */
+    /* JADX WARN: Removed duplicated region for block: B:305:0x0acf  */
+    /* JADX WARN: Removed duplicated region for block: B:308:0x0ae5  */
+    /* JADX WARN: Removed duplicated region for block: B:311:0x0af5  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -2984,6 +2985,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         this.textToSet = this.arguments.getString("start_text");
         this.premiumInvoiceBot = this.arguments.getBoolean("premium_bot", false);
         this.startLoadFromMessageId = this.arguments.getInt("message_id", 0);
+        this.startReplyTo = this.arguments.getInt("reply_to", 0);
         this.startLoadFromDate = this.arguments.getInt("start_from_date", 0);
         this.startFromVideoTimestamp = this.arguments.getInt("video_timestamp", -1);
         this.threadUnreadMessagesCount = this.arguments.getInt("unread_count", 0);
@@ -27311,14 +27313,14 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     /*  JADX ERROR: JadxRuntimeException in pass: BlockProcessor
-        jadx.core.utils.exceptions.JadxRuntimeException: CFG modification limit reached, blocks count: 3799
+        jadx.core.utils.exceptions.JadxRuntimeException: CFG modification limit reached, blocks count: 3805
         	at jadx.core.dex.visitors.blocks.BlockProcessor.processBlocksTree(BlockProcessor.java:59)
         	at jadx.core.dex.visitors.blocks.BlockProcessor.visit(BlockProcessor.java:39)
         */
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     public void didReceivedNotification(int r62, int r63, java.lang.Object... r64) {
         /*
-            Method dump skipped, instructions count: 17287
+            Method dump skipped, instructions count: 17308
             To view this dump add '--comments-level debug' option
         */
         throw new UnsupportedOperationException("Method not decompiled: org.telegram.ui.ChatActivity.didReceivedNotification(int, int, java.lang.Object[]):void");
@@ -51530,6 +51532,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     public void didLongPressLink(final ChatMessageCell chatMessageCell, final MessageObject messageObject, final CharacterStyle characterStyle, final String str) {
+        String str2;
         TLRPC$WebPage tLRPC$WebPage;
         ItemOptions makeOptions = ItemOptions.makeOptions((BaseFragment) this, (View) chatMessageCell, true);
         ScrimOptions scrimOptions = new ScrimOptions(getContext(), this.themeDelegate);
@@ -51557,7 +51560,23 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         });
         scrimOptions.setItemOptions(makeOptions);
         if (characterStyle instanceof URLSpanReplacement) {
-            SpannableString spannableString = new SpannableString(((URLSpanReplacement) characterStyle).getURL());
+            String url = ((URLSpanReplacement) characterStyle).getURL();
+            try {
+                try {
+                    Uri parse = Uri.parse(url);
+                    url = Browser.replaceHostname(parse, IDN.toUnicode(parse.getHost(), 1));
+                } catch (Exception e) {
+                    FileLog.e((Throwable) e, false);
+                }
+                str2 = URLDecoder.decode(url.replaceAll("\\+", "%2b"), "UTF-8");
+            } catch (Exception e2) {
+                FileLog.e(e2);
+                str2 = url;
+            }
+            if (str2.length() > 204) {
+                str2 = str2.substring(0, 204) + "…";
+            }
+            SpannableString spannableString = new SpannableString(str2);
             spannableString.setSpan(characterStyle, 0, spannableString.length(), 33);
             scrimOptions.setScrim(chatMessageCell, characterStyle, spannableString);
         } else {

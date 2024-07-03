@@ -455,13 +455,14 @@ public class PieChartView extends StackLinearChartView<PieChartViewData> {
     }
 
     @Override // org.telegram.ui.Charts.BaseChartView
-    public void setData(StackLinearChartData stackLinearChartData) {
-        super.setData((PieChartView) stackLinearChartData);
+    public boolean setData(StackLinearChartData stackLinearChartData) {
+        boolean data = super.setData((PieChartView) stackLinearChartData);
         if (stackLinearChartData != null) {
             this.values = new float[stackLinearChartData.lines.size()];
             this.darawingValuesPercentage = new float[stackLinearChartData.lines.size()];
             onPickerDataChanged(false, true, false);
         }
+        return data;
     }
 
     @Override // org.telegram.ui.Charts.StackLinearChartView, org.telegram.ui.Charts.BaseChartView

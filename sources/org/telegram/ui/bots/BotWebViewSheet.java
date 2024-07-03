@@ -283,10 +283,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         BotWebViewContainer botWebViewContainer2 = this.webViewContainer;
         webTabData.lastUrl = botWebViewContainer2 != null ? botWebViewContainer2.getUrlLoaded() : null;
         ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer webViewSwipeContainer = this.swipeContainer;
-        if ((webViewSwipeContainer == null || webViewSwipeContainer.getSwipeOffsetY() >= 0.0f) && !this.forceExpnaded && !getFullSize()) {
-            z = false;
-        }
-        webTabData.expanded = z;
+        webTabData.expanded = (webViewSwipeContainer != null && webViewSwipeContainer.getSwipeOffsetY() < 0.0f) || this.forceExpnaded || getFullSize();
         webTabData.fullsize = getFullSize();
         ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer webViewSwipeContainer2 = this.swipeContainer;
         webTabData.expandedOffset = webViewSwipeContainer2 != null ? webViewSwipeContainer2.getOffsetY() : Float.MAX_VALUE;
@@ -294,6 +291,8 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         webTabData.backButton = this.backButtonShown;
         webTabData.main = this.mainButtonSettings;
         webTabData.confirmDismiss = this.needCloseConfirmation;
+        ActionBarMenuSubItem actionBarMenuSubItem = this.settingsItem;
+        webTabData.settings = (actionBarMenuSubItem == null || actionBarMenuSubItem.getVisibility() != 0) ? false : false;
         BotWebViewContainer botWebViewContainer3 = this.webViewContainer;
         BotWebViewContainer.MyWebView webView = botWebViewContainer3 == null ? null : botWebViewContainer3.getWebView();
         if (webView != null) {
@@ -369,6 +368,10 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
             webViewRequestProps2.responseTime = 0L;
         }
         requestWebView(baseFragment, webTabData.props);
+        ActionBarMenuSubItem actionBarMenuSubItem = this.settingsItem;
+        if (actionBarMenuSubItem != null) {
+            actionBarMenuSubItem.setVisibility(webTabData.settings ? 0 : 8);
+        }
         return true;
     }
 

@@ -35376,7 +35376,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             }
             Rect rect2 = this.commentButtonRect;
             MessageObject messageObject2 = this.currentMessageObject;
-            rect2.set(currentBackgroundLeft - AndroidUtilities.dp(((messageObject2 == null || !messageObject2.isOut()) && !this.drawPinnedBottom && this.currentPosition == null && ((messageObject = this.currentMessageObject) == null || messageObject.type != 17 || this.pollInstantViewTouchesBottom)) ? 6.0f : 0.0f), (int) dp6, dp2 - AndroidUtilities.dp(14.0f), (this.layoutHeight - AndroidUtilities.dp(i9)) + 1);
+            rect2.set(currentBackgroundLeft - AndroidUtilities.dp(((messageObject2 == null || !messageObject2.isOutOwner()) && !this.drawPinnedBottom && this.currentPosition == null && ((messageObject = this.currentMessageObject) == null || messageObject.type != 17 || this.pollInstantViewTouchesBottom)) ? 6.0f : 0.0f), (int) dp6, dp2 - AndroidUtilities.dp(14.0f), (this.layoutHeight - AndroidUtilities.dp(i9)) + 1);
             if (this.selectorDrawable[1] != null && this.selectorDrawableMaskType[1] == 2) {
                 int saveCount = canvas.getSaveCount();
                 this.selectorDrawable[1].setBounds(this.commentButtonRect);
