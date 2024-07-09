@@ -6611,16 +6611,16 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             PhotoViewer.this.closePhoto(false, false);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:620:0x03aa  */
-        /* JADX WARN: Removed duplicated region for block: B:622:0x03c0  */
-        /* JADX WARN: Removed duplicated region for block: B:623:0x03c6  */
-        /* JADX WARN: Removed duplicated region for block: B:630:0x03e4  */
-        /* JADX WARN: Removed duplicated region for block: B:657:0x04d3  */
-        /* JADX WARN: Removed duplicated region for block: B:679:0x058f  */
-        /* JADX WARN: Removed duplicated region for block: B:680:0x059d  */
-        /* JADX WARN: Removed duplicated region for block: B:713:0x0680  */
-        /* JADX WARN: Removed duplicated region for block: B:759:0x07f5  */
-        /* JADX WARN: Removed duplicated region for block: B:952:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:631:0x03aa  */
+        /* JADX WARN: Removed duplicated region for block: B:633:0x03c0  */
+        /* JADX WARN: Removed duplicated region for block: B:634:0x03c6  */
+        /* JADX WARN: Removed duplicated region for block: B:641:0x03e4  */
+        /* JADX WARN: Removed duplicated region for block: B:668:0x04d3  */
+        /* JADX WARN: Removed duplicated region for block: B:690:0x058f  */
+        /* JADX WARN: Removed duplicated region for block: B:691:0x059d  */
+        /* JADX WARN: Removed duplicated region for block: B:724:0x0680  */
+        /* JADX WARN: Removed duplicated region for block: B:770:0x07f5  */
+        /* JADX WARN: Removed duplicated region for block: B:968:? A[RETURN, SYNTHETIC] */
         /* JADX WARN: Type inference failed for: r10v33 */
         /* JADX WARN: Type inference failed for: r10v34 */
         /* JADX WARN: Type inference failed for: r10v35, types: [int, boolean] */
@@ -6920,7 +6920,13 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                             Browser.openUrl(PhotoViewer.this.parentActivity, MessageObject.getMedia(PhotoViewer.this.currentMessageObject.messageOwner).webpage.url);
                             PhotoViewer.this.closePhoto(false, false);
                         } else if (PhotoViewer.this.currentMessageObject != null) {
-                            if (!AndroidUtilities.openForView(PhotoViewer.this.currentMessageObject, PhotoViewer.this.parentActivity, this.val$resourcesProvider)) {
+                            MessageObject messageObject = PhotoViewer.this.currentMessageObject;
+                            Activity activity = PhotoViewer.this.parentActivity;
+                            Theme.ResourcesProvider resourcesProvider = this.val$resourcesProvider;
+                            if (!PhotoViewer.this.currentMessageObject.isVideo() && !PhotoViewer.this.currentMessageObject.isPhoto() && !PhotoViewer.this.currentMessageObject.isSticker()) {
+                                z4 = false;
+                            }
+                            if (!AndroidUtilities.openForView(messageObject, activity, resourcesProvider, z4)) {
                                 PhotoViewer.this.showDownloadAlert();
                             } else {
                                 PhotoViewer.this.closePhoto(false, false);
@@ -11264,7 +11270,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
 
         public /* synthetic */ void lambda$onError$0(DialogInterface dialogInterface, int i) {
             try {
-                AndroidUtilities.openForView(PhotoViewer.this.currentMessageObject, PhotoViewer.this.parentActivity, PhotoViewer.this.resourcesProvider);
+                AndroidUtilities.openForView(PhotoViewer.this.currentMessageObject, PhotoViewer.this.parentActivity, PhotoViewer.this.resourcesProvider, true);
                 PhotoViewer.this.closePhoto(false, false);
             } catch (Exception e) {
                 FileLog.e(e);

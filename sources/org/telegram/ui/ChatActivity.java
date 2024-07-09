@@ -48274,7 +48274,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 return;
                             }
                             try {
-                                AndroidUtilities.openForView(messageObject, ChatActivity.this.getParentActivity(), ChatActivity.this.themeDelegate);
+                                AndroidUtilities.openForView(messageObject, ChatActivity.this.getParentActivity(), ChatActivity.this.themeDelegate, false);
                             } catch (Exception e2) {
                                 FileLog.e(e2);
                                 ChatActivity.this.alertUserOpenError(messageObject);

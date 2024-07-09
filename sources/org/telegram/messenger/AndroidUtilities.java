@@ -3815,18 +3815,19 @@ public class AndroidUtilities {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:11:0x0036, code lost:
-        if (r8.length() != 0) goto L11;
+    /* JADX WARN: Code restructure failed: missing block: B:24:0x0059, code lost:
+        if (r8.length() != 0) goto L25;
      */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x0068  */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x0088  */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x00c6  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x0098 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x006b A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x006c  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x0090  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x00b0  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x00ee  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x00c0 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public static boolean openForView(File file, String str, String str2, Activity activity, Theme.ResourcesProvider resourcesProvider) {
-        int i;
+    public static boolean openForView(File file, String str, String str2, Activity activity, Theme.ResourcesProvider resourcesProvider, boolean z) {
         if (file == null || !file.exists()) {
             return false;
         }
@@ -3835,17 +3836,26 @@ public class AndroidUtilities {
         MimeTypeMap singleton = MimeTypeMap.getSingleton();
         int lastIndexOf = str.lastIndexOf(46);
         if (lastIndexOf != -1) {
-            String mimeTypeFromExtension = singleton.getMimeTypeFromExtension(str.substring(lastIndexOf + 1).toLowerCase());
+            String substring = str.substring(lastIndexOf + 1);
+            int hashCode = substring.toLowerCase().hashCode();
+            if (z && (hashCode == 96796 || hashCode == 3213227 || hashCode == 104987 || hashCode == 3669 || hashCode == 99351)) {
+                return true;
+            }
+            String mimeTypeFromExtension = singleton.getMimeTypeFromExtension(substring.toLowerCase());
             if (mimeTypeFromExtension != null) {
                 str2 = mimeTypeFromExtension;
             } else if (str2 != null) {
             }
-            i = Build.VERSION.SDK_INT;
-            if (i < 26 && str2 != null && str2.equals("application/vnd.android.package-archive") && !ApplicationLoader.applicationContext.getPackageManager().canRequestPackageInstalls()) {
-                AlertsCreator.createApkRestrictedDialog(activity, resourcesProvider).show();
-                return true;
+            if (str2 != null && str2.equals("application/vnd.android.package-archive")) {
+                if (!z) {
+                    return true;
+                }
+                if (Build.VERSION.SDK_INT >= 26 && !ApplicationLoader.applicationContext.getPackageManager().canRequestPackageInstalls()) {
+                    AlertsCreator.createApkRestrictedDialog(activity, resourcesProvider).show();
+                    return true;
+                }
             }
-            if (i < 24) {
+            if (Build.VERSION.SDK_INT < 24) {
                 intent.setDataAndType(FileProvider.getUriForFile(activity, ApplicationLoader.getApplicationId() + ".provider", file), str2 != null ? str2 : "text/plain");
             } else {
                 intent.setDataAndType(Uri.fromFile(file), str2 != null ? str2 : "text/plain");
@@ -3867,32 +3877,34 @@ public class AndroidUtilities {
             return true;
         }
         str2 = null;
-        i = Build.VERSION.SDK_INT;
-        if (i < 26) {
+        if (str2 != null) {
+            if (!z) {
+            }
         }
-        if (i < 24) {
+        if (Build.VERSION.SDK_INT < 24) {
         }
         if (str2 == null) {
         }
         return true;
     }
 
-    public static boolean openForView(MessageObject messageObject, Activity activity, Theme.ResourcesProvider resourcesProvider) {
+    public static boolean openForView(MessageObject messageObject, Activity activity, Theme.ResourcesProvider resourcesProvider, boolean z) {
         String str = messageObject.messageOwner.attachPath;
         String str2 = null;
         File file = (str == null || str.length() == 0) ? null : new File(messageObject.messageOwner.attachPath);
         if (file == null || !file.exists()) {
             file = FileLoader.getInstance(messageObject.currentAccount).getPathToMessage(messageObject.messageOwner);
         }
+        File file2 = file;
         int i = messageObject.type;
         if (i == 9 || i == 0) {
             str2 = messageObject.getMimeType();
         }
-        return openForView(file, messageObject.getFileName(), str2, activity, resourcesProvider);
+        return openForView(file2, messageObject.getFileName(), str2, activity, resourcesProvider, z);
     }
 
     public static boolean openForView(TLRPC$Document tLRPC$Document, boolean z, Activity activity) {
-        return openForView(FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(tLRPC$Document, true), FileLoader.getAttachFileName(tLRPC$Document), tLRPC$Document.mime_type, activity, null);
+        return openForView(FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(tLRPC$Document, true), FileLoader.getAttachFileName(tLRPC$Document), tLRPC$Document.mime_type, activity, null, false);
     }
 
     public static SpannableStringBuilder formatSpannableSimple(CharSequence charSequence, CharSequence... charSequenceArr) {

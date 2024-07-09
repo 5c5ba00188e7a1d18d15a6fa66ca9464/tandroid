@@ -31972,13 +31972,13 @@ public class MessagesController extends BaseController implements NotificationCe
                     @Override // org.telegram.messenger.MessagesController.MessagesLoadedCallback
                     public void onMessagesLoaded(boolean z) {
                         progress.end();
-                        baseFragment.presentFragment(new ChatActivity(bundle), true);
+                        baseFragment.presentFragment(new ChatActivity(bundle));
                     }
 
                     @Override // org.telegram.messenger.MessagesController.MessagesLoadedCallback
                     public void onError() {
                         progress.end();
-                        baseFragment.presentFragment(new ChatActivity(bundle), true);
+                        baseFragment.presentFragment(new ChatActivity(bundle));
                     }
                 }));
                 return false;

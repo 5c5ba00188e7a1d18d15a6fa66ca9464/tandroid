@@ -3757,7 +3757,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                             }
                         }
                         try {
-                            AndroidUtilities.openForView(messageObject, ChannelAdminLogActivity.this.getParentActivity(), (Theme.ResourcesProvider) null);
+                            AndroidUtilities.openForView(messageObject, ChannelAdminLogActivity.this.getParentActivity(), null, false);
                         } catch (Exception unused2) {
                             ChannelAdminLogActivity.this.alertUserOpenError(messageObject);
                         }
