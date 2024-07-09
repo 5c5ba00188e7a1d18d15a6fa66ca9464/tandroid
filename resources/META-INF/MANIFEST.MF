@@ -3,7 +3,7 @@ Built-By: Signflinger
 Created-By: Android Gradle 7.0.3
 
 Name: AndroidManifest.xml
-SHA-256-Digest: F/6TqMTrMsksT+Q6MbrNuZGNmy5azUONimGHzBESGjw=
+SHA-256-Digest: JvSjx1T810S3PUcqWvnsaIarrFYXERJuWsWeLu+P9xk=
 
 Name: DebugProbesKt.bin
 SHA-256-Digest: rhvucBnNEU+ZCwHnUxbVyA7AobB9XKmn7+fEZvf5z+U=
