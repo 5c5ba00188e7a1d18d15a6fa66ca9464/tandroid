@@ -150,9 +150,8 @@ public class ReportAdBottomSheet extends BottomSheet {
         super.onBackPressed();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    public boolean canDismissWithSwipe() {
+    protected boolean canDismissWithSwipe() {
         View currentView = this.viewPager.getCurrentView();
         if (currentView instanceof Page) {
             return ((Page) currentView).atTop();

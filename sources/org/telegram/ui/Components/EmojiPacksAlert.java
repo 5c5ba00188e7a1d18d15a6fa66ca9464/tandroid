@@ -133,9 +133,8 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
     private View shadowView;
     private boolean shown;
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    public boolean canDismissWithSwipe() {
+    protected boolean canDismissWithSwipe() {
         return false;
     }
 

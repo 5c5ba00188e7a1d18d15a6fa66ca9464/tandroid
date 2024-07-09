@@ -59,9 +59,8 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
         SLIDING
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    public boolean canDismissWithSwipe() {
+    protected boolean canDismissWithSwipe() {
         return false;
     }
 

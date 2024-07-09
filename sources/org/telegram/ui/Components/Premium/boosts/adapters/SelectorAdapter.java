@@ -40,13 +40,11 @@ public class SelectorAdapter extends AdapterWithDiffUtils {
     private final Context context;
     private boolean isGreenSelector;
     private List<Item> items;
-    public boolean needChecks;
     private final Theme.ResourcesProvider resourcesProvider;
     private GraySectionCell topSectionCell;
 
-    public SelectorAdapter(Context context, boolean z, Theme.ResourcesProvider resourcesProvider) {
+    public SelectorAdapter(Context context, Theme.ResourcesProvider resourcesProvider) {
         this.context = context;
-        this.needChecks = z;
         this.resourcesProvider = resourcesProvider;
         BoostRepository.loadParticipantsCount(new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.SelectorAdapter$$ExternalSyntheticLambda0
             @Override // org.telegram.messenger.Utilities.Callback
@@ -92,7 +90,7 @@ public class SelectorAdapter extends AdapterWithDiffUtils {
         if (i == -1) {
             selectorUserCell = new View(this.context);
         } else if (i == 3) {
-            selectorUserCell = new SelectorUserCell(this.context, this.needChecks, this.resourcesProvider, this.isGreenSelector);
+            selectorUserCell = new SelectorUserCell(this.context, this.resourcesProvider, this.isGreenSelector);
         } else if (i == 5) {
             StickerEmptyView stickerEmptyView = new StickerEmptyView(this.context, null, 1, this.resourcesProvider);
             stickerEmptyView.title.setText(LocaleController.getString("NoResult", R.string.NoResult));

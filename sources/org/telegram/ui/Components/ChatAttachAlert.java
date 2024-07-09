@@ -308,7 +308,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    public boolean canDismissWithSwipe() {
+    protected boolean canDismissWithSwipe() {
         return false;
     }
 
@@ -380,11 +380,6 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         @Override // org.telegram.ui.bots.BotWebViewContainer.Delegate
         public /* synthetic */ void onSendWebViewData(String str) {
             BotWebViewContainer.Delegate.-CC.$default$onSendWebViewData(this, str);
-        }
-
-        @Override // org.telegram.ui.bots.BotWebViewContainer.Delegate
-        public /* synthetic */ void onWebAppBackgroundChanged(int i) {
-            BotWebViewContainer.Delegate.-CC.$default$onWebAppBackgroundChanged(this, i);
         }
 
         @Override // org.telegram.ui.bots.BotWebViewContainer.Delegate

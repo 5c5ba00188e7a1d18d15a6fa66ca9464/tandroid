@@ -399,9 +399,8 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
     public static /* synthetic */ void lambda$processSelectedOption$59(DialogInterface dialogInterface) {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    public boolean canDismissWithSwipe() {
+    protected boolean canDismissWithSwipe() {
         return false;
     }
 

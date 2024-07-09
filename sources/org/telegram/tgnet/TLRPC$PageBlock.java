@@ -2,8 +2,6 @@ package org.telegram.tgnet;
 /* loaded from: classes3.dex */
 public abstract class TLRPC$PageBlock extends TLObject {
     public boolean bottom;
-    public int cachedHeight;
-    public int cachedWidth;
     public boolean first;
     public int groupId;
     public int level;

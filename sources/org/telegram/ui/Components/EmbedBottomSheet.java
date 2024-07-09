@@ -931,9 +931,8 @@ public class EmbedBottomSheet extends BottomSheet {
         return false;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    public boolean canDismissWithSwipe() {
+    protected boolean canDismissWithSwipe() {
         return (this.videoView.getVisibility() == 0 && this.videoView.isInFullscreen()) ? false : true;
     }
 

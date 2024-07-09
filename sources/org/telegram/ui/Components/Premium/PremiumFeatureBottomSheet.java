@@ -853,22 +853,17 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
                                         if (PremiumFeatureBottomSheet.this.startType != 9) {
                                             if (PremiumFeatureBottomSheet.this.startType != 8) {
                                                 if (PremiumFeatureBottomSheet.this.startType != 13) {
-                                                    if (PremiumFeatureBottomSheet.this.startType != 38) {
-                                                        if (PremiumFeatureBottomSheet.this.startType != 22) {
-                                                            if (PremiumFeatureBottomSheet.this.startType == 23) {
-                                                                this.title.setText(LocaleController.getString(R.string.PremiumPreviewProfileColor));
-                                                                this.description.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.PremiumPreviewProfileColorDescription)));
-                                                            } else {
-                                                                this.title.setText(premiumFeatureData.title);
-                                                                this.description.setText(AndroidUtilities.replaceTags(premiumFeatureData.description));
-                                                            }
+                                                    if (PremiumFeatureBottomSheet.this.startType != 22) {
+                                                        if (PremiumFeatureBottomSheet.this.startType == 23) {
+                                                            this.title.setText(LocaleController.getString(R.string.PremiumPreviewProfileColor));
+                                                            this.description.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.PremiumPreviewProfileColorDescription)));
                                                         } else {
-                                                            this.title.setText(LocaleController.getString(R.string.PremiumPreviewWallpaper));
-                                                            this.description.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.PremiumPreviewWallpaperDescription)));
+                                                            this.title.setText(premiumFeatureData.title);
+                                                            this.description.setText(AndroidUtilities.replaceTags(premiumFeatureData.description));
                                                         }
                                                     } else {
-                                                        this.title.setText(LocaleController.getString(R.string.PremiumPreviewEffects));
-                                                        this.description.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.PremiumPreviewEffectsDescription)));
+                                                        this.title.setText(LocaleController.getString(R.string.PremiumPreviewWallpaper));
+                                                        this.description.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.PremiumPreviewWallpaperDescription)));
                                                     }
                                                 } else {
                                                     this.title.setText(LocaleController.getString(R.string.PremiumPreviewTranslations));
@@ -1057,9 +1052,8 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
         return ColorUtils.calculateLuminance(getThemedColor(Theme.key_dialogBackground)) > 0.699999988079071d;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    public boolean canDismissWithSwipe() {
+    protected boolean canDismissWithSwipe() {
         for (int i = 0; i < this.viewPager.getChildCount(); i++) {
             ViewPage viewPage = (ViewPage) this.viewPager.getChildAt(i);
             if (viewPage.position == this.selectedPosition) {

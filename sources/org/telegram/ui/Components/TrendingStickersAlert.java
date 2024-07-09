@@ -31,9 +31,8 @@ public class TrendingStickersAlert extends BottomSheet {
     private final GradientDrawable shapeDrawable;
     private final int topOffset;
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    public boolean canDismissWithSwipe() {
+    protected boolean canDismissWithSwipe() {
         return false;
     }
 

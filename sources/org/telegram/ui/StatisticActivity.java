@@ -184,7 +184,6 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
     private BaseChartView.SharedUiComponents sharedUi;
     private final Runnable showProgressbar;
     private boolean startFromBoosts;
-    private boolean startFromMonetization;
     private StoriesController.StoriesList storiesList;
     private int storiesListId;
     private ChartViewData storyInteractionsData;
@@ -247,7 +246,6 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
         this.chatId = j;
         this.isMegagroup = bundle.getBoolean("is_megagroup", false);
         this.startFromBoosts = bundle.getBoolean("start_from_boosts", false);
-        this.startFromMonetization = bundle.getBoolean("start_from_monetization", false);
         this.onlyBoostsStat = bundle.getBoolean("only_boosts", false);
         this.chat = getMessagesController().getChatFull(j);
     }
@@ -623,7 +621,7 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(Context context) {
-        final FrameLayout frameLayout;
+        FrameLayout frameLayout;
         this.sharedUi = new BaseChartView.SharedUiComponents();
         TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(this.chatId));
         TLRPC$ChatFull chatFull = MessagesController.getInstance(this.currentAccount).getChatFull(this.chatId);
@@ -670,6 +668,11 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
         } else {
             frameLayout = frameLayout2;
         }
+        boolean z2 = isBoostSupported && !this.onlyBoostsStat;
+        if (z2 && this.startFromBoosts) {
+            this.viewPagerFixed.setPosition(1);
+        }
+        final FrameLayout frameLayout3 = frameLayout;
         this.viewPagerFixed.setAdapter(new ViewPagerFixed.Adapter() { // from class: org.telegram.ui.StatisticActivity.5
             @Override // org.telegram.ui.Components.ViewPagerFixed.Adapter
             public void bindView(View view, int i, int i2) {
@@ -689,7 +692,7 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
             @Override // org.telegram.ui.Components.ViewPagerFixed.Adapter
             public View createView(int i) {
                 if (i == 0) {
-                    return frameLayout;
+                    return frameLayout3;
                 }
                 int i2 = i - 1;
                 if (i2 == 0) {
@@ -697,17 +700,10 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
                 } else if (i2 - 1 == 0) {
                     return StatisticActivity.this.monetizationLayout;
                 } else {
-                    return frameLayout;
+                    return frameLayout3;
                 }
             }
         });
-        boolean z2 = isBoostSupported && !this.onlyBoostsStat;
-        if (z2 && this.startFromBoosts) {
-            this.viewPagerFixed.setPosition(1);
-        } else if (z2 && this.startFromMonetization) {
-            bottomPagerTabs.setProgress((this.onlyBoostsStat || !isBoostSupported) ? 1.0f : 2.0f);
-            this.viewPagerFixed.setPosition((this.onlyBoostsStat || !isBoostSupported) ? 1 : 2);
-        }
         SizeNotifierFrameLayout sizeNotifierFrameLayout = new SizeNotifierFrameLayout(getContext());
         sizeNotifierFrameLayout.addView(this.viewPagerFixed, LayoutHelper.createFrame(-1, -1.0f, 0, 0.0f, 0.0f, 0.0f, z2 ? 64.0f : 0.0f));
         if (z2) {
@@ -800,7 +796,7 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
         this.progressLayout.addView(this.imageView, LayoutHelper.createLinear(120, 120, 1, 0, 0, 0, 20));
         this.progressLayout.addView(textView, LayoutHelper.createLinear(-2, -2, 1, 0, 0, 0, 10));
         this.progressLayout.addView(textView2, LayoutHelper.createLinear(-2, -2, 1));
-        frameLayout.addView(this.progressLayout, LayoutHelper.createFrame(240, -2.0f, 17, 0.0f, 0.0f, 0.0f, 30.0f));
+        frameLayout3.addView(this.progressLayout, LayoutHelper.createFrame(240, -2.0f, 17, 0.0f, 0.0f, 0.0f, 30.0f));
         if (this.adapter == null) {
             this.adapter = new Adapter();
         }
@@ -838,7 +834,7 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
                 return lambda$createView$9;
             }
         });
-        frameLayout.addView(this.recyclerListView);
+        frameLayout3.addView(this.recyclerListView);
         ChatAvatarContainer chatAvatarContainer = new ChatAvatarContainer(context, null, false);
         this.avatarContainer = chatAvatarContainer;
         chatAvatarContainer.setOccupyStatusBar(!AndroidUtilities.isTablet());

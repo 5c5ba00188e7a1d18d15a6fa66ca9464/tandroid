@@ -5917,62 +5917,34 @@ public class AndroidUtilities {
 
     public static void applySpring(Animator animator, float f, float f2, float f3) {
         double d = f2;
+        double d2 = f * f3;
         Double.isNaN(d);
-        final double sqrt = d / (Math.sqrt(f * f3) * 2.0d);
-        final double sqrt2 = Math.sqrt(f / f3);
-        animator.setDuration((long) ((Math.log(0.0025d) / ((-sqrt) * sqrt2)) * 1000.0d));
+        final double sqrt = d / (Math.sqrt(d2) * 2.0d);
+        double d3 = f / f3;
+        final double sqrt2 = Math.sqrt(d3);
+        double sqrt3 = Math.sqrt(d3);
+        Double.isNaN(d);
+        animator.setDuration((long) ((Math.log(0.0025d) / ((-(d / (Math.sqrt(d2) * 2.0d))) * sqrt3)) * 1000.0d));
         animator.setInterpolator(new Interpolator() { // from class: org.telegram.messenger.AndroidUtilities.11
             @Override // android.animation.TimeInterpolator
             public float getInterpolation(float f4) {
                 double exp;
-                double d2 = sqrt;
-                if (d2 < 1.0d) {
-                    double sqrt3 = sqrt2 * Math.sqrt(1.0d - (d2 * d2));
-                    double d3 = (-sqrt) * sqrt2;
-                    double d4 = f4;
-                    Double.isNaN(d4);
-                    double exp2 = Math.exp(d3 * d4);
-                    Double.isNaN(d4);
-                    double d5 = d4 * sqrt3;
-                    exp = 1.0d - (exp2 * (Math.cos(d5) + (((sqrt * sqrt2) / sqrt3) * Math.sin(d5))));
+                double d4 = sqrt;
+                if (d4 < 1.0d) {
+                    double sqrt4 = sqrt2 * Math.sqrt(1.0d - (d4 * d4));
+                    double d5 = (-sqrt) * sqrt2;
+                    double d6 = f4;
+                    Double.isNaN(d6);
+                    double exp2 = Math.exp(d5 * d6);
+                    Double.isNaN(d6);
+                    double d7 = d6 * sqrt4;
+                    exp = 1.0d - (exp2 * (Math.cos(d7) + (((sqrt * sqrt2) / sqrt4) * Math.sin(d7))));
                 } else {
-                    double d6 = (-d2) * sqrt2;
-                    double d7 = f4;
-                    Double.isNaN(d7);
-                    double d8 = d6 * d7;
-                    exp = 1.0d - ((d8 + 1.0d) * Math.exp(d8));
-                }
-                return (float) exp;
-            }
-        });
-    }
-
-    public static void applySpring(Animator animator, float f, float f2, float f3, long j) {
-        double d = f2;
-        Double.isNaN(d);
-        final double sqrt = d / (Math.sqrt(f * f3) * 2.0d);
-        final double sqrt2 = Math.sqrt(f / f3);
-        animator.setDuration(j);
-        animator.setInterpolator(new Interpolator() { // from class: org.telegram.messenger.AndroidUtilities.12
-            @Override // android.animation.TimeInterpolator
-            public float getInterpolation(float f4) {
-                double exp;
-                double d2 = sqrt;
-                if (d2 < 1.0d) {
-                    double sqrt3 = sqrt2 * Math.sqrt(1.0d - (d2 * d2));
-                    double d3 = (-sqrt) * sqrt2;
-                    double d4 = f4;
-                    Double.isNaN(d4);
-                    double exp2 = Math.exp(d3 * d4);
-                    Double.isNaN(d4);
-                    double d5 = d4 * sqrt3;
-                    exp = 1.0d - (exp2 * (Math.cos(d5) + (((sqrt * sqrt2) / sqrt3) * Math.sin(d5))));
-                } else {
-                    double d6 = (-d2) * sqrt2;
-                    double d7 = f4;
-                    Double.isNaN(d7);
-                    double d8 = d6 * d7;
-                    exp = 1.0d - ((d8 + 1.0d) * Math.exp(d8));
+                    double d8 = (-d4) * sqrt2;
+                    double d9 = f4;
+                    Double.isNaN(d9);
+                    double d10 = d8 * d9;
+                    exp = 1.0d - ((d10 + 1.0d) * Math.exp(d10));
                 }
                 return (float) exp;
             }
@@ -5981,7 +5953,7 @@ public class AndroidUtilities {
 
     /* JADX WARN: Removed duplicated region for block: B:29:0x004d A[ADDED_TO_REGION] */
     /* JADX WARN: Removed duplicated region for block: B:40:0x0075 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x0076 A[Catch: Exception -> 0x01b0, TryCatch #0 {Exception -> 0x01b0, blocks: (B:5:0x0004, B:8:0x000f, B:11:0x0016, B:32:0x0053, B:34:0x005b, B:36:0x0063, B:38:0x006f, B:41:0x0076, B:43:0x0090, B:45:0x0098, B:48:0x00a2, B:51:0x00b3, B:53:0x00bf, B:54:0x00c2, B:56:0x00c8, B:58:0x00cf, B:61:0x00da, B:63:0x00e0, B:66:0x00ed, B:67:0x00f1, B:111:0x018b, B:112:0x018e, B:114:0x0194, B:69:0x00f6, B:72:0x0101, B:75:0x010d, B:78:0x0118, B:81:0x0123, B:84:0x012d, B:87:0x0137, B:90:0x0142, B:93:0x014c, B:96:0x0157, B:99:0x0162, B:102:0x016d, B:105:0x0177, B:108:0x0182, B:118:0x019e, B:120:0x01a4, B:18:0x002c, B:21:0x0036, B:24:0x0040), top: B:126:0x0004 }] */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x0076 A[Catch: Exception -> 0x01a2, TryCatch #0 {Exception -> 0x01a2, blocks: (B:5:0x0004, B:8:0x000f, B:11:0x0016, B:32:0x0053, B:34:0x005b, B:36:0x0063, B:38:0x006f, B:41:0x0076, B:43:0x0090, B:45:0x0098, B:48:0x00a2, B:51:0x00b3, B:53:0x00bf, B:54:0x00c2, B:56:0x00c8, B:58:0x00cf, B:61:0x00da, B:63:0x00e0, B:66:0x00ed, B:67:0x00f1, B:111:0x018b, B:69:0x00f6, B:72:0x0101, B:75:0x010d, B:78:0x0118, B:81:0x0123, B:84:0x012d, B:87:0x0137, B:90:0x0142, B:93:0x014c, B:96:0x0157, B:99:0x0162, B:102:0x016d, B:105:0x0177, B:108:0x0182, B:114:0x0190, B:116:0x0196, B:18:0x002c, B:21:0x0036, B:24:0x0040), top: B:122:0x0004 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -6035,7 +6007,7 @@ public class AndroidUtilities {
                             return false;
                         }
                         if (arrayList.size() > 1) {
-                            String str2 = (String) arrayList.get(0);
+                            String str2 = (String) arrayList.get(1);
                             if (TextUtils.isEmpty(str2)) {
                                 return false;
                             }
@@ -6142,7 +6114,7 @@ public class AndroidUtilities {
                                 case '\r':
                                     return false;
                                 default:
-                                    return !TextUtils.isEmpty((String) arrayList.get(1));
+                                    return true;
                             }
                         } else if (arrayList.size() == 1) {
                             return !TextUtils.isEmpty(parse.getQueryParameter("startapp"));

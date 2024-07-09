@@ -74,9 +74,8 @@ public class UsersAlertBase extends BottomSheet {
     protected Drawable shadowDrawable;
     private TextView titleView;
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    public boolean canDismissWithSwipe() {
+    protected boolean canDismissWithSwipe() {
         return false;
     }
 

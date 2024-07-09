@@ -60,7 +60,7 @@ public class ClearHistoryAlert extends BottomSheet {
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    public boolean canDismissWithSwipe() {
+    protected boolean canDismissWithSwipe() {
         return false;
     }
 

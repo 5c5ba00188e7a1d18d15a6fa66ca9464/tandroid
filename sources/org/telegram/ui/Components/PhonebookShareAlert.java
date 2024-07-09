@@ -81,9 +81,8 @@ public class PhonebookShareAlert extends BottomSheet {
     private int vcardEndRow;
     private int vcardStartRow;
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    public boolean canDismissWithSwipe() {
+    protected boolean canDismissWithSwipe() {
         return false;
     }
 

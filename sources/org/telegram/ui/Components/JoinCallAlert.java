@@ -79,9 +79,8 @@ public class JoinCallAlert extends BottomSheet {
         void didSelectChat(TLRPC$InputPeer tLRPC$InputPeer, boolean z, boolean z2);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    public boolean canDismissWithSwipe() {
+    protected boolean canDismissWithSwipe() {
         return false;
     }
 

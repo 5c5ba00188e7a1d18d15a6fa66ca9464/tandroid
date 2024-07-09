@@ -227,7 +227,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    public boolean canDismissWithSwipe() {
+    protected boolean canDismissWithSwipe() {
         return false;
     }
 

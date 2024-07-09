@@ -136,9 +136,8 @@ public class ThemeEditorView {
         private boolean startedColorChange;
         private int topBeforeSwitch;
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.ActionBar.BottomSheet
-        public boolean canDismissWithSwipe() {
+        protected boolean canDismissWithSwipe() {
             return false;
         }
 
