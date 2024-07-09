@@ -596,8 +596,9 @@ messageActionGroupCallScheduled#b3a07661 call:InputGroupCall schedule_date:int =
 messageActionHistoryClear#9fbab604 = MessageAction;
 messageActionInviteToGroupCall#502f92f7 call:InputGroupCall users:Vector<long> = MessageAction;
 messageActionLoginUnknownLocation#555555f5 title:string address:string = MessageAction;
+messageActionPaymentRefunded#41b3e202 flags:# peer:Peer currency:string total_amount:long payload:flags.0?bytes charge:PaymentCharge = MessageAction;
 messageActionPaymentSent#96163f56 flags:# recurring_init:flags.2?true recurring_used:flags.3?true currency:string total_amount:long invoice_slug:flags.0?string = MessageAction;
-messageActionPaymentSentMe#8f31b327 flags:# recurring_init:flags.2?true recurring_used:flags.3?true currency:string total_amount:long payload:bytes info:flags.0?PaymentRequestedInfo shipping_option_id:flags.1?string = MessageAction;
+messageActionPaymentSentMe#8f31b327 flags:# recurring_init:flags.2?true recurring_used:flags.3?true currency:string total_amount:long payload:bytes info:flags.0?PaymentRequestedInfo shipping_option_id:flags.1?string charge:PaymentCharge = MessageAction;
 messageActionPhoneCall#80e11a7f flags:# video:flags.2?true call_id:long reason:flags.0?PhoneCallDiscardReason duration:flags.1?int = MessageAction;
 messageActionPhoneNumberRequest#1baa035 = MessageAction;
 messageActionPinMessage#94bd38ed = MessageAction;
@@ -805,6 +806,7 @@ pageTableCell#34566b6a flags:# header:flags.0?true align_center:flags.3?true ali
 pageTableRow#e0c0c5e5 cells:Vector<PageTableCell> = PageTableRow;
 passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow#3a912d4a salt1:bytes salt2:bytes g:int p:bytes = PasswordKdfAlgo;
 passwordKdfAlgoUnknown#d45ab096 = PasswordKdfAlgo;
+paymentCharge#ea02c27e id:string provider_charge_id:string = PaymentCharge;
 paymentFormMethod#88f8f21b url:string title:string = PaymentFormMethod;
 paymentRequestedInfo#909c3f94 flags:# name:flags.0?string phone:flags.1?string email:flags.2?string shipping_address:flags.3?PostAddress = PaymentRequestedInfo;
 paymentSavedCredentialsCard#cdc27a1f id:string title:string = PaymentSavedCredentialsCard;
@@ -1841,4 +1843,4 @@ stories.togglePeerStoriesHidden#bd0415c4 peer:InputPeer hidden:Bool = Bool;
 stories.togglePinned#9a75a1ef peer:InputPeer id:Vector<int> pinned:Bool = Vector<int>;
 togglePinnedToTop#b297e9b peer:InputPeer id:Vector<int> = Bool;
 
-// Layer 183
+// Layer 184
