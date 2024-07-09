@@ -25,6 +25,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
+import org.telegram.messenger.browser.Browser;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Chat;
@@ -62,6 +63,7 @@ public class LinkEditActivity extends BaseFragment {
     private boolean ignoreSet;
     TLRPC$TL_chatInviteExported inviteToEdit;
     boolean loading;
+    private TextCheckCell monthlyFeeCell;
     private EditText nameEditText;
     AlertDialog progressDialog;
     private TextSettingsCell revokeLink;
@@ -336,9 +338,22 @@ public class LinkEditActivity extends BaseFragment {
         int i6 = Theme.key_windowBackgroundGrayShadow;
         textInfoPrivacyCell.setBackground(Theme.getThemedDrawableByKey(context, i5, i6));
         if (z) {
-            textInfoPrivacyCell.setText(LocaleController.getString("ApproveNewMembersDescription", R.string.ApproveNewMembersDescription));
+            textInfoPrivacyCell.setText(LocaleController.getString(R.string.ApproveNewMembersDescription));
+            linearLayout.addView(textInfoPrivacyCell);
         }
-        linearLayout.addView(textInfoPrivacyCell);
+        TextCheckCell textCheckCell2 = new TextCheckCell(context);
+        this.monthlyFeeCell = textCheckCell2;
+        textCheckCell2.setTextAndCheck(LocaleController.getString(R.string.RequiredMonthlyFee), false, false);
+        linearLayout.addView(this.monthlyFeeCell);
+        TextInfoPrivacyCell textInfoPrivacyCell2 = new TextInfoPrivacyCell(context);
+        textInfoPrivacyCell2.setBackground(Theme.getThemedDrawableByKey(context, i5, i6));
+        textInfoPrivacyCell2.setText(AndroidUtilities.replaceArrows(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.RequiredMonthlyFeeDescription), new Runnable() { // from class: org.telegram.ui.LinkEditActivity$$ExternalSyntheticLambda5
+            @Override // java.lang.Runnable
+            public final void run() {
+                LinkEditActivity.this.lambda$createView$1();
+            }
+        }), true));
+        linearLayout.addView(textInfoPrivacyCell2);
         HeaderCell headerCell = new HeaderCell(context);
         this.timeHeaderCell = headerCell;
         headerCell.setText(LocaleController.getString("LimitByPeriod", R.string.LimitByPeriod));
@@ -355,13 +370,13 @@ public class LinkEditActivity extends BaseFragment {
         this.timeEditText.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.LinkEditActivity$$ExternalSyntheticLambda4
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
-                LinkEditActivity.this.lambda$createView$2(context, view);
+                LinkEditActivity.this.lambda$createView$3(context, view);
             }
         });
-        this.timeChooseView.setCallback(new SlideChooseView.Callback() { // from class: org.telegram.ui.LinkEditActivity$$ExternalSyntheticLambda11
+        this.timeChooseView.setCallback(new SlideChooseView.Callback() { // from class: org.telegram.ui.LinkEditActivity$$ExternalSyntheticLambda13
             @Override // org.telegram.ui.Components.SlideChooseView.Callback
             public final void onOptionSelected(int i7) {
-                LinkEditActivity.this.lambda$createView$3(i7);
+                LinkEditActivity.this.lambda$createView$4(i7);
             }
 
             @Override // org.telegram.ui.Components.SlideChooseView.Callback
@@ -371,9 +386,9 @@ public class LinkEditActivity extends BaseFragment {
         });
         resetDates();
         linearLayout.addView(this.timeEditText, LayoutHelper.createLinear(-1, 50));
-        TextInfoPrivacyCell textInfoPrivacyCell2 = new TextInfoPrivacyCell(context);
-        this.divider = textInfoPrivacyCell2;
-        textInfoPrivacyCell2.setText(LocaleController.getString("TimeLimitHelp", R.string.TimeLimitHelp));
+        TextInfoPrivacyCell textInfoPrivacyCell3 = new TextInfoPrivacyCell(context);
+        this.divider = textInfoPrivacyCell3;
+        textInfoPrivacyCell3.setText(LocaleController.getString("TimeLimitHelp", R.string.TimeLimitHelp));
         linearLayout.addView(this.divider);
         HeaderCell headerCell2 = new HeaderCell(context);
         this.usesHeaderCell = headerCell2;
@@ -384,7 +399,7 @@ public class LinkEditActivity extends BaseFragment {
         slideChooseView2.setCallback(new SlideChooseView.Callback() { // from class: org.telegram.ui.LinkEditActivity$$ExternalSyntheticLambda12
             @Override // org.telegram.ui.Components.SlideChooseView.Callback
             public final void onOptionSelected(int i7) {
-                LinkEditActivity.this.lambda$createView$4(i7);
+                LinkEditActivity.this.lambda$createView$5(i7);
             }
 
             @Override // org.telegram.ui.Components.SlideChooseView.Callback
@@ -441,9 +456,9 @@ public class LinkEditActivity extends BaseFragment {
             }
         });
         linearLayout.addView(this.usesEditText, LayoutHelper.createLinear(-1, 50));
-        TextInfoPrivacyCell textInfoPrivacyCell3 = new TextInfoPrivacyCell(context);
-        this.dividerUses = textInfoPrivacyCell3;
-        textInfoPrivacyCell3.setText(LocaleController.getString("UsesLimitHelp", R.string.UsesLimitHelp));
+        TextInfoPrivacyCell textInfoPrivacyCell4 = new TextInfoPrivacyCell(context);
+        this.dividerUses = textInfoPrivacyCell4;
+        textInfoPrivacyCell4.setText(LocaleController.getString("UsesLimitHelp", R.string.UsesLimitHelp));
         linearLayout.addView(this.dividerUses);
         EditText editText2 = new EditText(this, context) { // from class: org.telegram.ui.LinkEditActivity.7
             @Override // android.widget.TextView, android.view.View
@@ -485,10 +500,10 @@ public class LinkEditActivity extends BaseFragment {
         editText4.setTextColor(Theme.getColor(i8));
         this.nameEditText.setTextSize(1, 16.0f);
         linearLayout.addView(this.nameEditText, LayoutHelper.createLinear(-1, 50));
-        TextInfoPrivacyCell textInfoPrivacyCell4 = new TextInfoPrivacyCell(context);
-        this.dividerName = textInfoPrivacyCell4;
+        TextInfoPrivacyCell textInfoPrivacyCell5 = new TextInfoPrivacyCell(context);
+        this.dividerName = textInfoPrivacyCell5;
         int i9 = R.drawable.greydivider_bottom;
-        textInfoPrivacyCell4.setBackground(Theme.getThemedDrawableByKey(context, i9, i6));
+        textInfoPrivacyCell5.setBackground(Theme.getThemedDrawableByKey(context, i9, i6));
         this.dividerName.setText(LocaleController.getString("LinkNameHelp", R.string.LinkNameHelp));
         linearLayout.addView(this.dividerName);
         if (this.type == 1) {
@@ -500,7 +515,7 @@ public class LinkEditActivity extends BaseFragment {
             this.revokeLink.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.LinkEditActivity$$ExternalSyntheticLambda3
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
-                    LinkEditActivity.this.lambda$createView$6(view);
+                    LinkEditActivity.this.lambda$createView$7(view);
                 }
             });
             linearLayout.addView(this.revokeLink);
@@ -550,22 +565,27 @@ public class LinkEditActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$1(boolean z, int i) {
+    public /* synthetic */ void lambda$createView$1() {
+        Browser.openUrl(getContext(), LocaleController.getString(R.string.RequiredMonthlyFeeDescriptionLink));
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$createView$2(boolean z, int i) {
         chooseDate(i);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$2(Context context, View view) {
-        AlertsCreator.createDatePickerDialog(context, LocaleController.getString(R.string.ExpireAfter), LocaleController.getString(R.string.SetTimeLimit), -1L, new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.LinkEditActivity$$ExternalSyntheticLambda10
+    public /* synthetic */ void lambda$createView$3(Context context, View view) {
+        AlertsCreator.createDatePickerDialog(context, LocaleController.getString(R.string.ExpireAfter), LocaleController.getString(R.string.SetTimeLimit), -1L, new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.LinkEditActivity$$ExternalSyntheticLambda11
             @Override // org.telegram.ui.Components.AlertsCreator.ScheduleDatePickerDelegate
             public final void didSelectDate(boolean z, int i) {
-                LinkEditActivity.this.lambda$createView$1(z, i);
+                LinkEditActivity.this.lambda$createView$2(z, i);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$3(int i) {
+    public /* synthetic */ void lambda$createView$4(int i) {
         if (i < this.dispalyedDates.size()) {
             this.timeEditText.setText(LocaleController.formatDateAudio(this.dispalyedDates.get(i).intValue() + getConnectionsManager().getCurrentTime(), false));
             return;
@@ -574,7 +594,7 @@ public class LinkEditActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$4(int i) {
+    public /* synthetic */ void lambda$createView$5(int i) {
         this.usesEditText.clearFocus();
         this.ignoreSet = true;
         if (i < this.dispalyedUses.size()) {
@@ -586,14 +606,14 @@ public class LinkEditActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$6(View view) {
+    public /* synthetic */ void lambda$createView$7(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
         builder.setMessage(LocaleController.getString("RevokeAlert", R.string.RevokeAlert));
         builder.setTitle(LocaleController.getString("RevokeLink", R.string.RevokeLink));
         builder.setPositiveButton(LocaleController.getString("RevokeButton", R.string.RevokeButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LinkEditActivity$$ExternalSyntheticLambda0
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
-                LinkEditActivity.this.lambda$createView$5(dialogInterface, i);
+                LinkEditActivity.this.lambda$createView$6(dialogInterface, i);
             }
         });
         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -601,7 +621,7 @@ public class LinkEditActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$5(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$createView$6(DialogInterface dialogInterface, int i) {
         this.callback.revokeLink(this.inviteToEdit);
         finishFragment();
     }
@@ -671,10 +691,10 @@ public class LinkEditActivity extends BaseFragment {
             if (!TextUtils.isEmpty(obj2)) {
                 tLRPC$TL_messages_exportChatInvite.flags |= 16;
             }
-            getConnectionsManager().sendRequest(tLRPC$TL_messages_exportChatInvite, new RequestDelegate() { // from class: org.telegram.ui.LinkEditActivity$$ExternalSyntheticLambda7
+            getConnectionsManager().sendRequest(tLRPC$TL_messages_exportChatInvite, new RequestDelegate() { // from class: org.telegram.ui.LinkEditActivity$$ExternalSyntheticLambda9
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    LinkEditActivity.this.lambda$onCreateClicked$8(tLObject, tLRPC$TL_error);
+                    LinkEditActivity.this.lambda$onCreateClicked$9(tLObject, tLRPC$TL_error);
                 }
             });
         } else if (i != 1) {
@@ -738,7 +758,7 @@ public class LinkEditActivity extends BaseFragment {
                     getConnectionsManager().sendRequest(tLRPC$TL_messages_editExportedChatInvite, new RequestDelegate() { // from class: org.telegram.ui.LinkEditActivity$$ExternalSyntheticLambda8
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                            LinkEditActivity.this.lambda$onCreateClicked$10(tLObject, tLRPC$TL_error);
+                            LinkEditActivity.this.lambda$onCreateClicked$11(tLObject, tLRPC$TL_error);
                         }
                     });
                     return;
@@ -764,17 +784,17 @@ public class LinkEditActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onCreateClicked$8(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$onCreateClicked$9(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LinkEditActivity$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
-                LinkEditActivity.this.lambda$onCreateClicked$7(tLRPC$TL_error, tLObject);
+                LinkEditActivity.this.lambda$onCreateClicked$8(tLRPC$TL_error, tLObject);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onCreateClicked$7(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
+    public /* synthetic */ void lambda$onCreateClicked$8(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
         this.loading = false;
         AlertDialog alertDialog = this.progressDialog;
         if (alertDialog != null) {
@@ -792,17 +812,17 @@ public class LinkEditActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onCreateClicked$10(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LinkEditActivity$$ExternalSyntheticLambda5
+    public /* synthetic */ void lambda$onCreateClicked$11(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LinkEditActivity$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
-                LinkEditActivity.this.lambda$onCreateClicked$9(tLRPC$TL_error, tLObject);
+                LinkEditActivity.this.lambda$onCreateClicked$10(tLRPC$TL_error, tLObject);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onCreateClicked$9(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
+    public /* synthetic */ void lambda$onCreateClicked$10(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
         this.loading = false;
         AlertDialog alertDialog = this.progressDialog;
         if (alertDialog != null) {
@@ -992,10 +1012,10 @@ public class LinkEditActivity extends BaseFragment {
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public ArrayList<ThemeDescription> getThemeDescriptions() {
-        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.LinkEditActivity$$ExternalSyntheticLambda9
+        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.LinkEditActivity$$ExternalSyntheticLambda10
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
-                LinkEditActivity.this.lambda$getThemeDescriptions$11();
+                LinkEditActivity.this.lambda$getThemeDescriptions$12();
             }
 
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
@@ -1037,7 +1057,7 @@ public class LinkEditActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$getThemeDescriptions$11() {
+    public /* synthetic */ void lambda$getThemeDescriptions$12() {
         TextInfoPrivacyCell textInfoPrivacyCell = this.dividerUses;
         if (textInfoPrivacyCell != null) {
             Context context = textInfoPrivacyCell.getContext();

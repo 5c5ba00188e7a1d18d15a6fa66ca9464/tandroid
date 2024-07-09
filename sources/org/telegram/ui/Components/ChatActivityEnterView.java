@@ -262,6 +262,7 @@ import org.telegram.ui.bots.BotWebViewAttachedSheet;
 import org.telegram.ui.bots.BotWebViewMenuContainer;
 import org.telegram.ui.bots.BotWebViewSheet;
 import org.telegram.ui.bots.ChatActivityBotWebViewButton;
+import org.telegram.ui.bots.WebViewRequestProps;
 /* loaded from: classes3.dex */
 public class ChatActivityEnterView extends BlurredFrameLayout implements NotificationCenter.NotificationCenterDelegate, SizeNotifierFrameLayout.SizeNotifierFrameLayoutDelegate, StickersAlert.StickersAlertDelegate, SuggestEmojiView.AnchorViewDelegate {
     private final Property<? super View, Float> ATTACH_LAYOUT_ALPHA;
@@ -4498,7 +4499,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         AndroidUtilities.hideKeyboard(this);
         int i = this.currentAccount;
         long j = this.dialog_id;
-        BotWebViewAttachedSheet.WebViewRequestProps of = BotWebViewAttachedSheet.WebViewRequestProps.of(i, j, j, this.botMenuWebViewTitle, this.botMenuWebViewUrl, 2, 0, false, null, false, null, null, 0, false);
+        WebViewRequestProps of = WebViewRequestProps.of(i, j, j, this.botMenuWebViewTitle, this.botMenuWebViewUrl, 2, 0, false, null, false, null, null, 0, false);
         LaunchActivity launchActivity = LaunchActivity.instance;
         if (launchActivity != null && launchActivity.getBottomSheetTabs() != null && LaunchActivity.instance.getBottomSheetTabs().tryReopenTab(of) != null) {
             BotCommandsMenuView botCommandsMenuView = this.botCommandsMenuButton;
@@ -11477,7 +11478,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                             String str2 = tLRPC$KeyboardButton2.url;
                             boolean z = tLRPC$KeyboardButton2 instanceof TLRPC$TL_keyboardButtonSimpleWebView;
                             MessageObject messageObject3 = messageObject;
-                            BotWebViewAttachedSheet.WebViewRequestProps of2 = BotWebViewAttachedSheet.WebViewRequestProps.of(i2, j3, j4, str, str2, z ? 1 : 0, messageObject3 != null ? messageObject3.messageOwner.id : 0, false, null, false, null, null, 0, false);
+                            WebViewRequestProps of2 = WebViewRequestProps.of(i2, j3, j4, str, str2, z ? 1 : 0, messageObject3 != null ? messageObject3.messageOwner.id : 0, false, null, false, null, null, 0, false);
                             LaunchActivity launchActivity = LaunchActivity.instance;
                             if (launchActivity != null && launchActivity.getBottomSheetTabs() != null && LaunchActivity.instance.getBottomSheetTabs().tryReopenTab(of2) != null) {
                                 if (ChatActivityEnterView.this.botCommandsMenuButton != null) {

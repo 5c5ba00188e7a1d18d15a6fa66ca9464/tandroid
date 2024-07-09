@@ -7,8 +7,6 @@ import android.os.Parcel;
 import android.os.RemoteException;
 /* loaded from: classes3.dex */
 public interface ICustomTabsService extends IInterface {
-    boolean newSession(ICustomTabsCallback iCustomTabsCallback) throws RemoteException;
-
     boolean warmup(long j) throws RemoteException;
 
     /* loaded from: classes3.dex */
@@ -42,22 +40,6 @@ public interface ICustomTabsService extends IInterface {
                     obtain.writeInterfaceToken("android.support.customtabs.ICustomTabsService");
                     obtain.writeLong(j);
                     this.mRemote.transact(2, obtain, obtain2, 0);
-                    obtain2.readException();
-                    return obtain2.readInt() != 0;
-                } finally {
-                    obtain2.recycle();
-                    obtain.recycle();
-                }
-            }
-
-            @Override // org.telegram.messenger.support.customtabs.ICustomTabsService
-            public boolean newSession(ICustomTabsCallback iCustomTabsCallback) throws RemoteException {
-                Parcel obtain = Parcel.obtain();
-                Parcel obtain2 = Parcel.obtain();
-                try {
-                    obtain.writeInterfaceToken("android.support.customtabs.ICustomTabsService");
-                    obtain.writeStrongBinder(iCustomTabsCallback != null ? iCustomTabsCallback.asBinder() : null);
-                    this.mRemote.transact(3, obtain, obtain2, 0);
                     obtain2.readException();
                     return obtain2.readInt() != 0;
                 } finally {

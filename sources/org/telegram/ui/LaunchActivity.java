@@ -307,6 +307,7 @@ import org.telegram.ui.Stories.recorder.StoryRecorder;
 import org.telegram.ui.WallpapersListActivity;
 import org.telegram.ui.bots.BotWebViewAttachedSheet;
 import org.telegram.ui.bots.BotWebViewSheet;
+import org.telegram.ui.bots.WebViewRequestProps;
 import org.webrtc.MediaStreamTrack;
 import org.webrtc.voiceengine.WebRtcAudioTrack;
 /* loaded from: classes4.dex */
@@ -1251,7 +1252,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         }
         int i = this.currentAccount;
         long j = tLRPC$TL_attachMenuBot.bot_id;
-        BotWebViewAttachedSheet.WebViewRequestProps of = BotWebViewAttachedSheet.WebViewRequestProps.of(i, j, j, tLRPC$TL_attachMenuBot.short_name, null, 1, 0, false, null, false, str, null, 2, false);
+        WebViewRequestProps of = WebViewRequestProps.of(i, j, j, tLRPC$TL_attachMenuBot.short_name, null, 1, 0, false, null, false, str, null, 2, false);
         if (getBottomSheetTabs() == null || getBottomSheetTabs().tryReopenTab(of) == null) {
             if (AndroidUtilities.isTablet()) {
                 BotWebViewSheet botWebViewSheet = new BotWebViewSheet(this, lastFragment.getResourceProvider());
@@ -1643,11 +1644,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             baseFragment = arrayList2.get(arrayList2.size() - 1);
         }
         if (baseFragment != null && (baseFragment.isRemovingFromStack() || baseFragment.isInPreviewMode())) {
-            if (mainFragmentsStack.size() > 1) {
-                baseFragment = mainFragmentsStack.get(arrayList.size() - 2);
-            } else {
-                baseFragment = null;
-            }
+            baseFragment = mainFragmentsStack.size() > 1 ? mainFragmentsStack.get(arrayList.size() - 2) : null;
         }
         boolean z6 = baseFragment != null && baseFragment.hasForceLightStatusBar();
         int i = Build.VERSION.SDK_INT;
@@ -1661,10 +1658,22 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 AndroidUtilities.setLightStatusBar(getWindow(), z5, z6);
             }
             if (i >= 26 && z3 && (!z || baseFragment == null || !baseFragment.isInPreviewMode())) {
-                setNavigationBarColor((baseFragment == null || !z) ? Theme.getColor(Theme.key_windowBackgroundGray, null, true) : baseFragment.getNavigationBarColor(), z4);
+                int color = (baseFragment == null || !z) ? Theme.getColor(Theme.key_windowBackgroundGray, null, true) : baseFragment.getNavigationBarColor();
+                if (this.actionBarLayout.getSheetFragment(false) != null) {
+                    EmptyBaseFragment sheetFragment = this.actionBarLayout.getSheetFragment(false);
+                    if (sheetFragment.sheetsStack != null) {
+                        for (int i2 = 0; i2 < sheetFragment.sheetsStack.size(); i2++) {
+                            BaseFragment.AttachedSheet attachedSheet = sheetFragment.sheetsStack.get(i2);
+                            if (attachedSheet.attachedToParent()) {
+                                color = attachedSheet.getNavigationBarColor(color);
+                            }
+                        }
+                    }
+                }
+                setNavigationBarColor(color, z4);
             }
         }
-        if (i < 21 || !z2) {
+        if (Build.VERSION.SDK_INT < 21 || !z2) {
             return;
         }
         getWindow().setStatusBarColor(0);
@@ -10807,7 +10816,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             return;
         }
         long j = tLRPC$User.id;
-        BotWebViewAttachedSheet.WebViewRequestProps of = BotWebViewAttachedSheet.WebViewRequestProps.of(i, j, j, null, null, 3, 0, false, tLRPC$TL_messages_botApp.app, atomicBoolean.get(), str, tLRPC$User, 0, z);
+        WebViewRequestProps of = WebViewRequestProps.of(i, j, j, null, null, 3, 0, false, tLRPC$TL_messages_botApp.app, atomicBoolean.get(), str, tLRPC$User, 0, z);
         if (getBottomSheetTabs() == null || getBottomSheetTabs().tryReopenTab(of) == null) {
             if (AndroidUtilities.isTablet()) {
                 BotWebViewSheet botWebViewSheet = new BotWebViewSheet(this, baseFragment.getResourceProvider());
@@ -12484,10 +12493,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         if (((org.telegram.ui.ProfileActivity) r1.get(r1.size() - 1)).isSettings() == false) goto L132;
      */
     /* JADX WARN: Removed duplicated region for block: B:116:0x030c  */
-    /* JADX WARN: Removed duplicated region for block: B:237:0x0699  */
-    /* JADX WARN: Removed duplicated region for block: B:238:0x069f  */
-    /* JADX WARN: Removed duplicated region for block: B:241:0x06a4 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:242:0x06a5  */
+    /* JADX WARN: Removed duplicated region for block: B:237:0x0692  */
+    /* JADX WARN: Removed duplicated region for block: B:238:0x0698  */
+    /* JADX WARN: Removed duplicated region for block: B:241:0x069d A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:242:0x069e  */
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -12681,10 +12690,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             if (mainFragmentsStack.isEmpty()) {
                 return;
             }
-            ArticleViewer articleViewer = ArticleViewer.getInstance();
             ArrayList<BaseFragment> arrayList6 = mainFragmentsStack;
-            articleViewer.setParentActivity(this, arrayList6.get(arrayList6.size() - 1));
-            ArticleViewer.getInstance().open((TLRPC$TL_webPage) objArr[0], (String) objArr[1]);
+            arrayList6.get(arrayList6.size() - 1).createArticleViewer().open((TLRPC$TL_webPage) objArr[0], (String) objArr[1]);
         } else if (i == NotificationCenter.hasNewContactsToImport) {
             ActionBarLayout actionBarLayout2 = this.actionBarLayout;
             if (actionBarLayout2 == null || actionBarLayout2.getFragmentStack().isEmpty()) {

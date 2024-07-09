@@ -219,6 +219,7 @@ import org.telegram.tgnet.TLRPC$TL_messageActionGroupCallScheduled;
 import org.telegram.tgnet.TLRPC$TL_messageActionHistoryClear;
 import org.telegram.tgnet.TLRPC$TL_messageActionInviteToGroupCall;
 import org.telegram.tgnet.TLRPC$TL_messageActionLoginUnknownLocation;
+import org.telegram.tgnet.TLRPC$TL_messageActionPaymentRefunded;
 import org.telegram.tgnet.TLRPC$TL_messageActionPaymentSent;
 import org.telegram.tgnet.TLRPC$TL_messageActionPhoneCall;
 import org.telegram.tgnet.TLRPC$TL_messageActionPinMessage;
@@ -5323,33 +5324,33 @@ public class MessageObject {
         return tLRPC$Chat == null ? MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(j)) : tLRPC$Chat;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:1014:0x16b4 A[EDGE_INSN: B:1014:0x16b4->B:879:0x16b4 ?: BREAK  , SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1016:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1021:0x1708 A[EDGE_INSN: B:1021:0x1708->B:886:0x1708 ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1023:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:11:0x002a  */
     /* JADX WARN: Removed duplicated region for block: B:12:0x002c  */
     /* JADX WARN: Removed duplicated region for block: B:15:0x0041  */
-    /* JADX WARN: Removed duplicated region for block: B:248:0x06d5  */
-    /* JADX WARN: Removed duplicated region for block: B:249:0x06d8  */
-    /* JADX WARN: Removed duplicated region for block: B:252:0x06df  */
-    /* JADX WARN: Removed duplicated region for block: B:253:0x06e2  */
-    /* JADX WARN: Removed duplicated region for block: B:265:0x0713  */
-    /* JADX WARN: Removed duplicated region for block: B:266:0x071e  */
-    /* JADX WARN: Removed duplicated region for block: B:272:0x072b  */
-    /* JADX WARN: Removed duplicated region for block: B:282:0x0751  */
-    /* JADX WARN: Removed duplicated region for block: B:303:0x07b6  */
-    /* JADX WARN: Removed duplicated region for block: B:347:0x085e  */
-    /* JADX WARN: Removed duplicated region for block: B:351:0x087c  */
-    /* JADX WARN: Removed duplicated region for block: B:370:0x08dc  */
-    /* JADX WARN: Removed duplicated region for block: B:371:0x08f2  */
-    /* JADX WARN: Removed duplicated region for block: B:387:0x093c  */
-    /* JADX WARN: Removed duplicated region for block: B:388:0x0948  */
-    /* JADX WARN: Removed duplicated region for block: B:473:0x0b4c  */
-    /* JADX WARN: Removed duplicated region for block: B:494:0x0bf8  */
-    /* JADX WARN: Removed duplicated region for block: B:809:0x14f7  */
-    /* JADX WARN: Removed duplicated region for block: B:823:0x153d  */
-    /* JADX WARN: Removed duplicated region for block: B:824:0x1540  */
-    /* JADX WARN: Removed duplicated region for block: B:878:0x16b1 A[LOOP:3: B:860:0x167b->B:878:0x16b1, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:988:0x193a  */
+    /* JADX WARN: Removed duplicated region for block: B:255:0x0729  */
+    /* JADX WARN: Removed duplicated region for block: B:256:0x072c  */
+    /* JADX WARN: Removed duplicated region for block: B:259:0x0733  */
+    /* JADX WARN: Removed duplicated region for block: B:260:0x0736  */
+    /* JADX WARN: Removed duplicated region for block: B:272:0x0767  */
+    /* JADX WARN: Removed duplicated region for block: B:273:0x0772  */
+    /* JADX WARN: Removed duplicated region for block: B:279:0x077f  */
+    /* JADX WARN: Removed duplicated region for block: B:289:0x07a5  */
+    /* JADX WARN: Removed duplicated region for block: B:310:0x080a  */
+    /* JADX WARN: Removed duplicated region for block: B:354:0x08b2  */
+    /* JADX WARN: Removed duplicated region for block: B:358:0x08d0  */
+    /* JADX WARN: Removed duplicated region for block: B:377:0x0930  */
+    /* JADX WARN: Removed duplicated region for block: B:378:0x0946  */
+    /* JADX WARN: Removed duplicated region for block: B:394:0x0990  */
+    /* JADX WARN: Removed duplicated region for block: B:395:0x099c  */
+    /* JADX WARN: Removed duplicated region for block: B:480:0x0ba0  */
+    /* JADX WARN: Removed duplicated region for block: B:501:0x0c4c  */
+    /* JADX WARN: Removed duplicated region for block: B:816:0x154b  */
+    /* JADX WARN: Removed duplicated region for block: B:830:0x1591  */
+    /* JADX WARN: Removed duplicated region for block: B:831:0x1594  */
+    /* JADX WARN: Removed duplicated region for block: B:885:0x1705 A[LOOP:3: B:867:0x16cf->B:885:0x1705, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:995:0x198e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -5382,8 +5383,10 @@ public class MessageObject {
         String str4;
         boolean z;
         TLRPC$Chat tLRPC$Chat8;
+        TLRPC$TL_messageActionPaymentRefunded tLRPC$TL_messageActionPaymentRefunded;
         TLObject chat2;
         TLObject chat3;
+        TLObject chat4;
         String formatPluralString2;
         TLRPC$Peer tLRPC$Peer = this.messageOwner.from_id;
         if (tLRPC$Peer instanceof TLRPC$TL_peerUser) {
@@ -5538,26 +5541,26 @@ public class MessageObject {
                                 TLRPC$TL_messageActionGeoProximityReached tLRPC$TL_messageActionGeoProximityReached = (TLRPC$TL_messageActionGeoProximityReached) tLRPC$MessageAction;
                                 long peerId = getPeerId(tLRPC$TL_messageActionGeoProximityReached.from_id);
                                 if (peerId > 0) {
-                                    chat2 = getUser(abstractMap, longSparseArray, peerId);
+                                    chat3 = getUser(abstractMap, longSparseArray, peerId);
                                 } else {
-                                    chat2 = getChat(abstractMap2, longSparseArray2, -peerId);
+                                    chat3 = getChat(abstractMap2, longSparseArray2, -peerId);
                                 }
                                 long peerId2 = getPeerId(tLRPC$TL_messageActionGeoProximityReached.to_id);
                                 long clientUserId = UserConfig.getInstance(this.currentAccount).getClientUserId();
                                 if (peerId2 == clientUserId) {
-                                    this.messageText = replaceWithLink(LocaleController.formatString("ActionUserWithinRadius", R.string.ActionUserWithinRadius, LocaleController.formatDistance(tLRPC$TL_messageActionGeoProximityReached.distance, 2)), "un1", chat2);
+                                    this.messageText = replaceWithLink(LocaleController.formatString("ActionUserWithinRadius", R.string.ActionUserWithinRadius, LocaleController.formatDistance(tLRPC$TL_messageActionGeoProximityReached.distance, 2)), "un1", chat3);
                                 } else {
                                     if (peerId2 > 0) {
-                                        chat3 = getUser(abstractMap, longSparseArray, peerId2);
+                                        chat4 = getUser(abstractMap, longSparseArray, peerId2);
                                     } else {
-                                        chat3 = getChat(abstractMap2, longSparseArray2, -peerId2);
+                                        chat4 = getChat(abstractMap2, longSparseArray2, -peerId2);
                                     }
                                     if (peerId == clientUserId) {
-                                        this.messageText = replaceWithLink(LocaleController.formatString("ActionUserWithinYouRadius", R.string.ActionUserWithinYouRadius, LocaleController.formatDistance(tLRPC$TL_messageActionGeoProximityReached.distance, 2)), "un1", chat3);
+                                        this.messageText = replaceWithLink(LocaleController.formatString("ActionUserWithinYouRadius", R.string.ActionUserWithinYouRadius, LocaleController.formatDistance(tLRPC$TL_messageActionGeoProximityReached.distance, 2)), "un1", chat4);
                                     } else {
-                                        CharSequence replaceWithLink3 = replaceWithLink(LocaleController.formatString("ActionUserWithinOtherRadius", R.string.ActionUserWithinOtherRadius, LocaleController.formatDistance(tLRPC$TL_messageActionGeoProximityReached.distance, 2)), "un2", chat3);
+                                        CharSequence replaceWithLink3 = replaceWithLink(LocaleController.formatString("ActionUserWithinOtherRadius", R.string.ActionUserWithinOtherRadius, LocaleController.formatDistance(tLRPC$TL_messageActionGeoProximityReached.distance, 2)), "un2", chat4);
                                         this.messageText = replaceWithLink3;
-                                        this.messageText = replaceWithLink(replaceWithLink3, "un1", chat2);
+                                        this.messageText = replaceWithLink(replaceWithLink3, "un1", chat3);
                                     }
                                 }
                             } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionCustomAction) {
@@ -5589,6 +5592,14 @@ public class MessageObject {
                                     this.messageText = replaceWithLink4;
                                     this.messageText = replaceWithLink(replaceWithLink4, "un1", tLObject2);
                                 }
+                            } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionPaymentRefunded) {
+                                long peerDialogId = DialogObject.getPeerDialogId(((TLRPC$TL_messageActionPaymentRefunded) tLRPC$MessageAction).peer);
+                                if (peerDialogId >= 0) {
+                                    chat2 = getUser(abstractMap, longSparseArray, peerDialogId);
+                                } else {
+                                    chat2 = getChat(abstractMap2, longSparseArray2, -peerDialogId);
+                                }
+                                this.messageText = StarsIntroActivity.replaceStars(replaceWithLink(LocaleController.formatString(R.string.ActionRefunded, tLRPC$TL_messageActionPaymentRefunded.currency + " " + LocaleController.formatNumber(tLRPC$TL_messageActionPaymentRefunded.total_amount, ',')), "un1", chat2));
                             } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionChatAddUser) {
                                 long j3 = tLRPC$MessageAction.user_id;
                                 if (j3 == 0 && tLRPC$MessageAction.users.size() == 1) {
@@ -5597,10 +5608,10 @@ public class MessageObject {
                                 if (j3 != 0) {
                                     TLRPC$User user6 = getUser(abstractMap, longSparseArray, j3);
                                     long j4 = this.messageOwner.peer_id.channel_id;
-                                    TLRPC$Chat chat4 = j4 != 0 ? getChat(abstractMap2, longSparseArray2, j4) : null;
+                                    TLRPC$Chat chat5 = j4 != 0 ? getChat(abstractMap2, longSparseArray2, j4) : null;
                                     TLRPC$Peer tLRPC$Peer2 = this.messageOwner.from_id;
                                     if (tLRPC$Peer2 != null && j3 == tLRPC$Peer2.user_id) {
-                                        if (ChatObject.isChannel(chat4) && !chat4.megagroup) {
+                                        if (ChatObject.isChannel(chat5) && !chat5.megagroup) {
                                             this.channelJoined = true;
                                             this.messageText = LocaleController.getString("ChannelJoined", R.string.ChannelJoined);
                                         } else if (this.messageOwner.peer_id.channel_id != 0) {
@@ -5618,7 +5629,7 @@ public class MessageObject {
                                         this.messageText = replaceWithLink(LocaleController.getString("ActionYouAddUser", R.string.ActionYouAddUser), "un2", user6);
                                     } else if (j3 == UserConfig.getInstance(this.currentAccount).getClientUserId()) {
                                         if (this.messageOwner.peer_id.channel_id != 0) {
-                                            if (chat4 != null && chat4.megagroup) {
+                                            if (chat5 != null && chat5.megagroup) {
                                                 this.messageText = replaceWithLink(LocaleController.getString("MegaAddedBy", R.string.MegaAddedBy), "un1", tLObject2);
                                             } else {
                                                 this.messageText = replaceWithLink(LocaleController.getString("ChannelAddedBy", R.string.ChannelAddedBy), "un1", tLObject2);
@@ -10739,79 +10750,45 @@ public class MessageObject {
         if (tLRPC$Document == null) {
             return false;
         }
-        String str = tLRPC$Document.mime_type;
-        if (str == null || str.startsWith("video/")) {
-            String str2 = null;
-            boolean z = false;
-            int i = 0;
-            int i2 = 0;
-            boolean z2 = false;
-            for (int i3 = 0; i3 < tLRPC$Document.attributes.size(); i3++) {
-                TLRPC$DocumentAttribute tLRPC$DocumentAttribute = tLRPC$Document.attributes.get(i3);
-                if (tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeVideo) {
-                    if (tLRPC$DocumentAttribute.round_message) {
-                        return false;
-                    }
-                    i = tLRPC$DocumentAttribute.w;
-                    i2 = tLRPC$DocumentAttribute.h;
-                    z2 = true;
-                } else if (tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeAnimated) {
-                    z = true;
-                } else if (tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeFilename) {
-                    str2 = tLRPC$DocumentAttribute.file_name;
+        String str = null;
+        boolean z = false;
+        int i = 0;
+        int i2 = 0;
+        boolean z2 = false;
+        for (int i3 = 0; i3 < tLRPC$Document.attributes.size(); i3++) {
+            TLRPC$DocumentAttribute tLRPC$DocumentAttribute = tLRPC$Document.attributes.get(i3);
+            if (tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeVideo) {
+                if (tLRPC$DocumentAttribute.round_message) {
+                    return false;
                 }
-            }
-            if (str2 != null && (lastIndexOf = str2.lastIndexOf(".")) >= 0) {
-                switch (str2.substring(lastIndexOf + 1).toLowerCase().hashCode()) {
-                    case 3619:
-                    case 3643:
-                    case 3711:
-                    case 52254:
-                    case 52316:
-                    case 96714:
-                    case 96884:
-                    case 96980:
-                    case 102340:
-                    case 106417:
-                    case 106473:
-                    case 106479:
-                    case 108184:
-                    case 108262:
-                    case 108271:
-                    case 108273:
-                    case 108308:
-                    case 108322:
-                    case 108324:
-                    case 108339:
-                    case 108460:
-                    case 108571:
-                    case 109393:
-                    case 109967:
-                    case 109982:
-                    case 112680:
-                    case 114278:
-                    case 116771:
-                    case 117856:
-                    case 120026:
-                    case 3172658:
-                    case 3298980:
-                    case 3358085:
-                    case 3504679:
-                    case 3645337:
-                        break;
-                    default:
-                        return false;
-                }
-            }
-            if (z && (i > 1280 || i2 > 1280)) {
-                z = false;
-            }
-            if (SharedConfig.streamMkv && !z2 && "video/x-matroska".equals(tLRPC$Document.mime_type)) {
+                i = tLRPC$DocumentAttribute.w;
+                i2 = tLRPC$DocumentAttribute.h;
                 z2 = true;
+            } else if (tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeAnimated) {
+                z = true;
+            } else if (tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeFilename) {
+                str = tLRPC$DocumentAttribute.file_name;
             }
-            return z2 && !z;
         }
-        return false;
+        if (str != null && (lastIndexOf = str.lastIndexOf(".")) >= 0) {
+            switch (str.substring(lastIndexOf + 1).toLowerCase().hashCode()) {
+                case 3669:
+                case 96796:
+                case 98689:
+                case 99351:
+                case 99582:
+                case 104987:
+                case 3213227:
+                    return false;
+            }
+        }
+        if (z && (i > 1280 || i2 > 1280)) {
+            z = false;
+        }
+        if (SharedConfig.streamMkv && !z2 && "video/x-matroska".equals(tLRPC$Document.mime_type)) {
+            z2 = true;
+        }
+        return z2 && !z;
     }
 
     public TLRPC$Document getDocument() {

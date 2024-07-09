@@ -17,6 +17,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ShapeDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Parcelable;
@@ -227,8 +228,9 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
     public static /* synthetic */ void lambda$showNameEnterAlert$34(DialogInterface dialogInterface, int i) {
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    protected boolean canDismissWithSwipe() {
+    public boolean canDismissWithSwipe() {
         return false;
     }
 
@@ -3305,7 +3307,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
             View view = new View(context);
             int dp = AndroidUtilities.dp(28.0f);
             int i = Theme.key_chat_emojiPanelIcon;
-            Drawable createRoundRectDrawable = Theme.createRoundRectDrawable(dp, Theme.multAlpha(Theme.getColor(i, resourcesProvider), 0.12f));
+            ShapeDrawable createRoundRectDrawable = Theme.createRoundRectDrawable(dp, Theme.multAlpha(Theme.getColor(i, resourcesProvider), 0.12f));
             Drawable mutate = context.getResources().getDrawable(R.drawable.filled_add_sticker).mutate();
             mutate.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i, resourcesProvider), PorterDuff.Mode.MULTIPLY));
             CombinedDrawable combinedDrawable = new CombinedDrawable(createRoundRectDrawable, mutate);

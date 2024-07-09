@@ -43,9 +43,6 @@ import org.telegram.ui.Components.ButtonBounce;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.Text;
 import org.telegram.ui.GradientClip;
-import org.telegram.ui.bots.BotWebViewAttachedSheet;
-import org.telegram.ui.bots.BotWebViewMenuContainer;
-import org.telegram.ui.bots.BotWebViewSheet;
 /* loaded from: classes4.dex */
 public class BottomSheetTabsOverlay extends FrameLayout {
     private View actionBarLayout;
@@ -61,9 +58,7 @@ public class BottomSheetTabsOverlay extends FrameLayout {
     private boolean closeAllButtonBackgroundDark;
     private Text closeAllButtonText;
     private float dismissProgress;
-    private BotWebViewMenuContainer dismissingMenuContainer;
-    private BotWebViewAttachedSheet dismissingSheet;
-    private BotWebViewSheet dismissingSheet2;
+    private Sheet dismissingSheet;
     private BottomSheetTabs.TabDrawable dismissingTab;
     private GradientClip gradientClip;
     private boolean hitCloseAllButton;
@@ -76,12 +71,11 @@ public class BottomSheetTabsOverlay extends FrameLayout {
     private ValueAnimator openAnimator;
     private float openProgress;
     private float openingProgress;
-    private BotWebViewAttachedSheet openingSheet;
+    private Sheet openingSheet;
     private BottomSheetTabs.TabDrawable openingTab;
     private float openingTabScroll;
     private final int[] pos;
     private final int[] pos2;
-    private final int[] pos3;
     private TabPreview pressTab;
     private boolean pressTabClose;
     private final RectF rect;
@@ -98,6 +92,26 @@ public class BottomSheetTabsOverlay extends FrameLayout {
     private VelocityTracker velocityTracker;
     private boolean verticallyScrolling;
 
+    /* loaded from: classes4.dex */
+    public interface Sheet {
+        SheetView getWindowView();
+
+        boolean isFullSize();
+
+        void release();
+
+        BottomSheetTabs.WebTabData saveState();
+    }
+
+    /* loaded from: classes4.dex */
+    public interface SheetView {
+        float drawInto(Canvas canvas, RectF rectF, float f, RectF rectF2, float f2, boolean z);
+
+        RectF getRect();
+
+        void setDrawingFromOverlay(boolean z);
+    }
+
     @Override // android.view.ViewGroup
     protected boolean drawChild(Canvas canvas, View view, long j) {
         return false;
@@ -110,7 +124,6 @@ public class BottomSheetTabsOverlay extends FrameLayout {
         this.tabs = new ArrayList<>();
         this.pos = new int[2];
         this.pos2 = new int[2];
-        this.pos3 = new int[2];
         this.rect = new RectF();
         this.rect2 = new RectF();
         this.clipRect = new RectF();
@@ -252,7 +265,7 @@ public class BottomSheetTabsOverlay extends FrameLayout {
                 if (tabPreview3 != null) {
                     if (this.tabsView != null && Math.abs(tabPreview3.dismissProgress) > 0.4f) {
                         final TabPreview tabPreview4 = this.pressTab;
-                        this.tabsView.removeTab(tabPreview4.tabData, new Utilities.Callback() { // from class: org.telegram.ui.ActionBar.BottomSheetTabsOverlay$$ExternalSyntheticLambda9
+                        this.tabsView.removeTab(tabPreview4.tabData, new Utilities.Callback() { // from class: org.telegram.ui.ActionBar.BottomSheetTabsOverlay$$ExternalSyntheticLambda5
                             @Override // org.telegram.messenger.Utilities.Callback
                             public final void run(Object obj) {
                                 BottomSheetTabsOverlay.this.lambda$dispatchTouchEvent$0(tabPreview4, (Boolean) obj);
@@ -290,7 +303,7 @@ public class BottomSheetTabsOverlay extends FrameLayout {
                     }
                     if (this.pressTabClose) {
                         final TabPreview tabPreview6 = this.pressTab;
-                        this.tabsView.removeTab(tabPreview6.tabData, new Utilities.Callback() { // from class: org.telegram.ui.ActionBar.BottomSheetTabsOverlay$$ExternalSyntheticLambda8
+                        this.tabsView.removeTab(tabPreview6.tabData, new Utilities.Callback() { // from class: org.telegram.ui.ActionBar.BottomSheetTabsOverlay$$ExternalSyntheticLambda4
                             @Override // org.telegram.messenger.Utilities.Callback
                             public final void run(Object obj) {
                                 BottomSheetTabsOverlay.this.lambda$dispatchTouchEvent$1(tabPreview6, (Boolean) obj);
@@ -438,26 +451,30 @@ public class BottomSheetTabsOverlay extends FrameLayout {
         this.slowerDismiss = z;
     }
 
-    public boolean dismissSheet(final BotWebViewAttachedSheet botWebViewAttachedSheet) {
+    public boolean dismissSheet(final Sheet sheet) {
         ValueAnimator valueAnimator;
-        if (botWebViewAttachedSheet == null || this.tabsView == null) {
+        if (sheet == null || this.tabsView == null) {
             return false;
         }
         if ((this.dismissingSheet != null || this.openingSheet != null) && (valueAnimator = this.animator) != null) {
             valueAnimator.end();
             this.animator = null;
         }
-        this.dismissingSheet = botWebViewAttachedSheet;
-        botWebViewAttachedSheet.getWindowView().setDrawingFromOverlay(true);
+        this.dismissingSheet = sheet;
+        sheet.getWindowView().setDrawingFromOverlay(true);
         invalidate();
         ValueAnimator valueAnimator2 = this.animator;
         if (valueAnimator2 != null) {
             valueAnimator2.cancel();
         }
-        final BottomSheetTabs.WebTabData saveState = botWebViewAttachedSheet.saveState();
+        final BottomSheetTabs.WebTabData saveState = sheet.saveState();
         this.dismissingTab = this.tabsView.pushTab(saveState);
         if (Build.VERSION.SDK_INT >= 26) {
-            renderHardwareViewToBitmap(saveState.webView, -saveState.webViewScroll, new Utilities.Callback() { // from class: org.telegram.ui.ActionBar.BottomSheetTabsOverlay$$ExternalSyntheticLambda5
+            View view = saveState.webView;
+            if (view == null) {
+                view = saveState.view2;
+            }
+            renderHardwareViewToBitmap(view, -saveState.viewScroll, new Utilities.Callback() { // from class: org.telegram.ui.ActionBar.BottomSheetTabsOverlay$$ExternalSyntheticLambda3
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
                     BottomSheetTabs.WebTabData.this.previewBitmap = (Bitmap) obj;
@@ -479,18 +496,23 @@ public class BottomSheetTabsOverlay extends FrameLayout {
                 int i;
                 int i2;
                 BottomSheetTabs.WebTabData webTabData = saveState;
-                if (webTabData.webView != null && webTabData.previewBitmap == null && (i = webTabData.webViewWidth) > 0 && (i2 = webTabData.webViewHeight) > 0 && Build.VERSION.SDK_INT < 26) {
+                View view2 = webTabData.webView;
+                if (view2 == null) {
+                    view2 = webTabData.view2;
+                }
+                if (view2 != null && webTabData.previewBitmap == null && (i = webTabData.viewWidth) > 0 && (i2 = webTabData.viewHeight) > 0 && Build.VERSION.SDK_INT < 26) {
                     webTabData.previewBitmap = Bitmap.createBitmap(i, i2, Bitmap.Config.RGB_565);
                     Canvas canvas = new Canvas(saveState.previewBitmap);
-                    canvas.translate(0.0f, -saveState.webViewScroll);
-                    saveState.webView.draw(canvas);
+                    canvas.translate(0.0f, -saveState.viewScroll);
+                    view2.draw(canvas);
                 }
-                botWebViewAttachedSheet.release();
+                sheet.getWindowView().setDrawingFromOverlay(false);
+                sheet.release();
                 BottomSheetTabsOverlay.this.dismissingSheet = null;
                 BottomSheetTabsOverlay.this.invalidate();
             }
         });
-        if (this.slowerDismiss || botWebViewAttachedSheet.getFullSize()) {
+        if (this.slowerDismiss || sheet.isFullSize()) {
             AndroidUtilities.applySpring(this.animator, 260.0f, 30.0f, 1.0f);
         } else {
             AndroidUtilities.applySpring(this.animator, 350.0f, 30.0f, 1.0f);
@@ -502,133 +524,6 @@ public class BottomSheetTabsOverlay extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$dismissSheet$4(ValueAnimator valueAnimator) {
-        this.dismissProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-        invalidate();
-    }
-
-    public boolean dismissSheet(final BotWebViewSheet botWebViewSheet) {
-        ValueAnimator valueAnimator;
-        if (botWebViewSheet == null || this.tabsView == null) {
-            return false;
-        }
-        if ((this.dismissingSheet != null || this.openingSheet != null) && (valueAnimator = this.animator) != null) {
-            valueAnimator.end();
-            this.animator = null;
-        }
-        this.dismissingSheet2 = botWebViewSheet;
-        botWebViewSheet.getWindowView().setDrawingFromOverlay(true);
-        invalidate();
-        ValueAnimator valueAnimator2 = this.animator;
-        if (valueAnimator2 != null) {
-            valueAnimator2.cancel();
-        }
-        final BottomSheetTabs.WebTabData saveState = botWebViewSheet.saveState();
-        this.dismissingTab = this.tabsView.pushTab(saveState);
-        if (Build.VERSION.SDK_INT >= 26) {
-            renderHardwareViewToBitmap(saveState.webView, -saveState.webViewScroll, new Utilities.Callback() { // from class: org.telegram.ui.ActionBar.BottomSheetTabsOverlay$$ExternalSyntheticLambda6
-                @Override // org.telegram.messenger.Utilities.Callback
-                public final void run(Object obj) {
-                    BottomSheetTabs.WebTabData.this.previewBitmap = (Bitmap) obj;
-                }
-            });
-        }
-        this.dismissProgress = 0.0f;
-        ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-        this.animator = ofFloat;
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.BottomSheetTabsOverlay$$ExternalSyntheticLambda0
-            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-            public final void onAnimationUpdate(ValueAnimator valueAnimator3) {
-                BottomSheetTabsOverlay.this.lambda$dismissSheet$6(valueAnimator3);
-            }
-        });
-        this.animator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.BottomSheetTabsOverlay.3
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                int i;
-                int i2;
-                BottomSheetTabs.WebTabData webTabData = saveState;
-                if (webTabData.webView != null && webTabData.previewBitmap == null && (i = webTabData.webViewWidth) > 0 && (i2 = webTabData.webViewHeight) > 0 && Build.VERSION.SDK_INT < 26) {
-                    webTabData.previewBitmap = Bitmap.createBitmap(i, i2, Bitmap.Config.RGB_565);
-                    Canvas canvas = new Canvas(saveState.previewBitmap);
-                    canvas.translate(0.0f, -saveState.webViewScroll);
-                    saveState.webView.draw(canvas);
-                }
-                botWebViewSheet.release();
-                BottomSheetTabsOverlay.this.dismissingSheet2 = null;
-                BottomSheetTabsOverlay.this.invalidate();
-            }
-        });
-        AndroidUtilities.applySpring(this.animator, 350.0f, 30.0f, 1.0f);
-        ValueAnimator valueAnimator3 = this.animator;
-        valueAnimator3.setDuration(valueAnimator3.getDuration() * 2);
-        this.animator.start();
-        this.slowerDismiss = false;
-        return true;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$dismissSheet$6(ValueAnimator valueAnimator) {
-        this.dismissProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-        invalidate();
-    }
-
-    public boolean dismissSheet(final BotWebViewMenuContainer botWebViewMenuContainer) {
-        if (botWebViewMenuContainer == null || this.tabsView == null) {
-            return false;
-        }
-        this.dismissingMenuContainer = botWebViewMenuContainer;
-        botWebViewMenuContainer.setDrawingFromOverlay(true);
-        invalidate();
-        ValueAnimator valueAnimator = this.animator;
-        if (valueAnimator != null) {
-            valueAnimator.cancel();
-        }
-        final BottomSheetTabs.WebTabData saveState = botWebViewMenuContainer.saveState();
-        this.dismissingTab = this.tabsView.pushTab(saveState);
-        if (Build.VERSION.SDK_INT >= 26) {
-            renderHardwareViewToBitmap(saveState.webView, -saveState.webViewScroll, new Utilities.Callback() { // from class: org.telegram.ui.ActionBar.BottomSheetTabsOverlay$$ExternalSyntheticLambda7
-                @Override // org.telegram.messenger.Utilities.Callback
-                public final void run(Object obj) {
-                    BottomSheetTabs.WebTabData.this.previewBitmap = (Bitmap) obj;
-                }
-            });
-        }
-        this.dismissProgress = 0.0f;
-        ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-        this.animator = ofFloat;
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.BottomSheetTabsOverlay$$ExternalSyntheticLambda3
-            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-            public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                BottomSheetTabsOverlay.this.lambda$dismissSheet$8(valueAnimator2);
-            }
-        });
-        this.animator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.BottomSheetTabsOverlay.4
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                int i;
-                int i2;
-                BottomSheetTabs.WebTabData webTabData = saveState;
-                if (webTabData.webView != null && webTabData.previewBitmap == null && (i = webTabData.webViewWidth) > 0 && (i2 = webTabData.webViewHeight) > 0 && Build.VERSION.SDK_INT < 26) {
-                    webTabData.previewBitmap = Bitmap.createBitmap(i, i2, Bitmap.Config.RGB_565);
-                    Canvas canvas = new Canvas(saveState.previewBitmap);
-                    canvas.translate(0.0f, -saveState.webViewScroll);
-                    saveState.webView.draw(canvas);
-                }
-                botWebViewMenuContainer.onDismiss();
-                botWebViewMenuContainer.setDrawingFromOverlay(false);
-                BottomSheetTabsOverlay.this.dismissingMenuContainer = null;
-                BottomSheetTabsOverlay.this.invalidate();
-            }
-        });
-        AndroidUtilities.applySpring(this.animator, 350.0f, 30.0f, 1.0f);
-        ValueAnimator valueAnimator2 = this.animator;
-        valueAnimator2.setDuration(valueAnimator2.getDuration());
-        this.animator.start();
-        return true;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$dismissSheet$8(ValueAnimator valueAnimator) {
         this.dismissProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidate();
     }
@@ -725,10 +620,10 @@ public class BottomSheetTabsOverlay extends FrameLayout {
         }
         ValueAnimator ofFloat = ValueAnimator.ofFloat(this.offset, f);
         this.scrollAnimator = ofFloat;
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.BottomSheetTabsOverlay$$ExternalSyntheticLambda4
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.BottomSheetTabsOverlay$$ExternalSyntheticLambda0
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                BottomSheetTabsOverlay.this.lambda$scrollTo$9(valueAnimator2);
+                BottomSheetTabsOverlay.this.lambda$scrollTo$5(valueAnimator2);
             }
         });
         this.scrollAnimator.setDuration(250L);
@@ -737,7 +632,7 @@ public class BottomSheetTabsOverlay extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$scrollTo$9(ValueAnimator valueAnimator) {
+    public /* synthetic */ void lambda$scrollTo$5(ValueAnimator valueAnimator) {
         this.offset = ((Float) valueAnimator.getAnimatedValue()).floatValue();
     }
 
@@ -764,10 +659,10 @@ public class BottomSheetTabsOverlay extends FrameLayout {
         ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.BottomSheetTabsOverlay$$ExternalSyntheticLambda2
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                BottomSheetTabsOverlay.this.lambda$animateOpen$10(valueAnimator2);
+                BottomSheetTabsOverlay.this.lambda$animateOpen$6(valueAnimator2);
             }
         });
-        this.openAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.BottomSheetTabsOverlay.5
+        this.openAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.BottomSheetTabsOverlay.3
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
                 if (BottomSheetTabsOverlay.this.tabsView != null) {
@@ -789,7 +684,7 @@ public class BottomSheetTabsOverlay extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$animateOpen$10(ValueAnimator valueAnimator) {
+    public /* synthetic */ void lambda$animateOpen$6(ValueAnimator valueAnimator) {
         this.openProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidate();
     }
@@ -804,7 +699,7 @@ public class BottomSheetTabsOverlay extends FrameLayout {
             int i = iArr[0];
             int[] iArr2 = this.pos2;
             rectF.offset(i - iArr2[0], iArr[1] - iArr2[1]);
-            BotWebViewAttachedSheet.WindowView windowView = this.dismissingSheet.getWindowView();
+            SheetView windowView = this.dismissingSheet.getWindowView();
             RectF rectF2 = this.rect;
             float f = this.dismissProgress;
             float drawInto = windowView.drawInto(canvas, rectF2, f, this.clipRect, f, false);
@@ -819,57 +714,6 @@ public class BottomSheetTabsOverlay extends FrameLayout {
                 rectF3.set(rectF4.left, dp, rectF4.right, AndroidUtilities.dp(50.0f) + dp);
                 this.tabsView.setupTab(this.dismissingTab);
                 this.dismissingTab.draw(canvas, this.rect, drawInto, this.dismissProgress, 1.0f);
-                canvas.restore();
-            }
-        }
-        BotWebViewSheet botWebViewSheet = this.dismissingSheet2;
-        if (botWebViewSheet != null) {
-            BotWebViewSheet.WindowView windowView2 = botWebViewSheet.getWindowView();
-            getLocationOnScreen(this.pos2);
-            this.tabsView.getLocationOnScreen(this.pos);
-            this.tabsView.getTabBounds(this.rect, 0.0f);
-            RectF rectF5 = this.rect;
-            int[] iArr3 = this.pos;
-            int i2 = iArr3[0];
-            int[] iArr4 = this.pos2;
-            rectF5.offset(i2 - iArr4[0], iArr3[1] - iArr4[1]);
-            float drawInto2 = windowView2.drawInto(canvas, this.rect, this.dismissProgress, this.clipRect);
-            if (this.dismissingTab != null) {
-                this.clipPath.rewind();
-                this.clipPath.addRoundRect(this.clipRect, drawInto2, drawInto2, Path.Direction.CW);
-                canvas.save();
-                canvas.clipPath(this.clipPath);
-                float dp2 = this.clipRect.top - (AndroidUtilities.dp(50.0f) * (1.0f - this.dismissProgress));
-                RectF rectF6 = this.rect;
-                RectF rectF7 = this.clipRect;
-                rectF6.set(rectF7.left, dp2, rectF7.right, AndroidUtilities.dp(50.0f) + dp2);
-                this.tabsView.setupTab(this.dismissingTab);
-                this.dismissingTab.draw(canvas, this.rect, drawInto2, this.dismissProgress, 1.0f);
-                canvas.restore();
-            }
-        }
-        if (this.dismissingMenuContainer != null) {
-            getLocationOnScreen(this.pos2);
-            this.dismissingMenuContainer.getLocationOnScreen(this.pos3);
-            this.tabsView.getLocationOnScreen(this.pos);
-            this.tabsView.getTabBounds(this.rect, 0.0f);
-            RectF rectF8 = this.rect;
-            int[] iArr5 = this.pos;
-            int i3 = iArr5[0];
-            int[] iArr6 = this.pos2;
-            rectF8.offset(i3 - iArr6[0], iArr5[1] - iArr6[1]);
-            float drawInto3 = this.dismissingMenuContainer.drawInto(canvas, this.rect, this.dismissProgress, this.clipRect);
-            if (this.dismissingTab != null) {
-                this.clipPath.rewind();
-                this.clipPath.addRoundRect(this.clipRect, drawInto3, drawInto3, Path.Direction.CW);
-                canvas.save();
-                canvas.clipPath(this.clipPath);
-                float dp3 = this.clipRect.top - (AndroidUtilities.dp(50.0f) * (1.0f - this.dismissProgress));
-                RectF rectF9 = this.rect;
-                RectF rectF10 = this.clipRect;
-                rectF9.set(rectF10.left, dp3, rectF10.right, AndroidUtilities.dp(50.0f) + dp3);
-                this.tabsView.setupTab(this.dismissingTab);
-                this.dismissingTab.draw(canvas, this.rect, drawInto3, this.dismissProgress, 1.0f);
                 canvas.restore();
             }
         }
@@ -903,7 +747,7 @@ public class BottomSheetTabsOverlay extends FrameLayout {
         float f8;
         float min;
         boolean z;
-        BotWebViewAttachedSheet botWebViewAttachedSheet;
+        Sheet sheet;
         float f9;
         BottomSheetTabs bottomSheetTabs;
         int[] iArr;
@@ -1021,9 +865,9 @@ public class BottomSheetTabsOverlay extends FrameLayout {
                         RectF rectF3 = this.rect2;
                         if ((rectF3.top > height || rectF3.bottom < 0.0f || f7 < 0.1f) && position < f12 - 3.0f) {
                             z = true;
-                            botWebViewAttachedSheet = this.openingSheet;
-                            if (botWebViewAttachedSheet == null && tabDrawable3 == tabDrawable4) {
-                                this.rect.set(botWebViewAttachedSheet.getWindowView().getRect());
+                            sheet = this.openingSheet;
+                            if (sheet == null && tabDrawable3 == tabDrawable4) {
+                                this.rect.set(sheet.getWindowView().getRect());
                                 RectF rectF4 = this.rect2;
                                 AndroidUtilities.lerpCentered(rectF4, this.rect, f14, rectF4);
                                 f9 = f7;
@@ -1112,9 +956,9 @@ public class BottomSheetTabsOverlay extends FrameLayout {
                                 i = min2;
                                 f5 = f8;
                                 tabPreview.draw(canvas, rectF10, z, lerp3, f16, f14, lerp4);
-                                BotWebViewAttachedSheet botWebViewAttachedSheet2 = this.openingSheet;
-                                if (botWebViewAttachedSheet2 != null && tabPreview.tabDrawable == this.openingTab) {
-                                    BotWebViewAttachedSheet.WindowView windowView = botWebViewAttachedSheet2.getWindowView();
+                                Sheet sheet2 = this.openingSheet;
+                                if (sheet2 != null && tabPreview.tabDrawable == this.openingTab) {
+                                    SheetView windowView = sheet2.getWindowView();
                                     RectF rectF11 = this.rect2;
                                     windowView.drawInto(canvas, rectF11, 1.0f, rectF11, f14, true);
                                 }
@@ -1132,8 +976,8 @@ public class BottomSheetTabsOverlay extends FrameLayout {
                         }
                     }
                     z = false;
-                    botWebViewAttachedSheet = this.openingSheet;
-                    if (botWebViewAttachedSheet == null) {
+                    sheet = this.openingSheet;
+                    if (sheet == null) {
                     }
                     this.tabsView.getTabBounds(this.rect, Utilities.clamp(tabDrawable3.getPosition(), 1.0f, 0.0f));
                     this.rect.offset(this.tabsView.getX(), this.tabsView.getY());
@@ -1445,7 +1289,7 @@ public class BottomSheetTabsOverlay extends FrameLayout {
         lockHardwareCanvas.translate(0.0f, f);
         view.draw(lockHardwareCanvas);
         surface.unlockCanvasAndPost(lockHardwareCanvas);
-        PixelCopy.request(surface, createBitmap, new PixelCopy.OnPixelCopyFinishedListener() { // from class: org.telegram.ui.ActionBar.BottomSheetTabsOverlay.7
+        PixelCopy.request(surface, createBitmap, new PixelCopy.OnPixelCopyFinishedListener() { // from class: org.telegram.ui.ActionBar.BottomSheetTabsOverlay.5
             @Override // android.view.PixelCopy.OnPixelCopyFinishedListener
             public void onPixelCopyFinished(int i) {
                 if (i == 0) {

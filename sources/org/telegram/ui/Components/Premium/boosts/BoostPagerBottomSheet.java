@@ -34,8 +34,9 @@ public class BoostPagerBottomSheet extends BottomSheet {
     private final SelectorBottomSheet rightSheet;
     private final ViewPagerFixed viewPager;
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    protected boolean canDismissWithSwipe() {
+    public boolean canDismissWithSwipe() {
         return false;
     }
 

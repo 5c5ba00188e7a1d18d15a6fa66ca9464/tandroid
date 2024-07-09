@@ -482,8 +482,9 @@ public class AdminLogFilterAlert2 extends BottomSheetWithRecyclerListView {
         this.buttonContainer.setTranslationY(-f);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView, org.telegram.ui.ActionBar.BottomSheet
-    protected boolean canDismissWithSwipe() {
+    public boolean canDismissWithSwipe() {
         return !this.recyclerListView.canScrollVertically(-1);
     }
 }

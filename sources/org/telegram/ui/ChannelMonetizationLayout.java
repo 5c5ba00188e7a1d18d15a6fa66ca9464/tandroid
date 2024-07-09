@@ -111,6 +111,7 @@ import org.telegram.ui.Components.UniversalAdapter;
 import org.telegram.ui.Components.UniversalRecyclerView;
 import org.telegram.ui.Components.ViewPagerFixed;
 import org.telegram.ui.Stars.BotStarsActivity;
+import org.telegram.ui.Stars.BotStarsController;
 import org.telegram.ui.Stars.StarsIntroActivity;
 import org.telegram.ui.StatisticActivity;
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
@@ -228,7 +229,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
         this.currentAccount = i;
         this.dialogId = j;
         initLevel();
-        this.titleInfo = AndroidUtilities.replaceArrows(AndroidUtilities.replaceSingleTag(LocaleController.formatString(R.string.MonetizationInfo, 50), -1, 3, new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda17
+        this.titleInfo = AndroidUtilities.replaceArrows(AndroidUtilities.replaceSingleTag(LocaleController.formatString(R.string.MonetizationInfo, 50), -1, 3, new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda18
             @Override // java.lang.Runnable
             public final void run() {
                 ChannelMonetizationLayout.this.lambda$new$0();
@@ -977,59 +978,67 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
 
     private void loadStarsStats() {
         if (this.starsRevenueAvailable) {
+            TLRPC$TL_payments_starsRevenueStats revenueStats = BotStarsController.getInstance(this.currentAccount).getRevenueStats(this.dialogId);
+            if (revenueStats != null) {
+                applyStarsStats(revenueStats);
+                return;
+            }
             TLRPC$TL_payments_getStarsRevenueStats tLRPC$TL_payments_getStarsRevenueStats = new TLRPC$TL_payments_getStarsRevenueStats();
             tLRPC$TL_payments_getStarsRevenueStats.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(this.dialogId);
             tLRPC$TL_payments_getStarsRevenueStats.dark = Theme.isCurrentThemeDark();
             ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_payments_getStarsRevenueStats, new RequestDelegate() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda38
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    ChannelMonetizationLayout.this.lambda$loadStarsStats$27(tLObject, tLRPC$TL_error);
+                    ChannelMonetizationLayout.this.lambda$loadStarsStats$26(tLObject, tLRPC$TL_error);
                 }
             });
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadStarsStats$27(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda24
+    public /* synthetic */ void lambda$loadStarsStats$26(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda25
             @Override // java.lang.Runnable
             public final void run() {
-                ChannelMonetizationLayout.this.lambda$loadStarsStats$26(tLObject);
+                ChannelMonetizationLayout.this.lambda$loadStarsStats$25(tLObject);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadStarsStats$26(TLObject tLObject) {
+    public /* synthetic */ void lambda$loadStarsStats$25(TLObject tLObject) {
+        if (tLObject instanceof TLRPC$TL_payments_starsRevenueStats) {
+            applyStarsStats((TLRPC$TL_payments_starsRevenueStats) tLObject);
+        }
+    }
+
+    private void applyStarsStats(TLRPC$TL_payments_starsRevenueStats tLRPC$TL_payments_starsRevenueStats) {
         ChartData chartData;
         ArrayList<ChartData.Line> arrayList;
-        if (tLObject instanceof TLRPC$TL_payments_starsRevenueStats) {
-            TLRPC$TL_payments_starsRevenueStats tLRPC$TL_payments_starsRevenueStats = (TLRPC$TL_payments_starsRevenueStats) tLObject;
-            this.stars_rate = tLRPC$TL_payments_starsRevenueStats.usd_rate;
-            StatisticActivity.ChartViewData createViewData = StatisticActivity.createViewData(tLRPC$TL_payments_starsRevenueStats.revenue_graph, LocaleController.getString(R.string.MonetizationGraphStarsRevenue), 2);
-            this.starsRevenueChart = createViewData;
-            if (createViewData != null && (chartData = createViewData.chartData) != null && (arrayList = chartData.lines) != null && !arrayList.isEmpty() && this.starsRevenueChart.chartData.lines.get(0) != null) {
-                this.starsRevenueChart.chartData.lines.get(0).colorKey = Theme.key_statisticChartLine_golden;
-                this.starsRevenueChart.chartData.yRate = (float) ((1.0d / this.stars_rate) / 100.0d);
-            }
-            setupBalances(tLRPC$TL_payments_starsRevenueStats.status);
-            if (!this.tonRevenueAvailable) {
-                this.progress.animate().alpha(0.0f).setDuration(380L).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).withEndAction(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda21
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        ChannelMonetizationLayout.this.lambda$loadStarsStats$25();
-                    }
-                }).start();
-            }
-            UniversalRecyclerView universalRecyclerView = this.listView;
-            if (universalRecyclerView != null) {
-                universalRecyclerView.adapter.update(true);
-            }
+        this.stars_rate = tLRPC$TL_payments_starsRevenueStats.usd_rate;
+        StatisticActivity.ChartViewData createViewData = StatisticActivity.createViewData(tLRPC$TL_payments_starsRevenueStats.revenue_graph, LocaleController.getString(R.string.MonetizationGraphStarsRevenue), 2);
+        this.starsRevenueChart = createViewData;
+        if (createViewData != null && (chartData = createViewData.chartData) != null && (arrayList = chartData.lines) != null && !arrayList.isEmpty() && this.starsRevenueChart.chartData.lines.get(0) != null) {
+            this.starsRevenueChart.chartData.lines.get(0).colorKey = Theme.key_statisticChartLine_golden;
+            this.starsRevenueChart.chartData.yRate = (float) ((1.0d / this.stars_rate) / 100.0d);
+        }
+        setupBalances(tLRPC$TL_payments_starsRevenueStats.status);
+        if (!this.tonRevenueAvailable) {
+            this.progress.animate().alpha(0.0f).setDuration(380L).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).withEndAction(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda17
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ChannelMonetizationLayout.this.lambda$applyStarsStats$27();
+                }
+            }).start();
+        }
+        UniversalRecyclerView universalRecyclerView = this.listView;
+        if (universalRecyclerView != null) {
+            universalRecyclerView.adapter.update(true);
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadStarsStats$25() {
+    public /* synthetic */ void lambda$applyStarsStats$27() {
         this.progress.setVisibility(8);
     }
 
@@ -1099,7 +1108,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$initLevel$32(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda25
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda24
             @Override // java.lang.Runnable
             public final void run() {
                 ChannelMonetizationLayout.this.lambda$initLevel$31(tLObject);
@@ -1123,7 +1132,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
             }
             this.ton_rate = tL_stats$TL_broadcastRevenueStats.usd_rate;
             setupBalances(tL_stats$TL_broadcastRevenueStats.balances);
-            this.progress.animate().alpha(0.0f).setDuration(380L).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).withEndAction(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda18
+            this.progress.animate().alpha(0.0f).setDuration(380L).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).withEndAction(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda19
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChannelMonetizationLayout.this.lambda$initLevel$30();
@@ -1213,7 +1222,10 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
         proceedOverview3.amount2 = (long) (d5 * d4 * 100.0d);
         proceedOverview3.currency = "USD";
         this.proceedsAvailable = true;
-        this.starsBalanceButton.setVisibility((tLRPC$TL_starsRevenueStatus.available_balance > 0 || BuildVars.DEBUG_PRIVATE_VERSION) ? 0 : 8);
+        ButtonWithCounterView buttonWithCounterView = this.starsBalanceButton;
+        if (buttonWithCounterView != null) {
+            buttonWithCounterView.setVisibility((tLRPC$TL_starsRevenueStatus.available_balance > 0 || BuildVars.DEBUG_PRIVATE_VERSION) ? 0 : 8);
+        }
         UniversalRecyclerView universalRecyclerView = this.listView;
         if (universalRecyclerView == null || (universalAdapter = universalRecyclerView.adapter) == null) {
             return;
@@ -1878,7 +1890,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
         linksTextView.setTextSize(1, 14.0f);
         linksTextView.setTextColor(Theme.getColor(i, this.resourcesProvider));
         linksTextView.setLinkTextColor(Theme.getColor(Theme.key_chat_messageLinkIn, this.resourcesProvider));
-        linksTextView.setText(AndroidUtilities.withLearnMore(AndroidUtilities.replaceTags(LocaleController.getString(R.string.MonetizationInfoTONText)), new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda20
+        linksTextView.setText(AndroidUtilities.withLearnMore(AndroidUtilities.replaceTags(LocaleController.getString(R.string.MonetizationInfoTONText)), new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda21
             @Override // java.lang.Runnable
             public final void run() {
                 ChannelMonetizationLayout.this.lambda$showLearnSheet$38();
@@ -2325,7 +2337,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
             }
         } catch (Throwable th) {
             FileLog.e(th);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda19
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda20
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChannelMonetizationLayout.this.lambda$onNestedScroll$40();

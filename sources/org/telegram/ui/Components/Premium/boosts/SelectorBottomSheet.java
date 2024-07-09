@@ -841,7 +841,7 @@ public class SelectorBottomSheet extends BottomSheetWithRecyclerListView {
 
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
     protected RecyclerListView.SelectionAdapter createAdapter(RecyclerListView recyclerListView) {
-        SelectorAdapter selectorAdapter = new SelectorAdapter(getContext(), this.resourcesProvider);
+        SelectorAdapter selectorAdapter = new SelectorAdapter(getContext(), true, this.resourcesProvider);
         this.selectorAdapter = selectorAdapter;
         return selectorAdapter;
     }

@@ -67,6 +67,7 @@ import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.ActionBarMenuSubItem;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BottomSheetTabs;
+import org.telegram.ui.ActionBar.BottomSheetTabsOverlay;
 import org.telegram.ui.ActionBar.INavigationLayout;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ChatActivity;
@@ -85,7 +86,7 @@ import org.telegram.ui.bots.BotWebViewContainer;
 import org.telegram.ui.bots.BotWebViewMenuContainer;
 import org.telegram.ui.bots.ChatAttachAlertBotWebViewLayout;
 /* loaded from: classes4.dex */
-public class BotWebViewMenuContainer extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
+public class BotWebViewMenuContainer extends FrameLayout implements NotificationCenter.NotificationCenterDelegate, BottomSheetTabsOverlay.Sheet, BottomSheetTabsOverlay.SheetView {
     private static final SimpleFloatPropertyCompat<BotWebViewMenuContainer> ACTION_BAR_TRANSITION_PROGRESS_VALUE = new SimpleFloatPropertyCompat("actionBarTransitionProgress", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.bots.BotWebViewMenuContainer$$ExternalSyntheticLambda22
         @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Getter
         public final float get(Object obj) {
@@ -148,6 +149,16 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
     private BotWebViewContainer.Delegate webViewDelegate;
     private ValueAnimator webViewScrollAnimator;
 
+    @Override // org.telegram.ui.ActionBar.BottomSheetTabsOverlay.Sheet
+    public BottomSheetTabsOverlay.SheetView getWindowView() {
+        return this;
+    }
+
+    @Override // org.telegram.ui.ActionBar.BottomSheetTabsOverlay.Sheet
+    public boolean isFullSize() {
+        return false;
+    }
+
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$static$1(BotWebViewMenuContainer botWebViewMenuContainer, float f) {
         botWebViewMenuContainer.actionBarTransitionProgress = f;
@@ -198,6 +209,7 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         }
     }
 
+    @Override // org.telegram.ui.ActionBar.BottomSheetTabsOverlay.Sheet
     public BottomSheetTabs.WebTabData saveState() {
         this.preserving = true;
         BottomSheetTabs.WebTabData webTabData = new BottomSheetTabs.WebTabData();
@@ -205,7 +217,7 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         webTabData.actionBarColorKey = this.actionBarColorKey;
         webTabData.overrideActionBarColor = this.overrideBackgroundColor;
         webTabData.backgroundColor = this.backgroundPaint.getColor();
-        BotWebViewAttachedSheet.WebViewRequestProps webViewRequestProps = new BotWebViewAttachedSheet.WebViewRequestProps();
+        WebViewRequestProps webViewRequestProps = new WebViewRequestProps();
         webTabData.props = webViewRequestProps;
         webViewRequestProps.currentAccount = this.currentAccount;
         long j = this.botId;
@@ -239,10 +251,10 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
             this.webViewContainer.preserveWebView();
             webTabData.webView = webView;
             BotWebViewContainer botWebViewContainer4 = this.webViewContainer;
-            webTabData.webViewProxy = botWebViewContainer4 == null ? null : botWebViewContainer4.getProxy();
-            webTabData.webViewWidth = webView.getWidth();
-            webTabData.webViewScroll = webView.getScrollY();
-            webTabData.webViewHeight = webView.getHeight();
+            webTabData.proxy = botWebViewContainer4 == null ? null : botWebViewContainer4.getBotProxy();
+            webTabData.viewWidth = webView.getWidth();
+            webTabData.viewScroll = webView.getScrollY();
+            webTabData.viewHeight = webView.getHeight();
             webView.onPause();
             webView.setContainers(null, null);
         }
@@ -310,7 +322,7 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         this.parentEnterView = chatActivityEnterView;
         final ActionBar actionBar = chatActivityEnterView.getParentFragment().getActionBar();
         this.actionBarOnItemClick = actionBar.getActionBarMenuOnItemClick();
-        BotWebViewContainer botWebViewContainer = new BotWebViewContainer(context, chatActivityEnterView.getParentFragment().getResourceProvider(), getColor(Theme.key_windowBackgroundWhite)) { // from class: org.telegram.ui.bots.BotWebViewMenuContainer.1
+        BotWebViewContainer botWebViewContainer = new BotWebViewContainer(context, chatActivityEnterView.getParentFragment().getResourceProvider(), getColor(Theme.key_windowBackgroundWhite), true) { // from class: org.telegram.ui.bots.BotWebViewMenuContainer.1
             @Override // org.telegram.ui.bots.BotWebViewContainer
             public void onWebViewCreated() {
                 BotWebViewMenuContainer.this.swipeContainer.setWebView(BotWebViewMenuContainer.this.webViewContainer.getWebView());
@@ -420,6 +432,11 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         @Override // org.telegram.ui.bots.BotWebViewContainer.Delegate
         public /* synthetic */ void onSendWebViewData(String str) {
             BotWebViewContainer.Delegate.-CC.$default$onSendWebViewData(this, str);
+        }
+
+        @Override // org.telegram.ui.bots.BotWebViewContainer.Delegate
+        public /* synthetic */ void onWebAppBackgroundChanged(int i) {
+            BotWebViewContainer.Delegate.-CC.$default$onWebAppBackgroundChanged(this, i);
         }
 
         @Override // org.telegram.ui.bots.BotWebViewContainer.Delegate
@@ -1219,6 +1236,11 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         }
     }
 
+    @Override // org.telegram.ui.ActionBar.BottomSheetTabsOverlay.Sheet
+    public void release() {
+        onDismiss();
+    }
+
     public void onDismiss() {
         ChatActivityEnterView chatActivityEnterView = this.parentEnterView;
         final ChatActivity parentFragment = chatActivityEnterView == null ? null : chatActivityEnterView.getParentFragment();
@@ -1239,7 +1261,7 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         paint.setColor(getColor(i));
         this.webViewContainer.destroyWebView();
         this.swipeContainer.removeView(this.webViewContainer);
-        BotWebViewContainer botWebViewContainer = new BotWebViewContainer(getContext(), this.parentEnterView.getParentFragment().getResourceProvider(), getColor(i)) { // from class: org.telegram.ui.bots.BotWebViewMenuContainer.8
+        BotWebViewContainer botWebViewContainer = new BotWebViewContainer(getContext(), this.parentEnterView.getParentFragment().getResourceProvider(), getColor(i), true) { // from class: org.telegram.ui.bots.BotWebViewMenuContainer.8
             @Override // org.telegram.ui.bots.BotWebViewContainer
             public void onWebViewCreated() {
                 BotWebViewMenuContainer.this.swipeContainer.setWebView(BotWebViewMenuContainer.this.webViewContainer.getWebView());
@@ -1402,6 +1424,7 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
             this.progress = f;
             int i = Theme.key_windowBackgroundWhiteBlackText;
             actionBar.setTitleColor(getColor(i));
+            actionBar.setSubtitleColor(Theme.multAlpha(getColor(i), 0.45f));
             actionBar.setItemsColor(getColor(i), false);
             ImageView imageView = actionBar.backButtonImageView;
             if (imageView != null) {
@@ -1415,6 +1438,7 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         }
     }
 
+    @Override // org.telegram.ui.ActionBar.BottomSheetTabsOverlay.SheetView
     public void setDrawingFromOverlay(boolean z) {
         if (this.drawingFromOverlay != z) {
             this.drawingFromOverlay = z;
@@ -1430,7 +1454,14 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         super.dispatchDraw(canvas);
     }
 
-    public float drawInto(Canvas canvas, RectF rectF, float f, RectF rectF2) {
+    @Override // org.telegram.ui.ActionBar.BottomSheetTabsOverlay.SheetView
+    public RectF getRect() {
+        this.rect.set(this.swipeContainer.getLeft(), this.swipeContainer.getTranslationY() + AndroidUtilities.dp(24.0f), this.swipeContainer.getRight(), getHeight());
+        return this.rect;
+    }
+
+    @Override // org.telegram.ui.ActionBar.BottomSheetTabsOverlay.SheetView
+    public float drawInto(Canvas canvas, RectF rectF, float f, RectF rectF2, float f2, boolean z) {
         this.rect.set(this.swipeContainer.getLeft(), this.swipeContainer.getTranslationY() + AndroidUtilities.dp(24.0f), this.swipeContainer.getRight(), getHeight());
         AndroidUtilities.lerpCentered(this.rect, rectF, f, rectF2);
         canvas.save();

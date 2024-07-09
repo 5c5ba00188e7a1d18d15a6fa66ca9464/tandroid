@@ -56,8 +56,9 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
         void didSelectFilter(MessagesController.DialogFilter dialogFilter, boolean z);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    protected boolean canDismissWithSwipe() {
+    public boolean canDismissWithSwipe() {
         return false;
     }
 

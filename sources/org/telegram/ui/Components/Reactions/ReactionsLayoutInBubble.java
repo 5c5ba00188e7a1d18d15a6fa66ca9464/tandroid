@@ -1378,8 +1378,15 @@ public class ReactionsLayoutInBubble {
         public String emojicon;
         public long hash;
         public boolean isEffect;
+        public boolean isStar;
         public boolean premium;
         public boolean sticker;
+
+        public static VisibleReaction asStar() {
+            VisibleReaction visibleReaction = new VisibleReaction();
+            visibleReaction.isStar = true;
+            return visibleReaction;
+        }
 
         public static VisibleReaction fromTL(TLRPC$Reaction tLRPC$Reaction) {
             VisibleReaction visibleReaction = new VisibleReaction();
@@ -1464,7 +1471,7 @@ public class ReactionsLayoutInBubble {
                 return false;
             }
             VisibleReaction visibleReaction = (VisibleReaction) obj;
-            return this.documentId == visibleReaction.documentId && Objects.equals(this.emojicon, visibleReaction.emojicon);
+            return this.isStar == visibleReaction.isStar && this.documentId == visibleReaction.documentId && Objects.equals(this.emojicon, visibleReaction.emojicon);
         }
 
         public int hashCode() {

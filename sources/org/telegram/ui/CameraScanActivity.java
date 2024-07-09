@@ -184,8 +184,9 @@ public class CameraScanActivity extends BaseFragment {
         final /* synthetic */ boolean val$gallery;
         final /* synthetic */ int val$type;
 
+        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.ActionBar.BottomSheet
-        protected boolean canDismissWithSwipe() {
+        public boolean canDismissWithSwipe() {
             return false;
         }
 

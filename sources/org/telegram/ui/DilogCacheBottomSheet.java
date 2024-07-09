@@ -46,8 +46,9 @@ public class DilogCacheBottomSheet extends BottomSheetWithRecyclerListView {
         void onAvatarClick();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView, org.telegram.ui.ActionBar.BottomSheet
-    protected boolean canDismissWithSwipe() {
+    public boolean canDismissWithSwipe() {
         return false;
     }
 

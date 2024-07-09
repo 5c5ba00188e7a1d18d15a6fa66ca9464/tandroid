@@ -3628,8 +3628,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                             String lowerCase = url2.toLowerCase();
                             String lowerCase2 = messageObject.messageOwner.media.webpage.url.toLowerCase();
                             if ((Browser.isTelegraphUrl(lowerCase, false) || lowerCase.contains("t.me/iv")) && (lowerCase.contains(lowerCase2) || lowerCase2.contains(lowerCase))) {
-                                ArticleViewer.getInstance().setParentActivity(ChannelAdminLogActivity.this.getParentActivity(), ChannelAdminLogActivity.this);
-                                ArticleViewer.getInstance().open(messageObject);
+                                ChannelAdminLogActivity.this.createArticleViewer().open(messageObject);
                                 return;
                             }
                         }
@@ -3784,8 +3783,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                     if (tLRPC$MessageMedia == null || (tLRPC$WebPage = tLRPC$MessageMedia.webpage) == null || tLRPC$WebPage.cached_page == null) {
                         return;
                     }
-                    ArticleViewer.getInstance().setParentActivity(ChannelAdminLogActivity.this.getParentActivity(), ChannelAdminLogActivity.this);
-                    ArticleViewer.getInstance().open(messageObject);
+                    ChannelAdminLogActivity.this.createArticleViewer().open(messageObject);
                 } else if (i == 5) {
                     ChannelAdminLogActivity channelAdminLogActivity = ChannelAdminLogActivity.this;
                     TLRPC$User user = channelAdminLogActivity.getMessagesController().getUser(Long.valueOf(messageObject.messageOwner.media.user_id));

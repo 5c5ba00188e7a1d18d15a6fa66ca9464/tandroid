@@ -275,7 +275,7 @@ public class SimpleTextView extends View {
         return drawable3 != null ? intrinsicWidth + ((int) (drawable3.getIntrinsicWidth() * this.rightDrawableScale)) + this.drawablePadding : intrinsicWidth;
     }
 
-    public Paint getPaint() {
+    public TextPaint getPaint() {
         return this.textPaint;
     }
 

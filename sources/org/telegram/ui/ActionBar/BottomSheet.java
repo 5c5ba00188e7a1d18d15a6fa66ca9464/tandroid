@@ -1855,7 +1855,8 @@ public class BottomSheet extends Dialog {
         }
     }
 
-    protected boolean canDismissWithSwipe() {
+    /* JADX INFO: Access modifiers changed from: protected */
+    public boolean canDismissWithSwipe() {
         return this.canDismissWithSwipe;
     }
 

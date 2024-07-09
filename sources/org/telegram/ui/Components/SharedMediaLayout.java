@@ -146,7 +146,6 @@ import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ActionBar.ThemeDescription;
 import org.telegram.ui.Adapters.SearchAdapterHelper;
-import org.telegram.ui.ArticleViewer;
 import org.telegram.ui.CalendarActivity;
 import org.telegram.ui.Cells.ChatActionCell;
 import org.telegram.ui.Cells.ContextLinkCell;
@@ -7566,8 +7565,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                 TLRPC$WebPage tLRPC$WebPage = MessageObject.getMedia(messageObject.messageOwner) != null ? MessageObject.getMedia(messageObject.messageOwner).webpage : null;
                 if (tLRPC$WebPage != null && !(tLRPC$WebPage instanceof TLRPC$TL_webPageEmpty)) {
                     if (tLRPC$WebPage.cached_page != null) {
-                        ArticleViewer.getInstance().setParentActivity(this.profileActivity.getParentActivity(), this.profileActivity);
-                        ArticleViewer.getInstance().open(messageObject);
+                        this.profileActivity.createArticleViewer().open(messageObject);
                         return;
                     }
                     String str2 = tLRPC$WebPage.embed_url;
