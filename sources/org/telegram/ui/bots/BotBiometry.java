@@ -139,6 +139,7 @@ public class BotBiometry {
     public /* synthetic */ void lambda$updateToken$1(String str, Utilities.Callback callback, BiometricPrompt.AuthenticationResult authenticationResult) {
         BiometricPrompt.CryptoObject cryptoObject;
         boolean z = false;
+        boolean z2 = authenticationResult != null;
         if (authenticationResult != null) {
             try {
                 authenticationResult.getCryptoObject();
@@ -169,7 +170,7 @@ public class BotBiometry {
                 FileLog.e(e);
             }
         }
-        z = true;
+        z = z2;
         callback.run(Boolean.valueOf(z));
     }
 
