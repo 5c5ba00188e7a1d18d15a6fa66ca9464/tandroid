@@ -12084,15 +12084,15 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         return i;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:536:0x04ca  */
-    /* JADX WARN: Removed duplicated region for block: B:537:0x04f6  */
-    /* JADX WARN: Removed duplicated region for block: B:540:0x050f  */
-    /* JADX WARN: Removed duplicated region for block: B:547:0x052f  */
-    /* JADX WARN: Removed duplicated region for block: B:550:0x0554  */
-    /* JADX WARN: Removed duplicated region for block: B:586:0x060a  */
-    /* JADX WARN: Removed duplicated region for block: B:589:0x0621  */
-    /* JADX WARN: Removed duplicated region for block: B:592:0x0638  */
-    /* JADX WARN: Removed duplicated region for block: B:595:0x064f  */
+    /* JADX WARN: Removed duplicated region for block: B:544:0x04d2  */
+    /* JADX WARN: Removed duplicated region for block: B:545:0x04fe  */
+    /* JADX WARN: Removed duplicated region for block: B:548:0x0517  */
+    /* JADX WARN: Removed duplicated region for block: B:555:0x0537  */
+    /* JADX WARN: Removed duplicated region for block: B:558:0x055c  */
+    /* JADX WARN: Removed duplicated region for block: B:594:0x0612  */
+    /* JADX WARN: Removed duplicated region for block: B:597:0x0629  */
+    /* JADX WARN: Removed duplicated region for block: B:600:0x0640  */
+    /* JADX WARN: Removed duplicated region for block: B:603:0x0657  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -12328,14 +12328,15 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         actionBarMenuItem3.addSubItem(15, i7, LocaleController.getString(str3, i));
                         this.hasVoiceChatItem = true;
                     }
-                    if ((this.chatInfo.can_view_stats || getMessagesController().getStoriesController().canPostStories(getDialogId())) && this.topicId == 0) {
+                    TLRPC$ChatFull tLRPC$ChatFull2 = this.chatInfo;
+                    if ((tLRPC$ChatFull2.can_view_stats || tLRPC$ChatFull2.can_view_revenue || tLRPC$ChatFull2.can_view_stars_revenue || getMessagesController().getStoriesController().canPostStories(getDialogId())) && this.topicId == 0) {
                         this.otherItem.addSubItem(19, R.drawable.msg_stats, LocaleController.getString("Statistics", R.string.Statistics));
                     }
                     this.callItemVisible = getMessagesController().getGroupCall(this.chatId, false) != null;
                 }
                 if (chat.megagroup) {
-                    TLRPC$ChatFull tLRPC$ChatFull2 = this.chatInfo;
-                    if (tLRPC$ChatFull2 == null || !tLRPC$ChatFull2.participants_hidden || ChatObject.hasAdminRights(chat)) {
+                    TLRPC$ChatFull tLRPC$ChatFull3 = this.chatInfo;
+                    if (tLRPC$ChatFull3 == null || !tLRPC$ChatFull3.participants_hidden || ChatObject.hasAdminRights(chat)) {
                         this.canSearchMembers = true;
                         this.otherItem.addSubItem(17, R.drawable.msg_search, LocaleController.getString("SearchMembers", R.string.SearchMembers));
                     }
@@ -12352,8 +12353,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     if (ChatObject.isPublic(chat)) {
                         this.otherItem.addSubItem(10, R.drawable.msg_share, LocaleController.getString("BotShare", R.string.BotShare));
                     }
-                    TLRPC$ChatFull tLRPC$ChatFull3 = this.chatInfo;
-                    if (tLRPC$ChatFull3 != null && tLRPC$ChatFull3.linked_chat_id != 0) {
+                    TLRPC$ChatFull tLRPC$ChatFull4 = this.chatInfo;
+                    if (tLRPC$ChatFull4 != null && tLRPC$ChatFull4.linked_chat_id != 0) {
                         this.otherItem.addSubItem(22, R.drawable.msg_discussion, LocaleController.getString("ViewDiscussion", R.string.ViewDiscussion));
                     }
                     TLRPC$Chat tLRPC$Chat = this.currentChat;

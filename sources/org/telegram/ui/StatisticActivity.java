@@ -213,7 +213,7 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
         bundle.putBoolean("is_megagroup", tLRPC$Chat.megagroup);
         bundle.putBoolean("start_from_boosts", z);
         TLRPC$ChatFull chatFull = MessagesController.getInstance(UserConfig.selectedAccount).getChatFull(tLRPC$Chat.id);
-        if (chatFull == null || !chatFull.can_view_stats) {
+        if (chatFull == null || (!chatFull.can_view_stats && !chatFull.can_view_stars_revenue)) {
             return new BoostsActivity(-tLRPC$Chat.id);
         }
         return new StatisticActivity(bundle);
@@ -619,22 +619,48 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
         }
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x0116  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x011b  */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x0127  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x0216  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x02a0  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x02a5  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x02cc  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x02cf  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x032b  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x0343  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public View createView(Context context) {
         FrameLayout frameLayout;
+        BottomPagerTabs bottomPagerTabs;
+        final BottomPagerTabs bottomPagerTabs2;
         this.sharedUi = new BaseChartView.SharedUiComponents();
         TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(this.chatId));
         TLRPC$ChatFull chatFull = MessagesController.getInstance(this.currentAccount).getChatFull(this.chatId);
+        int i = (chatFull == null || !chatFull.can_view_stats) ? 0 : 1;
         final boolean isBoostSupported = ChatObject.isBoostSupported(chat);
-        final boolean z = ChatObject.isChannelAndNotMegaGroup(chat) && chatFull != null && (chatFull.can_view_revenue || chatFull.can_view_stars_revenue);
-        final BottomPagerTabs bottomPagerTabs = new BottomPagerTabs(this, context, getResourceProvider()) { // from class: org.telegram.ui.StatisticActivity.3
+        boolean z = ChatObject.isChannelAndNotMegaGroup(chat) && chatFull != null && (chatFull.can_view_revenue || chatFull.can_view_stars_revenue);
+        final boolean z2 = i;
+        final boolean z3 = z;
+        final BottomPagerTabs bottomPagerTabs3 = new BottomPagerTabs(this, context, getResourceProvider()) { // from class: org.telegram.ui.StatisticActivity.3
             @Override // org.telegram.ui.Components.BottomPagerTabs
             public BottomPagerTabs.Tab[] createTabs() {
+                int i2;
                 ArrayList arrayList = new ArrayList();
-                arrayList.add(new BottomPagerTabs.Tab(0, R.raw.stats, 25, 49, LocaleController.getString(R.string.Statistics)).customFrameInvert());
-                arrayList.add(new BottomPagerTabs.Tab(1, R.raw.boosts, 25, 49, LocaleController.getString(R.string.Boosts)));
-                if (z) {
-                    arrayList.add(new BottomPagerTabs.Tab(2, R.raw.monetize, 19, 45, LocaleController.getString(R.string.Monetization)));
+                if (z2) {
+                    arrayList.add(new BottomPagerTabs.Tab(0, R.raw.stats, 25, 49, LocaleController.getString(R.string.Statistics)).customFrameInvert());
+                    i2 = 1;
+                } else {
+                    i2 = 0;
+                }
+                int i3 = i2 + 1;
+                arrayList.add(new BottomPagerTabs.Tab(i2, R.raw.boosts, 25, 49, LocaleController.getString(R.string.Boosts)));
+                if (z3) {
+                    arrayList.add(new BottomPagerTabs.Tab(i3, R.raw.monetize, 19, 45, LocaleController.getString(R.string.Monetization)));
                 }
                 return (BottomPagerTabs.Tab[]) arrayList.toArray(new BottomPagerTabs.Tab[0]);
             }
@@ -642,18 +668,18 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
         this.viewPagerFixed = new ViewPagerFixed(getContext()) { // from class: org.telegram.ui.StatisticActivity.4
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.ViewPagerFixed
-            public void onTabAnimationUpdate(boolean z2) {
-                if (z2) {
+            public void onTabAnimationUpdate(boolean z4) {
+                if (z4) {
                     return;
                 }
-                bottomPagerTabs.setScrolling(true);
-                bottomPagerTabs.setProgress(StatisticActivity.this.viewPagerFixed.getPositionAnimated());
+                bottomPagerTabs3.setScrolling(true);
+                bottomPagerTabs3.setProgress(StatisticActivity.this.viewPagerFixed.getPositionAnimated());
             }
         };
-        bottomPagerTabs.setOnTabClick(new Utilities.Callback() { // from class: org.telegram.ui.StatisticActivity$$ExternalSyntheticLambda8
+        bottomPagerTabs3.setOnTabClick(new Utilities.Callback() { // from class: org.telegram.ui.StatisticActivity$$ExternalSyntheticLambda8
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
-                StatisticActivity.this.lambda$createView$5(bottomPagerTabs, (Integer) obj);
+                StatisticActivity.this.lambda$createView$5(bottomPagerTabs3, (Integer) obj);
             }
         });
         FrameLayout frameLayout2 = new FrameLayout(context);
@@ -662,148 +688,292 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
         }
         if (z) {
             frameLayout = frameLayout2;
+            bottomPagerTabs = bottomPagerTabs3;
             ChannelMonetizationLayout channelMonetizationLayout = new ChannelMonetizationLayout(getContext(), this, this.currentAccount, -this.chatId, getResourceProvider(), chatFull.can_view_revenue, chatFull.can_view_stars_revenue);
             this.monetizationLayout = channelMonetizationLayout;
             channelMonetizationLayout.setActionBar(this.actionBar);
         } else {
             frameLayout = frameLayout2;
+            bottomPagerTabs = bottomPagerTabs3;
         }
-        boolean z2 = isBoostSupported && !this.onlyBoostsStat;
-        if (z2 && this.startFromBoosts) {
-            this.viewPagerFixed.setPosition(1);
-        }
+        final boolean z4 = i;
+        final boolean z5 = z;
         final FrameLayout frameLayout3 = frameLayout;
         this.viewPagerFixed.setAdapter(new ViewPagerFixed.Adapter() { // from class: org.telegram.ui.StatisticActivity.5
             @Override // org.telegram.ui.Components.ViewPagerFixed.Adapter
-            public void bindView(View view, int i, int i2) {
+            public void bindView(View view, int i2, int i3) {
             }
 
             @Override // org.telegram.ui.Components.ViewPagerFixed.Adapter
-            public int getItemViewType(int i) {
-                return i;
+            public int getItemViewType(int i2) {
+                return i2;
             }
 
             @Override // org.telegram.ui.Components.ViewPagerFixed.Adapter
             public int getItemCount() {
-                int i = StatisticActivity.this.onlyBoostsStat ? 1 : 1 + (isBoostSupported ? 1 : 0);
-                return z ? i + 1 : i;
+                if (StatisticActivity.this.onlyBoostsStat) {
+                    return 1;
+                }
+                return (z4 ? 1 : 0) + (isBoostSupported ? 1 : 0) + (z5 ? 1 : 0);
             }
 
             @Override // org.telegram.ui.Components.ViewPagerFixed.Adapter
-            public View createView(int i) {
-                if (i == 0) {
-                    return frameLayout3;
+            public View createView(int i2) {
+                if (StatisticActivity.this.onlyBoostsStat) {
+                    return StatisticActivity.this.boostLayout;
                 }
-                int i2 = i - 1;
-                if (i2 == 0) {
-                    return (StatisticActivity.this.onlyBoostsStat || !isBoostSupported) ? StatisticActivity.this.monetizationLayout : StatisticActivity.this.boostLayout;
-                } else if (i2 - 1 == 0) {
+                if (z4) {
+                    if (i2 == 0) {
+                        return frameLayout3;
+                    }
+                    i2--;
+                }
+                if (isBoostSupported) {
+                    if (i2 == 0) {
+                        return StatisticActivity.this.boostLayout;
+                    }
+                    i2--;
+                }
+                if (z5 && i2 == 0) {
                     return StatisticActivity.this.monetizationLayout;
-                } else {
-                    return frameLayout3;
                 }
+                return frameLayout3;
             }
         });
-        SizeNotifierFrameLayout sizeNotifierFrameLayout = new SizeNotifierFrameLayout(getContext());
-        sizeNotifierFrameLayout.addView(this.viewPagerFixed, LayoutHelper.createFrame(-1, -1.0f, 0, 0.0f, 0.0f, 0.0f, z2 ? 64.0f : 0.0f));
-        if (z2) {
-            sizeNotifierFrameLayout.addView(bottomPagerTabs, LayoutHelper.createFrame(-1, -2, 87));
-            Bulletin.addDelegate(this, new Bulletin.Delegate(this) { // from class: org.telegram.ui.StatisticActivity.6
-                @Override // org.telegram.ui.Components.Bulletin.Delegate
-                public /* synthetic */ boolean allowLayoutChanges() {
-                    return Bulletin.Delegate.-CC.$default$allowLayoutChanges(this);
-                }
+        boolean z6 = isBoostSupported && !this.onlyBoostsStat;
+        if (z6 && this.startFromBoosts) {
+            this.viewPagerFixed.setPosition(i);
+        } else if (z6) {
+            bottomPagerTabs2 = bottomPagerTabs;
+            bottomPagerTabs2.setProgress(((this.onlyBoostsStat || !isBoostSupported) ? 0 : 1) + i);
+            this.viewPagerFixed.setPosition(i + ((this.onlyBoostsStat || !isBoostSupported) ? 0 : 1));
+            SizeNotifierFrameLayout sizeNotifierFrameLayout = new SizeNotifierFrameLayout(getContext());
+            sizeNotifierFrameLayout.addView(this.viewPagerFixed, LayoutHelper.createFrame(-1, -1.0f, 0, 0.0f, 0.0f, 0.0f, !z6 ? 64.0f : 0.0f));
+            if (z6) {
+                sizeNotifierFrameLayout.addView(bottomPagerTabs2, LayoutHelper.createFrame(-1, -2, 87));
+                Bulletin.addDelegate(this, new Bulletin.Delegate(this) { // from class: org.telegram.ui.StatisticActivity.6
+                    @Override // org.telegram.ui.Components.Bulletin.Delegate
+                    public /* synthetic */ boolean allowLayoutChanges() {
+                        return Bulletin.Delegate.-CC.$default$allowLayoutChanges(this);
+                    }
 
-                @Override // org.telegram.ui.Components.Bulletin.Delegate
-                public /* synthetic */ boolean bottomOffsetAnimated() {
-                    return Bulletin.Delegate.-CC.$default$bottomOffsetAnimated(this);
-                }
+                    @Override // org.telegram.ui.Components.Bulletin.Delegate
+                    public /* synthetic */ boolean bottomOffsetAnimated() {
+                        return Bulletin.Delegate.-CC.$default$bottomOffsetAnimated(this);
+                    }
 
-                @Override // org.telegram.ui.Components.Bulletin.Delegate
-                public /* synthetic */ boolean clipWithGradient(int i) {
-                    return Bulletin.Delegate.-CC.$default$clipWithGradient(this, i);
-                }
+                    @Override // org.telegram.ui.Components.Bulletin.Delegate
+                    public /* synthetic */ boolean clipWithGradient(int i2) {
+                        return Bulletin.Delegate.-CC.$default$clipWithGradient(this, i2);
+                    }
 
-                @Override // org.telegram.ui.Components.Bulletin.Delegate
-                public /* synthetic */ int getTopOffset(int i) {
-                    return Bulletin.Delegate.-CC.$default$getTopOffset(this, i);
-                }
+                    @Override // org.telegram.ui.Components.Bulletin.Delegate
+                    public /* synthetic */ int getTopOffset(int i2) {
+                        return Bulletin.Delegate.-CC.$default$getTopOffset(this, i2);
+                    }
 
-                @Override // org.telegram.ui.Components.Bulletin.Delegate
-                public /* synthetic */ void onBottomOffsetChange(float f) {
-                    Bulletin.Delegate.-CC.$default$onBottomOffsetChange(this, f);
-                }
+                    @Override // org.telegram.ui.Components.Bulletin.Delegate
+                    public /* synthetic */ void onBottomOffsetChange(float f) {
+                        Bulletin.Delegate.-CC.$default$onBottomOffsetChange(this, f);
+                    }
 
-                @Override // org.telegram.ui.Components.Bulletin.Delegate
-                public /* synthetic */ void onHide(Bulletin bulletin) {
-                    Bulletin.Delegate.-CC.$default$onHide(this, bulletin);
-                }
+                    @Override // org.telegram.ui.Components.Bulletin.Delegate
+                    public /* synthetic */ void onHide(Bulletin bulletin) {
+                        Bulletin.Delegate.-CC.$default$onHide(this, bulletin);
+                    }
 
-                @Override // org.telegram.ui.Components.Bulletin.Delegate
-                public /* synthetic */ void onShow(Bulletin bulletin) {
-                    Bulletin.Delegate.-CC.$default$onShow(this, bulletin);
-                }
+                    @Override // org.telegram.ui.Components.Bulletin.Delegate
+                    public /* synthetic */ void onShow(Bulletin bulletin) {
+                        Bulletin.Delegate.-CC.$default$onShow(this, bulletin);
+                    }
 
-                @Override // org.telegram.ui.Components.Bulletin.Delegate
-                public int getBottomOffset(int i) {
-                    return AndroidUtilities.dp(64.0f);
+                    @Override // org.telegram.ui.Components.Bulletin.Delegate
+                    public int getBottomOffset(int i2) {
+                        return AndroidUtilities.dp(64.0f);
+                    }
+                });
+            }
+            new KeyboardNotifier(sizeNotifierFrameLayout, new Utilities.Callback() { // from class: org.telegram.ui.StatisticActivity$$ExternalSyntheticLambda7
+                @Override // org.telegram.messenger.Utilities.Callback
+                public final void run(Object obj) {
+                    StatisticActivity.lambda$createView$6(BottomPagerTabs.this, (Integer) obj);
                 }
             });
+            this.fragmentView = sizeNotifierFrameLayout;
+            this.recyclerListView = new RecyclerListView(context) { // from class: org.telegram.ui.StatisticActivity.7
+                int lastH;
+
+                /* JADX INFO: Access modifiers changed from: protected */
+                @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
+                public void onMeasure(int i2, int i3) {
+                    super.onMeasure(i2, i3);
+                    if (this.lastH != getMeasuredHeight() && StatisticActivity.this.adapter != null) {
+                        StatisticActivity.this.adapter.notifyDataSetChanged();
+                    }
+                    this.lastH = getMeasuredHeight();
+                }
+            };
+            LinearLayout linearLayout = new LinearLayout(context);
+            this.progressLayout = linearLayout;
+            linearLayout.setOrientation(1);
+            RLottieImageView rLottieImageView = new RLottieImageView(context);
+            this.imageView = rLottieImageView;
+            rLottieImageView.setAutoRepeat(true);
+            this.imageView.setAnimation(R.raw.statistic_preload, 120, 120);
+            this.imageView.playAnimation();
+            TextView textView = new TextView(context);
+            textView.setTextSize(1, 20.0f);
+            textView.setTypeface(AndroidUtilities.bold());
+            int i2 = Theme.key_player_actionBarTitle;
+            textView.setTextColor(Theme.getColor(i2));
+            textView.setTag(Integer.valueOf(i2));
+            textView.setText(LocaleController.getString("LoadingStats", R.string.LoadingStats));
+            textView.setGravity(1);
+            TextView textView2 = new TextView(context);
+            textView2.setTextSize(1, 15.0f);
+            int i3 = Theme.key_player_actionBarSubtitle;
+            textView2.setTextColor(Theme.getColor(i3));
+            textView2.setTag(Integer.valueOf(i3));
+            textView2.setText(LocaleController.getString("LoadingStatsDescription", R.string.LoadingStatsDescription));
+            textView2.setGravity(1);
+            this.progressLayout.addView(this.imageView, LayoutHelper.createLinear(120, 120, 1, 0, 0, 0, 20));
+            this.progressLayout.addView(textView, LayoutHelper.createLinear(-2, -2, 1, 0, 0, 0, 10));
+            this.progressLayout.addView(textView2, LayoutHelper.createLinear(-2, -2, 1));
+            frameLayout.addView(this.progressLayout, LayoutHelper.createFrame(240, -2.0f, 17, 0.0f, 0.0f, 0.0f, 30.0f));
+            if (this.adapter == null) {
+                this.adapter = new Adapter();
+            }
+            this.recyclerListView.setAdapter(this.adapter);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+            this.layoutManager = linearLayoutManager;
+            this.recyclerListView.setLayoutManager(linearLayoutManager);
+            this.animator = new DefaultItemAnimator(this) { // from class: org.telegram.ui.StatisticActivity.8
+                @Override // androidx.recyclerview.widget.DefaultItemAnimator
+                protected long getAddAnimationDelay(long j, long j2, long j3) {
+                    return j;
+                }
+            };
+            this.recyclerListView.setItemAnimator(null);
+            this.recyclerListView.addOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.StatisticActivity.9
+                @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
+                public void onScrolled(RecyclerView recyclerView, int i4, int i5) {
+                    if (StatisticActivity.this.recentPostsAll.size() == StatisticActivity.this.recentPostsLoaded.size() || StatisticActivity.this.messagesIsLoading || StatisticActivity.this.layoutManager.findLastVisibleItemPosition() <= StatisticActivity.this.adapter.getItemCount() - 20) {
+                        return;
+                    }
+                    StatisticActivity.this.loadMessages();
+                }
+            });
+            this.recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.StatisticActivity$$ExternalSyntheticLambda12
+                @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
+                public final void onItemClick(View view, int i4) {
+                    StatisticActivity.this.lambda$createView$7(view, i4);
+                }
+            });
+            this.recyclerListView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.StatisticActivity$$ExternalSyntheticLambda13
+                @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListener
+                public final boolean onItemClick(View view, int i4) {
+                    boolean lambda$createView$9;
+                    lambda$createView$9 = StatisticActivity.this.lambda$createView$9(view, i4);
+                    return lambda$createView$9;
+                }
+            });
+            frameLayout.addView(this.recyclerListView);
+            ChatAvatarContainer chatAvatarContainer = new ChatAvatarContainer(context, null, false);
+            this.avatarContainer = chatAvatarContainer;
+            chatAvatarContainer.setOccupyStatusBar(!AndroidUtilities.isTablet());
+            this.avatarContainer.getAvatarImageView().setScaleX(0.9f);
+            this.avatarContainer.getAvatarImageView().setScaleY(0.9f);
+            this.avatarContainer.setRightAvatarPadding(-AndroidUtilities.dp(3.0f));
+            this.actionBar.addView(this.avatarContainer, 0, LayoutHelper.createFrame(-2, -1.0f, 51, this.inPreviewMode ? 50.0f : 0.0f, 0.0f, 40.0f, 0.0f));
+            TLRPC$Chat chat2 = getMessagesController().getChat(Long.valueOf(this.chatId));
+            this.avatarContainer.setChatAvatar(chat2);
+            this.avatarContainer.setTitle(chat2 != null ? "" : chat2.title);
+            this.avatarContainer.hideSubtitle();
+            this.actionBar.setBackButtonDrawable(new BackDrawable(false));
+            this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.StatisticActivity.10
+                @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
+                public void onItemClick(int i4) {
+                    if (i4 == -1) {
+                        StatisticActivity.this.finishFragment();
+                    }
+                }
+            });
+            this.avatarContainer.setTitleColors(Theme.getColor(i2), Theme.getColor(i3));
+            this.actionBar.setItemsColor(Theme.getColor(i2), false);
+            this.actionBar.setItemsColor(Theme.getColor(i2), true);
+            this.actionBar.setItemsBackgroundColor(Theme.getColor(Theme.key_actionBarActionModeDefaultSelector), false);
+            this.actionBar.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+            if (!this.initialLoading) {
+                this.progressLayout.setAlpha(0.0f);
+                AndroidUtilities.runOnUIThread(this.showProgressbar, 500L);
+                this.progressLayout.setVisibility(0);
+                this.recyclerListView.setVisibility(8);
+            } else {
+                AndroidUtilities.cancelRunOnUIThread(this.showProgressbar);
+                this.progressLayout.setVisibility(8);
+                this.recyclerListView.setVisibility(0);
+            }
+            this.diffUtilsCallback = new DiffUtilsCallback(this.adapter, this.layoutManager);
+            return this.fragmentView;
         }
-        new KeyboardNotifier(sizeNotifierFrameLayout, new Utilities.Callback() { // from class: org.telegram.ui.StatisticActivity$$ExternalSyntheticLambda7
+        bottomPagerTabs2 = bottomPagerTabs;
+        SizeNotifierFrameLayout sizeNotifierFrameLayout2 = new SizeNotifierFrameLayout(getContext());
+        sizeNotifierFrameLayout2.addView(this.viewPagerFixed, LayoutHelper.createFrame(-1, -1.0f, 0, 0.0f, 0.0f, 0.0f, !z6 ? 64.0f : 0.0f));
+        if (z6) {
+        }
+        new KeyboardNotifier(sizeNotifierFrameLayout2, new Utilities.Callback() { // from class: org.telegram.ui.StatisticActivity$$ExternalSyntheticLambda7
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 StatisticActivity.lambda$createView$6(BottomPagerTabs.this, (Integer) obj);
             }
         });
-        this.fragmentView = sizeNotifierFrameLayout;
+        this.fragmentView = sizeNotifierFrameLayout2;
         this.recyclerListView = new RecyclerListView(context) { // from class: org.telegram.ui.StatisticActivity.7
             int lastH;
 
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
-            public void onMeasure(int i, int i2) {
-                super.onMeasure(i, i2);
+            public void onMeasure(int i22, int i32) {
+                super.onMeasure(i22, i32);
                 if (this.lastH != getMeasuredHeight() && StatisticActivity.this.adapter != null) {
                     StatisticActivity.this.adapter.notifyDataSetChanged();
                 }
                 this.lastH = getMeasuredHeight();
             }
         };
-        LinearLayout linearLayout = new LinearLayout(context);
-        this.progressLayout = linearLayout;
-        linearLayout.setOrientation(1);
-        RLottieImageView rLottieImageView = new RLottieImageView(context);
-        this.imageView = rLottieImageView;
-        rLottieImageView.setAutoRepeat(true);
+        LinearLayout linearLayout2 = new LinearLayout(context);
+        this.progressLayout = linearLayout2;
+        linearLayout2.setOrientation(1);
+        RLottieImageView rLottieImageView2 = new RLottieImageView(context);
+        this.imageView = rLottieImageView2;
+        rLottieImageView2.setAutoRepeat(true);
         this.imageView.setAnimation(R.raw.statistic_preload, 120, 120);
         this.imageView.playAnimation();
-        TextView textView = new TextView(context);
-        textView.setTextSize(1, 20.0f);
-        textView.setTypeface(AndroidUtilities.bold());
-        int i = Theme.key_player_actionBarTitle;
-        textView.setTextColor(Theme.getColor(i));
-        textView.setTag(Integer.valueOf(i));
-        textView.setText(LocaleController.getString("LoadingStats", R.string.LoadingStats));
-        textView.setGravity(1);
-        TextView textView2 = new TextView(context);
-        textView2.setTextSize(1, 15.0f);
-        int i2 = Theme.key_player_actionBarSubtitle;
-        textView2.setTextColor(Theme.getColor(i2));
-        textView2.setTag(Integer.valueOf(i2));
-        textView2.setText(LocaleController.getString("LoadingStatsDescription", R.string.LoadingStatsDescription));
-        textView2.setGravity(1);
+        TextView textView3 = new TextView(context);
+        textView3.setTextSize(1, 20.0f);
+        textView3.setTypeface(AndroidUtilities.bold());
+        int i22 = Theme.key_player_actionBarTitle;
+        textView3.setTextColor(Theme.getColor(i22));
+        textView3.setTag(Integer.valueOf(i22));
+        textView3.setText(LocaleController.getString("LoadingStats", R.string.LoadingStats));
+        textView3.setGravity(1);
+        TextView textView22 = new TextView(context);
+        textView22.setTextSize(1, 15.0f);
+        int i32 = Theme.key_player_actionBarSubtitle;
+        textView22.setTextColor(Theme.getColor(i32));
+        textView22.setTag(Integer.valueOf(i32));
+        textView22.setText(LocaleController.getString("LoadingStatsDescription", R.string.LoadingStatsDescription));
+        textView22.setGravity(1);
         this.progressLayout.addView(this.imageView, LayoutHelper.createLinear(120, 120, 1, 0, 0, 0, 20));
-        this.progressLayout.addView(textView, LayoutHelper.createLinear(-2, -2, 1, 0, 0, 0, 10));
-        this.progressLayout.addView(textView2, LayoutHelper.createLinear(-2, -2, 1));
-        frameLayout3.addView(this.progressLayout, LayoutHelper.createFrame(240, -2.0f, 17, 0.0f, 0.0f, 0.0f, 30.0f));
+        this.progressLayout.addView(textView3, LayoutHelper.createLinear(-2, -2, 1, 0, 0, 0, 10));
+        this.progressLayout.addView(textView22, LayoutHelper.createLinear(-2, -2, 1));
+        frameLayout.addView(this.progressLayout, LayoutHelper.createFrame(240, -2.0f, 17, 0.0f, 0.0f, 0.0f, 30.0f));
         if (this.adapter == null) {
-            this.adapter = new Adapter();
         }
         this.recyclerListView.setAdapter(this.adapter);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
-        this.layoutManager = linearLayoutManager;
-        this.recyclerListView.setLayoutManager(linearLayoutManager);
+        LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(context);
+        this.layoutManager = linearLayoutManager2;
+        this.recyclerListView.setLayoutManager(linearLayoutManager2);
         this.animator = new DefaultItemAnimator(this) { // from class: org.telegram.ui.StatisticActivity.8
             @Override // androidx.recyclerview.widget.DefaultItemAnimator
             protected long getAddAnimationDelay(long j, long j2, long j3) {
@@ -813,7 +983,7 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
         this.recyclerListView.setItemAnimator(null);
         this.recyclerListView.addOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.StatisticActivity.9
             @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-            public void onScrolled(RecyclerView recyclerView, int i3, int i4) {
+            public void onScrolled(RecyclerView recyclerView, int i4, int i5) {
                 if (StatisticActivity.this.recentPostsAll.size() == StatisticActivity.this.recentPostsLoaded.size() || StatisticActivity.this.messagesIsLoading || StatisticActivity.this.layoutManager.findLastVisibleItemPosition() <= StatisticActivity.this.adapter.getItemCount() - 20) {
                     return;
                 }
@@ -822,53 +992,45 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
         });
         this.recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.StatisticActivity$$ExternalSyntheticLambda12
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-            public final void onItemClick(View view, int i3) {
-                StatisticActivity.this.lambda$createView$7(view, i3);
+            public final void onItemClick(View view, int i4) {
+                StatisticActivity.this.lambda$createView$7(view, i4);
             }
         });
         this.recyclerListView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.StatisticActivity$$ExternalSyntheticLambda13
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListener
-            public final boolean onItemClick(View view, int i3) {
+            public final boolean onItemClick(View view, int i4) {
                 boolean lambda$createView$9;
-                lambda$createView$9 = StatisticActivity.this.lambda$createView$9(view, i3);
+                lambda$createView$9 = StatisticActivity.this.lambda$createView$9(view, i4);
                 return lambda$createView$9;
             }
         });
-        frameLayout3.addView(this.recyclerListView);
-        ChatAvatarContainer chatAvatarContainer = new ChatAvatarContainer(context, null, false);
-        this.avatarContainer = chatAvatarContainer;
-        chatAvatarContainer.setOccupyStatusBar(!AndroidUtilities.isTablet());
+        frameLayout.addView(this.recyclerListView);
+        ChatAvatarContainer chatAvatarContainer2 = new ChatAvatarContainer(context, null, false);
+        this.avatarContainer = chatAvatarContainer2;
+        chatAvatarContainer2.setOccupyStatusBar(!AndroidUtilities.isTablet());
         this.avatarContainer.getAvatarImageView().setScaleX(0.9f);
         this.avatarContainer.getAvatarImageView().setScaleY(0.9f);
         this.avatarContainer.setRightAvatarPadding(-AndroidUtilities.dp(3.0f));
-        this.actionBar.addView(this.avatarContainer, 0, LayoutHelper.createFrame(-2, -1.0f, 51, !this.inPreviewMode ? 50.0f : 0.0f, 0.0f, 40.0f, 0.0f));
-        TLRPC$Chat chat2 = getMessagesController().getChat(Long.valueOf(this.chatId));
-        this.avatarContainer.setChatAvatar(chat2);
-        this.avatarContainer.setTitle(chat2 == null ? "" : chat2.title);
+        this.actionBar.addView(this.avatarContainer, 0, LayoutHelper.createFrame(-2, -1.0f, 51, this.inPreviewMode ? 50.0f : 0.0f, 0.0f, 40.0f, 0.0f));
+        TLRPC$Chat chat22 = getMessagesController().getChat(Long.valueOf(this.chatId));
+        this.avatarContainer.setChatAvatar(chat22);
+        this.avatarContainer.setTitle(chat22 != null ? "" : chat22.title);
         this.avatarContainer.hideSubtitle();
         this.actionBar.setBackButtonDrawable(new BackDrawable(false));
         this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.StatisticActivity.10
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
-            public void onItemClick(int i3) {
-                if (i3 == -1) {
+            public void onItemClick(int i4) {
+                if (i4 == -1) {
                     StatisticActivity.this.finishFragment();
                 }
             }
         });
-        this.avatarContainer.setTitleColors(Theme.getColor(i), Theme.getColor(i2));
-        this.actionBar.setItemsColor(Theme.getColor(i), false);
-        this.actionBar.setItemsColor(Theme.getColor(i), true);
+        this.avatarContainer.setTitleColors(Theme.getColor(i22), Theme.getColor(i32));
+        this.actionBar.setItemsColor(Theme.getColor(i22), false);
+        this.actionBar.setItemsColor(Theme.getColor(i22), true);
         this.actionBar.setItemsBackgroundColor(Theme.getColor(Theme.key_actionBarActionModeDefaultSelector), false);
         this.actionBar.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-        if (this.initialLoading) {
-            this.progressLayout.setAlpha(0.0f);
-            AndroidUtilities.runOnUIThread(this.showProgressbar, 500L);
-            this.progressLayout.setVisibility(0);
-            this.recyclerListView.setVisibility(8);
-        } else {
-            AndroidUtilities.cancelRunOnUIThread(this.showProgressbar);
-            this.progressLayout.setVisibility(8);
-            this.recyclerListView.setVisibility(0);
+        if (!this.initialLoading) {
         }
         this.diffUtilsCallback = new DiffUtilsCallback(this.adapter, this.layoutManager);
         return this.fragmentView;
