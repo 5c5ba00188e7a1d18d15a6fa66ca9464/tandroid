@@ -2338,7 +2338,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
                             case 27:
                             case 28:
                             case 29:
-                            case R.styleable.AppCompatTheme_actionModeTheme /* 30 */:
+                            case 30:
                             case R.styleable.AppCompatTheme_actionModeWebSearchDrawable /* 31 */:
                             case ' ':
                             case R.styleable.AppCompatTheme_actionOverflowMenuStyle /* 33 */:

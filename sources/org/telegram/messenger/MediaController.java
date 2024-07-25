@@ -66,7 +66,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Locale;
-import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
 import org.telegram.messenger.MediaController;
@@ -276,7 +275,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     private float fastPlaybackSpeed = VOLUME_NORMAL;
     private float fastMusicPlaybackSpeed = VOLUME_NORMAL;
     private long lastProgress = 0;
-    private Timer progressTimer = null;
+    private java.util.Timer progressTimer = null;
     private final Object progressTimerSync = new Object();
     private ArrayList<MessageObject> playlist = new ArrayList<>();
     private HashMap<Integer, MessageObject> playlistMap = new HashMap<>();
@@ -1547,7 +1546,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
 
     private void startProgressTimer(MessageObject messageObject) {
         synchronized (this.progressTimerSync) {
-            Timer timer = this.progressTimer;
+            java.util.Timer timer = this.progressTimer;
             if (timer != null) {
                 try {
                     timer.cancel();
@@ -1557,7 +1556,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 }
             }
             messageObject.getFileName();
-            Timer timer2 = new Timer();
+            java.util.Timer timer2 = new java.util.Timer();
             this.progressTimer = timer2;
             timer2.schedule(new 5(messageObject), 0L, 17L);
         }
@@ -1646,7 +1645,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
 
     private void stopProgressTimer() {
         synchronized (this.progressTimerSync) {
-            Timer timer = this.progressTimer;
+            java.util.Timer timer = this.progressTimer;
             if (timer != null) {
                 try {
                     timer.cancel();

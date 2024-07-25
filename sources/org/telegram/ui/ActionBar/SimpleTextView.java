@@ -275,7 +275,7 @@ public class SimpleTextView extends View {
         return drawable3 != null ? intrinsicWidth + ((int) (drawable3.getIntrinsicWidth() * this.rightDrawableScale)) + this.drawablePadding : intrinsicWidth;
     }
 
-    public Paint getPaint() {
+    public TextPaint getPaint() {
         return this.textPaint;
     }
 
@@ -483,8 +483,9 @@ public class SimpleTextView extends View {
         return this.mAlignment;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
-    protected void onMeasure(int i, int i2) {
+    public void onMeasure(int i, int i2) {
         Drawable drawable;
         Drawable drawable2;
         Drawable drawable3;

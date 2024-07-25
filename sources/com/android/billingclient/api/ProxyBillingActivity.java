@@ -6,10 +6,11 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
 import android.os.ResultReceiver;
+import com.android.billingclient.api.BillingResult;
 import com.google.android.apps.common.proguard.UsedByReflection;
 import com.google.android.gms.internal.play_billing.zzb;
 import org.telegram.messenger.R;
-/* compiled from: com.android.billingclient:billing@@5.1.0 */
+/* compiled from: com.android.billingclient:billing@@6.0.1 */
 @UsedByReflection("PlatformActivityProxy")
 /* loaded from: classes.dex */
 public class ProxyBillingActivity extends Activity {
@@ -32,7 +33,7 @@ public class ProxyBillingActivity extends Activity {
     }
 
     /* JADX WARN: Removed duplicated region for block: B:23:0x0074  */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x007f  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x0080  */
     @Override // android.app.Activity
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -42,7 +43,7 @@ public class ProxyBillingActivity extends Activity {
         Intent makePurchasesUpdatedIntent;
         super.onActivityResult(i, i2, intent);
         if (i == 100 || i == 110) {
-            int responseCode = zzb.zzi(intent, "ProxyBillingActivity").getResponseCode();
+            int responseCode = zzb.zzd(intent, "ProxyBillingActivity").getResponseCode();
             if (i2 == -1) {
                 if (responseCode != 0) {
                     i2 = -1;
@@ -57,15 +58,22 @@ public class ProxyBillingActivity extends Activity {
                                 String string = intent.getExtras().getString("ALTERNATIVE_BILLING_USER_CHOICE_DATA");
                                 if (string != null) {
                                     makePurchasesUpdatedIntent = makeAlternativeBillingIntent(string);
+                                    makePurchasesUpdatedIntent.putExtra("INTENT_SOURCE", "LAUNCH_BILLING_FLOW");
                                 } else {
                                     makePurchasesUpdatedIntent = makePurchasesUpdatedIntent();
                                     makePurchasesUpdatedIntent.putExtras(intent.getExtras());
+                                    makePurchasesUpdatedIntent.putExtra("INTENT_SOURCE", "LAUNCH_BILLING_FLOW");
                                 }
                             } else {
                                 makePurchasesUpdatedIntent = makePurchasesUpdatedIntent();
-                                zzb.zzo("ProxyBillingActivity", "Got null bundle!");
+                                zzb.zzj("ProxyBillingActivity", "Got null bundle!");
                                 makePurchasesUpdatedIntent.putExtra("RESPONSE_CODE", 6);
                                 makePurchasesUpdatedIntent.putExtra("DEBUG_MESSAGE", "An internal error occurred.");
+                                BillingResult.Builder newBuilder = BillingResult.newBuilder();
+                                newBuilder.setResponseCode(6);
+                                newBuilder.setDebugMessage("An internal error occurred.");
+                                makePurchasesUpdatedIntent.putExtra("FAILURE_LOGGING_PAYLOAD", zzaq.zza(22, 2, newBuilder.build()).zzc());
+                                makePurchasesUpdatedIntent.putExtra("INTENT_SOURCE", "LAUNCH_BILLING_FLOW");
                             }
                         } else {
                             makePurchasesUpdatedIntent = makePurchasesUpdatedIntent();
@@ -77,7 +85,7 @@ public class ProxyBillingActivity extends Activity {
                     }
                 }
             }
-            zzb.zzo("ProxyBillingActivity", "Activity finished with resultCode " + i2 + " and billing's responseCode: " + responseCode);
+            zzb.zzj("ProxyBillingActivity", "Activity finished with resultCode " + i2 + " and billing's responseCode: " + responseCode);
             resultReceiver = this.priceChangeResultReceiver;
             if (resultReceiver == null) {
             }
@@ -88,7 +96,7 @@ public class ProxyBillingActivity extends Activity {
                 resultReceiver2.send(zza, intent != null ? intent.getExtras() : null);
             }
         } else {
-            zzb.zzo("ProxyBillingActivity", "Got onActivityResult with wrong requestCode: " + i + "; skipping...");
+            zzb.zzj("ProxyBillingActivity", "Got onActivityResult with wrong requestCode: " + i + "; skipping...");
         }
         this.sendCancelledBroadcastIfFinished = false;
         finish();
@@ -100,7 +108,7 @@ public class ProxyBillingActivity extends Activity {
         int i;
         super.onCreate(bundle);
         if (bundle == null) {
-            zzb.zzn("ProxyBillingActivity", "Launching Play Store billing flow");
+            zzb.zzi("ProxyBillingActivity", "Launching Play Store billing flow");
             if (getIntent().hasExtra("BUY_INTENT")) {
                 pendingIntent = (PendingIntent) getIntent().getParcelableExtra("BUY_INTENT");
                 if (getIntent().hasExtra("IS_FLOW_FROM_FIRST_PARTY_CLIENT") && getIntent().getBooleanExtra("IS_FLOW_FROM_FIRST_PARTY_CLIENT", false)) {
@@ -126,7 +134,7 @@ public class ProxyBillingActivity extends Activity {
                 startIntentSenderForResult(pendingIntent.getIntentSender(), i, new Intent(), 0, 0, 0);
                 return;
             } catch (IntentSender.SendIntentException e) {
-                zzb.zzp("ProxyBillingActivity", "Got exception while trying to start a purchase flow.", e);
+                zzb.zzk("ProxyBillingActivity", "Got exception while trying to start a purchase flow.", e);
                 ResultReceiver resultReceiver = this.priceChangeResultReceiver;
                 if (resultReceiver != null) {
                     resultReceiver.send(6, null);
@@ -149,7 +157,7 @@ public class ProxyBillingActivity extends Activity {
                 return;
             }
         }
-        zzb.zzn("ProxyBillingActivity", "Launching Play Store billing flow from savedInstanceState");
+        zzb.zzi("ProxyBillingActivity", "Launching Play Store billing flow from savedInstanceState");
         this.sendCancelledBroadcastIfFinished = bundle.getBoolean("send_cancelled_broadcast_if_finished", false);
         if (bundle.containsKey("result_receiver")) {
             this.priceChangeResultReceiver = (ResultReceiver) bundle.getParcelable("result_receiver");

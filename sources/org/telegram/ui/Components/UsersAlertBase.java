@@ -402,7 +402,7 @@ public class UsersAlertBase extends BottomSheet {
         this.container.invalidate();
     }
 
-    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface
+    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
     public void dismiss() {
         AndroidUtilities.hideKeyboard(this.searchView.searchEditText);
         super.dismiss();

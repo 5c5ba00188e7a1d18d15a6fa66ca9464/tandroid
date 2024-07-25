@@ -735,20 +735,29 @@ public class BotStarsActivity extends BaseFragment implements NotificationCenter
                         }
                         currentListView.scrollBy(0, iArr[1]);
                         return;
+                    } else if (i2 > 0) {
+                        RecyclerListView currentListView2 = BotStarsActivity.this.transactionsLayout.getCurrentListView();
+                        if (BotStarsActivity.this.listView.getHeight() - bottom < 0 || currentListView2 == null || currentListView2.canScrollVertically(1)) {
+                            return;
+                        }
+                        iArr[1] = i2;
+                        BotStarsActivity.this.listView.stopScroll();
+                        return;
+                    } else {
+                        return;
                     }
-                    return;
                 }
                 ((BaseFragment) BotStarsActivity.this).actionBar.setCastShadows(BotStarsActivity.this.listView.getHeight() - bottom < 0);
                 if (BotStarsActivity.this.listView.getHeight() - bottom >= 0) {
-                    RecyclerListView currentListView2 = BotStarsActivity.this.transactionsLayout.getCurrentListView();
-                    int findFirstVisibleItemPosition = ((LinearLayoutManager) currentListView2.getLayoutManager()).findFirstVisibleItemPosition();
+                    RecyclerListView currentListView3 = BotStarsActivity.this.transactionsLayout.getCurrentListView();
+                    int findFirstVisibleItemPosition = ((LinearLayoutManager) currentListView3.getLayoutManager()).findFirstVisibleItemPosition();
                     if (findFirstVisibleItemPosition != -1) {
-                        RecyclerView.ViewHolder findViewHolderForAdapterPosition = currentListView2.findViewHolderForAdapterPosition(findFirstVisibleItemPosition);
+                        RecyclerView.ViewHolder findViewHolderForAdapterPosition = currentListView3.findViewHolderForAdapterPosition(findFirstVisibleItemPosition);
                         int top2 = findViewHolderForAdapterPosition != null ? findViewHolderForAdapterPosition.itemView.getTop() : -1;
-                        int paddingTop = currentListView2.getPaddingTop();
+                        int paddingTop = currentListView3.getPaddingTop();
                         if (top2 != paddingTop || findFirstVisibleItemPosition != 0) {
                             iArr[1] = findFirstVisibleItemPosition != 0 ? i2 : Math.max(i2, top2 - paddingTop);
-                            currentListView2.scrollBy(0, i2);
+                            currentListView3.scrollBy(0, i2);
                             z = true;
                         }
                     }

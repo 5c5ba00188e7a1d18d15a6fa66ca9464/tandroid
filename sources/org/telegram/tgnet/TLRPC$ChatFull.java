@@ -3,6 +3,7 @@ package org.telegram.tgnet;
 import java.util.ArrayList;
 import org.telegram.messenger.FileLoaderPriorityQueue;
 import org.telegram.messenger.LiteMode;
+import org.telegram.tgnet.tl.TL_bots$BotInfo;
 import org.telegram.tgnet.tl.TL_stories$PeerStories;
 /* loaded from: classes3.dex */
 public abstract class TLRPC$ChatFull extends TLObject {
@@ -69,7 +70,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
     public int unread_important_count;
     public boolean view_forum_as_messages;
     public TLRPC$WallPaper wallpaper;
-    public ArrayList<TLRPC$BotInfo> bot_info = new ArrayList<>();
+    public ArrayList<TL_bots$BotInfo> bot_info = new ArrayList<>();
     public ArrayList<String> pending_suggestions = new ArrayList<>();
     public ArrayList<Long> recent_requesters = new ArrayList<>();
     public ArrayList<String> available_reactions_legacy = new ArrayList<>();
@@ -105,7 +106,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             }
                             int readInt323 = abstractSerializedData2.readInt32(z2);
                             for (int i2 = 0; i2 < readInt323; i2++) {
-                                TLRPC$BotInfo TLdeserialize = TLRPC$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                                TL_bots$BotInfo TLdeserialize = TL_bots$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                                 if (TLdeserialize == null) {
                                     return;
                                 }
@@ -213,7 +214,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         }
                         int readInt323 = abstractSerializedData2.readInt32(z2);
                         for (int i2 = 0; i2 < readInt323; i2++) {
-                            TLRPC$BotInfo TLdeserialize2 = TLRPC$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                            TL_bots$BotInfo TLdeserialize2 = TL_bots$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                             if (TLdeserialize2 == null) {
                                 return;
                             }
@@ -313,7 +314,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         }
                         int readInt323 = abstractSerializedData2.readInt32(z2);
                         for (int i2 = 0; i2 < readInt323; i2++) {
-                            TLRPC$BotInfo TLdeserialize2 = TLRPC$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                            TL_bots$BotInfo TLdeserialize2 = TL_bots$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                             if (TLdeserialize2 == null) {
                                 return;
                             }
@@ -419,7 +420,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         }
                         int readInt323 = abstractSerializedData2.readInt32(z2);
                         for (int i2 = 0; i2 < readInt323; i2++) {
-                            TLRPC$BotInfo TLdeserialize2 = TLRPC$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                            TL_bots$BotInfo TLdeserialize2 = TL_bots$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                             if (TLdeserialize2 == null) {
                                 return;
                             }
@@ -553,7 +554,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         }
                         int readInt323 = abstractSerializedData2.readInt32(z2);
                         for (int i2 = 0; i2 < readInt323; i2++) {
-                            TLRPC$BotInfo TLdeserialize2 = TLRPC$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                            TL_bots$BotInfo TLdeserialize2 = TL_bots$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                             if (TLdeserialize2 == null) {
                                 return;
                             }
@@ -645,7 +646,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         }
                         int readInt323 = abstractSerializedData2.readInt32(z2);
                         for (int i2 = 0; i2 < readInt323; i2++) {
-                            TLRPC$BotInfo TLdeserialize2 = TLRPC$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                            TL_bots$BotInfo TLdeserialize2 = TL_bots$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                             if (TLdeserialize2 == null) {
                                 return;
                             }
@@ -733,7 +734,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             }
                             int readInt323 = abstractSerializedData2.readInt32(z2);
                             for (int i2 = 0; i2 < readInt323; i2++) {
-                                TLRPC$BotInfo TLdeserialize = TLRPC$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                                TL_bots$BotInfo TLdeserialize = TL_bots$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                                 if (TLdeserialize == null) {
                                     return;
                                 }
@@ -882,7 +883,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         }
                         int readInt323 = abstractSerializedData2.readInt32(z2);
                         for (int i2 = 0; i2 < readInt323; i2++) {
-                            TLRPC$BotInfo TLdeserialize2 = TLRPC$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                            TL_bots$BotInfo TLdeserialize2 = TL_bots$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                             if (TLdeserialize2 == null) {
                                 return;
                             }
@@ -995,7 +996,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             }
                             int readInt323 = abstractSerializedData2.readInt32(z2);
                             for (int i2 = 0; i2 < readInt323; i2++) {
-                                TLRPC$BotInfo TLdeserialize = TLRPC$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                                TL_bots$BotInfo TLdeserialize = TL_bots$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                                 if (TLdeserialize == null) {
                                     return;
                                 }
@@ -1165,7 +1166,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         }
                         int readInt323 = abstractSerializedData2.readInt32(z2);
                         for (int i2 = 0; i2 < readInt323; i2++) {
-                            TLRPC$BotInfo TLdeserialize = TLRPC$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                            TL_bots$BotInfo TLdeserialize = TL_bots$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                             if (TLdeserialize == null) {
                                 return;
                             }
@@ -1442,7 +1443,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         }
                         int readInt323 = abstractSerializedData2.readInt32(z2);
                         for (int i2 = 0; i2 < readInt323; i2++) {
-                            TLRPC$BotInfo TLdeserialize = TLRPC$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                            TL_bots$BotInfo TLdeserialize = TL_bots$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                             if (TLdeserialize == null) {
                                 return;
                             }
@@ -1668,7 +1669,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         }
                         int readInt324 = abstractSerializedData2.readInt32(z2);
                         for (int i2 = 0; i2 < readInt324; i2++) {
-                            TLRPC$BotInfo TLdeserialize = TLRPC$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                            TL_bots$BotInfo TLdeserialize = TL_bots$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                             if (TLdeserialize == null) {
                                 return;
                             }
@@ -1925,7 +1926,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             }
                             int readInt322 = abstractSerializedData2.readInt32(z2);
                             for (int i2 = 0; i2 < readInt322; i2++) {
-                                TLRPC$BotInfo TLdeserialize2 = TLRPC$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                                TL_bots$BotInfo TLdeserialize2 = TL_bots$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                                 if (TLdeserialize2 == null) {
                                     return;
                                 }
@@ -2011,7 +2012,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         }
                         int readInt323 = abstractSerializedData2.readInt32(z2);
                         for (int i2 = 0; i2 < readInt323; i2++) {
-                            TLRPC$BotInfo TLdeserialize2 = TLRPC$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                            TL_bots$BotInfo TLdeserialize2 = TL_bots$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                             if (TLdeserialize2 == null) {
                                 return;
                             }
@@ -2178,7 +2179,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             }
                             int readInt323 = abstractSerializedData2.readInt32(z2);
                             for (int i2 = 0; i2 < readInt323; i2++) {
-                                TLRPC$BotInfo TLdeserialize = TLRPC$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                                TL_bots$BotInfo TLdeserialize = TL_bots$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                                 if (TLdeserialize == null) {
                                     return;
                                 }
@@ -2289,7 +2290,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         }
                         int readInt323 = abstractSerializedData2.readInt32(z2);
                         for (int i2 = 0; i2 < readInt323; i2++) {
-                            TLRPC$BotInfo TLdeserialize2 = TLRPC$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                            TL_bots$BotInfo TLdeserialize2 = TL_bots$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                             if (TLdeserialize2 == null) {
                                 return;
                             }
@@ -2471,7 +2472,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         }
                         int readInt324 = abstractSerializedData2.readInt32(z2);
                         for (int i2 = 0; i2 < readInt324; i2++) {
-                            TLRPC$BotInfo TLdeserialize = TLRPC$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                            TL_bots$BotInfo TLdeserialize = TL_bots$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                             if (TLdeserialize == null) {
                                 return;
                             }
@@ -2722,7 +2723,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             }
                             int readInt323 = abstractSerializedData2.readInt32(z2);
                             for (int i2 = 0; i2 < readInt323; i2++) {
-                                TLRPC$BotInfo TLdeserialize = TLRPC$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                                TL_bots$BotInfo TLdeserialize = TL_bots$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                                 if (TLdeserialize == null) {
                                     return;
                                 }
@@ -2879,7 +2880,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         }
                         int readInt323 = abstractSerializedData2.readInt32(z2);
                         for (int i2 = 0; i2 < readInt323; i2++) {
-                            TLRPC$BotInfo TLdeserialize2 = TLRPC$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                            TL_bots$BotInfo TLdeserialize2 = TL_bots$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                             if (TLdeserialize2 == null) {
                                 return;
                             }
@@ -3000,7 +3001,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             }
                             int readInt323 = abstractSerializedData2.readInt32(z2);
                             for (int i2 = 0; i2 < readInt323; i2++) {
-                                TLRPC$BotInfo TLdeserialize2 = TLRPC$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                                TL_bots$BotInfo TLdeserialize2 = TL_bots$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                                 if (TLdeserialize2 == null) {
                                     return;
                                 }
@@ -3110,7 +3111,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         }
                         int readInt324 = abstractSerializedData2.readInt32(z2);
                         for (int i2 = 0; i2 < readInt324; i2++) {
-                            TLRPC$BotInfo TLdeserialize = TLRPC$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                            TL_bots$BotInfo TLdeserialize = TL_bots$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                             if (TLdeserialize == null) {
                                 return;
                             }
@@ -3396,7 +3397,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         }
                         int readInt323 = abstractSerializedData2.readInt32(z2);
                         for (int i2 = 0; i2 < readInt323; i2++) {
-                            TLRPC$BotInfo TLdeserialize2 = TLRPC$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                            TL_bots$BotInfo TLdeserialize2 = TL_bots$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                             if (TLdeserialize2 == null) {
                                 return;
                             }
@@ -3543,7 +3544,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         }
                         int readInt323 = abstractSerializedData2.readInt32(z2);
                         for (int i2 = 0; i2 < readInt323; i2++) {
-                            TLRPC$BotInfo TLdeserialize2 = TLRPC$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                            TL_bots$BotInfo TLdeserialize2 = TL_bots$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                             if (TLdeserialize2 == null) {
                                 return;
                             }
@@ -3643,7 +3644,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             }
                             int readInt323 = abstractSerializedData2.readInt32(z2);
                             for (int i2 = 0; i2 < readInt323; i2++) {
-                                TLRPC$BotInfo TLdeserialize2 = TLRPC$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                                TL_bots$BotInfo TLdeserialize2 = TL_bots$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                                 if (TLdeserialize2 == null) {
                                     return;
                                 }
@@ -3737,7 +3738,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         }
                         int readInt323 = abstractSerializedData2.readInt32(z2);
                         for (int i2 = 0; i2 < readInt323; i2++) {
-                            TLRPC$BotInfo TLdeserialize2 = TLRPC$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                            TL_bots$BotInfo TLdeserialize2 = TL_bots$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                             if (TLdeserialize2 == null) {
                                 return;
                             }
@@ -3849,7 +3850,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             }
                             int readInt323 = abstractSerializedData2.readInt32(z2);
                             for (int i2 = 0; i2 < readInt323; i2++) {
-                                TLRPC$BotInfo TLdeserialize2 = TLRPC$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                                TL_bots$BotInfo TLdeserialize2 = TL_bots$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                                 if (TLdeserialize2 == null) {
                                     return;
                                 }
@@ -3937,7 +3938,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         }
                         int readInt323 = abstractSerializedData2.readInt32(z2);
                         for (int i2 = 0; i2 < readInt323; i2++) {
-                            TLRPC$BotInfo TLdeserialize = TLRPC$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                            TL_bots$BotInfo TLdeserialize = TL_bots$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                             if (TLdeserialize == null) {
                                 return;
                             }
@@ -4151,7 +4152,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         }
                         int readInt323 = abstractSerializedData2.readInt32(z2);
                         for (int i2 = 0; i2 < readInt323; i2++) {
-                            TLRPC$BotInfo TLdeserialize2 = TLRPC$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                            TL_bots$BotInfo TLdeserialize2 = TL_bots$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                             if (TLdeserialize2 == null) {
                                 return;
                             }
@@ -4292,7 +4293,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         }
                         int readInt322 = abstractSerializedData2.readInt32(z2);
                         for (int i2 = 0; i2 < readInt322; i2++) {
-                            TLRPC$BotInfo TLdeserialize2 = TLRPC$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                            TL_bots$BotInfo TLdeserialize2 = TL_bots$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                             if (TLdeserialize2 == null) {
                                 return;
                             }
@@ -4365,7 +4366,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         }
                         int readInt323 = abstractSerializedData2.readInt32(z2);
                         for (int i2 = 0; i2 < readInt323; i2++) {
-                            TLRPC$BotInfo TLdeserialize = TLRPC$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                            TL_bots$BotInfo TLdeserialize = TL_bots$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                             if (TLdeserialize == null) {
                                 return;
                             }
@@ -4599,7 +4600,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         }
                         int readInt324 = abstractSerializedData2.readInt32(z2);
                         for (int i2 = 0; i2 < readInt324; i2++) {
-                            TLRPC$BotInfo TLdeserialize = TLRPC$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                            TL_bots$BotInfo TLdeserialize = TL_bots$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                             if (TLdeserialize == null) {
                                 return;
                             }
@@ -4890,7 +4891,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             }
                             int readInt323 = abstractSerializedData2.readInt32(z2);
                             for (int i2 = 0; i2 < readInt323; i2++) {
-                                TLRPC$BotInfo TLdeserialize = TLRPC$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                                TL_bots$BotInfo TLdeserialize = TL_bots$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                                 if (TLdeserialize == null) {
                                     return;
                                 }
@@ -5019,7 +5020,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             }
                             int readInt323 = abstractSerializedData2.readInt32(z2);
                             for (int i2 = 0; i2 < readInt323; i2++) {
-                                TLRPC$BotInfo TLdeserialize = TLRPC$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                                TL_bots$BotInfo TLdeserialize = TL_bots$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                                 if (TLdeserialize == null) {
                                     return;
                                 }
@@ -5121,7 +5122,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             }
                             int readInt323 = abstractSerializedData2.readInt32(z2);
                             for (int i2 = 0; i2 < readInt323; i2++) {
-                                TLRPC$BotInfo TLdeserialize = TLRPC$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                                TL_bots$BotInfo TLdeserialize = TL_bots$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                                 if (TLdeserialize == null) {
                                     return;
                                 }
@@ -5243,7 +5244,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         }
                         int readInt323 = abstractSerializedData2.readInt32(z2);
                         for (int i2 = 0; i2 < readInt323; i2++) {
-                            TLRPC$BotInfo TLdeserialize = TLRPC$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                            TL_bots$BotInfo TLdeserialize = TL_bots$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                             if (TLdeserialize == null) {
                                 return;
                             }
@@ -5460,7 +5461,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         }
                         int readInt323 = abstractSerializedData2.readInt32(z2);
                         for (int i2 = 0; i2 < readInt323; i2++) {
-                            TLRPC$BotInfo TLdeserialize = TLRPC$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                            TL_bots$BotInfo TLdeserialize = TL_bots$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                             if (TLdeserialize == null) {
                                 return;
                             }
@@ -5716,7 +5717,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         }
                         int readInt323 = abstractSerializedData2.readInt32(z2);
                         for (int i2 = 0; i2 < readInt323; i2++) {
-                            TLRPC$BotInfo TLdeserialize = TLRPC$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                            TL_bots$BotInfo TLdeserialize = TL_bots$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                             if (TLdeserialize == null) {
                                 return;
                             }
@@ -5974,7 +5975,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         }
                         int readInt324 = abstractSerializedData2.readInt32(z2);
                         for (int i2 = 0; i2 < readInt324; i2++) {
-                            TLRPC$BotInfo TLdeserialize = TLRPC$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                            TL_bots$BotInfo TLdeserialize = TL_bots$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                             if (TLdeserialize == null) {
                                 return;
                             }
@@ -6287,7 +6288,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         }
                         int readInt324 = abstractSerializedData2.readInt32(z2);
                         for (int i2 = 0; i2 < readInt324; i2++) {
-                            TLRPC$BotInfo TLdeserialize = TLRPC$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                            TL_bots$BotInfo TLdeserialize = TL_bots$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                             if (TLdeserialize == null) {
                                 return;
                             }
@@ -6562,7 +6563,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         }
                         int readInt323 = abstractSerializedData2.readInt32(z2);
                         for (int i2 = 0; i2 < readInt323; i2++) {
-                            TLRPC$BotInfo TLdeserialize2 = TLRPC$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                            TL_bots$BotInfo TLdeserialize2 = TL_bots$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                             if (TLdeserialize2 == null) {
                                 return;
                             }
@@ -6689,7 +6690,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         }
                         int readInt323 = abstractSerializedData2.readInt32(z2);
                         for (int i2 = 0; i2 < readInt323; i2++) {
-                            TLRPC$BotInfo TLdeserialize = TLRPC$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                            TL_bots$BotInfo TLdeserialize = TL_bots$BotInfo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                             if (TLdeserialize == null) {
                                 return;
                             }

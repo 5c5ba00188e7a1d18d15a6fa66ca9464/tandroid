@@ -1,9 +1,8 @@
 package com.google.android.datatransport.runtime.dagger.internal;
 
-import com.google.android.datatransport.runtime.dagger.Lazy;
 import javax.inject.Provider;
 /* loaded from: classes.dex */
-public final class DoubleCheck<T> implements Provider<T>, Lazy<T> {
+public final class DoubleCheck<T> implements Provider<T> {
     private static final Object UNINITIALIZED = new Object();
     private volatile Object instance = UNINITIALIZED;
     private volatile Provider<T> provider;
@@ -39,12 +38,5 @@ public final class DoubleCheck<T> implements Provider<T>, Lazy<T> {
     public static <P extends Provider<T>, T> Provider<T> provider(P p) {
         Preconditions.checkNotNull(p);
         return p instanceof DoubleCheck ? p : new DoubleCheck(p);
-    }
-
-    public static <P extends Provider<T>, T> Lazy<T> lazy(P p) {
-        if (p instanceof Lazy) {
-            return (Lazy) p;
-        }
-        return new DoubleCheck((Provider) Preconditions.checkNotNull(p));
     }
 }

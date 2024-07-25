@@ -2005,7 +2005,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
 
             @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
             public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {
-                return (viewHolder.getItemViewType() == 3 && StoryPrivacyBottomSheet.this.canChangePeer) || viewHolder.getItemViewType() == 7;
+                return (viewHolder.getItemViewType() == 3 && StoryPrivacyBottomSheet.this.canChangePeer) || viewHolder.getItemViewType() == 7 || viewHolder.getItemViewType() == 9;
             }
 
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -2037,6 +2037,8 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                     view.setBackgroundColor(-15921907);
                 } else if (i == 7) {
                     view = new TextCell(this.context, 23, true, true, this.resourcesProvider);
+                } else if (i == 9) {
+                    view = new TextCell(this.context, 23, true, false, this.resourcesProvider);
                 } else {
                     view = new View(this, this.context) { // from class: org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet.Page.Adapter.1
                         @Override // android.view.View
@@ -2135,13 +2137,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                             ((StickerEmptyView) viewHolder.itemView).stickerView.getImageReceiver().startAnimation();
                         } catch (Exception unused) {
                         }
-                    } else if (itemViewType != 6) {
-                        if (itemViewType == 7) {
-                            ((TextCell) viewHolder.itemView).setTextAndCheck(itemInner2.text, itemInner2.resId == 0 ? StoryPrivacyBottomSheet.this.allowScreenshots : StoryPrivacyBottomSheet.this.keepOnMyPage, z2);
-                        } else if (itemViewType == 8) {
-                            ((org.telegram.ui.Cells.HeaderCell) viewHolder.itemView).setText(itemInner2.text);
-                        }
-                    } else {
+                    } else if (itemViewType == 6) {
                         TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
                         if (itemInner2.text == null) {
                             textInfoPrivacyCell.setFixedSize(12);
@@ -2150,6 +2146,12 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                         }
                         textInfoPrivacyCell.setFixedSize(0);
                         textInfoPrivacyCell.setText(itemInner2.text);
+                    } else if (itemViewType == 7) {
+                        ((TextCell) viewHolder.itemView).setTextAndCheck(itemInner2.text, itemInner2.resId == 0 ? StoryPrivacyBottomSheet.this.allowScreenshots : StoryPrivacyBottomSheet.this.keepOnMyPage, z2);
+                    } else if (itemViewType == 9) {
+                        ((TextCell) viewHolder.itemView).setTextAndValue(itemInner2.text, itemInner2.text2, z2);
+                    } else if (itemViewType == 8) {
+                        ((org.telegram.ui.Cells.HeaderCell) viewHolder.itemView).setText(itemInner2.text);
                     }
                 }
             }
@@ -2498,7 +2500,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
         }
     }
 
-    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface
+    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
     public void dismiss() {
         StoryPrivacy storyPrivacy;
         if (this.onDismiss != null) {
@@ -2586,7 +2588,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
         }
     }
 
-    @Override // android.app.Dialog
+    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
     public void onBackPressed() {
         if (this.viewPager.getCurrentPosition() > 0) {
             closeKeyboard();
@@ -2719,6 +2721,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
     public static class ItemInner extends AdapterWithDiffUtils.Item {
         public TLRPC$Chat chat;
         public boolean checked;
+        public Drawable drawable;
         public boolean halfChecked;
         public int padHeight;
         public boolean red;
@@ -2837,7 +2840,10 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                             if (this.viewType != 8 || TextUtils.equals(this.text, itemInner.text)) {
                                 if (this.viewType != 4 || (TextUtils.equals(this.text, itemInner.text) && TextUtils.equals(this.text2, itemInner.text2))) {
                                     if (this.viewType != 6 || (TextUtils.equals(this.text, itemInner.text) && this.resId == itemInner.resId)) {
-                                        return this.viewType != 7 || (this.resId == itemInner.resId && TextUtils.equals(this.text, itemInner.text) && this.checked == itemInner.checked);
+                                        if (this.viewType != 7 || (this.resId == itemInner.resId && TextUtils.equals(this.text, itemInner.text) && this.checked == itemInner.checked)) {
+                                            return this.viewType != 9 || (this.drawable == itemInner.drawable && TextUtils.equals(this.text, itemInner.text) && TextUtils.equals(this.text2, itemInner.text2));
+                                        }
+                                        return false;
                                     }
                                     return false;
                                 }

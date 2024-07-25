@@ -9,6 +9,7 @@ import org.telegram.ui.Stories.MessageMediaStoryFull_old;
 public abstract class TLRPC$MessageMedia extends TLObject {
     public String address;
     public TLRPC$Document alt_document;
+    public String attachPath;
     public TLRPC$Audio audio_unused;
     public byte[] bytes;
     public String captionLegacy;

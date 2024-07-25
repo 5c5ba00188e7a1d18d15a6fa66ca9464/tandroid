@@ -7,4 +7,6 @@ public interface ClientHealthMetricsStore {
     ClientMetrics loadClientMetrics();
 
     void recordLogEventDropped(long j, LogEventDropped.Reason reason, String str);
+
+    void resetClientMetrics();
 }

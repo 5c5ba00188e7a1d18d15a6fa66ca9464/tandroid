@@ -1590,7 +1590,10 @@ public class RecyclerListView extends RecyclerView {
                 if (recyclerListView.selectorPosition != -1) {
                     recyclerListView.selectorRect.offset(-i, -i2);
                     RecyclerListView recyclerListView2 = RecyclerListView.this;
-                    recyclerListView2.selectorDrawable.setBounds(recyclerListView2.selectorRect);
+                    Drawable drawable = recyclerListView2.selectorDrawable;
+                    if (drawable != null) {
+                        drawable.setBounds(recyclerListView2.selectorRect);
+                    }
                     RecyclerListView.this.invalidate();
                 } else {
                     recyclerListView.selectorRect.setEmpty();
@@ -1769,6 +1772,8 @@ public class RecyclerListView extends RecyclerView {
         int i2 = this.selectorType;
         if (i2 == 8) {
             this.selectorDrawable = Theme.createRadSelectorDrawable(i, this.selectorRadius, 0);
+        } else if (i2 == 9) {
+            this.selectorDrawable = null;
         } else {
             int i3 = this.topBottomSelectorRadius;
             if (i3 > 0) {
@@ -1784,7 +1789,10 @@ public class RecyclerListView extends RecyclerView {
                 }
             }
         }
-        this.selectorDrawable.setCallback(this);
+        Drawable drawable2 = this.selectorDrawable;
+        if (drawable2 != null) {
+            drawable2.setCallback(this);
+        }
     }
 
     public Drawable getSelectorDrawable() {
@@ -2074,7 +2082,11 @@ public class RecyclerListView extends RecyclerView {
     public void invalidateViews() {
         int childCount = getChildCount();
         for (int i = 0; i < childCount; i++) {
-            getChildAt(i).invalidate();
+            View childAt = getChildAt(i);
+            if (childAt instanceof Theme.Colorable) {
+                ((Theme.Colorable) childAt).updateColors();
+            }
+            childAt.invalidate();
         }
     }
 
@@ -2121,21 +2133,24 @@ public class RecyclerListView extends RecyclerView {
         View view = this.selectorView;
         if (view != null && (i = this.highlightPosition) != -1) {
             positionSelector(i, view);
-            this.selectorDrawable.setState(new int[0]);
-            invalidateDrawable(this.selectorDrawable);
+            Drawable drawable = this.selectorDrawable;
+            if (drawable != null) {
+                drawable.setState(new int[0]);
+                invalidateDrawable(this.selectorDrawable);
+            }
             this.selectorView = null;
             this.highlightPosition = -1;
             return;
         }
-        Drawable drawable = this.selectorDrawable;
-        if (drawable != null) {
-            Drawable current = drawable.getCurrent();
+        Drawable drawable2 = this.selectorDrawable;
+        if (drawable2 != null) {
+            Drawable current = drawable2.getCurrent();
             if (current instanceof TransitionDrawable) {
                 ((TransitionDrawable) current).resetTransition();
             }
         }
-        Drawable drawable2 = this.selectorDrawable;
-        if (drawable2 != null && drawable2.isStateful() && this.selectorDrawable.setState(StateSet.NOTHING)) {
+        Drawable drawable3 = this.selectorDrawable;
+        if (drawable3 != null && drawable3.isStateful() && this.selectorDrawable.setState(StateSet.NOTHING)) {
             invalidateDrawable(this.selectorDrawable);
         }
     }
@@ -2657,20 +2672,22 @@ public class RecyclerListView extends RecyclerView {
     @Override // android.view.ViewGroup, android.view.View
     public void dispatchDraw(Canvas canvas) {
         View view;
+        Drawable drawable;
         Consumer<Canvas> consumer;
         View view2;
+        Drawable drawable2;
         Consumer<Canvas> consumer2;
         View view3;
         RecyclerItemsEnterAnimator recyclerItemsEnterAnimator = this.itemsEnterAnimator;
         if (recyclerItemsEnterAnimator != null) {
             recyclerItemsEnterAnimator.dispatchDraw();
         }
-        if (this.drawSelection && this.drawSelectorBehind && !this.selectorRect.isEmpty()) {
+        if (this.drawSelection && this.drawSelectorBehind && !this.selectorRect.isEmpty() && (drawable2 = this.selectorDrawable) != null) {
             int i = this.translateSelector;
             if ((i == -2 || i == this.selectorPosition) && this.selectorView != null) {
                 this.selectorDrawable.setBounds(this.selectorView.getLeft(), this.selectorView.getTop(), this.selectorView.getRight(), this.selectorView.getBottom() - (getAdapter() instanceof SelectionAdapter ? ((SelectionAdapter) getAdapter()).getSelectionBottomPadding(this.selectorView) : 0));
             } else {
-                this.selectorDrawable.setBounds(this.selectorRect);
+                drawable2.setBounds(this.selectorRect);
             }
             canvas.save();
             int i2 = this.translateSelector;
@@ -2686,12 +2703,12 @@ public class RecyclerListView extends RecyclerView {
             canvas.restore();
         }
         super.dispatchDraw(canvas);
-        if (this.drawSelection && !this.drawSelectorBehind && !this.selectorRect.isEmpty()) {
+        if (this.drawSelection && !this.drawSelectorBehind && !this.selectorRect.isEmpty() && (drawable = this.selectorDrawable) != null) {
             int i4 = this.translateSelector;
             if ((i4 == -2 || i4 == this.selectorPosition) && this.selectorView != null) {
                 this.selectorDrawable.setBounds(this.selectorView.getLeft(), this.selectorView.getTop(), this.selectorView.getRight(), this.selectorView.getBottom() - (getAdapter() instanceof SelectionAdapter ? ((SelectionAdapter) getAdapter()).getSelectionBottomPadding(this.selectorView) : 0));
             } else {
-                this.selectorDrawable.setBounds(this.selectorRect);
+                drawable.setBounds(this.selectorRect);
             }
             canvas.save();
             int i5 = this.translateSelector;
@@ -2726,9 +2743,9 @@ public class RecyclerListView extends RecyclerView {
         } else if (i7 == 2 && this.sectionsAdapter != null && (view = this.pinnedHeader) != null && view.getAlpha() != 0.0f) {
             int save2 = canvas.save();
             canvas.translate(LocaleController.isRTL ? getWidth() - this.pinnedHeader.getWidth() : 0.0f, ((Integer) this.pinnedHeader.getTag()).intValue());
-            Drawable drawable = this.pinnedHeaderShadowDrawable;
-            if (drawable != null) {
-                drawable.setBounds(0, this.pinnedHeader.getMeasuredHeight(), getWidth(), this.pinnedHeader.getMeasuredHeight() + this.pinnedHeaderShadowDrawable.getIntrinsicHeight());
+            Drawable drawable3 = this.pinnedHeaderShadowDrawable;
+            if (drawable3 != null) {
+                drawable3.setBounds(0, this.pinnedHeader.getMeasuredHeight(), getWidth(), this.pinnedHeader.getMeasuredHeight() + this.pinnedHeaderShadowDrawable.getIntrinsicHeight());
                 this.pinnedHeaderShadowDrawable.setAlpha((int) (this.pinnedHeaderShadowAlpha * 255.0f));
                 this.pinnedHeaderShadowDrawable.draw(canvas);
                 long elapsedRealtime = SystemClock.elapsedRealtime();

@@ -2668,7 +2668,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         }
     }
 
-    @Override // android.app.Dialog
+    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
     public void onBackPressed() {
         if (this.selectedTopicDialog != null) {
             collapseTopics();
@@ -2992,7 +2992,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         this.selectedCountView.setPivotY(0.0f);
     }
 
-    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface
+    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
     public void dismiss() {
         EditTextEmoji editTextEmoji = this.commentTextView;
         if (editTextEmoji != null) {

@@ -2,31 +2,35 @@ package com.android.billingclient.api;
 
 import android.app.Activity;
 import android.content.Context;
-/* compiled from: com.android.billingclient:billing@@5.1.0 */
+/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public abstract class BillingClient {
 
-    /* compiled from: com.android.billingclient:billing@@5.1.0 */
+    /* compiled from: com.android.billingclient:billing@@6.0.1 */
     /* loaded from: classes.dex */
     public static final class Builder {
-        private volatile boolean zzb;
+        private volatile zzbe zzb;
         private final Context zzc;
         private volatile PurchasesUpdatedListener zzd;
+        private volatile AlternativeBillingListener zzg;
 
-        /* synthetic */ Builder(Context context, zzq zzqVar) {
+        /* synthetic */ Builder(Context context, zzi zziVar) {
             this.zzc = context;
         }
 
         public BillingClient build() {
             if (this.zzc != null) {
                 if (this.zzd != null) {
-                    if (this.zzb) {
-                        if (this.zzd != null) {
-                            return new BillingClientImpl(null, this.zzb, this.zzc, this.zzd, null);
+                    if (this.zzb != null) {
+                        if (this.zzd != null || this.zzg == null) {
+                            if (this.zzd != null) {
+                                return new BillingClientImpl(null, this.zzb, this.zzc, this.zzd, this.zzg, null);
+                            }
+                            return new BillingClientImpl(null, this.zzb, this.zzc, null, null);
                         }
-                        return new BillingClientImpl(null, this.zzb, this.zzc, null);
+                        throw new IllegalArgumentException("Please provide a valid listener for Google Play Billing purchases updates when enabling Alternative Billing.");
                     }
-                    throw new IllegalArgumentException("Support for pending purchases must be enabled. Enable this by calling 'enablePendingPurchases()' on BillingClientBuilder.");
+                    throw new IllegalArgumentException("Pending purchases for one-time products must be supported.");
                 }
                 throw new IllegalArgumentException("Please provide a valid listener for purchases updates.");
             }
@@ -34,7 +38,9 @@ public abstract class BillingClient {
         }
 
         public Builder enablePendingPurchases() {
-            this.zzb = true;
+            zzbc zzbcVar = new zzbc(null);
+            zzbcVar.zza();
+            this.zzb = zzbcVar.zzb();
             return this;
         }
 

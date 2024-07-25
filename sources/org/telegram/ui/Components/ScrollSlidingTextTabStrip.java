@@ -235,8 +235,8 @@ public class ScrollSlidingTextTabStrip extends HorizontalScrollView {
 
     public SparseArray<View> removeTabs() {
         SparseArray<View> sparseArray = new SparseArray<>();
-        for (int i = 0; i < getChildCount(); i++) {
-            sparseArray.get(this.positionToId.get(i), getChildAt(i));
+        for (int i = 0; i < this.tabsContainer.getChildCount(); i++) {
+            sparseArray.put(this.positionToId.get(i), this.tabsContainer.getChildAt(i));
         }
         this.positionToId.clear();
         this.idToPosition.clear();

@@ -57,11 +57,11 @@ import org.telegram.tgnet.TLRPC$TL_account_reorderUsernames;
 import org.telegram.tgnet.TLRPC$TL_account_toggleUsername;
 import org.telegram.tgnet.TLRPC$TL_account_updateUsername;
 import org.telegram.tgnet.TLRPC$TL_boolTrue;
-import org.telegram.tgnet.TLRPC$TL_bots_reorderUsernames;
-import org.telegram.tgnet.TLRPC$TL_bots_toggleUsername;
 import org.telegram.tgnet.TLRPC$TL_error;
 import org.telegram.tgnet.TLRPC$TL_username;
 import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.tl.TL_bots$reorderUsernames;
+import org.telegram.tgnet.tl.TL_bots$toggleUsername;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
@@ -349,7 +349,7 @@ public class ChangeUsernameActivity extends BaseFragment {
         /* JADX INFO: Access modifiers changed from: private */
         /* JADX WARN: Multi-variable type inference failed */
         public /* synthetic */ void lambda$onItemClick$3(final TLRPC$TL_username tLRPC$TL_username, final int i, View view, DialogInterface dialogInterface, int i2) {
-            TLRPC$TL_bots_toggleUsername tLRPC$TL_bots_toggleUsername;
+            TL_bots$toggleUsername tL_bots$toggleUsername;
             final boolean z = tLRPC$TL_username.active;
             final String str = tLRPC$TL_username.username;
             final boolean z2 = !z;
@@ -357,15 +357,15 @@ public class ChangeUsernameActivity extends BaseFragment {
                 TLRPC$TL_account_toggleUsername tLRPC$TL_account_toggleUsername = new TLRPC$TL_account_toggleUsername();
                 tLRPC$TL_account_toggleUsername.username = str;
                 tLRPC$TL_account_toggleUsername.active = z2;
-                tLRPC$TL_bots_toggleUsername = tLRPC$TL_account_toggleUsername;
+                tL_bots$toggleUsername = tLRPC$TL_account_toggleUsername;
             } else {
-                TLRPC$TL_bots_toggleUsername tLRPC$TL_bots_toggleUsername2 = new TLRPC$TL_bots_toggleUsername();
-                tLRPC$TL_bots_toggleUsername2.bot = MessagesController.getInstance(((BaseFragment) ChangeUsernameActivity.this).currentAccount).getInputUser(ChangeUsernameActivity.this.botId);
-                tLRPC$TL_bots_toggleUsername2.username = str;
-                tLRPC$TL_bots_toggleUsername2.active = z2;
-                tLRPC$TL_bots_toggleUsername = tLRPC$TL_bots_toggleUsername2;
+                TL_bots$toggleUsername tL_bots$toggleUsername2 = new TL_bots$toggleUsername();
+                tL_bots$toggleUsername2.bot = MessagesController.getInstance(((BaseFragment) ChangeUsernameActivity.this).currentAccount).getInputUser(ChangeUsernameActivity.this.botId);
+                tL_bots$toggleUsername2.username = str;
+                tL_bots$toggleUsername2.active = z2;
+                tL_bots$toggleUsername = tL_bots$toggleUsername2;
             }
-            ChangeUsernameActivity.this.getConnectionsManager().sendRequest(tLRPC$TL_bots_toggleUsername, new RequestDelegate() { // from class: org.telegram.ui.ChangeUsernameActivity$3$$ExternalSyntheticLambda4
+            ChangeUsernameActivity.this.getConnectionsManager().sendRequest(tL_bots$toggleUsername, new RequestDelegate() { // from class: org.telegram.ui.ChangeUsernameActivity$3$$ExternalSyntheticLambda4
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     ChangeUsernameActivity.3.this.lambda$onItemClick$2(str, i, z2, tLRPC$TL_username, z, tLObject, tLRPC$TL_error);
@@ -660,7 +660,7 @@ public class ChangeUsernameActivity extends BaseFragment {
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Multi-variable type inference failed */
     public void sendReorder() {
-        TLRPC$TL_bots_reorderUsernames tLRPC$TL_bots_reorderUsernames;
+        TL_bots$reorderUsernames tL_bots$reorderUsernames;
         if (this.needReorder) {
             this.needReorder = false;
             ArrayList<String> arrayList = new ArrayList<>();
@@ -677,14 +677,14 @@ public class ChangeUsernameActivity extends BaseFragment {
             if (this.botId == 0) {
                 TLRPC$TL_account_reorderUsernames tLRPC$TL_account_reorderUsernames = new TLRPC$TL_account_reorderUsernames();
                 tLRPC$TL_account_reorderUsernames.order = arrayList;
-                tLRPC$TL_bots_reorderUsernames = tLRPC$TL_account_reorderUsernames;
+                tL_bots$reorderUsernames = tLRPC$TL_account_reorderUsernames;
             } else {
-                TLRPC$TL_bots_reorderUsernames tLRPC$TL_bots_reorderUsernames2 = new TLRPC$TL_bots_reorderUsernames();
-                tLRPC$TL_bots_reorderUsernames2.bot = MessagesController.getInstance(this.currentAccount).getInputUser(this.botId);
-                tLRPC$TL_bots_reorderUsernames2.order = arrayList;
-                tLRPC$TL_bots_reorderUsernames = tLRPC$TL_bots_reorderUsernames2;
+                TL_bots$reorderUsernames tL_bots$reorderUsernames2 = new TL_bots$reorderUsernames();
+                tL_bots$reorderUsernames2.bot = MessagesController.getInstance(this.currentAccount).getInputUser(this.botId);
+                tL_bots$reorderUsernames2.order = arrayList;
+                tL_bots$reorderUsernames = tL_bots$reorderUsernames2;
             }
-            getConnectionsManager().sendRequest(tLRPC$TL_bots_reorderUsernames, new RequestDelegate() { // from class: org.telegram.ui.ChangeUsernameActivity$$ExternalSyntheticLambda11
+            getConnectionsManager().sendRequest(tL_bots$reorderUsernames, new RequestDelegate() { // from class: org.telegram.ui.ChangeUsernameActivity$$ExternalSyntheticLambda11
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     ChangeUsernameActivity.lambda$sendReorder$2(tLObject, tLRPC$TL_error);

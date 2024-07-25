@@ -3,6 +3,7 @@ package org.telegram.ui.Stories.recorder;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -16,6 +17,7 @@ import android.graphics.RectF;
 import android.graphics.Shader;
 import android.os.Build;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import androidx.core.graphics.ColorUtils;
@@ -23,11 +25,13 @@ import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.Components.CubicBezierInterpolator;
+import org.telegram.ui.LaunchActivity;
 /* loaded from: classes4.dex */
 public class FlashViews {
     private ValueAnimator animator;
     public final View backgroundView;
     private int color;
+    private final Context context;
     public final View foregroundView;
     private RadialGradient gradient;
     private int lastColor;
@@ -61,6 +65,7 @@ public class FlashViews {
     public FlashViews(Context context, WindowManager windowManager, View view, WindowManager.LayoutParams layoutParams) {
         Paint paint = new Paint(1);
         this.paint = paint;
+        this.context = context;
         this.windowManager = windowManager;
         this.windowView = view;
         this.windowViewParams = layoutParams;
@@ -81,7 +86,7 @@ public class FlashViews {
             @Override // android.view.View
             protected void dispatchDraw(Canvas canvas) {
                 FlashViews.this.gradientMatrix.reset();
-                FlashViews.this.gradientMatrix.postTranslate(-getX(), -getY());
+                FlashViews.this.gradientMatrix.postTranslate(-getX(), (-getY()) + AndroidUtilities.statusBarHeight);
                 FlashViews.this.gradientMatrix.postScale(1.0f / getScaleX(), 1.0f / getScaleY(), getPivotX(), getPivotY());
                 FlashViews.this.drawGradient(canvas, false);
             }
@@ -90,8 +95,7 @@ public class FlashViews {
     }
 
     public void flash(final Utilities.Callback<Utilities.Callback<Runnable>> callback) {
-        this.windowViewParams.screenBrightness = intensityValue();
-        this.windowManager.updateViewLayout(this.windowView, this.windowViewParams);
+        setScreenBrightness(intensityValue());
         flashTo(1.0f, 320L, new Runnable() { // from class: org.telegram.ui.Stories.recorder.FlashViews$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
@@ -122,9 +126,7 @@ public class FlashViews {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$flash$1(final Runnable runnable) {
-        WindowManager.LayoutParams layoutParams = this.windowViewParams;
-        layoutParams.screenBrightness = -1.0f;
-        this.windowManager.updateViewLayout(this.windowView, layoutParams);
+        setScreenBrightness(-1.0f);
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.FlashViews$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
@@ -138,6 +140,30 @@ public class FlashViews {
         flashTo(0.0f, 240L, runnable);
     }
 
+    private void setScreenBrightness(float f) {
+        Window window;
+        WindowManager.LayoutParams layoutParams = this.windowViewParams;
+        if (layoutParams != null) {
+            layoutParams.screenBrightness = f;
+            WindowManager windowManager = this.windowManager;
+            if (windowManager != null) {
+                windowManager.updateViewLayout(this.windowView, layoutParams);
+                return;
+            }
+            return;
+        }
+        Activity findActivity = AndroidUtilities.findActivity(this.context);
+        if (findActivity == null) {
+            findActivity = LaunchActivity.instance;
+        }
+        if (findActivity == null || findActivity.isFinishing() || (window = findActivity.getWindow()) == null) {
+            return;
+        }
+        WindowManager.LayoutParams attributes = window.getAttributes();
+        attributes.screenBrightness = f;
+        window.setAttributes(attributes);
+    }
+
     public void previewStart() {
         flashTo(0.85f, 240L, null);
     }
@@ -147,15 +173,12 @@ public class FlashViews {
     }
 
     public void flashIn(Runnable runnable) {
-        this.windowViewParams.screenBrightness = intensityValue();
-        this.windowManager.updateViewLayout(this.windowView, this.windowViewParams);
+        setScreenBrightness(intensityValue());
         flashTo(1.0f, 320L, runnable);
     }
 
     public void flashOut() {
-        WindowManager.LayoutParams layoutParams = this.windowViewParams;
-        layoutParams.screenBrightness = -1.0f;
-        this.windowManager.updateViewLayout(this.windowView, layoutParams);
+        setScreenBrightness(-1.0f);
         flashTo(0.0f, 240L, null);
     }
 

@@ -2,7 +2,7 @@ package com.google.android.gms.internal.play_billing;
 
 import java.util.Arrays;
 import org.telegram.tgnet.ConnectionsManager;
-/* compiled from: com.android.billingclient:billing@@5.1.0 */
+/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public final class zzw {
     Object[] zza = new Object[8];

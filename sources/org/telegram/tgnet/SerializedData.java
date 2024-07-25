@@ -4,6 +4,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLog;
 /* loaded from: classes3.dex */
@@ -96,6 +98,18 @@ public class SerializedData extends AbstractSerializedData {
         } catch (Exception e4) {
             FileLog.e(e4);
         }
+    }
+
+    public SerializedData(File file) throws Exception {
+        this.isOut = true;
+        this.justCalc = false;
+        FileInputStream fileInputStream = new FileInputStream(file);
+        byte[] bArr = new byte[(int) file.length()];
+        new DataInputStream(fileInputStream).readFully(bArr);
+        fileInputStream.close();
+        this.isOut = false;
+        this.inbuf = new ByteArrayInputStream(bArr);
+        this.in = new DataInputStream(this.inbuf);
     }
 
     @Override // org.telegram.tgnet.AbstractSerializedData

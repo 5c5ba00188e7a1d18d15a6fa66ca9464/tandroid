@@ -69,6 +69,12 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
     private ActionBarMenu actionMode;
     int animateFromCount;
     private boolean attached;
+    public StickerEmptyView botsEmptyView;
+    private DefaultItemAnimator botsItemAnimator;
+    public DialogsBotsAdapter botsSearchAdapter;
+    public FrameLayout botsSearchContainer;
+    private LinearLayoutManager botsSearchLayoutManager;
+    public RecyclerListView botsSearchListView;
     public StickerEmptyView channelsEmptyView;
     private DefaultItemAnimator channelsItemAnimator;
     public DialogsChannelsAdapter channelsSearchAdapter;
@@ -285,7 +291,9 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
         this.channelsItemAnimator = defaultItemAnimator2;
         defaultItemAnimator2.setSupportsChangeAnimations(false);
         this.channelsItemAnimator.setDelayAnimations(false);
-        this.channelsItemAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
+        DefaultItemAnimator defaultItemAnimator3 = this.channelsItemAnimator;
+        CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
+        defaultItemAnimator3.setInterpolator(cubicBezierInterpolator);
         this.channelsItemAnimator.setDurations(350L);
         BlurredRecyclerView blurredRecyclerView2 = new BlurredRecyclerView(context);
         this.channelsSearchListView = blurredRecyclerView2;
@@ -360,6 +368,79 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
                 SearchViewPager.this.channelsSearchAdapter.checkBottom();
             }
         });
+        this.botsSearchContainer = new FrameLayout(context);
+        DefaultItemAnimator defaultItemAnimator4 = new DefaultItemAnimator() { // from class: org.telegram.ui.Components.SearchViewPager.10
+            /* JADX INFO: Access modifiers changed from: protected */
+            @Override // androidx.recyclerview.widget.DefaultItemAnimator
+            public void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
+                super.onMoveAnimationUpdate(viewHolder);
+                SearchViewPager.this.invalidate();
+            }
+        };
+        this.botsItemAnimator = defaultItemAnimator4;
+        defaultItemAnimator4.setSupportsChangeAnimations(false);
+        this.botsItemAnimator.setDelayAnimations(false);
+        this.botsItemAnimator.setInterpolator(cubicBezierInterpolator);
+        this.botsItemAnimator.setDurations(350L);
+        BlurredRecyclerView blurredRecyclerView3 = new BlurredRecyclerView(context);
+        this.botsSearchListView = blurredRecyclerView3;
+        blurredRecyclerView3.setItemAnimator(this.botsItemAnimator);
+        this.botsSearchListView.setPivotY(0.0f);
+        this.botsSearchListView.setVerticalScrollBarEnabled(true);
+        this.botsSearchListView.setInstantClick(true);
+        this.botsSearchListView.setVerticalScrollbarPosition(LocaleController.isRTL ? 1 : 2);
+        RecyclerListView recyclerListView4 = this.botsSearchListView;
+        LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(context, 1, false);
+        this.botsSearchLayoutManager = linearLayoutManager3;
+        recyclerListView4.setLayoutManager(linearLayoutManager3);
+        this.botsSearchListView.setAnimateEmptyView(true, 0);
+        FlickerLoadingView flickerLoadingView3 = new FlickerLoadingView(context);
+        flickerLoadingView3.setViewType(1);
+        StickerEmptyView stickerEmptyView3 = new StickerEmptyView(context, flickerLoadingView3, 1) { // from class: org.telegram.ui.Components.SearchViewPager.11
+            @Override // org.telegram.ui.Components.StickerEmptyView, android.view.View
+            public void setVisibility(int i6) {
+                if (SearchViewPager.this.noMediaFiltersSearchView.getTag() != null) {
+                    super.setVisibility(8);
+                } else {
+                    super.setVisibility(i6);
+                }
+            }
+        };
+        this.botsEmptyView = stickerEmptyView3;
+        stickerEmptyView3.title.setText(LocaleController.getString("NoResult", i5));
+        this.botsEmptyView.subtitle.setVisibility(8);
+        this.botsEmptyView.setVisibility(8);
+        this.botsEmptyView.addView(flickerLoadingView3, 0);
+        this.botsEmptyView.showProgress(true, false);
+        this.botsSearchContainer.addView(this.botsEmptyView);
+        this.botsSearchContainer.addView(this.botsSearchListView);
+        this.botsSearchListView.setEmptyView(this.botsEmptyView);
+        RecyclerListView recyclerListView5 = this.botsSearchListView;
+        DialogsBotsAdapter dialogsBotsAdapter = new DialogsBotsAdapter(recyclerListView5, context, this.currentAccount, i3, false, null, dialogsActivity) { // from class: org.telegram.ui.Components.SearchViewPager.12
+            @Override // org.telegram.ui.Components.UniversalAdapter
+            public void update(boolean z) {
+                ArrayList<MessageObject> arrayList2;
+                super.update(z);
+                SearchViewPager.this.botsEmptyView.showProgress(this.loadingMessages || this.loadingBots || (arrayList2 = this.searchMessages) == null || !arrayList2.isEmpty(), z);
+                SearchViewPager.this.botsEmptyView.title.setText(LocaleController.getString("NoResult", R.string.NoResult));
+                SearchViewPager.this.botsEmptyView.subtitle.setVisibility(8);
+            }
+        };
+        this.botsSearchAdapter = dialogsBotsAdapter;
+        recyclerListView5.setAdapter(dialogsBotsAdapter);
+        this.botsSearchListView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.Components.SearchViewPager.13
+            @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
+            public void onScrollStateChanged(RecyclerView recyclerView, int i6) {
+                if (i6 == 1) {
+                    AndroidUtilities.hideKeyboard(dialogsActivity.getParentActivity().getCurrentFocus());
+                }
+            }
+
+            @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
+            public void onScrolled(RecyclerView recyclerView, int i6, int i7) {
+                SearchViewPager.this.botsSearchAdapter.checkBottom();
+            }
+        });
         this.itemsEnterAnimator = new RecyclerItemsEnterAnimator(this.searchListView, true);
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter();
         this.viewPagerAdapter = viewPagerAdapter;
@@ -421,6 +502,9 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
             MessagesController.getInstance(this.currentAccount).getChannelRecommendations(0L);
             this.channelsSearchAdapter.search(str);
             this.channelsEmptyView.setKeyboardHeight(this.keyboardSize, false);
+        } else if (view == this.botsSearchContainer) {
+            this.botsSearchAdapter.search(str);
+            this.botsEmptyView.setKeyboardHeight(this.keyboardSize, false);
         } else if (view == this.searchContainer) {
             if ((j == 0 && j2 == 0 && j3 == 0) || searchForumDialogId != 0) {
                 this.lastSearchScrolledToTop = false;
@@ -437,7 +521,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
                 if (z) {
                     this.noMediaFiltersSearchView.setVisibility(8);
                 } else if (this.noMediaFiltersSearchView.getVisibility() != 8) {
-                    this.noMediaFiltersSearchView.animate().alpha(0.0f).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.SearchViewPager.10
+                    this.noMediaFiltersSearchView.animate().alpha(0.0f).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.SearchViewPager.14
                         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                         public void onAnimationEnd(Animator animator) {
                             SearchViewPager.this.noMediaFiltersSearchView.setVisibility(8);
@@ -927,6 +1011,10 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
         if (linearLayoutManager != null) {
             linearLayoutManager.scrollToPositionWithOffset(0, 0);
         }
+        LinearLayoutManager linearLayoutManager2 = this.botsSearchLayoutManager;
+        if (linearLayoutManager2 != null) {
+            linearLayoutManager2.scrollToPositionWithOffset(0, 0);
+        }
         this.viewsByType.clear();
     }
 
@@ -1040,10 +1128,15 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.channelRecommendationsLoaded);
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.dialogDeleted);
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.dialogsNeedReload);
+        NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.reloadWebappsHints);
         this.attached = true;
         DialogsChannelsAdapter dialogsChannelsAdapter = this.channelsSearchAdapter;
         if (dialogsChannelsAdapter != null) {
             dialogsChannelsAdapter.update(false);
+        }
+        DialogsBotsAdapter dialogsBotsAdapter = this.botsSearchAdapter;
+        if (dialogsBotsAdapter != null) {
+            dialogsBotsAdapter.update(false);
         }
     }
 
@@ -1054,6 +1147,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.channelRecommendationsLoaded);
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.dialogDeleted);
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.dialogsNeedReload);
+        NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.reloadWebappsHints);
     }
 
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
@@ -1065,6 +1159,8 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
         } else if (i == NotificationCenter.dialogDeleted || i == NotificationCenter.dialogsNeedReload) {
             this.channelsSearchAdapter.updateMyChannels();
             this.channelsSearchAdapter.update(true);
+        } else if (i == NotificationCenter.reloadWebappsHints) {
+            this.botsSearchAdapter.update(true);
         }
     }
 
@@ -1105,6 +1201,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
             this.items.clear();
             this.items.add(new Item(0));
             this.items.add(new Item(1));
+            this.items.add(new Item(4));
             if (SearchViewPager.this.showOnlyDialogsAdapter) {
                 return;
             }
@@ -1136,6 +1233,9 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
             if (this.items.get(i).type == 1) {
                 return LocaleController.getString(R.string.ChannelsTab);
             }
+            if (this.items.get(i).type == 4) {
+                return LocaleController.getString(R.string.AppsTab);
+            }
             if (this.items.get(i).type == 2) {
                 return LocaleController.getString(R.string.DownloadsTabs);
             }
@@ -1154,6 +1254,9 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
             }
             if (i == 3) {
                 return SearchViewPager.this.channelsSearchContainer;
+            }
+            if (i == 4) {
+                return SearchViewPager.this.botsSearchContainer;
             }
             if (i == 2) {
                 SearchViewPager searchViewPager = SearchViewPager.this;
@@ -1189,6 +1292,9 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
             }
             if (this.items.get(i).type == 1) {
                 return 3;
+            }
+            if (this.items.get(i).type == 4) {
+                return 4;
             }
             if (this.items.get(i).type == 2) {
                 return 2;

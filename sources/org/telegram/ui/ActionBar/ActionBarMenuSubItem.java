@@ -30,7 +30,7 @@ public class ActionBarMenuSubItem extends FrameLayout {
     private ImageView rightIcon;
     private int selectorColor;
     int selectorRad;
-    private TextView subtextView;
+    public TextView subtextView;
     private int textColor;
     private TextView textView;
     boolean top;
@@ -246,7 +246,10 @@ public class ActionBarMenuSubItem extends FrameLayout {
     }
 
     public void setSubtextColor(int i) {
-        this.subtextView.setTextColor(i);
+        TextView textView = this.subtextView;
+        if (textView != null) {
+            textView.setTextColor(i);
+        }
     }
 
     public void setSubtext(String str) {

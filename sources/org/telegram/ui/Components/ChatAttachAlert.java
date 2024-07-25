@@ -165,9 +165,9 @@ import org.telegram.ui.Stars.StarsIntroActivity;
 import org.telegram.ui.Stories.recorder.StoryEntry;
 import org.telegram.ui.TopicsFragment;
 import org.telegram.ui.WebAppDisclaimerAlert;
-import org.telegram.ui.bots.BotWebViewContainer;
-import org.telegram.ui.bots.BotWebViewMenuContainer;
+import org.telegram.ui.bots.BotWebViewMenuContainer$ActionBarColorsAnimating;
 import org.telegram.ui.bots.ChatAttachAlertBotWebViewLayout;
+import org.telegram.ui.web.BotWebViewContainer;
 /* loaded from: classes3.dex */
 public class ChatAttachAlert extends BottomSheet implements NotificationCenter.NotificationCenterDelegate, BottomSheet.BottomSheetDelegateInterface {
     public final Property<AttachAlertLayout, Float> ATTACH_ALERT_LAYOUT_TRANSLATION;
@@ -377,12 +377,27 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         final /* synthetic */ String val$startCommand;
         final /* synthetic */ ChatAttachAlertBotWebViewLayout val$webViewLayout;
 
-        @Override // org.telegram.ui.bots.BotWebViewContainer.Delegate
+        @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
+        public /* synthetic */ void onCloseToTabs() {
+            onCloseRequested(null);
+        }
+
+        @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
+        public /* synthetic */ void onInstantClose() {
+            onCloseRequested(null);
+        }
+
+        @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
         public /* synthetic */ void onSendWebViewData(String str) {
             BotWebViewContainer.Delegate.-CC.$default$onSendWebViewData(this, str);
         }
 
-        @Override // org.telegram.ui.bots.BotWebViewContainer.Delegate
+        @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
+        public /* synthetic */ void onWebAppBackgroundChanged(boolean z, int i) {
+            BotWebViewContainer.Delegate.-CC.$default$onWebAppBackgroundChanged(this, z, i);
+        }
+
+        @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
         public /* synthetic */ void onWebAppReady() {
             BotWebViewContainer.Delegate.-CC.$default$onWebAppReady(this);
         }
@@ -394,12 +409,17 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             this.val$id = j;
         }
 
-        @Override // org.telegram.ui.bots.BotWebViewContainer.Delegate
+        @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
         public void onWebAppSetupClosingBehavior(boolean z) {
             this.val$webViewLayout.setNeedCloseConfirmation(z);
         }
 
-        @Override // org.telegram.ui.bots.BotWebViewContainer.Delegate
+        @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
+        public void onWebAppSwipingBehavior(boolean z) {
+            this.val$webViewLayout.setAllowSwipes(z);
+        }
+
+        @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
         public void onCloseRequested(final Runnable runnable) {
             if (ChatAttachAlert.this.currentAttachLayout != this.val$webViewLayout) {
                 return;
@@ -421,40 +441,40 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             }
         }
 
-        @Override // org.telegram.ui.bots.BotWebViewContainer.Delegate
+        @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
         public void onWebAppSetActionBarColor(int i, final int i2, boolean z) {
             final int color = ((ColorDrawable) ChatAttachAlert.this.actionBar.getBackground()).getColor();
-            final BotWebViewMenuContainer.ActionBarColorsAnimating actionBarColorsAnimating = new BotWebViewMenuContainer.ActionBarColorsAnimating();
-            actionBarColorsAnimating.setFrom(ChatAttachAlert.this.overrideBackgroundColor ? color : 0, ((BottomSheet) ChatAttachAlert.this).resourcesProvider);
+            final BotWebViewMenuContainer$ActionBarColorsAnimating botWebViewMenuContainer$ActionBarColorsAnimating = new BotWebViewMenuContainer$ActionBarColorsAnimating();
+            botWebViewMenuContainer$ActionBarColorsAnimating.setFrom(ChatAttachAlert.this.overrideBackgroundColor ? color : 0, ((BottomSheet) ChatAttachAlert.this).resourcesProvider);
             ChatAttachAlert.this.overrideBackgroundColor = z;
-            actionBarColorsAnimating.setTo(ChatAttachAlert.this.overrideBackgroundColor ? i2 : 0, ((BottomSheet) ChatAttachAlert.this).resourcesProvider);
+            botWebViewMenuContainer$ActionBarColorsAnimating.setTo(ChatAttachAlert.this.overrideBackgroundColor ? i2 : 0, ((BottomSheet) ChatAttachAlert.this).resourcesProvider);
             ValueAnimator duration = ValueAnimator.ofFloat(0.0f, 1.0f).setDuration(200L);
             duration.setInterpolator(CubicBezierInterpolator.DEFAULT);
             final ChatAttachAlertBotWebViewLayout chatAttachAlertBotWebViewLayout = this.val$webViewLayout;
             duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.ChatAttachAlert$1$$ExternalSyntheticLambda1
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    ChatAttachAlert.1.this.lambda$onWebAppSetActionBarColor$1(color, i2, chatAttachAlertBotWebViewLayout, actionBarColorsAnimating, valueAnimator);
+                    ChatAttachAlert.1.this.lambda$onWebAppSetActionBarColor$1(color, i2, chatAttachAlertBotWebViewLayout, botWebViewMenuContainer$ActionBarColorsAnimating, valueAnimator);
                 }
             });
             duration.start();
         }
 
-        public /* synthetic */ void lambda$onWebAppSetActionBarColor$1(int i, int i2, ChatAttachAlertBotWebViewLayout chatAttachAlertBotWebViewLayout, BotWebViewMenuContainer.ActionBarColorsAnimating actionBarColorsAnimating, ValueAnimator valueAnimator) {
+        public /* synthetic */ void lambda$onWebAppSetActionBarColor$1(int i, int i2, ChatAttachAlertBotWebViewLayout chatAttachAlertBotWebViewLayout, BotWebViewMenuContainer$ActionBarColorsAnimating botWebViewMenuContainer$ActionBarColorsAnimating, ValueAnimator valueAnimator) {
             float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
             ChatAttachAlert.this.actionBar.setBackgroundColor(ColorUtils.blendARGB(i, i2, floatValue));
             chatAttachAlertBotWebViewLayout.setCustomActionBarBackground(ColorUtils.blendARGB(i, i2, floatValue));
             ChatAttachAlert.this.currentAttachLayout.invalidate();
             ChatAttachAlert.this.sizeNotifierFrameLayout.invalidate();
-            actionBarColorsAnimating.updateActionBar(ChatAttachAlert.this.actionBar, floatValue);
+            botWebViewMenuContainer$ActionBarColorsAnimating.updateActionBar(ChatAttachAlert.this.actionBar, floatValue);
         }
 
-        @Override // org.telegram.ui.bots.BotWebViewContainer.Delegate
+        @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
         public void onWebAppSetBackgroundColor(int i) {
             this.val$webViewLayout.setCustomBackground(i);
         }
 
-        @Override // org.telegram.ui.bots.BotWebViewContainer.Delegate
+        @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
         public void onWebAppOpenInvoice(TLRPC$InputInvoice tLRPC$InputInvoice, final String str, TLObject tLObject) {
             PaymentFormActivity paymentFormActivity;
             ChatAttachAlert chatAttachAlert = ChatAttachAlert.this;
@@ -515,7 +535,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             chatAttachAlertBotWebViewLayout.getWebViewContainer().onInvoiceStatusUpdate(str, invoiceStatus.name().toLowerCase(Locale.ROOT));
         }
 
-        @Override // org.telegram.ui.bots.BotWebViewContainer.Delegate
+        @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
         public void onWebAppExpand() {
             AttachAlertLayout attachAlertLayout = ChatAttachAlert.this.currentAttachLayout;
             ChatAttachAlertBotWebViewLayout chatAttachAlertBotWebViewLayout = this.val$webViewLayout;
@@ -524,7 +544,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             }
         }
 
-        @Override // org.telegram.ui.bots.BotWebViewContainer.Delegate
+        @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
         public void onWebAppSwitchInlineQuery(final TLRPC$User tLRPC$User, final String str, List<String> list) {
             if (list.isEmpty()) {
                 BaseFragment baseFragment = ChatAttachAlert.this.baseFragment;
@@ -580,7 +600,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             return true;
         }
 
-        @Override // org.telegram.ui.bots.BotWebViewContainer.Delegate
+        @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
         public void onSetupMainButton(final boolean z, boolean z2, String str, int i, int i2, final boolean z3) {
             AttachAlertLayout attachAlertLayout = ChatAttachAlert.this.currentAttachLayout;
             ChatAttachAlertBotWebViewLayout chatAttachAlertBotWebViewLayout = this.val$webViewLayout;
@@ -681,12 +701,12 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             chatAttachAlert.buttonsRecyclerView.setTranslationY(chatAttachAlert.botMainButtonOffsetY);
         }
 
-        @Override // org.telegram.ui.bots.BotWebViewContainer.Delegate
+        @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
         public void onSetBackButtonVisible(boolean z) {
             AndroidUtilities.updateImageViewImageAnimated(ChatAttachAlert.this.actionBar.getBackButton(), z ? R.drawable.ic_ab_back : R.drawable.ic_close_white);
         }
 
-        @Override // org.telegram.ui.bots.BotWebViewContainer.Delegate
+        @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
         public void onSetSettingsButtonVisible(boolean z) {
             ActionBarMenuSubItem actionBarMenuSubItem = this.val$webViewLayout.settingsItem;
             if (actionBarMenuSubItem != null) {
@@ -694,7 +714,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             }
         }
 
-        @Override // org.telegram.ui.bots.BotWebViewContainer.Delegate
+        @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
         public boolean isClipboardAvailable() {
             return MediaDataController.getInstance(ChatAttachAlert.this.currentAccount).botInAttachMenu(this.val$id);
         }
@@ -6569,7 +6589,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         }
     }
 
-    @Override // android.app.Dialog
+    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
     public void onBackPressed() {
         if (this.passcodeView.getVisibility() == 0) {
             if (getOwnerActivity() != null) {
@@ -6606,6 +6626,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         }
     }
 
+    @Override // org.telegram.ui.ActionBar.BottomSheet, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
     public void dismiss(boolean z) {
         if (z) {
             this.allowPassConfirmationAlert = z;
@@ -6613,7 +6634,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         dismiss();
     }
 
-    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface
+    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
     public void dismiss() {
         if (this.currentAttachLayout.onDismiss() || isDismissed()) {
             return;

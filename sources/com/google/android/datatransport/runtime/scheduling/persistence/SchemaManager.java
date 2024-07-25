@@ -89,6 +89,8 @@ public final class SchemaManager extends SQLiteOpenHelper {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$static$4(SQLiteDatabase sQLiteDatabase) {
+        sQLiteDatabase.execSQL("DROP TABLE IF EXISTS log_event_dropped");
+        sQLiteDatabase.execSQL("DROP TABLE IF EXISTS global_log_event_state");
         sQLiteDatabase.execSQL("CREATE TABLE log_event_dropped (log_source VARCHAR(45) NOT NULL,reason INTEGER NOT NULL,events_dropped_count BIGINT NOT NULL,PRIMARY KEY(log_source, reason))");
         sQLiteDatabase.execSQL("CREATE TABLE global_log_event_state (last_metrics_upload_ms BIGINT PRIMARY KEY)");
         sQLiteDatabase.execSQL(CREATE_INITIAL_GLOBAL_LOG_EVENT_STATE_VALUE_SQL);

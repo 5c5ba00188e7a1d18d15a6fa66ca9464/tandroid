@@ -166,8 +166,9 @@ public class BoostPagerBottomSheet extends BottomSheet {
                 return super.getAvailableTranslationX();
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.ViewPagerFixed
-            protected boolean canScroll(MotionEvent motionEvent) {
+            public boolean canScroll(MotionEvent motionEvent) {
                 return BoostPagerBottomSheet.this.viewPager.getCurrentPosition() == 1;
             }
         };
@@ -329,7 +330,7 @@ public class BoostPagerBottomSheet extends BottomSheet {
         }
     }
 
-    @Override // android.app.Dialog
+    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
     public void onBackPressed() {
         if (this.viewPager.getCurrentPosition() > 0) {
             if (this.rightSheet.hasChanges()) {

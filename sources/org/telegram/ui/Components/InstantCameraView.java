@@ -20,7 +20,6 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
-import android.graphics.drawable.AnimatedVectorDrawable;
 import android.hardware.Camera;
 import android.media.AudioManager;
 import android.media.AudioRecord;
@@ -48,7 +47,6 @@ import android.view.ViewOutlineProvider;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import androidx.core.content.ContextCompat;
 import androidx.core.graphics.ColorUtils;
 import com.google.android.exoplayer2.analytics.AnalyticsListener;
 import java.io.File;
@@ -105,6 +103,7 @@ import org.telegram.ui.Components.InstantCameraView;
 import org.telegram.ui.Components.VideoPlayer;
 import org.telegram.ui.Components.voip.CellFlickerDrawable;
 import org.telegram.ui.Stories.recorder.DualCameraView;
+import org.telegram.ui.Stories.recorder.FlashViews;
 import org.telegram.ui.Stories.recorder.StoryEntry;
 import org.webrtc.EglBase;
 import org.webrtc.MediaStreamTrack;
@@ -138,7 +137,13 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
     private TLRPC$InputFile file;
     ValueAnimator finishZoomTransition;
     private Bitmap firstFrameThumb;
+    private final FlashViews.ImageViewInvertable flashButton;
+    private RLottieDrawable flashOffDrawable;
+    private RLottieDrawable flashOnDrawable;
+    private final FlashViews flashViews;
+    private boolean flashing;
     private boolean flipAnimationInProgress;
+    private boolean frontFlashing;
     private boolean isFrontface;
     boolean isInPinchToZoomTouchMode;
     private boolean isSecretChat;
@@ -182,8 +187,8 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
     private boolean setVisibilityFromPause;
     private long size;
     private volatile int surfaceIndex;
-    private ImageView switchCameraButton;
-    AnimatedVectorDrawable switchCameraDrawable;
+    private final FlashViews.ImageViewInvertable switchCameraButton;
+    private RLottieDrawable switchCameraDrawable;
     private FloatBuffer textureBuffer;
     private BackupImageView textureOverlayView;
     private TextureView textureView;
@@ -194,6 +199,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
     private VideoEditedInfo videoEditedInfo;
     private VideoRecorder videoEncoder;
     private VideoPlayer videoPlayer;
+    private Boolean wasFlashing;
 
     /* loaded from: classes3.dex */
     public interface Delegate {
@@ -230,13 +236,13 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
     public void setIsMessageTransition(boolean z) {
     }
 
-    static /* synthetic */ float access$3416(InstantCameraView instantCameraView, float f) {
+    static /* synthetic */ float access$3516(InstantCameraView instantCameraView, float f) {
         float f2 = instantCameraView.cameraTextureAlpha + f;
         instantCameraView.cameraTextureAlpha = f2;
         return f2;
     }
 
-    static /* synthetic */ int access$5508() {
+    static /* synthetic */ int access$5608() {
         int i = A;
         A = i + 1;
         return i;
@@ -255,7 +261,6 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
     public InstantCameraView(Context context, Delegate delegate, Theme.ResourcesProvider resourcesProvider) {
         super(context);
         this.currentAccount = UserConfig.selectedAccount;
-        this.switchCameraDrawable = null;
         this.isFrontface = true;
         this.position = new int[2];
         this.cameraTexture = new int[]{Integer.MIN_VALUE, Integer.MIN_VALUE};
@@ -294,6 +299,10 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         this.paint.setStrokeWidth(AndroidUtilities.dp(3.0f));
         this.paint.setColor(-1);
         this.rect = new RectF();
+        FlashViews flashViews = new FlashViews(getContext(), null, this, null);
+        this.flashViews = flashViews;
+        flashViews.setWarmth(0.5f);
+        addView(flashViews.backgroundView, LayoutHelper.createFrame(-1, -1, 119));
         if (i >= 21) {
             InstantViewCameraContainer instantViewCameraContainer = new InstantViewCameraContainer(context) { // from class: org.telegram.ui.Components.InstantCameraView.2
                 {
@@ -367,20 +376,34 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         View view = this.cameraContainer;
         int i2 = AndroidUtilities.roundPlayingMessageSize;
         addView(view, new FrameLayout.LayoutParams(i2, i2, 17));
-        ImageView imageView = new ImageView(context);
-        this.switchCameraButton = imageView;
-        imageView.setScaleType(ImageView.ScaleType.CENTER);
-        this.switchCameraButton.setContentDescription(LocaleController.getString("AccDescrSwitchCamera", R.string.AccDescrSwitchCamera));
-        addView(this.switchCameraButton, LayoutHelper.createFrame(62, 62.0f, 83, 8.0f, 0.0f, 0.0f, 0.0f));
-        this.switchCameraButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.InstantCameraView$$ExternalSyntheticLambda2
+        addView(flashViews.foregroundView, LayoutHelper.createFrame(-1, -1, 119));
+        FlashViews.ImageViewInvertable imageViewInvertable = new FlashViews.ImageViewInvertable(context);
+        this.switchCameraButton = imageViewInvertable;
+        imageViewInvertable.setScaleType(ImageView.ScaleType.CENTER);
+        imageViewInvertable.setContentDescription(LocaleController.getString(R.string.AccDescrSwitchCamera));
+        addView(imageViewInvertable, LayoutHelper.createFrame(62, 62.0f, 83, 8.0f, 0.0f, 0.0f, 0.0f));
+        imageViewInvertable.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.InstantCameraView$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
                 InstantCameraView.this.lambda$new$1(view2);
             }
         });
-        ImageView imageView2 = new ImageView(context);
-        this.muteImageView = imageView2;
-        imageView2.setScaleType(ImageView.ScaleType.CENTER);
+        FlashViews.ImageViewInvertable imageViewInvertable2 = new FlashViews.ImageViewInvertable(context);
+        this.flashButton = imageViewInvertable2;
+        imageViewInvertable2.setScaleType(ImageView.ScaleType.CENTER);
+        addView(imageViewInvertable2, LayoutHelper.createFrame(62, 62.0f, 83, 58.0f, 0.0f, 0.0f, 0.0f));
+        imageViewInvertable2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.InstantCameraView$$ExternalSyntheticLambda3
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view2) {
+                InstantCameraView.this.lambda$new$2(view2);
+            }
+        });
+        updateFlash();
+        flashViews.add(imageViewInvertable);
+        flashViews.add(imageViewInvertable2);
+        ImageView imageView = new ImageView(context);
+        this.muteImageView = imageView;
+        imageView.setScaleType(ImageView.ScaleType.CENTER);
         this.muteImageView.setImageResource(R.drawable.video_mute);
         this.muteImageView.setAlpha(0.0f);
         addView(this.muteImageView, LayoutHelper.createFrame(48, 48, 17));
@@ -421,16 +444,17 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
             if (!this.bothCameras) {
                 switchCamera();
             }
-            AnimatedVectorDrawable animatedVectorDrawable = this.switchCameraDrawable;
-            if (animatedVectorDrawable != null) {
-                animatedVectorDrawable.start();
+            RLottieDrawable rLottieDrawable = this.switchCameraDrawable;
+            if (rLottieDrawable != null) {
+                rLottieDrawable.setCurrentFrame(0);
+                this.switchCameraDrawable.start();
             }
             this.flipAnimationInProgress = true;
             ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
             ofFloat.setDuration(580L);
             ofFloat.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
             final boolean[] zArr = new boolean[1];
-            final Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.InstantCameraView$$ExternalSyntheticLambda5
+            final Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.InstantCameraView$$ExternalSyntheticLambda6
                 @Override // java.lang.Runnable
                 public final void run() {
                     InstantCameraView.this.lambda$new$0();
@@ -489,6 +513,70 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
     public /* synthetic */ void lambda$new$0() {
         if (this.bothCameras) {
             switchCamera();
+        }
+    }
+
+    public /* synthetic */ void lambda$new$2(View view) {
+        this.flashing = !this.flashing;
+        updateFlash();
+    }
+
+    public void updateFlash() {
+        boolean z = this.flashing && this.recording && this.isFrontface;
+        if (this.frontFlashing != z) {
+            this.frontFlashing = z;
+            if (z) {
+                this.flashViews.flashIn(null);
+            } else {
+                this.flashViews.flashOut();
+            }
+        }
+        if (this.useCamera2) {
+            Camera2Session[] camera2SessionArr = this.camera2Sessions;
+            if (camera2SessionArr[1] != null) {
+                camera2SessionArr[1].setFlash(this.flashing && !this.isFrontface && this.recording);
+            }
+        } else {
+            CameraSession cameraSession = this.cameraSession;
+            if (cameraSession != null) {
+                cameraSession.setTorchEnabled(this.flashing && !this.isFrontface && this.recording);
+            }
+        }
+        if (this.flashButton != null) {
+            Boolean bool = this.wasFlashing;
+            if (bool == null || bool.booleanValue() != this.flashing) {
+                this.flashButton.setContentDescription(LocaleController.getString(this.flashing ? R.string.AccDescrCameraFlashOff : R.string.AccDescrCameraFlashOn));
+                if (!this.flashing) {
+                    if (this.flashOnDrawable == null) {
+                        RLottieDrawable rLottieDrawable = new RLottieDrawable(R.raw.roundcamera_flash_on, "roundcamera_flash_on", AndroidUtilities.dp(28.0f), AndroidUtilities.dp(28.0f));
+                        this.flashOnDrawable = rLottieDrawable;
+                        rLottieDrawable.setCallback(this.flashButton);
+                    }
+                    this.flashButton.setImageDrawable(this.flashOnDrawable);
+                    if (this.wasFlashing == null) {
+                        RLottieDrawable rLottieDrawable2 = this.flashOnDrawable;
+                        rLottieDrawable2.setCurrentFrame(rLottieDrawable2.getFramesCount() - 1);
+                    } else {
+                        this.flashOnDrawable.setCurrentFrame(0);
+                        this.flashOnDrawable.start();
+                    }
+                } else {
+                    if (this.flashOffDrawable == null) {
+                        RLottieDrawable rLottieDrawable3 = new RLottieDrawable(R.raw.roundcamera_flash_off, "roundcamera_flash_off", AndroidUtilities.dp(28.0f), AndroidUtilities.dp(28.0f));
+                        this.flashOffDrawable = rLottieDrawable3;
+                        rLottieDrawable3.setCallback(this.flashButton);
+                    }
+                    this.flashButton.setImageDrawable(this.flashOffDrawable);
+                    if (this.wasFlashing == null) {
+                        RLottieDrawable rLottieDrawable4 = this.flashOffDrawable;
+                        rLottieDrawable4.setCurrentFrame(rLottieDrawable4.getFramesCount() - 1);
+                    } else {
+                        this.flashOffDrawable.setCurrentFrame(0);
+                        this.flashOffDrawable.start();
+                    }
+                }
+                this.wasFlashing = Boolean.valueOf(this.flashing);
+            }
         }
     }
 
@@ -560,6 +648,10 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.fileUploaded);
+        FlashViews flashViews = this.flashViews;
+        if (flashViews != null) {
+            flashViews.flashOut();
+        }
     }
 
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
@@ -639,6 +731,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
             blurBehindDrawable.clear();
         }
         this.switchCameraButton.setAlpha(0.0f);
+        this.flashButton.setAlpha(0.0f);
         this.cameraContainer.setAlpha(0.0f);
         this.textureOverlayView.setAlpha(0.0f);
         this.muteImageView.setAlpha(0.0f);
@@ -673,6 +766,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         if (this.recording) {
             this.cancelled = this.recordedTime < 800;
             this.recording = false;
+            updateFlash();
             if (this.cameraThread != null) {
                 NotificationCenter notificationCenter = NotificationCenter.getInstance(this.currentAccount);
                 int i = NotificationCenter.recordStopped;
@@ -719,13 +813,13 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         if (this.textureView != null) {
             return;
         }
-        if (Build.VERSION.SDK_INT >= 21) {
-            AnimatedVectorDrawable animatedVectorDrawable = (AnimatedVectorDrawable) ContextCompat.getDrawable(getContext(), R.drawable.avd_flip);
-            this.switchCameraDrawable = animatedVectorDrawable;
-            this.switchCameraButton.setImageDrawable(animatedVectorDrawable);
-        } else {
-            this.switchCameraButton.setImageResource(R.drawable.vd_flip);
+        if (this.switchCameraDrawable == null) {
+            RLottieDrawable rLottieDrawable = new RLottieDrawable(R.raw.roundcamera_flip, "roundcamera_flip", AndroidUtilities.dp(28.0f), AndroidUtilities.dp(28.0f));
+            this.switchCameraDrawable = rLottieDrawable;
+            rLottieDrawable.setCurrentFrame(0);
+            this.switchCameraDrawable.setCallback(this.switchCameraButton);
         }
+        this.switchCameraButton.setImageDrawable(this.switchCameraDrawable);
         this.textureOverlayView.setAlpha(1.0f);
         this.textureOverlayView.invalidate();
         if (this.lastBitmap == null) {
@@ -744,6 +838,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         this.selectedCamera = null;
         if (!z) {
             this.isFrontface = true;
+            updateFlash();
             this.recordedTime = 0L;
             this.progress = 0.0f;
         }
@@ -795,6 +890,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                         }
                         i++;
                     }
+                    updateFlash();
                     Camera2Session[] camera2SessionArr3 = this.camera2Sessions;
                     boolean z2 = this.isFrontface;
                     Camera2Session camera2Session = camera2SessionArr3[!z2 ? 1 : 0];
@@ -919,55 +1015,60 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.InstantCameraView$$ExternalSyntheticLambda1
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                InstantCameraView.this.lambda$startAnimation$2(z2, valueAnimator);
+                InstantCameraView.this.lambda$startAnimation$3(z2, valueAnimator);
             }
         });
         AnimatorSet animatorSet2 = this.animatorSet;
-        Animator[] animatorArr = new Animator[12];
-        ImageView imageView = this.switchCameraButton;
+        Animator[] animatorArr = new Animator[13];
+        FlashViews.ImageViewInvertable imageViewInvertable = this.switchCameraButton;
         Property property = View.ALPHA;
         float[] fArr2 = new float[1];
         fArr2[0] = z ? 1.0f : 0.0f;
-        animatorArr[0] = ObjectAnimator.ofFloat(imageView, property, fArr2);
-        animatorArr[1] = ObjectAnimator.ofFloat(this.muteImageView, View.ALPHA, 0.0f);
-        Paint paint = this.paint;
-        Property<Paint, Integer> property2 = AnimationProperties.PAINT_ALPHA;
-        int[] iArr = new int[1];
-        iArr[0] = z ? 255 : 0;
-        animatorArr[2] = ObjectAnimator.ofInt(paint, property2, iArr);
-        InstantViewCameraContainer instantViewCameraContainer = this.cameraContainer;
-        Property property3 = View.ALPHA;
+        animatorArr[0] = ObjectAnimator.ofFloat(imageViewInvertable, property, fArr2);
+        FlashViews.ImageViewInvertable imageViewInvertable2 = this.flashButton;
+        Property property2 = View.ALPHA;
         float[] fArr3 = new float[1];
         fArr3[0] = z ? 1.0f : 0.0f;
-        animatorArr[3] = ObjectAnimator.ofFloat(instantViewCameraContainer, property3, fArr3);
-        InstantViewCameraContainer instantViewCameraContainer2 = this.cameraContainer;
-        Property property4 = View.SCALE_X;
+        animatorArr[1] = ObjectAnimator.ofFloat(imageViewInvertable2, property2, fArr3);
+        animatorArr[2] = ObjectAnimator.ofFloat(this.muteImageView, View.ALPHA, 0.0f);
+        Paint paint = this.paint;
+        Property<Paint, Integer> property3 = AnimationProperties.PAINT_ALPHA;
+        int[] iArr = new int[1];
+        iArr[0] = z ? 255 : 0;
+        animatorArr[3] = ObjectAnimator.ofInt(paint, property3, iArr);
+        InstantViewCameraContainer instantViewCameraContainer = this.cameraContainer;
+        Property property4 = View.ALPHA;
         float[] fArr4 = new float[1];
-        fArr4[0] = z ? 1.0f : 0.1f;
-        animatorArr[4] = ObjectAnimator.ofFloat(instantViewCameraContainer2, property4, fArr4);
-        InstantViewCameraContainer instantViewCameraContainer3 = this.cameraContainer;
-        Property property5 = View.SCALE_Y;
+        fArr4[0] = z ? 1.0f : 0.0f;
+        animatorArr[4] = ObjectAnimator.ofFloat(instantViewCameraContainer, property4, fArr4);
+        InstantViewCameraContainer instantViewCameraContainer2 = this.cameraContainer;
+        Property property5 = View.SCALE_X;
         float[] fArr5 = new float[1];
         fArr5[0] = z ? 1.0f : 0.1f;
-        animatorArr[5] = ObjectAnimator.ofFloat(instantViewCameraContainer3, property5, fArr5);
-        animatorArr[6] = ObjectAnimator.ofFloat(this.cameraContainer, View.TRANSLATION_X, dp);
-        BackupImageView backupImageView = this.textureOverlayView;
-        Property property6 = View.ALPHA;
+        animatorArr[5] = ObjectAnimator.ofFloat(instantViewCameraContainer2, property5, fArr5);
+        InstantViewCameraContainer instantViewCameraContainer3 = this.cameraContainer;
+        Property property6 = View.SCALE_Y;
         float[] fArr6 = new float[1];
-        fArr6[0] = z ? 1.0f : 0.0f;
-        animatorArr[7] = ObjectAnimator.ofFloat(backupImageView, property6, fArr6);
-        BackupImageView backupImageView2 = this.textureOverlayView;
-        Property property7 = View.SCALE_X;
+        fArr6[0] = z ? 1.0f : 0.1f;
+        animatorArr[6] = ObjectAnimator.ofFloat(instantViewCameraContainer3, property6, fArr6);
+        animatorArr[7] = ObjectAnimator.ofFloat(this.cameraContainer, View.TRANSLATION_X, dp);
+        BackupImageView backupImageView = this.textureOverlayView;
+        Property property7 = View.ALPHA;
         float[] fArr7 = new float[1];
-        fArr7[0] = z ? 1.0f : 0.1f;
-        animatorArr[8] = ObjectAnimator.ofFloat(backupImageView2, property7, fArr7);
-        BackupImageView backupImageView3 = this.textureOverlayView;
-        Property property8 = View.SCALE_Y;
+        fArr7[0] = z ? 1.0f : 0.0f;
+        animatorArr[8] = ObjectAnimator.ofFloat(backupImageView, property7, fArr7);
+        BackupImageView backupImageView2 = this.textureOverlayView;
+        Property property8 = View.SCALE_X;
         float[] fArr8 = new float[1];
         fArr8[0] = z ? 1.0f : 0.1f;
-        animatorArr[9] = ObjectAnimator.ofFloat(backupImageView3, property8, fArr8);
-        animatorArr[10] = ObjectAnimator.ofFloat(this.textureOverlayView, View.TRANSLATION_X, dp);
-        animatorArr[11] = ofFloat;
+        animatorArr[9] = ObjectAnimator.ofFloat(backupImageView2, property8, fArr8);
+        BackupImageView backupImageView3 = this.textureOverlayView;
+        Property property9 = View.SCALE_Y;
+        float[] fArr9 = new float[1];
+        fArr9[0] = z ? 1.0f : 0.1f;
+        animatorArr[10] = ObjectAnimator.ofFloat(backupImageView3, property9, fArr9);
+        animatorArr[11] = ObjectAnimator.ofFloat(this.textureOverlayView, View.TRANSLATION_X, dp);
+        animatorArr[12] = ofFloat;
         animatorSet2.playTogether(animatorArr);
         if (!z) {
             this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.InstantCameraView.10
@@ -992,7 +1093,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         this.animatorSet.start();
     }
 
-    public /* synthetic */ void lambda$startAnimation$2(boolean z, ValueAnimator valueAnimator) {
+    public /* synthetic */ void lambda$startAnimation$3(boolean z, ValueAnimator valueAnimator) {
         this.animationTranslationY = z ? 0.0f : (getMeasuredHeight() / 2.0f) * ((Float) valueAnimator.getAnimatedValue()).floatValue();
         updateTranslationY();
     }
@@ -1096,10 +1197,11 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
             MediaController.getInstance().requestAudioFocus(false);
             return;
         }
-        boolean z2 = this.recordedTime < 800;
-        this.cancelled = z2;
+        this.cancelled = this.recordedTime < 800;
         this.recording = false;
-        int i4 = z2 ? 4 : i == 3 ? 2 : 5;
+        this.flashing = false;
+        updateFlash();
+        int i4 = this.cancelled ? 4 : i == 3 ? 2 : 5;
         if (this.cameraThread != null) {
             NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.recordStopped, Integer.valueOf(this.recordingGuid), Integer.valueOf(i4));
             int i5 = this.cancelled ? 0 : i == 3 ? 2 : 1;
@@ -1144,6 +1246,8 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         }
         this.cancelled = true;
         this.recording = false;
+        this.flashing = false;
+        updateFlash();
         NotificationCenter notificationCenter = NotificationCenter.getInstance(this.currentAccount);
         int i = NotificationCenter.recordStopped;
         Object[] objArr = new Object[2];
@@ -1176,6 +1280,10 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
 
     public View getSwitchButtonView() {
         return this.switchCameraButton;
+    }
+
+    public View getFlashButtonView() {
+        return this.flashButton;
     }
 
     public View getMuteImageView() {
@@ -1212,11 +1320,11 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                 this.textureOverlayView.setAlpha(1.0f);
             }
         }
-        boolean z = !this.isFrontface ? 1 : 0;
-        this.isFrontface = z;
+        this.isFrontface = !this.isFrontface;
+        updateFlash();
         if (this.useCamera2) {
             if (this.bothCameras) {
-                this.camera2SessionCurrent = this.camera2Sessions[!z ? 1 : 0];
+                this.camera2SessionCurrent = this.camera2Sessions[!this.isFrontface ? 1 : 0];
                 this.cameraThread.flipSurfaces();
                 return;
             }
@@ -1227,9 +1335,9 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                 this.camera2Sessions[this.isFrontface ? 1 : 0] = null;
             }
             Camera2Session[] camera2SessionArr = this.camera2Sessions;
-            boolean z2 = this.isFrontface;
-            int i = !z2 ? 1 : 0;
-            Camera2Session create = Camera2Session.create(z2, MessagesController.getInstance(UserConfig.selectedAccount).roundVideoSize, MessagesController.getInstance(UserConfig.selectedAccount).roundVideoSize);
+            boolean z = this.isFrontface;
+            int i = !z ? 1 : 0;
+            Camera2Session create = Camera2Session.create(z, MessagesController.getInstance(UserConfig.selectedAccount).roundVideoSize, MessagesController.getInstance(UserConfig.selectedAccount).roundVideoSize);
             camera2SessionArr[i] = create;
             this.camera2SessionCurrent = create;
             if (create == null) {
@@ -1360,18 +1468,18 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
             }
             return CameraController.chooseOptimalSize(arrayList, 480, 270, this.aspectRatio, false);
         }
-        Collections.sort(arrayList2, new Comparator() { // from class: org.telegram.ui.Components.InstantCameraView$$ExternalSyntheticLambda7
+        Collections.sort(arrayList2, new Comparator() { // from class: org.telegram.ui.Components.InstantCameraView$$ExternalSyntheticLambda8
             @Override // java.util.Comparator
             public final int compare(Object obj, Object obj2) {
-                int lambda$chooseOptimalSize$3;
-                lambda$chooseOptimalSize$3 = InstantCameraView.lambda$chooseOptimalSize$3((org.telegram.messenger.camera.Size) obj, (org.telegram.messenger.camera.Size) obj2);
-                return lambda$chooseOptimalSize$3;
+                int lambda$chooseOptimalSize$4;
+                lambda$chooseOptimalSize$4 = InstantCameraView.lambda$chooseOptimalSize$4((org.telegram.messenger.camera.Size) obj, (org.telegram.messenger.camera.Size) obj2);
+                return lambda$chooseOptimalSize$4;
             }
         });
         return arrayList2.get(0);
     }
 
-    public static /* synthetic */ int lambda$chooseOptimalSize$3(org.telegram.messenger.camera.Size size, org.telegram.messenger.camera.Size size2) {
+    public static /* synthetic */ int lambda$chooseOptimalSize$4(org.telegram.messenger.camera.Size size, org.telegram.messenger.camera.Size size2) {
         float abs = Math.abs(1.0f - (Math.min(size.mHeight, size.mWidth) / Math.max(size.mHeight, size.mWidth)));
         float abs2 = Math.abs(1.0f - (Math.min(size2.mHeight, size2.mWidth) / Math.max(size2.mHeight, size2.mWidth)));
         if (abs < abs2) {
@@ -1419,15 +1527,15 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
     }
 
     public void createCamera(final int i, final SurfaceTexture surfaceTexture) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InstantCameraView$$ExternalSyntheticLambda6
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InstantCameraView$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
-                InstantCameraView.this.lambda$createCamera$6(i, surfaceTexture);
+                InstantCameraView.this.lambda$createCamera$7(i, surfaceTexture);
             }
         });
     }
 
-    public /* synthetic */ void lambda$createCamera$6(int i, SurfaceTexture surfaceTexture) {
+    public /* synthetic */ void lambda$createCamera$7(int i, SurfaceTexture surfaceTexture) {
         if (this.cameraThread == null) {
             return;
         }
@@ -1439,18 +1547,18 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                 return;
             }
             surfaceTexture.setDefaultBufferSize(this.previewSize[0].getWidth(), this.previewSize[0].getHeight());
-            CameraSession cameraSession = new CameraSession(this.selectedCamera, this.previewSize[0], this.pictureSize, LiteMode.FLAG_CHAT_BLUR, true);
-            this.cameraSession = cameraSession;
-            this.cameraThread.setCurrentSession(cameraSession);
+            this.cameraSession = new CameraSession(this.selectedCamera, this.previewSize[0], this.pictureSize, LiteMode.FLAG_CHAT_BLUR, true);
+            updateFlash();
+            this.cameraThread.setCurrentSession(this.cameraSession);
             CameraController.getInstance().openRound(this.cameraSession, surfaceTexture, new Runnable() { // from class: org.telegram.ui.Components.InstantCameraView$$ExternalSyntheticLambda4
                 @Override // java.lang.Runnable
                 public final void run() {
-                    InstantCameraView.this.lambda$createCamera$4();
+                    InstantCameraView.this.lambda$createCamera$5();
                 }
-            }, new Runnable() { // from class: org.telegram.ui.Components.InstantCameraView$$ExternalSyntheticLambda3
+            }, new Runnable() { // from class: org.telegram.ui.Components.InstantCameraView$$ExternalSyntheticLambda5
                 @Override // java.lang.Runnable
                 public final void run() {
-                    InstantCameraView.this.lambda$createCamera$5();
+                    InstantCameraView.this.lambda$createCamera$6();
                 }
             });
         } else if (this.bothCameras) {
@@ -1465,13 +1573,13 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         }
     }
 
-    public /* synthetic */ void lambda$createCamera$4() {
+    public /* synthetic */ void lambda$createCamera$5() {
         CameraGLThread cameraGLThread;
-        CameraSession cameraSession = this.cameraSession;
-        if (cameraSession != null) {
+        if (this.cameraSession != null) {
+            updateFlash();
             boolean z = false;
             try {
-                Camera.Size currentPreviewSize = cameraSession.getCurrentPreviewSize();
+                Camera.Size currentPreviewSize = this.cameraSession.getCurrentPreviewSize();
                 if (currentPreviewSize.width != this.previewSize[0].getWidth() || currentPreviewSize.height != this.previewSize[0].getHeight()) {
                     this.previewSize[0] = new org.telegram.messenger.camera.Size(currentPreviewSize.width, currentPreviewSize.height);
                     FileLog.d("InstantCamera change preview size to w = " + this.previewSize[0].getWidth() + " h = " + this.previewSize[0].getHeight());
@@ -1500,7 +1608,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         }
     }
 
-    public /* synthetic */ void lambda$createCamera$5() {
+    public /* synthetic */ void lambda$createCamera$6() {
         CameraGLThread cameraGLThread = this.cameraThread;
         if (cameraGLThread != null) {
             cameraGLThread.setCurrentSession(this.cameraSession);
@@ -1941,6 +2049,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                         InstantCameraView.this.scaleY = f;
                     }
                     this.recording = true;
+                    InstantCameraView.this.updateFlash();
                 }
                 if (InstantCameraView.this.videoEncoder != null && ((InstantCameraView.this.surfaceIndex == 0 && z) || (InstantCameraView.this.surfaceIndex == 1 && z2))) {
                     InstantCameraView.this.videoEncoder.frameAvailable(this.cameraSurface[InstantCameraView.this.surfaceIndex], Integer.valueOf(InstantCameraView.this.bothCameras ? InstantCameraView.this.surfaceIndex : num.intValue()), System.nanoTime());
@@ -2438,7 +2547,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         }
 
         public void startRecording(File file, android.opengl.EGLContext eGLContext) {
-            InstantCameraView.access$5508();
+            InstantCameraView.access$5608();
             if (this.started && this.handler != null && this.handler.getLooper() != null && this.handler.getLooper().getThread() != null && this.handler.getLooper().getThread().isAlive()) {
                 this.sharedEglContext = eGLContext;
                 this.handler.sendMessage(this.handler.obtainMessage(0, 1, 0));
@@ -2826,7 +2935,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                         });
                         return;
                     }
-                    InstantCameraView.access$3416(InstantCameraView.this, ((float) j4) / 2.0E8f);
+                    InstantCameraView.access$3516(InstantCameraView.this, ((float) j4) / 2.0E8f);
                     if (InstantCameraView.this.cameraTextureAlpha > 1.0f) {
                         GLES20.glDisable(3042);
                         this.blendEnabled = false;
@@ -3063,7 +3172,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
             InstantCameraView.this.videoPlayer.setMute(true);
             InstantCameraView.this.startProgressTimer();
             AnimatorSet animatorSet = new AnimatorSet();
-            animatorSet.playTogether(ObjectAnimator.ofFloat(InstantCameraView.this.switchCameraButton, View.ALPHA, 0.0f), ObjectAnimator.ofInt(InstantCameraView.this.paint, AnimationProperties.PAINT_ALPHA, 0), ObjectAnimator.ofFloat(InstantCameraView.this.muteImageView, View.ALPHA, 1.0f));
+            animatorSet.playTogether(ObjectAnimator.ofFloat(InstantCameraView.this.switchCameraButton, View.ALPHA, 0.0f), ObjectAnimator.ofFloat(InstantCameraView.this.flashButton, View.ALPHA, 0.0f), ObjectAnimator.ofInt(InstantCameraView.this.paint, AnimationProperties.PAINT_ALPHA, 0), ObjectAnimator.ofFloat(InstantCameraView.this.muteImageView, View.ALPHA, 1.0f));
             animatorSet.setDuration(180L);
             animatorSet.setInterpolator(new DecelerateInterpolator());
             animatorSet.start();
@@ -3597,6 +3706,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
             instantCameraView.recordPlusTime = z ? instantCameraView.recordedTime : 0L;
             InstantCameraView.this.recordStartTime = System.currentTimeMillis();
             InstantCameraView.this.recording = true;
+            InstantCameraView.this.updateFlash();
             InstantCameraView.this.invalidate();
             NotificationCenter.getInstance(InstantCameraView.this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.recordStarted, Integer.valueOf(InstantCameraView.this.recordingGuid), Boolean.FALSE);
         }
@@ -4038,7 +4148,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
             ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.InstantCameraView$$ExternalSyntheticLambda0
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    InstantCameraView.this.lambda$finishZoom$7(valueAnimator);
+                    InstantCameraView.this.lambda$finishZoom$8(valueAnimator);
                 }
             });
             this.finishZoomTransition.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.InstantCameraView.13
@@ -4060,7 +4170,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         }
     }
 
-    public /* synthetic */ void lambda$finishZoom$7(ValueAnimator valueAnimator) {
+    public /* synthetic */ void lambda$finishZoom$8(ValueAnimator valueAnimator) {
         if (this.useCamera2) {
             Camera2Session camera2Session = this.camera2SessionCurrent;
             if (camera2Session != null) {

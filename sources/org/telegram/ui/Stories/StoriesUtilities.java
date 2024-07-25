@@ -64,6 +64,7 @@ import org.telegram.ui.Components.ColoredImageSpan;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.GradientTools;
 import org.telegram.ui.Components.RecyclerListView;
+import org.telegram.ui.Components.Shaker$$ExternalSyntheticLambda0;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.Stories.StoriesController;
 import org.telegram.ui.Stories.StoriesUtilities;
@@ -1513,7 +1514,7 @@ public class StoriesUtilities {
 
         /* JADX WARN: 'this' call moved to the top of the method (can break code semantics) */
         public StoryGradientTools(View view, boolean z) {
-            this(new StoriesUtilities$StoryGradientTools$$ExternalSyntheticLambda0(view), z);
+            this(new Shaker$$ExternalSyntheticLambda0(view), z);
             Objects.requireNonNull(view);
         }
 

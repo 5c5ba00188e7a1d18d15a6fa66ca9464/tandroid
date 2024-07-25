@@ -29,6 +29,7 @@ public class CheckBoxBase {
     public long animationDuration;
     private boolean attachedToWindow;
     private int background2ColorKey;
+    private int backgroundColor;
     private int backgroundColorKey;
     private Paint backgroundPaint;
     private int backgroundType;
@@ -228,6 +229,11 @@ public class CheckBoxBase {
         invalidate();
     }
 
+    public void setBackgroundColor(int i) {
+        this.backgroundColor = i;
+        invalidate();
+    }
+
     public void setBackgroundDrawable(Theme.MessageDrawable messageDrawable) {
         this.messageDrawable = messageDrawable;
     }
@@ -270,14 +276,14 @@ public class CheckBoxBase {
         setProgress(z ? 1.0f : 0.0f);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:113:0x02d9  */
+    /* JADX WARN: Removed duplicated region for block: B:116:0x02e6  */
     /* JADX WARN: Removed duplicated region for block: B:13:0x0038  */
     /* JADX WARN: Removed duplicated region for block: B:14:0x003b  */
     /* JADX WARN: Removed duplicated region for block: B:17:0x0044  */
     /* JADX WARN: Removed duplicated region for block: B:18:0x0047  */
-    /* JADX WARN: Removed duplicated region for block: B:202:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:208:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:21:0x0066  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x00f0  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x00f1  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -324,7 +330,7 @@ public class CheckBoxBase {
                     } else if (i11 == 10 || i11 == 14) {
                         this.backgroundPaint.setColor(getThemedColor(this.background2ColorKey));
                     } else {
-                        paint.setColor((Theme.getServiceMessageColor() & 16777215) | 671088640);
+                        paint.setColor((16777215 & Theme.getServiceMessageColor()) | 671088640);
                         this.backgroundPaint.setColor(getThemedColor(this.checkColorKey));
                     }
                 } else {
@@ -342,6 +348,8 @@ public class CheckBoxBase {
                 } else {
                     this.backgroundPaint.setColor(AndroidUtilities.getOffsetColor(-1, getThemedColor(this.checkColorKey), f5, this.backgroundAlpha));
                 }
+            } else if (this.backgroundColor != 0) {
+                this.backgroundPaint.setColor(0);
             } else {
                 Paint paint3 = this.backgroundPaint;
                 int i13 = this.background2ColorKey;
@@ -423,8 +431,8 @@ public class CheckBoxBase {
                         int alpha = Color.alpha(themedColor);
                         this.backgroundPaint.setColor(themedColor);
                         this.backgroundPaint.setAlpha((int) (alpha * f5));
-                        c = 0;
                         i5 = 9;
+                        c = 0;
                         i3 = centerY;
                         i4 = centerX;
                         canvas.drawArc(this.rect, i8, i7, false, this.backgroundPaint);
@@ -450,7 +458,12 @@ public class CheckBoxBase {
                 } else if (i16 == 11 || i16 == 6 || i16 == 7 || i16 == 10 || ((!this.drawUnchecked && this.backgroundColorKey >= 0) || i16 == 14)) {
                     paint.setColor(getThemedColor(this.backgroundColorKey));
                 } else {
-                    paint.setColor(getThemedColor(this.enabled ? Theme.key_checkbox : Theme.key_checkboxDisabled));
+                    int i17 = this.backgroundColor;
+                    if (i17 != 0) {
+                        paint.setColor(i17);
+                    } else {
+                        paint.setColor(getThemedColor(this.enabled ? Theme.key_checkbox : Theme.key_checkboxDisabled));
+                    }
                 }
                 if (this.forbidden) {
                     paint.setColor(this.backgroundPaint.getColor());
@@ -471,8 +484,8 @@ public class CheckBoxBase {
                     canvas.translate(i4 - dp2, i3 - dp2);
                     canvas.saveLayerAlpha(0.0f, 0.0f, AndroidUtilities.dp(this.size), AndroidUtilities.dp(this.size), 255, 31);
                     Paint provide = this.circlePaintProvider.provide(r7);
-                    int i17 = this.backgroundType;
-                    if (i17 == 12 || i17 == 13) {
+                    int i18 = this.backgroundType;
+                    if (i18 == 12 || i18 == 13) {
                         int alpha3 = provide.getAlpha();
                         provide.setAlpha((int) (f2 * 255.0f));
                         canvas.drawCircle(dp2, dp2, f * f2, provide);
@@ -532,8 +545,8 @@ public class CheckBoxBase {
                         return;
                     }
                     this.path.reset();
-                    int i18 = this.backgroundType;
-                    float f12 = i18 == -1 ? 1.4f : i18 == 5 ? 0.8f : 1.0f;
+                    int i19 = this.backgroundType;
+                    float f12 = i19 == -1 ? 1.4f : i19 == 5 ? 0.8f : 1.0f;
                     float dp4 = AndroidUtilities.dp(9.0f * f12) * f10;
                     float dp5 = AndroidUtilities.dp(f12 * 4.0f) * f10;
                     int dp6 = i3 + AndroidUtilities.dp(4.0f);

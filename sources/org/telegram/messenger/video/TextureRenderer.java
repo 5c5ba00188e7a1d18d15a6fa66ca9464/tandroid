@@ -1268,9 +1268,13 @@ public class TextureRenderer {
 
     private void initLocationEntity(VideoEditedInfo.MediaEntity mediaEntity) {
         float f;
-        LocationMarker locationMarker = new LocationMarker(ApplicationLoader.applicationContext, mediaEntity.density, 0);
+        LocationMarker locationMarker = new LocationMarker(ApplicationLoader.applicationContext, mediaEntity.type == 3 ? 0 : 1, mediaEntity.density, 0);
+        locationMarker.setIsVideo(true);
         locationMarker.setText(mediaEntity.text);
         locationMarker.setType(mediaEntity.subType, mediaEntity.color);
+        if (mediaEntity.weather != null && mediaEntity.entities.isEmpty()) {
+            locationMarker.setCodeEmoji(UserConfig.selectedAccount, mediaEntity.weather.getEmoji());
+        }
         locationMarker.setMaxWidth(mediaEntity.viewWidth);
         if (mediaEntity.entities.size() == 1) {
             locationMarker.forceEmoji();
@@ -1312,23 +1316,24 @@ public class TextureRenderer {
                 double d2 = (f8 - f10) / f11;
                 double sin = Math.sin(-mediaEntity.rotation);
                 Double.isNaN(d2);
-                centerX = ((float) ((cos * d) - (sin * d2))) + f9;
+                float f12 = ((float) ((cos * d) - (sin * d2))) + f9;
                 double sin2 = Math.sin(-mediaEntity.rotation);
                 Double.isNaN(d);
                 double d3 = d * sin2;
                 double cos2 = Math.cos(-mediaEntity.rotation);
                 Double.isNaN(d2);
                 f8 = (((float) (d3 + (d2 * cos2))) * f11) + f10;
+                centerX = f12;
             }
             emojiEntity.entity.width = (rectF.width() / mediaEntity.viewWidth) * mediaEntity.width;
             emojiEntity.entity.height = (rectF.height() / mediaEntity.viewHeight) * mediaEntity.height;
             VideoEditedInfo.MediaEntity mediaEntity3 = emojiEntity.entity;
-            float f12 = mediaEntity3.width * 1.2f;
-            mediaEntity3.width = f12;
-            float f13 = mediaEntity3.height * 1.2f;
-            mediaEntity3.height = f13;
-            mediaEntity3.x = centerX - (f12 / 2.0f);
-            mediaEntity3.y = f8 - (f13 / 2.0f);
+            float f13 = mediaEntity3.width * 1.2f;
+            mediaEntity3.width = f13;
+            float f14 = mediaEntity3.height * 1.2f;
+            mediaEntity3.height = f14;
+            mediaEntity3.x = centerX - (f13 / 2.0f);
+            mediaEntity3.y = f8 - (f14 / 2.0f);
             mediaEntity3.rotation = mediaEntity.rotation;
             initStickerEntity(mediaEntity3);
         }

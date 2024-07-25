@@ -336,9 +336,9 @@ public class LinkEditActivity extends BaseFragment {
         int i6 = Theme.key_windowBackgroundGrayShadow;
         textInfoPrivacyCell.setBackground(Theme.getThemedDrawableByKey(context, i5, i6));
         if (z) {
-            textInfoPrivacyCell.setText(LocaleController.getString("ApproveNewMembersDescription", R.string.ApproveNewMembersDescription));
+            textInfoPrivacyCell.setText(LocaleController.getString(R.string.ApproveNewMembersDescription));
+            linearLayout.addView(textInfoPrivacyCell);
         }
-        linearLayout.addView(textInfoPrivacyCell);
         HeaderCell headerCell = new HeaderCell(context);
         this.timeHeaderCell = headerCell;
         headerCell.setText(LocaleController.getString("LimitByPeriod", R.string.LimitByPeriod));

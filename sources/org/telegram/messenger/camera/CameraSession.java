@@ -118,12 +118,20 @@ public class CameraSession {
             return;
         }
         this.currentFlashMode = str;
+        if (this.isRound) {
+            configureRoundCamera(false);
+            return;
+        }
         configurePhotoCamera();
         ApplicationLoader.applicationContext.getSharedPreferences("camera", 0).edit().putString(this.cameraInfo.frontCamera != 0 ? "flashMode_front" : "flashMode", str).commit();
     }
 
     public void setCurrentFlashMode(String str) {
         this.currentFlashMode = str;
+        if (this.isRound) {
+            configureRoundCamera(false);
+            return;
+        }
         configurePhotoCamera();
         ApplicationLoader.applicationContext.getSharedPreferences("camera", 0).edit().putString(this.cameraInfo.frontCamera != 0 ? "flashMode_front" : "flashMode", str).commit();
     }
@@ -131,7 +139,11 @@ public class CameraSession {
     public void setTorchEnabled(boolean z) {
         try {
             this.currentFlashMode = z ? "torch" : "off";
-            configurePhotoCamera();
+            if (this.isRound) {
+                configureRoundCamera(false);
+            } else {
+                configurePhotoCamera();
+            }
         } catch (Exception e) {
             FileLog.e(e);
         }
@@ -234,7 +246,7 @@ public class CameraSession {
                         }
                     } catch (Exception unused) {
                     }
-                    parameters.setFlashMode("off");
+                    parameters.setFlashMode(this.currentFlashMode);
                     parameters.setZoom((int) (this.currentZoom * this.maxZoom));
                     try {
                         camera.setParameters(parameters);
@@ -253,9 +265,9 @@ public class CameraSession {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:28:0x0050  */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x0056  */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x0061  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x0051  */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x0057  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x0062  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

@@ -1175,7 +1175,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
                     switch (i) {
                         case 29:
                             break;
-                        case R.styleable.AppCompatTheme_actionModeTheme /* 30 */:
+                        case 30:
                             break;
                         case R.styleable.AppCompatTheme_actionModeWebSearchDrawable /* 31 */:
                             return LocaleController.getString(R.string.BoostingAdditionalFeaturesTitle);

@@ -1591,7 +1591,7 @@ public class MatroskaExtractor implements Extractor {
             case 27:
             case 28:
             case 29:
-            case R.styleable.AppCompatTheme_actionModeTheme /* 30 */:
+            case 30:
             case R.styleable.AppCompatTheme_actionModeWebSearchDrawable /* 31 */:
             case ' ':
                 return true;
@@ -2220,7 +2220,7 @@ public class MatroskaExtractor implements Extractor {
                     i2 = -1;
                     i3 = -1;
                     break;
-                case R.styleable.AppCompatTheme_actionModeTheme /* 30 */:
+                case 30:
                     str4 = "audio/eac3";
                     singletonList = null;
                     str = null;

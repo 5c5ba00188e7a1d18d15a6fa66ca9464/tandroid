@@ -197,7 +197,7 @@ import org.telegram.ui.Cells.CheckBoxCell;
 import org.telegram.ui.Cells.RadioColorCell;
 import org.telegram.ui.Cells.TextColorCell;
 import org.telegram.ui.ChatActivity;
-import org.telegram.ui.ChatActivity$$ExternalSyntheticLambda332;
+import org.telegram.ui.ChatActivity$$ExternalSyntheticLambda331;
 import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.LinkSpanDrawable;
 import org.telegram.ui.Components.NumberPicker;
@@ -1677,13 +1677,13 @@ public class AlertsCreator {
         }
         final long inlineReturn = baseFragment instanceof ChatActivity ? ((ChatActivity) baseFragment).getInlineReturn() : 0L;
         if (Browser.isInternalUrl(str, null) || !z3) {
-            Browser.openUrl(baseFragment.getParentActivity(), Uri.parse(str), inlineReturn == 0, z2, z4 && checkInternalBotApp(str), progress, null);
+            Browser.openUrl(baseFragment.getParentActivity(), Uri.parse(str), inlineReturn == 0, z2, z4 && checkInternalBotApp(str), progress, null, false);
             return;
         }
         if (z) {
             try {
                 Uri parse = Uri.parse(str);
-                replaceHostname = Browser.replaceHostname(parse, IDN.toUnicode(parse.getHost(), 1));
+                replaceHostname = Browser.replaceHostname(parse, IDN.toUnicode(parse.getHost(), 1), null);
             } catch (Exception e) {
                 FileLog.e((Throwable) e, false);
             }
@@ -7484,7 +7484,7 @@ public class AlertsCreator {
                     lambda$createDeleteMessagesAlert$151 = AlertsCreator.lambda$createDeleteMessagesAlert$151(clientUserId, (TLObject) obj);
                     return lambda$createDeleteMessagesAlert$151;
                 }
-            }).collect(Collectors.toCollection(ChatActivity$$ExternalSyntheticLambda332.INSTANCE));
+            }).collect(Collectors.toCollection(ChatActivity$$ExternalSyntheticLambda331.INSTANCE));
             if (!arrayList2.isEmpty()) {
                 if (tLRPC$ChannelParticipantArr == null) {
                     AlertDialog[] alertDialogArr = {new AlertDialog(activity, 3)};

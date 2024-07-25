@@ -743,7 +743,21 @@ public class CameraController implements MediaRecorder.OnInfoListener {
                 cameraInfo.camera = open;
                 camera = open;
             }
-            camera.getParameters();
+            Camera.Parameters parameters = camera.getParameters();
+            List<String> supportedFlashModes = parameters.getSupportedFlashModes();
+            cameraSession.availableFlashModes.clear();
+            if (supportedFlashModes != null) {
+                for (int i = 0; i < supportedFlashModes.size(); i++) {
+                    String str = supportedFlashModes.get(i);
+                    if (str.equals("off") || str.equals("on") || str.equals("auto")) {
+                        cameraSession.availableFlashModes.add(str);
+                    }
+                }
+                if (TextUtils.equals(cameraSession.getCurrentFlashMode(), parameters.getFlashMode()) && cameraSession.availableFlashModes.contains(cameraSession.getCurrentFlashMode())) {
+                    cameraSession.checkFlashMode(cameraSession.getCurrentFlashMode());
+                }
+                cameraSession.checkFlashMode(cameraSession.availableFlashModes.get(0));
+            }
             cameraSession.configureRoundCamera(true);
             if (runnable != null) {
                 runnable.run();

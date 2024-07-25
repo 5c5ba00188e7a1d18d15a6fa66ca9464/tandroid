@@ -86,6 +86,7 @@ public class SharedConfig {
     public static boolean hasCameraCache = false;
     public static boolean hasEmailLogin = false;
     private static HashSet<String> hevcEncoderWhitelist = null;
+    public static boolean inappBrowser = false;
     public static boolean inappCamera = false;
     public static boolean isFloatingDebugActive = false;
     public static boolean isWaitingForPasscodeEnter = false;
@@ -149,6 +150,9 @@ public class SharedConfig {
     public static int scheduledHintShows;
     public static long scheduledOrNoSoundHintSeenAt;
     public static int scheduledOrNoSoundHintShows;
+    public static String searchEngineCustomURLAutocomplete;
+    public static String searchEngineCustomURLQuery;
+    public static int searchEngineType;
     public static boolean searchMessagesAsListUsed;
     public static boolean showNotificationsForAllAccounts;
     public static boolean shuffleMusic;
@@ -319,12 +323,14 @@ public class SharedConfig {
         sync = new Object();
         localIdSync = new Object();
         mapPreviewType = 2;
+        searchEngineType = 0;
         chatBubbles = Build.VERSION.SDK_INT >= 30;
         raiseToSpeak = false;
         raiseToListen = true;
         nextMediaTap = true;
         recordViaSco = false;
         customTabs = true;
+        inappBrowser = true;
         directShare = true;
         inappCamera = true;
         roundCamera16to9 = true;
@@ -512,17 +518,17 @@ public class SharedConfig {
         return i;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:38:0x0174 A[Catch: Exception -> 0x0198, all -> 0x046f, TryCatch #2 {Exception -> 0x0198, blocks: (B:22:0x0123, B:24:0x012b, B:26:0x013d, B:27:0x0151, B:38:0x0174, B:40:0x017a, B:41:0x017c, B:43:0x0180, B:45:0x0186, B:47:0x018c, B:49:0x0190, B:36:0x016e), top: B:95:0x0123, outer: #4 }] */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x017a A[Catch: Exception -> 0x0198, all -> 0x046f, TryCatch #2 {Exception -> 0x0198, blocks: (B:22:0x0123, B:24:0x012b, B:26:0x013d, B:27:0x0151, B:38:0x0174, B:40:0x017a, B:41:0x017c, B:43:0x0180, B:45:0x0186, B:47:0x018c, B:49:0x0190, B:36:0x016e), top: B:95:0x0123, outer: #4 }] */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0218  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x021b  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x022b  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x022d  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x03fe  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x03ff A[Catch: all -> 0x046f, TryCatch #4 {, blocks: (B:4:0x0003, B:6:0x0007, B:9:0x000d, B:11:0x00df, B:12:0x00e5, B:14:0x00ed, B:16:0x00f1, B:17:0x00fe, B:19:0x010c, B:21:0x0117, B:22:0x0123, B:24:0x012b, B:26:0x013d, B:27:0x0151, B:29:0x0155, B:30:0x0167, B:38:0x0174, B:40:0x017a, B:41:0x017c, B:43:0x0180, B:45:0x0186, B:47:0x018c, B:49:0x0190, B:36:0x016e, B:53:0x019c, B:55:0x01e9, B:59:0x01f4, B:63:0x021d, B:67:0x022e, B:71:0x040a, B:75:0x0418, B:78:0x045f, B:80:0x0463, B:84:0x046b, B:83:0x0468, B:70:0x03ff, B:52:0x0199, B:20:0x0113, B:86:0x046d), top: B:99:0x0003, inners: #2, #3 }] */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x0415  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x0417  */
-    /* JADX WARN: Removed duplicated region for block: B:97:0x045f A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0174 A[Catch: Exception -> 0x0198, all -> 0x0480, TryCatch #4 {Exception -> 0x0198, blocks: (B:22:0x0123, B:24:0x012b, B:26:0x013d, B:27:0x0151, B:38:0x0174, B:40:0x017a, B:41:0x017c, B:43:0x0180, B:45:0x0186, B:47:0x018c, B:49:0x0190, B:36:0x016e), top: B:98:0x0123, outer: #0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x017a A[Catch: Exception -> 0x0198, all -> 0x0480, TryCatch #4 {Exception -> 0x0198, blocks: (B:22:0x0123, B:24:0x012b, B:26:0x013d, B:27:0x0151, B:38:0x0174, B:40:0x017a, B:41:0x017c, B:43:0x0180, B:45:0x0186, B:47:0x018c, B:49:0x0190, B:36:0x016e), top: B:98:0x0123, outer: #0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0228  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x022b  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x023b  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x023d  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x040f  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x0410 A[Catch: all -> 0x0480, TryCatch #0 {, blocks: (B:4:0x0003, B:6:0x0007, B:9:0x000d, B:11:0x00df, B:12:0x00e5, B:14:0x00ed, B:16:0x00f1, B:17:0x00fe, B:19:0x010c, B:21:0x0117, B:22:0x0123, B:24:0x012b, B:26:0x013d, B:27:0x0151, B:29:0x0155, B:30:0x0167, B:38:0x0174, B:40:0x017a, B:41:0x017c, B:43:0x0180, B:45:0x0186, B:47:0x018c, B:49:0x0190, B:36:0x016e, B:53:0x019c, B:55:0x01f9, B:59:0x0204, B:63:0x022d, B:67:0x023e, B:71:0x041b, B:75:0x0429, B:78:0x0470, B:80:0x0474, B:84:0x047c, B:83:0x0479, B:70:0x0410, B:52:0x0199, B:20:0x0113, B:86:0x047e), top: B:91:0x0003, inners: #3, #4 }] */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x0426  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x0428  */
+    /* JADX WARN: Removed duplicated region for block: B:96:0x0470 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -613,11 +619,13 @@ public class SharedConfig {
                             sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0);
                             SaveToGallerySettingsHelper.load(sharedPreferences);
                             mapPreviewType = sharedPreferences.getInt("mapPreviewType", 2);
+                            searchEngineType = sharedPreferences.getInt("searchEngineType", 0);
                             raiseToListen = sharedPreferences.getBoolean("raise_to_listen", true);
                             raiseToSpeak = sharedPreferences.getBoolean("raise_to_speak", false);
                             nextMediaTap = sharedPreferences.getBoolean("next_media_on_tap", true);
                             recordViaSco = sharedPreferences.getBoolean("record_via_sco", false);
                             customTabs = sharedPreferences.getBoolean("custom_tabs", true);
+                            inappBrowser = sharedPreferences.getBoolean("inapp_browser", true);
                             directShare = sharedPreferences.getBoolean("direct_share", true);
                             boolean z = sharedPreferences.getBoolean("shuffleMusic", false);
                             shuffleMusic = z;
@@ -721,11 +729,13 @@ public class SharedConfig {
                 sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0);
                 SaveToGallerySettingsHelper.load(sharedPreferences);
                 mapPreviewType = sharedPreferences.getInt("mapPreviewType", 2);
+                searchEngineType = sharedPreferences.getInt("searchEngineType", 0);
                 raiseToListen = sharedPreferences.getBoolean("raise_to_listen", true);
                 raiseToSpeak = sharedPreferences.getBoolean("raise_to_speak", false);
                 nextMediaTap = sharedPreferences.getBoolean("next_media_on_tap", true);
                 recordViaSco = sharedPreferences.getBoolean("record_via_sco", false);
                 customTabs = sharedPreferences.getBoolean("custom_tabs", true);
+                inappBrowser = sharedPreferences.getBoolean("inapp_browser", true);
                 directShare = sharedPreferences.getBoolean("direct_share", true);
                 boolean z2 = sharedPreferences.getBoolean("shuffleMusic", false);
                 shuffleMusic = z2;
@@ -1340,6 +1350,13 @@ public class SharedConfig {
         edit.apply();
     }
 
+    public static void setSearchEngineType(int i) {
+        searchEngineType = i;
+        SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
+        edit.putInt("searchEngineType", searchEngineType);
+        edit.apply();
+    }
+
     public static void setNoSoundHintShowed(boolean z) {
         if (noSoundHintShowed == z) {
             return;
@@ -1375,10 +1392,17 @@ public class SharedConfig {
         return raiseToListen && (!z || raiseToSpeak);
     }
 
-    public static void toggleCustomTabs() {
-        customTabs = !customTabs;
+    public static void toggleCustomTabs(boolean z) {
+        customTabs = z;
         SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
         edit.putBoolean("custom_tabs", customTabs);
+        edit.apply();
+    }
+
+    public static void toggleInappBrowser() {
+        inappBrowser = !inappBrowser;
+        SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
+        edit.putBoolean("inapp_browser", inappBrowser);
         edit.apply();
     }
 

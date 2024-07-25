@@ -34,6 +34,7 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
     private BaseFragment baseFragment;
     protected boolean clipToActionBar;
     protected int contentHeight;
+    protected boolean handleOffset;
     private RectF handleRect;
     public final boolean hasFixedSize;
     protected int headerHeight;
@@ -482,6 +483,9 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
             }
         }
         int i2 = ((i - this.headerHeight) - this.headerPaddingTop) - this.headerPaddingBottom;
+        if (this.showHandle && this.handleOffset) {
+            i2 -= AndroidUtilities.dp(this.actionBarType == ActionBarType.SLIDING ? 8.0f : 16.0f);
+        }
         ActionBarType actionBarType = this.actionBarType;
         float f2 = 1.0f;
         if (actionBarType == ActionBarType.FADING) {

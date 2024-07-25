@@ -1111,7 +1111,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         return super.onCustomOpenAnimation();
     }
 
-    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface
+    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
     public void dismiss() {
         this.parentActivity.removeOnUserLeaveHintListener(this.onUserLeaveHintListener);
         this.parentActivity.setRequestedOrientation(-1);
@@ -9903,7 +9903,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         return new ArrayList<>();
     }
 
-    @Override // android.app.Dialog
+    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
     public void onBackPressed() {
         PrivateVideoPreviewDialog privateVideoPreviewDialog = this.previewDialog;
         if (privateVideoPreviewDialog != null) {

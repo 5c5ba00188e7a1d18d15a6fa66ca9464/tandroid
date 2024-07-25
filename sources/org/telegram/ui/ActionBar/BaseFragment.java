@@ -48,6 +48,8 @@ import org.telegram.ui.ActionBar.ActionBarPopupWindow;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.INavigationLayout;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.ArticleViewer;
+import org.telegram.ui.EmptyBaseFragment;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.Stories.StoryViewer;
 import org.telegram.ui.bots.BotWebViewAttachedSheet;
@@ -63,6 +65,7 @@ public abstract class BaseFragment {
     protected boolean inMenuMode;
     protected boolean inPreviewMode;
     protected boolean isFinished;
+    private boolean isFullyVisible;
     protected Dialog parentDialog;
     protected INavigationLayout parentLayout;
     private PreviewDelegate previewDelegate;
@@ -123,6 +126,7 @@ public abstract class BaseFragment {
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public Animator getCustomSlideTransition(boolean z, boolean z2, float f) {
         return null;
     }
@@ -135,6 +139,7 @@ public abstract class BaseFragment {
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public boolean hideKeyboardOnShow() {
         return true;
     }
@@ -150,9 +155,6 @@ public abstract class BaseFragment {
     public void onActivityResultFragment(int i, int i2, Intent intent) {
     }
 
-    public void onBecomeFullyHidden() {
-    }
-
     public void onBottomSheetCreated() {
     }
 
@@ -163,6 +165,7 @@ public abstract class BaseFragment {
         return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void onDialogDismiss(Dialog dialog) {
     }
 
@@ -209,6 +212,7 @@ public abstract class BaseFragment {
     public void setProgressToDrawerOpened(float f) {
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public boolean shouldOverrideSlideTransition(boolean z, boolean z2) {
         return false;
     }
@@ -225,13 +229,17 @@ public abstract class BaseFragment {
 
         View getWindowView();
 
+        boolean isAttachedLightStatusBar();
+
         boolean isFullyVisible();
 
         boolean isShown();
 
-        boolean onBackPressed();
+        boolean onAttachedBackPressed();
 
         void setKeyboardHeightFromParent(int i);
+
+        void setLastVisible(boolean z);
 
         void setOnDismissListener(Runnable runnable);
 
@@ -239,8 +247,7 @@ public abstract class BaseFragment {
 
         /* loaded from: classes4.dex */
         public final /* synthetic */ class -CC {
-            public static void $default$dismiss(AttachedSheet _this, boolean z) {
-                _this.dismiss();
+            public static void $default$setLastVisible(AttachedSheet attachedSheet, boolean z) {
             }
         }
     }
@@ -271,6 +278,22 @@ public abstract class BaseFragment {
 
     public boolean hasStoryViewer() {
         return getLastStoryViewer() != null;
+    }
+
+    public boolean hasSheet() {
+        ArrayList<AttachedSheet> arrayList = this.sheetsStack;
+        return (arrayList == null || arrayList.isEmpty()) ? false : true;
+    }
+
+    public static boolean hasSheets(BaseFragment baseFragment) {
+        EmptyBaseFragment sheetFragment;
+        if (baseFragment == null) {
+            return false;
+        }
+        if (baseFragment.hasSheet()) {
+            return true;
+        }
+        return (baseFragment.getParentLayout() instanceof ActionBarLayout) && (sheetFragment = ((ActionBarLayout) baseFragment.getParentLayout()).getSheetFragment(false)) != null && sheetFragment.hasSheet();
     }
 
     public void clearSheets() {
@@ -381,7 +404,19 @@ public abstract class BaseFragment {
     }
 
     public void onRemoveFromParent() {
-        clearSheets();
+        ArrayList<AttachedSheet> arrayList = this.sheetsStack;
+        if (arrayList == null || arrayList.isEmpty()) {
+            return;
+        }
+        for (int size = this.sheetsStack.size() - 1; size >= 0; size--) {
+            AttachedSheet attachedSheet = this.sheetsStack.get(size);
+            if (!(attachedSheet instanceof StoryViewer)) {
+                attachedSheet.setLastVisible(false);
+                attachedSheet.dismiss(true);
+                this.sheetsStack.remove(size);
+            }
+        }
+        updateSheetsVisibility();
     }
 
     public void setParentFragment(BaseFragment baseFragment) {
@@ -505,6 +540,7 @@ public abstract class BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public boolean isFinishing() {
         return this.finishing;
     }
@@ -523,6 +559,7 @@ public abstract class BaseFragment {
         AndroidUtilities.setLightStatusBar(getParentActivity().getWindow(), Theme.getColor(Theme.key_actionBarDefault) == -1);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void resumeDelayedFragmentAnimation() {
         INavigationLayout iNavigationLayout = this.parentLayout;
         if (iNavigationLayout != null) {
@@ -581,7 +618,7 @@ public abstract class BaseFragment {
         if (arrayList != null) {
             for (int size = arrayList.size() - 1; size >= 0; size--) {
                 if (this.sheetsStack.get(size).isShown()) {
-                    return this.sheetsStack.get(size).onBackPressed();
+                    return this.sheetsStack.get(size).onAttachedBackPressed();
                 }
             }
             return false;
@@ -652,6 +689,7 @@ public abstract class BaseFragment {
         return getParentActivity();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void setParentActivityTitle(CharSequence charSequence) {
         Activity parentActivity = getParentActivity();
         if (parentActivity != null) {
@@ -708,6 +746,7 @@ public abstract class BaseFragment {
 
     public void onBecomeFullyVisible() {
         ActionBar actionBar;
+        this.isFullyVisible = true;
         if (((AccessibilityManager) ApplicationLoader.applicationContext.getSystemService("accessibility")).isEnabled() && (actionBar = getActionBar()) != null) {
             String title = actionBar.getTitle();
             if (!TextUtils.isEmpty(title)) {
@@ -719,10 +758,26 @@ public abstract class BaseFragment {
             this.fullyVisibleListener = null;
             runnable.run();
         }
+        updateSheetsVisibility();
     }
 
-    public void whenFullyVisible(Runnable runnable) {
-        this.fullyVisibleListener = runnable;
+    private void updateSheetsVisibility() {
+        if (this.sheetsStack == null) {
+            return;
+        }
+        for (int i = 0; i < this.sheetsStack.size(); i++) {
+            AttachedSheet attachedSheet = this.sheetsStack.get(i);
+            boolean z = true;
+            if (i != this.sheetsStack.size() - 1 || !this.isFullyVisible) {
+                z = false;
+            }
+            attachedSheet.setLastVisible(z);
+        }
+    }
+
+    public void onBecomeFullyHidden() {
+        this.isFullyVisible = false;
+        updateSheetsVisibility();
     }
 
     public Dialog showDialog(Dialog dialog) {
@@ -771,6 +826,7 @@ public abstract class BaseFragment {
         return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showDialog$0(DialogInterface.OnDismissListener onDismissListener, DialogInterface dialogInterface) {
         if (onDismissListener != null) {
             onDismissListener.onDismiss(dialogInterface);
@@ -801,6 +857,7 @@ public abstract class BaseFragment {
         return getAccountInstance().getMessagesController();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public ContactsController getContactsController() {
         return getAccountInstance().getContactsController();
     }
@@ -817,6 +874,7 @@ public abstract class BaseFragment {
         return getAccountInstance().getLocationController();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public NotificationsController getNotificationsController() {
         return getAccountInstance().getNotificationsController();
     }
@@ -833,6 +891,7 @@ public abstract class BaseFragment {
         return getAccountInstance().getFileLoader();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public SecretChatHelper getSecretChatHelper() {
         return getAccountInstance().getSecretChatHelper();
     }
@@ -841,6 +900,7 @@ public abstract class BaseFragment {
         return getAccountInstance().getDownloadController();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public SharedPreferences getNotificationsSettings() {
         return getAccountInstance().getNotificationsSettings();
     }
@@ -894,10 +954,12 @@ public abstract class BaseFragment {
         return iNavigationLayoutArr;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ BottomSheet lambda$showAsSheet$1(BottomSheet[] bottomSheetArr) {
         return bottomSheetArr[0];
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes4.dex */
     public class 1 extends BottomSheet {
         final /* synthetic */ INavigationLayout[] val$actionBarLayout;
@@ -936,6 +998,7 @@ public abstract class BaseFragment {
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public static /* synthetic */ void lambda$new$0(BaseFragment baseFragment, BottomSheetParams bottomSheetParams, DialogInterface dialogInterface) {
             Runnable runnable;
             baseFragment.onPause();
@@ -946,9 +1009,8 @@ public abstract class BaseFragment {
             runnable.run();
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
-        public void onCreate(Bundle bundle) {
+        protected void onCreate(Bundle bundle) {
             super.onCreate(bundle);
             this.val$actionBarLayout[0].setWindow(this.val$bottomSheet[0].getWindow());
             BottomSheetParams bottomSheetParams = this.val$params;
@@ -973,7 +1035,7 @@ public abstract class BaseFragment {
             return false;
         }
 
-        @Override // android.app.Dialog
+        @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
         public void onBackPressed() {
             INavigationLayout[] iNavigationLayoutArr = this.val$actionBarLayout;
             if (iNavigationLayoutArr[0] == null || iNavigationLayoutArr[0].getFragmentStack().size() <= 1) {
@@ -983,7 +1045,7 @@ public abstract class BaseFragment {
             }
         }
 
-        @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface
+        @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
         public void dismiss() {
             BottomSheetParams bottomSheetParams;
             Runnable runnable;
@@ -1173,8 +1235,30 @@ public abstract class BaseFragment {
                 storyViewer.fromBottomSheet = true;
             }
             this.sheetsStack.add(storyViewer);
+            updateSheetsVisibility();
         }
         return storyViewer;
+    }
+
+    public void removeSheet(AttachedSheet attachedSheet) {
+        ArrayList<AttachedSheet> arrayList = this.sheetsStack;
+        if (arrayList == null) {
+            return;
+        }
+        arrayList.remove(attachedSheet);
+        updateSheetsVisibility();
+    }
+
+    public void addSheet(AttachedSheet attachedSheet) {
+        if (this.sheetsStack == null) {
+            this.sheetsStack = new ArrayList<>();
+        }
+        StoryViewer lastStoryViewer = getLastStoryViewer();
+        if (lastStoryViewer != null) {
+            lastStoryViewer.listenToAttachedSheet(attachedSheet);
+        }
+        this.sheetsStack.add(attachedSheet);
+        updateSheetsVisibility();
     }
 
     public StoryViewer createOverlayStoryViewer() {
@@ -1187,19 +1271,36 @@ public abstract class BaseFragment {
             storyViewer.fromBottomSheet = true;
         }
         this.sheetsStack.add(storyViewer);
+        updateSheetsVisibility();
         return storyViewer;
     }
 
-    public BotWebViewAttachedSheet createBotViewer() {
+    public ArticleViewer createArticleViewer(boolean z) {
         if (this.sheetsStack == null) {
             this.sheetsStack = new ArrayList<>();
         }
-        BotWebViewAttachedSheet botWebViewAttachedSheet = new BotWebViewAttachedSheet(this);
-        StoryViewer lastStoryViewer = getLastStoryViewer();
-        if (lastStoryViewer != null) {
-            lastStoryViewer.listenToAttachedSheet(botWebViewAttachedSheet);
+        if (!z) {
+            if ((getLastSheet() instanceof ArticleViewer.Sheet) && getLastSheet().isShown()) {
+                return ((ArticleViewer.Sheet) getLastSheet()).getArticleViewer();
+            }
+            INavigationLayout iNavigationLayout = this.parentLayout;
+            if ((iNavigationLayout instanceof ActionBarLayout) && ((ActionBarLayout) iNavigationLayout).getSheetFragment(false) != null && (((ActionBarLayout) this.parentLayout).getSheetFragment(false).getLastSheet() instanceof ArticleViewer.Sheet)) {
+                ArticleViewer.Sheet sheet = (ArticleViewer.Sheet) ((ActionBarLayout) this.parentLayout).getSheetFragment(false).getLastSheet();
+                if (sheet.isShown()) {
+                    return sheet.getArticleViewer();
+                }
+            }
         }
-        this.sheetsStack.add(botWebViewAttachedSheet);
+        ArticleViewer makeSheet = ArticleViewer.makeSheet(this);
+        addSheet(makeSheet.sheet);
+        BottomSheetTabDialog.checkSheet(makeSheet.sheet);
+        return makeSheet;
+    }
+
+    public BotWebViewAttachedSheet createBotViewer() {
+        BotWebViewAttachedSheet botWebViewAttachedSheet = new BotWebViewAttachedSheet(this);
+        addSheet(botWebViewAttachedSheet);
+        BottomSheetTabDialog.checkSheet(botWebViewAttachedSheet);
         return botWebViewAttachedSheet;
     }
 }

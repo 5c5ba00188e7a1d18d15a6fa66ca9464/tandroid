@@ -14,10 +14,16 @@ public class KeyboardNotifier {
     private final Utilities.Callback<Integer> listener;
     private final ViewTreeObserver.OnGlobalLayoutListener onGlobalLayoutListener;
     private final View.OnLayoutChangeListener onLayoutChangeListener;
-    private final Rect rect = new Rect();
+    private View realRootView;
+    private final Rect rect;
     private final View rootView;
 
-    public KeyboardNotifier(final View view, Utilities.Callback<Integer> callback) {
+    public KeyboardNotifier(View view, Utilities.Callback<Integer> callback) {
+        this(view, false, callback);
+    }
+
+    public KeyboardNotifier(final View view, final boolean z, Utilities.Callback<Integer> callback) {
+        this.rect = new Rect();
         View.OnLayoutChangeListener onLayoutChangeListener = new View.OnLayoutChangeListener() { // from class: org.telegram.ui.Stories.recorder.KeyboardNotifier$$ExternalSyntheticLambda0
             @Override // android.view.View.OnLayoutChangeListener
             public final void onLayoutChange(View view2, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8) {
@@ -34,6 +40,7 @@ public class KeyboardNotifier {
         this.onGlobalLayoutListener = onGlobalLayoutListener;
         this.rootView = view;
         this.listener = callback;
+        this.realRootView = view;
         if (view.isAttachedToWindow()) {
             view.getViewTreeObserver().addOnGlobalLayoutListener(onGlobalLayoutListener);
             view.addOnLayoutChangeListener(onLayoutChangeListener);
@@ -41,6 +48,9 @@ public class KeyboardNotifier {
         view.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() { // from class: org.telegram.ui.Stories.recorder.KeyboardNotifier.1
             @Override // android.view.View.OnAttachStateChangeListener
             public void onViewAttachedToWindow(View view2) {
+                if (z) {
+                    KeyboardNotifier.this.realRootView = view2.getRootView();
+                }
                 view.getViewTreeObserver().addOnGlobalLayoutListener(KeyboardNotifier.this.onGlobalLayoutListener);
                 view.addOnLayoutChangeListener(KeyboardNotifier.this.onLayoutChangeListener);
             }
@@ -64,7 +74,11 @@ public class KeyboardNotifier {
             return;
         }
         this.rootView.getWindowVisibleDisplayFrame(this.rect);
-        int height = this.rootView.getHeight() - this.rect.bottom;
+        View view = this.realRootView;
+        if (view == null) {
+            view = this.rootView;
+        }
+        int height = view.getHeight() - this.rect.bottom;
         this.keyboardHeight = height;
         boolean z = this.lastKeyboardHeight != height;
         this.lastKeyboardHeight = height;

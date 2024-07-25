@@ -182,6 +182,9 @@ public class EntityView extends FrameLayout {
         return 0.0f;
     }
 
+    public void setIsVideo(boolean z) {
+    }
+
     public boolean trashCenter() {
         return false;
     }

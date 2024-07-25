@@ -1142,64 +1142,67 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
                 if (view instanceof SharedAudioCell) {
                     ((SharedAudioCell) view).didPressedButton();
                 }
-            } else if (i3 != 1) {
-                if (i3 == 2) {
-                    try {
-                        TLRPC$MessageMedia tLRPC$MessageMedia = messageObject.messageOwner.media;
-                        String str = null;
-                        TLRPC$WebPage tLRPC$WebPage = tLRPC$MessageMedia != null ? tLRPC$MessageMedia.webpage : null;
-                        if (tLRPC$WebPage != null && !(tLRPC$WebPage instanceof TLRPC$TL_webPageEmpty)) {
-                            if (tLRPC$WebPage.cached_page != null) {
-                                ArticleViewer.getInstance().setParentActivity(this.parentActivity, this.parentFragment);
-                                ArticleViewer.getInstance().open(messageObject);
-                                return;
-                            }
-                            String str2 = tLRPC$WebPage.embed_url;
-                            if (str2 != null && str2.length() != 0) {
-                                openWebView(tLRPC$WebPage, messageObject);
-                                return;
-                            }
-                            str = tLRPC$WebPage.url;
-                        }
-                        if (str == null) {
-                            str = ((SharedLinkCell) view).getLink(0);
-                        }
-                        if (str != null) {
-                            openUrl(str);
-                        }
-                    } catch (Exception e) {
-                        FileLog.e(e);
-                    }
-                }
-            } else if (view instanceof SharedDocumentCell) {
-                SharedDocumentCell sharedDocumentCell = (SharedDocumentCell) view;
-                TLRPC$Document document = messageObject.getDocument();
-                if (sharedDocumentCell.isLoaded()) {
-                    if (messageObject.canPreviewDocument()) {
-                        PhotoViewer.getInstance().setParentActivity(this.parentFragment);
-                        int indexOf = this.messages.indexOf(messageObject);
-                        if (indexOf < 0) {
-                            ArrayList<MessageObject> arrayList = new ArrayList<>();
-                            arrayList.add(messageObject);
+            } else if (i3 == 1) {
+                if (view instanceof SharedDocumentCell) {
+                    SharedDocumentCell sharedDocumentCell = (SharedDocumentCell) view;
+                    TLRPC$Document document = messageObject.getDocument();
+                    if (sharedDocumentCell.isLoaded()) {
+                        if (messageObject.canPreviewDocument()) {
                             PhotoViewer.getInstance().setParentActivity(this.parentFragment);
-                            PhotoViewer.getInstance().openPhoto(arrayList, 0, 0L, 0L, 0L, this.provider);
+                            int indexOf = this.messages.indexOf(messageObject);
+                            if (indexOf < 0) {
+                                ArrayList<MessageObject> arrayList = new ArrayList<>();
+                                arrayList.add(messageObject);
+                                PhotoViewer.getInstance().setParentActivity(this.parentFragment);
+                                PhotoViewer.getInstance().openPhoto(arrayList, 0, 0L, 0L, 0L, this.provider);
+                                this.photoViewerClassGuid = PhotoViewer.getInstance().getClassGuid();
+                                return;
+                            }
+                            PhotoViewer.getInstance().setParentActivity(this.parentFragment);
+                            PhotoViewer.getInstance().openPhoto(this.messages, indexOf, 0L, 0L, 0L, this.provider);
                             this.photoViewerClassGuid = PhotoViewer.getInstance().getClassGuid();
                             return;
                         }
-                        PhotoViewer.getInstance().setParentActivity(this.parentFragment);
-                        PhotoViewer.getInstance().openPhoto(this.messages, indexOf, 0L, 0L, 0L, this.provider);
-                        this.photoViewerClassGuid = PhotoViewer.getInstance().getClassGuid();
-                        return;
+                        AndroidUtilities.openDocument(messageObject, this.parentActivity, this.parentFragment);
+                    } else if (!sharedDocumentCell.isLoading()) {
+                        MessageObject message = sharedDocumentCell.getMessage();
+                        message.putInDownloadsStore = true;
+                        AccountInstance.getInstance(UserConfig.selectedAccount).getFileLoader().loadFile(document, message, 0, 0);
+                        sharedDocumentCell.updateFileExistIcon(true);
+                    } else {
+                        AccountInstance.getInstance(UserConfig.selectedAccount).getFileLoader().cancelLoadFile(document);
+                        sharedDocumentCell.updateFileExistIcon(true);
                     }
-                    AndroidUtilities.openDocument(messageObject, this.parentActivity, this.parentFragment);
-                } else if (!sharedDocumentCell.isLoading()) {
-                    MessageObject message = sharedDocumentCell.getMessage();
-                    message.putInDownloadsStore = true;
-                    AccountInstance.getInstance(UserConfig.selectedAccount).getFileLoader().loadFile(document, message, 0, 0);
-                    sharedDocumentCell.updateFileExistIcon(true);
-                } else {
-                    AccountInstance.getInstance(UserConfig.selectedAccount).getFileLoader().cancelLoadFile(document);
-                    sharedDocumentCell.updateFileExistIcon(true);
+                }
+            } else if (i3 == 2) {
+                try {
+                    TLRPC$MessageMedia tLRPC$MessageMedia = messageObject.messageOwner.media;
+                    String str = null;
+                    TLRPC$WebPage tLRPC$WebPage = tLRPC$MessageMedia != null ? tLRPC$MessageMedia.webpage : null;
+                    if (tLRPC$WebPage != null && !(tLRPC$WebPage instanceof TLRPC$TL_webPageEmpty)) {
+                        if (tLRPC$WebPage.cached_page != null) {
+                            LaunchActivity launchActivity = LaunchActivity.instance;
+                            if (launchActivity == null || launchActivity.getBottomSheetTabs() == null || LaunchActivity.instance.getBottomSheetTabs().tryReopenTab(messageObject) == null) {
+                                this.parentFragment.createArticleViewer(false).open(messageObject);
+                                return;
+                            }
+                            return;
+                        }
+                        String str2 = tLRPC$WebPage.embed_url;
+                        if (str2 != null && str2.length() != 0) {
+                            openWebView(tLRPC$WebPage, messageObject);
+                            return;
+                        }
+                        str = tLRPC$WebPage.url;
+                    }
+                    if (str == null) {
+                        str = ((SharedLinkCell) view).getLink(0);
+                    }
+                    if (str != null) {
+                        openUrl(str);
+                    }
+                } catch (Exception e) {
+                    FileLog.e(e);
                 }
             }
         }

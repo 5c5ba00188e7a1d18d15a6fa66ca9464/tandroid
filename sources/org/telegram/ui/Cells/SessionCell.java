@@ -318,7 +318,7 @@ public class SessionCell extends FrameLayout {
         }
     }
 
-    public static Drawable createDrawable(int i, String str) {
+    public static CombinedDrawable createDrawable(int i, String str) {
         TLRPC$TL_authorization tLRPC$TL_authorization = new TLRPC$TL_authorization();
         tLRPC$TL_authorization.device_model = str;
         tLRPC$TL_authorization.platform = str;
@@ -326,7 +326,7 @@ public class SessionCell extends FrameLayout {
         return createDrawable(i, tLRPC$TL_authorization);
     }
 
-    public static Drawable createDrawable(int i, TLRPC$TL_authorization tLRPC$TL_authorization) {
+    public static CombinedDrawable createDrawable(int i, TLRPC$TL_authorization tLRPC$TL_authorization) {
         int i2;
         int i3;
         int i4;

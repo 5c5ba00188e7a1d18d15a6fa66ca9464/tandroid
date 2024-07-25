@@ -167,7 +167,7 @@ public class NotificationPermissionDialog extends BottomSheet implements Notific
         super.onDismissWithTouchOutside();
     }
 
-    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface
+    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
     public void dismiss() {
         super.dismiss();
         Utilities.Callback<Boolean> callback = this.whenGranted;

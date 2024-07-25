@@ -54,7 +54,7 @@ public class Emoji {
 
     /* loaded from: classes3.dex */
     public static abstract class EmojiDrawable extends Drawable {
-        boolean fullSize = false;
+        public boolean fullSize = false;
         int placeholderColor = 268435456;
 
         public boolean isLoaded() {

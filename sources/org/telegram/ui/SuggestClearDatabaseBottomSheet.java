@@ -103,7 +103,7 @@ public class SuggestClearDatabaseBottomSheet extends BottomSheet {
         baseFragment.getMessagesStorage().clearLocalDatabase();
     }
 
-    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface
+    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
     public void dismiss() {
         super.dismiss();
         dialog = null;

@@ -1099,7 +1099,7 @@ public class ThemeEditorView {
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$2(View view) {
             Theme.saveCurrentTheme(ThemeEditorView.this.themeInfo, true, false, false);
-            setOnDismissListener(null);
+            setOnDismissListener((DialogInterface.OnDismissListener) null);
             dismiss();
             ThemeEditorView.this.close();
         }

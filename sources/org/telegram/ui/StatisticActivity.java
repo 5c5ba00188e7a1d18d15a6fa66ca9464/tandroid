@@ -184,6 +184,7 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
     private BaseChartView.SharedUiComponents sharedUi;
     private final Runnable showProgressbar;
     private boolean startFromBoosts;
+    private boolean startFromMonetization;
     private StoriesController.StoriesList storiesList;
     private int storiesListId;
     private ChartViewData storyInteractionsData;
@@ -246,6 +247,7 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
         this.chatId = j;
         this.isMegagroup = bundle.getBoolean("is_megagroup", false);
         this.startFromBoosts = bundle.getBoolean("start_from_boosts", false);
+        this.startFromMonetization = bundle.getBoolean("start_from_monetization", false);
         this.onlyBoostsStat = bundle.getBoolean("only_boosts", false);
         this.chat = getMessagesController().getChatFull(j);
     }
@@ -620,16 +622,16 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x0116  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x011b  */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x0127  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x0216  */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x02a0  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x02a5  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x02cc  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x02cf  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x032b  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x0343  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x011a  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x011f  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x012b  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x021a  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x02a4  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x02a9  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x02d0  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x02d3  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x032f  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x0347  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -743,7 +745,7 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
         boolean z6 = isBoostSupported && !this.onlyBoostsStat;
         if (z6 && this.startFromBoosts) {
             this.viewPagerFixed.setPosition(i);
-        } else if (z6) {
+        } else if (z6 && this.startFromMonetization) {
             bottomPagerTabs2 = bottomPagerTabs;
             bottomPagerTabs2.setProgress(((this.onlyBoostsStat || !isBoostSupported) ? 0 : 1) + i);
             this.viewPagerFixed.setPosition(i + ((this.onlyBoostsStat || !isBoostSupported) ? 0 : 1));

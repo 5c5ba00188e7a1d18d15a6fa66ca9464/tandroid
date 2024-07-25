@@ -84,7 +84,7 @@ public class LocationView extends EntityView {
 
     public LocationView(Context context, Point point, int i, TLRPC$MessageMedia tLRPC$MessageMedia, TL_stories$MediaArea tL_stories$MediaArea, float f, int i2, int i3, int i4) {
         super(context, point);
-        LocationMarker locationMarker = new LocationMarker(context, f, 0);
+        LocationMarker locationMarker = new LocationMarker(context, 0, f, 0);
         this.marker = locationMarker;
         locationMarker.setMaxWidth(i2);
         setLocation(i, tLRPC$MessageMedia, tL_stories$MediaArea);
@@ -112,7 +112,7 @@ public class LocationView extends EntityView {
         } else {
             str = "";
         }
-        this.marker.setCountryCodeEmoji(i, str2);
+        this.marker.setCodeEmoji(i, str2);
         this.marker.setText(str);
         updateSelectionView();
     }
@@ -144,6 +144,10 @@ public class LocationView extends EntityView {
         this.currentType = i;
         this.currentColor = i2;
         locationMarker.setType(i, i2);
+    }
+
+    public int getTypesCount() {
+        return this.marker.getTypesCount();
     }
 
     public void setColor(int i) {

@@ -1,19 +1,19 @@
 package com.android.billingclient.api;
 
 import com.google.android.gms.internal.play_billing.zzb;
-/* compiled from: com.android.billingclient:billing@@5.1.0 */
+/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public final class BillingResult {
     private int zza;
     private String zzb;
 
-    /* compiled from: com.android.billingclient:billing@@5.1.0 */
+    /* compiled from: com.android.billingclient:billing@@6.0.1 */
     /* loaded from: classes.dex */
     public static class Builder {
         private int zza;
         private String zzb = "";
 
-        /* synthetic */ Builder(zzbb zzbbVar) {
+        /* synthetic */ Builder(zzas zzasVar) {
         }
 
         public BillingResult build() {
@@ -38,13 +38,17 @@ public final class BillingResult {
         return new Builder(null);
     }
 
+    public String getDebugMessage() {
+        return this.zzb;
+    }
+
     public int getResponseCode() {
         return this.zza;
     }
 
     public String toString() {
-        String zzl = zzb.zzl(this.zza);
+        String zzg = zzb.zzg(this.zza);
         String str = this.zzb;
-        return "Response Code: " + zzl + ", Debug Message: " + str;
+        return "Response Code: " + zzg + ", Debug Message: " + str;
     }
 }

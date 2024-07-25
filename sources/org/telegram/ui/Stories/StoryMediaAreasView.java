@@ -44,6 +44,7 @@ import org.telegram.tgnet.tl.TL_stories$TL_mediaAreaGeoPoint;
 import org.telegram.tgnet.tl.TL_stories$TL_mediaAreaSuggestedReaction;
 import org.telegram.tgnet.tl.TL_stories$TL_mediaAreaUrl;
 import org.telegram.tgnet.tl.TL_stories$TL_mediaAreaVenue;
+import org.telegram.tgnet.tl.TL_stories$TL_mediaAreaWeather;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ChatActivity;
@@ -52,12 +53,15 @@ import org.telegram.ui.Components.ButtonBounce;
 import org.telegram.ui.Components.ColoredImageSpan;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
+import org.telegram.ui.Components.Paint.Views.LocationMarker;
 import org.telegram.ui.Components.ScaleStateListAnimator;
+import org.telegram.ui.Components.Shaker$$ExternalSyntheticLambda0;
 import org.telegram.ui.EmojiAnimationsOverlay;
 import org.telegram.ui.LocationActivity;
 import org.telegram.ui.Stories.StoryMediaAreasView;
 import org.telegram.ui.Stories.recorder.HintView2;
 import org.telegram.ui.Stories.recorder.StoryEntry;
+import org.telegram.ui.Stories.recorder.Weather;
 /* loaded from: classes4.dex */
 public class StoryMediaAreasView extends FrameLayout implements View.OnClickListener {
     private final Path clipPath;
@@ -175,6 +179,18 @@ public class StoryMediaAreasView extends FrameLayout implements View.OnClickList
                     }
                     ScaleStateListAnimator.apply(storyReactionWidgetView2);
                     storyReactionWidgetView = storyReactionWidgetView2;
+                } else if (tL_stories$MediaArea instanceof TL_stories$TL_mediaAreaWeather) {
+                    TL_stories$TL_mediaAreaWeather tL_stories$TL_mediaAreaWeather = (TL_stories$TL_mediaAreaWeather) tL_stories$MediaArea;
+                    Weather.State state = new Weather.State();
+                    state.emoji = tL_stories$TL_mediaAreaWeather.emoji;
+                    state.temperature = (float) tL_stories$TL_mediaAreaWeather.temperature_c;
+                    LocationMarker locationMarker = new LocationMarker(getContext(), 1, AndroidUtilities.density, 0);
+                    locationMarker.setMaxWidth(AndroidUtilities.displaySize.x);
+                    locationMarker.setIsVideo(true);
+                    locationMarker.setCodeEmoji(UserConfig.selectedAccount, state.getEmoji());
+                    locationMarker.setText(state.getTemperature());
+                    locationMarker.setType(0, tL_stories$TL_mediaAreaWeather.color);
+                    storyReactionWidgetView = new FitViewWidget(getContext(), locationMarker, tL_stories$MediaArea);
                 } else {
                     storyReactionWidgetView = new AreaView(getContext(), this.parentView, tL_stories$MediaArea);
                 }
@@ -206,6 +222,14 @@ public class StoryMediaAreasView extends FrameLayout implements View.OnClickList
                 double d2 = size2;
                 Double.isNaN(d2);
                 areaView.measure(makeMeasureSpec, View.MeasureSpec.makeMeasureSpec((int) Math.ceil((areaView.mediaArea.coordinates.h / 100.0d) * d2), 1073741824));
+            } else if (childAt instanceof FitViewWidget) {
+                FitViewWidget fitViewWidget = (FitViewWidget) getChildAt(i3);
+                double d3 = size;
+                Double.isNaN(d3);
+                int makeMeasureSpec2 = View.MeasureSpec.makeMeasureSpec((int) Math.ceil((fitViewWidget.mediaArea.coordinates.w / 100.0d) * d3), 1073741824);
+                double d4 = size2;
+                Double.isNaN(d4);
+                fitViewWidget.measure(makeMeasureSpec2, View.MeasureSpec.makeMeasureSpec((int) Math.ceil((fitViewWidget.mediaArea.coordinates.h / 100.0d) * d4), 1073741824));
             }
         }
         setMeasuredDimension(size, size2);
@@ -506,6 +530,18 @@ public class StoryMediaAreasView extends FrameLayout implements View.OnClickList
                 Double.isNaN(measuredHeight2);
                 areaView.setTranslationY((float) ((areaView.mediaArea.coordinates.y / 100.0d) * measuredHeight2));
                 areaView.setRotation((float) areaView.mediaArea.coordinates.rotation);
+            } else if (childAt instanceof FitViewWidget) {
+                FitViewWidget fitViewWidget = (FitViewWidget) childAt;
+                int measuredWidth3 = fitViewWidget.getMeasuredWidth();
+                int measuredHeight3 = fitViewWidget.getMeasuredHeight();
+                fitViewWidget.layout((-measuredWidth3) / 2, (-measuredHeight3) / 2, measuredWidth3 / 2, measuredHeight3 / 2);
+                double measuredWidth4 = getMeasuredWidth();
+                Double.isNaN(measuredWidth4);
+                fitViewWidget.setTranslationX((float) ((fitViewWidget.mediaArea.coordinates.x / 100.0d) * measuredWidth4));
+                double measuredHeight4 = getMeasuredHeight();
+                Double.isNaN(measuredHeight4);
+                fitViewWidget.setTranslationY((float) ((fitViewWidget.mediaArea.coordinates.y / 100.0d) * measuredHeight4));
+                fitViewWidget.setRotation((float) fitViewWidget.mediaArea.coordinates.rotation);
             }
         }
     }
@@ -754,7 +790,7 @@ public class StoryMediaAreasView extends FrameLayout implements View.OnClickList
                     ButtonBounce buttonBounce = this.bounce;
                     View view = (View) getParent();
                     Objects.requireNonNull(view);
-                    buttonBounce.setAdditionalInvalidate(new StoriesUtilities$StoryGradientTools$$ExternalSyntheticLambda0(view));
+                    buttonBounce.setAdditionalInvalidate(new Shaker$$ExternalSyntheticLambda0(view));
                 }
                 this.bounce.setPressed(true);
                 if (Build.VERSION.SDK_INT >= 21) {
@@ -855,6 +891,46 @@ public class StoryMediaAreasView extends FrameLayout implements View.OnClickList
                 this.strokeGradient = new LinearGradient(0.0f, 0.0f, 40.0f, 0.0f, new int[]{16777215, 553648127, 553648127, 16777215}, new float[]{0.0f, 0.4f, 0.6f, 1.0f}, Shader.TileMode.CLAMP);
                 invalidate();
             }
+        }
+    }
+
+    /* loaded from: classes4.dex */
+    public static class FitViewWidget extends FrameLayout {
+        public final View child;
+        public final TL_stories$MediaArea mediaArea;
+
+        public FitViewWidget(Context context, View view, TL_stories$MediaArea tL_stories$MediaArea) {
+            super(context);
+            this.mediaArea = tL_stories$MediaArea;
+            this.child = view;
+            addView(view);
+        }
+
+        @Override // android.widget.FrameLayout, android.view.View
+        protected void onMeasure(int i, int i2) {
+            View view;
+            View view2;
+            View view3;
+            View view4;
+            this.child.measure(i, i2);
+            int measuredWidth = (this.child.getMeasuredWidth() - this.child.getPaddingLeft()) - this.child.getPaddingRight();
+            int measuredHeight = (this.child.getMeasuredHeight() - this.child.getPaddingTop()) - this.child.getPaddingBottom();
+            float f = measuredWidth;
+            float f2 = f / 2.0f;
+            this.child.setPivotX(view.getPaddingLeft() + f2);
+            float f3 = measuredHeight;
+            float f4 = f3 / 2.0f;
+            this.child.setPivotY(view2.getPaddingTop() + f4);
+            int size = View.MeasureSpec.getSize(i);
+            int size2 = View.MeasureSpec.getSize(i2);
+            setMeasuredDimension(size, size2);
+            float f5 = size;
+            float f6 = size2;
+            float min = Math.min(f5 / f, f6 / f3);
+            this.child.setTranslationX((f5 / 2.0f) - (f2 + view3.getPaddingLeft()));
+            this.child.setTranslationY((f6 / 2.0f) - (f4 + view4.getPaddingTop()));
+            this.child.setScaleX(min);
+            this.child.setScaleY(min);
         }
     }
 }

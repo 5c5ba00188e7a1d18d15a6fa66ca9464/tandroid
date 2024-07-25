@@ -16,7 +16,7 @@ final class SessionDescriptionParser {
     private static final Pattern ATTRIBUTE_PATTERN = Pattern.compile("([\\x21\\x23-\\x27\\x2a\\x2b\\x2d\\x2e\\x30-\\x39\\x41-\\x5a\\x5e-\\x7e]+)(?::(.*))?");
     private static final Pattern MEDIA_DESCRIPTION_PATTERN = Pattern.compile("(\\S+)\\s(\\S+)\\s(\\S+)\\s(\\S+)");
 
-    /* JADX WARN: Code restructure failed: missing block: B:135:0x01b3, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:135:0x01b4, code lost:
         continue;
      */
     /*

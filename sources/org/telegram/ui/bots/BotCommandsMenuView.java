@@ -23,8 +23,8 @@ import org.telegram.messenger.Emoji;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
-import org.telegram.tgnet.TLRPC$BotInfo;
 import org.telegram.tgnet.TLRPC$TL_botCommand;
+import org.telegram.tgnet.tl.TL_bots$BotInfo;
 import org.telegram.ui.ActionBar.MenuDrawable;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.CubicBezierInterpolator;
@@ -315,11 +315,11 @@ public class BotCommandsMenuView extends View {
             return this.newResult.size();
         }
 
-        public void setBotInfo(LongSparseArray<TLRPC$BotInfo> longSparseArray) {
+        public void setBotInfo(LongSparseArray<TL_bots$BotInfo> longSparseArray) {
             this.newResult.clear();
             this.newResultHelp.clear();
             for (int i = 0; i < longSparseArray.size(); i++) {
-                TLRPC$BotInfo valueAt = longSparseArray.valueAt(i);
+                TL_bots$BotInfo valueAt = longSparseArray.valueAt(i);
                 for (int i2 = 0; i2 < valueAt.commands.size(); i2++) {
                     TLRPC$TL_botCommand tLRPC$TL_botCommand = valueAt.commands.get(i2);
                     if (tLRPC$TL_botCommand != null && tLRPC$TL_botCommand.command != null) {

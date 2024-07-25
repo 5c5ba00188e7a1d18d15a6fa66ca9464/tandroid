@@ -1065,6 +1065,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
 
     public void updateSubtitle(boolean z) {
         String string;
+        int i;
         ChatActivity chatActivity = this.parentFragment;
         if (chatActivity == null) {
             return;
@@ -1133,8 +1134,8 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
                 ChatActivity chatActivity2 = this.parentFragment;
                 if (chatActivity2.isTopic && currentChat != null) {
                     TLRPC$TL_forumTopic findTopic = MessagesController.getInstance(this.currentAccount).getTopicsController().findTopic(currentChat.id, this.parentFragment.getTopicId());
-                    int i = findTopic != null ? findTopic.totalMessagesCount - 1 : 0;
-                    string = i > 0 ? LocaleController.formatPluralString("messages", i, Integer.valueOf(i)) : LocaleController.formatString("TopicProfileStatus", R.string.TopicProfileStatus, currentChat.title);
+                    int i2 = findTopic != null ? findTopic.totalMessagesCount - 1 : 0;
+                    string = i2 > 0 ? LocaleController.formatPluralString("messages", i2, Integer.valueOf(i2)) : LocaleController.formatString("TopicProfileStatus", R.string.TopicProfileStatus, currentChat.title);
                 } else if (currentChat != null) {
                     str = getChatSubtitle(currentChat, chatActivity2.getCurrentChatInfo(), this.onlineCount);
                 } else if (currentUser != null) {
@@ -1151,13 +1152,18 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
                                 string = LocaleController.getString("ServiceNotifications", R.string.ServiceNotifications);
                             } else if (MessagesController.isSupportUser(currentUser)) {
                                 string = LocaleController.getString("SupportStatus", R.string.SupportStatus);
-                            } else if (currentUser.bot) {
-                                string = LocaleController.getString("Bot", R.string.Bot);
                             } else {
-                                boolean[] zArr = this.isOnline;
-                                zArr[0] = false;
-                                str = LocaleController.formatUserStatus(this.currentAccount, currentUser, zArr, this.allowShorterStatus ? this.statusMadeShorter : null);
-                                z2 = this.isOnline[0];
+                                boolean z3 = currentUser.bot;
+                                if (z3 && (i = currentUser.bot_active_users) != 0) {
+                                    string = LocaleController.formatPluralStringComma("BotDAU", i, ',');
+                                } else if (z3) {
+                                    string = LocaleController.getString("Bot", R.string.Bot);
+                                } else {
+                                    boolean[] zArr = this.isOnline;
+                                    zArr[0] = false;
+                                    str = LocaleController.formatUserStatus(this.currentAccount, currentUser, zArr, this.allowShorterStatus ? this.statusMadeShorter : null);
+                                    z2 = this.isOnline[0];
+                                }
                             }
                         }
                     }

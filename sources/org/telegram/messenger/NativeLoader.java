@@ -50,8 +50,8 @@ public class NativeLoader {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x00c9 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x00d3 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x00ca A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x00d4 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r2v2 */
     /* JADX WARN: Type inference failed for: r2v4, types: [java.util.zip.ZipFile] */
     /* JADX WARN: Type inference failed for: r2v7, types: [int] */
@@ -161,9 +161,9 @@ public class NativeLoader {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:29:0x007a A[Catch: all -> 0x001c, TryCatch #5 {, blocks: (B:4:0x0003, B:35:0x00c3, B:38:0x00cc, B:9:0x000a, B:11:0x0015, B:17:0x0020, B:19:0x0051, B:21:0x0055, B:22:0x005a, B:27:0x0076, B:29:0x007a, B:30:0x00a9, B:26:0x0066), top: B:50:0x0003 }] */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x00b0 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x00c3 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x007b A[Catch: all -> 0x001d, TryCatch #1 {, blocks: (B:4:0x0003, B:35:0x00c4, B:38:0x00ce, B:9:0x000a, B:11:0x0016, B:17:0x0021, B:19:0x0052, B:21:0x0056, B:22:0x005b, B:27:0x0077, B:29:0x007b, B:30:0x00aa, B:26:0x0067), top: B:44:0x0003, inners: #2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x00b1 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x00c4 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     @SuppressLint({"UnsafeDynamicallyLoadedCode"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -204,28 +204,30 @@ public class NativeLoader {
                         FileLog.e(e2);
                         file2.delete();
                         if (BuildVars.LOGS_ENABLED) {
+                            FileLog.e("Library not found, arch = " + abiFolder);
+                            StringBuilder sb3 = log;
+                            sb3.append("Library not found, arch = " + abiFolder);
+                            sb3.append("\n");
                         }
                         if (loadFromZip(context, file, file2, abiFolder)) {
+                            try {
+                                System.loadLibrary(LIB_NAME);
+                                nativeLoaded = true;
+                            } catch (Error e3) {
+                                FileLog.e(e3);
+                                StringBuilder sb4 = log;
+                                sb4.append("184: ");
+                                sb4.append(e3);
+                                sb4.append("\n");
+                            }
+                            return;
                         }
+                        return;
                     }
                 }
                 if (BuildVars.LOGS_ENABLED) {
-                    FileLog.e("Library not found, arch = " + abiFolder);
-                    StringBuilder sb3 = log;
-                    sb3.append("Library not found, arch = " + abiFolder);
-                    sb3.append("\n");
                 }
                 if (loadFromZip(context, file, file2, abiFolder)) {
-                    try {
-                        System.loadLibrary(LIB_NAME);
-                        nativeLoaded = true;
-                    } catch (Error e3) {
-                        FileLog.e(e3);
-                        StringBuilder sb4 = log;
-                        sb4.append("184: ");
-                        sb4.append(e3);
-                        sb4.append("\n");
-                    }
                 }
             }
         }

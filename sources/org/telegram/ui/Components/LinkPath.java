@@ -6,7 +6,6 @@ import android.graphics.RectF;
 import android.os.Build;
 import android.text.Layout;
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.LiteMode;
 /* loaded from: classes3.dex */
 public class LinkPath extends CornerPath {
     private static CornerPathEffect roundedEffect;
@@ -137,7 +136,7 @@ public class LinkPath extends CornerPath {
                     float f12 = f7;
                     this.centerX = (f11 + f10) / 2.0f;
                     this.centerY = (f12 + f6) / 2.0f;
-                    if (this.useRoundRect && LiteMode.isEnabled(LiteMode.FLAGS_CHAT)) {
+                    if (this.useRoundRect) {
                         superAddRect(f10 - (getRadius() / 2.0f), f6, f11 + (getRadius() / 2.0f), f12, direction);
                     } else {
                         superAddRect(f10, f6, f11, f12, direction);

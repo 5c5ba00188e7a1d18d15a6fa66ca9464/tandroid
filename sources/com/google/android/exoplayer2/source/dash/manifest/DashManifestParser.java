@@ -80,10 +80,10 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:78:0x01bf  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x01df  */
-    /* JADX WARN: Removed duplicated region for block: B:82:0x01e6 A[LOOP:0: B:25:0x00a4->B:82:0x01e6, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x01a2 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x01c0  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x01e0  */
+    /* JADX WARN: Removed duplicated region for block: B:82:0x01e7 A[LOOP:0: B:25:0x00a5->B:82:0x01e7, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:84:0x01a3 A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

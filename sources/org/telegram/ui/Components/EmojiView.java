@@ -4580,7 +4580,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                 EmojiView.this = this;
             }
 
-            @Override // org.telegram.ui.Components.EmojiPacksAlert, org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface
+            @Override // org.telegram.ui.Components.EmojiPacksAlert, org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
             public void dismiss() {
                 EmojiView.this.emojiPackAlertOpened = false;
                 super.dismiss();
@@ -7303,7 +7303,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                     int dp = AndroidUtilities.dp(28.0f);
                     EmojiView emojiView2 = EmojiView.this;
                     int i2 = Theme.key_chat_emojiPanelIcon;
-                    Drawable createRoundRectDrawable = Theme.createRoundRectDrawable(dp, Theme.multAlpha(emojiView2.getThemedColor(i2), 0.12f));
+                    ShapeDrawable createRoundRectDrawable = Theme.createRoundRectDrawable(dp, Theme.multAlpha(emojiView2.getThemedColor(i2), 0.12f));
                     Drawable mutate = EmojiView.this.getResources().getDrawable(R.drawable.filled_add_sticker).mutate();
                     mutate.setColorFilter(new PorterDuffColorFilter(EmojiView.this.getThemedColor(i2), PorterDuff.Mode.MULTIPLY));
                     CombinedDrawable combinedDrawable = new CombinedDrawable(createRoundRectDrawable, mutate);

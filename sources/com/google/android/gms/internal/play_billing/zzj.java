@@ -2,7 +2,7 @@ package com.google.android.gms.internal.play_billing;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-/* compiled from: com.android.billingclient:billing@@5.1.0 */
+/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public final class zzj {
     static {
@@ -19,7 +19,7 @@ public final class zzj {
         return (Parcelable) creator.createFromParcel(parcel);
     }
 
-    public static void zzc(Parcel parcel, Parcelable parcelable) {
+    public static void zzb(Parcel parcel, Parcelable parcelable) {
         parcel.writeInt(1);
         parcelable.writeToParcel(parcel, 0);
     }

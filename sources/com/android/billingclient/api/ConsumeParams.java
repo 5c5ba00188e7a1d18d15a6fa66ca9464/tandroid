@@ -1,15 +1,15 @@
 package com.android.billingclient.api;
-/* compiled from: com.android.billingclient:billing@@5.1.0 */
+/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public final class ConsumeParams {
     private String zza;
 
-    /* compiled from: com.android.billingclient:billing@@5.1.0 */
+    /* compiled from: com.android.billingclient:billing@@6.0.1 */
     /* loaded from: classes.dex */
     public static final class Builder {
         private String zza;
 
-        /* synthetic */ Builder(zzbd zzbdVar) {
+        /* synthetic */ Builder(zzau zzauVar) {
         }
 
         public ConsumeParams build() {
@@ -28,7 +28,7 @@ public final class ConsumeParams {
         }
     }
 
-    /* synthetic */ ConsumeParams(zzbe zzbeVar) {
+    /* synthetic */ ConsumeParams(zzav zzavVar) {
     }
 
     public static Builder newBuilder() {

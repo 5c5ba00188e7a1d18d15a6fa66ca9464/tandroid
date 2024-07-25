@@ -4,7 +4,7 @@ import android.os.IBinder;
 import android.os.IInterface;
 import android.os.Parcel;
 import android.os.RemoteException;
-/* compiled from: com.android.billingclient:billing@@5.1.0 */
+/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public class zzh implements IInterface {
     private final IBinder zza;
@@ -21,14 +21,14 @@ public class zzh implements IInterface {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public final Parcel zzo() {
+    public final Parcel zzn() {
         Parcel obtain = Parcel.obtain();
         obtain.writeInterfaceToken(this.zzb);
         return obtain;
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public final Parcel zzp(int i, Parcel parcel) throws RemoteException {
+    public final Parcel zzo(int i, Parcel parcel) throws RemoteException {
         Parcel obtain = Parcel.obtain();
         try {
             try {

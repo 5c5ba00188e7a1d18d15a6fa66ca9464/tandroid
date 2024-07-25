@@ -2,6 +2,7 @@ package org.telegram.tgnet;
 
 import org.telegram.messenger.FileLoaderPriorityQueue;
 import org.telegram.messenger.LiteMode;
+import org.telegram.tgnet.tl.TL_bots$BotInfo;
 import org.telegram.tgnet.tl.TL_stories$PeerStories;
 /* loaded from: classes3.dex */
 public class TLRPC$TL_channelFull extends TLRPC$ChatFull {
@@ -63,7 +64,7 @@ public class TLRPC$TL_channelFull extends TLRPC$ChatFull {
         }
         int readInt324 = abstractSerializedData.readInt32(z);
         for (int i = 0; i < readInt324; i++) {
-            TLRPC$BotInfo TLdeserialize = TLRPC$BotInfo.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+            TL_bots$BotInfo TLdeserialize = TL_bots$BotInfo.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
             if (TLdeserialize == null) {
                 return;
             }

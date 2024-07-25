@@ -48,7 +48,7 @@ public class LinkPreview extends View {
     private float descriptionLayoutLeft;
     private float descriptionLayoutWidth;
     private final TextPaint descriptionPaint;
-    private float h;
+    public float h;
     private boolean hasDescription;
     public boolean hasPhoto;
     private boolean hasSiteName;
@@ -86,7 +86,7 @@ public class LinkPreview extends View {
     private Text titleText;
     public int type;
     private boolean video;
-    private float w;
+    public float w;
     private WebPagePreview webpage;
     private final AnimatedFloat width;
 
@@ -138,7 +138,7 @@ public class LinkPreview extends View {
         this.video = true;
     }
 
-    private void setupLayout() {
+    public void setupLayout() {
         WebPagePreview webPagePreview;
         double d;
         int color1;

@@ -5,31 +5,28 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.RandomAccess;
-/* compiled from: com.android.billingclient:billing@@5.1.0 */
+/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public abstract class zzu extends zzr implements List, RandomAccess {
     private static final zzai zza = new zzs(zzaa.zza, 0);
+    public static final /* synthetic */ int zzd = 0;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzu zzi(Object[] objArr) {
-        return zzj(objArr, objArr.length);
-    }
-
-    static zzu zzj(Object[] objArr, int i) {
+    public static zzu zzi(Object[] objArr, int i) {
         if (i == 0) {
             return zzaa.zza;
         }
         return new zzaa(objArr, i);
     }
 
-    public static zzu zzk(Collection collection) {
+    public static zzu zzj(Collection collection) {
         if (collection instanceof zzr) {
-            zzu zzd = ((zzr) collection).zzd();
-            if (zzd.zzf()) {
-                Object[] array = zzd.toArray();
-                return zzj(array, array.length);
+            zzu zzd2 = ((zzr) collection).zzd();
+            if (zzd2.zzf()) {
+                Object[] array = zzd2.toArray();
+                return zzi(array, array.length);
             }
-            return zzd;
+            return zzd2;
         }
         Object[] array2 = collection.toArray();
         int length = array2.length;
@@ -38,10 +35,10 @@ public abstract class zzu extends zzr implements List, RandomAccess {
                 throw new NullPointerException("at index " + i);
             }
         }
-        return zzj(array2, length);
+        return zzi(array2, length);
     }
 
-    public static zzu zzl() {
+    public static zzu zzk() {
         return zzaa.zza;
     }
 
@@ -193,7 +190,7 @@ public abstract class zzu extends zzr implements List, RandomAccess {
     }
 
     @Override // java.util.List
-    /* renamed from: zzm */
+    /* renamed from: zzl */
     public final zzai listIterator(int i) {
         zzm.zzb(i, size(), "index");
         return isEmpty() ? zza : new zzs(this, i);

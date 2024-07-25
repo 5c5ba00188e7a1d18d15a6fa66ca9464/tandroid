@@ -165,8 +165,9 @@ public class StickerCutOutBtn extends ButtonWithCounterView {
         this.wrapContent = true;
     }
 
-    @Override // android.widget.FrameLayout, android.view.View
-    protected void onMeasure(int i, int i2) {
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // org.telegram.ui.Stories.recorder.ButtonWithCounterView, android.widget.FrameLayout, android.view.View
+    public void onMeasure(int i, int i2) {
         if (this.wrapContent) {
             i = View.MeasureSpec.makeMeasureSpec(getPaddingLeft() + ((int) this.text.getCurrentWidth()) + getPaddingRight(), 1073741824);
         }

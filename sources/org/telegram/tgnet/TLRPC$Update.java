@@ -2,6 +2,7 @@ package org.telegram.tgnet;
 
 import java.util.ArrayList;
 import org.telegram.messenger.ApplicationLoader;
+import org.telegram.tgnet.tl.TL_bots$TL_updateBotMenuButton;
 import org.telegram.tgnet.tl.TL_stories$TL_updateReadStories;
 import org.telegram.tgnet.tl.TL_stories$TL_updateStoriesStealthMode;
 import org.telegram.tgnet.tl.TL_stories$TL_updateStory;
@@ -391,7 +392,7 @@ public abstract class TLRPC$Update extends TLObject {
                 tLRPC$TL_updateTheme = new TLRPC$TL_updateGroupCall();
                 break;
             case 347625491:
-                tLRPC$TL_updateTheme = new TLRPC$TL_updateBotMenuButton();
+                tLRPC$TL_updateTheme = new TL_bots$TL_updateBotMenuButton();
                 break;
             case 361936797:
                 tLRPC$TL_updateTheme = new TLRPC$TL_updateWebViewResultSent();

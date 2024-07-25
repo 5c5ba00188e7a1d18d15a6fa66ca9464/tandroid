@@ -140,7 +140,7 @@ public class UserObject {
         if (str == null) {
             return LocaleController.getString(R.string.HiddenName);
         }
-        int indexOf = str.indexOf(" ");
+        int indexOf = str.indexOf(" ", 2);
         return indexOf >= 0 ? str.substring(0, indexOf) : str;
     }
 

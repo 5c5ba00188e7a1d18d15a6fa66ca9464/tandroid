@@ -87,6 +87,7 @@ public class PreviewView extends FrameLayout {
     private StoryEntry entry;
     public TextureView filterTextureView;
     private Matrix finalMatrix;
+    private long finalSeekPosition;
     private int gradientBottom;
     private final Paint gradientPaint;
     private int gradientTop;
@@ -110,6 +111,7 @@ public class PreviewView extends FrameLayout {
     private int roundPlayerWidth;
     private RoundView roundView;
     private long seekedLastTime;
+    private Runnable slowerSeek;
     private final Paint snapPaint;
     private boolean snappedRotation;
     private long tapTime;
@@ -137,6 +139,9 @@ public class PreviewView extends FrameLayout {
     protected void invalidateTextureViewHolder() {
     }
 
+    public void onAudioChanged() {
+    }
+
     public void onEntityDraggedBottom(boolean z) {
     }
 
@@ -153,22 +158,28 @@ public class PreviewView extends FrameLayout {
         super(context);
         Paint paint = new Paint(1);
         this.snapPaint = paint;
-        this.updateProgressRunnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.PreviewView$$ExternalSyntheticLambda0
+        this.slowerSeek = new Runnable() { // from class: org.telegram.ui.Stories.recorder.PreviewView$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
-                PreviewView.this.lambda$new$5();
+                PreviewView.this.lambda$new$0();
             }
         };
-        this.updateAudioProgressRunnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.PreviewView$$ExternalSyntheticLambda4
+        this.updateProgressRunnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.PreviewView$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 PreviewView.this.lambda$new$6();
             }
         };
-        this.updateRoundProgressRunnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.PreviewView$$ExternalSyntheticLambda1
+        this.updateAudioProgressRunnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.PreviewView$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 PreviewView.this.lambda$new$7();
+            }
+        };
+        this.updateRoundProgressRunnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.PreviewView$$ExternalSyntheticLambda4
+            @Override // java.lang.Runnable
+            public final void run() {
+                PreviewView.this.lambda$new$8();
             }
         };
         this.wallpaperDrawableCrossfade = new AnimatedFloat(this, 0L, 350L, CubicBezierInterpolator.EASE_OUT_QUINT);
@@ -347,6 +358,7 @@ public class PreviewView extends FrameLayout {
             }
             updateAudioPlayer(true);
         }
+        onAudioChanged();
     }
 
     public void setupAudio(MessageObject messageObject, boolean z) {
@@ -400,23 +412,36 @@ public class PreviewView extends FrameLayout {
         setupAudio(this.entry, z);
     }
 
+    public /* synthetic */ void lambda$new$0() {
+        seekTo(this.finalSeekPosition);
+    }
+
     public void seekTo(long j) {
+        seekTo(j, false);
+    }
+
+    public void seekTo(long j, boolean z) {
         VideoPlayer videoPlayer = this.videoPlayer;
         if (videoPlayer != null) {
-            videoPlayer.seekTo(j, false);
+            videoPlayer.seekTo(j, z);
         } else {
             VideoPlayer videoPlayer2 = this.roundPlayer;
             if (videoPlayer2 != null) {
-                videoPlayer2.seekTo(j, false);
+                videoPlayer2.seekTo(j, z);
             } else {
                 VideoPlayer videoPlayer3 = this.audioPlayer;
                 if (videoPlayer3 != null) {
-                    videoPlayer3.seekTo(j, false);
+                    videoPlayer3.seekTo(j, z);
                 }
             }
         }
         updateAudioPlayer(true);
         updateRoundPlayer(true);
+        if (z) {
+            this.finalSeekPosition = j;
+            AndroidUtilities.cancelRunOnUIThread(this.slowerSeek);
+            AndroidUtilities.runOnUIThread(this.slowerSeek, 600L);
+        }
     }
 
     public void seek(long j) {
@@ -632,12 +657,12 @@ public class PreviewView extends FrameLayout {
                     return;
                 }
                 final String path = originalFile.getPath();
-                Bitmap scaledBitmap = StoryEntry.getScaledBitmap(new StoryEntry.DecodeBitmap() { // from class: org.telegram.ui.Stories.recorder.PreviewView$$ExternalSyntheticLambda9
+                Bitmap scaledBitmap = StoryEntry.getScaledBitmap(new StoryEntry.DecodeBitmap() { // from class: org.telegram.ui.Stories.recorder.PreviewView$$ExternalSyntheticLambda10
                     @Override // org.telegram.ui.Stories.recorder.StoryEntry.DecodeBitmap
                     public final Bitmap decode(BitmapFactory.Options options) {
-                        Bitmap lambda$setupImage$0;
-                        lambda$setupImage$0 = PreviewView.this.lambda$setupImage$0(storyEntry, j2, path, options);
-                        return lambda$setupImage$0;
+                        Bitmap lambda$setupImage$1;
+                        lambda$setupImage$1 = PreviewView.this.lambda$setupImage$1(storyEntry, j2, path, options);
+                        return lambda$setupImage$1;
                     }
                 }, measuredWidth, i, false);
                 this.bitmap = scaledBitmap;
@@ -670,7 +695,7 @@ public class PreviewView extends FrameLayout {
         invalidate();
     }
 
-    public /* synthetic */ Bitmap lambda$setupImage$0(StoryEntry storyEntry, long j, String str, BitmapFactory.Options options) {
+    public /* synthetic */ Bitmap lambda$setupImage$1(StoryEntry storyEntry, long j, String str, BitmapFactory.Options options) {
         if (storyEntry.isVideo) {
             String str2 = storyEntry.thumbPath;
             if (str2 != null) {
@@ -692,19 +717,19 @@ public class PreviewView extends FrameLayout {
         if (storyEntry.gradientTopColor == 0 || storyEntry.gradientBottomColor == 0) {
             Bitmap bitmap = this.bitmap;
             if (bitmap != null) {
-                DominantColors.getColors(true, bitmap, true, new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.PreviewView$$ExternalSyntheticLambda6
+                DominantColors.getColors(true, bitmap, true, new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.PreviewView$$ExternalSyntheticLambda7
                     @Override // org.telegram.messenger.Utilities.Callback
                     public final void run(Object obj) {
-                        PreviewView.this.lambda$setupGradient$1(measuredHeight, (int[]) obj);
+                        PreviewView.this.lambda$setupGradient$2(measuredHeight, (int[]) obj);
                     }
                 });
             } else {
                 Bitmap bitmap2 = this.thumbBitmap;
                 if (bitmap2 != null) {
-                    DominantColors.getColors(true, bitmap2, true, new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.PreviewView$$ExternalSyntheticLambda7
+                    DominantColors.getColors(true, bitmap2, true, new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.PreviewView$$ExternalSyntheticLambda8
                         @Override // org.telegram.messenger.Utilities.Callback
                         public final void run(Object obj) {
-                            PreviewView.this.lambda$setupGradient$2(measuredHeight, (int[]) obj);
+                            PreviewView.this.lambda$setupGradient$3(measuredHeight, (int[]) obj);
                         }
                     });
                 } else {
@@ -731,7 +756,7 @@ public class PreviewView extends FrameLayout {
         invalidate();
     }
 
-    public /* synthetic */ void lambda$setupGradient$1(int i, int[] iArr) {
+    public /* synthetic */ void lambda$setupGradient$2(int i, int[] iArr) {
         StoryEntry storyEntry = this.entry;
         int i2 = iArr[0];
         this.gradientTop = i2;
@@ -751,7 +776,7 @@ public class PreviewView extends FrameLayout {
         }
     }
 
-    public /* synthetic */ void lambda$setupGradient$2(int i, int[] iArr) {
+    public /* synthetic */ void lambda$setupGradient$3(int i, int[] iArr) {
         StoryEntry storyEntry = this.entry;
         int i2 = iArr[0];
         this.gradientTop = i2;
@@ -787,10 +812,10 @@ public class PreviewView extends FrameLayout {
                 VideoEditTextureView videoEditTextureView = this.textureView;
                 if (videoEditTextureView != null) {
                     videoEditTextureView.clearAnimation();
-                    this.textureView.animate().alpha(0.0f).withEndAction(new Runnable() { // from class: org.telegram.ui.Stories.recorder.PreviewView$$ExternalSyntheticLambda3
+                    this.textureView.animate().alpha(0.0f).withEndAction(new Runnable() { // from class: org.telegram.ui.Stories.recorder.PreviewView$$ExternalSyntheticLambda0
                         @Override // java.lang.Runnable
                         public final void run() {
-                            PreviewView.this.lambda$setupVideoPlayer$3();
+                            PreviewView.this.lambda$setupVideoPlayer$4();
                         }
                     }).start();
                 }
@@ -834,10 +859,10 @@ public class PreviewView extends FrameLayout {
             this.textureView.setAlpha(runnable != null ? 1.0f : 0.0f);
             addView(this.textureView, LayoutHelper.createFrame(-2, -2, 51));
         }
-        storyEntry.detectHDR(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.PreviewView$$ExternalSyntheticLambda5
+        storyEntry.detectHDR(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.PreviewView$$ExternalSyntheticLambda6
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
-                PreviewView.this.lambda$setupVideoPlayer$4((StoryEntry.HDRInfo) obj);
+                PreviewView.this.lambda$setupVideoPlayer$5((StoryEntry.HDRInfo) obj);
             }
         });
         this.videoPlayer.preparePlayer(Uri.fromFile(storyEntry.getOriginalFile()), "other");
@@ -861,7 +886,7 @@ public class PreviewView extends FrameLayout {
         timelineView2.setProgress(j);
     }
 
-    public /* synthetic */ void lambda$setupVideoPlayer$3() {
+    public /* synthetic */ void lambda$setupVideoPlayer$4() {
         VideoEditTextureView videoEditTextureView = this.textureView;
         if (videoEditTextureView != null) {
             videoEditTextureView.release();
@@ -995,7 +1020,7 @@ public class PreviewView extends FrameLayout {
         }
     }
 
-    public /* synthetic */ void lambda$setupVideoPlayer$4(StoryEntry.HDRInfo hDRInfo) {
+    public /* synthetic */ void lambda$setupVideoPlayer$5(StoryEntry.HDRInfo hDRInfo) {
         VideoEditTextureView videoEditTextureView = this.textureView;
         if (videoEditTextureView != null) {
             videoEditTextureView.setHDRInfo(hDRInfo);
@@ -1207,7 +1232,7 @@ public class PreviewView extends FrameLayout {
         }
     }
 
-    public /* synthetic */ void lambda$new$5() {
+    public /* synthetic */ void lambda$new$6() {
         VideoPlayer videoPlayer = this.videoPlayer;
         if (videoPlayer == null || this.timelineView == null) {
             return;
@@ -1241,7 +1266,7 @@ public class PreviewView extends FrameLayout {
         this.lastPos = currentPosition;
     }
 
-    public /* synthetic */ void lambda$new$6() {
+    public /* synthetic */ void lambda$new$7() {
         VideoPlayer videoPlayer = this.audioPlayer;
         if (videoPlayer == null || this.videoPlayer != null || this.roundPlayer != null || this.timelineView == null) {
             return;
@@ -1268,7 +1293,7 @@ public class PreviewView extends FrameLayout {
         }
     }
 
-    public /* synthetic */ void lambda$new$7() {
+    public /* synthetic */ void lambda$new$8() {
         VideoPlayer videoPlayer = this.roundPlayer;
         if (videoPlayer == null || this.videoPlayer != null || this.timelineView == null) {
             return;
@@ -1979,10 +2004,10 @@ public class PreviewView extends FrameLayout {
         motionBackgroundDrawable.setColors(i4, i6, i8, i10, 0, true);
         motionBackgroundDrawable.setPhase(i2);
         final int patternColor = motionBackgroundDrawable.getPatternColor();
-        emojiThemes.loadWallpaper(z ? 1 : 0, new ResultCallback() { // from class: org.telegram.ui.Stories.recorder.PreviewView$$ExternalSyntheticLambda8
+        emojiThemes.loadWallpaper(z ? 1 : 0, new ResultCallback() { // from class: org.telegram.ui.Stories.recorder.PreviewView$$ExternalSyntheticLambda9
             @Override // org.telegram.tgnet.ResultCallback
             public final void onComplete(Object obj) {
-                PreviewView.lambda$getBackgroundDrawableFromTheme$8(EmojiThemes.this, z, z, motionBackgroundDrawable, patternColor, (Pair) obj);
+                PreviewView.lambda$getBackgroundDrawableFromTheme$9(EmojiThemes.this, z, z, motionBackgroundDrawable, patternColor, (Pair) obj);
             }
 
             @Override // org.telegram.tgnet.ResultCallback
@@ -1993,7 +2018,7 @@ public class PreviewView extends FrameLayout {
         return motionBackgroundDrawable;
     }
 
-    public static /* synthetic */ void lambda$getBackgroundDrawableFromTheme$8(EmojiThemes emojiThemes, boolean z, boolean z2, MotionBackgroundDrawable motionBackgroundDrawable, int i, Pair pair) {
+    public static /* synthetic */ void lambda$getBackgroundDrawableFromTheme$9(EmojiThemes emojiThemes, boolean z, boolean z2, MotionBackgroundDrawable motionBackgroundDrawable, int i, Pair pair) {
         if (pair == null) {
             return;
         }

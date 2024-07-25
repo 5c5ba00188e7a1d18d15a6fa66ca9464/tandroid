@@ -6,7 +6,7 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-/* compiled from: com.android.billingclient:billing@@5.1.0 */
+/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public final class ProductDetails {
     private final String zza;
@@ -15,11 +15,11 @@ public final class ProductDetails {
     private final String zzd;
     private final String zze;
     private final String zzh;
-    private final String zzi;
-    private final List zzj;
-    private final List zzk;
+    private final String zzk;
+    private final List zzl;
+    private final List zzm;
 
-    /* compiled from: com.android.billingclient:billing@@5.1.0 */
+    /* compiled from: com.android.billingclient:billing@@6.0.1 */
     /* loaded from: classes.dex */
     public static final class OneTimePurchaseOfferDetails {
         private final long zzb;
@@ -40,7 +40,23 @@ public final class ProductDetails {
                     arrayList.add(optJSONArray.getString(i));
                 }
             }
-            com.google.android.gms.internal.play_billing.zzu.zzk(arrayList);
+            com.google.android.gms.internal.play_billing.zzu.zzj(arrayList);
+            if (jSONObject.has("fullPriceMicros")) {
+                jSONObject.optLong("fullPriceMicros");
+            }
+            JSONObject optJSONObject = jSONObject.optJSONObject("discountDisplayInfo");
+            if (optJSONObject != null) {
+                new zzbg(optJSONObject);
+            }
+            JSONObject optJSONObject2 = jSONObject.optJSONObject("validTimeWindow");
+            if (optJSONObject2 != null) {
+                new zzbi(optJSONObject2);
+            }
+            JSONObject optJSONObject3 = jSONObject.optJSONObject("limitedQuantityInfo");
+            if (optJSONObject3 == null) {
+                return;
+            }
+            new zzbh(optJSONObject3);
         }
 
         public long getPriceAmountMicros() {
@@ -56,44 +72,44 @@ public final class ProductDetails {
         }
     }
 
-    /* compiled from: com.android.billingclient:billing@@5.1.0 */
+    /* compiled from: com.android.billingclient:billing@@6.0.1 */
     /* loaded from: classes.dex */
     public static final class PricingPhase {
-        private final String billingPeriod;
-        private final String formattedPrice;
-        private final long priceAmountMicros;
-        private final String priceCurrencyCode;
+        private final String zza;
+        private final long zzb;
+        private final String zzc;
+        private final String zzd;
 
         PricingPhase(JSONObject jSONObject) {
-            this.billingPeriod = jSONObject.optString("billingPeriod");
-            this.priceCurrencyCode = jSONObject.optString("priceCurrencyCode");
-            this.formattedPrice = jSONObject.optString("formattedPrice");
-            this.priceAmountMicros = jSONObject.optLong("priceAmountMicros");
+            this.zzd = jSONObject.optString("billingPeriod");
+            this.zzc = jSONObject.optString("priceCurrencyCode");
+            this.zza = jSONObject.optString("formattedPrice");
+            this.zzb = jSONObject.optLong("priceAmountMicros");
             jSONObject.optInt("recurrenceMode");
             jSONObject.optInt("billingCycleCount");
         }
 
         public String getBillingPeriod() {
-            return this.billingPeriod;
+            return this.zzd;
         }
 
         public String getFormattedPrice() {
-            return this.formattedPrice;
+            return this.zza;
         }
 
         public long getPriceAmountMicros() {
-            return this.priceAmountMicros;
+            return this.zzb;
         }
 
         public String getPriceCurrencyCode() {
-            return this.priceCurrencyCode;
+            return this.zzc;
         }
     }
 
-    /* compiled from: com.android.billingclient:billing@@5.1.0 */
+    /* compiled from: com.android.billingclient:billing@@6.0.1 */
     /* loaded from: classes.dex */
     public static class PricingPhases {
-        private final List<PricingPhase> pricingPhaseList;
+        private final List zza;
 
         PricingPhases(JSONArray jSONArray) {
             ArrayList arrayList = new ArrayList();
@@ -105,15 +121,15 @@ public final class ProductDetails {
                     }
                 }
             }
-            this.pricingPhaseList = arrayList;
+            this.zza = arrayList;
         }
 
         public List<PricingPhase> getPricingPhaseList() {
-            return this.pricingPhaseList;
+            return this.zza;
         }
     }
 
-    /* compiled from: com.android.billingclient:billing@@5.1.0 */
+    /* compiled from: com.android.billingclient:billing@@6.0.1 */
     /* loaded from: classes.dex */
     public static final class SubscriptionOfferDetails {
         private final String zzc;
@@ -126,7 +142,7 @@ public final class ProductDetails {
             this.zzd = new PricingPhases(jSONObject.getJSONArray("pricingPhases"));
             JSONObject optJSONObject = jSONObject.optJSONObject("installmentPlanDetails");
             if (optJSONObject != null) {
-                new zzbh(optJSONObject);
+                new zzbf(optJSONObject);
             }
             ArrayList arrayList = new ArrayList();
             JSONArray optJSONArray = jSONObject.optJSONArray("offerTags");
@@ -164,17 +180,19 @@ public final class ProductDetails {
         this.zze = jSONObject.optString("title");
         jSONObject.optString("name");
         jSONObject.optString("description");
+        jSONObject.optString("packageDisplayName");
+        jSONObject.optString("iconUrl");
         this.zzh = jSONObject.optString("skuDetailsToken");
-        this.zzi = jSONObject.optString("serializedDocid");
+        this.zzk = jSONObject.optString("serializedDocid");
         JSONArray optJSONArray = jSONObject.optJSONArray("subscriptionOfferDetails");
         if (optJSONArray != null) {
             ArrayList arrayList = new ArrayList();
             for (int i = 0; i < optJSONArray.length(); i++) {
                 arrayList.add(new SubscriptionOfferDetails(optJSONArray.getJSONObject(i)));
             }
-            this.zzj = arrayList;
+            this.zzl = arrayList;
         } else {
-            this.zzj = (optString2.equals("subs") || optString2.equals("play_pass_subs")) ? new ArrayList() : null;
+            this.zzl = (optString2.equals("subs") || optString2.equals("play_pass_subs")) ? new ArrayList() : null;
         }
         JSONObject optJSONObject = this.zzb.optJSONObject("oneTimePurchaseOfferDetails");
         JSONArray optJSONArray2 = this.zzb.optJSONArray("oneTimePurchaseOfferDetailsList");
@@ -183,16 +201,12 @@ public final class ProductDetails {
             for (int i2 = 0; i2 < optJSONArray2.length(); i2++) {
                 arrayList2.add(new OneTimePurchaseOfferDetails(optJSONArray2.getJSONObject(i2)));
             }
-            this.zzk = arrayList2;
-        } else if (optJSONObject != null) {
-            arrayList2.add(new OneTimePurchaseOfferDetails(optJSONObject));
-            this.zzk = arrayList2;
+            this.zzm = arrayList2;
+        } else if (optJSONObject == null) {
+            this.zzm = null;
         } else {
-            this.zzk = null;
-        }
-        JSONObject optJSONObject2 = this.zzb.optJSONObject("limitedQuantityInfo");
-        if (optJSONObject2 != null) {
-            new zzbi(optJSONObject2);
+            arrayList2.add(new OneTimePurchaseOfferDetails(optJSONObject));
+            this.zzm = arrayList2;
         }
     }
 
@@ -207,11 +221,11 @@ public final class ProductDetails {
     }
 
     public OneTimePurchaseOfferDetails getOneTimePurchaseOfferDetails() {
-        List list = this.zzk;
+        List list = this.zzm;
         if (list == null || list.isEmpty()) {
             return null;
         }
-        return (OneTimePurchaseOfferDetails) this.zzk.get(0);
+        return (OneTimePurchaseOfferDetails) this.zzm.get(0);
     }
 
     public String getProductId() {
@@ -223,7 +237,7 @@ public final class ProductDetails {
     }
 
     public List<SubscriptionOfferDetails> getSubscriptionOfferDetails() {
-        return this.zzj;
+        return this.zzl;
     }
 
     public int hashCode() {
@@ -237,7 +251,7 @@ public final class ProductDetails {
         String str3 = this.zzd;
         String str4 = this.zze;
         String str5 = this.zzh;
-        String valueOf = String.valueOf(this.zzj);
+        String valueOf = String.valueOf(this.zzl);
         return "ProductDetails{jsonString='" + str + "', parsedJson=" + obj + ", productId='" + str2 + "', productType='" + str3 + "', title='" + str4 + "', productDetailsToken='" + str5 + "', subscriptionOfferDetails=" + valueOf + "}";
     }
 
@@ -251,6 +265,6 @@ public final class ProductDetails {
     }
 
     public String zzc() {
-        return this.zzi;
+        return this.zzk;
     }
 }

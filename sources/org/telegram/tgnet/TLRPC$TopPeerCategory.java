@@ -36,6 +36,9 @@ public abstract class TLRPC$TopPeerCategory extends TLObject {
                     }
                 };
                 break;
+            case -39945236:
+                tLRPC$TopPeerCategory = new TLRPC$TL_topPeerCategoryBotsApp();
+                break;
             case 104314861:
                 tLRPC$TopPeerCategory = new TLRPC$TL_topPeerCategoryCorrespondents();
                 break;

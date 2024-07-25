@@ -140,7 +140,7 @@ public class ReportAdBottomSheet extends BottomSheet {
         return this;
     }
 
-    @Override // android.app.Dialog
+    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
     public void onBackPressed() {
         if (this.viewPager.getCurrentPosition() > 0) {
             ViewPagerFixed viewPagerFixed = this.viewPager;

@@ -228,7 +228,8 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
         return this;
     }
 
-    private void showDialog(Dialog dialog) {
+    @Override // org.telegram.ui.ActionBar.BottomSheet, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
+    public boolean showDialog(Dialog dialog) {
         GLIconTextureView gLIconTextureView = this.iconTextureView;
         if (gLIconTextureView != null) {
             gLIconTextureView.setDialogVisible(true);
@@ -241,6 +242,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
             }
         });
         dialog.show();
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -855,7 +857,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
         this.fireworksOverlay.start(this.animateConfettiWithStars);
     }
 
-    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface
+    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
     public void dismiss() {
         super.dismiss();
         NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.startAllHeavyOperations, 4);

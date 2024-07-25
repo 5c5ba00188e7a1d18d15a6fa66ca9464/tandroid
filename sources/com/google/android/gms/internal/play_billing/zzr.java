@@ -1,12 +1,11 @@
 package com.google.android.gms.internal.play_billing;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.AbstractCollection;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Objects;
-/* compiled from: com.android.billingclient:billing@@5.1.0 */
+/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public abstract class zzr extends AbstractCollection implements Serializable {
     private static final Object[] zza = new Object[0];
@@ -93,7 +92,10 @@ public abstract class zzr extends AbstractCollection implements Serializable {
         if (length < size) {
             Object[] zzg = zzg();
             if (zzg == null) {
-                objArr = (Object[]) Array.newInstance(objArr.getClass().getComponentType(), size);
+                if (length != 0) {
+                    objArr = Arrays.copyOf(objArr, 0);
+                }
+                objArr = Arrays.copyOf(objArr, size);
             } else {
                 return Arrays.copyOfRange(zzg, zzc(), zzb(), objArr.getClass());
             }

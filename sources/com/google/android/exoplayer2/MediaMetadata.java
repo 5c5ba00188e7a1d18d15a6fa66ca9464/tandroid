@@ -121,7 +121,7 @@ public final class MediaMetadata implements Bundleable {
             case 27:
             case 28:
             case 29:
-            case R.styleable.AppCompatTheme_actionModeTheme /* 30 */:
+            case 30:
             default:
                 return 0;
             case 21:

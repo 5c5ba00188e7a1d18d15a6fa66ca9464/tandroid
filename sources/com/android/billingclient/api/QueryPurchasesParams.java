@@ -1,15 +1,15 @@
 package com.android.billingclient.api;
-/* compiled from: com.android.billingclient:billing@@5.1.0 */
+/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public final class QueryPurchasesParams {
     private final String zza;
 
-    /* compiled from: com.android.billingclient:billing@@5.1.0 */
+    /* compiled from: com.android.billingclient:billing@@6.0.1 */
     /* loaded from: classes.dex */
     public static class Builder {
         private String zza;
 
-        /* synthetic */ Builder(zzbr zzbrVar) {
+        /* synthetic */ Builder(zzbs zzbsVar) {
         }
 
         public QueryPurchasesParams build() {
@@ -25,7 +25,7 @@ public final class QueryPurchasesParams {
         }
     }
 
-    /* synthetic */ QueryPurchasesParams(Builder builder, zzbs zzbsVar) {
+    /* synthetic */ QueryPurchasesParams(Builder builder, zzbt zzbtVar) {
         this.zza = builder.zza;
     }
 

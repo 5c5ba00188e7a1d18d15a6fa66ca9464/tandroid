@@ -461,23 +461,19 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
             this.isDownReleased = false;
         } else if (action == 1) {
             if (!this.isDownReleased) {
-                MessagesController.DialogPhotos dialogPhotos = this.dialogPhotos;
-                int count = dialogPhotos == null ? 0 : dialogPhotos.getCount();
-                if (this.currentUploadingImageLocation != null) {
-                    count++;
-                }
+                int realCount = getRealCount();
                 int currentItem = getCurrentItem();
-                if (count > 1) {
+                if (realCount > 1) {
                     if (motionEvent.getX() > getWidth() / 3.0f) {
                         i = this.adapter.getExtraCount();
                         int i2 = currentItem + 1;
-                        if (i2 < count + i) {
+                        if (i2 < realCount + i) {
                             i = i2;
                         }
                     } else {
                         int extraCount = this.adapter.getExtraCount();
                         int i3 = (-1) + currentItem;
-                        i = i3 < extraCount ? (count + extraCount) - 1 : i3;
+                        i = i3 < extraCount ? (realCount + extraCount) - 1 : i3;
                     }
                     this.callback.onRelease();
                     setCurrentItem(i, false);

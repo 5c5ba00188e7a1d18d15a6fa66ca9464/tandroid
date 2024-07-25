@@ -35965,31 +35965,34 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     }
 
     private boolean findProgressLoadingLink(LoadingDrawableLocation loadingDrawableLocation, LinkPath linkPath, Layout layout, float f, int i) {
-        if (layout != null && (layout.getText() instanceof Spanned)) {
-            Spanned spanned = (Spanned) layout.getText();
-            CharacterStyle[] characterStyleArr = (CharacterStyle[]) spanned.getSpans(0, spanned.length(), CharacterStyle.class);
-            if (characterStyleArr != null) {
-                int i2 = 0;
-                while (true) {
-                    if (i2 >= characterStyleArr.length) {
-                        break;
-                    } else if (characterStyleArr[i2] == this.progressLoadingLink) {
-                        loadingDrawableLocation.blockNum = i;
-                        break;
-                    } else {
-                        i2++;
-                    }
+        if (layout == null || !(layout.getText() instanceof Spanned)) {
+            return false;
+        }
+        Spanned spanned = (Spanned) layout.getText();
+        CharacterStyle[] characterStyleArr = (CharacterStyle[]) spanned.getSpans(0, spanned.length(), CharacterStyle.class);
+        if (characterStyleArr != null) {
+            int i2 = 0;
+            while (true) {
+                if (i2 >= characterStyleArr.length) {
+                    break;
+                } else if (characterStyleArr[i2] == this.progressLoadingLink) {
+                    loadingDrawableLocation.blockNum = i;
+                    break;
+                } else {
+                    i2++;
                 }
             }
-            if (loadingDrawableLocation.blockNum == i) {
-                linkPath.rewind();
-                int spanStart = spanned.getSpanStart(this.progressLoadingLink);
-                int spanEnd = spanned.getSpanEnd(this.progressLoadingLink);
-                linkPath.setCurrentLayout(layout, spanStart, f);
-                layout.getSelectionPath(spanStart, spanEnd, linkPath);
-                this.progressLoadingLinkCurrentDrawable.updateBounds();
-                return true;
-            }
+        }
+        if (loadingDrawableLocation.blockNum == i) {
+            linkPath.rewind();
+            int spanStart = spanned.getSpanStart(this.progressLoadingLink);
+            int spanEnd = spanned.getSpanEnd(this.progressLoadingLink);
+            linkPath.setUseCornerPathImplementation(true);
+            linkPath.setCurrentLayout(layout, spanStart, f);
+            layout.getSelectionPath(spanStart, spanEnd, linkPath);
+            linkPath.closeRects();
+            this.progressLoadingLinkCurrentDrawable.updateBounds();
+            return true;
         }
         return false;
     }

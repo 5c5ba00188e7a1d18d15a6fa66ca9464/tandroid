@@ -524,7 +524,7 @@ public class SelectorBottomSheet extends BottomSheetWithRecyclerListView {
         dismiss();
     }
 
-    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface
+    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
     public void dismiss() {
         Runnable runnable = this.onCloseClick;
         if (runnable != null) {
@@ -841,7 +841,7 @@ public class SelectorBottomSheet extends BottomSheetWithRecyclerListView {
 
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
     protected RecyclerListView.SelectionAdapter createAdapter(RecyclerListView recyclerListView) {
-        SelectorAdapter selectorAdapter = new SelectorAdapter(getContext(), this.resourcesProvider);
+        SelectorAdapter selectorAdapter = new SelectorAdapter(getContext(), true, this.resourcesProvider);
         this.selectorAdapter = selectorAdapter;
         return selectorAdapter;
     }

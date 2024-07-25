@@ -44,6 +44,7 @@ public class Camera2Session {
     private CameraCaptureSession captureSession;
     private final CameraCaptureSession.StateCallback captureStateCallback;
     private Runnable doneCallback;
+    private boolean flashing;
     private Handler handler;
     private ImageReader imageReader;
     private boolean isClosed;
@@ -418,6 +419,17 @@ public class Camera2Session {
         }
     }
 
+    public void setFlash(boolean z) {
+        if (this.flashing != z) {
+            this.flashing = z;
+            updateCaptureRequest();
+        }
+    }
+
+    public boolean getFlash() {
+        return this.flashing;
+    }
+
     public float getZoom() {
         return this.currentZoom;
     }
@@ -542,6 +554,7 @@ public class Camera2Session {
             return;
         }
         try {
+            int i2 = 1;
             if (this.recordingVideo) {
                 i = 3;
             } else {
@@ -554,6 +567,14 @@ public class Camera2Session {
             } else if (this.nightMode) {
                 createCaptureRequest.set(CaptureRequest.CONTROL_SCENE_MODE, Integer.valueOf(this.isFront ? 6 : 5));
             }
+            CaptureRequest.Builder builder = this.captureRequestBuilder;
+            CaptureRequest.Key key = CaptureRequest.FLASH_MODE;
+            if (!this.flashing) {
+                i2 = 0;
+            } else if (this.recordingVideo) {
+                i2 = 2;
+            }
+            builder.set(key, Integer.valueOf(i2));
             if (this.recordingVideo) {
                 this.captureRequestBuilder.set(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, new Range(30, 60));
                 this.captureRequestBuilder.set(CaptureRequest.CONTROL_CAPTURE_INTENT, 3);

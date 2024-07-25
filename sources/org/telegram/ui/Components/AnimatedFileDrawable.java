@@ -1399,13 +1399,12 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
     public Bitmap getFirstFrame(Bitmap bitmap) {
         Bitmap createBitmap = bitmap == null ? Bitmap.createBitmap(this.renderingWidth, this.renderingHeight, Bitmap.Config.ARGB_8888) : bitmap;
         Canvas canvas = new Canvas(createBitmap);
-        if (this.generatingCacheBitmap == null) {
-            int[] iArr = this.metaData;
-            this.generatingCacheBitmap = Bitmap.createBitmap(iArr[0], iArr[1], Bitmap.Config.ARGB_8888);
-        }
         long createDecoder = createDecoder(this.path.getAbsolutePath(), this.metaData, this.currentAccount, this.streamFileSize, this.stream, false);
         if (createDecoder == 0) {
             return createBitmap;
+        }
+        if (this.generatingCacheBitmap == null) {
+            this.generatingCacheBitmap = Bitmap.createBitmap(Math.max(1, this.metaData[0]), Math.max(1, this.metaData[1]), Bitmap.Config.ARGB_8888);
         }
         Bitmap bitmap2 = this.generatingCacheBitmap;
         getVideoFrame(createDecoder, bitmap2, this.metaData, bitmap2.getRowBytes(), false, this.startTime, this.endTime, true);

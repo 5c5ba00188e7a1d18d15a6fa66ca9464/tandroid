@@ -219,6 +219,16 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
+    public boolean isAttachedLightStatusBar() {
+        return false;
+    }
+
+    @Override // org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
+    public /* synthetic */ void setLastVisible(boolean z) {
+        BaseFragment.AttachedSheet.-CC.$default$setLastVisible(this, z);
+    }
+
+    @Override // org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
     public void setOnDismissListener(Runnable runnable) {
     }
 
@@ -1436,7 +1446,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                 StoryViewer.this.dispatchVolumeEvent(keyEvent);
                 return true;
             } else if (keyEvent.getKeyCode() == 4 && keyEvent.getAction() == 1) {
-                StoryViewer.this.onBackPressed();
+                StoryViewer.this.onAttachedBackPressed();
                 return true;
             } else {
                 return super.dispatchKeyEventPreIme(keyEvent);
@@ -2804,7 +2814,6 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     public void release() {
-        ArrayList<BaseFragment.AttachedSheet> arrayList;
         this.lastUri = null;
         setInTouchMode(false);
         allowScreenshots(true);
@@ -2821,8 +2830,8 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
         if (this.ATTACH_TO_FRAGMENT) {
             lockOrientation(false);
             BaseFragment baseFragment = this.fragment;
-            if (baseFragment != null && (arrayList = baseFragment.sheetsStack) != null) {
-                arrayList.remove(this);
+            if (baseFragment != null) {
+                baseFragment.removeSheet(this);
             }
         }
         globalInstances.remove(this);
@@ -2847,7 +2856,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
         return this.windowView;
     }
 
-    @Override // org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
+    @Override // org.telegram.ui.ActionBar.BaseFragment.AttachedSheet, android.content.DialogInterface
     public void dismiss() {
         close(true);
     }
@@ -2863,7 +2872,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
-    public boolean onBackPressed() {
+    public boolean onAttachedBackPressed() {
         if (this.selfStoriesViewsOffset != 0.0f) {
             if (this.selfStoryViewsView.onBackPressed()) {
                 return true;

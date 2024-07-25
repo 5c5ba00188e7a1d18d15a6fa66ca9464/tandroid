@@ -67,7 +67,6 @@ import org.telegram.tgnet.TLRPC$PhotoSize;
 import org.telegram.tgnet.TLRPC$Reaction;
 import org.telegram.tgnet.TLRPC$StickerSet;
 import org.telegram.tgnet.TLRPC$TL_availableReaction;
-import org.telegram.tgnet.TLRPC$TL_bots_setBotInfo;
 import org.telegram.tgnet.TLRPC$TL_channelLocation;
 import org.telegram.tgnet.TLRPC$TL_chatBannedRights;
 import org.telegram.tgnet.TLRPC$TL_chatParticipantAdmin;
@@ -89,6 +88,7 @@ import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$UserFull;
 import org.telegram.tgnet.TLRPC$UserProfilePhoto;
 import org.telegram.tgnet.TLRPC$VideoSize;
+import org.telegram.tgnet.tl.TL_bots$setBotInfo;
 import org.telegram.tgnet.tl.TL_stories$TL_premium_boostsStatus;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenu;
@@ -2274,13 +2274,13 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         this.donePressed = true;
         String str3 = "";
         if (this.currentUser != null) {
-            final TLRPC$TL_bots_setBotInfo tLRPC$TL_bots_setBotInfo = new TLRPC$TL_bots_setBotInfo();
-            tLRPC$TL_bots_setBotInfo.bot = getMessagesController().getInputUser(this.currentUser);
-            tLRPC$TL_bots_setBotInfo.flags |= 4;
-            tLRPC$TL_bots_setBotInfo.lang_code = "";
+            final TL_bots$setBotInfo tL_bots$setBotInfo = new TL_bots$setBotInfo();
+            tL_bots$setBotInfo.bot = getMessagesController().getInputUser(this.currentUser);
+            tL_bots$setBotInfo.flags |= 4;
+            tL_bots$setBotInfo.lang_code = "";
             if (!this.currentUser.first_name.equals(this.nameTextView.getText().toString())) {
-                tLRPC$TL_bots_setBotInfo.name = this.nameTextView.getText().toString();
-                tLRPC$TL_bots_setBotInfo.flags |= 8;
+                tL_bots$setBotInfo.name = this.nameTextView.getText().toString();
+                tL_bots$setBotInfo.flags |= 8;
             }
             TLRPC$UserFull tLRPC$UserFull = this.userInfo;
             if (tLRPC$UserFull != null && (str2 = tLRPC$UserFull.about) != null) {
@@ -2288,14 +2288,14 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             }
             EditTextBoldCursor editTextBoldCursor = this.descriptionTextView;
             if (editTextBoldCursor != null && !str3.equals(editTextBoldCursor.getText().toString())) {
-                tLRPC$TL_bots_setBotInfo.about = this.descriptionTextView.getText().toString();
-                tLRPC$TL_bots_setBotInfo.flags = 1 | tLRPC$TL_bots_setBotInfo.flags;
+                tL_bots$setBotInfo.about = this.descriptionTextView.getText().toString();
+                tL_bots$setBotInfo.flags = 1 | tL_bots$setBotInfo.flags;
             }
             this.progressDialog = new AlertDialog(getParentActivity(), 3);
-            final int sendRequest = getConnectionsManager().sendRequest(tLRPC$TL_bots_setBotInfo, new RequestDelegate() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda47
+            final int sendRequest = getConnectionsManager().sendRequest(tL_bots$setBotInfo, new RequestDelegate() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda47
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    ChatEditActivity.this.lambda$processDone$44(tLRPC$TL_bots_setBotInfo, tLObject, tLRPC$TL_error);
+                    ChatEditActivity.this.lambda$processDone$44(tL_bots$setBotInfo, tLObject, tLRPC$TL_error);
                 }
             });
             this.progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda2
@@ -2369,10 +2369,10 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$processDone$44(TLRPC$TL_bots_setBotInfo tLRPC$TL_bots_setBotInfo, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$processDone$44(TL_bots$setBotInfo tL_bots$setBotInfo, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         TLRPC$UserFull tLRPC$UserFull = this.userInfo;
         if (tLRPC$UserFull != null) {
-            tLRPC$UserFull.about = tLRPC$TL_bots_setBotInfo.about;
+            tLRPC$UserFull.about = tL_bots$setBotInfo.about;
             getMessagesStorage().updateUserInfo(this.userInfo, false);
         }
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda38

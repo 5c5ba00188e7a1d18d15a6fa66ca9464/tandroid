@@ -46,6 +46,7 @@ import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$DocumentAttribute;
 import org.telegram.tgnet.TLRPC$InputDocument;
+import org.telegram.tgnet.TLRPC$InputMedia;
 import org.telegram.tgnet.TLRPC$InputPeer;
 import org.telegram.tgnet.TLRPC$InputPrivacyRule;
 import org.telegram.tgnet.TLRPC$Message;
@@ -90,6 +91,7 @@ public class StoryEntry {
     public File backgroundFile;
     public String backgroundWallpaperEmoticon;
     public Bitmap blurredVideoThumb;
+    public long botId;
     public CharSequence caption;
     public long draftDate;
     public long draftId;
@@ -105,6 +107,7 @@ public class StoryEntry {
     public boolean editedMedia;
     public ArrayList<TL_stories$MediaArea> editedMediaAreas;
     public boolean editedPrivacy;
+    public TLRPC$InputMedia editingBotPreview;
     public TLRPC$TL_error error;
     public File file;
     public boolean fileDeletable;
@@ -119,6 +122,7 @@ public class StoryEntry {
     public boolean isDraft;
     public boolean isEdit;
     public boolean isEditSaved;
+    public boolean isEditingCover;
     public boolean isError;
     public boolean isRepost;
     public boolean isRepostMessage;
@@ -160,6 +164,7 @@ public class StoryEntry {
     public float audioVolume = 1.0f;
     public float videoVolume = 1.0f;
     public float right = 1.0f;
+    public long cover = -1;
     public int resultWidth = 720;
     public int resultHeight = 1280;
     public final Matrix matrix = new Matrix();
@@ -171,6 +176,7 @@ public class StoryEntry {
     public final ArrayList<TLRPC$InputPrivacyRule> privacyRules = new ArrayList<>();
     public boolean pinned = true;
     public int period = 86400;
+    public String botLang = "";
     public long averageDuration = 5000;
     private int checkStickersReqId = 0;
 
@@ -210,7 +216,7 @@ public class StoryEntry {
         return true;
     }
 
-    private boolean isAnimated(TLRPC$Document tLRPC$Document, String str) {
+    public static boolean isAnimated(TLRPC$Document tLRPC$Document, String str) {
         if (tLRPC$Document != null) {
             if ("video/webm".equals(tLRPC$Document.mime_type) || "video/mp4".equals(tLRPC$Document.mime_type)) {
                 return true;
@@ -1035,12 +1041,16 @@ public class StoryEntry {
         }
         float f = i2;
         float f2 = this.resultWidth / f;
-        float f3 = i3;
-        if (f3 / f > 1.29f) {
-            f2 = Math.max(f2, this.resultHeight / f3);
+        if (this.botId != 0) {
+            f2 = Math.min(f2, this.resultHeight / i3);
+        } else {
+            float f3 = i3;
+            if (f3 / f > 1.29f) {
+                f2 = Math.max(f2, this.resultHeight / f3);
+            }
         }
         matrix.postScale(f2, f2);
-        matrix.postTranslate((this.resultWidth - (f * f2)) / 2.0f, (this.resultHeight - (f3 * f2)) / 2.0f);
+        matrix.postTranslate((this.resultWidth - (f * f2)) / 2.0f, (this.resultHeight - (i3 * f2)) / 2.0f);
     }
 
     public void setupGradient(final Runnable runnable) {
@@ -1636,6 +1646,35 @@ public class StoryEntry {
         storyEntry.roundThumb = this.roundThumb;
         storyEntry.roundOffset = this.roundOffset;
         storyEntry.roundVolume = this.roundVolume;
+        storyEntry.isEditingCover = this.isEditingCover;
+        storyEntry.botId = this.botId;
+        storyEntry.botLang = this.botLang;
+        storyEntry.editingBotPreview = this.editingBotPreview;
+        storyEntry.cover = this.cover;
         return storyEntry;
+    }
+
+    public static long getCoverTime(TL_stories$StoryItem tL_stories$StoryItem) {
+        TLRPC$MessageMedia tLRPC$MessageMedia;
+        TLRPC$Document tLRPC$Document;
+        if (tL_stories$StoryItem == null || (tLRPC$MessageMedia = tL_stories$StoryItem.media) == null || (tLRPC$Document = tLRPC$MessageMedia.document) == null) {
+            return 0L;
+        }
+        TLRPC$TL_documentAttributeVideo tLRPC$TL_documentAttributeVideo = null;
+        int i = 0;
+        while (true) {
+            if (i >= tLRPC$Document.attributes.size()) {
+                break;
+            } else if (tLRPC$Document.attributes.get(i) instanceof TLRPC$TL_documentAttributeVideo) {
+                tLRPC$TL_documentAttributeVideo = (TLRPC$TL_documentAttributeVideo) tLRPC$Document.attributes.get(i);
+                break;
+            } else {
+                i++;
+            }
+        }
+        if (tLRPC$TL_documentAttributeVideo == null) {
+            return 0L;
+        }
+        return (long) (tLRPC$TL_documentAttributeVideo.video_start_ts * 1000.0d);
     }
 }

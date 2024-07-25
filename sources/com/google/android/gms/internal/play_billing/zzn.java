@@ -2,7 +2,7 @@ package com.google.android.gms.internal.play_billing;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-/* compiled from: com.android.billingclient:billing@@5.1.0 */
+/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public final class zzn {
     public static String zza(String str, Object... objArr) {
@@ -24,7 +24,7 @@ public final class zzn {
                 try {
                     str2 = obj.toString();
                 } catch (Exception e) {
-                    String str3 = obj.getClass().getName() + '@' + Integer.toHexString(System.identityHashCode(obj));
+                    String str3 = obj.getClass().getName() + "@" + Integer.toHexString(System.identityHashCode(obj));
                     Logger.getLogger("com.google.common.base.Strings").logp(Level.WARNING, "com.google.common.base.Strings", "lenientToString", "Exception during lenientFormat for ".concat(str3), (Throwable) e);
                     str2 = "<" + str3 + " threw " + e.getClass().getName() + ">";
                 }

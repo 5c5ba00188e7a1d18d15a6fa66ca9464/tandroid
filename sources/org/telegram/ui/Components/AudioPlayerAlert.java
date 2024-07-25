@@ -2041,7 +2041,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         }
     }
 
-    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface
+    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
     public void dismiss() {
         super.dismiss();
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.messagePlayingDidReset);
@@ -2056,7 +2056,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         DownloadController.getInstance(this.currentAccount).removeLoadingFileObserver(this);
     }
 
-    @Override // android.app.Dialog
+    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
     public void onBackPressed() {
         ActionBar actionBar = this.actionBar;
         if (actionBar != null && actionBar.isSearchFieldVisible()) {

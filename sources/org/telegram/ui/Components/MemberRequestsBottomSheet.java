@@ -72,7 +72,7 @@ public class MemberRequestsBottomSheet extends UsersAlertBase {
         this.delegate.isNeedRestoreList = false;
     }
 
-    @Override // android.app.Dialog
+    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
     public void onBackPressed() {
         if (this.delegate.onBackPressed()) {
             super.onBackPressed();

@@ -1,7 +1,7 @@
 package com.google.android.gms.internal.play_billing;
 
 import java.util.Set;
-/* compiled from: com.android.billingclient:billing@@5.1.0 */
+/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public abstract class zzy extends zzr implements Set {
     private transient zzu zza;
@@ -42,6 +42,8 @@ public abstract class zzy extends zzr implements Set {
     }
 
     zzu zzh() {
-        return zzu.zzi(toArray());
+        Object[] array = toArray();
+        int i = zzu.zzd;
+        return zzu.zzi(array, array.length);
     }
 }

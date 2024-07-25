@@ -335,7 +335,7 @@ public class GroupColorActivity extends ChannelColorActivity {
                 GroupColorActivity.this.isLoading = false;
             }
 
-            @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface
+            @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
             public void dismiss() {
                 super.dismiss();
                 GroupColorActivity.this.isLoading = false;

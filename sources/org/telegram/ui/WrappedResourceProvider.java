@@ -31,46 +31,79 @@ public class WrappedResourceProvider implements Theme.ResourcesProvider {
         if (indexOfKey >= 0) {
             return this.sparseIntArray.valueAt(indexOfKey);
         }
-        return this.resourcesProvider.getColor(i);
+        Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
+        if (resourcesProvider == null) {
+            return Theme.getColor(i);
+        }
+        return resourcesProvider.getColor(i);
     }
 
     @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
     public int getColorOrDefault(int i) {
-        return this.resourcesProvider.getColorOrDefault(i);
+        Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
+        if (resourcesProvider == null) {
+            return Theme.getColor(i);
+        }
+        return resourcesProvider.getColorOrDefault(i);
     }
 
     @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
     public int getCurrentColor(int i) {
-        return this.resourcesProvider.getCurrentColor(i);
+        Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
+        return resourcesProvider == null ? Theme.getColor(i) : resourcesProvider.getCurrentColor(i);
     }
 
     @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
     public void setAnimatedColor(int i, int i2) {
-        this.resourcesProvider.setAnimatedColor(i, i2);
+        Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
+        if (resourcesProvider != null) {
+            resourcesProvider.setAnimatedColor(i, i2);
+        }
     }
 
     @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
     public Drawable getDrawable(String str) {
-        return this.resourcesProvider.getDrawable(str);
+        Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
+        if (resourcesProvider == null) {
+            return Theme.getThemeDrawable(str);
+        }
+        return resourcesProvider.getDrawable(str);
     }
 
     @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
     public Paint getPaint(String str) {
-        return this.resourcesProvider.getPaint(str);
+        Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
+        if (resourcesProvider == null) {
+            return Theme.getThemePaint(str);
+        }
+        return resourcesProvider.getPaint(str);
     }
 
     @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
     public boolean hasGradientService() {
-        return this.resourcesProvider.hasGradientService();
+        Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
+        if (resourcesProvider == null) {
+            return Theme.hasGradientService();
+        }
+        return resourcesProvider.hasGradientService();
     }
 
     @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
     public void applyServiceShaderMatrix(int i, int i2, float f, float f2) {
-        this.resourcesProvider.applyServiceShaderMatrix(i, i2, f, f2);
+        Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
+        if (resourcesProvider == null) {
+            Theme.applyServiceShaderMatrix(i, i2, f, f2);
+        } else {
+            resourcesProvider.applyServiceShaderMatrix(i, i2, f, f2);
+        }
     }
 
     @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
     public ColorFilter getAnimatedEmojiColorFilter() {
-        return this.resourcesProvider.getAnimatedEmojiColorFilter();
+        Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
+        if (resourcesProvider == null) {
+            return Theme.getAnimatedEmojiColorFilter(null);
+        }
+        return resourcesProvider.getAnimatedEmojiColorFilter();
     }
 }

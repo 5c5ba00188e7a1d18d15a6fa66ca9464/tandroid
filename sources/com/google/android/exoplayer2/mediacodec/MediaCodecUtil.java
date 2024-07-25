@@ -128,7 +128,7 @@ public final class MediaCodecUtil {
                         return 128;
                     default:
                         switch (i) {
-                            case R.styleable.AppCompatTheme_actionModeTheme /* 30 */:
+                            case 30:
                                 return LiteMode.FLAG_CHAT_BLUR;
                             case R.styleable.AppCompatTheme_actionModeWebSearchDrawable /* 31 */:
                                 return LiteMode.FLAG_CALLS_ANIMATIONS;
@@ -502,17 +502,17 @@ public final class MediaCodecUtil {
     }
 
     /* JADX WARN: Can't wrap try/catch for region: R(7:28|(4:(2:72|73)|53|(9:56|57|58|59|60|61|62|64|65)|9)|32|33|34|36|9) */
-    /* JADX WARN: Code restructure failed: missing block: B:32:0x007f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:32:0x0080, code lost:
         if (r1.secure == false) goto L32;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:35:0x00a4, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:35:0x00a5, code lost:
         r0 = e;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:36:0x00a5, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:36:0x00a6, code lost:
         r1 = r11;
      */
-    /* JADX WARN: Removed duplicated region for block: B:57:0x0101 A[Catch: Exception -> 0x014f, TRY_ENTER, TryCatch #1 {Exception -> 0x014f, blocks: (B:3:0x0008, B:5:0x001b, B:60:0x0120, B:8:0x002d, B:11:0x0038, B:54:0x00f9, B:57:0x0101, B:59:0x0107, B:61:0x012a, B:62:0x014d), top: B:70:0x0008 }] */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x012a A[ADDED_TO_REGION, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x0102 A[Catch: Exception -> 0x0150, TRY_ENTER, TryCatch #1 {Exception -> 0x0150, blocks: (B:3:0x0009, B:5:0x001c, B:60:0x0121, B:8:0x002e, B:11:0x0039, B:54:0x00fa, B:57:0x0102, B:59:0x0108, B:61:0x012b, B:62:0x014e), top: B:70:0x0009 }] */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x012b A[ADDED_TO_REGION, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

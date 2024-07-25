@@ -18,6 +18,8 @@ public class CombinedDrawable extends Drawable implements Drawable.Callback {
     private int offsetX;
     private int offsetY;
     private int top;
+    public float translateX;
+    public float translateY;
 
     @Override // android.graphics.drawable.Drawable
     protected boolean onStateChange(int[] iArr) {
@@ -114,6 +116,8 @@ public class CombinedDrawable extends Drawable implements Drawable.Callback {
 
     @Override // android.graphics.drawable.Drawable
     public void draw(Canvas canvas) {
+        canvas.save();
+        canvas.translate(this.translateX, this.translateY);
         if (this.center) {
             android.graphics.Rect bounds = getBounds();
             setBounds(bounds.centerX() - (getIntrinsicWidth() / 2), bounds.centerY() - (getIntrinsicHeight() / 2), bounds.centerX() + (getIntrinsicWidth() / 2), bounds.centerY() + (getIntrinsicHeight() / 2));
@@ -148,6 +152,7 @@ public class CombinedDrawable extends Drawable implements Drawable.Callback {
             }
             this.icon.draw(canvas);
         }
+        canvas.restore();
     }
 
     @Override // android.graphics.drawable.Drawable

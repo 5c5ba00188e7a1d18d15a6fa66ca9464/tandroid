@@ -9,12 +9,15 @@ public class TLRPC$StarsTransaction extends TLObject {
     public ArrayList<TLRPC$MessageMedia> extended_media = new ArrayList<>();
     public boolean failed;
     public int flags;
+    public boolean gift;
     public String id;
     public int msg_id;
     public TLRPC$StarsTransactionPeer peer;
     public boolean pending;
     public TLRPC$WebDocument photo;
+    public TLRPC$Peer received_by;
     public boolean refund;
+    public TLRPC$Peer sent_by;
     public long stars;
     public String title;
     public int transaction_date;

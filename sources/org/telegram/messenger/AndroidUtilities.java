@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.KeyguardManager;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -1174,7 +1175,7 @@ public class AndroidUtilities {
             Linkify.addLinks(spannable, 4);
         }
         if ((i & 1) != 0) {
-            gatherLinks(arrayList, spannable, LinkifyPort.WEB_URL, new String[]{"http://", "https://", "tg://"}, sUrlMatchFilter, z);
+            gatherLinks(arrayList, spannable, LinkifyPort.WEB_URL, new String[]{"http://", "https://", "tg://", "tonsite://"}, sUrlMatchFilter, z);
         }
         pruneOverlaps(arrayList);
         if (arrayList.size() == 0) {
@@ -4000,8 +4001,8 @@ public class AndroidUtilities {
                 i++;
             }
             return charSequence;
-        } else if (charSequence instanceof SpannableStringBuilder) {
-            SpannableStringBuilder spannableStringBuilder = (SpannableStringBuilder) charSequence;
+        } else if (charSequence instanceof Spannable) {
+            SpannableStringBuilder spannableStringBuilder = charSequence instanceof SpannableStringBuilder ? (SpannableStringBuilder) charSequence : new SpannableStringBuilder(charSequence);
             int length2 = charSequence.length();
             while (i < length2) {
                 if (charSequence.charAt(i) == '\n') {
@@ -5422,10 +5423,22 @@ public class AndroidUtilities {
         if (baseFragment == null) {
             return false;
         }
-        if (baseFragment.visibleDialog != null) {
-            return true;
+        Dialog dialog = baseFragment.visibleDialog;
+        if (dialog == null || (dialog instanceof AlertDialog) || ((dialog instanceof BottomSheet) && ((BottomSheet) dialog).attachedFragment != null)) {
+            if (baseFragment.getParentLayout() == null || (allGlobalViews = allGlobalViews()) == null || allGlobalViews.isEmpty()) {
+                return false;
+            }
+            View view = null;
+            for (int size = allGlobalViews.size() - 1; size >= 0; size--) {
+                view = allGlobalViews.get(size);
+                Dialog dialog2 = baseFragment.visibleDialog;
+                if ((!(dialog2 instanceof AlertDialog) || view != getRootView(((AlertDialog) dialog2).getContainerView())) && !(view instanceof AlertDialog.AlertDialogView) && !(view instanceof PipRoundVideoView.PipFrameLayout)) {
+                    break;
+                }
+            }
+            return view != getRootView(baseFragment.getParentLayout().getView());
         }
-        return (baseFragment.getParentLayout() == null || (allGlobalViews = allGlobalViews()) == null || allGlobalViews.isEmpty() || allGlobalViews.get(allGlobalViews.size() - 1) == getRootView(baseFragment.getParentLayout().getView())) ? false : true;
+        return true;
     }
 
     public static View getRootView(View view) {
@@ -5474,7 +5487,7 @@ public class AndroidUtilities {
                 canvas.drawColor(Theme.getColor(Theme.key_windowBackgroundWhite));
                 for (int i3 = 0; i3 < allGlobalViews.size(); i3++) {
                     View view2 = allGlobalViews.get(i3);
-                    if (!(view2 instanceof PipRoundVideoView.PipFrameLayout) && !(view2 instanceof PipRoundVideoView.PipFrameLayout) && (list == null || !list.contains(view2))) {
+                    if (!(view2 instanceof PipRoundVideoView.PipFrameLayout) && (list == null || !list.contains(view2))) {
                         ViewGroup.LayoutParams layoutParams = view2.getLayoutParams();
                         if (layoutParams instanceof WindowManager.LayoutParams) {
                             WindowManager.LayoutParams layoutParams2 = (WindowManager.LayoutParams) layoutParams;
@@ -5487,15 +5500,16 @@ public class AndroidUtilities {
                         canvas.translate(iArr[0] / f, iArr[1] / f);
                         try {
                             view2.draw(canvas);
-                        } catch (Exception unused) {
+                        } catch (Exception e) {
+                            FileLog.e(e);
                         }
                         canvas.restore();
                     }
                 }
                 Utilities.stackBlurBitmap(createBitmap, Math.max(i, Math.max(width, i2) / 180));
                 callback.run(createBitmap);
-            } catch (Exception e) {
-                FileLog.e(e);
+            } catch (Exception e2) {
+                FileLog.e(e2);
                 callback.run(null);
             }
         } finally {
@@ -5560,13 +5574,20 @@ public class AndroidUtilities {
     }
 
     public static String getHostAuthority(String str) {
+        return getHostAuthority(str, false);
+    }
+
+    public static String getHostAuthority(String str, boolean z) {
         if (str == null) {
             return null;
         }
         Matcher matcher = getURIParsePattern().matcher(str);
         if (matcher.matches()) {
             String group = matcher.group(4);
-            return group != null ? group.toLowerCase() : group;
+            if (group != null) {
+                group = group.toLowerCase();
+            }
+            return (z && group != null && group.startsWith("www.")) ? group.substring(4) : group;
         }
         return null;
     }
@@ -5576,6 +5597,13 @@ public class AndroidUtilities {
             return null;
         }
         return getHostAuthority(uri.toString());
+    }
+
+    public static String getHostAuthority(Uri uri, boolean z) {
+        if (uri == null) {
+            return null;
+        }
+        return getHostAuthority(uri.toString(), z);
     }
 
     public static boolean intersect1d(int i, int i2, int i3, int i4) {
@@ -5911,40 +5939,89 @@ public class AndroidUtilities {
         }
     }
 
-    public static void applySpring(Animator animator, float f, float f2) {
-        applySpring(animator, f, f2, 1.0f);
+    public static void applySpring(Animator animator, double d, double d2) {
+        applySpring(animator, d, d2, 1.0d, 0.0d);
     }
 
-    public static void applySpring(Animator animator, float f, float f2, float f3) {
-        double d = f2;
-        double d2 = f * f3;
-        Double.isNaN(d);
-        final double sqrt = d / (Math.sqrt(d2) * 2.0d);
-        double d3 = f / f3;
-        final double sqrt2 = Math.sqrt(d3);
-        double sqrt3 = Math.sqrt(d3);
-        Double.isNaN(d);
-        animator.setDuration((long) ((Math.log(0.0025d) / ((-(d / (Math.sqrt(d2) * 2.0d))) * sqrt3)) * 1000.0d));
+    public static void applySpring(Animator animator, double d, double d2, double d3) {
+        applySpring(animator, d, d2, d3, 0.0d);
+    }
+
+    public static void applySpring(Animator animator, double d, double d2, double d3, double d4) {
+        final double d5;
+        final double d6;
+        final double sqrt = Math.sqrt(d / d3);
+        final double sqrt2 = d2 / (Math.sqrt(d * d3) * 2.0d);
+        if (sqrt2 < 1.0d) {
+            double sqrt3 = Math.sqrt(1.0d - (sqrt2 * sqrt2)) * sqrt;
+            d6 = sqrt3;
+            d5 = ((sqrt2 * sqrt) + (-d4)) / sqrt3;
+        } else {
+            d5 = (-d4) + sqrt;
+            d6 = 0.0d;
+        }
+        animator.setDuration((long) ((Math.log(0.0025d) / ((-sqrt2) * sqrt)) * 1000.0d));
         animator.setInterpolator(new Interpolator() { // from class: org.telegram.messenger.AndroidUtilities.11
+            @Override // android.animation.TimeInterpolator
+            public float getInterpolation(float f) {
+                double d7;
+                double exp;
+                double d8 = sqrt2;
+                if (d8 < 1.0d) {
+                    double d9 = -f;
+                    Double.isNaN(d9);
+                    d7 = Math.exp(d9 * d8 * sqrt);
+                    double d10 = r5;
+                    double d11 = d6;
+                    double d12 = f;
+                    Double.isNaN(d12);
+                    double cos = d10 * Math.cos(d11 * d12);
+                    double d13 = d5;
+                    double d14 = d6;
+                    Double.isNaN(d12);
+                    exp = cos + (d13 * Math.sin(d14 * d12));
+                } else {
+                    double d15 = r5;
+                    double d16 = d5;
+                    double d17 = f;
+                    Double.isNaN(d17);
+                    d7 = d15 + (d16 * d17);
+                    double d18 = -f;
+                    double d19 = sqrt;
+                    Double.isNaN(d18);
+                    exp = Math.exp(d18 * d19);
+                }
+                return (float) (1.0d - (d7 * exp));
+            }
+        });
+    }
+
+    public static void applySpring(Animator animator, float f, float f2, float f3, long j) {
+        double d = f2;
+        Double.isNaN(d);
+        final double sqrt = d / (Math.sqrt(f * f3) * 2.0d);
+        final double sqrt2 = Math.sqrt(f / f3);
+        animator.setDuration(j);
+        animator.setInterpolator(new Interpolator() { // from class: org.telegram.messenger.AndroidUtilities.12
             @Override // android.animation.TimeInterpolator
             public float getInterpolation(float f4) {
                 double exp;
-                double d4 = sqrt;
-                if (d4 < 1.0d) {
-                    double sqrt4 = sqrt2 * Math.sqrt(1.0d - (d4 * d4));
-                    double d5 = (-sqrt) * sqrt2;
-                    double d6 = f4;
-                    Double.isNaN(d6);
-                    double exp2 = Math.exp(d5 * d6);
-                    Double.isNaN(d6);
-                    double d7 = d6 * sqrt4;
-                    exp = 1.0d - (exp2 * (Math.cos(d7) + (((sqrt * sqrt2) / sqrt4) * Math.sin(d7))));
+                double d2 = sqrt;
+                if (d2 < 1.0d) {
+                    double sqrt3 = sqrt2 * Math.sqrt(1.0d - (d2 * d2));
+                    double d3 = (-sqrt) * sqrt2;
+                    double d4 = f4;
+                    Double.isNaN(d4);
+                    double exp2 = Math.exp(d3 * d4);
+                    Double.isNaN(d4);
+                    double d5 = d4 * sqrt3;
+                    exp = 1.0d - (exp2 * (Math.cos(d5) + (((sqrt * sqrt2) / sqrt3) * Math.sin(d5))));
                 } else {
-                    double d8 = (-d4) * sqrt2;
-                    double d9 = f4;
-                    Double.isNaN(d9);
-                    double d10 = d8 * d9;
-                    exp = 1.0d - ((d10 + 1.0d) * Math.exp(d10));
+                    double d6 = (-d2) * sqrt2;
+                    double d7 = f4;
+                    Double.isNaN(d7);
+                    double d8 = d6 * d7;
+                    exp = 1.0d - ((d8 + 1.0d) * Math.exp(d8));
                 }
                 return (float) exp;
             }
@@ -5953,7 +6030,7 @@ public class AndroidUtilities {
 
     /* JADX WARN: Removed duplicated region for block: B:29:0x004d A[ADDED_TO_REGION] */
     /* JADX WARN: Removed duplicated region for block: B:40:0x0075 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x0076 A[Catch: Exception -> 0x01a2, TryCatch #0 {Exception -> 0x01a2, blocks: (B:5:0x0004, B:8:0x000f, B:11:0x0016, B:32:0x0053, B:34:0x005b, B:36:0x0063, B:38:0x006f, B:41:0x0076, B:43:0x0090, B:45:0x0098, B:48:0x00a2, B:51:0x00b3, B:53:0x00bf, B:54:0x00c2, B:56:0x00c8, B:58:0x00cf, B:61:0x00da, B:63:0x00e0, B:66:0x00ed, B:67:0x00f1, B:111:0x018b, B:69:0x00f6, B:72:0x0101, B:75:0x010d, B:78:0x0118, B:81:0x0123, B:84:0x012d, B:87:0x0137, B:90:0x0142, B:93:0x014c, B:96:0x0157, B:99:0x0162, B:102:0x016d, B:105:0x0177, B:108:0x0182, B:114:0x0190, B:116:0x0196, B:18:0x002c, B:21:0x0036, B:24:0x0040), top: B:122:0x0004 }] */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x0076 A[Catch: Exception -> 0x01b9, TryCatch #0 {Exception -> 0x01b9, blocks: (B:5:0x0004, B:8:0x000f, B:11:0x0016, B:32:0x0053, B:34:0x005b, B:36:0x0063, B:38:0x006f, B:41:0x0076, B:43:0x0090, B:45:0x0098, B:48:0x00a2, B:51:0x00b3, B:53:0x00bf, B:54:0x00c2, B:56:0x00c8, B:58:0x00cf, B:61:0x00da, B:63:0x00e0, B:66:0x00ed, B:67:0x00f1, B:111:0x018b, B:112:0x018e, B:114:0x0194, B:117:0x019d, B:69:0x00f6, B:72:0x0101, B:75:0x010d, B:78:0x0118, B:81:0x0123, B:84:0x012d, B:87:0x0137, B:90:0x0142, B:93:0x014c, B:96:0x0157, B:99:0x0162, B:102:0x016d, B:105:0x0177, B:108:0x0182, B:121:0x01a7, B:123:0x01ad, B:18:0x002c, B:21:0x0036, B:24:0x0040), top: B:129:0x0004 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -6007,7 +6084,7 @@ public class AndroidUtilities {
                             return false;
                         }
                         if (arrayList.size() > 1) {
-                            String str2 = (String) arrayList.get(1);
+                            String str2 = (String) arrayList.get(0);
                             if (TextUtils.isEmpty(str2)) {
                                 return false;
                             }
@@ -6114,7 +6191,8 @@ public class AndroidUtilities {
                                 case '\r':
                                     return false;
                                 default:
-                                    return true;
+                                    String str3 = (String) arrayList.get(1);
+                                    return (TextUtils.isEmpty(str3) || str3.matches("^\\d+$")) ? false : true;
                             }
                         } else if (arrayList.size() == 1) {
                             return !TextUtils.isEmpty(parse.getQueryParameter("startapp"));

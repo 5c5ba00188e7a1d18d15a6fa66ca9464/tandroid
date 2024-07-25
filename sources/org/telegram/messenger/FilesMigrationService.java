@@ -241,6 +241,11 @@ public class FilesMigrationService extends Service {
             return false;
         }
 
+        @Override // org.telegram.ui.ActionBar.BottomSheet, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
+        public /* bridge */ /* synthetic */ void setLastVisible(boolean z) {
+            BaseFragment.AttachedSheet.-CC.$default$setLastVisible(this, z);
+        }
+
         public FilesMigrationBottomSheet(BaseFragment baseFragment) {
             super(baseFragment.getParentActivity(), false);
             this.fragment = baseFragment;
@@ -320,7 +325,7 @@ public class FilesMigrationService extends Service {
             dismiss();
         }
 
-        @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface
+        @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
         public void dismiss() {
             super.dismiss();
             FilesMigrationService.filesMigrationBottomSheet = null;

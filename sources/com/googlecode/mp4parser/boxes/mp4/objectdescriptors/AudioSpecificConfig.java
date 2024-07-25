@@ -191,7 +191,7 @@ public class AudioSpecificConfig extends BaseDescriptor {
                 break;
             case 28:
                 throw new UnsupportedOperationException("can't parse SSCSpecificConfig yet");
-            case R.styleable.AppCompatTheme_actionModeTheme /* 30 */:
+            case 30:
                 this.sacPayloadEmbedding = bitReaderBuffer.readBits(1);
                 throw new UnsupportedOperationException("can't parse SpatialSpecificConfig yet");
             case 32:

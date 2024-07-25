@@ -3,7 +3,7 @@ package com.google.android.gms.internal.play_billing;
 import android.os.Bundle;
 import android.os.IInterface;
 import android.os.RemoteException;
-/* compiled from: com.android.billingclient:billing@@5.1.0 */
+/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public interface zze extends IInterface {
     int zza(int i, String str, String str2) throws RemoteException;
@@ -22,5 +22,5 @@ public interface zze extends IInterface {
 
     Bundle zzl(int i, String str, String str2, Bundle bundle, Bundle bundle2) throws RemoteException;
 
-    int zzr(int i, String str, String str2) throws RemoteException;
+    int zzq(int i, String str, String str2) throws RemoteException;
 }

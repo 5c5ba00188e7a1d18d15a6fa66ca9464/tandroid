@@ -370,10 +370,10 @@ public class TextCell extends FrameLayout {
         }
     }
 
-    public void setTextAndIcon(String str, Drawable drawable, boolean z) {
+    public void setTextAndIcon(CharSequence charSequence, Drawable drawable, boolean z) {
         this.offsetFromImage = 71;
         this.imageLeft = 18;
-        this.textView.setText(str);
+        this.textView.setText(charSequence);
         this.textView.setRightDrawable((Drawable) null);
         AnimatedTextView animatedTextView = this.valueTextView;
         this.valueText = null;

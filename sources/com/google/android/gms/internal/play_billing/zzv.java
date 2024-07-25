@@ -1,5 +1,5 @@
 package com.google.android.gms.internal.play_billing;
-/* compiled from: com.android.billingclient:billing@@5.1.0 */
+/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 final class zzv {
     private final Object zza;
@@ -15,6 +15,10 @@ final class zzv {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public final IllegalArgumentException zza() {
-        return new IllegalArgumentException("Multiple entries with same key: " + this.zza + "=" + this.zzb + " and " + this.zza + "=" + this.zzc);
+        String valueOf = String.valueOf(this.zza);
+        String valueOf2 = String.valueOf(this.zzb);
+        String valueOf3 = String.valueOf(this.zza);
+        String valueOf4 = String.valueOf(this.zzc);
+        return new IllegalArgumentException("Multiple entries with same key: " + valueOf + "=" + valueOf2 + " and " + valueOf3 + "=" + valueOf4);
     }
 }

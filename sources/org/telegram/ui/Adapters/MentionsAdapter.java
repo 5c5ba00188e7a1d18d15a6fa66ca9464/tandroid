@@ -39,7 +39,6 @@ import org.telegram.messenger.UserObject;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$BotInfo;
 import org.telegram.tgnet.TLRPC$BotInlineResult;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$ChatFull;
@@ -73,6 +72,7 @@ import org.telegram.tgnet.TLRPC$TL_photoSize;
 import org.telegram.tgnet.TLRPC$TL_photoSizeProgressive;
 import org.telegram.tgnet.TLRPC$TL_topPeer;
 import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.tl.TL_bots$BotInfo;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Adapters.MentionsAdapter;
@@ -89,7 +89,7 @@ import org.telegram.ui.Components.EmojiView;
 import org.telegram.ui.Components.RecyclerListView;
 /* loaded from: classes4.dex */
 public class MentionsAdapter extends RecyclerListView.SelectionAdapter implements NotificationCenter.NotificationCenterDelegate {
-    private LongSparseArray<TLRPC$BotInfo> botInfo;
+    private LongSparseArray<TL_bots$BotInfo> botInfo;
     private int botsCount;
     private Runnable cancelDelayRunnable;
     private int channelLastReqId;
@@ -573,7 +573,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
         this.needBotContext = z;
     }
 
-    public void setBotInfo(LongSparseArray<TLRPC$BotInfo> longSparseArray) {
+    public void setBotInfo(LongSparseArray<TL_bots$BotInfo> longSparseArray) {
         this.botInfo = longSparseArray;
     }
 
@@ -1528,7 +1528,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                     ArrayList<TLRPC$User> arrayList11 = new ArrayList<>();
                     String lowerCase2 = sb2.toString().toLowerCase();
                     for (int i17 = 0; i17 < mentionsAdapter.botInfo.size(); i17++) {
-                        TLRPC$BotInfo valueAt = mentionsAdapter.botInfo.valueAt(i17);
+                        TL_bots$BotInfo valueAt = mentionsAdapter.botInfo.valueAt(i17);
                         for (int i18 = 0; i18 < valueAt.commands.size(); i18++) {
                             TLRPC$TL_botCommand tLRPC$TL_botCommand = valueAt.commands.get(i18);
                             if (tLRPC$TL_botCommand != null && (str6 = tLRPC$TL_botCommand.command) != null && str6.startsWith(lowerCase2)) {

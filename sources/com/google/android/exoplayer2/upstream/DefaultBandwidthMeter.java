@@ -1746,7 +1746,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 return new int[]{1, 2, 3, 2, 2, 2};
             case 29:
                 return new int[]{1, 1, 2, 1, 1, 0};
-            case R.styleable.AppCompatTheme_actionModeTheme /* 30 */:
+            case 30:
             case 'v':
                 return new int[]{3, 2, 1, 2, 2, 2};
             case R.styleable.AppCompatTheme_actionModeWebSearchDrawable /* 31 */:

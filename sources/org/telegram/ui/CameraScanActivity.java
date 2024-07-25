@@ -240,7 +240,7 @@ public class CameraScanActivity extends BaseFragment {
             this.fragment.onFragmentDestroy();
         }
 
-        @Override // android.app.Dialog
+        @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
         public void onBackPressed() {
             INavigationLayout[] iNavigationLayoutArr = this.val$actionBarLayout;
             if (iNavigationLayoutArr[0] == null || iNavigationLayoutArr[0].getFragmentStack().size() <= 1) {
@@ -250,7 +250,7 @@ public class CameraScanActivity extends BaseFragment {
             }
         }
 
-        @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface
+        @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
         public void dismiss() {
             super.dismiss();
             this.val$actionBarLayout[0] = null;

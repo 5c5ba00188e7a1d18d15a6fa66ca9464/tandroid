@@ -48,6 +48,7 @@ public class ButtonWithCounterView extends FrameLayout implements Loadable {
     private ValueAnimator loadingAnimator;
     private CircularProgressDrawable loadingDrawable;
     private float loadingT;
+    private int minWidth;
     private final Paint paint;
     private Theme.ResourcesProvider resourcesProvider;
     private final View rippleView;
@@ -61,6 +62,7 @@ public class ButtonWithCounterView extends FrameLayout implements Loadable {
     private int timerSeconds;
     private boolean withCounterIcon;
     public boolean wrapContentDynamic;
+    private boolean wrapWidth;
 
     protected float calculateCounterWidth(float f, float f2) {
         return f * f2;
@@ -564,5 +566,20 @@ public class ButtonWithCounterView extends FrameLayout implements Loadable {
 
     public void wrapContentDynamic() {
         this.wrapContentDynamic = true;
+    }
+
+    public void setMinWidth(int i) {
+        this.wrapWidth = true;
+        this.minWidth = i;
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // android.widget.FrameLayout, android.view.View
+    public void onMeasure(int i, int i2) {
+        if (this.wrapWidth) {
+            super.onMeasure(View.MeasureSpec.makeMeasureSpec((int) Math.min(Math.max(getPaddingLeft() + this.text.getCurrentWidth() + getPaddingRight(), this.minWidth), View.MeasureSpec.getSize(i)), 1073741824), i2);
+        } else {
+            super.onMeasure(i, i2);
+        }
     }
 }

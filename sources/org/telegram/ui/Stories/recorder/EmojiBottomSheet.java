@@ -19,9 +19,11 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ShapeDrawable;
 import android.os.Build;
 import android.text.Editable;
 import android.text.Layout;
+import android.text.SpannableStringBuilder;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.text.TextUtils;
@@ -124,6 +126,7 @@ import org.telegram.ui.Components.EmojiTabsStrip;
 import org.telegram.ui.Components.EmojiView;
 import org.telegram.ui.Components.ExtendedGridLayoutManager;
 import org.telegram.ui.Components.LayoutHelper;
+import org.telegram.ui.Components.LoadingSpan;
 import org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.Reactions.ReactionImageHolder;
@@ -139,6 +142,7 @@ import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.SelectAnimatedEmojiDialog;
 import org.telegram.ui.Stories.StoryReactionWidgetBackground;
 import org.telegram.ui.Stories.recorder.EmojiBottomSheet;
+import org.telegram.ui.Stories.recorder.Weather;
 import org.telegram.ui.WrappedResourceProvider;
 /* loaded from: classes4.dex */
 public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.NotificationCenterDelegate {
@@ -1662,7 +1666,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                         int dp = AndroidUtilities.dp(28.0f);
                         EmojiBottomSheet emojiBottomSheet = EmojiBottomSheet.this;
                         int i3 = Theme.key_chat_emojiPanelIcon;
-                        Drawable createRoundRectDrawable = Theme.createRoundRectDrawable(dp, Theme.multAlpha(emojiBottomSheet.getThemedColor(i3), 0.12f));
+                        ShapeDrawable createRoundRectDrawable = Theme.createRoundRectDrawable(dp, Theme.multAlpha(emojiBottomSheet.getThemedColor(i3), 0.12f));
                         Drawable mutate = Page.this.getResources().getDrawable(R.drawable.filled_add_sticker).mutate();
                         mutate.setColorFilter(new PorterDuffColorFilter(EmojiBottomSheet.this.getThemedColor(i3), PorterDuff.Mode.MULTIPLY));
                         CombinedDrawable combinedDrawable = new CombinedDrawable(createRoundRectDrawable, mutate);
@@ -1936,7 +1940,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
         }
     }
 
-    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface
+    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
     public void dismiss() {
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.stickersDidLoad);
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.groupStickersDidLoad);
@@ -3299,8 +3303,38 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
             ArrayList arrayList = new ArrayList();
             this.widgets = arrayList;
             setPadding(0, 0, 0, 0);
+            if (EmojiBottomSheet.this.canShowWidget(4)) {
+                arrayList.add(new Button(4, R.drawable.msg_limit_links, LocaleController.getString(R.string.StoryWidgetLink)).needsPremium());
+            }
             if (EmojiBottomSheet.this.canShowWidget(0)) {
                 arrayList.add(new Button(0, R.drawable.map_pin3, LocaleController.getString(R.string.StoryWidgetLocation)));
+            }
+            if (EmojiBottomSheet.this.canShowWidget(5)) {
+                Weather.State cached = Weather.getCached();
+                final Button[] buttonArr = {null};
+                StringBuilder sb = new StringBuilder();
+                sb.append(cached == null ? "🌤" : cached.getEmoji());
+                sb.append(" ");
+                sb.append(cached == null ? Weather.isDefaultCelsius() ? "24°C" : "72°F" : cached.getTemperature());
+                CharSequence replaceEmoji = Emoji.replaceEmoji(sb.toString(), textPaint.getFontMetricsInt(), false);
+                SpannableStringBuilder spannableStringBuilder = replaceEmoji;
+                if (MessagesController.getInstance(((BottomSheet) EmojiBottomSheet.this).currentAccount).storyWeatherPreload) {
+                    spannableStringBuilder = replaceEmoji;
+                    spannableStringBuilder = replaceEmoji;
+                    if (Weather.hasLocationPermission() && cached == null) {
+                        SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder("___");
+                        spannableStringBuilder2.setSpan(new LoadingSpan(this, AndroidUtilities.dp(68.0f)), 0, spannableStringBuilder2.length(), 33);
+                        buttonArr[0] = new Button(this, 5, spannableStringBuilder2);
+                        Weather.fetch(false, new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet$StoryWidgetsCell$$ExternalSyntheticLambda0
+                            @Override // org.telegram.messenger.Utilities.Callback
+                            public final void run(Object obj) {
+                                EmojiBottomSheet.StoryWidgetsCell.this.lambda$new$0(buttonArr, (Weather.State) obj);
+                            }
+                        });
+                        spannableStringBuilder = spannableStringBuilder2;
+                    }
+                }
+                arrayList.add(buttonArr[0] == null ? new Button(this, 5, spannableStringBuilder) : buttonArr[0]);
             }
             if (EmojiBottomSheet.this.canShowWidget(1)) {
                 arrayList.add(new Button(1, R.drawable.filled_widget_music, LocaleController.getString(R.string.StoryWidgetAudio)));
@@ -3308,16 +3342,27 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
             if (EmojiBottomSheet.this.canShowWidget(2)) {
                 arrayList.add(new Button(2, R.drawable.filled_premium_camera, LocaleController.getString(R.string.StoryWidgetPhoto)));
             }
-            if (EmojiBottomSheet.this.canShowWidget(4)) {
-                arrayList.add(new Button(4, R.drawable.msg_limit_links, LocaleController.getString(R.string.StoryWidgetLink)).needsPremium());
-            }
             if (EmojiBottomSheet.this.canShowWidget(3)) {
                 arrayList.add(new ReactionWidget());
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$new$0(Button[] buttonArr, Weather.State state) {
+            Button button = buttonArr[0];
+            StringBuilder sb = new StringBuilder();
+            sb.append(state == null ? "🌤" : state.getEmoji());
+            sb.append(" ");
+            sb.append(state == null ? Weather.isDefaultCelsius() ? "24°C" : "72°F" : state.getTemperature());
+            button.setText(Emoji.replaceEmoji(sb.toString(), this.textPaint.getFontMetricsInt(), false));
+            invalidate();
+            requestLayout();
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
         /* loaded from: classes4.dex */
-        private abstract class BaseWidget {
+        public abstract class BaseWidget {
+            public AnimatedFloat animatedWidth;
             ButtonBounce bounce;
             RectF bounds;
             float height;
@@ -3336,12 +3381,15 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                 this.layoutLine = 0;
                 this.bounds = new RectF();
                 this.bounce = new ButtonBounce(StoryWidgetsCell.this);
+                this.animatedWidth = new AnimatedFloat(StoryWidgetsCell.this, 350L, CubicBezierInterpolator.EASE_OUT_QUINT);
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         /* loaded from: classes4.dex */
-        private class Button extends BaseWidget {
+        public class Button extends BaseWidget {
             Drawable drawable;
+            String emojiDrawable;
             StaticLayout layout;
             Drawable lockDrawable;
             Paint lockPaint;
@@ -3359,6 +3407,26 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                 this.textWidth = staticLayout.getLineCount() > 0 ? this.layout.getLineWidth(0) : 0.0f;
                 this.textLeft = this.layout.getLineCount() > 0 ? this.layout.getLineLeft(0) : 0.0f;
                 this.width = AndroidUtilities.dpf2(45.6f) + this.textWidth;
+                this.height = AndroidUtilities.dpf2(36.0f);
+            }
+
+            public Button(View view, int i, CharSequence charSequence) {
+                super();
+                this.id = i;
+                StaticLayout staticLayout = new StaticLayout(TextUtils.ellipsize(charSequence, StoryWidgetsCell.this.textPaint, AndroidUtilities.displaySize.x * 0.8f, TextUtils.TruncateAt.END), StoryWidgetsCell.this.textPaint, 99999, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                this.layout = staticLayout;
+                this.textWidth = staticLayout.getLineCount() > 0 ? this.layout.getLineWidth(0) : 0.0f;
+                this.textLeft = this.layout.getLineCount() > 0 ? this.layout.getLineLeft(0) : 0.0f;
+                this.width = AndroidUtilities.dpf2(12.0f) + this.textWidth;
+                this.height = AndroidUtilities.dpf2(36.0f);
+            }
+
+            public void setText(CharSequence charSequence) {
+                StaticLayout staticLayout = new StaticLayout(TextUtils.ellipsize(charSequence, StoryWidgetsCell.this.textPaint, AndroidUtilities.displaySize.x * 0.8f, TextUtils.TruncateAt.END), StoryWidgetsCell.this.textPaint, 99999, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                this.layout = staticLayout;
+                this.textWidth = staticLayout.getLineCount() > 0 ? this.layout.getLineWidth(0) : 0.0f;
+                this.textLeft = this.layout.getLineCount() > 0 ? this.layout.getLineLeft(0) : 0.0f;
+                this.width = AndroidUtilities.dpf2(17.6f) + this.textWidth;
                 this.height = AndroidUtilities.dpf2(36.0f);
             }
 
@@ -3384,17 +3452,29 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                 if (this.lockDrawable != null) {
                     canvas.saveLayerAlpha(this.bounds, 255, 31);
                 }
-                this.drawable.setBounds((int) (this.bounds.left + AndroidUtilities.dp(6.0f)), (int) ((this.bounds.top + (this.height / 2.0f)) - (AndroidUtilities.dp(24.0f) / 2)), (int) (this.bounds.left + AndroidUtilities.dp(30.0f)), (int) (this.bounds.top + (this.height / 2.0f) + (AndroidUtilities.dp(24.0f) / 2)));
-                this.drawable.draw(canvas);
+                int i = 0;
+                if (this.drawable == null) {
+                    Drawable emojiBigDrawable = Emoji.getEmojiBigDrawable(this.emojiDrawable);
+                    this.drawable = emojiBigDrawable;
+                    if (emojiBigDrawable instanceof Emoji.EmojiDrawable) {
+                        ((Emoji.EmojiDrawable) emojiBigDrawable).fullSize = false;
+                    }
+                }
+                if (this.drawable != null) {
+                    float dp = AndroidUtilities.dp(this.emojiDrawable == null ? 24.0f : 22.0f) / 2;
+                    RectF rectF = this.bounds;
+                    this.drawable.setBounds((int) ((this.bounds.left + AndroidUtilities.dp(18.0f)) - dp), (int) ((rectF.top + (this.height / 2.0f)) - dp), (int) (rectF.left + AndroidUtilities.dp(18.0f) + dp), (int) (this.bounds.top + (this.height / 2.0f) + dp));
+                    this.drawable.draw(canvas);
+                }
                 if (this.lockDrawable != null) {
-                    RectF rectF = AndroidUtilities.rectTmp;
-                    rectF.set(this.bounds.left + AndroidUtilities.dp(18.55f), ((this.bounds.top + this.height) - AndroidUtilities.dp(5.0f)) - AndroidUtilities.dp(12.55f), this.bounds.left + AndroidUtilities.dp(29.45f), this.bounds.left + AndroidUtilities.dp(31.0f));
-                    canvas.drawRoundRect(rectF, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), this.lockPaint);
+                    RectF rectF2 = AndroidUtilities.rectTmp;
+                    rectF2.set(this.bounds.left + AndroidUtilities.dp(18.55f), ((this.bounds.top + this.height) - AndroidUtilities.dp(5.0f)) - AndroidUtilities.dp(12.55f), this.bounds.left + AndroidUtilities.dp(29.45f), this.bounds.left + AndroidUtilities.dp(31.0f));
+                    canvas.drawRoundRect(rectF2, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), this.lockPaint);
                     this.lockDrawable.setBounds((int) (this.bounds.left + AndroidUtilities.dp(18.0f)), (int) (((this.bounds.top + this.height) - AndroidUtilities.dp(5.0f)) - AndroidUtilities.dp(12.0f)), (int) (this.bounds.left + AndroidUtilities.dp(30.0f)), (int) ((this.bounds.top + this.height) - AndroidUtilities.dp(5.0f)));
                     this.lockDrawable.draw(canvas);
                     canvas.restore();
                 }
-                canvas.translate((this.bounds.left + AndroidUtilities.dp(34.0f)) - this.textLeft, (this.bounds.top + (this.height / 2.0f)) - (this.layout.getHeight() / 2.0f));
+                canvas.translate((this.bounds.left + AndroidUtilities.dp(6 + ((this.drawable == null && this.emojiDrawable == null) ? 28 : 28))) - this.textLeft, (this.bounds.top + (this.height / 2.0f)) - (this.layout.getHeight() / 2.0f));
                 this.layout.draw(canvas);
                 canvas.restore();
             }
@@ -3543,7 +3623,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
         @Override // android.view.View
         protected void onMeasure(int i, int i2) {
             int size = View.MeasureSpec.getSize(i);
-            int paddingLeft = (int) (((size - getPaddingLeft()) - getPaddingRight()) * 0.8f);
+            int paddingLeft = (size - getPaddingLeft()) - getPaddingRight();
             int i3 = 1;
             float f = 0.0f;
             for (BaseWidget baseWidget : this.widgets) {
@@ -3576,8 +3656,30 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
 
         @Override // android.view.View
         protected void dispatchDraw(Canvas canvas) {
+            int i = 0;
+            while (true) {
+                try {
+                    float[] fArr = this.lineWidths;
+                    if (i >= fArr.length) {
+                        break;
+                    }
+                    fArr[i] = 0.0f;
+                    i++;
+                } catch (Exception e) {
+                    FileLog.e(e);
+                }
+            }
             for (BaseWidget baseWidget : this.widgets) {
-                baseWidget.draw(canvas, getPaddingLeft() + ((((getMeasuredWidth() - getPaddingLeft()) - getPaddingRight()) - this.lineWidths[baseWidget.layoutLine - 1]) / 2.0f) + baseWidget.layoutX, AndroidUtilities.dp(12.0f) + ((baseWidget.layoutLine - 1) * AndroidUtilities.dp(48.0f)));
+                int i2 = baseWidget.layoutLine - 1;
+                float[] fArr2 = this.lineWidths;
+                if (fArr2[i2] > 0.0f) {
+                    fArr2[i2] = fArr2[i2] + AndroidUtilities.dp(10.0f);
+                }
+                float[] fArr3 = this.lineWidths;
+                fArr3[i2] = fArr3[i2] + baseWidget.animatedWidth.set(baseWidget.width);
+            }
+            for (BaseWidget baseWidget2 : this.widgets) {
+                baseWidget2.draw(canvas, getPaddingLeft() + ((((getMeasuredWidth() - getPaddingLeft()) - getPaddingRight()) - this.lineWidths[baseWidget2.layoutLine - 1]) / 2.0f) + baseWidget2.layoutX, AndroidUtilities.dp(12.0f) + ((baseWidget2.layoutLine - 1) * AndroidUtilities.dp(48.0f)));
             }
         }
 

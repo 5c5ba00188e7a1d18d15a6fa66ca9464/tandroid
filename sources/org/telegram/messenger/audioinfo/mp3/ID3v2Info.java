@@ -481,7 +481,7 @@ public class ID3v2Info extends AudioInfo {
                 }
                 return;
             case 11:
-            case R.styleable.AppCompatTheme_actionModeTheme /* 30 */:
+            case 30:
                 String parseTextFrame4 = parseTextFrame(iD3v2FrameBody);
                 if (parseTextFrame4.length() > 0) {
                     int indexOf3 = parseTextFrame4.indexOf(47);

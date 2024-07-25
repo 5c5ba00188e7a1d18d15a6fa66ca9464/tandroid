@@ -1,8 +1,6 @@
 package com.google.android.datatransport.runtime.dagger.internal;
-
-import com.google.android.datatransport.runtime.dagger.Lazy;
 /* loaded from: classes.dex */
-public final class InstanceFactory<T> implements Factory<T>, Lazy<T> {
+public final class InstanceFactory<T> implements Factory<T> {
     private final T instance;
 
     public static <T> Factory<T> create(T t) {

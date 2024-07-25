@@ -638,7 +638,7 @@ public class StoryLinkSheet extends BottomSheetWithRecyclerListView implements N
         }
     }
 
-    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface
+    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
     public void dismiss() {
         AndroidUtilities.hideKeyboard(this.urlEditText.editText);
         AndroidUtilities.hideKeyboard(this.nameEditText.editText);

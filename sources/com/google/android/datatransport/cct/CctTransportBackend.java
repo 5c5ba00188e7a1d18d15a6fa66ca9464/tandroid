@@ -50,7 +50,6 @@ import java.util.Map;
 import java.util.TimeZone;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
-import org.telegram.messenger.OneUIUtilities;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class CctTransportBackend implements TransportBackend {
@@ -82,7 +81,7 @@ public final class CctTransportBackend implements TransportBackend {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public CctTransportBackend(Context context, Clock clock, Clock clock2) {
-        this(context, clock, clock2, OneUIUtilities.ONE_UI_4_0);
+        this(context, clock, clock2, 130000);
     }
 
     private static TelephonyManager getTelephonyManager(Context context) {
@@ -172,14 +171,14 @@ public final class CctTransportBackend implements TransportBackend {
 
     /* JADX INFO: Access modifiers changed from: private */
     public HttpResponse doSend(HttpRequest httpRequest) throws IOException {
-        Logging.d("CctTransportBackend", "Making request to: %s", httpRequest.url);
+        Logging.i("CctTransportBackend", "Making request to: %s", httpRequest.url);
         HttpURLConnection httpURLConnection = (HttpURLConnection) httpRequest.url.openConnection();
         httpURLConnection.setConnectTimeout(30000);
         httpURLConnection.setReadTimeout(this.readTimeout);
         httpURLConnection.setDoOutput(true);
         httpURLConnection.setInstanceFollowRedirects(false);
         httpURLConnection.setRequestMethod("POST");
-        httpURLConnection.setRequestProperty("User-Agent", String.format("datatransport/%s android/", "3.1.0"));
+        httpURLConnection.setRequestProperty("User-Agent", String.format("datatransport/%s android/", "3.1.8"));
         httpURLConnection.setRequestProperty("Content-Encoding", "gzip");
         httpURLConnection.setRequestProperty("Content-Type", "application/json");
         httpURLConnection.setRequestProperty("Accept-Encoding", "gzip");
@@ -197,9 +196,9 @@ public final class CctTransportBackend implements TransportBackend {
                     outputStream.close();
                 }
                 int responseCode = httpURLConnection.getResponseCode();
-                Logging.i("CctTransportBackend", "Status Code: " + responseCode);
-                Logging.i("CctTransportBackend", "Content-Type: " + httpURLConnection.getHeaderField("Content-Type"));
-                Logging.i("CctTransportBackend", "Content-Encoding: " + httpURLConnection.getHeaderField("Content-Encoding"));
+                Logging.i("CctTransportBackend", "Status Code: %d", Integer.valueOf(responseCode));
+                Logging.d("CctTransportBackend", "Content-Type: %s", httpURLConnection.getHeaderField("Content-Type"));
+                Logging.d("CctTransportBackend", "Content-Encoding: %s", httpURLConnection.getHeaderField("Content-Encoding"));
                 if (responseCode == 302 || responseCode == 301 || responseCode == 307) {
                     return new HttpResponse(responseCode, new URL(httpURLConnection.getHeaderField("Location")), 0L);
                 }

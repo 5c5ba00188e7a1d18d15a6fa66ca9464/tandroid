@@ -730,7 +730,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
         }
     }
 
-    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface
+    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
     public void dismiss() {
         super.dismiss();
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.billingProductDetailsUpdated);
@@ -853,17 +853,22 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
                                         if (PremiumFeatureBottomSheet.this.startType != 9) {
                                             if (PremiumFeatureBottomSheet.this.startType != 8) {
                                                 if (PremiumFeatureBottomSheet.this.startType != 13) {
-                                                    if (PremiumFeatureBottomSheet.this.startType != 22) {
-                                                        if (PremiumFeatureBottomSheet.this.startType == 23) {
-                                                            this.title.setText(LocaleController.getString(R.string.PremiumPreviewProfileColor));
-                                                            this.description.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.PremiumPreviewProfileColorDescription)));
+                                                    if (PremiumFeatureBottomSheet.this.startType != 38) {
+                                                        if (PremiumFeatureBottomSheet.this.startType != 22) {
+                                                            if (PremiumFeatureBottomSheet.this.startType == 23) {
+                                                                this.title.setText(LocaleController.getString(R.string.PremiumPreviewProfileColor));
+                                                                this.description.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.PremiumPreviewProfileColorDescription)));
+                                                            } else {
+                                                                this.title.setText(premiumFeatureData.title);
+                                                                this.description.setText(AndroidUtilities.replaceTags(premiumFeatureData.description));
+                                                            }
                                                         } else {
-                                                            this.title.setText(premiumFeatureData.title);
-                                                            this.description.setText(AndroidUtilities.replaceTags(premiumFeatureData.description));
+                                                            this.title.setText(LocaleController.getString(R.string.PremiumPreviewWallpaper));
+                                                            this.description.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.PremiumPreviewWallpaperDescription)));
                                                         }
                                                     } else {
-                                                        this.title.setText(LocaleController.getString(R.string.PremiumPreviewWallpaper));
-                                                        this.description.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.PremiumPreviewWallpaperDescription)));
+                                                        this.title.setText(LocaleController.getString(R.string.PremiumPreviewEffects));
+                                                        this.description.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.PremiumPreviewEffectsDescription)));
                                                     }
                                                 } else {
                                                     this.title.setText(LocaleController.getString(R.string.PremiumPreviewTranslations));

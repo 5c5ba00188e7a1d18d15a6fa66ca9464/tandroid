@@ -1150,9 +1150,8 @@ public class MessagePreviewView extends FrameLayout {
                 }
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.recyclerview.widget.ChatListItemAnimator, androidx.recyclerview.widget.DefaultItemAnimator
-            public void onAllAnimationsDone() {
+            protected void onAllAnimationsDone() {
                 super.onAllAnimationsDone();
                 Runnable runnable = this.finishRunnable;
                 if (runnable != null) {
@@ -1864,11 +1863,11 @@ public class MessagePreviewView extends FrameLayout {
                 this.chatPreviewContainer.setTranslationY(0.0f);
                 this.menu.setTranslationY(0.0f);
             } else {
-                this.actionBar.setTranslationY(i);
+                this.actionBar.setTranslationY(Math.max(0, i));
                 if (Build.VERSION.SDK_INT >= 21) {
                     this.chatPreviewContainer.invalidateOutline();
                 }
-                this.chatPreviewContainer.setTranslationY(f);
+                this.chatPreviewContainer.setTranslationY(Math.max(0.0f, f));
                 this.menu.setTranslationY((f + this.chatPreviewContainer.getMeasuredHeight()) - AndroidUtilities.dp(2.0f));
             }
             this.textSelectionOverlay.setTranslationX(this.chatPreviewContainer.getX());

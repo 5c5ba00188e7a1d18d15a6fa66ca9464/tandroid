@@ -29,10 +29,6 @@ public class SimpleFloatPropertyCompat<T> extends FloatPropertyCompat<T> {
         return this;
     }
 
-    public float getMultiplier() {
-        return this.multiplier;
-    }
-
     @Override // androidx.dynamicanimation.animation.FloatPropertyCompat
     public float getValue(T t) {
         return this.getter.get(t) * this.multiplier;

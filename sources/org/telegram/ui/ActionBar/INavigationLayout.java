@@ -35,6 +35,8 @@ public interface INavigationLayout {
 
     boolean addFragmentToStack(BaseFragment baseFragment, int i);
 
+    boolean allowSwipe();
+
     void animateThemedValues(ThemeAnimationSettings themeAnimationSettings, Runnable runnable);
 
     void animateThemedValues(Theme.ThemeInfo themeInfo, int i, boolean z, boolean z2);
@@ -204,6 +206,10 @@ public interface INavigationLayout {
             };
         }
 
+        public static void $default$removeFragmentFromStack(INavigationLayout _this, BaseFragment baseFragment) {
+            _this.removeFragmentFromStack(baseFragment, false);
+        }
+
         public static void $default$rebuildFragments(INavigationLayout _this, int i) {
             if ((i & 2) != 0) {
                 _this.showLastFragment();
@@ -211,6 +217,10 @@ public interface INavigationLayout {
             }
             boolean z = (i & 1) != 0;
             _this.rebuildAllFragmentViews(z, z);
+        }
+
+        public static void $default$drawHeaderShadow(INavigationLayout _this, Canvas canvas, int i) {
+            _this.drawHeaderShadow(canvas, 255, i);
         }
 
         public static BaseFragment $default$getBackgroundFragment(INavigationLayout _this) {
@@ -233,6 +243,14 @@ public interface INavigationLayout {
             return null;
         }
 
+        public static void $default$animateThemedValues(INavigationLayout _this, Theme.ThemeInfo themeInfo, int i, boolean z, boolean z2) {
+            _this.animateThemedValues(new ThemeAnimationSettings(themeInfo, i, z, z2), null);
+        }
+
+        public static void $default$animateThemedValues(INavigationLayout _this, Theme.ThemeInfo themeInfo, int i, boolean z, boolean z2, Runnable runnable) {
+            _this.animateThemedValues(new ThemeAnimationSettings(themeInfo, i, z, z2), runnable);
+        }
+
         public static Activity $default$getParentActivity(INavigationLayout _this) {
             Context context = _this.getView().getContext();
             if (context instanceof Activity) {
@@ -248,11 +266,45 @@ public interface INavigationLayout {
             throw new IllegalArgumentException("You should override getView() if you're not inheriting from it.");
         }
 
+        public static void $default$closeLastFragment(INavigationLayout _this) {
+            _this.closeLastFragment(true);
+        }
+
         public static void $default$removeFragmentFromStack(INavigationLayout _this, int i) {
             if (i < 0 || i >= _this.getFragmentStack().size()) {
                 return;
             }
             _this.removeFragmentFromStack(_this.getFragmentStack().get(i));
+        }
+
+        public static boolean $default$addFragmentToStack(INavigationLayout _this, BaseFragment baseFragment) {
+            return _this.addFragmentToStack(baseFragment, -1);
+        }
+
+        public static boolean $default$presentFragment(INavigationLayout _this, BaseFragment baseFragment) {
+            return _this.presentFragment(new NavigationParams(baseFragment));
+        }
+
+        public static boolean $default$presentFragment(INavigationLayout _this, BaseFragment baseFragment, boolean z) {
+            return _this.presentFragment(new NavigationParams(baseFragment).setRemoveLast(z));
+        }
+
+        public static boolean $default$presentFragmentAsPreview(INavigationLayout _this, BaseFragment baseFragment) {
+            return _this.presentFragment(new NavigationParams(baseFragment).setPreview(true));
+        }
+
+        public static boolean $default$presentFragmentAsPreviewWithMenu(INavigationLayout _this, BaseFragment baseFragment, ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout) {
+            return _this.presentFragment(new NavigationParams(baseFragment).setPreview(true).setMenuView(actionBarPopupWindowLayout));
+        }
+
+        @Deprecated
+        public static boolean $default$presentFragment(INavigationLayout _this, BaseFragment baseFragment, boolean z, boolean z2, boolean z3, boolean z4) {
+            return _this.presentFragment(new NavigationParams(baseFragment).setRemoveLast(z).setNoAnimation(z2).setCheckPresentFromDelegate(z3).setPreview(z4));
+        }
+
+        @Deprecated
+        public static boolean $default$presentFragment(INavigationLayout _this, BaseFragment baseFragment, boolean z, boolean z2, boolean z3, boolean z4, ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout) {
+            return _this.presentFragment(new NavigationParams(baseFragment).setRemoveLast(z).setNoAnimation(z2).setCheckPresentFromDelegate(z3).setPreview(z4).setMenuView(actionBarPopupWindowLayout));
         }
 
         public static void $default$dismissDialogs(INavigationLayout _this) {

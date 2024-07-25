@@ -1099,7 +1099,7 @@ public class AvatarConstructorFragment extends BaseFragment {
         final boolean[] zArr = {false};
         AndroidUtilities.requestAdjustNothing(getParentActivity(), getClassGuid());
         BottomSheet bottomSheet = new BottomSheet(getContext(), true) { // from class: org.telegram.ui.Components.AvatarConstructorFragment.11
-            @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface
+            @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
             public void dismiss() {
                 super.dismiss();
                 AvatarConstructorFragment.this.backgroundSelectView.selectGradient(AvatarConstructorFragment.this.colorPickerGradient);

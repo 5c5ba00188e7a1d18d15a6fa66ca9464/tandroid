@@ -253,6 +253,7 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
         int measuredWidth;
         String str;
         TLRPC$UserStatus tLRPC$UserStatus;
+        int i;
         int dp;
         String str2;
         String removeDiacritics;
@@ -371,9 +372,9 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
         }
         if (this.contact != null) {
             TextPaint textPaint4 = Theme.dialogs_countTextPaint;
-            int i = R.string.Invite;
-            int measureText = (int) (textPaint4.measureText(LocaleController.getString(i)) + 1.0f);
-            this.actionLayout = new StaticLayout(LocaleController.getString(i), Theme.dialogs_countTextPaint, measureText, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+            int i2 = R.string.Invite;
+            int measureText = (int) (textPaint4.measureText(LocaleController.getString(i2)) + 1.0f);
+            this.actionLayout = new StaticLayout(LocaleController.getString(i2), Theme.dialogs_countTextPaint, measureText, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
             if (!LocaleController.isRTL) {
                 this.actionLeft = ((getMeasuredWidth() - measureText) - AndroidUtilities.dp(19.0f)) - AndroidUtilities.dp(16.0f);
             } else {
@@ -421,8 +422,10 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
         TextPaint textPaint5 = Theme.dialogs_offlinePaint;
         TLRPC$Chat tLRPC$Chat3 = this.chat;
         if (tLRPC$Chat3 == null || this.subLabel != null) {
-            str = this.subLabel;
-            if (str == null) {
+            CharSequence charSequence = this.subLabel;
+            if (charSequence != null) {
+                str = charSequence;
+            } else {
                 TLRPC$User tLRPC$User4 = this.user;
                 if (tLRPC$User4 == null) {
                     str = null;
@@ -430,27 +433,27 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
                     str = LocaleController.getString("SupportStatus", R.string.SupportStatus);
                 } else {
                     TLRPC$User tLRPC$User5 = this.user;
-                    if (tLRPC$User5.bot) {
+                    boolean z = tLRPC$User5.bot;
+                    if (z && (i = tLRPC$User5.bot_active_users) != 0) {
+                        str = LocaleController.formatPluralStringComma("BotDAU", i, ' ');
+                    } else if (z) {
                         str = LocaleController.getString("Bot", R.string.Bot);
+                    } else if (UserObject.isService(tLRPC$User5.id)) {
+                        str = LocaleController.getString("ServiceNotifications", R.string.ServiceNotifications);
                     } else {
-                        long j = tLRPC$User5.id;
-                        if (j == 333000 || j == 777000) {
-                            str = LocaleController.getString("ServiceNotifications", R.string.ServiceNotifications);
-                        } else {
-                            if (this.isOnline == null) {
-                                this.isOnline = new boolean[1];
-                            }
-                            boolean[] zArr = this.isOnline;
-                            zArr[0] = false;
-                            str = LocaleController.formatUserStatus(this.currentAccount, tLRPC$User5, zArr);
-                            if (this.isOnline[0]) {
-                                textPaint5 = Theme.dialogs_onlinePaint;
-                            }
-                            TLRPC$User tLRPC$User6 = this.user;
-                            if (tLRPC$User6 != null && (tLRPC$User6.id == UserConfig.getInstance(this.currentAccount).getClientUserId() || ((tLRPC$UserStatus = this.user.status) != null && tLRPC$UserStatus.expires > ConnectionsManager.getInstance(this.currentAccount).getCurrentTime()))) {
-                                textPaint5 = Theme.dialogs_onlinePaint;
-                                str = LocaleController.getString("Online", R.string.Online);
-                            }
+                        if (this.isOnline == null) {
+                            this.isOnline = new boolean[1];
+                        }
+                        boolean[] zArr = this.isOnline;
+                        zArr[0] = false;
+                        str = LocaleController.formatUserStatus(this.currentAccount, this.user, zArr);
+                        if (this.isOnline[0]) {
+                            textPaint5 = Theme.dialogs_onlinePaint;
+                        }
+                        TLRPC$User tLRPC$User6 = this.user;
+                        if (tLRPC$User6 != null && (tLRPC$User6.id == UserConfig.getInstance(this.currentAccount).getClientUserId() || ((tLRPC$UserStatus = this.user.status) != null && tLRPC$UserStatus.expires > ConnectionsManager.getInstance(this.currentAccount).getCurrentTime()))) {
+                            textPaint5 = Theme.dialogs_onlinePaint;
+                            str = LocaleController.getString("Online", R.string.Online);
                         }
                     }
                 }
@@ -463,9 +466,9 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
             if (ChatObject.isChannel(tLRPC$Chat3)) {
                 TLRPC$Chat tLRPC$Chat4 = this.chat;
                 if (!tLRPC$Chat4.megagroup) {
-                    int i2 = tLRPC$Chat4.participants_count;
-                    if (i2 != 0) {
-                        str = LocaleController.formatPluralStringComma("Subscribers", i2);
+                    int i3 = tLRPC$Chat4.participants_count;
+                    if (i3 != 0) {
+                        str = LocaleController.formatPluralStringComma("Subscribers", i3);
                     } else if (!ChatObject.isPublic(tLRPC$Chat4)) {
                         str = LocaleController.getString("ChannelPrivate", R.string.ChannelPrivate).toLowerCase();
                     } else {
@@ -475,9 +478,9 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
                 }
             }
             TLRPC$Chat tLRPC$Chat5 = this.chat;
-            int i3 = tLRPC$Chat5.participants_count;
-            if (i3 != 0) {
-                str = LocaleController.formatPluralStringComma("Members", i3);
+            int i4 = tLRPC$Chat5.participants_count;
+            if (i4 != 0) {
+                str = LocaleController.formatPluralStringComma("Members", i4);
             } else if (tLRPC$Chat5.has_geo) {
                 str = LocaleController.getString("MegaLocation", R.string.MegaLocation);
             } else if (!ChatObject.isPublic(tLRPC$Chat5)) {
@@ -516,10 +519,10 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
         if (LocaleController.isRTL) {
             if (this.nameLayout.getLineCount() > 0 && this.nameLayout.getLineLeft(0) == 0.0f) {
                 double ceil = Math.ceil(this.nameLayout.getLineWidth(0));
-                int i4 = this.nameWidth;
-                if (ceil < i4) {
+                int i5 = this.nameWidth;
+                if (ceil < i5) {
                     double d = this.nameLeft;
-                    double d2 = i4;
+                    double d2 = i5;
                     Double.isNaN(d2);
                     Double.isNaN(d);
                     this.nameLeft = (int) (d + (d2 - ceil));
@@ -539,10 +542,10 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
         } else {
             if (this.nameLayout.getLineCount() > 0 && this.nameLayout.getLineRight(0) == this.nameWidth) {
                 double ceil3 = Math.ceil(this.nameLayout.getLineWidth(0));
-                int i5 = this.nameWidth;
-                if (ceil3 < i5) {
+                int i6 = this.nameWidth;
+                if (ceil3 < i6) {
                     double d5 = this.nameLeft;
-                    double d6 = i5;
+                    double d6 = i6;
                     Double.isNaN(d6);
                     Double.isNaN(d5);
                     this.nameLeft = (int) (d5 - (d6 - ceil3));

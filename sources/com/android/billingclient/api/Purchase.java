@@ -6,7 +6,7 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-/* compiled from: com.android.billingclient:billing@@5.1.0 */
+/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public class Purchase {
     private final String zza;
@@ -55,7 +55,11 @@ public class Purchase {
     }
 
     public String getOrderId() {
-        return this.zzc.optString("orderId");
+        String optString = this.zzc.optString("orderId");
+        if (TextUtils.isEmpty(optString)) {
+            return null;
+        }
+        return optString;
     }
 
     public String getOriginalJson() {

@@ -1821,6 +1821,13 @@ public class LocaleController {
         return getServerString(str);
     }
 
+    public static String nullable(String str) {
+        if (str == null || str.startsWith("LOC_ERR")) {
+            return null;
+        }
+        return str;
+    }
+
     public static String getPluralString(String str, int i) {
         if (str == null || str.length() == 0 || getInstance().currentPluralRules == null) {
             return "LOC_ERR:" + str;
@@ -2238,7 +2245,7 @@ public class LocaleController {
             case 27:
             case 28:
             case 29:
-            case R.styleable.AppCompatTheme_actionModeTheme /* 30 */:
+            case 30:
                 d = abs;
                 str2 = " %.0f";
                 break;
