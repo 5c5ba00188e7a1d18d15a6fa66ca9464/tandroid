@@ -13580,12 +13580,12 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             }
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:1233:0x0dbd, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:1233:0x0db6, code lost:
             if (r0.getMessagesController().premiumPurchaseBlocked() == false) goto L510;
          */
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Removed duplicated region for block: B:1375:0x115b  */
-        /* JADX WARN: Removed duplicated region for block: B:1376:0x118f  */
+        /* JADX WARN: Removed duplicated region for block: B:1375:0x1154  */
+        /* JADX WARN: Removed duplicated region for block: B:1376:0x1188  */
         /* JADX WARN: Removed duplicated region for block: B:915:0x04a9 A[ADDED_TO_REGION] */
         /* JADX WARN: Removed duplicated region for block: B:918:0x04b6  */
         /* JADX WARN: Removed duplicated region for block: B:919:0x04bb  */
@@ -14021,7 +14021,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                                                                                                 }
                                                                                                             } else {
                                                                                                                 textCell.setTextAndIcon(LocaleController.getString("AddToGroupOrChannel", R.string.AddToGroupOrChannel), R.drawable.msg_groups_create, false);
-                                                                                                                textCell.setColors(Theme.key_windowBackgroundWhiteBlueIcon, Theme.key_windowBackgroundWhiteBlueButton);
                                                                                                             }
                                                                                                         } else {
                                                                                                             textCell.setTextAndIcon(LocaleController.getString("Devices", R.string.Devices), R.drawable.msg2_devices, true);

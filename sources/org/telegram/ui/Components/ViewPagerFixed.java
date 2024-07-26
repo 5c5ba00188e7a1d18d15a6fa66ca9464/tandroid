@@ -1178,7 +1178,7 @@ public class ViewPagerFixed extends FrameLayout {
                 CharSequence charSequence = this.title;
                 int ceil = (int) Math.ceil(textPaint.measureText(charSequence == null ? "" : charSequence.toString()));
                 this.titleWidth = ceil;
-                return Math.max(AndroidUtilities.dp(40.0f), ceil);
+                return Math.max(0, ceil);
             }
         }
 
@@ -1524,7 +1524,11 @@ public class ViewPagerFixed extends FrameLayout {
                     TabsView.this.invalidate();
                 }
             });
-            addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
+            if (i == 9) {
+                addView(this.listView, LayoutHelper.createFrame(-2, -1, 1));
+            } else {
+                addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
+            }
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -1694,12 +1698,12 @@ public class ViewPagerFixed extends FrameLayout {
             }
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:34:0x009e  */
-        /* JADX WARN: Removed duplicated region for block: B:35:0x00a3  */
-        /* JADX WARN: Removed duplicated region for block: B:38:0x00c3  */
-        /* JADX WARN: Removed duplicated region for block: B:39:0x00d5  */
-        /* JADX WARN: Removed duplicated region for block: B:42:0x0100  */
-        /* JADX WARN: Removed duplicated region for block: B:51:0x0195  */
+        /* JADX WARN: Removed duplicated region for block: B:35:0x00a0  */
+        /* JADX WARN: Removed duplicated region for block: B:36:0x00a5  */
+        /* JADX WARN: Removed duplicated region for block: B:39:0x00c5  */
+        /* JADX WARN: Removed duplicated region for block: B:40:0x00d7  */
+        /* JADX WARN: Removed duplicated region for block: B:44:0x010b  */
+        /* JADX WARN: Removed duplicated region for block: B:53:0x01a0  */
         @Override // android.view.ViewGroup
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1711,6 +1715,7 @@ public class ViewPagerFixed extends FrameLayout {
             int i2;
             int i3;
             int dp;
+            int i4;
             boolean drawChild = super.drawChild(canvas, view, j);
             if (view == this.listView) {
                 int measuredHeight = getMeasuredHeight();
@@ -1736,64 +1741,56 @@ public class ViewPagerFixed extends FrameLayout {
                                     i2 = this.currentPosition;
                                     i3 = this.manualScrollingToPosition;
                                 }
-                                int i4 = this.positionToX.get(i2);
-                                int i5 = this.positionToX.get(i3);
-                                int i6 = this.positionToWidth.get(i2);
-                                int i7 = this.positionToWidth.get(i3);
+                                int i5 = this.positionToX.get(i2);
+                                int i6 = this.positionToX.get(i3);
+                                int i7 = this.positionToWidth.get(i2);
+                                int i8 = this.positionToWidth.get(i3);
                                 if (this.additionalTabWidth == 0) {
-                                    dp = ((int) (i4 + ((i5 - i4) * this.animatingIndicatorProgress))) + AndroidUtilities.dp(this.tabMarginDp);
+                                    dp = ((int) (i5 + ((i6 - i5) * this.animatingIndicatorProgress))) + AndroidUtilities.dp(this.tabMarginDp);
                                 } else {
-                                    dp = AndroidUtilities.dp(this.tabMarginDp) + (((int) (i4 + ((i5 - i4) * this.animatingIndicatorProgress))) - (this.positionToX.get(findFirstVisibleItemPosition) - findViewHolderForAdapterPosition.itemView.getLeft()));
+                                    dp = AndroidUtilities.dp(this.tabMarginDp) + (((int) (i5 + ((i6 - i5) * this.animatingIndicatorProgress))) - (this.positionToX.get(findFirstVisibleItemPosition) - findViewHolderForAdapterPosition.itemView.getLeft()));
                                 }
-                                i = (int) (i6 + ((i7 - i6) * this.animatingIndicatorProgress));
-                                if (i != 0) {
-                                    if (this.selectorType == 9) {
-                                        this.selectorPaint.setColor(Theme.multAlpha(this.textPaint.getColor(), 0.15f));
-                                        float f3 = measuredHeight / 2.0f;
-                                        RectF rectF = AndroidUtilities.rectTmp;
-                                        float dp2 = AndroidUtilities.dp(26.0f) / 2.0f;
-                                        rectF.set(dp - AndroidUtilities.dp(12.0f), f3 - dp2, dp + i + AndroidUtilities.dp(12.0f), f3 + dp2);
-                                        canvas.drawRoundRect(rectF, rectF.height() / 2.0f, rectF.height() / 2.0f, this.selectorPaint);
-                                    } else {
-                                        float f4 = dp;
-                                        this.lastDrawnIndicatorX = f4;
-                                        float f5 = i;
-                                        this.lastDrawnIndicatorW = f5;
-                                        float f6 = this.indicatorProgress2;
-                                        if (f6 != 1.0f) {
-                                            dp = (int) AndroidUtilities.lerp(f4, f4, f6);
-                                            i = (int) AndroidUtilities.lerp(this.lastDrawnIndicatorW, f5, this.indicatorProgress2);
-                                        }
-                                        this.selectorDrawable.setBounds(dp, (int) ((measuredHeight - AndroidUtilities.dpr(4.0f)) + (this.hideProgress * AndroidUtilities.dpr(4.0f))), i + dp, (int) (measuredHeight + (this.hideProgress * AndroidUtilities.dpr(4.0f))));
-                                        this.selectorDrawable.draw(canvas);
-                                    }
-                                }
-                                if (this.crossfadeBitmap != null) {
-                                    this.crossfadePaint.setAlpha((int) (this.crossfadeAlpha * 255.0f));
-                                    canvas.drawBitmap(this.crossfadeBitmap, 0.0f, 0.0f, this.crossfadePaint);
-                                }
+                                i4 = (int) (i7 + ((i8 - i7) * this.animatingIndicatorProgress));
+                                i = dp;
                             }
-                            dp = 0;
-                            if (i != 0) {
-                            }
-                            if (this.crossfadeBitmap != null) {
-                            }
+                            i4 = 0;
                         } else {
                             RecyclerView.ViewHolder findViewHolderForAdapterPosition2 = this.listView.findViewHolderForAdapterPosition(this.currentPosition);
                             if (findViewHolderForAdapterPosition2 != null) {
                                 TabView tabView = (TabView) findViewHolderForAdapterPosition2.itemView;
-                                i = Math.max(AndroidUtilities.dp(40.0f), tabView.tabWidth);
-                                dp = (int) (tabView.getX() + ((tabView.getMeasuredWidth() - i) / 2));
-                                if (i != 0) {
+                                int max = Math.max(AndroidUtilities.dp(40.0f), tabView.tabWidth);
+                                dp = (int) (tabView.getX() + ((tabView.getMeasuredWidth() - max) / 2));
+                                i4 = max;
+                                i = dp;
+                            }
+                            i4 = 0;
+                        }
+                        int x = (int) (i + this.listView.getX());
+                        if (i4 != 0) {
+                            if (this.selectorType == 9) {
+                                this.selectorPaint.setColor(Theme.multAlpha(this.textPaint.getColor(), 0.15f));
+                                float f3 = measuredHeight / 2.0f;
+                                RectF rectF = AndroidUtilities.rectTmp;
+                                float dp2 = AndroidUtilities.dp(26.0f) / 2.0f;
+                                rectF.set(x - AndroidUtilities.dp(12.0f), f3 - dp2, x + i4 + AndroidUtilities.dp(12.0f), f3 + dp2);
+                                canvas.drawRoundRect(rectF, rectF.height() / 2.0f, rectF.height() / 2.0f, this.selectorPaint);
+                            } else {
+                                float f4 = x;
+                                this.lastDrawnIndicatorX = f4;
+                                float f5 = i4;
+                                this.lastDrawnIndicatorW = f5;
+                                float f6 = this.indicatorProgress2;
+                                if (f6 != 1.0f) {
+                                    x = (int) AndroidUtilities.lerp(f4, f4, f6);
+                                    i4 = (int) AndroidUtilities.lerp(this.lastDrawnIndicatorW, f5, this.indicatorProgress2);
                                 }
-                                if (this.crossfadeBitmap != null) {
-                                }
+                                this.selectorDrawable.setBounds(x, (int) ((measuredHeight - AndroidUtilities.dpr(4.0f)) + (this.hideProgress * AndroidUtilities.dpr(4.0f))), i4 + x, (int) (measuredHeight + (this.hideProgress * AndroidUtilities.dpr(4.0f))));
+                                this.selectorDrawable.draw(canvas);
                             }
-                            dp = 0;
-                            if (i != 0) {
-                            }
-                            if (this.crossfadeBitmap != null) {
-                            }
+                        }
+                        if (this.crossfadeBitmap != null) {
+                            this.crossfadePaint.setAlpha((int) (this.crossfadeAlpha * 255.0f));
+                            canvas.drawBitmap(this.crossfadeBitmap, 0.0f, 0.0f, this.crossfadePaint);
                         }
                     }
                 }
@@ -1816,20 +1813,23 @@ public class ViewPagerFixed extends FrameLayout {
                 if (findFirstVisibleItemPosition != -1) {
                     if (!this.animatingIndicator) {
                     }
-                    int i42 = this.positionToX.get(i2);
-                    int i52 = this.positionToX.get(i3);
-                    int i62 = this.positionToWidth.get(i2);
-                    int i72 = this.positionToWidth.get(i3);
+                    int i52 = this.positionToX.get(i2);
+                    int i62 = this.positionToX.get(i3);
+                    int i72 = this.positionToWidth.get(i2);
+                    int i82 = this.positionToWidth.get(i3);
                     if (this.additionalTabWidth == 0) {
                     }
-                    i = (int) (i62 + ((i72 - i62) * this.animatingIndicatorProgress));
-                    if (i != 0) {
+                    i4 = (int) (i72 + ((i82 - i72) * this.animatingIndicatorProgress));
+                    i = dp;
+                    int x2 = (int) (i + this.listView.getX());
+                    if (i4 != 0) {
                     }
                     if (this.crossfadeBitmap != null) {
                     }
                 }
-                dp = 0;
-                if (i != 0) {
+                i4 = 0;
+                int x22 = (int) (i + this.listView.getX());
+                if (i4 != 0) {
                 }
                 if (this.crossfadeBitmap != null) {
                 }
@@ -1842,7 +1842,7 @@ public class ViewPagerFixed extends FrameLayout {
             if (!this.tabs.isEmpty()) {
                 int size = (View.MeasureSpec.getSize(i) - AndroidUtilities.dp(7.0f)) - AndroidUtilities.dp(7.0f);
                 int i3 = this.additionalTabWidth;
-                if (this.tabs.size() == 1) {
+                if (this.tabs.size() == 1 || this.selectorType == 9) {
                     this.additionalTabWidth = 0;
                 } else {
                     int i4 = this.allTabsWidth;

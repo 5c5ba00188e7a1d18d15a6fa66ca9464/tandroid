@@ -274,13 +274,13 @@ public class Browser {
         org.telegram.messenger.FileLog.e(r0);
      */
     /* JADX WARN: Removed duplicated region for block: B:113:0x02e4  */
-    /* JADX WARN: Removed duplicated region for block: B:115:0x02e7 A[Catch: Exception -> 0x0318, TryCatch #3 {Exception -> 0x0318, blocks: (B:94:0x0296, B:96:0x029a, B:98:0x02a0, B:100:0x02af, B:102:0x02b5, B:104:0x02bf, B:106:0x02c9, B:115:0x02e7, B:117:0x02eb, B:119:0x02f8, B:121:0x0304, B:122:0x030c, B:110:0x02d8), top: B:134:0x0296 }] */
-    /* JADX WARN: Removed duplicated region for block: B:119:0x02f8 A[Catch: Exception -> 0x0318, TryCatch #3 {Exception -> 0x0318, blocks: (B:94:0x0296, B:96:0x029a, B:98:0x02a0, B:100:0x02af, B:102:0x02b5, B:104:0x02bf, B:106:0x02c9, B:115:0x02e7, B:117:0x02eb, B:119:0x02f8, B:121:0x0304, B:122:0x030c, B:110:0x02d8), top: B:134:0x0296 }] */
-    /* JADX WARN: Removed duplicated region for block: B:122:0x030c A[Catch: Exception -> 0x0318, TRY_LEAVE, TryCatch #3 {Exception -> 0x0318, blocks: (B:94:0x0296, B:96:0x029a, B:98:0x02a0, B:100:0x02af, B:102:0x02b5, B:104:0x02bf, B:106:0x02c9, B:115:0x02e7, B:117:0x02eb, B:119:0x02f8, B:121:0x0304, B:122:0x030c, B:110:0x02d8), top: B:134:0x0296 }] */
+    /* JADX WARN: Removed duplicated region for block: B:115:0x02e7 A[Catch: Exception -> 0x031a, TryCatch #3 {Exception -> 0x031a, blocks: (B:94:0x0296, B:96:0x029a, B:98:0x02a0, B:100:0x02af, B:102:0x02b5, B:104:0x02bf, B:106:0x02c9, B:115:0x02e7, B:117:0x02eb, B:119:0x02fa, B:121:0x0306, B:122:0x030e, B:110:0x02d8), top: B:134:0x0296 }] */
+    /* JADX WARN: Removed duplicated region for block: B:119:0x02fa A[Catch: Exception -> 0x031a, TryCatch #3 {Exception -> 0x031a, blocks: (B:94:0x0296, B:96:0x029a, B:98:0x02a0, B:100:0x02af, B:102:0x02b5, B:104:0x02bf, B:106:0x02c9, B:115:0x02e7, B:117:0x02eb, B:119:0x02fa, B:121:0x0306, B:122:0x030e, B:110:0x02d8), top: B:134:0x0296 }] */
+    /* JADX WARN: Removed duplicated region for block: B:122:0x030e A[Catch: Exception -> 0x031a, TRY_LEAVE, TryCatch #3 {Exception -> 0x031a, blocks: (B:94:0x0296, B:96:0x029a, B:98:0x02a0, B:100:0x02af, B:102:0x02b5, B:104:0x02bf, B:106:0x02c9, B:115:0x02e7, B:117:0x02eb, B:119:0x02fa, B:121:0x0306, B:122:0x030e, B:110:0x02d8), top: B:134:0x0296 }] */
     /* JADX WARN: Removed duplicated region for block: B:48:0x011a A[Catch: Exception -> 0x028e, TryCatch #1 {Exception -> 0x028e, blocks: (B:46:0x00fe, B:48:0x011a, B:52:0x014c, B:54:0x0158, B:55:0x015e, B:59:0x0167, B:60:0x017e, B:62:0x0186, B:65:0x01b1, B:66:0x01c3, B:63:0x019b, B:68:0x01da, B:70:0x01de, B:73:0x01e4, B:75:0x01ed, B:77:0x01f7, B:79:0x01fb, B:81:0x0205, B:83:0x020f, B:85:0x021b, B:87:0x022d), top: B:131:0x00fe }] */
     /* JADX WARN: Removed duplicated region for block: B:85:0x021b A[Catch: Exception -> 0x028e, TryCatch #1 {Exception -> 0x028e, blocks: (B:46:0x00fe, B:48:0x011a, B:52:0x014c, B:54:0x0158, B:55:0x015e, B:59:0x0167, B:60:0x017e, B:62:0x0186, B:65:0x01b1, B:66:0x01c3, B:63:0x019b, B:68:0x01da, B:70:0x01de, B:73:0x01e4, B:75:0x01ed, B:77:0x01f7, B:79:0x01fb, B:81:0x0205, B:83:0x020f, B:85:0x021b, B:87:0x022d), top: B:131:0x00fe }] */
     /* JADX WARN: Removed duplicated region for block: B:87:0x022d A[Catch: Exception -> 0x028e, TRY_LEAVE, TryCatch #1 {Exception -> 0x028e, blocks: (B:46:0x00fe, B:48:0x011a, B:52:0x014c, B:54:0x0158, B:55:0x015e, B:59:0x0167, B:60:0x017e, B:62:0x0186, B:65:0x01b1, B:66:0x01c3, B:63:0x019b, B:68:0x01da, B:70:0x01de, B:73:0x01e4, B:75:0x01ed, B:77:0x01f7, B:79:0x01fb, B:81:0x0205, B:83:0x020f, B:85:0x021b, B:87:0x022d), top: B:131:0x00fe }] */
-    /* JADX WARN: Removed duplicated region for block: B:96:0x029a A[Catch: Exception -> 0x0318, TryCatch #3 {Exception -> 0x0318, blocks: (B:94:0x0296, B:96:0x029a, B:98:0x02a0, B:100:0x02af, B:102:0x02b5, B:104:0x02bf, B:106:0x02c9, B:115:0x02e7, B:117:0x02eb, B:119:0x02f8, B:121:0x0304, B:122:0x030c, B:110:0x02d8), top: B:134:0x0296 }] */
+    /* JADX WARN: Removed duplicated region for block: B:96:0x029a A[Catch: Exception -> 0x031a, TryCatch #3 {Exception -> 0x031a, blocks: (B:94:0x0296, B:96:0x029a, B:98:0x02a0, B:100:0x02af, B:102:0x02b5, B:104:0x02bf, B:106:0x02c9, B:115:0x02e7, B:117:0x02eb, B:119:0x02fa, B:121:0x0306, B:122:0x030e, B:110:0x02d8), top: B:134:0x0296 }] */
     /* JADX WARN: Type inference failed for: r11v1 */
     /* JADX WARN: Type inference failed for: r11v2, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r11v3 */
@@ -413,7 +413,7 @@ public class Browser {
                         z7 = true;
                         if (!isInternalUri && (context instanceof LaunchActivity)) {
                             LaunchActivity.dismissAllWeb();
-                            openAsInternalIntent(context, uri2.toString());
+                            openAsInternalIntent(context, uri2.toString(), z3, progress);
                             return;
                         } else if (z7) {
                             if (openInExternalApp(context, uri2.toString(), z4)) {
@@ -575,6 +575,10 @@ public class Browser {
         return true;
     }
 
+    public static boolean openInExternalBrowser(Context context, String str, boolean z) {
+        return openInExternalBrowser(context, str, z, null);
+    }
+
     public static boolean openInExternalBrowser(Context context, String str, boolean z, String str2) {
         Intent intent;
         if (str == null) {
@@ -650,7 +654,7 @@ public class Browser {
         }
     }
 
-    /* JADX WARN: Can't wrap try/catch for region: R(12:5|(2:6|7)|(11:11|12|(5:16|(2:18|19)(1:21)|20|13|14)|22|23|24|25|(3:27|(4:30|(2:31|(1:1)(2:33|(3:36|37|38)(1:35)))|39|28)|41)(3:56|(4:59|(2:61|62)(1:64)|63|57)|65)|42|(3:44|(3:47|48|45)|49)|(1:55)(1:54))|70|23|24|25|(0)(0)|42|(0)|(1:52)|55) */
+    /* JADX WARN: Can't wrap try/catch for region: R(11:5|(2:6|7)|(11:11|12|(5:16|(2:18|19)(1:21)|20|13|14)|22|23|24|25|(3:27|(4:30|(2:31|(1:1)(2:33|(3:36|37|38)(1:35)))|39|28)|41)(3:57|(4:60|(2:62|63)(1:65)|64|58)|66)|42|(3:44|(3:47|48|45)|49)|(1:55)(1:54))|71|23|24|25|(0)(0)|42|(0)|(2:52|55)(1:56)) */
     /* JADX WARN: Removed duplicated region for block: B:22:0x006d  */
     /* JADX WARN: Removed duplicated region for block: B:33:0x0095  */
     /* JADX WARN: Removed duplicated region for block: B:42:0x00bb  */
@@ -712,7 +716,7 @@ public class Browser {
                     FileLog.d("device has " + list.get(i5).activityInfo.packageName + " to open " + str);
                 }
             }
-            return list != null || list.isEmpty();
+            return (list == null || list.isEmpty()) ? false : true;
         }
         strArr = null;
         list = context.getPackageManager().queryIntentActivities(new Intent("android.intent.action.VIEW", Uri.parse(str)), 0);
@@ -720,7 +724,8 @@ public class Browser {
         }
         if (BuildVars.LOGS_ENABLED) {
         }
-        if (list != null) {
+        if (list == null) {
+            return false;
         }
     }
 

@@ -960,7 +960,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         StoryEntry storyEntry2 = this.outputEntry;
         boolean z = storyEntry2 != null && storyEntry2.isVideo;
         this.isVideo = z;
-        this.videoTextureHolder.active = storyEntry2 != null && storyEntry2.isRepost && z;
+        this.videoTextureHolder.active = storyEntry2 != null && storyEntry2.isRepostMessage && z;
         if (this.botId == 0 && (checkStoryLimit = MessagesController.getInstance(this.currentAccount).getStoriesController().checkStoryLimit()) != null && checkStoryLimit.active(this.currentAccount)) {
             showLimitReachedSheet(checkStoryLimit, true);
         }
@@ -3133,7 +3133,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             return;
         }
         StoryEntry storyEntry = this.outputEntry;
-        if (!storyEntry.isEdit && storyEntry.botId == 0 && (checkStoryLimit = MessagesController.getInstance(this.currentAccount).storiesController.checkStoryLimit()) != null && checkStoryLimit.active(this.currentAccount)) {
+        if ((storyEntry == null || (!storyEntry.isEdit && storyEntry.botId == 0)) && (checkStoryLimit = MessagesController.getInstance(this.currentAccount).storiesController.checkStoryLimit()) != null && checkStoryLimit.active(this.currentAccount)) {
             showLimitReachedSheet(checkStoryLimit, false);
             return;
         }

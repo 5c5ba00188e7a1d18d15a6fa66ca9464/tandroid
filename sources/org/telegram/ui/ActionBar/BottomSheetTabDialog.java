@@ -18,6 +18,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.LaunchActivity;
 /* loaded from: classes4.dex */
 public class BottomSheetTabDialog extends Dialog {
+    private boolean attached;
     public final BottomSheetTabsOverlay.Sheet sheet;
     public final BottomSheetTabsOverlay.SheetView sheetView;
     public final WindowView windowView;
@@ -133,12 +134,19 @@ public class BottomSheetTabDialog extends Dialog {
     }
 
     public void attach() {
+        if (this.attached) {
+            return;
+        }
+        this.attached = true;
         super.show();
     }
 
     public void detach() {
-        super.dismiss();
         this.sheet.setDialog(null);
+        if (this.attached) {
+            this.attached = false;
+            super.dismiss();
+        }
     }
 
     @Override // android.app.Dialog, android.content.DialogInterface

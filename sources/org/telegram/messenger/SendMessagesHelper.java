@@ -36,6 +36,7 @@ import androidx.core.view.inputmethod.InputContentInfoCompat;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.nio.MappedByteBuffer;
@@ -52,6 +53,8 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 import org.json.JSONObject;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MessageObject;
@@ -13154,31 +13157,152 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Code restructure failed: missing block: B:30:0x008f, code lost:
+        r0 = org.telegram.messenger.MediaController.createFileInCache(r0.getName(), "txt");
+        r9 = r0.getAbsolutePath();
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:31:0x009b, code lost:
+        r13 = new java.io.FileOutputStream(r0);
+        r0 = new byte[1024];
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:32:0x00a4, code lost:
+        r14 = r12.read(r0);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:33:0x00a8, code lost:
+        if (r14 <= 0) goto L87;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:35:0x00ab, code lost:
+        r13.write(r0, 0, r14);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:36:0x00af, code lost:
+        r13.close();
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:37:0x00b3, code lost:
+        r14 = r9;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:38:0x00b5, code lost:
+        r0 = th;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:40:0x00b7, code lost:
+        r0 = th;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:42:0x00b9, code lost:
+        r14 = r9;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x00f4  */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x00f8  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public /* synthetic */ void lambda$prepareImportHistory$72(ArrayList arrayList, final long j, Uri uri, final MessagesStorage.LongCallback longCallback) {
-        ArrayList arrayList2 = arrayList != null ? arrayList : new ArrayList();
+        ArrayList arrayList2;
+        int i;
+        ArrayList arrayList3 = arrayList != null ? arrayList : new ArrayList();
         final ImportingHistory importingHistory = new ImportingHistory();
-        importingHistory.mediaPaths = arrayList2;
+        importingHistory.mediaPaths = arrayList3;
         importingHistory.dialogId = j;
         importingHistory.peer = getMessagesController().getInputPeer(j);
         final HashMap hashMap = new HashMap();
-        int i = 0;
-        int size = arrayList2.size();
-        while (i < size + 1) {
-            Uri uri2 = i == 0 ? uri : (Uri) arrayList2.get(i - 1);
-            if (uri2 != null && !AndroidUtilities.isInternalUri(uri2)) {
-                String copyFileToCache = MediaController.copyFileToCache(uri2, "txt");
-                if (copyFileToCache == null) {
-                    continue;
-                } else {
+        int size = arrayList3.size();
+        int i2 = 0;
+        while (i2 < size + 1) {
+            Uri uri2 = i2 == 0 ? uri : (Uri) arrayList3.get(i2 - 1);
+            if (uri2 == null || AndroidUtilities.isInternalUri(uri2)) {
+                arrayList2 = arrayList3;
+                i = size;
+                if (i2 == 0) {
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda19
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            MessagesStorage.LongCallback.this.run(0L);
+                        }
+                    });
+                    return;
+                }
+            } else {
+                String fixFileName = FileLoader.fixFileName(MediaController.getFileName(uri));
+                String str = (fixFileName == null || !fixFileName.endsWith(".zip")) ? "txt" : "zip";
+                String copyFileToCache = MediaController.copyFileToCache(uri2, str);
+                if ("zip".equals(str)) {
                     File file = new File(copyFileToCache);
-                    if (file.exists()) {
-                        long length = file.length();
+                    try {
+                        ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(file));
+                        try {
+                            ZipEntry nextEntry = zipInputStream.getNextEntry();
+                            while (true) {
+                                if (nextEntry == null) {
+                                    break;
+                                } else if (nextEntry.getName().endsWith(".txt")) {
+                                    break;
+                                } else {
+                                    nextEntry = zipInputStream.getNextEntry();
+                                }
+                            }
+                            try {
+                                zipInputStream.closeEntry();
+                                try {
+                                    zipInputStream.close();
+                                } catch (IOException e) {
+                                    e = e;
+                                    FileLog.e(e);
+                                    file.delete();
+                                    if (copyFileToCache == null) {
+                                    }
+                                    i2++;
+                                    size = i;
+                                    arrayList3 = arrayList2;
+                                }
+                            } catch (Throwable th) {
+                                th = th;
+                                Throwable th2 = th;
+                                try {
+                                    zipInputStream.close();
+                                } catch (Throwable th3) {
+                                    try {
+                                        th2.addSuppressed(th3);
+                                    } catch (Exception e2) {
+                                        e = e2;
+                                        FileLog.e(e);
+                                        file.delete();
+                                        if (copyFileToCache == null) {
+                                        }
+                                        i2++;
+                                        size = i;
+                                        arrayList3 = arrayList2;
+                                    }
+                                }
+                                throw th2;
+                                break;
+                            }
+                        } catch (Throwable th4) {
+                            th = th4;
+                        }
+                    } catch (IOException e3) {
+                        e = e3;
+                    } catch (Exception e4) {
+                        e = e4;
+                    }
+                    try {
+                        file.delete();
+                    } catch (Exception e5) {
+                        FileLog.e(e5);
+                    }
+                }
+                if (copyFileToCache == null) {
+                    arrayList2 = arrayList3;
+                    i = size;
+                } else {
+                    File file2 = new File(copyFileToCache);
+                    if (file2.exists()) {
+                        long length = file2.length();
                         if (length != 0) {
+                            arrayList2 = arrayList3;
+                            i = size;
                             importingHistory.totalSize += length;
-                            if (i != 0) {
+                            if (i2 != 0) {
                                 importingHistory.uploadMedia.add(copyFileToCache);
                             } else if (length > 33554432) {
-                                file.delete();
+                                file2.delete();
                                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda18
                                     @Override // java.lang.Runnable
                                     public final void run() {
@@ -13193,7 +13317,9 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                             hashMap.put(copyFileToCache, importingHistory);
                         }
                     }
-                    if (i == 0) {
+                    arrayList2 = arrayList3;
+                    i = size;
+                    if (i2 == 0) {
                         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda17
                             @Override // java.lang.Runnable
                             public final void run() {
@@ -13203,16 +13329,10 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                         return;
                     }
                 }
-            } else if (i == 0) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda19
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        MessagesStorage.LongCallback.this.run(0L);
-                    }
-                });
-                return;
             }
-            i++;
+            i2++;
+            size = i;
+            arrayList3 = arrayList2;
         }
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda36
             @Override // java.lang.Runnable

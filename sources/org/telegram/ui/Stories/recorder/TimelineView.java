@@ -692,7 +692,7 @@ public class TimelineView extends View {
         float f3 = (float) min;
         float clamp = this.px + this.ph + (this.sw * (((float) ((Utilities.clamp(this.progress, getBaseDuration(), 0L) + (!this.hasVideo ? this.audioOffset : 0L)) - this.scroll)) / f3));
         boolean z = false;
-        if (x < clamp - AndroidUtilities.dp(12.0f) || x > clamp + AndroidUtilities.dp(12.0f)) {
+        if (this.isCover || x < clamp - AndroidUtilities.dp(12.0f) || x > clamp + AndroidUtilities.dp(12.0f)) {
             boolean z2 = this.hasVideo && y > (((float) (this.h - this.py)) - getVideoHeight()) - ((float) AndroidUtilities.dp(2.0f));
             if (this.hasRound && y > (((((this.h - this.py) - getVideoHeight()) - AndroidUtilities.dp(4.0f)) - getRoundHeight()) - AndroidUtilities.dp(4.0f)) - AndroidUtilities.dp(2.0f) && y < ((this.h - this.py) - getVideoHeight()) - AndroidUtilities.dp(2.0f)) {
                 z = true;
@@ -888,9 +888,9 @@ public class TimelineView extends View {
         return 0.0f;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:837:0x096a  */
-    /* JADX WARN: Removed duplicated region for block: B:840:0x0974 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:847:0x098f  */
+    /* JADX WARN: Removed duplicated region for block: B:849:0x09a1  */
+    /* JADX WARN: Removed duplicated region for block: B:852:0x09ab A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:859:0x09c6  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1294,45 +1294,58 @@ public class TimelineView extends View {
                     this.scroller.abortAnimation();
                     if (motionEvent.getAction() == 1) {
                         if (System.currentTimeMillis() - this.pressTime <= ViewConfiguration.getTapTimeout() && !this.dragged) {
-                            int i7 = this.pressType;
-                            if (i7 == 2 && !this.audioSelected) {
-                                this.audioSelected = true;
-                                this.roundSelected = false;
+                            if (this.isCover) {
+                                float f25 = this.videoRight - this.videoLeft;
+                                float x2 = (((motionEvent.getX() - this.px) - this.ph) / this.sw) * (1.0f - f25);
+                                this.videoLeft = x2;
+                                this.videoRight = f25 + x2;
                                 TimelineDelegate timelineDelegate21 = this.delegate;
                                 if (timelineDelegate21 != null) {
-                                    timelineDelegate21.onRoundSelectChange(false);
-                                }
-                                invalidate();
-                            } else if (i7 == 1 && !this.roundSelected) {
-                                this.audioSelected = false;
-                                this.roundSelected = true;
-                                TimelineDelegate timelineDelegate22 = this.delegate;
-                                if (timelineDelegate22 != null) {
-                                    timelineDelegate22.onRoundSelectChange(true);
-                                }
-                                invalidate();
-                            } else if (i7 != 2 && this.audioSelected) {
-                                this.audioSelected = false;
-                                this.roundSelected = false;
-                                TimelineDelegate timelineDelegate23 = this.delegate;
-                                if (timelineDelegate23 != null) {
-                                    timelineDelegate23.onRoundSelectChange(false);
-                                }
-                                invalidate();
-                            } else if (i7 != 1 && this.roundSelected) {
-                                this.audioSelected = false;
-                                this.roundSelected = false;
-                                TimelineDelegate timelineDelegate24 = this.delegate;
-                                if (timelineDelegate24 != null) {
-                                    timelineDelegate24.onRoundSelectChange(false);
+                                    timelineDelegate21.onVideoLeftChange(x2);
+                                    this.delegate.onVideoRightChange(this.videoRight);
                                 }
                                 invalidate();
                             } else {
-                                long j17 = this.progress;
-                                if (setProgressAt(motionEvent.getX(), false) && Math.abs(this.progress - j17) > 400) {
-                                    this.loopProgressFrom = j17;
-                                    this.loopProgress.set(1.0f, true);
+                                int i7 = this.pressType;
+                                if (i7 == 2 && !this.audioSelected) {
+                                    this.audioSelected = true;
+                                    this.roundSelected = false;
+                                    TimelineDelegate timelineDelegate22 = this.delegate;
+                                    if (timelineDelegate22 != null) {
+                                        timelineDelegate22.onRoundSelectChange(false);
+                                    }
                                     invalidate();
+                                } else if (i7 == 1 && !this.roundSelected) {
+                                    this.audioSelected = false;
+                                    this.roundSelected = true;
+                                    TimelineDelegate timelineDelegate23 = this.delegate;
+                                    if (timelineDelegate23 != null) {
+                                        timelineDelegate23.onRoundSelectChange(true);
+                                    }
+                                    invalidate();
+                                } else if (i7 != 2 && this.audioSelected) {
+                                    this.audioSelected = false;
+                                    this.roundSelected = false;
+                                    TimelineDelegate timelineDelegate24 = this.delegate;
+                                    if (timelineDelegate24 != null) {
+                                        timelineDelegate24.onRoundSelectChange(false);
+                                    }
+                                    invalidate();
+                                } else if (i7 != 1 && this.roundSelected) {
+                                    this.audioSelected = false;
+                                    this.roundSelected = false;
+                                    TimelineDelegate timelineDelegate25 = this.delegate;
+                                    if (timelineDelegate25 != null) {
+                                        timelineDelegate25.onRoundSelectChange(false);
+                                    }
+                                    invalidate();
+                                } else {
+                                    long j17 = this.progress;
+                                    if (setProgressAt(motionEvent.getX(), false) && Math.abs(this.progress - j17) > 400) {
+                                        this.loopProgressFrom = j17;
+                                        this.loopProgress.set(1.0f, true);
+                                        invalidate();
+                                    }
                                 }
                             }
                         } else {
@@ -1344,10 +1357,10 @@ public class TimelineView extends View {
                                 if (Math.abs(xVelocity) > AndroidUtilities.dp(100.0f)) {
                                     long min9 = Math.min(this.videoDuration, 120000L);
                                     int i9 = this.px;
-                                    float f25 = (float) min9;
+                                    float f26 = (float) min9;
                                     int i10 = this.sw;
-                                    int i11 = (int) (i9 + ((((float) this.scroll) / f25) * i10));
-                                    int i12 = (int) (i9 + ((((float) (this.videoDuration - min9)) / f25) * i10));
+                                    int i11 = (int) (i9 + ((((float) this.scroll) / f26) * i10));
+                                    int i12 = (int) (i9 + ((((float) (this.videoDuration - min9)) / f26) * i10));
                                     this.scrolling = true;
                                     Scroller scroller = this.scroller;
                                     this.wasScrollX = i11;
@@ -1363,16 +1376,16 @@ public class TimelineView extends View {
                                     float min10 = (float) Math.min(getBaseDuration(), 120000L);
                                     int i13 = (int) (this.px + this.ph + ((((float) this.audioOffset) / min10) * this.sw));
                                     if (this.hasVideo) {
-                                        float f26 = this.videoRight;
+                                        float f27 = this.videoRight;
                                         j3 = this.videoDuration;
                                         j4 = this.audioDuration;
-                                        j2 = (f26 * ((float) j3)) - ((float) (0 * j4));
+                                        j2 = (f27 * ((float) j3)) - ((float) (0 * j4));
                                         f = this.videoLeft;
                                     } else if (this.hasRound) {
-                                        float f27 = this.roundRight;
+                                        float f28 = this.roundRight;
                                         j3 = this.roundDuration;
                                         j4 = this.audioDuration;
-                                        j2 = (f27 * ((float) j3)) - ((float) (0 * j4));
+                                        j2 = (f28 * ((float) j3)) - ((float) (0 * j4));
                                         f = this.roundLeft;
                                     } else {
                                         j = -(this.audioDuration - Math.min(getBaseDuration(), 120000L));
@@ -1407,10 +1420,10 @@ public class TimelineView extends View {
                                     float min11 = (float) Math.min(getBaseDuration(), 120000L);
                                     int i17 = (int) (this.px + this.ph + ((((float) this.roundOffset) / min11) * this.sw));
                                     if (this.hasVideo) {
-                                        float f28 = this.videoRight;
+                                        float f29 = this.videoRight;
                                         long j18 = this.videoDuration;
                                         long j19 = this.roundDuration;
-                                        j5 = (f28 * ((float) j18)) - ((float) (0 * j19));
+                                        j5 = (f29 * ((float) j18)) - ((float) (0 * j19));
                                         j6 = (this.videoLeft * ((float) j18)) - ((float) (j19 * 1));
                                     } else {
                                         j5 = 0;

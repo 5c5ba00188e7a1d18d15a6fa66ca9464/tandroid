@@ -554,6 +554,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
                 StarsIntroActivity.this.lambda$fillItems$1();
             }
         })));
+        boolean z2 = getMessagesController().starsGiftsEnabled;
         arrayList.add(UItem.asFullscreenCustom(this.transactionsLayout, ActionBar.getCurrentActionBarHeight() + AndroidUtilities.statusBarHeight));
     }
 
@@ -2373,7 +2374,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
                 }
                 return;
             }
-            BulletinFactory.of(safeLastFragment).createSimpleBulletin(R.raw.stars_send, LocaleController.getString(R.string.StarsGiftSentPopup), AndroidUtilities.replaceTags(LocaleController.formatPluralString("StarsGiftSentPopupInfo", (int) uItem.longValue, UserObject.getForcedFirstName(this.user)))).show(true);
+            BulletinFactory.of(safeLastFragment).createSimpleBulletin(R.raw.stars_send, LocaleController.getString(R.string.StarsGiftSentPopup), AndroidUtilities.replaceTags(LocaleController.formatPluralString("StarsGiftSentPopupInfo", (int) uItem.longValue, UserObject.getForcedFirstName(this.user)))).setDuration(5000).show(true);
             if (fireworksOverlay != null) {
                 fireworksOverlay.start(true);
             }

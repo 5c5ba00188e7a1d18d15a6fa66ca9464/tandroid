@@ -940,8 +940,9 @@ public class Theme {
     public static final int key_inappPlayerPerformer;
     public static final int key_inappPlayerPlayPause;
     public static final int key_inappPlayerTitle;
-    public static final int key_iv_ab_background;
     public static final int key_iv_ab_progress;
+    public static final int key_iv_background;
+    public static final int key_iv_backgroundGray;
     public static final int key_listSelector;
     public static final int key_location_actionActiveIcon;
     public static final int key_location_actionBackground;
@@ -1287,11 +1288,11 @@ public class Theme {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:167:0x29b6 A[Catch: Exception -> 0x2ba3, TryCatch #3 {Exception -> 0x2ba3, blocks: (B:54:0x2667, B:56:0x267d, B:67:0x26be, B:69:0x26cc, B:77:0x26f7, B:79:0x26fb, B:81:0x2703, B:82:0x2715, B:83:0x2721, B:85:0x2727, B:87:0x2731, B:89:0x2735, B:91:0x2763, B:93:0x2767, B:165:0x29b0, B:167:0x29b6, B:168:0x29bf, B:170:0x29c3, B:172:0x29cb, B:174:0x29cf, B:176:0x29d3, B:177:0x29d5, B:179:0x29df, B:148:0x289e, B:151:0x28bf, B:153:0x28ca, B:155:0x28d6, B:157:0x28e2, B:161:0x28ee, B:163:0x2995, B:158:0x28e8, B:184:0x29ff, B:185:0x2a05, B:189:0x2a0f, B:191:0x2a66, B:193:0x2a74, B:195:0x2a7e, B:197:0x2a8c, B:196:0x2a85, B:192:0x2a6d, B:70:0x26da, B:72:0x26e2, B:74:0x26eb, B:76:0x26f5, B:57:0x268a, B:59:0x2692, B:61:0x269a, B:63:0x26a4, B:65:0x26ac, B:95:0x2778, B:98:0x278e, B:100:0x27a3, B:101:0x27a9, B:103:0x27bb, B:106:0x27cb, B:110:0x27d7, B:114:0x27ee, B:118:0x27ff, B:120:0x280e, B:123:0x2817, B:125:0x282a, B:128:0x2833, B:130:0x283a, B:131:0x284a, B:133:0x284e, B:134:0x2852, B:136:0x285d, B:138:0x2869, B:115:0x27f5, B:111:0x27e1), top: B:239:0x2667 }] */
-    /* JADX WARN: Removed duplicated region for block: B:174:0x29cf A[Catch: Exception -> 0x2ba3, TryCatch #3 {Exception -> 0x2ba3, blocks: (B:54:0x2667, B:56:0x267d, B:67:0x26be, B:69:0x26cc, B:77:0x26f7, B:79:0x26fb, B:81:0x2703, B:82:0x2715, B:83:0x2721, B:85:0x2727, B:87:0x2731, B:89:0x2735, B:91:0x2763, B:93:0x2767, B:165:0x29b0, B:167:0x29b6, B:168:0x29bf, B:170:0x29c3, B:172:0x29cb, B:174:0x29cf, B:176:0x29d3, B:177:0x29d5, B:179:0x29df, B:148:0x289e, B:151:0x28bf, B:153:0x28ca, B:155:0x28d6, B:157:0x28e2, B:161:0x28ee, B:163:0x2995, B:158:0x28e8, B:184:0x29ff, B:185:0x2a05, B:189:0x2a0f, B:191:0x2a66, B:193:0x2a74, B:195:0x2a7e, B:197:0x2a8c, B:196:0x2a85, B:192:0x2a6d, B:70:0x26da, B:72:0x26e2, B:74:0x26eb, B:76:0x26f5, B:57:0x268a, B:59:0x2692, B:61:0x269a, B:63:0x26a4, B:65:0x26ac, B:95:0x2778, B:98:0x278e, B:100:0x27a3, B:101:0x27a9, B:103:0x27bb, B:106:0x27cb, B:110:0x27d7, B:114:0x27ee, B:118:0x27ff, B:120:0x280e, B:123:0x2817, B:125:0x282a, B:128:0x2833, B:130:0x283a, B:131:0x284a, B:133:0x284e, B:134:0x2852, B:136:0x285d, B:138:0x2869, B:115:0x27f5, B:111:0x27e1), top: B:239:0x2667 }] */
-    /* JADX WARN: Removed duplicated region for block: B:175:0x29d2  */
-    /* JADX WARN: Removed duplicated region for block: B:179:0x29df A[Catch: Exception -> 0x2ba3, TryCatch #3 {Exception -> 0x2ba3, blocks: (B:54:0x2667, B:56:0x267d, B:67:0x26be, B:69:0x26cc, B:77:0x26f7, B:79:0x26fb, B:81:0x2703, B:82:0x2715, B:83:0x2721, B:85:0x2727, B:87:0x2731, B:89:0x2735, B:91:0x2763, B:93:0x2767, B:165:0x29b0, B:167:0x29b6, B:168:0x29bf, B:170:0x29c3, B:172:0x29cb, B:174:0x29cf, B:176:0x29d3, B:177:0x29d5, B:179:0x29df, B:148:0x289e, B:151:0x28bf, B:153:0x28ca, B:155:0x28d6, B:157:0x28e2, B:161:0x28ee, B:163:0x2995, B:158:0x28e8, B:184:0x29ff, B:185:0x2a05, B:189:0x2a0f, B:191:0x2a66, B:193:0x2a74, B:195:0x2a7e, B:197:0x2a8c, B:196:0x2a85, B:192:0x2a6d, B:70:0x26da, B:72:0x26e2, B:74:0x26eb, B:76:0x26f5, B:57:0x268a, B:59:0x2692, B:61:0x269a, B:63:0x26a4, B:65:0x26ac, B:95:0x2778, B:98:0x278e, B:100:0x27a3, B:101:0x27a9, B:103:0x27bb, B:106:0x27cb, B:110:0x27d7, B:114:0x27ee, B:118:0x27ff, B:120:0x280e, B:123:0x2817, B:125:0x282a, B:128:0x2833, B:130:0x283a, B:131:0x284a, B:133:0x284e, B:134:0x2852, B:136:0x285d, B:138:0x2869, B:115:0x27f5, B:111:0x27e1), top: B:239:0x2667 }] */
-    /* JADX WARN: Removed duplicated region for block: B:253:0x29ef A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:167:0x29c3 A[Catch: Exception -> 0x2bb0, TryCatch #4 {Exception -> 0x2bb0, blocks: (B:54:0x2674, B:56:0x268a, B:67:0x26cb, B:69:0x26d9, B:77:0x2704, B:79:0x2708, B:81:0x2710, B:82:0x2722, B:83:0x272e, B:85:0x2734, B:87:0x273e, B:89:0x2742, B:91:0x2770, B:93:0x2774, B:165:0x29bd, B:167:0x29c3, B:168:0x29cc, B:170:0x29d0, B:172:0x29d8, B:174:0x29dc, B:176:0x29e0, B:177:0x29e2, B:179:0x29ec, B:148:0x28ab, B:151:0x28cc, B:153:0x28d7, B:155:0x28e3, B:157:0x28ef, B:161:0x28fb, B:163:0x29a2, B:158:0x28f5, B:184:0x2a0c, B:185:0x2a12, B:189:0x2a1c, B:191:0x2a73, B:193:0x2a81, B:195:0x2a8b, B:197:0x2a99, B:196:0x2a92, B:192:0x2a7a, B:70:0x26e7, B:72:0x26ef, B:74:0x26f8, B:76:0x2702, B:57:0x2697, B:59:0x269f, B:61:0x26a7, B:63:0x26b1, B:65:0x26b9, B:95:0x2785, B:141:0x2890, B:142:0x2895), top: B:241:0x2674 }] */
+    /* JADX WARN: Removed duplicated region for block: B:174:0x29dc A[Catch: Exception -> 0x2bb0, TryCatch #4 {Exception -> 0x2bb0, blocks: (B:54:0x2674, B:56:0x268a, B:67:0x26cb, B:69:0x26d9, B:77:0x2704, B:79:0x2708, B:81:0x2710, B:82:0x2722, B:83:0x272e, B:85:0x2734, B:87:0x273e, B:89:0x2742, B:91:0x2770, B:93:0x2774, B:165:0x29bd, B:167:0x29c3, B:168:0x29cc, B:170:0x29d0, B:172:0x29d8, B:174:0x29dc, B:176:0x29e0, B:177:0x29e2, B:179:0x29ec, B:148:0x28ab, B:151:0x28cc, B:153:0x28d7, B:155:0x28e3, B:157:0x28ef, B:161:0x28fb, B:163:0x29a2, B:158:0x28f5, B:184:0x2a0c, B:185:0x2a12, B:189:0x2a1c, B:191:0x2a73, B:193:0x2a81, B:195:0x2a8b, B:197:0x2a99, B:196:0x2a92, B:192:0x2a7a, B:70:0x26e7, B:72:0x26ef, B:74:0x26f8, B:76:0x2702, B:57:0x2697, B:59:0x269f, B:61:0x26a7, B:63:0x26b1, B:65:0x26b9, B:95:0x2785, B:141:0x2890, B:142:0x2895), top: B:241:0x2674 }] */
+    /* JADX WARN: Removed duplicated region for block: B:175:0x29df  */
+    /* JADX WARN: Removed duplicated region for block: B:179:0x29ec A[Catch: Exception -> 0x2bb0, TryCatch #4 {Exception -> 0x2bb0, blocks: (B:54:0x2674, B:56:0x268a, B:67:0x26cb, B:69:0x26d9, B:77:0x2704, B:79:0x2708, B:81:0x2710, B:82:0x2722, B:83:0x272e, B:85:0x2734, B:87:0x273e, B:89:0x2742, B:91:0x2770, B:93:0x2774, B:165:0x29bd, B:167:0x29c3, B:168:0x29cc, B:170:0x29d0, B:172:0x29d8, B:174:0x29dc, B:176:0x29e0, B:177:0x29e2, B:179:0x29ec, B:148:0x28ab, B:151:0x28cc, B:153:0x28d7, B:155:0x28e3, B:157:0x28ef, B:161:0x28fb, B:163:0x29a2, B:158:0x28f5, B:184:0x2a0c, B:185:0x2a12, B:189:0x2a1c, B:191:0x2a73, B:193:0x2a81, B:195:0x2a8b, B:197:0x2a99, B:196:0x2a92, B:192:0x2a7a, B:70:0x26e7, B:72:0x26ef, B:74:0x26f8, B:76:0x2702, B:57:0x2697, B:59:0x269f, B:61:0x26a7, B:63:0x26b1, B:65:0x26b9, B:95:0x2785, B:141:0x2890, B:142:0x2895), top: B:241:0x2674 }] */
+    /* JADX WARN: Removed duplicated region for block: B:254:0x29fc A[SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r4v41, types: [boolean] */
     /* JADX WARN: Type inference failed for: r4v47 */
     /* JADX WARN: Type inference failed for: r4v50 */
@@ -3562,10 +3563,13 @@ public class Theme {
         key_code_function = i744;
         int i745 = colorsCount;
         colorsCount = i745 + 1;
-        key_iv_ab_background = i745;
+        key_iv_background = i745;
         int i746 = colorsCount;
         colorsCount = i746 + 1;
-        key_iv_ab_progress = i746;
+        key_iv_backgroundGray = i746;
+        int i747 = colorsCount;
+        colorsCount = i747 + 1;
+        key_iv_ab_progress = i747;
         defaultChatDrawables = new HashMap<>();
         defaultChatDrawableColorKeys = new HashMap<>();
         defaultChatPaints = new HashMap<>();
@@ -3580,14 +3584,17 @@ public class Theme {
         defaultColors = ThemeColors.createDefaultColors();
         fallbackKeys.put(i745, key_windowBackgroundWhite);
         SparseIntArray sparseIntArray = fallbackKeys;
-        int i747 = key_featuredStickers_addButton;
-        sparseIntArray.put(i746, i747);
-        fallbackKeys.put(key_chat_inQuote, key_featuredStickers_addButtonPressed);
+        int i748 = key_windowBackgroundGray;
+        sparseIntArray.put(i746, i748);
         SparseIntArray sparseIntArray2 = fallbackKeys;
-        int i748 = key_chat_outQuote;
-        int i749 = key_chat_outReplyLine;
-        sparseIntArray2.put(i748, i749);
-        fallbackKeys.put(key_chat_outReplyLine2, i749);
+        int i749 = key_featuredStickers_addButton;
+        sparseIntArray2.put(i747, i749);
+        fallbackKeys.put(key_chat_inQuote, key_featuredStickers_addButtonPressed);
+        SparseIntArray sparseIntArray3 = fallbackKeys;
+        int i750 = key_chat_outQuote;
+        int i751 = key_chat_outReplyLine;
+        sparseIntArray3.put(i750, i751);
+        fallbackKeys.put(key_chat_outReplyLine2, i751);
         fallbackKeys.put(key_chat_inAdminText, key_chat_inTimeText);
         fallbackKeys.put(key_chat_inAdminSelectedText, key_chat_inTimeSelectedText);
         fallbackKeys.put(key_player_progressCachedBackground, key_player_progressBackground);
@@ -3595,19 +3602,16 @@ public class Theme {
         fallbackKeys.put(key_chat_outAudioCacheSeekbar, key_chat_outAudioSeekbar);
         fallbackKeys.put(key_chat_emojiSearchBackground, key_chat_emojiPanelStickerPackSelector);
         fallbackKeys.put(key_location_sendLiveLocationIcon, key_location_sendLocationIcon);
-        fallbackKeys.put(key_changephoneinfo_image2, i747);
+        fallbackKeys.put(key_changephoneinfo_image2, i749);
         fallbackKeys.put(key_graySectionText, key_windowBackgroundWhiteGrayText2);
         fallbackKeys.put(key_chat_inMediaIcon, key_chat_inBubble);
         fallbackKeys.put(key_chat_outMediaIcon, key_chat_outBubble);
         fallbackKeys.put(key_chat_inMediaIconSelected, key_chat_inBubbleSelected);
         fallbackKeys.put(key_chat_outMediaIconSelected, key_chat_outBubbleSelected);
-        SparseIntArray sparseIntArray3 = fallbackKeys;
-        int i750 = key_dialog_inlineProgressBackground;
-        int i751 = key_windowBackgroundGray;
-        sparseIntArray3.put(i750, i751);
+        fallbackKeys.put(key_dialog_inlineProgressBackground, i748);
         fallbackKeys.put(key_dialog_inlineProgress, key_chats_menuItemIcon);
         fallbackKeys.put(key_groupcreate_spanDelete, key_chats_actionIcon);
-        fallbackKeys.put(key_sharedMedia_photoPlaceholder, i751);
+        fallbackKeys.put(key_sharedMedia_photoPlaceholder, i748);
         fallbackKeys.put(key_chat_attachPollBackground, key_chat_attachAudioBackground);
         fallbackKeys.put(key_chats_onlineCircle, key_windowBackgroundWhiteBlueText);
         SparseIntArray sparseIntArray4 = fallbackKeys;
@@ -4130,79 +4134,83 @@ public class Theme {
                         int readInt322 = serializedData.readInt32(true);
                         int i814 = 0;
                         while (i814 < readInt322) {
-                            ThemeAccent themeAccent = new ThemeAccent();
-                            themeAccent.id = serializedData.readInt32(z3);
-                            themeAccent.accentColor = serializedData.readInt32(z3);
-                            if (readInt32 >= 9) {
-                                themeAccent.accentColor2 = serializedData.readInt32(z3);
-                            }
-                            themeAccent.parentTheme = themeInfo12;
-                            themeAccent.myMessagesAccentColor = serializedData.readInt32(true);
-                            themeAccent.myMessagesGradientAccentColor1 = serializedData.readInt32(true);
-                            if (readInt32 >= 7) {
-                                themeAccent.myMessagesGradientAccentColor2 = serializedData.readInt32(true);
-                                themeAccent.myMessagesGradientAccentColor3 = serializedData.readInt32(true);
-                            }
-                            if (readInt32 >= 8) {
-                                z2 = true;
-                                themeAccent.myMessagesAnimated = serializedData.readBool(true);
-                            } else {
-                                z2 = true;
-                            }
-                            if (readInt32 >= 3) {
-                                themeInfo5 = themeInfo;
-                                editor2 = editor4;
-                                themeAccent.backgroundOverrideColor = serializedData.readInt64(z2);
-                            } else {
-                                themeInfo5 = themeInfo;
-                                editor2 = editor4;
-                                themeAccent.backgroundOverrideColor = serializedData.readInt32(z2);
-                            }
-                            if (readInt32 >= 2) {
-                                themeAccent.backgroundGradientOverrideColor1 = serializedData.readInt64(z2);
-                            } else {
-                                themeAccent.backgroundGradientOverrideColor1 = serializedData.readInt32(z2);
-                            }
-                            ?? r4 = z2;
-                            if (readInt32 >= 6) {
-                                themeAccent.backgroundGradientOverrideColor2 = serializedData.readInt64(z2);
-                                themeAccent.backgroundGradientOverrideColor3 = serializedData.readInt64(z2);
-                                r4 = 1;
-                            }
-                            if (readInt32 >= r4) {
-                                themeAccent.backgroundRotation = serializedData.readInt32(r4);
-                            }
-                            if (readInt32 >= 4) {
-                                serializedData.readInt64(r4);
-                                themeAccent.patternIntensity = (float) serializedData.readDouble(r4);
-                                themeAccent.patternMotion = serializedData.readBool(r4);
-                                if (readInt32 >= 5) {
-                                    themeAccent.patternSlug = serializedData.readString(r4);
+                            try {
+                                ThemeAccent themeAccent = new ThemeAccent();
+                                themeAccent.id = serializedData.readInt32(z3);
+                                themeAccent.accentColor = serializedData.readInt32(z3);
+                                if (readInt32 >= 9) {
+                                    themeAccent.accentColor2 = serializedData.readInt32(z3);
                                 }
+                                themeAccent.parentTheme = themeInfo12;
+                                themeAccent.myMessagesAccentColor = serializedData.readInt32(true);
+                                themeAccent.myMessagesGradientAccentColor1 = serializedData.readInt32(true);
+                                if (readInt32 >= 7) {
+                                    themeAccent.myMessagesGradientAccentColor2 = serializedData.readInt32(true);
+                                    themeAccent.myMessagesGradientAccentColor3 = serializedData.readInt32(true);
+                                }
+                                if (readInt32 >= 8) {
+                                    z2 = true;
+                                    themeAccent.myMessagesAnimated = serializedData.readBool(true);
+                                } else {
+                                    z2 = true;
+                                }
+                                if (readInt32 >= 3) {
+                                    themeInfo5 = themeInfo;
+                                    editor2 = editor4;
+                                    themeAccent.backgroundOverrideColor = serializedData.readInt64(z2);
+                                } else {
+                                    themeInfo5 = themeInfo;
+                                    editor2 = editor4;
+                                    themeAccent.backgroundOverrideColor = serializedData.readInt32(z2);
+                                }
+                                if (readInt32 >= 2) {
+                                    themeAccent.backgroundGradientOverrideColor1 = serializedData.readInt64(z2);
+                                } else {
+                                    themeAccent.backgroundGradientOverrideColor1 = serializedData.readInt32(z2);
+                                }
+                                ?? r4 = z2;
+                                if (readInt32 >= 6) {
+                                    themeAccent.backgroundGradientOverrideColor2 = serializedData.readInt64(z2);
+                                    themeAccent.backgroundGradientOverrideColor3 = serializedData.readInt64(z2);
+                                    r4 = 1;
+                                }
+                                if (readInt32 >= r4) {
+                                    themeAccent.backgroundRotation = serializedData.readInt32(r4);
+                                }
+                                if (readInt32 >= 4) {
+                                    serializedData.readInt64(r4);
+                                    themeAccent.patternIntensity = (float) serializedData.readDouble(r4);
+                                    themeAccent.patternMotion = serializedData.readBool(r4);
+                                    if (readInt32 >= 5) {
+                                        themeAccent.patternSlug = serializedData.readString(r4);
+                                    }
+                                }
+                                if (readInt32 >= 5 && serializedData.readBool(true)) {
+                                    themeAccent.account = serializedData.readInt32(true);
+                                    themeAccent.info = TLRPC$Theme.TLdeserialize(serializedData, serializedData.readInt32(true), true);
+                                }
+                                TLRPC$TL_theme tLRPC$TL_theme = themeAccent.info;
+                                if (tLRPC$TL_theme != null) {
+                                    themeAccent.isDefault = tLRPC$TL_theme.isDefault;
+                                }
+                                themeInfo12.themeAccentsMap.put(themeAccent.id, themeAccent);
+                                TLRPC$TL_theme tLRPC$TL_theme2 = themeAccent.info;
+                                if (tLRPC$TL_theme2 != null) {
+                                    str2 = str3;
+                                    themeInfo12.accentsByThemeId.put(tLRPC$TL_theme2.id, themeAccent);
+                                } else {
+                                    str2 = str3;
+                                }
+                                arrayList2.add(themeAccent);
+                                themeInfo12.lastAccentId = Math.max(themeInfo12.lastAccentId, themeAccent.id);
+                                i814++;
+                                themeInfo = themeInfo5;
+                                str3 = str2;
+                                editor4 = editor2;
+                                z3 = true;
+                            } finally {
+                                RuntimeException runtimeException = new RuntimeException(th);
                             }
-                            if (readInt32 >= 5 && serializedData.readBool(true)) {
-                                themeAccent.account = serializedData.readInt32(true);
-                                themeAccent.info = TLRPC$Theme.TLdeserialize(serializedData, serializedData.readInt32(true), true);
-                            }
-                            TLRPC$TL_theme tLRPC$TL_theme = themeAccent.info;
-                            if (tLRPC$TL_theme != null) {
-                                themeAccent.isDefault = tLRPC$TL_theme.isDefault;
-                            }
-                            themeInfo12.themeAccentsMap.put(themeAccent.id, themeAccent);
-                            TLRPC$TL_theme tLRPC$TL_theme2 = themeAccent.info;
-                            if (tLRPC$TL_theme2 != null) {
-                                str2 = str3;
-                                themeInfo12.accentsByThemeId.put(tLRPC$TL_theme2.id, themeAccent);
-                            } else {
-                                str2 = str3;
-                            }
-                            arrayList2.add(themeAccent);
-                            themeInfo12.lastAccentId = Math.max(themeInfo12.lastAccentId, themeAccent.id);
-                            i814++;
-                            themeInfo = themeInfo5;
-                            str3 = str2;
-                            editor4 = editor2;
-                            z3 = true;
                         }
                         str = str3;
                         themeInfo4 = themeInfo;
