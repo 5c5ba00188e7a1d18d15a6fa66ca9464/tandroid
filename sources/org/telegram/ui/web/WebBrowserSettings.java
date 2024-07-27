@@ -28,6 +28,7 @@ import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicReference;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
+import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
@@ -58,11 +59,16 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
     private long cacheSize;
     private long cookiesSize;
     private long historySize;
+    private Utilities.Callback<BrowserHistory.Entry> whenHistoryClicked;
 
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.UniversalFragment
     public boolean onLongClick(UItem uItem, View view, int i, float f, float f2) {
         return false;
+    }
+
+    public WebBrowserSettings(Utilities.Callback<BrowserHistory.Entry> callback) {
+        this.whenHistoryClicked = callback;
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -242,20 +248,25 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
         arrayList.add(UItem.asShadow(LocaleController.getString(R.string.BrowserSettingsNeverOpenInInfo)));
         arrayList.add(UItem.asButton(6, R.drawable.msg_search, LocaleController.getString(R.string.SearchEngine), SearchEngine.getCurrent().name));
         arrayList.add(UItem.asShadow(LocaleController.getString(R.string.BrowserSettingsSearchEngineInfo)));
-        if (SharedConfig.inappBrowser) {
-            return;
+        if (!SharedConfig.inappBrowser) {
+            arrayList.add(UItem.asHeader(LocaleController.getString(R.string.BrowserSettingsCustomTabsTitle)));
+            arrayList.add(UItem.asRadio(10, LocaleController.getString(R.string.BrowserSettingsCustomTabs)).setChecked(SharedConfig.customTabs));
+            arrayList.add(UItem.asRadio(11, LocaleController.getString(R.string.BrowserSettingsNoCustomTabs)).setChecked(true ^ SharedConfig.customTabs));
+            arrayList.add(UItem.asShadow(LocaleController.getString(R.string.BrowserSettingsNoCustomTabsInfo)));
         }
-        arrayList.add(UItem.asHeader(LocaleController.getString(R.string.BrowserSettingsCustomTabsTitle)));
-        arrayList.add(UItem.asRadio(10, LocaleController.getString(R.string.BrowserSettingsCustomTabs)).setChecked(SharedConfig.customTabs));
-        arrayList.add(UItem.asRadio(11, LocaleController.getString(R.string.BrowserSettingsNoCustomTabs)).setChecked(true ^ SharedConfig.customTabs));
-        arrayList.add(UItem.asShadow(LocaleController.getString(R.string.BrowserSettingsNoCustomTabsInfo)));
+        if (BuildVars.DEBUG_PRIVATE_VERSION) {
+            arrayList.add(UItem.asCheck(12, "adaptable colors").setChecked(SharedConfig.adaptableBrowser));
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.UniversalFragment
     public void onClick(UItem uItem, final View view, int i, float f, float f2) {
         int i2 = uItem.id;
-        if (i2 == 1) {
+        if (i2 == 12) {
+            SharedConfig.toggleBrowserAdaptable();
+            ((TextCheckCell) view).setChecked(SharedConfig.adaptableBrowser);
+        } else if (i2 == 1) {
             SharedConfig.toggleInappBrowser();
             TextCheckCell textCheckCell = (TextCheckCell) view;
             textCheckCell.setChecked(SharedConfig.inappBrowser);
@@ -505,6 +516,11 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onClick$6(HistoryFragment[] historyFragmentArr, BrowserHistory.Entry entry) {
         historyFragmentArr[0].finishFragment();
+        if (this.whenHistoryClicked != null) {
+            finishFragment();
+            this.whenHistoryClicked.run(entry);
+            return;
+        }
         Browser.openUrl(getContext(), entry.url);
     }
 
@@ -552,7 +568,7 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
                 WebBrowserSettings.this.lambda$onClick$9(alertDialogArr, alertDialog);
             }
         };
-        AndroidUtilities.runOnUIThread(runnable, 2000L);
+        AndroidUtilities.runOnUIThread(runnable, 5000L);
         alertDialog.showDelayed(300L);
         WebMetadataCache.retrieveFaviconAndSitename("https://" + obj + "/", new Utilities.Callback2() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda13
             @Override // org.telegram.messenger.Utilities.Callback2

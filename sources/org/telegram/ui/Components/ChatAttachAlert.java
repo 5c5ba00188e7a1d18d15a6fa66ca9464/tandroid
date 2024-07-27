@@ -288,6 +288,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
     public boolean storyLocationPickerFileIsVideo;
     public double[] storyLocationPickerLatLong;
     public File storyLocationPickerPhotoFile;
+    public boolean storyMediaPicker;
     private TextPaint textPaint;
     private float toScrollY;
     private ValueAnimator topBackgroundAnimator;
@@ -2952,7 +2953,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                 if (f2 < 0.0f) {
                     ChatAttachAlert.this.currentAttachLayout.setTranslationY(f2);
                     ChatAttachAlert chatAttachAlert2 = ChatAttachAlert.this;
-                    if (chatAttachAlert2.avatarPicker != 0) {
+                    if (chatAttachAlert2.avatarPicker != 0 || chatAttachAlert2.storyMediaPicker) {
                         chatAttachAlert2.headerView.setTranslationY((chatAttachAlert2.baseSelectedTextViewTranslationY + f2) - ChatAttachAlert.this.currentPanTranslationY);
                     }
                     ChatAttachAlert.this.buttonsRecyclerView.setTranslationY(0.0f);
@@ -5567,7 +5568,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         return this.scrollOffsetY[i];
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:113:0x00f2  */
+    /* JADX WARN: Removed duplicated region for block: B:117:0x00f6  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -5608,7 +5609,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             i2 = point.x > point.y ? 6 : 12;
         }
         float dp3 = this.actionBar.getAlpha() != 0.0f ? 0.0f : AndroidUtilities.dp((1.0f - this.headerView.getAlpha()) * 26.0f);
-        if (this.menuShowed && this.avatarPicker == 0) {
+        if (this.menuShowed && this.avatarPicker == 0 && !this.storyMediaPicker) {
             this.selectedMenuItem.setTranslationY((scrollOffsetY - AndroidUtilities.dp((i2 * f) + 37.0f)) + dp3 + this.currentPanTranslationY);
         } else {
             this.selectedMenuItem.setTranslationY(((ActionBar.getCurrentActionBarHeight() - AndroidUtilities.dp(4.0f)) - AndroidUtilities.dp(i2 + 37)) + this.currentPanTranslationY);
@@ -5666,7 +5667,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         }
         ActionBarMenuItem actionBarMenuItem = this.searchItem;
         boolean z3 = actionBarMenuItem != null && this.avatarSearch;
-        boolean z4 = !this.isPhotoPicker && !(this.avatarPicker == 0 && this.menuShowed) && this.currentAttachLayout == this.photoLayout && (this.photosEnabled || this.videosEnabled);
+        boolean z4 = (this.isPhotoPicker || this.storyMediaPicker || (this.avatarPicker == 0 && this.menuShowed) || this.currentAttachLayout != this.photoLayout || (!this.photosEnabled && !this.videosEnabled)) ? false : true;
         if (this.currentAttachLayout == this.restrictedLayout) {
             z3 = false;
             z4 = false;
@@ -5829,10 +5830,10 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         this.containerView.invalidate();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:193:0x00a9  */
-    /* JADX WARN: Removed duplicated region for block: B:197:0x00b8  */
-    /* JADX WARN: Removed duplicated region for block: B:204:0x00cc  */
-    /* JADX WARN: Removed duplicated region for block: B:228:0x010c  */
+    /* JADX WARN: Removed duplicated region for block: B:211:0x00b5  */
+    /* JADX WARN: Removed duplicated region for block: B:217:0x00c8  */
+    /* JADX WARN: Removed duplicated region for block: B:224:0x00dc  */
+    /* JADX WARN: Removed duplicated region for block: B:250:0x0120  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -5860,13 +5861,13 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         if (this.currentAttachLayout != this.photoLayout) {
             return;
         }
-        if (!(this.baseFragment instanceof ChatActivity) && this.avatarPicker == 0) {
+        if (!(this.baseFragment instanceof ChatActivity) && this.avatarPicker == 0 && !this.storyMediaPicker) {
             return;
         }
-        if (!(selectedItemsCount == 0 && this.menuShowed) && ((selectedItemsCount == 0 && this.avatarPicker == 0) || this.menuShowed)) {
+        if (!(selectedItemsCount == 0 && this.menuShowed) && ((selectedItemsCount == 0 && this.avatarPicker == 0 && !this.storyMediaPicker) || this.menuShowed)) {
             return;
         }
-        this.menuShowed = (selectedItemsCount == 0 && this.avatarPicker == 0) ? false : true;
+        this.menuShowed = (selectedItemsCount == 0 && this.avatarPicker == 0 && !this.storyMediaPicker) ? false : true;
         AnimatorSet animatorSet = this.menuAnimator;
         if (animatorSet != null) {
             animatorSet.cancel();
@@ -5877,7 +5878,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             if ((baseFragment instanceof ChatActivity) && ((ChatActivity) baseFragment).allowSendGifs()) {
                 z = true;
                 if (!this.menuShowed) {
-                    if (this.avatarPicker == 0) {
+                    if (this.avatarPicker == 0 && !this.storyMediaPicker) {
                         this.selectedMenuItem.setVisibility(0);
                     }
                     this.headerView.setVisibility(0);
@@ -5885,7 +5886,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                     actionBarMenuItem.setVisibility(0);
                 }
                 if (i != 0) {
-                    if (this.actionBar.getTag() == null && this.avatarPicker == 0) {
+                    if (this.actionBar.getTag() == null && this.avatarPicker == 0 && !this.storyMediaPicker) {
                         this.selectedMenuItem.setAlpha(this.menuShowed ? 1.0f : 0.0f);
                     }
                     this.headerView.setAlpha(this.menuShowed ? 1.0f : 0.0f);
@@ -5900,7 +5901,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                 }
                 this.menuAnimator = new AnimatorSet();
                 ArrayList arrayList = new ArrayList();
-                if (this.actionBar.getTag() == null && this.avatarPicker == 0) {
+                if (this.actionBar.getTag() == null && this.avatarPicker == 0 && !this.storyMediaPicker) {
                     ActionBarMenuItem actionBarMenuItem3 = this.selectedMenuItem;
                     Property property = View.ALPHA;
                     float[] fArr = new float[1];
@@ -5931,7 +5932,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                         if (!ChatAttachAlert.this.menuShowed) {
                             if (ChatAttachAlert.this.actionBar.getTag() == null) {
                                 ChatAttachAlert chatAttachAlert = ChatAttachAlert.this;
-                                if (chatAttachAlert.avatarPicker == 0) {
+                                if (chatAttachAlert.avatarPicker == 0 && !chatAttachAlert.storyMediaPicker) {
                                     chatAttachAlert.selectedMenuItem.setVisibility(4);
                                 }
                             }
@@ -5960,19 +5961,19 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         this.delegate = chatAttachViewDelegate;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:125:0x00b2  */
-    /* JADX WARN: Removed duplicated region for block: B:126:0x00d7  */
-    /* JADX WARN: Removed duplicated region for block: B:134:0x00e9  */
-    /* JADX WARN: Removed duplicated region for block: B:138:0x00f3  */
-    /* JADX WARN: Removed duplicated region for block: B:139:0x00f5  */
-    /* JADX WARN: Removed duplicated region for block: B:143:0x0112  */
-    /* JADX WARN: Removed duplicated region for block: B:172:0x0184  */
-    /* JADX WARN: Removed duplicated region for block: B:176:0x01aa  */
-    /* JADX WARN: Removed duplicated region for block: B:177:0x01ac  */
-    /* JADX WARN: Removed duplicated region for block: B:180:0x01b7  */
-    /* JADX WARN: Removed duplicated region for block: B:181:0x01b9  */
-    /* JADX WARN: Removed duplicated region for block: B:184:0x01c1  */
-    /* JADX WARN: Removed duplicated region for block: B:196:0x0228  */
+    /* JADX WARN: Removed duplicated region for block: B:127:0x00b2  */
+    /* JADX WARN: Removed duplicated region for block: B:128:0x00d7  */
+    /* JADX WARN: Removed duplicated region for block: B:136:0x00e9  */
+    /* JADX WARN: Removed duplicated region for block: B:140:0x00f3  */
+    /* JADX WARN: Removed duplicated region for block: B:141:0x00f5  */
+    /* JADX WARN: Removed duplicated region for block: B:145:0x0112  */
+    /* JADX WARN: Removed duplicated region for block: B:176:0x0189  */
+    /* JADX WARN: Removed duplicated region for block: B:180:0x01af  */
+    /* JADX WARN: Removed duplicated region for block: B:181:0x01b1  */
+    /* JADX WARN: Removed duplicated region for block: B:184:0x01bc  */
+    /* JADX WARN: Removed duplicated region for block: B:185:0x01be  */
+    /* JADX WARN: Removed duplicated region for block: B:188:0x01c6  */
+    /* JADX WARN: Removed duplicated region for block: B:200:0x022d  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -6069,7 +6070,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                     this.typeButtonsAvailable = !this.editingMessageObject.hasValidGroupId();
                 } else {
                     attachAlertLayout = this.photoLayout;
-                    this.typeButtonsAvailable = this.avatarPicker == 0;
+                    this.typeButtonsAvailable = this.avatarPicker == 0 && !this.storyMediaPicker;
                     this.selectedId = 1L;
                 }
             }
@@ -6238,9 +6239,9 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                 this.shadow.setVisibility(8);
             }
             if (this.avatarPicker == 2) {
-                this.selectedTextView.setText(LocaleController.getString("ChoosePhotoOrVideo", R.string.ChoosePhotoOrVideo));
+                this.selectedTextView.setText(LocaleController.getString(R.string.ChoosePhotoOrVideo));
             } else {
-                this.selectedTextView.setText(LocaleController.getString("ChoosePhoto", R.string.ChoosePhoto));
+                this.selectedTextView.setText(LocaleController.getString(R.string.ChoosePhoto));
             }
         } else {
             this.typeButtonsAvailable = true;
@@ -6251,8 +6252,14 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         }
     }
 
+    public void setStoryMediaPicker() {
+        this.storyMediaPicker = true;
+        this.typeButtonsAvailable = false;
+        this.selectedTextView.setText(LocaleController.getString(R.string.ChoosePhotoOrVideo));
+    }
+
     public void enableStickerMode(Utilities.Callback2<String, TLRPC$InputDocument> callback2) {
-        this.selectedTextView.setText(LocaleController.getString("ChoosePhoto", R.string.ChoosePhoto));
+        this.selectedTextView.setText(LocaleController.getString(R.string.ChoosePhoto));
         this.typeButtonsAvailable = false;
         this.buttonsRecyclerView.setVisibility(8);
         this.shadow.setVisibility(8);
@@ -6288,7 +6295,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         this.isSoundPicker = true;
         this.buttonsRecyclerView.setVisibility(8);
         this.shadow.setVisibility(8);
-        this.selectedTextView.setText(LocaleController.getString("ChoosePhotoOrVideo", R.string.ChoosePhotoOrVideo));
+        this.selectedTextView.setText(LocaleController.getString(R.string.ChoosePhotoOrVideo));
     }
 
     public void setStoryLocationPicker() {

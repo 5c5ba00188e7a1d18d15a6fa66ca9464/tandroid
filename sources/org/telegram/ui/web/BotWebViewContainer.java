@@ -3114,7 +3114,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
     }
 
     public static boolean isTonsite(String str) {
-        return isTonsite(Uri.parse(str));
+        return str != null && isTonsite(Uri.parse(str));
     }
 
     public static boolean isTonsite(Uri uri) {
@@ -3197,24 +3197,6 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
 
         public boolean isPageLoaded() {
             return this.isPageLoaded;
-        }
-
-        public void whenPageLoaded(Runnable runnable, long j) {
-            this.whenPageLoaded = runnable;
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.web.BotWebViewContainer$MyWebView$$ExternalSyntheticLambda1
-                @Override // java.lang.Runnable
-                public final void run() {
-                    BotWebViewContainer.MyWebView.this.lambda$whenPageLoaded$0();
-                }
-            }, j);
-        }
-
-        public /* synthetic */ void lambda$whenPageLoaded$0() {
-            Runnable runnable = this.whenPageLoaded;
-            if (runnable != null) {
-                this.whenPageLoaded = null;
-                runnable.run();
-            }
         }
 
         public void d(String str) {
@@ -3533,7 +3515,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                 }
                 MyWebView myWebView3 = MyWebView.this;
                 String readRes = RLottieDrawable.readRes(null, R.raw.webview_ext);
-                myWebView3.evaluateJS(readRes.replace("$DEBUG$", "" + BuildVars.DEBUG_PRIVATE_VERSION));
+                myWebView3.evaluateJS(readRes.replace("$DEBUG$", "" + BuildVars.DEBUG_VERSION));
             }
 
             @Override // android.webkit.WebViewClient
@@ -3555,7 +3537,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                 if (!this.val$bot) {
                     MyWebView myWebView = MyWebView.this;
                     String readRes = RLottieDrawable.readRes(null, R.raw.webview_ext);
-                    myWebView.evaluateJS(readRes.replace("$DEBUG$", "" + BuildVars.DEBUG_PRIVATE_VERSION));
+                    myWebView.evaluateJS(readRes.replace("$DEBUG$", "" + BuildVars.DEBUG_VERSION));
                 }
                 MyWebView.this.saveHistory();
             }

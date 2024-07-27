@@ -25,7 +25,6 @@ import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
-import android.transition.ChangeBounds;
 import android.transition.TransitionManager;
 import android.transition.TransitionSet;
 import android.transition.TransitionValues;
@@ -6865,7 +6864,6 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             if (z5 && Build.VERSION.SDK_INT >= 19) {
                 TransitionSet transitionSet = new TransitionSet();
                 transitionSet.setOrdering(0);
-                transitionSet.addTransition(new ChangeBounds());
                 transitionSet.addTransition(new Visibility(this) { // from class: org.telegram.ui.Components.SharedMediaLayout.42
                     @Override // android.transition.Visibility
                     public Animator onAppear(ViewGroup viewGroup, View view, TransitionValues transitionValues, TransitionValues transitionValues2) {

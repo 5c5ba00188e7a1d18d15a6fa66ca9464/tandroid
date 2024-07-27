@@ -50,7 +50,7 @@ import org.telegram.ui.Components.Premium.PremiumGradient;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Stories.StoriesUtilities;
 /* loaded from: classes4.dex */
-public class ProfileSearchCell extends BaseCell implements NotificationCenter.NotificationCenterDelegate {
+public class ProfileSearchCell extends BaseCell implements NotificationCenter.NotificationCenterDelegate, Theme.Colorable {
     CanvasButton actionButton;
     private StaticLayout actionLayout;
     private int actionLeft;
@@ -894,5 +894,13 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
             return super.onTouchEvent(motionEvent);
         }
         return true;
+    }
+
+    @Override // org.telegram.ui.ActionBar.Theme.Colorable
+    public void updateColors() {
+        if (this.nameLayout == null || getMeasuredWidth() <= 0) {
+            return;
+        }
+        buildLayout();
     }
 }

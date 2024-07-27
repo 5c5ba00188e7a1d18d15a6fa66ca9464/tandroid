@@ -82,6 +82,7 @@ public class BottomSheetTabsOverlay extends FrameLayout {
     private final RectF rect2;
     private ValueAnimator scrollAnimator;
     private final OverScroller scroller;
+    private boolean slowerDismiss;
     private long startTime;
     private float startX;
     private float startY;
@@ -106,6 +107,8 @@ public class BottomSheetTabsOverlay extends FrameLayout {
 
         SheetView getWindowView();
 
+        boolean isFullSize();
+
         void release();
 
         BottomSheetTabs.WebTabData saveState();
@@ -129,9 +132,6 @@ public class BottomSheetTabsOverlay extends FrameLayout {
     @Override // android.view.ViewGroup
     protected boolean drawChild(Canvas canvas, View view, long j) {
         return false;
-    }
-
-    public void setSlowerDismiss(boolean z) {
     }
 
     public BottomSheetTabsOverlay(Context context) {
@@ -466,6 +466,10 @@ public class BottomSheetTabsOverlay extends FrameLayout {
         return null;
     }
 
+    public void setSlowerDismiss(boolean z) {
+        this.slowerDismiss = z;
+    }
+
     public void stopAnimations() {
         ValueAnimator valueAnimator = this.animator;
         if (valueAnimator != null) {
@@ -503,9 +507,13 @@ public class BottomSheetTabsOverlay extends FrameLayout {
             }
         });
         this.animator.addListener(new 2(sheet, saveState));
-        this.animator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
-        this.animator.setDuration(340L);
+        if (this.slowerDismiss || sheet.isFullSize()) {
+            AndroidUtilities.applySpring(this.animator, 220.0d, 30.0d, 1.0d);
+        } else {
+            AndroidUtilities.applySpring(this.animator, 350.0d, 30.0d, 1.0d);
+        }
         this.animator.start();
+        this.slowerDismiss = false;
         return true;
     }
 

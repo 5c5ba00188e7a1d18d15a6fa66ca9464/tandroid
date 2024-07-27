@@ -1120,6 +1120,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         this.needsContext = z;
     }
 
+    @Override // org.telegram.ui.ActionBar.BottomSheetTabsOverlay.Sheet
     public boolean isFullSize() {
         Boolean bool = this.fullsize;
         return bool == null ? this.defaultFullsize : bool.booleanValue();

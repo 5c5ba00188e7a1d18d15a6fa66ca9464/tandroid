@@ -10299,10 +10299,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         return this.chatId != 0;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:522:0x014a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:515:0x014a, code lost:
         if ((r3 instanceof org.telegram.tgnet.TLRPC$TL_fileLocationToBeDeprecated) == false) goto L53;
      */
-    /* JADX WARN: Removed duplicated region for block: B:695:0x04cf  */
+    /* JADX WARN: Removed duplicated region for block: B:684:0x04b5  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -10315,12 +10315,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         TLRPC$ChatParticipants tLRPC$ChatParticipants2;
         ArrayList<TLRPC$ChatParticipant> arrayList;
         TLRPC$ChatFull tLRPC$ChatFull3;
-        boolean z2;
         TLRPC$ChatFull tLRPC$ChatFull4;
         TLRPC$ChatFull tLRPC$ChatFull5;
         int i;
         int i2;
-        boolean z3;
+        boolean z2;
         TLRPC$UserFull tLRPC$UserFull;
         ProfileChannelCell.ChannelMessageFetcher channelMessageFetcher;
         TLRPC$Chat chat;
@@ -10419,7 +10418,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         this.visibleChatParticipants.clear();
         this.visibleSortedUsers.clear();
         SharedMediaLayout.SharedMediaPreloader sharedMediaPreloader = this.sharedMediaPreloader;
-        boolean z4 = true;
+        boolean z3 = true;
         if (sharedMediaPreloader != null) {
             int[] lastMediaCount = sharedMediaPreloader.getLastMediaCount();
             int i4 = 0;
@@ -10558,7 +10557,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     this.rowCount = i29 + 1;
                     this.premiumRow = i29;
                 }
-                if (getMessagesController().starsPurchaseAvailable() && (StarsController.getInstance(this.currentAccount).getBalance() > 0 || StarsController.getInstance(this.currentAccount).hasTransactions())) {
+                if (getMessagesController().starsPurchaseAvailable()) {
                     int i30 = this.rowCount;
                     this.rowCount = i30 + 1;
                     this.starsRow = i30;
@@ -10620,8 +10619,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             } else {
                 String publicUsername = UserObject.getPublicUsername(user);
                 TLRPC$UserFull tLRPC$UserFull4 = this.userInfo;
-                boolean z5 = ((tLRPC$UserFull4 == null || TextUtils.isEmpty(tLRPC$UserFull4.about)) && (user == null || TextUtils.isEmpty(publicUsername))) ? false : true;
-                boolean z6 = (user == null || (TextUtils.isEmpty(user.phone) && TextUtils.isEmpty(this.vcardPhone))) ? false : true;
+                boolean z4 = ((tLRPC$UserFull4 == null || TextUtils.isEmpty(tLRPC$UserFull4.about)) && (user == null || TextUtils.isEmpty(publicUsername))) ? false : true;
+                boolean z5 = (user == null || (TextUtils.isEmpty(user.phone) && TextUtils.isEmpty(this.vcardPhone))) ? false : true;
                 TLRPC$UserFull tLRPC$UserFull5 = this.userInfo;
                 if (tLRPC$UserFull5 != null && (tLRPC$UserFull5.flags2 & 64) != 0 && (((channelMessageFetcher = this.profileChannelMessageFetcher) == null || !channelMessageFetcher.loaded || channelMessageFetcher.messageObject != null) && (chat = getMessagesController().getChat(Long.valueOf(this.userInfo.personal_channel_id))) != null && (ChatObject.isPublic(chat) || !ChatObject.isNotInChat(chat)))) {
                     int i45 = this.rowCount;
@@ -10636,7 +10635,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 int i48 = i47 + 1;
                 this.rowCount = i48;
                 this.infoHeaderRow = i47;
-                if (!this.isBot && (z6 || !z5)) {
+                if (!this.isBot && (z5 || !z4)) {
                     this.rowCount = i48 + 1;
                     this.phoneRow = i48;
                 }
@@ -10674,8 +10673,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     this.rowCount = i54 + 1;
                     this.notificationsRow = i54;
                 }
-                boolean z7 = this.isBot;
-                if (z7 && user != null && user.bot_has_main_app) {
+                boolean z6 = this.isBot;
+                if (z6 && user != null && user.bot_has_main_app) {
                     int i55 = this.rowCount;
                     this.rowCount = i55 + 1;
                     this.botAppRow = i55;
@@ -10696,7 +10695,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     this.rowCount = i59 + 1;
                     this.secretSettingsSectionRow = i59;
                 }
-                if (user != null && !z7 && tLRPC$EncryptedChat == null && user.id != getUserConfig().getClientUserId() && this.userBlocked) {
+                if (user != null && !z6 && tLRPC$EncryptedChat == null && user.id != getUserConfig().getClientUserId() && this.userBlocked) {
                     int i60 = this.rowCount;
                     int i61 = i60 + 1;
                     this.rowCount = i61;
@@ -10717,21 +10716,21 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     this.rowCount = i64 + 1;
                     this.addToGroupInfoRow = i64;
                 } else if (this.balanceRow >= 0) {
-                    z3 = true;
+                    z2 = true;
                     if (!this.myProfile && this.showAddToContacts && user != null && !user.contact && !user.bot && !UserObject.isService(user.id)) {
                         int i65 = this.rowCount;
                         this.rowCount = i65 + 1;
                         this.addToContactsRow = i65;
-                        z3 = true;
+                        z2 = true;
                     }
                     if (!this.myProfile || this.reportReactionMessageId == 0 || ContactsController.getInstance(this.currentAccount).isContact(this.userId)) {
-                        z4 = z3;
+                        z3 = z2;
                     } else {
                         int i66 = this.rowCount;
                         this.rowCount = i66 + 1;
                         this.reportReactionRow = i66;
                     }
-                    if (z4) {
+                    if (z3) {
                         int i67 = this.rowCount;
                         this.rowCount = i67 + 1;
                         this.reportDividerRow = i67;
@@ -10752,17 +10751,17 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         this.lastSectionRow = i71;
                     }
                 }
-                z3 = false;
+                z2 = false;
                 if (!this.myProfile) {
                     int i652 = this.rowCount;
                     this.rowCount = i652 + 1;
                     this.addToContactsRow = i652;
-                    z3 = true;
+                    z2 = true;
                 }
                 if (this.myProfile) {
                 }
-                z4 = z3;
-                if (z4) {
+                z3 = z2;
+                if (z3) {
                 }
                 if (!z) {
                 }
@@ -10826,7 +10825,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             this.infoSectionRow = i83;
             if (ChatObject.isChannel(this.currentChat)) {
                 TLRPC$Chat tLRPC$Chat = this.currentChat;
-                if (!tLRPC$Chat.megagroup && (tLRPC$ChatFull3 = this.chatInfo) != null && ((z2 = tLRPC$Chat.creator) || tLRPC$ChatFull3.can_view_participants)) {
+                if (!tLRPC$Chat.megagroup && (tLRPC$ChatFull3 = this.chatInfo) != null && (tLRPC$Chat.creator || tLRPC$ChatFull3.can_view_participants)) {
                     int i84 = this.rowCount;
                     int i85 = i84 + 1;
                     this.rowCount = i85;
@@ -10848,7 +10847,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     }
                     long j2 = this.chatId;
                     long j3 = j2 != 0 ? -j2 : this.userId;
-                    if ((tLRPC$ChatFull3 != null && ((z2 || tLRPC$ChatFull3.can_view_stars_revenue) && (BotStarsController.getInstance(this.currentAccount).getBalance(j3) > 0 || BotStarsController.getInstance(this.currentAccount).hasTransactions(j3)))) || ((tLRPC$ChatFull4 = this.chatInfo) != null && ((this.currentChat.creator || tLRPC$ChatFull4.can_view_revenue) && BotStarsController.getInstance(this.currentAccount).getChannelBalance(j3) > 0))) {
+                    if ((tLRPC$ChatFull3 != null && tLRPC$ChatFull3.can_view_stars_revenue && (BotStarsController.getInstance(this.currentAccount).getBalance(j3) > 0 || BotStarsController.getInstance(this.currentAccount).hasTransactions(j3))) || ((tLRPC$ChatFull4 = this.chatInfo) != null && tLRPC$ChatFull4.can_view_revenue && BotStarsController.getInstance(this.currentAccount).getChannelBalance(j3) > 0)) {
                         int i89 = this.rowCount;
                         this.rowCount = i89 + 1;
                         this.balanceRow = i89;

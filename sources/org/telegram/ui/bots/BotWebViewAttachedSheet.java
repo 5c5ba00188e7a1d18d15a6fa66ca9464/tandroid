@@ -1110,6 +1110,7 @@ public class BotWebViewAttachedSheet implements NotificationCenter.NotificationC
         this.needsContext = z;
     }
 
+    @Override // org.telegram.ui.ActionBar.BottomSheetTabsOverlay.Sheet
     public boolean isFullSize() {
         Boolean bool = this.fullsize;
         return bool == null ? this.defaultFullsize : bool.booleanValue();

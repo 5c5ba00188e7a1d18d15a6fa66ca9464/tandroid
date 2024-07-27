@@ -507,7 +507,7 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
         return this.currentParentColumnsCount == 9 ? AndroidUtilities.dpf2(0.5f) : AndroidUtilities.dpf2(1.0f);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:137:0x03f0, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:137:0x03fa, code lost:
         if (r1.getProgress() != 0.0f) goto L104;
      */
     @Override // android.view.View
@@ -663,7 +663,7 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
             float currentTimeMillis = (((float) (System.currentTimeMillis() % 1500)) / 1500.0f) * 360.0f;
             AnimatedFloat animatedFloat = this.animatedProgress;
             MessageObject messageObject2 = this.currentMessageObject;
-            canvas.drawArc(rectF, currentTimeMillis, animatedFloat.set(messageObject2 != null ? messageObject2.getProgress() : 0.0f) * 360.0f, false, this.progressPaint);
+            canvas.drawArc(rectF, currentTimeMillis, animatedFloat.set(AndroidUtilities.lerp(0.15f, 0.95f, messageObject2 != null ? messageObject2.getProgress() : 0.0f)) * 360.0f, false, this.progressPaint);
             invalidate();
         }
         this.bounds.set(this.imageReceiver.getImageX(), this.imageReceiver.getImageY(), this.imageReceiver.getImageX2(), this.imageReceiver.getImageY2());

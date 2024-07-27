@@ -1459,7 +1459,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                     ((NotificationsCheckCell) view).setChecked(SharedConfig.inappBrowser);
                     return;
                 }
-                presentFragment(new WebBrowserSettings());
+                presentFragment(new WebBrowserSettings(null));
             } else if (i == this.nightDisabledRow) {
                 if (Theme.selectedAutoNightType == 0) {
                     return;

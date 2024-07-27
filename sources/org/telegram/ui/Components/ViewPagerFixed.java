@@ -837,8 +837,8 @@ public class ViewPagerFixed extends FrameLayout {
     }
 
     public boolean checkTabsAnimationInProgress() {
+        boolean z;
         if (this.tabsAnimationInProgress) {
-            boolean z = true;
             if (this.backAnimation) {
                 if (Math.abs(this.viewPages[0].getTranslationX()) < 1.0f) {
                     this.viewPages[0].setTranslationX(0.0f);
@@ -846,6 +846,7 @@ public class ViewPagerFixed extends FrameLayout {
                     if (viewArr[1] != null) {
                         viewArr[1].setTranslationX(viewArr[0].getMeasuredWidth() * (this.animatingForward ? 1 : -1));
                     }
+                    z = true;
                 }
                 z = false;
             } else {
@@ -856,9 +857,11 @@ public class ViewPagerFixed extends FrameLayout {
                     if (viewArr3[1] != null) {
                         viewArr3[1].setTranslationX(0.0f);
                     }
+                    z = true;
                 }
                 z = false;
             }
+            onTabAnimationUpdate(true);
             if (z) {
                 AnimatorSet animatorSet = this.tabsAnimation;
                 if (animatorSet != null) {
@@ -904,6 +907,7 @@ public class ViewPagerFixed extends FrameLayout {
             if (tabsView != null) {
                 tabsView.selectTab(this.currentPosition, this.nextPosition, this.currentProgress);
             }
+            onTabAnimationUpdate(true);
         }
     }
 
@@ -917,6 +921,7 @@ public class ViewPagerFixed extends FrameLayout {
                 this.viewPages[1] = null;
             }
             this.viewPages[0].setTranslationX(0.0f);
+            onTabAnimationUpdate(true);
         }
     }
 
@@ -996,6 +1001,7 @@ public class ViewPagerFixed extends FrameLayout {
             if (viewArr8[0] != null) {
                 this.tabsAnimation.playTogether(ObjectAnimator.ofFloat(viewArr8[0], View.TRANSLATION_X, 0.0f));
             }
+            onTabAnimationUpdate(true);
             this.tabsView.indicatorProgress2 = 0.0f;
             this.tabsView.listView.invalidateViews();
             this.tabsView.invalidate();
