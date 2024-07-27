@@ -391,6 +391,7 @@ inputEncryptedFileUploaded#64bd0306 id:long parts:int md5_checksum:string key_fi
 inputFile#f52ff27f id:long parts:int name:string md5_checksum:string = InputFile;
 inputFileBig#fa4f0bb5 id:long parts:int name:string = InputFile;
 inputFileLocation#dfdaabe1 volume_id:long local_id:int secret:long file_reference:bytes = InputFileLocation;
+inputFileStoryDocument#62dc8b48 doc:InputDocument = InputFile;
 inputFolderPeer#fbd2c296 peer:InputPeer folder_id:int = InputFolderPeer;
 inputGameID#32c3e77 id:long access_hash:long = InputGame;
 inputGameShortName#c331e80a bot_id:InputUser short_name:string = InputGame;
