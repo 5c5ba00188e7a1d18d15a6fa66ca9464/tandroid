@@ -255,7 +255,7 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
             arrayList.add(UItem.asShadow(LocaleController.getString(R.string.BrowserSettingsNoCustomTabsInfo)));
         }
         if (BuildVars.DEBUG_PRIVATE_VERSION) {
-            arrayList.add(UItem.asCheck(12, "adaptable colors").setChecked(SharedConfig.adaptableBrowser));
+            arrayList.add(UItem.asCheck(12, "adaptable colors").setChecked(SharedConfig.adaptableColorInBrowser));
         }
     }
 
@@ -264,8 +264,8 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
     public void onClick(UItem uItem, final View view, int i, float f, float f2) {
         int i2 = uItem.id;
         if (i2 == 12) {
-            SharedConfig.toggleBrowserAdaptable();
-            ((TextCheckCell) view).setChecked(SharedConfig.adaptableBrowser);
+            SharedConfig.toggleBrowserAdaptableColors();
+            ((TextCheckCell) view).setChecked(SharedConfig.adaptableColorInBrowser);
         } else if (i2 == 1) {
             SharedConfig.toggleInappBrowser();
             TextCheckCell textCheckCell = (TextCheckCell) view;

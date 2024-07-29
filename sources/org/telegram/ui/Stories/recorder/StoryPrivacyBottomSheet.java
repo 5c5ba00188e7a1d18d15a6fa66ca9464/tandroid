@@ -1219,7 +1219,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
             if (i3 == 0) {
                 this.containsHeader = false;
                 this.sectionCell.setVisibility(8);
-                this.items.add(ItemInner.asPad((int) (AndroidUtilities.displaySize.y * 0.8f)));
+                this.items.add(ItemInner.asPad((int) (AndroidUtilities.displaySize.y * 0.9f)));
                 ArrayList<TLRPC$InputPeer> arrayList = MessagesController.getInstance(((BottomSheet) StoryPrivacyBottomSheet.this).currentAccount).getStoriesController().sendAs;
                 if (StoryPrivacyBottomSheet.this.canChangePeer && (StoryPrivacyBottomSheet.this.isEdit || arrayList == null || arrayList.size() <= 1)) {
                     ArrayList<ItemInner> arrayList2 = this.items;
@@ -4644,6 +4644,22 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
         View[] viewPages;
         this.coverDrawable = bitmap == null ? null : new BitmapDrawable(bitmap);
         this.whenCoverClicked = runnable;
+        ViewPagerFixed viewPagerFixed = this.viewPager;
+        if (viewPagerFixed != null) {
+            for (View view : viewPagerFixed.getViewPages()) {
+                if (view instanceof Page) {
+                    Page page = (Page) view;
+                    page.updateItems(false);
+                    page.updateButton(false);
+                }
+            }
+        }
+        return this;
+    }
+
+    public StoryPrivacyBottomSheet setCover(Bitmap bitmap) {
+        View[] viewPages;
+        this.coverDrawable = bitmap == null ? null : new BitmapDrawable(bitmap);
         ViewPagerFixed viewPagerFixed = this.viewPager;
         if (viewPagerFixed != null) {
             for (View view : viewPagerFixed.getViewPages()) {

@@ -254,10 +254,12 @@ public class StoryEntry {
         drawable.setCallback(callback);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:24:0x00eb  */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x00ff  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x0167 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x0194 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x00ed  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x0101  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x0165  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x016a A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x0137 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x0197 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -282,7 +284,7 @@ public class StoryEntry {
                         lambda$buildBitmap$0 = StoryEntry.this.lambda$buildBitmap$0(options);
                         return lambda$buildBitmap$0;
                     }
-                }, i, i2, false);
+                }, i, i2, false, true);
                 canvas.save();
                 float width = this.resultWidth / scaledBitmap2.getWidth();
                 canvas.scale(width, width);
@@ -313,7 +315,7 @@ public class StoryEntry {
                     Paint paint2 = new Paint(1);
                     paint2.setShader(new LinearGradient(0.0f, 0.0f, 0.0f, canvas.getHeight(), new int[]{this.gradientTopColor, this.gradientBottomColor}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP));
                     bitmap2 = createBitmap;
-                    z = true;
+                    z = false;
                     canvas.drawRect(0.0f, 0.0f, canvas.getWidth(), canvas.getHeight(), paint2);
                     matrix.set(this.matrix);
                     if (bitmap == null) {
@@ -328,6 +330,12 @@ public class StoryEntry {
                         }
                         if (file != null) {
                             try {
+                                z2 = true;
+                            } catch (Exception e2) {
+                                e = e2;
+                                z2 = true;
+                            }
+                            try {
                                 Bitmap scaledBitmap3 = getScaledBitmap(new DecodeBitmap() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda10
                                     @Override // org.telegram.ui.Stories.recorder.StoryEntry.DecodeBitmap
                                     public final Bitmap decode(BitmapFactory.Options options) {
@@ -335,23 +343,27 @@ public class StoryEntry {
                                         lambda$buildBitmap$1 = StoryEntry.lambda$buildBitmap$1(file, options);
                                         return lambda$buildBitmap$1;
                                     }
-                                }, i, i2, z);
+                                }, i, i2, true, true);
                                 float width3 = this.width / scaledBitmap3.getWidth();
                                 matrix.preScale(width3, width3);
                                 matrix.postScale(f, f);
                                 canvas.drawBitmap(scaledBitmap3, matrix, paint);
                                 scaledBitmap3.recycle();
-                            } catch (Exception e2) {
-                                FileLog.e(e2);
-                            }
-                        }
-                        if (this.paintFile != null) {
-                            try {
-                                z2 = false;
                             } catch (Exception e3) {
                                 e = e3;
-                                z2 = false;
+                                FileLog.e(e);
+                                if (this.paintFile == null) {
+                                }
+                                if (this.messageFile != null) {
+                                }
+                                if (this.paintEntitiesFile != null) {
+                                }
+                                return bitmap2;
                             }
+                        } else {
+                            z2 = true;
+                        }
+                        if (this.paintFile == null) {
                             try {
                                 scaledBitmap = getScaledBitmap(new DecodeBitmap() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda11
                                     @Override // org.telegram.ui.Stories.recorder.StoryEntry.DecodeBitmap
@@ -360,7 +372,7 @@ public class StoryEntry {
                                         lambda$buildBitmap$2 = StoryEntry.this.lambda$buildBitmap$2(options);
                                         return lambda$buildBitmap$2;
                                     }
-                                }, i, i2, false);
+                                }, i, i2, z, z2);
                                 canvas.save();
                                 float width4 = this.resultWidth / scaledBitmap.getWidth();
                                 canvas.scale(width4, width4);
@@ -369,12 +381,6 @@ public class StoryEntry {
                             } catch (Exception e4) {
                                 e = e4;
                                 f2 = 0.0f;
-                                FileLog.e(e);
-                                if (this.messageFile != null) {
-                                }
-                                if (this.paintEntitiesFile != null) {
-                                }
-                                return bitmap2;
                             }
                             try {
                                 canvas.drawBitmap(scaledBitmap, 0.0f, 0.0f, paint);
@@ -390,7 +396,6 @@ public class StoryEntry {
                                 return bitmap2;
                             }
                         } else {
-                            z2 = false;
                             f2 = 0.0f;
                         }
                         if (this.messageFile != null) {
@@ -402,7 +407,7 @@ public class StoryEntry {
                                         lambda$buildBitmap$3 = StoryEntry.this.lambda$buildBitmap$3(options);
                                         return lambda$buildBitmap$3;
                                     }
-                                }, i, i2, z2);
+                                }, i, i2, z, z2);
                                 canvas.save();
                                 float width5 = this.resultWidth / scaledBitmap4.getWidth();
                                 canvas.scale(width5, width5);
@@ -423,7 +428,7 @@ public class StoryEntry {
                                         lambda$buildBitmap$4 = StoryEntry.this.lambda$buildBitmap$4(options);
                                         return lambda$buildBitmap$4;
                                     }
-                                }, i, i2, z2);
+                                }, i, i2, z, z2);
                                 canvas.save();
                                 float width6 = this.resultWidth / scaledBitmap5.getWidth();
                                 canvas.scale(width6, width6);
@@ -441,7 +446,7 @@ public class StoryEntry {
             }
         }
         bitmap2 = createBitmap;
-        z = true;
+        z = false;
         matrix.set(this.matrix);
         if (bitmap == null) {
         }
@@ -491,7 +496,7 @@ public class StoryEntry {
         buildBitmap.recycle();
     }
 
-    public static Bitmap getScaledBitmap(DecodeBitmap decodeBitmap, int i, int i2, boolean z) {
+    public static Bitmap getScaledBitmap(DecodeBitmap decodeBitmap, int i, int i2, boolean z, boolean z2) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         decodeBitmap.decode(options);
@@ -503,11 +508,11 @@ public class StoryEntry {
         int i4 = options.outHeight;
         double d = (i3 * i4 * 4) + (i * i2 * 4);
         Double.isNaN(d);
-        boolean z2 = d * 1.1d <= ((double) maxMemory);
+        boolean z3 = d * 1.1d <= ((double) maxMemory);
         if (i3 <= i && i4 <= i2) {
             return decodeBitmap.decode(options);
         }
-        if (i3 < 2000 && i4 < 2000 && z2 && SharedConfig.getDevicePerformanceClass() >= 1) {
+        if (z2 && z3 && SharedConfig.getDevicePerformanceClass() >= 1) {
             Bitmap decode = decodeBitmap.decode(options);
             float max = Math.max(i / decode.getWidth(), i2 / decode.getHeight());
             int width = (int) (decode.getWidth() * max);

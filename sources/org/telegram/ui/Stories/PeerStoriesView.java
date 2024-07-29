@@ -5438,10 +5438,13 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
     /* JADX WARN: Removed duplicated region for block: B:558:0x0bbb  */
     /* JADX WARN: Removed duplicated region for block: B:577:0x0c2b  */
     /* JADX WARN: Removed duplicated region for block: B:592:0x0cba  */
-    /* JADX WARN: Removed duplicated region for block: B:622:0x0afd A[EDGE_INSN: B:622:0x0afd->B:511:0x0afd ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:620:0x0d3b  */
+    /* JADX WARN: Removed duplicated region for block: B:624:0x0d4d  */
+    /* JADX WARN: Removed duplicated region for block: B:636:0x0afd A[EDGE_INSN: B:636:0x0afd->B:511:0x0afd ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:640:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r2v3 */
     /* JADX WARN: Type inference failed for: r2v4, types: [int, boolean] */
-    /* JADX WARN: Type inference failed for: r2v86 */
+    /* JADX WARN: Type inference failed for: r2v89 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -5492,6 +5495,8 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
         int i2;
         int i3;
         HintView2 hintView23;
+        ImageView imageView;
+        StoryItemHolder storyItemHolder3;
         TLRPC$Reaction tLRPC$Reaction;
         TL_stories$StoryItem tL_stories$StoryItem9;
         int i4;
@@ -5504,9 +5509,9 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
             return;
         }
         this.forceUpdateOffsets = true;
-        StoryItemHolder storyItemHolder3 = this.currentStory;
-        TL_stories$StoryItem tL_stories$StoryItem11 = storyItemHolder3.storyItem;
-        StoriesController.UploadingStory uploadingStory8 = storyItemHolder3.uploadingStory;
+        StoryItemHolder storyItemHolder4 = this.currentStory;
+        TL_stories$StoryItem tL_stories$StoryItem11 = storyItemHolder4.storyItem;
+        StoriesController.UploadingStory uploadingStory8 = storyItemHolder4.uploadingStory;
         String storyImageFilter = StoriesUtilities.getStoryImageFilter();
         this.lastNoThumb = false;
         this.unsupported = false;
@@ -5708,8 +5713,8 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                 if (!this.isSelf || this.isChannel) {
                     updateUserViews(false);
                 }
-                StoryItemHolder storyItemHolder4 = this.currentStory;
-                boolean z17 = (getStoryId(storyItemHolder4.storyItem, storyItemHolder4.uploadingStory) == getStoryId(tL_stories$StoryItem11, uploadingStory8) && (uploadingStory8 == null || (tL_stories$StoryItem10 = this.currentStory.storyItem) == null || !TextUtils.equals(uploadingStory8.path, tL_stories$StoryItem10.attachPath))) ? false : true;
+                StoryItemHolder storyItemHolder5 = this.currentStory;
+                boolean z17 = (getStoryId(storyItemHolder5.storyItem, storyItemHolder5.uploadingStory) == getStoryId(tL_stories$StoryItem11, uploadingStory8) && (uploadingStory8 == null || (tL_stories$StoryItem10 = this.currentStory.storyItem) == null || !TextUtils.equals(uploadingStory8.path, tL_stories$StoryItem10.attachPath))) ? false : true;
                 boolean z18 = (z17 || (this.isEditing == z5 && this.isUploading == z3 && this.isFailed == z2)) ? false : true;
                 if (!(uploadingStory8 == null && (str = uploadingStory8.path) != null && str.equals(this.currentStory.getLocalPath())) && (tL_stories$StoryItem11 == null || (tL_stories$StoryItem5 = this.currentStory.storyItem) == null || tL_stories$StoryItem11.id != tL_stories$StoryItem5.id)) {
                     chatActivityEnterView = this.chatActivityEnterView;
@@ -5761,14 +5766,14 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                         }
                         spannableStringBuilder = "";
                     } else {
-                        StoryItemHolder storyItemHolder5 = this.currentStory;
-                        TL_stories$StoryItem tL_stories$StoryItem15 = storyItemHolder5.storyItem;
+                        StoryItemHolder storyItemHolder6 = this.currentStory;
+                        TL_stories$StoryItem tL_stories$StoryItem15 = storyItemHolder6.storyItem;
                         if (tL_stories$StoryItem15 == null) {
                             spannableStringBuilder = null;
                         } else if (tL_stories$StoryItem15.date == -1) {
                             spannableStringBuilder = LocaleController.getString("CachedStory", R.string.CachedStory);
                         } else {
-                            if (storyItemHolder5.getReply() != null) {
+                            if (storyItemHolder6.getReply() != null) {
                                 final StoryCaptionView.Reply reply = this.currentStory.getReply();
                                 SpannableStringBuilder spannableStringBuilder3 = new SpannableStringBuilder();
                                 SpannableString spannableString = new SpannableString("r");
@@ -5894,9 +5899,9 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                         hintView22.hide(false);
                     }
                 }
-                StoryItemHolder storyItemHolder6 = this.currentStory;
-                tL_stories$StoryItem7 = storyItemHolder6.storyItem;
-                if (tL_stories$StoryItem11 == tL_stories$StoryItem7 && uploadingStory8 == storyItemHolder6.uploadingStory) {
+                StoryItemHolder storyItemHolder7 = this.currentStory;
+                tL_stories$StoryItem7 = storyItemHolder7.storyItem;
+                if (tL_stories$StoryItem11 == tL_stories$StoryItem7 && uploadingStory8 == storyItemHolder7.uploadingStory) {
                 }
                 this.currentStory.updateCaption();
                 storyItemHolder = this.currentStory;
@@ -5970,12 +5975,12 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                 storyItemHolder2 = this.currentStory;
                 if ((storyItemHolder2.caption == null || storyItemHolder2.getReply() != null) && !this.unsupported) {
                     StoryCaptionView.StoryCaptionTextView storyCaptionTextView = this.storyCaptionView.captionTextview;
-                    StoryItemHolder storyItemHolder7 = this.currentStory;
-                    CharSequence charSequence = storyItemHolder7.caption;
-                    StoryCaptionView.Reply reply2 = storyItemHolder7.getReply();
+                    StoryItemHolder storyItemHolder8 = this.currentStory;
+                    CharSequence charSequence = storyItemHolder8.caption;
+                    StoryCaptionView.Reply reply2 = storyItemHolder8.getReply();
                     if (this.storyViewer.isTranslating) {
-                        StoryItemHolder storyItemHolder8 = this.currentStory;
-                        if (!storyItemHolder8.captionTranslated && (tL_stories$StoryItem8 = storyItemHolder8.storyItem) != null && tL_stories$StoryItem8.translated) {
+                        StoryItemHolder storyItemHolder9 = this.currentStory;
+                        if (!storyItemHolder9.captionTranslated && (tL_stories$StoryItem8 = storyItemHolder9.storyItem) != null && tL_stories$StoryItem8.translated) {
                             z9 = true;
                             storyCaptionTextView.setText(charSequence, reply2, z9, tL_stories$StoryItem11 == this.currentStory.storyItem);
                             this.storyCaptionView.setVisibility(0);
@@ -6058,12 +6063,12 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                 } else {
                     this.muteIconContainer.setVisibility(8);
                 }
-                StoryItemHolder storyItemHolder9 = this.currentStory;
-                uploadingStory5 = storyItemHolder9.uploadingStory;
+                StoryItemHolder storyItemHolder10 = this.currentStory;
+                uploadingStory5 = storyItemHolder10.uploadingStory;
                 if (uploadingStory5 == null) {
                     this.privacyButton.set(this.isSelf, uploadingStory5, z17 && this.editedPrivacy);
                 } else {
-                    TL_stories$StoryItem tL_stories$StoryItem17 = storyItemHolder9.storyItem;
+                    TL_stories$StoryItem tL_stories$StoryItem17 = storyItemHolder10.storyItem;
                     if (tL_stories$StoryItem17 != null) {
                         this.privacyButton.set(this.isSelf, tL_stories$StoryItem17, z17 && this.editedPrivacy);
                     } else {
@@ -6147,9 +6152,16 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                     AndroidUtilities.runOnUIThread(runnable, 500L);
                 }
                 hintView23 = this.soundTooltip;
-                if (!(hintView23 == null && hintView23.shown()) && this.currentStory.hasSound() && !this.storyViewer.soundEnabled() && MessagesController.getGlobalMainSettings().getInt("taptostorysoundhint", 0) < 2) {
-                    AndroidUtilities.cancelRunOnUIThread(this.showTapToSoundHint);
-                    AndroidUtilities.runOnUIThread(this.showTapToSoundHint, 250L);
+                if ((hintView23 != null || !hintView23.shown()) && this.currentStory.hasSound() && !this.storyViewer.soundEnabled()) {
+                    if (MessagesController.getGlobalMainSettings().getInt("taptostorysoundhint", 0) < 2) {
+                        AndroidUtilities.cancelRunOnUIThread(this.showTapToSoundHint);
+                        AndroidUtilities.runOnUIThread(this.showTapToSoundHint, 250L);
+                    }
+                }
+                imageView = this.optionsIconView;
+                if (imageView == null) {
+                    imageView.setVisibility((!isBotsPreview() || isEditBotsPreview() || ((storyItemHolder3 = this.currentStory) != null && storyItemHolder3.isVideo)) ? 0 : 8);
+                    return;
                 }
                 return;
             }
@@ -6164,8 +6176,8 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
         if (!this.isSelf) {
         }
         updateUserViews(false);
-        StoryItemHolder storyItemHolder42 = this.currentStory;
-        if (getStoryId(storyItemHolder42.storyItem, storyItemHolder42.uploadingStory) == getStoryId(tL_stories$StoryItem11, uploadingStory8)) {
+        StoryItemHolder storyItemHolder52 = this.currentStory;
+        if (getStoryId(storyItemHolder52.storyItem, storyItemHolder52.uploadingStory) == getStoryId(tL_stories$StoryItem11, uploadingStory8)) {
         }
         if (z17) {
         }
@@ -6198,8 +6210,8 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
         hintView22 = this.soundTooltip;
         if (hintView22 != null) {
         }
-        StoryItemHolder storyItemHolder62 = this.currentStory;
-        tL_stories$StoryItem7 = storyItemHolder62.storyItem;
+        StoryItemHolder storyItemHolder72 = this.currentStory;
+        tL_stories$StoryItem7 = storyItemHolder72.storyItem;
         if (tL_stories$StoryItem11 == tL_stories$StoryItem7) {
         }
         this.currentStory.updateCaption();
@@ -6214,9 +6226,9 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
         if (storyItemHolder2.caption == null) {
         }
         StoryCaptionView.StoryCaptionTextView storyCaptionTextView2 = this.storyCaptionView.captionTextview;
-        StoryItemHolder storyItemHolder72 = this.currentStory;
-        CharSequence charSequence2 = storyItemHolder72.caption;
-        StoryCaptionView.Reply reply22 = storyItemHolder72.getReply();
+        StoryItemHolder storyItemHolder82 = this.currentStory;
+        CharSequence charSequence2 = storyItemHolder82.caption;
+        StoryCaptionView.Reply reply22 = storyItemHolder82.getReply();
         if (this.storyViewer.isTranslating) {
         }
         z9 = false;
@@ -6250,8 +6262,8 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
         }
         if (!this.currentStory.isVideo()) {
         }
-        StoryItemHolder storyItemHolder92 = this.currentStory;
-        uploadingStory5 = storyItemHolder92.uploadingStory;
+        StoryItemHolder storyItemHolder102 = this.currentStory;
+        uploadingStory5 = storyItemHolder102.uploadingStory;
         if (uploadingStory5 == null) {
         }
         this.editedPrivacy = false;
@@ -6288,10 +6300,13 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
             AndroidUtilities.runOnUIThread(runnable2, 500L);
         }
         hintView23 = this.soundTooltip;
-        if (hintView23 == null) {
+        if (hintView23 != null) {
         }
-        AndroidUtilities.cancelRunOnUIThread(this.showTapToSoundHint);
-        AndroidUtilities.runOnUIThread(this.showTapToSoundHint, 250L);
+        if (MessagesController.getGlobalMainSettings().getInt("taptostorysoundhint", 0) < 2) {
+        }
+        imageView = this.optionsIconView;
+        if (imageView == null) {
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */

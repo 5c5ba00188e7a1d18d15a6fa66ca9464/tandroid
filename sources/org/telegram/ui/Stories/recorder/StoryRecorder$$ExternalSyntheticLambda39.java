@@ -9,6 +9,6 @@ public final /* synthetic */ class StoryRecorder$$ExternalSyntheticLambda39 impl
 
     @Override // java.lang.Runnable
     public final void run() {
-        this.f$0.onOpenDone();
+        StoryRecorder.$r8$lambda$VEUeCmtj1PlTJfvWsTN3Agxm2ds(this.f$0);
     }
 }

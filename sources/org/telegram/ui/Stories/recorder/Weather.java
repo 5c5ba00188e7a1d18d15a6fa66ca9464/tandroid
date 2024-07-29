@@ -429,14 +429,20 @@ public class Weather {
                     }
                 }
             } else {
-                Objects.requireNonNull(callback);
-                locationManager.requestLocationUpdates("gps", 1L, 0.0f, new LocationListener() { // from class: org.telegram.ui.Stories.recorder.Weather$$ExternalSyntheticLambda3
-                    @Override // android.location.LocationListener
-                    public final void onLocationChanged(Location location2) {
-                        Utilities.Callback.this.run(location2);
-                    }
-                });
-                return;
+                try {
+                    Objects.requireNonNull(callback);
+                    locationManager.requestLocationUpdates("gps", 1L, 0.0f, new LocationListener() { // from class: org.telegram.ui.Stories.recorder.Weather$$ExternalSyntheticLambda3
+                        @Override // android.location.LocationListener
+                        public final void onLocationChanged(Location location2) {
+                            Utilities.Callback.this.run(location2);
+                        }
+                    });
+                    return;
+                } catch (Exception e2) {
+                    FileLog.e(e2);
+                    callback.run(null);
+                    return;
+                }
             }
         }
         callback.run(location);

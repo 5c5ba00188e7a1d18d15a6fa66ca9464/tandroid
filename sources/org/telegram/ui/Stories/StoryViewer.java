@@ -758,8 +758,10 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
         }
 
         /* JADX INFO: Access modifiers changed from: protected */
-        /* JADX WARN: Removed duplicated region for block: B:180:0x07d9  */
-        /* JADX WARN: Removed duplicated region for block: B:189:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:123:0x058b A[LOOP:1: B:111:0x0557->B:123:0x058b, LOOP_END] */
+        /* JADX WARN: Removed duplicated region for block: B:184:0x07e4  */
+        /* JADX WARN: Removed duplicated region for block: B:190:0x0593 A[EDGE_INSN: B:190:0x0593->B:124:0x0593 ?: BREAK  , SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:193:? A[RETURN, SYNTHETIC] */
         @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -946,15 +948,22 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                         if (storyViewer21.isClosed && StoryViewer.this.animateAvatar) {
                             this.rect2.set(this.outFromRectAvatar);
                         } else {
-                            for (View view2 = peerHeaderView.backupImageView; view2 != this; view2 = (View) view2.getParent()) {
+                            for (View view2 = peerHeaderView.backupImageView; view2 != this && view2 != null; view2 = (View) view2.getParent()) {
                                 if (view2.getParent() == this) {
                                     f16 += view2.getLeft();
                                     y = view2.getTop();
-                                } else if (view2.getParent() != StoryViewer.this.storiesViewPager) {
-                                    f16 += view2.getX();
-                                    y = view2.getY();
+                                } else {
+                                    if (view2.getParent() != StoryViewer.this.storiesViewPager) {
+                                        f16 += view2.getX();
+                                        y = view2.getY();
+                                    }
+                                    if (view2.getParent() instanceof View) {
+                                        break;
+                                    }
                                 }
                                 f17 += y;
+                                if (view2.getParent() instanceof View) {
+                                }
                             }
                             this.rect2.set(f16, f17, peerHeaderView.backupImageView.getMeasuredWidth() + f16, peerHeaderView.backupImageView.getMeasuredHeight() + f17);
                         }
