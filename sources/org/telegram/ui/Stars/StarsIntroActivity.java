@@ -219,10 +219,23 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         this.useFillLastLayoutManager = false;
         this.particlesViewHeight = AndroidUtilities.dp(238.0f);
         this.transactionsLayout = new StarsTransactionsLayout(context, this.currentAccount, 0L, getClassGuid(), getResourceProvider());
-        View view = new View(this, context) { // from class: org.telegram.ui.Stars.StarsIntroActivity.1
+        View view = new View(context) { // from class: org.telegram.ui.Stars.StarsIntroActivity.1
             @Override // android.view.View
             protected void onMeasure(int i, int i2) {
-                super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(100.0f), 1073741824));
+                int i3;
+                StarsIntroActivity starsIntroActivity = StarsIntroActivity.this;
+                if (starsIntroActivity.isLandscapeMode) {
+                    i3 = (starsIntroActivity.statusBarHeight + ((BaseFragment) starsIntroActivity).actionBar.getMeasuredHeight()) - AndroidUtilities.dp(16.0f);
+                } else {
+                    int dp = AndroidUtilities.dp(140.0f);
+                    StarsIntroActivity starsIntroActivity2 = StarsIntroActivity.this;
+                    int i4 = dp + starsIntroActivity2.statusBarHeight;
+                    if (starsIntroActivity2.backgroundView.getMeasuredHeight() + AndroidUtilities.dp(24.0f) > i4) {
+                        i4 = StarsIntroActivity.this.backgroundView.getMeasuredHeight() + AndroidUtilities.dp(24.0f);
+                    }
+                    i3 = i4;
+                }
+                super.onMeasure(i, View.MeasureSpec.makeMeasureSpec((int) (i3 - (((GradientHeaderActivity) StarsIntroActivity.this).yOffset * 2.5f)), 1073741824));
             }
         };
         this.emptyLayout = view;
@@ -2640,7 +2653,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
     /* JADX WARN: Type inference failed for: r3v1 */
     /* JADX WARN: Type inference failed for: r3v2 */
     /* JADX WARN: Type inference failed for: r3v5 */
-    /* JADX WARN: Type inference failed for: r3v6, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r3v6, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r3v64 */
     /* JADX WARN: Type inference failed for: r3v65 */
     /* JADX WARN: Type inference failed for: r3v66 */
