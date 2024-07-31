@@ -25,6 +25,7 @@ import android.widget.TextView;
 import androidx.core.graphics.ColorUtils;
 import java.net.IDN;
 import java.net.URLDecoder;
+import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -32,6 +33,7 @@ import java.util.Iterator;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.HttpGetTask;
@@ -656,7 +658,7 @@ public class AddressBarList extends FrameLayout {
         public void setColors(int i, int i2) {
             this.textColor = i2;
             this.textView.setTextColor(i2);
-            this.subtextView.setTextColor(Theme.multAlpha(i2, 0.55f));
+            this.subtextView.setTextColor(Theme.blendOver(i, Theme.multAlpha(i2, 0.55f)));
             this.timeView.setTextColor(Theme.multAlpha(i2, 0.55f));
             this.insertView.setColorFilter(new PorterDuffColorFilter(Theme.multAlpha(i2, 0.6f), PorterDuff.Mode.SRC_IN));
         }
@@ -694,9 +696,12 @@ public class AddressBarList extends FrameLayout {
             } else if (tLRPC$WebPage != null && (tLRPC$Photo = tLRPC$WebPage.photo) != null) {
                 this.iconView.setImage(ImageLocation.getForPhoto(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Photo.sizes, AndroidUtilities.dp(32.0f), true, null, true), tLRPC$WebPage.photo), AndroidUtilities.dp(32.0f) + "_" + AndroidUtilities.dp(32.0f), ImageLocation.getForPhoto(FileLoader.getClosestPhotoSizeWithSize(tLRPC$WebPage.photo.sizes, AndroidUtilities.dp(32.0f), true, null, false), tLRPC$WebPage.photo), AndroidUtilities.dp(32.0f) + "_" + AndroidUtilities.dp(32.0f), 0, messageObject);
             } else {
-                CombinedDrawable combinedDrawable = new CombinedDrawable(Theme.createRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.multAlpha(this.textColor, 0.1f)), new Drawable(this.textView.getText() != null ? this.textView.getText().toString() : "") { // from class: org.telegram.ui.web.AddressBarList.BookmarkView.2
+                String charSequence = this.textView.getText() == null ? "" : this.textView.getText().toString();
+                BreakIterator characterInstance = BreakIterator.getCharacterInstance();
+                characterInstance.setText(charSequence);
+                CombinedDrawable combinedDrawable = new CombinedDrawable(Theme.createRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.multAlpha(this.textColor, 0.1f)), new Drawable(charSequence.isEmpty() ? "" : charSequence.substring(characterInstance.first(), characterInstance.next())) { // from class: org.telegram.ui.web.AddressBarList.BookmarkView.2
                     private final Text text;
-                    final /* synthetic */ String val$s;
+                    final /* synthetic */ String val$firstLetter;
 
                     @Override // android.graphics.drawable.Drawable
                     public int getOpacity() {
@@ -712,8 +717,8 @@ public class AddressBarList extends FrameLayout {
                     }
 
                     {
-                        this.val$s = r4;
-                        this.text = new Text(r4.substring(0, !r4.isEmpty()), 14.0f, AndroidUtilities.bold());
+                        this.val$firstLetter = r4;
+                        this.text = new Text(r4, 14.0f, AndroidUtilities.bold());
                     }
 
                     @Override // android.graphics.drawable.Drawable
@@ -747,6 +752,10 @@ public class AddressBarList extends FrameLayout {
                 TextView textView2 = this.subtextView;
                 textView2.setText(AndroidUtilities.highlightText(textView2.getText(), str, this.resourcesProvider));
             }
+            TextView textView3 = this.textView;
+            textView3.setText(Emoji.replaceEmoji(textView3.getText(), this.textView.getPaint().getFontMetricsInt(), false));
+            TextView textView4 = this.subtextView;
+            textView4.setText(Emoji.replaceEmoji(textView4.getText(), this.subtextView.getPaint().getFontMetricsInt(), false));
             this.checkBox.setChecked(z2, false);
             this.textLayoutParams.rightMargin = AndroidUtilities.dp(52.0f);
             this.textLayout.setLayoutParams(this.textLayoutParams);
@@ -779,9 +788,12 @@ public class AddressBarList extends FrameLayout {
             if (webMetadata != null && (bitmap = webMetadata.favicon) != null) {
                 this.iconView.setImageBitmap(bitmap);
             } else {
-                CombinedDrawable combinedDrawable = new CombinedDrawable(Theme.createRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.multAlpha(this.textColor, 0.1f)), new Drawable(this.textView.getText() != null ? this.textView.getText().toString() : "") { // from class: org.telegram.ui.web.AddressBarList.BookmarkView.3
+                String charSequence = this.textView.getText() == null ? "" : this.textView.getText().toString();
+                BreakIterator characterInstance = BreakIterator.getCharacterInstance();
+                characterInstance.setText(charSequence);
+                CombinedDrawable combinedDrawable = new CombinedDrawable(Theme.createRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.multAlpha(this.textColor, 0.1f)), new Drawable(charSequence.isEmpty() ? "" : charSequence.substring(characterInstance.first(), characterInstance.next())) { // from class: org.telegram.ui.web.AddressBarList.BookmarkView.3
                     private final Text text;
-                    final /* synthetic */ String val$s;
+                    final /* synthetic */ String val$firstLetter;
 
                     @Override // android.graphics.drawable.Drawable
                     public int getOpacity() {
@@ -797,8 +809,8 @@ public class AddressBarList extends FrameLayout {
                     }
 
                     {
-                        this.val$s = r4;
-                        this.text = new Text(r4.substring(0, !r4.isEmpty()), 14.0f, AndroidUtilities.bold());
+                        this.val$firstLetter = r4;
+                        this.text = new Text(r4, 14.0f, AndroidUtilities.bold());
                     }
 
                     @Override // android.graphics.drawable.Drawable
@@ -828,6 +840,10 @@ public class AddressBarList extends FrameLayout {
                 TextView textView3 = this.subtextView;
                 textView3.setText(AndroidUtilities.highlightText(textView3.getText(), str, this.resourcesProvider));
             }
+            TextView textView4 = this.textView;
+            textView4.setText(Emoji.replaceEmoji(textView4.getText(), this.textView.getPaint().getFontMetricsInt(), false));
+            TextView textView5 = this.subtextView;
+            textView5.setText(Emoji.replaceEmoji(textView5.getText(), this.subtextView.getPaint().getFontMetricsInt(), false));
             this.timeView.setText(LocaleController.getInstance().getFormatterDay().format(entry.time));
             this.checkBox.setChecked(false, false);
             this.textLayoutParams.rightMargin = AndroidUtilities.dp(70.0f);

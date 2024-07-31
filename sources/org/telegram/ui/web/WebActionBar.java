@@ -148,7 +148,7 @@ public class WebActionBar extends FrameLayout {
         this.longPressRunnable = new Runnable() { // from class: org.telegram.ui.web.WebActionBar$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
-                WebActionBar.this.lambda$new$10();
+                WebActionBar.this.lambda$new$9();
             }
         };
         this.longClicked = false;
@@ -338,7 +338,7 @@ public class WebActionBar extends FrameLayout {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2(View view) {
         if (getParent() instanceof ViewGroup) {
-            Utilities.CallbackReturn callbackReturn = new Utilities.CallbackReturn() { // from class: org.telegram.ui.web.WebActionBar$$ExternalSyntheticLambda11
+            Utilities.CallbackReturn callbackReturn = new Utilities.CallbackReturn() { // from class: org.telegram.ui.web.WebActionBar$$ExternalSyntheticLambda10
                 @Override // org.telegram.messenger.Utilities.CallbackReturn
                 public final Object run(Object obj) {
                     Runnable lambda$new$1;
@@ -395,7 +395,7 @@ public class WebActionBar extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ Runnable lambda$new$1(final Integer num) {
-        return new Runnable() { // from class: org.telegram.ui.web.WebActionBar$$ExternalSyntheticLambda10
+        return new Runnable() { // from class: org.telegram.ui.web.WebActionBar$$ExternalSyntheticLambda9
             @Override // java.lang.Runnable
             public final void run() {
                 WebActionBar.this.lambda$new$0(num);
@@ -816,7 +816,7 @@ public class WebActionBar extends FrameLayout {
             fArr[1] = z ? 1.0f : 0.0f;
             ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
             this.searchAnimator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.web.WebActionBar$$ExternalSyntheticLambda0
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.web.WebActionBar$$ExternalSyntheticLambda1
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                     WebActionBar.this.lambda$showSearch$7(valueAnimator2);
@@ -836,6 +836,14 @@ public class WebActionBar extends FrameLayout {
                     webActionBar2.searchingProgress = f;
                     editTextBoldCursor.setAlpha(f);
                     WebActionBar.this.invalidate();
+                    WebActionBar webActionBar3 = WebActionBar.this;
+                    if (webActionBar3.searching) {
+                        webActionBar3.searchEditText.requestFocus();
+                        AndroidUtilities.showKeyboard(WebActionBar.this.searchEditText);
+                        return;
+                    }
+                    webActionBar3.searchEditText.clearFocus();
+                    AndroidUtilities.hideKeyboard(WebActionBar.this.searchEditText);
                 }
             });
             this.searchAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
@@ -847,13 +855,14 @@ public class WebActionBar extends FrameLayout {
             this.searchEditText.setAlpha(z ? 1.0f : 0.0f);
             this.searchEditText.setVisibility(z ? 0 : 8);
             this.backButtonDrawable.setRotation((this.backButtonShown || z) ? 0.0f : 0.0f, true);
-        }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.web.WebActionBar$$ExternalSyntheticLambda7
-            @Override // java.lang.Runnable
-            public final void run() {
-                WebActionBar.this.lambda$showSearch$8();
+            if (this.searching) {
+                this.searchEditText.requestFocus();
+                AndroidUtilities.showKeyboard(this.searchEditText);
+            } else {
+                this.searchEditText.clearFocus();
+                AndroidUtilities.hideKeyboard(this.searchEditText);
             }
-        }, this.searching ? 100L : 0L);
+        }
         AndroidUtilities.updateViewShow(this.forwardButton, !z, true, z2);
         AndroidUtilities.updateViewShow(this.menuButton, !z, true, z2);
         ImageView imageView = this.clearButton;
@@ -869,17 +878,6 @@ public class WebActionBar extends FrameLayout {
         this.searchingProgress = floatValue;
         this.searchEditText.setAlpha(floatValue);
         invalidate();
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showSearch$8() {
-        if (this.searching) {
-            this.searchEditText.requestFocus();
-            AndroidUtilities.showKeyboard(this.searchEditText);
-            return;
-        }
-        this.searchEditText.clearFocus();
-        AndroidUtilities.hideKeyboard(this.searchEditText);
     }
 
     public void setBackButton(boolean z) {
@@ -943,10 +941,10 @@ public class WebActionBar extends FrameLayout {
             fArr[1] = z ? 1.0f : 0.0f;
             ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
             this.addressAnimator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.web.WebActionBar$$ExternalSyntheticLambda1
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.web.WebActionBar$$ExternalSyntheticLambda0
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                    WebActionBar.this.lambda$showAddress$9(valueAnimator2);
+                    WebActionBar.this.lambda$showAddress$8(valueAnimator2);
                 }
             });
             this.addressAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.web.WebActionBar.8
@@ -982,13 +980,13 @@ public class WebActionBar extends FrameLayout {
             this.forwardButton.setTranslationX(AndroidUtilities.dp(112.0f) * this.addressingProgress);
             this.backButtonDrawable.setRotation((this.backButtonShown || z) ? 0.0f : 0.0f, true);
         }
-        AndroidUtilities.cancelRunOnUIThread(new Runnable() { // from class: org.telegram.ui.web.WebActionBar$$ExternalSyntheticLambda9
+        AndroidUtilities.cancelRunOnUIThread(new Runnable() { // from class: org.telegram.ui.web.WebActionBar$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
                 WebActionBar.this.showAddressKeyboard();
             }
         });
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.web.WebActionBar$$ExternalSyntheticLambda9
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.web.WebActionBar$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
                 WebActionBar.this.showAddressKeyboard();
@@ -997,7 +995,7 @@ public class WebActionBar extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showAddress$9(ValueAnimator valueAnimator) {
+    public /* synthetic */ void lambda$showAddress$8(ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.addressingProgress = floatValue;
         onAddressingProgress(floatValue);
@@ -1019,7 +1017,7 @@ public class WebActionBar extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$10() {
+    public /* synthetic */ void lambda$new$9() {
         this.longClicked = true;
         if (getParent() != null) {
             getParent().requestDisallowInterceptTouchEvent(true);
