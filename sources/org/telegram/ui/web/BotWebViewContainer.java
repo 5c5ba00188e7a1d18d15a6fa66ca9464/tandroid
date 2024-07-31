@@ -1171,18 +1171,18 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Removed duplicated region for block: B:1005:0x0473  */
-    /* JADX WARN: Removed duplicated region for block: B:1012:0x0481 A[Catch: Exception -> 0x04eb, TryCatch #1 {Exception -> 0x04eb, blocks: (B:963:0x03ea, B:1048:0x04e6, B:986:0x0433, B:987:0x0437, B:1010:0x047b, B:1011:0x047e, B:1012:0x0481, B:994:0x0451, B:997:0x045c, B:1000:0x0466, B:1014:0x0486, B:1015:0x0490, B:1042:0x04d5, B:1043:0x04d8, B:1044:0x04db, B:1045:0x04de, B:1046:0x04e1, B:1017:0x0494, B:1020:0x049e, B:1023:0x04a8, B:1026:0x04b2, B:1029:0x04bc, B:970:0x040a, B:973:0x0414, B:976:0x041e), top: B:1314:0x03ea }] */
-    /* JADX WARN: Removed duplicated region for block: B:1014:0x0486 A[Catch: Exception -> 0x04eb, TryCatch #1 {Exception -> 0x04eb, blocks: (B:963:0x03ea, B:1048:0x04e6, B:986:0x0433, B:987:0x0437, B:1010:0x047b, B:1011:0x047e, B:1012:0x0481, B:994:0x0451, B:997:0x045c, B:1000:0x0466, B:1014:0x0486, B:1015:0x0490, B:1042:0x04d5, B:1043:0x04d8, B:1044:0x04db, B:1045:0x04de, B:1046:0x04e1, B:1017:0x0494, B:1020:0x049e, B:1023:0x04a8, B:1026:0x04b2, B:1029:0x04bc, B:970:0x040a, B:973:0x0414, B:976:0x041e), top: B:1314:0x03ea }] */
-    /* JADX WARN: Removed duplicated region for block: B:1048:0x04e6 A[Catch: Exception -> 0x04eb, TRY_LEAVE, TryCatch #1 {Exception -> 0x04eb, blocks: (B:963:0x03ea, B:1048:0x04e6, B:986:0x0433, B:987:0x0437, B:1010:0x047b, B:1011:0x047e, B:1012:0x0481, B:994:0x0451, B:997:0x045c, B:1000:0x0466, B:1014:0x0486, B:1015:0x0490, B:1042:0x04d5, B:1043:0x04d8, B:1044:0x04db, B:1045:0x04de, B:1046:0x04e1, B:1017:0x0494, B:1020:0x049e, B:1023:0x04a8, B:1026:0x04b2, B:1029:0x04bc, B:970:0x040a, B:973:0x0414, B:976:0x041e), top: B:1314:0x03ea }] */
-    /* JADX WARN: Removed duplicated region for block: B:1151:0x071d A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:1152:0x071e  */
-    /* JADX WARN: Removed duplicated region for block: B:1386:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1393:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:899:0x02cf  */
-    /* JADX WARN: Removed duplicated region for block: B:903:0x02d7 A[Catch: JSONException -> 0x02e9, TryCatch #12 {JSONException -> 0x02e9, blocks: (B:881:0x0285, B:883:0x0294, B:885:0x029a, B:886:0x02a3, B:905:0x02db, B:902:0x02d4, B:903:0x02d7, B:891:0x02b8, B:894:0x02c2), top: B:1331:0x0285 }] */
-    /* JADX WARN: Removed duplicated region for block: B:905:0x02db A[Catch: JSONException -> 0x02e9, TRY_LEAVE, TryCatch #12 {JSONException -> 0x02e9, blocks: (B:881:0x0285, B:883:0x0294, B:885:0x029a, B:886:0x02a3, B:905:0x02db, B:902:0x02d4, B:903:0x02d7, B:891:0x02b8, B:894:0x02c2), top: B:1331:0x0285 }] */
-    /* JADX WARN: Removed duplicated region for block: B:981:0x042b  */
+    /* JADX WARN: Removed duplicated region for block: B:1003:0x0473  */
+    /* JADX WARN: Removed duplicated region for block: B:1010:0x0481 A[Catch: Exception -> 0x04eb, TryCatch #2 {Exception -> 0x04eb, blocks: (B:961:0x03ea, B:1046:0x04e6, B:984:0x0433, B:985:0x0437, B:1008:0x047b, B:1009:0x047e, B:1010:0x0481, B:992:0x0451, B:995:0x045c, B:998:0x0466, B:1012:0x0486, B:1013:0x0490, B:1040:0x04d5, B:1041:0x04d8, B:1042:0x04db, B:1043:0x04de, B:1044:0x04e1, B:1015:0x0494, B:1018:0x049e, B:1021:0x04a8, B:1024:0x04b2, B:1027:0x04bc, B:968:0x040a, B:971:0x0414, B:974:0x041e), top: B:1311:0x03ea }] */
+    /* JADX WARN: Removed duplicated region for block: B:1012:0x0486 A[Catch: Exception -> 0x04eb, TryCatch #2 {Exception -> 0x04eb, blocks: (B:961:0x03ea, B:1046:0x04e6, B:984:0x0433, B:985:0x0437, B:1008:0x047b, B:1009:0x047e, B:1010:0x0481, B:992:0x0451, B:995:0x045c, B:998:0x0466, B:1012:0x0486, B:1013:0x0490, B:1040:0x04d5, B:1041:0x04d8, B:1042:0x04db, B:1043:0x04de, B:1044:0x04e1, B:1015:0x0494, B:1018:0x049e, B:1021:0x04a8, B:1024:0x04b2, B:1027:0x04bc, B:968:0x040a, B:971:0x0414, B:974:0x041e), top: B:1311:0x03ea }] */
+    /* JADX WARN: Removed duplicated region for block: B:1046:0x04e6 A[Catch: Exception -> 0x04eb, TRY_LEAVE, TryCatch #2 {Exception -> 0x04eb, blocks: (B:961:0x03ea, B:1046:0x04e6, B:984:0x0433, B:985:0x0437, B:1008:0x047b, B:1009:0x047e, B:1010:0x0481, B:992:0x0451, B:995:0x045c, B:998:0x0466, B:1012:0x0486, B:1013:0x0490, B:1040:0x04d5, B:1041:0x04d8, B:1042:0x04db, B:1043:0x04de, B:1044:0x04e1, B:1015:0x0494, B:1018:0x049e, B:1021:0x04a8, B:1024:0x04b2, B:1027:0x04bc, B:968:0x040a, B:971:0x0414, B:974:0x041e), top: B:1311:0x03ea }] */
+    /* JADX WARN: Removed duplicated region for block: B:1147:0x0719 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:1148:0x071a  */
+    /* JADX WARN: Removed duplicated region for block: B:1382:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1389:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:897:0x02cf  */
+    /* JADX WARN: Removed duplicated region for block: B:901:0x02d7 A[Catch: JSONException -> 0x02e9, TryCatch #11 {JSONException -> 0x02e9, blocks: (B:879:0x0285, B:881:0x0294, B:883:0x029a, B:884:0x02a3, B:903:0x02db, B:900:0x02d4, B:901:0x02d7, B:889:0x02b8, B:892:0x02c2), top: B:1326:0x0285 }] */
+    /* JADX WARN: Removed duplicated region for block: B:903:0x02db A[Catch: JSONException -> 0x02e9, TRY_LEAVE, TryCatch #11 {JSONException -> 0x02e9, blocks: (B:879:0x0285, B:881:0x0294, B:883:0x029a, B:884:0x02a3, B:903:0x02db, B:900:0x02d4, B:901:0x02d7, B:889:0x02b8, B:892:0x02c2), top: B:1326:0x0285 }] */
+    /* JADX WARN: Removed duplicated region for block: B:979:0x042b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1947,7 +1947,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                         return;
                     }
                     boolean z3 = botBiometry2.access_requested;
-                    if (z3 && botBiometry2.disabled) {
+                    if (z3) {
                         notifyBiometryReceived();
                         return;
                     } else if (!botBiometry2.access_granted) {
@@ -3129,7 +3129,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
 
     public static String rotateTONHost(String str) {
         try {
-            str = IDN.toASCII(str);
+            str = IDN.toASCII(str, 1);
         } catch (Exception e) {
             FileLog.e(e);
         }
