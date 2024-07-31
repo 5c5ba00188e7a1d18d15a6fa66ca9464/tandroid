@@ -124,7 +124,7 @@ public class UserSelectorBottomSheet extends BottomSheetWithRecyclerListView imp
                     return i;
                 }
             };
-            if (!AndroidUtilities.hasDialogOnTop(lastFragment)) {
+            if (!AndroidUtilities.isTablet() && !AndroidUtilities.hasDialogOnTop(lastFragment)) {
                 userSelectorBottomSheet.makeAttached(lastFragment);
             }
             lastFragment.showDialog(userSelectorBottomSheet);
@@ -439,7 +439,9 @@ public class UserSelectorBottomSheet extends BottomSheetWithRecyclerListView imp
                     AndroidUtilities.hideKeyboard(selectorSearchCell.getEditText());
                 }
                 StarsIntroActivity.GiftStarsSheet giftStarsSheet = new StarsIntroActivity.GiftStarsSheet(getContext(), this.resourcesProvider, user, new UserSelectorBottomSheet$$ExternalSyntheticLambda4(this));
-                giftStarsSheet.makeAttached(this.attachedFragment);
+                if (!AndroidUtilities.isTablet()) {
+                    giftStarsSheet.makeAttached(this.attachedFragment);
+                }
                 giftStarsSheet.show();
                 return;
             }

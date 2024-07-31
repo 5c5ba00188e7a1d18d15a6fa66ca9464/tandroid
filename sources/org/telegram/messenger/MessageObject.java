@@ -375,6 +375,7 @@ import org.telegram.ui.Components.spoilers.SpoilerEffect;
 import org.telegram.ui.PeerColorActivity;
 import org.telegram.ui.Stars.StarsIntroActivity;
 import org.telegram.ui.Stories.StoriesController;
+import org.telegram.ui.web.BotWebViewContainer;
 /* loaded from: classes3.dex */
 public class MessageObject {
     public static final int ENTITIES_ALL = 0;
@@ -8010,8 +8011,8 @@ public class MessageObject {
 
     /* JADX WARN: Removed duplicated region for block: B:137:0x018c  */
     /* JADX WARN: Removed duplicated region for block: B:167:0x023e  */
-    /* JADX WARN: Removed duplicated region for block: B:233:0x0431  */
-    /* JADX WARN: Removed duplicated region for block: B:262:0x0244 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:237:0x043b  */
+    /* JADX WARN: Removed duplicated region for block: B:266:0x0244 A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -8217,7 +8218,10 @@ public class MessageObject {
                         } else {
                             if (tLRPC$MessageEntity3 instanceof TLRPC$TL_messageEntityUrl) {
                                 if (!str.toLowerCase().contains("://")) {
-                                    str = "http://" + str;
+                                    StringBuilder sb = new StringBuilder();
+                                    sb.append(BotWebViewContainer.isTonsite(str) ? "tonsite://" : "http://");
+                                    sb.append(str);
+                                    str = sb.toString();
                                 }
                                 if (str != null) {
                                     str = str.replaceAll("∕|⁄|%E2%81%84|%E2%88%95", "/");
