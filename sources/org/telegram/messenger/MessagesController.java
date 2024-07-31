@@ -33942,7 +33942,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 createBotViewer2.show();
             }
         } else {
-            safeLastFragment.presentFragment(ProfileActivity.of(tLRPC$User.id));
+            safeLastFragment.presentFragment(ChatActivity.of(tLRPC$User.id));
         }
     }
 
