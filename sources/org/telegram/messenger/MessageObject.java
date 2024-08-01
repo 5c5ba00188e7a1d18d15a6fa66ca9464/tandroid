@@ -8012,8 +8012,8 @@ public class MessageObject {
 
     /* JADX WARN: Removed duplicated region for block: B:137:0x018c  */
     /* JADX WARN: Removed duplicated region for block: B:167:0x023e  */
-    /* JADX WARN: Removed duplicated region for block: B:237:0x043b  */
-    /* JADX WARN: Removed duplicated region for block: B:266:0x0244 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:244:0x044e  */
+    /* JADX WARN: Removed duplicated region for block: B:273:0x0244 A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -8227,7 +8227,13 @@ public class MessageObject {
                                 if (str != null) {
                                     str = str.replaceAll("∕|⁄|%E2%81%84|%E2%88%95", "/");
                                 }
-                                spannable.setSpan(new URLSpanBrowser(str, textStyleRun9), textStyleRun9.start, textStyleRun9.end, 33);
+                                if (Browser.isTonsitePunycode(str)) {
+                                    z8 = true;
+                                    i20++;
+                                    charSequence2 = charSequence;
+                                } else {
+                                    spannable.setSpan(new URLSpanBrowser(str, textStyleRun9), textStyleRun9.start, textStyleRun9.end, 33);
+                                }
                             } else if (tLRPC$MessageEntity3 instanceof TLRPC$TL_messageEntityBankCard) {
                                 spannable.setSpan(new URLSpanNoUnderline("card:" + str, textStyleRun9), textStyleRun9.start, textStyleRun9.end, 33);
                             } else if (tLRPC$MessageEntity3 instanceof TLRPC$TL_messageEntityPhone) {
@@ -8241,7 +8247,9 @@ public class MessageObject {
                                 if (str2 != null) {
                                     str2 = str2.replaceAll("∕|⁄|%E2%81%84|%E2%88%95", "/");
                                 }
-                                spannable.setSpan(new URLSpanReplacement(str2, textStyleRun9), textStyleRun9.start, textStyleRun9.end, 33);
+                                if (!Browser.isTonsitePunycode(str2)) {
+                                    spannable.setSpan(new URLSpanReplacement(str2, textStyleRun9), textStyleRun9.start, textStyleRun9.end, 33);
+                                }
                             } else if (tLRPC$MessageEntity3 instanceof TLRPC$TL_messageEntityMentionName) {
                                 spannable.setSpan(new URLSpanUserMention("" + ((TLRPC$TL_messageEntityMentionName) textStyleRun9.urlEntity).user_id, b, textStyleRun9), textStyleRun9.start, textStyleRun9.end, 33);
                             } else if (tLRPC$MessageEntity3 instanceof TLRPC$TL_inputMessageEntityMentionName) {
@@ -8262,6 +8270,8 @@ public class MessageObject {
                                     spannable.setSpan(new TextStyleSpan(textStyleRun), textStyleRun.start, textStyleRun.end, i4);
                                 }
                                 z8 = z5;
+                                i20++;
+                                charSequence2 = charSequence;
                             }
                             textStyleRun = textStyleRun9;
                             i3 = LiteMode.FLAG_CHAT_BLUR;
@@ -8272,12 +8282,16 @@ public class MessageObject {
                                 spannable.setSpan(new TextStyleSpan(textStyleRun), textStyleRun.start, textStyleRun.end, i4);
                             }
                             z8 = z5;
+                            i20++;
+                            charSequence2 = charSequence;
                         }
                         z5 = z8;
                         z6 = false;
                         if (!z6) {
                         }
                         z8 = z5;
+                        i20++;
+                        charSequence2 = charSequence;
                     }
                     textStyleRun = textStyleRun9;
                     i3 = LiteMode.FLAG_CHAT_BLUR;
@@ -8287,6 +8301,8 @@ public class MessageObject {
                     if (!z6) {
                     }
                     z8 = z5;
+                    i20++;
+                    charSequence2 = charSequence;
                 }
                 i20++;
                 charSequence2 = charSequence;
