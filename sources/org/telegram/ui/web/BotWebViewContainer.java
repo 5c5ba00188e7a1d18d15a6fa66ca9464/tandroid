@@ -48,6 +48,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import androidx.core.content.FileProvider;
 import androidx.core.graphics.ColorUtils;
 import androidx.core.util.Consumer;
 import java.io.File;
@@ -74,6 +75,7 @@ import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BotWebViewVibrationEffect;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.DownloadController;
+import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.HttpGetFileTask;
 import org.telegram.messenger.ImageLocation;
@@ -220,7 +222,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
     public void onWebViewCreated() {
     }
 
-    static /* synthetic */ int access$1408() {
+    static /* synthetic */ int access$1508() {
         int i = tags;
         tags = i + 1;
         return i;
@@ -396,6 +398,9 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
             settings.setDisplayZoomControls(false);
             settings.setUseWideViewPort(true);
             settings.setLoadWithOverviewMode(true);
+            if (Build.VERSION.SDK_INT >= 26) {
+                settings.setSafeBrowsingEnabled(true);
+            }
         }
         try {
             String replace = settings.getUserAgentString().replace("; wv)", ")");
@@ -434,7 +439,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                 }
                 WebViewProxy webViewProxy = this.webViewProxy;
                 if (webViewProxy == null) {
-                    WebViewProxy webViewProxy2 = new WebViewProxy(this);
+                    WebViewProxy webViewProxy2 = new WebViewProxy(this.webView, this);
                     this.webViewProxy = webViewProxy2;
                     this.webView.addJavascriptInterface(webViewProxy2, "TelegramWebview");
                 } else if (myWebView == null) {
@@ -2888,8 +2893,10 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
     /* loaded from: classes.dex */
     public static class WebViewProxy {
         public BotWebViewContainer container;
+        public final MyWebView webView;
 
-        public WebViewProxy(BotWebViewContainer botWebViewContainer) {
+        public WebViewProxy(MyWebView myWebView, BotWebViewContainer botWebViewContainer) {
+            this.webView = myWebView;
             this.container = botWebViewContainer;
         }
 
@@ -2931,42 +2938,45 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
             });
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:35:0x0045, code lost:
-            if (r1.exists() != false) goto L9;
+        /* JADX WARN: Code restructure failed: missing block: B:47:0x0063, code lost:
+            if (r1.exists() != false) goto L16;
          */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public /* synthetic */ void lambda$resolveBlob$2(String str, byte[] bArr) {
             String str2;
-            File externalStoragePublicDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-            String extensionFromMimeType = MimeTypeMap.getSingleton().getExtensionFromMimeType(str);
-            File file = null;
-            while (file == null) {
-                StringBuilder sb = new StringBuilder();
-                sb.append("file");
-                if (TextUtils.isEmpty(extensionFromMimeType)) {
-                    str2 = "";
-                } else {
-                    str2 = "." + extensionFromMimeType;
+            if (this.container != null && System.currentTimeMillis() - this.container.lastClickMs <= 1000) {
+                this.container.lastClickMs = 0L;
+                File externalStoragePublicDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+                File file = null;
+                String extensionFromMimeType = MimeTypeMap.getSingleton().getExtensionFromMimeType(str);
+                while (file == null) {
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("file");
+                    if (TextUtils.isEmpty(extensionFromMimeType)) {
+                        str2 = "";
+                    } else {
+                        str2 = "." + extensionFromMimeType;
+                    }
+                    sb.append(str2);
+                    file = new File(externalStoragePublicDirectory, sb.toString());
                 }
-                sb.append(str2);
-                file = new File(externalStoragePublicDirectory, sb.toString());
-            }
-            try {
-                FileOutputStream fileOutputStream = new FileOutputStream(file);
-                fileOutputStream.write(bArr);
-                fileOutputStream.close();
-            } catch (Exception e) {
-                FileLog.e(e);
-            }
-            BotWebViewContainer botWebViewContainer = this.container;
-            BulletinFactory.of(botWebViewContainer, botWebViewContainer.resourcesProvider).createSimpleBulletin(R.raw.ic_download, AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.FileSavedHintLinked), new Runnable() { // from class: org.telegram.ui.web.BotWebViewContainer$WebViewProxy$$ExternalSyntheticLambda2
-                @Override // java.lang.Runnable
-                public final void run() {
-                    BotWebViewContainer.WebViewProxy.lambda$resolveBlob$1();
+                try {
+                    FileOutputStream fileOutputStream = new FileOutputStream(file);
+                    fileOutputStream.write(bArr);
+                    fileOutputStream.close();
+                } catch (Exception e) {
+                    FileLog.e(e);
                 }
-            })).show(true);
+                BotWebViewContainer botWebViewContainer = this.container;
+                BulletinFactory.of(botWebViewContainer, botWebViewContainer.resourcesProvider).createSimpleBulletin(R.raw.ic_download, AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.FileSavedHintLinked), new Runnable() { // from class: org.telegram.ui.web.BotWebViewContainer$WebViewProxy$$ExternalSyntheticLambda3
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        BotWebViewContainer.WebViewProxy.lambda$resolveBlob$1();
+                    }
+                })).show(true);
+            }
         }
 
         public static /* synthetic */ void lambda$resolveBlob$1() {
@@ -2977,6 +2987,176 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
             Intent intent = new Intent("android.intent.action.VIEW_DOWNLOADS");
             intent.setFlags(268468224);
             LaunchActivity.instance.startActivity(intent);
+        }
+
+        @JavascriptInterface
+        public void resolveShare(final String str, final byte[] bArr, final String str2, final String str3) {
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.web.BotWebViewContainer$WebViewProxy$$ExternalSyntheticLambda2
+                @Override // java.lang.Runnable
+                public final void run() {
+                    BotWebViewContainer.WebViewProxy.this.lambda$resolveShare$4(str, bArr, str2, str3);
+                }
+            });
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:139:0x007f  */
+        /* JADX WARN: Removed duplicated region for block: B:142:0x0086  */
+        /* JADX WARN: Removed duplicated region for block: B:147:0x0094  */
+        /* JADX WARN: Removed duplicated region for block: B:153:0x00b4  */
+        /* JADX WARN: Removed duplicated region for block: B:186:0x015e  */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+        */
+        public /* synthetic */ void lambda$resolveShare$4(String str, byte[] bArr, String str2, String str3) {
+            String str4;
+            String str5;
+            String str6;
+            String str7;
+            LaunchActivity launchActivity;
+            if (this.container == null) {
+                return;
+            }
+            if (System.currentTimeMillis() - this.container.lastClickMs <= 1000) {
+                this.container.lastClickMs = 0L;
+                Context context = this.webView.getContext();
+                Activity findActivity = AndroidUtilities.findActivity(context);
+                if (findActivity == null && (launchActivity = LaunchActivity.instance) != null) {
+                    findActivity = launchActivity;
+                }
+                if (context == null || findActivity == null || !(findActivity instanceof LaunchActivity) || findActivity.isFinishing() || !this.webView.isAttachedToWindow()) {
+                    this.webView.evaluateJS("window.navigator.__share__receive(\"security\")");
+                    return;
+                }
+                LaunchActivity launchActivity2 = (LaunchActivity) findActivity;
+                File file = null;
+                try {
+                    JSONObject jSONObject = new JSONObject(str);
+                    str4 = jSONObject.optString("url", null);
+                    try {
+                        str5 = jSONObject.optString("text", null);
+                    } catch (Exception e) {
+                        e = e;
+                        str5 = null;
+                    }
+                    try {
+                        str6 = jSONObject.optString("title", null);
+                    } catch (Exception e2) {
+                        e = e2;
+                        FileLog.e(e);
+                        str6 = null;
+                        StringBuilder sb = new StringBuilder();
+                        if (str6 != null) {
+                        }
+                        if (str5 != null) {
+                        }
+                        if (str4 != null) {
+                        }
+                        Intent intent = new Intent("android.intent.action.SEND");
+                        intent.putExtra("android.intent.extra.TEXT", sb.toString());
+                        if (bArr == null) {
+                        }
+                        launchActivity2.whenWebviewShareAPIDone(new Utilities.Callback() { // from class: org.telegram.ui.web.BotWebViewContainer$WebViewProxy$$ExternalSyntheticLambda4
+                            @Override // org.telegram.messenger.Utilities.Callback
+                            public final void run(Object obj) {
+                                BotWebViewContainer.WebViewProxy.this.lambda$resolveShare$3((Boolean) obj);
+                            }
+                        });
+                        launchActivity2.startActivityForResult(Intent.createChooser(intent, LocaleController.getString(R.string.ShareFile)), 521);
+                        return;
+                    }
+                } catch (Exception e3) {
+                    e = e3;
+                    str4 = null;
+                    str5 = null;
+                }
+                StringBuilder sb2 = new StringBuilder();
+                if (str6 != null) {
+                    sb2.append(str6);
+                }
+                if (str5 != null) {
+                    if (sb2.length() > 0) {
+                        sb2.append("\n");
+                    }
+                    sb2.append(str5);
+                }
+                if (str4 != null) {
+                    if (sb2.length() > 0) {
+                        sb2.append("\n");
+                    }
+                    sb2.append(str4);
+                }
+                Intent intent2 = new Intent("android.intent.action.SEND");
+                intent2.putExtra("android.intent.extra.TEXT", sb2.toString());
+                if (bArr == null) {
+                    int i = 0;
+                    while (true) {
+                        if (file == null || file.exists()) {
+                            File directory = FileLoader.getDirectory(4);
+                            StringBuilder sb3 = new StringBuilder();
+                            sb3.append(FileLoader.fixFileName(str2 == null ? "file" : str2));
+                            if (i > 0) {
+                                str7 = " (" + i + ")";
+                            } else {
+                                str7 = "";
+                            }
+                            sb3.append(str7);
+                            file = new File(directory, sb3.toString());
+                            i++;
+                        } else {
+                            try {
+                                break;
+                            } catch (Exception e4) {
+                                FileLog.e(e4);
+                            }
+                        }
+                    }
+                    FileOutputStream fileOutputStream = new FileOutputStream(file);
+                    fileOutputStream.write(bArr);
+                    fileOutputStream.close();
+                    try {
+                        if (str3 == null) {
+                            intent2.setType("text/plain");
+                        } else {
+                            intent2.setType(str3);
+                        }
+                        if (str2 != null) {
+                            intent2.putExtra("android.intent.extra.TITLE", str2);
+                        }
+                        if (Build.VERSION.SDK_INT >= 24) {
+                            try {
+                                intent2.putExtra("android.intent.extra.STREAM", FileProvider.getUriForFile(launchActivity2, ApplicationLoader.getApplicationId() + ".provider", file));
+                                intent2.setFlags(1);
+                            } catch (Exception unused) {
+                                intent2.putExtra("android.intent.extra.STREAM", Uri.fromFile(file));
+                            }
+                        } else {
+                            intent2.putExtra("android.intent.extra.STREAM", Uri.fromFile(file));
+                        }
+                    } catch (Exception e5) {
+                        FileLog.e(e5);
+                    }
+                } else {
+                    intent2.setType("text/plain");
+                }
+                launchActivity2.whenWebviewShareAPIDone(new Utilities.Callback() { // from class: org.telegram.ui.web.BotWebViewContainer$WebViewProxy$$ExternalSyntheticLambda4
+                    @Override // org.telegram.messenger.Utilities.Callback
+                    public final void run(Object obj) {
+                        BotWebViewContainer.WebViewProxy.this.lambda$resolveShare$3((Boolean) obj);
+                    }
+                });
+                launchActivity2.startActivityForResult(Intent.createChooser(intent2, LocaleController.getString(R.string.ShareFile)), 521);
+                return;
+            }
+            this.webView.evaluateJS("window.navigator.__share__receive(\"security\")");
+        }
+
+        public /* synthetic */ void lambda$resolveShare$3(Boolean bool) {
+            MyWebView myWebView = this.webView;
+            StringBuilder sb = new StringBuilder();
+            sb.append("window.navigator.__share__receive(");
+            sb.append(bool.booleanValue() ? "" : "'abort'");
+            sb.append(")");
+            myWebView.evaluateJS(sb.toString());
         }
     }
 
@@ -3217,7 +3397,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
 
         public MyWebView(Context context, boolean z) {
             super(context);
-            this.tag = BotWebViewContainer.access$1408();
+            this.tag = BotWebViewContainer.access$1508();
             this.lastFavicons = new HashMap<>();
             this.bot = z;
             d("created new webview " + this);
@@ -3375,6 +3555,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                     myWebView2.injectedJS = true;
                     String readRes = RLottieDrawable.readRes(null, R.raw.webview_ext);
                     myWebView2.evaluateJS(readRes.replace("$DEBUG$", "" + BuildVars.DEBUG_VERSION));
+                    MyWebView.this.evaluateJS(RLottieDrawable.readRes(null, R.raw.webview_share));
                 }
                 super.onPageCommitVisible(webView, str);
             }
@@ -3554,6 +3735,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                     myWebView.injectedJS = true;
                     String readRes = RLottieDrawable.readRes(null, R.raw.webview_ext);
                     myWebView.evaluateJS(readRes.replace("$DEBUG$", "" + BuildVars.DEBUG_VERSION));
+                    MyWebView.this.evaluateJS(RLottieDrawable.readRes(null, R.raw.webview_share));
                 }
                 MyWebView.this.saveHistory();
             }

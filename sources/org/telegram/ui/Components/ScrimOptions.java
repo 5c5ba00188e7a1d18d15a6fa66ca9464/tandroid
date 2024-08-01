@@ -22,7 +22,6 @@ import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.StaticLayout;
@@ -393,17 +392,16 @@ public class ScrimOptions extends Dialog {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:109:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:102:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:65:0x0272  */
     /* JADX WARN: Removed duplicated region for block: B:68:0x0297  */
     /* JADX WARN: Removed duplicated region for block: B:71:0x02a6  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x02c2  */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x02c9  */
-    /* JADX WARN: Removed duplicated region for block: B:78:0x02cf  */
-    /* JADX WARN: Removed duplicated region for block: B:85:0x02fa  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x0307  */
-    /* JADX WARN: Removed duplicated region for block: B:89:0x030c  */
-    /* JADX WARN: Removed duplicated region for block: B:92:0x037c  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x02c9  */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x02d3  */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x02da  */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x02ef  */
+    /* JADX WARN: Removed duplicated region for block: B:82:0x02f4  */
+    /* JADX WARN: Removed duplicated region for block: B:85:0x0364  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -420,8 +418,6 @@ public class ScrimOptions extends Dialog {
         Bitmap bitmap;
         int i2;
         SpannableStringBuilder spannableStringBuilder;
-        Paint paint;
-        RectF rectF2;
         int i3;
         MessageObject messageObject;
         boolean z;
@@ -501,8 +497,8 @@ public class ScrimOptions extends Dialog {
             LinkPath linkPath = new LinkPath(true);
             linkPath.setCurrentLayout(staticLayout2, i5, 0.0f);
             staticLayout2.getSelectionPath(i5, i6, linkPath);
-            RectF rectF3 = new RectF();
-            linkPath.computeBounds(rectF3, true);
+            RectF rectF2 = new RectF();
+            linkPath.computeBounds(rectF2, true);
             StaticLayout makeStaticLayout = MessageObject.makeStaticLayout(charSequence, staticLayout2.getPaint(), staticLayout2.getWidth(), 1.0f, 0.0f, false);
             int length = charSequence.length();
             float width = makeStaticLayout.getWidth();
@@ -515,7 +511,7 @@ public class ScrimOptions extends Dialog {
             f5 = lineTop;
             i = length;
             i5 = 0;
-            rectF = rectF3;
+            rectF = rectF2;
             f4 = max;
             staticLayout = makeStaticLayout;
         } else {
@@ -525,33 +521,33 @@ public class ScrimOptions extends Dialog {
             rectF = null;
             staticLayout = staticLayout2;
         }
-        final Paint paint2 = new Paint(1);
-        paint2.setColor(Theme.getColor(messageObject3.isOutOwner() ? Theme.key_chat_outBubble : Theme.key_chat_inBubble, this.resourcesProvider));
-        paint2.setPathEffect(new CornerPathEffect(AndroidUtilities.dp(5.0f)));
+        final Paint paint = new Paint(1);
+        paint.setColor(Theme.getColor(messageObject3.isOutOwner() ? Theme.key_chat_outBubble : Theme.key_chat_inBubble, this.resourcesProvider));
+        paint.setPathEffect(new CornerPathEffect(AndroidUtilities.dp(5.0f)));
         final LinkPath linkPath2 = new LinkPath(true);
         linkPath2.setUseCornerPathImplementation(true);
         linkPath2.setCurrentLayout(staticLayout, i5, 0.0f);
         staticLayout.getSelectionPath(i5, i, linkPath2);
         linkPath2.closeRects();
-        RectF rectF4 = new RectF();
-        linkPath2.computeBounds(rectF4, true);
-        int width2 = (int) (rectF4.width() + LinkPath.getRadius());
+        final RectF rectF3 = new RectF();
+        linkPath2.computeBounds(rectF3, true);
+        int width2 = (int) (rectF3.width() + LinkPath.getRadius());
         if (chatMessageCell.drawBackgroundInParent() && width2 > 0) {
-            if (rectF4.height() > 0.0f) {
-                Bitmap createBitmap = Bitmap.createBitmap(width2, (int) rectF4.height(), Bitmap.Config.ALPHA_8);
+            if (rectF3.height() > 0.0f) {
+                Bitmap createBitmap = Bitmap.createBitmap(width2, (int) rectF3.height(), Bitmap.Config.ALPHA_8);
                 Canvas canvas = new Canvas(createBitmap);
+                Paint paint2 = new Paint(1);
+                paint2.setColor(-1);
+                canvas.drawRect(0.0f, 0.0f, width2, rectF3.height(), paint2);
                 Paint paint3 = new Paint(1);
                 paint3.setColor(-1);
-                canvas.drawRect(0.0f, 0.0f, width2, rectF4.height(), paint3);
-                Paint paint4 = new Paint(1);
-                paint4.setColor(-1);
-                paint4.setPathEffect(new CornerPathEffect(AndroidUtilities.dp(5.0f)));
-                paint4.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-                canvas.translate(-rectF4.left, -rectF4.top);
-                canvas.drawPath(linkPath2, paint4);
+                paint3.setPathEffect(new CornerPathEffect(AndroidUtilities.dp(5.0f)));
+                paint3.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+                canvas.translate(-rectF3.left, -rectF3.top);
+                canvas.drawPath(linkPath2, paint3);
                 bitmap = createBitmap;
-                Paint paint5 = new Paint(3);
-                paint5.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
+                final Paint paint4 = new Paint(3);
+                paint4.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
                 chatMessageCell.setupTextColors();
                 TextPaint textPaint = new TextPaint(1);
                 textPaint.setColor(staticLayout.getPaint().getColor());
@@ -572,34 +568,22 @@ public class ScrimOptions extends Dialog {
                 if (i2 >= 29) {
                     textPaint.setEndHyphenEdit(staticLayout.getPaint().getEndHyphenEdit());
                 }
-                CharSequence cloneSpans = AnimatedEmojiSpan.cloneSpans(staticLayout.getText(), -1, textPaint.getFontMetricsInt());
-                spannableStringBuilder = cloneSpans instanceof Spannable ? new SpannableStringBuilder(cloneSpans) : cloneSpans;
-                if (spannableStringBuilder instanceof Spannable) {
-                    paint = paint5;
-                    rectF2 = rectF4;
+                spannableStringBuilder = new SpannableStringBuilder(AnimatedEmojiSpan.cloneSpans(staticLayout.getText(), -1, textPaint.getFontMetricsInt()));
+                if (i5 <= 0) {
+                    i3 = 0;
+                    spannableStringBuilder.setSpan(new ForegroundColorSpan(0), 0, i5, 33);
                 } else {
-                    Spannable spannable = (Spannable) spannableStringBuilder;
-                    paint = paint5;
-                    if (i5 > 0) {
-                        rectF2 = rectF4;
-                        i3 = 0;
-                        spannable.setSpan(new ForegroundColorSpan(0), 0, i5, 33);
-                    } else {
-                        rectF2 = rectF4;
-                        i3 = 0;
-                    }
-                    if (i < spannable.length()) {
-                        spannable.setSpan(new ForegroundColorSpan(i3), i, spannable.length(), 33);
-                    }
+                    i3 = 0;
+                }
+                if (i < spannableStringBuilder.length()) {
+                    spannableStringBuilder.setSpan(new ForegroundColorSpan(i3), i, spannableStringBuilder.length(), 33);
                 }
                 final StaticLayout makeStaticLayout2 = MessageObject.makeStaticLayout(spannableStringBuilder, textPaint, i7, 1.0f, messageObject3.totalAnimatedEmojiCount < 4 ? -1.0f : 0.0f, false);
                 final int[] iArr = new int[2];
                 chatMessageCell.getLocationOnScreen(iArr);
                 final int[] iArr2 = {iArr[0] + ((int) f4), iArr[1] + ((int) f5)};
-                final Paint paint6 = paint;
-                final RectF rectF5 = rectF2;
                 final Bitmap bitmap2 = bitmap;
-                RectF rectF6 = rectF;
+                RectF rectF4 = rectF;
                 this.scrimDrawable = new Drawable(this) { // from class: org.telegram.ui.Components.ScrimOptions.4
                     private int alpha = 255;
 
@@ -617,11 +601,11 @@ public class ScrimOptions extends Dialog {
                         if (this.alpha <= 0) {
                             return;
                         }
-                        RectF rectF7 = AndroidUtilities.rectTmp;
-                        rectF7.set(getBounds());
-                        rectF7.left -= LinkPath.getRadius() / 2.0f;
+                        RectF rectF5 = AndroidUtilities.rectTmp;
+                        rectF5.set(getBounds());
+                        rectF5.left -= LinkPath.getRadius() / 2.0f;
                         canvas2.save();
-                        canvas2.saveLayerAlpha(rectF7, this.alpha, 31);
+                        canvas2.saveLayerAlpha(rectF5, this.alpha, 31);
                         int[] iArr3 = iArr2;
                         canvas2.translate(iArr3[0], iArr3[1]);
                         ChatMessageCell chatMessageCell2 = chatMessageCell;
@@ -646,12 +630,12 @@ public class ScrimOptions extends Dialog {
                             if (bitmap2 != null) {
                                 canvas2.save();
                                 Bitmap bitmap3 = bitmap2;
-                                RectF rectF8 = rectF5;
-                                canvas2.drawBitmap(bitmap3, rectF8.left, rectF8.top, paint6);
+                                RectF rectF6 = rectF3;
+                                canvas2.drawBitmap(bitmap3, rectF6.left, rectF6.top, paint4);
                                 canvas2.restore();
                             }
                         } else {
-                            canvas2.drawPath(linkPath2, paint2);
+                            canvas2.drawPath(linkPath2, paint);
                         }
                         canvas2.clipPath(linkPath2);
                         canvas2.save();
@@ -665,21 +649,21 @@ public class ScrimOptions extends Dialog {
                         this.alpha = i10;
                     }
                 };
-                int radius = (int) (iArr[0] + f4 + rectF5.left + (LinkPath.getRadius() / 2.0f));
-                int i10 = (int) (iArr[1] + f5 + rectF5.top);
-                this.scrimDrawable.setBounds(radius, i10, ((int) rectF5.width()) + radius, ((int) rectF5.height()) + i10);
+                int radius = (int) (iArr[0] + f4 + rectF3.left + (LinkPath.getRadius() / 2.0f));
+                int i10 = (int) (iArr[1] + f5 + rectF3.top);
+                this.scrimDrawable.setBounds(radius, i10, ((int) rectF3.width()) + radius, ((int) rectF3.height()) + i10);
                 if (charSequence == null) {
                     float f7 = radius;
-                    if (rectF5.width() + f7 > AndroidUtilities.displaySize.x - AndroidUtilities.dp(8.0f)) {
-                        this.scrimDrawableTx2 -= (f7 + rectF5.width()) - (AndroidUtilities.displaySize.x - AndroidUtilities.dp(8.0f));
+                    if (rectF3.width() + f7 > AndroidUtilities.displaySize.x - AndroidUtilities.dp(8.0f)) {
+                        this.scrimDrawableTx2 -= (f7 + rectF3.width()) - (AndroidUtilities.displaySize.x - AndroidUtilities.dp(8.0f));
                     }
                     float f8 = i10;
-                    if (rectF5.height() + f8 > (AndroidUtilities.displaySize.y - AndroidUtilities.navigationBarHeight) - AndroidUtilities.dp(8.0f)) {
-                        this.scrimDrawableTy2 -= (f8 + rectF5.height()) - ((AndroidUtilities.displaySize.y - AndroidUtilities.navigationBarHeight) - AndroidUtilities.dp(8.0f));
+                    if (rectF3.height() + f8 > (AndroidUtilities.displaySize.y - AndroidUtilities.navigationBarHeight) - AndroidUtilities.dp(8.0f)) {
+                        this.scrimDrawableTy2 -= (f8 + rectF3.height()) - ((AndroidUtilities.displaySize.y - AndroidUtilities.navigationBarHeight) - AndroidUtilities.dp(8.0f));
                     }
-                    if (rectF6 != null) {
-                        this.scrimDrawableSw = rectF6.width() / rectF5.width();
-                        this.scrimDrawableSh = rectF6.height() / rectF5.height();
+                    if (rectF4 != null) {
+                        this.scrimDrawableSw = rectF4.width() / rectF3.width();
+                        this.scrimDrawableSh = rectF4.height() / rectF3.height();
                         return;
                     }
                     return;
@@ -688,8 +672,8 @@ public class ScrimOptions extends Dialog {
             }
         }
         bitmap = null;
-        Paint paint52 = new Paint(3);
-        paint52.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
+        final Paint paint42 = new Paint(3);
+        paint42.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
         chatMessageCell.setupTextColors();
         TextPaint textPaint2 = new TextPaint(1);
         textPaint2.setColor(staticLayout.getPaint().getColor());
@@ -705,19 +689,17 @@ public class ScrimOptions extends Dialog {
         }
         if (i2 >= 29) {
         }
-        CharSequence cloneSpans2 = AnimatedEmojiSpan.cloneSpans(staticLayout.getText(), -1, textPaint2.getFontMetricsInt());
-        if (cloneSpans2 instanceof Spannable) {
+        spannableStringBuilder = new SpannableStringBuilder(AnimatedEmojiSpan.cloneSpans(staticLayout.getText(), -1, textPaint2.getFontMetricsInt()));
+        if (i5 <= 0) {
         }
-        if (spannableStringBuilder instanceof Spannable) {
+        if (i < spannableStringBuilder.length()) {
         }
         final StaticLayout makeStaticLayout22 = MessageObject.makeStaticLayout(spannableStringBuilder, textPaint2, i7, 1.0f, messageObject3.totalAnimatedEmojiCount < 4 ? -1.0f : 0.0f, false);
         final int[] iArr3 = new int[2];
         chatMessageCell.getLocationOnScreen(iArr3);
         final int[] iArr22 = {iArr3[0] + ((int) f4), iArr3[1] + ((int) f5)};
-        final Paint paint62 = paint;
-        final RectF rectF52 = rectF2;
         final Bitmap bitmap22 = bitmap;
-        RectF rectF62 = rectF;
+        RectF rectF42 = rectF;
         this.scrimDrawable = new Drawable(this) { // from class: org.telegram.ui.Components.ScrimOptions.4
             private int alpha = 255;
 
@@ -735,11 +717,11 @@ public class ScrimOptions extends Dialog {
                 if (this.alpha <= 0) {
                     return;
                 }
-                RectF rectF7 = AndroidUtilities.rectTmp;
-                rectF7.set(getBounds());
-                rectF7.left -= LinkPath.getRadius() / 2.0f;
+                RectF rectF5 = AndroidUtilities.rectTmp;
+                rectF5.set(getBounds());
+                rectF5.left -= LinkPath.getRadius() / 2.0f;
                 canvas2.save();
-                canvas2.saveLayerAlpha(rectF7, this.alpha, 31);
+                canvas2.saveLayerAlpha(rectF5, this.alpha, 31);
                 int[] iArr32 = iArr22;
                 canvas2.translate(iArr32[0], iArr32[1]);
                 ChatMessageCell chatMessageCell2 = chatMessageCell;
@@ -764,12 +746,12 @@ public class ScrimOptions extends Dialog {
                     if (bitmap22 != null) {
                         canvas2.save();
                         Bitmap bitmap3 = bitmap22;
-                        RectF rectF8 = rectF52;
-                        canvas2.drawBitmap(bitmap3, rectF8.left, rectF8.top, paint62);
+                        RectF rectF6 = rectF3;
+                        canvas2.drawBitmap(bitmap3, rectF6.left, rectF6.top, paint42);
                         canvas2.restore();
                     }
                 } else {
-                    canvas2.drawPath(linkPath2, paint2);
+                    canvas2.drawPath(linkPath2, paint);
                 }
                 canvas2.clipPath(linkPath2);
                 canvas2.save();
@@ -783,9 +765,9 @@ public class ScrimOptions extends Dialog {
                 this.alpha = i102;
             }
         };
-        int radius2 = (int) (iArr3[0] + f4 + rectF52.left + (LinkPath.getRadius() / 2.0f));
-        int i102 = (int) (iArr3[1] + f5 + rectF52.top);
-        this.scrimDrawable.setBounds(radius2, i102, ((int) rectF52.width()) + radius2, ((int) rectF52.height()) + i102);
+        int radius2 = (int) (iArr3[0] + f4 + rectF3.left + (LinkPath.getRadius() / 2.0f));
+        int i102 = (int) (iArr3[1] + f5 + rectF3.top);
+        this.scrimDrawable.setBounds(radius2, i102, ((int) rectF3.width()) + radius2, ((int) rectF3.height()) + i102);
         if (charSequence == null) {
         }
     }
