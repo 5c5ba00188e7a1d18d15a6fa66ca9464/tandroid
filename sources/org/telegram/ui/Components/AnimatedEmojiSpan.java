@@ -584,7 +584,7 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
                             int spanEnd = spanned.getSpanEnd(animatedEmojiSpan);
                             Spannable spannable = (Spannable) spanned;
                             spannable.removeSpan(animatedEmojiSpan);
-                            animatedEmojiSpan = cloneSpan(animatedEmojiSpan);
+                            animatedEmojiSpan = cloneSpan(animatedEmojiSpan, null);
                             spannable.setSpan(animatedEmojiSpan, spanStart, spanEnd, 33);
                         }
                         if (emojiGroupedSpans2 == null) {
@@ -1061,13 +1061,16 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
         }
     }
 
-    public static AnimatedEmojiSpan cloneSpan(AnimatedEmojiSpan animatedEmojiSpan) {
+    public static AnimatedEmojiSpan cloneSpan(AnimatedEmojiSpan animatedEmojiSpan, Paint.FontMetricsInt fontMetricsInt) {
         AnimatedEmojiSpan animatedEmojiSpan2;
         TLRPC$Document tLRPC$Document = animatedEmojiSpan.document;
         if (tLRPC$Document != null) {
-            animatedEmojiSpan2 = new AnimatedEmojiSpan(tLRPC$Document, animatedEmojiSpan.fontMetrics);
+            animatedEmojiSpan2 = new AnimatedEmojiSpan(tLRPC$Document, fontMetricsInt != null ? fontMetricsInt : animatedEmojiSpan.fontMetrics);
         } else {
-            animatedEmojiSpan2 = new AnimatedEmojiSpan(animatedEmojiSpan.documentId, animatedEmojiSpan.scale, animatedEmojiSpan.fontMetrics);
+            animatedEmojiSpan2 = new AnimatedEmojiSpan(animatedEmojiSpan.documentId, animatedEmojiSpan.scale, fontMetricsInt != null ? fontMetricsInt : animatedEmojiSpan.fontMetrics);
+        }
+        if (fontMetricsInt != null) {
+            animatedEmojiSpan2.size = animatedEmojiSpan.size;
         }
         animatedEmojiSpan2.fromEmojiKeyboard = animatedEmojiSpan.fromEmojiKeyboard;
         animatedEmojiSpan2.isAdded = animatedEmojiSpan.isAdded;
@@ -1076,14 +1079,18 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
     }
 
     public static CharSequence cloneSpans(CharSequence charSequence) {
-        return cloneSpans(charSequence, -1);
+        return cloneSpans(charSequence, -1, null);
+    }
+
+    public static CharSequence cloneSpans(CharSequence charSequence, int i) {
+        return cloneSpans(charSequence, i, null);
     }
 
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r7v0, types: [java.lang.CharSequence] */
     /* JADX WARN: Type inference failed for: r7v1, types: [java.lang.CharSequence] */
     /* JADX WARN: Type inference failed for: r7v2, types: [android.text.SpannableString] */
-    public static CharSequence cloneSpans(CharSequence charSequence, int i) {
+    public static CharSequence cloneSpans(CharSequence charSequence, int i, Paint.FontMetricsInt fontMetricsInt) {
         if (charSequence instanceof Spanned) {
             Spanned spanned = (Spanned) charSequence;
             CharacterStyle[] characterStyleArr = (CharacterStyle[]) spanned.getSpans(0, spanned.length(), CharacterStyle.class);
@@ -1099,7 +1106,7 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
                         int spanEnd = spanned.getSpanEnd(characterStyleArr[i2]);
                         AnimatedEmojiSpan animatedEmojiSpan = (AnimatedEmojiSpan) characterStyleArr[i2];
                         charSequence.removeSpan(animatedEmojiSpan);
-                        AnimatedEmojiSpan cloneSpan = cloneSpan(animatedEmojiSpan);
+                        AnimatedEmojiSpan cloneSpan = cloneSpan(animatedEmojiSpan, fontMetricsInt);
                         if (i != -1) {
                             cloneSpan.cacheType = i;
                         }
