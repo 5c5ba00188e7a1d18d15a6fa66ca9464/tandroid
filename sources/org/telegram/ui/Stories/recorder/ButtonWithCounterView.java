@@ -51,7 +51,7 @@ public class ButtonWithCounterView extends FrameLayout implements Loadable {
     private int minWidth;
     private final Paint paint;
     private Theme.ResourcesProvider resourcesProvider;
-    private final View rippleView;
+    public final View rippleView;
     private boolean showZero;
     public final AnimatedTextView.AnimatedTextDrawable subText;
     private float subTextT;

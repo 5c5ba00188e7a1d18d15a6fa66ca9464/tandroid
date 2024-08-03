@@ -426,7 +426,7 @@ public class BotWebViewAttachedSheet implements NotificationCenter.NotificationC
                 this.webViewContainer.loadFlickerAndSettingsItem(this.currentAccount, this.botId, this.settingsItem);
                 this.webViewContainer.setState(false, null);
                 if (this.webViewContainer.getWebView() != null) {
-                    this.webViewContainer.getWebView().loadUrl("about:blank");
+                    this.webViewContainer.getWebView().lambda$loadUrl$2("about:blank");
                 }
                 WebViewRequestProps webViewRequestProps = webTabData.props;
                 webViewRequestProps.response = null;
@@ -931,7 +931,7 @@ public class BotWebViewAttachedSheet implements NotificationCenter.NotificationC
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Type inference failed for: r0v16 */
-    /* JADX WARN: Type inference failed for: r0v17, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r0v17, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r0v21 */
     public /* synthetic */ void lambda$new$10() {
         if (this.swipeContainer.getSwipeOffsetY() > 0.0f) {

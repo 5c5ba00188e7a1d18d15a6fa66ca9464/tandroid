@@ -386,7 +386,7 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:102:0x01e0, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:102:0x01e4, code lost:
         if (r3.equals("text") == false) goto L49;
      */
     /*

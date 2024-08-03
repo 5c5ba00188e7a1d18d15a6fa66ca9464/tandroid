@@ -617,7 +617,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     /* JADX WARN: Type inference failed for: r10v237, types: [android.widget.EditText] */
     /* JADX WARN: Type inference failed for: r10v239, types: [android.widget.LinearLayout] */
     /* JADX WARN: Type inference failed for: r11v3 */
-    /* JADX WARN: Type inference failed for: r11v4, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r11v4, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r11v7 */
     /* JADX WARN: Type inference failed for: r1v105, types: [org.telegram.ui.Cells.TextDetailSettingsCell[]] */
     /* JADX WARN: Type inference failed for: r1v106, types: [android.widget.FrameLayout] */
@@ -638,7 +638,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     /* JADX WARN: Type inference failed for: r3v232, types: [android.view.ViewGroup] */
     /* JADX WARN: Type inference failed for: r3v269, types: [android.widget.LinearLayout, android.view.View, android.view.ViewGroup] */
     /* JADX WARN: Type inference failed for: r5v0 */
-    /* JADX WARN: Type inference failed for: r5v217, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r5v217, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r5v218 */
     /* JADX WARN: Type inference failed for: r6v8, types: [java.lang.CharSequence, android.text.SpannableString, java.lang.Object] */
     @Override // org.telegram.ui.ActionBar.BaseFragment

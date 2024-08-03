@@ -172,20 +172,20 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:129:0x0659  */
-    /* JADX WARN: Removed duplicated region for block: B:134:0x067c  */
-    /* JADX WARN: Removed duplicated region for block: B:139:0x068f  */
-    /* JADX WARN: Removed duplicated region for block: B:144:0x06a2  */
-    /* JADX WARN: Removed duplicated region for block: B:149:0x06c1  */
-    /* JADX WARN: Removed duplicated region for block: B:155:0x06e9  */
-    /* JADX WARN: Removed duplicated region for block: B:78:0x04e4  */
-    /* JADX WARN: Removed duplicated region for block: B:79:0x04ec  */
-    /* JADX WARN: Removed duplicated region for block: B:82:0x04f3  */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x04fd  */
-    /* JADX WARN: Removed duplicated region for block: B:86:0x0502  */
-    /* JADX WARN: Removed duplicated region for block: B:95:0x052b  */
+    /* JADX WARN: Removed duplicated region for block: B:129:0x0648  */
+    /* JADX WARN: Removed duplicated region for block: B:134:0x066b  */
+    /* JADX WARN: Removed duplicated region for block: B:139:0x067e  */
+    /* JADX WARN: Removed duplicated region for block: B:144:0x0691  */
+    /* JADX WARN: Removed duplicated region for block: B:149:0x06b0  */
+    /* JADX WARN: Removed duplicated region for block: B:155:0x06d8  */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x04d3  */
+    /* JADX WARN: Removed duplicated region for block: B:79:0x04db  */
+    /* JADX WARN: Removed duplicated region for block: B:82:0x04e2  */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x04ec  */
+    /* JADX WARN: Removed duplicated region for block: B:86:0x04f1  */
+    /* JADX WARN: Removed duplicated region for block: B:95:0x051a  */
     /* JADX WARN: Type inference failed for: r5v48 */
-    /* JADX WARN: Type inference failed for: r5v49, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r5v49, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r5v50 */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
@@ -329,8 +329,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
         int i7 = this.type;
         boolean z = i7 == 0;
         if (i7 == 3) {
-            ActionBar actionBar2 = this.actionBar;
-            actionBar2.setTitle("#" + this.hashtag);
+            this.actionBar.setTitle(this.hashtag);
         } else {
             FrameLayout frameLayout4 = new FrameLayout(context);
             this.titlesContainer = frameLayout4;

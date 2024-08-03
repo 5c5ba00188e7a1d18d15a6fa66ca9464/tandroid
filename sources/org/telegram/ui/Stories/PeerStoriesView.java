@@ -1360,10 +1360,10 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                 }
             } else if (characterStyle instanceof URLSpanNoUnderline) {
                 String url = ((URLSpanNoUnderline) characterStyle).getURL();
-                if (url != null && url.startsWith("#")) {
+                if (url != null && (url.startsWith("#") || url.startsWith("$"))) {
                     Bundle bundle = new Bundle();
                     bundle.putInt("type", 3);
-                    bundle.putString("hashtag", url.substring(1));
+                    bundle.putString("hashtag", url);
                     StoryViewer storyViewer = this.val$storyViewer;
                     if (storyViewer != null) {
                         storyViewer.presentFragment(new MediaActivity(bundle, null));
@@ -5443,7 +5443,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
     /* JADX WARN: Removed duplicated region for block: B:636:0x0afd A[EDGE_INSN: B:636:0x0afd->B:511:0x0afd ?: BREAK  , SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:640:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r2v3 */
-    /* JADX WARN: Type inference failed for: r2v4, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r2v4, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r2v89 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

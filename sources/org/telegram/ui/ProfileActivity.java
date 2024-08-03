@@ -2543,11 +2543,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r12v2 */
-    /* JADX WARN: Type inference failed for: r12v3, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r12v3, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r12v5 */
     /* JADX WARN: Type inference failed for: r12v6 */
     /* JADX WARN: Type inference failed for: r14v2 */
-    /* JADX WARN: Type inference failed for: r14v3, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r14v3, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r14v5 */
     /* JADX WARN: Type inference failed for: r14v6 */
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -13592,7 +13592,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             TLRPC$User user = ProfileActivity.this.getMessagesController().getUser(Long.valueOf(ProfileActivity.this.userId));
             MessagesController messagesController = ProfileActivity.this.getMessagesController();
             ProfileActivity profileActivity = ProfileActivity.this;
-            messagesController.openApp(profileActivity, user, profileActivity.getClassGuid());
+            messagesController.openApp(profileActivity, user, profileActivity.getClassGuid(), null);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter

@@ -3787,12 +3787,12 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         return playMessage(messageObject, false);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:188:0x0495  */
-    /* JADX WARN: Removed duplicated region for block: B:190:0x04a0  */
-    /* JADX WARN: Removed duplicated region for block: B:205:0x0566  */
-    /* JADX WARN: Removed duplicated region for block: B:215:0x059f  */
-    /* JADX WARN: Removed duplicated region for block: B:269:0x047c A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:271:0x04b9 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:188:0x0496  */
+    /* JADX WARN: Removed duplicated region for block: B:190:0x04a1  */
+    /* JADX WARN: Removed duplicated region for block: B:205:0x0568  */
+    /* JADX WARN: Removed duplicated region for block: B:215:0x05a1  */
+    /* JADX WARN: Removed duplicated region for block: B:267:0x047d A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:269:0x04ba A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -6208,8 +6208,8 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:78:0x00c4 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:65:0x00be -> B:76:0x00c1). Please submit an issue!!! */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x00c5 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:65:0x00bf -> B:76:0x00c2). Please submit an issue!!! */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
