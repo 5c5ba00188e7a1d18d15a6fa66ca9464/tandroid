@@ -804,6 +804,11 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         }
 
         @Override // org.telegram.ui.PhotoViewer.PhotoViewerProvider
+        public boolean canEdit(int i) {
+            return false;
+        }
+
+        @Override // org.telegram.ui.PhotoViewer.PhotoViewerProvider
         public /* synthetic */ boolean canLoadMoreAvatars() {
             return PhotoViewerProvider.-CC.$default$canLoadMoreAvatars(this);
         }
@@ -1035,6 +1040,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         boolean allowSendingSubmenu();
 
         boolean canCaptureMorePhotos();
+
+        boolean canEdit(int i);
 
         boolean canLoadMoreAvatars();
 
@@ -7782,101 +7789,104 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:189:0x00e7, code lost:
-        if (r13 != false) goto L36;
+    /* JADX WARN: Code restructure failed: missing block: B:211:0x0101, code lost:
+        if (r7 != false) goto L42;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:193:0x00f0, code lost:
-        if (org.telegram.messenger.UserObject.isUserSelf(r2) != false) goto L36;
+    /* JADX WARN: Code restructure failed: missing block: B:215:0x010a, code lost:
+        if (org.telegram.messenger.UserObject.isUserSelf(r2) != false) goto L42;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:196:0x00f5, code lost:
-        if (r11 == 3) goto L110;
+    /* JADX WARN: Code restructure failed: missing block: B:218:0x010f, code lost:
+        if (r12 == 3) goto L118;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:197:0x00f7, code lost:
-        if (r5 == false) goto L36;
+    /* JADX WARN: Code restructure failed: missing block: B:219:0x0111, code lost:
+        if (r6 == false) goto L42;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:199:0x00fa, code lost:
-        if (r11 != 4) goto L62;
+    /* JADX WARN: Code restructure failed: missing block: B:221:0x0114, code lost:
+        if (r12 != 4) goto L67;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:201:0x00fe, code lost:
-        if (r16.isCurrentVideo == false) goto L108;
+    /* JADX WARN: Code restructure failed: missing block: B:223:0x0118, code lost:
+        if (r16.isCurrentVideo == false) goto L116;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:203:0x0106, code lost:
-        if (r16.captionEdit.hasTimer() == false) goto L62;
+    /* JADX WARN: Code restructure failed: missing block: B:225:0x0120, code lost:
+        if (r16.captionEdit.hasTimer() == false) goto L67;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:205:0x0109, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:227:0x0123, code lost:
         r14 = r16.parentActivity;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:206:0x010d, code lost:
-        if (r11 != 0) goto L89;
+    /* JADX WARN: Code restructure failed: missing block: B:228:0x0127, code lost:
+        if (r12 != 0) goto L96;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:207:0x010f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:229:0x0129, code lost:
         r15 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:208:0x0111, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:230:0x012b, code lost:
         r15 = false;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:210:0x0114, code lost:
-        if (r11 != 3) goto L68;
+    /* JADX WARN: Code restructure failed: missing block: B:232:0x012e, code lost:
+        if (r12 != 3) goto L95;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:211:0x0116, code lost:
-        r3 = true;
+    /* JADX WARN: Code restructure failed: missing block: B:233:0x0130, code lost:
+        r13 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:212:0x0117, code lost:
-        r13 = new org.telegram.ui.ActionBar.ActionBarMenuSubItem(r14, r15, r3, r17);
+    /* JADX WARN: Code restructure failed: missing block: B:234:0x0132, code lost:
+        r13 = false;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:213:0x011a, code lost:
-        if (r11 != 0) goto L76;
+    /* JADX WARN: Code restructure failed: missing block: B:235:0x0133, code lost:
+        r7 = new org.telegram.ui.ActionBar.ActionBarMenuSubItem(r14, r15, r13, r17);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:215:0x0120, code lost:
-        if (org.telegram.messenger.UserObject.isUserSelf(r2) == false) goto L75;
+    /* JADX WARN: Code restructure failed: missing block: B:236:0x0136, code lost:
+        if (r12 != 0) goto L81;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:216:0x0122, code lost:
-        r13.setTextAndIcon(org.telegram.messenger.LocaleController.getString("SetReminder", org.telegram.messenger.R.string.SetReminder), org.telegram.messenger.R.drawable.msg_calendar2);
+    /* JADX WARN: Code restructure failed: missing block: B:238:0x013c, code lost:
+        if (org.telegram.messenger.UserObject.isUserSelf(r2) == false) goto L80;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:217:0x0130, code lost:
-        r13.setTextAndIcon(org.telegram.messenger.LocaleController.getString("ScheduleMessage", org.telegram.messenger.R.string.ScheduleMessage), org.telegram.messenger.R.drawable.msg_calendar2);
+    /* JADX WARN: Code restructure failed: missing block: B:239:0x013e, code lost:
+        r7.setTextAndIcon(org.telegram.messenger.LocaleController.getString("SetReminder", org.telegram.messenger.R.string.SetReminder), org.telegram.messenger.R.drawable.msg_calendar2);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:218:0x013e, code lost:
-        if (r11 != 1) goto L78;
+    /* JADX WARN: Code restructure failed: missing block: B:240:0x014c, code lost:
+        r7.setTextAndIcon(org.telegram.messenger.LocaleController.getString("ScheduleMessage", org.telegram.messenger.R.string.ScheduleMessage), org.telegram.messenger.R.drawable.msg_calendar2);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:219:0x0140, code lost:
-        r13.setTextAndIcon(org.telegram.messenger.LocaleController.getString("SendWithoutSound", org.telegram.messenger.R.string.SendWithoutSound), org.telegram.messenger.R.drawable.input_notify_off);
+    /* JADX WARN: Code restructure failed: missing block: B:241:0x015a, code lost:
+        if (r12 != 1) goto L83;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:220:0x014e, code lost:
-        if (r11 != 2) goto L80;
+    /* JADX WARN: Code restructure failed: missing block: B:242:0x015c, code lost:
+        r7.setTextAndIcon(org.telegram.messenger.LocaleController.getString("SendWithoutSound", org.telegram.messenger.R.string.SendWithoutSound), org.telegram.messenger.R.drawable.input_notify_off);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:221:0x0150, code lost:
-        r13.setTextAndIcon(org.telegram.messenger.LocaleController.getString("ReplacePhoto", org.telegram.messenger.R.string.ReplacePhoto), org.telegram.messenger.R.drawable.msg_replace);
+    /* JADX WARN: Code restructure failed: missing block: B:243:0x016a, code lost:
+        if (r12 != 2) goto L85;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:222:0x015e, code lost:
-        if (r11 != 3) goto L82;
+    /* JADX WARN: Code restructure failed: missing block: B:244:0x016c, code lost:
+        r7.setTextAndIcon(org.telegram.messenger.LocaleController.getString("ReplacePhoto", org.telegram.messenger.R.string.ReplacePhoto), org.telegram.messenger.R.drawable.msg_replace);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:223:0x0160, code lost:
-        r13.setTextAndIcon(org.telegram.messenger.LocaleController.getString("SendAsNewPhoto", org.telegram.messenger.R.string.SendAsNewPhoto), org.telegram.messenger.R.drawable.msg_send);
+    /* JADX WARN: Code restructure failed: missing block: B:245:0x017a, code lost:
+        if (r12 != 3) goto L87;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:224:0x016e, code lost:
-        if (r11 != 4) goto L73;
+    /* JADX WARN: Code restructure failed: missing block: B:246:0x017c, code lost:
+        r7.setTextAndIcon(org.telegram.messenger.LocaleController.getString("SendAsNewPhoto", org.telegram.messenger.R.string.SendAsNewPhoto), org.telegram.messenger.R.drawable.msg_send);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:225:0x0170, code lost:
-        r3 = r16.placeProvider;
+    /* JADX WARN: Code restructure failed: missing block: B:248:0x018b, code lost:
+        if (r12 != 4) goto L78;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:226:0x0172, code lost:
-        if (r3 == null) goto L88;
+    /* JADX WARN: Code restructure failed: missing block: B:249:0x018d, code lost:
+        r10 = r16.placeProvider;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:228:0x0178, code lost:
-        if (r3.getSelectedCount() <= 1) goto L88;
+    /* JADX WARN: Code restructure failed: missing block: B:250:0x018f, code lost:
+        if (r10 == null) goto L94;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:229:0x017a, code lost:
-        r13.setTextAndIcon(org.telegram.messenger.LocaleController.getString(org.telegram.messenger.R.string.SendAsFiles), org.telegram.messenger.R.drawable.msg_sendfile);
+    /* JADX WARN: Code restructure failed: missing block: B:252:0x0195, code lost:
+        if (r10.getSelectedCount() <= 1) goto L94;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:230:0x0186, code lost:
-        r13.setTextAndIcon(org.telegram.messenger.LocaleController.getString(org.telegram.messenger.R.string.SendAsFile), org.telegram.messenger.R.drawable.msg_sendfile);
+    /* JADX WARN: Code restructure failed: missing block: B:253:0x0197, code lost:
+        r7.setTextAndIcon(org.telegram.messenger.LocaleController.getString(org.telegram.messenger.R.string.SendAsFiles), org.telegram.messenger.R.drawable.msg_sendfile);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:231:0x0191, code lost:
-        r13.setMinimumWidth(org.telegram.messenger.AndroidUtilities.dp(196.0f));
-        r13.setColors(-1, -1);
-        r16.sendPopupLayout.addView((android.view.View) r13, org.telegram.ui.Components.LayoutHelper.createLinear(-1, 48));
-        r13.setOnClickListener(new org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda54());
+    /* JADX WARN: Code restructure failed: missing block: B:254:0x01a3, code lost:
+        r7.setTextAndIcon(org.telegram.messenger.LocaleController.getString(org.telegram.messenger.R.string.SendAsFile), org.telegram.messenger.R.drawable.msg_sendfile);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:255:0x01ae, code lost:
+        r7.setMinimumWidth(org.telegram.messenger.AndroidUtilities.dp(196.0f));
+        r7.setColors(-1, -1);
+        r16.sendPopupLayout.addView((android.view.View) r7, org.telegram.ui.Components.LayoutHelper.createLinear(-1, 48));
+        r7.setOnClickListener(new org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda54());
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -7886,7 +7896,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         boolean z;
         ChatActivity chatActivity;
         PhotoViewerProvider photoViewerProvider2 = this.placeProvider;
-        boolean z2 = false;
         if ((photoViewerProvider2 == null || photoViewerProvider2.allowSendingSubmenu()) && this.sendPhotoType != 11) {
             BaseFragment baseFragment = this.parentFragment;
             if ((((baseFragment == null || baseFragment.getLastStoryViewer() == null) ? false : true) || !((chatActivity = this.parentChatActivity) == null || chatActivity.isInScheduleMode())) && !this.captionEdit.isCaptionOverLimit()) {
@@ -7912,12 +7921,14 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 this.sendPopupLayout.setShownFromBottom(false);
                 this.sendPopupLayout.setBackgroundColor(-115203550);
                 PhotoViewerProvider photoViewerProvider3 = this.placeProvider;
-                boolean z3 = photoViewerProvider3 != null && photoViewerProvider3.canReplace(this.currentIndex);
+                boolean z2 = photoViewerProvider3 != null && photoViewerProvider3.canEdit(this.currentIndex);
+                PhotoViewerProvider photoViewerProvider4 = this.placeProvider;
+                boolean z3 = photoViewerProvider4 != null && photoViewerProvider4.canReplace(this.currentIndex);
                 int[] iArr = {4, 3, 2, 0, 1};
                 int i = 0;
                 for (int i2 = 5; i < i2; i2 = 5) {
                     final int i3 = iArr[i];
-                    if ((i3 == 2 || i3 == 3 || !z3) && (i3 != 0 || this.parentChatActivity.canScheduleMessage())) {
+                    if ((i3 == 2 || i3 == 3 || !z2 || !z3) && ((i3 == 1 || !z2 || z3) && (i3 != 0 || this.parentChatActivity.canScheduleMessage()))) {
                         if (i3 != 0 || (photoViewerProvider = this.placeProvider) == null || photoViewerProvider.getSelectedPhotos() == null) {
                             if (i3 == 1) {
                             }
@@ -7939,10 +7950,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                             z = false;
                         }
                         i++;
-                        z2 = false;
                     }
                     i++;
-                    z2 = false;
                 }
                 if (this.sendPopupLayout.getChildCount() == 0) {
                     return false;
@@ -19170,12 +19179,14 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         final MessageObject messageObject;
         final boolean z;
         final boolean z2;
+        final boolean z3;
         ActionBarToggleParams enableStatusBarAnimation;
         if (canSendMediaToParentChatActivity()) {
             MessageObject messageObject2 = this.currentMessageObject;
             File file2 = null;
             if (messageObject2 != null) {
-                boolean z3 = messageObject2.canEditMedia() && !this.currentMessageObject.isDocument();
+                boolean z4 = messageObject2.canEditMedia() && !this.currentMessageObject.isDocument();
+                boolean z5 = z4 && this.currentMessageObject.isOutOwner();
                 boolean isVideo = this.currentMessageObject.isVideo();
                 if (!TextUtils.isEmpty(this.currentMessageObject.messageOwner.attachPath)) {
                     File file3 = new File(this.currentMessageObject.messageOwner.attachPath);
@@ -19188,13 +19199,15 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 }
                 messageObject = messageObject2;
                 file = file2;
-                z2 = z3;
+                z2 = z4;
+                z3 = z5;
                 z = isVideo;
             } else {
                 file = null;
                 messageObject = null;
                 z = false;
                 z2 = false;
+                z3 = false;
             }
             if (file != null && file.exists()) {
                 this.savedState = new SavedState(this.currentIndex, new ArrayList(this.imagesArr), this.placeProvider);
@@ -19202,7 +19215,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda82
                     @Override // java.lang.Runnable
                     public final void run() {
-                        PhotoViewer.this.lambda$openCurrentPhotoInPaintModeForSelect$93(file, z, messageObject, z2);
+                        PhotoViewer.this.lambda$openCurrentPhotoInPaintModeForSelect$93(file, z, messageObject, z2, z3);
                     }
                 }, enableStatusBarAnimation.animationDuration);
                 return;
@@ -19211,7 +19224,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         }
     }
 
-    public /* synthetic */ void lambda$openCurrentPhotoInPaintModeForSelect$93(File file, boolean z, final MessageObject messageObject, final boolean z2) {
+    public /* synthetic */ void lambda$openCurrentPhotoInPaintModeForSelect$93(File file, boolean z, final MessageObject messageObject, final boolean z2, final boolean z3) {
         Pair<Integer, Integer> imageOrientation = AndroidUtilities.getImageOrientation(file);
         int i = this.lastImageId;
         this.lastImageId = i - 1;
@@ -19233,10 +19246,10 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             }
 
             @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
-            public PlaceProviderObject getPlaceForPhoto(MessageObject messageObject2, TLRPC$FileLocation tLRPC$FileLocation, int i2, boolean z3) {
+            public PlaceProviderObject getPlaceForPhoto(MessageObject messageObject2, TLRPC$FileLocation tLRPC$FileLocation, int i2, boolean z4) {
                 PhotoViewerProvider photoViewerProvider2 = photoViewerProvider;
                 if (photoViewerProvider2 != null) {
-                    return photoViewerProvider2.getPlaceForPhoto(messageObject, null, 0, z3);
+                    return photoViewerProvider2.getPlaceForPhoto(messageObject, null, 0, z4);
                 }
                 return null;
             }
@@ -19247,8 +19260,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             }
 
             @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
-            public void sendButtonPressed(int i2, VideoEditedInfo videoEditedInfo, boolean z3, int i3, boolean z4) {
-                sendMedia(videoEditedInfo, z3, i3, false, z4);
+            public void sendButtonPressed(int i2, VideoEditedInfo videoEditedInfo, boolean z4, int i3, boolean z5) {
+                sendMedia(videoEditedInfo, z4, i3, false, z5);
             }
 
             @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
@@ -19260,8 +19273,13 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             }
 
             @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
-            public boolean canReplace(int i2) {
+            public boolean canEdit(int i2) {
                 return photoViewerProvider != null && z2;
+            }
+
+            @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
+            public boolean canReplace(int i2) {
+                return photoViewerProvider != null && z3;
             }
 
             @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
@@ -19269,9 +19287,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 return messageObject;
             }
 
-            private void sendMedia(VideoEditedInfo videoEditedInfo, boolean z3, int i2, boolean z4, boolean z5) {
+            private void sendMedia(VideoEditedInfo videoEditedInfo, boolean z4, int i2, boolean z5, boolean z6) {
                 if (PhotoViewer.this.parentChatActivity != null) {
-                    MessageObject messageObject2 = z4 ? messageObject : null;
+                    MessageObject messageObject2 = z5 ? messageObject : null;
                     if (messageObject2 != null && !TextUtils.isEmpty(orientation.caption)) {
                         MediaController.PhotoEntry photoEntry = orientation;
                         messageObject2.editingMessage = photoEntry.caption;
@@ -19287,7 +19305,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                             MessageObject threadMessage = PhotoViewer.this.parentChatActivity.getThreadMessage();
                             ChatActivity.ReplyQuote replyQuote = PhotoViewer.this.parentChatActivity.getReplyQuote();
                             MediaController.PhotoEntry photoEntry3 = orientation;
-                            SendMessagesHelper.prepareSendingVideo(accountInstance, str, videoEditedInfo, dialogId, replyMessage, threadMessage, null, replyQuote, photoEntry3.entities, photoEntry3.ttl, messageObject2, z3, i2, z5, photoEntry3.hasSpoiler, photoEntry3.caption, PhotoViewer.this.parentChatActivity.quickReplyShortcut, PhotoViewer.this.parentChatActivity.getQuickReplyId(), 0L);
+                            SendMessagesHelper.prepareSendingVideo(accountInstance, str, videoEditedInfo, dialogId, replyMessage, threadMessage, null, replyQuote, photoEntry3.entities, photoEntry3.ttl, messageObject2, z4, i2, z6, photoEntry3.hasSpoiler, photoEntry3.caption, PhotoViewer.this.parentChatActivity.quickReplyShortcut, PhotoViewer.this.parentChatActivity.getQuickReplyId(), 0L);
                             return;
                         }
                         AccountInstance accountInstance2 = PhotoViewer.this.parentChatActivity.getAccountInstance();
@@ -19297,7 +19315,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         MessageObject threadMessage2 = PhotoViewer.this.parentChatActivity.getThreadMessage();
                         ChatActivity.ReplyQuote replyQuote2 = PhotoViewer.this.parentChatActivity.getReplyQuote();
                         MediaController.PhotoEntry photoEntry4 = orientation;
-                        SendMessagesHelper.prepareSendingVideo(accountInstance2, str2, null, dialogId2, replyMessage2, threadMessage2, null, replyQuote2, photoEntry4.entities, photoEntry4.ttl, messageObject2, z3, i2, z5, photoEntry4.hasSpoiler, photoEntry4.caption, PhotoViewer.this.parentChatActivity.quickReplyShortcut, PhotoViewer.this.parentChatActivity.getQuickReplyId(), 0L);
+                        SendMessagesHelper.prepareSendingVideo(accountInstance2, str2, null, dialogId2, replyMessage2, threadMessage2, null, replyQuote2, photoEntry4.entities, photoEntry4.ttl, messageObject2, z4, i2, z6, photoEntry4.hasSpoiler, photoEntry4.caption, PhotoViewer.this.parentChatActivity.quickReplyShortcut, PhotoViewer.this.parentChatActivity.getQuickReplyId(), 0L);
                     } else if (photoEntry2.imagePath != null) {
                         AccountInstance accountInstance3 = PhotoViewer.this.parentChatActivity.getAccountInstance();
                         MediaController.PhotoEntry photoEntry5 = orientation;
@@ -19308,7 +19326,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         MessageObject threadMessage3 = PhotoViewer.this.parentChatActivity.getThreadMessage();
                         ChatActivity.ReplyQuote replyQuote3 = PhotoViewer.this.parentChatActivity.getReplyQuote();
                         MediaController.PhotoEntry photoEntry6 = orientation;
-                        SendMessagesHelper.prepareSendingPhoto(accountInstance3, str3, str4, null, dialogId3, replyMessage3, threadMessage3, null, replyQuote3, photoEntry6.entities, photoEntry6.stickers, null, photoEntry6.ttl, messageObject2, videoEditedInfo, z3, i2, 0, z5, photoEntry6.caption, PhotoViewer.this.parentChatActivity.quickReplyShortcut, PhotoViewer.this.parentChatActivity.getQuickReplyId(), 0L);
+                        SendMessagesHelper.prepareSendingPhoto(accountInstance3, str3, str4, null, dialogId3, replyMessage3, threadMessage3, null, replyQuote3, photoEntry6.entities, photoEntry6.stickers, null, photoEntry6.ttl, messageObject2, videoEditedInfo, z4, i2, 0, z6, photoEntry6.caption, PhotoViewer.this.parentChatActivity.quickReplyShortcut, PhotoViewer.this.parentChatActivity.getQuickReplyId(), 0L);
                     } else if (photoEntry2.path != null) {
                         AccountInstance accountInstance4 = PhotoViewer.this.parentChatActivity.getAccountInstance();
                         MediaController.PhotoEntry photoEntry7 = orientation;
@@ -19319,7 +19337,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         MessageObject threadMessage4 = PhotoViewer.this.parentChatActivity.getThreadMessage();
                         ChatActivity.ReplyQuote replyQuote4 = PhotoViewer.this.parentChatActivity.getReplyQuote();
                         MediaController.PhotoEntry photoEntry8 = orientation;
-                        SendMessagesHelper.prepareSendingPhoto(accountInstance4, str5, str6, null, dialogId4, replyMessage4, threadMessage4, null, replyQuote4, photoEntry8.entities, photoEntry8.stickers, null, photoEntry8.ttl, messageObject2, videoEditedInfo, z3, i2, 0, z5, photoEntry8.caption, PhotoViewer.this.parentChatActivity.quickReplyShortcut, PhotoViewer.this.parentChatActivity.getQuickReplyId(), 0L);
+                        SendMessagesHelper.prepareSendingPhoto(accountInstance4, str5, str6, null, dialogId4, replyMessage4, threadMessage4, null, replyQuote4, photoEntry8.entities, photoEntry8.stickers, null, photoEntry8.ttl, messageObject2, videoEditedInfo, z4, i2, 0, z6, photoEntry8.caption, PhotoViewer.this.parentChatActivity.quickReplyShortcut, PhotoViewer.this.parentChatActivity.getQuickReplyId(), 0L);
                     }
                 }
             }

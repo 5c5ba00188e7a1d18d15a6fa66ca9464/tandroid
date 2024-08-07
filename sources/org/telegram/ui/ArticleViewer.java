@@ -4816,11 +4816,11 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             if (uriParseSafe != null && uriParseSafe.getScheme() == null && uriParseSafe.getHost() == null && uriParseSafe.getPath() != null) {
                 str = Browser.replace(uriParseSafe, "https", uriParseSafe.getPath(), "/");
             }
-            pageLayout.getWebView().lambda$loadUrl$2(str);
+            pageLayout.getWebView().loadUrl(str);
             return;
         }
         AddressBarList.pushRecentSearch(activity, str);
-        pageLayout.getWebView().lambda$loadUrl$2(SearchEngine.getCurrent().getSearchURL(str));
+        pageLayout.getWebView().loadUrl(SearchEngine.getCurrent().getSearchURL(str));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -4864,11 +4864,11 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             if (uriParseSafe.getScheme() == null && uriParseSafe.getHost() == null && uriParseSafe.getPath() != null) {
                 str = Browser.replace(uriParseSafe, "https", uriParseSafe.getPath(), "/");
             }
-            pageLayout.getWebView().lambda$loadUrl$2(str);
+            pageLayout.getWebView().loadUrl(str);
             return;
         }
         AddressBarList.pushRecentSearch(activity, str);
-        pageLayout.getWebView().lambda$loadUrl$2(SearchEngine.getCurrent().getSearchURL(str));
+        pageLayout.getWebView().loadUrl(SearchEngine.getCurrent().getSearchURL(str));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -5495,7 +5495,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             if (pageLayoutArr[0] == null || pageLayoutArr[0].getWebView() == null) {
                 Browser.openInTelegramBrowser(this.parentActivity, str, null);
             } else {
-                this.pages[0].getWebView().lambda$loadUrl$2(str);
+                this.pages[0].getWebView().loadUrl(str);
             }
         }
     }
@@ -5509,7 +5509,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         if (pageLayoutArr[0] == null || pageLayoutArr[0].getWebView() == null) {
             Browser.openInTelegramBrowser(this.parentActivity, entry.url, null);
         } else {
-            this.pages[0].getWebView().lambda$loadUrl$4(entry.url, entry.meta);
+            this.pages[0].getWebView().loadUrl(entry.url, entry.meta);
         }
     }
 
@@ -14756,7 +14756,6 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     public class PageLayout extends FrameLayout {
         public final WebpageAdapter adapter;
         public boolean backButton;
-        public DangerousContainer dangerousContainer;
         private boolean dangerousShown;
         public ErrorContainer errorContainer;
         private boolean errorShown;
@@ -14883,21 +14882,86 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             webViewSwipeContainer.setShouldWaitWebViewScroll(true);
             webViewSwipeContainer.setFullSize(true);
             webViewSwipeContainer.setAllowFullSizeSwipe(true);
-            4 r14 = new 4(getContext(), resourcesProvider, ArticleViewer.this.getThemedColor(Theme.key_windowBackgroundWhite), false, ArticleViewer.this);
-            this.webViewContainer = r14;
-            r14.setOnCloseRequestedListener(new Runnable() { // from class: org.telegram.ui.ArticleViewer$PageLayout$$ExternalSyntheticLambda4
+            BotWebViewContainer botWebViewContainer = new BotWebViewContainer(getContext(), resourcesProvider, ArticleViewer.this.getThemedColor(Theme.key_windowBackgroundWhite), false, ArticleViewer.this) { // from class: org.telegram.ui.ArticleViewer.PageLayout.4
+                @Override // org.telegram.ui.web.BotWebViewContainer
+                public void onWebViewCreated() {
+                    super.onWebViewCreated();
+                    PageLayout pageLayout = PageLayout.this;
+                    pageLayout.swipeContainer.setWebView(pageLayout.webViewContainer.getWebView());
+                }
+
+                @Override // org.telegram.ui.web.BotWebViewContainer
+                protected void onURLChanged(String str, boolean z, boolean z2) {
+                    PageLayout pageLayout = PageLayout.this;
+                    boolean z3 = true;
+                    pageLayout.backButton = !z;
+                    pageLayout.forwardButton = !z2;
+                    ArticleViewer.this.updateTitle(true);
+                    PageLayout pageLayout2 = PageLayout.this;
+                    ArticleViewer articleViewer = ArticleViewer.this;
+                    if (pageLayout2 != articleViewer.pages[0] || articleViewer.actionBar.isAddressing() || ArticleViewer.this.actionBar.isSearching() || ArticleViewer.this.windowView.movingPage || ArticleViewer.this.windowView.openingPage) {
+                        return;
+                    }
+                    if (ArticleViewer.this.isFirstArticle() || ArticleViewer.this.pagesStack.size() > 1) {
+                        BackDrawable backDrawable = ArticleViewer.this.actionBar.backButtonDrawable;
+                        PageLayout pageLayout3 = PageLayout.this;
+                        backDrawable.setRotation((pageLayout3.backButton || ArticleViewer.this.pagesStack.size() > 1) ? 0.0f : 1.0f, true);
+                        WebActionBar webActionBar = ArticleViewer.this.actionBar;
+                        PageLayout pageLayout4 = PageLayout.this;
+                        webActionBar.setBackButtonCached(pageLayout4.backButton || ArticleViewer.this.pagesStack.size() > 1);
+                        ArticleViewer.this.actionBar.forwardButtonDrawable.setState(false);
+                    } else {
+                        ArticleViewer.this.actionBar.setBackButtonCached(false);
+                        ArticleViewer.this.actionBar.forwardButtonDrawable.setState(false);
+                    }
+                    ArticleViewer.this.actionBar.setHasForward(PageLayout.this.forwardButton);
+                    WebActionBar webActionBar2 = ArticleViewer.this.actionBar;
+                    PageLayout[] pageLayoutArr = ArticleViewer.this.pages;
+                    webActionBar2.setIsTonsite((pageLayoutArr[0] == null || !pageLayoutArr[0].isTonsite()) ? false : false);
+                }
+
+                @Override // org.telegram.ui.web.BotWebViewContainer
+                protected void onTitleChanged(String str) {
+                    ArticleViewer.this.updateTitle(true);
+                }
+
+                @Override // org.telegram.ui.web.BotWebViewContainer
+                protected void onFaviconChanged(Bitmap bitmap) {
+                    super.onFaviconChanged(bitmap);
+                }
+
+                @Override // org.telegram.ui.web.BotWebViewContainer
+                protected void onErrorShown(boolean z, int i2, String str) {
+                    if (z) {
+                        PageLayout.this.createErrorContainer();
+                        PageLayout.this.errorContainer.set(getWebView() != null ? getWebView().getUrl() : null, PageLayout.this.errorShownCode = i2, PageLayout.this.errorShownDescription = str);
+                        PageLayout pageLayout = PageLayout.this;
+                        ErrorContainer errorContainer = pageLayout.errorContainer;
+                        ArticleViewer articleViewer = ArticleViewer.this;
+                        int i3 = Theme.key_iv_background;
+                        errorContainer.setDark(AndroidUtilities.computePerceivedBrightness(articleViewer.getThemedColor(i3)) <= 0.721f, false);
+                        PageLayout pageLayout2 = PageLayout.this;
+                        pageLayout2.errorContainer.setBackgroundColor(ArticleViewer.this.getThemedColor(i3));
+                    }
+                    PageLayout pageLayout3 = PageLayout.this;
+                    AndroidUtilities.updateViewVisibilityAnimated(pageLayout3.errorContainer, pageLayout3.errorShown = z, 1.0f, false);
+                    invalidate();
+                }
+            };
+            this.webViewContainer = botWebViewContainer;
+            botWebViewContainer.setOnCloseRequestedListener(new Runnable() { // from class: org.telegram.ui.ArticleViewer$PageLayout$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
                     ArticleViewer.PageLayout.this.lambda$new$0();
                 }
             });
-            r14.setWebViewProgressListener(new Consumer() { // from class: org.telegram.ui.ArticleViewer$PageLayout$$ExternalSyntheticLambda2
+            botWebViewContainer.setWebViewProgressListener(new Consumer() { // from class: org.telegram.ui.ArticleViewer$PageLayout$$ExternalSyntheticLambda1
                 @Override // androidx.core.util.Consumer
                 public final void accept(Object obj) {
                     ArticleViewer.PageLayout.this.lambda$new$1((Float) obj);
                 }
             });
-            r14.setDelegate(new BotWebViewContainer.Delegate(ArticleViewer.this) { // from class: org.telegram.ui.ArticleViewer.PageLayout.5
+            botWebViewContainer.setDelegate(new BotWebViewContainer.Delegate(ArticleViewer.this) { // from class: org.telegram.ui.ArticleViewer.PageLayout.5
                 @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
                 public /* synthetic */ boolean isClipboardAvailable() {
                     return BotWebViewContainer.Delegate.-CC.$default$isClipboardAvailable(this);
@@ -14987,26 +15051,26 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     PageLayout.this.setWebBgColor(z, i2);
                 }
             });
-            r14.setWebViewScrollListener(new BotWebViewContainer.WebViewScrollListener(ArticleViewer.this) { // from class: org.telegram.ui.ArticleViewer.PageLayout.6
+            botWebViewContainer.setWebViewScrollListener(new BotWebViewContainer.WebViewScrollListener(ArticleViewer.this) { // from class: org.telegram.ui.ArticleViewer.PageLayout.6
                 @Override // org.telegram.ui.web.BotWebViewContainer.WebViewScrollListener
                 public void onWebViewScrolled(WebView webView, int i2, int i3) {
                     ArticleViewer.this.updatePages();
                 }
             });
-            webViewSwipeContainer.addView(r14, LayoutHelper.createFrame(-1, -1.0f));
-            webViewSwipeContainer.setScrollEndListener(new Runnable() { // from class: org.telegram.ui.ArticleViewer$PageLayout$$ExternalSyntheticLambda5
+            webViewSwipeContainer.addView(botWebViewContainer, LayoutHelper.createFrame(-1, -1.0f));
+            webViewSwipeContainer.setScrollEndListener(new Runnable() { // from class: org.telegram.ui.ArticleViewer$PageLayout$$ExternalSyntheticLambda4
                 @Override // java.lang.Runnable
                 public final void run() {
                     ArticleViewer.PageLayout.this.lambda$new$2();
                 }
             });
-            webViewSwipeContainer.setDelegate(new ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer.Delegate() { // from class: org.telegram.ui.ArticleViewer$PageLayout$$ExternalSyntheticLambda6
+            webViewSwipeContainer.setDelegate(new ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer.Delegate() { // from class: org.telegram.ui.ArticleViewer$PageLayout$$ExternalSyntheticLambda5
                 @Override // org.telegram.ui.bots.ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer.Delegate
                 public final void onDismiss() {
                     ArticleViewer.PageLayout.this.lambda$new$3();
                 }
             });
-            webViewSwipeContainer.setScrollListener(new Runnable() { // from class: org.telegram.ui.ArticleViewer$PageLayout$$ExternalSyntheticLambda3
+            webViewSwipeContainer.setScrollListener(new Runnable() { // from class: org.telegram.ui.ArticleViewer$PageLayout$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     ArticleViewer.PageLayout.this.lambda$new$4();
@@ -15020,102 +15084,6 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             addView(webViewSwipeContainer, LayoutHelper.createFrame(-1, -1.0f));
             cleanup();
             setType(0);
-        }
-
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
-        public class 4 extends BotWebViewContainer {
-            4(Context context, Theme.ResourcesProvider resourcesProvider, int i, boolean z, ArticleViewer articleViewer) {
-                super(context, resourcesProvider, i, z);
-            }
-
-            @Override // org.telegram.ui.web.BotWebViewContainer
-            public void onWebViewCreated() {
-                super.onWebViewCreated();
-                PageLayout pageLayout = PageLayout.this;
-                pageLayout.swipeContainer.setWebView(pageLayout.webViewContainer.getWebView());
-            }
-
-            @Override // org.telegram.ui.web.BotWebViewContainer
-            protected void onURLChanged(String str, boolean z, boolean z2) {
-                PageLayout pageLayout = PageLayout.this;
-                boolean z3 = true;
-                pageLayout.backButton = !z;
-                pageLayout.forwardButton = !z2;
-                ArticleViewer.this.updateTitle(true);
-                PageLayout pageLayout2 = PageLayout.this;
-                ArticleViewer articleViewer = ArticleViewer.this;
-                if (pageLayout2 != articleViewer.pages[0] || articleViewer.actionBar.isAddressing() || ArticleViewer.this.actionBar.isSearching() || ArticleViewer.this.windowView.movingPage || ArticleViewer.this.windowView.openingPage) {
-                    return;
-                }
-                if (ArticleViewer.this.isFirstArticle() || ArticleViewer.this.pagesStack.size() > 1) {
-                    BackDrawable backDrawable = ArticleViewer.this.actionBar.backButtonDrawable;
-                    PageLayout pageLayout3 = PageLayout.this;
-                    backDrawable.setRotation((pageLayout3.backButton || ArticleViewer.this.pagesStack.size() > 1) ? 0.0f : 1.0f, true);
-                    WebActionBar webActionBar = ArticleViewer.this.actionBar;
-                    PageLayout pageLayout4 = PageLayout.this;
-                    webActionBar.setBackButtonCached(pageLayout4.backButton || ArticleViewer.this.pagesStack.size() > 1);
-                    ArticleViewer.this.actionBar.forwardButtonDrawable.setState(false);
-                } else {
-                    ArticleViewer.this.actionBar.setBackButtonCached(false);
-                    ArticleViewer.this.actionBar.forwardButtonDrawable.setState(false);
-                }
-                ArticleViewer.this.actionBar.setHasForward(PageLayout.this.forwardButton);
-                WebActionBar webActionBar2 = ArticleViewer.this.actionBar;
-                PageLayout[] pageLayoutArr = ArticleViewer.this.pages;
-                webActionBar2.setIsTonsite((pageLayoutArr[0] == null || !pageLayoutArr[0].isTonsite()) ? false : false);
-            }
-
-            @Override // org.telegram.ui.web.BotWebViewContainer
-            protected void onTitleChanged(String str) {
-                ArticleViewer.this.updateTitle(true);
-            }
-
-            @Override // org.telegram.ui.web.BotWebViewContainer
-            protected void onFaviconChanged(Bitmap bitmap) {
-                super.onFaviconChanged(bitmap);
-            }
-
-            @Override // org.telegram.ui.web.BotWebViewContainer
-            protected void onErrorShown(boolean z, int i, String str) {
-                if (z) {
-                    PageLayout.this.createErrorContainer();
-                    PageLayout.this.errorContainer.set(getWebView() != null ? getWebView().getUrl() : null, PageLayout.this.errorShownCode = i, PageLayout.this.errorShownDescription = str);
-                    PageLayout pageLayout = PageLayout.this;
-                    ErrorContainer errorContainer = pageLayout.errorContainer;
-                    ArticleViewer articleViewer = ArticleViewer.this;
-                    int i2 = Theme.key_iv_background;
-                    errorContainer.setDark(AndroidUtilities.computePerceivedBrightness(articleViewer.getThemedColor(i2)) <= 0.721f, false);
-                    PageLayout pageLayout2 = PageLayout.this;
-                    pageLayout2.errorContainer.setBackgroundColor(ArticleViewer.this.getThemedColor(i2));
-                }
-                PageLayout pageLayout3 = PageLayout.this;
-                AndroidUtilities.updateViewVisibilityAnimated(pageLayout3.errorContainer, pageLayout3.errorShown = z, 1.0f, false);
-                invalidate();
-            }
-
-            @Override // org.telegram.ui.web.BotWebViewContainer
-            protected void onDangerousTriggered(final BotWebViewContainer.DangerousWebWarning dangerousWebWarning) {
-                PageLayout.this.createDangerousContainer();
-                if (dangerousWebWarning != null) {
-                    PageLayout.this.dangerousContainer.set(dangerousWebWarning.url, dangerousWebWarning.threatType, dangerousWebWarning.proceed);
-                    PageLayout.this.dangerousContainer.buttonView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ArticleViewer$PageLayout$4$$ExternalSyntheticLambda0
-                        @Override // android.view.View.OnClickListener
-                        public final void onClick(View view) {
-                            ArticleViewer.PageLayout.4.this.lambda$onDangerousTriggered$0(dangerousWebWarning, view);
-                        }
-                    });
-                }
-                PageLayout pageLayout = PageLayout.this;
-                AndroidUtilities.updateViewVisibilityAnimated(pageLayout.dangerousContainer, pageLayout.dangerousShown = dangerousWebWarning != null, 1.0f, false);
-                invalidate();
-            }
-
-            /* JADX INFO: Access modifiers changed from: private */
-            public /* synthetic */ void lambda$onDangerousTriggered$0(BotWebViewContainer.DangerousWebWarning dangerousWebWarning, View view) {
-                PageLayout.this.dangerousContainer.buttonView.setOnClickListener(null);
-                dangerousWebWarning.back.run();
-            }
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -15161,10 +15129,6 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             ErrorContainer errorContainer = this.errorContainer;
             if (errorContainer != null) {
                 errorContainer.layout.setTranslationY((((-this.swipeContainer.getOffsetY()) + this.swipeContainer.getTopActionBarOffsetY()) - this.swipeContainer.getSwipeOffsetY()) / 2.0f);
-            }
-            DangerousContainer dangerousContainer = this.dangerousContainer;
-            if (dangerousContainer != null) {
-                dangerousContainer.layout.setTranslationY((((-this.swipeContainer.getOffsetY()) + this.swipeContainer.getTopActionBarOffsetY()) - this.swipeContainer.getSwipeOffsetY()) / 2.0f);
             }
             ArticleViewer.this.updatePages();
         }
@@ -15212,45 +15176,12 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     }
                 });
                 AndroidUtilities.updateViewVisibilityAnimated(this.errorContainer, this.errorShown, 1.0f, false);
-                DangerousContainer dangerousContainer = this.dangerousContainer;
-                if (dangerousContainer != null) {
-                    dangerousContainer.bringToFront();
-                }
             }
             return this.errorContainer;
         }
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$createErrorContainer$5(View view) {
-            BotWebViewContainer.MyWebView webView = this.webViewContainer.getWebView();
-            if (webView != null) {
-                webView.reload();
-            }
-        }
-
-        public DangerousContainer createDangerousContainer() {
-            if (this.dangerousContainer == null) {
-                ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer webViewSwipeContainer = this.swipeContainer;
-                DangerousContainer dangerousContainer = new DangerousContainer(getContext());
-                this.dangerousContainer = dangerousContainer;
-                webViewSwipeContainer.addView(dangerousContainer, LayoutHelper.createFrame(-1, -1.0f));
-                this.dangerousContainer.buttonView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ArticleViewer$PageLayout$$ExternalSyntheticLambda1
-                    @Override // android.view.View.OnClickListener
-                    public final void onClick(View view) {
-                        ArticleViewer.PageLayout.this.lambda$createDangerousContainer$6(view);
-                    }
-                });
-                AndroidUtilities.updateViewVisibilityAnimated(this.dangerousContainer, this.dangerousShown, 1.0f, false);
-                DangerousContainer dangerousContainer2 = this.dangerousContainer;
-                if (dangerousContainer2 != null) {
-                    dangerousContainer2.bringToFront();
-                }
-            }
-            return this.dangerousContainer;
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$createDangerousContainer$6(View view) {
             BotWebViewContainer.MyWebView webView = this.webViewContainer.getWebView();
             if (webView != null) {
                 webView.reload();
@@ -15549,11 +15480,6 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 ErrorContainer errorContainer2 = this.errorContainer;
                 this.errorShown = false;
                 AndroidUtilities.updateViewVisibilityAnimated(errorContainer2, false, 1.0f, false);
-            }
-            DangerousContainer dangerousContainer = this.dangerousContainer;
-            if (dangerousContainer != null) {
-                this.dangerousShown = false;
-                AndroidUtilities.updateViewVisibilityAnimated(dangerousContainer, false, 1.0f, false);
             }
             this.adapter.cleanup();
             invalidate();
@@ -16621,127 +16547,6 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             }
             this.imageViewSet = true;
             MediaDataController.getInstance(UserConfig.selectedAccount).setPlaceholderImage(this.imageView, AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME, "🧐", "100_100");
-        }
-    }
-
-    /* loaded from: classes4.dex */
-    public static class DangerousContainer extends FrameLayout {
-        private final ButtonWithCounterView buttonView;
-        private final TextView codeView;
-        private final TextView descriptionView;
-        private final ButtonWithCounterView detailsButtonView;
-        private final LinkSpanDrawable.LinksTextView detailsDescriptionView;
-        private final BackupImageView imageView;
-        private boolean imageViewSet;
-        public final LinearLayout layout;
-        private final TextView titleView;
-
-        public DangerousContainer(Context context) {
-            super(context);
-            setVisibility(8);
-            setBackgroundColor(-5036514);
-            LinearLayout linearLayout = new LinearLayout(context);
-            this.layout = linearLayout;
-            linearLayout.setPadding(AndroidUtilities.dp(42.0f), AndroidUtilities.dp(24.0f), AndroidUtilities.dp(42.0f), AndroidUtilities.dp(24.0f));
-            linearLayout.setOrientation(1);
-            linearLayout.setGravity(3);
-            addView(linearLayout, LayoutHelper.createFrame(-1, -2, 17));
-            BackupImageView backupImageView = new BackupImageView(context);
-            this.imageView = backupImageView;
-            linearLayout.addView(backupImageView, LayoutHelper.createLinear((int) ImageReceiver.DEFAULT_CROSSFADE_DURATION, (int) ImageReceiver.DEFAULT_CROSSFADE_DURATION));
-            TextView textView = new TextView(context);
-            this.titleView = textView;
-            textView.setTextSize(1, 20.0f);
-            textView.setTypeface(AndroidUtilities.bold());
-            textView.setTextColor(-1);
-            linearLayout.addView(textView, LayoutHelper.createLinear(-2, -2, 3, 0, 10, 0, 8));
-            TextView textView2 = new TextView(context);
-            this.descriptionView = textView2;
-            textView2.setTextSize(1, 13.0f);
-            textView2.setTextColor(-1);
-            textView2.setSingleLine(false);
-            textView2.setMaxLines(15);
-            linearLayout.addView(textView2, LayoutHelper.createLinear(-2, -2, 3, 0, 0, 0, 1));
-            TextView textView3 = new TextView(context);
-            this.codeView = textView3;
-            textView3.setTextSize(1, 11.0f);
-            textView3.setTextColor(-1);
-            textView3.setAlpha(0.4f);
-            linearLayout.addView(textView3, LayoutHelper.createLinear(-2, -2, 3));
-            ButtonWithCounterView buttonWithCounterView = new ButtonWithCounterView(context, null);
-            this.buttonView = buttonWithCounterView;
-            buttonWithCounterView.setColor(-1152913);
-            buttonWithCounterView.setMinWidth(AndroidUtilities.dp(140.0f));
-            buttonWithCounterView.setText(LocaleController.getString(R.string.WebDangerousBackButton), false);
-            linearLayout.addView(buttonWithCounterView, LayoutHelper.createLinear(-2, 40, 3, 0, 12, 0, 0));
-            ButtonWithCounterView buttonWithCounterView2 = new ButtonWithCounterView(context, false, null);
-            this.detailsButtonView = buttonWithCounterView2;
-            buttonWithCounterView2.setTextColor(Theme.multAlpha(-1, 0.5f));
-            buttonWithCounterView2.rippleView.setBackground(Theme.createRadSelectorDrawable(Theme.multAlpha(-1, 0.1f), 8, 8));
-            buttonWithCounterView2.setMinWidth(AndroidUtilities.dp(140.0f));
-            buttonWithCounterView2.setText(LocaleController.getString(R.string.WebDangerousDetailsButton), false);
-            linearLayout.addView(buttonWithCounterView2, LayoutHelper.createLinear(-2, 40, 3, 0, 6, 0, 8));
-            LinkSpanDrawable.LinksTextView linksTextView = new LinkSpanDrawable.LinksTextView(this, context) { // from class: org.telegram.ui.ArticleViewer.DangerousContainer.1
-                @Override // org.telegram.ui.Components.LinkSpanDrawable.LinksTextView
-                public int overrideColor() {
-                    return Theme.multAlpha(-1, 0.25f);
-                }
-            };
-            this.detailsDescriptionView = linksTextView;
-            linksTextView.setTextSize(1, 13.0f);
-            linksTextView.setTextColor(-1);
-            linksTextView.setLinkTextColor(-1);
-            linksTextView.setSingleLine(false);
-            linksTextView.setMaxLines(15);
-            linksTextView.setVisibility(4);
-            linearLayout.addView(linksTextView, LayoutHelper.createLinear(-2, -2, 3, 0, 0, 0, 1));
-        }
-
-        public void set(String str, String str2, final Runnable runnable) {
-            this.titleView.setText(LocaleController.getString(R.string.WebDangerousTitle));
-            this.descriptionView.setText(LocaleController.getString(R.string.WebDangerousInfo));
-            this.codeView.setText(str2);
-            if (runnable == null) {
-                this.detailsButtonView.setVisibility(8);
-                this.detailsDescriptionView.setVisibility(8);
-                return;
-            }
-            this.detailsButtonView.setVisibility(0);
-            this.detailsDescriptionView.setVisibility(4);
-            this.detailsDescriptionView.setText(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.WebDangerousDetails), -1, 4, new Runnable() { // from class: org.telegram.ui.ArticleViewer$DangerousContainer$$ExternalSyntheticLambda1
-                @Override // java.lang.Runnable
-                public final void run() {
-                    runnable.run();
-                }
-            }));
-            this.detailsButtonView.setText(LocaleController.getString(R.string.WebDangerousDetailsButton), false);
-            this.detailsButtonView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ArticleViewer$DangerousContainer$$ExternalSyntheticLambda0
-                @Override // android.view.View.OnClickListener
-                public final void onClick(View view) {
-                    ArticleViewer.DangerousContainer.this.lambda$set$1(view);
-                }
-            });
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$set$1(View view) {
-            if (this.detailsDescriptionView.getVisibility() == 0) {
-                this.detailsDescriptionView.setVisibility(4);
-                this.detailsButtonView.setText(LocaleController.getString(R.string.WebDangerousDetailsButton), true);
-                return;
-            }
-            this.detailsDescriptionView.setVisibility(0);
-            this.detailsButtonView.setText(LocaleController.getString(R.string.WebDangerousHideDetailsButton), true);
-        }
-
-        @Override // android.view.View
-        public void setVisibility(int i) {
-            super.setVisibility(i);
-            if (i != 0 || this.imageViewSet) {
-                return;
-            }
-            this.imageViewSet = true;
-            MediaDataController.getInstance(UserConfig.selectedAccount).setPlaceholderImage(this.imageView, AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME_2, "🛡", "150_150");
         }
     }
 

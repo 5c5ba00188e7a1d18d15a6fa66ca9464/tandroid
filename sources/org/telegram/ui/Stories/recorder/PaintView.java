@@ -1631,11 +1631,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
         Point startPositionRelativeToEntity = startPositionRelativeToEntity(null);
         float measuredWidth = this.entitiesView.getMeasuredWidth() <= 0 ? this.w : this.entitiesView.getMeasuredWidth();
         int dp = ((int) measuredWidth) - AndroidUtilities.dp(58.0f);
-        Context context = getContext();
-        int i = this.currentAccount;
-        float f = measuredWidth / 360.0f;
-        Swatch swatch = this.colorSwatch;
-        LinkView linkView = new LinkView(context, startPositionRelativeToEntity, i, webPagePreview, tL_stories$MediaArea, f, dp, 3, swatch == null ? -1 : swatch.color);
+        LinkView linkView = new LinkView(getContext(), startPositionRelativeToEntity, this.currentAccount, webPagePreview, tL_stories$MediaArea, measuredWidth / 360.0f, dp, 3);
         if (startPositionRelativeToEntity.x == this.entitiesView.getMeasuredWidth() / 2.0f) {
             linkView.setStickyX(2);
         }
@@ -1798,7 +1794,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
                     weatherView.setType((weatherView.getType() + 1) % weatherView.getTypesCount());
                 } else if (entityView instanceof LinkView) {
                     LinkView linkView = (LinkView) entityView;
-                    linkView.setType((linkView.getType() + 1) % 4);
+                    linkView.setType(linkView.getNextType());
                 } else if (!this.editingText) {
                     if (entityView instanceof TextPaintView) {
                         this.enteredThroughText = true;
@@ -3014,9 +3010,13 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
                     }
                 } else if (b == 7) {
                     LinkView createLinkSticker = createLinkSticker(mediaEntity.linkSettings, mediaEntity.mediaArea, false);
+                    int i5 = mediaEntity.color;
+                    if (i5 != 0) {
+                        createLinkSticker.setColor(i5);
+                    }
                     byte b2 = mediaEntity.subType;
                     if (b2 == -1) {
-                        createLinkSticker.setType(3, mediaEntity.color);
+                        createLinkSticker.setType(3);
                         createLinkSticker.marker.setupLayout();
                         int ceil = createLinkSticker.marker.padx + ((int) Math.ceil(linkPreview.w));
                         LinkPreview linkPreview2 = createLinkSticker.marker;
@@ -3026,7 +3026,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
                         position.y += this.h * 0.3f;
                         createLinkSticker.setPosition(position);
                     } else {
-                        createLinkSticker.setType(b2, mediaEntity.color);
+                        createLinkSticker.setType(b2);
                         roundView = createLinkSticker;
                     }
                 } else if (b == 4) {
@@ -3191,10 +3191,10 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
     }
 
     /* JADX WARN: Removed duplicated region for block: B:16:0x0059  */
-    /* JADX WARN: Removed duplicated region for block: B:190:0x0583  */
-    /* JADX WARN: Removed duplicated region for block: B:195:0x071a  */
-    /* JADX WARN: Removed duplicated region for block: B:196:0x07db  */
-    /* JADX WARN: Removed duplicated region for block: B:239:0x09ae  */
+    /* JADX WARN: Removed duplicated region for block: B:194:0x058b  */
+    /* JADX WARN: Removed duplicated region for block: B:199:0x0722  */
+    /* JADX WARN: Removed duplicated region for block: B:200:0x07e3  */
+    /* JADX WARN: Removed duplicated region for block: B:243:0x09b6  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3536,7 +3536,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
                                         mediaEntity.subType = (byte) linkView2.getType();
                                         mediaEntity.width = linkView2.marker.getWidth();
                                         mediaEntity.height = linkView2.marker.getHeight();
-                                        mediaEntity.color = linkView2.getColor();
+                                        mediaEntity.color = linkView2.hasColor() ? linkView2.getColor() : 0;
                                         LinkPreview linkPreview = linkView2.marker;
                                         mediaEntity.density = linkPreview.density;
                                         mediaEntity.linkSettings = linkView2.link;
@@ -4176,8 +4176,9 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
         } else if (z2 && (entityView instanceof WeatherView)) {
             ((WeatherView) entityView).setColor(swatch.color);
             ((WeatherView) this.currentEntityView).setType(3);
-        } else if (entityView instanceof LinkView) {
+        } else if (z2 && (entityView instanceof LinkView)) {
             ((LinkView) entityView).setColor(swatch.color);
+            ((LinkView) this.currentEntityView).setType(0);
         }
     }
 

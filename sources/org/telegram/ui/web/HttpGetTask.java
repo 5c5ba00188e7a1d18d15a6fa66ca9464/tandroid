@@ -18,11 +18,6 @@ public class HttpGetTask extends AsyncTask<String, Void, String> {
         this.callback = callback;
     }
 
-    public HttpGetTask setHeader(String str, String str2) {
-        this.headers.put(str, str2);
-        return this;
-    }
-
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.os.AsyncTask
     public String doInBackground(String... strArr) {
