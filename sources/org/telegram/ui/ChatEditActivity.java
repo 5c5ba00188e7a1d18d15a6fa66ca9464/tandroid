@@ -103,7 +103,6 @@ import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Cells.RadioButtonCell;
 import org.telegram.ui.Cells.ShadowSectionCell;
 import org.telegram.ui.Cells.TextCell;
-import org.telegram.ui.Cells.TextCheckCell;
 import org.telegram.ui.Cells.TextDetailCell;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Cells.TextSettingsCell;
@@ -189,8 +188,6 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
     private LinearLayout settingsContainer;
     private TextInfoPrivacyCell settingsSectionCell;
     private ShadowSectionCell settingsTopSectionCell;
-    private TextCell signCell;
-    private boolean signMessages;
     private TextCell statsAndBoosts;
     private TextCell stickersCell;
     private FrameLayout stickersContainer;
@@ -361,10 +358,10 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
     /* JADX WARN: Code restructure failed: missing block: B:11:0x0055, code lost:
         if (r0 == null) goto L11;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:43:0x00fd, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:43:0x00f9, code lost:
         if (java.lang.Math.max(r1 == null ? 0 : r1.participants_count, r0.participants_count) >= getMessagesController().forumUpgradeParticipantsMin) goto L29;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:47:0x0107, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:47:0x0103, code lost:
         if (r0.linked_chat_id != 0) goto L39;
      */
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -413,7 +410,6 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             this.avatarDrawable.setInfo(5L, tLRPC$Chat.title, null);
             this.isChannel = ChatObject.isChannel(this.currentChat) && !this.currentChat.megagroup;
             TLRPC$Chat tLRPC$Chat2 = this.currentChat;
-            this.signMessages = tLRPC$Chat2.signatures;
             boolean z2 = tLRPC$Chat2.forum;
             this.forum = z2;
             if (this.userId == 0) {
@@ -434,7 +430,6 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         } else {
             this.avatarDrawable.setInfo(5L, this.currentUser.first_name, null);
             this.isChannel = false;
-            this.signMessages = false;
             this.forum = false;
             this.canForum = false;
             NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.userInfoDidLoad);
@@ -457,7 +452,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         tLRPC$TL_messages_getExportedChatInvites.peer = getMessagesController().getInputPeer(-this.chatId);
         tLRPC$TL_messages_getExportedChatInvites.admin_id = getMessagesController().getInputUser(getUserConfig().getCurrentUser());
         tLRPC$TL_messages_getExportedChatInvites.limit = 0;
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_getExportedChatInvites, new RequestDelegate() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda45
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_getExportedChatInvites, new RequestDelegate() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda44
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 ChatEditActivity.this.lambda$loadLinksCount$1(tLObject, tLRPC$TL_error);
@@ -467,7 +462,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadLinksCount$1(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda41
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda40
             @Override // java.lang.Runnable
             public final void run() {
                 ChatEditActivity.this.lambda$loadLinksCount$0(tLRPC$TL_error, tLObject);
@@ -572,21 +567,23 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         return checkDiscard();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:203:0x0744  */
-    /* JADX WARN: Removed duplicated region for block: B:211:0x0799  */
-    /* JADX WARN: Removed duplicated region for block: B:219:0x07e4  */
-    /* JADX WARN: Removed duplicated region for block: B:229:0x081e  */
-    /* JADX WARN: Removed duplicated region for block: B:239:0x0848  */
-    /* JADX WARN: Removed duplicated region for block: B:242:0x0855  */
+    /* JADX WARN: Removed duplicated region for block: B:204:0x06f9  */
+    /* JADX WARN: Removed duplicated region for block: B:212:0x074e  */
+    /* JADX WARN: Removed duplicated region for block: B:220:0x0799  */
+    /* JADX WARN: Removed duplicated region for block: B:230:0x07d3  */
+    /* JADX WARN: Removed duplicated region for block: B:240:0x07fd  */
+    /* JADX WARN: Removed duplicated region for block: B:243:0x080a  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public View createView(final Context context) {
         int i;
-        TextCell textCell;
         int i2;
         int i3;
+        TextCell textCell;
+        int i4;
+        int i5;
         TextCell textCell2;
         TextCell textCell3;
         TLRPC$ChatFull tLRPC$ChatFull;
@@ -600,12 +597,12 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         this.actionBar.setAllowOverlayTitle(true);
         this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.ChatEditActivity.2
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
-            public void onItemClick(int i4) {
-                if (i4 == -1) {
+            public void onItemClick(int i6) {
+                if (i6 == -1) {
                     if (ChatEditActivity.this.checkDiscard()) {
                         ChatEditActivity.this.finishFragment();
                     }
-                } else if (i4 == 1) {
+                } else if (i6 == 1) {
                     ChatEditActivity.this.processDone();
                 }
             }
@@ -614,20 +611,20 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             private boolean ignoreLayout;
 
             @Override // android.widget.FrameLayout, android.view.View
-            protected void onMeasure(int i4, int i5) {
-                int size = View.MeasureSpec.getSize(i4);
-                int size2 = View.MeasureSpec.getSize(i5);
+            protected void onMeasure(int i6, int i7) {
+                int size = View.MeasureSpec.getSize(i6);
+                int size2 = View.MeasureSpec.getSize(i7);
                 setMeasuredDimension(size, size2);
                 int paddingTop = size2 - getPaddingTop();
-                measureChildWithMargins(((BaseFragment) ChatEditActivity.this).actionBar, i4, 0, i5, 0);
+                measureChildWithMargins(((BaseFragment) ChatEditActivity.this).actionBar, i6, 0, i7, 0);
                 if (measureKeyboardHeight() > AndroidUtilities.dp(20.0f)) {
                     this.ignoreLayout = true;
                     ChatEditActivity.this.nameTextView.hideEmojiView();
                     this.ignoreLayout = false;
                 }
                 int childCount = getChildCount();
-                for (int i6 = 0; i6 < childCount; i6++) {
-                    View childAt = getChildAt(i6);
+                for (int i8 = 0; i8 < childCount; i8++) {
+                    View childAt = getChildAt(i8);
                     if (childAt != null && childAt.getVisibility() != 8 && childAt != ((BaseFragment) ChatEditActivity.this).actionBar) {
                         if (ChatEditActivity.this.nameTextView != null && ChatEditActivity.this.nameTextView.isPopupView(childAt)) {
                             if (AndroidUtilities.isInMultiwindow || AndroidUtilities.isTablet()) {
@@ -640,7 +637,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                                 childAt.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(childAt.getLayoutParams().height, 1073741824));
                             }
                         } else {
-                            measureChildWithMargins(childAt, i4, 0, i5, 0);
+                            measureChildWithMargins(childAt, i6, 0, i7, 0);
                         }
                     }
                 }
@@ -656,48 +653,48 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
-            public void onLayout(boolean z, int i4, int i5, int i6, int i7) {
-                int i8;
-                int i9;
+            public void onLayout(boolean z, int i6, int i7, int i8, int i9) {
                 int i10;
                 int i11;
                 int i12;
                 int i13;
+                int i14;
+                int i15;
                 int measuredHeight;
                 int measuredHeight2;
                 int childCount = getChildCount();
                 int measureKeyboardHeight = measureKeyboardHeight();
                 int emojiPadding = (measureKeyboardHeight > AndroidUtilities.dp(20.0f) || AndroidUtilities.isInMultiwindow || AndroidUtilities.isTablet()) ? 0 : ChatEditActivity.this.nameTextView.getEmojiPadding();
                 setBottomClip(emojiPadding);
-                for (int i14 = 0; i14 < childCount; i14++) {
-                    View childAt = getChildAt(i14);
+                for (int i16 = 0; i16 < childCount; i16++) {
+                    View childAt = getChildAt(i16);
                     if (childAt.getVisibility() != 8) {
                         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) childAt.getLayoutParams();
                         int measuredWidth = childAt.getMeasuredWidth();
                         int measuredHeight3 = childAt.getMeasuredHeight();
-                        int i15 = layoutParams.gravity;
-                        if (i15 == -1) {
-                            i15 = 51;
+                        int i17 = layoutParams.gravity;
+                        if (i17 == -1) {
+                            i17 = 51;
                         }
-                        int i16 = i15 & 7;
-                        int i17 = i15 & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle;
-                        int i18 = i16 & 7;
-                        if (i18 == 1) {
-                            i8 = (((i6 - i4) - measuredWidth) / 2) + layoutParams.leftMargin;
-                            i9 = layoutParams.rightMargin;
-                        } else if (i18 == 5) {
-                            i8 = i6 - measuredWidth;
-                            i9 = layoutParams.rightMargin;
+                        int i18 = i17 & 7;
+                        int i19 = i17 & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle;
+                        int i20 = i18 & 7;
+                        if (i20 == 1) {
+                            i10 = (((i8 - i6) - measuredWidth) / 2) + layoutParams.leftMargin;
+                            i11 = layoutParams.rightMargin;
+                        } else if (i20 == 5) {
+                            i10 = i8 - measuredWidth;
+                            i11 = layoutParams.rightMargin;
                         } else {
-                            i10 = layoutParams.leftMargin;
-                            if (i17 == 16) {
-                                if (i17 == 48) {
-                                    i13 = layoutParams.topMargin + getPaddingTop();
-                                } else if (i17 == 80) {
-                                    i11 = ((i7 - emojiPadding) - i5) - measuredHeight3;
-                                    i12 = layoutParams.bottomMargin;
+                            i12 = layoutParams.leftMargin;
+                            if (i19 == 16) {
+                                if (i19 == 48) {
+                                    i15 = layoutParams.topMargin + getPaddingTop();
+                                } else if (i19 == 80) {
+                                    i13 = ((i9 - emojiPadding) - i7) - measuredHeight3;
+                                    i14 = layoutParams.bottomMargin;
                                 } else {
-                                    i13 = layoutParams.topMargin;
+                                    i15 = layoutParams.topMargin;
                                 }
                                 if (ChatEditActivity.this.nameTextView != null && ChatEditActivity.this.nameTextView.isPopupView(childAt)) {
                                     if (!AndroidUtilities.isTablet()) {
@@ -707,28 +704,28 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                                         measuredHeight = getMeasuredHeight() + measureKeyboardHeight;
                                         measuredHeight2 = childAt.getMeasuredHeight();
                                     }
-                                    i13 = measuredHeight - measuredHeight2;
+                                    i15 = measuredHeight - measuredHeight2;
                                 }
-                                childAt.layout(i10, i13, measuredWidth + i10, measuredHeight3 + i13);
+                                childAt.layout(i12, i15, measuredWidth + i12, measuredHeight3 + i15);
                             } else {
-                                i11 = ((((i7 - emojiPadding) - i5) - measuredHeight3) / 2) + layoutParams.topMargin;
-                                i12 = layoutParams.bottomMargin;
+                                i13 = ((((i9 - emojiPadding) - i7) - measuredHeight3) / 2) + layoutParams.topMargin;
+                                i14 = layoutParams.bottomMargin;
                             }
-                            i13 = i11 - i12;
+                            i15 = i13 - i14;
                             if (ChatEditActivity.this.nameTextView != null) {
                                 if (!AndroidUtilities.isTablet()) {
                                 }
-                                i13 = measuredHeight - measuredHeight2;
+                                i15 = measuredHeight - measuredHeight2;
                             }
-                            childAt.layout(i10, i13, measuredWidth + i10, measuredHeight3 + i13);
+                            childAt.layout(i12, i15, measuredWidth + i12, measuredHeight3 + i15);
                         }
-                        i10 = i8 - i9;
-                        if (i17 == 16) {
+                        i12 = i10 - i11;
+                        if (i19 == 16) {
                         }
-                        i13 = i11 - i12;
+                        i15 = i13 - i14;
                         if (ChatEditActivity.this.nameTextView != null) {
                         }
-                        childAt.layout(i10, i13, measuredWidth + i10, measuredHeight3 + i13);
+                        childAt.layout(i12, i15, measuredWidth + i12, measuredHeight3 + i15);
                     }
                 }
                 notifyHeightChanged();
@@ -742,7 +739,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                 super.requestLayout();
             }
         };
-        sizeNotifierFrameLayout.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda33
+        sizeNotifierFrameLayout.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda32
             @Override // android.view.View.OnTouchListener
             public final boolean onTouch(View view, MotionEvent motionEvent) {
                 boolean lambda$createView$2;
@@ -751,8 +748,8 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             }
         });
         this.fragmentView = sizeNotifierFrameLayout;
-        int i4 = Theme.key_windowBackgroundGray;
-        sizeNotifierFrameLayout.setBackgroundColor(Theme.getColor(i4));
+        int i6 = Theme.key_windowBackgroundGray;
+        sizeNotifierFrameLayout.setBackgroundColor(Theme.getColor(i6));
         ScrollView scrollView = new ScrollView(context);
         scrollView.setFillViewport(true);
         sizeNotifierFrameLayout.addView(scrollView, LayoutHelper.createFrame(-1, -1.0f));
@@ -765,8 +762,8 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         this.avatarContainer = linearLayout2;
         linearLayout2.setOrientation(1);
         LinearLayout linearLayout3 = this.avatarContainer;
-        int i5 = Theme.key_windowBackgroundWhite;
-        linearLayout3.setBackgroundColor(Theme.getColor(i5));
+        int i7 = Theme.key_windowBackgroundWhite;
+        linearLayout3.setBackgroundColor(Theme.getColor(i7));
         linearLayout.addView(this.avatarContainer, LayoutHelper.createLinear(-1, -2));
         final FrameLayout frameLayout = new FrameLayout(context);
         this.avatarContainer.addView(frameLayout, LayoutHelper.createLinear(-1, -2));
@@ -780,11 +777,11 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             }
 
             @Override // android.view.View
-            public void invalidate(int i6, int i7, int i8, int i9) {
+            public void invalidate(int i8, int i9, int i10, int i11) {
                 if (ChatEditActivity.this.avatarOverlay != null) {
                     ChatEditActivity.this.avatarOverlay.invalidate();
                 }
-                super.invalidate(i6, i7, i8, i9);
+                super.invalidate(i8, i9, i10, i11);
             }
         };
         this.avatarImage = backupImageView;
@@ -844,11 +841,11 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         editTextEmoji4.setFocusable(editTextEmoji4.isEnabled());
         this.nameTextView.getEditText().addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.ChatEditActivity.6
             @Override // android.text.TextWatcher
-            public void beforeTextChanged(CharSequence charSequence, int i6, int i7, int i8) {
+            public void beforeTextChanged(CharSequence charSequence, int i8, int i9, int i10) {
             }
 
             @Override // android.text.TextWatcher
-            public void onTextChanged(CharSequence charSequence, int i6, int i7, int i8) {
+            public void onTextChanged(CharSequence charSequence, int i8, int i9, int i10) {
             }
 
             @Override // android.text.TextWatcher
@@ -866,7 +863,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         LinearLayout linearLayout4 = new LinearLayout(context);
         this.settingsContainer = linearLayout4;
         linearLayout4.setOrientation(1);
-        this.settingsContainer.setBackgroundColor(Theme.getColor(i5));
+        this.settingsContainer.setBackgroundColor(Theme.getColor(i7));
         linearLayout.addView(this.settingsContainer, LayoutHelper.createLinear(-1, -2));
         if (this.currentUser != null || ChatObject.canChangeChatInfo(this.currentChat)) {
             TextCell textCell4 = new TextCell(this, context) { // from class: org.telegram.ui.ChatEditActivity.7
@@ -891,8 +888,8 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         editTextBoldCursor.setTextSize(1, 16.0f);
         this.descriptionTextView.setHintTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteHintText));
         EditTextBoldCursor editTextBoldCursor2 = this.descriptionTextView;
-        int i6 = Theme.key_windowBackgroundWhiteBlackText;
-        editTextBoldCursor2.setTextColor(Theme.getColor(i6));
+        int i8 = Theme.key_windowBackgroundWhiteBlackText;
+        editTextBoldCursor2.setTextColor(Theme.getColor(i8));
         this.descriptionTextView.setPadding(0, 0, 0, AndroidUtilities.dp(6.0f));
         this.descriptionTextView.setBackgroundDrawable(null);
         this.descriptionTextView.setGravity(LocaleController.isRTL ? 5 : 3);
@@ -903,7 +900,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         editTextBoldCursor3.setFocusable(editTextBoldCursor3.isEnabled());
         this.descriptionTextView.setFilters(new InputFilter[]{new InputFilter.LengthFilter(255)});
         this.descriptionTextView.setHint(LocaleController.getString("DescriptionOptionalPlaceholder", R.string.DescriptionOptionalPlaceholder));
-        this.descriptionTextView.setCursorColor(Theme.getColor(i6));
+        this.descriptionTextView.setCursorColor(Theme.getColor(i8));
         this.descriptionTextView.setCursorSize(AndroidUtilities.dp(20.0f));
         this.descriptionTextView.setCursorWidth(1.5f);
         if (this.descriptionTextView.isEnabled()) {
@@ -911,11 +908,11 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         } else {
             this.settingsContainer.addView(this.descriptionTextView, LayoutHelper.createLinear(-1, -2, 23.0f, 12.0f, 23.0f, 6.0f));
         }
-        this.descriptionTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda34
+        this.descriptionTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda33
             @Override // android.widget.TextView.OnEditorActionListener
-            public final boolean onEditorAction(TextView textView, int i7, KeyEvent keyEvent) {
+            public final boolean onEditorAction(TextView textView, int i9, KeyEvent keyEvent) {
                 boolean lambda$createView$9;
-                lambda$createView$9 = ChatEditActivity.this.lambda$createView$9(textView, i7, keyEvent);
+                lambda$createView$9 = ChatEditActivity.this.lambda$createView$9(textView, i9, keyEvent);
                 return lambda$createView$9;
             }
         });
@@ -925,11 +922,11 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             }
 
             @Override // android.text.TextWatcher
-            public void beforeTextChanged(CharSequence charSequence, int i7, int i8, int i9) {
+            public void beforeTextChanged(CharSequence charSequence, int i9, int i10, int i11) {
             }
 
             @Override // android.text.TextWatcher
-            public void onTextChanged(CharSequence charSequence, int i7, int i8, int i9) {
+            public void onTextChanged(CharSequence charSequence, int i9, int i10, int i11) {
             }
         });
         ShadowSectionCell shadowSectionCell = new ShadowSectionCell(context);
@@ -994,7 +991,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                 this.historyCell = textCell8;
                 textCell8.setBackgroundDrawable(Theme.getSelectorDrawable(true));
                 this.typeEditContainer.addView(this.historyCell, LayoutHelper.createLinear(-1, -2));
-                this.historyCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda29
+                this.historyCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda28
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view2) {
                         ChatEditActivity.this.lambda$createView$16(context, view2);
@@ -1002,7 +999,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                 });
             }
             if (ChatObject.isMegagroup(this.currentChat) && ChatObject.hasAdminRights(this.currentChat)) {
-                MessagesController.getInstance(this.currentAccount).getBoostsController().getBoostsStats(-this.currentChat.id, new Consumer() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda35
+                MessagesController.getInstance(this.currentAccount).getBoostsController().getBoostsStats(-this.currentChat.id, new Consumer() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda34
                     @Override // com.google.android.exoplayer2.util.Consumer
                     public final void accept(Object obj) {
                         ChatEditActivity.this.lambda$createView$17((TL_stories$TL_premium_boostsStatus) obj);
@@ -1012,148 +1009,141 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                 this.colorCell = changeNameColorCell2;
                 changeNameColorCell2.setBackground(Theme.getSelectorDrawable(true));
                 this.typeEditContainer.addView(this.colorCell, LayoutHelper.createLinear(-1, -2));
-                this.colorCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda19
+                this.colorCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda18
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view2) {
                         ChatEditActivity.this.lambda$createView$18(view2);
                     }
                 });
             }
-            if (this.isChannel) {
+            if (!this.isChannel && this.currentChat.creator) {
                 TextCell textCell9 = new TextCell(context, 23, false, true, null);
-                this.signCell = textCell9;
+                this.forumsCell = textCell9;
                 textCell9.setBackgroundDrawable(Theme.getSelectorDrawable(true));
-                this.signCell.setTextAndCheckAndIcon(LocaleController.getString("ChannelSignMessages", R.string.ChannelSignMessages), this.signMessages, R.drawable.msg_signed, false);
-                this.typeEditContainer.addView(this.signCell, LayoutHelper.createFrame(-1, -2.0f));
-                this.signCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda28
-                    @Override // android.view.View.OnClickListener
-                    public final void onClick(View view2) {
-                        ChatEditActivity.this.lambda$createView$19(view2);
-                    }
-                });
-            } else if (this.currentChat.creator) {
-                TextCell textCell10 = new TextCell(context, 23, false, true, null);
-                this.forumsCell = textCell10;
-                textCell10.setBackgroundDrawable(Theme.getSelectorDrawable(true));
                 this.forumsCell.setTextAndCheckAndIcon(LocaleController.getString("ChannelTopics", R.string.ChannelTopics), this.forum, R.drawable.msg_topics, false);
                 this.forumsCell.getCheckBox().setIcon(this.canForum ? 0 : R.drawable.permission_locked);
                 this.typeEditContainer.addView(this.forumsCell, LayoutHelper.createFrame(-1, -2.0f));
-                this.forumsCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda30
+                this.forumsCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda29
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view2) {
-                        ChatEditActivity.this.lambda$createView$20(frameLayout, view2);
+                        ChatEditActivity.this.lambda$createView$19(frameLayout, view2);
                     }
                 });
             }
             updateColorCell();
         }
         ActionBarMenu createMenu = this.actionBar.createMenu();
-        if (this.currentUser != null || ChatObject.canChangeChatInfo(this.currentChat) || this.signCell != null || this.historyCell != null) {
+        if (this.currentUser != null || ChatObject.canChangeChatInfo(this.currentChat) || this.historyCell != null) {
             ActionBarMenuItem addItemWithWidth = createMenu.addItemWithWidth(1, R.drawable.ic_ab_done, AndroidUtilities.dp(56.0f));
             this.doneButton = addItemWithWidth;
             addItemWithWidth.setContentDescription(LocaleController.getString("Done", R.string.Done));
         }
-        if (this.locationCell != null || this.signCell != null || this.historyCell != null || this.typeCell != null || this.linkedCell != null || this.forumsCell != null) {
+        if (this.locationCell == null && this.historyCell == null && this.typeCell == null && this.linkedCell == null && this.forumsCell == null) {
+            i = -2;
+            i2 = -1;
+        } else {
             this.settingsSectionCell = new TextInfoPrivacyCell(context);
-            CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(getThemedColor(i4)), Theme.getThemedDrawable(context, R.drawable.greydivider, Theme.getColor(Theme.key_windowBackgroundGrayShadow, getResourceProvider())), 0, 0);
+            CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(getThemedColor(i6)), Theme.getThemedDrawable(context, R.drawable.greydivider, Theme.getColor(Theme.key_windowBackgroundGrayShadow, getResourceProvider())), 0, 0);
             combinedDrawable.setFullsize(true);
             this.settingsSectionCell.setBackground(combinedDrawable);
-            linearLayout.addView(this.settingsSectionCell, LayoutHelper.createLinear(-1, -2));
             if (this.forumsCell != null) {
                 this.settingsSectionCell.setText(LocaleController.getString("ForumToggleDescription", R.string.ForumToggleDescription));
             } else {
-                this.settingsSectionCell.setText(LocaleController.getString("ChannelSignMessagesInfo", R.string.ChannelSignMessagesInfo));
+                this.settingsSectionCell.setFixedSize(12);
             }
+            i = -2;
+            i2 = -1;
+            linearLayout.addView(this.settingsSectionCell, LayoutHelper.createLinear(-1, -2));
         }
         LinearLayout linearLayout6 = new LinearLayout(context);
         this.infoContainer = linearLayout6;
         linearLayout6.setOrientation(1);
-        this.infoContainer.setBackgroundColor(Theme.getColor(i5));
-        linearLayout.addView(this.infoContainer, LayoutHelper.createLinear(-1, -2));
+        this.infoContainer.setBackgroundColor(Theme.getColor(i7));
+        linearLayout.addView(this.infoContainer, LayoutHelper.createLinear(i2, i));
         if (this.currentChat != null) {
-            TextCell textCell11 = new TextCell(context);
-            this.blockCell = textCell11;
-            textCell11.setBackground(Theme.getSelectorDrawable(false));
-            TextCell textCell12 = this.blockCell;
+            TextCell textCell10 = new TextCell(context);
+            this.blockCell = textCell10;
+            textCell10.setBackground(Theme.getSelectorDrawable(false));
+            TextCell textCell11 = this.blockCell;
             if (!ChatObject.isChannel(this.currentChat)) {
                 TLRPC$Chat tLRPC$Chat3 = this.currentChat;
                 if (!tLRPC$Chat3.creator && (!ChatObject.hasAdminRights(tLRPC$Chat3) || !ChatObject.canChangeChatInfo(this.currentChat))) {
-                    i = 8;
-                    textCell12.setVisibility(i);
-                    this.blockCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda16
+                    i3 = 8;
+                    textCell11.setVisibility(i3);
+                    this.blockCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda21
+                        @Override // android.view.View.OnClickListener
+                        public final void onClick(View view2) {
+                            ChatEditActivity.this.lambda$createView$20(view2);
+                        }
+                    });
+                    TextCell textCell12 = new TextCell(context);
+                    this.inviteLinksCell = textCell12;
+                    textCell12.setBackground(Theme.getSelectorDrawable(false));
+                    this.inviteLinksCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda16
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view2) {
                             ChatEditActivity.this.lambda$createView$21(view2);
                         }
                     });
                     TextCell textCell13 = new TextCell(context);
-                    this.inviteLinksCell = textCell13;
+                    this.reactionsCell = textCell13;
                     textCell13.setBackground(Theme.getSelectorDrawable(false));
-                    this.inviteLinksCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda9
+                    this.reactionsCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda10
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view2) {
                             ChatEditActivity.this.lambda$createView$22(view2);
                         }
                     });
                     TextCell textCell14 = new TextCell(context);
-                    this.reactionsCell = textCell14;
+                    this.adminCell = textCell14;
                     textCell14.setBackground(Theme.getSelectorDrawable(false));
-                    this.reactionsCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda21
+                    this.adminCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda20
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view2) {
                             ChatEditActivity.this.lambda$createView$23(view2);
                         }
                     });
                     TextCell textCell15 = new TextCell(context);
-                    this.adminCell = textCell15;
-                    textCell15.setBackground(Theme.getSelectorDrawable(false));
-                    this.adminCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda8
+                    this.membersCell = textCell15;
+                    textCell15.setBackgroundDrawable(Theme.getSelectorDrawable(false));
+                    this.membersCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda9
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view2) {
                             ChatEditActivity.this.lambda$createView$24(view2);
                         }
                     });
-                    TextCell textCell16 = new TextCell(context);
-                    this.membersCell = textCell16;
-                    textCell16.setBackgroundDrawable(Theme.getSelectorDrawable(false));
-                    this.membersCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda20
-                        @Override // android.view.View.OnClickListener
-                        public final void onClick(View view2) {
-                            ChatEditActivity.this.lambda$createView$25(view2);
-                        }
-                    });
                     if (!ChatObject.isChannelAndNotMegaGroup(this.currentChat)) {
+                        TextCell textCell16 = new TextCell(context);
+                        this.memberRequestsCell = textCell16;
+                        textCell16.setBackground(Theme.getSelectorDrawable(false));
+                        this.memberRequestsCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda19
+                            @Override // android.view.View.OnClickListener
+                            public final void onClick(View view2) {
+                                ChatEditActivity.this.lambda$createView$25(view2);
+                            }
+                        });
+                    }
+                    if (!ChatObject.isChannel(this.currentChat) || this.currentChat.gigagroup) {
                         TextCell textCell17 = new TextCell(context);
-                        this.memberRequestsCell = textCell17;
-                        textCell17.setBackground(Theme.getSelectorDrawable(false));
-                        this.memberRequestsCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda27
+                        this.logCell = textCell17;
+                        textCell17.setTextAndIcon((CharSequence) LocaleController.getString("EventLog", R.string.EventLog), R.drawable.msg_log, false);
+                        this.logCell.setBackground(Theme.getSelectorDrawable(false));
+                        this.logCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda27
                             @Override // android.view.View.OnClickListener
                             public final void onClick(View view2) {
                                 ChatEditActivity.this.lambda$createView$26(view2);
                             }
                         });
                     }
-                    if (!ChatObject.isChannel(this.currentChat) || this.currentChat.gigagroup) {
+                    if (ChatObject.isBoostSupported(this.currentChat)) {
                         TextCell textCell18 = new TextCell(context);
-                        this.logCell = textCell18;
-                        textCell18.setTextAndIcon((CharSequence) LocaleController.getString("EventLog", R.string.EventLog), R.drawable.msg_log, false);
-                        this.logCell.setBackground(Theme.getSelectorDrawable(false));
-                        this.logCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda23
+                        this.statsAndBoosts = textCell18;
+                        textCell18.setTextAndIcon((CharSequence) LocaleController.getString(R.string.StatisticsAndBoosts), R.drawable.msg_stats, true);
+                        this.statsAndBoosts.setBackground(Theme.getSelectorDrawable(false));
+                        this.statsAndBoosts.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda23
                             @Override // android.view.View.OnClickListener
                             public final void onClick(View view2) {
                                 ChatEditActivity.this.lambda$createView$27(view2);
-                            }
-                        });
-                    }
-                    if (ChatObject.isBoostSupported(this.currentChat)) {
-                        TextCell textCell19 = new TextCell(context);
-                        this.statsAndBoosts = textCell19;
-                        textCell19.setTextAndIcon((CharSequence) LocaleController.getString(R.string.StatisticsAndBoosts), R.drawable.msg_stats, true);
-                        this.statsAndBoosts.setBackground(Theme.getSelectorDrawable(false));
-                        this.statsAndBoosts.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda22
-                            @Override // android.view.View.OnClickListener
-                            public final void onClick(View view2) {
-                                ChatEditActivity.this.lambda$createView$28(view2);
                             }
                         });
                     }
@@ -1174,79 +1164,79 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                         this.infoContainer.addView(this.inviteLinksCell, LayoutHelper.createLinear(-1, -2));
                     }
                     if (!this.isChannel || this.currentChat.gigagroup) {
-                        i2 = -2;
-                        i3 = -1;
+                        i4 = -2;
+                        i5 = -1;
                         this.infoContainer.addView(this.blockCell, LayoutHelper.createLinear(-1, -2));
                     } else {
-                        i2 = -2;
-                        i3 = -1;
+                        i4 = -2;
+                        i5 = -1;
                     }
                     textCell2 = this.statsAndBoosts;
                     if (textCell2 != null) {
-                        this.infoContainer.addView(textCell2, LayoutHelper.createLinear(i3, i2));
+                        this.infoContainer.addView(textCell2, LayoutHelper.createLinear(i5, i4));
                     }
                     textCell3 = this.logCell;
                     if (textCell3 != null) {
-                        this.infoContainer.addView(textCell3, LayoutHelper.createLinear(i3, i2));
+                        this.infoContainer.addView(textCell3, LayoutHelper.createLinear(i5, i4));
                     }
                 }
             }
-            i = 0;
-            textCell12.setVisibility(i);
-            this.blockCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda16
+            i3 = 0;
+            textCell11.setVisibility(i3);
+            this.blockCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda21
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view2) {
+                    ChatEditActivity.this.lambda$createView$20(view2);
+                }
+            });
+            TextCell textCell122 = new TextCell(context);
+            this.inviteLinksCell = textCell122;
+            textCell122.setBackground(Theme.getSelectorDrawable(false));
+            this.inviteLinksCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda16
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view2) {
                     ChatEditActivity.this.lambda$createView$21(view2);
                 }
             });
             TextCell textCell132 = new TextCell(context);
-            this.inviteLinksCell = textCell132;
+            this.reactionsCell = textCell132;
             textCell132.setBackground(Theme.getSelectorDrawable(false));
-            this.inviteLinksCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda9
+            this.reactionsCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda10
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view2) {
                     ChatEditActivity.this.lambda$createView$22(view2);
                 }
             });
             TextCell textCell142 = new TextCell(context);
-            this.reactionsCell = textCell142;
+            this.adminCell = textCell142;
             textCell142.setBackground(Theme.getSelectorDrawable(false));
-            this.reactionsCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda21
+            this.adminCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda20
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view2) {
                     ChatEditActivity.this.lambda$createView$23(view2);
                 }
             });
             TextCell textCell152 = new TextCell(context);
-            this.adminCell = textCell152;
-            textCell152.setBackground(Theme.getSelectorDrawable(false));
-            this.adminCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda8
+            this.membersCell = textCell152;
+            textCell152.setBackgroundDrawable(Theme.getSelectorDrawable(false));
+            this.membersCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda9
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view2) {
                     ChatEditActivity.this.lambda$createView$24(view2);
-                }
-            });
-            TextCell textCell162 = new TextCell(context);
-            this.membersCell = textCell162;
-            textCell162.setBackgroundDrawable(Theme.getSelectorDrawable(false));
-            this.membersCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda20
-                @Override // android.view.View.OnClickListener
-                public final void onClick(View view2) {
-                    ChatEditActivity.this.lambda$createView$25(view2);
                 }
             });
             if (!ChatObject.isChannelAndNotMegaGroup(this.currentChat)) {
             }
             if (!ChatObject.isChannel(this.currentChat)) {
             }
-            TextCell textCell182 = new TextCell(context);
-            this.logCell = textCell182;
-            textCell182.setTextAndIcon((CharSequence) LocaleController.getString("EventLog", R.string.EventLog), R.drawable.msg_log, false);
+            TextCell textCell172 = new TextCell(context);
+            this.logCell = textCell172;
+            textCell172.setTextAndIcon((CharSequence) LocaleController.getString("EventLog", R.string.EventLog), R.drawable.msg_log, false);
             this.logCell.setBackground(Theme.getSelectorDrawable(false));
-            this.logCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda23
+            this.logCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda27
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view2) {
-                    ChatEditActivity.this.lambda$createView$27(view2);
+                    ChatEditActivity.this.lambda$createView$26(view2);
                 }
             });
             if (ChatObject.isBoostSupported(this.currentChat)) {
@@ -1267,8 +1257,8 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             }
             if (this.isChannel) {
             }
-            i2 = -2;
-            i3 = -1;
+            i4 = -2;
+            i5 = -1;
             this.infoContainer.addView(this.blockCell, LayoutHelper.createLinear(-1, -2));
             textCell2 = this.statsAndBoosts;
             if (textCell2 != null) {
@@ -1278,29 +1268,29 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             }
         }
         if (this.currentUser != null) {
-            TextCell textCell20 = new TextCell(context);
-            this.publicLinkCell = textCell20;
-            textCell20.setBackground(Theme.getSelectorDrawable(false));
+            TextCell textCell19 = new TextCell(context);
+            this.publicLinkCell = textCell19;
+            textCell19.setBackground(Theme.getSelectorDrawable(false));
             this.publicLinkCell.setPrioritizeTitleOverValue(true);
             this.infoContainer.addView(this.publicLinkCell, LayoutHelper.createLinear(-1, -2));
-            this.publicLinkCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda18
+            this.publicLinkCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda22
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view2) {
-                    ChatEditActivity.this.lambda$createView$29(view2);
+                    ChatEditActivity.this.lambda$createView$28(view2);
                 }
             });
             TLRPC$User tLRPC$User = this.currentUser;
             if (tLRPC$User.bot && tLRPC$User.bot_can_edit) {
-                TextCell textCell21 = new TextCell(context);
-                this.balanceCell = textCell21;
-                textCell21.setBackground(Theme.getSelectorDrawable(false));
+                TextCell textCell20 = new TextCell(context);
+                this.balanceCell = textCell20;
+                textCell20.setBackground(Theme.getSelectorDrawable(false));
                 this.balanceCell.setPrioritizeTitleOverValue(true);
                 this.infoContainer.addView(this.balanceCell, LayoutHelper.createLinear(-1, -2));
                 final BotStarsController botStarsController = BotStarsController.getInstance(this.currentAccount);
-                this.balanceCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda31
+                this.balanceCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda30
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view2) {
-                        ChatEditActivity.this.lambda$createView$30(botStarsController, view2);
+                        ChatEditActivity.this.lambda$createView$29(botStarsController, view2);
                     }
                 });
                 if (!botStarsController.isBalanceAvailable(this.userId)) {
@@ -1313,40 +1303,40 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                 this.balanceCell.setVisibility(botStarsController.hasStars(this.userId) ? 0 : 8);
             }
             updatePublicLinksCount();
-            ActionBarPopupWindow.GapView gapView = new ActionBarPopupWindow.GapView(context, getResourceProvider(), i4);
+            ActionBarPopupWindow.GapView gapView = new ActionBarPopupWindow.GapView(context, getResourceProvider(), i6);
             gapView.setTag(R.id.fit_width_tag, 1);
             this.infoContainer.addView(gapView, LayoutHelper.createLinear(-1, 8));
-            TextCell textCell22 = new TextCell(context);
-            this.editIntroCell = textCell22;
-            textCell22.setBackground(Theme.getSelectorDrawable(false));
+            TextCell textCell21 = new TextCell(context);
+            this.editIntroCell = textCell21;
+            textCell21.setBackground(Theme.getSelectorDrawable(false));
             this.editIntroCell.setTextAndIcon((CharSequence) LocaleController.getString(R.string.BotEditIntro), R.drawable.msg_log, true);
             this.infoContainer.addView(this.editIntroCell, LayoutHelper.createLinear(-1, -2));
-            this.editIntroCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda13
+            this.editIntroCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda8
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view2) {
+                    ChatEditActivity.this.lambda$createView$30(view2);
+                }
+            });
+            TextCell textCell22 = new TextCell(context);
+            this.editCommandsCell = textCell22;
+            textCell22.setBackground(Theme.getSelectorDrawable(false));
+            this.editCommandsCell.setTextAndIcon((CharSequence) LocaleController.getString(R.string.BotEditCommands), R.drawable.msg_media, true);
+            this.infoContainer.addView(this.editCommandsCell, LayoutHelper.createLinear(-1, -2));
+            this.editCommandsCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda13
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view2) {
                     ChatEditActivity.this.lambda$createView$31(view2);
                 }
             });
             TextCell textCell23 = new TextCell(context);
-            this.editCommandsCell = textCell23;
+            this.changeBotSettingsCell = textCell23;
             textCell23.setBackground(Theme.getSelectorDrawable(false));
-            this.editCommandsCell.setTextAndIcon((CharSequence) LocaleController.getString(R.string.BotEditCommands), R.drawable.msg_media, true);
-            this.infoContainer.addView(this.editCommandsCell, LayoutHelper.createLinear(-1, -2));
-            this.editCommandsCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda11
+            this.changeBotSettingsCell.setTextAndIcon((CharSequence) LocaleController.getString(R.string.BotChangeSettings), R.drawable.msg_bot, true);
+            this.infoContainer.addView(this.changeBotSettingsCell, LayoutHelper.createLinear(-1, -2));
+            this.changeBotSettingsCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda11
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view2) {
                     ChatEditActivity.this.lambda$createView$32(view2);
-                }
-            });
-            TextCell textCell24 = new TextCell(context);
-            this.changeBotSettingsCell = textCell24;
-            textCell24.setBackground(Theme.getSelectorDrawable(false));
-            this.changeBotSettingsCell.setTextAndIcon((CharSequence) LocaleController.getString(R.string.BotChangeSettings), R.drawable.msg_bot, true);
-            this.infoContainer.addView(this.changeBotSettingsCell, LayoutHelper.createLinear(-1, -2));
-            this.changeBotSettingsCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda10
-                @Override // android.view.View.OnClickListener
-                public final void onClick(View view2) {
-                    ChatEditActivity.this.lambda$createView$33(view2);
                 }
             });
         }
@@ -1387,7 +1377,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         if (this.currentUser == null && this.currentChat.creator) {
             FrameLayout frameLayout2 = new FrameLayout(context);
             this.deleteContainer = frameLayout2;
-            frameLayout2.setBackgroundColor(Theme.getColor(i5));
+            frameLayout2.setBackgroundColor(Theme.getColor(i7));
             linearLayout.addView(this.deleteContainer, LayoutHelper.createLinear(-1, -2));
             TextSettingsCell textSettingsCell = new TextSettingsCell(context);
             this.deleteCell = textSettingsCell;
@@ -1404,7 +1394,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             this.deleteCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda17
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view2) {
-                    ChatEditActivity.this.lambda$createView$35(view2);
+                    ChatEditActivity.this.lambda$createView$34(view2);
                 }
             });
             ShadowSectionCell shadowSectionCell3 = new ShadowSectionCell(context);
@@ -1486,7 +1476,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$8(View view) {
-        this.imageUpdater.openMenu(this.avatar != null, new Runnable() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda36
+        this.imageUpdater.openMenu(this.avatar != null, new Runnable() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda35
             @Override // java.lang.Runnable
             public final void run() {
                 ChatEditActivity.this.lambda$createView$6();
@@ -1512,7 +1502,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             tLRPC$TL_photos_updateProfilePhoto.bot = getMessagesController().getInputUser(this.userId);
             tLRPC$TL_photos_updateProfilePhoto.flags |= 2;
             tLRPC$TL_photos_updateProfilePhoto.id = new TLRPC$TL_inputPhotoEmpty();
-            getConnectionsManager().sendRequest(tLRPC$TL_photos_updateProfilePhoto, new RequestDelegate() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda44
+            getConnectionsManager().sendRequest(tLRPC$TL_photos_updateProfilePhoto, new RequestDelegate() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda43
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     ChatEditActivity.this.lambda$createView$5(tLObject, tLRPC$TL_error);
@@ -1533,7 +1523,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$5(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda39
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda36
             @Override // java.lang.Runnable
             public final void run() {
                 ChatEditActivity.this.lambda$createView$4();
@@ -1591,7 +1581,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                     locationActivity.setInitialLocation((TLRPC$TL_channelLocation) tLRPC$ChannelLocation);
                 }
             }
-            locationActivity.setDelegate(new LocationActivity.LocationActivityDelegate() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda49
+            locationActivity.setDelegate(new LocationActivity.LocationActivityDelegate() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda48
                 @Override // org.telegram.ui.LocationActivity.LocationActivityDelegate
                 public final void didSelectLocation(TLRPC$MessageMedia tLRPC$MessageMedia, int i, boolean z, int i2) {
                     ChatEditActivity.this.lambda$createView$10(tLRPC$MessageMedia, i, z, i2);
@@ -1661,7 +1651,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                 radioButtonCellArr[i].setTextAndValue(LocaleController.getString("ChatHistoryHidden", R.string.ChatHistoryHidden), LocaleController.getString("ChatHistoryHiddenInfo2", R.string.ChatHistoryHiddenInfo2), false, this.historyHidden);
             }
             linearLayout2.addView(radioButtonCellArr[i], LayoutHelper.createLinear(-1, -2));
-            radioButtonCellArr[i].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda32
+            radioButtonCellArr[i].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda31
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view2) {
                     ChatEditActivity.this.lambda$createView$15(radioButtonCellArr, builder, view2);
@@ -1696,14 +1686,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$19(View view) {
-        boolean z = !this.signMessages;
-        this.signMessages = z;
-        ((TextCell) view).setChecked(z);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$20(FrameLayout frameLayout, View view) {
+    public /* synthetic */ void lambda$createView$19(FrameLayout frameLayout, View view) {
         SpannableStringBuilder replaceTags;
         if (!this.canForum) {
             TLRPC$ChatFull tLRPC$ChatFull = this.info;
@@ -1724,7 +1707,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$21(View view) {
+    public /* synthetic */ void lambda$createView$20(View view) {
         Bundle bundle = new Bundle();
         bundle.putLong("chat_id", this.chatId);
         bundle.putInt("type", (this.isChannel || this.currentChat.gigagroup) ? 0 : 3);
@@ -1734,7 +1717,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$22(View view) {
+    public /* synthetic */ void lambda$createView$21(View view) {
         ManageLinksActivity manageLinksActivity = new ManageLinksActivity(this.chatId, 0L, 0);
         TLRPC$ChatFull tLRPC$ChatFull = this.info;
         manageLinksActivity.setInfo(tLRPC$ChatFull, tLRPC$ChatFull.exported_invite);
@@ -1742,7 +1725,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$23(View view) {
+    public /* synthetic */ void lambda$createView$22(View view) {
         if (ChatObject.isChannelAndNotMegaGroup(this.currentChat)) {
             presentFragment(new ChatCustomReactionsEditActivity(this.chatId, this.info));
             return;
@@ -1755,7 +1738,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$24(View view) {
+    public /* synthetic */ void lambda$createView$23(View view) {
         Bundle bundle = new Bundle();
         bundle.putLong("chat_id", this.chatId);
         bundle.putInt("type", 1);
@@ -1765,7 +1748,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$25(View view) {
+    public /* synthetic */ void lambda$createView$24(View view) {
         Bundle bundle = new Bundle();
         bundle.putLong("chat_id", this.chatId);
         bundle.putInt("type", 2);
@@ -1775,64 +1758,64 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$26(View view) {
+    public /* synthetic */ void lambda$createView$25(View view) {
         presentFragment(new MemberRequestsActivity(this.chatId));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$27(View view) {
+    public /* synthetic */ void lambda$createView$26(View view) {
         presentFragment(new ChannelAdminLogActivity(this.currentChat));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$28(View view) {
+    public /* synthetic */ void lambda$createView$27(View view) {
         presentFragment(StatisticActivity.create(this.currentChat, false));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$29(View view) {
+    public /* synthetic */ void lambda$createView$28(View view) {
         Bundle bundle = new Bundle();
         bundle.putLong("bot_id", this.userId);
         presentFragment(new ChangeUsernameActivity(bundle));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$30(BotStarsController botStarsController, View view) {
+    public /* synthetic */ void lambda$createView$29(BotStarsController botStarsController, View view) {
         if (botStarsController.isBalanceAvailable(this.userId)) {
             presentFragment(new BotStarsActivity(this.userId));
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$31(View view) {
+    public /* synthetic */ void lambda$createView$30(View view) {
         Context context = view.getContext();
         Browser.openUrl(context, "https://t.me/BotFather?start=" + getActiveUsername(this.currentUser) + "-intro");
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$32(View view) {
+    public /* synthetic */ void lambda$createView$31(View view) {
         Context context = view.getContext();
         Browser.openUrl(context, "https://t.me/BotFather?start=" + getActiveUsername(this.currentUser) + "-commands");
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$33(View view) {
+    public /* synthetic */ void lambda$createView$32(View view) {
         Context context = view.getContext();
         Browser.openUrl(context, "https://t.me/BotFather?start=" + getActiveUsername(this.currentUser));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$35(View view) {
-        AlertsCreator.createClearOrDeleteDialogAlert(this, false, true, false, this.currentChat, null, false, true, false, new MessagesStorage.BooleanCallback() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda42
+    public /* synthetic */ void lambda$createView$34(View view) {
+        AlertsCreator.createClearOrDeleteDialogAlert(this, false, true, false, this.currentChat, null, false, true, false, new MessagesStorage.BooleanCallback() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda41
             @Override // org.telegram.messenger.MessagesStorage.BooleanCallback
             public final void run(boolean z) {
-                ChatEditActivity.this.lambda$createView$34(z);
+                ChatEditActivity.this.lambda$createView$33(z);
             }
         }, null);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$34(boolean z) {
+    public /* synthetic */ void lambda$createView$33(boolean z) {
         if (AndroidUtilities.isTablet()) {
             getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.closeChats, Long.valueOf(-this.chatId));
         } else {
@@ -2040,16 +2023,16 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
 
     @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
     public void didUploadPhoto(final TLRPC$InputFile tLRPC$InputFile, final TLRPC$InputFile tLRPC$InputFile2, final double d, final String str, final TLRPC$PhotoSize tLRPC$PhotoSize, final TLRPC$PhotoSize tLRPC$PhotoSize2, boolean z, final TLRPC$VideoSize tLRPC$VideoSize) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda40
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda39
             @Override // java.lang.Runnable
             public final void run() {
-                ChatEditActivity.this.lambda$didUploadPhoto$38(tLRPC$PhotoSize2, tLRPC$InputFile, tLRPC$InputFile2, tLRPC$VideoSize, tLRPC$PhotoSize, d, str);
+                ChatEditActivity.this.lambda$didUploadPhoto$37(tLRPC$PhotoSize2, tLRPC$InputFile, tLRPC$InputFile2, tLRPC$VideoSize, tLRPC$PhotoSize, d, str);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$didUploadPhoto$38(TLRPC$PhotoSize tLRPC$PhotoSize, TLRPC$InputFile tLRPC$InputFile, TLRPC$InputFile tLRPC$InputFile2, TLRPC$VideoSize tLRPC$VideoSize, TLRPC$PhotoSize tLRPC$PhotoSize2, double d, String str) {
+    public /* synthetic */ void lambda$didUploadPhoto$37(TLRPC$PhotoSize tLRPC$PhotoSize, TLRPC$InputFile tLRPC$InputFile, TLRPC$InputFile tLRPC$InputFile2, TLRPC$VideoSize tLRPC$VideoSize, TLRPC$PhotoSize tLRPC$PhotoSize2, double d, String str) {
         TLRPC$FileLocation tLRPC$FileLocation = tLRPC$PhotoSize.location;
         this.avatar = tLRPC$FileLocation;
         if (tLRPC$InputFile != null || tLRPC$InputFile2 != null || tLRPC$VideoSize != null) {
@@ -2087,10 +2070,10 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                 }
                 tLRPC$TL_photos_uploadProfilePhoto.bot = getMessagesController().getInputUser(this.currentUser);
                 tLRPC$TL_photos_uploadProfilePhoto.flags |= 32;
-                getConnectionsManager().sendRequest(tLRPC$TL_photos_uploadProfilePhoto, new RequestDelegate() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda46
+                getConnectionsManager().sendRequest(tLRPC$TL_photos_uploadProfilePhoto, new RequestDelegate() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda45
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                        ChatEditActivity.this.lambda$didUploadPhoto$37(tLObject, tLRPC$TL_error);
+                        ChatEditActivity.this.lambda$didUploadPhoto$36(tLObject, tLRPC$TL_error);
                     }
                 });
             } else {
@@ -2131,17 +2114,17 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$didUploadPhoto$37(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda37
+    public /* synthetic */ void lambda$didUploadPhoto$36(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda38
             @Override // java.lang.Runnable
             public final void run() {
-                ChatEditActivity.this.lambda$didUploadPhoto$36();
+                ChatEditActivity.this.lambda$didUploadPhoto$35();
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$didUploadPhoto$36() {
+    public /* synthetic */ void lambda$didUploadPhoto$35() {
         this.hasUploadedPhoto = true;
         NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.updateInterfaces, Integer.valueOf(MessagesController.UPDATE_MASK_AVATAR));
     }
@@ -2172,15 +2155,15 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             if ((editTextEmoji2 == null || this.currentUser.first_name.equals(editTextEmoji2.getText().toString())) && ((editTextBoldCursor2 = this.descriptionTextView) == null || str3.equals(editTextBoldCursor2.getText().toString()))) {
                 return true;
             }
-            showDialog(new AlertDialog.Builder(getParentActivity()).setTitle(LocaleController.getString("UserRestrictionsApplyChanges", R.string.UserRestrictionsApplyChanges)).setMessage(LocaleController.getString(R.string.BotSettingsChangedAlert)).setPositiveButton(LocaleController.getString("ApplyTheme", R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda6
+            showDialog(new AlertDialog.Builder(getParentActivity()).setTitle(LocaleController.getString("UserRestrictionsApplyChanges", R.string.UserRestrictionsApplyChanges)).setMessage(LocaleController.getString(R.string.BotSettingsChangedAlert)).setPositiveButton(LocaleController.getString("ApplyTheme", R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda5
+                @Override // android.content.DialogInterface.OnClickListener
+                public final void onClick(DialogInterface dialogInterface, int i) {
+                    ChatEditActivity.this.lambda$checkDiscard$38(dialogInterface, i);
+                }
+            }).setNegativeButton(LocaleController.getString("PassportDiscard", R.string.PassportDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda6
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i) {
                     ChatEditActivity.this.lambda$checkDiscard$39(dialogInterface, i);
-                }
-            }).setNegativeButton(LocaleController.getString("PassportDiscard", R.string.PassportDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda5
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i) {
-                    ChatEditActivity.this.lambda$checkDiscard$40(dialogInterface, i);
                 }
             }).create());
             return false;
@@ -2189,12 +2172,8 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         if (tLRPC$ChatFull != null && (str = tLRPC$ChatFull.about) != null) {
             str3 = str;
         }
-        if ((tLRPC$ChatFull == null || !ChatObject.isChannel(this.currentChat) || this.info.hidden_prehistory == this.historyHidden) && (((editTextEmoji = this.nameTextView) == null || this.currentChat.title.equals(editTextEmoji.getText().toString())) && ((editTextBoldCursor = this.descriptionTextView) == null || str3.equals(editTextBoldCursor.getText().toString())))) {
-            boolean z = this.signMessages;
-            TLRPC$Chat tLRPC$Chat = this.currentChat;
-            if (z == tLRPC$Chat.signatures && this.forum == tLRPC$Chat.forum) {
-                return true;
-            }
+        if ((tLRPC$ChatFull == null || !ChatObject.isChannel(this.currentChat) || this.info.hidden_prehistory == this.historyHidden) && (((editTextEmoji = this.nameTextView) == null || this.currentChat.title.equals(editTextEmoji.getText().toString())) && (((editTextBoldCursor = this.descriptionTextView) == null || str3.equals(editTextBoldCursor.getText().toString())) && this.forum == this.currentChat.forum))) {
+            return true;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
         builder.setTitle(LocaleController.getString("UserRestrictionsApplyChanges", R.string.UserRestrictionsApplyChanges));
@@ -2203,16 +2182,16 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         } else {
             builder.setMessage(LocaleController.getString("GroupSettingsChangedAlert", R.string.GroupSettingsChangedAlert));
         }
-        builder.setPositiveButton(LocaleController.getString("ApplyTheme", R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda3
+        builder.setPositiveButton(LocaleController.getString("ApplyTheme", R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda4
+            @Override // android.content.DialogInterface.OnClickListener
+            public final void onClick(DialogInterface dialogInterface, int i) {
+                ChatEditActivity.this.lambda$checkDiscard$40(dialogInterface, i);
+            }
+        });
+        builder.setNegativeButton(LocaleController.getString("PassportDiscard", R.string.PassportDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda3
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 ChatEditActivity.this.lambda$checkDiscard$41(dialogInterface, i);
-            }
-        });
-        builder.setNegativeButton(LocaleController.getString("PassportDiscard", R.string.PassportDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda4
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                ChatEditActivity.this.lambda$checkDiscard$42(dialogInterface, i);
             }
         });
         showDialog(builder.create());
@@ -2220,22 +2199,22 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$checkDiscard$39(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$checkDiscard$38(DialogInterface dialogInterface, int i) {
         processDone();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$checkDiscard$40(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$checkDiscard$39(DialogInterface dialogInterface, int i) {
         finishFragment();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$checkDiscard$41(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$checkDiscard$40(DialogInterface dialogInterface, int i) {
         processDone();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$checkDiscard$42(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$checkDiscard$41(DialogInterface dialogInterface, int i) {
         finishFragment();
     }
 
@@ -2292,24 +2271,24 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                 tL_bots$setBotInfo.flags = 1 | tL_bots$setBotInfo.flags;
             }
             this.progressDialog = new AlertDialog(getParentActivity(), 3);
-            final int sendRequest = getConnectionsManager().sendRequest(tL_bots$setBotInfo, new RequestDelegate() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda47
+            final int sendRequest = getConnectionsManager().sendRequest(tL_bots$setBotInfo, new RequestDelegate() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda46
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    ChatEditActivity.this.lambda$processDone$44(tL_bots$setBotInfo, tLObject, tLRPC$TL_error);
+                    ChatEditActivity.this.lambda$processDone$43(tL_bots$setBotInfo, tLObject, tLRPC$TL_error);
                 }
             });
             this.progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda2
                 @Override // android.content.DialogInterface.OnCancelListener
                 public final void onCancel(DialogInterface dialogInterface) {
-                    ChatEditActivity.this.lambda$processDone$45(sendRequest, dialogInterface);
+                    ChatEditActivity.this.lambda$processDone$44(sendRequest, dialogInterface);
                 }
             });
             this.progressDialog.show();
         } else if (!ChatObject.isChannel(this.currentChat) && (!this.historyHidden || this.forum)) {
-            getMessagesController().convertToMegaGroup(getParentActivity(), this.chatId, this, new MessagesStorage.LongCallback() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda43
+            getMessagesController().convertToMegaGroup(getParentActivity(), this.chatId, this, new MessagesStorage.LongCallback() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda42
                 @Override // org.telegram.messenger.MessagesStorage.LongCallback
                 public final void run(long j) {
-                    ChatEditActivity.this.lambda$processDone$46(j);
+                    ChatEditActivity.this.lambda$processDone$45(j);
                 }
             });
         } else {
@@ -2329,7 +2308,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                 alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda1
                     @Override // android.content.DialogInterface.OnCancelListener
                     public final void onCancel(DialogInterface dialogInterface) {
-                        ChatEditActivity.this.lambda$processDone$47(dialogInterface);
+                        ChatEditActivity.this.lambda$processDone$46(dialogInterface);
                     }
                 });
                 this.progressDialog.show();
@@ -2345,12 +2324,6 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             EditTextBoldCursor editTextBoldCursor2 = this.descriptionTextView;
             if (editTextBoldCursor2 != null && !str3.equals(editTextBoldCursor2.getText().toString())) {
                 getMessagesController().updateChatAbout(this.chatId, this.descriptionTextView.getText().toString(), this.info);
-            }
-            boolean z3 = this.signMessages;
-            TLRPC$Chat tLRPC$Chat = this.currentChat;
-            if (z3 != tLRPC$Chat.signatures) {
-                tLRPC$Chat.signatures = true;
-                getMessagesController().toggleChannelSignatures(this.chatId, this.signMessages);
             }
             if (this.forum != this.currentChat.forum) {
                 getMessagesController().toggleChannelForum(this.chatId, this.forum);
@@ -2369,35 +2342,35 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$processDone$44(TL_bots$setBotInfo tL_bots$setBotInfo, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$processDone$43(TL_bots$setBotInfo tL_bots$setBotInfo, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         TLRPC$UserFull tLRPC$UserFull = this.userInfo;
         if (tLRPC$UserFull != null) {
             tLRPC$UserFull.about = tL_bots$setBotInfo.about;
             getMessagesStorage().updateUserInfo(this.userInfo, false);
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda38
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda37
             @Override // java.lang.Runnable
             public final void run() {
-                ChatEditActivity.this.lambda$processDone$43();
+                ChatEditActivity.this.lambda$processDone$42();
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$processDone$43() {
+    public /* synthetic */ void lambda$processDone$42() {
         this.progressDialog.dismiss();
         finishFragment();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$processDone$45(int i, DialogInterface dialogInterface) {
+    public /* synthetic */ void lambda$processDone$44(int i, DialogInterface dialogInterface) {
         this.donePressed = false;
         this.progressDialog = null;
         getConnectionsManager().cancelRequest(i, true);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$processDone$46(long j) {
+    public /* synthetic */ void lambda$processDone$45(long j) {
         if (j == 0) {
             this.donePressed = false;
             return;
@@ -2413,7 +2386,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$processDone$47(DialogInterface dialogInterface) {
+    public /* synthetic */ void lambda$processDone$46(DialogInterface dialogInterface) {
         this.createAfterUpload = false;
         this.progressDialog = null;
         this.donePressed = false;
@@ -2540,7 +2513,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         boolean z3 = !ChatObject.isPublic(this.currentChat);
         TextInfoPrivacyCell textInfoPrivacyCell = this.settingsSectionCell;
         if (textInfoPrivacyCell != null) {
-            textInfoPrivacyCell.setVisibility((this.signCell == null && this.typeCell == null && ((textCell7 = this.linkedCell) == null || textCell7.getVisibility() != 0) && (((textCell8 = this.historyCell) == null || textCell8.getVisibility() != 0) && ((textCell9 = this.locationCell) == null || textCell9.getVisibility() != 0))) ? 8 : 0);
+            textInfoPrivacyCell.setVisibility((this.typeCell != null || ((textCell7 = this.linkedCell) != null && textCell7.getVisibility() == 0) || (((textCell8 = this.historyCell) != null && textCell8.getVisibility() == 0) || ((textCell9 = this.locationCell) != null && textCell9.getVisibility() == 0))) ? 0 : 8);
         }
         TextCell textCell10 = this.logCell;
         if (textCell10 != null) {
@@ -2790,12 +2763,11 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
 
     public void updateColorCell() {
         TextCell textCell;
-        TextCell textCell2;
         PeerColorActivity.ChangeNameColorCell changeNameColorCell = this.colorCell;
         if (changeNameColorCell != null) {
             TLRPC$Chat tLRPC$Chat = this.currentChat;
-            TextCell textCell3 = this.historyCell;
-            changeNameColorCell.set(tLRPC$Chat, (textCell3 != null && textCell3.getVisibility() == 0) || ((textCell = this.signCell) != null && textCell.getVisibility() == 0) || (((textCell2 = this.forumsCell) != null && textCell2.getVisibility() == 0) || (ChatObject.isMegagroup(this.currentChat) && ChatObject.hasAdminRights(this.currentChat))));
+            TextCell textCell2 = this.historyCell;
+            changeNameColorCell.set(tLRPC$Chat, (textCell2 != null && textCell2.getVisibility() == 0) || ((textCell = this.forumsCell) != null && textCell.getVisibility() == 0) || (ChatObject.isMegagroup(this.currentChat) && ChatObject.hasAdminRights(this.currentChat)));
         }
     }
 
@@ -2847,7 +2819,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda0
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                    ChatEditActivity.this.lambda$updateHistoryShow$48(arrayList, valueAnimator2);
+                    ChatEditActivity.this.lambda$updateHistoryShow$47(arrayList, valueAnimator2);
                 }
             });
             this.updateHistoryShowAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ChatEditActivity.11
@@ -2876,7 +2848,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$updateHistoryShow$48(ArrayList arrayList, ValueAnimator valueAnimator) {
+    public /* synthetic */ void lambda$updateHistoryShow$47(ArrayList arrayList, ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.historyCell.setAlpha(floatValue);
         TextCell textCell = this.historyCell;
@@ -2889,12 +2861,19 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
     }
 
     private void updateReactionsCell(boolean z) {
-        String string;
+        String str;
+        String str2;
         int i;
+        TLRPC$ChatFull chatFull = getMessagesController().getChatFull(-this.chatId);
         boolean isChannelAndNotMegaGroup = ChatObject.isChannelAndNotMegaGroup(this.currentChat);
         TLRPC$ChatReactions tLRPC$ChatReactions = this.availableReactions;
         if (tLRPC$ChatReactions == null || (tLRPC$ChatReactions instanceof TLRPC$TL_chatReactionsNone)) {
-            string = LocaleController.getString("ReactionsOff", R.string.ReactionsOff);
+            String string = LocaleController.getString(R.string.ReactionsOff);
+            if (chatFull == null || !chatFull.paid_media_allowed) {
+                str = string;
+                this.reactionsCell.setTextAndValueAndIcon(LocaleController.getString(R.string.Reactions), str, z, R.drawable.msg_reactions2, true);
+            }
+            str2 = "1";
         } else if (tLRPC$ChatReactions instanceof TLRPC$TL_chatReactionsSome) {
             TLRPC$TL_chatReactionsSome tLRPC$TL_chatReactionsSome = (TLRPC$TL_chatReactionsSome) tLRPC$ChatReactions;
             int i2 = 0;
@@ -2913,28 +2892,32 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                 }
             }
             if (isChannelAndNotMegaGroup) {
-                string = i2 == 0 ? LocaleController.getString("ReactionsOff", R.string.ReactionsOff) : String.valueOf(i2);
+                if (chatFull != null && chatFull.paid_media_allowed) {
+                    i2++;
+                }
+                str2 = i2 == 0 ? LocaleController.getString(R.string.ReactionsOff) : String.valueOf(i2);
             } else {
                 int min = Math.min(getMediaDataController().getEnabledReactionsList().size(), i2);
                 if (min == 0) {
-                    string = LocaleController.getString("ReactionsOff", R.string.ReactionsOff);
+                    str2 = LocaleController.getString(R.string.ReactionsOff);
                 } else {
-                    string = LocaleController.formatString("ReactionsCount", R.string.ReactionsCount, Integer.valueOf(min), Integer.valueOf(getMediaDataController().getEnabledReactionsList().size()));
+                    str2 = LocaleController.formatString(R.string.ReactionsCount, Integer.valueOf(min), Integer.valueOf(getMediaDataController().getEnabledReactionsList().size()));
                 }
             }
         } else {
-            string = LocaleController.getString("ReactionsAll", R.string.ReactionsAll);
+            str2 = LocaleController.getString(R.string.ReactionsAll);
         }
-        this.reactionsCell.setTextAndValueAndIcon(LocaleController.getString("Reactions", R.string.Reactions), string, z, R.drawable.msg_reactions2, true);
+        str = str2;
+        this.reactionsCell.setTextAndValueAndIcon(LocaleController.getString(R.string.Reactions), str, z, R.drawable.msg_reactions2, true);
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public ArrayList<ThemeDescription> getThemeDescriptions() {
         ArrayList<ThemeDescription> arrayList = new ArrayList<>();
-        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda48
+        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda47
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
-                ChatEditActivity.this.lambda$getThemeDescriptions$49();
+                ChatEditActivity.this.lambda$getThemeDescriptions$48();
             }
 
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
@@ -3007,10 +2990,6 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         arrayList.add(new ThemeDescription(this.settingsTopSectionCell, ThemeDescription.FLAG_BACKGROUNDFILTER, new Class[]{ShadowSectionCell.class}, null, null, null, i10));
         arrayList.add(new ThemeDescription(this.settingsSectionCell, ThemeDescription.FLAG_BACKGROUNDFILTER, new Class[]{ShadowSectionCell.class}, null, null, null, i10));
         arrayList.add(new ThemeDescription(this.deleteInfoCell, ThemeDescription.FLAG_BACKGROUNDFILTER, new Class[]{ShadowSectionCell.class}, null, null, null, i10));
-        arrayList.add(new ThemeDescription(this.signCell, ThemeDescription.FLAG_SELECTOR, null, null, null, null, i2));
-        arrayList.add(new ThemeDescription(this.signCell, 0, new Class[]{TextCheckCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i3));
-        arrayList.add(new ThemeDescription(this.signCell, 0, new Class[]{TextCheckCell.class}, new String[]{"checkBox"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, Theme.key_switchTrack));
-        arrayList.add(new ThemeDescription(this.signCell, 0, new Class[]{TextCheckCell.class}, new String[]{"checkBox"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, Theme.key_switchTrackChecked));
         arrayList.add(new ThemeDescription(this.deleteCell, ThemeDescription.FLAG_SELECTOR, null, null, null, null, i2));
         arrayList.add(new ThemeDescription(this.deleteCell, ThemeDescription.FLAG_TEXTCOLOR, new Class[]{TextSettingsCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, Theme.key_text_RedRegular));
         arrayList.add(new ThemeDescription(this.stickersCell, ThemeDescription.FLAG_SELECTOR, null, null, null, null, i2));
@@ -3046,7 +3025,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$getThemeDescriptions$49() {
+    public /* synthetic */ void lambda$getThemeDescriptions$48() {
         BackupImageView backupImageView = this.avatarImage;
         if (backupImageView != null) {
             backupImageView.invalidate();

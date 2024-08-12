@@ -1678,9 +1678,10 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
                 @Override // android.view.View
                 public void setTranslationY(float f) {
                     super.setTranslationY(f);
-                    FrameLayout frameLayout2 = BottomSheet.this.topBulletinContainer;
+                    BottomSheet bottomSheet = BottomSheet.this;
+                    FrameLayout frameLayout2 = bottomSheet.topBulletinContainer;
                     if (frameLayout2 != null) {
-                        frameLayout2.setTranslationY(((((-getHeight()) + f) - getPaddingTop()) - AndroidUtilities.statusBarHeight) + BottomSheet.this.backgroundPaddingTop);
+                        frameLayout2.setTranslationY((-(bottomSheet.container.getHeight() - BottomSheet.this.containerView.getY())) + BottomSheet.this.backgroundPaddingTop);
                     }
                     BottomSheet.this.onContainerTranslationYChanged(f);
                 }
@@ -1947,7 +1948,8 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
         }
     }
 
-    protected boolean canDismissWithSwipe() {
+    /* JADX INFO: Access modifiers changed from: protected */
+    public boolean canDismissWithSwipe() {
         return this.canDismissWithSwipe;
     }
 

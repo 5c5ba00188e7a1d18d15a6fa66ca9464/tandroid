@@ -991,6 +991,10 @@ public class GroupMedia {
                     groupedMessagePosition.photoWidth = 100;
                     groupedMessagePosition.photoHeight = 100;
                 }
+                if (groupedMessagePosition.photoWidth <= 0 || groupedMessagePosition.photoHeight <= 0) {
+                    groupedMessagePosition.photoWidth = 50;
+                    groupedMessagePosition.photoHeight = 50;
+                }
                 float f5 = groupedMessagePosition.photoWidth / groupedMessagePosition.photoHeight;
                 groupedMessagePosition.aspectRatio = f5;
                 if (f5 > 1.2f) {

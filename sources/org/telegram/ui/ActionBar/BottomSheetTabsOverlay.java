@@ -968,7 +968,7 @@ public class BottomSheetTabsOverlay extends FrameLayout {
                                 f2 = height;
                                 float lerp2 = AndroidUtilities.lerp(1.0f, AndroidUtilities.lerp(AndroidUtilities.lerp(1.0f, 1.0f - Utilities.clamp(f13 * 0.1f, 0.5f, 0.25f), 1.0f - max2), Math.min(1.0f, (float) Math.pow(0.699999988079071d, f17)), Utilities.clamp(f13 - 3.0f, 1.0f, 0.0f)), this.openProgress);
                                 canvas.scale(lerp2, lerp2, this.rect2.centerX(), this.rect2.top);
-                                scale(tabPreview.clickBounds, lerp2, this.rect.centerX(), this.rect2.top);
+                                AndroidUtilities.scaleRect(tabPreview.clickBounds, lerp2, this.rect.centerX(), this.rect2.top);
                                 tabPreview.draw(canvas, this.rect2, z, AndroidUtilities.lerp(tabPreview.tabDrawable.getAlpha(), 1.0f, this.openProgress), f5, 0.0f, AndroidUtilities.lerp(Utilities.clamp01((position - f13) + 2.0f), 1.0f, Utilities.clamp01((f5 - 0.1f) / 0.8f)));
                                 canvas.restore();
                             } else {
@@ -1119,10 +1119,6 @@ public class BottomSheetTabsOverlay extends FrameLayout {
             this.closeAllButtonText.draw(canvas, f21 + AndroidUtilities.dp(12.0f), f19 - (AndroidUtilities.dp(95.0f) / 2.0f), -1, this.openProgress);
             canvas.restore();
         }
-    }
-
-    private void scale(RectF rectF, float f, float f2, float f3) {
-        rectF.set(f2 - ((f2 - rectF.left) * f), f3 - ((f3 - rectF.top) * f), f2 + ((rectF.right - f2) * f), f3 + ((rectF.bottom - f3) * f));
     }
 
     @Override // android.view.ViewGroup, android.view.View

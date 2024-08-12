@@ -15,6 +15,7 @@ import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
@@ -358,6 +359,9 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
     private List<SpoilerEffect> spoilers2;
     private Stack<SpoilerEffect> spoilersPool;
     private Stack<SpoilerEffect> spoilersPool2;
+    private Drawable starBg;
+    private int starBgColor;
+    private Drawable starFg;
     private boolean statusDrawableAnimationInProgress;
     private ValueAnimator statusDrawableAnimator;
     private int statusDrawableLeft;
@@ -1066,37 +1070,37 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
     /* JADX WARN: Code restructure failed: missing block: B:295:0x061c, code lost:
         if (r2.post_messages == false) goto L833;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:966:0x1376, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:966:0x1386, code lost:
         if (r2 == null) goto L907;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:1001:0x140f  */
-    /* JADX WARN: Removed duplicated region for block: B:1498:0x2026  */
-    /* JADX WARN: Removed duplicated region for block: B:1575:0x2232  */
-    /* JADX WARN: Removed duplicated region for block: B:1633:0x2353  */
-    /* JADX WARN: Removed duplicated region for block: B:1634:0x235b  */
+    /* JADX WARN: Removed duplicated region for block: B:1001:0x141f  */
+    /* JADX WARN: Removed duplicated region for block: B:1498:0x2036  */
+    /* JADX WARN: Removed duplicated region for block: B:1575:0x2242  */
+    /* JADX WARN: Removed duplicated region for block: B:1633:0x2363  */
+    /* JADX WARN: Removed duplicated region for block: B:1634:0x236b  */
     /* JADX WARN: Removed duplicated region for block: B:226:0x052c  */
     /* JADX WARN: Removed duplicated region for block: B:313:0x0645  */
-    /* JADX WARN: Removed duplicated region for block: B:328:0x06ad  */
-    /* JADX WARN: Removed duplicated region for block: B:425:0x08ec  */
-    /* JADX WARN: Removed duplicated region for block: B:633:0x0c64  */
-    /* JADX WARN: Removed duplicated region for block: B:634:0x0c67  */
-    /* JADX WARN: Removed duplicated region for block: B:768:0x0fcf  */
-    /* JADX WARN: Removed duplicated region for block: B:773:0x0fe0  */
-    /* JADX WARN: Removed duplicated region for block: B:783:0x1044  */
-    /* JADX WARN: Removed duplicated region for block: B:784:0x1056  */
-    /* JADX WARN: Removed duplicated region for block: B:832:0x113e  */
-    /* JADX WARN: Removed duplicated region for block: B:833:0x1146  */
-    /* JADX WARN: Removed duplicated region for block: B:874:0x11e7  */
-    /* JADX WARN: Removed duplicated region for block: B:875:0x11ec  */
-    /* JADX WARN: Removed duplicated region for block: B:878:0x11f3  */
-    /* JADX WARN: Removed duplicated region for block: B:879:0x11f6  */
-    /* JADX WARN: Removed duplicated region for block: B:945:0x12f4  */
-    /* JADX WARN: Removed duplicated region for block: B:946:0x12fe  */
-    /* JADX WARN: Removed duplicated region for block: B:956:0x1338  */
-    /* JADX WARN: Removed duplicated region for block: B:958:0x134b  */
+    /* JADX WARN: Removed duplicated region for block: B:328:0x06b5  */
+    /* JADX WARN: Removed duplicated region for block: B:425:0x08fc  */
+    /* JADX WARN: Removed duplicated region for block: B:633:0x0c74  */
+    /* JADX WARN: Removed duplicated region for block: B:634:0x0c77  */
+    /* JADX WARN: Removed duplicated region for block: B:768:0x0fdf  */
+    /* JADX WARN: Removed duplicated region for block: B:773:0x0ff0  */
+    /* JADX WARN: Removed duplicated region for block: B:783:0x1054  */
+    /* JADX WARN: Removed duplicated region for block: B:784:0x1066  */
+    /* JADX WARN: Removed duplicated region for block: B:832:0x114e  */
+    /* JADX WARN: Removed duplicated region for block: B:833:0x1156  */
+    /* JADX WARN: Removed duplicated region for block: B:874:0x11f7  */
+    /* JADX WARN: Removed duplicated region for block: B:875:0x11fc  */
+    /* JADX WARN: Removed duplicated region for block: B:878:0x1203  */
+    /* JADX WARN: Removed duplicated region for block: B:879:0x1206  */
+    /* JADX WARN: Removed duplicated region for block: B:945:0x1304  */
+    /* JADX WARN: Removed duplicated region for block: B:946:0x130e  */
+    /* JADX WARN: Removed duplicated region for block: B:956:0x1348  */
+    /* JADX WARN: Removed duplicated region for block: B:958:0x135b  */
     /* JADX WARN: Type inference failed for: r0v168, types: [java.lang.CharSequence] */
-    /* JADX WARN: Type inference failed for: r10v44, types: [android.text.SpannableStringBuilder] */
+    /* JADX WARN: Type inference failed for: r10v47, types: [android.text.SpannableStringBuilder] */
     /* JADX WARN: Type inference failed for: r11v29, types: [android.text.SpannableStringBuilder] */
     /* JADX WARN: Type inference failed for: r1v159 */
     /* JADX WARN: Type inference failed for: r1v215 */
@@ -1546,7 +1550,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                         string = AndroidUtilities.removeDiacritics(getMessageNameString());
                         charSequence = formatTopicsNames();
                         MessageObject messageObject7 = this.message;
-                        String messageStringFormatted = this.message != null ? getMessageStringFormatted(i, messageObject7 != null ? MessagesController.getRestrictionReason(messageObject7.messageOwner.restriction_reason) : null, string, true) : "";
+                        String messageStringFormatted = this.message != null ? getMessageStringFormatted(i, messageObject7 != null ? MessagesController.getInstance(messageObject7.currentAccount).getRestrictionReason(this.message.messageOwner.restriction_reason) : null, string, true) : "";
                         if (this.applyName && messageStringFormatted.length() >= 0 && string != null) {
                             messageStringFormatted = SpannableStringBuilder.valueOf(messageStringFormatted);
                             messageStringFormatted.setSpan(new ForegroundColorSpanThemable(Theme.key_chats_name, this.resourcesProvider), 0, Math.min(messageStringFormatted.length(), string.length() + 1), 0);
@@ -1680,7 +1684,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                                         spannableStringBuilder7 = null;
                                     }
                                 } else {
-                                    String restrictionReason = MessagesController.getRestrictionReason(messageObject8.messageOwner.restriction_reason);
+                                    String restrictionReason = MessagesController.getInstance(messageObject8.currentAccount).getRestrictionReason(this.message.messageOwner.restriction_reason);
                                     long fromChatId = this.message.getFromChatId();
                                     if (DialogObject.isUserDialog(fromChatId)) {
                                         MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(fromChatId));
@@ -5231,31 +5235,29 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:33:0x0154, code lost:
-        if (r8 > 0) goto L61;
+    /* JADX WARN: Code restructure failed: missing block: B:60:0x022f, code lost:
+        if (r3 > 0) goto L85;
      */
-    /* JADX WARN: Removed duplicated region for block: B:185:0x0544  */
-    /* JADX WARN: Removed duplicated region for block: B:190:0x05ca  */
-    /* JADX WARN: Removed duplicated region for block: B:195:0x05d7  */
-    /* JADX WARN: Removed duplicated region for block: B:202:0x05f6  */
-    /* JADX WARN: Removed duplicated region for block: B:205:0x05fc  */
-    /* JADX WARN: Removed duplicated region for block: B:210:0x060f  */
-    /* JADX WARN: Removed duplicated region for block: B:217:0x0627  */
-    /* JADX WARN: Removed duplicated region for block: B:221:0x0632  */
-    /* JADX WARN: Removed duplicated region for block: B:224:0x063f  */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x0162  */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0186  */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x0193  */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x01be  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x01d4  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0236  */
+    /* JADX WARN: Removed duplicated region for block: B:215:0x0623  */
+    /* JADX WARN: Removed duplicated region for block: B:220:0x06a9  */
+    /* JADX WARN: Removed duplicated region for block: B:225:0x06b6  */
+    /* JADX WARN: Removed duplicated region for block: B:232:0x06d5  */
+    /* JADX WARN: Removed duplicated region for block: B:235:0x06dc  */
+    /* JADX WARN: Removed duplicated region for block: B:240:0x06ef  */
+    /* JADX WARN: Removed duplicated region for block: B:247:0x0707  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x023d  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x0261  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x026e  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x0299  */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x02af  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x0311  */
     @Override // org.telegram.ui.Stories.StoriesListPlaceProvider.AvatarOverlaysView
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public boolean drawAvatarOverlays(Canvas canvas) {
         boolean z;
-        float dp;
+        int dp;
         float dp2;
         float dp3;
         float dp4;
@@ -5270,13 +5272,49 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
         float dp10;
         float f4;
         float f5;
-        boolean z2;
         float dp11;
         float dp12;
         CheckBox2 checkBox2;
         Drawable drawable;
-        float f6 = this.premiumBlockedT.set(this.premiumBlocked);
-        boolean z3 = false;
+        TLRPC$Chat tLRPC$Chat = this.chat;
+        boolean z2 = false;
+        if (tLRPC$Chat == null || (tLRPC$Chat.flags2 & 2048) == 0) {
+            z = false;
+        } else {
+            float imageY2 = this.avatarImage.getImageY2();
+            float imageX2 = this.avatarImage.getImageX2();
+            CheckBox2 checkBox22 = this.checkBox;
+            float progress = (checkBox22 == null || !checkBox22.isChecked()) ? 1.0f : 1.0f - this.checkBox.getProgress();
+            if (this.starBg == null) {
+                this.starBg = getContext().getResources().getDrawable(R.drawable.star_small_outline).mutate();
+            }
+            int color = Theme.getColor(Theme.key_windowBackgroundWhite);
+            if (this.starBgColor != color) {
+                Drawable drawable2 = this.starBg;
+                this.starBgColor = color;
+                drawable2.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN));
+            }
+            if (this.starFg == null) {
+                this.starFg = getContext().getResources().getDrawable(R.drawable.star_small_inner).mutate();
+            }
+            int dp13 = AndroidUtilities.dp(19.33f);
+            Rect rect = AndroidUtilities.rectTmp2;
+            int i = (int) imageX2;
+            int i2 = (int) imageY2;
+            int i3 = i2 - dp13;
+            rect.set((AndroidUtilities.dp(1.66f) + i) - dp13, i3, AndroidUtilities.dp(1.66f) + i, i2);
+            rect.inset(-AndroidUtilities.dp(1.0f), -AndroidUtilities.dp(1.0f));
+            this.starBg.setBounds(rect);
+            int i4 = (int) (progress * 255.0f);
+            this.starBg.setAlpha(i4);
+            this.starBg.draw(canvas);
+            rect.set((AndroidUtilities.dp(1.66f) + i) - dp13, i3, i + AndroidUtilities.dp(1.66f), i2);
+            this.starFg.setBounds(rect);
+            this.starFg.setAlpha(i4);
+            this.starFg.draw(canvas);
+            z = true;
+        }
+        float f6 = this.premiumBlockedT.set(this.premiumBlocked && !z);
         float f7 = 10.0f;
         if (f6 > 0.0f) {
             float centerY = this.avatarImage.getCenterY() + AndroidUtilities.dp(18.0f);
@@ -5299,15 +5337,15 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
             this.lockDrawable.draw(canvas);
             canvas.restore();
             return false;
-        } else if (this.isDialogCell && this.currentDialogFolderId == 0) {
-            boolean z4 = (this.ttlPeriod <= 0 || isOnline() || this.hasCall) ? false : true;
-            this.showTtl = z4;
-            if (this.rightFragmentOpenedProgress != 1.0f && (z4 || this.ttlProgress > 0.0f)) {
+        } else if (this.isDialogCell && this.currentDialogFolderId == 0 && !z) {
+            boolean z3 = (this.ttlPeriod <= 0 || isOnline() || this.hasCall) ? false : true;
+            this.showTtl = z3;
+            if (this.rightFragmentOpenedProgress != 1.0f && (z3 || this.ttlProgress > 0.0f)) {
                 TimerDrawable timerDrawable = this.timerDrawable;
                 if (timerDrawable != null) {
                     int time = timerDrawable.getTime();
-                    int i = this.ttlPeriod;
-                    if (time != i) {
+                    int i5 = this.ttlPeriod;
+                    if (time != i5) {
                     }
                     if (this.timerPaint == null) {
                         this.timerPaint = new Paint(1);
@@ -5315,13 +5353,13 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                         this.timerPaint2 = paint;
                         paint.setColor(838860800);
                     }
-                    int imageY2 = (int) (this.avatarImage.getImageY2() - AndroidUtilities.dp(9.0f));
+                    int imageY22 = (int) (this.avatarImage.getImageY2() - AndroidUtilities.dp(9.0f));
                     if (!LocaleController.isRTL) {
                         dp12 = this.storyParams.originalAvatarRect.left + AndroidUtilities.dp(9.0f);
                     } else {
                         dp12 = this.storyParams.originalAvatarRect.right - AndroidUtilities.dp(9.0f);
                     }
-                    int i2 = (int) dp12;
+                    int i6 = (int) dp12;
                     this.timerDrawable.setBounds(0, 0, AndroidUtilities.dp(22.0f), AndroidUtilities.dp(22.0f));
                     this.timerDrawable.setTime(this.ttlPeriod);
                     if (!this.avatarImage.updateThumbShaderMatrix()) {
@@ -5351,8 +5389,8 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                     if (checkBox2 != null) {
                         f8 *= 1.0f - checkBox2.getProgress();
                     }
-                    float f9 = i2;
-                    float f10 = imageY2;
+                    float f9 = i6;
+                    float f10 = imageY22;
                     canvas.scale(f8, f8, f9, f10);
                     canvas.drawCircle(f9, f10, AndroidUtilities.dpf2(11.0f), this.timerPaint);
                     canvas.drawCircle(f9, f10, AndroidUtilities.dpf2(11.0f), this.timerPaint2);
@@ -5365,10 +5403,10 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 this.timerDrawable = TimerDrawable.getTtlIconForDialogs(this.ttlPeriod);
                 if (this.timerPaint == null) {
                 }
-                int imageY22 = (int) (this.avatarImage.getImageY2() - AndroidUtilities.dp(9.0f));
+                int imageY222 = (int) (this.avatarImage.getImageY2() - AndroidUtilities.dp(9.0f));
                 if (!LocaleController.isRTL) {
                 }
-                int i22 = (int) dp12;
+                int i62 = (int) dp12;
                 this.timerDrawable.setBounds(0, 0, AndroidUtilities.dp(22.0f), AndroidUtilities.dp(22.0f));
                 this.timerDrawable.setTime(this.ttlPeriod);
                 if (!this.avatarImage.updateThumbShaderMatrix()) {
@@ -5378,8 +5416,8 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 checkBox2 = this.checkBox;
                 if (checkBox2 != null) {
                 }
-                float f92 = i22;
-                float f102 = imageY22;
+                float f92 = i62;
+                float f102 = imageY222;
                 canvas.scale(f82, f82, f92, f102);
                 canvas.drawCircle(f92, f102, AndroidUtilities.dpf2(11.0f), this.timerPaint);
                 canvas.drawCircle(f92, f102, AndroidUtilities.dpf2(11.0f), this.timerPaint2);
@@ -5390,126 +5428,119 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 canvas.restore();
             }
             TLRPC$User tLRPC$User = this.user;
-            float f11 = 8.0f;
             if (tLRPC$User != null && !MessagesController.isSupportUser(tLRPC$User) && !this.user.bot) {
                 boolean isOnline = isOnline();
                 this.wasDrawnOnline = isOnline;
                 if (isOnline || this.onlineProgress != 0.0f) {
-                    int dp13 = (int) (this.storyParams.originalAvatarRect.bottom - AndroidUtilities.dp((this.useForceThreeLines || SharedConfig.useThreeLinesLayout) ? 6.0f : 6.0f));
+                    int dp14 = (int) (this.storyParams.originalAvatarRect.bottom - AndroidUtilities.dp((this.useForceThreeLines || SharedConfig.useThreeLinesLayout) ? 6.0f : 8.0f));
                     if (LocaleController.isRTL) {
-                        float f12 = this.storyParams.originalAvatarRect.left;
+                        float f11 = this.storyParams.originalAvatarRect.left;
                         if (!this.useForceThreeLines && !SharedConfig.useThreeLinesLayout) {
                             f7 = 6.0f;
                         }
-                        dp11 = f12 + AndroidUtilities.dp(f7);
+                        dp11 = f11 + AndroidUtilities.dp(f7);
                     } else {
-                        float f13 = this.storyParams.originalAvatarRect.right;
+                        float f12 = this.storyParams.originalAvatarRect.right;
                         if (!this.useForceThreeLines && !SharedConfig.useThreeLinesLayout) {
                             f7 = 6.0f;
                         }
-                        dp11 = f13 - AndroidUtilities.dp(f7);
+                        dp11 = f12 - AndroidUtilities.dp(f7);
                     }
                     Theme.dialogs_onlineCirclePaint.setColor(Theme.getColor(Theme.key_windowBackgroundWhite, this.resourcesProvider));
-                    float f14 = (int) dp11;
-                    float f15 = dp13;
-                    canvas.drawCircle(f14, f15, AndroidUtilities.dp(7.0f) * this.onlineProgress, Theme.dialogs_onlineCirclePaint);
+                    float f13 = (int) dp11;
+                    float f14 = dp14;
+                    canvas.drawCircle(f13, f14, AndroidUtilities.dp(7.0f) * this.onlineProgress, Theme.dialogs_onlineCirclePaint);
                     Theme.dialogs_onlineCirclePaint.setColor(Theme.getColor(Theme.key_chats_onlineCircle, this.resourcesProvider));
-                    canvas.drawCircle(f14, f15, AndroidUtilities.dp(5.0f) * this.onlineProgress, Theme.dialogs_onlineCirclePaint);
+                    canvas.drawCircle(f13, f14, AndroidUtilities.dp(5.0f) * this.onlineProgress, Theme.dialogs_onlineCirclePaint);
                     if (isOnline) {
-                        float f16 = this.onlineProgress;
-                        if (f16 < 1.0f) {
-                            float f17 = f16 + 0.10666667f;
-                            this.onlineProgress = f17;
-                            if (f17 > 1.0f) {
+                        float f15 = this.onlineProgress;
+                        if (f15 < 1.0f) {
+                            float f16 = f15 + 0.10666667f;
+                            this.onlineProgress = f16;
+                            if (f16 > 1.0f) {
                                 this.onlineProgress = 1.0f;
                             }
-                            z3 = true;
+                            z2 = true;
                         }
                     } else {
-                        float f18 = this.onlineProgress;
-                        if (f18 > 0.0f) {
-                            float f19 = f18 - 0.10666667f;
-                            this.onlineProgress = f19;
-                            if (f19 < 0.0f) {
+                        float f17 = this.onlineProgress;
+                        if (f17 > 0.0f) {
+                            float f18 = f17 - 0.10666667f;
+                            this.onlineProgress = f18;
+                            if (f18 < 0.0f) {
                                 this.onlineProgress = 0.0f;
                             }
-                            z3 = true;
+                            z2 = true;
                         }
                     }
-                    if (!this.showTtl) {
-                    }
-                    this.ttlProgress = Utilities.clamp(this.ttlProgress, 1.0f, 0.0f);
-                    return z2;
                 }
-                z = z3;
             } else {
-                TLRPC$Chat tLRPC$Chat = this.chat;
-                if (tLRPC$Chat != null) {
-                    boolean z5 = tLRPC$Chat.call_active && tLRPC$Chat.call_not_empty;
-                    this.hasCall = z5;
-                    if ((z5 || this.chatCallProgress != 0.0f) && this.rightFragmentOpenedProgress < 1.0f) {
-                        CheckBox2 checkBox22 = this.checkBox;
-                        float progress = (checkBox22 == null || !checkBox22.isChecked()) ? 1.0f : 1.0f - this.checkBox.getProgress();
-                        int dp14 = (int) (this.storyParams.originalAvatarRect.bottom - AndroidUtilities.dp((this.useForceThreeLines || SharedConfig.useThreeLinesLayout) ? 6.0f : 6.0f));
+                TLRPC$Chat tLRPC$Chat2 = this.chat;
+                if (tLRPC$Chat2 != null) {
+                    boolean z4 = tLRPC$Chat2.call_active && tLRPC$Chat2.call_not_empty;
+                    this.hasCall = z4;
+                    if ((z4 || this.chatCallProgress != 0.0f) && this.rightFragmentOpenedProgress < 1.0f) {
+                        CheckBox2 checkBox23 = this.checkBox;
+                        float progress2 = (checkBox23 == null || !checkBox23.isChecked()) ? 1.0f : 1.0f - this.checkBox.getProgress();
+                        int dp15 = (int) (this.storyParams.originalAvatarRect.bottom - AndroidUtilities.dp((this.useForceThreeLines || SharedConfig.useThreeLinesLayout) ? 6.0f : 8.0f));
                         if (LocaleController.isRTL) {
-                            dp = this.storyParams.originalAvatarRect.left + AndroidUtilities.dp((this.useForceThreeLines || SharedConfig.useThreeLinesLayout) ? 10.0f : 6.0f);
+                            dp = (int) (this.storyParams.originalAvatarRect.left + AndroidUtilities.dp((this.useForceThreeLines || SharedConfig.useThreeLinesLayout) ? 10.0f : 6.0f));
                         } else {
-                            dp = this.storyParams.originalAvatarRect.right - AndroidUtilities.dp((this.useForceThreeLines || SharedConfig.useThreeLinesLayout) ? 10.0f : 6.0f);
+                            dp = (int) (this.storyParams.originalAvatarRect.right - AndroidUtilities.dp((this.useForceThreeLines || SharedConfig.useThreeLinesLayout) ? 10.0f : 6.0f));
                         }
-                        int i3 = (int) dp;
                         if (this.rightFragmentOpenedProgress != 0.0f) {
                             canvas.save();
-                            float f20 = 1.0f - this.rightFragmentOpenedProgress;
-                            canvas.scale(f20, f20, i3, dp14);
+                            float f19 = 1.0f - this.rightFragmentOpenedProgress;
+                            canvas.scale(f19, f19, dp, dp15);
                         }
                         Paint paint2 = Theme.dialogs_onlineCirclePaint;
-                        int i4 = Theme.key_windowBackgroundWhite;
-                        paint2.setColor(Theme.getColor(i4, this.resourcesProvider));
-                        float f21 = i3;
-                        float f22 = dp14;
-                        canvas.drawCircle(f21, f22, AndroidUtilities.dp(11.0f) * this.chatCallProgress * progress, Theme.dialogs_onlineCirclePaint);
+                        int i7 = Theme.key_windowBackgroundWhite;
+                        paint2.setColor(Theme.getColor(i7, this.resourcesProvider));
+                        float f20 = dp;
+                        float f21 = dp15;
+                        canvas.drawCircle(f20, f21, AndroidUtilities.dp(11.0f) * this.chatCallProgress * progress2, Theme.dialogs_onlineCirclePaint);
                         Theme.dialogs_onlineCirclePaint.setColor(Theme.getColor(Theme.key_chats_onlineCircle, this.resourcesProvider));
-                        canvas.drawCircle(f21, f22, AndroidUtilities.dp(9.0f) * this.chatCallProgress * progress, Theme.dialogs_onlineCirclePaint);
-                        Theme.dialogs_onlineCirclePaint.setColor(Theme.getColor(i4, this.resourcesProvider));
+                        canvas.drawCircle(f20, f21, AndroidUtilities.dp(9.0f) * this.chatCallProgress * progress2, Theme.dialogs_onlineCirclePaint);
+                        Theme.dialogs_onlineCirclePaint.setColor(Theme.getColor(i7, this.resourcesProvider));
                         if (!LiteMode.isEnabled(LiteMode.FLAGS_CHAT)) {
                             this.innerProgress = 0.65f;
                         }
-                        int i5 = this.progressStage;
-                        if (i5 == 0) {
+                        int i8 = this.progressStage;
+                        if (i8 == 0) {
                             dp2 = AndroidUtilities.dp(1.0f) + (AndroidUtilities.dp(4.0f) * this.innerProgress);
                             dp9 = AndroidUtilities.dp(3.0f);
                             dp10 = AndroidUtilities.dp(2.0f);
                             f4 = this.innerProgress;
                         } else {
-                            if (i5 == 1) {
+                            if (i8 == 1) {
                                 dp2 = AndroidUtilities.dp(5.0f) - (AndroidUtilities.dp(4.0f) * this.innerProgress);
                                 dp7 = AndroidUtilities.dp(1.0f);
                                 dp8 = AndroidUtilities.dp(4.0f);
                                 f3 = this.innerProgress;
                             } else {
-                                if (i5 == 2) {
+                                if (i8 == 2) {
                                     dp2 = AndroidUtilities.dp(1.0f) + (AndroidUtilities.dp(2.0f) * this.innerProgress);
                                     dp5 = AndroidUtilities.dp(5.0f);
                                     dp6 = AndroidUtilities.dp(4.0f);
                                     f2 = this.innerProgress;
                                 } else {
-                                    if (i5 == 3) {
+                                    if (i8 == 3) {
                                         dp2 = AndroidUtilities.dp(3.0f) - (AndroidUtilities.dp(2.0f) * this.innerProgress);
                                         dp3 = AndroidUtilities.dp(1.0f);
                                         dp4 = AndroidUtilities.dp(2.0f);
                                         f = this.innerProgress;
-                                    } else if (i5 == 4) {
+                                    } else if (i8 == 4) {
                                         dp2 = AndroidUtilities.dp(1.0f) + (AndroidUtilities.dp(4.0f) * this.innerProgress);
                                         dp9 = AndroidUtilities.dp(3.0f);
                                         dp10 = AndroidUtilities.dp(2.0f);
                                         f4 = this.innerProgress;
-                                    } else if (i5 == 5) {
+                                    } else if (i8 == 5) {
                                         dp2 = AndroidUtilities.dp(5.0f) - (AndroidUtilities.dp(4.0f) * this.innerProgress);
                                         dp7 = AndroidUtilities.dp(1.0f);
                                         dp8 = AndroidUtilities.dp(4.0f);
                                         f3 = this.innerProgress;
-                                    } else if (i5 == 6) {
-                                        dp2 = (AndroidUtilities.dp(4.0f) * this.innerProgress) + AndroidUtilities.dp(1.0f);
+                                    } else if (i8 == 6) {
+                                        dp2 = AndroidUtilities.dp(1.0f) + (AndroidUtilities.dp(4.0f) * this.innerProgress);
                                         dp5 = AndroidUtilities.dp(5.0f);
                                         dp6 = AndroidUtilities.dp(4.0f);
                                         f2 = this.innerProgress;
@@ -5520,56 +5551,52 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                                         f = this.innerProgress;
                                     }
                                     f5 = dp3 + (dp4 * f);
-                                    if (this.chatCallProgress >= 1.0f || progress < 1.0f) {
+                                    if (this.chatCallProgress >= 1.0f || progress2 < 1.0f) {
                                         canvas.save();
-                                        float f23 = this.chatCallProgress;
-                                        canvas.scale(f23 * progress, f23 * progress, f21, f22);
+                                        float f22 = this.chatCallProgress;
+                                        canvas.scale(f22 * progress2, f22 * progress2, f20, f21);
                                     }
-                                    this.rect.set(i3 - AndroidUtilities.dp(1.0f), f22 - dp2, i3 + AndroidUtilities.dp(1.0f), dp2 + f22);
+                                    this.rect.set(dp - AndroidUtilities.dp(1.0f), f21 - dp2, dp + AndroidUtilities.dp(1.0f), dp2 + f21);
                                     canvas.drawRoundRect(this.rect, AndroidUtilities.dp(1.0f), AndroidUtilities.dp(1.0f), Theme.dialogs_onlineCirclePaint);
-                                    float f24 = f22 - f5;
-                                    float f25 = f22 + f5;
-                                    this.rect.set(i3 - AndroidUtilities.dp(5.0f), f24, i3 - AndroidUtilities.dp(3.0f), f25);
+                                    float f23 = f21 - f5;
+                                    float f24 = f21 + f5;
+                                    this.rect.set(dp - AndroidUtilities.dp(5.0f), f23, dp - AndroidUtilities.dp(3.0f), f24);
                                     canvas.drawRoundRect(this.rect, AndroidUtilities.dp(1.0f), AndroidUtilities.dp(1.0f), Theme.dialogs_onlineCirclePaint);
-                                    this.rect.set(AndroidUtilities.dp(3.0f) + i3, f24, i3 + AndroidUtilities.dp(5.0f), f25);
+                                    this.rect.set(AndroidUtilities.dp(3.0f) + dp, f23, dp + AndroidUtilities.dp(5.0f), f24);
                                     canvas.drawRoundRect(this.rect, AndroidUtilities.dp(1.0f), AndroidUtilities.dp(1.0f), Theme.dialogs_onlineCirclePaint);
-                                    if (this.chatCallProgress >= 1.0f || progress < 1.0f) {
+                                    if (this.chatCallProgress >= 1.0f || progress2 < 1.0f) {
                                         canvas.restore();
                                     }
                                     if (LiteMode.isEnabled(LiteMode.FLAGS_CHAT)) {
-                                        z = false;
-                                        z2 = true;
+                                        z2 = false;
                                     } else {
-                                        float f26 = this.innerProgress + 0.04f;
-                                        this.innerProgress = f26;
-                                        if (f26 >= 1.0f) {
+                                        float f25 = this.innerProgress + 0.04f;
+                                        this.innerProgress = f25;
+                                        if (f25 >= 1.0f) {
                                             this.innerProgress = 0.0f;
-                                            z2 = true;
-                                            int i6 = this.progressStage + 1;
-                                            this.progressStage = i6;
-                                            if (i6 >= 8) {
+                                            int i9 = this.progressStage + 1;
+                                            this.progressStage = i9;
+                                            if (i9 >= 8) {
                                                 this.progressStage = 0;
                                             }
-                                        } else {
-                                            z2 = true;
                                         }
-                                        z = true;
+                                        z2 = true;
                                     }
                                     if (!this.hasCall) {
-                                        float f27 = this.chatCallProgress;
-                                        if (f27 < 1.0f) {
-                                            float f28 = f27 + 0.10666667f;
-                                            this.chatCallProgress = f28;
-                                            if (f28 > 1.0f) {
+                                        float f26 = this.chatCallProgress;
+                                        if (f26 < 1.0f) {
+                                            float f27 = f26 + 0.10666667f;
+                                            this.chatCallProgress = f27;
+                                            if (f27 > 1.0f) {
                                                 this.chatCallProgress = 1.0f;
                                             }
                                         }
                                     } else {
-                                        float f29 = this.chatCallProgress;
-                                        if (f29 > 0.0f) {
-                                            float f30 = f29 - 0.10666667f;
-                                            this.chatCallProgress = f30;
-                                            if (f30 < 0.0f) {
+                                        float f28 = this.chatCallProgress;
+                                        if (f28 > 0.0f) {
+                                            float f29 = f28 - 0.10666667f;
+                                            this.chatCallProgress = f29;
+                                            if (f29 < 0.0f) {
                                                 this.chatCallProgress = 0.0f;
                                             }
                                         }
@@ -5577,35 +5604,20 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                                     if (this.rightFragmentOpenedProgress != 0.0f) {
                                         canvas.restore();
                                     }
-                                    if (!this.showTtl) {
-                                        float f31 = this.ttlProgress;
-                                        if (f31 < 1.0f) {
-                                            this.ttlProgress = f31 + 0.10666667f;
-                                        }
-                                        z2 = z;
-                                    } else {
-                                        float f32 = this.ttlProgress;
-                                        if (f32 > 0.0f) {
-                                            this.ttlProgress = f32 - 0.10666667f;
-                                        }
-                                        z2 = z;
-                                    }
-                                    this.ttlProgress = Utilities.clamp(this.ttlProgress, 1.0f, 0.0f);
-                                    return z2;
                                 }
                                 f5 = dp5 - (dp6 * f2);
                                 if (this.chatCallProgress >= 1.0f) {
                                 }
                                 canvas.save();
-                                float f232 = this.chatCallProgress;
-                                canvas.scale(f232 * progress, f232 * progress, f21, f22);
-                                this.rect.set(i3 - AndroidUtilities.dp(1.0f), f22 - dp2, i3 + AndroidUtilities.dp(1.0f), dp2 + f22);
+                                float f222 = this.chatCallProgress;
+                                canvas.scale(f222 * progress2, f222 * progress2, f20, f21);
+                                this.rect.set(dp - AndroidUtilities.dp(1.0f), f21 - dp2, dp + AndroidUtilities.dp(1.0f), dp2 + f21);
                                 canvas.drawRoundRect(this.rect, AndroidUtilities.dp(1.0f), AndroidUtilities.dp(1.0f), Theme.dialogs_onlineCirclePaint);
-                                float f242 = f22 - f5;
-                                float f252 = f22 + f5;
-                                this.rect.set(i3 - AndroidUtilities.dp(5.0f), f242, i3 - AndroidUtilities.dp(3.0f), f252);
+                                float f232 = f21 - f5;
+                                float f242 = f21 + f5;
+                                this.rect.set(dp - AndroidUtilities.dp(5.0f), f232, dp - AndroidUtilities.dp(3.0f), f242);
                                 canvas.drawRoundRect(this.rect, AndroidUtilities.dp(1.0f), AndroidUtilities.dp(1.0f), Theme.dialogs_onlineCirclePaint);
-                                this.rect.set(AndroidUtilities.dp(3.0f) + i3, f242, i3 + AndroidUtilities.dp(5.0f), f252);
+                                this.rect.set(AndroidUtilities.dp(3.0f) + dp, f232, dp + AndroidUtilities.dp(5.0f), f242);
                                 canvas.drawRoundRect(this.rect, AndroidUtilities.dp(1.0f), AndroidUtilities.dp(1.0f), Theme.dialogs_onlineCirclePaint);
                                 if (this.chatCallProgress >= 1.0f) {
                                 }
@@ -5616,24 +5628,20 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                                 }
                                 if (this.rightFragmentOpenedProgress != 0.0f) {
                                 }
-                                if (!this.showTtl) {
-                                }
-                                this.ttlProgress = Utilities.clamp(this.ttlProgress, 1.0f, 0.0f);
-                                return z2;
                             }
                             f5 = (dp8 * f3) + dp7;
                             if (this.chatCallProgress >= 1.0f) {
                             }
                             canvas.save();
-                            float f2322 = this.chatCallProgress;
-                            canvas.scale(f2322 * progress, f2322 * progress, f21, f22);
-                            this.rect.set(i3 - AndroidUtilities.dp(1.0f), f22 - dp2, i3 + AndroidUtilities.dp(1.0f), dp2 + f22);
+                            float f2222 = this.chatCallProgress;
+                            canvas.scale(f2222 * progress2, f2222 * progress2, f20, f21);
+                            this.rect.set(dp - AndroidUtilities.dp(1.0f), f21 - dp2, dp + AndroidUtilities.dp(1.0f), dp2 + f21);
                             canvas.drawRoundRect(this.rect, AndroidUtilities.dp(1.0f), AndroidUtilities.dp(1.0f), Theme.dialogs_onlineCirclePaint);
-                            float f2422 = f22 - f5;
-                            float f2522 = f22 + f5;
-                            this.rect.set(i3 - AndroidUtilities.dp(5.0f), f2422, i3 - AndroidUtilities.dp(3.0f), f2522);
+                            float f2322 = f21 - f5;
+                            float f2422 = f21 + f5;
+                            this.rect.set(dp - AndroidUtilities.dp(5.0f), f2322, dp - AndroidUtilities.dp(3.0f), f2422);
                             canvas.drawRoundRect(this.rect, AndroidUtilities.dp(1.0f), AndroidUtilities.dp(1.0f), Theme.dialogs_onlineCirclePaint);
-                            this.rect.set(AndroidUtilities.dp(3.0f) + i3, f2422, i3 + AndroidUtilities.dp(5.0f), f2522);
+                            this.rect.set(AndroidUtilities.dp(3.0f) + dp, f2322, dp + AndroidUtilities.dp(5.0f), f2422);
                             canvas.drawRoundRect(this.rect, AndroidUtilities.dp(1.0f), AndroidUtilities.dp(1.0f), Theme.dialogs_onlineCirclePaint);
                             if (this.chatCallProgress >= 1.0f) {
                             }
@@ -5644,24 +5652,20 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                             }
                             if (this.rightFragmentOpenedProgress != 0.0f) {
                             }
-                            if (!this.showTtl) {
-                            }
-                            this.ttlProgress = Utilities.clamp(this.ttlProgress, 1.0f, 0.0f);
-                            return z2;
                         }
                         f5 = dp9 - (dp10 * f4);
                         if (this.chatCallProgress >= 1.0f) {
                         }
                         canvas.save();
-                        float f23222 = this.chatCallProgress;
-                        canvas.scale(f23222 * progress, f23222 * progress, f21, f22);
-                        this.rect.set(i3 - AndroidUtilities.dp(1.0f), f22 - dp2, i3 + AndroidUtilities.dp(1.0f), dp2 + f22);
+                        float f22222 = this.chatCallProgress;
+                        canvas.scale(f22222 * progress2, f22222 * progress2, f20, f21);
+                        this.rect.set(dp - AndroidUtilities.dp(1.0f), f21 - dp2, dp + AndroidUtilities.dp(1.0f), dp2 + f21);
                         canvas.drawRoundRect(this.rect, AndroidUtilities.dp(1.0f), AndroidUtilities.dp(1.0f), Theme.dialogs_onlineCirclePaint);
-                        float f24222 = f22 - f5;
-                        float f25222 = f22 + f5;
-                        this.rect.set(i3 - AndroidUtilities.dp(5.0f), f24222, i3 - AndroidUtilities.dp(3.0f), f25222);
+                        float f23222 = f21 - f5;
+                        float f24222 = f21 + f5;
+                        this.rect.set(dp - AndroidUtilities.dp(5.0f), f23222, dp - AndroidUtilities.dp(3.0f), f24222);
                         canvas.drawRoundRect(this.rect, AndroidUtilities.dp(1.0f), AndroidUtilities.dp(1.0f), Theme.dialogs_onlineCirclePaint);
-                        this.rect.set(AndroidUtilities.dp(3.0f) + i3, f24222, i3 + AndroidUtilities.dp(5.0f), f25222);
+                        this.rect.set(AndroidUtilities.dp(3.0f) + dp, f23222, dp + AndroidUtilities.dp(5.0f), f24222);
                         canvas.drawRoundRect(this.rect, AndroidUtilities.dp(1.0f), AndroidUtilities.dp(1.0f), Theme.dialogs_onlineCirclePaint);
                         if (this.chatCallProgress >= 1.0f) {
                         }
@@ -5672,16 +5676,23 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                         }
                         if (this.rightFragmentOpenedProgress != 0.0f) {
                         }
-                        if (!this.showTtl) {
-                        }
-                        this.ttlProgress = Utilities.clamp(this.ttlProgress, 1.0f, 0.0f);
-                        return z2;
                     }
                 }
-                z = false;
+                z2 = false;
             }
-            z2 = true;
-            if (!this.showTtl) {
+            if (this.showTtl) {
+                float f30 = this.ttlProgress;
+                if (f30 < 1.0f) {
+                    this.ttlProgress = f30 + 0.10666667f;
+                    z2 = true;
+                }
+                this.ttlProgress = Utilities.clamp(this.ttlProgress, 1.0f, 0.0f);
+                return z2;
+            }
+            float f31 = this.ttlProgress;
+            if (f31 > 0.0f) {
+                this.ttlProgress = f31 - 0.10666667f;
+                z2 = true;
             }
             this.ttlProgress = Utilities.clamp(this.ttlProgress, 1.0f, 0.0f);
             return z2;
@@ -6154,7 +6165,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
         if (messageObject == null) {
             return;
         }
-        String restrictionReason = MessagesController.getRestrictionReason(messageObject.messageOwner.restriction_reason);
+        String restrictionReason = MessagesController.getInstance(messageObject.currentAccount).getRestrictionReason(this.message.messageOwner.restriction_reason);
         MessageObject messageObject2 = this.message;
         int i2 = 0;
         if (messageObject2 != null && (tLRPC$Message = messageObject2.messageOwner) != null) {

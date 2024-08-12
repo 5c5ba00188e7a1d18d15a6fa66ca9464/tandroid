@@ -2135,8 +2135,9 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
         return this;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    protected boolean canDismissWithSwipe() {
+    public boolean canDismissWithSwipe() {
         return this.viewPager.getTranslationY() >= ((float) ((int) this.maxPadding));
     }
 

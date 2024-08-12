@@ -32,7 +32,7 @@ import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.LaunchActivity;
-/* loaded from: classes4.dex */
+/* loaded from: classes.dex */
 public class BotBiometry {
     private static KeyStore keyStore;
     public boolean access_granted;
@@ -361,7 +361,7 @@ public class BotBiometry {
         edit.apply();
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes.dex */
     public static class Bot {
         public boolean disabled;
         public TLRPC$User user;

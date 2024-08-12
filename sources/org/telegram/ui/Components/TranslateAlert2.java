@@ -93,8 +93,9 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
     private FrameLayout textViewContainer;
     private String toLanguage;
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    protected boolean canDismissWithSwipe() {
+    public boolean canDismissWithSwipe() {
         return false;
     }
 

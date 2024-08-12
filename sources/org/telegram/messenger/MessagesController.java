@@ -19,6 +19,8 @@ import android.util.Pair;
 import android.util.SparseArray;
 import android.util.SparseBooleanArray;
 import android.util.SparseIntArray;
+import android.view.View;
+import android.widget.FrameLayout;
 import androidx.collection.LongSparseArray;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
@@ -58,6 +60,7 @@ import org.telegram.messenger.browser.Browser;
 import org.telegram.messenger.support.LongSparseIntArray;
 import org.telegram.messenger.support.LongSparseLongArray;
 import org.telegram.messenger.voip.VoIPService;
+import org.telegram.tgnet.AbstractSerializedData;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.NativeByteBuffer;
 import org.telegram.tgnet.RequestDelegate;
@@ -109,6 +112,7 @@ import org.telegram.tgnet.TLRPC$Reaction;
 import org.telegram.tgnet.TLRPC$ReactionNotificationsFrom;
 import org.telegram.tgnet.TLRPC$RecentMeUrl;
 import org.telegram.tgnet.TLRPC$ReportReason;
+import org.telegram.tgnet.TLRPC$RestrictionReason;
 import org.telegram.tgnet.TLRPC$SendMessageAction;
 import org.telegram.tgnet.TLRPC$TL_account_createTheme;
 import org.telegram.tgnet.TLRPC$TL_account_getNotifySettings;
@@ -405,7 +409,6 @@ import org.telegram.tgnet.TLRPC$TL_reactionEmoji;
 import org.telegram.tgnet.TLRPC$TL_reactionNotificationsFromContacts;
 import org.telegram.tgnet.TLRPC$TL_reactionsNotifySettings;
 import org.telegram.tgnet.TLRPC$TL_replyKeyboardHide;
-import org.telegram.tgnet.TLRPC$TL_restrictionReason;
 import org.telegram.tgnet.TLRPC$TL_savedReactionTag;
 import org.telegram.tgnet.TLRPC$TL_sendMessageCancelAction;
 import org.telegram.tgnet.TLRPC$TL_sendMessageChooseContactAction;
@@ -592,6 +595,8 @@ import org.telegram.tgnet.TLRPC$messages_SponsoredMessages;
 import org.telegram.tgnet.TLRPC$photos_Photos;
 import org.telegram.tgnet.TLRPC$updates_ChannelDifference;
 import org.telegram.tgnet.TLRPC$updates_Difference;
+import org.telegram.tgnet.tl.TL_account$contentSettings;
+import org.telegram.tgnet.tl.TL_account$setContentSettings;
 import org.telegram.tgnet.tl.TL_bots$BotInfo;
 import org.telegram.tgnet.tl.TL_bots$TL_botInfo;
 import org.telegram.tgnet.tl.TL_bots$TL_botMenuButton;
@@ -608,6 +613,7 @@ import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Business.QuickRepliesController;
+import org.telegram.ui.Cells.CheckBoxCell;
 import org.telegram.ui.ChannelMonetizationLayout;
 import org.telegram.ui.ChatActivity;
 import org.telegram.ui.ChatRightsEditActivity;
@@ -616,6 +622,7 @@ import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.ImageUpdater;
 import org.telegram.ui.Components.JoinCallAlert;
+import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.MotionBackgroundDrawable;
 import org.telegram.ui.Components.Premium.LimitReachedBottomSheet;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
@@ -629,6 +636,7 @@ import org.telegram.ui.SecretMediaViewer;
 import org.telegram.ui.Stars.BotStarsController;
 import org.telegram.ui.Stars.StarsController;
 import org.telegram.ui.Stories.StoriesController;
+import org.telegram.ui.ThemeActivity;
 import org.telegram.ui.TopicsFragment;
 import org.telegram.ui.bots.BotWebViewAttachedSheet;
 import org.telegram.ui.bots.BotWebViewSheet;
@@ -744,6 +752,10 @@ public class MessagesController extends BaseController implements NotificationCe
     private boolean checkingTosUpdate;
     private LongSparseArray<TLRPC$Dialog> clearingHistoryDialogs;
     public boolean collectDeviceStats;
+    private TL_account$contentSettings contentSettings;
+    private ArrayList<Utilities.Callback<TL_account$contentSettings>> contentSettingsCallbacks;
+    private long contentSettingsLoadedTime;
+    private boolean contentSettingsLoading;
     private ArrayList<Long> createdDialogIds;
     private ArrayList<Long> createdDialogMainThreadIds;
     private ArrayList<Long> createdScheduledDialogIds;
@@ -842,6 +854,7 @@ public class MessagesController extends BaseController implements NotificationCe
     public int hiddenMembersGroupSizeMin;
     public ArrayList<Long> hiddenUndoChats;
     public ArrayList<TLRPC$RecentMeUrl> hintDialogs;
+    public Set<String> ignoreRestrictionReasons;
     public volatile boolean ignoreSetOnline;
     public String imageSearchBot;
     private String installReferer;
@@ -985,7 +998,6 @@ public class MessagesController extends BaseController implements NotificationCe
     public int roundAudioBitrate;
     public int roundVideoBitrate;
     public int roundVideoSize;
-    public boolean safeBrowsingDisabled;
     public boolean saveGifsWithStickers;
     public int savedDialogsPinnedLimitDefault;
     public int savedDialogsPinnedLimitPremium;
@@ -997,6 +1009,7 @@ public class MessagesController extends BaseController implements NotificationCe
     public DialogFilter[] selectedDialogFilter;
     private LongSparseArray<SendAsPeersInfo> sendAsPeers;
     public LongSparseArray<LongSparseArray<Boolean>>[] sendingTypings;
+    private final HashSet<Long> sensitiveAgreed;
     private SparseBooleanArray serverDialogsEndReached;
     private LongSparseIntArray shortPollChannels;
     private LongSparseIntArray shortPollOnlines;
@@ -1009,7 +1022,11 @@ public class MessagesController extends BaseController implements NotificationCe
     public boolean starsGiftsEnabled;
     public boolean starsLocked;
     public long starsPaidPostAmountMax;
+    public long starsPaidReactionAmountMax;
     public long starsRevenueWithdrawalMin;
+    public long starsSubscriptionAmountMax;
+    public float starsUsdSellRate1000;
+    public float starsUsdWithdrawRate1000;
     private int statusRequest;
     private int statusSettingState;
     public int stealthModeCooldown;
@@ -1413,7 +1430,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public void getNextReactionMention(final long j, final long j2, final int i, final Consumer<Integer> consumer) {
-        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda121
+        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda124
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$getNextReactionMention$5(j2, j, consumer, i);
@@ -1446,7 +1463,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 queryFinalized.dispose();
                 if (i2 != 0) {
                     getMessagesStorage().markMessageReactionsAsRead(j2, j, i2, false);
-                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda22
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda25
                         @Override // java.lang.Runnable
                         public final void run() {
                             MessagesController.lambda$getNextReactionMention$1(Consumer.this, i2);
@@ -1470,7 +1487,7 @@ public class MessagesController extends BaseController implements NotificationCe
         tLRPC$TL_messages_getUnreadReactions.peer = getMessagesController().getInputPeer(j2);
         tLRPC$TL_messages_getUnreadReactions.limit = 1;
         tLRPC$TL_messages_getUnreadReactions.add_offset = i - 1;
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_getUnreadReactions, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda317
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_getUnreadReactions, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda324
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.lambda$getNextReactionMention$4(Consumer.this, tLObject, tLRPC$TL_error);
@@ -1483,7 +1500,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public static /* synthetic */ void lambda$getNextReactionMention$4(final Consumer consumer, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda289
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda293
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.lambda$getNextReactionMention$3(TLObject.this, tLRPC$TL_error, consumer);
@@ -1498,7 +1515,7 @@ public class MessagesController extends BaseController implements NotificationCe
         if (tLRPC$TL_error != null && tLRPC$messages_Messages != null && (arrayList = tLRPC$messages_Messages.messages) != null && !arrayList.isEmpty()) {
             i = tLRPC$messages_Messages.messages.get(0).id;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda23
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda26
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.lambda$getNextReactionMention$2(Consumer.this, i);
@@ -1706,7 +1723,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public void markAllTopicsAsRead(final long j) {
-        getMessagesStorage().loadTopics(j, new j$.util.function.Consumer() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda307
+        getMessagesStorage().loadTopics(j, new j$.util.function.Consumer() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda313
             @Override // j$.util.function.Consumer
             public final void accept(Object obj) {
                 MessagesController.this.lambda$markAllTopicsAsRead$9(j, (ArrayList) obj);
@@ -1720,7 +1737,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public /* synthetic */ void lambda$markAllTopicsAsRead$9(final long j, final ArrayList arrayList) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda163
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda166
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$markAllTopicsAsRead$8(arrayList, j);
@@ -1739,7 +1756,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 getMessagesStorage().updateRepliesMaxReadId(-j, tLRPC$TL_forumTopic.id, tLRPC$TL_forumTopic.top_message, 0, true);
             }
         }
-        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda54
+        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda58
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$markAllTopicsAsRead$7();
@@ -1749,7 +1766,7 @@ public class MessagesController extends BaseController implements NotificationCe
 
     public /* synthetic */ void lambda$markAllTopicsAsRead$7() {
         getMessagesStorage().resetAllUnreadCounters(false);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda59
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda63
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$markAllTopicsAsRead$6();
@@ -2308,8 +2325,8 @@ public class MessagesController extends BaseController implements NotificationCe
         this.loadingPinnedDialogs = new SparseIntArray();
         this.faqSearchArray = new ArrayList<>();
         this.suggestContacts = true;
-        this.themeCheckRunnable = MessagesController$$ExternalSyntheticLambda294.INSTANCE;
-        this.passwordCheckRunnable = new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda35
+        this.themeCheckRunnable = MessagesController$$ExternalSyntheticLambda300.INSTANCE;
+        this.passwordCheckRunnable = new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda38
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$new$0();
@@ -2327,7 +2344,7 @@ public class MessagesController extends BaseController implements NotificationCe
         this.directPaymentsCurrency = new ArrayList();
         this.emojiStatusUntilValues = new LongSparseArray<>();
         this.photoSuggestion = new SparseArray<>();
-        this.dialogDateComparator = new Comparator() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda295
+        this.dialogDateComparator = new Comparator() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda301
             @Override // java.util.Comparator
             public final int compare(Object obj, Object obj2) {
                 int lambda$new$10;
@@ -2335,7 +2352,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 return lambda$new$10;
             }
         };
-        this.dialogComparator = new Comparator() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda296
+        this.dialogComparator = new Comparator() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda302
             @Override // java.util.Comparator
             public final int compare(Object obj, Object obj2) {
                 int lambda$new$11;
@@ -2343,7 +2360,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 return lambda$new$11;
             }
         };
-        this.updatesComparator = new Comparator() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda299
+        this.updatesComparator = new Comparator() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda305
             @Override // java.util.Comparator
             public final int compare(Object obj, Object obj2) {
                 int lambda$new$12;
@@ -2351,13 +2368,13 @@ public class MessagesController extends BaseController implements NotificationCe
                 return lambda$new$12;
             }
         };
-        this.loadAppConfigRunnable = new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda29
+        this.loadAppConfigRunnable = new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda32
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.loadAppConfig();
             }
         };
-        this.notifyTranscriptionAudioCooldownUpdate = new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda41
+        this.notifyTranscriptionAudioCooldownUpdate = new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda44
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$new$34();
@@ -2369,9 +2386,10 @@ public class MessagesController extends BaseController implements NotificationCe
         this.DIALOGS_LOAD_TYPE_CACHE = 1;
         this.DIALOGS_LOAD_TYPE_CHANNEL = 2;
         this.DIALOGS_LOAD_TYPE_UNKNOWN = 3;
+        this.sensitiveAgreed = new HashSet<>();
         this.cachedIsUserPremiumBlocked = new LongSparseArray<>();
         this.loadingIsUserPremiumBlocked = new HashSet<>();
-        this.requestIsUserPremiumBlockedRunnable = new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda58
+        this.requestIsUserPremiumBlockedRunnable = new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda62
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.requestIsUserPremiumBlocked();
@@ -2381,7 +2399,7 @@ public class MessagesController extends BaseController implements NotificationCe
         ImageLoader.getInstance();
         getMessagesStorage();
         getLocationController();
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda50
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda54
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$new$13();
@@ -2587,11 +2605,15 @@ public class MessagesController extends BaseController implements NotificationCe
         this.starsPaidPostAmountMax = this.mainPreferences.getLong("starsPaidPostAmountMax", 10000L);
         this.botPreviewMediasMax = this.mainPreferences.getInt("botPreviewMediasMax", 10);
         this.webAppAllowedProtocols = this.mainPreferences.getStringSet("webAppAllowedProtocols", new HashSet(Arrays.asList("http", "https")));
+        this.ignoreRestrictionReasons = this.mainPreferences.getStringSet("ignoreRestrictionReasons", new HashSet(Arrays.asList(new String[0])));
         this.tonProxyAddress = this.mainPreferences.getString("tonProxyAddress", "magic.org");
         this.weatherSearchUsername = this.mainPreferences.getString("weatherSearchUsername", "izweatherbot");
         this.storyWeatherPreload = this.mainPreferences.getBoolean("storyWeatherPreload", true);
         this.starsGiftsEnabled = this.mainPreferences.getBoolean("starsGiftsEnabled", true);
-        this.safeBrowsingDisabled = this.mainPreferences.getBoolean("safeBrowsingDisabled", false);
+        this.starsPaidReactionAmountMax = this.mainPreferences.getLong("starsPaidReactionAmountMax", 10000L);
+        this.starsSubscriptionAmountMax = this.mainPreferences.getLong("starsSubscriptionAmountMax", 2500L);
+        this.starsUsdSellRate1000 = this.mainPreferences.getFloat("starsUsdSellRate1000", 2000.0f);
+        this.starsUsdWithdrawRate1000 = this.mainPreferences.getFloat("starsUsdWithdrawRate1000", 1200.0f);
         scheduleTranscriptionUpdate();
         BuildVars.GOOGLE_AUTH_CLIENT_ID = this.mainPreferences.getString("googleAuthClientId", BuildVars.GOOGLE_AUTH_CLIENT_ID);
         if (this.mainPreferences.contains("dcDomainName2")) {
@@ -2737,13 +2759,13 @@ public class MessagesController extends BaseController implements NotificationCe
                 FileLog.e(e3);
             }
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda29
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda32
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.loadAppConfig();
             }
         }, 2000L);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda51
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda55
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$new$14();
@@ -2752,7 +2774,7 @@ public class MessagesController extends BaseController implements NotificationCe
         this.topicsController = new TopicsController(i);
         this.cacheByChatsController = new CacheByChatsController(i);
         this.translateController = new TranslateController(this);
-        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda64
+        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda67
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$new$15();
@@ -2781,7 +2803,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     private void sendLoadPeersRequest(final TLObject tLObject, final ArrayList<TLObject> arrayList, final TLRPC$messages_Dialogs tLRPC$messages_Dialogs, final TLRPC$messages_Dialogs tLRPC$messages_Dialogs2, final ArrayList<TLRPC$User> arrayList2, final ArrayList<TLRPC$Chat> arrayList3, final ArrayList<DialogFilter> arrayList4, final SparseArray<DialogFilter> sparseArray, final ArrayList<Integer> arrayList5, final HashMap<Integer, HashSet<Long>> hashMap, final HashSet<Integer> hashSet, final Runnable runnable) {
-        getConnectionsManager().sendRequest(tLObject, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda419
+        getConnectionsManager().sendRequest(tLObject, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda427
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$sendLoadPeersRequest$16(arrayList3, arrayList2, tLRPC$messages_Dialogs, tLRPC$messages_Dialogs2, arrayList, tLObject, arrayList4, sparseArray, arrayList5, hashMap, hashSet, runnable, tLObject2, tLRPC$TL_error);
@@ -2814,7 +2836,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public void loadFilterPeers(final HashMap<Long, TLRPC$InputPeer> hashMap, final HashMap<Long, TLRPC$InputPeer> hashMap2, final HashMap<Long, TLRPC$InputPeer> hashMap3, final TLRPC$messages_Dialogs tLRPC$messages_Dialogs, final TLRPC$messages_Dialogs tLRPC$messages_Dialogs2, final ArrayList<TLRPC$User> arrayList, final ArrayList<TLRPC$Chat> arrayList2, final ArrayList<DialogFilter> arrayList3, final SparseArray<DialogFilter> sparseArray, final ArrayList<Integer> arrayList4, final HashMap<Integer, HashSet<Long>> hashMap4, final HashSet<Integer> hashSet, final Runnable runnable) {
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda175
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda178
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$loadFilterPeers$17(hashMap2, tLRPC$messages_Dialogs, tLRPC$messages_Dialogs2, arrayList, arrayList2, arrayList3, sparseArray, arrayList4, hashMap4, hashSet, runnable, hashMap3, hashMap);
@@ -2912,7 +2934,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public void processLoadedDialogFilters(final ArrayList<DialogFilter> arrayList, final TLRPC$messages_Dialogs tLRPC$messages_Dialogs, final TLRPC$messages_Dialogs tLRPC$messages_Dialogs2, final ArrayList<TLRPC$User> arrayList2, final ArrayList<TLRPC$Chat> arrayList3, final ArrayList<TLRPC$EncryptedChat> arrayList4, final int i, final Runnable runnable) {
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda259
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda263
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$processLoadedDialogFilters$20(tLRPC$messages_Dialogs, arrayList4, tLRPC$messages_Dialogs2, i, arrayList, arrayList2, arrayList3, runnable);
@@ -3112,7 +3134,7 @@ public class MessagesController extends BaseController implements NotificationCe
             }
             getMessagesStorage().putDialogs(tLRPC$messages_Dialogs2, 0);
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda78
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda81
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$processLoadedDialogFilters$19(i, arrayList2, arrayList3, arrayList4, tLRPC$messages_Dialogs2, arrayList, longSparseArray2, longSparseArray3, runnable);
@@ -3135,7 +3157,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 DialogFilter dialogFilter = this.dialogFilters.get(i3);
                 this.dialogFiltersById.put(dialogFilter.id, dialogFilter);
             }
-            Collections.sort(this.dialogFilters, new Comparator() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda303
+            Collections.sort(this.dialogFilters, new Comparator() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda309
                 @Override // java.util.Comparator
                 public final int compare(Object obj, Object obj2) {
                     int lambda$processLoadedDialogFilters$18;
@@ -3365,7 +3387,7 @@ public class MessagesController extends BaseController implements NotificationCe
             public void serializeToStream(AbstractSerializedData abstractSerializedData) {
                 abstractSerializedData.writeInt32(-1566780372);
             }
-        }, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda333
+        }, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda341
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$loadSuggestedFilters$22(tLObject, tLRPC$TL_error);
@@ -3374,7 +3396,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public /* synthetic */ void lambda$loadSuggestedFilters$22(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda191
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda194
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$loadSuggestedFilters$21(tLObject);
@@ -3433,7 +3455,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 public void serializeToStream(AbstractSerializedData abstractSerializedData) {
                     abstractSerializedData.writeInt32(-271283063);
                 }
-            }, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda348
+            }, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda356
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     MessagesController.this.lambda$loadRemoteFilters$27(tLObject, tLRPC$TL_error);
@@ -3449,7 +3471,7 @@ public class MessagesController extends BaseController implements NotificationCe
             for (int i = 0; i < tLRPC$Vector.objects.size(); i++) {
                 arrayList.add((TLRPC$DialogFilter) tLRPC$Vector.objects.get(i));
             }
-            getMessagesStorage().checkLoadedRemoteFilters(arrayList, new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda30
+            getMessagesStorage().checkLoadedRemoteFilters(arrayList, new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda33
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$loadRemoteFilters$23();
@@ -3461,21 +3483,21 @@ public class MessagesController extends BaseController implements NotificationCe
             boolean z2 = tLRPC$TL_messages_dialogFilters.tags_enabled;
             if (z != z2) {
                 setFolderTags(z2);
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda45
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda49
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesController.this.lambda$loadRemoteFilters$24();
                     }
                 });
             }
-            getMessagesStorage().checkLoadedRemoteFilters(tLRPC$TL_messages_dialogFilters.filters, new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda62
+            getMessagesStorage().checkLoadedRemoteFilters(tLRPC$TL_messages_dialogFilters.filters, new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda66
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$loadRemoteFilters$25();
                 }
             });
         } else {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda49
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda53
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$loadRemoteFilters$26();
@@ -3545,7 +3567,7 @@ public class MessagesController extends BaseController implements NotificationCe
             tLRPC$TL_inputAppEvent.data = tLRPC$TL_jsonBool;
             tLRPC$TL_inputAppEvent.peer = contains ? 1L : 0L;
             tLRPC$TL_help_saveAppLog.events.add(tLRPC$TL_inputAppEvent);
-            getConnectionsManager().sendRequest(tLRPC$TL_help_saveAppLog, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda446
+            getConnectionsManager().sendRequest(tLRPC$TL_help_saveAppLog, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda454
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     MessagesController.lambda$logDeviceStats$28(tLObject, tLRPC$TL_error);
@@ -3621,7 +3643,7 @@ public class MessagesController extends BaseController implements NotificationCe
             getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.userEmojiStatusUpdated, currentUser);
             getMessagesController().updateEmojiStatusUntilUpdate(currentUser.id, currentUser.emoji_status);
         }
-        getConnectionsManager().sendRequest(tLRPC$TL_account_updateEmojiStatus, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda457
+        getConnectionsManager().sendRequest(tLRPC$TL_account_updateEmojiStatus, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda466
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.lambda$updateEmojiStatus$29(tLObject, tLRPC$TL_error);
@@ -3648,7 +3670,7 @@ public class MessagesController extends BaseController implements NotificationCe
         if (z) {
             this.appConfigFetcher.forceRequest(this.currentAccount, 0);
         }
-        this.appConfigFetcher.fetch(this.currentAccount, 0, new Utilities.Callback() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda312
+        this.appConfigFetcher.fetch(this.currentAccount, 0, new Utilities.Callback() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda318
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 MessagesController.this.lambda$loadAppConfig$31((TLRPC$TL_help_appConfig) obj);
@@ -3657,7 +3679,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public /* synthetic */ void lambda$loadAppConfig$31(final TLRPC$TL_help_appConfig tLRPC$TL_help_appConfig) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda234
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda238
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$loadAppConfig$30(tLRPC$TL_help_appConfig);
@@ -3677,8 +3699,8 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:3275:0x1ede, code lost:
-        if (getConnectionsManager().getCurrentTime() > r9) goto L1522;
+    /* JADX WARN: Code restructure failed: missing block: B:3360:0x1fcc, code lost:
+        if (getConnectionsManager().getCurrentTime() > r9) goto L1562;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -3689,12 +3711,13 @@ public class MessagesController extends BaseController implements NotificationCe
         boolean z2;
         int i2;
         char c;
+        HashMap<String, DiceFrameSuccess> hashMap;
         TLRPC$TL_jsonObject tLRPC$TL_jsonObject2;
         int i3;
         int i4;
         TLRPC$TL_jsonObject tLRPC$TL_jsonObject3;
         int i5;
-        boolean z3;
+        HashMap<String, EmojiSound> hashMap2;
         long parseLong;
         int i6;
         char c2;
@@ -3705,18 +3728,18 @@ public class MessagesController extends BaseController implements NotificationCe
         int i7 = 0;
         int i8 = 0;
         int i9 = 0;
-        boolean z4 = false;
+        boolean z3 = false;
         TLRPC$TL_jsonObject tLRPC$TL_jsonObject5 = null;
+        boolean z4 = false;
         boolean z5 = false;
-        boolean z6 = false;
         while (i7 < size) {
             TLRPC$TL_jsonObjectValue tLRPC$TL_jsonObjectValue = tLRPC$TL_jsonObject4.value.get(i7);
             String str = tLRPC$TL_jsonObjectValue.key;
             str.hashCode();
             int i10 = size;
-            boolean z7 = z4;
-            boolean z8 = z6;
-            boolean z9 = z5;
+            boolean z6 = z3;
+            boolean z7 = z5;
+            boolean z8 = z4;
             TLRPC$TL_jsonObject tLRPC$TL_jsonObject6 = tLRPC$TL_jsonObject5;
             switch (str.hashCode()) {
                 case -2144614625:
@@ -3735,18 +3758,10 @@ public class MessagesController extends BaseController implements NotificationCe
                     }
                     c = 65535;
                     break;
-                case -2094279998:
-                    i2 = i9;
-                    if (str.equals("safe_browsing_disabled")) {
-                        c = 2;
-                        break;
-                    }
-                    c = 65535;
-                    break;
                 case -2086426873:
                     i2 = i9;
                     if (str.equals("dialog_filters_pinned_limit_premium")) {
-                        c = 3;
+                        c = 2;
                         break;
                     }
                     c = 65535;
@@ -3754,7 +3769,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -2085529619:
                     i2 = i9;
                     if (str.equals("business_chat_links_limit")) {
-                        c = 4;
+                        c = 3;
                         break;
                     }
                     c = 65535;
@@ -3762,7 +3777,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -2031587591:
                     i2 = i9;
                     if (str.equals("telegram_antispam_user_id")) {
-                        c = 5;
+                        c = 4;
                         break;
                     }
                     c = 65535;
@@ -3770,7 +3785,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -2010078200:
                     i2 = i9;
                     if (str.equals("channel_custom_wallpaper_level_min")) {
-                        c = 6;
+                        c = 5;
                         break;
                     }
                     c = 65535;
@@ -3778,7 +3793,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -1983931574:
                     i2 = i9;
                     if (str.equals("channel_restrict_sponsored_level_min")) {
-                        c = 7;
+                        c = 6;
                         break;
                     }
                     c = 65535;
@@ -3786,7 +3801,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -1921306872:
                     i2 = i9;
                     if (str.equals("large_queue_max_active_operations_count")) {
-                        c = '\b';
+                        c = 7;
                         break;
                     }
                     c = 65535;
@@ -3794,7 +3809,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -1906216435:
                     i2 = i9;
                     if (str.equals("upload_max_fileparts_default")) {
-                        c = '\t';
+                        c = '\b';
                         break;
                     }
                     c = 65535;
@@ -3802,7 +3817,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -1905041797:
                     i2 = i9;
                     if (str.equals("pinned_dialogs_count_max_default")) {
-                        c = '\n';
+                        c = '\t';
                         break;
                     }
                     c = 65535;
@@ -3810,7 +3825,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -1899955653:
                     i2 = i9;
                     if (str.equals("android_collect_device_stats")) {
-                        c = 11;
+                        c = '\n';
                         break;
                     }
                     c = 65535;
@@ -3818,7 +3833,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -1878957152:
                     i2 = i9;
                     if (str.equals("stories_suggested_reactions_limit_default")) {
-                        c = '\f';
+                        c = 11;
                         break;
                     }
                     c = 65535;
@@ -3826,7 +3841,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -1842555673:
                     i2 = i9;
                     if (str.equals("stars_gifts_enabled")) {
-                        c = '\r';
+                        c = '\f';
                         break;
                     }
                     c = 65535;
@@ -3834,7 +3849,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -1841535911:
                     i2 = i9;
                     if (str.equals("dismissed_suggestions")) {
-                        c = 14;
+                        c = '\r';
                         break;
                     }
                     c = 65535;
@@ -3842,7 +3857,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -1802366185:
                     i2 = i9;
                     if (str.equals("pm_read_date_expire_period")) {
-                        c = 15;
+                        c = 14;
                         break;
                     }
                     c = 65535;
@@ -3850,7 +3865,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -1741981325:
                     i2 = i9;
                     if (str.equals("smsjobs_sticky_notification_enabled")) {
-                        c = 16;
+                        c = 15;
                         break;
                     }
                     c = 65535;
@@ -3858,7 +3873,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -1736722060:
                     i2 = i9;
                     if (str.equals("upload_premium_speedup_notify_period")) {
-                        c = 17;
+                        c = 16;
                         break;
                     }
                     c = 65535;
@@ -3866,7 +3881,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -1730760944:
                     i2 = i9;
                     if (str.equals("stories_sent_monthly_limit_default")) {
-                        c = 18;
+                        c = 17;
                         break;
                     }
                     c = 65535;
@@ -3874,7 +3889,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -1727638397:
                     i2 = i9;
                     if (str.equals("bot_preview_medias_max")) {
-                        c = 19;
+                        c = 18;
                         break;
                     }
                     c = 65535;
@@ -3882,7 +3897,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -1688620344:
                     i2 = i9;
                     if (str.equals("dialog_filters_tooltip")) {
-                        c = 20;
+                        c = 19;
                         break;
                     }
                     c = 65535;
@@ -3890,7 +3905,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -1683918311:
                     i2 = i9;
                     if (str.equals("qr_login_camera")) {
-                        c = 21;
+                        c = 20;
                         break;
                     }
                     c = 65535;
@@ -3898,7 +3913,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -1631139636:
                     i2 = i9;
                     if (str.equals("stars_purchase_blocked")) {
-                        c = 22;
+                        c = 21;
                         break;
                     }
                     c = 65535;
@@ -3906,7 +3921,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -1560863476:
                     i2 = i9;
                     if (str.equals("group_custom_wallpaper_level_min")) {
-                        c = 23;
+                        c = 22;
                         break;
                     }
                     c = 65535;
@@ -3914,7 +3929,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -1557626216:
                     i2 = i9;
                     if (str.equals("giveaway_add_peers_max")) {
-                        c = 24;
+                        c = 23;
                         break;
                     }
                     c = 65535;
@@ -3922,7 +3937,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -1547147298:
                     i2 = i9;
                     if (str.equals("channel_wallpaper_level_min")) {
-                        c = 25;
+                        c = 24;
                         break;
                     }
                     c = 65535;
@@ -3930,6 +3945,14 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -1547044498:
                     i2 = i9;
                     if (str.equals("chatlist_update_period")) {
+                        c = 25;
+                        break;
+                    }
+                    c = 65535;
+                    break;
+                case -1512224895:
+                    i2 = i9;
+                    if (str.equals("stars_subscription_amount_max")) {
                         c = 26;
                         break;
                     }
@@ -3991,10 +4014,18 @@ public class MessagesController extends BaseController implements NotificationCe
                     }
                     c = 65535;
                     break;
+                case -1318497457:
+                    i2 = i9;
+                    if (str.equals("ignore_restriction_reasons")) {
+                        c = '\"';
+                        break;
+                    }
+                    c = 65535;
+                    break;
                 case -1304621435:
                     i2 = i9;
                     if (str.equals("new_noncontact_peers_require_premium_without_ownpremium")) {
-                        c = '\"';
+                        c = '#';
                         break;
                     }
                     c = 65535;
@@ -4002,7 +4033,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -1289139185:
                     i2 = i9;
                     if (str.equals("quick_reply_messages_limit")) {
-                        c = '#';
+                        c = '$';
                         break;
                     }
                     c = 65535;
@@ -4010,7 +4041,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -1287877531:
                     i2 = i9;
                     if (str.equals("stickers_faved_limit_premium")) {
-                        c = '$';
+                        c = '%';
                         break;
                     }
                     c = 65535;
@@ -4018,7 +4049,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -1253023507:
                     i2 = i9;
                     if (str.equals("stories_stealth_cooldown_period")) {
-                        c = '%';
+                        c = '&';
                         break;
                     }
                     c = 65535;
@@ -4026,7 +4057,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -1133154193:
                     i2 = i9;
                     if (str.equals("lite_app_options")) {
-                        c = '&';
+                        c = '\'';
                         break;
                     }
                     c = 65535;
@@ -4034,7 +4065,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -1086302656:
                     i2 = i9;
                     if (str.equals("lite_device_class")) {
-                        c = '\'';
+                        c = '(';
                         break;
                     }
                     c = 65535;
@@ -4042,7 +4073,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -1071072567:
                     i2 = i9;
                     if (str.equals("premium_gift_text_field_icon")) {
-                        c = '(';
+                        c = ')';
                         break;
                     }
                     c = 65535;
@@ -4050,7 +4081,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -1056002991:
                     i2 = i9;
                     if (str.equals("chat_read_mark_expire_period")) {
-                        c = ')';
+                        c = '*';
                         break;
                     }
                     c = 65535;
@@ -4058,7 +4089,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -1049689381:
                     i2 = i9;
                     if (str.equals("reactions_uniq_max")) {
-                        c = '*';
+                        c = '+';
                         break;
                     }
                     c = 65535;
@@ -4066,7 +4097,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -1032177933:
                     i2 = i9;
                     if (str.equals("emojies_send_dice")) {
-                        c = '+';
+                        c = ',';
                         break;
                     }
                     c = 65535;
@@ -4074,7 +4105,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -980397720:
                     i2 = i9;
                     if (str.equals("url_auth_domains")) {
-                        c = ',';
+                        c = '-';
                         break;
                     }
                     c = 65535;
@@ -4082,7 +4113,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -973235223:
                     i2 = i9;
                     if (str.equals("stars_revenue_withdrawal_min")) {
-                        c = '-';
+                        c = '.';
                         break;
                     }
                     c = 65535;
@@ -4090,7 +4121,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -947423642:
                     i2 = i9;
                     if (str.equals("stories_stealth_past_period")) {
-                        c = '.';
+                        c = '/';
                         break;
                     }
                     c = 65535;
@@ -4098,7 +4129,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -915535880:
                     i2 = i9;
                     if (str.equals("saved_dialogs_pinned_limit_premium")) {
-                        c = '/';
+                        c = '0';
                         break;
                     }
                     c = 65535;
@@ -4106,7 +4137,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -896467099:
                     i2 = i9;
                     if (str.equals("saved_gifs_limit_default")) {
-                        c = '0';
+                        c = '1';
                         break;
                     }
                     c = 65535;
@@ -4114,7 +4145,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -736509977:
                     i2 = i9;
                     if (str.equals("story_caption_length_limit_default")) {
-                        c = '1';
+                        c = '2';
                         break;
                     }
                     c = 65535;
@@ -4122,7 +4153,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -728445056:
                     i2 = i9;
                     if (str.equals("show_annual_per_month")) {
-                        c = '2';
+                        c = '3';
                         break;
                     }
                     c = 65535;
@@ -4130,7 +4161,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -581904190:
                     i2 = i9;
                     if (str.equals("dialog_filters_limit_default")) {
-                        c = '3';
+                        c = '4';
                         break;
                     }
                     c = 65535;
@@ -4138,7 +4169,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -561040027:
                     i2 = i9;
                     if (str.equals("premium_invoice_slug")) {
-                        c = '4';
+                        c = '5';
                         break;
                     }
                     c = 65535;
@@ -4146,7 +4177,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -542518288:
                     i2 = i9;
                     if (str.equals("stories_sent_weekly_limit_premium")) {
-                        c = '5';
+                        c = '6';
                         break;
                     }
                     c = 65535;
@@ -4154,7 +4185,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -533076272:
                     i2 = i9;
                     if (str.equals("stories_export_nopublic_link")) {
-                        c = '6';
+                        c = '7';
                         break;
                     }
                     c = 65535;
@@ -4162,7 +4193,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -515715076:
                     i2 = i9;
                     if (str.equals("export_regex")) {
-                        c = '7';
+                        c = '8';
                         break;
                     }
                     c = 65535;
@@ -4170,7 +4201,15 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -507953835:
                     i2 = i9;
                     if (str.equals("chatlist_invites_limit_premium")) {
-                        c = '8';
+                        c = '9';
+                        break;
+                    }
+                    c = 65535;
+                    break;
+                case -505523666:
+                    i2 = i9;
+                    if (str.equals("stars_usd_sell_rate_x1000")) {
+                        c = ':';
                         break;
                     }
                     c = 65535;
@@ -4178,7 +4217,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -488472170:
                     i2 = i9;
                     if (str.equals("about_length_limit_default")) {
-                        c = '9';
+                        c = ';';
                         break;
                     }
                     c = 65535;
@@ -4186,7 +4225,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -473866179:
                     i2 = i9;
                     if (str.equals("reactions_user_max_premium")) {
-                        c = ':';
+                        c = '<';
                         break;
                     }
                     c = 65535;
@@ -4194,7 +4233,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -416504589:
                     i2 = i9;
                     if (str.equals("caption_length_limit_premium")) {
-                        c = ';';
+                        c = '=';
                         break;
                     }
                     c = 65535;
@@ -4202,7 +4241,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -413144568:
                     i2 = i9;
                     if (str.equals("recommended_channels_limit_premium")) {
-                        c = '<';
+                        c = '>';
                         break;
                     }
                     c = 65535;
@@ -4210,7 +4249,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -404170231:
                     i2 = i9;
                     if (str.equals("keep_alive_service")) {
-                        c = '=';
+                        c = '?';
                         break;
                     }
                     c = 65535;
@@ -4218,7 +4257,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -381432266:
                     i2 = i9;
                     if (str.equals("premium_promo_order")) {
-                        c = '>';
+                        c = '@';
                         break;
                     }
                     c = 65535;
@@ -4226,7 +4265,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -377047005:
                     i2 = i9;
                     if (str.equals("ringtone_size_max")) {
-                        c = '?';
+                        c = 'A';
                         break;
                     }
                     c = 65535;
@@ -4234,7 +4273,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -350971916:
                     i2 = i9;
                     if (str.equals("dialog_filters_chats_limit_premium")) {
-                        c = '@';
+                        c = 'B';
                         break;
                     }
                     c = 65535;
@@ -4242,7 +4281,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -297801185:
                     i2 = i9;
                     if (str.equals("business_promo_order")) {
-                        c = 'A';
+                        c = 'C';
                         break;
                     }
                     c = 65535;
@@ -4250,7 +4289,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -281358583:
                     i2 = i9;
                     if (str.equals("chatlists_joined_limit_default")) {
-                        c = 'B';
+                        c = 'D';
                         break;
                     }
                     c = 65535;
@@ -4258,7 +4297,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -273604959:
                     i2 = i9;
                     if (str.equals("stories_pinned_to_top_count_max")) {
-                        c = 'C';
+                        c = 'E';
                         break;
                     }
                     c = 65535;
@@ -4266,7 +4305,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -256319580:
                     i2 = i9;
                     if (str.equals("channels_limit_premium")) {
-                        c = 'D';
+                        c = 'F';
                         break;
                     }
                     c = 65535;
@@ -4274,7 +4313,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -253815153:
                     i2 = i9;
                     if (str.equals("background_connection")) {
-                        c = 'E';
+                        c = 'G';
                         break;
                     }
                     c = 65535;
@@ -4282,7 +4321,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -253729626:
                     i2 = i9;
                     if (str.equals("giveaway_period_max")) {
-                        c = 'F';
+                        c = 'H';
                         break;
                     }
                     c = 65535;
@@ -4290,7 +4329,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -232883529:
                     i2 = i9;
                     if (str.equals("emojies_send_dice_success")) {
-                        c = 'G';
+                        c = 'I';
                         break;
                     }
                     c = 65535;
@@ -4298,7 +4337,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -223170831:
                     i2 = i9;
                     if (str.equals("dialog_filters_pinned_limit_default")) {
-                        c = 'H';
+                        c = 'J';
                         break;
                     }
                     c = 65535;
@@ -4306,7 +4345,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -191129361:
                     i2 = i9;
                     if (str.equals("hidden_members_group_size_min")) {
-                        c = 'I';
+                        c = 'K';
                         break;
                     }
                     c = 65535;
@@ -4314,7 +4353,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -111779186:
                     i2 = i9;
                     if (str.equals("autoarchive_setting_available")) {
-                        c = 'J';
+                        c = 'L';
                         break;
                     }
                     c = 65535;
@@ -4322,7 +4361,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -100192526:
                     i2 = i9;
                     if (str.equals("quick_replies_limit")) {
-                        c = 'K';
+                        c = 'M';
                         break;
                     }
                     c = 65535;
@@ -4330,7 +4369,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -76561797:
                     i2 = i9;
                     if (str.equals("youtube_pip")) {
-                        c = 'L';
+                        c = 'N';
                         break;
                     }
                     c = 65535;
@@ -4338,7 +4377,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -44956361:
                     i2 = i9;
                     if (str.equals("ton_proxy_address")) {
-                        c = 'M';
+                        c = 'O';
                         break;
                     }
                     c = 65535;
@@ -4346,7 +4385,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -24016028:
                     i2 = i9;
                     if (str.equals("emojies_animated_zoom")) {
-                        c = 'N';
+                        c = 'P';
                         break;
                     }
                     c = 65535;
@@ -4354,7 +4393,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case -14783830:
                     i2 = i9;
                     if (str.equals("telegram_antispam_group_size_min")) {
-                        c = 'O';
+                        c = 'Q';
                         break;
                     }
                     c = 65535;
@@ -4362,7 +4401,15 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 81433671:
                     i2 = i9;
                     if (str.equals("giveaway_gifts_purchase_available")) {
-                        c = 'P';
+                        c = 'R';
+                        break;
+                    }
+                    c = 65535;
+                    break;
+                case 141709566:
+                    i2 = i9;
+                    if (str.equals("stars_paid_reaction_amount_max")) {
+                        c = 'S';
                         break;
                     }
                     c = 65535;
@@ -4370,7 +4417,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 169095108:
                     i2 = i9;
                     if (str.equals("stickers_emoji_suggest_only_api")) {
-                        c = 'Q';
+                        c = 'T';
                         break;
                     }
                     c = 65535;
@@ -4378,7 +4425,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 222975416:
                     i2 = i9;
                     if (str.equals("gif_search_emojies")) {
-                        c = 'R';
+                        c = 'U';
                         break;
                     }
                     c = 65535;
@@ -4386,7 +4433,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 227342346:
                     i2 = i9;
                     if (str.equals("autologin_domains")) {
-                        c = 'S';
+                        c = 'V';
                         break;
                     }
                     c = 65535;
@@ -4394,7 +4441,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 246778895:
                     i2 = i9;
                     if (str.equals("export_group_urls")) {
-                        c = 'T';
+                        c = 'W';
                         break;
                     }
                     c = 65535;
@@ -4402,7 +4449,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 280936278:
                     i2 = i9;
                     if (str.equals("stories_posting")) {
-                        c = 'U';
+                        c = 'X';
                         break;
                     }
                     c = 65535;
@@ -4410,7 +4457,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 296645817:
                     i2 = i9;
                     if (str.equals("channel_profile_bg_icon_level_min")) {
-                        c = 'V';
+                        c = 'Y';
                         break;
                     }
                     c = 65535;
@@ -4418,7 +4465,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 357521218:
                     i2 = i9;
                     if (str.equals("weather_search_username")) {
-                        c = 'W';
+                        c = 'Z';
                         break;
                     }
                     c = 65535;
@@ -4426,7 +4473,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 396402384:
                     i2 = i9;
                     if (str.equals("getfile_experimental_params")) {
-                        c = 'X';
+                        c = '[';
                         break;
                     }
                     c = 65535;
@@ -4434,7 +4481,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 411331190:
                     i2 = i9;
                     if (str.equals("can_edit_factcheck")) {
-                        c = 'Y';
+                        c = '\\';
                         break;
                     }
                     c = 65535;
@@ -4442,7 +4489,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 428604605:
                     i2 = i9;
                     if (str.equals("premium_playmarket_direct_currency_list")) {
-                        c = 'Z';
+                        c = ']';
                         break;
                     }
                     c = 65535;
@@ -4450,7 +4497,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 450843102:
                     i2 = i9;
                     if (str.equals("android_check_reset_langpack")) {
-                        c = '[';
+                        c = '^';
                         break;
                     }
                     c = 65535;
@@ -4458,7 +4505,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 478015350:
                     i2 = i9;
                     if (str.equals("channels_public_limit_default")) {
-                        c = '\\';
+                        c = '_';
                         break;
                     }
                     c = 65535;
@@ -4466,7 +4513,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 483901284:
                     i2 = i9;
                     if (str.equals("story_expiring_limit_default")) {
-                        c = ']';
+                        c = '`';
                         break;
                     }
                     c = 65535;
@@ -4474,7 +4521,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 517315989:
                     i2 = i9;
                     if (str.equals("stories_stealth_future_period")) {
-                        c = '^';
+                        c = 'a';
                         break;
                     }
                     c = 65535;
@@ -4482,7 +4529,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 525494819:
                     i2 = i9;
                     if (str.equals("upload_max_fileparts_premium")) {
-                        c = '_';
+                        c = 'b';
                         break;
                     }
                     c = 65535;
@@ -4490,7 +4537,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 526669457:
                     i2 = i9;
                     if (str.equals("pinned_dialogs_count_max_premium")) {
-                        c = '`';
+                        c = 'c';
                         break;
                     }
                     c = 65535;
@@ -4498,7 +4545,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 552754102:
                     i2 = i9;
                     if (str.equals("stories_suggested_reactions_limit_premium")) {
-                        c = 'a';
+                        c = 'd';
                         break;
                     }
                     c = 65535;
@@ -4506,7 +4553,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 575378511:
                     i2 = i9;
                     if (str.equals("stickers_faved_limit_default")) {
-                        c = 'b';
+                        c = 'e';
                         break;
                     }
                     c = 65535;
@@ -4514,7 +4561,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 670122854:
                     i2 = i9;
                     if (str.equals("giveaway_boosts_per_premium")) {
-                        c = 'c';
+                        c = 'f';
                         break;
                     }
                     c = 65535;
@@ -4522,7 +4569,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 676199595:
                     i2 = i9;
                     if (str.equals("groupcall_video_participants_max")) {
-                        c = 'd';
+                        c = 'g';
                         break;
                     }
                     c = 65535;
@@ -4530,7 +4577,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 684764449:
                     i2 = i9;
                     if (str.equals("save_gifs_with_stickers")) {
-                        c = 'e';
+                        c = 'h';
                         break;
                     }
                     c = 65535;
@@ -4538,7 +4585,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 700206086:
                     i2 = i9;
                     if (str.equals("boosts_per_sent_gift")) {
-                        c = 'f';
+                        c = 'i';
                         break;
                     }
                     c = 65535;
@@ -4546,7 +4593,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 700950310:
                     i2 = i9;
                     if (str.equals("stories_sent_monthly_limit_premium")) {
-                        c = 'g';
+                        c = 'j';
                         break;
                     }
                     c = 65535;
@@ -4554,7 +4601,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 805025045:
                     i2 = i9;
                     if (str.equals("android_disable_round_camera2")) {
-                        c = 'h';
+                        c = 'k';
                         break;
                     }
                     c = 65535;
@@ -4562,7 +4609,15 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 812427767:
                     i2 = i9;
                     if (str.equals("login_google_oauth_client_id")) {
-                        c = 'i';
+                        c = 'l';
+                        break;
+                    }
+                    c = 65535;
+                    break;
+                case 856667894:
+                    i2 = i9;
+                    if (str.equals("stars_usd_withdraw_rate_x1000")) {
+                        c = 'm';
                         break;
                     }
                     c = 65535;
@@ -4570,7 +4625,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 878681646:
                     i2 = i9;
                     if (str.equals("quote_length_max")) {
-                        c = 'j';
+                        c = 'n';
                         break;
                     }
                     c = 65535;
@@ -4578,7 +4633,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 917364150:
                     i2 = i9;
                     if (str.equals("ringtone_duration_max")) {
-                        c = 'k';
+                        c = 'o';
                         break;
                     }
                     c = 65535;
@@ -4586,7 +4641,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 947720162:
                     i2 = i9;
                     if (str.equals("saved_dialogs_pinned_limit_default")) {
-                        c = 'l';
+                        c = 'p';
                         break;
                     }
                     c = 65535;
@@ -4594,7 +4649,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 992898905:
                     i2 = i9;
                     if (str.equals("inapp_update_check_delay")) {
-                        c = 'm';
+                        c = 'q';
                         break;
                     }
                     c = 65535;
@@ -4602,7 +4657,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 1012863815:
                     i2 = i9;
                     if (str.equals("group_emoji_stickers_level_min")) {
-                        c = 'n';
+                        c = 'r';
                         break;
                     }
                     c = 65535;
@@ -4610,7 +4665,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 1021871313:
                     i2 = i9;
                     if (str.equals("stories_venue_search_username")) {
-                        c = 'o';
+                        c = 's';
                         break;
                     }
                     c = 65535;
@@ -4618,7 +4673,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 1022209700:
                     i2 = i9;
                     if (str.equals("upload_premium_speedup_upload")) {
-                        c = 'p';
+                        c = 't';
                         break;
                     }
                     c = 65535;
@@ -4626,7 +4681,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 1052355894:
                     i2 = i9;
                     if (str.equals("premium_bot_username")) {
-                        c = 'q';
+                        c = 'u';
                         break;
                     }
                     c = 65535;
@@ -4634,7 +4689,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 1085221270:
                     i2 = i9;
                     if (str.equals("premium_purchase_blocked")) {
-                        c = 'r';
+                        c = 'v';
                         break;
                     }
                     c = 65535;
@@ -4642,7 +4697,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 1143898023:
                     i2 = i9;
                     if (str.equals("stars_paid_post_amount_max")) {
-                        c = 's';
+                        c = 'w';
                         break;
                     }
                     c = 65535;
@@ -4650,7 +4705,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 1155587444:
                     i2 = i9;
                     if (str.equals("story_weather_preload")) {
-                        c = 't';
+                        c = 'x';
                         break;
                     }
                     c = 65535;
@@ -4658,7 +4713,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 1236470876:
                     i2 = i9;
                     if (str.equals("intro_title_length_limit")) {
-                        c = 'u';
+                        c = 'y';
                         break;
                     }
                     c = 65535;
@@ -4666,7 +4721,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 1262162175:
                     i2 = i9;
                     if (str.equals("premium_manage_subscription_url")) {
-                        c = 'v';
+                        c = 'z';
                         break;
                     }
                     c = 65535;
@@ -4674,7 +4729,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 1295838485:
                     i2 = i9;
                     if (str.equals("authorization_autoconfirm_period")) {
-                        c = 'w';
+                        c = '{';
                         break;
                     }
                     c = 65535;
@@ -4682,7 +4737,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 1316035878:
                     i2 = i9;
                     if (str.equals("premium_gift_attach_menu_icon")) {
-                        c = 'x';
+                        c = '|';
                         break;
                     }
                     c = 65535;
@@ -4690,7 +4745,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 1320737754:
                     i2 = i9;
                     if (str.equals("stories_sent_weekly_limit_default")) {
-                        c = 'y';
+                        c = '}';
                         break;
                     }
                     c = 65535;
@@ -4698,7 +4753,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 1322701672:
                     i2 = i9;
                     if (str.equals("round_video_encoding")) {
-                        c = 'z';
+                        c = '~';
                         break;
                     }
                     c = 65535;
@@ -4706,7 +4761,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 1355302207:
                     i2 = i9;
                     if (str.equals("chatlist_invites_limit_default")) {
-                        c = '{';
+                        c = 127;
                         break;
                     }
                     c = 65535;
@@ -4714,7 +4769,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 1366527782:
                     i2 = i9;
                     if (str.equals("transcribe_audio_trial_cooldown_until")) {
-                        c = '|';
+                        c = 128;
                         break;
                     }
                     c = 65535;
@@ -4722,7 +4777,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 1389389863:
                     i2 = i9;
                     if (str.equals("reactions_user_max_default")) {
-                        c = '}';
+                        c = 129;
                         break;
                     }
                     c = 65535;
@@ -4730,7 +4785,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 1446751453:
                     i2 = i9;
                     if (str.equals("caption_length_limit_default")) {
-                        c = '~';
+                        c = 130;
                         break;
                     }
                     c = 65535;
@@ -4738,7 +4793,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 1450111474:
                     i2 = i9;
                     if (str.equals("recommended_channels_limit_default")) {
-                        c = 127;
+                        c = 131;
                         break;
                     }
                     c = 65535;
@@ -4746,7 +4801,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 1466044629:
                     i2 = i9;
                     if (str.equals("transcribe_audio_trial_duration_max")) {
-                        c = 128;
+                        c = 132;
                         break;
                     }
                     c = 65535;
@@ -4754,7 +4809,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 1468149675:
                     i2 = i9;
                     if (str.equals("transcribe_audio_trial_weekly_number")) {
-                        c = 129;
+                        c = 133;
                         break;
                     }
                     c = 65535;
@@ -4762,7 +4817,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 1477031202:
                     i2 = i9;
                     if (str.equals("upload_markup_video")) {
-                        c = 130;
+                        c = 134;
                         break;
                     }
                     c = 65535;
@@ -4770,7 +4825,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 1508636733:
                     i2 = i9;
                     if (str.equals("chat_read_mark_size_threshold")) {
-                        c = 131;
+                        c = 135;
                         break;
                     }
                     c = 65535;
@@ -4778,7 +4833,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 1512284126:
                     i2 = i9;
                     if (str.equals("dialog_filters_chats_limit_default")) {
-                        c = 132;
+                        c = 136;
                         break;
                     }
                     c = 65535;
@@ -4786,7 +4841,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 1535244155:
                     i2 = i9;
                     if (str.equals("saved_gifs_limit_premium")) {
-                        c = 133;
+                        c = 137;
                         break;
                     }
                     c = 65535;
@@ -4794,7 +4849,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 1554302509:
                     i2 = i9;
                     if (str.equals("stories_entities")) {
-                        c = 134;
+                        c = 138;
                         break;
                     }
                     c = 65535;
@@ -4802,7 +4857,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 1556659663:
                     i2 = i9;
                     if (str.equals("channel_bg_icon_level_min")) {
-                        c = 135;
+                        c = 139;
                         break;
                     }
                     c = 65535;
@@ -4810,7 +4865,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 1564023449:
                     i2 = i9;
                     if (str.equals("giveaway_countries_max")) {
-                        c = 136;
+                        c = 140;
                         break;
                     }
                     c = 65535;
@@ -4818,7 +4873,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 1586523512:
                     i2 = i9;
                     if (str.equals("stories_changelog_user_id")) {
-                        c = 137;
+                        c = 141;
                         break;
                     }
                     c = 65535;
@@ -4826,7 +4881,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 1597443023:
                     i2 = i9;
                     if (str.equals("topics_pinned_limit")) {
-                        c = 138;
+                        c = 142;
                         break;
                     }
                     c = 65535;
@@ -4834,7 +4889,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 1606936462:
                     i2 = i9;
                     if (str.equals("channels_limit_default")) {
-                        c = 139;
+                        c = 143;
                         break;
                     }
                     c = 65535;
@@ -4842,7 +4897,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 1625871267:
                     i2 = i9;
                     if (str.equals("group_emoji_status_level_min")) {
-                        c = 140;
+                        c = 144;
                         break;
                     }
                     c = 65535;
@@ -4850,7 +4905,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 1637671355:
                     i2 = i9;
                     if (str.equals("web_app_allowed_protocols")) {
-                        c = 141;
+                        c = 145;
                         break;
                     }
                     c = 65535;
@@ -4858,7 +4913,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 1667601876:
                     i2 = i9;
                     if (str.equals("small_queue_max_active_operations_count")) {
-                        c = 142;
+                        c = 146;
                         break;
                     }
                     c = 65535;
@@ -4866,7 +4921,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 1695201277:
                     i2 = i9;
                     if (str.equals("story_caption_length_limit_premium")) {
-                        c = 143;
+                        c = 147;
                         break;
                     }
                     c = 65535;
@@ -4874,7 +4929,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 1782655589:
                     i2 = i9;
                     if (str.equals("factcheck_length_limit")) {
-                        c = 144;
+                        c = 148;
                         break;
                     }
                     c = 65535;
@@ -4882,7 +4937,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 1785205890:
                     i2 = i9;
                     if (str.equals("reactions_in_chat_max")) {
-                        c = 145;
+                        c = 149;
                         break;
                     }
                     c = 65535;
@@ -4890,7 +4945,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 1849807064:
                     i2 = i9;
                     if (str.equals("dialog_filters_limit_premium")) {
-                        c = 146;
+                        c = 150;
                         break;
                     }
                     c = 65535;
@@ -4898,7 +4953,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 1850325103:
                     i2 = i9;
                     if (str.equals("emojies_sounds")) {
-                        c = 147;
+                        c = 151;
                         break;
                     }
                     c = 65535;
@@ -4906,7 +4961,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 1907641101:
                     i2 = i9;
                     if (str.equals("group_transcribe_level_min")) {
-                        c = 148;
+                        c = 152;
                         break;
                     }
                     c = 65535;
@@ -4914,7 +4969,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 1943239084:
                     i2 = i9;
                     if (str.equals("about_length_limit_premium")) {
-                        c = 149;
+                        c = 153;
                         break;
                     }
                     c = 65535;
@@ -4922,7 +4977,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 1956490398:
                     i2 = i9;
                     if (str.equals("boosts_channel_level_max")) {
-                        c = 150;
+                        c = 154;
                         break;
                     }
                     c = 65535;
@@ -4930,7 +4985,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 2000413432:
                     i2 = i9;
                     if (str.equals("intro_description_length_limit")) {
-                        c = 151;
+                        c = 155;
                         break;
                     }
                     c = 65535;
@@ -4938,7 +4993,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 2074702027:
                     i2 = i9;
                     if (str.equals("export_private_urls")) {
-                        c = 152;
+                        c = 156;
                         break;
                     }
                     c = 65535;
@@ -4946,7 +5001,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 2130452052:
                     i2 = i9;
                     if (str.equals("forum_upgrade_participants_min")) {
-                        c = 153;
+                        c = 157;
                         break;
                     }
                     c = 65535;
@@ -4954,7 +5009,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 2136829446:
                     i2 = i9;
                     if (str.equals("dialog_filters_enabled")) {
-                        c = 154;
+                        c = 158;
                         break;
                     }
                     c = 65535;
@@ -4974,20 +5029,20 @@ public class MessagesController extends BaseController implements NotificationCe
                             int i12 = (int) d;
                             this.chatlistJoinedLimitPremium = i12;
                             edit.putInt("chatlistJoinedLimitPremium", i12);
-                            z4 = true;
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
                             i7++;
                             tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                             size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
                         i7++;
@@ -4995,9 +5050,9 @@ public class MessagesController extends BaseController implements NotificationCe
                         size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
@@ -5006,24 +5061,24 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 1:
                     TLRPC$JSONValue tLRPC$JSONValue2 = tLRPC$TL_jsonObjectValue.value;
                     if (tLRPC$JSONValue2 instanceof TLRPC$TL_jsonBool) {
-                        boolean z10 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue2).value;
-                        if (z10 != this.channelRevenueWithdrawalEnabled) {
-                            this.channelRevenueWithdrawalEnabled = z10;
-                            edit.putBoolean("channelRevenueWithdrawalEnabled", z10);
-                            z4 = true;
+                        boolean z9 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue2).value;
+                        if (z9 != this.channelRevenueWithdrawalEnabled) {
+                            this.channelRevenueWithdrawalEnabled = z9;
+                            edit.putBoolean("channelRevenueWithdrawalEnabled", z9);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
                             i7++;
                             tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                             size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
                         i7++;
@@ -5031,9 +5086,9 @@ public class MessagesController extends BaseController implements NotificationCe
                         size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
@@ -5041,51 +5096,26 @@ public class MessagesController extends BaseController implements NotificationCe
                     size = i10;
                 case 2:
                     TLRPC$JSONValue tLRPC$JSONValue3 = tLRPC$TL_jsonObjectValue.value;
-                    if ((tLRPC$JSONValue3 instanceof TLRPC$TL_jsonBool) && (z3 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue3).value) != this.safeBrowsingDisabled) {
-                        this.safeBrowsingDisabled = z3;
-                        edit.putBoolean("safeBrowsingDisabled", z3);
-                        i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
-                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                        i8 = i11;
-                        z4 = true;
-                        i7++;
-                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
-                        size = i10;
-                    }
-                    i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
-                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                    i8 = i11;
-                    i7++;
-                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
-                    size = i10;
-                    break;
-                case 3:
-                    TLRPC$JSONValue tLRPC$JSONValue4 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue4 instanceof TLRPC$TL_jsonNumber) {
-                        double d2 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue4).value;
+                    if (tLRPC$JSONValue3 instanceof TLRPC$TL_jsonNumber) {
+                        double d2 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue3).value;
                         if (d2 != this.dialogFiltersPinnedLimitPremium) {
                             int i13 = (int) d2;
                             this.dialogFiltersPinnedLimitPremium = i13;
                             edit.putInt("dialogFiltersPinnedLimitPremium", i13);
-                            z4 = true;
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
                             i7++;
                             tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                             size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
                         i7++;
@@ -5093,9 +5123,46 @@ public class MessagesController extends BaseController implements NotificationCe
                         size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
+                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                    i8 = i11;
+                    i7++;
+                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                    size = i10;
+                case 3:
+                    TLRPC$JSONValue tLRPC$JSONValue4 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue4 instanceof TLRPC$TL_jsonNumber) {
+                        double d3 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue4).value;
+                        if (d3 != this.businessChatLinksLimit) {
+                            int i14 = (int) d3;
+                            this.businessChatLinksLimit = i14;
+                            edit.putInt("businessChatLinksLimit", i14);
+                            z3 = true;
+                            i9 = i2;
+                            z5 = z7;
+                            z4 = z8;
+                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                            i8 = i11;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
+                        }
+                        z3 = z6;
+                        i9 = i2;
+                        z5 = z7;
+                        z4 = z8;
+                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                        i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
+                    }
+                    i9 = i2;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
@@ -5103,26 +5170,29 @@ public class MessagesController extends BaseController implements NotificationCe
                     size = i10;
                 case 4:
                     TLRPC$JSONValue tLRPC$JSONValue5 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue5 instanceof TLRPC$TL_jsonNumber) {
-                        double d3 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue5).value;
-                        if (d3 != this.businessChatLinksLimit) {
-                            int i14 = (int) d3;
-                            this.businessChatLinksLimit = i14;
-                            edit.putInt("businessChatLinksLimit", i14);
-                            z4 = true;
+                    if (tLRPC$JSONValue5 instanceof TLRPC$TL_jsonString) {
+                        try {
+                            parseLong = Long.parseLong(((TLRPC$TL_jsonString) tLRPC$JSONValue5).value);
+                        } catch (Exception e) {
+                            FileLog.e(e);
+                        }
+                        if (parseLong != this.telegramAntispamUserId) {
+                            this.telegramAntispamUserId = parseLong;
+                            edit.putLong("telegramAntispamUserId", parseLong);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
                             i7++;
                             tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                             size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
                         i7++;
@@ -5130,9 +5200,9 @@ public class MessagesController extends BaseController implements NotificationCe
                         size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
@@ -5140,29 +5210,26 @@ public class MessagesController extends BaseController implements NotificationCe
                     size = i10;
                 case 5:
                     TLRPC$JSONValue tLRPC$JSONValue6 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue6 instanceof TLRPC$TL_jsonString) {
-                        try {
-                            parseLong = Long.parseLong(((TLRPC$TL_jsonString) tLRPC$JSONValue6).value);
-                        } catch (Exception e) {
-                            FileLog.e(e);
-                        }
-                        if (parseLong != this.telegramAntispamUserId) {
-                            this.telegramAntispamUserId = parseLong;
-                            edit.putLong("telegramAntispamUserId", parseLong);
-                            z4 = true;
+                    if (tLRPC$JSONValue6 instanceof TLRPC$TL_jsonNumber) {
+                        double d4 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue6).value;
+                        if (d4 != this.channelCustomWallpaperLevelMin) {
+                            int i15 = (int) d4;
+                            this.channelCustomWallpaperLevelMin = i15;
+                            edit.putInt("channelCustomWallpaperLevelMin", i15);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
                             i7++;
                             tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                             size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
                         i7++;
@@ -5170,9 +5237,9 @@ public class MessagesController extends BaseController implements NotificationCe
                         size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
@@ -5181,25 +5248,25 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 6:
                     TLRPC$JSONValue tLRPC$JSONValue7 = tLRPC$TL_jsonObjectValue.value;
                     if (tLRPC$JSONValue7 instanceof TLRPC$TL_jsonNumber) {
-                        double d4 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue7).value;
-                        if (d4 != this.channelCustomWallpaperLevelMin) {
-                            int i15 = (int) d4;
-                            this.channelCustomWallpaperLevelMin = i15;
-                            edit.putInt("channelCustomWallpaperLevelMin", i15);
-                            z4 = true;
+                        double d5 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue7).value;
+                        if (this.channelRestrictSponsoredLevelMin != d5) {
+                            int i16 = (int) d5;
+                            this.channelRestrictSponsoredLevelMin = i16;
+                            edit.putInt("channelRestrictSponsoredLevelMin", i16);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
                             i7++;
                             tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                             size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
                         i7++;
@@ -5207,9 +5274,9 @@ public class MessagesController extends BaseController implements NotificationCe
                         size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
@@ -5218,35 +5285,14 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 7:
                     TLRPC$JSONValue tLRPC$JSONValue8 = tLRPC$TL_jsonObjectValue.value;
                     if (tLRPC$JSONValue8 instanceof TLRPC$TL_jsonNumber) {
-                        double d5 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue8).value;
-                        if (this.channelRestrictSponsoredLevelMin != d5) {
-                            int i16 = (int) d5;
-                            this.channelRestrictSponsoredLevelMin = i16;
-                            edit.putInt("channelRestrictSponsoredLevelMin", i16);
-                            z4 = true;
-                            i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
-                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                            i8 = i11;
-                            i7++;
-                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
-                            size = i10;
-                        }
-                        z4 = z7;
-                        i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
-                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                        i8 = i11;
-                        i7++;
-                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
-                        size = i10;
+                        int i17 = (int) ((TLRPC$TL_jsonNumber) tLRPC$JSONValue8).value;
+                        this.largeQueueMaxActiveOperations = i17;
+                        edit.putInt("largeQueueMaxActiveOperations", i17);
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
@@ -5255,14 +5301,35 @@ public class MessagesController extends BaseController implements NotificationCe
                 case '\b':
                     TLRPC$JSONValue tLRPC$JSONValue9 = tLRPC$TL_jsonObjectValue.value;
                     if (tLRPC$JSONValue9 instanceof TLRPC$TL_jsonNumber) {
-                        int i17 = (int) ((TLRPC$TL_jsonNumber) tLRPC$JSONValue9).value;
-                        this.largeQueueMaxActiveOperations = i17;
-                        edit.putInt("largeQueueMaxActiveOperations", i17);
+                        double d6 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue9).value;
+                        if (d6 != this.uploadMaxFileParts) {
+                            int i18 = (int) d6;
+                            this.uploadMaxFileParts = i18;
+                            edit.putInt("uploadMaxFileParts", i18);
+                            z3 = true;
+                            i9 = i2;
+                            z5 = z7;
+                            z4 = z8;
+                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                            i8 = i11;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
+                        }
+                        z3 = z6;
+                        i9 = i2;
+                        z5 = z7;
+                        z4 = z8;
+                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                        i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
@@ -5271,25 +5338,25 @@ public class MessagesController extends BaseController implements NotificationCe
                 case '\t':
                     TLRPC$JSONValue tLRPC$JSONValue10 = tLRPC$TL_jsonObjectValue.value;
                     if (tLRPC$JSONValue10 instanceof TLRPC$TL_jsonNumber) {
-                        double d6 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue10).value;
-                        if (d6 != this.uploadMaxFileParts) {
-                            int i18 = (int) d6;
-                            this.uploadMaxFileParts = i18;
-                            edit.putInt("uploadMaxFileParts", i18);
-                            z4 = true;
+                        double d7 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue10).value;
+                        if (d7 != this.maxPinnedDialogsCountDefault) {
+                            int i19 = (int) d7;
+                            this.maxPinnedDialogsCountDefault = i19;
+                            edit.putInt("maxPinnedDialogsCountDefault", i19);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
                             i7++;
                             tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                             size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
                         i7++;
@@ -5297,9 +5364,9 @@ public class MessagesController extends BaseController implements NotificationCe
                         size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
@@ -5307,26 +5374,24 @@ public class MessagesController extends BaseController implements NotificationCe
                     size = i10;
                 case '\n':
                     TLRPC$JSONValue tLRPC$JSONValue11 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue11 instanceof TLRPC$TL_jsonNumber) {
-                        double d7 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue11).value;
-                        if (d7 != this.maxPinnedDialogsCountDefault) {
-                            int i19 = (int) d7;
-                            this.maxPinnedDialogsCountDefault = i19;
-                            edit.putInt("maxPinnedDialogsCountDefault", i19);
-                            z4 = true;
+                    if (tLRPC$JSONValue11 instanceof TLRPC$TL_jsonBool) {
+                        boolean z10 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue11).value;
+                        if (z10 != this.collectDeviceStats) {
+                            this.collectDeviceStats = z10;
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
                             i7++;
                             tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                             size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
                         i7++;
@@ -5334,9 +5399,9 @@ public class MessagesController extends BaseController implements NotificationCe
                         size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
@@ -5344,24 +5409,26 @@ public class MessagesController extends BaseController implements NotificationCe
                     size = i10;
                 case 11:
                     TLRPC$JSONValue tLRPC$JSONValue12 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue12 instanceof TLRPC$TL_jsonBool) {
-                        boolean z11 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue12).value;
-                        if (z11 != this.collectDeviceStats) {
-                            this.collectDeviceStats = z11;
-                            z4 = true;
+                    if (tLRPC$JSONValue12 instanceof TLRPC$TL_jsonNumber) {
+                        double d8 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue12).value;
+                        if (d8 != this.storiesSuggestedReactionsLimitDefault) {
+                            int i20 = (int) d8;
+                            this.storiesSuggestedReactionsLimitDefault = i20;
+                            edit.putInt("storiesSuggestedReactionsLimitDefault", i20);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
                             i7++;
                             tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                             size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
                         i7++;
@@ -5369,9 +5436,9 @@ public class MessagesController extends BaseController implements NotificationCe
                         size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
@@ -5379,26 +5446,25 @@ public class MessagesController extends BaseController implements NotificationCe
                     size = i10;
                 case '\f':
                     TLRPC$JSONValue tLRPC$JSONValue13 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue13 instanceof TLRPC$TL_jsonNumber) {
-                        double d8 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue13).value;
-                        if (d8 != this.storiesSuggestedReactionsLimitDefault) {
-                            int i20 = (int) d8;
-                            this.storiesSuggestedReactionsLimitDefault = i20;
-                            edit.putInt("storiesSuggestedReactionsLimitDefault", i20);
-                            z4 = true;
+                    if (tLRPC$JSONValue13 instanceof TLRPC$TL_jsonBool) {
+                        boolean z11 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue13).value;
+                        if (z11 != this.starsGiftsEnabled) {
+                            this.starsGiftsEnabled = z11;
+                            edit.putBoolean("starsGiftsEnabled", z11);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
                             i7++;
                             tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                             size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
                         i7++;
@@ -5406,60 +5472,24 @@ public class MessagesController extends BaseController implements NotificationCe
                         size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case '\r':
-                    TLRPC$JSONValue tLRPC$JSONValue14 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue14 instanceof TLRPC$TL_jsonBool) {
-                        boolean z12 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue14).value;
-                        if (z12 != this.starsGiftsEnabled) {
-                            this.starsGiftsEnabled = z12;
-                            edit.putBoolean("starsGiftsEnabled", z12);
-                            z4 = true;
-                            i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
-                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                            i8 = i11;
-                            i7++;
-                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
-                            size = i10;
-                        }
-                        z4 = z7;
-                        i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
-                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                        i8 = i11;
-                        i7++;
-                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
-                        size = i10;
-                    }
-                    i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
-                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                    i8 = i11;
-                    i7++;
-                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
-                    size = i10;
-                case 14:
                     HashSet hashSet = new HashSet();
-                    TLRPC$JSONValue tLRPC$JSONValue15 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue15 instanceof TLRPC$TL_jsonArray) {
-                        TLRPC$TL_jsonArray tLRPC$TL_jsonArray = (TLRPC$TL_jsonArray) tLRPC$JSONValue15;
+                    TLRPC$JSONValue tLRPC$JSONValue14 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue14 instanceof TLRPC$TL_jsonArray) {
+                        TLRPC$TL_jsonArray tLRPC$TL_jsonArray = (TLRPC$TL_jsonArray) tLRPC$JSONValue14;
                         int size2 = tLRPC$TL_jsonArray.value.size();
                         for (int i21 = 0; i21 < size2; i21++) {
-                            TLRPC$JSONValue tLRPC$JSONValue16 = tLRPC$TL_jsonArray.value.get(i21);
-                            if (tLRPC$JSONValue16 instanceof TLRPC$TL_jsonString) {
-                                hashSet.add(((TLRPC$TL_jsonString) tLRPC$JSONValue16).value);
+                            TLRPC$JSONValue tLRPC$JSONValue15 = tLRPC$TL_jsonArray.value.get(i21);
+                            if (tLRPC$JSONValue15 instanceof TLRPC$TL_jsonString) {
+                                hashSet.add(((TLRPC$TL_jsonString) tLRPC$JSONValue15).value);
                             }
                         }
                     }
@@ -5468,19 +5498,56 @@ public class MessagesController extends BaseController implements NotificationCe
                         edit.putStringSet("dismissedSuggestions", hashSet);
                         getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.newSuggestionsAvailable, new Object[0]);
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
-                        z4 = true;
+                        z3 = true;
                         i7++;
                         tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                         size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
+                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                    i8 = i11;
+                    i7++;
+                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                    size = i10;
+                case 14:
+                    TLRPC$JSONValue tLRPC$JSONValue16 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue16 instanceof TLRPC$TL_jsonNumber) {
+                        double d9 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue16).value;
+                        if (d9 != this.pmReadDateExpirePeriod) {
+                            int i22 = (int) d9;
+                            this.pmReadDateExpirePeriod = i22;
+                            edit.putInt("pmReadDateExpirePeriod", i22);
+                            z3 = true;
+                            i9 = i2;
+                            z5 = z7;
+                            z4 = z8;
+                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                            i8 = i11;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
+                        }
+                        z3 = z6;
+                        i9 = i2;
+                        z5 = z7;
+                        z4 = z8;
+                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                        i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
+                    }
+                    i9 = i2;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
@@ -5488,31 +5555,35 @@ public class MessagesController extends BaseController implements NotificationCe
                     size = i10;
                 case 15:
                     TLRPC$JSONValue tLRPC$JSONValue17 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue17 instanceof TLRPC$TL_jsonNumber) {
-                        double d9 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue17).value;
-                        if (d9 != this.pmReadDateExpirePeriod) {
-                            int i22 = (int) d9;
-                            this.pmReadDateExpirePeriod = i22;
-                            edit.putInt("pmReadDateExpirePeriod", i22);
-                            z4 = true;
+                    if (tLRPC$JSONValue17 instanceof TLRPC$TL_jsonBool) {
+                        boolean z12 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue17).value;
+                        if (z12 != this.smsjobsStickyNotificationEnabled) {
+                            this.smsjobsStickyNotificationEnabled = z12;
+                            edit.putBoolean("smsjobsStickyNotificationEnabled", z12);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
@@ -5520,30 +5591,36 @@ public class MessagesController extends BaseController implements NotificationCe
                     size = i10;
                 case 16:
                     TLRPC$JSONValue tLRPC$JSONValue18 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue18 instanceof TLRPC$TL_jsonBool) {
-                        boolean z13 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue18).value;
-                        if (z13 != this.smsjobsStickyNotificationEnabled) {
-                            this.smsjobsStickyNotificationEnabled = z13;
-                            edit.putBoolean("smsjobsStickyNotificationEnabled", z13);
-                            z4 = true;
+                    if (tLRPC$JSONValue18 instanceof TLRPC$TL_jsonNumber) {
+                        double d10 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue18).value;
+                        if (d10 != this.uploadPremiumSpeedupNotifyPeriod) {
+                            int i23 = (int) d10;
+                            this.uploadPremiumSpeedupNotifyPeriod = i23;
+                            edit.putInt("uploadPremiumSpeedupNotifyPeriod2", i23);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
@@ -5552,30 +5629,35 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 17:
                     TLRPC$JSONValue tLRPC$JSONValue19 = tLRPC$TL_jsonObjectValue.value;
                     if (tLRPC$JSONValue19 instanceof TLRPC$TL_jsonNumber) {
-                        double d10 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue19).value;
-                        if (d10 != this.uploadPremiumSpeedupNotifyPeriod) {
-                            int i23 = (int) d10;
-                            this.uploadPremiumSpeedupNotifyPeriod = i23;
-                            edit.putInt("uploadPremiumSpeedupNotifyPeriod2", i23);
-                            z4 = true;
+                        double d11 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue19).value;
+                        if (d11 != this.storiesSentMonthlyLimitDefault) {
+                            int i24 = (int) d11;
+                            this.storiesSentMonthlyLimitDefault = i24;
+                            edit.putInt("storiesSentMonthlyLimitDefault", i24);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
@@ -5584,30 +5666,35 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 18:
                     TLRPC$JSONValue tLRPC$JSONValue20 = tLRPC$TL_jsonObjectValue.value;
                     if (tLRPC$JSONValue20 instanceof TLRPC$TL_jsonNumber) {
-                        double d11 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue20).value;
-                        if (d11 != this.storiesSentMonthlyLimitDefault) {
-                            int i24 = (int) d11;
-                            this.storiesSentMonthlyLimitDefault = i24;
-                            edit.putInt("storiesSentMonthlyLimitDefault", i24);
-                            z4 = true;
+                        double d12 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue20).value;
+                        if (((int) d12) != this.botPreviewMediasMax) {
+                            int i25 = (int) d12;
+                            this.botPreviewMediasMax = i25;
+                            edit.putInt("botPreviewMediasMax", i25);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
@@ -5615,31 +5702,36 @@ public class MessagesController extends BaseController implements NotificationCe
                     size = i10;
                 case 19:
                     TLRPC$JSONValue tLRPC$JSONValue21 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue21 instanceof TLRPC$TL_jsonNumber) {
-                        double d12 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue21).value;
-                        if (((int) d12) != this.botPreviewMediasMax) {
-                            int i25 = (int) d12;
-                            this.botPreviewMediasMax = i25;
-                            edit.putInt("botPreviewMediasMax", i25);
-                            z4 = true;
+                    if (tLRPC$JSONValue21 instanceof TLRPC$TL_jsonBool) {
+                        boolean z13 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue21).value;
+                        if (z13 != this.showFiltersTooltip) {
+                            this.showFiltersTooltip = z13;
+                            edit.putBoolean("showFiltersTooltip", z13);
+                            getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.filterSettingsUpdated, new Object[0]);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
@@ -5649,29 +5741,33 @@ public class MessagesController extends BaseController implements NotificationCe
                     TLRPC$JSONValue tLRPC$JSONValue22 = tLRPC$TL_jsonObjectValue.value;
                     if (tLRPC$JSONValue22 instanceof TLRPC$TL_jsonBool) {
                         boolean z14 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue22).value;
-                        if (z14 != this.showFiltersTooltip) {
-                            this.showFiltersTooltip = z14;
-                            edit.putBoolean("showFiltersTooltip", z14);
-                            getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.filterSettingsUpdated, new Object[0]);
-                            z4 = true;
+                        if (z14 != this.qrLoginCamera) {
+                            this.qrLoginCamera = z14;
+                            edit.putBoolean("qrLoginCamera", z14);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
@@ -5679,88 +5775,98 @@ public class MessagesController extends BaseController implements NotificationCe
                     size = i10;
                 case 21:
                     TLRPC$JSONValue tLRPC$JSONValue23 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue23 instanceof TLRPC$TL_jsonBool) {
+                    if ((tLRPC$JSONValue23 instanceof TLRPC$TL_jsonBool) && this.starsLocked != ((TLRPC$TL_jsonBool) tLRPC$JSONValue23).value) {
                         boolean z15 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue23).value;
-                        if (z15 != this.qrLoginCamera) {
-                            this.qrLoginCamera = z15;
-                            edit.putBoolean("qrLoginCamera", z15);
-                            z4 = true;
-                            i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
-                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                            i8 = i11;
-                            break;
-                        }
-                        z4 = z7;
+                        this.starsLocked = z15;
+                        edit.putBoolean("starsLocked", z15);
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
-                    }
-                    i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
-                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                    i8 = i11;
-                    i7++;
-                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
-                    size = i10;
-                case 22:
-                    TLRPC$JSONValue tLRPC$JSONValue24 = tLRPC$TL_jsonObjectValue.value;
-                    if ((tLRPC$JSONValue24 instanceof TLRPC$TL_jsonBool) && this.starsLocked != ((TLRPC$TL_jsonBool) tLRPC$JSONValue24).value) {
-                        boolean z16 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue24).value;
-                        this.starsLocked = z16;
-                        edit.putBoolean("starsLocked", z16);
-                        i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
-                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                        i8 = i11;
-                        z4 = true;
+                        z3 = true;
                         i7++;
                         tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                         size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                     break;
-                case 23:
-                    TLRPC$JSONValue tLRPC$JSONValue25 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue25 instanceof TLRPC$TL_jsonNumber) {
-                        double d13 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue25).value;
+                case 22:
+                    TLRPC$JSONValue tLRPC$JSONValue24 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue24 instanceof TLRPC$TL_jsonNumber) {
+                        double d13 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue24).value;
                         if (d13 != this.groupCustomWallpaperLevelMin) {
                             int i26 = (int) d13;
                             this.groupCustomWallpaperLevelMin = i26;
                             edit.putInt("groupCustomWallpaperLevelMin", i26);
-                            z4 = true;
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
+                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                    i8 = i11;
+                    i7++;
+                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                    size = i10;
+                case 23:
+                    TLRPC$JSONValue tLRPC$JSONValue25 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue25 instanceof TLRPC$TL_jsonNumber) {
+                        long j = (long) ((TLRPC$TL_jsonNumber) tLRPC$JSONValue25).value;
+                        if (j != this.giveawayAddPeersMax) {
+                            this.giveawayAddPeersMax = j;
+                            edit.putLong("giveaway_add_peers_max", j);
+                            z3 = true;
+                            i9 = i2;
+                            z5 = z7;
+                            z4 = z8;
+                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                            i8 = i11;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
+                        }
+                        z3 = z6;
+                        i9 = i2;
+                        z5 = z7;
+                        z4 = z8;
+                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                        i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
+                    }
+                    i9 = i2;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
@@ -5769,29 +5875,35 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 24:
                     TLRPC$JSONValue tLRPC$JSONValue26 = tLRPC$TL_jsonObjectValue.value;
                     if (tLRPC$JSONValue26 instanceof TLRPC$TL_jsonNumber) {
-                        long j = (long) ((TLRPC$TL_jsonNumber) tLRPC$JSONValue26).value;
-                        if (j != this.giveawayAddPeersMax) {
-                            this.giveawayAddPeersMax = j;
-                            edit.putLong("giveaway_add_peers_max", j);
-                            z4 = true;
+                        double d14 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue26).value;
+                        if (d14 != this.channelWallpaperLevelMin) {
+                            int i27 = (int) d14;
+                            this.channelWallpaperLevelMin = i27;
+                            edit.putInt("channelWallpaperLevelMin", i27);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
@@ -5800,30 +5912,35 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 25:
                     TLRPC$JSONValue tLRPC$JSONValue27 = tLRPC$TL_jsonObjectValue.value;
                     if (tLRPC$JSONValue27 instanceof TLRPC$TL_jsonNumber) {
-                        double d14 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue27).value;
-                        if (d14 != this.channelWallpaperLevelMin) {
-                            int i27 = (int) d14;
-                            this.channelWallpaperLevelMin = i27;
-                            edit.putInt("channelWallpaperLevelMin", i27);
-                            z4 = true;
+                        double d15 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue27).value;
+                        if (d15 != this.chatlistUpdatePeriod) {
+                            int i28 = (int) d15;
+                            this.chatlistUpdatePeriod = i28;
+                            edit.putInt("chatlistUpdatePeriod", i28);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
@@ -5832,30 +5949,35 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 26:
                     TLRPC$JSONValue tLRPC$JSONValue28 = tLRPC$TL_jsonObjectValue.value;
                     if (tLRPC$JSONValue28 instanceof TLRPC$TL_jsonNumber) {
-                        double d15 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue28).value;
-                        if (d15 != this.chatlistUpdatePeriod) {
-                            int i28 = (int) d15;
-                            this.chatlistUpdatePeriod = i28;
-                            edit.putInt("chatlistUpdatePeriod", i28);
-                            z4 = true;
+                        double d16 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue28).value;
+                        if (((long) d16) != this.starsSubscriptionAmountMax) {
+                            long j2 = (long) d16;
+                            this.starsSubscriptionAmountMax = j2;
+                            edit.putLong("starsSubscriptionAmountMax", j2);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
@@ -5864,30 +5986,35 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 27:
                     TLRPC$JSONValue tLRPC$JSONValue29 = tLRPC$TL_jsonObjectValue.value;
                     if (tLRPC$JSONValue29 instanceof TLRPC$TL_jsonNumber) {
-                        double d16 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue29).value;
-                        if (d16 != this.groupWallpaperLevelMin) {
-                            int i29 = (int) d16;
+                        double d17 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue29).value;
+                        if (d17 != this.groupWallpaperLevelMin) {
+                            int i29 = (int) d17;
                             this.groupWallpaperLevelMin = i29;
                             edit.putInt("groupWallpaperLevelMin", i29);
-                            z4 = true;
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
@@ -5896,30 +6023,35 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 28:
                     TLRPC$JSONValue tLRPC$JSONValue30 = tLRPC$TL_jsonObjectValue.value;
                     if (tLRPC$JSONValue30 instanceof TLRPC$TL_jsonNumber) {
-                        double d17 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue30).value;
-                        if (d17 != this.channelEmojiStatusLevelMin) {
-                            int i30 = (int) d17;
+                        double d18 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue30).value;
+                        if (d18 != this.channelEmojiStatusLevelMin) {
+                            int i30 = (int) d18;
                             this.channelEmojiStatusLevelMin = i30;
                             edit.putInt("channelEmojiStatusLevelMin", i30);
-                            z4 = true;
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
@@ -5943,19 +6075,19 @@ public class MessagesController extends BaseController implements NotificationCe
                         edit.putStringSet("pendingSuggestions", hashSet2);
                         getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.newSuggestionsAvailable, new Object[0]);
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
-                        z4 = true;
+                        z3 = true;
                         i7++;
                         tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                         size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
@@ -5964,30 +6096,35 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 30:
                     TLRPC$JSONValue tLRPC$JSONValue33 = tLRPC$TL_jsonObjectValue.value;
                     if (tLRPC$JSONValue33 instanceof TLRPC$TL_jsonNumber) {
-                        double d18 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue33).value;
-                        if (d18 != this.publicLinksLimitPremium) {
-                            int i32 = (int) d18;
+                        double d19 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue33).value;
+                        if (d19 != this.publicLinksLimitPremium) {
+                            int i32 = (int) d19;
                             this.publicLinksLimitPremium = i32;
                             edit.putInt("publicLinksLimitPremium", i32);
-                            z4 = true;
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
@@ -5996,30 +6133,35 @@ public class MessagesController extends BaseController implements NotificationCe
                 case R.styleable.AppCompatTheme_actionModeWebSearchDrawable /* 31 */:
                     TLRPC$JSONValue tLRPC$JSONValue34 = tLRPC$TL_jsonObjectValue.value;
                     if (tLRPC$JSONValue34 instanceof TLRPC$TL_jsonNumber) {
-                        double d19 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue34).value;
-                        if (d19 != this.storyExpiringLimitPremium) {
-                            int i33 = (int) d19;
+                        double d20 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue34).value;
+                        if (d20 != this.storyExpiringLimitPremium) {
+                            int i33 = (int) d20;
                             this.storyExpiringLimitPremium = i33;
                             edit.putInt("storyExpiringLimitPremium", i33);
-                            z4 = true;
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
@@ -6028,30 +6170,35 @@ public class MessagesController extends BaseController implements NotificationCe
                 case ' ':
                     TLRPC$JSONValue tLRPC$JSONValue35 = tLRPC$TL_jsonObjectValue.value;
                     if (tLRPC$JSONValue35 instanceof TLRPC$TL_jsonNumber) {
-                        double d20 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue35).value;
-                        if (d20 != this.groupProfileBgIconLevelMin) {
-                            int i34 = (int) d20;
+                        double d21 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue35).value;
+                        if (d21 != this.groupProfileBgIconLevelMin) {
+                            int i34 = (int) d21;
                             this.groupProfileBgIconLevelMin = i34;
                             edit.putInt("groupProfileBgIconLevelMin", i34);
-                            z4 = true;
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
@@ -6061,204 +6208,234 @@ public class MessagesController extends BaseController implements NotificationCe
                     TLRPC$JSONValue tLRPC$JSONValue36 = tLRPC$TL_jsonObjectValue.value;
                     if (tLRPC$JSONValue36 instanceof TLRPC$TL_jsonNumber) {
                         TLRPC$TL_jsonNumber tLRPC$TL_jsonNumber = (TLRPC$TL_jsonNumber) tLRPC$JSONValue36;
-                        double d21 = tLRPC$TL_jsonNumber.value;
-                        double d22 = this.uploadPremiumSpeedupDownload;
-                        Double.isNaN(d22);
-                        if (Math.abs(d21 - d22) >= 0.009999999776482582d) {
+                        double d22 = tLRPC$TL_jsonNumber.value;
+                        double d23 = this.uploadPremiumSpeedupDownload;
+                        Double.isNaN(d23);
+                        if (Math.abs(d22 - d23) >= 0.009999999776482582d) {
                             float f = (float) tLRPC$TL_jsonNumber.value;
                             this.uploadPremiumSpeedupDownload = f;
                             edit.putFloat("uploadPremiumSpeedupDownload", f);
-                            z4 = true;
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_activityChooserViewStyle /* 34 */:
+                    HashSet hashSet3 = new HashSet();
                     TLRPC$JSONValue tLRPC$JSONValue37 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue37 instanceof TLRPC$TL_jsonBool) {
-                        boolean z17 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue37).value;
-                        if (z17 != this.newNoncontactPeersRequirePremiumWithoutOwnpremium) {
-                            this.newNoncontactPeersRequirePremiumWithoutOwnpremium = z17;
-                            edit.putBoolean("newNoncontactPeersRequirePremiumWithoutOwnpremium", z17);
-                            z4 = true;
-                            i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
-                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                            i8 = i11;
-                            break;
+                    if (tLRPC$JSONValue37 instanceof TLRPC$TL_jsonArray) {
+                        TLRPC$TL_jsonArray tLRPC$TL_jsonArray3 = (TLRPC$TL_jsonArray) tLRPC$JSONValue37;
+                        int size4 = tLRPC$TL_jsonArray3.value.size();
+                        for (int i35 = 0; i35 < size4; i35++) {
+                            TLRPC$JSONValue tLRPC$JSONValue38 = tLRPC$TL_jsonArray3.value.get(i35);
+                            if (tLRPC$JSONValue38 instanceof TLRPC$TL_jsonString) {
+                                hashSet3.add(((TLRPC$TL_jsonString) tLRPC$JSONValue38).value.toLowerCase());
+                            }
                         }
-                        z4 = z7;
+                    }
+                    if (!this.ignoreRestrictionReasons.equals(hashSet3)) {
+                        this.ignoreRestrictionReasons = hashSet3;
+                        edit.putStringSet("ignoreRestrictionReasons", hashSet3);
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        z3 = true;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_alertDialogButtonGroupStyle /* 35 */:
-                    TLRPC$JSONValue tLRPC$JSONValue38 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue38 instanceof TLRPC$TL_jsonNumber) {
-                        double d23 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue38).value;
-                        if (d23 != this.quickReplyMessagesLimit) {
-                            int i35 = (int) d23;
-                            this.quickReplyMessagesLimit = i35;
-                            edit.putInt("quickReplyMessagesLimit", i35);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue39 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue39 instanceof TLRPC$TL_jsonBool) {
+                        boolean z16 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue39).value;
+                        if (z16 != this.newNoncontactPeersRequirePremiumWithoutOwnpremium) {
+                            this.newNoncontactPeersRequirePremiumWithoutOwnpremium = z16;
+                            edit.putBoolean("newNoncontactPeersRequirePremiumWithoutOwnpremium", z16);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_alertDialogCenterButtons /* 36 */:
-                    TLRPC$JSONValue tLRPC$JSONValue39 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue39 instanceof TLRPC$TL_jsonNumber) {
-                        double d24 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue39).value;
-                        if (d24 != this.stickersFavedLimitPremium) {
+                    TLRPC$JSONValue tLRPC$JSONValue40 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue40 instanceof TLRPC$TL_jsonNumber) {
+                        double d24 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue40).value;
+                        if (d24 != this.quickReplyMessagesLimit) {
                             int i36 = (int) d24;
-                            this.stickersFavedLimitPremium = i36;
-                            edit.putInt("stickersFavedLimitPremium", i36);
-                            z4 = true;
+                            this.quickReplyMessagesLimit = i36;
+                            edit.putInt("quickReplyMessagesLimit", i36);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_alertDialogStyle /* 37 */:
-                    TLRPC$JSONValue tLRPC$JSONValue40 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue40 instanceof TLRPC$TL_jsonNumber) {
-                        int i37 = (int) ((TLRPC$TL_jsonNumber) tLRPC$JSONValue40).value;
-                        this.stealthModeCooldown = i37;
-                        edit.putInt("stories_stealth_cooldown_period", i37);
+                    TLRPC$JSONValue tLRPC$JSONValue41 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue41 instanceof TLRPC$TL_jsonNumber) {
+                        double d25 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue41).value;
+                        if (d25 != this.stickersFavedLimitPremium) {
+                            int i37 = (int) d25;
+                            this.stickersFavedLimitPremium = i37;
+                            edit.putInt("stickersFavedLimitPremium", i37);
+                            z3 = true;
+                            i9 = i2;
+                            z5 = z7;
+                            z4 = z8;
+                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                            i8 = i11;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
+                        }
+                        z3 = z6;
+                        i9 = i2;
+                        z5 = z7;
+                        z4 = z8;
+                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                        i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_alertDialogTheme /* 38 */:
-                    TLRPC$JSONValue tLRPC$JSONValue41 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue41 instanceof TLRPC$TL_jsonObject) {
-                        tLRPC$TL_jsonObject5 = (TLRPC$TL_jsonObject) tLRPC$JSONValue41;
-                        i9 = i2;
-                        z4 = z7;
-                        z6 = z8;
-                        z5 = z9;
-                        i8 = i11;
-                        break;
+                    TLRPC$JSONValue tLRPC$JSONValue42 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue42 instanceof TLRPC$TL_jsonNumber) {
+                        int i38 = (int) ((TLRPC$TL_jsonNumber) tLRPC$JSONValue42).value;
+                        this.stealthModeCooldown = i38;
+                        edit.putInt("stories_stealth_cooldown_period", i38);
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_autoCompleteTextViewStyle /* 39 */:
-                    TLRPC$JSONValue tLRPC$JSONValue42 = tLRPC$TL_jsonObjectValue.value;
-                    if ((tLRPC$JSONValue42 instanceof TLRPC$TL_jsonNumber) && (i6 = (int) ((TLRPC$TL_jsonNumber) tLRPC$JSONValue42).value) > 0) {
-                        SharedConfig.overrideDevicePerformanceClass(i6 - 1);
-                    }
-                    i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
-                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                    i8 = i11;
-                    i7++;
-                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
-                    size = i10;
-                    break;
-                case R.styleable.AppCompatTheme_borderlessButtonStyle /* 40 */:
                     TLRPC$JSONValue tLRPC$JSONValue43 = tLRPC$TL_jsonObjectValue.value;
-                    if ((tLRPC$JSONValue43 instanceof TLRPC$TL_jsonBool) && this.giftTextFieldIcon != ((TLRPC$TL_jsonBool) tLRPC$JSONValue43).value) {
-                        boolean z18 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue43).value;
-                        this.giftTextFieldIcon = z18;
-                        edit.putBoolean("giftTextFieldIcon", z18);
-                        NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.didUpdatePremiumGiftFieldIcon, new Object[0]);
+                    if (tLRPC$JSONValue43 instanceof TLRPC$TL_jsonObject) {
+                        tLRPC$TL_jsonObject5 = (TLRPC$TL_jsonObject) tLRPC$JSONValue43;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
-                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                        z3 = z6;
+                        z5 = z7;
+                        z4 = z8;
                         i8 = i11;
-                        z4 = true;
                         i7++;
                         tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                         size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
+                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                    i8 = i11;
+                    i7++;
+                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                    size = i10;
+                case R.styleable.AppCompatTheme_borderlessButtonStyle /* 40 */:
+                    TLRPC$JSONValue tLRPC$JSONValue44 = tLRPC$TL_jsonObjectValue.value;
+                    if ((tLRPC$JSONValue44 instanceof TLRPC$TL_jsonNumber) && (i6 = (int) ((TLRPC$TL_jsonNumber) tLRPC$JSONValue44).value) > 0) {
+                        SharedConfig.overrideDevicePerformanceClass(i6 - 1);
+                    }
+                    i9 = i2;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
@@ -6266,106 +6443,108 @@ public class MessagesController extends BaseController implements NotificationCe
                     size = i10;
                     break;
                 case R.styleable.AppCompatTheme_buttonBarButtonStyle /* 41 */:
-                    TLRPC$JSONValue tLRPC$JSONValue44 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue44 instanceof TLRPC$TL_jsonNumber) {
-                        double d25 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue44).value;
-                        if (d25 != this.chatReadMarkExpirePeriod) {
-                            int i38 = (int) d25;
-                            this.chatReadMarkExpirePeriod = i38;
-                            edit.putInt("chatReadMarkExpirePeriod", i38);
-                            z4 = true;
-                            i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
-                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                            i8 = i11;
-                            break;
-                        }
-                        z4 = z7;
+                    TLRPC$JSONValue tLRPC$JSONValue45 = tLRPC$TL_jsonObjectValue.value;
+                    if ((tLRPC$JSONValue45 instanceof TLRPC$TL_jsonBool) && this.giftTextFieldIcon != ((TLRPC$TL_jsonBool) tLRPC$JSONValue45).value) {
+                        boolean z17 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue45).value;
+                        this.giftTextFieldIcon = z17;
+                        edit.putBoolean("giftTextFieldIcon", z17);
+                        NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.didUpdatePremiumGiftFieldIcon, new Object[0]);
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        z3 = true;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
+                    break;
                 case R.styleable.AppCompatTheme_buttonBarNegativeButtonStyle /* 42 */:
-                    TLRPC$JSONValue tLRPC$JSONValue45 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue45 instanceof TLRPC$TL_jsonBool) {
-                        double d26 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue45).value;
-                        if (d26 != this.reactionsUniqMax) {
+                    TLRPC$JSONValue tLRPC$JSONValue46 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue46 instanceof TLRPC$TL_jsonNumber) {
+                        double d26 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue46).value;
+                        if (d26 != this.chatReadMarkExpirePeriod) {
                             int i39 = (int) d26;
-                            this.reactionsUniqMax = i39;
-                            edit.putInt("reactionsUniqMax", i39);
-                            z4 = true;
+                            this.chatReadMarkExpirePeriod = i39;
+                            edit.putInt("chatReadMarkExpirePeriod", i39);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_buttonBarNeutralButtonStyle /* 43 */:
-                    HashSet<String> hashSet3 = new HashSet<>();
-                    TLRPC$JSONValue tLRPC$JSONValue46 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue46 instanceof TLRPC$TL_jsonArray) {
-                        TLRPC$TL_jsonArray tLRPC$TL_jsonArray3 = (TLRPC$TL_jsonArray) tLRPC$JSONValue46;
-                        int size4 = tLRPC$TL_jsonArray3.value.size();
-                        for (int i40 = 0; i40 < size4; i40++) {
-                            TLRPC$JSONValue tLRPC$JSONValue47 = tLRPC$TL_jsonArray3.value.get(i40);
-                            if (tLRPC$JSONValue47 instanceof TLRPC$TL_jsonString) {
-                                hashSet3.add(((TLRPC$TL_jsonString) tLRPC$JSONValue47).value.replace("️", ""));
-                            }
+                    TLRPC$JSONValue tLRPC$JSONValue47 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue47 instanceof TLRPC$TL_jsonBool) {
+                        double d27 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue47).value;
+                        if (d27 != this.reactionsUniqMax) {
+                            int i40 = (int) d27;
+                            this.reactionsUniqMax = i40;
+                            edit.putInt("reactionsUniqMax", i40);
+                            z3 = true;
+                            i9 = i2;
+                            z5 = z7;
+                            z4 = z8;
+                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                            i8 = i11;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                    }
-                    if (!this.diceEmojies.equals(hashSet3)) {
-                        this.diceEmojies = hashSet3;
-                        edit.putStringSet("diceEmojies", hashSet3);
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
-                        z4 = true;
                         i7++;
                         tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                         size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_buttonBarPositiveButtonStyle /* 44 */:
-                    HashSet hashSet4 = new HashSet();
+                    HashSet<String> hashSet4 = new HashSet<>();
                     TLRPC$JSONValue tLRPC$JSONValue48 = tLRPC$TL_jsonObjectValue.value;
                     if (tLRPC$JSONValue48 instanceof TLRPC$TL_jsonArray) {
                         TLRPC$TL_jsonArray tLRPC$TL_jsonArray4 = (TLRPC$TL_jsonArray) tLRPC$JSONValue48;
@@ -6373,1233 +6552,1509 @@ public class MessagesController extends BaseController implements NotificationCe
                         for (int i41 = 0; i41 < size5; i41++) {
                             TLRPC$JSONValue tLRPC$JSONValue49 = tLRPC$TL_jsonArray4.value.get(i41);
                             if (tLRPC$JSONValue49 instanceof TLRPC$TL_jsonString) {
-                                hashSet4.add(((TLRPC$TL_jsonString) tLRPC$JSONValue49).value);
+                                hashSet4.add(((TLRPC$TL_jsonString) tLRPC$JSONValue49).value.replace("️", ""));
                             }
                         }
                     }
-                    if (!this.authDomains.equals(hashSet4)) {
-                        this.authDomains = hashSet4;
-                        edit.putStringSet("authDomains", hashSet4);
+                    if (!this.diceEmojies.equals(hashSet4)) {
+                        this.diceEmojies = hashSet4;
+                        edit.putStringSet("diceEmojies", hashSet4);
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
-                        z4 = true;
+                        z3 = true;
                         i7++;
                         tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                         size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_buttonBarStyle /* 45 */:
+                    HashSet hashSet5 = new HashSet();
                     TLRPC$JSONValue tLRPC$JSONValue50 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue50 instanceof TLRPC$TL_jsonNumber) {
-                        double d27 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue50).value;
-                        if (((long) d27) != this.starsRevenueWithdrawalMin) {
-                            long j2 = (long) d27;
-                            this.starsRevenueWithdrawalMin = j2;
-                            edit.putLong("starsRevenueWithdrawalMin", j2);
-                            z4 = true;
-                            i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
-                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                            i8 = i11;
-                            break;
+                    if (tLRPC$JSONValue50 instanceof TLRPC$TL_jsonArray) {
+                        TLRPC$TL_jsonArray tLRPC$TL_jsonArray5 = (TLRPC$TL_jsonArray) tLRPC$JSONValue50;
+                        int size6 = tLRPC$TL_jsonArray5.value.size();
+                        for (int i42 = 0; i42 < size6; i42++) {
+                            TLRPC$JSONValue tLRPC$JSONValue51 = tLRPC$TL_jsonArray5.value.get(i42);
+                            if (tLRPC$JSONValue51 instanceof TLRPC$TL_jsonString) {
+                                hashSet5.add(((TLRPC$TL_jsonString) tLRPC$JSONValue51).value);
+                            }
                         }
-                        z4 = z7;
+                    }
+                    if (!this.authDomains.equals(hashSet5)) {
+                        this.authDomains = hashSet5;
+                        edit.putStringSet("authDomains", hashSet5);
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        z3 = true;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_buttonStyle /* 46 */:
-                    TLRPC$JSONValue tLRPC$JSONValue51 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue51 instanceof TLRPC$TL_jsonNumber) {
-                        int i42 = (int) ((TLRPC$TL_jsonNumber) tLRPC$JSONValue51).value;
-                        this.stealthModePast = i42;
-                        edit.putInt("stories_stealth_past_period", i42);
+                    TLRPC$JSONValue tLRPC$JSONValue52 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue52 instanceof TLRPC$TL_jsonNumber) {
+                        double d28 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue52).value;
+                        if (((long) d28) != this.starsRevenueWithdrawalMin) {
+                            long j3 = (long) d28;
+                            this.starsRevenueWithdrawalMin = j3;
+                            edit.putLong("starsRevenueWithdrawalMin", j3);
+                            z3 = true;
+                            i9 = i2;
+                            z5 = z7;
+                            z4 = z8;
+                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                            i8 = i11;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
+                        }
+                        z3 = z6;
+                        i9 = i2;
+                        z5 = z7;
+                        z4 = z8;
+                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                        i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_buttonStyleSmall /* 47 */:
-                    TLRPC$JSONValue tLRPC$JSONValue52 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue52 instanceof TLRPC$TL_jsonNumber) {
-                        double d28 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue52).value;
-                        if (d28 != this.savedDialogsPinnedLimitPremium) {
-                            int i43 = (int) d28;
-                            this.savedDialogsPinnedLimitPremium = i43;
-                            edit.putInt("savedDialogsPinnedLimitPremium", i43);
-                            z4 = true;
-                            i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
-                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                            i8 = i11;
-                            break;
-                        }
-                        z4 = z7;
-                        i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
-                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                        i8 = i11;
+                    TLRPC$JSONValue tLRPC$JSONValue53 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue53 instanceof TLRPC$TL_jsonNumber) {
+                        int i43 = (int) ((TLRPC$TL_jsonNumber) tLRPC$JSONValue53).value;
+                        this.stealthModePast = i43;
+                        edit.putInt("stories_stealth_past_period", i43);
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
-                    TLRPC$JSONValue tLRPC$JSONValue53 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue53 instanceof TLRPC$TL_jsonNumber) {
-                        double d29 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue53).value;
-                        if (d29 != this.savedGifsLimitDefault) {
+                    TLRPC$JSONValue tLRPC$JSONValue54 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue54 instanceof TLRPC$TL_jsonNumber) {
+                        double d29 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue54).value;
+                        if (d29 != this.savedDialogsPinnedLimitPremium) {
                             int i44 = (int) d29;
-                            this.savedGifsLimitDefault = i44;
-                            edit.putInt("savedGifsLimitDefault", i44);
-                            z4 = true;
+                            this.savedDialogsPinnedLimitPremium = i44;
+                            edit.putInt("savedDialogsPinnedLimitPremium", i44);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
-                    TLRPC$JSONValue tLRPC$JSONValue54 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue54 instanceof TLRPC$TL_jsonNumber) {
-                        double d30 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue54).value;
-                        if (d30 != this.storyCaptionLengthLimitDefault) {
+                    TLRPC$JSONValue tLRPC$JSONValue55 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue55 instanceof TLRPC$TL_jsonNumber) {
+                        double d30 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue55).value;
+                        if (d30 != this.savedGifsLimitDefault) {
                             int i45 = (int) d30;
-                            this.storyCaptionLengthLimitDefault = i45;
-                            edit.putInt("storyCaptionLengthLimit", i45);
-                            z4 = true;
+                            this.savedGifsLimitDefault = i45;
+                            edit.putInt("savedGifsLimitDefault", i45);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_colorAccent /* 50 */:
-                    TLRPC$JSONValue tLRPC$JSONValue55 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue55 instanceof TLRPC$TL_jsonBool) {
-                        boolean z19 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue55).value;
-                        if (z19 != this.showAnnualPerMonth) {
-                            this.showAnnualPerMonth = z19;
-                            edit.putBoolean("showAnnualPerMonth", z19);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue56 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue56 instanceof TLRPC$TL_jsonNumber) {
+                        double d31 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue56).value;
+                        if (d31 != this.storyCaptionLengthLimitDefault) {
+                            int i46 = (int) d31;
+                            this.storyCaptionLengthLimitDefault = i46;
+                            edit.putInt("storyCaptionLengthLimit", i46);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
-                    TLRPC$JSONValue tLRPC$JSONValue56 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue56 instanceof TLRPC$TL_jsonNumber) {
-                        double d31 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue56).value;
-                        if (d31 != this.dialogFiltersLimitDefault) {
-                            int i46 = (int) d31;
-                            this.dialogFiltersLimitDefault = i46;
-                            edit.putInt("dialogFiltersLimitDefault", i46);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue57 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue57 instanceof TLRPC$TL_jsonBool) {
+                        boolean z18 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue57).value;
+                        if (z18 != this.showAnnualPerMonth) {
+                            this.showAnnualPerMonth = z18;
+                            edit.putBoolean("showAnnualPerMonth", z18);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
-                    TLRPC$JSONValue tLRPC$JSONValue57 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue57 instanceof TLRPC$TL_jsonString) {
-                        String str2 = ((TLRPC$TL_jsonString) tLRPC$JSONValue57).value;
-                        if (!str2.equals(this.premiumInvoiceSlug)) {
-                            this.premiumInvoiceSlug = str2;
-                            edit.putString("premiumInvoiceSlug", str2);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue58 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue58 instanceof TLRPC$TL_jsonNumber) {
+                        double d32 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue58).value;
+                        if (d32 != this.dialogFiltersLimitDefault) {
+                            int i47 = (int) d32;
+                            this.dialogFiltersLimitDefault = i47;
+                            edit.putInt("dialogFiltersLimitDefault", i47);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
-                    TLRPC$JSONValue tLRPC$JSONValue58 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue58 instanceof TLRPC$TL_jsonNumber) {
-                        double d32 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue58).value;
-                        if (d32 != this.storiesSentWeeklyLimitPremium) {
-                            int i47 = (int) d32;
-                            this.storiesSentWeeklyLimitPremium = i47;
-                            edit.putInt("storiesSentWeeklyLimitPremium", i47);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue59 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue59 instanceof TLRPC$TL_jsonString) {
+                        String str2 = ((TLRPC$TL_jsonString) tLRPC$JSONValue59).value;
+                        if (!str2.equals(this.premiumInvoiceSlug)) {
+                            this.premiumInvoiceSlug = str2;
+                            edit.putString("premiumInvoiceSlug", str2);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
-                    TLRPC$JSONValue tLRPC$JSONValue59 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue59 instanceof TLRPC$TL_jsonBool) {
-                        boolean z20 = this.storiesExportNopublicLink;
-                        boolean z21 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue59).value;
-                        if (z20 != z21) {
-                            this.storiesExportNopublicLink = z21;
-                            edit.putBoolean("storiesExportNopublicLink", z21);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue60 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue60 instanceof TLRPC$TL_jsonNumber) {
+                        double d33 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue60).value;
+                        if (d33 != this.storiesSentWeeklyLimitPremium) {
+                            int i48 = (int) d33;
+                            this.storiesSentWeeklyLimitPremium = i48;
+                            edit.putInt("storiesSentWeeklyLimitPremium", i48);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_colorControlNormal /* 55 */:
-                    HashSet hashSet5 = new HashSet();
-                    TLRPC$JSONValue tLRPC$JSONValue60 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue60 instanceof TLRPC$TL_jsonArray) {
-                        TLRPC$TL_jsonArray tLRPC$TL_jsonArray5 = (TLRPC$TL_jsonArray) tLRPC$JSONValue60;
-                        int size6 = tLRPC$TL_jsonArray5.value.size();
-                        for (int i48 = 0; i48 < size6; i48++) {
-                            TLRPC$JSONValue tLRPC$JSONValue61 = tLRPC$TL_jsonArray5.value.get(i48);
-                            if (tLRPC$JSONValue61 instanceof TLRPC$TL_jsonString) {
-                                hashSet5.add(((TLRPC$TL_jsonString) tLRPC$JSONValue61).value);
-                            }
+                    TLRPC$JSONValue tLRPC$JSONValue61 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue61 instanceof TLRPC$TL_jsonBool) {
+                        boolean z19 = this.storiesExportNopublicLink;
+                        boolean z20 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue61).value;
+                        if (z19 != z20) {
+                            this.storiesExportNopublicLink = z20;
+                            edit.putBoolean("storiesExportNopublicLink", z20);
+                            z3 = true;
+                            i9 = i2;
+                            z5 = z7;
+                            z4 = z8;
+                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                            i8 = i11;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                    }
-                    if (!this.exportUri.equals(hashSet5)) {
-                        this.exportUri = hashSet5;
-                        edit.putStringSet("exportUri2", hashSet5);
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
-                        z4 = true;
                         i7++;
                         tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                         size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_colorError /* 56 */:
+                    HashSet hashSet6 = new HashSet();
                     TLRPC$JSONValue tLRPC$JSONValue62 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue62 instanceof TLRPC$TL_jsonNumber) {
-                        double d33 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue62).value;
-                        if (d33 != this.chatlistInvitesLimitPremium) {
-                            int i49 = (int) d33;
-                            this.chatlistInvitesLimitPremium = i49;
-                            edit.putInt("chatlistInvitesLimitPremium", i49);
-                            z4 = true;
-                            i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
-                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                            i8 = i11;
-                            break;
+                    if (tLRPC$JSONValue62 instanceof TLRPC$TL_jsonArray) {
+                        TLRPC$TL_jsonArray tLRPC$TL_jsonArray6 = (TLRPC$TL_jsonArray) tLRPC$JSONValue62;
+                        int size7 = tLRPC$TL_jsonArray6.value.size();
+                        for (int i49 = 0; i49 < size7; i49++) {
+                            TLRPC$JSONValue tLRPC$JSONValue63 = tLRPC$TL_jsonArray6.value.get(i49);
+                            if (tLRPC$JSONValue63 instanceof TLRPC$TL_jsonString) {
+                                hashSet6.add(((TLRPC$TL_jsonString) tLRPC$JSONValue63).value);
+                            }
                         }
-                        z4 = z7;
+                    }
+                    if (!this.exportUri.equals(hashSet6)) {
+                        this.exportUri = hashSet6;
+                        edit.putStringSet("exportUri2", hashSet6);
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        z3 = true;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_colorPrimary /* 57 */:
-                    TLRPC$JSONValue tLRPC$JSONValue63 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue63 instanceof TLRPC$TL_jsonNumber) {
-                        double d34 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue63).value;
-                        if (d34 != this.aboutLengthLimitDefault) {
+                    TLRPC$JSONValue tLRPC$JSONValue64 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue64 instanceof TLRPC$TL_jsonNumber) {
+                        double d34 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue64).value;
+                        if (d34 != this.chatlistInvitesLimitPremium) {
                             int i50 = (int) d34;
-                            this.aboutLengthLimitDefault = i50;
-                            edit.putInt("aboutLengthLimitDefault", i50);
-                            z4 = true;
+                            this.chatlistInvitesLimitPremium = i50;
+                            edit.putInt("chatlistInvitesLimitPremium", i50);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_colorPrimaryDark /* 58 */:
-                    TLRPC$JSONValue tLRPC$JSONValue64 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue64 instanceof TLRPC$TL_jsonNumber) {
-                        double d35 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue64).value;
-                        if (d35 != this.reactionsUserMaxPremium) {
-                            int i51 = (int) d35;
-                            this.reactionsUserMaxPremium = i51;
-                            edit.putInt("reactionsUserMaxPremium", i51);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue65 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue65 instanceof TLRPC$TL_jsonNumber) {
+                        TLRPC$TL_jsonNumber tLRPC$TL_jsonNumber2 = (TLRPC$TL_jsonNumber) tLRPC$JSONValue65;
+                        double d35 = tLRPC$TL_jsonNumber2.value;
+                        double d36 = this.starsUsdSellRate1000;
+                        Double.isNaN(d36);
+                        if (Math.abs(d35 - d36) > 0.0010000000474974513d) {
+                            float f2 = (float) tLRPC$TL_jsonNumber2.value;
+                            this.starsUsdSellRate1000 = f2;
+                            edit.putFloat("starsUsdSellRate1000", f2);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_colorSwitchThumbNormal /* 59 */:
-                    TLRPC$JSONValue tLRPC$JSONValue65 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue65 instanceof TLRPC$TL_jsonNumber) {
-                        double d36 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue65).value;
-                        if (d36 != this.captionLengthLimitPremium) {
-                            int i52 = (int) d36;
-                            this.captionLengthLimitPremium = i52;
-                            edit.putInt("captionLengthLimitPremium", i52);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue66 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue66 instanceof TLRPC$TL_jsonNumber) {
+                        double d37 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue66).value;
+                        if (d37 != this.aboutLengthLimitDefault) {
+                            int i51 = (int) d37;
+                            this.aboutLengthLimitDefault = i51;
+                            edit.putInt("aboutLengthLimitDefault", i51);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_controlBackground /* 60 */:
-                    TLRPC$JSONValue tLRPC$JSONValue66 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue66 instanceof TLRPC$TL_jsonNumber) {
-                        double d37 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue66).value;
-                        if (this.recommendedChannelsLimitPremium != d37) {
-                            int i53 = (int) d37;
-                            this.recommendedChannelsLimitPremium = i53;
-                            edit.putInt("recommendedChannelsLimitPremium", i53);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue67 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue67 instanceof TLRPC$TL_jsonNumber) {
+                        double d38 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue67).value;
+                        if (d38 != this.reactionsUserMaxPremium) {
+                            int i52 = (int) d38;
+                            this.reactionsUserMaxPremium = i52;
+                            edit.putInt("reactionsUserMaxPremium", i52);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_dialogCornerRadius /* 61 */:
-                    TLRPC$JSONValue tLRPC$JSONValue67 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue67 instanceof TLRPC$TL_jsonBool) {
-                        boolean z22 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue67).value;
-                        if (z22 != this.keepAliveService) {
-                            this.keepAliveService = z22;
-                            edit.putBoolean("keepAliveService", z22);
-                            z4 = true;
-                            z5 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue68 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue68 instanceof TLRPC$TL_jsonNumber) {
+                        double d39 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue68).value;
+                        if (d39 != this.captionLengthLimitPremium) {
+                            int i53 = (int) d39;
+                            this.captionLengthLimitPremium = i53;
+                            edit.putInt("captionLengthLimitPremium", i53);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
-                        z5 = z9;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_dialogPreferredPadding /* 62 */:
-                    TLRPC$JSONValue tLRPC$JSONValue68 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue68 instanceof TLRPC$TL_jsonArray) {
-                        z4 = savePremiumFeaturesPreviewOrder("premiumFeaturesTypesToPosition", this.premiumFeaturesTypesToPosition, edit, ((TLRPC$TL_jsonArray) tLRPC$JSONValue68).value);
+                    TLRPC$JSONValue tLRPC$JSONValue69 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue69 instanceof TLRPC$TL_jsonNumber) {
+                        double d40 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue69).value;
+                        if (this.recommendedChannelsLimitPremium != d40) {
+                            int i54 = (int) d40;
+                            this.recommendedChannelsLimitPremium = i54;
+                            edit.putInt("recommendedChannelsLimitPremium", i54);
+                            z3 = true;
+                            i9 = i2;
+                            z5 = z7;
+                            z4 = z8;
+                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                            i8 = i11;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
+                        }
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
-                        break;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_dialogTheme /* 63 */:
-                    TLRPC$JSONValue tLRPC$JSONValue69 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue69 instanceof TLRPC$TL_jsonNumber) {
-                        double d38 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue69).value;
-                        if (d38 != this.ringtoneSizeMax) {
-                            int i54 = (int) d38;
-                            this.ringtoneSizeMax = i54;
-                            edit.putInt("ringtoneSizeMax", i54);
+                    TLRPC$JSONValue tLRPC$JSONValue70 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue70 instanceof TLRPC$TL_jsonBool) {
+                        boolean z21 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue70).value;
+                        if (z21 != this.keepAliveService) {
+                            this.keepAliveService = z21;
+                            edit.putBoolean("keepAliveService", z21);
+                            z3 = true;
                             z4 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
+                        z4 = z8;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case '@':
-                    TLRPC$JSONValue tLRPC$JSONValue70 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue70 instanceof TLRPC$TL_jsonNumber) {
-                        double d39 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue70).value;
-                        if (d39 != this.dialogFiltersChatsLimitPremium) {
-                            int i55 = (int) d39;
-                            this.dialogFiltersChatsLimitPremium = i55;
-                            edit.putInt("dialogFiltersChatsLimitPremium", i55);
-                            z4 = true;
-                            i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
-                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                            i8 = i11;
-                            break;
-                        }
-                        z4 = z7;
+                    TLRPC$JSONValue tLRPC$JSONValue71 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue71 instanceof TLRPC$TL_jsonArray) {
+                        z3 = savePremiumFeaturesPreviewOrder("premiumFeaturesTypesToPosition", this.premiumFeaturesTypesToPosition, edit, ((TLRPC$TL_jsonArray) tLRPC$JSONValue71).value);
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case 'A':
-                    TLRPC$JSONValue tLRPC$JSONValue71 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue71 instanceof TLRPC$TL_jsonArray) {
-                        z4 = savePremiumFeaturesPreviewOrder("businessFeaturesTypesToPosition", this.businessFeaturesTypesToPosition, edit, ((TLRPC$TL_jsonArray) tLRPC$JSONValue71).value);
+                    TLRPC$JSONValue tLRPC$JSONValue72 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue72 instanceof TLRPC$TL_jsonNumber) {
+                        double d41 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue72).value;
+                        if (d41 != this.ringtoneSizeMax) {
+                            int i55 = (int) d41;
+                            this.ringtoneSizeMax = i55;
+                            edit.putInt("ringtoneSizeMax", i55);
+                            z3 = true;
+                            i9 = i2;
+                            z5 = z7;
+                            z4 = z8;
+                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                            i8 = i11;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
+                        }
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
-                        break;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_dropDownListViewStyle /* 66 */:
-                    TLRPC$JSONValue tLRPC$JSONValue72 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue72 instanceof TLRPC$TL_jsonNumber) {
-                        double d40 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue72).value;
-                        if (d40 != this.chatlistJoinedLimitDefault) {
-                            int i56 = (int) d40;
-                            this.chatlistJoinedLimitDefault = i56;
-                            edit.putInt("chatlistJoinedLimitDefault", i56);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue73 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue73 instanceof TLRPC$TL_jsonNumber) {
+                        double d42 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue73).value;
+                        if (d42 != this.dialogFiltersChatsLimitPremium) {
+                            int i56 = (int) d42;
+                            this.dialogFiltersChatsLimitPremium = i56;
+                            edit.putInt("dialogFiltersChatsLimitPremium", i56);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_dropdownListPreferredItemHeight /* 67 */:
-                    TLRPC$JSONValue tLRPC$JSONValue73 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue73 instanceof TLRPC$TL_jsonNumber) {
-                        double d41 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue73).value;
-                        if (d41 != this.storiesPinnedToTopCountMax) {
-                            int i57 = (int) d41;
-                            this.storiesPinnedToTopCountMax = i57;
-                            edit.putInt("storiesPinnedToTopCountMax", i57);
-                            z4 = true;
-                            i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
-                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                            i8 = i11;
-                            break;
-                        }
-                        z4 = z7;
+                    TLRPC$JSONValue tLRPC$JSONValue74 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue74 instanceof TLRPC$TL_jsonArray) {
+                        z3 = savePremiumFeaturesPreviewOrder("businessFeaturesTypesToPosition", this.businessFeaturesTypesToPosition, edit, ((TLRPC$TL_jsonArray) tLRPC$JSONValue74).value);
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_editTextBackground /* 68 */:
-                    TLRPC$JSONValue tLRPC$JSONValue74 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue74 instanceof TLRPC$TL_jsonNumber) {
-                        double d42 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue74).value;
-                        if (d42 != this.channelsLimitPremium) {
-                            int i58 = (int) d42;
-                            this.channelsLimitPremium = i58;
-                            edit.putInt("channelsLimitPremium", i58);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue75 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue75 instanceof TLRPC$TL_jsonNumber) {
+                        double d43 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue75).value;
+                        if (d43 != this.chatlistJoinedLimitDefault) {
+                            int i57 = (int) d43;
+                            this.chatlistJoinedLimitDefault = i57;
+                            edit.putInt("chatlistJoinedLimitDefault", i57);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_editTextColor /* 69 */:
-                    TLRPC$JSONValue tLRPC$JSONValue75 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue75 instanceof TLRPC$TL_jsonBool) {
-                        boolean z23 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue75).value;
-                        if (z23 != this.backgroundConnection) {
-                            this.backgroundConnection = z23;
-                            edit.putBoolean("backgroundConnection", z23);
-                            z4 = true;
-                            z5 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue76 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue76 instanceof TLRPC$TL_jsonNumber) {
+                        double d44 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue76).value;
+                        if (d44 != this.storiesPinnedToTopCountMax) {
+                            int i58 = (int) d44;
+                            this.storiesPinnedToTopCountMax = i58;
+                            edit.putInt("storiesPinnedToTopCountMax", i58);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
-                        z5 = z9;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_editTextStyle /* 70 */:
-                    TLRPC$JSONValue tLRPC$JSONValue76 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue76 instanceof TLRPC$TL_jsonNumber) {
-                        long j3 = (long) ((TLRPC$TL_jsonNumber) tLRPC$JSONValue76).value;
-                        if (j3 != this.giveawayPeriodMax) {
-                            this.giveawayPeriodMax = j3;
-                            edit.putLong("giveaway_period_max", j3);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue77 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue77 instanceof TLRPC$TL_jsonNumber) {
+                        double d45 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue77).value;
+                        if (d45 != this.channelsLimitPremium) {
+                            int i59 = (int) d45;
+                            this.channelsLimitPremium = i59;
+                            edit.putInt("channelsLimitPremium", i59);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_homeAsUpIndicator /* 71 */:
-                    try {
-                        HashMap<String, DiceFrameSuccess> hashMap = new HashMap<>();
-                        TLRPC$JSONValue tLRPC$JSONValue77 = tLRPC$TL_jsonObjectValue.value;
-                        if (tLRPC$JSONValue77 instanceof TLRPC$TL_jsonObject) {
-                            TLRPC$TL_jsonObject tLRPC$TL_jsonObject7 = (TLRPC$TL_jsonObject) tLRPC$JSONValue77;
-                            int size7 = tLRPC$TL_jsonObject7.value.size();
-                            int i59 = 0;
-                            while (i59 < size7) {
-                                TLRPC$TL_jsonObjectValue tLRPC$TL_jsonObjectValue2 = tLRPC$TL_jsonObject7.value.get(i59);
-                                TLRPC$JSONValue tLRPC$JSONValue78 = tLRPC$TL_jsonObjectValue2.value;
-                                if (tLRPC$JSONValue78 instanceof TLRPC$TL_jsonObject) {
-                                    TLRPC$TL_jsonObject tLRPC$TL_jsonObject8 = (TLRPC$TL_jsonObject) tLRPC$JSONValue78;
-                                    int size8 = tLRPC$TL_jsonObject8.value.size();
-                                    int i60 = 0;
-                                    int i61 = ConnectionsManager.DEFAULT_DATACENTER_ID;
-                                    int i62 = ConnectionsManager.DEFAULT_DATACENTER_ID;
-                                    while (i60 < size8) {
-                                        TLRPC$TL_jsonObjectValue tLRPC$TL_jsonObjectValue3 = tLRPC$TL_jsonObject8.value.get(i60);
-                                        TLRPC$TL_jsonObject tLRPC$TL_jsonObject9 = tLRPC$TL_jsonObject7;
-                                        if (tLRPC$TL_jsonObjectValue3.value instanceof TLRPC$TL_jsonNumber) {
-                                            i4 = size7;
-                                            if ("value".equals(tLRPC$TL_jsonObjectValue3.key)) {
-                                                tLRPC$TL_jsonObject3 = tLRPC$TL_jsonObject8;
-                                                i5 = size8;
-                                                i62 = (int) ((TLRPC$TL_jsonNumber) tLRPC$TL_jsonObjectValue3.value).value;
-                                            } else {
-                                                tLRPC$TL_jsonObject3 = tLRPC$TL_jsonObject8;
-                                                i5 = size8;
-                                                if ("frame_start".equals(tLRPC$TL_jsonObjectValue3.key)) {
-                                                    i61 = (int) ((TLRPC$TL_jsonNumber) tLRPC$TL_jsonObjectValue3.value).value;
-                                                }
-                                            }
-                                        } else {
-                                            i4 = size7;
-                                            tLRPC$TL_jsonObject3 = tLRPC$TL_jsonObject8;
-                                            i5 = size8;
-                                        }
-                                        i60++;
-                                        tLRPC$TL_jsonObject8 = tLRPC$TL_jsonObject3;
-                                        tLRPC$TL_jsonObject7 = tLRPC$TL_jsonObject9;
-                                        size7 = i4;
-                                        size8 = i5;
-                                    }
-                                    tLRPC$TL_jsonObject2 = tLRPC$TL_jsonObject7;
-                                    i3 = size7;
-                                    if (i61 != Integer.MAX_VALUE && i62 != Integer.MAX_VALUE) {
-                                        hashMap.put(tLRPC$TL_jsonObjectValue2.key.replace("️", ""), new DiceFrameSuccess(i61, i62));
-                                    }
-                                } else {
-                                    tLRPC$TL_jsonObject2 = tLRPC$TL_jsonObject7;
-                                    i3 = size7;
-                                }
-                                i59++;
-                                tLRPC$TL_jsonObject7 = tLRPC$TL_jsonObject2;
-                                size7 = i3;
-                            }
-                        }
-                        if (!this.diceSuccess.equals(hashMap)) {
-                            this.diceSuccess = hashMap;
-                            SerializedData serializedData = new SerializedData();
-                            serializedData.writeInt32(this.diceSuccess.size());
-                            for (Map.Entry<String, DiceFrameSuccess> entry : this.diceSuccess.entrySet()) {
-                                serializedData.writeString(entry.getKey());
-                                DiceFrameSuccess value = entry.getValue();
-                                serializedData.writeInt32(value.frame);
-                                serializedData.writeInt32(value.num);
-                            }
-                            edit.putString("diceSuccess", Base64.encodeToString(serializedData.toByteArray(), 0));
-                            serializedData.cleanup();
+                    TLRPC$JSONValue tLRPC$JSONValue78 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue78 instanceof TLRPC$TL_jsonBool) {
+                        boolean z22 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue78).value;
+                        if (z22 != this.backgroundConnection) {
+                            this.backgroundConnection = z22;
+                            edit.putBoolean("backgroundConnection", z22);
+                            z3 = true;
                             z4 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
+                        z4 = z8;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
-                    } catch (Exception e2) {
-                        FileLog.e(e2);
-                        break;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
-                    break;
+                    i9 = i2;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
+                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                    i8 = i11;
+                    i7++;
+                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                    size = i10;
                 case R.styleable.AppCompatTheme_imageButtonStyle /* 72 */:
                     TLRPC$JSONValue tLRPC$JSONValue79 = tLRPC$TL_jsonObjectValue.value;
                     if (tLRPC$JSONValue79 instanceof TLRPC$TL_jsonNumber) {
-                        double d43 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue79).value;
-                        if (d43 != this.dialogFiltersPinnedLimitDefault) {
-                            int i63 = (int) d43;
-                            this.dialogFiltersPinnedLimitDefault = i63;
-                            edit.putInt("dialogFiltersPinnedLimitDefault", i63);
-                            z4 = true;
+                        long j4 = (long) ((TLRPC$TL_jsonNumber) tLRPC$JSONValue79).value;
+                        if (j4 != this.giveawayPeriodMax) {
+                            this.giveawayPeriodMax = j4;
+                            edit.putLong("giveaway_period_max", j4);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_listChoiceBackgroundIndicator /* 73 */:
-                    TLRPC$JSONValue tLRPC$JSONValue80 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue80 instanceof TLRPC$TL_jsonNumber) {
-                        double d44 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue80).value;
-                        if (d44 != this.hiddenMembersGroupSizeMin) {
-                            int i64 = (int) d44;
-                            this.hiddenMembersGroupSizeMin = i64;
-                            edit.putInt("hiddenMembersGroupSizeMin", i64);
-                            z4 = true;
-                            i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
-                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                            i8 = i11;
-                            break;
+                    try {
+                        hashMap = new HashMap<>();
+                        TLRPC$JSONValue tLRPC$JSONValue80 = tLRPC$TL_jsonObjectValue.value;
+                        if (tLRPC$JSONValue80 instanceof TLRPC$TL_jsonObject) {
+                            TLRPC$TL_jsonObject tLRPC$TL_jsonObject7 = (TLRPC$TL_jsonObject) tLRPC$JSONValue80;
+                            int size8 = tLRPC$TL_jsonObject7.value.size();
+                            int i60 = 0;
+                            while (i60 < size8) {
+                                TLRPC$TL_jsonObjectValue tLRPC$TL_jsonObjectValue2 = tLRPC$TL_jsonObject7.value.get(i60);
+                                TLRPC$JSONValue tLRPC$JSONValue81 = tLRPC$TL_jsonObjectValue2.value;
+                                if (tLRPC$JSONValue81 instanceof TLRPC$TL_jsonObject) {
+                                    TLRPC$TL_jsonObject tLRPC$TL_jsonObject8 = (TLRPC$TL_jsonObject) tLRPC$JSONValue81;
+                                    int size9 = tLRPC$TL_jsonObject8.value.size();
+                                    int i61 = 0;
+                                    int i62 = ConnectionsManager.DEFAULT_DATACENTER_ID;
+                                    int i63 = ConnectionsManager.DEFAULT_DATACENTER_ID;
+                                    while (i61 < size9) {
+                                        TLRPC$TL_jsonObjectValue tLRPC$TL_jsonObjectValue3 = tLRPC$TL_jsonObject8.value.get(i61);
+                                        TLRPC$TL_jsonObject tLRPC$TL_jsonObject9 = tLRPC$TL_jsonObject7;
+                                        if (tLRPC$TL_jsonObjectValue3.value instanceof TLRPC$TL_jsonNumber) {
+                                            i4 = size8;
+                                            if ("value".equals(tLRPC$TL_jsonObjectValue3.key)) {
+                                                tLRPC$TL_jsonObject3 = tLRPC$TL_jsonObject8;
+                                                i5 = size9;
+                                                i63 = (int) ((TLRPC$TL_jsonNumber) tLRPC$TL_jsonObjectValue3.value).value;
+                                            } else {
+                                                tLRPC$TL_jsonObject3 = tLRPC$TL_jsonObject8;
+                                                i5 = size9;
+                                                if ("frame_start".equals(tLRPC$TL_jsonObjectValue3.key)) {
+                                                    i62 = (int) ((TLRPC$TL_jsonNumber) tLRPC$TL_jsonObjectValue3.value).value;
+                                                }
+                                            }
+                                        } else {
+                                            i4 = size8;
+                                            tLRPC$TL_jsonObject3 = tLRPC$TL_jsonObject8;
+                                            i5 = size9;
+                                        }
+                                        i61++;
+                                        tLRPC$TL_jsonObject8 = tLRPC$TL_jsonObject3;
+                                        tLRPC$TL_jsonObject7 = tLRPC$TL_jsonObject9;
+                                        size8 = i4;
+                                        size9 = i5;
+                                    }
+                                    tLRPC$TL_jsonObject2 = tLRPC$TL_jsonObject7;
+                                    i3 = size8;
+                                    if (i62 != Integer.MAX_VALUE && i63 != Integer.MAX_VALUE) {
+                                        hashMap.put(tLRPC$TL_jsonObjectValue2.key.replace("️", ""), new DiceFrameSuccess(i62, i63));
+                                    }
+                                } else {
+                                    tLRPC$TL_jsonObject2 = tLRPC$TL_jsonObject7;
+                                    i3 = size8;
+                                }
+                                i60++;
+                                tLRPC$TL_jsonObject7 = tLRPC$TL_jsonObject2;
+                                size8 = i3;
+                            }
                         }
-                        z4 = z7;
-                        i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
-                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                        i8 = i11;
+                    } catch (Exception e2) {
+                        FileLog.e(e2);
+                        break;
                     }
-                    i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
-                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                    i8 = i11;
-                    i7++;
-                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
-                    size = i10;
-                case R.styleable.AppCompatTheme_listChoiceIndicatorMultipleAnimated /* 74 */:
-                    TLRPC$JSONValue tLRPC$JSONValue81 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue81 instanceof TLRPC$TL_jsonBool) {
-                        boolean z24 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue81).value;
-                        if (z24 != this.autoarchiveAvailable) {
-                            this.autoarchiveAvailable = z24;
-                            edit.putBoolean("autoarchiveAvailable", z24);
-                            z4 = true;
-                            i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
-                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                            i8 = i11;
-                            break;
+                    if (!this.diceSuccess.equals(hashMap)) {
+                        this.diceSuccess = hashMap;
+                        SerializedData serializedData = new SerializedData();
+                        serializedData.writeInt32(this.diceSuccess.size());
+                        for (Map.Entry<String, DiceFrameSuccess> entry : this.diceSuccess.entrySet()) {
+                            serializedData.writeString(entry.getKey());
+                            DiceFrameSuccess value = entry.getValue();
+                            serializedData.writeInt32(value.frame);
+                            serializedData.writeInt32(value.num);
                         }
-                        z4 = z7;
+                        edit.putString("diceSuccess", Base64.encodeToString(serializedData.toByteArray(), 0));
+                        serializedData.cleanup();
+                        z3 = true;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
-                    }
-                    i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
-                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                    i8 = i11;
-                    i7++;
-                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
-                    size = i10;
-                case R.styleable.AppCompatTheme_listChoiceIndicatorSingleAnimated /* 75 */:
-                    TLRPC$JSONValue tLRPC$JSONValue82 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue82 instanceof TLRPC$TL_jsonNumber) {
-                        double d45 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue82).value;
-                        if (d45 != this.quickRepliesLimit) {
-                            int i65 = (int) d45;
-                            this.quickRepliesLimit = i65;
-                            edit.putInt("quickRepliesLimit", i65);
-                            z4 = true;
-                            i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
-                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                            i8 = i11;
-                            break;
-                        }
-                        z4 = z7;
-                        i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
-                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                        i8 = i11;
-                    }
-                    i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
-                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                    i8 = i11;
-                    i7++;
-                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
-                    size = i10;
-                case R.styleable.AppCompatTheme_listDividerAlertDialog /* 76 */:
-                    TLRPC$JSONValue tLRPC$JSONValue83 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue83 instanceof TLRPC$TL_jsonString) {
-                        TLRPC$TL_jsonString tLRPC$TL_jsonString = (TLRPC$TL_jsonString) tLRPC$JSONValue83;
-                        if (!tLRPC$TL_jsonString.value.equals(this.youtubePipType)) {
-                            String str3 = tLRPC$TL_jsonString.value;
-                            this.youtubePipType = str3;
-                            edit.putString("youtubePipType", str3);
-                            z4 = true;
-                            i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
-                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                            i8 = i11;
-                            break;
-                        }
-                        z4 = z7;
-                        i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
-                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                        i8 = i11;
-                    }
-                    i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
-                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                    i8 = i11;
-                    i7++;
-                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
-                    size = i10;
-                case R.styleable.AppCompatTheme_listMenuViewStyle /* 77 */:
-                    TLRPC$JSONValue tLRPC$JSONValue84 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue84 instanceof TLRPC$TL_jsonString) {
-                        TLRPC$TL_jsonString tLRPC$TL_jsonString2 = (TLRPC$TL_jsonString) tLRPC$JSONValue84;
-                        if (!TextUtils.equals(tLRPC$TL_jsonString2.value, this.tonProxyAddress)) {
-                            String str4 = tLRPC$TL_jsonString2.value;
-                            this.tonProxyAddress = str4;
-                            edit.putString("tonProxyAddress", str4);
-                            z4 = true;
-                            i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
-                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                            i8 = i11;
-                            break;
-                        }
-                        z4 = z7;
-                        i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
-                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                        i8 = i11;
-                    }
-                    i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
-                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                    i8 = i11;
-                    i7++;
-                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
-                    size = i10;
-                case R.styleable.AppCompatTheme_listPopupWindowStyle /* 78 */:
-                    TLRPC$JSONValue tLRPC$JSONValue85 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue85 instanceof TLRPC$TL_jsonNumber) {
-                        double d46 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue85).value;
-                        if (this.animatedEmojisZoom != d46) {
-                            float f2 = (float) d46;
-                            this.animatedEmojisZoom = f2;
-                            edit.putFloat("animatedEmojisZoom", f2);
-                            z4 = true;
-                            i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
-                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                            i8 = i11;
-                            break;
-                        }
-                        z4 = z7;
-                        i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
-                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                        i8 = i11;
-                    }
-                    i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
-                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                    i8 = i11;
-                    i7++;
-                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
-                    size = i10;
-                case R.styleable.AppCompatTheme_listPreferredItemHeight /* 79 */:
-                    TLRPC$JSONValue tLRPC$JSONValue86 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue86 instanceof TLRPC$TL_jsonNumber) {
-                        double d47 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue86).value;
-                        if (d47 != this.telegramAntispamGroupSizeMin) {
-                            int i66 = (int) d47;
-                            this.telegramAntispamGroupSizeMin = i66;
-                            edit.putInt("telegramAntispamGroupSizeMin", i66);
-                            z4 = true;
-                            i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
-                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                            i8 = i11;
-                            break;
-                        }
-                        z4 = z7;
-                        i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
-                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                        i8 = i11;
-                    }
-                    i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
-                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                    i8 = i11;
-                    i7++;
-                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
-                    size = i10;
-                case 'P':
-                    TLRPC$JSONValue tLRPC$JSONValue87 = tLRPC$TL_jsonObjectValue.value;
-                    if ((tLRPC$JSONValue87 instanceof TLRPC$TL_jsonBool) && this.giveawayGiftsPurchaseAvailable != ((TLRPC$TL_jsonBool) tLRPC$JSONValue87).value) {
-                        boolean z25 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue87).value;
-                        this.giveawayGiftsPurchaseAvailable = z25;
-                        edit.putBoolean("giveawayGiftsPurchaseAvailable", z25);
-                        i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
-                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                        i8 = i11;
-                        z4 = true;
                         i7++;
                         tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                         size = i10;
                     }
+                    z3 = z6;
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                     break;
-                case R.styleable.AppCompatTheme_listPreferredItemHeightSmall /* 81 */:
-                    TLRPC$JSONValue tLRPC$JSONValue88 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue88 instanceof TLRPC$TL_jsonBool) {
-                        boolean z26 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue88).value;
-                        if (z26 != this.suggestStickersApiOnly) {
-                            this.suggestStickersApiOnly = z26;
-                            edit.putBoolean("suggestStickersApiOnly", z26);
-                            z4 = true;
+                case R.styleable.AppCompatTheme_listChoiceIndicatorMultipleAnimated /* 74 */:
+                    TLRPC$JSONValue tLRPC$JSONValue82 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue82 instanceof TLRPC$TL_jsonNumber) {
+                        double d46 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue82).value;
+                        if (d46 != this.dialogFiltersPinnedLimitDefault) {
+                            int i64 = (int) d46;
+                            this.dialogFiltersPinnedLimitDefault = i64;
+                            edit.putInt("dialogFiltersPinnedLimitDefault", i64);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
+                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                    i8 = i11;
+                    i7++;
+                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                    size = i10;
+                case R.styleable.AppCompatTheme_listChoiceIndicatorSingleAnimated /* 75 */:
+                    TLRPC$JSONValue tLRPC$JSONValue83 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue83 instanceof TLRPC$TL_jsonNumber) {
+                        double d47 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue83).value;
+                        if (d47 != this.hiddenMembersGroupSizeMin) {
+                            int i65 = (int) d47;
+                            this.hiddenMembersGroupSizeMin = i65;
+                            edit.putInt("hiddenMembersGroupSizeMin", i65);
+                            z3 = true;
+                            i9 = i2;
+                            z5 = z7;
+                            z4 = z8;
+                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                            i8 = i11;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
+                        }
+                        z3 = z6;
+                        i9 = i2;
+                        z5 = z7;
+                        z4 = z8;
+                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                        i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
+                    }
+                    i9 = i2;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
+                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                    i8 = i11;
+                    i7++;
+                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                    size = i10;
+                case R.styleable.AppCompatTheme_listDividerAlertDialog /* 76 */:
+                    TLRPC$JSONValue tLRPC$JSONValue84 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue84 instanceof TLRPC$TL_jsonBool) {
+                        boolean z23 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue84).value;
+                        if (z23 != this.autoarchiveAvailable) {
+                            this.autoarchiveAvailable = z23;
+                            edit.putBoolean("autoarchiveAvailable", z23);
+                            z3 = true;
+                            i9 = i2;
+                            z5 = z7;
+                            z4 = z8;
+                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                            i8 = i11;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
+                        }
+                        z3 = z6;
+                        i9 = i2;
+                        z5 = z7;
+                        z4 = z8;
+                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                        i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
+                    }
+                    i9 = i2;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
+                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                    i8 = i11;
+                    i7++;
+                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                    size = i10;
+                case R.styleable.AppCompatTheme_listMenuViewStyle /* 77 */:
+                    TLRPC$JSONValue tLRPC$JSONValue85 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue85 instanceof TLRPC$TL_jsonNumber) {
+                        double d48 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue85).value;
+                        if (d48 != this.quickRepliesLimit) {
+                            int i66 = (int) d48;
+                            this.quickRepliesLimit = i66;
+                            edit.putInt("quickRepliesLimit", i66);
+                            z3 = true;
+                            i9 = i2;
+                            z5 = z7;
+                            z4 = z8;
+                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                            i8 = i11;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
+                        }
+                        z3 = z6;
+                        i9 = i2;
+                        z5 = z7;
+                        z4 = z8;
+                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                        i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
+                    }
+                    i9 = i2;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
+                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                    i8 = i11;
+                    i7++;
+                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                    size = i10;
+                case R.styleable.AppCompatTheme_listPopupWindowStyle /* 78 */:
+                    TLRPC$JSONValue tLRPC$JSONValue86 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue86 instanceof TLRPC$TL_jsonString) {
+                        TLRPC$TL_jsonString tLRPC$TL_jsonString = (TLRPC$TL_jsonString) tLRPC$JSONValue86;
+                        if (!tLRPC$TL_jsonString.value.equals(this.youtubePipType)) {
+                            String str3 = tLRPC$TL_jsonString.value;
+                            this.youtubePipType = str3;
+                            edit.putString("youtubePipType", str3);
+                            z3 = true;
+                            i9 = i2;
+                            z5 = z7;
+                            z4 = z8;
+                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                            i8 = i11;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
+                        }
+                        z3 = z6;
+                        i9 = i2;
+                        z5 = z7;
+                        z4 = z8;
+                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                        i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
+                    }
+                    i9 = i2;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
+                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                    i8 = i11;
+                    i7++;
+                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                    size = i10;
+                case R.styleable.AppCompatTheme_listPreferredItemHeight /* 79 */:
+                    TLRPC$JSONValue tLRPC$JSONValue87 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue87 instanceof TLRPC$TL_jsonString) {
+                        TLRPC$TL_jsonString tLRPC$TL_jsonString2 = (TLRPC$TL_jsonString) tLRPC$JSONValue87;
+                        if (!TextUtils.equals(tLRPC$TL_jsonString2.value, this.tonProxyAddress)) {
+                            String str4 = tLRPC$TL_jsonString2.value;
+                            this.tonProxyAddress = str4;
+                            edit.putString("tonProxyAddress", str4);
+                            z3 = true;
+                            i9 = i2;
+                            z5 = z7;
+                            z4 = z8;
+                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                            i8 = i11;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
+                        }
+                        z3 = z6;
+                        i9 = i2;
+                        z5 = z7;
+                        z4 = z8;
+                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                        i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
+                    }
+                    i9 = i2;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
+                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                    i8 = i11;
+                    i7++;
+                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                    size = i10;
+                case 'P':
+                    TLRPC$JSONValue tLRPC$JSONValue88 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue88 instanceof TLRPC$TL_jsonNumber) {
+                        double d49 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue88).value;
+                        if (this.animatedEmojisZoom != d49) {
+                            float f3 = (float) d49;
+                            this.animatedEmojisZoom = f3;
+                            edit.putFloat("animatedEmojisZoom", f3);
+                            z3 = true;
+                            i9 = i2;
+                            z5 = z7;
+                            z4 = z8;
+                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                            i8 = i11;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
+                        }
+                        z3 = z6;
+                        i9 = i2;
+                        z5 = z7;
+                        z4 = z8;
+                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                        i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
+                    }
+                    i9 = i2;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
+                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                    i8 = i11;
+                    i7++;
+                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                    size = i10;
+                case R.styleable.AppCompatTheme_listPreferredItemHeightSmall /* 81 */:
+                    TLRPC$JSONValue tLRPC$JSONValue89 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue89 instanceof TLRPC$TL_jsonNumber) {
+                        double d50 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue89).value;
+                        if (d50 != this.telegramAntispamGroupSizeMin) {
+                            int i67 = (int) d50;
+                            this.telegramAntispamGroupSizeMin = i67;
+                            edit.putInt("telegramAntispamGroupSizeMin", i67);
+                            z3 = true;
+                            i9 = i2;
+                            z5 = z7;
+                            z4 = z8;
+                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                            i8 = i11;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
+                        }
+                        z3 = z6;
+                        i9 = i2;
+                        z5 = z7;
+                        z4 = z8;
+                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                        i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
+                    }
+                    i9 = i2;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_listPreferredItemPaddingEnd /* 82 */:
+                    TLRPC$JSONValue tLRPC$JSONValue90 = tLRPC$TL_jsonObjectValue.value;
+                    if ((tLRPC$JSONValue90 instanceof TLRPC$TL_jsonBool) && this.giveawayGiftsPurchaseAvailable != ((TLRPC$TL_jsonBool) tLRPC$JSONValue90).value) {
+                        boolean z24 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue90).value;
+                        this.giveawayGiftsPurchaseAvailable = z24;
+                        edit.putBoolean("giveawayGiftsPurchaseAvailable", z24);
+                        i9 = i2;
+                        z5 = z7;
+                        z4 = z8;
+                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                        i8 = i11;
+                        z3 = true;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
+                    }
+                    i9 = i2;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
+                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                    i8 = i11;
+                    i7++;
+                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                    size = i10;
+                    break;
+                case R.styleable.AppCompatTheme_listPreferredItemPaddingLeft /* 83 */:
+                    TLRPC$JSONValue tLRPC$JSONValue91 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue91 instanceof TLRPC$TL_jsonNumber) {
+                        double d51 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue91).value;
+                        if (((long) d51) != this.starsPaidReactionAmountMax) {
+                            long j5 = (long) d51;
+                            this.starsPaidReactionAmountMax = j5;
+                            edit.putLong("starsPaidReactionAmountMax", j5);
+                            z3 = true;
+                            i9 = i2;
+                            z5 = z7;
+                            z4 = z8;
+                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                            i8 = i11;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
+                        }
+                        z3 = z6;
+                        i9 = i2;
+                        z5 = z7;
+                        z4 = z8;
+                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                        i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
+                    }
+                    i9 = i2;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
+                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                    i8 = i11;
+                    i7++;
+                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                    size = i10;
+                case R.styleable.AppCompatTheme_listPreferredItemPaddingRight /* 84 */:
+                    TLRPC$JSONValue tLRPC$JSONValue92 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue92 instanceof TLRPC$TL_jsonBool) {
+                        boolean z25 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue92).value;
+                        if (z25 != this.suggestStickersApiOnly) {
+                            this.suggestStickersApiOnly = z25;
+                            edit.putBoolean("suggestStickersApiOnly", z25);
+                            z3 = true;
+                            i9 = i2;
+                            z5 = z7;
+                            z4 = z8;
+                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                            i8 = i11;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
+                        }
+                        z3 = z6;
+                        i9 = i2;
+                        z5 = z7;
+                        z4 = z8;
+                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                        i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
+                    }
+                    i9 = i2;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
+                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                    i8 = i11;
+                    i7++;
+                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                    size = i10;
+                case R.styleable.AppCompatTheme_listPreferredItemPaddingStart /* 85 */:
                     ArrayList<String> arrayList = new ArrayList<>();
-                    TLRPC$JSONValue tLRPC$JSONValue89 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue89 instanceof TLRPC$TL_jsonArray) {
-                        TLRPC$TL_jsonArray tLRPC$TL_jsonArray6 = (TLRPC$TL_jsonArray) tLRPC$JSONValue89;
-                        int size9 = tLRPC$TL_jsonArray6.value.size();
-                        for (int i67 = 0; i67 < size9; i67++) {
-                            TLRPC$JSONValue tLRPC$JSONValue90 = tLRPC$TL_jsonArray6.value.get(i67);
-                            if (tLRPC$JSONValue90 instanceof TLRPC$TL_jsonString) {
-                                arrayList.add(((TLRPC$TL_jsonString) tLRPC$JSONValue90).value.replace("️", ""));
+                    TLRPC$JSONValue tLRPC$JSONValue93 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue93 instanceof TLRPC$TL_jsonArray) {
+                        TLRPC$TL_jsonArray tLRPC$TL_jsonArray7 = (TLRPC$TL_jsonArray) tLRPC$JSONValue93;
+                        int size10 = tLRPC$TL_jsonArray7.value.size();
+                        for (int i68 = 0; i68 < size10; i68++) {
+                            TLRPC$JSONValue tLRPC$JSONValue94 = tLRPC$TL_jsonArray7.value.get(i68);
+                            if (tLRPC$JSONValue94 instanceof TLRPC$TL_jsonString) {
+                                arrayList.add(((TLRPC$TL_jsonString) tLRPC$JSONValue94).value.replace("️", ""));
                             }
                         }
                     }
@@ -7607,878 +8062,879 @@ public class MessagesController extends BaseController implements NotificationCe
                         this.gifSearchEmojies = arrayList;
                         SerializedData serializedData2 = new SerializedData();
                         serializedData2.writeInt32(this.gifSearchEmojies.size());
-                        int size10 = this.gifSearchEmojies.size();
-                        for (int i68 = 0; i68 < size10; i68++) {
-                            serializedData2.writeString(this.gifSearchEmojies.get(i68));
+                        int size11 = this.gifSearchEmojies.size();
+                        for (int i69 = 0; i69 < size11; i69++) {
+                            serializedData2.writeString(this.gifSearchEmojies.get(i69));
                         }
                         edit.putString("gifSearchEmojies", Base64.encodeToString(serializedData2.toByteArray(), 0));
                         serializedData2.cleanup();
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
-                        z4 = true;
+                        z3 = true;
                         i7++;
                         tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                         size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
-                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                    i8 = i11;
-                    i7++;
-                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
-                    size = i10;
-                case R.styleable.AppCompatTheme_listPreferredItemPaddingLeft /* 83 */:
-                    HashSet hashSet6 = new HashSet();
-                    TLRPC$JSONValue tLRPC$JSONValue91 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue91 instanceof TLRPC$TL_jsonArray) {
-                        TLRPC$TL_jsonArray tLRPC$TL_jsonArray7 = (TLRPC$TL_jsonArray) tLRPC$JSONValue91;
-                        int size11 = tLRPC$TL_jsonArray7.value.size();
-                        for (int i69 = 0; i69 < size11; i69++) {
-                            TLRPC$JSONValue tLRPC$JSONValue92 = tLRPC$TL_jsonArray7.value.get(i69);
-                            if (tLRPC$JSONValue92 instanceof TLRPC$TL_jsonString) {
-                                hashSet6.add(((TLRPC$TL_jsonString) tLRPC$JSONValue92).value);
-                            }
-                        }
-                    }
-                    if (!this.autologinDomains.equals(hashSet6)) {
-                        this.autologinDomains = hashSet6;
-                        edit.putStringSet("autologinDomains", hashSet6);
-                        i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
-                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                        i8 = i11;
-                        z4 = true;
-                        i7++;
-                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
-                        size = i10;
-                    }
-                    i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
-                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                    i8 = i11;
-                    i7++;
-                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
-                    size = i10;
-                case R.styleable.AppCompatTheme_listPreferredItemPaddingRight /* 84 */:
-                    HashSet hashSet7 = new HashSet();
-                    TLRPC$JSONValue tLRPC$JSONValue93 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue93 instanceof TLRPC$TL_jsonArray) {
-                        TLRPC$TL_jsonArray tLRPC$TL_jsonArray8 = (TLRPC$TL_jsonArray) tLRPC$JSONValue93;
-                        int size12 = tLRPC$TL_jsonArray8.value.size();
-                        for (int i70 = 0; i70 < size12; i70++) {
-                            TLRPC$JSONValue tLRPC$JSONValue94 = tLRPC$TL_jsonArray8.value.get(i70);
-                            if (tLRPC$JSONValue94 instanceof TLRPC$TL_jsonString) {
-                                hashSet7.add(((TLRPC$TL_jsonString) tLRPC$JSONValue94).value);
-                            }
-                        }
-                    }
-                    if (!this.exportGroupUri.equals(hashSet7)) {
-                        this.exportGroupUri = hashSet7;
-                        edit.putStringSet("exportGroupUri", hashSet7);
-                        i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
-                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                        i8 = i11;
-                        z4 = true;
-                        i7++;
-                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
-                        size = i10;
-                    }
-                    i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
-                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                    i8 = i11;
-                    i7++;
-                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
-                    size = i10;
-                case R.styleable.AppCompatTheme_listPreferredItemPaddingStart /* 85 */:
-                    TLRPC$JSONValue tLRPC$JSONValue95 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue95 instanceof TLRPC$TL_jsonString) {
-                        TLRPC$TL_jsonString tLRPC$TL_jsonString3 = (TLRPC$TL_jsonString) tLRPC$JSONValue95;
-                        if (TextUtils.equals(tLRPC$TL_jsonString3.value, this.storiesPosting)) {
-                            z4 = z7;
-                            z6 = z8;
-                        } else {
-                            String str5 = tLRPC$TL_jsonString3.value;
-                            this.storiesPosting = str5;
-                            edit.putString("storiesPosting", str5);
-                            z4 = true;
-                            z6 = true;
-                        }
-                        i9 = i2;
-                        z5 = z9;
-                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                        i8 = i11;
-                        break;
-                    }
-                    i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case 'V':
-                    TLRPC$JSONValue tLRPC$JSONValue96 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue96 instanceof TLRPC$TL_jsonNumber) {
-                        double d48 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue96).value;
-                        if (d48 != this.channelProfileIconLevelMin) {
-                            int i71 = (int) d48;
-                            this.channelProfileIconLevelMin = i71;
-                            edit.putInt("channelProfileIconLevelMin", i71);
-                            z4 = true;
-                            i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
-                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                            i8 = i11;
-                            break;
+                    HashSet hashSet7 = new HashSet();
+                    TLRPC$JSONValue tLRPC$JSONValue95 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue95 instanceof TLRPC$TL_jsonArray) {
+                        TLRPC$TL_jsonArray tLRPC$TL_jsonArray8 = (TLRPC$TL_jsonArray) tLRPC$JSONValue95;
+                        int size12 = tLRPC$TL_jsonArray8.value.size();
+                        for (int i70 = 0; i70 < size12; i70++) {
+                            TLRPC$JSONValue tLRPC$JSONValue96 = tLRPC$TL_jsonArray8.value.get(i70);
+                            if (tLRPC$JSONValue96 instanceof TLRPC$TL_jsonString) {
+                                hashSet7.add(((TLRPC$TL_jsonString) tLRPC$JSONValue96).value);
+                            }
                         }
-                        z4 = z7;
+                    }
+                    if (!this.autologinDomains.equals(hashSet7)) {
+                        this.autologinDomains = hashSet7;
+                        edit.putStringSet("autologinDomains", hashSet7);
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        z3 = true;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_panelMenuListTheme /* 87 */:
+                    HashSet hashSet8 = new HashSet();
                     TLRPC$JSONValue tLRPC$JSONValue97 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue97 instanceof TLRPC$TL_jsonString) {
-                        TLRPC$TL_jsonString tLRPC$TL_jsonString4 = (TLRPC$TL_jsonString) tLRPC$JSONValue97;
-                        if (!TextUtils.equals(tLRPC$TL_jsonString4.value, this.weatherSearchUsername)) {
-                            String str6 = tLRPC$TL_jsonString4.value;
-                            this.weatherSearchUsername = str6;
-                            edit.putString("weatherSearchUsername", str6);
-                            z4 = true;
-                            i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
-                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                            i8 = i11;
-                            break;
+                    if (tLRPC$JSONValue97 instanceof TLRPC$TL_jsonArray) {
+                        TLRPC$TL_jsonArray tLRPC$TL_jsonArray9 = (TLRPC$TL_jsonArray) tLRPC$JSONValue97;
+                        int size13 = tLRPC$TL_jsonArray9.value.size();
+                        for (int i71 = 0; i71 < size13; i71++) {
+                            TLRPC$JSONValue tLRPC$JSONValue98 = tLRPC$TL_jsonArray9.value.get(i71);
+                            if (tLRPC$JSONValue98 instanceof TLRPC$TL_jsonString) {
+                                hashSet8.add(((TLRPC$TL_jsonString) tLRPC$JSONValue98).value);
+                            }
                         }
-                        z4 = z7;
+                    }
+                    if (!this.exportGroupUri.equals(hashSet8)) {
+                        this.exportGroupUri = hashSet8;
+                        edit.putStringSet("exportGroupUri", hashSet8);
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        z3 = true;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_panelMenuListWidth /* 88 */:
-                    TLRPC$JSONValue tLRPC$JSONValue98 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue98 instanceof TLRPC$TL_jsonBool) {
-                        boolean z27 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue98).value;
-                        if (z27 != this.getfileExperimentalParams) {
-                            this.getfileExperimentalParams = z27;
-                            edit.putBoolean("getfileExperimentalParams", z27);
-                            z4 = true;
-                            i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
-                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                            i8 = i11;
-                            break;
+                    TLRPC$JSONValue tLRPC$JSONValue99 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue99 instanceof TLRPC$TL_jsonString) {
+                        TLRPC$TL_jsonString tLRPC$TL_jsonString3 = (TLRPC$TL_jsonString) tLRPC$JSONValue99;
+                        if (TextUtils.equals(tLRPC$TL_jsonString3.value, this.storiesPosting)) {
+                            z3 = z6;
+                            z5 = z7;
+                        } else {
+                            String str5 = tLRPC$TL_jsonString3.value;
+                            this.storiesPosting = str5;
+                            edit.putString("storiesPosting", str5);
+                            z3 = true;
+                            z5 = true;
                         }
-                        z4 = z7;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_popupMenuStyle /* 89 */:
-                    TLRPC$JSONValue tLRPC$JSONValue99 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue99 instanceof TLRPC$TL_jsonBool) {
-                        boolean z28 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue99).value;
-                        if (z28 != this.canEditFactcheck) {
-                            this.canEditFactcheck = z28;
-                            edit.putBoolean("canEditFactcheck", z28);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue100 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue100 instanceof TLRPC$TL_jsonNumber) {
+                        double d52 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue100).value;
+                        if (d52 != this.channelProfileIconLevelMin) {
+                            int i72 = (int) d52;
+                            this.channelProfileIconLevelMin = i72;
+                            edit.putInt("channelProfileIconLevelMin", i72);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_popupWindowStyle /* 90 */:
-                    TLRPC$JSONValue tLRPC$JSONValue100 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue100 instanceof TLRPC$TL_jsonArray) {
-                        HashSet hashSet8 = new HashSet();
-                        Iterator<TLRPC$JSONValue> it = ((TLRPC$TL_jsonArray) tLRPC$JSONValue100).value.iterator();
-                        while (it.hasNext()) {
-                            TLRPC$JSONValue next = it.next();
-                            if (next instanceof TLRPC$TL_jsonString) {
-                                hashSet8.add(((TLRPC$TL_jsonString) next).value);
-                            }
-                        }
-                        if (!this.directPaymentsCurrency.containsAll(hashSet8) || !hashSet8.containsAll(this.directPaymentsCurrency)) {
-                            this.directPaymentsCurrency.clear();
-                            this.directPaymentsCurrency.addAll(hashSet8);
-                            edit.putStringSet("directPaymentsCurrency", hashSet8);
-                            NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.billingProductDetailsUpdated, new Object[0]);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue101 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue101 instanceof TLRPC$TL_jsonString) {
+                        TLRPC$TL_jsonString tLRPC$TL_jsonString4 = (TLRPC$TL_jsonString) tLRPC$JSONValue101;
+                        if (!TextUtils.equals(tLRPC$TL_jsonString4.value, this.weatherSearchUsername)) {
+                            String str6 = tLRPC$TL_jsonString4.value;
+                            this.weatherSearchUsername = str6;
+                            edit.putString("weatherSearchUsername", str6);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
-                    break;
                 case R.styleable.AppCompatTheme_radioButtonStyle /* 91 */:
-                    TLRPC$JSONValue tLRPC$JSONValue101 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue101 instanceof TLRPC$TL_jsonNumber) {
-                        double d49 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue101).value;
-                        if (d49 != this.checkResetLangpack) {
-                            int i72 = (int) d49;
-                            this.checkResetLangpack = i72;
-                            edit.putInt("checkResetLangpack", i72);
-                            LocaleController.getInstance().checkPatchLangpack(this.currentAccount);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue102 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue102 instanceof TLRPC$TL_jsonBool) {
+                        boolean z26 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue102).value;
+                        if (z26 != this.getfileExperimentalParams) {
+                            this.getfileExperimentalParams = z26;
+                            edit.putBoolean("getfileExperimentalParams", z26);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_ratingBarStyle /* 92 */:
-                    TLRPC$JSONValue tLRPC$JSONValue102 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue102 instanceof TLRPC$TL_jsonNumber) {
-                        double d50 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue102).value;
-                        if (d50 != this.publicLinksLimitDefault) {
-                            int i73 = (int) d50;
-                            this.publicLinksLimitDefault = i73;
-                            edit.putInt("publicLinksLimit", i73);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue103 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue103 instanceof TLRPC$TL_jsonBool) {
+                        boolean z27 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue103).value;
+                        if (z27 != this.canEditFactcheck) {
+                            this.canEditFactcheck = z27;
+                            edit.putBoolean("canEditFactcheck", z27);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_ratingBarStyleIndicator /* 93 */:
-                    TLRPC$JSONValue tLRPC$JSONValue103 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue103 instanceof TLRPC$TL_jsonNumber) {
-                        double d51 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue103).value;
-                        if (d51 != this.storyExpiringLimitDefault) {
-                            int i74 = (int) d51;
-                            this.storyExpiringLimitDefault = i74;
-                            edit.putInt("storyExpiringLimitDefault", i74);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue104 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue104 instanceof TLRPC$TL_jsonArray) {
+                        HashSet hashSet9 = new HashSet();
+                        Iterator<TLRPC$JSONValue> it = ((TLRPC$TL_jsonArray) tLRPC$JSONValue104).value.iterator();
+                        while (it.hasNext()) {
+                            TLRPC$JSONValue next = it.next();
+                            if (next instanceof TLRPC$TL_jsonString) {
+                                hashSet9.add(((TLRPC$TL_jsonString) next).value);
+                            }
+                        }
+                        if (!this.directPaymentsCurrency.containsAll(hashSet9) || !hashSet9.containsAll(this.directPaymentsCurrency)) {
+                            this.directPaymentsCurrency.clear();
+                            this.directPaymentsCurrency.addAll(hashSet9);
+                            edit.putStringSet("directPaymentsCurrency", hashSet9);
+                            NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.billingProductDetailsUpdated, new Object[0]);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
+                    break;
                 case R.styleable.AppCompatTheme_ratingBarStyleSmall /* 94 */:
-                    TLRPC$JSONValue tLRPC$JSONValue104 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue104 instanceof TLRPC$TL_jsonNumber) {
-                        int i75 = (int) ((TLRPC$TL_jsonNumber) tLRPC$JSONValue104).value;
-                        this.stealthModeFuture = i75;
-                        edit.putInt("stories_stealth_future_period", i75);
+                    TLRPC$JSONValue tLRPC$JSONValue105 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue105 instanceof TLRPC$TL_jsonNumber) {
+                        double d53 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue105).value;
+                        if (d53 != this.checkResetLangpack) {
+                            int i73 = (int) d53;
+                            this.checkResetLangpack = i73;
+                            edit.putInt("checkResetLangpack", i73);
+                            LocaleController.getInstance().checkPatchLangpack(this.currentAccount);
+                            z3 = true;
+                            i9 = i2;
+                            z5 = z7;
+                            z4 = z8;
+                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                            i8 = i11;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
+                        }
+                        z3 = z6;
+                        i9 = i2;
+                        z5 = z7;
+                        z4 = z8;
+                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                        i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_searchViewStyle /* 95 */:
-                    TLRPC$JSONValue tLRPC$JSONValue105 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue105 instanceof TLRPC$TL_jsonNumber) {
-                        double d52 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue105).value;
-                        if (d52 != this.uploadMaxFilePartsPremium) {
-                            int i76 = (int) d52;
-                            this.uploadMaxFilePartsPremium = i76;
-                            edit.putInt("uploadMaxFilePartsPremium", i76);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue106 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue106 instanceof TLRPC$TL_jsonNumber) {
+                        double d54 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue106).value;
+                        if (d54 != this.publicLinksLimitDefault) {
+                            int i74 = (int) d54;
+                            this.publicLinksLimitDefault = i74;
+                            edit.putInt("publicLinksLimit", i74);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_seekBarStyle /* 96 */:
-                    TLRPC$JSONValue tLRPC$JSONValue106 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue106 instanceof TLRPC$TL_jsonNumber) {
-                        double d53 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue106).value;
-                        if (d53 != this.maxPinnedDialogsCountPremium) {
-                            int i77 = (int) d53;
-                            this.maxPinnedDialogsCountPremium = i77;
-                            edit.putInt("maxPinnedDialogsCountPremium", i77);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue107 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue107 instanceof TLRPC$TL_jsonNumber) {
+                        double d55 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue107).value;
+                        if (d55 != this.storyExpiringLimitDefault) {
+                            int i75 = (int) d55;
+                            this.storyExpiringLimitDefault = i75;
+                            edit.putInt("storyExpiringLimitDefault", i75);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_selectableItemBackground /* 97 */:
-                    TLRPC$JSONValue tLRPC$JSONValue107 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue107 instanceof TLRPC$TL_jsonNumber) {
-                        double d54 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue107).value;
-                        if (d54 != this.storiesSuggestedReactionsLimitPremium) {
-                            int i78 = (int) d54;
-                            this.storiesSuggestedReactionsLimitPremium = i78;
-                            edit.putInt("storiesSuggestedReactionsLimitPremium", i78);
-                            z4 = true;
-                            i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
-                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                            i8 = i11;
-                            break;
-                        }
-                        z4 = z7;
-                        i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
-                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                        i8 = i11;
+                    TLRPC$JSONValue tLRPC$JSONValue108 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue108 instanceof TLRPC$TL_jsonNumber) {
+                        int i76 = (int) ((TLRPC$TL_jsonNumber) tLRPC$JSONValue108).value;
+                        this.stealthModeFuture = i76;
+                        edit.putInt("stories_stealth_future_period", i76);
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_selectableItemBackgroundBorderless /* 98 */:
-                    TLRPC$JSONValue tLRPC$JSONValue108 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue108 instanceof TLRPC$TL_jsonNumber) {
-                        double d55 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue108).value;
-                        if (d55 != this.stickersFavedLimitDefault) {
-                            int i79 = (int) d55;
-                            this.stickersFavedLimitDefault = i79;
-                            edit.putInt("stickersFavedLimitDefault", i79);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue109 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue109 instanceof TLRPC$TL_jsonNumber) {
+                        double d56 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue109).value;
+                        if (d56 != this.uploadMaxFilePartsPremium) {
+                            int i77 = (int) d56;
+                            this.uploadMaxFilePartsPremium = i77;
+                            edit.putInt("uploadMaxFilePartsPremium", i77);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_spinnerDropDownItemStyle /* 99 */:
-                    TLRPC$JSONValue tLRPC$JSONValue109 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue109 instanceof TLRPC$TL_jsonNumber) {
-                        long j4 = (long) ((TLRPC$TL_jsonNumber) tLRPC$JSONValue109).value;
-                        if (j4 != this.giveawayBoostsPerPremium) {
-                            this.giveawayBoostsPerPremium = j4;
-                            edit.putLong("giveaway_boosts_per_premium", j4);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue110 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue110 instanceof TLRPC$TL_jsonNumber) {
+                        double d57 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue110).value;
+                        if (d57 != this.maxPinnedDialogsCountPremium) {
+                            int i78 = (int) d57;
+                            this.maxPinnedDialogsCountPremium = i78;
+                            edit.putInt("maxPinnedDialogsCountPremium", i78);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case 'd':
-                    TLRPC$JSONValue tLRPC$JSONValue110 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue110 instanceof TLRPC$TL_jsonNumber) {
-                        double d56 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue110).value;
-                        if (d56 != this.groupCallVideoMaxParticipants) {
-                            int i80 = (int) d56;
-                            this.groupCallVideoMaxParticipants = i80;
-                            edit.putInt("groipCallVideoMaxParticipants", i80);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue111 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue111 instanceof TLRPC$TL_jsonNumber) {
+                        double d58 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue111).value;
+                        if (d58 != this.storiesSuggestedReactionsLimitPremium) {
+                            int i79 = (int) d58;
+                            this.storiesSuggestedReactionsLimitPremium = i79;
+                            edit.putInt("storiesSuggestedReactionsLimitPremium", i79);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case 'e':
-                    TLRPC$JSONValue tLRPC$JSONValue111 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue111 instanceof TLRPC$TL_jsonBool) {
-                        boolean z29 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue111).value;
-                        if (z29 != this.saveGifsWithStickers) {
-                            this.saveGifsWithStickers = z29;
-                            edit.putBoolean("saveGifsWithStickers", z29);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue112 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue112 instanceof TLRPC$TL_jsonNumber) {
+                        double d59 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue112).value;
+                        if (d59 != this.stickersFavedLimitDefault) {
+                            int i80 = (int) d59;
+                            this.stickersFavedLimitDefault = i80;
+                            edit.putInt("stickersFavedLimitDefault", i80);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_textAppearanceLargePopupMenu /* 102 */:
-                    TLRPC$JSONValue tLRPC$JSONValue112 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue112 instanceof TLRPC$TL_jsonNumber) {
-                        long j5 = (long) ((TLRPC$TL_jsonNumber) tLRPC$JSONValue112).value;
-                        if (j5 != this.boostsPerSentGift) {
-                            this.boostsPerSentGift = j5;
-                            edit.putLong("boosts_per_sent_gift", j5);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue113 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue113 instanceof TLRPC$TL_jsonNumber) {
+                        long j6 = (long) ((TLRPC$TL_jsonNumber) tLRPC$JSONValue113).value;
+                        if (j6 != this.giveawayBoostsPerPremium) {
+                            this.giveawayBoostsPerPremium = j6;
+                            edit.putLong("giveaway_boosts_per_premium", j6);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_textAppearanceListItem /* 103 */:
-                    TLRPC$JSONValue tLRPC$JSONValue113 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue113 instanceof TLRPC$TL_jsonNumber) {
-                        double d57 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue113).value;
-                        if (d57 != this.storiesSentMonthlyLimitPremium) {
-                            int i81 = (int) d57;
-                            this.storiesSentMonthlyLimitPremium = i81;
-                            edit.putInt("storiesSentMonthlyLimitPremium", i81);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue114 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue114 instanceof TLRPC$TL_jsonNumber) {
+                        double d60 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue114).value;
+                        if (d60 != this.groupCallVideoMaxParticipants) {
+                            int i81 = (int) d60;
+                            this.groupCallVideoMaxParticipants = i81;
+                            edit.putInt("groipCallVideoMaxParticipants", i81);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_textAppearanceListItemSecondary /* 104 */:
-                    TLRPC$JSONValue tLRPC$JSONValue114 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue114 instanceof TLRPC$TL_jsonBool) {
-                        boolean z30 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue114).value;
-                        if (z30 != this.androidDisableRoundCamera2) {
-                            this.androidDisableRoundCamera2 = z30;
-                            edit.putBoolean("androidDisableRoundCamera2", z30);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue115 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue115 instanceof TLRPC$TL_jsonBool) {
+                        boolean z28 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue115).value;
+                        if (z28 != this.saveGifsWithStickers) {
+                            this.saveGifsWithStickers = z28;
+                            edit.putBoolean("saveGifsWithStickers", z28);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_textAppearanceListItemSmall /* 105 */:
-                    TLRPC$JSONValue tLRPC$JSONValue115 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue115 instanceof TLRPC$TL_jsonString) {
-                        String str7 = ((TLRPC$TL_jsonString) tLRPC$JSONValue115).value;
-                        if (!Objects.equals(BuildVars.GOOGLE_AUTH_CLIENT_ID, str7)) {
-                            BuildVars.GOOGLE_AUTH_CLIENT_ID = str7;
-                            edit.putString("googleAuthClientId", str7);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue116 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue116 instanceof TLRPC$TL_jsonNumber) {
+                        long j7 = (long) ((TLRPC$TL_jsonNumber) tLRPC$JSONValue116).value;
+                        if (j7 != this.boostsPerSentGift) {
+                            this.boostsPerSentGift = j7;
+                            edit.putLong("boosts_per_sent_gift", j7);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_textAppearancePopupMenuHeader /* 106 */:
-                    TLRPC$JSONValue tLRPC$JSONValue116 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue116 instanceof TLRPC$TL_jsonNumber) {
-                        double d58 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue116).value;
-                        if (this.quoteLengthMax != d58) {
-                            int i82 = (int) d58;
-                            this.quoteLengthMax = i82;
-                            edit.putInt("quoteLengthMax", i82);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue117 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue117 instanceof TLRPC$TL_jsonNumber) {
+                        double d61 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue117).value;
+                        if (d61 != this.storiesSentMonthlyLimitPremium) {
+                            int i82 = (int) d61;
+                            this.storiesSentMonthlyLimitPremium = i82;
+                            edit.putInt("storiesSentMonthlyLimitPremium", i82);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_textAppearanceSearchResultSubtitle /* 107 */:
-                    TLRPC$JSONValue tLRPC$JSONValue117 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue117 instanceof TLRPC$TL_jsonNumber) {
-                        double d59 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue117).value;
-                        if (d59 != this.ringtoneDurationMax) {
-                            int i83 = (int) d59;
-                            this.ringtoneDurationMax = i83;
-                            edit.putInt("ringtoneDurationMax", i83);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue118 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue118 instanceof TLRPC$TL_jsonBool) {
+                        boolean z29 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue118).value;
+                        if (z29 != this.androidDisableRoundCamera2) {
+                            this.androidDisableRoundCamera2 = z29;
+                            edit.putBoolean("androidDisableRoundCamera2", z29);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_textAppearanceSearchResultTitle /* 108 */:
-                    TLRPC$JSONValue tLRPC$JSONValue118 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue118 instanceof TLRPC$TL_jsonNumber) {
-                        double d60 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue118).value;
-                        if (d60 != this.savedDialogsPinnedLimitDefault) {
-                            int i84 = (int) d60;
-                            this.savedDialogsPinnedLimitDefault = i84;
-                            edit.putInt("savedDialogsPinnedLimitDefault", i84);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue119 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue119 instanceof TLRPC$TL_jsonString) {
+                        String str7 = ((TLRPC$TL_jsonString) tLRPC$JSONValue119).value;
+                        if (!Objects.equals(BuildVars.GOOGLE_AUTH_CLIENT_ID, str7)) {
+                            BuildVars.GOOGLE_AUTH_CLIENT_ID = str7;
+                            edit.putString("googleAuthClientId", str7);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_textAppearanceSmallPopupMenu /* 109 */:
-                    TLRPC$JSONValue tLRPC$JSONValue119 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue119 instanceof TLRPC$TL_jsonNumber) {
-                        double d61 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue119).value;
-                        if (d61 != this.updateCheckDelay) {
-                            int i85 = (int) d61;
-                            this.updateCheckDelay = i85;
-                            edit.putInt("updateCheckDelay", i85);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue120 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue120 instanceof TLRPC$TL_jsonNumber) {
+                        TLRPC$TL_jsonNumber tLRPC$TL_jsonNumber3 = (TLRPC$TL_jsonNumber) tLRPC$JSONValue120;
+                        double d62 = tLRPC$TL_jsonNumber3.value;
+                        double d63 = this.starsUsdWithdrawRate1000;
+                        Double.isNaN(d63);
+                        if (Math.abs(d62 - d63) > 0.0010000000474974513d) {
+                            float f4 = (float) tLRPC$TL_jsonNumber3.value;
+                            this.starsUsdWithdrawRate1000 = f4;
+                            edit.putFloat("starsUsdWithdrawRate1000", f4);
+                            z3 = true;
+                            i9 = i2;
+                            z5 = z7;
+                            z4 = z8;
+                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                            i8 = i11;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
-                    } else {
-                        if (tLRPC$JSONValue119 instanceof TLRPC$TL_jsonString) {
-                            int intValue = Utilities.parseInt((CharSequence) ((TLRPC$TL_jsonString) tLRPC$JSONValue119).value).intValue();
-                            if (intValue != this.updateCheckDelay) {
-                                this.updateCheckDelay = intValue;
-                                edit.putInt("updateCheckDelay", intValue);
-                                z4 = true;
-                            }
-                            z4 = z7;
-                        }
+                        z3 = z6;
                         i9 = i2;
-                        z4 = z7;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
                         i7++;
@@ -8486,392 +8942,595 @@ public class MessagesController extends BaseController implements NotificationCe
                         size = i10;
                     }
                     i9 = i2;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
-                    break;
+                    i7++;
+                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                    size = i10;
                 case R.styleable.AppCompatTheme_textColorAlertDialogListItem /* 110 */:
-                    TLRPC$JSONValue tLRPC$JSONValue120 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue120 instanceof TLRPC$TL_jsonNumber) {
-                        double d62 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue120).value;
-                        if (d62 != this.groupEmojiStickersLevelMin) {
-                            int i86 = (int) d62;
-                            this.groupEmojiStickersLevelMin = i86;
-                            edit.putInt("groupEmojiStickersLevelMin", i86);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue121 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue121 instanceof TLRPC$TL_jsonNumber) {
+                        double d64 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue121).value;
+                        if (this.quoteLengthMax != d64) {
+                            int i83 = (int) d64;
+                            this.quoteLengthMax = i83;
+                            edit.putInt("quoteLengthMax", i83);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_textColorSearchUrl /* 111 */:
-                    TLRPC$JSONValue tLRPC$JSONValue121 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue121 instanceof TLRPC$TL_jsonString) {
-                        TLRPC$TL_jsonString tLRPC$TL_jsonString5 = (TLRPC$TL_jsonString) tLRPC$JSONValue121;
-                        if (!TextUtils.equals(this.storyVenueSearchBot, tLRPC$TL_jsonString5.value)) {
-                            String str8 = tLRPC$TL_jsonString5.value;
-                            this.storyVenueSearchBot = str8;
-                            edit.putString("storyVenueSearchBot", str8);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue122 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue122 instanceof TLRPC$TL_jsonNumber) {
+                        double d65 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue122).value;
+                        if (d65 != this.ringtoneDurationMax) {
+                            int i84 = (int) d65;
+                            this.ringtoneDurationMax = i84;
+                            edit.putInt("ringtoneDurationMax", i84);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_toolbarNavigationButtonStyle /* 112 */:
-                    TLRPC$JSONValue tLRPC$JSONValue122 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue122 instanceof TLRPC$TL_jsonNumber) {
-                        TLRPC$TL_jsonNumber tLRPC$TL_jsonNumber2 = (TLRPC$TL_jsonNumber) tLRPC$JSONValue122;
-                        double d63 = tLRPC$TL_jsonNumber2.value;
-                        double d64 = this.uploadPremiumSpeedupUpload;
-                        Double.isNaN(d64);
-                        if (Math.abs(d63 - d64) >= 0.009999999776482582d) {
-                            float f3 = (float) tLRPC$TL_jsonNumber2.value;
-                            this.uploadPremiumSpeedupUpload = f3;
-                            edit.putFloat("uploadPremiumSpeedupUpload", f3);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue123 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue123 instanceof TLRPC$TL_jsonNumber) {
+                        double d66 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue123).value;
+                        if (d66 != this.savedDialogsPinnedLimitDefault) {
+                            int i85 = (int) d66;
+                            this.savedDialogsPinnedLimitDefault = i85;
+                            edit.putInt("savedDialogsPinnedLimitDefault", i85);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_toolbarStyle /* 113 */:
-                    TLRPC$JSONValue tLRPC$JSONValue123 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue123 instanceof TLRPC$TL_jsonString) {
-                        String str9 = ((TLRPC$TL_jsonString) tLRPC$JSONValue123).value;
-                        if (!str9.equals(this.premiumBotUsername)) {
-                            this.premiumBotUsername = str9;
-                            edit.putString("premiumBotUsername", str9);
-                            z4 = true;
-                            i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
-                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                            i8 = i11;
-                            break;
+                    TLRPC$JSONValue tLRPC$JSONValue124 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue124 instanceof TLRPC$TL_jsonNumber) {
+                        double d67 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue124).value;
+                        if (d67 != this.updateCheckDelay) {
+                            int i86 = (int) d67;
+                            this.updateCheckDelay = i86;
+                            edit.putInt("updateCheckDelay", i86);
+                            z3 = true;
                         }
-                        z4 = z7;
+                        z3 = z6;
+                    } else {
+                        if (tLRPC$JSONValue124 instanceof TLRPC$TL_jsonString) {
+                            int intValue = Utilities.parseInt((CharSequence) ((TLRPC$TL_jsonString) tLRPC$JSONValue124).value).intValue();
+                            if (intValue != this.updateCheckDelay) {
+                                this.updateCheckDelay = intValue;
+                                edit.putInt("updateCheckDelay", intValue);
+                                z3 = true;
+                            }
+                            z3 = z6;
+                        }
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z3 = z6;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case R.styleable.AppCompatTheme_tooltipForegroundColor /* 114 */:
-                    TLRPC$JSONValue tLRPC$JSONValue124 = tLRPC$TL_jsonObjectValue.value;
-                    if ((tLRPC$JSONValue124 instanceof TLRPC$TL_jsonBool) && this.premiumLocked != ((TLRPC$TL_jsonBool) tLRPC$JSONValue124).value) {
-                        boolean z31 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue124).value;
-                        this.premiumLocked = z31;
-                        edit.putBoolean("premiumLocked", z31);
+                    TLRPC$JSONValue tLRPC$JSONValue125 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue125 instanceof TLRPC$TL_jsonNumber) {
+                        double d68 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue125).value;
+                        if (d68 != this.groupEmojiStickersLevelMin) {
+                            int i87 = (int) d68;
+                            this.groupEmojiStickersLevelMin = i87;
+                            edit.putInt("groupEmojiStickersLevelMin", i87);
+                            z3 = true;
+                            i9 = i2;
+                            z5 = z7;
+                            z4 = z8;
+                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                            i8 = i11;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
+                        }
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
-                        z4 = true;
                         i7++;
                         tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                         size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
-                    break;
                 case R.styleable.AppCompatTheme_tooltipFrameBackground /* 115 */:
-                    TLRPC$JSONValue tLRPC$JSONValue125 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue125 instanceof TLRPC$TL_jsonNumber) {
-                        double d65 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue125).value;
-                        if (((long) d65) != this.starsPaidPostAmountMax) {
-                            long j6 = (long) d65;
-                            this.starsPaidPostAmountMax = j6;
-                            edit.putLong("starsPaidPostAmountMax", j6);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue126 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue126 instanceof TLRPC$TL_jsonString) {
+                        TLRPC$TL_jsonString tLRPC$TL_jsonString5 = (TLRPC$TL_jsonString) tLRPC$JSONValue126;
+                        if (!TextUtils.equals(this.storyVenueSearchBot, tLRPC$TL_jsonString5.value)) {
+                            String str8 = tLRPC$TL_jsonString5.value;
+                            this.storyVenueSearchBot = str8;
+                            edit.putString("storyVenueSearchBot", str8);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case 't':
-                    TLRPC$JSONValue tLRPC$JSONValue126 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue126 instanceof TLRPC$TL_jsonBool) {
-                        boolean z32 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue126).value;
-                        if (z32 != this.storyWeatherPreload) {
-                            this.storyWeatherPreload = z32;
-                            edit.putBoolean("storyWeatherPreload", z32);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue127 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue127 instanceof TLRPC$TL_jsonNumber) {
+                        TLRPC$TL_jsonNumber tLRPC$TL_jsonNumber4 = (TLRPC$TL_jsonNumber) tLRPC$JSONValue127;
+                        double d69 = tLRPC$TL_jsonNumber4.value;
+                        double d70 = this.uploadPremiumSpeedupUpload;
+                        Double.isNaN(d70);
+                        if (Math.abs(d69 - d70) >= 0.009999999776482582d) {
+                            float f5 = (float) tLRPC$TL_jsonNumber4.value;
+                            this.uploadPremiumSpeedupUpload = f5;
+                            edit.putFloat("uploadPremiumSpeedupUpload", f5);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case 'u':
-                    TLRPC$JSONValue tLRPC$JSONValue127 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue127 instanceof TLRPC$TL_jsonNumber) {
-                        double d66 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue127).value;
-                        if (d66 != this.introTitleLengthLimit) {
-                            int i87 = (int) d66;
-                            this.introTitleLengthLimit = i87;
-                            edit.putInt("introTitleLengthLimit", i87);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue128 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue128 instanceof TLRPC$TL_jsonString) {
+                        String str9 = ((TLRPC$TL_jsonString) tLRPC$JSONValue128).value;
+                        if (!str9.equals(this.premiumBotUsername)) {
+                            this.premiumBotUsername = str9;
+                            edit.putString("premiumBotUsername", str9);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case 'v':
-                    TLRPC$JSONValue tLRPC$JSONValue128 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue128 instanceof TLRPC$TL_jsonString) {
-                        TLRPC$TL_jsonString tLRPC$TL_jsonString6 = (TLRPC$TL_jsonString) tLRPC$JSONValue128;
-                        if (!TextUtils.equals(tLRPC$TL_jsonString6.value, this.premiumManageSubscriptionUrl)) {
-                            String str10 = tLRPC$TL_jsonString6.value;
-                            this.premiumManageSubscriptionUrl = str10;
-                            edit.putString("premiumManageSubscriptionUrl", str10);
-                            z4 = true;
-                            i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
-                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                            i8 = i11;
-                            break;
-                        }
-                        z4 = z7;
-                        i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
-                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                        i8 = i11;
-                    }
-                    i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
-                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                    i8 = i11;
-                    i7++;
-                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
-                    size = i10;
-                case 'w':
                     TLRPC$JSONValue tLRPC$JSONValue129 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue129 instanceof TLRPC$TL_jsonNumber) {
-                        double d67 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue129).value;
-                        if (this.authorizationAutoconfirmPeriod != d67) {
-                            int i88 = (int) d67;
-                            this.authorizationAutoconfirmPeriod = i88;
-                            edit.putInt("authorizationAutoconfirmPeriod", i88);
-                            z4 = true;
-                            i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
-                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                            i8 = i11;
-                            break;
-                        }
-                        z4 = z7;
+                    if ((tLRPC$JSONValue129 instanceof TLRPC$TL_jsonBool) && this.premiumLocked != ((TLRPC$TL_jsonBool) tLRPC$JSONValue129).value) {
+                        boolean z30 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue129).value;
+                        this.premiumLocked = z30;
+                        edit.putBoolean("premiumLocked", z30);
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
-                    }
-                    i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
-                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                    i8 = i11;
-                    i7++;
-                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
-                    size = i10;
-                case 'x':
-                    TLRPC$JSONValue tLRPC$JSONValue130 = tLRPC$TL_jsonObjectValue.value;
-                    if ((tLRPC$JSONValue130 instanceof TLRPC$TL_jsonBool) && this.giftAttachMenuIcon != ((TLRPC$TL_jsonBool) tLRPC$JSONValue130).value) {
-                        boolean z33 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue130).value;
-                        this.giftAttachMenuIcon = z33;
-                        edit.putBoolean("giftAttachMenuIcon", z33);
-                        i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
-                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                        i8 = i11;
-                        z4 = true;
+                        z3 = true;
                         i7++;
                         tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                         size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                     break;
-                case 'y':
-                    TLRPC$JSONValue tLRPC$JSONValue131 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue131 instanceof TLRPC$TL_jsonNumber) {
-                        double d68 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue131).value;
-                        if (d68 != this.storiesSentWeeklyLimitDefault) {
-                            int i89 = (int) d68;
-                            this.storiesSentWeeklyLimitDefault = i89;
-                            edit.putInt("storiesSentWeeklyLimitDefault", i89);
-                            z4 = true;
+                case 'w':
+                    TLRPC$JSONValue tLRPC$JSONValue130 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue130 instanceof TLRPC$TL_jsonNumber) {
+                        double d71 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue130).value;
+                        if (((long) d71) != this.starsPaidPostAmountMax) {
+                            long j8 = (long) d71;
+                            this.starsPaidPostAmountMax = j8;
+                            edit.putLong("starsPaidPostAmountMax", j8);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
+                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                    i8 = i11;
+                    i7++;
+                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                    size = i10;
+                case 'x':
+                    TLRPC$JSONValue tLRPC$JSONValue131 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue131 instanceof TLRPC$TL_jsonBool) {
+                        boolean z31 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue131).value;
+                        if (z31 != this.storyWeatherPreload) {
+                            this.storyWeatherPreload = z31;
+                            edit.putBoolean("storyWeatherPreload", z31);
+                            z3 = true;
+                            i9 = i2;
+                            z5 = z7;
+                            z4 = z8;
+                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                            i8 = i11;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
+                        }
+                        z3 = z6;
+                        i9 = i2;
+                        z5 = z7;
+                        z4 = z8;
+                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                        i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
+                    }
+                    i9 = i2;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
+                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                    i8 = i11;
+                    i7++;
+                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                    size = i10;
+                case 'y':
+                    TLRPC$JSONValue tLRPC$JSONValue132 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue132 instanceof TLRPC$TL_jsonNumber) {
+                        double d72 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue132).value;
+                        if (d72 != this.introTitleLengthLimit) {
+                            int i88 = (int) d72;
+                            this.introTitleLengthLimit = i88;
+                            edit.putInt("introTitleLengthLimit", i88);
+                            z3 = true;
+                            i9 = i2;
+                            z5 = z7;
+                            z4 = z8;
+                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                            i8 = i11;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
+                        }
+                        z3 = z6;
+                        i9 = i2;
+                        z5 = z7;
+                        z4 = z8;
+                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                        i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
+                    }
+                    i9 = i2;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case 'z':
-                    TLRPC$JSONValue tLRPC$JSONValue132 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue132 instanceof TLRPC$TL_jsonObject) {
-                        TLRPC$TL_jsonObject tLRPC$TL_jsonObject10 = (TLRPC$TL_jsonObject) tLRPC$JSONValue132;
-                        int size13 = tLRPC$TL_jsonObject10.value.size();
-                        z4 = z7;
-                        for (int i90 = 0; i90 < size13; i90++) {
-                            TLRPC$TL_jsonObjectValue tLRPC$TL_jsonObjectValue4 = tLRPC$TL_jsonObject10.value.get(i90);
+                    TLRPC$JSONValue tLRPC$JSONValue133 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue133 instanceof TLRPC$TL_jsonString) {
+                        TLRPC$TL_jsonString tLRPC$TL_jsonString6 = (TLRPC$TL_jsonString) tLRPC$JSONValue133;
+                        if (!TextUtils.equals(tLRPC$TL_jsonString6.value, this.premiumManageSubscriptionUrl)) {
+                            String str10 = tLRPC$TL_jsonString6.value;
+                            this.premiumManageSubscriptionUrl = str10;
+                            edit.putString("premiumManageSubscriptionUrl", str10);
+                            z3 = true;
+                            i9 = i2;
+                            z5 = z7;
+                            z4 = z8;
+                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                            i8 = i11;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
+                        }
+                        z3 = z6;
+                        i9 = i2;
+                        z5 = z7;
+                        z4 = z8;
+                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                        i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
+                    }
+                    i9 = i2;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
+                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                    i8 = i11;
+                    i7++;
+                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                    size = i10;
+                case '{':
+                    TLRPC$JSONValue tLRPC$JSONValue134 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue134 instanceof TLRPC$TL_jsonNumber) {
+                        double d73 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue134).value;
+                        if (this.authorizationAutoconfirmPeriod != d73) {
+                            int i89 = (int) d73;
+                            this.authorizationAutoconfirmPeriod = i89;
+                            edit.putInt("authorizationAutoconfirmPeriod", i89);
+                            z3 = true;
+                            i9 = i2;
+                            z5 = z7;
+                            z4 = z8;
+                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                            i8 = i11;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
+                        }
+                        z3 = z6;
+                        i9 = i2;
+                        z5 = z7;
+                        z4 = z8;
+                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                        i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
+                    }
+                    i9 = i2;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
+                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                    i8 = i11;
+                    i7++;
+                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                    size = i10;
+                case '|':
+                    TLRPC$JSONValue tLRPC$JSONValue135 = tLRPC$TL_jsonObjectValue.value;
+                    if ((tLRPC$JSONValue135 instanceof TLRPC$TL_jsonBool) && this.giftAttachMenuIcon != ((TLRPC$TL_jsonBool) tLRPC$JSONValue135).value) {
+                        boolean z32 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue135).value;
+                        this.giftAttachMenuIcon = z32;
+                        edit.putBoolean("giftAttachMenuIcon", z32);
+                        i9 = i2;
+                        z5 = z7;
+                        z4 = z8;
+                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                        i8 = i11;
+                        z3 = true;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
+                    }
+                    i9 = i2;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
+                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                    i8 = i11;
+                    i7++;
+                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                    size = i10;
+                    break;
+                case '}':
+                    TLRPC$JSONValue tLRPC$JSONValue136 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue136 instanceof TLRPC$TL_jsonNumber) {
+                        double d74 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue136).value;
+                        if (d74 != this.storiesSentWeeklyLimitDefault) {
+                            int i90 = (int) d74;
+                            this.storiesSentWeeklyLimitDefault = i90;
+                            edit.putInt("storiesSentWeeklyLimitDefault", i90);
+                            z3 = true;
+                            i9 = i2;
+                            z5 = z7;
+                            z4 = z8;
+                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                            i8 = i11;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
+                        }
+                        z3 = z6;
+                        i9 = i2;
+                        z5 = z7;
+                        z4 = z8;
+                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                        i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
+                    }
+                    i9 = i2;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
+                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                    i8 = i11;
+                    i7++;
+                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                    size = i10;
+                case '~':
+                    TLRPC$JSONValue tLRPC$JSONValue137 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue137 instanceof TLRPC$TL_jsonObject) {
+                        TLRPC$TL_jsonObject tLRPC$TL_jsonObject10 = (TLRPC$TL_jsonObject) tLRPC$JSONValue137;
+                        int size14 = tLRPC$TL_jsonObject10.value.size();
+                        z3 = z6;
+                        for (int i91 = 0; i91 < size14; i91++) {
+                            TLRPC$TL_jsonObjectValue tLRPC$TL_jsonObjectValue4 = tLRPC$TL_jsonObject10.value.get(i91);
                             String str11 = tLRPC$TL_jsonObjectValue4.key;
                             str11.hashCode();
                             switch (str11.hashCode()) {
@@ -8902,14 +9561,14 @@ public class MessagesController extends BaseController implements NotificationCe
                             }
                             switch (c2) {
                                 case 0:
-                                    TLRPC$JSONValue tLRPC$JSONValue133 = tLRPC$TL_jsonObjectValue4.value;
-                                    if (tLRPC$JSONValue133 instanceof TLRPC$TL_jsonNumber) {
-                                        double d69 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue133).value;
-                                        if (d69 != this.roundVideoSize) {
-                                            int i91 = (int) d69;
-                                            this.roundVideoSize = i91;
-                                            edit.putInt("roundVideoSize", i91);
-                                            z4 = true;
+                                    TLRPC$JSONValue tLRPC$JSONValue138 = tLRPC$TL_jsonObjectValue4.value;
+                                    if (tLRPC$JSONValue138 instanceof TLRPC$TL_jsonNumber) {
+                                        double d75 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue138).value;
+                                        if (d75 != this.roundVideoSize) {
+                                            int i92 = (int) d75;
+                                            this.roundVideoSize = i92;
+                                            edit.putInt("roundVideoSize", i92);
+                                            z3 = true;
                                             break;
                                         } else {
                                             break;
@@ -8918,14 +9577,14 @@ public class MessagesController extends BaseController implements NotificationCe
                                         break;
                                     }
                                 case 1:
-                                    TLRPC$JSONValue tLRPC$JSONValue134 = tLRPC$TL_jsonObjectValue4.value;
-                                    if (tLRPC$JSONValue134 instanceof TLRPC$TL_jsonNumber) {
-                                        double d70 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue134).value;
-                                        if (d70 != this.roundAudioBitrate) {
-                                            int i92 = (int) d70;
-                                            this.roundAudioBitrate = i92;
-                                            edit.putInt("roundAudioBitrate", i92);
-                                            z4 = true;
+                                    TLRPC$JSONValue tLRPC$JSONValue139 = tLRPC$TL_jsonObjectValue4.value;
+                                    if (tLRPC$JSONValue139 instanceof TLRPC$TL_jsonNumber) {
+                                        double d76 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue139).value;
+                                        if (d76 != this.roundAudioBitrate) {
+                                            int i93 = (int) d76;
+                                            this.roundAudioBitrate = i93;
+                                            edit.putInt("roundAudioBitrate", i93);
+                                            z3 = true;
                                             break;
                                         } else {
                                             break;
@@ -8934,14 +9593,14 @@ public class MessagesController extends BaseController implements NotificationCe
                                         break;
                                     }
                                 case 2:
-                                    TLRPC$JSONValue tLRPC$JSONValue135 = tLRPC$TL_jsonObjectValue4.value;
-                                    if (tLRPC$JSONValue135 instanceof TLRPC$TL_jsonNumber) {
-                                        double d71 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue135).value;
-                                        if (d71 != this.roundVideoBitrate) {
-                                            int i93 = (int) d71;
-                                            this.roundVideoBitrate = i93;
-                                            edit.putInt("roundVideoBitrate", i93);
-                                            z4 = true;
+                                    TLRPC$JSONValue tLRPC$JSONValue140 = tLRPC$TL_jsonObjectValue4.value;
+                                    if (tLRPC$JSONValue140 instanceof TLRPC$TL_jsonNumber) {
+                                        double d77 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue140).value;
+                                        if (d77 != this.roundVideoBitrate) {
+                                            int i94 = (int) d77;
+                                            this.roundVideoBitrate = i94;
+                                            edit.putInt("roundVideoBitrate", i94);
+                                            z3 = true;
                                             break;
                                         } else {
                                             break;
@@ -8952,581 +9611,511 @@ public class MessagesController extends BaseController implements NotificationCe
                             }
                         }
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
-                        break;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                     break;
-                case '{':
-                    TLRPC$JSONValue tLRPC$JSONValue136 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue136 instanceof TLRPC$TL_jsonNumber) {
-                        double d72 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue136).value;
-                        if (d72 != this.chatlistInvitesLimitDefault) {
-                            int i94 = (int) d72;
-                            this.chatlistInvitesLimitDefault = i94;
-                            edit.putInt("chatlistInvitesLimitDefault", i94);
-                            z4 = true;
-                            i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
-                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                            i8 = i11;
-                            break;
-                        }
-                        z4 = z7;
-                        i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
-                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                        i8 = i11;
-                    }
-                    i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
-                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                    i8 = i11;
-                    i7++;
-                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
-                    size = i10;
-                case '|':
-                    TLRPC$JSONValue tLRPC$JSONValue137 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue137 instanceof TLRPC$TL_jsonNumber) {
-                        i9 = (int) ((TLRPC$TL_jsonNumber) tLRPC$JSONValue137).value;
-                        z4 = z7;
-                        z6 = z8;
-                        z5 = z9;
-                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                        i8 = i11;
-                        break;
-                    }
-                    i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
-                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                    i8 = i11;
-                    i7++;
-                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
-                    size = i10;
-                case '}':
-                    TLRPC$JSONValue tLRPC$JSONValue138 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue138 instanceof TLRPC$TL_jsonNumber) {
-                        double d73 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue138).value;
-                        if (d73 != this.reactionsUserMaxDefault) {
-                            int i95 = (int) d73;
-                            this.reactionsUserMaxDefault = i95;
-                            edit.putInt("reactionsUserMaxDefault", i95);
-                            z4 = true;
-                            i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
-                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                            i8 = i11;
-                            break;
-                        }
-                        z4 = z7;
-                        i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
-                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                        i8 = i11;
-                    }
-                    i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
-                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                    i8 = i11;
-                    i7++;
-                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
-                    size = i10;
-                case '~':
-                    TLRPC$JSONValue tLRPC$JSONValue139 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue139 instanceof TLRPC$TL_jsonNumber) {
-                        double d74 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue139).value;
-                        if (d74 != this.captionLengthLimitDefault) {
-                            int i96 = (int) d74;
-                            this.captionLengthLimitDefault = i96;
-                            edit.putInt("captionLengthLimitDefault", i96);
-                            z4 = true;
-                            i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
-                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                            i8 = i11;
-                            break;
-                        }
-                        z4 = z7;
-                        i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
-                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                        i8 = i11;
-                    }
-                    i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
-                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                    i8 = i11;
-                    i7++;
-                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
-                    size = i10;
                 case 127:
-                    TLRPC$JSONValue tLRPC$JSONValue140 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue140 instanceof TLRPC$TL_jsonNumber) {
-                        double d75 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue140).value;
-                        if (this.recommendedChannelsLimitDefault != d75) {
-                            int i97 = (int) d75;
-                            this.recommendedChannelsLimitDefault = i97;
-                            edit.putInt("recommendedChannelsLimitDefault", i97);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue141 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue141 instanceof TLRPC$TL_jsonNumber) {
+                        double d78 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue141).value;
+                        if (d78 != this.chatlistInvitesLimitDefault) {
+                            int i95 = (int) d78;
+                            this.chatlistInvitesLimitDefault = i95;
+                            edit.putInt("chatlistInvitesLimitDefault", i95);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case 128:
-                    TLRPC$JSONValue tLRPC$JSONValue141 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue141 instanceof TLRPC$TL_jsonNumber) {
-                        double d76 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue141).value;
-                        if (this.transcribeAudioTrialDurationMax != d76) {
-                            int i98 = (int) d76;
-                            this.transcribeAudioTrialDurationMax = i98;
-                            edit.putInt("transcribeAudioTrialDurationMax", i98);
-                            z4 = true;
-                            i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
-                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                            i8 = i11;
-                            break;
-                        }
-                        z4 = z7;
-                        i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                    TLRPC$JSONValue tLRPC$JSONValue142 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue142 instanceof TLRPC$TL_jsonNumber) {
+                        i9 = (int) ((TLRPC$TL_jsonNumber) tLRPC$JSONValue142).value;
+                        z3 = z6;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case 129:
-                    TLRPC$JSONValue tLRPC$JSONValue142 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue142 instanceof TLRPC$TL_jsonNumber) {
-                        i8 = (int) ((TLRPC$TL_jsonNumber) tLRPC$JSONValue142).value;
+                    TLRPC$JSONValue tLRPC$JSONValue143 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue143 instanceof TLRPC$TL_jsonNumber) {
+                        double d79 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue143).value;
+                        if (d79 != this.reactionsUserMaxDefault) {
+                            int i96 = (int) d79;
+                            this.reactionsUserMaxDefault = i96;
+                            edit.putInt("reactionsUserMaxDefault", i96);
+                            z3 = true;
+                            i9 = i2;
+                            z5 = z7;
+                            z4 = z8;
+                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                            i8 = i11;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
+                        }
+                        z3 = z6;
                         i9 = i2;
-                        z4 = z7;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                        break;
+                        i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case 130:
-                    TLRPC$JSONValue tLRPC$JSONValue143 = tLRPC$TL_jsonObjectValue.value;
-                    if ((tLRPC$JSONValue143 instanceof TLRPC$TL_jsonBool) && this.uploadMarkupVideo != ((TLRPC$TL_jsonBool) tLRPC$JSONValue143).value) {
-                        boolean z34 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue143).value;
-                        this.uploadMarkupVideo = z34;
-                        edit.putBoolean("uploadMarkupVideo", z34);
+                    TLRPC$JSONValue tLRPC$JSONValue144 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue144 instanceof TLRPC$TL_jsonNumber) {
+                        double d80 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue144).value;
+                        if (d80 != this.captionLengthLimitDefault) {
+                            int i97 = (int) d80;
+                            this.captionLengthLimitDefault = i97;
+                            edit.putInt("captionLengthLimitDefault", i97);
+                            z3 = true;
+                            i9 = i2;
+                            z5 = z7;
+                            z4 = z8;
+                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                            i8 = i11;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
+                        }
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
-                        z4 = true;
                         i7++;
                         tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                         size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
-                    break;
                 case 131:
-                    TLRPC$JSONValue tLRPC$JSONValue144 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue144 instanceof TLRPC$TL_jsonNumber) {
-                        double d77 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue144).value;
-                        if (d77 != this.chatReadMarkSizeThreshold) {
-                            int i99 = (int) d77;
-                            this.chatReadMarkSizeThreshold = i99;
-                            edit.putInt("chatReadMarkSizeThreshold", i99);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue145 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue145 instanceof TLRPC$TL_jsonNumber) {
+                        double d81 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue145).value;
+                        if (this.recommendedChannelsLimitDefault != d81) {
+                            int i98 = (int) d81;
+                            this.recommendedChannelsLimitDefault = i98;
+                            edit.putInt("recommendedChannelsLimitDefault", i98);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case 132:
-                    TLRPC$JSONValue tLRPC$JSONValue145 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue145 instanceof TLRPC$TL_jsonNumber) {
-                        double d78 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue145).value;
-                        if (d78 != this.dialogFiltersChatsLimitDefault) {
-                            int i100 = (int) d78;
-                            this.dialogFiltersChatsLimitDefault = i100;
-                            edit.putInt("dialogFiltersChatsLimitDefault", i100);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue146 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue146 instanceof TLRPC$TL_jsonNumber) {
+                        double d82 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue146).value;
+                        if (this.transcribeAudioTrialDurationMax != d82) {
+                            int i99 = (int) d82;
+                            this.transcribeAudioTrialDurationMax = i99;
+                            edit.putInt("transcribeAudioTrialDurationMax", i99);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case 133:
-                    TLRPC$JSONValue tLRPC$JSONValue146 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue146 instanceof TLRPC$TL_jsonNumber) {
-                        double d79 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue146).value;
-                        if (d79 != this.savedGifsLimitPremium) {
-                            int i101 = (int) d79;
-                            this.savedGifsLimitPremium = i101;
-                            edit.putInt("savedGifsLimitPremium", i101);
-                            z4 = true;
-                            i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
-                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                            i8 = i11;
-                            break;
-                        }
-                        z4 = z7;
+                    TLRPC$JSONValue tLRPC$JSONValue147 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue147 instanceof TLRPC$TL_jsonNumber) {
+                        i8 = (int) ((TLRPC$TL_jsonNumber) tLRPC$JSONValue147).value;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z3 = z6;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                        i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case 134:
-                    TLRPC$JSONValue tLRPC$JSONValue147 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue147 instanceof TLRPC$TL_jsonString) {
-                        TLRPC$TL_jsonString tLRPC$TL_jsonString7 = (TLRPC$TL_jsonString) tLRPC$JSONValue147;
-                        if (!TextUtils.equals(tLRPC$TL_jsonString7.value, this.storiesEntities)) {
-                            String str12 = tLRPC$TL_jsonString7.value;
-                            this.storiesEntities = str12;
-                            edit.putString("storiesEntities", str12);
-                            z4 = true;
-                            i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
-                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                            i8 = i11;
-                            break;
-                        }
-                        z4 = z7;
+                    TLRPC$JSONValue tLRPC$JSONValue148 = tLRPC$TL_jsonObjectValue.value;
+                    if ((tLRPC$JSONValue148 instanceof TLRPC$TL_jsonBool) && this.uploadMarkupVideo != ((TLRPC$TL_jsonBool) tLRPC$JSONValue148).value) {
+                        boolean z33 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue148).value;
+                        this.uploadMarkupVideo = z33;
+                        edit.putBoolean("uploadMarkupVideo", z33);
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        z3 = true;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
+                    break;
                 case 135:
-                    TLRPC$JSONValue tLRPC$JSONValue148 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue148 instanceof TLRPC$TL_jsonNumber) {
-                        double d80 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue148).value;
-                        if (d80 != this.channelBgIconLevelMin) {
-                            int i102 = (int) d80;
-                            this.channelBgIconLevelMin = i102;
-                            edit.putInt("channelBgIconLevelMin", i102);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue149 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue149 instanceof TLRPC$TL_jsonNumber) {
+                        double d83 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue149).value;
+                        if (d83 != this.chatReadMarkSizeThreshold) {
+                            int i100 = (int) d83;
+                            this.chatReadMarkSizeThreshold = i100;
+                            edit.putInt("chatReadMarkSizeThreshold", i100);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case 136:
-                    TLRPC$JSONValue tLRPC$JSONValue149 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue149 instanceof TLRPC$TL_jsonNumber) {
-                        long j7 = (long) ((TLRPC$TL_jsonNumber) tLRPC$JSONValue149).value;
-                        if (j7 != this.giveawayCountriesMax) {
-                            this.giveawayCountriesMax = j7;
-                            edit.putLong("giveaway_countries_max", j7);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue150 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue150 instanceof TLRPC$TL_jsonNumber) {
+                        double d84 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue150).value;
+                        if (d84 != this.dialogFiltersChatsLimitDefault) {
+                            int i101 = (int) d84;
+                            this.dialogFiltersChatsLimitDefault = i101;
+                            edit.putInt("dialogFiltersChatsLimitDefault", i101);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case 137:
-                    TLRPC$JSONValue tLRPC$JSONValue150 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue150 instanceof TLRPC$TL_jsonNumber) {
-                        long j8 = (long) ((TLRPC$TL_jsonNumber) tLRPC$JSONValue150).value;
-                        this.storiesChangelogUserId = j8;
-                        edit.putLong("stories_changelog_user_id", j8);
+                    TLRPC$JSONValue tLRPC$JSONValue151 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue151 instanceof TLRPC$TL_jsonNumber) {
+                        double d85 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue151).value;
+                        if (d85 != this.savedGifsLimitPremium) {
+                            int i102 = (int) d85;
+                            this.savedGifsLimitPremium = i102;
+                            edit.putInt("savedGifsLimitPremium", i102);
+                            z3 = true;
+                            i9 = i2;
+                            z5 = z7;
+                            z4 = z8;
+                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                            i8 = i11;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
+                        }
+                        z3 = z6;
+                        i9 = i2;
+                        z5 = z7;
+                        z4 = z8;
+                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                        i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case 138:
-                    TLRPC$JSONValue tLRPC$JSONValue151 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue151 instanceof TLRPC$TL_jsonNumber) {
-                        double d81 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue151).value;
-                        if (d81 != this.topicsPinnedLimit) {
-                            int i103 = (int) d81;
-                            this.topicsPinnedLimit = i103;
-                            edit.putInt("topicsPinnedLimit", i103);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue152 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue152 instanceof TLRPC$TL_jsonString) {
+                        TLRPC$TL_jsonString tLRPC$TL_jsonString7 = (TLRPC$TL_jsonString) tLRPC$JSONValue152;
+                        if (!TextUtils.equals(tLRPC$TL_jsonString7.value, this.storiesEntities)) {
+                            String str12 = tLRPC$TL_jsonString7.value;
+                            this.storiesEntities = str12;
+                            edit.putString("storiesEntities", str12);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case 139:
-                    TLRPC$JSONValue tLRPC$JSONValue152 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue152 instanceof TLRPC$TL_jsonNumber) {
-                        double d82 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue152).value;
-                        if (d82 != this.channelsLimitDefault) {
-                            int i104 = (int) d82;
-                            this.channelsLimitDefault = i104;
-                            edit.putInt("channelsLimitDefault", i104);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue153 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue153 instanceof TLRPC$TL_jsonNumber) {
+                        double d86 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue153).value;
+                        if (d86 != this.channelBgIconLevelMin) {
+                            int i103 = (int) d86;
+                            this.channelBgIconLevelMin = i103;
+                            edit.putInt("channelBgIconLevelMin", i103);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case 140:
-                    TLRPC$JSONValue tLRPC$JSONValue153 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue153 instanceof TLRPC$TL_jsonNumber) {
-                        double d83 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue153).value;
-                        if (d83 != this.groupEmojiStatusLevelMin) {
-                            int i105 = (int) d83;
-                            this.groupEmojiStatusLevelMin = i105;
-                            edit.putInt("groupEmojiStatusLevelMin", i105);
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue154 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue154 instanceof TLRPC$TL_jsonNumber) {
+                        long j9 = (long) ((TLRPC$TL_jsonNumber) tLRPC$JSONValue154).value;
+                        if (j9 != this.giveawayCountriesMax) {
+                            this.giveawayCountriesMax = j9;
+                            edit.putLong("giveaway_countries_max", j9);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case 141:
-                    HashSet hashSet9 = new HashSet();
-                    TLRPC$JSONValue tLRPC$JSONValue154 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue154 instanceof TLRPC$TL_jsonArray) {
-                        TLRPC$TL_jsonArray tLRPC$TL_jsonArray9 = (TLRPC$TL_jsonArray) tLRPC$JSONValue154;
-                        int size14 = tLRPC$TL_jsonArray9.value.size();
-                        for (int i106 = 0; i106 < size14; i106++) {
-                            TLRPC$JSONValue tLRPC$JSONValue155 = tLRPC$TL_jsonArray9.value.get(i106);
-                            if (tLRPC$JSONValue155 instanceof TLRPC$TL_jsonString) {
-                                hashSet9.add(((TLRPC$TL_jsonString) tLRPC$JSONValue155).value.toLowerCase());
-                            }
-                        }
-                    }
-                    if (!this.webAppAllowedProtocols.equals(hashSet9)) {
-                        this.webAppAllowedProtocols = hashSet9;
-                        edit.putStringSet("webAppAllowedProtocols", hashSet9);
-                        i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
-                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                        i8 = i11;
-                        z4 = true;
-                        i7++;
-                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
-                        size = i10;
+                    TLRPC$JSONValue tLRPC$JSONValue155 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue155 instanceof TLRPC$TL_jsonNumber) {
+                        long j10 = (long) ((TLRPC$TL_jsonNumber) tLRPC$JSONValue155).value;
+                        this.storiesChangelogUserId = j10;
+                        edit.putLong("stories_changelog_user_id", j10);
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
@@ -9535,14 +10124,35 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 142:
                     TLRPC$JSONValue tLRPC$JSONValue156 = tLRPC$TL_jsonObjectValue.value;
                     if (tLRPC$JSONValue156 instanceof TLRPC$TL_jsonNumber) {
-                        int i107 = (int) ((TLRPC$TL_jsonNumber) tLRPC$JSONValue156).value;
-                        this.smallQueueMaxActiveOperations = i107;
-                        edit.putInt("smallQueueMaxActiveOperations", i107);
+                        double d87 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue156).value;
+                        if (d87 != this.topicsPinnedLimit) {
+                            int i104 = (int) d87;
+                            this.topicsPinnedLimit = i104;
+                            edit.putInt("topicsPinnedLimit", i104);
+                            z3 = true;
+                            i9 = i2;
+                            z5 = z7;
+                            z4 = z8;
+                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                            i8 = i11;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
+                        }
+                        z3 = z6;
+                        i9 = i2;
+                        z5 = z7;
+                        z4 = z8;
+                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                        i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
@@ -9551,30 +10161,35 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 143:
                     TLRPC$JSONValue tLRPC$JSONValue157 = tLRPC$TL_jsonObjectValue.value;
                     if (tLRPC$JSONValue157 instanceof TLRPC$TL_jsonNumber) {
-                        double d84 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue157).value;
-                        if (d84 != this.storyCaptionLengthLimitPremium) {
-                            int i108 = (int) d84;
-                            this.storyCaptionLengthLimitPremium = i108;
-                            edit.putInt("storyCaptionLengthLimitPremium", i108);
-                            z4 = true;
+                        double d88 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue157).value;
+                        if (d88 != this.channelsLimitDefault) {
+                            int i105 = (int) d88;
+                            this.channelsLimitDefault = i105;
+                            edit.putInt("channelsLimitDefault", i105);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
@@ -9583,192 +10198,160 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 144:
                     TLRPC$JSONValue tLRPC$JSONValue158 = tLRPC$TL_jsonObjectValue.value;
                     if (tLRPC$JSONValue158 instanceof TLRPC$TL_jsonNumber) {
-                        double d85 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue158).value;
-                        if (((int) d85) != this.factcheckLengthLimit) {
-                            int i109 = (int) d85;
-                            this.factcheckLengthLimit = i109;
-                            edit.putInt("factcheckLengthLimit", i109);
-                            z4 = true;
+                        double d89 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue158).value;
+                        if (d89 != this.groupEmojiStatusLevelMin) {
+                            int i106 = (int) d89;
+                            this.groupEmojiStatusLevelMin = i106;
+                            edit.putInt("groupEmojiStatusLevelMin", i106);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case 145:
+                    HashSet hashSet10 = new HashSet();
                     TLRPC$JSONValue tLRPC$JSONValue159 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue159 instanceof TLRPC$TL_jsonNumber) {
-                        double d86 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue159).value;
-                        if (d86 != this.reactionsInChatMax) {
-                            int i110 = (int) d86;
-                            this.reactionsInChatMax = i110;
-                            edit.putInt("reactionsInChatMax", i110);
-                            z4 = true;
-                            i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
-                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                            i8 = i11;
-                            break;
+                    if (tLRPC$JSONValue159 instanceof TLRPC$TL_jsonArray) {
+                        TLRPC$TL_jsonArray tLRPC$TL_jsonArray10 = (TLRPC$TL_jsonArray) tLRPC$JSONValue159;
+                        int size15 = tLRPC$TL_jsonArray10.value.size();
+                        for (int i107 = 0; i107 < size15; i107++) {
+                            TLRPC$JSONValue tLRPC$JSONValue160 = tLRPC$TL_jsonArray10.value.get(i107);
+                            if (tLRPC$JSONValue160 instanceof TLRPC$TL_jsonString) {
+                                hashSet10.add(((TLRPC$TL_jsonString) tLRPC$JSONValue160).value.toLowerCase());
+                            }
                         }
-                        z4 = z7;
+                    }
+                    if (!this.webAppAllowedProtocols.equals(hashSet10)) {
+                        this.webAppAllowedProtocols = hashSet10;
+                        edit.putStringSet("webAppAllowedProtocols", hashSet10);
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        z3 = true;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case 146:
-                    TLRPC$JSONValue tLRPC$JSONValue160 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue160 instanceof TLRPC$TL_jsonNumber) {
-                        double d87 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue160).value;
-                        if (d87 != this.dialogFiltersLimitPremium) {
-                            int i111 = (int) d87;
-                            this.dialogFiltersLimitPremium = i111;
-                            edit.putInt("dialogFiltersLimitPremium", i111);
-                            z4 = true;
-                            i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
-                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                            i8 = i11;
-                            break;
-                        }
-                        z4 = z7;
-                        i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
-                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                        i8 = i11;
+                    TLRPC$JSONValue tLRPC$JSONValue161 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue161 instanceof TLRPC$TL_jsonNumber) {
+                        int i108 = (int) ((TLRPC$TL_jsonNumber) tLRPC$JSONValue161).value;
+                        this.smallQueueMaxActiveOperations = i108;
+                        edit.putInt("smallQueueMaxActiveOperations", i108);
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case 147:
-                    try {
-                        HashMap<String, EmojiSound> hashMap2 = new HashMap<>();
-                        TLRPC$JSONValue tLRPC$JSONValue161 = tLRPC$TL_jsonObjectValue.value;
-                        if (tLRPC$JSONValue161 instanceof TLRPC$TL_jsonObject) {
-                            TLRPC$TL_jsonObject tLRPC$TL_jsonObject11 = (TLRPC$TL_jsonObject) tLRPC$JSONValue161;
-                            int size15 = tLRPC$TL_jsonObject11.value.size();
-                            for (int i112 = 0; i112 < size15; i112++) {
-                                TLRPC$TL_jsonObjectValue tLRPC$TL_jsonObjectValue5 = tLRPC$TL_jsonObject11.value.get(i112);
-                                TLRPC$JSONValue tLRPC$JSONValue162 = tLRPC$TL_jsonObjectValue5.value;
-                                if (tLRPC$JSONValue162 instanceof TLRPC$TL_jsonObject) {
-                                    TLRPC$TL_jsonObject tLRPC$TL_jsonObject12 = (TLRPC$TL_jsonObject) tLRPC$JSONValue162;
-                                    int size16 = tLRPC$TL_jsonObject12.value.size();
-                                    long j9 = 0;
-                                    long j10 = 0;
-                                    String str13 = null;
-                                    for (int i113 = 0; i113 < size16; i113++) {
-                                        TLRPC$TL_jsonObjectValue tLRPC$TL_jsonObjectValue6 = tLRPC$TL_jsonObject12.value.get(i113);
-                                        if (tLRPC$TL_jsonObjectValue6.value instanceof TLRPC$TL_jsonString) {
-                                            if ("id".equals(tLRPC$TL_jsonObjectValue6.key)) {
-                                                j9 = Utilities.parseLong(((TLRPC$TL_jsonString) tLRPC$TL_jsonObjectValue6.value).value).longValue();
-                                            } else if ("access_hash".equals(tLRPC$TL_jsonObjectValue6.key)) {
-                                                j10 = Utilities.parseLong(((TLRPC$TL_jsonString) tLRPC$TL_jsonObjectValue6.value).value).longValue();
-                                            } else if ("file_reference_base64".equals(tLRPC$TL_jsonObjectValue6.key)) {
-                                                str13 = ((TLRPC$TL_jsonString) tLRPC$TL_jsonObjectValue6.value).value;
-                                            }
-                                        }
-                                    }
-                                    if (j9 != 0 && j10 != 0 && str13 != null) {
-                                        hashMap2.put(tLRPC$TL_jsonObjectValue5.key.replace("️", ""), new EmojiSound(j9, j10, str13));
-                                    }
-                                }
-                            }
-                        }
-                        if (!this.emojiSounds.equals(hashMap2)) {
-                            this.emojiSounds = hashMap2;
-                            SerializedData serializedData3 = new SerializedData();
-                            serializedData3.writeInt32(this.emojiSounds.size());
-                            for (Map.Entry<String, EmojiSound> entry2 : this.emojiSounds.entrySet()) {
-                                serializedData3.writeString(entry2.getKey());
-                                EmojiSound value2 = entry2.getValue();
-                                serializedData3.writeInt64(value2.id);
-                                serializedData3.writeInt64(value2.accessHash);
-                                serializedData3.writeByteArray(value2.fileReference);
-                            }
-                            edit.putString("emojiSounds", Base64.encodeToString(serializedData3.toByteArray(), 0));
-                            serializedData3.cleanup();
-                            z4 = true;
+                    TLRPC$JSONValue tLRPC$JSONValue162 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue162 instanceof TLRPC$TL_jsonNumber) {
+                        double d90 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue162).value;
+                        if (d90 != this.storyCaptionLengthLimitPremium) {
+                            int i109 = (int) d90;
+                            this.storyCaptionLengthLimitPremium = i109;
+                            edit.putInt("storyCaptionLengthLimitPremium", i109);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
-                    } catch (Exception e3) {
-                        FileLog.e(e3);
-                        break;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
-                    break;
+                    i9 = i2;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
+                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                    i8 = i11;
+                    i7++;
+                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                    size = i10;
                 case 148:
                     TLRPC$JSONValue tLRPC$JSONValue163 = tLRPC$TL_jsonObjectValue.value;
                     if (tLRPC$JSONValue163 instanceof TLRPC$TL_jsonNumber) {
-                        double d88 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue163).value;
-                        if (d88 != this.groupTranscribeLevelMin) {
-                            int i114 = (int) d88;
-                            this.groupTranscribeLevelMin = i114;
-                            edit.putInt("groupTranscribeLevelMin", i114);
-                            z4 = true;
+                        double d91 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue163).value;
+                        if (((int) d91) != this.factcheckLengthLimit) {
+                            int i110 = (int) d91;
+                            this.factcheckLengthLimit = i110;
+                            edit.putInt("factcheckLengthLimit", i110);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
@@ -9777,30 +10360,35 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 149:
                     TLRPC$JSONValue tLRPC$JSONValue164 = tLRPC$TL_jsonObjectValue.value;
                     if (tLRPC$JSONValue164 instanceof TLRPC$TL_jsonNumber) {
-                        double d89 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue164).value;
-                        if (d89 != this.aboutLengthLimitPremium) {
-                            int i115 = (int) d89;
-                            this.aboutLengthLimitPremium = i115;
-                            edit.putInt("aboutLengthLimitPremium", i115);
-                            z4 = true;
+                        double d92 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue164).value;
+                        if (d92 != this.reactionsInChatMax) {
+                            int i111 = (int) d92;
+                            this.reactionsInChatMax = i111;
+                            edit.putInt("reactionsInChatMax", i111);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
@@ -9809,97 +10397,143 @@ public class MessagesController extends BaseController implements NotificationCe
                 case ImageReceiver.DEFAULT_CROSSFADE_DURATION /* 150 */:
                     TLRPC$JSONValue tLRPC$JSONValue165 = tLRPC$TL_jsonObjectValue.value;
                     if (tLRPC$JSONValue165 instanceof TLRPC$TL_jsonNumber) {
-                        double d90 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue165).value;
-                        if (this.boostsChannelLevelMax != d90) {
-                            int i116 = (int) d90;
-                            this.boostsChannelLevelMax = i116;
-                            edit.putInt("boostsChannelLevelMax", i116);
-                            z4 = true;
+                        double d93 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue165).value;
+                        if (d93 != this.dialogFiltersLimitPremium) {
+                            int i112 = (int) d93;
+                            this.dialogFiltersLimitPremium = i112;
+                            edit.putInt("dialogFiltersLimitPremium", i112);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
                 case 151:
-                    TLRPC$JSONValue tLRPC$JSONValue166 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue166 instanceof TLRPC$TL_jsonNumber) {
-                        double d91 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue166).value;
-                        if (d91 != this.introDescriptionLengthLimit) {
-                            int i117 = (int) d91;
-                            this.introDescriptionLengthLimit = i117;
-                            edit.putInt("introDescriptionLengthLimit", i117);
-                            z4 = true;
-                            i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
-                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
-                            i8 = i11;
-                            break;
+                    try {
+                        hashMap2 = new HashMap<>();
+                        TLRPC$JSONValue tLRPC$JSONValue166 = tLRPC$TL_jsonObjectValue.value;
+                        if (tLRPC$JSONValue166 instanceof TLRPC$TL_jsonObject) {
+                            TLRPC$TL_jsonObject tLRPC$TL_jsonObject11 = (TLRPC$TL_jsonObject) tLRPC$JSONValue166;
+                            int size16 = tLRPC$TL_jsonObject11.value.size();
+                            for (int i113 = 0; i113 < size16; i113++) {
+                                TLRPC$TL_jsonObjectValue tLRPC$TL_jsonObjectValue5 = tLRPC$TL_jsonObject11.value.get(i113);
+                                TLRPC$JSONValue tLRPC$JSONValue167 = tLRPC$TL_jsonObjectValue5.value;
+                                if (tLRPC$JSONValue167 instanceof TLRPC$TL_jsonObject) {
+                                    TLRPC$TL_jsonObject tLRPC$TL_jsonObject12 = (TLRPC$TL_jsonObject) tLRPC$JSONValue167;
+                                    int size17 = tLRPC$TL_jsonObject12.value.size();
+                                    long j11 = 0;
+                                    long j12 = 0;
+                                    String str13 = null;
+                                    for (int i114 = 0; i114 < size17; i114++) {
+                                        TLRPC$TL_jsonObjectValue tLRPC$TL_jsonObjectValue6 = tLRPC$TL_jsonObject12.value.get(i114);
+                                        if (tLRPC$TL_jsonObjectValue6.value instanceof TLRPC$TL_jsonString) {
+                                            if ("id".equals(tLRPC$TL_jsonObjectValue6.key)) {
+                                                j11 = Utilities.parseLong(((TLRPC$TL_jsonString) tLRPC$TL_jsonObjectValue6.value).value).longValue();
+                                            } else if ("access_hash".equals(tLRPC$TL_jsonObjectValue6.key)) {
+                                                j12 = Utilities.parseLong(((TLRPC$TL_jsonString) tLRPC$TL_jsonObjectValue6.value).value).longValue();
+                                            } else if ("file_reference_base64".equals(tLRPC$TL_jsonObjectValue6.key)) {
+                                                str13 = ((TLRPC$TL_jsonString) tLRPC$TL_jsonObjectValue6.value).value;
+                                            }
+                                        }
+                                    }
+                                    if (j11 != 0 && j12 != 0 && str13 != null) {
+                                        hashMap2.put(tLRPC$TL_jsonObjectValue5.key.replace("️", ""), new EmojiSound(j11, j12, str13));
+                                    }
+                                }
+                            }
                         }
-                        z4 = z7;
+                    } catch (Exception e3) {
+                        FileLog.e(e3);
+                        break;
+                    }
+                    if (!this.emojiSounds.equals(hashMap2)) {
+                        this.emojiSounds = hashMap2;
+                        SerializedData serializedData3 = new SerializedData();
+                        serializedData3.writeInt32(this.emojiSounds.size());
+                        for (Map.Entry<String, EmojiSound> entry2 : this.emojiSounds.entrySet()) {
+                            serializedData3.writeString(entry2.getKey());
+                            EmojiSound value2 = entry2.getValue();
+                            serializedData3.writeInt64(value2.id);
+                            serializedData3.writeInt64(value2.accessHash);
+                            serializedData3.writeByteArray(value2.fileReference);
+                        }
+                        edit.putString("emojiSounds", Base64.encodeToString(serializedData3.toByteArray(), 0));
+                        serializedData3.cleanup();
+                        z3 = true;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
+                    z3 = z6;
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
+                    break;
                 case 152:
-                    HashSet hashSet10 = new HashSet();
-                    TLRPC$JSONValue tLRPC$JSONValue167 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue167 instanceof TLRPC$TL_jsonArray) {
-                        TLRPC$TL_jsonArray tLRPC$TL_jsonArray10 = (TLRPC$TL_jsonArray) tLRPC$JSONValue167;
-                        int size17 = tLRPC$TL_jsonArray10.value.size();
-                        for (int i118 = 0; i118 < size17; i118++) {
-                            TLRPC$JSONValue tLRPC$JSONValue168 = tLRPC$TL_jsonArray10.value.get(i118);
-                            if (tLRPC$JSONValue168 instanceof TLRPC$TL_jsonString) {
-                                hashSet10.add(((TLRPC$TL_jsonString) tLRPC$JSONValue168).value);
-                            }
+                    TLRPC$JSONValue tLRPC$JSONValue168 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue168 instanceof TLRPC$TL_jsonNumber) {
+                        double d94 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue168).value;
+                        if (d94 != this.groupTranscribeLevelMin) {
+                            int i115 = (int) d94;
+                            this.groupTranscribeLevelMin = i115;
+                            edit.putInt("groupTranscribeLevelMin", i115);
+                            z3 = true;
+                            i9 = i2;
+                            z5 = z7;
+                            z4 = z8;
+                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                            i8 = i11;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                    }
-                    if (!this.exportPrivateUri.equals(hashSet10)) {
-                        this.exportPrivateUri = hashSet10;
-                        edit.putStringSet("exportPrivateUri", hashSet10);
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
-                        z4 = true;
                         i7++;
                         tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                         size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
@@ -9908,30 +10542,35 @@ public class MessagesController extends BaseController implements NotificationCe
                 case 153:
                     TLRPC$JSONValue tLRPC$JSONValue169 = tLRPC$TL_jsonObjectValue.value;
                     if (tLRPC$JSONValue169 instanceof TLRPC$TL_jsonNumber) {
-                        double d92 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue169).value;
-                        if (d92 != this.forumUpgradeParticipantsMin) {
-                            int i119 = (int) d92;
-                            this.forumUpgradeParticipantsMin = i119;
-                            edit.putInt("forumUpgradeParticipantsMin", i119);
-                            z4 = true;
+                        double d95 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue169).value;
+                        if (d95 != this.aboutLengthLimitPremium) {
+                            int i116 = (int) d95;
+                            this.aboutLengthLimitPremium = i116;
+                            edit.putInt("aboutLengthLimitPremium", i116);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
@@ -9939,30 +10578,181 @@ public class MessagesController extends BaseController implements NotificationCe
                     size = i10;
                 case 154:
                     TLRPC$JSONValue tLRPC$JSONValue170 = tLRPC$TL_jsonObjectValue.value;
-                    if (tLRPC$JSONValue170 instanceof TLRPC$TL_jsonBool) {
-                        boolean z35 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue170).value;
-                        if (z35 != this.filtersEnabled) {
-                            this.filtersEnabled = z35;
-                            edit.putBoolean("filtersEnabled", z35);
-                            z4 = true;
+                    if (tLRPC$JSONValue170 instanceof TLRPC$TL_jsonNumber) {
+                        double d96 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue170).value;
+                        if (this.boostsChannelLevelMax != d96) {
+                            int i117 = (int) d96;
+                            this.boostsChannelLevelMax = i117;
+                            edit.putInt("boostsChannelLevelMax", i117);
+                            z3 = true;
                             i9 = i2;
-                            z6 = z8;
-                            z5 = z9;
+                            z5 = z7;
+                            z4 = z8;
                             tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                             i8 = i11;
-                            break;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
                         }
-                        z4 = z7;
+                        z3 = z6;
                         i9 = i2;
-                        z6 = z8;
-                        z5 = z9;
+                        z5 = z7;
+                        z4 = z8;
                         tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                         i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
                     }
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
+                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                    i8 = i11;
+                    i7++;
+                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                    size = i10;
+                case MessagesStorage.LAST_DB_VERSION /* 155 */:
+                    TLRPC$JSONValue tLRPC$JSONValue171 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue171 instanceof TLRPC$TL_jsonNumber) {
+                        double d97 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue171).value;
+                        if (d97 != this.introDescriptionLengthLimit) {
+                            int i118 = (int) d97;
+                            this.introDescriptionLengthLimit = i118;
+                            edit.putInt("introDescriptionLengthLimit", i118);
+                            z3 = true;
+                            i9 = i2;
+                            z5 = z7;
+                            z4 = z8;
+                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                            i8 = i11;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
+                        }
+                        z3 = z6;
+                        i9 = i2;
+                        z5 = z7;
+                        z4 = z8;
+                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                        i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
+                    }
+                    i9 = i2;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
+                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                    i8 = i11;
+                    i7++;
+                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                    size = i10;
+                case 156:
+                    HashSet hashSet11 = new HashSet();
+                    TLRPC$JSONValue tLRPC$JSONValue172 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue172 instanceof TLRPC$TL_jsonArray) {
+                        TLRPC$TL_jsonArray tLRPC$TL_jsonArray11 = (TLRPC$TL_jsonArray) tLRPC$JSONValue172;
+                        int size18 = tLRPC$TL_jsonArray11.value.size();
+                        for (int i119 = 0; i119 < size18; i119++) {
+                            TLRPC$JSONValue tLRPC$JSONValue173 = tLRPC$TL_jsonArray11.value.get(i119);
+                            if (tLRPC$JSONValue173 instanceof TLRPC$TL_jsonString) {
+                                hashSet11.add(((TLRPC$TL_jsonString) tLRPC$JSONValue173).value);
+                            }
+                        }
+                    }
+                    if (!this.exportPrivateUri.equals(hashSet11)) {
+                        this.exportPrivateUri = hashSet11;
+                        edit.putStringSet("exportPrivateUri", hashSet11);
+                        i9 = i2;
+                        z5 = z7;
+                        z4 = z8;
+                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                        i8 = i11;
+                        z3 = true;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
+                    }
+                    i9 = i2;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
+                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                    i8 = i11;
+                    i7++;
+                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                    size = i10;
+                case 157:
+                    TLRPC$JSONValue tLRPC$JSONValue174 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue174 instanceof TLRPC$TL_jsonNumber) {
+                        double d98 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue174).value;
+                        if (d98 != this.forumUpgradeParticipantsMin) {
+                            int i120 = (int) d98;
+                            this.forumUpgradeParticipantsMin = i120;
+                            edit.putInt("forumUpgradeParticipantsMin", i120);
+                            z3 = true;
+                            i9 = i2;
+                            z5 = z7;
+                            z4 = z8;
+                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                            i8 = i11;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
+                        }
+                        z3 = z6;
+                        i9 = i2;
+                        z5 = z7;
+                        z4 = z8;
+                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                        i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
+                    }
+                    i9 = i2;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
+                    tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                    i8 = i11;
+                    i7++;
+                    tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                    size = i10;
+                case 158:
+                    TLRPC$JSONValue tLRPC$JSONValue175 = tLRPC$TL_jsonObjectValue.value;
+                    if (tLRPC$JSONValue175 instanceof TLRPC$TL_jsonBool) {
+                        boolean z34 = ((TLRPC$TL_jsonBool) tLRPC$JSONValue175).value;
+                        if (z34 != this.filtersEnabled) {
+                            this.filtersEnabled = z34;
+                            edit.putBoolean("filtersEnabled", z34);
+                            z3 = true;
+                            i9 = i2;
+                            z5 = z7;
+                            z4 = z8;
+                            tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                            i8 = i11;
+                            i7++;
+                            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                            size = i10;
+                        }
+                        z3 = z6;
+                        i9 = i2;
+                        z5 = z7;
+                        z4 = z8;
+                        tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
+                        i8 = i11;
+                        i7++;
+                        tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
+                        size = i10;
+                    }
+                    i9 = i2;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
@@ -9970,48 +10760,45 @@ public class MessagesController extends BaseController implements NotificationCe
                     size = i10;
                 default:
                     i9 = i2;
-                    z4 = z7;
-                    z6 = z8;
-                    z5 = z9;
+                    z3 = z6;
+                    z5 = z7;
+                    z4 = z8;
                     tLRPC$TL_jsonObject5 = tLRPC$TL_jsonObject6;
                     i8 = i11;
                     i7++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i10;
             }
-            i7++;
-            tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
-            size = i10;
         }
-        int i120 = i8;
-        int i121 = i9;
-        boolean z36 = z4;
+        int i121 = i8;
+        int i122 = i9;
+        boolean z35 = z3;
         TLRPC$TL_jsonObject tLRPC$TL_jsonObject13 = tLRPC$TL_jsonObject5;
+        boolean z36 = z4;
         boolean z37 = z5;
-        boolean z38 = z6;
-        if (i120 != this.transcribeAudioTrialWeeklyNumber) {
-            this.transcribeAudioTrialWeeklyNumber = i120;
-            edit.putInt("transcribeAudioTrialWeeklyNumber", i120);
+        if (i121 != this.transcribeAudioTrialWeeklyNumber) {
+            this.transcribeAudioTrialWeeklyNumber = i121;
+            edit.putInt("transcribeAudioTrialWeeklyNumber", i121);
             if (this.transcribeAudioTrialCurrentNumber <= 0) {
-                if (i121 != 0) {
-                    i = i121;
+                if (i122 != 0) {
+                    i = i122;
                 } else {
-                    i = i121;
+                    i = i122;
                 }
-                this.transcribeAudioTrialCurrentNumber = i120;
-                edit.putInt("transcribeAudioTrialCurrentNumber", i120);
+                this.transcribeAudioTrialCurrentNumber = i121;
+                edit.putInt("transcribeAudioTrialCurrentNumber", i121);
                 z = true;
             } else {
-                i = i121;
+                i = i122;
             }
-            if (this.transcribeAudioTrialCurrentNumber > i120) {
-                this.transcribeAudioTrialCurrentNumber = i120;
-                edit.putInt("transcribeAudioTrialCurrentNumber", i120);
+            if (this.transcribeAudioTrialCurrentNumber > i121) {
+                this.transcribeAudioTrialCurrentNumber = i121;
+                edit.putInt("transcribeAudioTrialCurrentNumber", i121);
             }
             z = true;
         } else {
-            i = i121;
-            z = z36;
+            i = i122;
+            z = z35;
         }
         if (i != this.transcribeAudioTrialCooldownUntil) {
             this.transcribeAudioTrialCooldownUntil = i;
@@ -10027,13 +10814,13 @@ public class MessagesController extends BaseController implements NotificationCe
         if (tLRPC$TL_jsonObject13 != null) {
             LiteMode.updatePresets(tLRPC$TL_jsonObject13);
         }
-        if (z37) {
+        if (z36) {
             ApplicationLoader.startPushService();
             ConnectionsManager connectionsManager = getConnectionsManager();
             connectionsManager.setPushConnectionEnabled(connectionsManager.isPushConnectionEnabled());
         }
-        if (z38) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda65
+        if (z37) {
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda68
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$applyAppConfig$32();
@@ -10063,7 +10850,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     private void scheduleTranscriptionUpdate() {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda34
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda37
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$scheduleTranscriptionUpdate$33();
@@ -10696,7 +11483,7 @@ public class MessagesController extends BaseController implements NotificationCe
         } else {
             tLRPC$TL_help_dismissSuggestion.peer = getInputPeer(j);
         }
-        getConnectionsManager().sendRequest(tLRPC$TL_help_dismissSuggestion, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda444
+        getConnectionsManager().sendRequest(tLRPC$TL_help_dismissSuggestion, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda452
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.lambda$removeSuggestion$35(tLObject, tLRPC$TL_error);
@@ -10705,7 +11492,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public void updateConfig(final TLRPC$TL_config tLRPC$TL_config) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda223
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda227
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$updateConfig$36(tLRPC$TL_config);
@@ -11077,7 +11864,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 TLRPC$TL_photos_uploadProfilePhoto tLRPC$TL_photos_uploadProfilePhoto = new TLRPC$TL_photos_uploadProfilePhoto();
                 tLRPC$TL_photos_uploadProfilePhoto.file = tLRPC$InputFile3;
                 tLRPC$TL_photos_uploadProfilePhoto.flags |= 1;
-                getConnectionsManager().sendRequest(tLRPC$TL_photos_uploadProfilePhoto, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda325
+                getConnectionsManager().sendRequest(tLRPC$TL_photos_uploadProfilePhoto, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda332
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                         MessagesController.this.lambda$didReceivedNotification$38(tLObject, tLRPC$TL_error);
@@ -11098,7 +11885,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     Theme.OverrideWallpaperInfo overrideWallpaperInfo2 = this.uploadingWallpaperInfo;
                     overrideWallpaperInfo2.uploadingProgress = 1.0f;
                     overrideWallpaperInfo2.requestIds = new ArrayList<>();
-                    this.uploadingWallpaperInfo.requestIds.add(Integer.valueOf(getConnectionsManager().sendRequest(tLRPC$TL_account_uploadWallPaper, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda434
+                    this.uploadingWallpaperInfo.requestIds.add(Integer.valueOf(getConnectionsManager().sendRequest(tLRPC$TL_account_uploadWallPaper, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda442
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                             MessagesController.this.lambda$didReceivedNotification$40(overrideWallpaperInfo, tLRPC$TL_wallPaperSettings, str4, tLObject, tLRPC$TL_error);
@@ -11227,7 +12014,7 @@ public class MessagesController extends BaseController implements NotificationCe
                         }
                         final TLRPC$TL_theme tLRPC$TL_theme2 = tLRPC$TL_theme;
                         final TLRPC$TL_inputThemeSettings tLRPC$TL_inputThemeSettings2 = tLRPC$TL_inputThemeSettings;
-                        getConnectionsManager().sendRequest(tLRPC$TL_account_uploadTheme, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda429
+                        getConnectionsManager().sendRequest(tLRPC$TL_account_uploadTheme, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda437
                             @Override // org.telegram.tgnet.RequestDelegate
                             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                                 MessagesController.this.lambda$didReceivedNotification$46(tLRPC$TL_theme2, themeInfo, tLRPC$TL_inputThemeSettings2, themeAccent, tLObject, tLRPC$TL_error);
@@ -11355,7 +12142,7 @@ public class MessagesController extends BaseController implements NotificationCe
             ArrayList arrayList2 = new ArrayList();
             arrayList2.add(user);
             getMessagesStorage().putUsersAndChats(arrayList2, null, false, true);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda68
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda71
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$didReceivedNotification$37();
@@ -11379,7 +12166,7 @@ public class MessagesController extends BaseController implements NotificationCe
             } catch (Exception unused) {
             }
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda254
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda258
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$didReceivedNotification$39(tLRPC$WallPaper, tLRPC$TL_wallPaperSettings, overrideWallpaperInfo, file, str);
@@ -11432,7 +12219,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     tLRPC$TL_account_createTheme.settings = tLRPC$TL_inputThemeSettings;
                     tLRPC$TL_account_createTheme.flags |= 8;
                 }
-                getConnectionsManager().sendRequest(tLRPC$TL_account_createTheme, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda435
+                getConnectionsManager().sendRequest(tLRPC$TL_account_createTheme, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda443
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error2) {
                         MessagesController.this.lambda$didReceivedNotification$42(themeInfo, themeAccent, tLObject2, tLRPC$TL_error2);
@@ -11459,7 +12246,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 tLRPC$TL_account_updateTheme.flags = i3 | 8;
             }
             tLRPC$TL_account_updateTheme.format = "android";
-            getConnectionsManager().sendRequest(tLRPC$TL_account_updateTheme, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda436
+            getConnectionsManager().sendRequest(tLRPC$TL_account_updateTheme, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda444
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error2) {
                     MessagesController.this.lambda$didReceivedNotification$44(themeInfo, themeAccent, tLObject2, tLRPC$TL_error2);
@@ -11467,7 +12254,7 @@ public class MessagesController extends BaseController implements NotificationCe
             });
             return;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda271
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda275
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$didReceivedNotification$45(themeInfo, themeAccent);
@@ -11476,7 +12263,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public /* synthetic */ void lambda$didReceivedNotification$42(final Theme.ThemeInfo themeInfo, final Theme.ThemeAccent themeAccent, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda202
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda206
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$didReceivedNotification$41(tLObject, themeInfo, themeAccent);
@@ -11495,7 +12282,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public /* synthetic */ void lambda$didReceivedNotification$44(final Theme.ThemeInfo themeInfo, final Theme.ThemeAccent themeAccent, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda203
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda207
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$didReceivedNotification$43(tLObject, themeInfo, themeAccent);
@@ -11649,7 +12436,7 @@ public class MessagesController extends BaseController implements NotificationCe
         this.suggestedFilters.clear();
         this.dialogFiltersLoaded = false;
         this.ignoreSetOnline = false;
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda56
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda60
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$cleanup$47();
@@ -11708,7 +12495,7 @@ public class MessagesController extends BaseController implements NotificationCe
         this.gettingChatInviters.clear();
         this.statusRequest = 0;
         this.statusSettingState = 0;
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda61
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda65
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$cleanup$48();
@@ -11719,7 +12506,7 @@ public class MessagesController extends BaseController implements NotificationCe
             this.currentDeleteTaskRunnable = null;
         }
         addSupportUser();
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda44
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda48
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$cleanup$49();
@@ -11893,7 +12680,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 }
             }
         }
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda278
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda282
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$setLastCreatedDialogId$50(z, z2, j);
@@ -12063,7 +12850,7 @@ public class MessagesController extends BaseController implements NotificationCe
             return;
         }
         tLRPC$TL_users_getUsers.id.add(inputUser);
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_users_getUsers, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda327
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_users_getUsers, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda335
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$reloadUser$51(tLObject, tLRPC$TL_error);
@@ -12096,7 +12883,7 @@ public class MessagesController extends BaseController implements NotificationCe
             }
         }
         if (z2) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda40
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda43
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$putUsers$52();
@@ -12179,7 +12966,7 @@ public class MessagesController extends BaseController implements NotificationCe
                         tLRPC$Chat.stories_hidden = tLRPC$Chat2.stories_hidden;
                     }
                     if (i4 != i5 || i6 != i7) {
-                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda209
+                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda213
                             @Override // java.lang.Runnable
                             public final void run() {
                                 MessagesController.this.lambda$putChat$53(tLRPC$Chat);
@@ -12282,7 +13069,7 @@ public class MessagesController extends BaseController implements NotificationCe
         if (tLRPC$Chat2 == null || tLRPC$Chat2.forum == tLRPC$Chat.forum) {
             return;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda210
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda214
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$putChat$54(tLRPC$Chat);
@@ -12310,7 +13097,7 @@ public class MessagesController extends BaseController implements NotificationCe
 
     private void addOrRemoveActiveVoiceChat(final TLRPC$Chat tLRPC$Chat) {
         if (Thread.currentThread() != Looper.getMainLooper().getThread()) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda207
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda211
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$addOrRemoveActiveVoiceChat$55(tLRPC$Chat);
@@ -12406,7 +13193,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 TLRPC$TL_phone_getGroupCall tLRPC$TL_phone_getGroupCall = new TLRPC$TL_phone_getGroupCall();
                 tLRPC$TL_phone_getGroupCall.call = chatFull.call;
                 tLRPC$TL_phone_getGroupCall.limit = 20;
-                getConnectionsManager().sendRequest(tLRPC$TL_phone_getGroupCall, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda395
+                getConnectionsManager().sendRequest(tLRPC$TL_phone_getGroupCall, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda403
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                         MessagesController.this.lambda$getGroupCall$57(j, runnable, tLObject, tLRPC$TL_error);
@@ -12421,7 +13208,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public /* synthetic */ void lambda$getGroupCall$57(final long j, final Runnable runnable, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda199
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda203
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$getGroupCall$56(tLObject, j, runnable);
@@ -12495,7 +13282,7 @@ public class MessagesController extends BaseController implements NotificationCe
         if (tLRPC$TL_messages_getPeerDialogs.peers.isEmpty()) {
             return;
         }
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_getPeerDialogs, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda332
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_getPeerDialogs, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda340
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$reloadDialogsReadValue$58(tLObject, tLRPC$TL_error);
@@ -12593,7 +13380,7 @@ public class MessagesController extends BaseController implements NotificationCe
         tLRPC$TL_channels_getParticipants.channel = getInputChannel(j);
         tLRPC$TL_channels_getParticipants.limit = 100;
         tLRPC$TL_channels_getParticipants.filter = new TLRPC$TL_channelParticipantsAdmins();
-        getConnectionsManager().sendRequest(tLRPC$TL_channels_getParticipants, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda368
+        getConnectionsManager().sendRequest(tLRPC$TL_channels_getParticipants, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda376
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$loadChannelAdmins$59(j, tLObject, tLRPC$TL_error);
@@ -12620,7 +13407,7 @@ public class MessagesController extends BaseController implements NotificationCe
         if (!z) {
             getMessagesStorage().putChannelAdmins(j, longSparseArray);
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda124
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda127
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$processLoadedChannelAdmins$60(j, longSparseArray, z);
@@ -12668,7 +13455,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 reloadDialogsReadValue(null, j2);
                 tLRPC$TL_messages_getFullChat = tLRPC$TL_messages_getFullChat2;
             }
-            int sendRequest = getConnectionsManager().sendRequest(tLRPC$TL_messages_getFullChat, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda393
+            int sendRequest = getConnectionsManager().sendRequest(tLRPC$TL_messages_getFullChat, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda401
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     MessagesController.this.lambda$loadFullChat$63(j2, j, chat, i, tLObject, tLRPC$TL_error);
@@ -12717,7 +13504,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     processUpdateArray(arrayList2, null, null, false, 0);
                 }
             }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda138
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda141
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$loadFullChat$61(j2, tLRPC$TL_messages_chatFull, i, j);
@@ -12725,7 +13512,7 @@ public class MessagesController extends BaseController implements NotificationCe
             });
             return;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda225
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda229
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$loadFullChat$62(tLRPC$TL_error, j2);
@@ -12820,7 +13607,7 @@ public class MessagesController extends BaseController implements NotificationCe
             if (this.dialogs_read_inbox_max.get(Long.valueOf(j)) == null || this.dialogs_read_outbox_max.get(Long.valueOf(j)) == null) {
                 reloadDialogsReadValue(null, j);
             }
-            getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tLRPC$TL_users_getFullUser, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda402
+            getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tLRPC$TL_users_getFullUser, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda410
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     MessagesController.this.lambda$loadFullUser$66(j, callback, tLRPC$User, i, tLObject, tLRPC$TL_error);
@@ -12845,7 +13632,7 @@ public class MessagesController extends BaseController implements NotificationCe
             if (callback != null) {
                 callback.run(tLRPC$UserFull);
             }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda253
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda257
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$loadFullUser$64(tLRPC$UserFull, tLRPC$User, i);
@@ -12853,7 +13640,7 @@ public class MessagesController extends BaseController implements NotificationCe
             });
             return;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda250
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda254
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$loadFullUser$65(tLRPC$User);
@@ -12962,7 +13749,7 @@ public class MessagesController extends BaseController implements NotificationCe
             this.reloadingMessages.put(j, arrayList3);
         }
         arrayList3.addAll(arrayList2);
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_getMessages3, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda409
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_getMessages3, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda417
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$reloadMessages$68(j, z, i, arrayList2, tLObject, tLRPC$TL_error);
@@ -13011,7 +13798,7 @@ public class MessagesController extends BaseController implements NotificationCe
             final ArrayList arrayList4 = arrayList2;
             ImageLoader.saveMessagesThumbs(tLRPC$messages_Messages.messages);
             getMessagesStorage().putMessages(tLRPC$messages_Messages, j, -1, 0, false, i, 0L);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda133
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda136
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$reloadMessages$67(j, arrayList, arrayList4);
@@ -13073,7 +13860,7 @@ public class MessagesController extends BaseController implements NotificationCe
         } else {
             tLRPC$TL_messages_hidePeerSettingsBar.peer = getInputPeer(-tLRPC$Chat.id);
         }
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_hidePeerSettingsBar, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda450
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_hidePeerSettingsBar, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda459
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.lambda$hidePeerSettingsBar$69(tLObject, tLRPC$TL_error);
@@ -13097,7 +13884,7 @@ public class MessagesController extends BaseController implements NotificationCe
             tLRPC$TL_messages_reportEncryptedSpam.peer = tLRPC$TL_inputEncryptedChat;
             tLRPC$TL_inputEncryptedChat.chat_id = tLRPC$EncryptedChat.id;
             tLRPC$TL_inputEncryptedChat.access_hash = tLRPC$EncryptedChat.access_hash;
-            getConnectionsManager().sendRequest(tLRPC$TL_messages_reportEncryptedSpam, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda466
+            getConnectionsManager().sendRequest(tLRPC$TL_messages_reportEncryptedSpam, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda475
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     MessagesController.lambda$reportSpam$70(tLObject, tLRPC$TL_error);
@@ -13117,7 +13904,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     abstractSerializedData.writeInt32(-606798099);
                 }
             };
-            getConnectionsManager().sendRequest(tLRPC$TL_account_reportPeer, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda455
+            getConnectionsManager().sendRequest(tLRPC$TL_account_reportPeer, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda464
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     MessagesController.lambda$reportSpam$71(tLObject, tLRPC$TL_error);
@@ -13130,7 +13917,7 @@ public class MessagesController extends BaseController implements NotificationCe
             } else if (tLRPC$User != null) {
                 tLRPC$TL_messages_reportSpam.peer = getInputPeer(tLRPC$User.id);
             }
-            getConnectionsManager().sendRequest(tLRPC$TL_messages_reportSpam, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda458
+            getConnectionsManager().sendRequest(tLRPC$TL_messages_reportSpam, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda467
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     MessagesController.lambda$reportSpam$72(tLObject, tLRPC$TL_error);
@@ -13223,7 +14010,7 @@ public class MessagesController extends BaseController implements NotificationCe
         } else {
             tLRPC$TL_messages_getPeerSettings.peer = getInputPeer(-tLRPC$Chat.id);
         }
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_getPeerSettings, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda381
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_getPeerSettings, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda389
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$loadPeerSettings$74(j, tLObject, tLRPC$TL_error);
@@ -13232,7 +14019,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public /* synthetic */ void lambda$loadPeerSettings$74(final long j, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda135
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda138
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$loadPeerSettings$73(j, tLObject);
@@ -13351,14 +14138,14 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public void didAddedNewTask(final int i, final long j, final SparseArray<ArrayList<Integer>> sparseArray) {
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda69
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda72
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$didAddedNewTask$75(i);
             }
         });
         if (sparseArray != null) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda123
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda126
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$didAddedNewTask$76(j, sparseArray);
@@ -13380,7 +14167,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public void getNewDeleteTask(final LongSparseArray<ArrayList<Integer>> longSparseArray, final LongSparseArray<ArrayList<Integer>> longSparseArray2) {
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda147
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda150
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$getNewDeleteTask$77(longSparseArray, longSparseArray2);
@@ -13406,7 +14193,7 @@ public class MessagesController extends BaseController implements NotificationCe
             final LongSparseArray<ArrayList<Integer>> clone = longSparseArray != null ? longSparseArray.clone() : null;
             LongSparseArray<ArrayList<Integer>> longSparseArray2 = this.currentDeletingTaskMediaMids;
             final LongSparseArray<ArrayList<Integer>> clone2 = longSparseArray2 != null ? longSparseArray2.clone() : null;
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda146
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda149
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$checkDeletingTask$80(clone, clone2);
@@ -13443,7 +14230,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     final long createDeleteShowOnceTask = createDeleteShowOnceTask(keyAt, id);
                     j = keyAt;
                     arrayList = arrayList3;
-                    SecretMediaViewer.getInstance().setOnClose(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda118
+                    SecretMediaViewer.getInstance().setOnClose(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda121
                         @Override // java.lang.Runnable
                         public final void run() {
                             MessagesController.this.lambda$checkDeletingTask$78(createDeleteShowOnceTask, keyAt, id);
@@ -13461,7 +14248,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 z = true;
             }
         }
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda148
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda151
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$checkDeletingTask$79(longSparseArray, longSparseArray2);
@@ -13477,7 +14264,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public void processLoadedDeleteTask(final int i, final LongSparseArray<ArrayList<Integer>> longSparseArray, final LongSparseArray<ArrayList<Integer>> longSparseArray2) {
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda150
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda153
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$processLoadedDeleteTask$82(longSparseArray, longSparseArray2, i);
@@ -13498,7 +14285,7 @@ public class MessagesController extends BaseController implements NotificationCe
             if (checkDeletingTask(false)) {
                 return;
             }
-            this.currentDeleteTaskRunnable = new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda39
+            this.currentDeleteTaskRunnable = new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda42
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$processLoadedDeleteTask$81();
@@ -13978,7 +14765,7 @@ public class MessagesController extends BaseController implements NotificationCe
         } else {
             tLRPC$TL_contacts_block.id = getInputPeer(chat);
         }
-        getConnectionsManager().sendRequest(tLRPC$TL_contacts_block, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda452
+        getConnectionsManager().sendRequest(tLRPC$TL_contacts_block, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda461
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.lambda$blockPeer$83(tLObject, tLRPC$TL_error);
@@ -14002,7 +14789,7 @@ public class MessagesController extends BaseController implements NotificationCe
             tLRPC$TL_channels_editBanned.participant = getInputPeer(tLRPC$Chat);
         }
         tLRPC$TL_channels_editBanned.banned_rights = tLRPC$TL_chatBannedRights;
-        getConnectionsManager().sendRequest(tLRPC$TL_channels_editBanned, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda397
+        getConnectionsManager().sendRequest(tLRPC$TL_channels_editBanned, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda405
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$setParticipantBannedRole$86(j, runnable, baseFragment, tLRPC$TL_channels_editBanned, z, tLObject, tLRPC$TL_error);
@@ -14013,7 +14800,7 @@ public class MessagesController extends BaseController implements NotificationCe
     public /* synthetic */ void lambda$setParticipantBannedRole$86(final long j, Runnable runnable, final BaseFragment baseFragment, final TLRPC$TL_channels_editBanned tLRPC$TL_channels_editBanned, final boolean z, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         if (tLRPC$TL_error == null) {
             processUpdates((TLRPC$Updates) tLObject, false);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda91
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda96
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$setParticipantBannedRole$84(j);
@@ -14025,7 +14812,7 @@ public class MessagesController extends BaseController implements NotificationCe
             }
             return;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda229
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda233
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$setParticipantBannedRole$85(tLRPC$TL_error, baseFragment, tLRPC$TL_channels_editBanned, z);
@@ -14045,7 +14832,7 @@ public class MessagesController extends BaseController implements NotificationCe
         TLRPC$TL_channels_toggleSlowMode tLRPC$TL_channels_toggleSlowMode = new TLRPC$TL_channels_toggleSlowMode();
         tLRPC$TL_channels_toggleSlowMode.seconds = i;
         tLRPC$TL_channels_toggleSlowMode.channel = getInputChannel(j);
-        getConnectionsManager().sendRequest(tLRPC$TL_channels_toggleSlowMode, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda377
+        getConnectionsManager().sendRequest(tLRPC$TL_channels_toggleSlowMode, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda385
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$setChannelSlowMode$88(j, tLObject, tLRPC$TL_error);
@@ -14056,7 +14843,7 @@ public class MessagesController extends BaseController implements NotificationCe
     public /* synthetic */ void lambda$setChannelSlowMode$88(final long j, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLRPC$TL_error == null) {
             getMessagesController().processUpdates((TLRPC$Updates) tLObject, false);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda103
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda107
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$setChannelSlowMode$87(j);
@@ -14073,7 +14860,7 @@ public class MessagesController extends BaseController implements NotificationCe
         TLRPC$TL_channels_setBoostsToUnblockRestrictions tLRPC$TL_channels_setBoostsToUnblockRestrictions = new TLRPC$TL_channels_setBoostsToUnblockRestrictions();
         tLRPC$TL_channels_setBoostsToUnblockRestrictions.boosts = i;
         tLRPC$TL_channels_setBoostsToUnblockRestrictions.channel = getInputChannel(j);
-        getConnectionsManager().sendRequest(tLRPC$TL_channels_setBoostsToUnblockRestrictions, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda374
+        getConnectionsManager().sendRequest(tLRPC$TL_channels_setBoostsToUnblockRestrictions, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda382
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$setBoostsToUnblockRestrictions$90(j, tLObject, tLRPC$TL_error);
@@ -14084,7 +14871,7 @@ public class MessagesController extends BaseController implements NotificationCe
     public /* synthetic */ void lambda$setBoostsToUnblockRestrictions$90(final long j, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLRPC$TL_error == null) {
             getMessagesController().processUpdates((TLRPC$Updates) tLObject, false);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda99
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda103
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$setBoostsToUnblockRestrictions$89(j);
@@ -14104,7 +14891,7 @@ public class MessagesController extends BaseController implements NotificationCe
         final TLRPC$TL_messages_editChatDefaultBannedRights tLRPC$TL_messages_editChatDefaultBannedRights = new TLRPC$TL_messages_editChatDefaultBannedRights();
         tLRPC$TL_messages_editChatDefaultBannedRights.peer = getInputPeer(-j);
         tLRPC$TL_messages_editChatDefaultBannedRights.banned_rights = tLRPC$TL_chatBannedRights;
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_editChatDefaultBannedRights, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda408
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_editChatDefaultBannedRights, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda416
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$setDefaultBannedRole$93(j, baseFragment, tLRPC$TL_messages_editChatDefaultBannedRights, z, tLObject, tLRPC$TL_error);
@@ -14115,7 +14902,7 @@ public class MessagesController extends BaseController implements NotificationCe
     public /* synthetic */ void lambda$setDefaultBannedRole$93(final long j, final BaseFragment baseFragment, final TLRPC$TL_messages_editChatDefaultBannedRights tLRPC$TL_messages_editChatDefaultBannedRights, final boolean z, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         if (tLRPC$TL_error == null) {
             processUpdates((TLRPC$Updates) tLObject, false);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda105
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda108
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$setDefaultBannedRole$91(j);
@@ -14123,7 +14910,7 @@ public class MessagesController extends BaseController implements NotificationCe
             }, 1000L);
             return;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda233
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda237
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$setDefaultBannedRole$92(tLRPC$TL_error, baseFragment, tLRPC$TL_messages_editChatDefaultBannedRights, z);
@@ -14154,14 +14941,14 @@ public class MessagesController extends BaseController implements NotificationCe
             tLRPC$TL_channels_editAdmin.user_id = getInputUser(tLRPC$User);
             tLRPC$TL_channels_editAdmin.admin_rights = tLRPC$TL_chatAdminRights;
             tLRPC$TL_channels_editAdmin.rank = str;
-            final RequestDelegate requestDelegate = new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda396
+            final RequestDelegate requestDelegate = new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda404
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     MessagesController.this.lambda$setUserAdminRole$98(j, runnable, chat, tLRPC$User, errorDelegate, baseFragment, tLRPC$TL_channels_editAdmin, z, tLObject, tLRPC$TL_error);
                 }
             };
             if (!tLRPC$User.bot && z2) {
-                addUserToChat(j, tLRPC$User, 0, str2, baseFragment, true, new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda220
+                addUserToChat(j, tLRPC$User, 0, str2, baseFragment, true, new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda224
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesController.this.lambda$setUserAdminRole$99(tLRPC$TL_channels_editAdmin, requestDelegate);
@@ -14177,14 +14964,14 @@ public class MessagesController extends BaseController implements NotificationCe
         tLRPC$TL_messages_editChatAdmin.chat_id = j;
         tLRPC$TL_messages_editChatAdmin.user_id = getInputUser(tLRPC$User);
         tLRPC$TL_messages_editChatAdmin.is_admin = z3 || tLRPC$TL_chatAdminRights.change_info || tLRPC$TL_chatAdminRights.delete_messages || tLRPC$TL_chatAdminRights.ban_users || tLRPC$TL_chatAdminRights.invite_users || tLRPC$TL_chatAdminRights.pin_messages || tLRPC$TL_chatAdminRights.add_admins || tLRPC$TL_chatAdminRights.manage_call;
-        final RequestDelegate requestDelegate2 = new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda398
+        final RequestDelegate requestDelegate2 = new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda406
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$setUserAdminRole$103(j, runnable, baseFragment, tLRPC$TL_messages_editChatAdmin, errorDelegate, tLObject, tLRPC$TL_error);
             }
         };
         if (tLRPC$TL_messages_editChatAdmin.is_admin || z2 || !TextUtils.isEmpty(str2)) {
-            addUserToChat(j, tLRPC$User, 0, str2, baseFragment, true, new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda237
+            addUserToChat(j, tLRPC$User, 0, str2, baseFragment, true, new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda241
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$setUserAdminRole$104(tLRPC$TL_messages_editChatAdmin, requestDelegate2);
@@ -14198,28 +14985,28 @@ public class MessagesController extends BaseController implements NotificationCe
     public /* synthetic */ void lambda$setUserAdminRole$98(final long j, final Runnable runnable, final TLRPC$Chat tLRPC$Chat, final TLRPC$User tLRPC$User, final ErrorDelegate errorDelegate, final BaseFragment baseFragment, final TLRPC$TL_channels_editAdmin tLRPC$TL_channels_editAdmin, final boolean z, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         if (tLRPC$TL_error == null) {
             processUpdates((TLRPC$Updates) tLObject, false);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda125
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda128
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$setUserAdminRole$94(j, runnable);
                 }
             }, 1000L);
         } else if ("USER_PRIVACY_RESTRICTED".equals(tLRPC$TL_error.text) && ChatObject.canUserDoAdminAction(tLRPC$Chat, 3)) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda252
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda256
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$setUserAdminRole$95(tLRPC$User, tLRPC$Chat, errorDelegate, tLRPC$TL_error);
                 }
             });
         } else {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda228
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda232
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$setUserAdminRole$96(tLRPC$TL_error, baseFragment, tLRPC$TL_channels_editAdmin, z);
                 }
             });
             if (errorDelegate != null) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda28
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda31
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesController.ErrorDelegate.this.run(tLRPC$TL_error);
@@ -14258,7 +15045,7 @@ public class MessagesController extends BaseController implements NotificationCe
 
     public /* synthetic */ void lambda$setUserAdminRole$103(final long j, final Runnable runnable, final BaseFragment baseFragment, final TLRPC$TL_messages_editChatAdmin tLRPC$TL_messages_editChatAdmin, final ErrorDelegate errorDelegate, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         if (tLRPC$TL_error == null) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda126
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda129
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$setUserAdminRole$100(j, runnable);
@@ -14266,14 +15053,14 @@ public class MessagesController extends BaseController implements NotificationCe
             }, 1000L);
             return;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda232
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda236
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$setUserAdminRole$101(tLRPC$TL_error, baseFragment, tLRPC$TL_messages_editChatAdmin);
             }
         });
         if (errorDelegate != null) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda27
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda30
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.ErrorDelegate.this.run(tLRPC$TL_error);
@@ -14326,7 +15113,7 @@ public class MessagesController extends BaseController implements NotificationCe
             tLRPC$TL_contacts_unblock.id = getInputPeer(chat);
         }
         getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.blockedUsersDidLoad, new Object[0]);
-        getConnectionsManager().sendRequest(tLRPC$TL_contacts_unblock, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda318
+        getConnectionsManager().sendRequest(tLRPC$TL_contacts_unblock, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda325
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.lambda$unblockPeer$106(runnable, tLObject, tLRPC$TL_error);
@@ -14335,7 +15122,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public static /* synthetic */ void lambda$unblockPeer$106(final Runnable runnable, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda26
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda29
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.lambda$unblockPeer$105(runnable);
@@ -14357,7 +15144,7 @@ public class MessagesController extends BaseController implements NotificationCe
         final TLRPC$TL_contacts_getBlocked tLRPC$TL_contacts_getBlocked = new TLRPC$TL_contacts_getBlocked();
         tLRPC$TL_contacts_getBlocked.offset = z ? 0 : this.blockePeers.size();
         tLRPC$TL_contacts_getBlocked.limit = z ? 20 : 100;
-        getConnectionsManager().sendRequest(tLRPC$TL_contacts_getBlocked, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda440
+        getConnectionsManager().sendRequest(tLRPC$TL_contacts_getBlocked, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda448
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$getBlockedPeers$108(z, tLRPC$TL_contacts_getBlocked, tLObject, tLRPC$TL_error);
@@ -14366,7 +15153,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public /* synthetic */ void lambda$getBlockedPeers$108(final boolean z, final TLRPC$TL_contacts_getBlocked tLRPC$TL_contacts_getBlocked, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda205
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda209
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$getBlockedPeers$107(tLObject, z, tLRPC$TL_contacts_getBlocked);
@@ -14416,7 +15203,7 @@ public class MessagesController extends BaseController implements NotificationCe
             }
             getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.mainUserInfoChanged, new Object[0]);
             getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.updateInterfaces, Integer.valueOf(UPDATE_MASK_ALL));
-            getConnectionsManager().sendRequest(tLRPC$TL_photos_updateProfilePhoto, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda369
+            getConnectionsManager().sendRequest(tLRPC$TL_photos_updateProfilePhoto, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda377
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     MessagesController.this.lambda$deleteUserPhoto$110(clientUserId, tLObject, tLRPC$TL_error);
@@ -14427,7 +15214,7 @@ public class MessagesController extends BaseController implements NotificationCe
         TLRPC$TL_photos_deletePhotos tLRPC$TL_photos_deletePhotos = new TLRPC$TL_photos_deletePhotos();
         tLRPC$TL_photos_deletePhotos.id.add(tLRPC$InputPhoto);
         getDialogPhotos(clientUserId).removePhoto(tLRPC$InputPhoto.id);
-        getConnectionsManager().sendRequest(tLRPC$TL_photos_deletePhotos, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda461
+        getConnectionsManager().sendRequest(tLRPC$TL_photos_deletePhotos, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda470
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.lambda$deleteUserPhoto$111(tLObject, tLRPC$TL_error);
@@ -14437,7 +15224,7 @@ public class MessagesController extends BaseController implements NotificationCe
 
     public /* synthetic */ void lambda$deleteUserPhoto$110(final long j, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLRPC$TL_error == null) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda198
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda202
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$deleteUserPhoto$109(tLObject, j);
@@ -14504,7 +15291,7 @@ public class MessagesController extends BaseController implements NotificationCe
             tLRPC$TL_inputTheme.access_hash = tLRPC$TL_theme.access_hash;
             tLRPC$TL_account_saveTheme.theme = tLRPC$TL_inputTheme;
             tLRPC$TL_account_saveTheme.unsave = z2;
-            getConnectionsManager().sendRequest(tLRPC$TL_account_saveTheme, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda456
+            getConnectionsManager().sendRequest(tLRPC$TL_account_saveTheme, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda465
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     MessagesController.lambda$saveTheme$112(tLObject, tLRPC$TL_error);
@@ -14533,7 +15320,7 @@ public class MessagesController extends BaseController implements NotificationCe
             tLRPC$TL_account_installTheme.theme = tLRPC$TL_inputTheme;
             tLRPC$TL_account_installTheme.flags |= 2;
         }
-        getConnectionsManager().sendRequest(tLRPC$TL_account_installTheme, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda459
+        getConnectionsManager().sendRequest(tLRPC$TL_account_installTheme, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda468
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.lambda$installTheme$113(tLObject, tLRPC$TL_error);
@@ -14550,7 +15337,7 @@ public class MessagesController extends BaseController implements NotificationCe
         tLRPC$TL_account_installWallPaper.settings = tLRPC$TL_wallPaperSettings;
         tLRPC$TL_wallPaperSettings.blur = z2;
         tLRPC$TL_wallPaperSettings.motion = z3;
-        getConnectionsManager().sendRequest(tLRPC$TL_account_installWallPaper, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda453
+        getConnectionsManager().sendRequest(tLRPC$TL_account_installWallPaper, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda462
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.lambda$installTheme$114(tLObject, tLRPC$TL_error);
@@ -14578,7 +15365,7 @@ public class MessagesController extends BaseController implements NotificationCe
             return;
         }
         this.uploadingThemes.put(str2, themeAccent != 0 ? themeAccent : themeInfo);
-        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda153
+        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda156
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$saveThemeToServer$116(str2, file2, themeAccent, themeInfo);
@@ -14588,7 +15375,7 @@ public class MessagesController extends BaseController implements NotificationCe
 
     public /* synthetic */ void lambda$saveThemeToServer$116(final String str, File file, final Theme.ThemeAccent themeAccent, final Theme.ThemeInfo themeInfo) {
         final String createThemePreviewImage = Theme.createThemePreviewImage(str, file != null ? file.getAbsolutePath() : null, themeAccent);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda154
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda157
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$saveThemeToServer$115(createThemePreviewImage, str, themeAccent, themeInfo);
@@ -14688,7 +15475,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     FileLog.e(e);
                     nativeByteBuffer = nativeByteBuffer2;
                     j = getMessagesStorage().createPendingTask(nativeByteBuffer);
-                    getConnectionsManager().sendRequest(tLRPC$TL_account_saveWallPaper, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda378
+                    getConnectionsManager().sendRequest(tLRPC$TL_account_saveWallPaper, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda386
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                             MessagesController.this.lambda$saveWallpaperToServer$117(j, tLObject, tLRPC$TL_error);
@@ -14726,7 +15513,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 }
                 j = getMessagesStorage().createPendingTask(nativeByteBuffer);
             }
-            getConnectionsManager().sendRequest(tLRPC$TL_account_saveWallPaper, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda378
+            getConnectionsManager().sendRequest(tLRPC$TL_account_saveWallPaper, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda386
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     MessagesController.this.lambda$saveWallpaperToServer$117(j, tLObject, tLRPC$TL_error);
@@ -14981,7 +15768,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     FileLog.e(e);
                     createPendingTask4 = getMessagesStorage().createPendingTask(nativeByteBuffer5);
                     tLRPC$TL_messages_deleteScheduledMessages = tLRPC$TL_messages_deleteScheduledMessages2;
-                    getConnectionsManager().sendRequest(tLRPC$TL_messages_deleteScheduledMessages, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda367
+                    getConnectionsManager().sendRequest(tLRPC$TL_messages_deleteScheduledMessages, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda375
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error) {
                             MessagesController.this.lambda$deleteMessages$118(createPendingTask4, tLObject2, tLRPC$TL_error);
@@ -14991,7 +15778,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 createPendingTask4 = getMessagesStorage().createPendingTask(nativeByteBuffer5);
                 tLRPC$TL_messages_deleteScheduledMessages = tLRPC$TL_messages_deleteScheduledMessages2;
             }
-            getConnectionsManager().sendRequest(tLRPC$TL_messages_deleteScheduledMessages, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda367
+            getConnectionsManager().sendRequest(tLRPC$TL_messages_deleteScheduledMessages, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda375
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error) {
                     MessagesController.this.lambda$deleteMessages$118(createPendingTask4, tLObject2, tLRPC$TL_error);
@@ -15021,7 +15808,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     FileLog.e(e);
                     createPendingTask3 = getMessagesStorage().createPendingTask(nativeByteBuffer4);
                     tLRPC$TL_messages_deleteQuickReplyMessages = tLRPC$TL_messages_deleteQuickReplyMessages2;
-                    getConnectionsManager().sendRequest(tLRPC$TL_messages_deleteQuickReplyMessages, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda376
+                    getConnectionsManager().sendRequest(tLRPC$TL_messages_deleteQuickReplyMessages, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda384
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error) {
                             MessagesController.this.lambda$deleteMessages$119(createPendingTask3, tLObject2, tLRPC$TL_error);
@@ -15031,7 +15818,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 createPendingTask3 = getMessagesStorage().createPendingTask(nativeByteBuffer4);
                 tLRPC$TL_messages_deleteQuickReplyMessages = tLRPC$TL_messages_deleteQuickReplyMessages2;
             }
-            getConnectionsManager().sendRequest(tLRPC$TL_messages_deleteQuickReplyMessages, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda376
+            getConnectionsManager().sendRequest(tLRPC$TL_messages_deleteQuickReplyMessages, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda384
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error) {
                     MessagesController.this.lambda$deleteMessages$119(createPendingTask3, tLObject2, tLRPC$TL_error);
@@ -15062,7 +15849,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     tLRPC$TL_channels_deleteMessages = tLRPC$TL_channels_deleteMessages2;
                     final long j5 = j3;
                     final long j6 = createPendingTask2;
-                    getConnectionsManager().sendRequest(tLRPC$TL_channels_deleteMessages, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda387
+                    getConnectionsManager().sendRequest(tLRPC$TL_channels_deleteMessages, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda395
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error) {
                             MessagesController.this.lambda$deleteMessages$120(j5, j6, tLObject2, tLRPC$TL_error);
@@ -15074,7 +15861,7 @@ public class MessagesController extends BaseController implements NotificationCe
             }
             final long j52 = j3;
             final long j62 = createPendingTask2;
-            getConnectionsManager().sendRequest(tLRPC$TL_channels_deleteMessages, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda387
+            getConnectionsManager().sendRequest(tLRPC$TL_channels_deleteMessages, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda395
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error) {
                     MessagesController.this.lambda$deleteMessages$120(j52, j62, tLObject2, tLRPC$TL_error);
@@ -15109,7 +15896,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     FileLog.e(e);
                     createPendingTask = getMessagesStorage().createPendingTask(nativeByteBuffer2);
                     tLRPC$TL_messages_deleteMessages = tLRPC$TL_messages_deleteMessages2;
-                    getConnectionsManager().sendRequest(tLRPC$TL_messages_deleteMessages, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda379
+                    getConnectionsManager().sendRequest(tLRPC$TL_messages_deleteMessages, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda387
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error) {
                             MessagesController.this.lambda$deleteMessages$121(createPendingTask, tLObject2, tLRPC$TL_error);
@@ -15119,7 +15906,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 createPendingTask = getMessagesStorage().createPendingTask(nativeByteBuffer2);
                 tLRPC$TL_messages_deleteMessages = tLRPC$TL_messages_deleteMessages2;
             }
-            getConnectionsManager().sendRequest(tLRPC$TL_messages_deleteMessages, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda379
+            getConnectionsManager().sendRequest(tLRPC$TL_messages_deleteMessages, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda387
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error) {
                     MessagesController.this.lambda$deleteMessages$121(createPendingTask, tLObject2, tLRPC$TL_error);
@@ -15172,7 +15959,7 @@ public class MessagesController extends BaseController implements NotificationCe
         }
         TLRPC$TL_messages_unpinAllMessages tLRPC$TL_messages_unpinAllMessages = new TLRPC$TL_messages_unpinAllMessages();
         tLRPC$TL_messages_unpinAllMessages.peer = getInputPeer(tLRPC$Chat != null ? -tLRPC$Chat.id : tLRPC$User.id);
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_unpinAllMessages, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda422
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_unpinAllMessages, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda430
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$unpinAllMessages$122(tLRPC$Chat, tLRPC$User, tLObject, tLRPC$TL_error);
@@ -15203,7 +15990,7 @@ public class MessagesController extends BaseController implements NotificationCe
         tLRPC$TL_messages_updatePinnedMessage.unpin = z;
         tLRPC$TL_messages_updatePinnedMessage.silent = !z3;
         tLRPC$TL_messages_updatePinnedMessage.pm_oneside = z2;
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_updatePinnedMessage, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda363
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_updatePinnedMessage, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda371
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$pinMessage$123(i, tLRPC$Chat, tLRPC$User, z, tLObject, tLRPC$TL_error);
@@ -15233,7 +16020,7 @@ public class MessagesController extends BaseController implements NotificationCe
         TLRPC$TL_channels_deleteParticipantHistory tLRPC$TL_channels_deleteParticipantHistory = new TLRPC$TL_channels_deleteParticipantHistory();
         tLRPC$TL_channels_deleteParticipantHistory.channel = getInputChannel(tLRPC$Chat);
         tLRPC$TL_channels_deleteParticipantHistory.participant = tLRPC$User != null ? getInputPeer(tLRPC$User) : getInputPeer(tLRPC$Chat2);
-        getConnectionsManager().sendRequest(tLRPC$TL_channels_deleteParticipantHistory, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda423
+        getConnectionsManager().sendRequest(tLRPC$TL_channels_deleteParticipantHistory, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda431
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$deleteUserChannelHistory$124(tLRPC$Chat, tLRPC$User, tLRPC$Chat2, tLObject, tLRPC$TL_error);
@@ -15350,7 +16137,7 @@ public class MessagesController extends BaseController implements NotificationCe
         }
         final long j = tLRPC$Dialog.id;
         if (this.dialogsServerOnly.remove(tLRPC$Dialog) && DialogObject.isChannel(tLRPC$Dialog)) {
-            Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda89
+            Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda92
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$removeDialog$125(j);
@@ -15400,13 +16187,13 @@ public class MessagesController extends BaseController implements NotificationCe
         }
         TLRPC$TL_help_hidePromoData tLRPC$TL_help_hidePromoData = new TLRPC$TL_help_hidePromoData();
         tLRPC$TL_help_hidePromoData.peer = getInputPeer(this.promoDialog.id);
-        getConnectionsManager().sendRequest(tLRPC$TL_help_hidePromoData, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda464
+        getConnectionsManager().sendRequest(tLRPC$TL_help_hidePromoData, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda473
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.lambda$hidePromoDialog$126(tLObject, tLRPC$TL_error);
             }
         });
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda38
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda41
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$hidePromoDialog$127();
@@ -15435,7 +16222,7 @@ public class MessagesController extends BaseController implements NotificationCe
         TLRPC$TL_messages_setHistoryTTL tLRPC$TL_messages_setHistoryTTL = new TLRPC$TL_messages_setHistoryTTL();
         tLRPC$TL_messages_setHistoryTTL.peer = getInputPeer(j);
         tLRPC$TL_messages_setHistoryTTL.period = i;
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_setHistoryTTL, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda326
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_setHistoryTTL, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda334
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$setDialogHistoryTTL$128(tLObject, tLRPC$TL_error);
@@ -15544,7 +16331,7 @@ public class MessagesController extends BaseController implements NotificationCe
         }
         this.sendAsPeers.remove(j);
         if (i == 1 && i3 == 0) {
-            getMessagesStorage().getDialogMaxMessageId(j, new MessagesStorage.IntCallback() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda309
+            getMessagesStorage().getDialogMaxMessageId(j, new MessagesStorage.IntCallback() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda315
                 @Override // org.telegram.messenger.MessagesStorage.IntCallback
                 public final void run(int i11) {
                     MessagesController.this.lambda$deleteDialog$129(j, i2, z, tLRPC$InputPeer, j2, i11);
@@ -15685,7 +16472,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.removeAllMessagesFromDialog, Long.valueOf(j), Boolean.FALSE, null);
                 }
             }
-            getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda94
+            getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda99
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$deleteDialog$131(j);
@@ -15750,7 +16537,7 @@ public class MessagesController extends BaseController implements NotificationCe
                         tLRPC$TL_messages_deleteHistory.just_clear = i2 != 0;
                         tLRPC$TL_messages_deleteHistory.revoke = z2;
                         final TLRPC$InputPeer tLRPC$InputPeer2 = inputPeer;
-                        getConnectionsManager().sendRequest(tLRPC$TL_messages_deleteHistory, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda390
+                        getConnectionsManager().sendRequest(tLRPC$TL_messages_deleteHistory, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda398
                             @Override // org.telegram.tgnet.RequestDelegate
                             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                                 MessagesController.this.lambda$deleteDialog$133(createPendingTask, j, i2, i4, z, tLRPC$InputPeer2, tLObject, tLRPC$TL_error);
@@ -15774,7 +16561,7 @@ public class MessagesController extends BaseController implements NotificationCe
                             i4 = ConnectionsManager.DEFAULT_DATACENTER_ID;
                         }
                         tLRPC$TL_channels_deleteHistory.max_id = i4;
-                        getConnectionsManager().sendRequest(tLRPC$TL_channels_deleteHistory, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda370
+                        getConnectionsManager().sendRequest(tLRPC$TL_channels_deleteHistory, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda378
                             @Override // org.telegram.tgnet.RequestDelegate
                             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                                 MessagesController.this.lambda$deleteDialog$132(createPendingTask, tLObject, tLRPC$TL_error);
@@ -15811,7 +16598,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public /* synthetic */ void lambda$deleteDialog$131(final long j) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda107
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda110
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$deleteDialog$130(j);
@@ -15848,14 +16635,14 @@ public class MessagesController extends BaseController implements NotificationCe
 
     protected void deleteSavedDialog(final long j, final int i) {
         final int[] iArr = {i};
-        final Runnable runnable = new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda115
+        final Runnable runnable = new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda118
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$deleteSavedDialog$135(j, i, iArr);
             }
         };
         if (iArr[0] <= 0) {
-            getMessagesStorage().getSavedDialogMaxMessageId(j, new MessagesStorage.IntCallback() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda311
+            getMessagesStorage().getSavedDialogMaxMessageId(j, new MessagesStorage.IntCallback() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda317
                 @Override // org.telegram.messenger.MessagesStorage.IntCallback
                 public final void run(int i2) {
                     MessagesController.lambda$deleteSavedDialog$136(iArr, runnable, i2);
@@ -15889,7 +16676,7 @@ public class MessagesController extends BaseController implements NotificationCe
             }
             tLRPC$TL_messages_deleteSavedHistory.max_id = iArr[0] <= 0 ? ConnectionsManager.DEFAULT_DATACENTER_ID : iArr[0];
         }
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_deleteSavedHistory, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda410
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_deleteSavedHistory, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda418
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$deleteSavedDialog$134(j, iArr, tLObject, tLRPC$TL_error);
@@ -15928,7 +16715,7 @@ public class MessagesController extends BaseController implements NotificationCe
             tLRPC$TL_inputDocument.file_reference = new byte[0];
         }
         tLRPC$TL_messages_saveGif.unsave = false;
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_saveGif, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda414
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_saveGif, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda422
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$saveGif$137(obj, tLRPC$TL_messages_saveGif, tLObject, tLRPC$TL_error);
@@ -15959,7 +16746,7 @@ public class MessagesController extends BaseController implements NotificationCe
         }
         tLRPC$TL_messages_saveRecentSticker.unsave = false;
         tLRPC$TL_messages_saveRecentSticker.attached = z;
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_saveRecentSticker, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda415
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_saveRecentSticker, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda423
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$saveRecentSticker$138(obj, tLRPC$TL_messages_saveRecentSticker, tLObject, tLRPC$TL_error);
@@ -15988,7 +16775,7 @@ public class MessagesController extends BaseController implements NotificationCe
         tLRPC$TL_channels_getParticipants.filter = new TLRPC$TL_channelParticipantsRecent();
         tLRPC$TL_channels_getParticipants.offset = 0;
         tLRPC$TL_channels_getParticipants.limit = i;
-        getConnectionsManager().sendRequest(tLRPC$TL_channels_getParticipants, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda413
+        getConnectionsManager().sendRequest(tLRPC$TL_channels_getParticipants, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda421
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$loadChannelParticipants$140(l, callback, tLObject, tLRPC$TL_error);
@@ -15997,7 +16784,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public /* synthetic */ void lambda$loadChannelParticipants$140(final Long l, final Utilities.Callback callback, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda226
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda230
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$loadChannelParticipants$139(tLRPC$TL_error, tLObject, l, callback);
@@ -16026,7 +16813,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public void processChatInfo(final long j, final TLRPC$ChatFull tLRPC$ChatFull, final ArrayList<TLRPC$User> arrayList, final boolean z, final boolean z2, final boolean z3, final ArrayList<Integer> arrayList2, final HashMap<Integer, MessageObject> hashMap, final int i, final boolean z4) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda275
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda279
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$processChatInfo$141(z, j, z3, z2, tLRPC$ChatFull, arrayList, arrayList2, hashMap, i, z4);
@@ -16076,7 +16863,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public void processUserInfo(final TLRPC$User tLRPC$User, final TLRPC$UserFull tLRPC$UserFull, final boolean z, final boolean z2, final int i, final ArrayList<Integer> arrayList, final HashMap<Integer, MessageObject> hashMap, final int i2, final boolean z3) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda277
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda281
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$processUserInfo$142(z, tLRPC$User, i, z2, tLRPC$UserFull, arrayList, hashMap, i2, z3);
@@ -16128,7 +16915,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     }
                     TLRPC$TL_account_updateStatus tLRPC$TL_account_updateStatus = new TLRPC$TL_account_updateStatus();
                     tLRPC$TL_account_updateStatus.offline = false;
-                    this.statusRequest = getConnectionsManager().sendRequest(tLRPC$TL_account_updateStatus, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda346
+                    this.statusRequest = getConnectionsManager().sendRequest(tLRPC$TL_account_updateStatus, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda354
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                             MessagesController.this.lambda$updateTimerProc$143(tLObject, tLRPC$TL_error);
@@ -16142,7 +16929,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 }
                 TLRPC$TL_account_updateStatus tLRPC$TL_account_updateStatus2 = new TLRPC$TL_account_updateStatus();
                 tLRPC$TL_account_updateStatus2.offline = true;
-                this.statusRequest = getConnectionsManager().sendRequest(tLRPC$TL_account_updateStatus2, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda335
+                this.statusRequest = getConnectionsManager().sendRequest(tLRPC$TL_account_updateStatus2, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda343
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                         MessagesController.this.lambda$updateTimerProc$144(tLObject, tLRPC$TL_error);
@@ -16180,7 +16967,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     tLRPC$TL_messages_getMessagesViews.peer = getInputPeer(keyAt2);
                     tLRPC$TL_messages_getMessagesViews.id = this.channelViewsToSend.valueAt(i7);
                     tLRPC$TL_messages_getMessagesViews.increment = i7 == 0;
-                    getConnectionsManager().sendRequest(tLRPC$TL_messages_getMessagesViews, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda404
+                    getConnectionsManager().sendRequest(tLRPC$TL_messages_getMessagesViews, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda412
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                             MessagesController.this.lambda$updateTimerProc$146(keyAt2, tLRPC$TL_messages_getMessagesViews, tLObject, tLRPC$TL_error);
@@ -16191,7 +16978,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 this.channelViewsToSend.clear();
             }
             if (this.pollsToCheckSize > 0) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda72
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda75
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesController.this.lambda$updateTimerProc$148(currentTime);
@@ -16214,7 +17001,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 while (it.hasNext()) {
                     this.onlinePrivacy.remove((Long) it.next());
                 }
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda48
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda52
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesController.this.lambda$updateTimerProc$149();
@@ -16250,7 +17037,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     }
                     TLRPC$TL_messages_getOnlines tLRPC$TL_messages_getOnlines = new TLRPC$TL_messages_getOnlines();
                     tLRPC$TL_messages_getOnlines.peer = getInputPeer(-keyAt4);
-                    getConnectionsManager().sendRequest(tLRPC$TL_messages_getOnlines, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda373
+                    getConnectionsManager().sendRequest(tLRPC$TL_messages_getOnlines, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda381
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                             MessagesController.this.lambda$updateTimerProc$151(keyAt4, tLObject, tLRPC$TL_error);
@@ -16329,7 +17116,7 @@ public class MessagesController extends BaseController implements NotificationCe
             i = 1;
             updatePrintingStrings();
             if (z) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda37
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda40
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesController.this.lambda$updateTimerProc$152();
@@ -16414,7 +17201,7 @@ public class MessagesController extends BaseController implements NotificationCe
             }
             getMessagesStorage().putUsersAndChats(tLRPC$TL_messages_messageViews.users, tLRPC$TL_messages_messageViews.chats, true, true);
             getMessagesStorage().putChannelViews(longSparseArray, longSparseArray2, longSparseArray3, false);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda240
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda244
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$updateTimerProc$145(tLRPC$TL_messages_messageViews, longSparseArray, longSparseArray2, longSparseArray3);
@@ -16473,7 +17260,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                 TLRPC$TL_messages_getPollResults tLRPC$TL_messages_getPollResults = new TLRPC$TL_messages_getPollResults();
                                 tLRPC$TL_messages_getPollResults.peer = getInputPeer(valueAt2.getDialogId());
                                 tLRPC$TL_messages_getPollResults.msg_id = valueAt2.getId();
-                                getConnectionsManager().sendRequest(tLRPC$TL_messages_getPollResults, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda437
+                                getConnectionsManager().sendRequest(tLRPC$TL_messages_getPollResults, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda445
                                     @Override // org.telegram.tgnet.RequestDelegate
                                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                                         MessagesController.this.lambda$updateTimerProc$147(z, tLObject, tLRPC$TL_error);
@@ -16533,7 +17320,7 @@ public class MessagesController extends BaseController implements NotificationCe
         if (tLObject != null) {
             final TLRPC$TL_chatOnlines tLRPC$TL_chatOnlines = (TLRPC$TL_chatOnlines) tLObject;
             getMessagesStorage().updateChatOnlineCount(j, tLRPC$TL_chatOnlines.onlines);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda136
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda139
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$updateTimerProc$150(j, tLRPC$TL_chatOnlines);
@@ -16565,7 +17352,7 @@ public class MessagesController extends BaseController implements NotificationCe
             public void serializeToStream(AbstractSerializedData abstractSerializedData) {
                 abstractSerializedData.writeInt32(749019089);
             }
-        }, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda345
+        }, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda353
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$checkTosUpdate$154(tLObject, tLRPC$TL_error);
@@ -16580,7 +17367,7 @@ public class MessagesController extends BaseController implements NotificationCe
         } else if (tLObject instanceof TLRPC$TL_help_termsOfServiceUpdate) {
             final TLRPC$TL_help_termsOfServiceUpdate tLRPC$TL_help_termsOfServiceUpdate = (TLRPC$TL_help_termsOfServiceUpdate) tLObject;
             this.nextTosCheckTime = tLRPC$TL_help_termsOfServiceUpdate.expires;
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda236
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda240
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$checkTosUpdate$153(tLRPC$TL_help_termsOfServiceUpdate);
@@ -16597,7 +17384,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public void checkPromoInfo(final boolean z) {
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda272
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda277
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$checkPromoInfo$155(z);
@@ -16639,7 +17426,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 public void serializeToStream(AbstractSerializedData abstractSerializedData) {
                     abstractSerializedData.writeInt32(-1063816159);
                 }
-            }, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda361
+            }, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda369
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     MessagesController.this.lambda$checkPromoInfoInternal$160(i, string, string2, tLObject, tLRPC$TL_error);
@@ -16650,7 +17437,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 this.proxyDialogAddress = null;
                 this.nextPromoInfoCheckTime = getConnectionsManager().getCurrentTime() + 3600;
                 getGlobalMainSettings().edit().putLong("proxy_dialog", this.promoDialogId).remove("proxyDialogAddress").putInt("nextPromoInfoCheckTime", this.nextPromoInfoCheckTime).commit();
-                AndroidUtilities.runOnUIThread(new MessagesController$$ExternalSyntheticLambda32(this));
+                AndroidUtilities.runOnUIThread(new MessagesController$$ExternalSyntheticLambda35(this));
             }
         }
     }
@@ -16752,7 +17539,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 edit.putInt("nextPromoInfoCheckTime", this.nextPromoInfoCheckTime);
                 edit.commit();
                 if (!z) {
-                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda137
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda140
                         @Override // java.lang.Runnable
                         public final void run() {
                             MessagesController.this.lambda$checkPromoInfoInternal$159(j, tLRPC$TL_help_promoData, i);
@@ -16765,7 +17552,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     getGlobalMainSettings().edit().putLong("proxy_dialog", this.promoDialogId).remove("proxyDialogAddress").putInt("nextPromoInfoCheckTime", this.nextPromoInfoCheckTime).commit();
                     this.checkingPromoInfoRequestId = 0;
                     this.checkingPromoInfo = false;
-                    AndroidUtilities.runOnUIThread(new MessagesController$$ExternalSyntheticLambda32(this));
+                    AndroidUtilities.runOnUIThread(new MessagesController$$ExternalSyntheticLambda35(this));
                     return;
                 }
                 return;
@@ -16858,7 +17645,7 @@ public class MessagesController extends BaseController implements NotificationCe
             }
         }
         tLRPC$TL_messages_getPeerDialogs.peers.add(tLRPC$TL_inputDialogPeer);
-        this.checkingPromoInfoRequestId = getConnectionsManager().sendRequest(tLRPC$TL_messages_getPeerDialogs, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda364
+        this.checkingPromoInfoRequestId = getConnectionsManager().sendRequest(tLRPC$TL_messages_getPeerDialogs, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda372
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$checkPromoInfoInternal$158(i, tLRPC$TL_help_promoData, j, tLObject, tLRPC$TL_error);
@@ -16880,14 +17667,14 @@ public class MessagesController extends BaseController implements NotificationCe
             tLRPC$TL_messages_dialogs.dialogs = tLRPC$TL_messages_peerDialogs.dialogs;
             tLRPC$TL_messages_dialogs.messages = tLRPC$TL_messages_peerDialogs.messages;
             getMessagesStorage().putDialogs(tLRPC$TL_messages_dialogs, 2);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda235
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda239
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$checkPromoInfoInternal$156(tLRPC$TL_help_promoData, tLRPC$TL_messages_peerDialogs, j);
                 }
             });
         } else {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda42
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda45
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$checkPromoInfoInternal$157();
@@ -17211,7 +17998,7 @@ public class MessagesController extends BaseController implements NotificationCe
             }
         }
         this.lastPrintingStringCount = longSparseArray.size();
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda149
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda152
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$updatePrintingStrings$161(longSparseArray, longSparseArray2);
@@ -17325,7 +18112,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 tLRPC$TL_messages_setTyping.action = tLRPC$TL_sendMessageEmojiInteractionSeen;
             }
             longSparseArray2.put(j2, Boolean.TRUE);
-            int sendRequest = getConnectionsManager().sendRequest(tLRPC$TL_messages_setTyping, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda359
+            int sendRequest = getConnectionsManager().sendRequest(tLRPC$TL_messages_setTyping, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda367
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     MessagesController.this.lambda$sendTyping$163(i, j, j2, tLObject, tLRPC$TL_error);
@@ -17347,7 +18134,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 tLRPC$TL_inputEncryptedChat.access_hash = encryptedChat.access_hash;
                 tLRPC$TL_messages_setEncryptedTyping.typing = true;
                 longSparseArray2.put(j2, Boolean.TRUE);
-                int sendRequest2 = getConnectionsManager().sendRequest(tLRPC$TL_messages_setEncryptedTyping, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda358
+                int sendRequest2 = getConnectionsManager().sendRequest(tLRPC$TL_messages_setEncryptedTyping, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda366
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                         MessagesController.this.lambda$sendTyping$165(i, j, j2, tLObject, tLRPC$TL_error);
@@ -17362,7 +18149,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public /* synthetic */ void lambda$sendTyping$163(final int i, final long j, final long j2, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda76
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda79
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$sendTyping$162(i, j, j2);
@@ -17371,7 +18158,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public /* synthetic */ void lambda$sendTyping$165(final int i, final long j, final long j2, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda75
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda78
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$sendTyping$164(i, j, j2);
@@ -17422,7 +18209,7 @@ public class MessagesController extends BaseController implements NotificationCe
             TLRPC$TL_messages_getQuickReplyMessages tLRPC$TL_messages_getQuickReplyMessages = new TLRPC$TL_messages_getQuickReplyMessages();
             tLRPC$TL_messages_getQuickReplyMessages.shortcut_id = (int) j3;
             tLRPC$TL_messages_getQuickReplyMessages.hash = j4;
-            getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tLRPC$TL_messages_getQuickReplyMessages, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda389
+            getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tLRPC$TL_messages_getQuickReplyMessages, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda397
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     MessagesController.this.lambda$loadMessagesInternal$166(j, j2, i, i2, i3, i5, i10, i7, i11, i12, i6, i8, j3, i9, z3, i13, z5, z6, tLObject, tLRPC$TL_error);
@@ -17436,7 +18223,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 TLRPC$TL_messages_getScheduledHistory tLRPC$TL_messages_getScheduledHistory = new TLRPC$TL_messages_getScheduledHistory();
                 tLRPC$TL_messages_getScheduledHistory.peer = getInputPeer(j);
                 tLRPC$TL_messages_getScheduledHistory.hash = j4;
-                getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tLRPC$TL_messages_getScheduledHistory, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda356
+                getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tLRPC$TL_messages_getScheduledHistory, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda364
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                         MessagesController.this.lambda$loadMessagesInternal$171(i2, i3, j, j2, i, i5, i10, i7, i11, i12, i6, i8, j3, i9, z3, i13, z5, z6, tLObject, tLRPC$TL_error);
@@ -17448,7 +18235,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 TLRPC$TL_inputDialogPeer tLRPC$TL_inputDialogPeer = new TLRPC$TL_inputDialogPeer();
                 tLRPC$TL_inputDialogPeer.peer = inputPeer;
                 tLRPC$TL_messages_getPeerDialogs.peers.add(tLRPC$TL_inputDialogPeer);
-                getConnectionsManager().sendRequest(tLRPC$TL_messages_getPeerDialogs, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda394
+                getConnectionsManager().sendRequest(tLRPC$TL_messages_getPeerDialogs, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda402
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                         MessagesController.this.lambda$loadMessagesInternal$173(j, j2, z, i, i2, i3, i4, i5, i6, j3, i9, i10, i12, z3, z5, z6, tLRPC$TL_messages_getPeerDialogs, tLObject, tLRPC$TL_error);
@@ -17473,7 +18260,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     tLRPC$TL_messages_getHistory.limit = i;
                     tLRPC$TL_messages_getHistory.offset_id = i2;
                     tLRPC$TL_messages_getHistory.offset_date = i3;
-                    getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tLRPC$TL_messages_getHistory, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda383
+                    getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tLRPC$TL_messages_getHistory, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda391
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                             MessagesController.this.lambda$loadMessagesInternal$175(j, i, i2, i3, j2, i5, i10, i7, i11, i12, i6, i8, j3, i9, z3, i13, z5, z6, tLRPC$TL_messages_getHistory, tLObject, tLRPC$TL_error);
@@ -17483,7 +18270,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 tLRPC$TL_messages_getHistory.limit = i;
                 tLRPC$TL_messages_getHistory.offset_id = i2;
                 tLRPC$TL_messages_getHistory.offset_date = i3;
-                getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tLRPC$TL_messages_getHistory, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda383
+                getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tLRPC$TL_messages_getHistory, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda391
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                         MessagesController.this.lambda$loadMessagesInternal$175(j, i, i2, i3, j2, i5, i10, i7, i11, i12, i6, i8, j3, i9, z3, i13, z5, z6, tLRPC$TL_messages_getHistory, tLObject, tLRPC$TL_error);
@@ -17508,7 +18295,7 @@ public class MessagesController extends BaseController implements NotificationCe
             tLRPC$TL_messages_getSavedHistory.limit = i;
             tLRPC$TL_messages_getSavedHistory.offset_id = i2;
             tLRPC$TL_messages_getSavedHistory.offset_date = i3;
-            getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tLRPC$TL_messages_getSavedHistory, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda384
+            getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tLRPC$TL_messages_getSavedHistory, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda392
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     MessagesController.this.lambda$loadMessagesInternal$168(j, i, i2, i3, j2, i5, i10, i7, i11, i12, i6, i8, j3, i9, z3, i13, z5, z6, tLRPC$TL_messages_getSavedHistory, tLObject, tLRPC$TL_error);
@@ -17542,7 +18329,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     tLRPC$TL_messages_getReplies.offset_id = i2;
                     tLRPC$TL_messages_getReplies.hash = j4;
                     System.currentTimeMillis();
-                    getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tLRPC$TL_messages_getReplies, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda355
+                    getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tLRPC$TL_messages_getReplies, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda363
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                             MessagesController.this.lambda$loadMessagesInternal$170(i, i2, i3, i10, i6, j, j2, i5, i7, i11, i12, i8, j3, i9, z3, i13, z5, z6, tLRPC$TL_messages_getReplies, tLObject, tLRPC$TL_error);
@@ -17554,7 +18341,7 @@ public class MessagesController extends BaseController implements NotificationCe
             tLRPC$TL_messages_getReplies.offset_id = i2;
             tLRPC$TL_messages_getReplies.hash = j4;
             System.currentTimeMillis();
-            getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tLRPC$TL_messages_getReplies, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda355
+            getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tLRPC$TL_messages_getReplies, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda363
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     MessagesController.this.lambda$loadMessagesInternal$170(i, i2, i3, i10, i6, j, j2, i5, i7, i11, i12, i8, j3, i9, z3, i13, z5, z6, tLRPC$TL_messages_getReplies, tLObject, tLRPC$TL_error);
@@ -17606,7 +18393,7 @@ public class MessagesController extends BaseController implements NotificationCe
             processLoadedMessages(tLRPC$messages_Messages, tLRPC$messages_Messages.messages.size(), j, j2, i, i13, i3, false, i4, i5, i6, i7, i8, i9, false, i10, j3, i11, z, i12, z2, z3, null);
             return;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda84
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda87
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$loadMessagesInternal$167(i4, tLRPC$TL_messages_getSavedHistory, tLRPC$TL_error);
@@ -17669,7 +18456,7 @@ public class MessagesController extends BaseController implements NotificationCe
             processLoadedMessages(tLRPC$messages_Messages, tLRPC$messages_Messages.messages.size(), j, j2, i, i13, i3, false, i6, i14, i7, i8, i9, i5, false, i10, j3, i11, z, i12, z2, z3, null);
             return;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda83
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda86
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$loadMessagesInternal$169(i6, tLRPC$TL_messages_getReplies, tLRPC$TL_error);
@@ -17728,7 +18515,7 @@ public class MessagesController extends BaseController implements NotificationCe
             }
             return;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda82
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda85
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$loadMessagesInternal$172(i5, tLRPC$TL_messages_getPeerDialogs, tLRPC$TL_error);
@@ -17770,7 +18557,7 @@ public class MessagesController extends BaseController implements NotificationCe
             processLoadedMessages(tLRPC$messages_Messages, tLRPC$messages_Messages.messages.size(), j, j2, i, i13, i3, false, i4, i5, i6, i7, i8, i9, false, i10, j3, i11, z, i12, z2, z3, null);
             return;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda81
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda84
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$loadMessagesInternal$174(i4, tLRPC$TL_messages_getHistory, tLRPC$TL_error);
@@ -17810,7 +18597,7 @@ public class MessagesController extends BaseController implements NotificationCe
             arrayList.addAll(value);
             TLRPC$TL_messages_getWebPagePreview tLRPC$TL_messages_getWebPagePreview = new TLRPC$TL_messages_getWebPagePreview();
             tLRPC$TL_messages_getWebPagePreview.message = key;
-            getConnectionsManager().sendRequest(tLRPC$TL_messages_getWebPagePreview, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda420
+            getConnectionsManager().sendRequest(tLRPC$TL_messages_getWebPagePreview, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda428
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     MessagesController.this.lambda$reloadWebPages$177(hashMap3, key, longSparseArray2, j, i, tLObject, tLRPC$TL_error);
@@ -17820,7 +18607,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public /* synthetic */ void lambda$reloadWebPages$177(final HashMap hashMap, final String str, final LongSparseArray longSparseArray, final long j, final int i, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda174
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda177
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$reloadWebPages$176(hashMap, str, tLObject, longSparseArray, j, i);
@@ -18047,7 +18834,7 @@ public class MessagesController extends BaseController implements NotificationCe
                         }
                         longSparseArray3 = longSparseArray7;
                         longSparseArray4 = longSparseArray;
-                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda119
+                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda122
                             @Override // java.lang.Runnable
                             public final void run() {
                                 MessagesController.this.lambda$processLoadedMessages$178(j, j2, i2, i10, z3, i6, i3, i4, i5, i7, i11, j3, i12, i8, i9, i13, z4, z5, timer, j7);
@@ -18062,7 +18849,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     longSparseArray7 = longSparseArray2;
                     longSparseArray3 = longSparseArray7;
                     longSparseArray4 = longSparseArray;
-                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda119
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda122
                         @Override // java.lang.Runnable
                         public final void run() {
                             MessagesController.this.lambda$processLoadedMessages$178(j, j2, i2, i10, z3, i6, i3, i4, i5, i7, i11, j3, i12, i8, i9, i13, z4, z5, timer, j7);
@@ -18151,7 +18938,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     longSparseArray5 = longSparseArray4;
                 }
                 if (z4 && DialogObject.isEncryptedDialog(j)) {
-                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda85
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda88
                         @Override // java.lang.Runnable
                         public final void run() {
                             MessagesController.this.lambda$processLoadedMessages$179(i5, tLRPC$messages_Messages, z, z2, i7);
@@ -18172,9 +18959,9 @@ public class MessagesController extends BaseController implements NotificationCe
                     messageObject.scheduled = i11 == 1;
                     arrayList.add(messageObject);
                     if (z) {
-                        if (tLRPC$Message5.legacy && tLRPC$Message5.layer < 185) {
+                        if (tLRPC$Message5.legacy && tLRPC$Message5.layer < 186) {
                             arrayList2.add(Integer.valueOf(tLRPC$Message5.id));
-                        } else if ((MessageObject.getMedia(tLRPC$Message5) instanceof TLRPC$TL_messageMediaUnsupported) && MessageObject.getMedia(tLRPC$Message5).bytes != null && (MessageObject.getMedia(tLRPC$Message5).bytes.length == 0 || ((MessageObject.getMedia(tLRPC$Message5).bytes.length == 1 && MessageObject.getMedia(tLRPC$Message5).bytes[0] < 185) || (MessageObject.getMedia(tLRPC$Message5).bytes.length == 4 && Utilities.bytesToInt(MessageObject.getMedia(tLRPC$Message5).bytes) < 185)))) {
+                        } else if ((MessageObject.getMedia(tLRPC$Message5) instanceof TLRPC$TL_messageMediaUnsupported) && MessageObject.getMedia(tLRPC$Message5).bytes != null && (MessageObject.getMedia(tLRPC$Message5).bytes.length == 0 || ((MessageObject.getMedia(tLRPC$Message5).bytes.length == 1 && MessageObject.getMedia(tLRPC$Message5).bytes[0] < 186) || (MessageObject.getMedia(tLRPC$Message5).bytes.length == 4 && Utilities.bytesToInt(MessageObject.getMedia(tLRPC$Message5).bytes) < 186)))) {
                             arrayList2.add(Integer.valueOf(tLRPC$Message5.id));
                         }
                         if (MessageObject.getMedia(tLRPC$Message5) instanceof TLRPC$TL_messageMediaWebPage) {
@@ -18208,7 +18995,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     FileLog.d("process time=" + (SystemClock.elapsedRealtime() - elapsedRealtime) + " count=" + arrayList.size() + " for dialog  " + j);
                 }
                 if (i20 != 1) {
-                    Collections.sort(arrayList, new Comparator() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda301
+                    Collections.sort(arrayList, new Comparator() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda307
                         @Override // java.util.Comparator
                         public final int compare(Object obj, Object obj2) {
                             int lambda$processLoadedMessages$180;
@@ -18217,7 +19004,7 @@ public class MessagesController extends BaseController implements NotificationCe
                         }
                     });
                 } else if (i20 == 5) {
-                    Collections.sort(arrayList, new Comparator() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda302
+                    Collections.sort(arrayList, new Comparator() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda308
                         @Override // java.util.Comparator
                         public final int compare(Object obj, Object obj2) {
                             int lambda$processLoadedMessages$181;
@@ -18253,7 +19040,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 }
                 Timer.done(start);
                 final Timer.Task start2 = Timer.start(timer, "processLoadedMessages: runOnUIThread");
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda181
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda184
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesController.this.lambda$processLoadedMessages$183(start2, timer, tLRPC$messages_Messages, z, z4, i11, z3, i10, i6, i2, j, arrayList, j3, i5, i, z2, i7, i8, i9, i12, i3, i13, arrayList2, hashMap);
@@ -18303,7 +19090,7 @@ public class MessagesController extends BaseController implements NotificationCe
         }
         Timer.done(start);
         final Timer.Task start22 = Timer.start(timer, "processLoadedMessages: runOnUIThread");
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda181
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda184
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$processLoadedMessages$183(start22, timer, tLRPC$messages_Messages, z, z4, i11, z3, i10, i6, i2, j, arrayList4, j3, i5, i, z2, i7, i8, i9, i12, i3, i13, arrayList22, hashMap2);
@@ -18375,7 +19162,7 @@ public class MessagesController extends BaseController implements NotificationCe
         if (!DialogObject.isEncryptedDialog(j) && i != 5) {
             final Timer.Task start2 = Timer.start(timer, "loadReplyMessagesForMessages");
             final int i19 = i15;
-            getMediaDataController().loadReplyMessagesForMessages(arrayList, j, i, j2, new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda182
+            getMediaDataController().loadReplyMessagesForMessages(arrayList, j, i, j2, new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda185
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$processLoadedMessages$182(start2, z2, i5, i6, z, z4, i7, j, i4, arrayList, i19, i8, i9, i2, i10, i11, i12, i);
@@ -18418,7 +19205,7 @@ public class MessagesController extends BaseController implements NotificationCe
         }
         TLRPC$TL_help_getRecentMeUrls tLRPC$TL_help_getRecentMeUrls = new TLRPC$TL_help_getRecentMeUrls();
         tLRPC$TL_help_getRecentMeUrls.referer = this.installReferer;
-        getConnectionsManager().sendRequest(tLRPC$TL_help_getRecentMeUrls, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda334
+        getConnectionsManager().sendRequest(tLRPC$TL_help_getRecentMeUrls, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda342
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$loadHintDialogs$185(tLObject, tLRPC$TL_error);
@@ -18428,7 +19215,7 @@ public class MessagesController extends BaseController implements NotificationCe
 
     public /* synthetic */ void lambda$loadHintDialogs$185(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLRPC$TL_error == null) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda192
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda196
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$loadHintDialogs$184(tLObject);
@@ -18504,7 +19291,7 @@ public class MessagesController extends BaseController implements NotificationCe
 
     public void onFolderEmpty(final int i) {
         if (getUserConfig().getDialogLoadOffsets(i)[0] != 2147483647L) {
-            loadDialogs(i, 0, 10, false, new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda70
+            loadDialogs(i, 0, 10, false, new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda74
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$onFolderEmpty$186(i);
@@ -18661,7 +19448,7 @@ public class MessagesController extends BaseController implements NotificationCe
             j2 = j;
         }
         if (!tLRPC$TL_folders_editPeerFolders.folder_peers.isEmpty()) {
-            getConnectionsManager().sendRequest(tLRPC$TL_folders_editPeerFolders, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda372
+            getConnectionsManager().sendRequest(tLRPC$TL_folders_editPeerFolders, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda380
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     MessagesController.this.lambda$addDialogToFolder$187(j2, tLObject, tLRPC$TL_error);
@@ -18785,7 +19572,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 tLRPC$TL_messages_getDialogs.offset_peer = new TLRPC$TL_inputPeerEmpty();
             }
         }
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_getDialogs, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda357
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_getDialogs, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda365
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$loadDialogs$188(i, i3, runnable, tLObject, tLRPC$TL_error);
@@ -18841,14 +19628,14 @@ public class MessagesController extends BaseController implements NotificationCe
                 } else {
                     tLRPC$TL_account_getNotifySettings.peer = new TLRPC$TL_inputNotifyBroadcasts();
                 }
-                getConnectionsManager().sendRequest(tLRPC$TL_account_getNotifySettings, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda349
+                getConnectionsManager().sendRequest(tLRPC$TL_account_getNotifySettings, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda357
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                         MessagesController.this.lambda$loadGlobalNotificationsSettings$190(i, tLObject, tLRPC$TL_error);
                     }
                 });
             }
-            getConnectionsManager().sendRequest(new TLRPC$TL_account_getReactionsNotifySettings(), new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda338
+            getConnectionsManager().sendRequest(new TLRPC$TL_account_getReactionsNotifySettings(), new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda346
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     MessagesController.this.lambda$loadGlobalNotificationsSettings$192(tLObject, tLRPC$TL_error);
@@ -18862,7 +19649,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public /* synthetic */ void lambda$loadGlobalNotificationsSettings$190(final int i, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda196
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda200
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$loadGlobalNotificationsSettings$189(tLObject, i);
@@ -18916,7 +19703,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public /* synthetic */ void lambda$loadGlobalNotificationsSettings$192(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda195
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda199
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$loadGlobalNotificationsSettings$191(tLObject);
@@ -18950,7 +19737,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public /* synthetic */ void lambda$reloadReactionsNotifySettings$194(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda188
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda191
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$reloadReactionsNotifySettings$193(tLObject);
@@ -18959,7 +19746,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public void reloadReactionsNotifySettings() {
-        getConnectionsManager().sendRequest(new TLRPC$TL_account_getReactionsNotifySettings(), new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda322
+        getConnectionsManager().sendRequest(new TLRPC$TL_account_getReactionsNotifySettings(), new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda329
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$reloadReactionsNotifySettings$194(tLObject, tLRPC$TL_error);
@@ -19003,7 +19790,7 @@ public class MessagesController extends BaseController implements NotificationCe
             public void serializeToStream(AbstractSerializedData abstractSerializedData) {
                 abstractSerializedData.writeInt32(-1626880216);
             }
-        }, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda347
+        }, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda355
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$loadSignUpNotificationsSettings$196(tLObject, tLRPC$TL_error);
@@ -19012,7 +19799,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public /* synthetic */ void lambda$loadSignUpNotificationsSettings$196(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda193
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda197
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$loadSignUpNotificationsSettings$195(tLObject);
@@ -19070,7 +19857,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 nativeByteBuffer = nativeByteBuffer2;
                 j = getMessagesStorage().createPendingTask(nativeByteBuffer);
                 final long j2 = j;
-                getConnectionsManager().sendRequest(tLRPC$TL_messages_getPeerDialogs, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda388
+                getConnectionsManager().sendRequest(tLRPC$TL_messages_getPeerDialogs, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda396
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                         MessagesController.this.lambda$loadUnknownDialog$197(j2, peerDialogId, tLObject, tLRPC$TL_error);
@@ -19080,7 +19867,7 @@ public class MessagesController extends BaseController implements NotificationCe
             j = getMessagesStorage().createPendingTask(nativeByteBuffer);
         }
         final long j22 = j;
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_getPeerDialogs, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda388
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_getPeerDialogs, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda396
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$loadUnknownDialog$197(j22, peerDialogId, tLObject, tLRPC$TL_error);
@@ -19215,7 +20002,7 @@ public class MessagesController extends BaseController implements NotificationCe
             }
             getUserConfig().setPinnedDialogsLoaded(1, false);
             this.resetingDialogs = true;
-            getConnectionsManager().sendRequest(new TLRPC$TL_messages_getPinnedDialogs(), new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda354
+            getConnectionsManager().sendRequest(new TLRPC$TL_messages_getPinnedDialogs(), new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda362
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     MessagesController.this.lambda$resetDialogs$198(i, i2, i3, i4, tLObject, tLRPC$TL_error);
@@ -19225,7 +20012,7 @@ public class MessagesController extends BaseController implements NotificationCe
             tLRPC$TL_messages_getDialogs.limit = 100;
             tLRPC$TL_messages_getDialogs.exclude_pinned = true;
             tLRPC$TL_messages_getDialogs.offset_peer = new TLRPC$TL_inputPeerEmpty();
-            getConnectionsManager().sendRequest(tLRPC$TL_messages_getDialogs, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda353
+            getConnectionsManager().sendRequest(tLRPC$TL_messages_getDialogs, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda361
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     MessagesController.this.lambda$resetDialogs$199(i, i2, i3, i4, tLObject, tLRPC$TL_error);
@@ -19373,7 +20160,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public void completeDialogsReset(final TLRPC$messages_Dialogs tLRPC$messages_Dialogs, int i, int i2, final int i3, final int i4, final int i5, final LongSparseArray<TLRPC$Dialog> longSparseArray, final LongSparseArray<ArrayList<MessageObject>> longSparseArray2, TLRPC$Message tLRPC$Message) {
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda73
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda76
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$completeDialogsReset$201(i3, i4, i5, tLRPC$messages_Dialogs, longSparseArray, longSparseArray2);
@@ -19387,7 +20174,7 @@ public class MessagesController extends BaseController implements NotificationCe
         getMessagesStorage().setLastDateValue(i2);
         getMessagesStorage().setLastQtsValue(i3);
         getDifference();
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda256
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda260
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$completeDialogsReset$200(tLRPC$messages_Dialogs, longSparseArray, longSparseArray2);
@@ -19512,7 +20299,7 @@ public class MessagesController extends BaseController implements NotificationCe
             }
             tLRPC$TL_messages_getDialogs.offset_peer.access_hash = j4;
         }
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_getDialogs, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda350
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_getDialogs, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda358
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$migrateDialogs$205(i, tLObject, tLRPC$TL_error);
@@ -19523,7 +20310,7 @@ public class MessagesController extends BaseController implements NotificationCe
     public /* synthetic */ void lambda$migrateDialogs$205(final int i, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLRPC$TL_error == null) {
             final TLRPC$messages_Dialogs tLRPC$messages_Dialogs = (TLRPC$messages_Dialogs) tLObject;
-            getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda255
+            getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda259
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$migrateDialogs$203(tLRPC$messages_Dialogs, i);
@@ -19531,7 +20318,7 @@ public class MessagesController extends BaseController implements NotificationCe
             });
             return;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda43
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda46
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$migrateDialogs$204();
@@ -19768,7 +20555,7 @@ public class MessagesController extends BaseController implements NotificationCe
             processLoadedDialogs(tLRPC$messages_Dialogs, null, null, 0, i3, 0, 0, false, true, false);
         } catch (Exception e) {
             FileLog.e(e);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda66
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda69
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$migrateDialogs$202();
@@ -19786,7 +20573,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public void processLoadedDialogs(final TLRPC$messages_Dialogs tLRPC$messages_Dialogs, final ArrayList<TLRPC$EncryptedChat> arrayList, final ArrayList<TLRPC$UserFull> arrayList2, final int i, final int i2, final int i3, final int i4, final boolean z, final boolean z2, final boolean z3) {
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda74
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda77
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$processLoadedDialogs$209(i, i4, tLRPC$messages_Dialogs, arrayList2, z, i3, arrayList, i2, z3, z2);
@@ -19860,7 +20647,7 @@ public class MessagesController extends BaseController implements NotificationCe
         }
         final long[] dialogLoadOffsets = getUserConfig().getDialogLoadOffsets(i);
         if (i2 == this.DIALOGS_LOAD_TYPE_CACHE && tLRPC$messages_Dialogs.dialogs.size() == 0) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda258
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda262
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$processLoadedDialogs$206(tLRPC$messages_Dialogs, arrayList, i, z, dialogLoadOffsets, i3);
@@ -20223,7 +21010,7 @@ public class MessagesController extends BaseController implements NotificationCe
         if (i2 == this.DIALOGS_LOAD_TYPE_CHANNEL) {
             final TLRPC$Chat tLRPC$Chat8 = tLRPC$messages_Dialogs.chats.get(r13);
             getChannelDifference(tLRPC$Chat8.id);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda208
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda212
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$processLoadedDialogs$207(tLRPC$Chat8);
@@ -20232,7 +21019,7 @@ public class MessagesController extends BaseController implements NotificationCe
         }
         final TLRPC$Message tLRPC$Message7 = tLRPC$Message;
         final LongSparseArray longSparseArray16 = longSparseArray;
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda218
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda222
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$processLoadedDialogs$208(tLRPC$Message7, i2, tLRPC$messages_Dialogs, arrayList, arrayList2, z3, i, longSparseArray14, longSparseArray15, longSparseArray16, i3, z2, i4, arrayList5);
@@ -20604,7 +21391,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 TLRPC$TL_messages_getUnreadMentions tLRPC$TL_messages_getUnreadMentions = new TLRPC$TL_messages_getUnreadMentions();
                 tLRPC$TL_messages_getUnreadMentions.peer = tLRPC$InputPeer;
                 tLRPC$TL_messages_getUnreadMentions.limit = 1;
-                getConnectionsManager().sendRequest(tLRPC$TL_messages_getUnreadMentions, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda427
+                getConnectionsManager().sendRequest(tLRPC$TL_messages_getUnreadMentions, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda435
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                         MessagesController.this.lambda$reloadMentionsCountForChannel$210(tLRPC$InputPeer, j, tLObject, tLRPC$TL_error);
@@ -20616,7 +21403,7 @@ public class MessagesController extends BaseController implements NotificationCe
         TLRPC$TL_messages_getUnreadMentions tLRPC$TL_messages_getUnreadMentions2 = new TLRPC$TL_messages_getUnreadMentions();
         tLRPC$TL_messages_getUnreadMentions2.peer = tLRPC$InputPeer;
         tLRPC$TL_messages_getUnreadMentions2.limit = 1;
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_getUnreadMentions2, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda427
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_getUnreadMentions2, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda435
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$reloadMentionsCountForChannel$210(tLRPC$InputPeer, j, tLObject, tLRPC$TL_error);
@@ -20639,7 +21426,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public void reloadMentionsCountForChannels(final ArrayList<Long> arrayList) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda161
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda164
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$reloadMentionsCountForChannels$211(arrayList);
@@ -20654,7 +21441,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public void processDialogsUpdateRead(final LongSparseIntArray longSparseIntArray, final LongSparseIntArray longSparseIntArray2) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda185
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda188
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$processDialogsUpdateRead$212(longSparseIntArray, longSparseIntArray2);
@@ -20819,7 +21606,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 e = e3;
                 FileLog.e(e);
                 j = getMessagesStorage().createPendingTask(nativeByteBuffer);
-                getConnectionsManager().sendRequest(tLRPC$TL_messages_getHistory, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda426
+                getConnectionsManager().sendRequest(tLRPC$TL_messages_getHistory, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda434
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                         MessagesController.this.lambda$checkLastDialogMessage$216(tLRPC$Dialog, j, tLObject, tLRPC$TL_error);
@@ -20828,7 +21615,7 @@ public class MessagesController extends BaseController implements NotificationCe
             }
             j = getMessagesStorage().createPendingTask(nativeByteBuffer);
         }
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_getHistory, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda426
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_getHistory, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda434
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$checkLastDialogMessage$216(tLRPC$Dialog, j, tLObject, tLRPC$TL_error);
@@ -20872,7 +21659,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 processDialogsUpdate(tLRPC$TL_messages_dialogs, null, false);
                 getMessagesStorage().putMessages(tLRPC$messages_Messages.messages, true, true, false, getDownloadController().getAutodownloadMask(), true, 0, 0L);
             } else {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda215
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda219
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesController.this.lambda$checkLastDialogMessage$214(tLRPC$Dialog);
@@ -20883,7 +21670,7 @@ public class MessagesController extends BaseController implements NotificationCe
         if (j != 0) {
             getMessagesStorage().removePendingTask(j);
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda216
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda220
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$checkLastDialogMessage$215(tLRPC$Dialog);
@@ -20901,7 +21688,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 if (BuildVars.LOGS_ENABLED) {
                     FileLog.d("checkLastDialogMessage for " + tLRPC$Dialog.id + " current dialog not found");
                 }
-                getMessagesStorage().isDialogHasTopMessage(tLRPC$Dialog.id, new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda214
+                getMessagesStorage().isDialogHasTopMessage(tLRPC$Dialog.id, new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda218
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesController.this.lambda$checkLastDialogMessage$213(tLRPC$Dialog);
@@ -20927,7 +21714,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public void processDialogsUpdate(final TLRPC$messages_Dialogs tLRPC$messages_Dialogs, ArrayList<TLRPC$EncryptedChat> arrayList, final boolean z) {
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda260
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda264
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$processDialogsUpdate$218(tLRPC$messages_Dialogs, z);
@@ -21063,7 +21850,7 @@ public class MessagesController extends BaseController implements NotificationCe
             longSparseIntArray4 = longSparseIntArray;
         }
         final LongSparseIntArray longSparseIntArray5 = longSparseIntArray4;
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda257
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda261
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$processDialogsUpdate$217(tLRPC$messages_Dialogs, longSparseArray, longSparseArray2, z, longSparseIntArray5);
@@ -21310,7 +22097,7 @@ public class MessagesController extends BaseController implements NotificationCe
         if (messageObject == null) {
             return;
         }
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda176
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda179
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$addToViewsQueue$219(messageObject);
@@ -21397,7 +22184,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 return;
             }
             tLRPC$TL_channels_readMessageContents.id.add(Integer.valueOf(messageObject.getId()));
-            getConnectionsManager().sendRequest(tLRPC$TL_channels_readMessageContents, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda449
+            getConnectionsManager().sendRequest(tLRPC$TL_channels_readMessageContents, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda458
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     MessagesController.lambda$markMessageContentAsRead$220(tLObject, tLRPC$TL_error);
@@ -21406,7 +22193,7 @@ public class MessagesController extends BaseController implements NotificationCe
         } else {
             TLRPC$TL_messages_readMessageContents tLRPC$TL_messages_readMessageContents = new TLRPC$TL_messages_readMessageContents();
             tLRPC$TL_messages_readMessageContents.id.add(Integer.valueOf(messageObject.getId()));
-            getConnectionsManager().sendRequest(tLRPC$TL_messages_readMessageContents, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda321
+            getConnectionsManager().sendRequest(tLRPC$TL_messages_readMessageContents, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda328
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     MessagesController.this.lambda$markMessageContentAsRead$221(tLObject, tLRPC$TL_error);
@@ -21432,7 +22219,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 return;
             }
             tLRPC$TL_channels_readMessageContents.id.add(Integer.valueOf(i));
-            getConnectionsManager().sendRequest(tLRPC$TL_channels_readMessageContents, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda465
+            getConnectionsManager().sendRequest(tLRPC$TL_channels_readMessageContents, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda474
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     MessagesController.lambda$markMentionMessageAsRead$222(tLObject, tLRPC$TL_error);
@@ -21442,7 +22229,7 @@ public class MessagesController extends BaseController implements NotificationCe
         }
         TLRPC$TL_messages_readMessageContents tLRPC$TL_messages_readMessageContents = new TLRPC$TL_messages_readMessageContents();
         tLRPC$TL_messages_readMessageContents.id.add(Integer.valueOf(i));
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_readMessageContents, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda330
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_readMessageContents, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda338
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$markMentionMessageAsRead$223(tLObject, tLRPC$TL_error);
@@ -21556,7 +22343,7 @@ public class MessagesController extends BaseController implements NotificationCe
             TLRPC$TL_channels_readMessageContents tLRPC$TL_channels_readMessageContents = new TLRPC$TL_channels_readMessageContents();
             tLRPC$TL_channels_readMessageContents.channel = tLRPC$InputChannel2;
             tLRPC$TL_channels_readMessageContents.id.add(Integer.valueOf(i));
-            getConnectionsManager().sendRequest(tLRPC$TL_channels_readMessageContents, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda382
+            getConnectionsManager().sendRequest(tLRPC$TL_channels_readMessageContents, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda390
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     MessagesController.this.lambda$markMessageAsRead2$224(j3, tLObject, tLRPC$TL_error);
@@ -21566,7 +22353,7 @@ public class MessagesController extends BaseController implements NotificationCe
         }
         TLRPC$TL_messages_readMessageContents tLRPC$TL_messages_readMessageContents = new TLRPC$TL_messages_readMessageContents();
         tLRPC$TL_messages_readMessageContents.id.add(Integer.valueOf(i));
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_readMessageContents, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda365
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_readMessageContents, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda373
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$markMessageAsRead2$225(j3, tLObject, tLRPC$TL_error);
@@ -21614,7 +22401,7 @@ public class MessagesController extends BaseController implements NotificationCe
             tLRPC$TL_messages_readDiscussion.msg_id = (int) readTask.replyId;
             tLRPC$TL_messages_readDiscussion.peer = getInputPeer(readTask.dialogId);
             tLRPC$TL_messages_readDiscussion.read_max_id = readTask.maxId;
-            getConnectionsManager().sendRequest(tLRPC$TL_messages_readDiscussion, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda445
+            getConnectionsManager().sendRequest(tLRPC$TL_messages_readDiscussion, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda453
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     MessagesController.lambda$completeReadTask$226(tLObject, tLRPC$TL_error);
@@ -21633,7 +22420,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 tLRPC$TL_messages_readHistory2.max_id = readTask.maxId;
                 tLRPC$TL_messages_readHistory = tLRPC$TL_messages_readHistory2;
             }
-            getConnectionsManager().sendRequest(tLRPC$TL_messages_readHistory, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda337
+            getConnectionsManager().sendRequest(tLRPC$TL_messages_readHistory, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda345
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     MessagesController.this.lambda$completeReadTask$227(tLObject, tLRPC$TL_error);
@@ -21651,7 +22438,7 @@ public class MessagesController extends BaseController implements NotificationCe
             tLRPC$TL_inputEncryptedChat.chat_id = encryptedChat.id;
             tLRPC$TL_inputEncryptedChat.access_hash = encryptedChat.access_hash;
             tLRPC$TL_messages_readEncryptedHistory.max_date = readTask.maxDate;
-            getConnectionsManager().sendRequest(tLRPC$TL_messages_readEncryptedHistory, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda447
+            getConnectionsManager().sendRequest(tLRPC$TL_messages_readEncryptedHistory, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda455
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     MessagesController.lambda$completeReadTask$228(tLObject, tLRPC$TL_error);
@@ -21698,7 +22485,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public void markDialogAsReadNow(final long j, final long j2) {
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda116
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda119
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$markDialogAsReadNow$229(j2, j);
@@ -21738,7 +22525,7 @@ public class MessagesController extends BaseController implements NotificationCe
             tLRPC$TL_messages_readMentions.top_msg_id = (int) j2;
             tLRPC$TL_messages_readMentions.flags |= 1;
         }
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_readMentions, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda451
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_readMentions, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda460
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.lambda$markMentionsAsRead$230(tLObject, tLRPC$TL_error);
@@ -21768,7 +22555,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 }
                 TLRPC$EncryptedChat encryptedChat = getEncryptedChat(Integer.valueOf(DialogObject.getEncryptedChatId(j)));
                 getMessagesStorage().processPendingRead(j, i, i2, i5);
-                getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda113
+                getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda116
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesController.this.lambda$markDialogAsRead$234(j, i3, z, i4, i2);
@@ -21786,7 +22573,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 }
                 this.dialogs_read_inbox_max.put(Long.valueOf(j), Integer.valueOf(Math.max(num.intValue(), i)));
                 getMessagesStorage().processPendingRead(j, i, i2, i5);
-                getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda111
+                getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda114
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesController.this.lambda$markDialogAsRead$232(j, i4, i, z);
@@ -21794,7 +22581,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 });
             }
             if (z3) {
-                Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda122
+                Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda125
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesController.this.lambda$markDialogAsRead$235(j2, j, z2, i3, i);
@@ -21805,7 +22592,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public /* synthetic */ void lambda$markDialogAsRead$232(final long j, final int i, final int i2, final boolean z) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda110
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda113
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$markDialogAsRead$231(j, i, i2, z);
@@ -21869,7 +22656,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public /* synthetic */ void lambda$markDialogAsRead$234(final long j, final int i, final boolean z, final int i2, final int i3) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda114
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda117
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$markDialogAsRead$233(j, i, z, i2, i3);
@@ -21970,7 +22757,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     tLRPC$TL_messages_createChat.users.add(getInputUser(user));
                 }
             }
-            return getConnectionsManager().sendRequest(tLRPC$TL_messages_createChat, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda433
+            return getConnectionsManager().sendRequest(tLRPC$TL_messages_createChat, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda441
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     MessagesController.this.lambda$createChat$238(baseFragment, tLRPC$TL_messages_createChat, tLObject, tLRPC$TL_error);
@@ -21998,7 +22785,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 tLRPC$TL_channels_createChannel.address = str3;
                 tLRPC$TL_channels_createChannel.flags |= 4;
             }
-            return getConnectionsManager().sendRequest(tLRPC$TL_channels_createChannel, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda431
+            return getConnectionsManager().sendRequest(tLRPC$TL_channels_createChannel, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda439
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     MessagesController.this.lambda$createChat$241(baseFragment, tLRPC$TL_channels_createChannel, tLObject, tLRPC$TL_error);
@@ -22011,7 +22798,7 @@ public class MessagesController extends BaseController implements NotificationCe
 
     public /* synthetic */ void lambda$createChat$238(final BaseFragment baseFragment, final TLRPC$TL_messages_createChat tLRPC$TL_messages_createChat, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         if (tLRPC$TL_error != null) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda231
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda235
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$createChat$236(tLRPC$TL_error, baseFragment, tLRPC$TL_messages_createChat);
@@ -22020,7 +22807,7 @@ public class MessagesController extends BaseController implements NotificationCe
         } else if (tLObject instanceof TLRPC$TL_messages_invitedUsers) {
             final TLRPC$TL_messages_invitedUsers tLRPC$TL_messages_invitedUsers = (TLRPC$TL_messages_invitedUsers) tLObject;
             processUpdates(tLRPC$TL_messages_invitedUsers.updates, false);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda238
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda242
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$createChat$237(tLRPC$TL_messages_invitedUsers);
@@ -22048,7 +22835,7 @@ public class MessagesController extends BaseController implements NotificationCe
 
     public /* synthetic */ void lambda$createChat$241(final BaseFragment baseFragment, final TLRPC$TL_channels_createChannel tLRPC$TL_channels_createChannel, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         if (tLRPC$TL_error != null) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda227
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda231
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$createChat$239(tLRPC$TL_error, baseFragment, tLRPC$TL_channels_createChannel);
@@ -22058,7 +22845,7 @@ public class MessagesController extends BaseController implements NotificationCe
         }
         final TLRPC$Updates tLRPC$Updates = (TLRPC$Updates) tLObject;
         processUpdates(tLRPC$Updates, false);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda248
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda252
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$createChat$240(tLRPC$Updates);
@@ -22090,7 +22877,7 @@ public class MessagesController extends BaseController implements NotificationCe
         final TLRPC$TL_messages_migrateChat tLRPC$TL_messages_migrateChat = new TLRPC$TL_messages_migrateChat();
         tLRPC$TL_messages_migrateChat.chat_id = j;
         final AlertDialog alertDialog = context != null ? new AlertDialog(context, 3) : null;
-        final int sendRequest = getConnectionsManager().sendRequest(tLRPC$TL_messages_migrateChat, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda412
+        final int sendRequest = getConnectionsManager().sendRequest(tLRPC$TL_messages_migrateChat, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda420
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$convertToMegaGroup$245(context, alertDialog, longCallback, j, runnable, baseFragment, tLRPC$TL_messages_migrateChat, tLObject, tLRPC$TL_error);
@@ -22113,7 +22900,7 @@ public class MessagesController extends BaseController implements NotificationCe
     public /* synthetic */ void lambda$convertToMegaGroup$245(final Context context, final AlertDialog alertDialog, final MessagesStorage.LongCallback longCallback, final long j, Runnable runnable, final BaseFragment baseFragment, final TLRPC$TL_messages_migrateChat tLRPC$TL_messages_migrateChat, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         if (tLRPC$TL_error == null) {
             if (context != null) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda18
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda21
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesController.lambda$convertToMegaGroup$242(context, alertDialog);
@@ -22122,7 +22909,7 @@ public class MessagesController extends BaseController implements NotificationCe
             }
             final TLRPC$Updates tLRPC$Updates = (TLRPC$Updates) tLObject;
             processUpdates(tLRPC$Updates, false);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda282
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda286
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.lambda$convertToMegaGroup$243(MessagesStorage.LongCallback.this, tLRPC$Updates, j);
@@ -22133,7 +22920,7 @@ public class MessagesController extends BaseController implements NotificationCe
         if (runnable != null) {
             runnable.run();
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda180
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda183
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$convertToMegaGroup$244(longCallback, context, alertDialog, tLRPC$TL_error, baseFragment, tLRPC$TL_messages_migrateChat);
@@ -22216,7 +23003,7 @@ public class MessagesController extends BaseController implements NotificationCe
         tLRPC$TL_channels_convertToGigagroup.channel = getInputChannel(tLRPC$Chat);
         AlertDialog alertDialog = context != null ? new AlertDialog(context, 3) : null;
         final AlertDialog alertDialog2 = alertDialog;
-        final int sendRequest = getConnectionsManager().sendRequest(tLRPC$TL_channels_convertToGigagroup, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda411
+        final int sendRequest = getConnectionsManager().sendRequest(tLRPC$TL_channels_convertToGigagroup, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda419
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$convertToGigaGroup$250(context, alertDialog2, booleanCallback, baseFragment, tLRPC$TL_channels_convertToGigagroup, tLObject, tLRPC$TL_error);
@@ -22239,7 +23026,7 @@ public class MessagesController extends BaseController implements NotificationCe
     public /* synthetic */ void lambda$convertToGigaGroup$250(final Context context, final AlertDialog alertDialog, final MessagesStorage.BooleanCallback booleanCallback, final BaseFragment baseFragment, final TLRPC$TL_channels_convertToGigagroup tLRPC$TL_channels_convertToGigagroup, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         if (tLRPC$TL_error == null) {
             if (context != null) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda19
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda22
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesController.lambda$convertToGigaGroup$247(context, alertDialog);
@@ -22247,7 +23034,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 });
             }
             processUpdates((TLRPC$Updates) tLObject, false);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda281
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda285
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.lambda$convertToGigaGroup$248(MessagesStorage.BooleanCallback.this);
@@ -22255,7 +23042,7 @@ public class MessagesController extends BaseController implements NotificationCe
             });
             return;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda179
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda182
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$convertToGigaGroup$249(booleanCallback, context, alertDialog, tLRPC$TL_error, baseFragment, tLRPC$TL_channels_convertToGigagroup);
@@ -22306,7 +23093,7 @@ public class MessagesController extends BaseController implements NotificationCe
         final TLRPC$TL_channels_inviteToChannel tLRPC$TL_channels_inviteToChannel = new TLRPC$TL_channels_inviteToChannel();
         tLRPC$TL_channels_inviteToChannel.channel = getInputChannel(j);
         tLRPC$TL_channels_inviteToChannel.users = arrayList;
-        getConnectionsManager().sendRequest(tLRPC$TL_channels_inviteToChannel, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda432
+        getConnectionsManager().sendRequest(tLRPC$TL_channels_inviteToChannel, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda440
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$addUsersToChannel$254(baseFragment, tLRPC$TL_channels_inviteToChannel, j, tLObject, tLRPC$TL_error);
@@ -22320,7 +23107,7 @@ public class MessagesController extends BaseController implements NotificationCe
 
     public /* synthetic */ void lambda$addUsersToChannel$254(final BaseFragment baseFragment, final TLRPC$TL_channels_inviteToChannel tLRPC$TL_channels_inviteToChannel, final long j, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         if (tLRPC$TL_error != null) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda230
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda234
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$addUsersToChannel$252(tLRPC$TL_error, baseFragment, tLRPC$TL_channels_inviteToChannel);
@@ -22329,7 +23116,7 @@ public class MessagesController extends BaseController implements NotificationCe
         } else if (tLObject instanceof TLRPC$TL_messages_invitedUsers) {
             final TLRPC$TL_messages_invitedUsers tLRPC$TL_messages_invitedUsers = (TLRPC$TL_messages_invitedUsers) tLObject;
             processUpdates(tLRPC$TL_messages_invitedUsers.updates, false);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda239
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda243
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$addUsersToChannel$253(tLRPC$TL_messages_invitedUsers, j);
@@ -22354,7 +23141,7 @@ public class MessagesController extends BaseController implements NotificationCe
         TLRPC$TL_messages_saveDefaultSendAs tLRPC$TL_messages_saveDefaultSendAs = new TLRPC$TL_messages_saveDefaultSendAs();
         tLRPC$TL_messages_saveDefaultSendAs.peer = getInputPeer(j);
         tLRPC$TL_messages_saveDefaultSendAs.send_as = getInputPeer(j2);
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_saveDefaultSendAs, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda371
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_saveDefaultSendAs, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda379
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$setDefaultSendAs$255(j, tLObject, tLRPC$TL_error);
@@ -22378,7 +23165,7 @@ public class MessagesController extends BaseController implements NotificationCe
         TLRPC$TL_messages_toggleNoForwards tLRPC$TL_messages_toggleNoForwards = new TLRPC$TL_messages_toggleNoForwards();
         tLRPC$TL_messages_toggleNoForwards.peer = getInputPeer(-j);
         tLRPC$TL_messages_toggleNoForwards.enabled = z;
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_toggleNoForwards, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda324
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_toggleNoForwards, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda331
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$toggleChatNoForwards$257(tLObject, tLRPC$TL_error);
@@ -22389,7 +23176,7 @@ public class MessagesController extends BaseController implements NotificationCe
     public /* synthetic */ void lambda$toggleChatNoForwards$257(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject != null) {
             processUpdates((TLRPC$Updates) tLObject, false);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda67
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda70
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$toggleChatNoForwards$256();
@@ -22406,7 +23193,7 @@ public class MessagesController extends BaseController implements NotificationCe
         TLRPC$TL_channels_toggleJoinToSend tLRPC$TL_channels_toggleJoinToSend = new TLRPC$TL_channels_toggleJoinToSend();
         tLRPC$TL_channels_toggleJoinToSend.channel = getInputChannel(j);
         tLRPC$TL_channels_toggleJoinToSend.enabled = z;
-        getConnectionsManager().sendRequest(tLRPC$TL_channels_toggleJoinToSend, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda416
+        getConnectionsManager().sendRequest(tLRPC$TL_channels_toggleJoinToSend, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda424
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$toggleChatJoinToSend$259(runnable, runnable2, tLObject, tLRPC$TL_error);
@@ -22417,7 +23204,7 @@ public class MessagesController extends BaseController implements NotificationCe
     public /* synthetic */ void lambda$toggleChatJoinToSend$259(Runnable runnable, Runnable runnable2, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject != null) {
             processUpdates((TLRPC$Updates) tLObject, false);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda52
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda56
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$toggleChatJoinToSend$258();
@@ -22443,7 +23230,7 @@ public class MessagesController extends BaseController implements NotificationCe
         TLRPC$TL_channels_toggleJoinRequest tLRPC$TL_channels_toggleJoinRequest = new TLRPC$TL_channels_toggleJoinRequest();
         tLRPC$TL_channels_toggleJoinRequest.channel = getInputChannel(j);
         tLRPC$TL_channels_toggleJoinRequest.enabled = z;
-        getConnectionsManager().sendRequest(tLRPC$TL_channels_toggleJoinRequest, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda417
+        getConnectionsManager().sendRequest(tLRPC$TL_channels_toggleJoinRequest, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda425
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$toggleChatJoinRequest$261(runnable, runnable2, tLObject, tLRPC$TL_error);
@@ -22454,7 +23241,7 @@ public class MessagesController extends BaseController implements NotificationCe
     public /* synthetic */ void lambda$toggleChatJoinRequest$261(Runnable runnable, Runnable runnable2, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject != null) {
             processUpdates((TLRPC$Updates) tLObject, false);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda55
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda59
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$toggleChatJoinRequest$260();
@@ -22476,22 +23263,30 @@ public class MessagesController extends BaseController implements NotificationCe
         getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.updateInterfaces, Integer.valueOf(UPDATE_MASK_CHAT));
     }
 
-    public void toggleChannelSignatures(long j, boolean z) {
+    public void toggleChannelSignatures(long j, boolean z, boolean z2) {
+        TLRPC$Chat chat = getChat(Long.valueOf(j));
+        if (chat != null) {
+            chat.signatures = z;
+            chat.signature_profiles = z2;
+            putChat(chat, true);
+        }
         TLRPC$TL_channels_toggleSignatures tLRPC$TL_channels_toggleSignatures = new TLRPC$TL_channels_toggleSignatures();
         tLRPC$TL_channels_toggleSignatures.channel = getInputChannel(j);
-        tLRPC$TL_channels_toggleSignatures.enabled = z;
-        getConnectionsManager().sendRequest(tLRPC$TL_channels_toggleSignatures, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda328
+        tLRPC$TL_channels_toggleSignatures.signatures_enabled = z;
+        tLRPC$TL_channels_toggleSignatures.profiles_enabled = z2;
+        getConnectionsManager().sendRequest(tLRPC$TL_channels_toggleSignatures, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda336
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$toggleChannelSignatures$263(tLObject, tLRPC$TL_error);
             }
         }, 64);
+        getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.updateAllMessages, Long.valueOf(-j));
     }
 
     public /* synthetic */ void lambda$toggleChannelSignatures$263(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject != null) {
             processUpdates((TLRPC$Updates) tLObject, false);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda60
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda64
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$toggleChannelSignatures$262();
@@ -22508,7 +23303,7 @@ public class MessagesController extends BaseController implements NotificationCe
         TLRPC$TL_channels_toggleForum tLRPC$TL_channels_toggleForum = new TLRPC$TL_channels_toggleForum();
         tLRPC$TL_channels_toggleForum.channel = getInputChannel(j);
         tLRPC$TL_channels_toggleForum.enabled = z;
-        getConnectionsManager().sendRequest(tLRPC$TL_channels_toggleForum, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda329
+        getConnectionsManager().sendRequest(tLRPC$TL_channels_toggleForum, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda337
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$toggleChannelForum$265(tLObject, tLRPC$TL_error);
@@ -22519,7 +23314,7 @@ public class MessagesController extends BaseController implements NotificationCe
     public /* synthetic */ void lambda$toggleChannelForum$265(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject != null) {
             processUpdates((TLRPC$Updates) tLObject, false);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda53
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda57
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$toggleChannelForum$264();
@@ -22536,7 +23331,7 @@ public class MessagesController extends BaseController implements NotificationCe
         TLRPC$TL_channels_togglePreHistoryHidden tLRPC$TL_channels_togglePreHistoryHidden = new TLRPC$TL_channels_togglePreHistoryHidden();
         tLRPC$TL_channels_togglePreHistoryHidden.channel = getInputChannel(j);
         tLRPC$TL_channels_togglePreHistoryHidden.enabled = z;
-        getConnectionsManager().sendRequest(tLRPC$TL_channels_togglePreHistoryHidden, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda323
+        getConnectionsManager().sendRequest(tLRPC$TL_channels_togglePreHistoryHidden, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda330
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$toggleChannelInvitesHistory$267(tLObject, tLRPC$TL_error);
@@ -22547,7 +23342,7 @@ public class MessagesController extends BaseController implements NotificationCe
     public /* synthetic */ void lambda$toggleChannelInvitesHistory$267(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject != null) {
             processUpdates((TLRPC$Updates) tLObject, false);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda31
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda34
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$toggleChannelInvitesHistory$266();
@@ -22564,7 +23359,7 @@ public class MessagesController extends BaseController implements NotificationCe
         TLRPC$TL_messages_editChatAbout tLRPC$TL_messages_editChatAbout = new TLRPC$TL_messages_editChatAbout();
         tLRPC$TL_messages_editChatAbout.peer = getInputPeer(-j);
         tLRPC$TL_messages_editChatAbout.about = str;
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_editChatAbout, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda425
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_editChatAbout, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda433
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$updateChatAbout$269(tLRPC$ChatFull, str, tLObject, tLRPC$TL_error);
@@ -22576,7 +23371,7 @@ public class MessagesController extends BaseController implements NotificationCe
         if (!(tLObject instanceof TLRPC$TL_boolTrue) || tLRPC$ChatFull == null) {
             return;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda213
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda217
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$updateChatAbout$268(tLRPC$ChatFull, str);
@@ -22597,7 +23392,7 @@ public class MessagesController extends BaseController implements NotificationCe
         final TLRPC$TL_channels_updateUsername tLRPC$TL_channels_updateUsername = new TLRPC$TL_channels_updateUsername();
         tLRPC$TL_channels_updateUsername.channel = getInputChannel(j);
         tLRPC$TL_channels_updateUsername.username = str;
-        getConnectionsManager().sendRequest(tLRPC$TL_channels_updateUsername, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda399
+        getConnectionsManager().sendRequest(tLRPC$TL_channels_updateUsername, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda407
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$updateChannelUserName$271(j, str, runnable, baseFragment, tLRPC$TL_channels_updateUsername, runnable2, tLObject, tLRPC$TL_error);
@@ -22607,7 +23402,7 @@ public class MessagesController extends BaseController implements NotificationCe
 
     public /* synthetic */ void lambda$updateChannelUserName$271(final long j, final String str, final Runnable runnable, BaseFragment baseFragment, TLRPC$TL_channels_updateUsername tLRPC$TL_channels_updateUsername, Runnable runnable2, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if ((tLObject instanceof TLRPC$TL_boolTrue) || (tLRPC$TL_error != null && "USERNAME_NOT_MODIFIED".equals(tLRPC$TL_error.text))) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda127
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda130
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$updateChannelUserName$270(j, str, runnable);
@@ -22668,7 +23463,7 @@ public class MessagesController extends BaseController implements NotificationCe
         tLRPC$TL_messages_startBot.peer = getInputPeer(tLRPC$User.id);
         tLRPC$TL_messages_startBot.start_param = str;
         tLRPC$TL_messages_startBot.random_id = Utilities.random.nextLong();
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_startBot, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda342
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_startBot, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda349
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$sendBotStart$272(tLObject, tLRPC$TL_error);
@@ -22705,7 +23500,7 @@ public class MessagesController extends BaseController implements NotificationCe
         while (it.hasNext()) {
             tLRPC$TL_users_getIsPremiumRequiredToContact.id.add(messagesController.getInputUser(it.next()));
         }
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_users_getIsPremiumRequiredToContact, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda319
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_users_getIsPremiumRequiredToContact, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda326
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.lambda$loadUsersPremiumLocked$274(arrayList, callback, tLObject, tLRPC$TL_error);
@@ -22714,7 +23509,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public static /* synthetic */ void lambda$loadUsersPremiumLocked$274(final ArrayList arrayList, final Utilities.Callback callback, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda288
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda292
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.lambda$loadUsersPremiumLocked$273(TLObject.this, arrayList, callback);
@@ -22743,19 +23538,19 @@ public class MessagesController extends BaseController implements NotificationCe
         long j = tLRPC$Chat.id;
         for (int i2 = 0; i2 < size; i2++) {
             final TLRPC$User tLRPC$User = arrayList.get(i2);
-            addUserToChat(j, tLRPC$User, i, null, baseFragment, false, new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda24
+            addUserToChat(j, tLRPC$User, i, null, baseFragment, false, new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda27
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.lambda$addUsersToChat$275(androidx.core.util.Consumer.this, tLRPC$User);
                 }
-            }, new ErrorDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda308
+            }, new ErrorDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda314
                 @Override // org.telegram.messenger.MessagesController.ErrorDelegate
                 public final boolean run(TLRPC$TL_error tLRPC$TL_error) {
                     boolean lambda$addUsersToChat$276;
                     lambda$addUsersToChat$276 = MessagesController.lambda$addUsersToChat$276(androidx.core.util.Consumer.this, tLRPC$User, tLRPC$TL_error);
                     return lambda$addUsersToChat$276;
                 }
-            }, new Utilities.Callback() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda314
+            }, new Utilities.Callback() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda320
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
                     MessagesController.this.lambda$addUsersToChat$278(tLRPC$TL_messages_invitedUsers, iArr, size, tLRPC$Chat, runnable, (TLRPC$TL_messages_invitedUsers) obj);
@@ -22785,7 +23580,7 @@ public class MessagesController extends BaseController implements NotificationCe
         iArr[0] = iArr[0] + 1;
         if (iArr[0] >= i) {
             if (!tLRPC$TL_messages_invitedUsers.missing_invitees.isEmpty()) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda211
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda215
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesController.this.lambda$addUsersToChat$277(tLRPC$Chat, tLRPC$TL_messages_invitedUsers);
@@ -22862,7 +23657,7 @@ public class MessagesController extends BaseController implements NotificationCe
             tLRPC$TL_messages_addChatUser = tLRPC$TL_messages_addChatUser2;
         }
         final TLRPC$TL_messages_addChatUser tLRPC$TL_messages_addChatUser3 = tLRPC$TL_messages_addChatUser;
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_addChatUser3, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda439
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_addChatUser3, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda447
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$addUserToChat$288(isChannel, inputUser, j, tLRPC$User, callback, z, runnable, errorDelegate, baseFragment, tLRPC$TL_messages_addChatUser3, z2, tLObject, tLRPC$TL_error);
@@ -22875,7 +23670,7 @@ public class MessagesController extends BaseController implements NotificationCe
         TLRPC$TL_messages_invitedUsers tLRPC$TL_messages_invitedUsers;
         boolean z4;
         if (z && (tLRPC$InputUser instanceof TLRPC$TL_inputUserSelf)) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda90
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda94
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$addUserToChat$279(j);
@@ -22891,7 +23686,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 tLRPC$TL_missingInvitee.premium_would_allow_invite = true;
                 tLRPC$TL_missingInvitee.premium_required_for_pm = true;
                 tLRPC$TL_messages_invitedUsers2.missing_invitees.add(tLRPC$TL_missingInvitee);
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda184
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda187
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesController.this.lambda$addUserToChat$280(callback, tLRPC$TL_messages_invitedUsers2, j);
@@ -22899,7 +23694,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 });
                 return;
             }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda283
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda287
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.lambda$addUserToChat$281(Utilities.Callback.this);
@@ -22913,14 +23708,14 @@ public class MessagesController extends BaseController implements NotificationCe
                 return;
             }
             if (errorDelegate != null) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda177
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda180
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesController.this.lambda$addUserToChat$282(errorDelegate, tLRPC$TL_error, baseFragment, tLObject, z, z3);
                     }
                 });
             }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda178
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda181
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$addUserToChat$283(errorDelegate, tLRPC$TL_error, baseFragment, tLObject, z, z3, tLRPC$InputUser);
@@ -22936,7 +23731,7 @@ public class MessagesController extends BaseController implements NotificationCe
             tLRPC$TL_messages_invitedUsers = null;
         } else {
             FileLog.e("unexpected " + tLObject2 + " in addUserToChat");
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda285
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda289
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.lambda$addUserToChat$284(Utilities.Callback.this);
@@ -22961,7 +23756,7 @@ public class MessagesController extends BaseController implements NotificationCe
         if (tLRPC$TL_messages_invitedUsers != null && !tLRPC$TL_messages_invitedUsers.missing_invitees.isEmpty()) {
             final TLRPC$Updates tLRPC$Updates2 = tLRPC$Updates;
             final TLRPC$TL_messages_invitedUsers tLRPC$TL_messages_invitedUsers3 = tLRPC$TL_messages_invitedUsers;
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda249
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda253
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$addUserToChat$285(tLRPC$Updates2, callback, tLRPC$TL_messages_invitedUsers3, j);
@@ -22973,7 +23768,7 @@ public class MessagesController extends BaseController implements NotificationCe
             if (!z4 && (tLRPC$InputUser instanceof TLRPC$TL_inputUserSelf)) {
                 generateJoinMessage(j, true);
             }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda95
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda100
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$addUserToChat$286(j);
@@ -22987,7 +23782,7 @@ public class MessagesController extends BaseController implements NotificationCe
             AndroidUtilities.runOnUIThread(runnable);
         }
         if (callback != null) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda284
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda288
                 @Override // java.lang.Runnable
                 public final void run() {
                     Utilities.Callback.this.run(null);
@@ -23113,7 +23908,7 @@ public class MessagesController extends BaseController implements NotificationCe
         } else if (z) {
             TLRPC$TL_messages_deleteChat tLRPC$TL_messages_deleteChat = new TLRPC$TL_messages_deleteChat();
             tLRPC$TL_messages_deleteChat.chat_id = j;
-            getConnectionsManager().sendRequest(tLRPC$TL_messages_deleteChat, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda454
+            getConnectionsManager().sendRequest(tLRPC$TL_messages_deleteChat, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda463
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     MessagesController.lambda$deleteParticipantFromChat$289(tLObject, tLRPC$TL_error);
@@ -23131,7 +23926,7 @@ public class MessagesController extends BaseController implements NotificationCe
             deleteDialog(-j, 0, z2);
         }
         final boolean z4 = z3;
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_deleteChatUser, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda442
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_deleteChatUser, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda450
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$deleteParticipantFromChat$291(isChannel, z4, j, runnable, tLObject, tLRPC$TL_error);
@@ -23145,7 +23940,7 @@ public class MessagesController extends BaseController implements NotificationCe
         }
         processUpdates((TLRPC$Updates) tLObject, false);
         if (z && !z2) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda101
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda105
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$deleteParticipantFromChat$290(j);
@@ -23209,7 +24004,7 @@ public class MessagesController extends BaseController implements NotificationCe
         } else if (z) {
             TLRPC$TL_messages_deleteChat tLRPC$TL_messages_deleteChat = new TLRPC$TL_messages_deleteChat();
             tLRPC$TL_messages_deleteChat.chat_id = j;
-            getConnectionsManager().sendRequest(tLRPC$TL_messages_deleteChat, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda448
+            getConnectionsManager().sendRequest(tLRPC$TL_messages_deleteChat, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda457
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     MessagesController.lambda$deleteParticipantFromChat$292(tLObject, tLRPC$TL_error);
@@ -23226,7 +24021,7 @@ public class MessagesController extends BaseController implements NotificationCe
         if (UserObject.isUserSelf(tLRPC$User)) {
             deleteDialog(-j, 0, z2);
         }
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_deleteChatUser, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda441
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_deleteChatUser, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda449
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$deleteParticipantFromChat$294(isChannel, tLRPC$User, j, tLObject, tLRPC$TL_error);
@@ -23242,7 +24037,7 @@ public class MessagesController extends BaseController implements NotificationCe
         if (!z || UserObject.isUserSelf(tLRPC$User)) {
             return;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda106
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda109
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$deleteParticipantFromChat$293(j);
@@ -23268,7 +24063,7 @@ public class MessagesController extends BaseController implements NotificationCe
             tLRPC$TL_messages_editChatTitle2.title = str;
             tLRPC$TL_messages_editChatTitle = tLRPC$TL_messages_editChatTitle2;
         }
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_editChatTitle, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda344
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_editChatTitle, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda351
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$changeChatTitle$295(tLObject, tLRPC$TL_error);
@@ -23330,7 +24125,7 @@ public class MessagesController extends BaseController implements NotificationCe
             tLRPC$TL_messages_editChatPhoto2.photo = tLRPC$InputChatPhoto;
             tLRPC$TL_messages_editChatPhoto = tLRPC$TL_messages_editChatPhoto2;
         }
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_editChatPhoto, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda428
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_editChatPhoto, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda436
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$changeChatAvatar$297(tLRPC$TL_inputChatPhoto, tLRPC$FileLocation, tLRPC$FileLocation2, str, j, runnable, tLObject, tLRPC$TL_error);
@@ -23399,7 +24194,7 @@ public class MessagesController extends BaseController implements NotificationCe
             }
         }
         processUpdates(tLRPC$Updates, false);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda151
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda154
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$changeChatAvatar$296(runnable);
@@ -23426,7 +24221,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     tLRPC$TL_account_unregisterDevice.other_uids.add(Long.valueOf(userConfig.getClientUserId()));
                 }
             }
-            getConnectionsManager().sendRequest(tLRPC$TL_account_unregisterDevice, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda463
+            getConnectionsManager().sendRequest(tLRPC$TL_account_unregisterDevice, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda472
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     MessagesController.lambda$unregistedPush$298(tLObject, tLRPC$TL_error);
@@ -23449,7 +24244,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 public void serializeToStream(AbstractSerializedData abstractSerializedData) {
                     abstractSerializedData.writeInt32(1047706137);
                 }
-            }, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda339
+            }, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda347
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     MessagesController.this.lambda$performLogout$300(tLObject, tLRPC$TL_error);
@@ -23501,7 +24296,7 @@ public class MessagesController extends BaseController implements NotificationCe
 
     public /* synthetic */ void lambda$performLogout$300(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         getConnectionsManager().cleanup(false);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda287
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda291
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.lambda$performLogout$299(TLObject.this);
@@ -23547,7 +24342,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 }
             }
         }
-        getConnectionsManager().sendRequest(tLRPC$TL_account_registerDevice, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda360
+        getConnectionsManager().sendRequest(tLRPC$TL_account_registerDevice, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda368
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$registerForPush$302(i, str, tLObject, tLRPC$TL_error);
@@ -23565,7 +24360,7 @@ public class MessagesController extends BaseController implements NotificationCe
             SharedConfig.pushType = i;
             getUserConfig().saveConfig(false);
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda57
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda61
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$registerForPush$301();
@@ -23592,7 +24387,7 @@ public class MessagesController extends BaseController implements NotificationCe
             public void serializeToStream(AbstractSerializedData abstractSerializedData) {
                 abstractSerializedData.writeInt32(-304838614);
             }
-        }, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda336
+        }, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda344
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$loadCurrentState$303(tLObject, tLRPC$TL_error);
@@ -23680,7 +24475,7 @@ public class MessagesController extends BaseController implements NotificationCe
             this.updatesQueueChannels.remove(j);
             return;
         }
-        Collections.sort(arrayList, new Comparator() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda304
+        Collections.sort(arrayList, new Comparator() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda310
             @Override // java.util.Comparator
             public final int compare(Object obj, Object obj2) {
                 int lambda$processChannelsUpdatesQueue$304;
@@ -23742,7 +24537,7 @@ public class MessagesController extends BaseController implements NotificationCe
         ArrayList<TLRPC$Updates> arrayList;
         if (i == 0) {
             arrayList = this.updatesQueueSeq;
-            Collections.sort(arrayList, new Comparator() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda300
+            Collections.sort(arrayList, new Comparator() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda306
                 @Override // java.util.Comparator
                 public final int compare(Object obj, Object obj2) {
                     int lambda$processUpdatesQueue$305;
@@ -23752,7 +24547,7 @@ public class MessagesController extends BaseController implements NotificationCe
             });
         } else if (i == 1) {
             arrayList = this.updatesQueuePts;
-            Collections.sort(arrayList, new Comparator() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda306
+            Collections.sort(arrayList, new Comparator() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda312
                 @Override // java.util.Comparator
                 public final int compare(Object obj, Object obj2) {
                     int lambda$processUpdatesQueue$306;
@@ -23762,7 +24557,7 @@ public class MessagesController extends BaseController implements NotificationCe
             });
         } else if (i == 2) {
             arrayList = this.updatesQueueQts;
-            Collections.sort(arrayList, new Comparator() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda305
+            Collections.sort(arrayList, new Comparator() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda311
                 @Override // java.util.Comparator
                 public final int compare(Object obj, Object obj2) {
                     int lambda$processUpdatesQueue$307;
@@ -23866,7 +24661,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     e = e2;
                     FileLog.e(e);
                     j = getMessagesStorage().createPendingTask(nativeByteBuffer);
-                    getConnectionsManager().sendRequest(tLRPC$TL_messages_getPeerDialogs, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda403
+                    getConnectionsManager().sendRequest(tLRPC$TL_messages_getPeerDialogs, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda411
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                             MessagesController.this.lambda$loadUnknownChannel$308(j, tLRPC$Chat, tLObject, tLRPC$TL_error);
@@ -23879,7 +24674,7 @@ public class MessagesController extends BaseController implements NotificationCe
             }
             j = getMessagesStorage().createPendingTask(nativeByteBuffer);
         }
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_getPeerDialogs, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda403
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_getPeerDialogs, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda411
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$loadUnknownChannel$308(j, tLRPC$Chat, tLObject, tLRPC$TL_error);
@@ -23913,7 +24708,7 @@ public class MessagesController extends BaseController implements NotificationCe
         if (tLRPC$Chat == null) {
             return;
         }
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda212
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda216
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$startShortPoll$311(tLRPC$Chat, z, i, consumer);
@@ -23952,7 +24747,7 @@ public class MessagesController extends BaseController implements NotificationCe
         }
         if (this.shortPollChannels.indexOfKey(tLRPC$Chat.id) < 0) {
             if (consumer != null) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda20
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda23
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesController.lambda$startShortPoll$309(androidx.core.util.Consumer.this);
@@ -23961,7 +24756,7 @@ public class MessagesController extends BaseController implements NotificationCe
             }
             getChannelDifference(tLRPC$Chat.id, 3, 0L, null);
         } else if (consumer != null) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda21
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda24
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.lambda$startShortPoll$310(androidx.core.util.Consumer.this);
@@ -24022,7 +24817,7 @@ public class MessagesController extends BaseController implements NotificationCe
         int i3 = 100;
         if (i == 1) {
             if (this.channelsPts.get(j) != 0) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda88
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda91
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesController.this.lambda$getChannelDifference$312(j);
@@ -24041,7 +24836,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     this.channelsPts.put(j, i2);
                 }
                 if (i2 == 0 && (i == 2 || i == 3)) {
-                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda96
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda101
                         @Override // java.lang.Runnable
                         public final void run() {
                             MessagesController.this.lambda$getChannelDifference$313(j);
@@ -24051,7 +24846,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 }
             }
             if (i2 == 0) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda93
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda98
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesController.this.lambda$getChannelDifference$314(j);
@@ -24073,7 +24868,7 @@ public class MessagesController extends BaseController implements NotificationCe
             if (j3 != 0) {
                 getMessagesStorage().removePendingTask(j3);
             }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda102
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda106
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$getChannelDifference$315(j);
@@ -24111,7 +24906,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     tLRPC$TL_updates_getChannelDifference.force = i != 3;
                     if (BuildVars.LOGS_ENABLED) {
                     }
-                    getConnectionsManager().sendRequest(tLRPC$TL_updates_getChannelDifference, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda386
+                    getConnectionsManager().sendRequest(tLRPC$TL_updates_getChannelDifference, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda394
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                             MessagesController.this.lambda$getChannelDifference$327(j, i, j4, tLObject, tLRPC$TL_error);
@@ -24139,7 +24934,7 @@ public class MessagesController extends BaseController implements NotificationCe
         if (BuildVars.LOGS_ENABLED) {
             FileLog.d("start getChannelDifference with pts = " + i2 + " channelId = " + j);
         }
-        getConnectionsManager().sendRequest(tLRPC$TL_updates_getChannelDifference2, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda386
+        getConnectionsManager().sendRequest(tLRPC$TL_updates_getChannelDifference2, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda394
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$getChannelDifference$327(j, i, j42, tLObject, tLRPC$TL_error);
@@ -24167,7 +24962,7 @@ public class MessagesController extends BaseController implements NotificationCe
         final TLRPC$Chat tLRPC$Chat;
         if (tLObject == null) {
             if (tLRPC$TL_error != null) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda224
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda228
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesController.this.lambda$getChannelDifference$326(tLRPC$TL_error, j);
@@ -24214,13 +25009,13 @@ public class MessagesController extends BaseController implements NotificationCe
             }
         }
         getMessagesStorage().putUsersAndChats(tLRPC$updates_ChannelDifference.users, tLRPC$updates_ChannelDifference.chats, true, true);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda263
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda267
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$getChannelDifference$316(tLRPC$updates_ChannelDifference);
             }
         });
-        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda168
+        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda171
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$getChannelDifference$325(arrayList, j, tLRPC$updates_ChannelDifference, tLRPC$Chat, longSparseArray, i, j2);
@@ -24245,7 +25040,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 }
             }
             if (sparseArray.size() != 0) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda141
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda144
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesController.this.lambda$getChannelDifference$317(sparseArray);
@@ -24253,7 +25048,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 });
             }
         }
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda264
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda268
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$getChannelDifference$324(tLRPC$updates_ChannelDifference, j, tLRPC$Chat, longSparseArray, i, j2);
@@ -24343,13 +25138,13 @@ public class MessagesController extends BaseController implements NotificationCe
                     i2++;
                     tLRPC$Chat2 = tLRPC$Chat;
                 }
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda145
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda148
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesController.this.lambda$getChannelDifference$318(longSparseArray2);
                     }
                 });
-                getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda171
+                getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda174
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesController.this.lambda$getChannelDifference$320(arrayList2, tLRPC$updates_ChannelDifference);
@@ -24385,7 +25180,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 z2 = false;
                 tLRPC$Message2.unread = z2;
             }
-            getMessagesStorage().overwriteChannel(j, (TLRPC$TL_updates_channelDifferenceTooLong) tLRPC$updates_ChannelDifference, i, new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda100
+            getMessagesStorage().overwriteChannel(j, (TLRPC$TL_updates_channelDifferenceTooLong) tLRPC$updates_ChannelDifference, i, new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda104
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$getChannelDifference$322(j);
@@ -24409,7 +25204,7 @@ public class MessagesController extends BaseController implements NotificationCe
             if (z3) {
                 return;
             }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda98
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda102
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$getChannelDifference$323(j);
@@ -24441,7 +25236,7 @@ public class MessagesController extends BaseController implements NotificationCe
 
     public /* synthetic */ void lambda$getChannelDifference$320(final ArrayList arrayList, TLRPC$updates_ChannelDifference tLRPC$updates_ChannelDifference) {
         if (!arrayList.isEmpty()) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda157
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda160
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$getChannelDifference$319(arrayList);
@@ -24456,7 +25251,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public /* synthetic */ void lambda$getChannelDifference$322(final long j) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda92
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda97
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$getChannelDifference$321(j);
@@ -24546,7 +25341,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 FileLog.d("getDifference: isUpdating = true");
             }
             getConnectionsManager().setIsUpdating(true);
-            getConnectionsManager().sendRequest(tLRPC$TL_updates_getDifference, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda352
+            getConnectionsManager().sendRequest(tLRPC$TL_updates_getDifference, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda360
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     MessagesController.this.lambda$getDifference$337(i2, i3, tLObject, tLRPC$TL_error);
@@ -24560,7 +25355,7 @@ public class MessagesController extends BaseController implements NotificationCe
         if (tLRPC$TL_error == null) {
             final TLRPC$updates_Difference tLRPC$updates_Difference = (TLRPC$updates_Difference) tLObject;
             if (tLRPC$updates_Difference instanceof TLRPC$TL_updates_differenceTooLong) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda266
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda270
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesController.this.lambda$getDifference$328(tLRPC$updates_Difference, i, i2);
@@ -24606,13 +25401,13 @@ public class MessagesController extends BaseController implements NotificationCe
                     i3++;
                 }
             }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda265
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda269
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$getDifference$329(tLRPC$updates_Difference);
                 }
             });
-            getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda268
+            getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda272
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$getDifference$336(tLRPC$updates_Difference, arrayList, longSparseArray, longSparseArray2);
@@ -24651,7 +25446,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 }
             }
             if (sparseArray.size() != 0) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda140
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda143
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesController.this.lambda$getDifference$330(sparseArray);
@@ -24659,7 +25454,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 });
             }
         }
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda267
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda271
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$getDifference$335(tLRPC$updates_Difference, longSparseArray, longSparseArray2);
@@ -24749,7 +25544,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     arrayList2.add(messageObject);
                 }
             }
-            getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda173
+            getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda176
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$getDifference$334(arrayList, tLRPC$updates_Difference, longSparseArray3);
@@ -24795,7 +25590,7 @@ public class MessagesController extends BaseController implements NotificationCe
 
     public /* synthetic */ void lambda$getDifference$334(final ArrayList arrayList, final TLRPC$updates_Difference tLRPC$updates_Difference, LongSparseArray longSparseArray) {
         if (!arrayList.isEmpty()) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda172
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda175
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$getDifference$331(arrayList, tLRPC$updates_Difference);
@@ -24806,7 +25601,7 @@ public class MessagesController extends BaseController implements NotificationCe
         for (int i = 0; i < longSparseArray.size(); i++) {
             final long keyAt = longSparseArray.keyAt(i);
             final ArrayList<MessageObject> arrayList2 = (ArrayList) longSparseArray.valueAt(i);
-            getMediaDataController().loadReplyMessagesForMessages(arrayList2, keyAt, 0, 0L, new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda128
+            getMediaDataController().loadReplyMessagesForMessages(arrayList2, keyAt, 0, 0L, new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda131
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$getDifference$333(keyAt, arrayList2);
@@ -24820,7 +25615,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public /* synthetic */ void lambda$getDifference$333(final long j, final ArrayList arrayList) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda130
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda133
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$getDifference$332(j, arrayList);
@@ -24889,7 +25684,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 FileLog.e(e);
                 nativeByteBuffer = nativeByteBuffer2;
                 j2 = getMessagesStorage().createPendingTask(nativeByteBuffer);
-                getConnectionsManager().sendRequest(tLRPC$TL_messages_markDialogUnread, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda375
+                getConnectionsManager().sendRequest(tLRPC$TL_messages_markDialogUnread, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda383
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                         MessagesController.this.lambda$markDialogAsUnread$338(j2, tLObject, tLRPC$TL_error);
@@ -24898,7 +25693,7 @@ public class MessagesController extends BaseController implements NotificationCe
             }
             j2 = getMessagesStorage().createPendingTask(nativeByteBuffer);
         }
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_markDialogUnread, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda375
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_markDialogUnread, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda383
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$markDialogAsUnread$338(j2, tLObject, tLRPC$TL_error);
@@ -24936,7 +25731,7 @@ public class MessagesController extends BaseController implements NotificationCe
             public void serializeToStream(AbstractSerializedData abstractSerializedData) {
                 abstractSerializedData.writeInt32(585256482);
             }
-        }, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda343
+        }, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda350
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$loadUnreadDialogs$340(tLObject, tLRPC$TL_error);
@@ -24945,7 +25740,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public /* synthetic */ void lambda$loadUnreadDialogs$340(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda194
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda198
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$loadUnreadDialogs$339(tLObject);
@@ -25035,7 +25830,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     FileLog.e(e);
                     nativeByteBuffer = nativeByteBuffer2;
                     j = getMessagesStorage().createPendingTask(nativeByteBuffer);
-                    getConnectionsManager().sendRequest(tLRPC$TL_messages_reorderPinnedDialogs, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda366
+                    getConnectionsManager().sendRequest(tLRPC$TL_messages_reorderPinnedDialogs, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda374
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                             MessagesController.this.lambda$reorderPinnedDialogs$341(j, tLObject, tLRPC$TL_error);
@@ -25049,7 +25844,7 @@ public class MessagesController extends BaseController implements NotificationCe
         } else {
             tLRPC$TL_messages_reorderPinnedDialogs.order = arrayList;
         }
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_reorderPinnedDialogs, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda366
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_reorderPinnedDialogs, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda374
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$reorderPinnedDialogs$341(j, tLObject, tLRPC$TL_error);
@@ -25124,7 +25919,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     FileLog.e(e);
                     nativeByteBuffer = nativeByteBuffer2;
                     createPendingTask = getMessagesStorage().createPendingTask(nativeByteBuffer);
-                    getConnectionsManager().sendRequest(tLRPC$TL_messages_toggleDialogPin, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda380
+                    getConnectionsManager().sendRequest(tLRPC$TL_messages_toggleDialogPin, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda388
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                             MessagesController.this.lambda$pinDialog$342(createPendingTask, tLObject, tLRPC$TL_error);
@@ -25137,7 +25932,7 @@ public class MessagesController extends BaseController implements NotificationCe
             } else {
                 createPendingTask = j2;
             }
-            getConnectionsManager().sendRequest(tLRPC$TL_messages_toggleDialogPin, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda380
+            getConnectionsManager().sendRequest(tLRPC$TL_messages_toggleDialogPin, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda388
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     MessagesController.this.lambda$pinDialog$342(createPendingTask, tLObject, tLRPC$TL_error);
@@ -25161,7 +25956,7 @@ public class MessagesController extends BaseController implements NotificationCe
         this.loadingPinnedDialogs.put(i, 1);
         TLRPC$TL_messages_getPinnedDialogs tLRPC$TL_messages_getPinnedDialogs = new TLRPC$TL_messages_getPinnedDialogs();
         tLRPC$TL_messages_getPinnedDialogs.folder_id = i;
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_getPinnedDialogs, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda351
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_getPinnedDialogs, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda359
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$loadPinnedDialogs$345(i, tLObject, tLRPC$TL_error);
@@ -25280,7 +26075,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     this.dialogs_read_outbox_max.put(Long.valueOf(tLRPC$Dialog.id), Integer.valueOf(Math.max(num2.intValue(), tLRPC$Dialog.read_outbox_max_id)));
                 }
             }
-            getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda79
+            getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda82
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$loadPinnedDialogs$344(i, arrayList3, z, tLRPC$TL_messages_peerDialogs, longSparseArray, tLRPC$TL_messages_dialogs);
@@ -25290,7 +26085,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public /* synthetic */ void lambda$loadPinnedDialogs$344(final int i, final ArrayList arrayList, final boolean z, final TLRPC$TL_messages_peerDialogs tLRPC$TL_messages_peerDialogs, final LongSparseArray longSparseArray, final TLRPC$TL_messages_dialogs tLRPC$TL_messages_dialogs) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda80
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda83
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$loadPinnedDialogs$343(i, arrayList, z, tLRPC$TL_messages_peerDialogs, longSparseArray, tLRPC$TL_messages_dialogs);
@@ -25453,7 +26248,7 @@ public class MessagesController extends BaseController implements NotificationCe
             arrayList2.add(tLRPC$TL_messageService);
             arrayList.add(new MessageObject(this.currentAccount, tLRPC$TL_messageService, true, false));
             getMessagesStorage().putMessages(arrayList2, true, true, false, 0, 0, 0L);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda131
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda134
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$generateJoinMessage$346(j, arrayList);
@@ -25468,7 +26263,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public void deleteMessagesByPush(final long j, final ArrayList<Integer> arrayList, final long j2) {
-        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda165
+        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda168
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$deleteMessagesByPush$348(arrayList, j2, j);
@@ -25477,7 +26272,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public /* synthetic */ void lambda$deleteMessagesByPush$348(final ArrayList arrayList, final long j, long j2) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda164
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda167
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$deleteMessagesByPush$347(arrayList, j);
@@ -25528,7 +26323,7 @@ public class MessagesController extends BaseController implements NotificationCe
         TLRPC$TL_channels_getParticipant tLRPC$TL_channels_getParticipant = new TLRPC$TL_channels_getParticipant();
         tLRPC$TL_channels_getParticipant.channel = getInputChannel(j);
         tLRPC$TL_channels_getParticipant.participant = getInputPeer(getUserConfig().getClientUserId());
-        getConnectionsManager().sendRequest(tLRPC$TL_channels_getParticipant, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda424
+        getConnectionsManager().sendRequest(tLRPC$TL_channels_getParticipant, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda432
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.this.lambda$checkChatInviter$353(chat, z, j, tLObject, tLRPC$TL_error);
@@ -25546,7 +26341,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 if (tLRPC$Chat.megagroup && getMessagesStorage().isMigratedChat(tLRPC$Chat.id)) {
                     return;
                 }
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda219
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda223
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesController.this.lambda$checkChatInviter$349(tLRPC$TL_channels_channelParticipant);
@@ -25588,7 +26383,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     }
                     arrayList2.add(tLRPC$TL_messageService);
                     arrayList.add(new MessageObject(this.currentAccount, (TLRPC$Message) tLRPC$TL_messageService, (AbstractMap<Long, TLRPC$User>) concurrentHashMap, true, false));
-                    getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda160
+                    getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda163
                         @Override // java.lang.Runnable
                         public final void run() {
                             MessagesController.this.lambda$checkChatInviter$351(arrayList);
@@ -25598,7 +26393,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 }
                 final ArrayList arrayList3 = arrayList;
                 getMessagesStorage().saveChatInviter(j, tLRPC$TL_channels_channelParticipant.participant.inviter_id);
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda134
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda137
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesController.this.lambda$checkChatInviter$352(j, arrayList3, tLRPC$TL_channels_channelParticipant);
@@ -25618,7 +26413,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public /* synthetic */ void lambda$checkChatInviter$351(final ArrayList arrayList) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda162
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda165
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$checkChatInviter$350(arrayList);
@@ -26152,7 +26947,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                 if (z12) {
                                     updatePrintingStrings();
                                 }
-                                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda274
+                                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda278
                                     @Override // java.lang.Runnable
                                     public final void run() {
                                         MessagesController.this.lambda$processUpdates$354(z12, j2, arrayList4);
@@ -26163,7 +26958,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                 if (updatePrintingUsersWithNewMessages) {
                                     updatePrintingStrings();
                                 }
-                                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda276
+                                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda280
                                     @Override // java.lang.Runnable
                                     public final void run() {
                                         MessagesController.this.lambda$processUpdates$355(updatePrintingUsersWithNewMessages, tLRPC$Updates, arrayList4);
@@ -26171,7 +26966,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                 });
                             }
                             if (!messageObject.isOut()) {
-                                getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda155
+                                getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda158
                                     @Override // java.lang.Runnable
                                     public final void run() {
                                         MessagesController.this.lambda$processUpdates$357(arrayList4);
@@ -26491,7 +27286,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                 if (z7) {
                                     TLRPC$TL_messages_receivedQueue tLRPC$TL_messages_receivedQueue = new TLRPC$TL_messages_receivedQueue();
                                     tLRPC$TL_messages_receivedQueue.max_qts = getMessagesStorage().getLastQtsValue();
-                                    getConnectionsManager().sendRequest(tLRPC$TL_messages_receivedQueue, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda460
+                                    getConnectionsManager().sendRequest(tLRPC$TL_messages_receivedQueue, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda469
                                         @Override // org.telegram.tgnet.RequestDelegate
                                         public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                                             MessagesController.lambda$processUpdates$358(tLObject, tLRPC$TL_error);
@@ -26499,7 +27294,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                     });
                                 }
                                 if (i5 != 0) {
-                                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda47
+                                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda51
                                         @Override // java.lang.Runnable
                                         public final void run() {
                                             MessagesController.this.lambda$processUpdates$359();
@@ -26584,7 +27379,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public /* synthetic */ void lambda$processUpdates$357(final ArrayList arrayList) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda159
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda162
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$processUpdates$356(arrayList);
@@ -26745,7 +27540,7 @@ public class MessagesController extends BaseController implements NotificationCe
         long j9;
         if (arrayList.isEmpty()) {
             if (arrayList2 != null || arrayList3 != null) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda170
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda173
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesController.this.lambda$processUpdateArray$360(arrayList2, arrayList3);
@@ -26778,7 +27573,7 @@ public class MessagesController extends BaseController implements NotificationCe
         }
         ConcurrentHashMap<Long, TLRPC$Chat> concurrentHashMap4 = concurrentHashMap2;
         if (arrayList2 != null || arrayList3 != null) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda169
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda172
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$processUpdateArray$361(arrayList2, arrayList3);
@@ -27342,7 +28137,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                         j4 = tLRPC$TL_updateUserTyping.user_id;
                                         tLRPC$SendMessageAction = tLRPC$TL_updateUserTyping.action;
                                         if (tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageEmojiInteraction) {
-                                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda247
+                                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda251
                                                 @Override // java.lang.Runnable
                                                 public final void run() {
                                                     MessagesController.this.lambda$processUpdateArray$362(tLRPC$TL_updateUserTyping);
@@ -27367,7 +28162,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                         }
                                         TLRPC$SendMessageAction tLRPC$SendMessageAction2 = tLRPC$TL_updateChatUserTyping.action;
                                         if (tLRPC$SendMessageAction2 instanceof TLRPC$TL_sendMessageEmojiInteraction) {
-                                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda242
+                                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda246
                                                 @Override // java.lang.Runnable
                                                 public final void run() {
                                                     MessagesController.this.lambda$processUpdateArray$363(tLRPC$TL_updateChatUserTyping);
@@ -27713,7 +28508,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                                         getSecretChatHelper().processUpdateEncryption((TLRPC$TL_updateEncryption) tLRPC$Update, concurrentHashMap3);
                                                     } else if (tLRPC$Update instanceof TLRPC$TL_updatePeerBlocked) {
                                                         final TLRPC$TL_updatePeerBlocked tLRPC$TL_updatePeerBlocked = (TLRPC$TL_updatePeerBlocked) tLRPC$Update;
-                                                        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda244
+                                                        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda248
                                                             @Override // java.lang.Runnable
                                                             public final void run() {
                                                                 MessagesController.this.lambda$processUpdateArray$365(tLRPC$TL_updatePeerBlocked);
@@ -27723,7 +28518,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                                         if (tLRPC$Update instanceof TLRPC$TL_updateServiceNotification) {
                                                             final TLRPC$TL_updateServiceNotification tLRPC$TL_updateServiceNotification = (TLRPC$TL_updateServiceNotification) tLRPC$Update;
                                                             if (tLRPC$TL_updateServiceNotification.popup && (str = tLRPC$TL_updateServiceNotification.message) != null && str.length() > 0) {
-                                                                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda246
+                                                                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda250
                                                                     @Override // java.lang.Runnable
                                                                     public final void run() {
                                                                         MessagesController.this.lambda$processUpdateArray$366(tLRPC$TL_updateServiceNotification);
@@ -28118,7 +28913,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                                                                                         tLRPC$Message2.attachPath = "";
                                                                                                     }
                                                                                                     ImageLoader.saveMessageThumbs(tLRPC$Message2);
-                                                                                                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda217
+                                                                                                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda221
                                                                                                         @Override // java.lang.Runnable
                                                                                                         public final void run() {
                                                                                                             MessagesController.this.lambda$processUpdateArray$367(tLRPC$Message2);
@@ -28167,7 +28962,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                                                                                 } else if (!(tLRPC$Update instanceof TLRPC$TL_updateGroupCallConnection)) {
                                                                                                     if (tLRPC$Update instanceof TLRPC$TL_updateLangPack) {
                                                                                                         final TLRPC$TL_updateLangPack tLRPC$TL_updateLangPack = (TLRPC$TL_updateLangPack) tLRPC$Update;
-                                                                                                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda243
+                                                                                                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda247
                                                                                                             @Override // java.lang.Runnable
                                                                                                             public final void run() {
                                                                                                                 MessagesController.this.lambda$processUpdateArray$368(tLRPC$TL_updateLangPack);
@@ -28568,7 +29363,7 @@ public class MessagesController extends BaseController implements NotificationCe
             arrayList4 = arrayList59;
         }
         if (arrayList61 != null) {
-            getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda156
+            getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda159
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$processUpdateArray$370(arrayList61);
@@ -28598,7 +29393,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 longSparseArray45 = longSparseArray50;
             }
             longSparseArray = longSparseArray45;
-            getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda144
+            getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda147
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$processUpdateArray$372(longSparseArray);
@@ -28638,13 +29433,13 @@ public class MessagesController extends BaseController implements NotificationCe
         final boolean z12 = z8;
         final ArrayList arrayList67 = arrayList19;
         final ArrayList arrayList68 = arrayList20;
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda77
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda80
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$processUpdateArray$380(i28, arrayList63, arrayList2, longSparseArray51, i, longSparseIntArray16, longSparseArray52, longSparseArray48, arrayList65, longSparseArray55, longSparseArray54, z12, arrayList64, arrayList67, longSparseArray53, longSparseArray46, longSparseArray44, arrayList68);
             }
         });
-        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda186
+        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda189
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$processUpdateArray$382(longSparseIntArray15, longSparseIntArray13, sparseIntArray7, longSparseArray43, longSparseArray41, longSparseArray49, longSparseArray42, longSparseIntArray14);
@@ -28682,7 +29477,7 @@ public class MessagesController extends BaseController implements NotificationCe
                         for (int i30 = 0; i30 < size14; i30++) {
                             final long keyAt = longSparseArray41.keyAt(i30);
                             final ArrayList arrayList69 = (ArrayList) longSparseArray41.valueAt(i30);
-                            getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda129
+                            getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda132
                                 @Override // java.lang.Runnable
                                 public final void run() {
                                     MessagesController.this.lambda$processUpdateArray$383(keyAt, arrayList69);
@@ -28696,7 +29491,7 @@ public class MessagesController extends BaseController implements NotificationCe
                         for (int i31 = 0; i31 < size15; i31++) {
                             final long keyAt2 = longSparseArray49.keyAt(i31);
                             final ArrayList arrayList70 = (ArrayList) longSparseArray49.valueAt(i31);
-                            getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda132
+                            getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda135
                                 @Override // java.lang.Runnable
                                 public final void run() {
                                     MessagesController.this.lambda$processUpdateArray$384(clientUserId2, arrayList70, keyAt2);
@@ -28715,7 +29510,7 @@ public class MessagesController extends BaseController implements NotificationCe
                         for (int i33 = 0; i33 < size17; i33++) {
                             final long keyAt3 = longSparseIntArray14.keyAt(i33);
                             final int valueAt = longSparseIntArray14.valueAt(i33);
-                            getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda108
+                            getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda111
                                 @Override // java.lang.Runnable
                                 public final void run() {
                                     MessagesController.this.lambda$processUpdateArray$385(keyAt3, valueAt);
@@ -28806,7 +29601,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public /* synthetic */ void lambda$processUpdateArray$365(final TLRPC$TL_updatePeerBlocked tLRPC$TL_updatePeerBlocked) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda245
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda249
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$processUpdateArray$364(tLRPC$TL_updatePeerBlocked);
@@ -28844,7 +29639,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public /* synthetic */ void lambda$processUpdateArray$370(final ArrayList arrayList) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda158
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda161
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$processUpdateArray$369(arrayList);
@@ -28853,7 +29648,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public /* synthetic */ void lambda$processUpdateArray$372(final LongSparseArray longSparseArray) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda143
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda146
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$processUpdateArray$371(longSparseArray);
@@ -28896,29 +29691,29 @@ public class MessagesController extends BaseController implements NotificationCe
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:1313:0x063f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1317:0x063f, code lost:
         if (r2 == r6) goto L295;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1315:0x0643, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1319:0x0643, code lost:
         if (r7 == r4) goto L297;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1551:0x0b4a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1555:0x0b4a, code lost:
         if (r2.getCallState() == 0) goto L560;
      */
-    /* JADX WARN: Removed duplicated region for block: B:1319:0x066e  */
-    /* JADX WARN: Removed duplicated region for block: B:1587:0x0c15  */
-    /* JADX WARN: Removed duplicated region for block: B:1835:0x12ba  */
-    /* JADX WARN: Removed duplicated region for block: B:1848:0x12eb  */
-    /* JADX WARN: Removed duplicated region for block: B:1856:0x1303  */
-    /* JADX WARN: Removed duplicated region for block: B:1861:0x131f  */
-    /* JADX WARN: Removed duplicated region for block: B:1905:0x1430  */
-    /* JADX WARN: Removed duplicated region for block: B:1907:0x143e  */
-    /* JADX WARN: Removed duplicated region for block: B:1909:0x1444  */
-    /* JADX WARN: Removed duplicated region for block: B:1912:0x1450  */
-    /* JADX WARN: Removed duplicated region for block: B:1916:0x1469 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:1922:0x148c  */
-    /* JADX WARN: Removed duplicated region for block: B:1925:0x14a2  */
-    /* JADX WARN: Removed duplicated region for block: B:2077:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1323:0x066e  */
+    /* JADX WARN: Removed duplicated region for block: B:1591:0x0c15  */
+    /* JADX WARN: Removed duplicated region for block: B:1843:0x12ee  */
+    /* JADX WARN: Removed duplicated region for block: B:1856:0x131f  */
+    /* JADX WARN: Removed duplicated region for block: B:1864:0x1337  */
+    /* JADX WARN: Removed duplicated region for block: B:1869:0x1353  */
+    /* JADX WARN: Removed duplicated region for block: B:1913:0x1464  */
+    /* JADX WARN: Removed duplicated region for block: B:1915:0x1472  */
+    /* JADX WARN: Removed duplicated region for block: B:1917:0x1478  */
+    /* JADX WARN: Removed duplicated region for block: B:1920:0x1484  */
+    /* JADX WARN: Removed duplicated region for block: B:1924:0x149d A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:1930:0x14c0  */
+    /* JADX WARN: Removed duplicated region for block: B:1933:0x14d6  */
+    /* JADX WARN: Removed duplicated region for block: B:2085:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -28945,6 +29740,7 @@ public class MessagesController extends BaseController implements NotificationCe
         ApplicationLoader applicationLoader;
         TLRPC$ChatFull chatFull;
         TLRPC$UserFull tLRPC$UserFull;
+        char c;
         long j2;
         long j3;
         long j4;
@@ -29239,7 +30035,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                             final TLRPC$User user7 = getUser(Long.valueOf(tLRPC$TL_updateUserPhone.user_id));
                                             if (user7 != null) {
                                                 user7.phone = tLRPC$TL_updateUserPhone.phone;
-                                                Utilities.phoneBookQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda251
+                                                Utilities.phoneBookQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda255
                                                     @Override // java.lang.Runnable
                                                     public final void run() {
                                                         MessagesController.this.lambda$processUpdateArray$373(user7);
@@ -29296,7 +30092,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                                         if (i21 != i22) {
                                                             edit.putInt("EnableGroup2", i22);
                                                             edit.putBoolean("overwrite_group", true);
-                                                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda33
+                                                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda36
                                                                 @Override // java.lang.Runnable
                                                                 public final void run() {
                                                                     MessagesController.this.lambda$processUpdateArray$374();
@@ -29346,7 +30142,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                                                 if (i24 != i25) {
                                                                     edit.putInt("EnableAll2", i25);
                                                                     edit.putBoolean("overwrite_private", true);
-                                                                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda36
+                                                                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda39
                                                                         @Override // java.lang.Runnable
                                                                         public final void run() {
                                                                             MessagesController.this.lambda$processUpdateArray$375();
@@ -29371,7 +30167,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                                         if (i26 != i27) {
                                                             edit.putInt("EnableChannel2", i27);
                                                             edit.putBoolean("overwrite_channel", true);
-                                                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda46
+                                                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda50
                                                                 @Override // java.lang.Runnable
                                                                 public final void run() {
                                                                     MessagesController.this.lambda$processUpdateArray$376();
@@ -29393,7 +30189,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                                 TLRPC$Chat chat = getChat(Long.valueOf(tLRPC$TL_updateChannel.channel_id));
                                                 if (chat != null) {
                                                     if (tLRPC$Dialog2 == null && (chat instanceof TLRPC$TL_channel) && !chat.left) {
-                                                        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda241
+                                                        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda245
                                                             @Override // java.lang.Runnable
                                                             public final void run() {
                                                                 MessagesController.this.lambda$processUpdateArray$377(tLRPC$TL_updateChannel);
@@ -29457,7 +30253,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                                 final TLRPC$Chat chat3 = getChat(Long.valueOf(j14));
                                                 if (chat3 != null) {
                                                     chat3.default_banned_rights = tLRPC$TL_updateChatDefaultBannedRights.default_banned_rights;
-                                                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda206
+                                                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda210
                                                         @Override // java.lang.Runnable
                                                         public final void run() {
                                                             MessagesController.this.lambda$processUpdateArray$378(chat3);
@@ -29606,7 +30402,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                                                     tLRPC$TL_inputPhoneCall.id = tLRPC$PhoneCall.id;
                                                                     tLRPC$TL_phone_discardCall.reason = new TLRPC$TL_phoneCallDiscardReasonBusy();
                                                                     FileLog.e("discardCall " + tLRPC$TL_phone_discardCall.reason);
-                                                                    getConnectionsManager().sendRequest(tLRPC$TL_phone_discardCall, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda341
+                                                                    getConnectionsManager().sendRequest(tLRPC$TL_phone_discardCall, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda348
                                                                         @Override // org.telegram.tgnet.RequestDelegate
                                                                         public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                                                                             MessagesController.this.lambda$processUpdateArray$379(tLObject, tLRPC$TL_error);
@@ -29654,7 +30450,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                                             tLRPC$TL_inputPhoneCall2.id = tLRPC$PhoneCall.id;
                                                             tLRPC$TL_phone_discardCall2.reason = new TLRPC$TL_phoneCallDiscardReasonBusy();
                                                             FileLog.e("discardCall " + tLRPC$TL_phone_discardCall2.reason);
-                                                            getConnectionsManager().sendRequest(tLRPC$TL_phone_discardCall2, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda341
+                                                            getConnectionsManager().sendRequest(tLRPC$TL_phone_discardCall2, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda348
                                                                 @Override // org.telegram.tgnet.RequestDelegate
                                                                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                                                                     MessagesController.this.lambda$processUpdateArray$379(tLObject, tLRPC$TL_error);
@@ -29729,7 +30525,21 @@ public class MessagesController extends BaseController implements NotificationCe
                                                     getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.newPeopleNearbyAvailable, tLRPC$Update);
                                                 } else if (tLRPC$Update instanceof TLRPC$TL_updateMessageReactions) {
                                                     TLRPC$TL_updateMessageReactions tLRPC$TL_updateMessageReactions = (TLRPC$TL_updateMessageReactions) tLRPC$Update;
-                                                    getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didUpdateReactions, Long.valueOf(MessageObject.getPeerId(tLRPC$TL_updateMessageReactions.peer)), Integer.valueOf(tLRPC$TL_updateMessageReactions.msg_id), tLRPC$TL_updateMessageReactions.reactions);
+                                                    long peerId = MessageObject.getPeerId(tLRPC$TL_updateMessageReactions.peer);
+                                                    long pendingPaidReactions = StarsController.getInstance(this.currentAccount).getPendingPaidReactions(peerId, tLRPC$TL_updateMessageReactions.msg_id);
+                                                    if (pendingPaidReactions != 0) {
+                                                        c = 1;
+                                                        MessageObject.addPaidReactions(this.currentAccount, tLRPC$TL_updateMessageReactions.reactions, (int) pendingPaidReactions, StarsController.getInstance(this.currentAccount).arePaidReactionsAnonymous(StarsController.MessageId.from(peerId, tLRPC$TL_updateMessageReactions.msg_id), tLRPC$TL_updateMessageReactions.reactions), true);
+                                                    } else {
+                                                        c = 1;
+                                                    }
+                                                    NotificationCenter notificationCenter = getNotificationCenter();
+                                                    int i29 = NotificationCenter.didUpdateReactions;
+                                                    Object[] objArr = new Object[3];
+                                                    objArr[0] = Long.valueOf(peerId);
+                                                    objArr[c] = Integer.valueOf(tLRPC$TL_updateMessageReactions.msg_id);
+                                                    objArr[2] = tLRPC$TL_updateMessageReactions.reactions;
+                                                    notificationCenter.lambda$postNotificationNameOnUIThread$1(i29, objArr);
                                                 } else if (tLRPC$Update instanceof TLRPC$TL_updateMessageExtendedMedia) {
                                                     TLRPC$TL_updateMessageExtendedMedia tLRPC$TL_updateMessageExtendedMedia = (TLRPC$TL_updateMessageExtendedMedia) tLRPC$Update;
                                                     getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didUpdateExtendedMedia, Long.valueOf(DialogObject.getPeerDialogId(tLRPC$TL_updateMessageExtendedMedia.peer)), Integer.valueOf(tLRPC$TL_updateMessageExtendedMedia.msg_id), tLRPC$TL_updateMessageExtendedMedia.extended_media);
@@ -29762,13 +30572,13 @@ public class MessagesController extends BaseController implements NotificationCe
                                                     getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.threadMessagesRead, Long.valueOf(-tLRPC$TL_updateReadChannelDiscussionOutbox.channel_id), Integer.valueOf(tLRPC$TL_updateReadChannelDiscussionOutbox.top_msg_id), 0, Integer.valueOf(tLRPC$TL_updateReadChannelDiscussionOutbox.read_max_id));
                                                 } else if (tLRPC$Update instanceof TLRPC$TL_updatePeerHistoryTTL) {
                                                     TLRPC$TL_updatePeerHistoryTTL tLRPC$TL_updatePeerHistoryTTL = (TLRPC$TL_updatePeerHistoryTTL) tLRPC$Update;
-                                                    long peerId = MessageObject.getPeerId(tLRPC$TL_updatePeerHistoryTTL.peer);
-                                                    if (peerId > 0) {
-                                                        TLRPC$UserFull userFull = getUserFull(peerId);
+                                                    long peerId2 = MessageObject.getPeerId(tLRPC$TL_updatePeerHistoryTTL.peer);
+                                                    if (peerId2 > 0) {
+                                                        TLRPC$UserFull userFull = getUserFull(peerId2);
                                                         if (userFull != null) {
-                                                            int i29 = tLRPC$TL_updatePeerHistoryTTL.ttl_period;
-                                                            userFull.ttl_period = i29;
-                                                            if (i29 == 0) {
+                                                            int i30 = tLRPC$TL_updatePeerHistoryTTL.ttl_period;
+                                                            userFull.ttl_period = i30;
+                                                            if (i30 == 0) {
                                                                 userFull.flags &= -16385;
                                                             } else {
                                                                 userFull.flags |= LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM;
@@ -29777,17 +30587,17 @@ public class MessagesController extends BaseController implements NotificationCe
                                                         tLRPC$UserFull = userFull;
                                                         chatFull = null;
                                                     } else {
-                                                        chatFull = getChatFull(-peerId);
+                                                        chatFull = getChatFull(-peerId2);
                                                         if (chatFull != null) {
-                                                            int i30 = tLRPC$TL_updatePeerHistoryTTL.ttl_period;
-                                                            chatFull.ttl_period = i30;
+                                                            int i31 = tLRPC$TL_updatePeerHistoryTTL.ttl_period;
+                                                            chatFull.ttl_period = i31;
                                                             if (chatFull instanceof TLRPC$TL_channelFull) {
-                                                                if (i30 == 0) {
+                                                                if (i31 == 0) {
                                                                     chatFull.flags &= -16777217;
                                                                 } else {
                                                                     chatFull.flags |= ConnectionsManager.FileTypePhoto;
                                                                 }
-                                                            } else if (i30 == 0) {
+                                                            } else if (i31 == 0) {
                                                                 chatFull.flags &= -16385;
                                                             } else {
                                                                 chatFull.flags |= LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM;
@@ -29796,17 +30606,17 @@ public class MessagesController extends BaseController implements NotificationCe
                                                         tLRPC$UserFull = null;
                                                     }
                                                     if (chatFull != null) {
-                                                        NotificationCenter notificationCenter = getNotificationCenter();
-                                                        int i31 = NotificationCenter.chatInfoDidLoad;
+                                                        NotificationCenter notificationCenter2 = getNotificationCenter();
+                                                        int i32 = NotificationCenter.chatInfoDidLoad;
                                                         Boolean bool4 = Boolean.FALSE;
-                                                        notificationCenter.lambda$postNotificationNameOnUIThread$1(i31, chatFull, 0, bool4, bool4);
+                                                        notificationCenter2.lambda$postNotificationNameOnUIThread$1(i32, chatFull, 0, bool4, bool4);
                                                         getMessagesStorage().updateChatInfo(chatFull, false);
                                                     } else if (tLRPC$UserFull != null) {
-                                                        getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.userInfoDidLoad, Long.valueOf(peerId), tLRPC$UserFull);
+                                                        getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.userInfoDidLoad, Long.valueOf(peerId2), tLRPC$UserFull);
                                                         getMessagesStorage().updateUserInfo(tLRPC$UserFull, false);
                                                     }
-                                                    getMessagesStorage().setDialogTtl(peerId, tLRPC$TL_updatePeerHistoryTTL.ttl_period);
-                                                    TLRPC$Dialog tLRPC$Dialog5 = this.dialogs_dict.get(peerId);
+                                                    getMessagesStorage().setDialogTtl(peerId2, tLRPC$TL_updatePeerHistoryTTL.ttl_period);
+                                                    TLRPC$Dialog tLRPC$Dialog5 = this.dialogs_dict.get(peerId2);
                                                     if (tLRPC$Dialog5 != null) {
                                                         tLRPC$Dialog5.ttl_period = tLRPC$TL_updatePeerHistoryTTL.ttl_period;
                                                         getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.updateInterfaces, 0);
@@ -29917,32 +30727,32 @@ public class MessagesController extends BaseController implements NotificationCe
         }
         if (longSparseArray != null) {
             int size3 = longSparseArray.size();
-            for (int i32 = 0; i32 < size3; i32++) {
-                ChatObject.Call call3 = this.groupCallsByChatId.get(longSparseArray.keyAt(i32));
+            for (int i33 = 0; i33 < size3; i33++) {
+                ChatObject.Call call3 = this.groupCallsByChatId.get(longSparseArray.keyAt(i33));
                 if (call3 != null) {
-                    call3.processTypingsUpdate(getAccountInstance(), (ArrayList) longSparseArray.valueAt(i32), i2);
+                    call3.processTypingsUpdate(getAccountInstance(), (ArrayList) longSparseArray.valueAt(i33), i2);
                 }
             }
         }
         if (longSparseIntArray != null) {
             int size4 = longSparseIntArray.size();
-            for (int i33 = 0; i33 < size4; i33++) {
-                SendMessagesHelper.ImportingHistory importingHistory = getSendMessagesHelper().getImportingHistory(longSparseIntArray.keyAt(i33));
+            for (int i34 = 0; i34 < size4; i34++) {
+                SendMessagesHelper.ImportingHistory importingHistory = getSendMessagesHelper().getImportingHistory(longSparseIntArray.keyAt(i34));
                 if (importingHistory != null) {
-                    importingHistory.setImportProgress(longSparseIntArray.valueAt(i33));
+                    importingHistory.setImportProgress(longSparseIntArray.valueAt(i34));
                 }
             }
         }
         if (longSparseArray2 != null) {
-            int i34 = 1;
+            int i35 = 1;
             getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didReceivedWebpagesInUpdates, longSparseArray2);
-            int i35 = 0;
-            int i36 = 3;
-            while (i35 < i36) {
-                if (i35 == i34) {
+            int i36 = 0;
+            int i37 = 3;
+            while (i36 < i37) {
+                if (i36 == i35) {
                     longSparseArray11 = this.reloadingScheduledWebpagesPending;
                     i6 = 1;
-                } else if (i35 == 2) {
+                } else if (i36 == 2) {
                     longSparseArray11 = this.reloadingSavedWebpagesPending;
                     i6 = 3;
                 } else {
@@ -29950,23 +30760,23 @@ public class MessagesController extends BaseController implements NotificationCe
                     i6 = 0;
                 }
                 int size5 = longSparseArray2.size();
-                for (int i37 = 0; i37 < size5; i37++) {
-                    long keyAt = longSparseArray2.keyAt(i37);
+                for (int i38 = 0; i38 < size5; i38++) {
+                    long keyAt = longSparseArray2.keyAt(i38);
                     ArrayList<MessageObject> arrayList20 = longSparseArray11.get(keyAt);
                     longSparseArray11.remove(keyAt);
                     if (arrayList20 != null) {
-                        TLRPC$WebPage tLRPC$WebPage = (TLRPC$WebPage) longSparseArray2.valueAt(i37);
+                        TLRPC$WebPage tLRPC$WebPage = (TLRPC$WebPage) longSparseArray2.valueAt(i38);
                         ArrayList<TLRPC$Message> arrayList21 = new ArrayList<>();
                         if ((tLRPC$WebPage instanceof TLRPC$TL_webPage) || (tLRPC$WebPage instanceof TLRPC$TL_webPageEmpty)) {
                             int size6 = arrayList20.size();
                             j = 0;
-                            for (int i38 = 0; i38 < size6; i38++) {
-                                arrayList20.get(i38).messageOwner.media.webpage = tLRPC$WebPage;
-                                if (i38 == 0) {
-                                    j = arrayList20.get(i38).getDialogId();
-                                    ImageLoader.saveMessageThumbs(arrayList20.get(i38).messageOwner);
+                            for (int i39 = 0; i39 < size6; i39++) {
+                                arrayList20.get(i39).messageOwner.media.webpage = tLRPC$WebPage;
+                                if (i39 == 0) {
+                                    j = arrayList20.get(i39).getDialogId();
+                                    ImageLoader.saveMessageThumbs(arrayList20.get(i39).messageOwner);
                                 }
-                                arrayList21.add(arrayList20.get(i38).messageOwner);
+                                arrayList21.add(arrayList20.get(i39).messageOwner);
                             }
                         } else {
                             longSparseArray11.put(tLRPC$WebPage.id, arrayList20);
@@ -29978,30 +30788,30 @@ public class MessagesController extends BaseController implements NotificationCe
                         }
                     }
                 }
-                i35++;
-                i36 = 3;
-                i34 = 1;
+                i36++;
+                i37 = 3;
+                i35 = 1;
             }
         }
         if (i4 != 0) {
-            int i39 = 0;
+            int i40 = 0;
             while (true) {
                 DialogFilter[] dialogFilterArr = this.selectedDialogFilter;
-                if (i39 >= dialogFilterArr.length) {
+                if (i40 >= dialogFilterArr.length) {
                     break;
-                } else if (dialogFilterArr[i39] != null && (dialogFilterArr[i39].flags & i4) != 0) {
+                } else if (dialogFilterArr[i40] != null && (dialogFilterArr[i40].flags & i4) != 0) {
                     longSparseArray9 = longSparseArray3;
                     z3 = true;
                     break;
                 } else {
-                    i39++;
+                    i40++;
                 }
             }
             if (longSparseArray9 == null) {
                 int size7 = longSparseArray3.size();
                 boolean z18 = false;
-                for (int i40 = 0; i40 < size7; i40++) {
-                    if (updateInterfaceWithMessages(longSparseArray9.keyAt(i40), (ArrayList) longSparseArray9.valueAt(i40), 0)) {
+                for (int i41 = 0; i41 < size7; i41++) {
+                    if (updateInterfaceWithMessages(longSparseArray9.keyAt(i41), (ArrayList) longSparseArray9.valueAt(i41), 0)) {
                         z18 = true;
                     }
                 }
@@ -30015,20 +30825,20 @@ public class MessagesController extends BaseController implements NotificationCe
                     z4 = false;
                     if (longSparseArray10 != null) {
                         int size8 = longSparseArray4.size();
-                        for (int i41 = 0; i41 < size8; i41++) {
-                            updateInterfaceWithMessages(longSparseArray10.keyAt(i41), (ArrayList) longSparseArray10.valueAt(i41), 1);
+                        for (int i42 = 0; i42 < size8; i42++) {
+                            updateInterfaceWithMessages(longSparseArray10.keyAt(i42), (ArrayList) longSparseArray10.valueAt(i42), 1);
                         }
                     }
                     if (longSparseArray5 != null) {
                         int size9 = longSparseArray5.size();
                         boolean z19 = z4;
-                        for (int i42 = 0; i42 < size9; i42++) {
-                            long keyAt2 = longSparseArray5.keyAt(i42);
-                            ArrayList<MessageObject> arrayList22 = (ArrayList) longSparseArray5.valueAt(i42);
+                        for (int i43 = 0; i43 < size9; i43++) {
+                            long keyAt2 = longSparseArray5.keyAt(i43);
+                            ArrayList<MessageObject> arrayList22 = (ArrayList) longSparseArray5.valueAt(i43);
                             int size10 = arrayList22.size();
                             SparseBooleanArray sparseBooleanArray = null;
-                            for (int i43 = 0; i43 < size10; i43++) {
-                                MessageObject messageObject3 = arrayList22.get(i43);
+                            for (int i44 = 0; i44 < size10; i44++) {
+                                MessageObject messageObject3 = arrayList22.get(i44);
                                 if (keyAt2 > 0) {
                                     if (sparseBooleanArray == null) {
                                         sparseBooleanArray = new SparseBooleanArray();
@@ -30041,17 +30851,17 @@ public class MessagesController extends BaseController implements NotificationCe
                             }
                             ArrayList<MessageObject> arrayList23 = this.dialogMessage.get(keyAt2);
                             if (arrayList23 != null) {
-                                for (int i44 = 0; i44 < arrayList23.size(); i44++) {
-                                    MessageObject messageObject4 = arrayList23.get(i44);
+                                for (int i45 = 0; i45 < arrayList23.size(); i45++) {
+                                    MessageObject messageObject4 = arrayList23.get(i45);
                                     int size11 = arrayList22.size();
-                                    int i45 = 0;
+                                    int i46 = 0;
                                     while (true) {
-                                        if (i45 >= size11) {
+                                        if (i46 >= size11) {
                                             break;
                                         }
-                                        MessageObject messageObject5 = arrayList22.get(i45);
+                                        MessageObject messageObject5 = arrayList22.get(i46);
                                         if (messageObject4.getId() == messageObject5.getId()) {
-                                            arrayList23.set(i44, messageObject5);
+                                            arrayList23.set(i45, messageObject5);
                                             TLRPC$Peer tLRPC$Peer8 = messageObject5.messageOwner.peer_id;
                                             if (tLRPC$Peer8 != null && tLRPC$Peer8.channel_id == 0) {
                                                 this.dialogMessagesByIds.put(messageObject5.getId(), messageObject5);
@@ -30063,7 +30873,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                             z19 = true;
                                             break;
                                         } else {
-                                            i45++;
+                                            i46++;
                                         }
                                     }
                                 }
@@ -30084,8 +30894,8 @@ public class MessagesController extends BaseController implements NotificationCe
                     }
                     if (arrayList5 != null) {
                         int size12 = arrayList5.size();
-                        for (int i46 = 0; i46 < size12; i46++) {
-                            getMessagesStorage().updateChatParticipants((TLRPC$ChatParticipants) arrayList5.get(i46));
+                        for (int i47 = 0; i47 < size12; i47++) {
+                            getMessagesStorage().updateChatParticipants((TLRPC$ChatParticipants) arrayList5.get(i47));
                         }
                     }
                     if (longSparseArray6 != null && longSparseArray7 == null && longSparseArray8 == null) {
@@ -30095,11 +30905,11 @@ public class MessagesController extends BaseController implements NotificationCe
                         getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didUpdateMessagesViews, longSparseArray6, longSparseArray7, longSparseArray8, Boolean.TRUE);
                     }
                     if (i3 != 0) {
-                        NotificationCenter notificationCenter2 = getNotificationCenter();
-                        int i47 = NotificationCenter.updateInterfaces;
-                        Object[] objArr = new Object[i5];
-                        objArr[0] = Integer.valueOf(i3);
-                        notificationCenter2.lambda$postNotificationNameOnUIThread$1(i47, objArr);
+                        NotificationCenter notificationCenter3 = getNotificationCenter();
+                        int i48 = NotificationCenter.updateInterfaces;
+                        Object[] objArr2 = new Object[i5];
+                        objArr2[0] = Integer.valueOf(i3);
+                        notificationCenter3.lambda$postNotificationNameOnUIThread$1(i48, objArr2);
                     }
                     if (arrayList6 != null) {
                         ImageLoader.getInstance().putThumbsToCache(arrayList6);
@@ -30161,7 +30971,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public /* synthetic */ void lambda$processUpdateArray$382(final LongSparseIntArray longSparseIntArray, final LongSparseIntArray longSparseIntArray2, final SparseIntArray sparseIntArray, final LongSparseArray longSparseArray, final LongSparseArray longSparseArray2, final LongSparseArray longSparseArray3, final LongSparseArray longSparseArray4, final LongSparseIntArray longSparseIntArray3) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda187
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda190
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$processUpdateArray$381(longSparseIntArray, longSparseIntArray2, sparseIntArray, longSparseArray, longSparseArray2, longSparseArray3, longSparseArray4, longSparseIntArray3);
@@ -30427,7 +31237,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public void checkUnreadReactions(final long j, final long j2, final SparseBooleanArray sparseBooleanArray) {
-        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda142
+        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda145
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$checkUnreadReactions$391(sparseBooleanArray, j2, j);
@@ -30522,7 +31332,7 @@ public class MessagesController extends BaseController implements NotificationCe
         if (!z) {
             if (z2) {
                 final int i5 = i3;
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda117
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda120
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesController.this.lambda$checkUnreadReactions$390(j, j2, i5);
@@ -30534,7 +31344,7 @@ public class MessagesController extends BaseController implements NotificationCe
             TLRPC$TL_inputDialogPeer tLRPC$TL_inputDialogPeer = new TLRPC$TL_inputDialogPeer();
             tLRPC$TL_inputDialogPeer.peer = getInputPeer(j2);
             tLRPC$TL_messages_getPeerDialogs.peers.add(tLRPC$TL_inputDialogPeer);
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getPeerDialogs, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda392
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getPeerDialogs, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda400
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     MessagesController.this.lambda$checkUnreadReactions$387(j2, j, arrayList, tLObject, tLRPC$TL_error);
@@ -30544,7 +31354,7 @@ public class MessagesController extends BaseController implements NotificationCe
             TLRPC$TL_channels_getForumTopicsByID tLRPC$TL_channels_getForumTopicsByID = new TLRPC$TL_channels_getForumTopicsByID();
             tLRPC$TL_channels_getForumTopicsByID.topics.add(Integer.valueOf((int) j));
             tLRPC$TL_channels_getForumTopicsByID.channel = getMessagesController().getInputChannel(-j2);
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_getForumTopicsByID, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda391
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_getForumTopicsByID, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda399
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     MessagesController.this.lambda$checkUnreadReactions$389(j2, j, arrayList, tLObject, tLRPC$TL_error);
@@ -30557,7 +31367,7 @@ public class MessagesController extends BaseController implements NotificationCe
         if (tLObject != null) {
             TLRPC$TL_messages_peerDialogs tLRPC$TL_messages_peerDialogs = (TLRPC$TL_messages_peerDialogs) tLObject;
             final int i = tLRPC$TL_messages_peerDialogs.dialogs.size() == 0 ? 0 : tLRPC$TL_messages_peerDialogs.dialogs.get(0).unread_reactions_count;
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda112
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda115
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$checkUnreadReactions$386(j, i, j2, arrayList);
@@ -30581,7 +31391,7 @@ public class MessagesController extends BaseController implements NotificationCe
         if (tLObject != null) {
             TLRPC$TL_messages_forumTopics tLRPC$TL_messages_forumTopics = (TLRPC$TL_messages_forumTopics) tLObject;
             final int i = tLRPC$TL_messages_forumTopics.topics.size() == 0 ? 0 : tLRPC$TL_messages_forumTopics.topics.get(0).unread_reactions_count;
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda120
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda123
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesController.this.lambda$checkUnreadReactions$388(j, j2, i, arrayList);
@@ -30673,7 +31483,7 @@ public class MessagesController extends BaseController implements NotificationCe
         if (j2 != 0) {
             tLRPC$TL_messages_readReactions.top_msg_id = (int) j2;
         }
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_readReactions, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda462
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_readReactions, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda471
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagesController.lambda$markReactionsAsRead$392(tLObject, tLRPC$TL_error);
@@ -30692,7 +31502,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 this.sponsoredMessages.put(j, sponsoredMessagesInfo2);
                 TLRPC$TL_channels_getSponsoredMessages tLRPC$TL_channels_getSponsoredMessages = new TLRPC$TL_channels_getSponsoredMessages();
                 tLRPC$TL_channels_getSponsoredMessages.channel = getInputChannel(chat);
-                getConnectionsManager().sendRequest(tLRPC$TL_channels_getSponsoredMessages, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda401
+                getConnectionsManager().sendRequest(tLRPC$TL_channels_getSponsoredMessages, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda409
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                         MessagesController.this.lambda$getSponsoredMessages$395(j, sponsoredMessagesInfo2, tLObject, tLRPC$TL_error);
@@ -30709,7 +31519,7 @@ public class MessagesController extends BaseController implements NotificationCe
     /* JADX WARN: Type inference failed for: r1v9, types: [java.lang.Integer] */
     /* JADX WARN: Type inference failed for: r6v0 */
     /* JADX WARN: Type inference failed for: r6v1, types: [java.lang.Integer] */
-    /* JADX WARN: Type inference failed for: r6v12 */
+    /* JADX WARN: Type inference failed for: r6v5 */
     public /* synthetic */ void lambda$getSponsoredMessages$395(final long j, final SponsoredMessagesInfo sponsoredMessagesInfo, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         final ?? r6;
         ArrayList arrayList;
@@ -30723,7 +31533,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     arrayList2 = Integer.valueOf(tLRPC$messages_SponsoredMessages.posts_between);
                 }
                 ArrayList arrayList3 = new ArrayList();
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda262
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda266
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesController.this.lambda$getSponsoredMessages$393(tLRPC$messages_SponsoredMessages);
@@ -30745,7 +31555,6 @@ public class MessagesController extends BaseController implements NotificationCe
                 while (i < size) {
                     TLRPC$TL_sponsoredMessage tLRPC$TL_sponsoredMessage = tLRPC$messages_SponsoredMessages.messages.get(i);
                     TLRPC$TL_message tLRPC$TL_message = new TLRPC$TL_message();
-                    tLRPC$TL_message.message = tLRPC$TL_sponsoredMessage.message;
                     if (!tLRPC$TL_sponsoredMessage.entities.isEmpty()) {
                         tLRPC$TL_message.entities = tLRPC$TL_sponsoredMessage.entities;
                         tLRPC$TL_message.flags |= 128;
@@ -30755,6 +31564,12 @@ public class MessagesController extends BaseController implements NotificationCe
                     tLRPC$TL_message.date = getConnectionsManager().getCurrentTime();
                     int i5 = i4 - 1;
                     tLRPC$TL_message.id = i4;
+                    tLRPC$TL_message.message = tLRPC$TL_sponsoredMessage.message;
+                    TLRPC$MessageMedia tLRPC$MessageMedia = tLRPC$TL_sponsoredMessage.media;
+                    if (tLRPC$MessageMedia != null) {
+                        tLRPC$TL_message.flags |= LiteMode.FLAG_CALLS_ANIMATIONS;
+                    }
+                    tLRPC$TL_message.media = tLRPC$MessageMedia;
                     MessageObject messageObject = new MessageObject(this.currentAccount, (TLRPC$Message) tLRPC$TL_message, (LongSparseArray<TLRPC$User>) longSparseArray, (LongSparseArray<TLRPC$Chat>) longSparseArray2, true, true);
                     messageObject.sponsoredId = tLRPC$TL_sponsoredMessage.random_id;
                     messageObject.sponsoredTitle = tLRPC$TL_sponsoredMessage.title;
@@ -30766,6 +31581,10 @@ public class MessagesController extends BaseController implements NotificationCe
                     messageObject.sponsoredButtonText = tLRPC$TL_sponsoredMessage.button_text;
                     messageObject.sponsoredCanReport = tLRPC$TL_sponsoredMessage.can_report;
                     messageObject.sponsoredColor = tLRPC$TL_sponsoredMessage.color;
+                    messageObject.sponsoredMedia = tLRPC$TL_sponsoredMessage.media;
+                    messageObject.setType();
+                    messageObject.textLayoutBlocks = new ArrayList<>();
+                    messageObject.generateThumbs(true);
                     arrayList3.add(messageObject);
                     i++;
                     tLRPC$messages_SponsoredMessages = tLRPC$messages_SponsoredMessages;
@@ -30778,7 +31597,7 @@ public class MessagesController extends BaseController implements NotificationCe
         } else {
             r6 = 0;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda167
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda170
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$getSponsoredMessages$394(arrayList2, j, sponsoredMessagesInfo, r6);
@@ -30818,7 +31637,7 @@ public class MessagesController extends BaseController implements NotificationCe
             this.sendAsPeers.put(j, sendAsPeersInfo2);
             TLRPC$TL_channels_getSendAs tLRPC$TL_channels_getSendAs = new TLRPC$TL_channels_getSendAs();
             tLRPC$TL_channels_getSendAs.peer = getInputPeer(j);
-            getConnectionsManager().sendRequest(tLRPC$TL_channels_getSendAs, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda400
+            getConnectionsManager().sendRequest(tLRPC$TL_channels_getSendAs, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda408
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     MessagesController.this.lambda$getSendAsPeers$398(j, sendAsPeersInfo2, tLObject, tLRPC$TL_error);
@@ -30833,27 +31652,17 @@ public class MessagesController extends BaseController implements NotificationCe
         if (tLObject != null) {
             final TLRPC$TL_channels_sendAsPeers tLRPC$TL_channels_sendAsPeers2 = (TLRPC$TL_channels_sendAsPeers) tLObject;
             if (!tLRPC$TL_channels_sendAsPeers2.peers.isEmpty()) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda221
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda225
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesController.this.lambda$getSendAsPeers$396(tLRPC$TL_channels_sendAsPeers2);
                     }
                 });
-                LongSparseArray longSparseArray = new LongSparseArray();
-                LongSparseArray longSparseArray2 = new LongSparseArray();
-                for (int i = 0; i < tLRPC$TL_channels_sendAsPeers2.users.size(); i++) {
-                    TLRPC$User tLRPC$User = tLRPC$TL_channels_sendAsPeers2.users.get(i);
-                    longSparseArray.put(tLRPC$User.id, tLRPC$User);
-                }
-                for (int i2 = 0; i2 < tLRPC$TL_channels_sendAsPeers2.chats.size(); i2++) {
-                    TLRPC$Chat tLRPC$Chat = tLRPC$TL_channels_sendAsPeers2.chats.get(i2);
-                    longSparseArray2.put(tLRPC$Chat.id, tLRPC$Chat);
-                }
                 tLRPC$TL_channels_sendAsPeers = tLRPC$TL_channels_sendAsPeers2;
             }
         }
         final TLRPC$TL_channels_sendAsPeers tLRPC$TL_channels_sendAsPeers3 = tLRPC$TL_channels_sendAsPeers;
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda222
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda226
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$getSendAsPeers$397(tLRPC$TL_channels_sendAsPeers3, j, sendAsPeersInfo);
@@ -31171,7 +31980,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 sortDialogs(null);
                 getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.dialogsNeedReload, new Object[0]);
             }
-            getMessagesStorage().getDialogFolderId(j, new MessagesStorage.IntCallback() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda310
+            getMessagesStorage().getDialogFolderId(j, new MessagesStorage.IntCallback() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda316
                 @Override // org.telegram.messenger.MessagesStorage.IntCallback
                 public final void run(int i7) {
                     MessagesController.this.lambda$updateInterfaceWithMessages$399(tLRPC$TL_dialog2, id, j, i7);
@@ -31582,18 +32391,128 @@ public class MessagesController extends BaseController implements NotificationCe
         }
     }
 
-    public static String getRestrictionReason(ArrayList<TLRPC$TL_restrictionReason> arrayList) {
+    public String getRestrictionReason(ArrayList<TLRPC$RestrictionReason> arrayList) {
         if (arrayList.isEmpty()) {
             return null;
         }
         int size = arrayList.size();
         for (int i = 0; i < size; i++) {
-            TLRPC$TL_restrictionReason tLRPC$TL_restrictionReason = arrayList.get(i);
-            if ("all".equals(tLRPC$TL_restrictionReason.platform) || !(ApplicationLoader.isStandaloneBuild() || BuildVars.isBetaApp() || !"android".equals(tLRPC$TL_restrictionReason.platform))) {
-                return tLRPC$TL_restrictionReason.text;
+            TLRPC$RestrictionReason tLRPC$RestrictionReason = arrayList.get(i);
+            Set<String> set = this.ignoreRestrictionReasons;
+            if ((set == null || !set.contains(tLRPC$RestrictionReason.reason)) && !"sensitive".equals(tLRPC$RestrictionReason.reason) && ("all".equals(tLRPC$RestrictionReason.platform) || !(ApplicationLoader.isStandaloneBuild() || BuildVars.isBetaApp() || !"android".equals(tLRPC$RestrictionReason.platform)))) {
+                return tLRPC$RestrictionReason.text;
             }
         }
         return null;
+    }
+
+    public boolean isSensitive(ArrayList<TLRPC$RestrictionReason> arrayList) {
+        if (arrayList != null && !arrayList.isEmpty()) {
+            int size = arrayList.size();
+            for (int i = 0; i < size; i++) {
+                TLRPC$RestrictionReason tLRPC$RestrictionReason = arrayList.get(i);
+                Set<String> set = this.ignoreRestrictionReasons;
+                if ((set == null || !set.contains(tLRPC$RestrictionReason.reason)) && (("all".equals(tLRPC$RestrictionReason.platform) || !(ApplicationLoader.isStandaloneBuild() || BuildVars.isBetaApp() || !"android".equals(tLRPC$RestrictionReason.platform))) && "sensitive".equals(tLRPC$RestrictionReason.reason))) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void checkSensitive(final BaseFragment baseFragment, final long j, final Runnable runnable, final Runnable runnable2) {
+        TLRPC$User user;
+        ArrayList<TLRPC$RestrictionReason> arrayList;
+        ArrayList<TLRPC$RestrictionReason> arrayList2 = null;
+        if (j < 0) {
+            TLRPC$Chat chat = getChat(Long.valueOf(-j));
+            if (chat != null) {
+                arrayList = chat.restriction_reason;
+                arrayList2 = arrayList;
+            }
+        } else if (j >= 0 && (user = getUser(Long.valueOf(j))) != null) {
+            arrayList = user.restriction_reason;
+            arrayList2 = arrayList;
+        }
+        if (!isSensitive(arrayList2) || this.sensitiveAgreed.contains(Long.valueOf(j))) {
+            if (runnable != null) {
+                runnable.run();
+                return;
+            }
+            return;
+        }
+        final AlertDialog alertDialog = new AlertDialog(baseFragment.getContext(), 3);
+        alertDialog.showDelayed(200L);
+        getContentSettings(new Utilities.Callback() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda321
+            @Override // org.telegram.messenger.Utilities.Callback
+            public final void run(Object obj) {
+                MessagesController.this.lambda$checkSensitive$404(alertDialog, baseFragment, j, runnable, runnable2, (TL_account$contentSettings) obj);
+            }
+        });
+    }
+
+    public /* synthetic */ void lambda$checkSensitive$404(AlertDialog alertDialog, final BaseFragment baseFragment, final long j, final Runnable runnable, final Runnable runnable2, final TL_account$contentSettings tL_account$contentSettings) {
+        alertDialog.dismissUnless(200L);
+        final boolean[] zArr = new boolean[1];
+        FrameLayout frameLayout = new FrameLayout(baseFragment.getContext());
+        if (tL_account$contentSettings != null && tL_account$contentSettings.sensitive_can_change) {
+            CheckBoxCell checkBoxCell = new CheckBoxCell(baseFragment.getContext(), 1, baseFragment.getResourceProvider());
+            checkBoxCell.setBackground(Theme.getSelectorDrawable(false));
+            checkBoxCell.setText(LocaleController.getString(R.string.MessageShowSensitiveContentAlways), "", zArr[0], false);
+            checkBoxCell.setPadding(LocaleController.isRTL ? AndroidUtilities.dp(16.0f) : AndroidUtilities.dp(8.0f), 0, LocaleController.isRTL ? AndroidUtilities.dp(8.0f) : AndroidUtilities.dp(16.0f), 0);
+            frameLayout.addView(checkBoxCell, LayoutHelper.createFrame(-1, 48.0f, 51, 0.0f, 0.0f, 0.0f, 0.0f));
+            checkBoxCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda19
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view) {
+                    MessagesController.lambda$checkSensitive$400(zArr, view);
+                }
+            });
+        }
+        final boolean[] zArr2 = new boolean[1];
+        new AlertDialog.Builder(baseFragment.getContext(), baseFragment.getResourceProvider()).setTitle(LocaleController.getString(R.string.MessageShowSensitiveContentChannelTitle)).setMessage(LocaleController.getString(R.string.MessageShowSensitiveContentChannelText)).setView(frameLayout).setCustomViewOffset(9).setNegativeButton(LocaleController.getString(R.string.Cancel), null).setPositiveButton(LocaleController.getString(R.string.MessageShowSensitiveContentButton), new DialogInterface.OnClickListener() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda17
+            @Override // android.content.DialogInterface.OnClickListener
+            public final void onClick(DialogInterface dialogInterface, int i) {
+                MessagesController.this.lambda$checkSensitive$402(zArr2, j, zArr, tL_account$contentSettings, baseFragment, runnable, dialogInterface, i);
+            }
+        }).setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda18
+            @Override // android.content.DialogInterface.OnDismissListener
+            public final void onDismiss(DialogInterface dialogInterface) {
+                MessagesController.lambda$checkSensitive$403(zArr2, runnable2, dialogInterface);
+            }
+        }).show();
+    }
+
+    public static /* synthetic */ void lambda$checkSensitive$400(boolean[] zArr, View view) {
+        zArr[0] = !zArr[0];
+        ((CheckBoxCell) view).setChecked(zArr[0], true);
+    }
+
+    public /* synthetic */ void lambda$checkSensitive$402(boolean[] zArr, long j, boolean[] zArr2, TL_account$contentSettings tL_account$contentSettings, final BaseFragment baseFragment, Runnable runnable, DialogInterface dialogInterface, int i) {
+        zArr[0] = true;
+        this.sensitiveAgreed.add(Long.valueOf(j));
+        if (zArr2[0] && tL_account$contentSettings != null && tL_account$contentSettings.sensitive_can_change) {
+            getMessagesController().setContentSettings(true);
+            BulletinFactory.of(baseFragment).createSimpleBulletinDetail(R.raw.chats_infotip, AndroidUtilities.replaceArrows(AndroidUtilities.premiumText(LocaleController.getString(R.string.SensitiveContentSettingsToast), new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda295
+                @Override // java.lang.Runnable
+                public final void run() {
+                    MessagesController.lambda$checkSensitive$401(BaseFragment.this);
+                }
+            }), true)).show(true);
+        }
+        if (runnable != null) {
+            runnable.run();
+        }
+    }
+
+    public static /* synthetic */ void lambda$checkSensitive$401(BaseFragment baseFragment) {
+        baseFragment.presentFragment(new ThemeActivity(0).highlightSensitiveRow());
+    }
+
+    public static /* synthetic */ void lambda$checkSensitive$403(boolean[] zArr, Runnable runnable, DialogInterface dialogInterface) {
+        if (zArr[0] || runnable == null) {
+            return;
+        }
+        runnable.run();
     }
 
     public static void showCantOpenAlert(BaseFragment baseFragment, String str) {
@@ -31676,26 +32595,26 @@ public class MessagesController extends BaseController implements NotificationCe
                         tLRPC$TL_channels_getMessages.id.add(Integer.valueOf(messageObject.getId()));
                         tLRPC$TL_messages_getMessages = tLRPC$TL_channels_getMessages;
                     }
-                    final int sendRequest = getConnectionsManager().sendRequest(tLRPC$TL_messages_getMessages, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda430
+                    final int sendRequest = getConnectionsManager().sendRequest(tLRPC$TL_messages_getMessages, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda438
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                            MessagesController.this.lambda$checkCanOpenChat$401(alertDialog2, progress, baseFragment, bundle, tLObject, tLRPC$TL_error);
+                            MessagesController.this.lambda$checkCanOpenChat$406(alertDialog2, progress, baseFragment, bundle, tLObject, tLRPC$TL_error);
                         }
                     });
                     if (alertDialog2 != null) {
                         alertDialog2.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda15
                             @Override // android.content.DialogInterface.OnCancelListener
                             public final void onCancel(DialogInterface dialogInterface) {
-                                MessagesController.this.lambda$checkCanOpenChat$402(sendRequest, baseFragment, dialogInterface);
+                                MessagesController.this.lambda$checkCanOpenChat$407(sendRequest, baseFragment, dialogInterface);
                             }
                         });
                         baseFragment.setVisibleDialog(alertDialog2);
                         alertDialog2.show();
                     } else {
-                        progress.onCancel(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda86
+                        progress.onCancel(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda89
                             @Override // java.lang.Runnable
                             public final void run() {
-                                MessagesController.this.lambda$checkCanOpenChat$403(sendRequest, baseFragment);
+                                MessagesController.this.lambda$checkCanOpenChat$408(sendRequest, baseFragment);
                             }
                         });
                         progress.init();
@@ -31727,18 +32646,18 @@ public class MessagesController extends BaseController implements NotificationCe
         return true;
     }
 
-    public /* synthetic */ void lambda$checkCanOpenChat$401(final AlertDialog alertDialog, final Browser.Progress progress, final BaseFragment baseFragment, final Bundle bundle, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$checkCanOpenChat$406(final AlertDialog alertDialog, final Browser.Progress progress, final BaseFragment baseFragment, final Bundle bundle, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject != null) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda269
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda273
                 @Override // java.lang.Runnable
                 public final void run() {
-                    MessagesController.this.lambda$checkCanOpenChat$400(alertDialog, progress, tLObject, baseFragment, bundle);
+                    MessagesController.this.lambda$checkCanOpenChat$405(alertDialog, progress, tLObject, baseFragment, bundle);
                 }
             });
         }
     }
 
-    public /* synthetic */ void lambda$checkCanOpenChat$400(AlertDialog alertDialog, Browser.Progress progress, TLObject tLObject, BaseFragment baseFragment, Bundle bundle) {
+    public /* synthetic */ void lambda$checkCanOpenChat$405(AlertDialog alertDialog, Browser.Progress progress, TLObject tLObject, BaseFragment baseFragment, Bundle bundle) {
         if (alertDialog != null) {
             try {
                 alertDialog.dismiss();
@@ -31756,17 +32675,17 @@ public class MessagesController extends BaseController implements NotificationCe
         baseFragment.presentFragment(new ChatActivity(bundle), true);
     }
 
-    public /* synthetic */ void lambda$checkCanOpenChat$402(int i, BaseFragment baseFragment, DialogInterface dialogInterface) {
+    public /* synthetic */ void lambda$checkCanOpenChat$407(int i, BaseFragment baseFragment, DialogInterface dialogInterface) {
         getConnectionsManager().cancelRequest(i, true);
         baseFragment.setVisibleDialog(null);
     }
 
-    public /* synthetic */ void lambda$checkCanOpenChat$403(int i, BaseFragment baseFragment) {
+    public /* synthetic */ void lambda$checkCanOpenChat$408(int i, BaseFragment baseFragment) {
         getConnectionsManager().cancelRequest(i, true);
         baseFragment.setVisibleDialog(null);
     }
 
-    public static void openChatOrProfileWith(TLRPC$User tLRPC$User, TLRPC$Chat tLRPC$Chat, BaseFragment baseFragment, int i, boolean z) {
+    public void openChatOrProfileWith(TLRPC$User tLRPC$User, TLRPC$Chat tLRPC$Chat, BaseFragment baseFragment, int i, boolean z) {
         String restrictionReason;
         if ((tLRPC$User == null && tLRPC$Chat == null) || baseFragment == null) {
             return;
@@ -31823,8 +32742,9 @@ public class MessagesController extends BaseController implements NotificationCe
         }
         TLObject userOrChat = getUserOrChat(str);
         if (userOrChat instanceof TLRPC$User) {
-            tLRPC$User = (TLRPC$User) userOrChat;
-            if (!tLRPC$User.min) {
+            TLRPC$User tLRPC$User2 = (TLRPC$User) userOrChat;
+            if (!tLRPC$User2.min) {
+                tLRPC$User = tLRPC$User2;
                 tLRPC$Chat = null;
             }
             tLRPC$User = null;
@@ -31848,32 +32768,32 @@ public class MessagesController extends BaseController implements NotificationCe
         } else {
             final AlertDialog[] alertDialogArr = {new AlertDialog(baseFragment.getParentActivity(), 3)};
             final boolean[] zArr = {false};
-            getMessagesController().getUserNameResolver().resolve(str, new com.google.android.exoplayer2.util.Consumer() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda17
+            getMessagesController().getUserNameResolver().resolve(str, new com.google.android.exoplayer2.util.Consumer() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda20
                 @Override // com.google.android.exoplayer2.util.Consumer
                 public final void accept(Object obj) {
-                    MessagesController.this.lambda$openByUserName$404(progress, alertDialogArr, baseFragment, zArr, i, (Long) obj);
+                    MessagesController.this.lambda$openByUserName$409(progress, alertDialogArr, baseFragment, zArr, i, (Long) obj);
                 }
             });
             if (progress != null) {
-                progress.onCancel(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda291
+                progress.onCancel(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda298
                     @Override // java.lang.Runnable
                     public final void run() {
-                        MessagesController.lambda$openByUserName$405(zArr);
+                        MessagesController.lambda$openByUserName$410(zArr);
                     }
                 });
                 progress.init();
                 return;
             }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda290
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda296
                 @Override // java.lang.Runnable
                 public final void run() {
-                    MessagesController.lambda$openByUserName$407(alertDialogArr, zArr, baseFragment);
+                    MessagesController.lambda$openByUserName$412(alertDialogArr, zArr, baseFragment);
                 }
             }, 500L);
         }
     }
 
-    public /* synthetic */ void lambda$openByUserName$404(Browser.Progress progress, AlertDialog[] alertDialogArr, BaseFragment baseFragment, boolean[] zArr, int i, Long l) {
+    public /* synthetic */ void lambda$openByUserName$409(Browser.Progress progress, AlertDialog[] alertDialogArr, BaseFragment baseFragment, boolean[] zArr, int i, Long l) {
         try {
             if (progress != null) {
                 progress.end();
@@ -31905,24 +32825,24 @@ public class MessagesController extends BaseController implements NotificationCe
         }
     }
 
-    public static /* synthetic */ void lambda$openByUserName$405(boolean[] zArr) {
+    public static /* synthetic */ void lambda$openByUserName$410(boolean[] zArr) {
         zArr[0] = true;
     }
 
-    public static /* synthetic */ void lambda$openByUserName$407(AlertDialog[] alertDialogArr, final boolean[] zArr, BaseFragment baseFragment) {
+    public static /* synthetic */ void lambda$openByUserName$412(AlertDialog[] alertDialogArr, final boolean[] zArr, BaseFragment baseFragment) {
         if (alertDialogArr[0] == null) {
             return;
         }
         alertDialogArr[0].setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda16
             @Override // android.content.DialogInterface.OnCancelListener
             public final void onCancel(DialogInterface dialogInterface) {
-                MessagesController.lambda$openByUserName$406(zArr, dialogInterface);
+                MessagesController.lambda$openByUserName$411(zArr, dialogInterface);
             }
         });
         baseFragment.showDialog(alertDialogArr[0]);
     }
 
-    public static /* synthetic */ void lambda$openByUserName$406(boolean[] zArr, DialogInterface dialogInterface) {
+    public static /* synthetic */ void lambda$openByUserName$411(boolean[] zArr, DialogInterface dialogInterface) {
         zArr[0] = true;
     }
 
@@ -31942,16 +32862,16 @@ public class MessagesController extends BaseController implements NotificationCe
             final Runnable[] runnableArr = new Runnable[1];
             final MessagesStorage messagesStorage = getMessagesStorage();
             final int i4 = i2;
-            messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda279
+            messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda283
                 @Override // java.lang.Runnable
                 public final void run() {
-                    MessagesController.this.lambda$ensureMessagesLoaded$409(zArr, messagesStorage, j2, runnableArr, j, i4, messagesLoadedCallback);
+                    MessagesController.this.lambda$ensureMessagesLoaded$414(zArr, messagesStorage, j2, runnableArr, j, i4, messagesLoadedCallback);
                 }
             });
-            return new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda293
+            return new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda299
                 @Override // java.lang.Runnable
                 public final void run() {
-                    MessagesController.lambda$ensureMessagesLoaded$410(zArr, runnableArr);
+                    MessagesController.lambda$ensureMessagesLoaded$415(zArr, runnableArr);
                 }
             };
         }
@@ -32012,28 +32932,28 @@ public class MessagesController extends BaseController implements NotificationCe
             loadMessagesInternal(j, 0L, true, i5, i2, 0, true, 0, i3, 2, 0, 0, 0L, -1, 0, 0, 0, false, 0, true, false, false, null, 0L);
         }
         final int i8 = i3;
-        return new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda71
+        return new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda73
             @Override // java.lang.Runnable
             public final void run() {
-                MessagesController.this.lambda$ensureMessagesLoaded$411(i8);
+                MessagesController.this.lambda$ensureMessagesLoaded$416(i8);
             }
         };
     }
 
-    public /* synthetic */ void lambda$ensureMessagesLoaded$409(final boolean[] zArr, MessagesStorage messagesStorage, long j, final Runnable[] runnableArr, final long j2, final int i, final MessagesLoadedCallback messagesLoadedCallback) {
+    public /* synthetic */ void lambda$ensureMessagesLoaded$414(final boolean[] zArr, MessagesStorage messagesStorage, long j, final Runnable[] runnableArr, final long j2, final int i, final MessagesLoadedCallback messagesLoadedCallback) {
         if (zArr[0]) {
             return;
         }
         final TLRPC$Chat chat = messagesStorage.getChat(j);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda280
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda284
             @Override // java.lang.Runnable
             public final void run() {
-                MessagesController.this.lambda$ensureMessagesLoaded$408(zArr, chat, runnableArr, j2, i, messagesLoadedCallback);
+                MessagesController.this.lambda$ensureMessagesLoaded$413(zArr, chat, runnableArr, j2, i, messagesLoadedCallback);
             }
         });
     }
 
-    public /* synthetic */ void lambda$ensureMessagesLoaded$408(boolean[] zArr, TLRPC$Chat tLRPC$Chat, Runnable[] runnableArr, long j, int i, MessagesLoadedCallback messagesLoadedCallback) {
+    public /* synthetic */ void lambda$ensureMessagesLoaded$413(boolean[] zArr, TLRPC$Chat tLRPC$Chat, Runnable[] runnableArr, long j, int i, MessagesLoadedCallback messagesLoadedCallback) {
         if (zArr[0]) {
             return;
         }
@@ -32045,14 +32965,14 @@ public class MessagesController extends BaseController implements NotificationCe
         }
     }
 
-    public static /* synthetic */ void lambda$ensureMessagesLoaded$410(boolean[] zArr, Runnable[] runnableArr) {
+    public static /* synthetic */ void lambda$ensureMessagesLoaded$415(boolean[] zArr, Runnable[] runnableArr) {
         zArr[0] = true;
         if (runnableArr[0] != null) {
             runnableArr[0].run();
         }
     }
 
-    public /* synthetic */ void lambda$ensureMessagesLoaded$411(int i) {
+    public /* synthetic */ void lambda$ensureMessagesLoaded$416(int i) {
         getConnectionsManager().cancelRequestsForGuid(i);
     }
 
@@ -32073,27 +32993,27 @@ public class MessagesController extends BaseController implements NotificationCe
         tLRPC$TL_messages_deleteHistory.min_date = i;
         tLRPC$TL_messages_deleteHistory.max_date = i2;
         tLRPC$TL_messages_deleteHistory.revoke = z;
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_deleteHistory, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda385
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_deleteHistory, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda393
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                MessagesController.this.lambda$deleteMessagesRange$415(j, i, i2, j2, runnable, tLObject, tLRPC$TL_error);
+                MessagesController.this.lambda$deleteMessagesRange$420(j, i, i2, j2, runnable, tLObject, tLRPC$TL_error);
             }
         });
     }
 
-    public /* synthetic */ void lambda$deleteMessagesRange$415(final long j, final int i, final int i2, final long j2, final Runnable runnable, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$deleteMessagesRange$420(final long j, final int i, final int i2, final long j2, final Runnable runnable, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLRPC$TL_error == null) {
             TLRPC$TL_messages_affectedHistory tLRPC$TL_messages_affectedHistory = (TLRPC$TL_messages_affectedHistory) tLObject;
             processNewDifferenceParams(-1, tLRPC$TL_messages_affectedHistory.pts, -1, tLRPC$TL_messages_affectedHistory.pts_count);
-            getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda109
+            getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda112
                 @Override // java.lang.Runnable
                 public final void run() {
-                    MessagesController.this.lambda$deleteMessagesRange$413(j, i, i2, j2, runnable);
+                    MessagesController.this.lambda$deleteMessagesRange$418(j, i, i2, j2, runnable);
                 }
             });
             return;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda25
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda28
             @Override // java.lang.Runnable
             public final void run() {
                 runnable.run();
@@ -32101,24 +33021,24 @@ public class MessagesController extends BaseController implements NotificationCe
         });
     }
 
-    public /* synthetic */ void lambda$deleteMessagesRange$413(long j, int i, int i2, final long j2, final Runnable runnable) {
+    public /* synthetic */ void lambda$deleteMessagesRange$418(long j, int i, int i2, final long j2, final Runnable runnable) {
         final ArrayList<Integer> cachedMessagesInRange = getMessagesStorage().getCachedMessagesInRange(j, i, i2);
         getMessagesStorage().markMessagesAsDeleted(j, cachedMessagesInRange, false, true, 0, 0);
         getMessagesStorage().updateDialogsWithDeletedMessages(j, 0L, cachedMessagesInRange, null, false);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda166
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda169
             @Override // java.lang.Runnable
             public final void run() {
-                MessagesController.this.lambda$deleteMessagesRange$412(cachedMessagesInRange, j2, runnable);
+                MessagesController.this.lambda$deleteMessagesRange$417(cachedMessagesInRange, j2, runnable);
             }
         });
     }
 
-    public /* synthetic */ void lambda$deleteMessagesRange$412(ArrayList arrayList, long j, Runnable runnable) {
+    public /* synthetic */ void lambda$deleteMessagesRange$417(ArrayList arrayList, long j, Runnable runnable) {
         getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.messagesDeleted, arrayList, Long.valueOf(j), Boolean.FALSE);
         runnable.run();
     }
 
-    public void setCustomChatReactions(final long j, int i, List<TLRPC$Reaction> list, int i2, final Utilities.Callback<TLRPC$TL_error> callback, final Runnable runnable) {
+    public void setCustomChatReactions(final long j, int i, List<TLRPC$Reaction> list, int i2, Boolean bool, final Utilities.Callback<TLRPC$TL_error> callback, final Runnable runnable) {
         final TLRPC$TL_messages_setChatAvailableReactions tLRPC$TL_messages_setChatAvailableReactions = new TLRPC$TL_messages_setChatAvailableReactions();
         tLRPC$TL_messages_setChatAvailableReactions.peer = getInputPeer(-j);
         if (i == 2 || list.isEmpty()) {
@@ -32130,12 +33050,16 @@ public class MessagesController extends BaseController implements NotificationCe
             tLRPC$TL_messages_setChatAvailableReactions.available_reactions = tLRPC$TL_chatReactionsSome;
             tLRPC$TL_chatReactionsSome.reactions.addAll(list);
         }
+        if (bool != null) {
+            tLRPC$TL_messages_setChatAvailableReactions.flags |= 2;
+            tLRPC$TL_messages_setChatAvailableReactions.paid_enabled = bool.booleanValue();
+        }
         tLRPC$TL_messages_setChatAvailableReactions.flags |= 1;
         tLRPC$TL_messages_setChatAvailableReactions.reactions_limit = i2;
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_setChatAvailableReactions, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda406
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_setChatAvailableReactions, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda414
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                MessagesController.this.lambda$setCustomChatReactions$418(j, tLRPC$TL_messages_setChatAvailableReactions, runnable, callback, tLObject, tLRPC$TL_error);
+                MessagesController.this.lambda$setCustomChatReactions$423(j, tLRPC$TL_messages_setChatAvailableReactions, runnable, callback, tLObject, tLRPC$TL_error);
             }
         });
         TLRPC$ChatFull chatFull = getChatFull(j);
@@ -32146,11 +33070,14 @@ public class MessagesController extends BaseController implements NotificationCe
                 chatFull.flags |= FileLoaderPriorityQueue.PRIORITY_VALUE_MAX;
             }
             chatFull.reactions_limit = i2;
+            if (bool != null) {
+                chatFull.paid_reactions_available = bool.booleanValue();
+            }
             getMessagesStorage().updateChatInfo(chatFull, false);
         }
     }
 
-    public /* synthetic */ void lambda$setCustomChatReactions$418(final long j, TLRPC$TL_messages_setChatAvailableReactions tLRPC$TL_messages_setChatAvailableReactions, final Runnable runnable, final Utilities.Callback callback, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$setCustomChatReactions$423(final long j, TLRPC$TL_messages_setChatAvailableReactions tLRPC$TL_messages_setChatAvailableReactions, final Runnable runnable, final Utilities.Callback callback, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject != null) {
             processUpdates((TLRPC$Updates) tLObject, false);
             TLRPC$ChatFull chatFull = getChatFull(j);
@@ -32164,30 +33091,30 @@ public class MessagesController extends BaseController implements NotificationCe
                 chatFull.available_reactions = tLRPC$TL_messages_setChatAvailableReactions.available_reactions;
                 getMessagesStorage().updateChatInfo(chatFull, false);
             }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda152
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda155
                 @Override // java.lang.Runnable
                 public final void run() {
-                    MessagesController.this.lambda$setCustomChatReactions$416(runnable, j);
+                    MessagesController.this.lambda$setCustomChatReactions$421(runnable, j);
                 }
             });
             return;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda286
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda290
             @Override // java.lang.Runnable
             public final void run() {
-                MessagesController.lambda$setCustomChatReactions$417(Utilities.Callback.this, tLRPC$TL_error);
+                MessagesController.lambda$setCustomChatReactions$422(Utilities.Callback.this, tLRPC$TL_error);
             }
         });
     }
 
-    public /* synthetic */ void lambda$setCustomChatReactions$416(Runnable runnable, long j) {
+    public /* synthetic */ void lambda$setCustomChatReactions$421(Runnable runnable, long j) {
         if (runnable != null) {
             runnable.run();
         }
         getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.chatAvailableReactionsUpdated, Long.valueOf(j), 0L);
     }
 
-    public static /* synthetic */ void lambda$setCustomChatReactions$417(Utilities.Callback callback, TLRPC$TL_error tLRPC$TL_error) {
+    public static /* synthetic */ void lambda$setCustomChatReactions$422(Utilities.Callback callback, TLRPC$TL_error tLRPC$TL_error) {
         if (callback != null) {
             callback.run(tLRPC$TL_error);
         }
@@ -32209,15 +33136,15 @@ public class MessagesController extends BaseController implements NotificationCe
                 tLRPC$TL_chatReactionsSome.reactions.add(tLRPC$TL_reactionEmoji);
             }
         }
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_setChatAvailableReactions, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda405
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_setChatAvailableReactions, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda413
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                MessagesController.this.lambda$setChatReactions$420(j, tLRPC$TL_messages_setChatAvailableReactions, tLObject, tLRPC$TL_error);
+                MessagesController.this.lambda$setChatReactions$425(j, tLRPC$TL_messages_setChatAvailableReactions, tLObject, tLRPC$TL_error);
             }
         });
     }
 
-    public /* synthetic */ void lambda$setChatReactions$420(final long j, TLRPC$TL_messages_setChatAvailableReactions tLRPC$TL_messages_setChatAvailableReactions, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$setChatReactions$425(final long j, TLRPC$TL_messages_setChatAvailableReactions tLRPC$TL_messages_setChatAvailableReactions, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject != null) {
             processUpdates((TLRPC$Updates) tLObject, false);
             TLRPC$ChatFull chatFull = getChatFull(j);
@@ -32231,16 +33158,16 @@ public class MessagesController extends BaseController implements NotificationCe
                 chatFull.available_reactions = tLRPC$TL_messages_setChatAvailableReactions.available_reactions;
                 getMessagesStorage().updateChatInfo(chatFull, false);
             }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda104
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda93
                 @Override // java.lang.Runnable
                 public final void run() {
-                    MessagesController.this.lambda$setChatReactions$419(j);
+                    MessagesController.this.lambda$setChatReactions$424(j);
                 }
             });
         }
     }
 
-    public /* synthetic */ void lambda$setChatReactions$419(long j) {
+    public /* synthetic */ void lambda$setChatReactions$424(long j) {
         getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.chatAvailableReactionsUpdated, Long.valueOf(j), 0L);
     }
 
@@ -32315,15 +33242,15 @@ public class MessagesController extends BaseController implements NotificationCe
         TLRPC$TL_channels_getParticipant tLRPC$TL_channels_getParticipant = new TLRPC$TL_channels_getParticipant();
         tLRPC$TL_channels_getParticipant.channel = getInputChannel(tLRPC$Chat.id);
         tLRPC$TL_channels_getParticipant.participant = getInputPeer(tLRPC$User);
-        getConnectionsManager().sendRequest(tLRPC$TL_channels_getParticipant, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda443
+        getConnectionsManager().sendRequest(tLRPC$TL_channels_getParticipant, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda451
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                MessagesController.lambda$getChannelParticipant$421(Utilities.Callback.this, tLObject, tLRPC$TL_error);
+                MessagesController.lambda$getChannelParticipant$426(Utilities.Callback.this, tLObject, tLRPC$TL_error);
             }
         });
     }
 
-    public static /* synthetic */ void lambda$getChannelParticipant$421(Utilities.Callback callback, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public static /* synthetic */ void lambda$getChannelParticipant$426(Utilities.Callback callback, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (callback != null) {
             callback.run(tLObject instanceof TLRPC$TL_channels_channelParticipant ? ((TLRPC$TL_channels_channelParticipant) tLObject).participant : null);
         }
@@ -32361,10 +33288,10 @@ public class MessagesController extends BaseController implements NotificationCe
             TLRPC$TL_channels_getParticipant tLRPC$TL_channels_getParticipant = new TLRPC$TL_channels_getParticipant();
             tLRPC$TL_channels_getParticipant.channel = getInputChannel(tLRPC$Chat.id);
             tLRPC$TL_channels_getParticipant.participant = getInputPeer(tLRPC$User);
-            getConnectionsManager().sendRequest(tLRPC$TL_channels_getParticipant, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda320
+            getConnectionsManager().sendRequest(tLRPC$TL_channels_getParticipant, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda327
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    MessagesController.lambda$checkIsInChat$422(MessagesController.IsInChatCheckedCallback.this, tLObject, tLRPC$TL_error);
+                    MessagesController.lambda$checkIsInChat$427(MessagesController.IsInChatCheckedCallback.this, tLObject, tLRPC$TL_error);
                 }
             });
         } else {
@@ -32395,7 +33322,7 @@ public class MessagesController extends BaseController implements NotificationCe
         }
     }
 
-    public static /* synthetic */ void lambda$checkIsInChat$422(IsInChatCheckedCallback isInChatCheckedCallback, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public static /* synthetic */ void lambda$checkIsInChat$427(IsInChatCheckedCallback isInChatCheckedCallback, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (isInChatCheckedCallback != null) {
             TLRPC$ChannelParticipant tLRPC$ChannelParticipant = tLObject instanceof TLRPC$TL_channels_channelParticipant ? ((TLRPC$TL_channels_channelParticipant) tLObject).participant : null;
             isInChatCheckedCallback.run((tLRPC$TL_error != null || tLRPC$ChannelParticipant == null || tLRPC$ChannelParticipant.left) ? false : true, tLRPC$ChannelParticipant != null ? tLRPC$ChannelParticipant.admin_rights : null, tLRPC$ChannelParticipant != null ? tLRPC$ChannelParticipant.rank : null);
@@ -32434,10 +33361,10 @@ public class MessagesController extends BaseController implements NotificationCe
                 AndroidUtilities.cancelRunOnUIThread(this.recentEmojiStatusUpdateRunnable);
                 this.recentEmojiStatusUpdateRunnableTime = j;
                 this.recentEmojiStatusUpdateRunnableTimeout = valueOf.longValue();
-                Runnable runnable = new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda63
+                Runnable runnable = new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda47
                     @Override // java.lang.Runnable
                     public final void run() {
-                        MessagesController.this.lambda$updateEmojiStatusUntil$423();
+                        MessagesController.this.lambda$updateEmojiStatusUntil$428();
                     }
                 };
                 this.recentEmojiStatusUpdateRunnable = runnable;
@@ -32454,7 +33381,7 @@ public class MessagesController extends BaseController implements NotificationCe
         }
     }
 
-    public /* synthetic */ void lambda$updateEmojiStatusUntil$423() {
+    public /* synthetic */ void lambda$updateEmojiStatusUntil$428() {
         getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.updateInterfaces, Integer.valueOf(UPDATE_MASK_EMOJI_STATUS));
         updateEmojiStatusUntil();
     }
@@ -32510,21 +33437,21 @@ public class MessagesController extends BaseController implements NotificationCe
             public void serializeToStream(AbstractSerializedData abstractSerializedData) {
                 abstractSerializedData.writeInt32(-127582169);
             }
-        }, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda421
+        }, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda429
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                MessagesController.this.lambda$requestContactToken$425(callback, j, currentTimeMillis, tLObject, tLRPC$TL_error);
+                MessagesController.this.lambda$requestContactToken$430(callback, j, currentTimeMillis, tLObject, tLRPC$TL_error);
             }
         });
     }
 
-    public /* synthetic */ void lambda$requestContactToken$425(final Utilities.Callback callback, long j, long j2, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$requestContactToken$430(final Utilities.Callback callback, long j, long j2, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject instanceof TLRPC$TL_exportedContactToken) {
             this.cachedContactToken = (TLRPC$TL_exportedContactToken) tLObject;
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda183
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda186
                 @Override // java.lang.Runnable
                 public final void run() {
-                    MessagesController.this.lambda$requestContactToken$424(callback);
+                    MessagesController.this.lambda$requestContactToken$429(callback);
                 }
             }, Math.max(0L, j - (System.currentTimeMillis() - j2)));
             return;
@@ -32532,7 +33459,7 @@ public class MessagesController extends BaseController implements NotificationCe
         this.requestingContactToken = false;
     }
 
-    public /* synthetic */ void lambda$requestContactToken$424(Utilities.Callback callback) {
+    public /* synthetic */ void lambda$requestContactToken$429(Utilities.Callback callback) {
         callback.run(this.cachedContactToken);
         this.requestingContactToken = false;
     }
@@ -32579,24 +33506,24 @@ public class MessagesController extends BaseController implements NotificationCe
         TL_chatlists$TL_inputChatlistDialogFilter tL_chatlists$TL_inputChatlistDialogFilter = new TL_chatlists$TL_inputChatlistDialogFilter();
         tL_chatlists$TL_chatlists_getChatlistUpdates.chatlist = tL_chatlists$TL_inputChatlistDialogFilter;
         tL_chatlists$TL_inputChatlistDialogFilter.filter_id = i;
-        getConnectionsManager().sendRequest(tL_chatlists$TL_chatlists_getChatlistUpdates, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda362
+        getConnectionsManager().sendRequest(tL_chatlists$TL_chatlists_getChatlistUpdates, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda370
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                MessagesController.this.lambda$checkChatlistFolderUpdate$427(i, chatlistUpdatesStat, tLObject, tLRPC$TL_error);
+                MessagesController.this.lambda$checkChatlistFolderUpdate$432(i, chatlistUpdatesStat, tLObject, tLRPC$TL_error);
             }
         });
     }
 
-    public /* synthetic */ void lambda$checkChatlistFolderUpdate$427(final int i, final ChatlistUpdatesStat chatlistUpdatesStat, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda197
+    public /* synthetic */ void lambda$checkChatlistFolderUpdate$432(final int i, final ChatlistUpdatesStat chatlistUpdatesStat, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda201
             @Override // java.lang.Runnable
             public final void run() {
-                MessagesController.this.lambda$checkChatlistFolderUpdate$426(tLObject, i, chatlistUpdatesStat);
+                MessagesController.this.lambda$checkChatlistFolderUpdate$431(tLObject, i, chatlistUpdatesStat);
             }
         });
     }
 
-    public /* synthetic */ void lambda$checkChatlistFolderUpdate$426(TLObject tLObject, int i, ChatlistUpdatesStat chatlistUpdatesStat) {
+    public /* synthetic */ void lambda$checkChatlistFolderUpdate$431(TLObject tLObject, int i, ChatlistUpdatesStat chatlistUpdatesStat) {
         if (tLObject instanceof TL_chatlists$TL_chatlists_chatlistUpdates) {
             TL_chatlists$TL_chatlists_chatlistUpdates tL_chatlists$TL_chatlists_chatlistUpdates = (TL_chatlists$TL_chatlists_chatlistUpdates) tLObject;
             putChats(tL_chatlists$TL_chatlists_chatlistUpdates.chats, false);
@@ -32635,20 +33562,20 @@ public class MessagesController extends BaseController implements NotificationCe
         if (z) {
             getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.dialogsNeedReload, new Object[0]);
         }
-        return new Pair<>(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda87
+        return new Pair<>(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda90
             @Override // java.lang.Runnable
             public final void run() {
-                MessagesController.this.lambda$removeFolderTemporarily$428(i, z);
+                MessagesController.this.lambda$removeFolderTemporarily$433(i, z);
             }
-        }, new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda273
+        }, new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda276
             @Override // java.lang.Runnable
             public final void run() {
-                MessagesController.this.lambda$removeFolderTemporarily$429(z);
+                MessagesController.this.lambda$removeFolderTemporarily$434(z);
             }
         });
     }
 
-    public /* synthetic */ void lambda$removeFolderTemporarily$428(int i, boolean z) {
+    public /* synthetic */ void lambda$removeFolderTemporarily$433(int i, boolean z) {
         int i2 = 0;
         while (i2 < this.dialogFilters.size()) {
             if (this.dialogFilters.get(i2).id == i) {
@@ -32665,7 +33592,7 @@ public class MessagesController extends BaseController implements NotificationCe
         }
     }
 
-    public /* synthetic */ void lambda$removeFolderTemporarily$429(boolean z) {
+    public /* synthetic */ void lambda$removeFolderTemporarily$434(boolean z) {
         this.frozenDialogFilters = null;
         this.hiddenUndoChats.clear();
         getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.dialogFiltersUpdated, new Object[0]);
@@ -32877,10 +33804,10 @@ public class MessagesController extends BaseController implements NotificationCe
                 tLRPC$TL_channels_getChannelRecommendations.flags |= 1;
                 tLRPC$TL_channels_getChannelRecommendations.channel = inputChannel;
             }
-            getConnectionsManager().sendRequest(tLRPC$TL_channels_getChannelRecommendations, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda438
+            getConnectionsManager().sendRequest(tLRPC$TL_channels_getChannelRecommendations, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda446
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    MessagesController.this.lambda$getChannelRecommendations$431(isPremium, j, tLObject, tLRPC$TL_error);
+                    MessagesController.this.lambda$getChannelRecommendations$436(isPremium, j, tLObject, tLRPC$TL_error);
                 }
             });
             return channelRecommendations;
@@ -32888,16 +33815,16 @@ public class MessagesController extends BaseController implements NotificationCe
         return null;
     }
 
-    public /* synthetic */ void lambda$getChannelRecommendations$431(final boolean z, final long j, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda204
+    public /* synthetic */ void lambda$getChannelRecommendations$436(final boolean z, final long j, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda208
             @Override // java.lang.Runnable
             public final void run() {
-                MessagesController.this.lambda$getChannelRecommendations$430(tLObject, z, j);
+                MessagesController.this.lambda$getChannelRecommendations$435(tLObject, z, j);
             }
         });
     }
 
-    public /* synthetic */ void lambda$getChannelRecommendations$430(TLObject tLObject, boolean z, long j) {
+    public /* synthetic */ void lambda$getChannelRecommendations$435(TLObject tLObject, boolean z, long j) {
         if (tLObject instanceof TLRPC$messages_Chats) {
             ArrayList<TLRPC$Chat> arrayList = ((TLRPC$messages_Chats) tLObject).chats;
             putChats(arrayList, false);
@@ -33013,12 +33940,12 @@ public class MessagesController extends BaseController implements NotificationCe
             longSparseArray2.put(j, tLRPC$TL_messages_savedReactionsTags2);
             tLRPC$TL_messages_savedReactionsTags = tLRPC$TL_messages_savedReactionsTags2;
         }
-        Collections.sort(tLRPC$TL_messages_savedReactionsTags.tags, new Comparator() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda298
+        Collections.sort(tLRPC$TL_messages_savedReactionsTags.tags, new Comparator() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda303
             @Override // java.util.Comparator
             public final int compare(Object obj, Object obj2) {
-                int lambda$updateSavedReactionTags$432;
-                lambda$updateSavedReactionTags$432 = MessagesController.this.lambda$updateSavedReactionTags$432((TLRPC$TL_savedReactionTag) obj, (TLRPC$TL_savedReactionTag) obj2);
-                return lambda$updateSavedReactionTags$432;
+                int lambda$updateSavedReactionTags$437;
+                lambda$updateSavedReactionTags$437 = MessagesController.this.lambda$updateSavedReactionTags$437((TLRPC$TL_savedReactionTag) obj, (TLRPC$TL_savedReactionTag) obj2);
+                return lambda$updateSavedReactionTags$437;
             }
         });
         long j2 = 0;
@@ -33044,7 +33971,7 @@ public class MessagesController extends BaseController implements NotificationCe
         getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.savedReactionTagsUpdate, Long.valueOf(j));
     }
 
-    public /* synthetic */ int lambda$updateSavedReactionTags$432(TLRPC$TL_savedReactionTag tLRPC$TL_savedReactionTag, TLRPC$TL_savedReactionTag tLRPC$TL_savedReactionTag2) {
+    public /* synthetic */ int lambda$updateSavedReactionTags$437(TLRPC$TL_savedReactionTag tLRPC$TL_savedReactionTag, TLRPC$TL_savedReactionTag tLRPC$TL_savedReactionTag2) {
         int compare;
         int i = tLRPC$TL_savedReactionTag.count;
         int i2 = tLRPC$TL_savedReactionTag2.count;
@@ -33155,12 +34082,12 @@ public class MessagesController extends BaseController implements NotificationCe
                 tLRPC$TL_messages_updateSavedReactionTag.title = str;
             }
             getConnectionsManager().sendRequest(tLRPC$TL_messages_updateSavedReactionTag, null);
-            Collections.sort(tLRPC$TL_messages_savedReactionsTags.tags, new Comparator() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda297
+            Collections.sort(tLRPC$TL_messages_savedReactionsTags.tags, new Comparator() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda304
                 @Override // java.util.Comparator
                 public final int compare(Object obj, Object obj2) {
-                    int lambda$renameSavedReactionTag$433;
-                    lambda$renameSavedReactionTag$433 = MessagesController.this.lambda$renameSavedReactionTag$433((TLRPC$TL_savedReactionTag) obj, (TLRPC$TL_savedReactionTag) obj2);
-                    return lambda$renameSavedReactionTag$433;
+                    int lambda$renameSavedReactionTag$438;
+                    lambda$renameSavedReactionTag$438 = MessagesController.this.lambda$renameSavedReactionTag$438((TLRPC$TL_savedReactionTag) obj, (TLRPC$TL_savedReactionTag) obj2);
+                    return lambda$renameSavedReactionTag$438;
                 }
             });
             long j = 0;
@@ -33187,7 +34114,7 @@ public class MessagesController extends BaseController implements NotificationCe
         }
     }
 
-    public /* synthetic */ int lambda$renameSavedReactionTag$433(TLRPC$TL_savedReactionTag tLRPC$TL_savedReactionTag, TLRPC$TL_savedReactionTag tLRPC$TL_savedReactionTag2) {
+    public /* synthetic */ int lambda$renameSavedReactionTag$438(TLRPC$TL_savedReactionTag tLRPC$TL_savedReactionTag, TLRPC$TL_savedReactionTag tLRPC$TL_savedReactionTag2) {
         int compare;
         int i = tLRPC$TL_savedReactionTag.count;
         int i2 = tLRPC$TL_savedReactionTag2.count;
@@ -33237,10 +34164,10 @@ public class MessagesController extends BaseController implements NotificationCe
             this.loadingReactionTags = new HashSet<>();
         }
         this.loadingReactionTags.add(Long.valueOf(j));
-        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda97
+        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda95
             @Override // java.lang.Runnable
             public final void run() {
-                MessagesController.this.lambda$getSavedReactionTags$437(j);
+                MessagesController.this.lambda$getSavedReactionTags$442(j);
             }
         });
         return null;
@@ -33261,7 +34188,7 @@ public class MessagesController extends BaseController implements NotificationCe
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public /* synthetic */ void lambda$getSavedReactionTags$437(final long j) {
+    public /* synthetic */ void lambda$getSavedReactionTags$442(final long j) {
         SQLiteCursor sQLiteCursor;
         ?? database = getMessagesStorage().getDatabase();
         SQLiteCursor sQLiteCursor2 = null;
@@ -33306,15 +34233,15 @@ public class MessagesController extends BaseController implements NotificationCe
             throw th;
         }
         database.dispose();
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda261
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda265
             @Override // java.lang.Runnable
             public final void run() {
-                MessagesController.this.lambda$getSavedReactionTags$436(tLRPC$messages_SavedReactionTags, j);
+                MessagesController.this.lambda$getSavedReactionTags$441(tLRPC$messages_SavedReactionTags, j);
             }
         });
     }
 
-    public /* synthetic */ void lambda$getSavedReactionTags$436(final TLRPC$messages_SavedReactionTags tLRPC$messages_SavedReactionTags, final long j) {
+    public /* synthetic */ void lambda$getSavedReactionTags$441(final TLRPC$messages_SavedReactionTags tLRPC$messages_SavedReactionTags, final long j) {
         if (this.reactionTags == null) {
             this.reactionTags = new LongSparseArray<>();
         }
@@ -33331,24 +34258,24 @@ public class MessagesController extends BaseController implements NotificationCe
             tLRPC$TL_messages_getSavedReactionTags.flags |= 1;
             tLRPC$TL_messages_getSavedReactionTags.peer = getInputPeer(j);
         }
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_getSavedReactionTags, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda407
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_getSavedReactionTags, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda415
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                MessagesController.this.lambda$getSavedReactionTags$435(j, tLRPC$messages_SavedReactionTags, tLRPC$TL_messages_getSavedReactionTags, tLObject, tLRPC$TL_error);
+                MessagesController.this.lambda$getSavedReactionTags$440(j, tLRPC$messages_SavedReactionTags, tLRPC$TL_messages_getSavedReactionTags, tLObject, tLRPC$TL_error);
             }
         });
     }
 
-    public /* synthetic */ void lambda$getSavedReactionTags$435(final long j, final TLRPC$messages_SavedReactionTags tLRPC$messages_SavedReactionTags, final TLRPC$TL_messages_getSavedReactionTags tLRPC$TL_messages_getSavedReactionTags, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda200
+    public /* synthetic */ void lambda$getSavedReactionTags$440(final long j, final TLRPC$messages_SavedReactionTags tLRPC$messages_SavedReactionTags, final TLRPC$TL_messages_getSavedReactionTags tLRPC$TL_messages_getSavedReactionTags, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda204
             @Override // java.lang.Runnable
             public final void run() {
-                MessagesController.this.lambda$getSavedReactionTags$434(tLObject, j, tLRPC$messages_SavedReactionTags, tLRPC$TL_messages_getSavedReactionTags);
+                MessagesController.this.lambda$getSavedReactionTags$439(tLObject, j, tLRPC$messages_SavedReactionTags, tLRPC$TL_messages_getSavedReactionTags);
             }
         });
     }
 
-    public /* synthetic */ void lambda$getSavedReactionTags$434(TLObject tLObject, long j, TLRPC$messages_SavedReactionTags tLRPC$messages_SavedReactionTags, TLRPC$TL_messages_getSavedReactionTags tLRPC$TL_messages_getSavedReactionTags) {
+    public /* synthetic */ void lambda$getSavedReactionTags$439(TLObject tLObject, long j, TLRPC$messages_SavedReactionTags tLRPC$messages_SavedReactionTags, TLRPC$TL_messages_getSavedReactionTags tLRPC$TL_messages_getSavedReactionTags) {
         if (tLObject instanceof TLRPC$TL_messages_savedReactionsTags) {
             TLRPC$TL_messages_savedReactionsTags tLRPC$TL_messages_savedReactionsTags = (TLRPC$TL_messages_savedReactionsTags) tLObject;
             this.reactionTags.put(j, tLRPC$TL_messages_savedReactionsTags);
@@ -33363,15 +34290,15 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     private void saveSavedReactionsTags(final long j, final TLRPC$TL_messages_savedReactionsTags tLRPC$TL_messages_savedReactionsTags) {
-        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda139
+        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda142
             @Override // java.lang.Runnable
             public final void run() {
-                MessagesController.this.lambda$saveSavedReactionsTags$438(j, tLRPC$TL_messages_savedReactionsTags);
+                MessagesController.this.lambda$saveSavedReactionsTags$443(j, tLRPC$TL_messages_savedReactionsTags);
             }
         });
     }
 
-    public /* synthetic */ void lambda$saveSavedReactionsTags$438(long j, TLRPC$TL_messages_savedReactionsTags tLRPC$TL_messages_savedReactionsTags) {
+    public /* synthetic */ void lambda$saveSavedReactionsTags$443(long j, TLRPC$TL_messages_savedReactionsTags tLRPC$TL_messages_savedReactionsTags) {
         SQLiteDatabase database = getMessagesStorage().getDatabase();
         SQLitePreparedStatement sQLitePreparedStatement = null;
         try {
@@ -33412,10 +34339,10 @@ public class MessagesController extends BaseController implements NotificationCe
             if (peerColors2 != null && peerColors2.needUpdate()) {
                 tLRPC$TL_help_getPeerColors.hash = 0;
             }
-            getConnectionsManager().sendRequest(tLRPC$TL_help_getPeerColors, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda340
+            getConnectionsManager().sendRequest(tLRPC$TL_help_getPeerColors, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda339
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    MessagesController.this.lambda$checkPeerColors$440(tLObject, tLRPC$TL_error);
+                    MessagesController.this.lambda$checkPeerColors$445(tLObject, tLRPC$TL_error);
                 }
             });
         }
@@ -33431,44 +34358,44 @@ public class MessagesController extends BaseController implements NotificationCe
             if (peerColors4 != null && peerColors4.needUpdate()) {
                 tLRPC$TL_help_getPeerProfileColors.hash = 0;
             }
-            getConnectionsManager().sendRequest(tLRPC$TL_help_getPeerProfileColors, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda331
+            getConnectionsManager().sendRequest(tLRPC$TL_help_getPeerProfileColors, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda352
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    MessagesController.this.lambda$checkPeerColors$442(tLObject, tLRPC$TL_error);
+                    MessagesController.this.lambda$checkPeerColors$447(tLObject, tLRPC$TL_error);
                 }
             });
         }
     }
 
-    public /* synthetic */ void lambda$checkPeerColors$440(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$checkPeerColors$445(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject instanceof TLRPC$TL_help_peerColors) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda190
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda195
                 @Override // java.lang.Runnable
                 public final void run() {
-                    MessagesController.this.lambda$checkPeerColors$439(tLObject);
+                    MessagesController.this.lambda$checkPeerColors$444(tLObject);
                 }
             });
         }
     }
 
-    public /* synthetic */ void lambda$checkPeerColors$439(TLObject tLObject) {
+    public /* synthetic */ void lambda$checkPeerColors$444(TLObject tLObject) {
         this.loadingPeerColors = false;
         this.peerColors = PeerColors.fromTL(0, (TLRPC$TL_help_peerColors) tLObject);
         this.mainPreferences.edit().putString("peerColors", this.peerColors.toString()).apply();
     }
 
-    public /* synthetic */ void lambda$checkPeerColors$442(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$checkPeerColors$447(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject instanceof TLRPC$TL_help_peerColors) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda189
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda192
                 @Override // java.lang.Runnable
                 public final void run() {
-                    MessagesController.this.lambda$checkPeerColors$441(tLObject);
+                    MessagesController.this.lambda$checkPeerColors$446(tLObject);
                 }
             });
         }
     }
 
-    public /* synthetic */ void lambda$checkPeerColors$441(TLObject tLObject) {
+    public /* synthetic */ void lambda$checkPeerColors$446(TLObject tLObject) {
         this.loadingProfilePeerColors = false;
         this.profilePeerColors = PeerColors.fromTL(1, (TLRPC$TL_help_peerColors) tLObject);
         this.mainPreferences.edit().putString("profilePeerColors", this.profilePeerColors.toString()).apply();
@@ -33563,24 +34490,24 @@ public class MessagesController extends BaseController implements NotificationCe
         if (tLRPC$TL_users_getIsPremiumRequiredToContact.id.isEmpty()) {
             return;
         }
-        getConnectionsManager().sendRequest(tLRPC$TL_users_getIsPremiumRequiredToContact, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda418
+        getConnectionsManager().sendRequest(tLRPC$TL_users_getIsPremiumRequiredToContact, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda426
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                MessagesController.this.lambda$requestIsUserPremiumBlocked$444(arrayList, tLObject, tLRPC$TL_error);
+                MessagesController.this.lambda$requestIsUserPremiumBlocked$449(arrayList, tLObject, tLRPC$TL_error);
             }
         });
     }
 
-    public /* synthetic */ void lambda$requestIsUserPremiumBlocked$444(final ArrayList arrayList, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda201
+    public /* synthetic */ void lambda$requestIsUserPremiumBlocked$449(final ArrayList arrayList, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda205
             @Override // java.lang.Runnable
             public final void run() {
-                MessagesController.this.lambda$requestIsUserPremiumBlocked$443(tLObject, arrayList);
+                MessagesController.this.lambda$requestIsUserPremiumBlocked$448(tLObject, arrayList);
             }
         });
     }
 
-    public /* synthetic */ void lambda$requestIsUserPremiumBlocked$443(TLObject tLObject, ArrayList arrayList) {
+    public /* synthetic */ void lambda$requestIsUserPremiumBlocked$448(TLObject tLObject, ArrayList arrayList) {
         boolean z;
         if (tLObject instanceof TLRPC$Vector) {
             ArrayList<Object> arrayList2 = ((TLRPC$Vector) tLObject).objects;
@@ -33635,17 +34562,17 @@ public class MessagesController extends BaseController implements NotificationCe
     public TLRPC$messages_AvailableEffects getAvailableEffects() {
         if (!this.loadingAvailableEffects) {
             this.loadingAvailableEffects = true;
-            this.effectsFetcher.fetch(this.currentAccount, 0, new Utilities.Callback() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda313
+            this.effectsFetcher.fetch(this.currentAccount, 0, new Utilities.Callback() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda319
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
-                    MessagesController.this.lambda$getAvailableEffects$445((TLRPC$messages_AvailableEffects) obj);
+                    MessagesController.this.lambda$getAvailableEffects$450((TLRPC$messages_AvailableEffects) obj);
                 }
             });
         }
         return this.availableEffects;
     }
 
-    public /* synthetic */ void lambda$getAvailableEffects$445(TLRPC$messages_AvailableEffects tLRPC$messages_AvailableEffects) {
+    public /* synthetic */ void lambda$getAvailableEffects$450(TLRPC$messages_AvailableEffects tLRPC$messages_AvailableEffects) {
         if (this.availableEffects != tLRPC$messages_AvailableEffects) {
             this.availableEffects = tLRPC$messages_AvailableEffects;
             if (tLRPC$messages_AvailableEffects != null) {
@@ -33898,7 +34825,7 @@ public class MessagesController extends BaseController implements NotificationCe
         openApp(null, tLRPC$User, i, null);
     }
 
-    public static /* synthetic */ void lambda$openApp$446(boolean[] zArr) {
+    public static /* synthetic */ void lambda$openApp$451(boolean[] zArr) {
         zArr[0] = true;
     }
 
@@ -33908,18 +34835,18 @@ public class MessagesController extends BaseController implements NotificationCe
         }
         final boolean[] zArr = {false};
         if (progress != null) {
-            progress.onCancel(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda292
+            progress.onCancel(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda297
                 @Override // java.lang.Runnable
                 public final void run() {
-                    MessagesController.lambda$openApp$446(zArr);
+                    MessagesController.lambda$openApp$451(zArr);
                 }
             });
             progress.init();
         }
-        final Runnable runnable = new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda270
+        final Runnable runnable = new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda274
             @Override // java.lang.Runnable
             public final void run() {
-                MessagesController.this.lambda$openApp$447(baseFragment, progress, zArr, tLRPC$User, r6);
+                MessagesController.this.lambda$openApp$452(baseFragment, progress, zArr, tLRPC$User, r6);
             }
         };
         MediaDataController mediaDataController = getMediaDataController();
@@ -33930,10 +34857,10 @@ public class MessagesController extends BaseController implements NotificationCe
         } else if (tL_bots$BotInfoArr[0] == null) {
             MediaDataController mediaDataController2 = getMediaDataController();
             long j2 = tLRPC$User.id;
-            mediaDataController2.loadBotInfo(j2, j2, false, i, new Utilities.Callback() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda315
+            mediaDataController2.loadBotInfo(j2, j2, false, i, new Utilities.Callback() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda322
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
-                    MessagesController.this.lambda$openApp$449(zArr, tL_bots$BotInfoArr, tLRPC$User, i, runnable, (TL_bots$BotInfo) obj);
+                    MessagesController.this.lambda$openApp$454(zArr, tL_bots$BotInfoArr, tLRPC$User, i, runnable, (TL_bots$BotInfo) obj);
                 }
             });
         } else {
@@ -33941,7 +34868,7 @@ public class MessagesController extends BaseController implements NotificationCe
         }
     }
 
-    public /* synthetic */ void lambda$openApp$447(BaseFragment baseFragment, Browser.Progress progress, boolean[] zArr, TLRPC$User tLRPC$User, TL_bots$BotInfo[] tL_bots$BotInfoArr) {
+    public /* synthetic */ void lambda$openApp$452(BaseFragment baseFragment, Browser.Progress progress, boolean[] zArr, TLRPC$User tLRPC$User, TL_bots$BotInfo[] tL_bots$BotInfoArr) {
         EmptyBaseFragment safeLastFragment = baseFragment != null ? baseFragment : LaunchActivity.getSafeLastFragment();
         if (safeLastFragment == null) {
             return;
@@ -34012,7 +34939,7 @@ public class MessagesController extends BaseController implements NotificationCe
         }
     }
 
-    public /* synthetic */ void lambda$openApp$449(final boolean[] zArr, final TL_bots$BotInfo[] tL_bots$BotInfoArr, TLRPC$User tLRPC$User, int i, final Runnable runnable, TL_bots$BotInfo tL_bots$BotInfo) {
+    public /* synthetic */ void lambda$openApp$454(final boolean[] zArr, final TL_bots$BotInfo[] tL_bots$BotInfoArr, TLRPC$User tLRPC$User, int i, final Runnable runnable, TL_bots$BotInfo tL_bots$BotInfo) {
         if (zArr[0]) {
             return;
         }
@@ -34023,10 +34950,10 @@ public class MessagesController extends BaseController implements NotificationCe
                 if (zArr[0]) {
                     return;
                 }
-                loadFullUser(tLRPC$User, i, true, new Utilities.Callback() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda316
+                loadFullUser(tLRPC$User, i, true, new Utilities.Callback() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda323
                     @Override // org.telegram.messenger.Utilities.Callback
                     public final void run(Object obj) {
-                        MessagesController.lambda$openApp$448(zArr, tL_bots$BotInfoArr, runnable, (TLRPC$UserFull) obj);
+                        MessagesController.lambda$openApp$453(zArr, tL_bots$BotInfoArr, runnable, (TLRPC$UserFull) obj);
                     }
                 });
                 return;
@@ -34038,7 +34965,7 @@ public class MessagesController extends BaseController implements NotificationCe
         runnable.run();
     }
 
-    public static /* synthetic */ void lambda$openApp$448(boolean[] zArr, TL_bots$BotInfo[] tL_bots$BotInfoArr, Runnable runnable, TLRPC$UserFull tLRPC$UserFull) {
+    public static /* synthetic */ void lambda$openApp$453(boolean[] zArr, TL_bots$BotInfo[] tL_bots$BotInfoArr, Runnable runnable, TLRPC$UserFull tLRPC$UserFull) {
         if (zArr[0]) {
             return;
         }
@@ -34046,5 +34973,120 @@ public class MessagesController extends BaseController implements NotificationCe
             tL_bots$BotInfoArr[0] = tLRPC$UserFull.bot_info;
         }
         AndroidUtilities.runOnUIThread(runnable);
+    }
+
+    public TL_account$contentSettings getContentSettings() {
+        return this.contentSettings;
+    }
+
+    public void getContentSettings(Utilities.Callback<TL_account$contentSettings> callback) {
+        if (this.contentSettings != null && System.currentTimeMillis() - this.contentSettingsLoadedTime < 3600000) {
+            if (callback != null) {
+                callback.run(this.contentSettings);
+                return;
+            }
+            return;
+        }
+        if (this.contentSettingsCallbacks == null) {
+            this.contentSettingsCallbacks = new ArrayList<>();
+        }
+        if (callback != null) {
+            this.contentSettingsCallbacks.add(callback);
+        }
+        if (this.contentSettingsLoading) {
+            return;
+        }
+        this.contentSettingsLoading = true;
+        getConnectionsManager().sendRequest(new TLObject() { // from class: org.telegram.tgnet.tl.TL_account$getContentSettings
+            @Override // org.telegram.tgnet.TLObject
+            public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
+                return TL_account$contentSettings.TLdeserialize(abstractSerializedData, i, z);
+            }
+
+            @Override // org.telegram.tgnet.TLObject
+            public void serializeToStream(AbstractSerializedData abstractSerializedData) {
+                abstractSerializedData.writeInt32(-1952756306);
+            }
+        }, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda333
+            @Override // org.telegram.tgnet.RequestDelegate
+            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                MessagesController.this.lambda$getContentSettings$456(tLObject, tLRPC$TL_error);
+            }
+        });
+    }
+
+    public /* synthetic */ void lambda$getContentSettings$456(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda193
+            @Override // java.lang.Runnable
+            public final void run() {
+                MessagesController.this.lambda$getContentSettings$455(tLObject);
+            }
+        });
+    }
+
+    public /* synthetic */ void lambda$getContentSettings$455(TLObject tLObject) {
+        if (tLObject instanceof TL_account$contentSettings) {
+            this.contentSettings = (TL_account$contentSettings) tLObject;
+            this.contentSettingsLoadedTime = System.currentTimeMillis();
+        }
+        this.contentSettingsLoading = false;
+        ArrayList<Utilities.Callback<TL_account$contentSettings>> arrayList = this.contentSettingsCallbacks;
+        if (arrayList != null) {
+            Iterator<Utilities.Callback<TL_account$contentSettings>> it = arrayList.iterator();
+            while (it.hasNext()) {
+                it.next().run(this.contentSettings);
+            }
+            this.contentSettingsCallbacks.clear();
+            this.contentSettingsCallbacks = null;
+        }
+    }
+
+    public void setContentSettings(boolean z) {
+        TL_account$contentSettings tL_account$contentSettings = this.contentSettings;
+        if (tL_account$contentSettings != null) {
+            if (!tL_account$contentSettings.sensitive_can_change) {
+                return;
+            }
+            tL_account$contentSettings.sensitive_enabled = z;
+        }
+        if (this.ignoreRestrictionReasons == null) {
+            this.ignoreRestrictionReasons = new HashSet();
+        }
+        if (z) {
+            this.ignoreRestrictionReasons.add("sensitive");
+        } else {
+            this.ignoreRestrictionReasons.remove("sensitive");
+        }
+        TL_account$setContentSettings tL_account$setContentSettings = new TL_account$setContentSettings();
+        tL_account$setContentSettings.sensitive_enabled = z;
+        getConnectionsManager().sendRequest(tL_account$setContentSettings, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda456
+            @Override // org.telegram.tgnet.RequestDelegate
+            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                MessagesController.lambda$setContentSettings$458(tLObject, tLRPC$TL_error);
+            }
+        });
+    }
+
+    public static /* synthetic */ void lambda$setContentSettings$458(TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda294
+            @Override // java.lang.Runnable
+            public final void run() {
+                MessagesController.lambda$setContentSettings$457(TLRPC$TL_error.this);
+            }
+        });
+    }
+
+    public static /* synthetic */ void lambda$setContentSettings$457(TLRPC$TL_error tLRPC$TL_error) {
+        if (tLRPC$TL_error != null) {
+            BulletinFactory.showError(tLRPC$TL_error);
+        }
+    }
+
+    public boolean showSensitiveContent() {
+        if (this.contentSettings != null && System.currentTimeMillis() - this.contentSettingsLoadedTime < 3600000) {
+            return this.contentSettings.sensitive_enabled;
+        }
+        Set<String> set = this.ignoreRestrictionReasons;
+        return set == null || set.contains("sensitive");
     }
 }

@@ -69,7 +69,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.SimpleFloatPropertyCompat;
 import org.telegram.ui.bots.ChatAttachAlertBotWebViewLayout;
 import org.telegram.ui.web.BotWebViewContainer;
-/* loaded from: classes4.dex */
+/* loaded from: classes.dex */
 public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlertLayout implements NotificationCenter.NotificationCenterDelegate {
     private ActionBarMenuSubItem addToHomeScreenItem;
     private long botId;
@@ -818,7 +818,7 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
         BulletinFactory.of(this.parentAlert.getContainer(), this.resourcesProvider).createSimpleBulletin(R.raw.contact_check, AndroidUtilities.replaceTags(str)).setDuration(5000).show(true);
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes.dex */
     public static class WebViewSwipeContainer extends FrameLayout {
         public static final SimpleFloatPropertyCompat<WebViewSwipeContainer> SWIPE_OFFSET_Y = new SimpleFloatPropertyCompat<>("swipeOffsetY", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.bots.ChatAttachAlertBotWebViewLayout$WebViewSwipeContainer$$ExternalSyntheticLambda5
             @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Getter
@@ -859,7 +859,7 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
         public float topActionBarOffsetY;
         private BotWebViewContainer.MyWebView webView;
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes.dex */
         public interface Delegate {
             void onDismiss();
         }
@@ -1350,7 +1350,7 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes.dex */
     public static class WebProgressView extends View {
         private final SimpleFloatPropertyCompat<WebProgressView> LOAD_PROGRESS_PROPERTY;
         private Paint bluePaint;

@@ -88,7 +88,6 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import java.io.File;
-import java.net.IDN;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15250,7 +15249,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     if (!isTonsite()) {
                         try {
                             Uri parse2 = Uri.parse(uri);
-                            uri = Browser.replaceHostname(parse2, IDN.toUnicode(parse2.getHost(), 1), null);
+                            uri = Browser.replaceHostname(parse2, Browser.IDN_toUnicode(parse2.getHost()), null);
                         } catch (Exception e) {
                             FileLog.e((Throwable) e, false);
                         }

@@ -119,7 +119,7 @@ import org.telegram.ui.bots.BotWebViewAttachedSheet;
 import org.telegram.ui.bots.BotWebViewSheet;
 import org.telegram.ui.bots.ChatAttachAlertBotWebViewLayout;
 import org.telegram.ui.web.BotWebViewContainer;
-/* loaded from: classes4.dex */
+/* loaded from: classes.dex */
 public class BotWebViewSheet extends Dialog implements NotificationCenter.NotificationCenterDelegate, BottomSheetTabsOverlay.Sheet {
     private static final SimpleFloatPropertyCompat<BotWebViewSheet> ACTION_BAR_TRANSITION_PROGRESS_VALUE = new SimpleFloatPropertyCompat("actionBarTransitionProgress", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.bots.BotWebViewSheet$$ExternalSyntheticLambda28
         @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Getter
@@ -625,7 +625,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes.dex */
     public class 3 implements BotWebViewContainer.Delegate {
         private boolean sentWebViewData;
         final /* synthetic */ Context val$context;
@@ -1376,7 +1376,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes.dex */
     public class 11 extends ActionBar.ActionBarMenuOnItemClick {
         11() {
         }
@@ -1392,7 +1392,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
                 Bundle bundle = new Bundle();
                 bundle.putLong("user_id", BotWebViewSheet.this.botId);
                 if (BotWebViewSheet.this.parentActivity instanceof LaunchActivity) {
-                    ((LaunchActivity) BotWebViewSheet.this.parentActivity).lambda$runLinkRequest$88(new ChatActivity(bundle));
+                    ((LaunchActivity) BotWebViewSheet.this.parentActivity).lambda$runLinkRequest$91(new ChatActivity(bundle));
                 }
                 BotWebViewSheet.this.dismiss();
             } else if (i == R.id.menu_tos_bot) {
@@ -1644,7 +1644,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes.dex */
     public class 12 implements View.OnLayoutChangeListener {
         12() {
         }
@@ -1894,7 +1894,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         return this.windowView;
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes.dex */
     public class WindowView extends SizeNotifierFrameLayout implements BottomSheetTabsOverlay.SheetView {
         private final Path clipPath;
         private boolean drawingFromOverlay;

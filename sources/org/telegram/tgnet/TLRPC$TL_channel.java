@@ -33,6 +33,7 @@ public class TLRPC$TL_channel extends TLRPC$Chat {
         this.stories_hidden = (readInt322 & 2) != 0;
         this.stories_hidden_min = (readInt322 & 4) != 0;
         this.stories_unavailable = (readInt322 & 8) != 0;
+        this.signature_profiles = (readInt322 & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0;
         this.id = abstractSerializedData.readInt64(z);
         if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0) {
             this.access_hash = abstractSerializedData.readInt64(z);
@@ -53,7 +54,7 @@ public class TLRPC$TL_channel extends TLRPC$Chat {
             }
             int readInt324 = abstractSerializedData.readInt32(z);
             for (int i = 0; i < readInt324; i++) {
-                TLRPC$TL_restrictionReason TLdeserialize = TLRPC$TL_restrictionReason.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+                TLRPC$RestrictionReason TLdeserialize = TLRPC$RestrictionReason.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
                 if (TLdeserialize == null) {
                     return;
                 }
@@ -104,11 +105,14 @@ public class TLRPC$TL_channel extends TLRPC$Chat {
         if ((this.flags2 & 1024) != 0) {
             this.level = abstractSerializedData.readInt32(z);
         }
+        if ((this.flags2 & 2048) != 0) {
+            this.subscription_until_date = abstractSerializedData.readInt32(z);
+        }
     }
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(179174543);
+        abstractSerializedData.writeInt32(-29067075);
         int i = this.creator ? this.flags | 1 : this.flags & (-2);
         this.flags = i;
         int i2 = this.left ? i | 4 : i & (-5);
@@ -156,7 +160,9 @@ public class TLRPC$TL_channel extends TLRPC$Chat {
         this.flags2 = i22;
         int i23 = this.stories_unavailable ? i22 | 8 : i22 & (-9);
         this.flags2 = i23;
-        abstractSerializedData.writeInt32(i23);
+        int i24 = this.signature_profiles ? i23 | LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM : i23 & (-4097);
+        this.flags2 = i24;
+        abstractSerializedData.writeInt32(i24);
         abstractSerializedData.writeInt64(this.id);
         if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0) {
             abstractSerializedData.writeInt64(this.access_hash);
@@ -171,8 +177,8 @@ public class TLRPC$TL_channel extends TLRPC$Chat {
             abstractSerializedData.writeInt32(481674261);
             int size = this.restriction_reason.size();
             abstractSerializedData.writeInt32(size);
-            for (int i24 = 0; i24 < size; i24++) {
-                this.restriction_reason.get(i24).serializeToStream(abstractSerializedData);
+            for (int i25 = 0; i25 < size; i25++) {
+                this.restriction_reason.get(i25).serializeToStream(abstractSerializedData);
             }
         }
         if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0) {
@@ -191,8 +197,8 @@ public class TLRPC$TL_channel extends TLRPC$Chat {
             abstractSerializedData.writeInt32(481674261);
             int size2 = this.usernames.size();
             abstractSerializedData.writeInt32(size2);
-            for (int i25 = 0; i25 < size2; i25++) {
-                this.usernames.get(i25).serializeToStream(abstractSerializedData);
+            for (int i26 = 0; i26 < size2; i26++) {
+                this.usernames.get(i26).serializeToStream(abstractSerializedData);
             }
         }
         if ((this.flags2 & 16) != 0) {
@@ -209,6 +215,9 @@ public class TLRPC$TL_channel extends TLRPC$Chat {
         }
         if ((this.flags2 & 1024) != 0) {
             abstractSerializedData.writeInt32(this.level);
+        }
+        if ((this.flags2 & 2048) != 0) {
+            abstractSerializedData.writeInt32(this.subscription_until_date);
         }
     }
 }

@@ -10,6 +10,7 @@ public class TLRPC$TL_sponsoredMessage extends TLObject {
     public TLRPC$TL_peerColor color;
     public ArrayList<TLRPC$MessageEntity> entities = new ArrayList<>();
     public int flags;
+    public TLRPC$MessageMedia media;
     public String message;
     public TLRPC$Photo photo;
     public byte[] random_id;
@@ -19,7 +20,7 @@ public class TLRPC$TL_sponsoredMessage extends TLObject {
     public String url;
 
     public static TLRPC$TL_sponsoredMessage TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        if (-1108478618 != i) {
+        if (1301522832 != i) {
             if (z) {
                 throw new RuntimeException(String.format("can't parse magic %x in TL_sponsoredMessage", Integer.valueOf(i)));
             }
@@ -60,6 +61,9 @@ public class TLRPC$TL_sponsoredMessage extends TLObject {
         if ((this.flags & 64) != 0) {
             this.photo = TLRPC$Photo.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
         }
+        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0) {
+            this.media = TLRPC$MessageMedia.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+        }
         if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0) {
             this.color = TLRPC$TL_peerColor.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
         }
@@ -74,7 +78,7 @@ public class TLRPC$TL_sponsoredMessage extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(-1108478618);
+        abstractSerializedData.writeInt32(1301522832);
         int i = this.recommended ? this.flags | 32 : this.flags & (-33);
         this.flags = i;
         int i2 = this.can_report ? i | LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM : i & (-4097);
@@ -94,6 +98,9 @@ public class TLRPC$TL_sponsoredMessage extends TLObject {
         }
         if ((this.flags & 64) != 0) {
             this.photo.serializeToStream(abstractSerializedData);
+        }
+        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0) {
+            this.media.serializeToStream(abstractSerializedData);
         }
         if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0) {
             this.color.serializeToStream(abstractSerializedData);

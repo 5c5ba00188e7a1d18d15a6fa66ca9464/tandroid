@@ -31,13 +31,13 @@ public final class R$attr {
     public static final int editTextStyle = 2130968726;
     public static final int imageButtonStyle = 2130968759;
     public static final int listMenuViewStyle = 2130968780;
-    public static final int panelMenuListTheme = 2130968839;
-    public static final int radioButtonStyle = 2130968853;
-    public static final int ratingBarStyle = 2130968854;
-    public static final int searchViewStyle = 2130968864;
-    public static final int seekBarStyle = 2130968870;
-    public static final int spinnerStyle = 2130968884;
-    public static final int textColorSearchUrl = 2130968910;
-    public static final int toolbarNavigationButtonStyle = 2130968933;
-    public static final int toolbarStyle = 2130968934;
+    public static final int panelMenuListTheme = 2130968817;
+    public static final int radioButtonStyle = 2130968831;
+    public static final int ratingBarStyle = 2130968832;
+    public static final int searchViewStyle = 2130968842;
+    public static final int seekBarStyle = 2130968848;
+    public static final int spinnerStyle = 2130968862;
+    public static final int textColorSearchUrl = 2130968888;
+    public static final int toolbarNavigationButtonStyle = 2130968911;
+    public static final int toolbarStyle = 2130968912;
 }

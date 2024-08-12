@@ -1781,9 +1781,9 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Removed duplicated region for block: B:12:0x0022 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:136:0x0558  */
-    /* JADX WARN: Removed duplicated region for block: B:139:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:13:0x0023  */
+    /* JADX WARN: Removed duplicated region for block: B:146:0x0597  */
+    /* JADX WARN: Removed duplicated region for block: B:149:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1794,6 +1794,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         TLRPC$TL_channelAdminLogEvent tLRPC$TL_channelAdminLogEvent;
         TLRPC$Message tLRPC$Message;
         TLRPC$User user;
+        TLRPC$TL_channelAdminLogEvent tLRPC$TL_channelAdminLogEvent2;
         if (view instanceof ChatMessageCell) {
             messageObject2 = ((ChatMessageCell) view).getMessageObject();
         } else if (view instanceof ChatActionCell) {
@@ -1811,8 +1812,24 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             final ArrayList arrayList = new ArrayList();
             final ArrayList arrayList2 = new ArrayList();
             final ArrayList arrayList3 = new ArrayList();
-            TLRPC$TL_channelAdminLogEvent tLRPC$TL_channelAdminLogEvent2 = messageObject.currentEvent;
-            if (tLRPC$TL_channelAdminLogEvent2 != null && (((tLRPC$TL_channelAdminLogEvent2.action instanceof TLRPC$TL_channelAdminLogEventActionDeleteMessage) && tLRPC$TL_channelAdminLogEvent2.user_id == getMessagesController().telegramAntispamUserId) || (messageObject.currentEvent.action instanceof TLRPC$TL_channelAdminLogEventActionToggleAntiSpam))) {
+            if (this.currentChat != null && (tLRPC$TL_channelAdminLogEvent2 = messageObject.currentEvent) != null) {
+                TLRPC$ChannelAdminLogEventAction tLRPC$ChannelAdminLogEventAction = tLRPC$TL_channelAdminLogEvent2.action;
+                if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionParticipantJoinByInvite) {
+                    TLRPC$TL_channelAdminLogEventActionParticipantJoinByInvite tLRPC$TL_channelAdminLogEventActionParticipantJoinByInvite = (TLRPC$TL_channelAdminLogEventActionParticipantJoinByInvite) tLRPC$ChannelAdminLogEventAction;
+                    if (tLRPC$TL_channelAdminLogEventActionParticipantJoinByInvite.invite != null) {
+                        TLRPC$ChatFull chatFull = getMessagesController().getChatFull(this.currentChat.id);
+                        Context context = getContext();
+                        TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported = tLRPC$TL_channelAdminLogEventActionParticipantJoinByInvite.invite;
+                        TLRPC$Chat tLRPC$Chat = this.currentChat;
+                        InviteLinkBottomSheet inviteLinkBottomSheet = new InviteLinkBottomSheet(context, tLRPC$TL_chatInviteExported, chatFull, null, this, tLRPC$Chat.id, false, ChatObject.isChannelAndNotMegaGroup(tLRPC$Chat));
+                        inviteLinkBottomSheet.setCanEdit(false);
+                        inviteLinkBottomSheet.show();
+                        return true;
+                    }
+                }
+            }
+            TLRPC$TL_channelAdminLogEvent tLRPC$TL_channelAdminLogEvent3 = messageObject.currentEvent;
+            if (tLRPC$TL_channelAdminLogEvent3 != null && (((tLRPC$TL_channelAdminLogEvent3.action instanceof TLRPC$TL_channelAdminLogEventActionDeleteMessage) && tLRPC$TL_channelAdminLogEvent3.user_id == getMessagesController().telegramAntispamUserId) || (messageObject.currentEvent.action instanceof TLRPC$TL_channelAdminLogEventActionToggleAntiSpam))) {
                 if (view instanceof ChatActionCell) {
                     SpannableString spannableString = new SpannableString(">");
                     Drawable mutate = getContext().getResources().getDrawable(R.drawable.attach_arrow_right).mutate();
@@ -1852,11 +1869,11 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                 arrayList2.add(3);
             }
             if (messageType == 1) {
-                TLRPC$TL_channelAdminLogEvent tLRPC$TL_channelAdminLogEvent3 = this.selectedObject.currentEvent;
-                if (tLRPC$TL_channelAdminLogEvent3 != null) {
-                    TLRPC$ChannelAdminLogEventAction tLRPC$ChannelAdminLogEventAction = tLRPC$TL_channelAdminLogEvent3.action;
-                    if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionChangeStickerSet) {
-                        TLRPC$TL_channelAdminLogEventActionChangeStickerSet tLRPC$TL_channelAdminLogEventActionChangeStickerSet = (TLRPC$TL_channelAdminLogEventActionChangeStickerSet) tLRPC$ChannelAdminLogEventAction;
+                TLRPC$TL_channelAdminLogEvent tLRPC$TL_channelAdminLogEvent4 = this.selectedObject.currentEvent;
+                if (tLRPC$TL_channelAdminLogEvent4 != null) {
+                    TLRPC$ChannelAdminLogEventAction tLRPC$ChannelAdminLogEventAction2 = tLRPC$TL_channelAdminLogEvent4.action;
+                    if (tLRPC$ChannelAdminLogEventAction2 instanceof TLRPC$TL_channelAdminLogEventActionChangeStickerSet) {
+                        TLRPC$TL_channelAdminLogEventActionChangeStickerSet tLRPC$TL_channelAdminLogEventActionChangeStickerSet = (TLRPC$TL_channelAdminLogEventActionChangeStickerSet) tLRPC$ChannelAdminLogEventAction2;
                         TLRPC$InputStickerSet tLRPC$InputStickerSet = tLRPC$TL_channelAdminLogEventActionChangeStickerSet.new_stickerset;
                         if (tLRPC$InputStickerSet == null || (tLRPC$InputStickerSet instanceof TLRPC$TL_inputStickerSetEmpty)) {
                             tLRPC$InputStickerSet = tLRPC$TL_channelAdminLogEventActionChangeStickerSet.prev_stickerset;
@@ -1868,14 +1885,14 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                         }
                     }
                 }
-                if (tLRPC$TL_channelAdminLogEvent3 != null && (tLRPC$TL_channelAdminLogEvent3.action instanceof TLRPC$TL_channelAdminLogEventActionChangeEmojiStickerSet)) {
+                if (tLRPC$TL_channelAdminLogEvent4 != null && (tLRPC$TL_channelAdminLogEvent4.action instanceof TLRPC$TL_channelAdminLogEventActionChangeEmojiStickerSet)) {
                     GroupStickersActivity groupStickersActivity = new GroupStickersActivity(this.currentChat.id, true);
-                    TLRPC$ChatFull chatFull = getMessagesController().getChatFull(this.currentChat.id);
-                    if (chatFull != null) {
-                        groupStickersActivity.setInfo(chatFull);
+                    TLRPC$ChatFull chatFull2 = getMessagesController().getChatFull(this.currentChat.id);
+                    if (chatFull2 != null) {
+                        groupStickersActivity.setInfo(chatFull2);
                         presentFragment(groupStickersActivity);
                     }
-                } else if (tLRPC$TL_channelAdminLogEvent3 != null && (tLRPC$TL_channelAdminLogEvent3.action instanceof TLRPC$TL_channelAdminLogEventActionChangeHistoryTTL) && ChatObject.canUserDoAdminAction(this.currentChat, 13)) {
+                } else if (tLRPC$TL_channelAdminLogEvent4 != null && (tLRPC$TL_channelAdminLogEvent4.action instanceof TLRPC$TL_channelAdminLogEventActionChangeHistoryTTL) && ChatObject.canUserDoAdminAction(this.currentChat, 13)) {
                     ClearHistoryAlert clearHistoryAlert = new ClearHistoryAlert(getParentActivity(), null, this.currentChat, false, null);
                     clearHistoryAlert.setDelegate(new ClearHistoryAlert.ClearHistoryAlertDelegate() { // from class: org.telegram.ui.ChannelAdminLogActivity.15
                         @Override // org.telegram.ui.Components.ClearHistoryAlert.ClearHistoryAlertDelegate
@@ -1886,9 +1903,9 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                         @Override // org.telegram.ui.Components.ClearHistoryAlert.ClearHistoryAlertDelegate
                         public void onAutoDeleteHistory(int i, int i2) {
                             ChannelAdminLogActivity.this.getMessagesController().setDialogHistoryTTL(-ChannelAdminLogActivity.this.currentChat.id, i);
-                            TLRPC$ChatFull chatFull2 = ChannelAdminLogActivity.this.getMessagesController().getChatFull(ChannelAdminLogActivity.this.currentChat.id);
-                            if (chatFull2 != null) {
-                                ChannelAdminLogActivity.this.undoView.showWithAction(-ChannelAdminLogActivity.this.currentChat.id, i2, (Object) null, Integer.valueOf(chatFull2.ttl_period), (Runnable) null, (Runnable) null);
+                            TLRPC$ChatFull chatFull3 = ChannelAdminLogActivity.this.getMessagesController().getChatFull(ChannelAdminLogActivity.this.currentChat.id);
+                            if (chatFull3 != null) {
+                                ChannelAdminLogActivity.this.undoView.showWithAction(-ChannelAdminLogActivity.this.currentChat.id, i2, (Object) null, Integer.valueOf(chatFull3.ttl_period), (Runnable) null, (Runnable) null);
                             }
                         }
                     });
@@ -1995,8 +2012,8 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                 }
             };
             if (ChatObject.canBlockUsers(this.currentChat) && (tLRPC$TL_channelAdminLogEvent = messageObject.currentEvent) != null) {
-                TLRPC$ChannelAdminLogEventAction tLRPC$ChannelAdminLogEventAction2 = tLRPC$TL_channelAdminLogEvent.action;
-                if (((tLRPC$ChannelAdminLogEventAction2 instanceof TLRPC$TL_channelAdminLogEventActionDeleteMessage) || (tLRPC$ChannelAdminLogEventAction2 instanceof TLRPC$TL_channelAdminLogEventActionEditMessage) || (tLRPC$ChannelAdminLogEventAction2 instanceof TLRPC$TL_channelAdminLogEventActionParticipantJoin) || (tLRPC$ChannelAdminLogEventAction2 instanceof TLRPC$TL_channelAdminLogEventActionParticipantJoinByInvite) || (tLRPC$ChannelAdminLogEventAction2 instanceof TLRPC$TL_channelAdminLogEventActionParticipantJoinByRequest)) && (tLRPC$Message = messageObject.messageOwner) != null && tLRPC$Message.from_id != null && (user = getMessagesController().getUser(Long.valueOf(this.selectedObject.messageOwner.from_id.user_id))) != null && !UserObject.isUserSelf(user)) {
+                TLRPC$ChannelAdminLogEventAction tLRPC$ChannelAdminLogEventAction3 = tLRPC$TL_channelAdminLogEvent.action;
+                if (((tLRPC$ChannelAdminLogEventAction3 instanceof TLRPC$TL_channelAdminLogEventActionDeleteMessage) || (tLRPC$ChannelAdminLogEventAction3 instanceof TLRPC$TL_channelAdminLogEventActionEditMessage) || (tLRPC$ChannelAdminLogEventAction3 instanceof TLRPC$TL_channelAdminLogEventActionParticipantJoin) || (tLRPC$ChannelAdminLogEventAction3 instanceof TLRPC$TL_channelAdminLogEventActionParticipantJoinByInvite) || (tLRPC$ChannelAdminLogEventAction3 instanceof TLRPC$TL_channelAdminLogEventActionParticipantJoinByRequest)) && (tLRPC$Message = messageObject.messageOwner) != null && tLRPC$Message.from_id != null && (user = getMessagesController().getUser(Long.valueOf(this.selectedObject.messageOwner.from_id.user_id))) != null && !UserObject.isUserSelf(user)) {
                     getMessagesController().getChannelParticipant(this.currentChat, user, new Utilities.Callback() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda20
                         @Override // org.telegram.messenger.Utilities.Callback
                         public final void run(Object obj) {
@@ -3275,8 +3292,13 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ void didPressReaction(ChatMessageCell chatMessageCell, TLRPC$ReactionCount tLRPC$ReactionCount, boolean z) {
-                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressReaction(this, chatMessageCell, tLRPC$ReactionCount, z);
+            public /* synthetic */ void didPressReaction(ChatMessageCell chatMessageCell, TLRPC$ReactionCount tLRPC$ReactionCount, boolean z, float f, float f2) {
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressReaction(this, chatMessageCell, tLRPC$ReactionCount, z, f, f2);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ void didPressRevealSensitiveContent(ChatMessageCell chatMessageCell) {
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressRevealSensitiveContent(this, chatMessageCell);
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -3590,14 +3612,14 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                     if (longValue > 0) {
                         TLRPC$User user = MessagesController.getInstance(((BaseFragment) ChannelAdminLogActivity.this).currentAccount).getUser(Long.valueOf(longValue));
                         if (user != null) {
-                            MessagesController.openChatOrProfileWith(user, null, ChannelAdminLogActivity.this, 0, false);
+                            MessagesController.getInstance(((BaseFragment) ChannelAdminLogActivity.this).currentAccount).openChatOrProfileWith(user, null, ChannelAdminLogActivity.this, 0, false);
                             return;
                         }
                         return;
                     }
                     TLRPC$Chat chat = MessagesController.getInstance(((BaseFragment) ChannelAdminLogActivity.this).currentAccount).getChat(Long.valueOf(-longValue));
                     if (chat != null) {
-                        MessagesController.openChatOrProfileWith(null, chat, ChannelAdminLogActivity.this, 0, false);
+                        MessagesController.getInstance(((BaseFragment) ChannelAdminLogActivity.this).currentAccount).openChatOrProfileWith(null, chat, ChannelAdminLogActivity.this, 0, false);
                     }
                 } else if (characterStyle instanceof URLSpanNoUnderline) {
                     String url = ((URLSpanNoUnderline) characterStyle).getURL();

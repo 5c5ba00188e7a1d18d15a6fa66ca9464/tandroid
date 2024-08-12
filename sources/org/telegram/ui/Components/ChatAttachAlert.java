@@ -309,7 +309,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    protected boolean canDismissWithSwipe() {
+    public boolean canDismissWithSwipe() {
         return false;
     }
 
@@ -3281,7 +3281,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                         public final void accept(Object obj) {
                             ChatAttachAlert.this.lambda$new$11(attachBotButton, (Boolean) obj);
                         }
-                    }, null);
+                    }, null, null);
                 }
             } else {
                 this.delegate.didSelectBot(attachBotButton.currentUser);

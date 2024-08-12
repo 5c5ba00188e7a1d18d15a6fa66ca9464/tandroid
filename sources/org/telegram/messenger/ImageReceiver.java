@@ -344,6 +344,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class SetImageBackup {
         public int cacheType;
@@ -361,10 +362,12 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         private SetImageBackup() {
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public boolean isSet() {
             return (this.imageLocation == null && this.thumbLocation == null && this.mediaLocation == null && this.thumb == null) ? false : true;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public boolean isWebfileSet() {
             ImageLocation imageLocation;
             ImageLocation imageLocation2;
@@ -372,6 +375,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
             return ((imageLocation3 == null || (imageLocation3.webFile == null && imageLocation3.path == null)) && ((imageLocation = this.thumbLocation) == null || (imageLocation.webFile == null && imageLocation.path == null)) && ((imageLocation2 = this.mediaLocation) == null || (imageLocation2.webFile == null && imageLocation2.path == null))) ? false : true;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void clear() {
             this.imageLocation = null;
             this.thumbLocation = null;
@@ -468,8 +472,8 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         setForUserOrChat(tLObject, drawable, obj, false, 0, false);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:127:0x0078  */
-    /* JADX WARN: Removed duplicated region for block: B:128:0x0085  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x0078  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x0085  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1276,23 +1280,23 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX WARN: Can't wrap try/catch for region: R(10:390|(1:392)(10:421|(2:423|(1:425))|426|(1:396)|397|398|399|(1:(5:402|(1:404)|405|406|407)(1:415))(1:416)|408|(2:410|411)(1:412))|393|(1:396)|397|398|399|(0)(0)|408|(0)(0)) */
-    /* JADX WARN: Code restructure failed: missing block: B:853:0x08ea, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:410:0x08ea, code lost:
         r0 = e;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:855:0x08ec, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:412:0x08ec, code lost:
         r0 = e;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:856:0x08ed, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:413:0x08ed, code lost:
         r15 = null;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:857:0x08ee, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:414:0x08ee, code lost:
         org.telegram.messenger.FileLog.e(r0);
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:843:0x08b7  */
-    /* JADX WARN: Removed duplicated region for block: B:851:0x08e5 A[Catch: Exception -> 0x08ea, TRY_LEAVE, TryCatch #1 {Exception -> 0x08ea, blocks: (B:849:0x08dc, B:850:0x08e0, B:851:0x08e5), top: B:864:0x08b5 }] */
-    /* JADX WARN: Removed duplicated region for block: B:859:0x08f3  */
-    /* JADX WARN: Removed duplicated region for block: B:885:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:400:0x08b7  */
+    /* JADX WARN: Removed duplicated region for block: B:408:0x08e5 A[Catch: Exception -> 0x08ea, TRY_LEAVE, TryCatch #1 {Exception -> 0x08ea, blocks: (B:406:0x08dc, B:407:0x08e0, B:408:0x08e5), top: B:421:0x08b5 }] */
+    /* JADX WARN: Removed duplicated region for block: B:416:0x08f3  */
+    /* JADX WARN: Removed duplicated region for block: B:442:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r15v10 */
     /* JADX WARN: Type inference failed for: r15v11 */
     /* JADX WARN: Type inference failed for: r15v12 */
@@ -1998,21 +2002,21 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         return draw(canvas, null);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:302:0x0236, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:104:0x0236, code lost:
         if (r36.useRoundForThumb == false) goto L133;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:303:0x0238, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:105:0x0238, code lost:
         if (r4 != null) goto L133;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:304:0x023a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:106:0x023a, code lost:
         updateDrawableRadius(r11);
         r4 = r36.staticThumbShader;
      */
-    /* JADX WARN: Removed duplicated region for block: B:317:0x0260 A[Catch: Exception -> 0x031d, TryCatch #0 {Exception -> 0x031d, blocks: (B:276:0x01ba, B:281:0x01e6, B:283:0x01fb, B:286:0x0201, B:317:0x0260, B:319:0x0264, B:322:0x0269, B:324:0x0276, B:326:0x028a, B:328:0x028e, B:331:0x0296, B:336:0x02a2, B:337:0x02ba, B:339:0x02bd, B:340:0x02d0, B:323:0x026f, B:301:0x0234, B:304:0x023a, B:310:0x024e, B:313:0x0254), top: B:390:0x01ba }] */
-    /* JADX WARN: Removed duplicated region for block: B:329:0x0292  */
-    /* JADX WARN: Removed duplicated region for block: B:377:0x038e  */
-    /* JADX WARN: Removed duplicated region for block: B:381:0x0397  */
-    /* JADX WARN: Removed duplicated region for block: B:388:0x03a8 A[LOOP:0: B:386:0x03a0->B:388:0x03a8, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:119:0x0260 A[Catch: Exception -> 0x031d, TryCatch #0 {Exception -> 0x031d, blocks: (B:78:0x01ba, B:83:0x01e6, B:85:0x01fb, B:88:0x0201, B:119:0x0260, B:121:0x0264, B:124:0x0269, B:126:0x0276, B:128:0x028a, B:130:0x028e, B:133:0x0296, B:138:0x02a2, B:139:0x02ba, B:141:0x02bd, B:142:0x02d0, B:125:0x026f, B:103:0x0234, B:106:0x023a, B:112:0x024e, B:115:0x0254), top: B:192:0x01ba }] */
+    /* JADX WARN: Removed duplicated region for block: B:131:0x0292  */
+    /* JADX WARN: Removed duplicated region for block: B:179:0x038e  */
+    /* JADX WARN: Removed duplicated region for block: B:183:0x0397  */
+    /* JADX WARN: Removed duplicated region for block: B:190:0x03a8 A[LOOP:0: B:188:0x03a0->B:190:0x03a8, LOOP_END] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2457,8 +2461,8 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         return null;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:87:0x008d  */
-    /* JADX WARN: Removed duplicated region for block: B:89:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x008d  */
+    /* JADX WARN: Removed duplicated region for block: B:44:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3181,6 +3185,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public int getTag(int i) {
         if (i == 1) {
             return this.thumbTag;
@@ -3191,6 +3196,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         return this.imageTag;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void setTag(int i, int i2) {
         if (i2 == 1) {
             this.thumbTag = i;
@@ -3209,11 +3215,12 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         return this.param;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:302:0x00be, code lost:
+    /* JADX INFO: Access modifiers changed from: protected */
+    /* JADX WARN: Code restructure failed: missing block: B:64:0x00be, code lost:
         if ((r9 instanceof org.telegram.messenger.Emoji.EmojiDrawable) == false) goto L40;
      */
-    /* JADX WARN: Removed duplicated region for block: B:273:0x0067  */
-    /* JADX WARN: Removed duplicated region for block: B:276:0x007b  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x0067  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x007b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

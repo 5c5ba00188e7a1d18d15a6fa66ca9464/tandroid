@@ -6,6 +6,7 @@ import org.telegram.messenger.LiteMode;
 public abstract class TLRPC$ChatInvite extends TLObject {
     public String about;
     public boolean broadcast;
+    public boolean can_refulfill_subscription;
     public boolean channel;
     public TLRPC$Chat chat;
     public int color;
@@ -19,6 +20,8 @@ public abstract class TLRPC$ChatInvite extends TLObject {
     public TLRPC$Photo photo;
     public boolean request_needed;
     public boolean scam;
+    public long subscription_form_id;
+    public TLRPC$TL_starsSubscriptionPricing subscription_pricing;
     public String title;
     public boolean verified;
 
@@ -26,8 +29,8 @@ public abstract class TLRPC$ChatInvite extends TLObject {
         TLRPC$ChatInvite tLRPC$ChatInvite;
         switch (i) {
             case -840897472:
-                tLRPC$ChatInvite = new TLRPC$ChatInvite() { // from class: org.telegram.tgnet.TLRPC$TL_chatInvite
-                    @Override // org.telegram.tgnet.TLObject
+                tLRPC$ChatInvite = new TLRPC$TL_chatInvite() { // from class: org.telegram.tgnet.TLRPC$TL_chatInvite_layer185
+                    @Override // org.telegram.tgnet.TLRPC$TL_chatInvite, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
@@ -65,7 +68,7 @@ public abstract class TLRPC$ChatInvite extends TLObject {
                         this.color = abstractSerializedData2.readInt32(z2);
                     }
 
-                    @Override // org.telegram.tgnet.TLObject
+                    @Override // org.telegram.tgnet.TLRPC$TL_chatInvite, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
                         abstractSerializedData2.writeInt32(-840897472);
                         int i2 = this.channel ? this.flags | 1 : this.flags & (-2);
@@ -105,6 +108,9 @@ public abstract class TLRPC$ChatInvite extends TLObject {
                         abstractSerializedData2.writeInt32(this.color);
                     }
                 };
+                break;
+            case -26920803:
+                tLRPC$ChatInvite = new TLRPC$TL_chatInvite();
                 break;
             case 806110401:
                 tLRPC$ChatInvite = new TLRPC$ChatInvite() { // from class: org.telegram.tgnet.TLRPC$TL_chatInvite_layer165

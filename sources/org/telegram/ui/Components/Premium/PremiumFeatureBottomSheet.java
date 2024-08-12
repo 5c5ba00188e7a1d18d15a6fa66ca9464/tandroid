@@ -1057,8 +1057,9 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
         return ColorUtils.calculateLuminance(getThemedColor(Theme.key_dialogBackground)) > 0.699999988079071d;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    protected boolean canDismissWithSwipe() {
+    public boolean canDismissWithSwipe() {
         for (int i = 0; i < this.viewPager.getChildCount(); i++) {
             ViewPage viewPage = (ViewPage) this.viewPager.getChildAt(i);
             if (viewPage.position == this.selectedPosition) {

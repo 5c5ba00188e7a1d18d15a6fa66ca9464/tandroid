@@ -411,7 +411,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             throw null;
         }
 
-        protected void show() {
+        protected void show(boolean z) {
             throw null;
         }
 
@@ -424,7 +424,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             float f = z ? 0.32f * imageWidth : imageWidth;
             SourceView sourceView = new SourceView() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.SourceView.1
                 @Override // org.telegram.ui.Stories.recorder.StoryRecorder.SourceView
-                protected void show() {
+                protected void show(boolean z2) {
                     ProfileActivity.AvatarImageView avatarImageView2 = avatarImageView;
                     avatarImageView2.drawAvatar = true;
                     avatarImageView2.invalidate();
@@ -455,7 +455,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             }
             SourceView sourceView = new SourceView() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.SourceView.2
                 @Override // org.telegram.ui.Stories.recorder.StoryRecorder.SourceView
-                protected void show() {
+                protected void show(boolean z) {
                     PeerStoriesView currentPeerView = storyViewer.getCurrentPeerView();
                     if (currentPeerView != null) {
                         currentPeerView.animateOut(false);
@@ -496,7 +496,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             }
 
             @Override // org.telegram.ui.Stories.recorder.StoryRecorder.SourceView
-            protected void show() {
+            protected void show(boolean z) {
                 this.val$floatingButton.setVisibility(0);
             }
 
@@ -541,7 +541,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             }
 
             @Override // org.telegram.ui.Stories.recorder.StoryRecorder.SourceView
-            protected void show() {
+            protected void show(boolean z) {
                 this.val$imageView.setVisibility(0);
             }
 
@@ -601,10 +601,15 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             }
 
             @Override // org.telegram.ui.Stories.recorder.StoryRecorder.SourceView
-            protected void show() {
+            protected void show(boolean z) {
                 DialogStoriesCell.StoryCell storyCell = this.val$storyCell;
                 storyCell.drawAvatar = true;
                 storyCell.invalidate();
+                if (z) {
+                    int[] iArr = new int[2];
+                    this.val$storyCell.getLocationInWindow(iArr);
+                    LaunchActivity.makeRipple(iArr[0] + (this.val$storyCell.getWidth() / 2.0f), iArr[1] + (this.val$storyCell.getHeight() / 2.0f), 1.0f);
+                }
             }
 
             @Override // org.telegram.ui.Stories.recorder.StoryRecorder.SourceView
@@ -1149,7 +1154,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }, 16L);
         SourceView sourceView = this.fromSourceView;
         if (sourceView != null) {
-            sourceView.show();
+            sourceView.show(false);
         }
         if (this.whenOpenDone != null) {
             this.whenOpenDone = null;
@@ -3405,7 +3410,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         if (z) {
             SourceView sourceView = this.fromSourceView;
             if (sourceView != null) {
-                sourceView.show();
+                sourceView.show(true);
                 this.fromSourceView = null;
             }
             Runnable runnable = this.closeListener;

@@ -605,7 +605,7 @@ public class ReactionsEffectOverlay {
                     }
                     ChatActivity chatActivity = this.val$chatActivity;
                     if (chatActivity != null) {
-                        f2 += chatActivity.drawingChatLisViewYoffset;
+                        f2 += chatActivity.drawingChatListViewYoffset;
                     }
                     if (chatMessageCell.drawPinnedBottom && !chatMessageCell.shouldDrawTimeOnMedia()) {
                         f2 += AndroidUtilities.dp(2.0f);

@@ -231,8 +231,9 @@ public class FilesMigrationService extends Service {
     public static class FilesMigrationBottomSheet extends BottomSheet {
         BaseFragment fragment;
 
+        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.ActionBar.BottomSheet
-        protected boolean canDismissWithSwipe() {
+        public boolean canDismissWithSwipe() {
             return false;
         }
 

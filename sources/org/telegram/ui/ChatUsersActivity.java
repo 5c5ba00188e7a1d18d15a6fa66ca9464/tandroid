@@ -101,6 +101,7 @@ import org.telegram.ui.Cells.ManageChatTextCell;
 import org.telegram.ui.Cells.ManageChatUserCell;
 import org.telegram.ui.Cells.ShadowSectionCell;
 import org.telegram.ui.Cells.TextCell;
+import org.telegram.ui.Cells.TextCheckCell;
 import org.telegram.ui.Cells.TextCheckCell2;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Cells.TextSettingsCell;
@@ -164,6 +165,8 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
     private LongSparseArray<TLRPC$TL_groupCallParticipant> ignoredUsers;
     private TLRPC$ChatFull info;
     private String initialBannedRights;
+    private boolean initialProfiles;
+    private boolean initialSignatures;
     private int initialSlowmode;
     private boolean isChannel;
     private boolean isEnabledNotRestrictBoosters;
@@ -189,6 +192,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
     private int participantsStartRow;
     private int permissionsSectionRow;
     private int pinMessagesRow;
+    private boolean profiles;
     private View progressBar;
     private int recentActionsRow;
     private int removedUsersRow;
@@ -212,6 +216,10 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
     private int sendMessagesRow;
     private int sendPollsRow;
     private int sendStickersRow;
+    private int signMessagesInfoRow;
+    private int signMessagesProfilesRow;
+    private int signMessagesRow;
+    private boolean signatures;
     private int slowmodeInfoRow;
     private int slowmodeRow;
     private int slowmodeSelectRow;
@@ -328,18 +336,27 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
         }
         this.isChannel = z;
         this.isForum = ChatObject.isForum(this.currentChat);
+        TLRPC$Chat tLRPC$Chat = this.currentChat;
+        if (tLRPC$Chat != null) {
+            boolean z9 = tLRPC$Chat.signatures;
+            this.signatures = z9;
+            this.initialSignatures = z9;
+            boolean z10 = tLRPC$Chat.signature_profiles;
+            this.profiles = z10;
+            this.initialProfiles = z10;
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:36:0x0153, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:36:0x0159, code lost:
         if (org.telegram.messenger.ChatObject.canBlockUsers(r1) != false) goto L31;
      */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x017b  */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x01a9  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x01d9  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x01f9  */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x0219  */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x022c  */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x0181  */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x01af  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x01df  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x01ff  */
+    /* JADX WARN: Removed duplicated region for block: B:84:0x021f  */
+    /* JADX WARN: Removed duplicated region for block: B:87:0x0232  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -373,6 +390,9 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
         this.gigaHeaderRow = -1;
         this.participantsEndRow = -1;
         this.participantsInfoRow = -1;
+        this.signMessagesRow = -1;
+        this.signMessagesProfilesRow = -1;
+        this.signMessagesInfoRow = -1;
         this.blockedEmptyRow = -1;
         this.permissionsSectionRow = -1;
         this.sendMessagesRow = -1;
@@ -485,66 +505,80 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                     this.rowCount = i15 + 1;
                     this.addNewRow = i15;
                 }
-                if (this.loadingUsers && !(z2 = this.firstLoaded)) {
-                    if (z2) {
-                        return;
+                if (!this.loadingUsers || (z2 = this.firstLoaded)) {
+                    if (!this.participants.isEmpty()) {
+                        int i16 = this.rowCount;
+                        this.participantsStartRow = i16;
+                        int size2 = i16 + this.participants.size();
+                        this.rowCount = size2;
+                        this.participantsEndRow = size2;
                     }
-                    int i16 = this.rowCount;
-                    this.rowCount = i16 + 1;
-                    this.loadingUserCellRow = i16;
-                    return;
-                }
-                if (!this.participants.isEmpty()) {
                     int i17 = this.rowCount;
-                    this.participantsStartRow = i17;
-                    int size2 = i17 + this.participants.size();
-                    this.rowCount = size2;
-                    this.participantsEndRow = size2;
+                    this.rowCount = i17 + 1;
+                    this.participantsInfoRow = i17;
+                } else if (!z2) {
+                    int i18 = this.rowCount;
+                    this.rowCount = i18 + 1;
+                    this.loadingUserCellRow = i18;
                 }
-                int i18 = this.rowCount;
-                this.rowCount = i18 + 1;
-                this.participantsInfoRow = i18;
-                return;
-            } else if (i == 2) {
-                if (ChatObject.isChannel(this.currentChat) && !ChatObject.isChannelAndNotMegaGroup(this.currentChat) && !this.needOpenSearch) {
+                if (ChatObject.isChannelAndNotMegaGroup(this.currentChat) && ChatObject.hasAdminRights(this.currentChat)) {
                     int i19 = this.rowCount;
                     int i20 = i19 + 1;
                     this.rowCount = i20;
-                    this.hideMembersRow = i19;
+                    this.signMessagesRow = i19;
+                    if (this.signatures) {
+                        int i21 = i20 + 1;
+                        this.rowCount = i21;
+                        this.signMessagesProfilesRow = i20;
+                        this.rowCount = i21 + 1;
+                        this.signMessagesInfoRow = i21;
+                        return;
+                    }
                     this.rowCount = i20 + 1;
-                    this.hideMembersInfoRow = i20;
+                    this.signMessagesInfoRow = i20;
+                    return;
+                }
+                return;
+            } else if (i == 2) {
+                if (ChatObject.isChannel(this.currentChat) && !ChatObject.isChannelAndNotMegaGroup(this.currentChat) && !this.needOpenSearch) {
+                    int i22 = this.rowCount;
+                    int i23 = i22 + 1;
+                    this.rowCount = i23;
+                    this.hideMembersRow = i22;
+                    this.rowCount = i23 + 1;
+                    this.hideMembersInfoRow = i23;
                 }
                 if (this.selectType == 0 && ChatObject.canAddUsers(this.currentChat)) {
-                    int i21 = this.rowCount;
-                    this.rowCount = i21 + 1;
-                    this.addNewRow = i21;
+                    int i24 = this.rowCount;
+                    this.rowCount = i24 + 1;
+                    this.addNewRow = i24;
                 }
                 if (this.selectType == 0 && ChatObject.canUserDoAdminAction(this.currentChat, 3)) {
-                    int i22 = this.rowCount;
-                    this.rowCount = i22 + 1;
-                    this.addNew2Row = i22;
+                    int i25 = this.rowCount;
+                    this.rowCount = i25 + 1;
+                    this.addNew2Row = i25;
                 }
                 if (this.loadingUsers && !(z = this.firstLoaded)) {
                     if (z) {
                         return;
                     }
                     if (this.selectType == 0) {
-                        int i23 = this.rowCount;
-                        this.rowCount = i23 + 1;
-                        this.loadingHeaderRow = i23;
+                        int i26 = this.rowCount;
+                        this.rowCount = i26 + 1;
+                        this.loadingHeaderRow = i26;
                     }
-                    int i24 = this.rowCount;
-                    this.rowCount = i24 + 1;
-                    this.loadingUserCellRow = i24;
+                    int i27 = this.rowCount;
+                    this.rowCount = i27 + 1;
+                    this.loadingUserCellRow = i27;
                     return;
                 }
                 if (!this.contacts.isEmpty()) {
-                    int i25 = this.rowCount;
-                    int i26 = i25 + 1;
-                    this.rowCount = i26;
-                    this.contactsHeaderRow = i25;
-                    this.contactsStartRow = i26;
-                    int size3 = i26 + this.contacts.size();
+                    int i28 = this.rowCount;
+                    int i29 = i28 + 1;
+                    this.rowCount = i29;
+                    this.contactsHeaderRow = i28;
+                    this.contactsStartRow = i29;
+                    int size3 = i29 + this.contacts.size();
                     this.rowCount = size3;
                     this.contactsEndRow = size3;
                     r1 = 1;
@@ -552,31 +586,31 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 if (this.bots.isEmpty()) {
                     i2 = r1;
                 } else {
-                    int i27 = this.rowCount;
-                    int i28 = i27 + 1;
-                    this.rowCount = i28;
-                    this.botHeaderRow = i27;
-                    this.botStartRow = i28;
-                    int size4 = i28 + this.bots.size();
+                    int i30 = this.rowCount;
+                    int i31 = i30 + 1;
+                    this.rowCount = i31;
+                    this.botHeaderRow = i30;
+                    this.botStartRow = i31;
+                    int size4 = i31 + this.bots.size();
                     this.rowCount = size4;
                     this.botEndRow = size4;
                 }
                 if (!this.participants.isEmpty()) {
                     if (i2 != 0) {
-                        int i29 = this.rowCount;
-                        this.rowCount = i29 + 1;
-                        this.membersHeaderRow = i29;
+                        int i32 = this.rowCount;
+                        this.rowCount = i32 + 1;
+                        this.membersHeaderRow = i32;
                     }
-                    int i30 = this.rowCount;
-                    this.participantsStartRow = i30;
-                    int size5 = i30 + this.participants.size();
+                    int i33 = this.rowCount;
+                    this.participantsStartRow = i33;
+                    int size5 = i33 + this.participants.size();
                     this.rowCount = size5;
                     this.participantsEndRow = size5;
                 }
-                int i31 = this.rowCount;
-                if (i31 != 0) {
-                    this.rowCount = i31 + 1;
-                    this.participantsInfoRow = i31;
+                int i34 = this.rowCount;
+                if (i34 != 0) {
+                    this.rowCount = i34 + 1;
+                    this.participantsInfoRow = i34;
                     return;
                 }
                 return;
@@ -584,75 +618,75 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 return;
             }
         }
-        int i32 = 0 + 1;
-        this.rowCount = i32;
+        int i35 = 0 + 1;
+        this.rowCount = i35;
         this.permissionsSectionRow = 0;
-        int i33 = i32 + 1;
-        this.rowCount = i33;
-        this.sendMessagesRow = i32;
-        int i34 = i33 + 1;
-        this.rowCount = i34;
-        this.sendMediaRow = i33;
+        int i36 = i35 + 1;
+        this.rowCount = i36;
+        this.sendMessagesRow = i35;
+        int i37 = i36 + 1;
+        this.rowCount = i37;
+        this.sendMediaRow = i36;
         if (this.sendMediaExpanded) {
-            int i35 = i34 + 1;
-            this.rowCount = i35;
-            this.sendMediaPhotosRow = i34;
-            int i36 = i35 + 1;
-            this.rowCount = i36;
-            this.sendMediaVideosRow = i35;
-            int i37 = i36 + 1;
-            this.rowCount = i37;
-            this.sendMediaStickerGifsRow = i36;
             int i38 = i37 + 1;
             this.rowCount = i38;
-            this.sendMediaMusicRow = i37;
+            this.sendMediaPhotosRow = i37;
             int i39 = i38 + 1;
             this.rowCount = i39;
-            this.sendMediaFilesRow = i38;
+            this.sendMediaVideosRow = i38;
             int i40 = i39 + 1;
             this.rowCount = i40;
-            this.sendMediaVoiceMessagesRow = i39;
+            this.sendMediaStickerGifsRow = i39;
             int i41 = i40 + 1;
             this.rowCount = i41;
-            this.sendMediaVideoMessagesRow = i40;
+            this.sendMediaMusicRow = i40;
             int i42 = i41 + 1;
             this.rowCount = i42;
-            this.sendMediaEmbededLinksRow = i41;
-            this.rowCount = i42 + 1;
-            this.sendPollsRow = i42;
+            this.sendMediaFilesRow = i41;
+            int i43 = i42 + 1;
+            this.rowCount = i43;
+            this.sendMediaVoiceMessagesRow = i42;
+            int i44 = i43 + 1;
+            this.rowCount = i44;
+            this.sendMediaVideoMessagesRow = i43;
+            int i45 = i44 + 1;
+            this.rowCount = i45;
+            this.sendMediaEmbededLinksRow = i44;
+            this.rowCount = i45 + 1;
+            this.sendPollsRow = i45;
         }
-        int i43 = this.rowCount;
-        int i44 = i43 + 1;
-        this.rowCount = i44;
-        this.addUsersRow = i43;
-        int i45 = i44 + 1;
-        this.rowCount = i45;
-        this.pinMessagesRow = i44;
-        int i46 = i45 + 1;
-        this.rowCount = i46;
-        this.changeInfoRow = i45;
+        int i46 = this.rowCount;
+        int i47 = i46 + 1;
+        this.rowCount = i47;
+        this.addUsersRow = i46;
+        int i48 = i47 + 1;
+        this.rowCount = i48;
+        this.pinMessagesRow = i47;
+        int i49 = i48 + 1;
+        this.rowCount = i49;
+        this.changeInfoRow = i48;
         if (this.isForum) {
-            this.rowCount = i46 + 1;
-            this.manageTopicsRow = i46;
+            this.rowCount = i49 + 1;
+            this.manageTopicsRow = i49;
         }
         if (ChatObject.isChannel(this.currentChat)) {
             TLRPC$Chat tLRPC$Chat2 = this.currentChat;
             if (tLRPC$Chat2.creator && tLRPC$Chat2.megagroup && !tLRPC$Chat2.gigagroup) {
-                int i47 = tLRPC$Chat2.participants_count;
+                int i50 = tLRPC$Chat2.participants_count;
                 TLRPC$ChatFull tLRPC$ChatFull4 = this.info;
-                if (Math.max(i47, tLRPC$ChatFull4 != null ? tLRPC$ChatFull4.participants_count : 0) >= getMessagesController().maxMegagroupCount - 1000) {
-                    int i48 = this.rowCount;
-                    int i49 = i48 + 1;
-                    this.rowCount = i49;
-                    this.participantsDivider2Row = i48;
-                    int i50 = i49 + 1;
-                    this.rowCount = i50;
-                    this.gigaHeaderRow = i49;
-                    int i51 = i50 + 1;
-                    this.rowCount = i51;
-                    this.gigaConvertRow = i50;
-                    this.rowCount = i51 + 1;
-                    this.gigaInfoRow = i51;
+                if (Math.max(i50, tLRPC$ChatFull4 != null ? tLRPC$ChatFull4.participants_count : 0) >= getMessagesController().maxMegagroupCount - 1000) {
+                    int i51 = this.rowCount;
+                    int i52 = i51 + 1;
+                    this.rowCount = i52;
+                    this.participantsDivider2Row = i51;
+                    int i53 = i52 + 1;
+                    this.rowCount = i53;
+                    this.gigaHeaderRow = i52;
+                    int i54 = i53 + 1;
+                    this.rowCount = i54;
+                    this.gigaConvertRow = i53;
+                    this.rowCount = i54 + 1;
+                    this.gigaInfoRow = i54;
                 }
             }
         }
@@ -664,91 +698,91 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             }
             if (isNotRestrictBoostersVisible()) {
                 if (this.participantsDivider2Row == -1) {
-                    int i52 = this.rowCount;
-                    this.rowCount = i52 + 1;
-                    this.participantsDivider2Row = i52;
+                    int i55 = this.rowCount;
+                    this.rowCount = i55 + 1;
+                    this.participantsDivider2Row = i55;
                 }
-                int i53 = this.rowCount;
-                int i54 = i53 + 1;
-                this.rowCount = i54;
-                this.dontRestrictBoostersRow = i53;
+                int i56 = this.rowCount;
+                int i57 = i56 + 1;
+                this.rowCount = i57;
+                this.dontRestrictBoostersRow = i56;
                 if (this.isEnabledNotRestrictBoosters) {
-                    this.rowCount = i54 + 1;
-                    this.dontRestrictBoostersSliderRow = i54;
+                    this.rowCount = i57 + 1;
+                    this.dontRestrictBoostersSliderRow = i57;
                 }
-                int i55 = this.rowCount;
-                this.rowCount = i55 + 1;
-                this.dontRestrictBoostersInfoRow = i55;
+                int i58 = this.rowCount;
+                this.rowCount = i58 + 1;
+                this.dontRestrictBoostersInfoRow = i58;
             }
             if (ChatObject.isChannel(this.currentChat)) {
                 if (this.participantsDivider2Row == -1) {
-                    int i56 = this.rowCount;
-                    this.rowCount = i56 + 1;
-                    this.participantsDivider2Row = i56;
+                    int i59 = this.rowCount;
+                    this.rowCount = i59 + 1;
+                    this.participantsDivider2Row = i59;
                 }
-                int i57 = this.rowCount;
-                this.rowCount = i57 + 1;
-                this.removedUsersRow = i57;
+                int i60 = this.rowCount;
+                this.rowCount = i60 + 1;
+                this.removedUsersRow = i60;
             }
             if ((this.slowmodeInfoRow == -1 && this.gigaHeaderRow == -1) || this.removedUsersRow != -1) {
-                int i58 = this.rowCount;
-                this.rowCount = i58 + 1;
-                this.participantsDividerRow = i58;
+                int i61 = this.rowCount;
+                this.rowCount = i61 + 1;
+                this.participantsDividerRow = i61;
             }
             if (ChatObject.canBlockUsers(this.currentChat) && getParticipantsCount() > 1 && (ChatObject.isChannel(this.currentChat) || this.currentChat.creator)) {
-                int i59 = this.rowCount;
-                this.rowCount = i59 + 1;
-                this.addNewRow = i59;
+                int i62 = this.rowCount;
+                this.rowCount = i62 + 1;
+                this.addNewRow = i62;
             }
             if (!this.loadingUsers && !(z4 = this.firstLoaded)) {
                 if (z4 || (tLRPC$ChatFull3 = this.info) == null || tLRPC$ChatFull3.banned_count <= 0) {
                     return;
                 }
-                int i60 = this.rowCount;
-                this.rowCount = i60 + 1;
-                this.loadingUserCellRow = i60;
+                int i63 = this.rowCount;
+                this.rowCount = i63 + 1;
+                this.loadingUserCellRow = i63;
                 return;
             }
             if (!this.participants.isEmpty()) {
-                int i61 = this.rowCount;
-                this.participantsStartRow = i61;
-                int size6 = i61 + this.participants.size();
+                int i64 = this.rowCount;
+                this.participantsStartRow = i64;
+                int size6 = i64 + this.participants.size();
                 this.rowCount = size6;
                 this.participantsEndRow = size6;
             }
             if (this.addNewRow == -1 || this.participantsStartRow != -1) {
-                int i62 = this.rowCount;
-                this.rowCount = i62 + 1;
-                this.addNewSectionRow = i62;
+                int i65 = this.rowCount;
+                this.rowCount = i65 + 1;
+                this.addNewSectionRow = i65;
             }
             return;
         }
         if (this.participantsDivider2Row == -1) {
-            int i63 = this.rowCount;
-            this.rowCount = i63 + 1;
-            this.participantsDivider2Row = i63;
+            int i66 = this.rowCount;
+            this.rowCount = i66 + 1;
+            this.participantsDivider2Row = i66;
         }
-        int i64 = this.rowCount;
-        int i65 = i64 + 1;
-        this.rowCount = i65;
-        this.slowmodeRow = i64;
-        int i66 = i65 + 1;
-        this.rowCount = i66;
-        this.slowmodeSelectRow = i65;
-        this.rowCount = i66 + 1;
-        this.slowmodeInfoRow = i66;
+        int i67 = this.rowCount;
+        int i68 = i67 + 1;
+        this.rowCount = i68;
+        this.slowmodeRow = i67;
+        int i69 = i68 + 1;
+        this.rowCount = i69;
+        this.slowmodeSelectRow = i68;
+        this.rowCount = i69 + 1;
+        this.slowmodeInfoRow = i69;
         if (isNotRestrictBoostersVisible()) {
         }
         if (ChatObject.isChannel(this.currentChat)) {
         }
         if (this.slowmodeInfoRow == -1) {
-            int i582 = this.rowCount;
-            this.rowCount = i582 + 1;
-            this.participantsDividerRow = i582;
+            int i612 = this.rowCount;
+            this.rowCount = i612 + 1;
+            this.participantsDividerRow = i612;
             if (ChatObject.canBlockUsers(this.currentChat)) {
-                int i592 = this.rowCount;
-                this.rowCount = i592 + 1;
-                this.addNewRow = i592;
+                int i622 = this.rowCount;
+                this.rowCount = i622 + 1;
+                this.addNewRow = i622;
             }
             if (!this.loadingUsers) {
             }
@@ -756,13 +790,13 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             }
             if (this.addNewRow == -1) {
             }
-            int i622 = this.rowCount;
-            this.rowCount = i622 + 1;
-            this.addNewSectionRow = i622;
+            int i652 = this.rowCount;
+            this.rowCount = i652 + 1;
+            this.addNewSectionRow = i652;
         }
-        int i5822 = this.rowCount;
-        this.rowCount = i5822 + 1;
-        this.participantsDividerRow = i5822;
+        int i6122 = this.rowCount;
+        this.rowCount = i6122 + 1;
+        this.participantsDividerRow = i6122;
         if (ChatObject.canBlockUsers(this.currentChat)) {
         }
         if (!this.loadingUsers) {
@@ -771,9 +805,9 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
         }
         if (this.addNewRow == -1) {
         }
-        int i6222 = this.rowCount;
-        this.rowCount = i6222 + 1;
-        this.addNewSectionRow = i6222;
+        int i6522 = this.rowCount;
+        this.rowCount = i6522 + 1;
+        this.addNewSectionRow = i6522;
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -891,6 +925,8 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             if (this.type == 3) {
                 this.doneItem = createMenu.addItemWithWidth(1, R.drawable.ic_ab_done, AndroidUtilities.dp(56.0f), LocaleController.getString("Done", R.string.Done));
             }
+        } else if (i == 1 && ChatObject.isChannelAndNotMegaGroup(this.currentChat) && ChatObject.hasAdminRights(this.currentChat)) {
+            this.doneItem = this.actionBar.createMenu().addItemWithWidth(1, R.drawable.ic_ab_done, AndroidUtilities.dp(56.0f), LocaleController.getString("Done", R.string.Done));
         }
         FrameLayout frameLayout = new FrameLayout(context) { // from class: org.telegram.ui.ChatUsersActivity.3
             @Override // android.view.ViewGroup, android.view.View
@@ -993,13 +1029,11 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 ChatUsersActivity.this.listView.invalidate();
             }
         };
-        defaultItemAnimator.setDurations(320L);
-        defaultItemAnimator.setMoveDelay(0L);
-        defaultItemAnimator.setAddDelay(0L);
+        defaultItemAnimator.setDurations(420L);
         defaultItemAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
         defaultItemAnimator.setDelayAnimations(false);
-        this.listView.setItemAnimator(defaultItemAnimator);
         defaultItemAnimator.setSupportsChangeAnimations(false);
+        this.listView.setItemAnimator(defaultItemAnimator);
         this.listView.setAnimateEmptyView(true, 0);
         RecyclerListView recyclerListView2 = this.listView;
         ListAdapter listAdapter = new ListAdapter(context);
@@ -1058,95 +1092,108 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:317:0x06a1 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:318:0x06a2  */
-    /* JADX WARN: Type inference failed for: r19v1 */
-    /* JADX WARN: Type inference failed for: r29v0, types: [org.telegram.ui.ActionBar.BaseFragment, org.telegram.ui.ChatUsersActivity] */
+    /* JADX WARN: Removed duplicated region for block: B:321:0x06ec A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:322:0x06ed  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public /* synthetic */ void lambda$createView$5(View view, int i, float f, float f2) {
-        long j;
-        final TLObject tLObject;
-        TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights;
-        String str;
-        boolean z;
-        TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights2;
-        long peerId;
         TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights;
-        TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights3;
-        boolean canBlockUsers;
-        boolean z2;
-        int i2;
         TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights2;
-        TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights4;
         TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights3;
         TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights4;
         TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights5;
         TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights6;
         TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights7;
-        TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights8;
-        TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights9;
         TLRPC$ChatFull tLRPC$ChatFull;
         TLRPC$ChatFull tLRPC$ChatFull2;
+        TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights8;
+        TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights9;
+        View findViewByPosition;
         TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights10;
         TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights11;
-        View findViewByPosition;
         TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights12;
         TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights13;
         TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights14;
         TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights15;
+        TLObject item;
+        long j;
+        final TLObject tLObject;
+        String str;
         TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights16;
+        TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights;
+        boolean z;
+        boolean canBlockUsers;
+        boolean z2;
+        int i2;
         TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights17;
+        TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights2;
         int i3 = 0;
         boolean z3 = this.listView.getAdapter() == this.listViewAdapter;
-        if (z3) {
+        if (i == this.signMessagesRow) {
+            boolean z4 = !this.signatures;
+            this.signatures = z4;
+            ((TextCheckCell) view).setChecked(z4);
+            AndroidUtilities.updateVisibleRows(this.listView);
+            DiffCallback saveState = saveState();
+            updateRows();
+            updateListAnimated(saveState);
+            this.listViewAdapter.notifyItemChanged(this.signMessagesInfoRow);
+        } else if (i == this.signMessagesProfilesRow) {
+            boolean z5 = !this.profiles;
+            this.profiles = z5;
+            ((TextCheckCell) view).setChecked(z5);
+            AndroidUtilities.updateVisibleRows(this.listView);
+            DiffCallback saveState2 = saveState();
+            updateRows();
+            updateListAnimated(saveState2);
+            this.listViewAdapter.notifyItemChanged(this.signMessagesInfoRow);
+        } else if (z3) {
             if (isExpandableSendMediaRow(i)) {
                 CheckBoxCell checkBoxCell = (CheckBoxCell) view;
                 if (i == this.sendMediaPhotosRow) {
-                    this.defaultBannedRights.send_photos = !tLRPC$TL_chatBannedRights17.send_photos;
+                    this.defaultBannedRights.send_photos = !tLRPC$TL_chatBannedRights15.send_photos;
                 } else if (i == this.sendMediaVideosRow) {
-                    this.defaultBannedRights.send_videos = !tLRPC$TL_chatBannedRights16.send_videos;
+                    this.defaultBannedRights.send_videos = !tLRPC$TL_chatBannedRights14.send_videos;
                 } else if (i == this.sendMediaStickerGifsRow) {
                     TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights18 = this.defaultBannedRights;
-                    boolean z4 = !tLRPC$TL_chatBannedRights18.send_stickers;
-                    tLRPC$TL_chatBannedRights18.send_inline = z4;
-                    tLRPC$TL_chatBannedRights18.send_gifs = z4;
-                    tLRPC$TL_chatBannedRights18.send_games = z4;
-                    tLRPC$TL_chatBannedRights18.send_stickers = z4;
+                    boolean z6 = !tLRPC$TL_chatBannedRights18.send_stickers;
+                    tLRPC$TL_chatBannedRights18.send_inline = z6;
+                    tLRPC$TL_chatBannedRights18.send_gifs = z6;
+                    tLRPC$TL_chatBannedRights18.send_games = z6;
+                    tLRPC$TL_chatBannedRights18.send_stickers = z6;
                 } else if (i == this.sendMediaMusicRow) {
-                    this.defaultBannedRights.send_audios = !tLRPC$TL_chatBannedRights15.send_audios;
+                    this.defaultBannedRights.send_audios = !tLRPC$TL_chatBannedRights13.send_audios;
                 } else if (i == this.sendMediaFilesRow) {
-                    this.defaultBannedRights.send_docs = !tLRPC$TL_chatBannedRights14.send_docs;
+                    this.defaultBannedRights.send_docs = !tLRPC$TL_chatBannedRights12.send_docs;
                 } else if (i == this.sendMediaVoiceMessagesRow) {
-                    this.defaultBannedRights.send_voices = !tLRPC$TL_chatBannedRights13.send_voices;
+                    this.defaultBannedRights.send_voices = !tLRPC$TL_chatBannedRights11.send_voices;
                 } else if (i == this.sendMediaVideoMessagesRow) {
-                    this.defaultBannedRights.send_roundvideos = !tLRPC$TL_chatBannedRights12.send_roundvideos;
+                    this.defaultBannedRights.send_roundvideos = !tLRPC$TL_chatBannedRights10.send_roundvideos;
                 } else if (i == this.sendMediaEmbededLinksRow) {
                     if (this.defaultBannedRights.send_plain && (findViewByPosition = this.layoutManager.findViewByPosition(this.sendMessagesRow)) != null) {
                         AndroidUtilities.shakeViewSpring(findViewByPosition);
                         BotWebViewVibrationEffect.APP_ERROR.vibrate();
                         return;
                     }
-                    this.defaultBannedRights.embed_links = !tLRPC$TL_chatBannedRights11.embed_links;
+                    this.defaultBannedRights.embed_links = !tLRPC$TL_chatBannedRights9.embed_links;
                 } else if (i == this.sendPollsRow) {
-                    this.defaultBannedRights.send_polls = !tLRPC$TL_chatBannedRights10.send_polls;
+                    this.defaultBannedRights.send_polls = !tLRPC$TL_chatBannedRights8.send_polls;
                 }
                 checkBoxCell.setChecked(!checkBoxCell.isChecked(), true);
                 AndroidUtilities.updateVisibleRows(this.listView);
-                DiffCallback saveState = saveState();
+                DiffCallback saveState3 = saveState();
                 updateRows();
-                updateListAnimated(saveState);
+                updateListAnimated(saveState3);
             } else if (i == this.dontRestrictBoostersRow) {
                 TextCheckCell2 textCheckCell2 = (TextCheckCell2) view;
-                boolean z5 = !textCheckCell2.isChecked();
-                this.isEnabledNotRestrictBoosters = z5;
-                textCheckCell2.setChecked(z5);
+                boolean z7 = !textCheckCell2.isChecked();
+                this.isEnabledNotRestrictBoosters = z7;
+                textCheckCell2.setChecked(z7);
                 AndroidUtilities.updateVisibleRows(this.listView);
-                DiffCallback saveState2 = saveState();
+                DiffCallback saveState4 = saveState();
                 updateRows();
-                updateListAnimated(saveState2);
+                updateListAnimated(saveState4);
             } else if (i == this.addNewRow) {
                 int i4 = this.type;
                 if (i4 == 0 || i4 == 3) {
@@ -1171,19 +1218,19 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                         @Override // org.telegram.ui.ChatUsersActivity.ChatUsersActivityDelegate
                         public void didAddParticipantToList(long j2, TLObject tLObject2) {
                             if (ChatUsersActivity.this.participantsMap.get(j2) == null) {
-                                DiffCallback saveState3 = ChatUsersActivity.this.saveState();
+                                DiffCallback saveState5 = ChatUsersActivity.this.saveState();
                                 ChatUsersActivity.this.participants.add(tLObject2);
                                 ChatUsersActivity.this.participantsMap.put(j2, tLObject2);
                                 ChatUsersActivity chatUsersActivity2 = ChatUsersActivity.this;
                                 chatUsersActivity2.sortUsers(chatUsersActivity2.participants);
-                                ChatUsersActivity.this.updateListAnimated(saveState3);
+                                ChatUsersActivity.this.updateListAnimated(saveState5);
                             }
                         }
 
                         @Override // org.telegram.ui.ChatUsersActivity.ChatUsersActivityDelegate
                         public void didKickParticipant(long j2) {
                             if (ChatUsersActivity.this.participantsMap.get(j2) == null) {
-                                DiffCallback saveState3 = ChatUsersActivity.this.saveState();
+                                DiffCallback saveState5 = ChatUsersActivity.this.saveState();
                                 TLRPC$TL_channelParticipantBanned tLRPC$TL_channelParticipantBanned = new TLRPC$TL_channelParticipantBanned();
                                 if (j2 > 0) {
                                     TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
@@ -1201,7 +1248,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                                 ChatUsersActivity.this.participantsMap.put(j2, tLRPC$TL_channelParticipantBanned);
                                 ChatUsersActivity chatUsersActivity2 = ChatUsersActivity.this;
                                 chatUsersActivity2.sortUsers(chatUsersActivity2.participants);
-                                ChatUsersActivity.this.updateListAnimated(saveState3);
+                                ChatUsersActivity.this.updateListAnimated(saveState5);
                             }
                         }
                     });
@@ -1244,14 +1291,14 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                     return;
                 } else {
                     this.antiSpamToggleLoading = true;
-                    final boolean z6 = this.info.antispam;
+                    final boolean z8 = this.info.antispam;
                     TLRPC$TL_channels_toggleAntiSpam tLRPC$TL_channels_toggleAntiSpam = new TLRPC$TL_channels_toggleAntiSpam();
                     tLRPC$TL_channels_toggleAntiSpam.channel = getMessagesController().getInputChannel(this.chatId);
                     TLRPC$ChatFull tLRPC$ChatFull4 = this.info;
-                    boolean z7 = true ^ tLRPC$ChatFull4.antispam;
-                    tLRPC$ChatFull4.antispam = z7;
-                    tLRPC$TL_channels_toggleAntiSpam.enabled = z7;
-                    textCell.setChecked(z7);
+                    boolean z9 = true ^ tLRPC$ChatFull4.antispam;
+                    tLRPC$ChatFull4.antispam = z9;
+                    tLRPC$TL_channels_toggleAntiSpam.enabled = z9;
+                    textCell.setChecked(z9);
                     Switch checkBox = textCell.getCheckBox();
                     if (!ChatObject.canUserDoAdminAction(this.currentChat, 13) || ((tLRPC$ChatFull2 = this.info) != null && !tLRPC$ChatFull2.antispam && getParticipantsCount() < getMessagesController().telegramAntispamGroupSizeMin)) {
                         i3 = R.drawable.permission_locked;
@@ -1260,7 +1307,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                     getConnectionsManager().sendRequest(tLRPC$TL_channels_toggleAntiSpam, new RequestDelegate() { // from class: org.telegram.ui.ChatUsersActivity$$ExternalSyntheticLambda27
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error) {
-                            ChatUsersActivity.this.lambda$createView$1(textCell, z6, tLObject2, tLRPC$TL_error);
+                            ChatUsersActivity.this.lambda$createView$1(textCell, z8, tLObject2, tLRPC$TL_error);
                         }
                     });
                     return;
@@ -1274,14 +1321,14 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                     return;
                 } else {
                     this.hideMembersToggleLoading = true;
-                    final boolean z8 = this.info.participants_hidden;
+                    final boolean z10 = this.info.participants_hidden;
                     TLRPC$TL_channels_toggleParticipantsHidden tLRPC$TL_channels_toggleParticipantsHidden = new TLRPC$TL_channels_toggleParticipantsHidden();
                     tLRPC$TL_channels_toggleParticipantsHidden.channel = getMessagesController().getInputChannel(this.chatId);
                     TLRPC$ChatFull tLRPC$ChatFull5 = this.info;
-                    boolean z9 = true ^ tLRPC$ChatFull5.participants_hidden;
-                    tLRPC$ChatFull5.participants_hidden = z9;
-                    tLRPC$TL_channels_toggleParticipantsHidden.enabled = z9;
-                    textCell2.setChecked(z9);
+                    boolean z11 = true ^ tLRPC$ChatFull5.participants_hidden;
+                    tLRPC$ChatFull5.participants_hidden = z11;
+                    tLRPC$TL_channels_toggleParticipantsHidden.enabled = z11;
+                    textCell2.setChecked(z11);
                     Switch checkBox2 = textCell2.getCheckBox();
                     if (!ChatObject.canUserDoAdminAction(this.currentChat, 2) || ((tLRPC$ChatFull = this.info) != null && !tLRPC$ChatFull.participants_hidden && getParticipantsCount() < getMessagesController().hiddenMembersGroupSizeMin)) {
                         i3 = R.drawable.permission_locked;
@@ -1290,7 +1337,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                     getConnectionsManager().sendRequest(tLRPC$TL_channels_toggleParticipantsHidden, new RequestDelegate() { // from class: org.telegram.ui.ChatUsersActivity$$ExternalSyntheticLambda26
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error) {
-                            ChatUsersActivity.this.lambda$createView$3(textCell2, z8, tLObject2, tLRPC$TL_error);
+                            ChatUsersActivity.this.lambda$createView$3(textCell2, z10, tLObject2, tLRPC$TL_error);
                         }
                     });
                     return;
@@ -1326,27 +1373,27 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                             return;
                         }
                     } else if (i == this.sendMediaRow) {
-                        DiffCallback saveState3 = saveState();
+                        DiffCallback saveState5 = saveState();
                         this.sendMediaExpanded = !this.sendMediaExpanded;
                         AndroidUtilities.updateVisibleRows(this.listView);
-                        updateListAnimated(saveState3);
+                        updateListAnimated(saveState5);
                         return;
                     } else {
                         textCheckCell22.setChecked(!textCheckCell22.isChecked());
                         if (i == this.changeInfoRow) {
-                            this.defaultBannedRights.change_info = !tLRPC$TL_chatBannedRights9.change_info;
+                            this.defaultBannedRights.change_info = !tLRPC$TL_chatBannedRights7.change_info;
                             return;
                         } else if (i == this.addUsersRow) {
-                            this.defaultBannedRights.invite_users = !tLRPC$TL_chatBannedRights8.invite_users;
+                            this.defaultBannedRights.invite_users = !tLRPC$TL_chatBannedRights6.invite_users;
                             return;
                         } else if (i == this.manageTopicsRow) {
-                            this.defaultBannedRights.manage_topics = !tLRPC$TL_chatBannedRights7.manage_topics;
+                            this.defaultBannedRights.manage_topics = !tLRPC$TL_chatBannedRights5.manage_topics;
                             return;
                         } else if (i == this.pinMessagesRow) {
-                            this.defaultBannedRights.pin_messages = !tLRPC$TL_chatBannedRights6.pin_messages;
+                            this.defaultBannedRights.pin_messages = !tLRPC$TL_chatBannedRights4.pin_messages;
                             return;
                         } else if (i == this.sendMessagesRow) {
-                            this.defaultBannedRights.send_plain = !tLRPC$TL_chatBannedRights5.send_plain;
+                            this.defaultBannedRights.send_plain = !tLRPC$TL_chatBannedRights3.send_plain;
                             int i5 = this.sendMediaEmbededLinksRow;
                             if (i5 >= 0) {
                                 this.listViewAdapter.notifyItemChanged(i5);
@@ -1355,29 +1402,29 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                             if (i6 >= 0) {
                                 this.listViewAdapter.notifyItemChanged(i6);
                             }
-                            DiffCallback saveState4 = saveState();
+                            DiffCallback saveState6 = saveState();
                             updateRows();
-                            updateListAnimated(saveState4);
+                            updateListAnimated(saveState6);
                             return;
                         } else if (i == this.sendMediaRow) {
-                            DiffCallback saveState5 = saveState();
+                            DiffCallback saveState7 = saveState();
                             this.sendMediaExpanded = !this.sendMediaExpanded;
                             AndroidUtilities.updateVisibleRows(this.listView);
-                            updateListAnimated(saveState5);
+                            updateListAnimated(saveState7);
                             return;
                         } else if (i == this.sendStickersRow) {
                             TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights19 = this.defaultBannedRights;
-                            boolean z10 = !tLRPC$TL_chatBannedRights19.send_stickers;
-                            tLRPC$TL_chatBannedRights19.send_inline = z10;
-                            tLRPC$TL_chatBannedRights19.send_gifs = z10;
-                            tLRPC$TL_chatBannedRights19.send_games = z10;
-                            tLRPC$TL_chatBannedRights19.send_stickers = z10;
+                            boolean z12 = !tLRPC$TL_chatBannedRights19.send_stickers;
+                            tLRPC$TL_chatBannedRights19.send_inline = z12;
+                            tLRPC$TL_chatBannedRights19.send_gifs = z12;
+                            tLRPC$TL_chatBannedRights19.send_games = z12;
+                            tLRPC$TL_chatBannedRights19.send_stickers = z12;
                             return;
                         } else if (i == this.embedLinksRow) {
-                            this.defaultBannedRights.embed_links = !tLRPC$TL_chatBannedRights4.embed_links;
+                            this.defaultBannedRights.embed_links = !tLRPC$TL_chatBannedRights2.embed_links;
                             return;
                         } else if (i == this.sendPollsRow) {
-                            this.defaultBannedRights.send_polls = !tLRPC$TL_chatBannedRights3.send_polls;
+                            this.defaultBannedRights.send_polls = !tLRPC$TL_chatBannedRights.send_polls;
                             return;
                         } else {
                             return;
@@ -1388,116 +1435,108 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             }
         }
         if (z3) {
-            TLObject item = this.listViewAdapter.getItem(i);
+            item = this.listViewAdapter.getItem(i);
             if (item instanceof TLRPC$ChannelParticipant) {
                 TLRPC$ChannelParticipant tLRPC$ChannelParticipant = (TLRPC$ChannelParticipant) item;
-                peerId = MessageObject.getPeerId(tLRPC$ChannelParticipant.peer);
-                tLRPC$TL_chatBannedRights = tLRPC$ChannelParticipant.banned_rights;
-                TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights5 = tLRPC$ChannelParticipant.admin_rights;
+                j = MessageObject.getPeerId(tLRPC$ChannelParticipant.peer);
+                TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights20 = tLRPC$ChannelParticipant.banned_rights;
+                TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights3 = tLRPC$ChannelParticipant.admin_rights;
                 String str2 = tLRPC$ChannelParticipant.rank;
-                boolean z11 = !((tLRPC$ChannelParticipant instanceof TLRPC$TL_channelParticipantAdmin) || (tLRPC$ChannelParticipant instanceof TLRPC$TL_channelParticipantCreator)) || tLRPC$ChannelParticipant.can_edit;
-                if ((item instanceof TLRPC$TL_channelParticipantCreator) && (tLRPC$TL_chatAdminRights5 = ((TLRPC$TL_channelParticipantCreator) item).admin_rights) == null) {
-                    tLRPC$TL_chatAdminRights5 = new TLRPC$TL_chatAdminRights();
-                    tLRPC$TL_chatAdminRights5.add_admins = true;
-                    tLRPC$TL_chatAdminRights5.pin_messages = true;
-                    tLRPC$TL_chatAdminRights5.manage_topics = true;
-                    tLRPC$TL_chatAdminRights5.invite_users = true;
-                    tLRPC$TL_chatAdminRights5.ban_users = true;
-                    tLRPC$TL_chatAdminRights5.delete_messages = true;
-                    tLRPC$TL_chatAdminRights5.edit_messages = true;
-                    tLRPC$TL_chatAdminRights5.post_messages = true;
-                    tLRPC$TL_chatAdminRights5.change_info = true;
+                boolean z13 = !((tLRPC$ChannelParticipant instanceof TLRPC$TL_channelParticipantAdmin) || (tLRPC$ChannelParticipant instanceof TLRPC$TL_channelParticipantCreator)) || tLRPC$ChannelParticipant.can_edit;
+                if ((item instanceof TLRPC$TL_channelParticipantCreator) && (tLRPC$TL_chatAdminRights3 = ((TLRPC$TL_channelParticipantCreator) item).admin_rights) == null) {
+                    tLRPC$TL_chatAdminRights3 = new TLRPC$TL_chatAdminRights();
+                    tLRPC$TL_chatAdminRights3.add_admins = true;
+                    tLRPC$TL_chatAdminRights3.pin_messages = true;
+                    tLRPC$TL_chatAdminRights3.manage_topics = true;
+                    tLRPC$TL_chatAdminRights3.invite_users = true;
+                    tLRPC$TL_chatAdminRights3.ban_users = true;
+                    tLRPC$TL_chatAdminRights3.delete_messages = true;
+                    tLRPC$TL_chatAdminRights3.edit_messages = true;
+                    tLRPC$TL_chatAdminRights3.post_messages = true;
+                    tLRPC$TL_chatAdminRights3.change_info = true;
                     if (!this.isChannel) {
-                        tLRPC$TL_chatAdminRights5.manage_call = true;
+                        tLRPC$TL_chatAdminRights3.manage_call = true;
                     }
                 }
                 tLObject = item;
-                tLRPC$TL_chatAdminRights2 = tLRPC$TL_chatAdminRights5;
+                tLRPC$TL_chatAdminRights = tLRPC$TL_chatAdminRights3;
                 str = str2;
-                z = z11;
-                long j2 = peerId;
-                tLRPC$TL_chatAdminRights3 = tLRPC$TL_chatBannedRights;
-                j = j2;
+                z = z13;
+                tLRPC$TL_chatBannedRights16 = tLRPC$TL_chatBannedRights20;
             } else if (item instanceof TLRPC$ChatParticipant) {
                 j = ((TLRPC$ChatParticipant) item).user_id;
-                boolean z12 = this.currentChat.creator;
+                boolean z14 = this.currentChat.creator;
                 if (item instanceof TLRPC$TL_chatParticipantCreator) {
-                    tLRPC$TL_chatAdminRights4 = new TLRPC$TL_chatAdminRights();
-                    tLRPC$TL_chatAdminRights4.add_admins = true;
-                    tLRPC$TL_chatAdminRights4.pin_messages = true;
-                    tLRPC$TL_chatAdminRights4.manage_topics = true;
-                    tLRPC$TL_chatAdminRights4.invite_users = true;
-                    tLRPC$TL_chatAdminRights4.ban_users = true;
-                    tLRPC$TL_chatAdminRights4.delete_messages = true;
-                    tLRPC$TL_chatAdminRights4.edit_messages = true;
-                    tLRPC$TL_chatAdminRights4.post_messages = true;
-                    tLRPC$TL_chatAdminRights4.change_info = true;
+                    tLRPC$TL_chatAdminRights2 = new TLRPC$TL_chatAdminRights();
+                    tLRPC$TL_chatAdminRights2.add_admins = true;
+                    tLRPC$TL_chatAdminRights2.pin_messages = true;
+                    tLRPC$TL_chatAdminRights2.manage_topics = true;
+                    tLRPC$TL_chatAdminRights2.invite_users = true;
+                    tLRPC$TL_chatAdminRights2.ban_users = true;
+                    tLRPC$TL_chatAdminRights2.delete_messages = true;
+                    tLRPC$TL_chatAdminRights2.edit_messages = true;
+                    tLRPC$TL_chatAdminRights2.post_messages = true;
+                    tLRPC$TL_chatAdminRights2.change_info = true;
                     if (!this.isChannel) {
-                        tLRPC$TL_chatAdminRights4.manage_call = true;
+                        tLRPC$TL_chatAdminRights2.manage_call = true;
                     }
                 } else {
-                    tLRPC$TL_chatAdminRights4 = null;
+                    tLRPC$TL_chatAdminRights2 = null;
                 }
-                z = z12;
-                tLRPC$TL_chatAdminRights2 = tLRPC$TL_chatAdminRights4;
+                z = z14;
                 str = "";
+                tLRPC$TL_chatAdminRights = tLRPC$TL_chatAdminRights2;
+                tLRPC$TL_chatBannedRights16 = null;
                 tLObject = item;
-                tLRPC$TL_chatAdminRights3 = null;
             } else {
                 tLObject = item;
-                j = 0;
-                tLRPC$TL_chatAdminRights = null;
                 str = "";
+                j = 0;
+                tLRPC$TL_chatBannedRights16 = null;
+                tLRPC$TL_chatAdminRights = null;
                 z = false;
-                tLRPC$TL_chatAdminRights2 = tLRPC$TL_chatAdminRights;
-                tLRPC$TL_chatAdminRights3 = tLRPC$TL_chatAdminRights2;
             }
         } else {
-            TLObject item2 = this.searchListViewAdapter.getItem(i);
-            if (item2 instanceof TLRPC$User) {
-                TLRPC$User tLRPC$User = (TLRPC$User) item2;
+            item = this.searchListViewAdapter.getItem(i);
+            if (item instanceof TLRPC$User) {
+                TLRPC$User tLRPC$User = (TLRPC$User) item;
                 getMessagesController().putUser(tLRPC$User, false);
-                long j3 = tLRPC$User.id;
-                j = j3;
-                item2 = getAnyParticipant(j3);
-            } else if ((item2 instanceof TLRPC$ChannelParticipant) || (item2 instanceof TLRPC$ChatParticipant)) {
+                long j2 = tLRPC$User.id;
+                j = j2;
+                item = getAnyParticipant(j2);
+            } else if ((item instanceof TLRPC$ChannelParticipant) || (item instanceof TLRPC$ChatParticipant)) {
                 j = 0;
             } else {
                 j = 0;
-                item2 = null;
+                item = null;
             }
-            if (item2 instanceof TLRPC$ChannelParticipant) {
-                TLRPC$ChannelParticipant tLRPC$ChannelParticipant2 = (TLRPC$ChannelParticipant) item2;
-                peerId = MessageObject.getPeerId(tLRPC$ChannelParticipant2.peer);
-                boolean z13 = !((tLRPC$ChannelParticipant2 instanceof TLRPC$TL_channelParticipantAdmin) || (tLRPC$ChannelParticipant2 instanceof TLRPC$TL_channelParticipantCreator)) || tLRPC$ChannelParticipant2.can_edit;
-                tLRPC$TL_chatBannedRights = tLRPC$ChannelParticipant2.banned_rights;
-                TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights6 = tLRPC$ChannelParticipant2.admin_rights;
+            if (item instanceof TLRPC$ChannelParticipant) {
+                TLRPC$ChannelParticipant tLRPC$ChannelParticipant2 = (TLRPC$ChannelParticipant) item;
+                j = MessageObject.getPeerId(tLRPC$ChannelParticipant2.peer);
+                boolean z15 = !((tLRPC$ChannelParticipant2 instanceof TLRPC$TL_channelParticipantAdmin) || (tLRPC$ChannelParticipant2 instanceof TLRPC$TL_channelParticipantCreator)) || tLRPC$ChannelParticipant2.can_edit;
+                TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights21 = tLRPC$ChannelParticipant2.banned_rights;
+                TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights4 = tLRPC$ChannelParticipant2.admin_rights;
                 str = tLRPC$ChannelParticipant2.rank;
-                tLRPC$TL_chatAdminRights2 = tLRPC$TL_chatAdminRights6;
-                z = z13;
-                tLObject = item2;
-                long j22 = peerId;
-                tLRPC$TL_chatAdminRights3 = tLRPC$TL_chatBannedRights;
-                j = j22;
+                z = z15;
+                tLRPC$TL_chatAdminRights = tLRPC$TL_chatAdminRights4;
+                tLRPC$TL_chatBannedRights16 = tLRPC$TL_chatBannedRights21;
+                tLObject = item;
+            } else if (item instanceof TLRPC$ChatParticipant) {
+                j = ((TLRPC$ChatParticipant) item).user_id;
+                tLObject = item;
+                z = this.currentChat.creator;
+                str = "";
+                tLRPC$TL_chatBannedRights16 = null;
+                tLRPC$TL_chatAdminRights = null;
             } else {
-                if (item2 instanceof TLRPC$ChatParticipant) {
-                    j = ((TLRPC$ChatParticipant) item2).user_id;
-                    tLObject = item2;
-                    z = this.currentChat.creator;
-                    tLRPC$TL_chatAdminRights2 = 0;
-                    str = "";
-                } else {
-                    tLObject = item2;
-                    tLRPC$TL_chatAdminRights = null;
-                    str = "";
-                    if (item2 == null) {
-                        z = true;
-                        tLRPC$TL_chatAdminRights2 = tLRPC$TL_chatAdminRights;
-                    }
-                    z = false;
-                    tLRPC$TL_chatAdminRights2 = tLRPC$TL_chatAdminRights;
+                tLObject = item;
+                str = "";
+                tLRPC$TL_chatBannedRights16 = null;
+                tLRPC$TL_chatAdminRights = null;
+                if (item == null) {
+                    z = true;
                 }
-                tLRPC$TL_chatAdminRights3 = tLRPC$TL_chatAdminRights2;
+                z = false;
             }
         }
         if (j == 0) {
@@ -1512,21 +1551,21 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                     builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
                     builder.setMessage(LocaleController.formatString("AdminWillBeRemoved", R.string.AdminWillBeRemoved, UserObject.getUserName(user)));
                     final TLObject tLObject2 = tLObject;
-                    final TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights7 = tLRPC$TL_chatAdminRights2;
-                    final TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights20 = tLRPC$TL_chatAdminRights3;
+                    final TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights5 = tLRPC$TL_chatAdminRights;
+                    final TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights22 = tLRPC$TL_chatBannedRights16;
                     final String str3 = str;
-                    final boolean z14 = z;
+                    final boolean z16 = z;
                     builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChatUsersActivity$$ExternalSyntheticLambda3
                         @Override // android.content.DialogInterface.OnClickListener
                         public final void onClick(DialogInterface dialogInterface, int i8) {
-                            ChatUsersActivity.this.lambda$createView$4(user, tLObject2, tLRPC$TL_chatAdminRights7, tLRPC$TL_chatBannedRights20, str3, z14, dialogInterface, i8);
+                            ChatUsersActivity.this.lambda$createView$4(user, tLObject2, tLRPC$TL_chatAdminRights5, tLRPC$TL_chatBannedRights22, str3, z16, dialogInterface, i8);
                         }
                     });
                     builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
                     showDialog(builder.create());
                     return;
                 }
-                openRightsEdit(j, tLObject, tLRPC$TL_chatAdminRights2, tLRPC$TL_chatAdminRights3, str, z, i7 == 1 ? 0 : 1, i7 == 1 || i7 == 3);
+                openRightsEdit(j, tLObject, tLRPC$TL_chatAdminRights, tLRPC$TL_chatBannedRights16, str, z, i7 == 1 ? 0 : 1, i7 == 1 || i7 == 3);
                 return;
             }
             removeParticipant(j);
@@ -1553,43 +1592,43 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 presentFragment(new ProfileActivity(bundle5));
                 return;
             }
-            if (tLRPC$TL_chatAdminRights3 == null) {
-                TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights21 = new TLRPC$TL_chatBannedRights();
-                tLRPC$TL_chatBannedRights21.view_messages = true;
-                tLRPC$TL_chatBannedRights21.send_stickers = true;
-                tLRPC$TL_chatBannedRights21.send_media = true;
-                tLRPC$TL_chatBannedRights21.send_photos = true;
-                tLRPC$TL_chatBannedRights21.send_videos = true;
-                tLRPC$TL_chatBannedRights21.send_roundvideos = true;
-                tLRPC$TL_chatBannedRights21.send_audios = true;
-                tLRPC$TL_chatBannedRights21.send_voices = true;
-                tLRPC$TL_chatBannedRights21.send_docs = true;
-                tLRPC$TL_chatBannedRights21.embed_links = true;
-                tLRPC$TL_chatBannedRights21.send_plain = true;
-                tLRPC$TL_chatBannedRights21.send_messages = true;
-                tLRPC$TL_chatBannedRights21.send_games = true;
-                tLRPC$TL_chatBannedRights21.send_inline = true;
-                tLRPC$TL_chatBannedRights21.send_gifs = true;
-                tLRPC$TL_chatBannedRights21.pin_messages = true;
-                tLRPC$TL_chatBannedRights21.send_polls = true;
-                tLRPC$TL_chatBannedRights21.invite_users = true;
-                tLRPC$TL_chatBannedRights21.manage_topics = true;
-                tLRPC$TL_chatBannedRights21.change_info = true;
-                tLRPC$TL_chatBannedRights2 = tLRPC$TL_chatBannedRights21;
+            if (tLRPC$TL_chatBannedRights16 == null) {
+                TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights23 = new TLRPC$TL_chatBannedRights();
+                tLRPC$TL_chatBannedRights23.view_messages = true;
+                tLRPC$TL_chatBannedRights23.send_stickers = true;
+                tLRPC$TL_chatBannedRights23.send_media = true;
+                tLRPC$TL_chatBannedRights23.send_photos = true;
+                tLRPC$TL_chatBannedRights23.send_videos = true;
+                tLRPC$TL_chatBannedRights23.send_roundvideos = true;
+                tLRPC$TL_chatBannedRights23.send_audios = true;
+                tLRPC$TL_chatBannedRights23.send_voices = true;
+                tLRPC$TL_chatBannedRights23.send_docs = true;
+                tLRPC$TL_chatBannedRights23.embed_links = true;
+                tLRPC$TL_chatBannedRights23.send_plain = true;
+                tLRPC$TL_chatBannedRights23.send_messages = true;
+                tLRPC$TL_chatBannedRights23.send_games = true;
+                tLRPC$TL_chatBannedRights23.send_inline = true;
+                tLRPC$TL_chatBannedRights23.send_gifs = true;
+                tLRPC$TL_chatBannedRights23.pin_messages = true;
+                tLRPC$TL_chatBannedRights23.send_polls = true;
+                tLRPC$TL_chatBannedRights23.invite_users = true;
+                tLRPC$TL_chatBannedRights23.manage_topics = true;
+                tLRPC$TL_chatBannedRights23.change_info = true;
+                tLRPC$TL_chatBannedRights17 = tLRPC$TL_chatBannedRights23;
             } else {
-                tLRPC$TL_chatBannedRights2 = tLRPC$TL_chatAdminRights3;
+                tLRPC$TL_chatBannedRights17 = tLRPC$TL_chatBannedRights16;
             }
-            ChatRightsEditActivity chatRightsEditActivity = new ChatRightsEditActivity(j, this.chatId, tLRPC$TL_chatAdminRights2, this.defaultBannedRights, tLRPC$TL_chatBannedRights2, str, this.type == 1 ? 0 : 1, z2, tLObject == null, null);
+            ChatRightsEditActivity chatRightsEditActivity = new ChatRightsEditActivity(j, this.chatId, tLRPC$TL_chatAdminRights, this.defaultBannedRights, tLRPC$TL_chatBannedRights17, str, this.type == 1 ? 0 : 1, z2, tLObject == null, null);
             chatRightsEditActivity.setDelegate(new ChatRightsEditActivity.ChatRightsEditActivityDelegate() { // from class: org.telegram.ui.ChatUsersActivity.11
                 @Override // org.telegram.ui.ChatRightsEditActivity.ChatRightsEditActivityDelegate
-                public void didSetRights(int i9, TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights8, TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights22, String str4) {
+                public void didSetRights(int i9, TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights6, TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights24, String str4) {
                     TLObject tLObject3 = tLObject;
                     if (tLObject3 instanceof TLRPC$ChannelParticipant) {
                         TLRPC$ChannelParticipant tLRPC$ChannelParticipant3 = (TLRPC$ChannelParticipant) tLObject3;
-                        tLRPC$ChannelParticipant3.admin_rights = tLRPC$TL_chatAdminRights8;
-                        tLRPC$ChannelParticipant3.banned_rights = tLRPC$TL_chatBannedRights22;
+                        tLRPC$ChannelParticipant3.admin_rights = tLRPC$TL_chatAdminRights6;
+                        tLRPC$ChannelParticipant3.banned_rights = tLRPC$TL_chatBannedRights24;
                         tLRPC$ChannelParticipant3.rank = str4;
-                        ChatUsersActivity.this.updateParticipantWithRights(tLRPC$ChannelParticipant3, tLRPC$TL_chatAdminRights8, tLRPC$TL_chatBannedRights22, 0L, false);
+                        ChatUsersActivity.this.updateParticipantWithRights(tLRPC$ChannelParticipant3, tLRPC$TL_chatAdminRights6, tLRPC$TL_chatBannedRights24, 0L, false);
                     }
                 }
 
@@ -2688,8 +2727,11 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
 
     /* JADX INFO: Access modifiers changed from: private */
     public boolean checkDiscard() {
-        if (ChatObject.getBannedRightsString(this.defaultBannedRights).equals(this.initialBannedRights) && this.initialSlowmode == this.selectedSlowmode && !hasNotRestrictBoostersChanges()) {
-            return true;
+        boolean z;
+        if (ChatObject.getBannedRightsString(this.defaultBannedRights).equals(this.initialBannedRights) && this.initialSlowmode == this.selectedSlowmode && !hasNotRestrictBoostersChanges() && (z = this.signatures) == this.initialSignatures) {
+            if ((z && this.profiles) == this.initialProfiles) {
+                return true;
+            }
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
         builder.setTitle(LocaleController.getString("UserRestrictionsApplyChanges", R.string.UserRestrictionsApplyChanges));
@@ -2844,43 +2886,61 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
     }
 
     /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Code restructure failed: missing block: B:50:0x00df, code lost:
+        if ((r0 && r9.profiles) != r9.initialProfiles) goto L53;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public void processDone() {
         TLRPC$ChatFull tLRPC$ChatFull;
-        if (this.type != 3) {
-            return;
-        }
-        TLRPC$Chat tLRPC$Chat = this.currentChat;
-        if (tLRPC$Chat.creator && !ChatObject.isChannel(tLRPC$Chat) && this.selectedSlowmode != this.initialSlowmode && this.info != null) {
-            MessagesController.getInstance(this.currentAccount).convertToMegaGroup(getParentActivity(), this.chatId, this, new MessagesStorage.LongCallback() { // from class: org.telegram.ui.ChatUsersActivity$$ExternalSyntheticLambda22
-                @Override // org.telegram.messenger.MessagesStorage.LongCallback
-                public final void run(long j) {
-                    ChatUsersActivity.this.lambda$processDone$25(j);
+        int i = this.type;
+        boolean z = false;
+        if (i == 3) {
+            TLRPC$Chat tLRPC$Chat = this.currentChat;
+            if (tLRPC$Chat.creator && !ChatObject.isChannel(tLRPC$Chat) && this.selectedSlowmode != this.initialSlowmode && this.info != null) {
+                MessagesController.getInstance(this.currentAccount).convertToMegaGroup(getParentActivity(), this.chatId, this, new MessagesStorage.LongCallback() { // from class: org.telegram.ui.ChatUsersActivity$$ExternalSyntheticLambda22
+                    @Override // org.telegram.messenger.MessagesStorage.LongCallback
+                    public final void run(long j) {
+                        ChatUsersActivity.this.lambda$processDone$25(j);
+                    }
+                });
+                return;
+            }
+            if (!ChatObject.getBannedRightsString(this.defaultBannedRights).equals(this.initialBannedRights)) {
+                getMessagesController().setDefaultBannedRole(this.chatId, this.defaultBannedRights, ChatObject.isChannel(this.currentChat), this);
+                TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(this.chatId));
+                if (chat != null) {
+                    chat.default_banned_rights = this.defaultBannedRights;
                 }
-            });
-            return;
-        }
-        if (!ChatObject.getBannedRightsString(this.defaultBannedRights).equals(this.initialBannedRights)) {
-            getMessagesController().setDefaultBannedRole(this.chatId, this.defaultBannedRights, ChatObject.isChannel(this.currentChat), this);
-            TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(this.chatId));
-            if (chat != null) {
-                chat.default_banned_rights = this.defaultBannedRights;
             }
-        }
-        int i = this.selectedSlowmode;
-        if (i != this.initialSlowmode && (tLRPC$ChatFull = this.info) != null) {
-            tLRPC$ChatFull.slowmode_seconds = getSecondsForIndex(i);
-            this.info.flags |= 131072;
-            getMessagesController().setChannelSlowMode(this.chatId, this.info.slowmode_seconds);
-        }
-        if (hasNotRestrictBoostersChanges()) {
-            boolean z = this.isEnabledNotRestrictBoosters && isNotRestrictBoostersVisible();
-            if (z && this.notRestrictBoosters == 0) {
-                getMessagesController().setBoostsToUnblockRestrictions(this.chatId, 1);
-            } else if (!z && this.notRestrictBoosters != 0) {
-                getMessagesController().setBoostsToUnblockRestrictions(this.chatId, 0);
-            } else {
-                getMessagesController().setBoostsToUnblockRestrictions(this.chatId, this.notRestrictBoosters);
+            int i2 = this.selectedSlowmode;
+            if (i2 != this.initialSlowmode && (tLRPC$ChatFull = this.info) != null) {
+                tLRPC$ChatFull.slowmode_seconds = getSecondsForIndex(i2);
+                this.info.flags |= 131072;
+                getMessagesController().setChannelSlowMode(this.chatId, this.info.slowmode_seconds);
             }
+            if (hasNotRestrictBoostersChanges()) {
+                boolean z2 = this.isEnabledNotRestrictBoosters && isNotRestrictBoostersVisible();
+                if (z2 && this.notRestrictBoosters == 0) {
+                    getMessagesController().setBoostsToUnblockRestrictions(this.chatId, 1);
+                } else if (!z2 && this.notRestrictBoosters != 0) {
+                    getMessagesController().setBoostsToUnblockRestrictions(this.chatId, 0);
+                } else {
+                    getMessagesController().setBoostsToUnblockRestrictions(this.chatId, this.notRestrictBoosters);
+                }
+            }
+        } else if (i == 1) {
+            boolean z3 = this.signatures;
+            if (z3 == this.initialSignatures) {
+            }
+            MessagesController messagesController = getMessagesController();
+            long j = this.chatId;
+            boolean z4 = this.signatures;
+            if (z4 && this.profiles) {
+                z = true;
+            }
+            messagesController.toggleChannelSignatures(j, z4, z);
         }
         finishFragment();
     }
@@ -4110,6 +4170,9 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
         @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
         public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {
             int itemViewType = viewHolder.getItemViewType();
+            if (itemViewType == 16) {
+                return true;
+            }
             if (itemViewType == 7 || itemViewType == 14) {
                 return ChatObject.canBlockUsers(ChatUsersActivity.this.currentChat);
             }
@@ -4278,6 +4341,11 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                     });
                     slideChooseView = slideChooseView4;
                     break;
+                case 16:
+                    View textCheckCell = new TextCheckCell(this.mContext, ChatUsersActivity.this.getResourceProvider());
+                    textCheckCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+                    slideChooseView = textCheckCell;
+                    break;
             }
             return new RecyclerListView.Holder(slideChooseView);
         }
@@ -4302,17 +4370,17 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             ChatUsersActivity.this.notRestrictBoosters = i + 1;
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:354:0x099a, code lost:
-            if (r20.this$0.currentChat.megagroup == false) goto L395;
+        /* JADX WARN: Code restructure failed: missing block: B:367:0x0a05, code lost:
+            if (r20.this$0.currentChat.megagroup == false) goto L421;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:355:0x099c, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:368:0x0a07, code lost:
             r7 = true;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:363:0x09c8, code lost:
-            if (r20.this$0.currentChat.megagroup == false) goto L395;
+        /* JADX WARN: Code restructure failed: missing block: B:376:0x0a33, code lost:
+            if (r20.this$0.currentChat.megagroup == false) goto L421;
          */
-        /* JADX WARN: Removed duplicated region for block: B:412:0x0adb  */
-        /* JADX WARN: Removed duplicated region for block: B:413:0x0ade  */
+        /* JADX WARN: Removed duplicated region for block: B:425:0x0b46  */
+        /* JADX WARN: Removed duplicated region for block: B:426:0x0b49  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -4520,17 +4588,22 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                         } else if (i != ChatUsersActivity.this.slowmodeInfoRow) {
                             if (i != ChatUsersActivity.this.hideMembersInfoRow) {
                                 if (i != ChatUsersActivity.this.gigaInfoRow) {
-                                    if (i == ChatUsersActivity.this.dontRestrictBoostersInfoRow) {
-                                        textInfoPrivacyCell.setBackground(Theme.getThemedDrawableByKey(this.mContext, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
-                                        if (ChatUsersActivity.this.isEnabledNotRestrictBoosters) {
-                                            textInfoPrivacyCell.setText(LocaleController.getString(R.string.GroupNotRestrictBoostersInfo2));
-                                            return;
-                                        } else {
-                                            textInfoPrivacyCell.setText(LocaleController.getString(R.string.GroupNotRestrictBoostersInfo));
+                                    if (i != ChatUsersActivity.this.dontRestrictBoostersInfoRow) {
+                                        if (i == ChatUsersActivity.this.signMessagesInfoRow) {
+                                            textInfoPrivacyCell.setBackground(Theme.getThemedDrawableByKey(this.mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
+                                            textInfoPrivacyCell.setText(LocaleController.getString(ChatUsersActivity.this.signatures ? R.string.ChannelSignProfilesInfo : R.string.ChannelSignInfo));
                                             return;
                                         }
+                                        return;
                                     }
-                                    return;
+                                    textInfoPrivacyCell.setBackground(Theme.getThemedDrawableByKey(this.mContext, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
+                                    if (ChatUsersActivity.this.isEnabledNotRestrictBoosters) {
+                                        textInfoPrivacyCell.setText(LocaleController.getString(R.string.GroupNotRestrictBoostersInfo2));
+                                        return;
+                                    } else {
+                                        textInfoPrivacyCell.setText(LocaleController.getString(R.string.GroupNotRestrictBoostersInfo));
+                                        return;
+                                    }
                                 }
                                 textInfoPrivacyCell.setText(LocaleController.getString("BroadcastGroupConvertInfo", R.string.BroadcastGroupConvertInfo));
                                 return;
@@ -4615,6 +4688,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 case 4:
                 case 9:
                 case 10:
+                case 15:
                 default:
                     return;
                 case 5:
@@ -4764,25 +4838,46 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                     checkBoxCell.setTag(Integer.valueOf(i));
                     if (i == ChatUsersActivity.this.sendMediaPhotosRow) {
                         checkBoxCell.setText(LocaleController.getString("SendMediaPermissionPhotos", R.string.SendMediaPermissionPhotos), "", !ChatUsersActivity.this.defaultBannedRights.send_photos, true, z13);
+                        return;
                     } else if (i == ChatUsersActivity.this.sendMediaVideosRow) {
                         checkBoxCell.setText(LocaleController.getString("SendMediaPermissionVideos", R.string.SendMediaPermissionVideos), "", !ChatUsersActivity.this.defaultBannedRights.send_videos, true, z13);
+                        return;
                     } else if (i == ChatUsersActivity.this.sendMediaStickerGifsRow) {
                         checkBoxCell.setText(LocaleController.getString("SendMediaPermissionStickersGifs", R.string.SendMediaPermissionStickersGifs), "", !ChatUsersActivity.this.defaultBannedRights.send_stickers, true, z13);
+                        return;
                     } else if (i == ChatUsersActivity.this.sendMediaMusicRow) {
                         checkBoxCell.setText(LocaleController.getString("SendMediaPermissionMusic", R.string.SendMediaPermissionMusic), "", !ChatUsersActivity.this.defaultBannedRights.send_audios, true, z13);
+                        return;
                     } else if (i == ChatUsersActivity.this.sendMediaFilesRow) {
                         checkBoxCell.setText(LocaleController.getString("SendMediaPermissionFiles", R.string.SendMediaPermissionFiles), "", !ChatUsersActivity.this.defaultBannedRights.send_docs, true, z13);
+                        return;
                     } else if (i == ChatUsersActivity.this.sendMediaVoiceMessagesRow) {
                         checkBoxCell.setText(LocaleController.getString("SendMediaPermissionVoice", R.string.SendMediaPermissionVoice), "", !ChatUsersActivity.this.defaultBannedRights.send_voices, true, z13);
+                        return;
                     } else if (i == ChatUsersActivity.this.sendMediaVideoMessagesRow) {
                         checkBoxCell.setText(LocaleController.getString("SendMediaPermissionRound", R.string.SendMediaPermissionRound), "", !ChatUsersActivity.this.defaultBannedRights.send_roundvideos, true, z13);
+                        return;
                     } else if (i == ChatUsersActivity.this.sendMediaEmbededLinksRow) {
                         checkBoxCell.setText(LocaleController.getString("SendMediaEmbededLinks", R.string.SendMediaEmbededLinks), "", (ChatUsersActivity.this.defaultBannedRights.embed_links || ChatUsersActivity.this.defaultBannedRights.send_plain) ? false : true, false, z13);
+                        return;
                     } else if (i == ChatUsersActivity.this.sendPollsRow) {
                         checkBoxCell.setText(LocaleController.getString("SendMediaPolls", R.string.SendMediaPolls), "", !ChatUsersActivity.this.defaultBannedRights.send_polls, false, z13);
+                        return;
+                    } else {
+                        checkBoxCell.setPad(1);
+                        return;
                     }
-                    checkBoxCell.setPad(1);
-                    return;
+                case 16:
+                    TextCheckCell textCheckCell = (TextCheckCell) viewHolder.itemView;
+                    if (i == ChatUsersActivity.this.signMessagesRow) {
+                        textCheckCell.setTextAndCheck(LocaleController.getString(R.string.ChannelSignMessages), ChatUsersActivity.this.signatures, ChatUsersActivity.this.signatures);
+                        return;
+                    } else if (i == ChatUsersActivity.this.signMessagesProfilesRow) {
+                        textCheckCell.setTextAndCheck(LocaleController.getString(R.string.ChannelSignMessagesWithProfile), ChatUsersActivity.this.profiles, false);
+                        return;
+                    } else {
+                        return;
+                    }
             }
         }
 
@@ -4806,7 +4901,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 if (i == ChatUsersActivity.this.restricted1SectionRow || i == ChatUsersActivity.this.permissionsSectionRow || i == ChatUsersActivity.this.slowmodeRow || i == ChatUsersActivity.this.gigaHeaderRow) {
                     return 5;
                 }
-                if (i == ChatUsersActivity.this.participantsInfoRow || i == ChatUsersActivity.this.slowmodeInfoRow || i == ChatUsersActivity.this.dontRestrictBoostersInfoRow || i == ChatUsersActivity.this.gigaInfoRow || i == ChatUsersActivity.this.antiSpamInfoRow || i == ChatUsersActivity.this.hideMembersInfoRow) {
+                if (i == ChatUsersActivity.this.participantsInfoRow || i == ChatUsersActivity.this.slowmodeInfoRow || i == ChatUsersActivity.this.dontRestrictBoostersInfoRow || i == ChatUsersActivity.this.gigaInfoRow || i == ChatUsersActivity.this.antiSpamInfoRow || i == ChatUsersActivity.this.hideMembersInfoRow || i == ChatUsersActivity.this.signMessagesInfoRow) {
                     return 1;
                 }
                 if (i == ChatUsersActivity.this.blockedEmptyRow) {
@@ -4839,7 +4934,10 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 if (i == ChatUsersActivity.this.sendMediaRow) {
                     return 14;
                 }
-                return i == ChatUsersActivity.this.dontRestrictBoostersSliderRow ? 15 : 0;
+                if (i == ChatUsersActivity.this.dontRestrictBoostersSliderRow) {
+                    return 15;
+                }
+                return (i == ChatUsersActivity.this.signMessagesRow || i == ChatUsersActivity.this.signMessagesProfilesRow) ? 16 : 0;
             }
             return 0;
         }
@@ -5042,7 +5140,13 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             put(i13, ChatUsersActivity.this.loadingProgressRow, sparseIntArray);
             int i14 = i13 + 1;
             put(i14, ChatUsersActivity.this.loadingUserCellRow, sparseIntArray);
-            put(i14 + 1, ChatUsersActivity.this.loadingHeaderRow, sparseIntArray);
+            int i15 = i14 + 1;
+            put(i15, ChatUsersActivity.this.loadingHeaderRow, sparseIntArray);
+            int i16 = i15 + 1;
+            put(i16, ChatUsersActivity.this.signMessagesRow, sparseIntArray);
+            int i17 = i16 + 1;
+            put(i17, ChatUsersActivity.this.signMessagesProfilesRow, sparseIntArray);
+            put(i17 + 1, ChatUsersActivity.this.signMessagesInfoRow, sparseIntArray);
         }
 
         private void put(int i, int i2, SparseIntArray sparseIntArray) {

@@ -686,7 +686,13 @@ public class DownloadController extends BaseController implements NotificationCe
     public boolean canDownloadMedia(MessageObject messageObject) {
         TL_stories$StoryItem tL_stories$StoryItem;
         TLRPC$MessageMedia tLRPC$MessageMedia;
-        return messageObject.type == 23 ? (!SharedConfig.isAutoplayVideo() || (tL_stories$StoryItem = ((TLRPC$TL_messageMediaStory) MessageObject.getMedia(messageObject)).storyItem) == null || (tLRPC$MessageMedia = tL_stories$StoryItem.media) == null || tLRPC$MessageMedia.document == null || !tL_stories$StoryItem.isPublic) ? false : true : canDownloadMedia(messageObject.messageOwner) == 1;
+        if (messageObject.type == 23) {
+            return (!SharedConfig.isAutoplayVideo() || (tL_stories$StoryItem = ((TLRPC$TL_messageMediaStory) MessageObject.getMedia(messageObject)).storyItem) == null || (tLRPC$MessageMedia = tL_stories$StoryItem.media) == null || tLRPC$MessageMedia.document == null || !tL_stories$StoryItem.isPublic) ? false : true;
+        } else if (messageObject.sponsoredMedia != null) {
+            return true;
+        } else {
+            return !messageObject.isHiddenSensitive() && canDownloadMedia(messageObject.messageOwner) == 1;
+        }
     }
 
     public boolean canDownloadMedia(int i, long j) {
@@ -835,22 +841,22 @@ public class DownloadController extends BaseController implements NotificationCe
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:25:0x0050, code lost:
-        if (getContactsController().contactsDict.containsKey(java.lang.Long.valueOf(r7.user_id)) != false) goto L14;
+    /* JADX WARN: Code restructure failed: missing block: B:25:0x004a, code lost:
+        if (getContactsController().contactsDict.containsKey(java.lang.Long.valueOf(r5.user_id)) != false) goto L14;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:32:0x0072, code lost:
-        if (getContactsController().contactsDict.containsKey(java.lang.Long.valueOf(r18.from_id.user_id)) != false) goto L14;
+    /* JADX WARN: Code restructure failed: missing block: B:32:0x006c, code lost:
+        if (getContactsController().contactsDict.containsKey(java.lang.Long.valueOf(r14.from_id.user_id)) != false) goto L14;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:46:0x00b1, code lost:
-        if (getContactsController().contactsDict.containsKey(java.lang.Long.valueOf(r18.from_id.user_id)) != false) goto L14;
+    /* JADX WARN: Code restructure failed: missing block: B:46:0x00ab, code lost:
+        if (getContactsController().contactsDict.containsKey(java.lang.Long.valueOf(r14.from_id.user_id)) != false) goto L14;
      */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x00bd  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x00c9  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x00e8  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x00f8  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x0107  */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x011f  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x0129  */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x00b7  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x00c3  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x00e2  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x00f2  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x0101  */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x0118  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x0122  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -919,10 +925,10 @@ public class DownloadController extends BaseController implements NotificationCe
                 } else {
                     j = currentMobilePreset.sizes[typeToIndex(i)];
                 }
-                long messageSize = MessageObject.getMessageSize(tLRPC$Message);
-                if (!z && currentMobilePreset.preloadVideo && messageSize > j && j > 2097152) {
+                long mediaSize = MessageObject.getMediaSize(tLRPC$MessageMedia);
+                if (!z && currentMobilePreset.preloadVideo && mediaSize > j && j > 2097152) {
                     return (i2 & i) != 0 ? 2 : 0;
-                } else if (i != 1 || (messageSize != 0 && messageSize <= j)) {
+                } else if (i != 1 || (mediaSize != 0 && mediaSize <= j)) {
                     return (i == 2 && (i2 & i) == 0) ? 0 : 1;
                 } else {
                     return 0;
@@ -935,7 +941,7 @@ public class DownloadController extends BaseController implements NotificationCe
             i2 = currentMobilePreset.mask[c];
             if (i == 2) {
             }
-            long messageSize2 = MessageObject.getMessageSize(tLRPC$Message);
+            long mediaSize2 = MessageObject.getMediaSize(tLRPC$MessageMedia);
             if (!z) {
             }
             if (i != 1) {
@@ -950,7 +956,7 @@ public class DownloadController extends BaseController implements NotificationCe
         i2 = currentMobilePreset.mask[c];
         if (i == 2) {
         }
-        long messageSize22 = MessageObject.getMessageSize(tLRPC$Message);
+        long mediaSize22 = MessageObject.getMediaSize(tLRPC$MessageMedia);
         if (!z) {
         }
         if (i != 1) {

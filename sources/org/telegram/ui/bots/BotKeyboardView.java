@@ -18,7 +18,7 @@ import org.telegram.tgnet.TLRPC$TL_keyboardButtonWebView;
 import org.telegram.tgnet.TLRPC$TL_replyKeyboardMarkup;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
-/* loaded from: classes4.dex */
+/* loaded from: classes.dex */
 public class BotKeyboardView extends LinearLayout {
     private TLRPC$TL_replyKeyboardMarkup botButtons;
     private int buttonHeight;
@@ -31,7 +31,7 @@ public class BotKeyboardView extends LinearLayout {
     private final Theme.ResourcesProvider resourcesProvider;
     private ScrollView scrollView;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes.dex */
     public interface BotKeyboardViewDelegate {
         void didPressedButton(TLRPC$KeyboardButton tLRPC$KeyboardButton);
     }
@@ -159,7 +159,7 @@ public class BotKeyboardView extends LinearLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes.dex */
     public class Button extends TextView {
         public Button(BotKeyboardView botKeyboardView, Context context, TLRPC$KeyboardButton tLRPC$KeyboardButton) {
             super(context);

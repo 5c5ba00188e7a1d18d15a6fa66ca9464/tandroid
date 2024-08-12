@@ -583,27 +583,27 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:473:0x0fb4, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:473:0x0fd8, code lost:
         if (r10.email_requested == false) goto L475;
      */
     /* JADX WARN: Code restructure failed: missing block: B:79:0x031d, code lost:
         if (r12.email_requested == false) goto L170;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:613:0x195f  */
-    /* JADX WARN: Removed duplicated region for block: B:617:0x1977  */
-    /* JADX WARN: Removed duplicated region for block: B:623:0x19a5  */
-    /* JADX WARN: Removed duplicated region for block: B:636:0x19e3  */
-    /* JADX WARN: Removed duplicated region for block: B:639:0x19eb  */
-    /* JADX WARN: Removed duplicated region for block: B:640:0x19ed  */
-    /* JADX WARN: Removed duplicated region for block: B:650:0x1a04  */
-    /* JADX WARN: Removed duplicated region for block: B:651:0x1a07  */
-    /* JADX WARN: Removed duplicated region for block: B:654:0x1a2b  */
-    /* JADX WARN: Removed duplicated region for block: B:660:0x1a7c  */
-    /* JADX WARN: Removed duplicated region for block: B:666:0x1acd  */
-    /* JADX WARN: Removed duplicated region for block: B:672:0x1b1c  */
-    /* JADX WARN: Removed duplicated region for block: B:678:0x1b51  */
-    /* JADX WARN: Removed duplicated region for block: B:682:0x1b8e  */
+    /* JADX WARN: Removed duplicated region for block: B:613:0x1983  */
+    /* JADX WARN: Removed duplicated region for block: B:617:0x199b  */
+    /* JADX WARN: Removed duplicated region for block: B:623:0x19c9  */
+    /* JADX WARN: Removed duplicated region for block: B:636:0x1a07  */
+    /* JADX WARN: Removed duplicated region for block: B:639:0x1a0f  */
+    /* JADX WARN: Removed duplicated region for block: B:640:0x1a11  */
+    /* JADX WARN: Removed duplicated region for block: B:650:0x1a28  */
+    /* JADX WARN: Removed duplicated region for block: B:651:0x1a2b  */
+    /* JADX WARN: Removed duplicated region for block: B:654:0x1a4f  */
+    /* JADX WARN: Removed duplicated region for block: B:660:0x1aa0  */
+    /* JADX WARN: Removed duplicated region for block: B:666:0x1af1  */
+    /* JADX WARN: Removed duplicated region for block: B:672:0x1b40  */
+    /* JADX WARN: Removed duplicated region for block: B:678:0x1b75  */
+    /* JADX WARN: Removed duplicated region for block: B:682:0x1bb2  */
     /* JADX WARN: Type inference failed for: r0v93, types: [org.telegram.ui.Cells.RecurrentPaymentsAcceptCell] */
     /* JADX WARN: Type inference failed for: r10v101, types: [android.widget.LinearLayout] */
     /* JADX WARN: Type inference failed for: r10v12, types: [java.lang.StringBuilder] */
@@ -1340,6 +1340,10 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 this.webView = webView;
                 webView.getSettings().setJavaScriptEnabled(true);
                 this.webView.getSettings().setDomStorageEnabled(true);
+                this.webView.getSettings().setSupportZoom(true);
+                this.webView.getSettings().setBuiltInZoomControls(true);
+                this.webView.getSettings().setDisplayZoomControls(false);
+                this.webView.getSettings().setUseWideViewPort(true);
                 int i12 = Build.VERSION.SDK_INT;
                 if (i12 >= 21) {
                     this.webView.getSettings().setMixedContentMode(0);
@@ -5420,6 +5424,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         } else {
             createSimpleBulletin = of.createSimpleBulletin(i2, replaceTags);
         }
+        createSimpleBulletin.hideAfterBottomSheet = false;
         createSimpleBulletin.setDuration(5000);
         if (tLRPC$MessageArr[0] != null) {
             createSimpleBulletin.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PaymentFormActivity$$ExternalSyntheticLambda23
@@ -5562,6 +5567,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
             return;
         }
         final Bulletin createSimpleBulletin = BulletinFactory.global().createSimpleBulletin(R.raw.payment_success, replaceTags);
+        createSimpleBulletin.hideAfterBottomSheet = false;
         if (tLRPC$Message != null) {
             createSimpleBulletin.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PaymentFormActivity$$ExternalSyntheticLambda22
                 @Override // android.view.View.OnClickListener

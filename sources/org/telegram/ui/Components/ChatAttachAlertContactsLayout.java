@@ -40,8 +40,8 @@ import org.telegram.messenger.Utilities;
 import org.telegram.messenger.support.LongSparseIntArray;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC$FileLocation;
+import org.telegram.tgnet.TLRPC$RestrictionReason;
 import org.telegram.tgnet.TLRPC$TL_contact;
-import org.telegram.tgnet.TLRPC$TL_restrictionReason;
 import org.telegram.tgnet.TLRPC$TL_userContact_old2;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$UserProfilePhoto;
@@ -659,7 +659,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
         ContactsController.Contact contact;
         String str2;
         ArrayList<TLRPC$User> arrayList;
-        ArrayList<TLRPC$TL_restrictionReason> arrayList2;
+        ArrayList<TLRPC$RestrictionReason> arrayList2;
         TLRPC$TL_userContact_old2 tLRPC$TL_userContact_old2;
         StringBuilder sb;
         int lastIndexOf;
@@ -780,11 +780,11 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
                         }
                     }
                     tLRPC$TL_userContact_old2.restriction_reason.clear();
-                    TLRPC$TL_restrictionReason tLRPC$TL_restrictionReason = new TLRPC$TL_restrictionReason();
-                    tLRPC$TL_restrictionReason.text = sb.toString();
-                    tLRPC$TL_restrictionReason.reason = "";
-                    tLRPC$TL_restrictionReason.platform = "";
-                    tLRPC$TL_userContact_old2.restriction_reason.add(tLRPC$TL_restrictionReason);
+                    TLRPC$RestrictionReason tLRPC$RestrictionReason = new TLRPC$RestrictionReason();
+                    tLRPC$RestrictionReason.text = sb.toString();
+                    tLRPC$RestrictionReason.reason = "";
+                    tLRPC$RestrictionReason.platform = "";
+                    tLRPC$TL_userContact_old2.restriction_reason.add(tLRPC$RestrictionReason);
                 }
                 return tLRPC$TL_userContact_old2;
             }

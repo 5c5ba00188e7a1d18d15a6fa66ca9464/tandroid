@@ -331,7 +331,7 @@ public class MessageSendPreview extends Dialog implements NotificationCenter.Not
                         chatMessageCell.drawCaptionLayout(canvas, false, chatMessageCell.getAlpha());
                     }
                     if (chatMessageCell.getCurrentPosition() != null && (((chatMessageCell.getCurrentPosition().flags & 8) != 0 && (chatMessageCell.getCurrentPosition().flags & 1) != 0) || (chatMessageCell.getCurrentMessagesGroup() != null && chatMessageCell.getCurrentMessagesGroup().isDocuments))) {
-                        chatMessageCell.drawReactionsLayout(canvas, chatMessageCell.getAlpha());
+                        chatMessageCell.drawReactionsLayout(canvas, chatMessageCell.getAlpha(), null);
                     }
                     if (chatMessageCell.getCurrentPosition() != null) {
                         chatMessageCell.drawNamesLayout(canvas, chatMessageCell.getAlpha());
@@ -852,13 +852,18 @@ public class MessageSendPreview extends Dialog implements NotificationCenter.Not
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                    public /* synthetic */ void didPressReaction(ChatMessageCell chatMessageCell, TLRPC$ReactionCount tLRPC$ReactionCount, boolean z) {
-                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressReaction(this, chatMessageCell, tLRPC$ReactionCount, z);
+                    public /* synthetic */ void didPressReaction(ChatMessageCell chatMessageCell, TLRPC$ReactionCount tLRPC$ReactionCount, boolean z, float f, float f2) {
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressReaction(this, chatMessageCell, tLRPC$ReactionCount, z, f, f2);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ void didPressReplyMessage(ChatMessageCell chatMessageCell, int i3) {
                         ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressReplyMessage(this, chatMessageCell, i3);
+                    }
+
+                    @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+                    public /* synthetic */ void didPressRevealSensitiveContent(ChatMessageCell chatMessageCell) {
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressRevealSensitiveContent(this, chatMessageCell);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate

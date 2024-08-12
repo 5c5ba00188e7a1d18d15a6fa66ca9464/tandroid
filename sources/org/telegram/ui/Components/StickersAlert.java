@@ -228,8 +228,9 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
     public static /* synthetic */ void lambda$showNameEnterAlert$34(DialogInterface dialogInterface, int i) {
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    protected boolean canDismissWithSwipe() {
+    public boolean canDismissWithSwipe() {
         return false;
     }
 
@@ -2178,7 +2179,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         if (baseFragment != null) {
             new PremiumFeatureBottomSheet(baseFragment, 11, false).show();
         } else if (getContext() instanceof LaunchActivity) {
-            ((LaunchActivity) getContext()).lambda$runLinkRequest$88(new PremiumPreviewFragment(null));
+            ((LaunchActivity) getContext()).lambda$runLinkRequest$91(new PremiumPreviewFragment(null));
         }
     }
 

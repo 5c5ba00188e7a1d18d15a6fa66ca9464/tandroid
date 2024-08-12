@@ -1,9 +1,10 @@
 package org.telegram.ui;
 
-import android.app.Activity;
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -18,38 +19,56 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.LinkSpanDrawable;
 /* loaded from: classes4.dex */
 public class SponsoredMessageInfoView extends FrameLayout {
-    public SponsoredMessageInfoView(final Activity activity, Theme.ResourcesProvider resourcesProvider) {
-        super(activity);
-        LinearLayout linearLayout = new LinearLayout(activity);
+    public SponsoredMessageInfoView(final Context context, final Runnable runnable, Theme.ResourcesProvider resourcesProvider) {
+        super(context);
+        LinearLayout linearLayout = new LinearLayout(context);
         linearLayout.setOrientation(1);
-        TextView textView = new TextView(activity);
+        TextView textView = new TextView(context);
         textView.setText(LocaleController.getString("SponsoredMessageInfo", R.string.SponsoredMessageInfo));
         textView.setTypeface(AndroidUtilities.bold());
         int i = Theme.key_windowBackgroundWhiteBlackText;
         textView.setTextColor(Theme.getColor(i, resourcesProvider));
         textView.setTextSize(1, 20.0f);
-        LinkSpanDrawable.LinksTextView linksTextView = new LinkSpanDrawable.LinksTextView(activity, resourcesProvider);
+        LinkSpanDrawable.LinksTextView linksTextView = new LinkSpanDrawable.LinksTextView(context, resourcesProvider);
         linksTextView.setText(AndroidUtilities.replaceLinks(LocaleController.getString("SponsoredMessageInfo2Description1"), resourcesProvider));
         linksTextView.setLinkTextColor(Theme.getColor(Theme.key_chat_messageLinkIn, resourcesProvider));
         linksTextView.setTextColor(Theme.getColor(i, resourcesProvider));
         linksTextView.setTextSize(1, 14.0f);
         linksTextView.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
-        LinkSpanDrawable.LinksTextView linksTextView2 = new LinkSpanDrawable.LinksTextView(activity);
+        linksTextView.setOnLinkPressListener(new LinkSpanDrawable.LinksTextView.OnLinkPress() { // from class: org.telegram.ui.SponsoredMessageInfoView$$ExternalSyntheticLambda0
+            @Override // org.telegram.ui.Components.LinkSpanDrawable.LinksTextView.OnLinkPress
+            public final void run(ClickableSpan clickableSpan) {
+                SponsoredMessageInfoView.this.lambda$new$0(runnable, clickableSpan);
+            }
+        });
+        LinkSpanDrawable.LinksTextView linksTextView2 = new LinkSpanDrawable.LinksTextView(context);
         linksTextView2.setText(AndroidUtilities.replaceLinks(LocaleController.getString("SponsoredMessageInfo2Description2"), resourcesProvider));
         linksTextView2.setTextColor(Theme.getColor(i, resourcesProvider));
         linksTextView2.setTextSize(1, 14.0f);
         linksTextView2.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
-        LinkSpanDrawable.LinksTextView linksTextView3 = new LinkSpanDrawable.LinksTextView(activity);
+        linksTextView2.setOnLinkPressListener(new LinkSpanDrawable.LinksTextView.OnLinkPress() { // from class: org.telegram.ui.SponsoredMessageInfoView$$ExternalSyntheticLambda1
+            @Override // org.telegram.ui.Components.LinkSpanDrawable.LinksTextView.OnLinkPress
+            public final void run(ClickableSpan clickableSpan) {
+                SponsoredMessageInfoView.this.lambda$new$1(runnable, clickableSpan);
+            }
+        });
+        LinkSpanDrawable.LinksTextView linksTextView3 = new LinkSpanDrawable.LinksTextView(context);
         linksTextView3.setText(AndroidUtilities.replaceLinks(LocaleController.getString("SponsoredMessageInfo2Description3"), resourcesProvider));
         linksTextView3.setTextColor(Theme.getColor(i, resourcesProvider));
         linksTextView3.setTextSize(1, 14.0f);
         linksTextView3.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
+        linksTextView3.setOnLinkPressListener(new LinkSpanDrawable.LinksTextView.OnLinkPress() { // from class: org.telegram.ui.SponsoredMessageInfoView$$ExternalSyntheticLambda2
+            @Override // org.telegram.ui.Components.LinkSpanDrawable.LinksTextView.OnLinkPress
+            public final void run(ClickableSpan clickableSpan) {
+                SponsoredMessageInfoView.this.lambda$new$2(runnable, clickableSpan);
+            }
+        });
         final Paint paint = new Paint(1);
         paint.setStyle(Paint.Style.STROKE);
         int i2 = Theme.key_featuredStickers_addButton;
         paint.setColor(Theme.getColor(i2, resourcesProvider));
         paint.setStrokeWidth(AndroidUtilities.dp(1.0f));
-        TextView textView2 = new TextView(this, activity) { // from class: org.telegram.ui.SponsoredMessageInfoView.1
+        TextView textView2 = new TextView(this, context) { // from class: org.telegram.ui.SponsoredMessageInfoView.1
             @Override // android.widget.TextView, android.view.View
             protected void onDraw(Canvas canvas) {
                 super.onDraw(canvas);
@@ -61,7 +80,11 @@ public class SponsoredMessageInfoView extends FrameLayout {
         textView2.setOnClickListener(new View.OnClickListener(this) { // from class: org.telegram.ui.SponsoredMessageInfoView.2
             @Override // android.view.View.OnClickListener
             public void onClick(View view) {
-                Browser.openUrl(activity, LocaleController.getString("SponsoredMessageAlertLearnMoreUrl", R.string.SponsoredMessageAlertLearnMoreUrl));
+                Runnable runnable2 = runnable;
+                if (runnable2 != null) {
+                    runnable2.run();
+                }
+                Browser.openUrl(context, LocaleController.getString(R.string.SponsoredMessageAlertLearnMoreUrl));
             }
         });
         textView2.setPadding(AndroidUtilities.dp(12.0f), 0, AndroidUtilities.dp(12.0f), 0);
@@ -70,7 +93,7 @@ public class SponsoredMessageInfoView extends FrameLayout {
         textView2.setBackground(Theme.AdaptiveRipple.filledRect(Theme.getColor(Theme.key_dialogBackground, resourcesProvider), 4.0f));
         textView2.setTextSize(1, 14.0f);
         textView2.setGravity(16);
-        LinkSpanDrawable.LinksTextView linksTextView4 = new LinkSpanDrawable.LinksTextView(activity);
+        LinkSpanDrawable.LinksTextView linksTextView4 = new LinkSpanDrawable.LinksTextView(context);
         linksTextView4.setText(AndroidUtilities.replaceLinks(LocaleController.getString("SponsoredMessageInfo2Description4"), resourcesProvider));
         linksTextView4.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
         linksTextView4.setTextColor(Theme.getColor(i, resourcesProvider));
@@ -89,5 +112,29 @@ public class SponsoredMessageInfoView extends FrameLayout {
         ScrollView scrollView = new ScrollView(getContext());
         scrollView.addView(linearLayout);
         addView(scrollView, LayoutHelper.createFrame(-1, -2.0f, 0, 0.0f, 12.0f, 0.0f, 22.0f));
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$0(Runnable runnable, ClickableSpan clickableSpan) {
+        if (runnable != null) {
+            runnable.run();
+        }
+        clickableSpan.onClick(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$1(Runnable runnable, ClickableSpan clickableSpan) {
+        if (runnable != null) {
+            runnable.run();
+        }
+        clickableSpan.onClick(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$2(Runnable runnable, ClickableSpan clickableSpan) {
+        if (runnable != null) {
+            runnable.run();
+        }
+        clickableSpan.onClick(this);
     }
 }

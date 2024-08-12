@@ -93,7 +93,7 @@ import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
-import org.telegram.messenger.MessagesController$$ExternalSyntheticLambda294;
+import org.telegram.messenger.MessagesController$$ExternalSyntheticLambda300;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
@@ -4384,7 +4384,7 @@ public class Theme {
                 themeInfo3 = currentNightTheme;
             }
             applyTheme(themeInfo3, false, false, needSwitchToTheme == 2);
-            AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda294.INSTANCE);
+            AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda300.INSTANCE);
             ambientSensorListener = new SensorEventListener() { // from class: org.telegram.ui.ActionBar.Theme.9
                 @Override // android.hardware.SensorEventListener
                 public void onAccuracyChanged(Sensor sensor, int i819) {
@@ -7601,6 +7601,17 @@ public class Theme {
         return shapeDrawable;
     }
 
+    public static ShapeDrawable createCircleDrawable(int i, int i2, int i3) {
+        OvalShape ovalShape = new OvalShape();
+        float f = i;
+        ovalShape.resize(f, f);
+        ShapeDrawable shapeDrawable = new ShapeDrawable(ovalShape);
+        shapeDrawable.setIntrinsicWidth(i);
+        shapeDrawable.setIntrinsicHeight(i);
+        shapeDrawable.getPaint().setShader(new LinearGradient(0.0f, 0.0f, 0.0f, f, i2, i3, Shader.TileMode.CLAMP));
+        return shapeDrawable;
+    }
+
     public static CombinedDrawable createCircleDrawableWithIcon(int i, int i2) {
         return createCircleDrawableWithIcon(i, i2, 0);
     }
@@ -8583,7 +8594,7 @@ public class Theme {
                 if (isCurrentThemeNight()) {
                     switchNightThemeDelay = 2000;
                     lastDelayUpdateTime = SystemClock.elapsedRealtime();
-                    AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda294.INSTANCE, 2100L);
+                    AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda300.INSTANCE, 2100L);
                 }
             }
             currentTheme = themeInfo;
@@ -8717,7 +8728,7 @@ public class Theme {
                 if (isCurrentThemeNight()) {
                     switchNightThemeDelay = 2000;
                     lastDelayUpdateTime = SystemClock.elapsedRealtime();
-                    AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda294.INSTANCE, 2100L);
+                    AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda300.INSTANCE, 2100L);
                 }
             }
             currentTheme = themeInfo;
@@ -8825,7 +8836,7 @@ public class Theme {
                 if (isCurrentThemeNight()) {
                     switchNightThemeDelay = 2000;
                     lastDelayUpdateTime = SystemClock.elapsedRealtime();
-                    AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda294.INSTANCE, 2100L);
+                    AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda300.INSTANCE, 2100L);
                 }
             }
             currentTheme = themeInfo;

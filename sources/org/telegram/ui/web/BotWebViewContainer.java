@@ -3402,7 +3402,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                     BottomSheet.Builder builder = new BottomSheet.Builder(MyWebView.this.getContext(), false, null);
                     try {
                         Uri parse = Uri.parse(extra);
-                        str3 = Browser.replaceHostname(parse, IDN.toUnicode(parse.getHost(), 1), null);
+                        str3 = Browser.replaceHostname(parse, Browser.IDN_toUnicode(parse.getHost()), null);
                     } catch (Exception e) {
                         try {
                             FileLog.e((Throwable) e, false);
@@ -3456,7 +3456,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                     BottomSheet.Builder builder2 = new BottomSheet.Builder(MyWebView.this.getContext(), false, null);
                     try {
                         Uri parse2 = Uri.parse(extra2);
-                        str = Browser.replaceHostname(parse2, IDN.toUnicode(parse2.getHost(), 1), null);
+                        str = Browser.replaceHostname(parse2, Browser.IDN_toUnicode(parse2.getHost()), null);
                     } catch (Exception e4) {
                         try {
                             FileLog.e((Throwable) e4, false);

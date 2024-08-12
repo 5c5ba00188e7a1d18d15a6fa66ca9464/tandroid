@@ -177,8 +177,9 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    protected boolean canDismissWithSwipe() {
+    public boolean canDismissWithSwipe() {
         return false;
     }
 
@@ -1688,7 +1689,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                     return lambda$onSubItemClick$11;
                 }
             });
-            this.parentActivity.lambda$runLinkRequest$88(dialogsActivity);
+            this.parentActivity.lambda$runLinkRequest$91(dialogsActivity);
             dismiss();
             return;
         }

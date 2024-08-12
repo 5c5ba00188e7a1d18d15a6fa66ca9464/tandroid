@@ -76,6 +76,7 @@ import org.telegram.tgnet.TLRPC$TL_messageReactions;
 import org.telegram.tgnet.TLRPC$TL_messages_savedReactionsTags;
 import org.telegram.tgnet.TLRPC$TL_reactionCustomEmoji;
 import org.telegram.tgnet.TLRPC$TL_reactionEmoji;
+import org.telegram.tgnet.TLRPC$TL_reactionPaid;
 import org.telegram.tgnet.TLRPC$messages_AvailableEffects;
 import org.telegram.tgnet.tl.TL_stories$StoryItem;
 import org.telegram.ui.ActionBar.BaseFragment;
@@ -90,6 +91,7 @@ import org.telegram.ui.Components.Reactions.ReactionsEffectOverlay;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 import org.telegram.ui.Components.ReactionsContainerLayout;
 import org.telegram.ui.Components.RecyclerListView;
+import org.telegram.ui.Stars.StarsReactionsSheet;
 import org.telegram.ui.Stories.recorder.HintView2;
 /* loaded from: classes3.dex */
 public class ReactionsContainerLayout extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
@@ -688,17 +690,17 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         this.listAdapter.updateItems(z);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:210:0x004b  */
-    /* JADX WARN: Removed duplicated region for block: B:213:0x0081  */
-    /* JADX WARN: Removed duplicated region for block: B:220:0x0093  */
-    /* JADX WARN: Removed duplicated region for block: B:233:0x00d9  */
-    /* JADX WARN: Removed duplicated region for block: B:243:0x010b  */
-    /* JADX WARN: Removed duplicated region for block: B:246:0x0170  */
-    /* JADX WARN: Removed duplicated region for block: B:249:0x01de  */
-    /* JADX WARN: Removed duplicated region for block: B:260:0x022f  */
-    /* JADX WARN: Removed duplicated region for block: B:263:0x024e  */
-    /* JADX WARN: Removed duplicated region for block: B:369:0x04c1  */
-    /* JADX WARN: Removed duplicated region for block: B:379:0x04f0  */
+    /* JADX WARN: Removed duplicated region for block: B:220:0x004b  */
+    /* JADX WARN: Removed duplicated region for block: B:223:0x0081  */
+    /* JADX WARN: Removed duplicated region for block: B:230:0x0093  */
+    /* JADX WARN: Removed duplicated region for block: B:253:0x00f3  */
+    /* JADX WARN: Removed duplicated region for block: B:263:0x0125  */
+    /* JADX WARN: Removed duplicated region for block: B:266:0x018a  */
+    /* JADX WARN: Removed duplicated region for block: B:269:0x01f8  */
+    /* JADX WARN: Removed duplicated region for block: B:280:0x0249  */
+    /* JADX WARN: Removed duplicated region for block: B:283:0x0268  */
+    /* JADX WARN: Removed duplicated region for block: B:389:0x04db  */
+    /* JADX WARN: Removed duplicated region for block: B:399:0x050a  */
     @Override // android.view.ViewGroup, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -708,6 +710,8 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         float max;
         float f;
         float f2;
+        ReactionsLayoutInBubble.VisibleReaction visibleReaction;
+        ReactionsLayoutInBubble.VisibleReaction visibleReaction2;
         float width;
         float f3;
         float f4;
@@ -742,20 +746,27 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                 if (this.prepareAnimation) {
                     invalidate();
                 }
-                if (this.pressedReaction != null && this.type != 5) {
+                visibleReaction = this.pressedReaction;
+                if (visibleReaction != null && this.type != 5) {
                     f9 = this.pressedProgress;
                     if (f9 != 1.0f) {
-                        float f11 = f9 + 0.010666667f;
-                        this.pressedProgress = f11;
-                        if (f11 >= 1.0f) {
+                        float longPressTimeout = f9 + (16.0f / (visibleReaction.isStar ? ViewConfiguration.getLongPressTimeout() : 1500.0f));
+                        this.pressedProgress = longPressTimeout;
+                        if (longPressTimeout >= 1.0f) {
                             this.pressedProgress = 1.0f;
                         }
                         invalidate();
                     }
                 }
-                float f12 = this.pressedProgress;
-                this.pressedViewScale = (f12 * 2.0f) + 1.0f;
-                this.otherViewsScale = 1.0f - (f12 * 0.15f);
+                visibleReaction2 = this.pressedReaction;
+                if (visibleReaction2 == null && visibleReaction2.isStar) {
+                    this.pressedViewScale = 1.0f;
+                    this.otherViewsScale = 1.0f;
+                } else {
+                    float f11 = this.pressedProgress;
+                    this.pressedViewScale = (f11 * 2.0f) + 1.0f;
+                    this.otherViewsScale = 1.0f - (f11 * 0.15f);
+                }
                 int save = canvas.save();
                 if (!LocaleController.isRTL || this.mirrorX) {
                     width = getWidth();
@@ -764,10 +775,10 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                     width = getWidth();
                     f3 = 0.875f;
                 }
-                float f13 = width * f3;
+                float f12 = width * f3;
                 f4 = this.transitionProgress;
                 if (f4 != 1.0f) {
-                    canvas.scale(f4, f4, f13, getHeight() / 2.0f);
+                    canvas.scale(f4, f4, f12, getHeight() / 2.0f);
                 }
                 if (!LocaleController.isRTL || this.mirrorX) {
                     max2 = Math.max(0.25f, this.transitionProgress);
@@ -798,34 +809,34 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                 canvas.restoreToCount(save);
                 if (this.skipDraw) {
                     int save2 = canvas.save();
-                    float f14 = this.transitionProgress;
-                    if (f14 != 1.0f) {
-                        canvas.scale(f14, f14, f13, getHeight() / 2.0f);
+                    float f13 = this.transitionProgress;
+                    if (f13 != 1.0f) {
+                        canvas.scale(f13, f13, f12, getHeight() / 2.0f);
                     }
                     if (this.type == 1 || this.delegate.drawBackground()) {
                         f7 = width2;
-                        f6 = f13;
+                        f6 = f12;
                         i = 5;
                         this.delegate.drawRoundRect(canvas, this.rect, this.radius, getX(), getY(), 255, false);
                     } else {
                         RectF rectF = this.rect;
-                        float f15 = this.radius;
-                        canvas.drawRoundRect(rectF, f15, f15, this.bgPaint);
-                        f6 = f13;
+                        float f14 = this.radius;
+                        canvas.drawRoundRect(rectF, f14, f14, this.bgPaint);
+                        f6 = f12;
                         f7 = width2;
                         i = 5;
                     }
                     canvas.restoreToCount(save2);
                 } else {
-                    f6 = f13;
+                    f6 = f12;
                     f7 = width2;
                     i = 5;
                 }
                 this.mPath.rewind();
                 Path path = this.mPath;
                 RectF rectF2 = this.rect;
-                float f16 = this.radius;
-                path.addRoundRect(rectF2, f16, f16, Path.Direction.CW);
+                float f15 = this.radius;
+                path.addRoundRect(rectF2, f15, f15, Path.Direction.CW);
                 int save3 = canvas.save();
                 f8 = this.transitionProgress;
                 if (f8 != 1.0f) {
@@ -891,8 +902,8 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                     if (pullingLeftProgress > 0.0f) {
                         float pullingLeftProgress2 = getPullingLeftProgress();
                         int measuredWidth = this.nextRecentReaction.getMeasuredWidth() - AndroidUtilities.dp(2.0f);
-                        float f17 = i3 + measuredWidth;
-                        float clamp = Utilities.clamp(f17 / (getMeasuredWidth() - this.nextRecentReaction.getMeasuredWidth()), 1.0f, 0.0f) * pullingLeftProgress2 * measuredWidth;
+                        float f16 = i3 + measuredWidth;
+                        float clamp = Utilities.clamp(f16 / (getMeasuredWidth() - this.nextRecentReaction.getMeasuredWidth()), 1.0f, 0.0f) * pullingLeftProgress2 * measuredWidth;
                         if (this.nextRecentReaction.getTag() == null) {
                             this.nextRecentReaction.setTag(Float.valueOf(1.0f));
                             this.nextRecentReaction.resetAnimation();
@@ -907,7 +918,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                         } else {
                             dp = AndroidUtilities.dp(8.0f);
                         }
-                        this.nextRecentReaction.setTranslationX(((this.recyclerListView.getX() + f17) - clamp) + (-dp));
+                        this.nextRecentReaction.setTranslationX(((this.recyclerListView.getX() + f16) - clamp) + (-dp));
                         if (this.nextRecentReaction.getVisibility() != 0) {
                             this.nextRecentReaction.setVisibility(0);
                         }
@@ -949,9 +960,9 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
             }
         }
         if (!z) {
-            float f18 = this.flipVerticalProgress;
-            if (f18 != 0.0f) {
-                this.flipVerticalProgress = Math.max(0.0f, f18 - (((float) min) / 220.0f));
+            float f17 = this.flipVerticalProgress;
+            if (f17 != 0.0f) {
+                this.flipVerticalProgress = Math.max(0.0f, f17 - (((float) min) / 220.0f));
                 invalidate();
             }
         }
@@ -966,20 +977,24 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         this.lastVisibleViews.clear();
         if (this.prepareAnimation) {
         }
-        if (this.pressedReaction != null) {
+        visibleReaction = this.pressedReaction;
+        if (visibleReaction != null) {
             f9 = this.pressedProgress;
             if (f9 != 1.0f) {
             }
         }
-        float f122 = this.pressedProgress;
-        this.pressedViewScale = (f122 * 2.0f) + 1.0f;
-        this.otherViewsScale = 1.0f - (f122 * 0.15f);
+        visibleReaction2 = this.pressedReaction;
+        if (visibleReaction2 == null) {
+        }
+        float f112 = this.pressedProgress;
+        this.pressedViewScale = (f112 * 2.0f) + 1.0f;
+        this.otherViewsScale = 1.0f - (f112 * 0.15f);
         int save4 = canvas.save();
         if (LocaleController.isRTL) {
         }
         width = getWidth();
         f3 = 0.125f;
-        float f132 = width * f3;
+        float f122 = width * f3;
         f4 = this.transitionProgress;
         if (f4 != 1.0f) {
         }
@@ -1004,8 +1019,8 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         this.mPath.rewind();
         Path path2 = this.mPath;
         RectF rectF22 = this.rect;
-        float f162 = this.radius;
-        path2.addRoundRect(rectF22, f162, f162, Path.Direction.CW);
+        float f152 = this.radius;
+        path2.addRoundRect(rectF22, f152, f152, Path.Direction.CW);
         int save32 = canvas.save();
         f8 = this.transitionProgress;
         if (f8 != 1.0f) {
@@ -1206,11 +1221,23 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
     }
 
     public void setMessage(MessageObject messageObject, TLRPC$ChatFull tLRPC$ChatFull, boolean z) {
+        int i;
         TLRPC$TL_messageReactions tLRPC$TL_messageReactions;
         TLRPC$Message tLRPC$Message;
         TLRPC$TL_messageReactions tLRPC$TL_messageReactions2;
         this.messageObject = messageObject;
-        this.hitLimit = (this.type != 0 || messageObject == null || (tLRPC$Message = messageObject.messageOwner) == null || (tLRPC$TL_messageReactions2 = tLRPC$Message.reactions) == null || tLRPC$TL_messageReactions2.results.size() < MessagesController.getInstance(this.currentAccount).getChatMaxUniqReactions(this.messageObject.getDialogId())) ? false : true;
+        if (messageObject == null || (tLRPC$Message = messageObject.messageOwner) == null || (tLRPC$TL_messageReactions2 = tLRPC$Message.reactions) == null) {
+            i = 0;
+        } else {
+            Iterator<TLRPC$ReactionCount> it = tLRPC$TL_messageReactions2.results.iterator();
+            i = 0;
+            while (it.hasNext()) {
+                if (!(it.next().reaction instanceof TLRPC$TL_reactionPaid)) {
+                    i++;
+                }
+            }
+        }
+        this.hitLimit = this.type == 0 && i >= MessagesController.getInstance(this.currentAccount).getChatMaxUniqReactions(this.messageObject.getDialogId());
         ArrayList arrayList = new ArrayList();
         if (messageObject != null && messageObject.isForwardedChannelPost() && (tLRPC$ChatFull = MessagesController.getInstance(this.currentAccount).getChatFull(-messageObject.getFromChatId())) == null) {
             this.waitingLoadingChatId = -messageObject.getFromChatId();
@@ -1218,20 +1245,26 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
             setVisibility(4);
             return;
         }
-        int i = this.type;
-        if (i == 3) {
+        int i2 = this.type;
+        if (i2 == 3) {
             this.allReactionsAvailable = UserConfig.getInstance(this.currentAccount).isPremium();
             fillRecentReactionsList(arrayList);
-        } else if (i == 5) {
+        } else if (i2 == 5) {
             this.allReactionsAvailable = true;
             fillRecentReactionsList(arrayList);
         } else if (this.hitLimit) {
             this.allReactionsAvailable = false;
-            Iterator<TLRPC$ReactionCount> it = this.messageObject.messageOwner.reactions.results.iterator();
-            while (it.hasNext()) {
-                arrayList.add(ReactionsLayoutInBubble.VisibleReaction.fromTL(it.next().reaction));
+            if (tLRPC$ChatFull != null && tLRPC$ChatFull.paid_reactions_available) {
+                arrayList.add(ReactionsLayoutInBubble.VisibleReaction.asStar());
+            }
+            Iterator<TLRPC$ReactionCount> it2 = this.messageObject.messageOwner.reactions.results.iterator();
+            while (it2.hasNext()) {
+                arrayList.add(ReactionsLayoutInBubble.VisibleReaction.fromTL(it2.next().reaction));
             }
         } else if (tLRPC$ChatFull != null) {
+            if (tLRPC$ChatFull.paid_reactions_available) {
+                arrayList.add(ReactionsLayoutInBubble.VisibleReaction.asStar());
+            }
             TLRPC$ChatReactions tLRPC$ChatReactions = tLRPC$ChatFull.available_reactions;
             if (tLRPC$ChatReactions instanceof TLRPC$TL_chatReactionsAll) {
                 TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(tLRPC$ChatFull.id));
@@ -1242,13 +1275,13 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                 }
                 fillRecentReactionsList(arrayList);
             } else if (tLRPC$ChatReactions instanceof TLRPC$TL_chatReactionsSome) {
-                Iterator<TLRPC$Reaction> it2 = ((TLRPC$TL_chatReactionsSome) tLRPC$ChatReactions).reactions.iterator();
-                while (it2.hasNext()) {
-                    TLRPC$Reaction next = it2.next();
-                    Iterator<TLRPC$TL_availableReaction> it3 = MediaDataController.getInstance(this.currentAccount).getEnabledReactionsList().iterator();
+                Iterator<TLRPC$Reaction> it3 = ((TLRPC$TL_chatReactionsSome) tLRPC$ChatReactions).reactions.iterator();
+                while (it3.hasNext()) {
+                    TLRPC$Reaction next = it3.next();
+                    Iterator<TLRPC$TL_availableReaction> it4 = MediaDataController.getInstance(this.currentAccount).getEnabledReactionsList().iterator();
                     while (true) {
-                        if (it3.hasNext()) {
-                            TLRPC$TL_availableReaction next2 = it3.next();
+                        if (it4.hasNext()) {
+                            TLRPC$TL_availableReaction next2 = it4.next();
                             if ((next instanceof TLRPC$TL_reactionEmoji) && next2.reaction.equals(((TLRPC$TL_reactionEmoji) next).emoticon)) {
                                 arrayList.add(ReactionsLayoutInBubble.VisibleReaction.fromTL(next));
                                 break;
@@ -1278,9 +1311,9 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         if (messageObject == null || (tLRPC$TL_messageReactions = messageObject.messageOwner.reactions) == null || tLRPC$TL_messageReactions.results == null) {
             return;
         }
-        for (int i2 = 0; i2 < messageObject.messageOwner.reactions.results.size(); i2++) {
-            if (messageObject.messageOwner.reactions.results.get(i2).chosen) {
-                this.selectedReactions.add(ReactionsLayoutInBubble.VisibleReaction.fromTL(messageObject.messageOwner.reactions.results.get(i2).reaction));
+        for (int i3 = 0; i3 < messageObject.messageOwner.reactions.results.size(); i3++) {
+            if (messageObject.messageOwner.reactions.results.get(i3).chosen) {
+                this.selectedReactions.add(ReactionsLayoutInBubble.VisibleReaction.fromTL(messageObject.messageOwner.reactions.results.get(i3).reaction));
             }
         }
     }
@@ -1935,6 +1968,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         public PremiumLockIconView lockIconView;
         Runnable longPressRunnable;
         public BackupImageView loopImageView;
+        public StarsReactionsSheet.Particles particles;
         Runnable playRunnable;
         public int position;
         private ImageReceiver preloadImageReceiver;
@@ -2204,11 +2238,12 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                 }
                 resetAnimation();
                 this.currentReaction = visibleReaction;
-                this.hasEnterAnimation = visibleReaction.emojicon != null && (ReactionsContainerLayout.this.showCustomEmojiReaction() || ReactionsContainerLayout.this.allReactionsIsDefault) && LiteMode.isEnabled(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS);
+                this.hasEnterAnimation = visibleReaction.isStar || (visibleReaction.emojicon != null && ((ReactionsContainerLayout.this.showCustomEmojiReaction() || ReactionsContainerLayout.this.allReactionsIsDefault) && LiteMode.isEnabled(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS)));
                 if (ReactionsContainerLayout.this.type == 4 || this.currentReaction.isEffect) {
                     this.hasEnterAnimation = false;
                 }
-                if (this.currentReaction.emojicon != null) {
+                ReactionsLayoutInBubble.VisibleReaction visibleReaction3 = this.currentReaction;
+                if (visibleReaction3.isStar || visibleReaction3.emojicon != null) {
                     updateImage(visibleReaction);
                     this.pressedBackupImageView.setAnimatedEmojiDrawable(null);
                     if (this.enterImageView.getImageReceiver().getLottieAnimation() != null) {
@@ -2267,41 +2302,53 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         }
 
         private void updateImage(ReactionsLayoutInBubble.VisibleReaction visibleReaction) {
-            if (ReactionsContainerLayout.this.type == 4 && visibleReaction != null && visibleReaction.emojicon != null) {
-                this.enterImageView.getImageReceiver().setImageBitmap(Emoji.getEmojiDrawable(visibleReaction.emojicon));
-                this.loopImageView.getImageReceiver().setImageBitmap(Emoji.getEmojiDrawable(visibleReaction.emojicon));
-                return;
-            }
-            ReactionsLayoutInBubble.VisibleReaction visibleReaction2 = this.currentReaction;
-            if (visibleReaction2.isEffect) {
-                TLRPC$Document effectDocument = MessagesController.getInstance(ReactionsContainerLayout.this.currentAccount).getEffectDocument(this.currentReaction.documentId);
-                this.loopImageView.getImageReceiver().setImage(ImageLocation.getForDocument(effectDocument), "60_60_firstframe", null, null, this.hasEnterAnimation ? null : DocumentObject.getSvgThumb(effectDocument, Theme.key_windowBackgroundWhiteGrayIcon, 0.2f), 0L, "tgs", this.currentReaction, 0);
-            } else if (visibleReaction2.emojicon != null) {
-                TLRPC$TL_availableReaction tLRPC$TL_availableReaction = MediaDataController.getInstance(ReactionsContainerLayout.this.currentAccount).getReactionsMap().get(this.currentReaction.emojicon);
-                if (tLRPC$TL_availableReaction != null) {
-                    SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$TL_availableReaction.activate_animation, Theme.key_windowBackgroundWhiteGrayIcon, 0.2f);
-                    if (!LiteMode.isEnabled(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS) || ReactionsContainerLayout.this.type == 4) {
-                        if (SharedConfig.getDevicePerformanceClass() <= 0 || ReactionsContainerLayout.this.type == 4) {
-                            this.loopImageView.getImageReceiver().setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.select_animation), "60_60_firstframe", null, null, this.hasEnterAnimation ? null : svgThumb, 0L, "tgs", this.currentReaction, 0);
+            if (visibleReaction == null || !visibleReaction.isStar) {
+                if (ReactionsContainerLayout.this.type == 4 && visibleReaction != null && visibleReaction.emojicon != null) {
+                    this.enterImageView.getImageReceiver().setImageBitmap(Emoji.getEmojiDrawable(visibleReaction.emojicon));
+                    this.loopImageView.getImageReceiver().setImageBitmap(Emoji.getEmojiDrawable(visibleReaction.emojicon));
+                    return;
+                }
+                ReactionsLayoutInBubble.VisibleReaction visibleReaction2 = this.currentReaction;
+                if (visibleReaction2.isEffect) {
+                    TLRPC$Document effectDocument = MessagesController.getInstance(ReactionsContainerLayout.this.currentAccount).getEffectDocument(this.currentReaction.documentId);
+                    this.loopImageView.getImageReceiver().setImage(ImageLocation.getForDocument(effectDocument), "60_60_firstframe", null, null, this.hasEnterAnimation ? null : DocumentObject.getSvgThumb(effectDocument, Theme.key_windowBackgroundWhiteGrayIcon, 0.2f), 0L, "tgs", this.currentReaction, 0);
+                    return;
+                } else if (visibleReaction2.emojicon != null) {
+                    TLRPC$TL_availableReaction tLRPC$TL_availableReaction = MediaDataController.getInstance(ReactionsContainerLayout.this.currentAccount).getReactionsMap().get(this.currentReaction.emojicon);
+                    if (tLRPC$TL_availableReaction != null) {
+                        SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$TL_availableReaction.activate_animation, Theme.key_windowBackgroundWhiteGrayIcon, 0.2f);
+                        if (!LiteMode.isEnabled(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS) || ReactionsContainerLayout.this.type == 4) {
+                            if (SharedConfig.getDevicePerformanceClass() <= 0 || ReactionsContainerLayout.this.type == 4) {
+                                this.loopImageView.getImageReceiver().setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.select_animation), "60_60_firstframe", null, null, this.hasEnterAnimation ? null : svgThumb, 0L, "tgs", this.currentReaction, 0);
+                            } else {
+                                this.enterImageView.getImageReceiver().setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.appear_animation), "30_30_nolimit", null, null, svgThumb, 0L, "tgs", visibleReaction, 0);
+                                this.loopImageView.getImageReceiver().setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.select_animation), "60_60_firstframe", null, null, this.hasEnterAnimation ? null : svgThumb, 0L, "tgs", this.currentReaction, 0);
+                            }
                         } else {
                             this.enterImageView.getImageReceiver().setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.appear_animation), "30_30_nolimit", null, null, svgThumb, 0L, "tgs", visibleReaction, 0);
-                            this.loopImageView.getImageReceiver().setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.select_animation), "60_60_firstframe", null, null, this.hasEnterAnimation ? null : svgThumb, 0L, "tgs", this.currentReaction, 0);
+                            this.loopImageView.getImageReceiver().setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.select_animation), "60_60_pcache", null, null, this.hasEnterAnimation ? null : svgThumb, 0L, "tgs", this.currentReaction, 0);
                         }
-                    } else {
-                        this.enterImageView.getImageReceiver().setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.appear_animation), "30_30_nolimit", null, null, svgThumb, 0L, "tgs", visibleReaction, 0);
-                        this.loopImageView.getImageReceiver().setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.select_animation), "60_60_pcache", null, null, this.hasEnterAnimation ? null : svgThumb, 0L, "tgs", this.currentReaction, 0);
+                        if (this.enterImageView.getImageReceiver().getLottieAnimation() != null) {
+                            this.enterImageView.getImageReceiver().getLottieAnimation().setCurrentFrame(0, false, true);
+                        }
+                        this.pressedBackupImageView.getImageReceiver().setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.select_animation), "60_60_pcache", null, null, svgThumb, 0L, "tgs", visibleReaction, 0);
+                        this.preloadImageReceiver.setAllowStartLottieAnimation(false);
+                        MediaDataController.getInstance(ReactionsContainerLayout.this.currentAccount).preloadImage(this.preloadImageReceiver, ImageLocation.getForDocument(tLRPC$TL_availableReaction.around_animation), ReactionsEffectOverlay.getFilterForAroundAnimation());
                     }
-                    if (this.enterImageView.getImageReceiver().getLottieAnimation() != null) {
-                        this.enterImageView.getImageReceiver().getLottieAnimation().setCurrentFrame(0, false, true);
+                    PremiumLockIconView premiumLockIconView = this.lockIconView;
+                    if (premiumLockIconView != null) {
+                        premiumLockIconView.setImageReceiver(this.loopImageView.getImageReceiver());
+                        return;
                     }
-                    this.pressedBackupImageView.getImageReceiver().setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.select_animation), "60_60_pcache", null, null, svgThumb, 0L, "tgs", visibleReaction, 0);
-                    this.preloadImageReceiver.setAllowStartLottieAnimation(false);
-                    MediaDataController.getInstance(ReactionsContainerLayout.this.currentAccount).preloadImage(this.preloadImageReceiver, ImageLocation.getForDocument(tLRPC$TL_availableReaction.around_animation), ReactionsEffectOverlay.getFilterForAroundAnimation());
+                    return;
+                } else {
+                    return;
                 }
-                PremiumLockIconView premiumLockIconView = this.lockIconView;
-                if (premiumLockIconView != null) {
-                    premiumLockIconView.setImageReceiver(this.loopImageView.getImageReceiver());
-                }
+            }
+            this.enterImageView.getImageReceiver().setImageBitmap(new RLottieDrawable(R.raw.star_reaction, "star_reaction", AndroidUtilities.dp(30.0f), AndroidUtilities.dp(30.0f)));
+            this.loopImageView.getImageReceiver().setImageBitmap(getContext().getResources().getDrawable(R.drawable.star_reaction));
+            if (this.particles == null) {
+                this.particles = new StarsReactionsSheet.Particles(1, 45);
             }
         }
 
@@ -2453,6 +2500,18 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                 } else {
                     this.loopImageView.animatedEmojiDrawable.getImageReceiver().setRoundRadius(this.selected ? AndroidUtilities.dp(6.0f) : 0);
                 }
+            }
+            ReactionsLayoutInBubble.VisibleReaction visibleReaction = this.currentReaction;
+            if (visibleReaction != null && visibleReaction.isStar && this.particles != null) {
+                RectF rectF = AndroidUtilities.rectTmp;
+                float height = ((int) (getHeight() * 0.7f)) / 2.0f;
+                rectF.set((getWidth() / 2.0f) - height, (getHeight() / 2.0f) - height, (getWidth() / 2.0f) + height, (getHeight() / 2.0f) + height);
+                RLottieDrawable lottieAnimation = this.enterImageView.getImageReceiver().getLottieAnimation();
+                this.particles.setVisible((lottieAnimation == null || lottieAnimation.getCurrentFrame() <= 30) ? 0.0f : Utilities.clamp01((lottieAnimation.getCurrentFrame() - 30) / 30.0f));
+                this.particles.setBounds(rectF);
+                this.particles.process();
+                this.particles.draw(canvas, -673522);
+                invalidate();
             }
             super.dispatchDraw(canvas);
         }

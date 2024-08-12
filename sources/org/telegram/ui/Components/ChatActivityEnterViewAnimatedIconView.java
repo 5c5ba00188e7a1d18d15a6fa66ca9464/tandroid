@@ -82,9 +82,8 @@ public class ChatActivityEnterViewAnimatedIconView extends RLottieImageView {
         this.animatingState = null;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
-    public static /* synthetic */ class 2 {
+    static /* synthetic */ class 2 {
         static final /* synthetic */ int[] $SwitchMap$org$telegram$ui$Components$ChatActivityEnterViewAnimatedIconView$State;
 
         static {
