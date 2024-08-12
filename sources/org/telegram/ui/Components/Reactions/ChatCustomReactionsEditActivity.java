@@ -83,6 +83,7 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
     private TextCheckCell enableReactionsCell;
     private final TLRPC$ChatFull info;
     private boolean isPaused;
+    private boolean paid;
     private TextCheckCell paidCheckCell;
     private int reactionsCount;
     private ScrollView scrollView;
@@ -153,8 +154,8 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:67:0x0373 A[EDGE_INSN: B:67:0x0373->B:47:0x0373 ?: BREAK  , SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x031b A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:79:0x036c A[EDGE_INSN: B:79:0x036c->B:44:0x036c ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:82:0x0314 A[SYNTHETIC] */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     @SuppressLint({"ClickableViewAccessibility"})
     /*
@@ -163,6 +164,7 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
     public View createView(Context context) {
         this.actionBar.setTitle(LocaleController.getString("Reactions", R.string.Reactions));
         this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
+        boolean z = true;
         this.actionBar.setAllowOverlayTitle(true);
         this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity.1
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
@@ -294,9 +296,6 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
                     ChatCustomReactionsEditActivity.this.lambda$createView$5(view);
                 }
             });
-            if (this.info.paid_reactions_available) {
-                toggleStarsEnabled();
-            }
             TextInfoPrivacyCell textInfoPrivacyCell4 = new TextInfoPrivacyCell(context);
             textInfoPrivacyCell4.setTextColor(Theme.getColor(i));
             textInfoPrivacyCell4.setTopPadding(12);
@@ -325,9 +324,9 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
         frameLayout.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
         FrameLayout frameLayout2 = new FrameLayout(context) { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity.3
             @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-            protected void onLayout(boolean z, int i5, int i6, int i7, int i8) {
-                super.onLayout(z, i5, i6, i7, i8);
-                if (ChatCustomReactionsEditActivity.this.emojiKeyboardVisible && z) {
+            protected void onLayout(boolean z2, int i5, int i6, int i7, int i8) {
+                super.onLayout(z2, i5, i6, i7, i8);
+                if (ChatCustomReactionsEditActivity.this.emojiKeyboardVisible && z2) {
                     ChatCustomReactionsEditActivity.this.actionButton.setTranslationY(-ChatCustomReactionsEditActivity.this.bottomDialogLayout.getMeasuredHeight());
                     ChatCustomReactionsEditActivity chatCustomReactionsEditActivity = ChatCustomReactionsEditActivity.this;
                     chatCustomReactionsEditActivity.updateScrollViewMarginBottom(chatCustomReactionsEditActivity.bottomDialogLayout.getMeasuredHeight());
@@ -338,7 +337,8 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
         this.bottomDialogLayout = frameLayout2;
         frameLayout2.setVisibility(4);
         frameLayout.addView(this.bottomDialogLayout, LayoutHelper.createFrame(-1, -2, 80));
-        TLRPC$ChatReactions tLRPC$ChatReactions = this.info.available_reactions;
+        TLRPC$ChatFull tLRPC$ChatFull2 = this.info;
+        TLRPC$ChatReactions tLRPC$ChatReactions = tLRPC$ChatFull2.available_reactions;
         if (tLRPC$ChatReactions instanceof TLRPC$TL_chatReactionsAll) {
             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
             int i5 = 0;
@@ -350,7 +350,7 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
                 }
             }
             this.editText.append(spannableStringBuilder);
-            setCheckedEnableReactionCell(0, false);
+            setCheckedEnableReactionCell(0, this.paid, false);
             this.initialSelectedEmojis.putAll(this.selectedEmojisMap);
         } else if (tLRPC$ChatReactions instanceof TLRPC$TL_chatReactionsSome) {
             SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder();
@@ -378,8 +378,10 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
                 }
             }
             this.editText.append(spannableStringBuilder2);
-            setCheckedEnableReactionCell(1, false);
+            setCheckedEnableReactionCell(1, this.paid, false);
             this.initialSelectedEmojis.putAll(this.selectedEmojisMap);
+        } else if ((tLRPC$ChatReactions instanceof TLRPC$TL_chatReactionsNone) && tLRPC$ChatFull2 != null && tLRPC$ChatFull2.paid_media_allowed && tLRPC$ChatFull2.paid_reactions_available) {
+            setCheckedEnableReactionCell(2, this.paid, false);
         } else if (tLRPC$ChatReactions instanceof TLRPC$TL_chatReactionsNone) {
             SpannableStringBuilder spannableStringBuilder3 = new SpannableStringBuilder();
             int i7 = 0;
@@ -391,17 +393,30 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
                 }
             }
             this.editText.append(spannableStringBuilder3);
-            setCheckedEnableReactionCell(2, false);
+            setCheckedEnableReactionCell(2, this.paid, false);
         }
-        this.enableReactionsCell.setTextAndCheck(LocaleController.getString("EnableReactions", R.string.EnableReactions), this.selectedType != 2, false);
+        TextCheckCell textCheckCell4 = this.enableReactionsCell;
+        String string = LocaleController.getString("EnableReactions", R.string.EnableReactions);
+        if (this.selectedType == 2 && !this.paid) {
+            z = false;
+        }
+        textCheckCell4.setTextAndCheck(string, z, false);
         this.editText.addReactionsSpan();
+        TLRPC$ChatFull tLRPC$ChatFull3 = this.info;
+        if (tLRPC$ChatFull3.paid_media_allowed && tLRPC$ChatFull3.paid_reactions_available) {
+            toggleStarsEnabled();
+        }
         this.fragmentView = frameLayout;
         return frameLayout;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$2(View view) {
-        setCheckedEnableReactionCell(this.enableReactionsCell.isChecked() ? 2 : 1, true);
+        TextCheckCell textCheckCell;
+        if (this.enableReactionsCell.isChecked() && (textCheckCell = this.paidCheckCell) != null && textCheckCell.isChecked()) {
+            toggleStarsEnabled();
+        }
+        setCheckedEnableReactionCell(this.enableReactionsCell.isChecked() ? 2 : 1, this.enableReactionsCell.isChecked() ? false : this.paid, true);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -712,23 +727,24 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
         NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.startAllHeavyOperations, Integer.valueOf((int) LiteMode.FLAG_CALLS_ANIMATIONS));
     }
 
-    private void setCheckedEnableReactionCell(int i, boolean z) {
-        if (this.selectedType == i) {
+    private void setCheckedEnableReactionCell(int i, boolean z, boolean z2) {
+        if (this.selectedType == i && this.paid == z) {
             return;
         }
-        boolean z2 = i == 1 || i == 0;
-        this.enableReactionsCell.setChecked(z2);
-        int color = Theme.getColor(z2 ? Theme.key_windowBackgroundChecked : Theme.key_windowBackgroundUnchecked);
-        if (!z) {
+        this.paid = z;
+        boolean z3 = i == 1 || i == 0 || z;
+        this.enableReactionsCell.setChecked(z3);
+        int color = Theme.getColor(z3 ? Theme.key_windowBackgroundChecked : Theme.key_windowBackgroundUnchecked);
+        if (!z2) {
             this.enableReactionsCell.setBackgroundColor(color);
-        } else if (z2) {
+        } else if (z3) {
             this.enableReactionsCell.setBackgroundColorAnimated(true, color);
         } else {
             this.enableReactionsCell.setBackgroundColorAnimatedReverse(color);
         }
         this.selectedType = i;
-        if (i != 1 && i != 0) {
-            if (z) {
+        if (i != 1 && i != 0 && !z) {
+            if (z2) {
                 closeKeyboard();
                 this.actionButton.animate().setListener(null).cancel();
                 this.switchLayout.animate().setListener(null).cancel();
@@ -755,7 +771,7 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
         }
         this.switchLayout.setVisibility(0);
         this.actionButton.setVisibility(0);
-        if (z) {
+        if (z2) {
             this.actionButton.animate().setListener(null).cancel();
             this.switchLayout.animate().setListener(null).cancel();
             ViewPropertyAnimator duration2 = this.switchLayout.animate().alpha(1.0f).setDuration(350L);
@@ -1023,6 +1039,7 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
             this.selectAnimatedEmojiDialog.setMultiSelected(-1L, true);
             checkMaxCustomReactions(false);
             this.editText.setMaxLength(this.maxReactionsCount);
+            setCheckedEnableReactionCell(this.selectedType, this.paid, true);
         } else {
             this.paidCheckCell.setChecked(true);
             try {
@@ -1067,6 +1084,7 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
             } catch (Exception e) {
                 FileLog.e(e);
             }
+            setCheckedEnableReactionCell(this.selectedType, true, true);
         }
         this.editText.updateAnimatedEmoji(true);
     }
