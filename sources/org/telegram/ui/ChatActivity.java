@@ -1848,7 +1848,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     z = ChatObject.reactionIsAvailable(tLRPC$ChatFull2, doubleTapReaction);
                 }
                 if (z) {
-                    ChatActivity.this.selectReaction(primaryMessageObject, null, null, f, f2, ReactionsLayoutInBubble.VisibleReaction.fromEmojicon(doubleTapReaction), true, false, false, false);
+                    ChatActivity.this.selectReaction(chatMessageCell, primaryMessageObject, null, null, f, f2, ReactionsLayoutInBubble.VisibleReaction.fromEmojicon(doubleTapReaction), true, false, false, false);
                     return;
                 }
                 return;
@@ -1862,7 +1862,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 z = ChatObject.reactionIsAvailable(tLRPC$ChatFull, tLRPC$TL_availableReaction.reaction);
             }
             if (z) {
-                ChatActivity.this.selectReaction(primaryMessageObject, null, null, f, f2, ReactionsLayoutInBubble.VisibleReaction.fromEmojicon(tLRPC$TL_availableReaction), true, false, false, false);
+                ChatActivity.this.selectReaction(chatMessageCell, primaryMessageObject, null, null, f, f2, ReactionsLayoutInBubble.VisibleReaction.fromEmojicon(tLRPC$TL_availableReaction), true, false, false, false);
             }
         }
     }
@@ -15233,6 +15233,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     int i;
                     int i2;
                     HashSet hashSet;
+                    boolean z3;
                     TLRPC$Message tLRPC$Message;
                     if (ChatActivity.this.tagSelector == null) {
                         return;
@@ -15240,13 +15241,13 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     if (ChatActivity.this.getDialogId() != ChatActivity.this.getUserConfig().getClientUserId() || ChatActivity.this.getUserConfig().isPremium()) {
                         boolean contains = ChatActivity.this.tagSelector.getSelectedReactions().contains(visibleReaction);
                         HashSet hashSet2 = new HashSet();
-                        boolean z3 = false;
                         boolean z4 = false;
+                        boolean z5 = false;
                         int i3 = 0;
                         int i4 = 0;
                         while (i4 < ChatActivity.this.selectedMessagesIds.length) {
-                            boolean z5 = z3;
                             boolean z6 = z4;
+                            boolean z7 = z5;
                             int i5 = i3;
                             int i6 = 0;
                             while (i6 < ChatActivity.this.selectedMessagesIds[i4].size()) {
@@ -15260,18 +15261,22 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                     i = i6;
                                     i2 = i4;
                                     hashSet = hashSet2;
+                                    z3 = contains;
                                     i6 = i + 1;
                                     i4 = i2;
                                     hashSet2 = hashSet;
+                                    contains = z3;
                                 }
                                 MessageObject messageObject3 = messageObject2;
                                 if (messageObject3.hasReaction(visibleReaction) == contains) {
+                                    ChatActivity chatActivity = ChatActivity.this;
                                     messageObject = messageObject3;
                                     i = i6;
                                     i2 = i4;
                                     hashSet = hashSet2;
-                                    ChatActivity.this.selectReaction(messageObject3, null, null, 0.0f, 0.0f, visibleReaction, false, false, false, true);
-                                    if (!contains) {
+                                    z3 = contains;
+                                    chatActivity.selectReaction(chatActivity.findMessageCell(messageObject3.getId(), false), messageObject3, null, null, 0.0f, 0.0f, visibleReaction, false, false, false, true);
+                                    if (!z3) {
                                         i5++;
                                     }
                                 } else {
@@ -15279,6 +15284,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                     i = i6;
                                     i2 = i4;
                                     hashSet = hashSet2;
+                                    z3 = contains;
                                 }
                                 if (messageObject.messageOwner != null) {
                                     if (ChatActivity.this.chatAdapter.isFiltered) {
@@ -15287,7 +15293,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                             tLRPC$Message.reactions = messageObject.messageOwner.reactions;
                                         }
                                     } else if (!ChatActivity.this.chatAdapter.isFiltered && ChatActivity.this.searchingReaction != null) {
-                                        z5 = true;
+                                        z6 = true;
                                     }
                                 }
                                 if (ChatActivity.this.chatAdapter.isFiltered && !messageObject.hasReaction(ChatActivity.this.searchingReaction)) {
@@ -15302,20 +15308,21 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                     if (ChatActivity.this.messagesSearchAdapter != null) {
                                         ChatActivity.this.messagesSearchAdapter.notifyDataSetChanged();
                                     }
-                                    z5 = true;
                                     z6 = true;
+                                    z7 = true;
                                 }
                                 i6 = i + 1;
                                 i4 = i2;
                                 hashSet2 = hashSet;
+                                contains = z3;
                             }
                             i4++;
-                            z3 = z5;
                             z4 = z6;
+                            z5 = z7;
                             i3 = i5;
                         }
-                        if (z3) {
-                            ChatActivity.this.updateFilteredMessages(z4);
+                        if (z4) {
+                            ChatActivity.this.updateFilteredMessages(z5);
                         }
                         ChatActivity.this.clearSelectionMode(true);
                         if (i3 > 0) {
@@ -37192,11 +37199,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                                                     float f6 = reactionsLayoutInBubble.x + reactionButton.x + (reactionButton.width / 2.0f);
                                                                     f5 = reactionsLayoutInBubble.y + reactionButton.y + (reactionButton.height / 2.0f);
                                                                     f4 = f6;
-                                                                    ChatActivity.this.selectReaction(messageObject27, reactionsContainerLayout5, view4, f4, f5, visibleReaction, false, z39, z40, false);
+                                                                    ChatActivity.this.selectReaction(findMessageCell, messageObject27, reactionsContainerLayout5, view4, f4, f5, visibleReaction, false, z39, z40, false);
                                                                 }
                                                                 f4 = 0.0f;
                                                                 f5 = 0.0f;
-                                                                ChatActivity.this.selectReaction(messageObject27, reactionsContainerLayout5, view4, f4, f5, visibleReaction, false, z39, z40, false);
+                                                                ChatActivity.this.selectReaction(findMessageCell, messageObject27, reactionsContainerLayout5, view4, f4, f5, visibleReaction, false, z39, z40, false);
                                                             }
                                                         });
                                                         chatScrimPopupContainerLayout.addView(reactionsContainerLayout5, LayoutHelper.createLinear(-1, (int) ((reactionsContainerLayout5.getTopOffset() / AndroidUtilities.density) + 52.0f + f3), 5, 0, 50, 0, -20));
@@ -39219,14 +39226,14 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         BulletinFactory.of(this).createEmojiBulletin(findDocument, LocaleController.getString(R.string.ChatMultipleReactionsPromo)).setDuration(5000).show();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:66:0x0182  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x0185  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x01c7  */
-    /* JADX WARN: Removed duplicated region for block: B:78:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x0188  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x018b  */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x01cd  */
+    /* JADX WARN: Removed duplicated region for block: B:81:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void selectReaction(MessageObject messageObject, ReactionsContainerLayout reactionsContainerLayout, View view, float f, float f2, ReactionsLayoutInBubble.VisibleReaction visibleReaction, boolean z, boolean z2, boolean z3, boolean z4) {
+    public void selectReaction(ChatMessageCell chatMessageCell, MessageObject messageObject, ReactionsContainerLayout reactionsContainerLayout, View view, float f, float f2, ReactionsLayoutInBubble.VisibleReaction visibleReaction, boolean z, boolean z2, boolean z3, boolean z4) {
         int i;
         int i2;
         String str;
@@ -39240,7 +39247,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         int i3 = 2;
         if (visibleReaction != null && visibleReaction.isStar) {
             closeMenu();
-            ChatMessageCell findMessageCell = findMessageCell(messageObject.getId(), true);
+            ChatMessageCell findMessageCell = chatMessageCell == null ? findMessageCell(messageObject.getId(), true) : chatMessageCell;
             if (z2) {
                 if (findMessageCell != null) {
                     findMessageCell.performHapticFeedback(0);
@@ -46861,12 +46868,12 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 new PremiumFeatureBottomSheet(ChatActivity.this, 24, true).show();
             } else if (z && (tLRPC$ReactionCount.reaction instanceof TLRPC$TL_reactionPaid)) {
                 chatMessageCell.performHapticFeedback(0);
-                MessageObject messageObject = chatMessageCell.getMessageObject();
-                if (messageObject == null) {
+                MessageObject primaryMessageObject = chatMessageCell.getPrimaryMessageObject();
+                if (primaryMessageObject == null) {
                     return;
                 }
                 ArrayList<TLRPC$MessageReactor> arrayList = null;
-                TLRPC$Message tLRPC$Message2 = messageObject.messageOwner;
+                TLRPC$Message tLRPC$Message2 = primaryMessageObject.messageOwner;
                 if (tLRPC$Message2 != null && (tLRPC$TL_messageReactions2 = tLRPC$Message2.reactions) != null) {
                     arrayList = tLRPC$TL_messageReactions2.top_reactors;
                 }
@@ -46875,8 +46882,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 int i3 = ((BaseFragment) ChatActivity.this).currentAccount;
                 long j = ChatActivity.this.dialog_id;
                 ChatActivity chatActivity = ChatActivity.this;
-                StarsReactionsSheet starsReactionsSheet = new StarsReactionsSheet(context, i3, j, chatActivity, messageObject, arrayList, chatActivity.themeDelegate);
-                starsReactionsSheet.setMessageCell(messageObject.getId(), ChatActivity.this.findMessageCell(messageObject.getId(), true));
+                StarsReactionsSheet starsReactionsSheet = new StarsReactionsSheet(context, i3, j, chatActivity, primaryMessageObject, arrayList, chatActivity.themeDelegate);
+                starsReactionsSheet.setMessageCell(primaryMessageObject.getId(), ChatActivity.this.findMessageCell(primaryMessageObject.getId(), true));
                 starsReactionsSheet.show();
             } else {
                 if (!z) {
@@ -46949,14 +46956,14 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 mutate.setColorFilter(new PorterDuffColorFilter(ChatActivity.this.getThemedColor(Theme.key_actionBarDefaultSubmenuBackground), PorterDuff.Mode.MULTIPLY));
                 mutate.getPadding(rect);
                 frameLayout.setBackground(mutate);
-                MessageObject messageObject2 = chatMessageCell.getMessageObject();
+                MessageObject messageObject = chatMessageCell.getMessageObject();
                 int i4 = chatMessageCell.reactionsLayoutInBubble.y;
                 AndroidUtilities.dp(28.0f);
                 float f5 = chatMessageCell.reactionsLayoutInBubble.x + reactionButton3.x;
                 chatMessageCell.getLocationInWindow(new int[2]);
                 boolean z3 = ChatActivity.this.getUserConfig().getClientUserId() == ChatActivity.this.getDialogId() && !ChatActivity.this.getMessagesController().getSavedMessagesController().unsupported;
                 if (!z3) {
-                    if ((messageObject2 != null && (tLRPC$Message = messageObject2.messageOwner) != null && (tLRPC$TL_messageReactions = tLRPC$Message.reactions) != null && tLRPC$TL_messageReactions.can_see_list) || ChatActivity.this.dialog_id >= 0) {
+                    if ((messageObject != null && (tLRPC$Message = messageObject.messageOwner) != null && (tLRPC$TL_messageReactions = tLRPC$Message.reactions) != null && tLRPC$TL_messageReactions.can_see_list) || ChatActivity.this.dialog_id >= 0) {
                         Activity parentActivity = ChatActivity.this.getParentActivity();
                         ChatActivity chatActivity3 = ChatActivity.this;
                         f3 = f5;
@@ -47278,7 +47285,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             TLRPC$Message tLRPC$Message;
             ReactionsLayoutInBubble.VisibleReaction fromTL = ReactionsLayoutInBubble.VisibleReaction.fromTL(tLRPC$ReactionCount.reaction);
             MessageObject primaryMessageObject = chatMessageCell.getPrimaryMessageObject();
-            ChatActivity.this.selectReaction(chatMessageCell.getPrimaryMessageObject(), null, null, f, f2, fromTL, false, false, false, false);
+            ChatActivity.this.selectReaction(chatMessageCell, chatMessageCell.getPrimaryMessageObject(), null, null, f, f2, fromTL, false, false, false, false);
             if ((primaryMessageObject != null) & (primaryMessageObject.messageOwner != null)) {
                 if (ChatActivity.this.chatAdapter.isFiltered) {
                     MessageObject messageObject = (MessageObject) ChatActivity.this.messagesDict[0].get(primaryMessageObject.getId());

@@ -2219,7 +2219,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         });
         create.fixNavigationBar(Theme.getColor(i2, resourcesProvider));
         BaseFragment safeLastFragment = LaunchActivity.getSafeLastFragment();
-        if (!AndroidUtilities.isTablet() && safeLastFragment != null) {
+        if (!AndroidUtilities.isTablet() && safeLastFragment != null && !AndroidUtilities.hasDialogOnTop(safeLastFragment)) {
             create.makeAttached(safeLastFragment);
         }
         create.show();
@@ -2763,7 +2763,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         public /* synthetic */ void lambda$new$1() {
             BaseFragment baseFragment;
             StarAppsSheet starAppsSheet = new StarAppsSheet(getContext());
-            if (!AndroidUtilities.isTablet() && (baseFragment = this.attachedFragment) != null) {
+            if (!AndroidUtilities.isTablet() && !AndroidUtilities.hasDialogOnTop(this.attachedFragment) && (baseFragment = this.attachedFragment) != null) {
                 starAppsSheet.makeAttached(baseFragment);
             }
             starAppsSheet.show();
@@ -3109,10 +3109,10 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
     /* JADX WARN: Removed duplicated region for block: B:165:0x0714  */
     /* JADX WARN: Removed duplicated region for block: B:166:0x0747  */
     /* JADX WARN: Removed duplicated region for block: B:170:0x074d A[LOOP:0: B:154:0x06c3->B:170:0x074d, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:202:0x0758 A[EDGE_INSN: B:202:0x0758->B:172:0x0758 ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:204:0x0758 A[EDGE_INSN: B:204:0x0758->B:172:0x0758 ?: BREAK  , SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r1v1 */
+    /* JADX WARN: Type inference failed for: r1v24 */
     /* JADX WARN: Type inference failed for: r1v25 */
-    /* JADX WARN: Type inference failed for: r1v26 */
     /* JADX WARN: Type inference failed for: r1v3 */
     /* JADX WARN: Type inference failed for: r3v1 */
     /* JADX WARN: Type inference failed for: r3v2 */
@@ -3684,8 +3684,9 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
             });
         }
         bottomSheetArr3[0].fixNavigationBar();
-        if (!AndroidUtilities.isTablet()) {
-            bottomSheetArr3[0].makeAttached(LaunchActivity.getSafeLastFragment());
+        BaseFragment safeLastFragment = LaunchActivity.getSafeLastFragment();
+        if (!AndroidUtilities.isTablet() && !AndroidUtilities.hasDialogOnTop(safeLastFragment)) {
+            bottomSheetArr3[0].makeAttached(safeLastFragment);
         }
         bottomSheetArr3[0].show();
         return bottomSheetArr3[0];
@@ -3826,7 +3827,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$showTransactionSheet$18(Context context, BottomSheet[] bottomSheetArr) {
         StarAppsSheet starAppsSheet = new StarAppsSheet(context);
-        if (!AndroidUtilities.isTablet() && bottomSheetArr[0] != null && bottomSheetArr[0].attachedFragment != null) {
+        if (!AndroidUtilities.isTablet() && !AndroidUtilities.hasDialogOnTop(bottomSheetArr[0].attachedFragment) && bottomSheetArr[0] != null && bottomSheetArr[0].attachedFragment != null) {
             starAppsSheet.makeAttached(bottomSheetArr[0].attachedFragment);
         }
         starAppsSheet.show();
@@ -4073,8 +4074,9 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         bottomSheetArr3[0] = builder.create();
         bottomSheetArr3[0].useBackgroundTopPadding = false;
         bottomSheetArr3[0].fixNavigationBar();
-        if (!AndroidUtilities.isTablet()) {
-            bottomSheetArr3[0].makeAttached(LaunchActivity.getSafeLastFragment());
+        BaseFragment safeLastFragment = LaunchActivity.getSafeLastFragment();
+        if (!AndroidUtilities.isTablet() && !AndroidUtilities.hasDialogOnTop(safeLastFragment)) {
+            bottomSheetArr3[0].makeAttached(safeLastFragment);
         }
         bottomSheetArr3[0].show();
         return bottomSheetArr3[0];

@@ -155,7 +155,7 @@ public class StarReactionsOverlay extends View {
             this.cell.setInvalidateListener(null);
         }
         this.cell = chatMessageCell;
-        this.messageId = (chatMessageCell == null || chatMessageCell.getMessageObject() == null) ? 0 : chatMessageCell.getMessageObject().getId();
+        this.messageId = (chatMessageCell == null || chatMessageCell.getPrimaryMessageObject() == null) ? 0 : chatMessageCell.getPrimaryMessageObject().getId();
         ChatMessageCell chatMessageCell3 = this.cell;
         if (chatMessageCell3 != null) {
             chatMessageCell3.setInvalidateListener(new Runnable() { // from class: org.telegram.ui.Stars.StarReactionsOverlay$$ExternalSyntheticLambda1
@@ -178,9 +178,9 @@ public class StarReactionsOverlay extends View {
         if (chatMessageCell == null || !chatMessageCell.isCellAttachedToWindow()) {
             return;
         }
-        MessageObject messageObject = this.cell.getMessageObject();
+        MessageObject primaryMessageObject = this.cell.getPrimaryMessageObject();
         int i = 0;
-        if ((messageObject != null ? messageObject.getId() : 0) != this.messageId) {
+        if ((primaryMessageObject != null ? primaryMessageObject.getId() : 0) != this.messageId) {
             setMessageCell(null);
             return;
         }
