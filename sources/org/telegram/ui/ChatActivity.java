@@ -39219,9 +39219,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         BulletinFactory.of(this).createEmojiBulletin(findDocument, LocaleController.getString(R.string.ChatMultipleReactionsPromo)).setDuration(5000).show();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:66:0x0177  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x017a  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x01bc  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0182  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x0185  */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x01c7  */
     /* JADX WARN: Removed duplicated region for block: B:78:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -39236,8 +39236,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         if (isInScheduleMode() || messageObject == null) {
             return;
         }
-        int i3 = 2;
         ArrayList<TLRPC$MessageReactor> arrayList = null;
+        int i3 = 2;
         if (visibleReaction != null && visibleReaction.isStar) {
             closeMenu();
             ChatMessageCell findMessageCell = findMessageCell(messageObject.getId(), true);
@@ -39264,8 +39264,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             sendPaidReaction.setOverlay(starReactionsOverlay);
             starReactionsOverlay.show();
             int[] iArr = new int[2];
+            int[] iArr2 = new int[2];
             findMessageCell.getLocationInWindow(iArr);
-            starReactionsOverlay.tap(iArr[0] + f, iArr[1] + f2, false, true);
+            starReactionsOverlay.getLocationInWindow(iArr2);
+            starReactionsOverlay.tap((iArr[0] - iArr2[0]) + f, (iArr[1] - iArr2[1]) + f2, false, true);
         } else if (getDialogId() == getUserConfig().getClientUserId() && !getUserConfig().isPremium() && (tLRPC$Message = messageObject.messageOwner) != null && ((tLRPC$TL_messageReactions = tLRPC$Message.reactions) == null || tLRPC$TL_messageReactions.reactions_as_tags || tLRPC$TL_messageReactions.results.isEmpty())) {
             new PremiumFeatureBottomSheet(this, 24, true).show();
         } else {
