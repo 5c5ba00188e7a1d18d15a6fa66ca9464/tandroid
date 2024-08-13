@@ -176,6 +176,7 @@ public class BotWebViewAttachedSheet implements NotificationCenter.NotificationC
     private ValueAnimator shownAnimator;
     private boolean silent;
     private SpringAnimation springAnimation;
+    private ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer swipeContainer;
     Drawable verifiedDrawable;
     private Boolean wasLightStatusBar;
     private BotWebViewContainer webViewContainer;
@@ -196,53 +197,6 @@ public class BotWebViewAttachedSheet implements NotificationCenter.NotificationC
         }
     };
     private int lineColor = Theme.getColor(Theme.key_sheet_scrollUp);
-    private ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer swipeContainer = new ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer(getContext()) { // from class: org.telegram.ui.bots.BotWebViewAttachedSheet.1
-        /* JADX WARN: Removed duplicated region for block: B:10:0x001f  */
-        /* JADX WARN: Removed duplicated region for block: B:18:0x005a  */
-        @Override // android.widget.FrameLayout, android.view.View
-        /*
-            Code decompiled incorrectly, please refer to instructions dump.
-        */
-        protected void onMeasure(int i, int i2) {
-            int i3;
-            float f;
-            int size = View.MeasureSpec.getSize(i2);
-            if (!AndroidUtilities.isTablet()) {
-                Point point = AndroidUtilities.displaySize;
-                if (point.x > point.y) {
-                    i3 = (int) (size / 3.5f);
-                    if (i3 < 0) {
-                        i3 = 0;
-                    }
-                    f = i3;
-                    if (getOffsetY() != f && !BotWebViewAttachedSheet.this.dismissed) {
-                        BotWebViewAttachedSheet.this.ignoreLayout = true;
-                        setOffsetY(f);
-                        BotWebViewAttachedSheet.this.ignoreLayout = false;
-                    }
-                    super.onMeasure(i, View.MeasureSpec.makeMeasureSpec((((View.MeasureSpec.getSize(i2) - ActionBar.getCurrentActionBarHeight()) - AndroidUtilities.statusBarHeight) + AndroidUtilities.dp(24.0f)) - (BotWebViewAttachedSheet.this.mainButtonWasVisible ? BotWebViewAttachedSheet.this.mainButton.getLayoutParams().height : 0), 1073741824));
-                }
-            }
-            i3 = (size / 5) * 2;
-            if (i3 < 0) {
-            }
-            f = i3;
-            if (getOffsetY() != f) {
-                BotWebViewAttachedSheet.this.ignoreLayout = true;
-                setOffsetY(f);
-                BotWebViewAttachedSheet.this.ignoreLayout = false;
-            }
-            super.onMeasure(i, View.MeasureSpec.makeMeasureSpec((((View.MeasureSpec.getSize(i2) - ActionBar.getCurrentActionBarHeight()) - AndroidUtilities.statusBarHeight) + AndroidUtilities.dp(24.0f)) - (BotWebViewAttachedSheet.this.mainButtonWasVisible ? BotWebViewAttachedSheet.this.mainButton.getLayoutParams().height : 0), 1073741824));
-        }
-
-        @Override // android.view.View, android.view.ViewParent
-        public void requestLayout() {
-            if (BotWebViewAttachedSheet.this.ignoreLayout) {
-                return;
-            }
-            super.requestLayout();
-        }
-    };
 
     @Override // org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
     public boolean isFullyVisible() {
@@ -508,6 +462,56 @@ public class BotWebViewAttachedSheet implements NotificationCenter.NotificationC
         this.fragment = baseFragment;
         this.context = baseFragment.getContext();
         this.resourcesProvider = baseFragment.getResourceProvider();
+        ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer webViewSwipeContainer = new ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer(getContext()) { // from class: org.telegram.ui.bots.BotWebViewAttachedSheet.1
+            /* JADX WARN: Removed duplicated region for block: B:10:0x001f  */
+            /* JADX WARN: Removed duplicated region for block: B:18:0x005a  */
+            @Override // android.widget.FrameLayout, android.view.View
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+            */
+            protected void onMeasure(int i, int i2) {
+                int i3;
+                float f;
+                int size = View.MeasureSpec.getSize(i2);
+                if (!AndroidUtilities.isTablet()) {
+                    Point point = AndroidUtilities.displaySize;
+                    if (point.x > point.y) {
+                        i3 = (int) (size / 3.5f);
+                        if (i3 < 0) {
+                            i3 = 0;
+                        }
+                        f = i3;
+                        if (getOffsetY() != f && !BotWebViewAttachedSheet.this.dismissed) {
+                            BotWebViewAttachedSheet.this.ignoreLayout = true;
+                            setOffsetY(f);
+                            BotWebViewAttachedSheet.this.ignoreLayout = false;
+                        }
+                        super.onMeasure(i, View.MeasureSpec.makeMeasureSpec((((View.MeasureSpec.getSize(i2) - ActionBar.getCurrentActionBarHeight()) - AndroidUtilities.statusBarHeight) + AndroidUtilities.dp(24.0f)) - (BotWebViewAttachedSheet.this.mainButtonWasVisible ? BotWebViewAttachedSheet.this.mainButton.getLayoutParams().height : 0), 1073741824));
+                    }
+                }
+                i3 = (size / 5) * 2;
+                if (i3 < 0) {
+                }
+                f = i3;
+                if (getOffsetY() != f) {
+                    BotWebViewAttachedSheet.this.ignoreLayout = true;
+                    setOffsetY(f);
+                    BotWebViewAttachedSheet.this.ignoreLayout = false;
+                }
+                super.onMeasure(i, View.MeasureSpec.makeMeasureSpec((((View.MeasureSpec.getSize(i2) - ActionBar.getCurrentActionBarHeight()) - AndroidUtilities.statusBarHeight) + AndroidUtilities.dp(24.0f)) - (BotWebViewAttachedSheet.this.mainButtonWasVisible ? BotWebViewAttachedSheet.this.mainButton.getLayoutParams().height : 0), 1073741824));
+            }
+
+            @Override // android.view.View, android.view.ViewParent
+            public void requestLayout() {
+                if (BotWebViewAttachedSheet.this.ignoreLayout) {
+                    return;
+                }
+                super.requestLayout();
+            }
+        };
+        this.swipeContainer = webViewSwipeContainer;
+        webViewSwipeContainer.setAllowFullSizeSwipe(true);
+        this.swipeContainer.setShouldWaitWebViewScroll(true);
         Context context = getContext();
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
         int i = Theme.key_windowBackgroundWhite;

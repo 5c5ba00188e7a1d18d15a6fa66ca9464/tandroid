@@ -623,7 +623,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     /* JADX WARN: Type inference failed for: r1v106, types: [android.widget.FrameLayout] */
     /* JADX WARN: Type inference failed for: r1v134, types: [org.telegram.ui.PaymentFormActivity$BottomFrameLayout] */
     /* JADX WARN: Type inference failed for: r1v136, types: [org.telegram.ui.ActionBar.ActionBarMenuItem, android.widget.FrameLayout] */
-    /* JADX WARN: Type inference failed for: r1v152, types: [android.text.SpannableStringBuilder, java.lang.CharSequence] */
+    /* JADX WARN: Type inference failed for: r1v160, types: [android.text.SpannableStringBuilder, java.lang.CharSequence] */
     /* JADX WARN: Type inference failed for: r1v75, types: [org.telegram.ui.Cells.TextDetailSettingsCell[]] */
     /* JADX WARN: Type inference failed for: r1v76, types: [org.telegram.ui.Cells.TextDetailSettingsCell] */
     /* JADX WARN: Type inference failed for: r1v78, types: [org.telegram.ui.Cells.TextDetailSettingsCell[]] */
@@ -2498,6 +2498,10 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                         webView2.setBackgroundColor(-1);
                         this.webView.getSettings().setJavaScriptEnabled(true);
                         this.webView.getSettings().setDomStorageEnabled(true);
+                        this.webView.getSettings().setSupportZoom(true);
+                        this.webView.getSettings().setBuiltInZoomControls(true);
+                        this.webView.getSettings().setDisplayZoomControls(r11);
+                        this.webView.getSettings().setUseWideViewPort(true);
                         if (i30 >= 21) {
                             this.webView.getSettings().setMixedContentMode(r11);
                             CookieManager.getInstance().setAcceptThirdPartyCookies(this.webView, true);

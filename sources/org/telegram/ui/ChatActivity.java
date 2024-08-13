@@ -2891,33 +2891,33 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     /* JADX WARN: Removed duplicated region for block: B:122:0x038c  */
-    /* JADX WARN: Removed duplicated region for block: B:133:0x04c2  */
-    /* JADX WARN: Removed duplicated region for block: B:136:0x04cf  */
-    /* JADX WARN: Removed duplicated region for block: B:139:0x0701  */
-    /* JADX WARN: Removed duplicated region for block: B:142:0x070e  */
-    /* JADX WARN: Removed duplicated region for block: B:145:0x071b  */
-    /* JADX WARN: Removed duplicated region for block: B:148:0x0728  */
-    /* JADX WARN: Removed duplicated region for block: B:155:0x07e4  */
-    /* JADX WARN: Removed duplicated region for block: B:168:0x080b  */
-    /* JADX WARN: Removed duplicated region for block: B:169:0x080d  */
-    /* JADX WARN: Removed duplicated region for block: B:175:0x081b  */
-    /* JADX WARN: Removed duplicated region for block: B:178:0x083b  */
-    /* JADX WARN: Removed duplicated region for block: B:181:0x088c  */
-    /* JADX WARN: Removed duplicated region for block: B:184:0x0897  */
-    /* JADX WARN: Removed duplicated region for block: B:208:0x0932  */
-    /* JADX WARN: Removed duplicated region for block: B:220:0x0954  */
-    /* JADX WARN: Removed duplicated region for block: B:223:0x096c  */
-    /* JADX WARN: Removed duplicated region for block: B:227:0x0976  */
-    /* JADX WARN: Removed duplicated region for block: B:234:0x0988  */
-    /* JADX WARN: Removed duplicated region for block: B:242:0x099a  */
-    /* JADX WARN: Removed duplicated region for block: B:245:0x09a1  */
-    /* JADX WARN: Removed duplicated region for block: B:282:0x0a6b  */
-    /* JADX WARN: Removed duplicated region for block: B:292:0x0a99  */
-    /* JADX WARN: Removed duplicated region for block: B:295:0x0aa7  */
-    /* JADX WARN: Removed duplicated region for block: B:298:0x0ab4  */
-    /* JADX WARN: Removed duplicated region for block: B:305:0x0ad8  */
-    /* JADX WARN: Removed duplicated region for block: B:308:0x0aee  */
-    /* JADX WARN: Removed duplicated region for block: B:311:0x0afe  */
+    /* JADX WARN: Removed duplicated region for block: B:133:0x04cb  */
+    /* JADX WARN: Removed duplicated region for block: B:136:0x04d8  */
+    /* JADX WARN: Removed duplicated region for block: B:139:0x070a  */
+    /* JADX WARN: Removed duplicated region for block: B:142:0x0717  */
+    /* JADX WARN: Removed duplicated region for block: B:145:0x0724  */
+    /* JADX WARN: Removed duplicated region for block: B:148:0x0731  */
+    /* JADX WARN: Removed duplicated region for block: B:155:0x07ed  */
+    /* JADX WARN: Removed duplicated region for block: B:168:0x0814  */
+    /* JADX WARN: Removed duplicated region for block: B:169:0x0816  */
+    /* JADX WARN: Removed duplicated region for block: B:175:0x0824  */
+    /* JADX WARN: Removed duplicated region for block: B:178:0x0844  */
+    /* JADX WARN: Removed duplicated region for block: B:181:0x0895  */
+    /* JADX WARN: Removed duplicated region for block: B:184:0x08a0  */
+    /* JADX WARN: Removed duplicated region for block: B:208:0x093b  */
+    /* JADX WARN: Removed duplicated region for block: B:220:0x095d  */
+    /* JADX WARN: Removed duplicated region for block: B:223:0x0975  */
+    /* JADX WARN: Removed duplicated region for block: B:227:0x097f  */
+    /* JADX WARN: Removed duplicated region for block: B:234:0x0991  */
+    /* JADX WARN: Removed duplicated region for block: B:242:0x09a3  */
+    /* JADX WARN: Removed duplicated region for block: B:245:0x09aa  */
+    /* JADX WARN: Removed duplicated region for block: B:282:0x0a74  */
+    /* JADX WARN: Removed duplicated region for block: B:292:0x0aa2  */
+    /* JADX WARN: Removed duplicated region for block: B:295:0x0ab0  */
+    /* JADX WARN: Removed duplicated region for block: B:298:0x0abd  */
+    /* JADX WARN: Removed duplicated region for block: B:305:0x0ae1  */
+    /* JADX WARN: Removed duplicated region for block: B:308:0x0af7  */
+    /* JADX WARN: Removed duplicated region for block: B:311:0x0b07  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -3163,6 +3163,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             getNotificationCenter().addObserver(this, NotificationCenter.didUpdateMessagesViews);
                             getNotificationCenter().addObserver(this, NotificationCenter.didUpdatePollResults);
                             getNotificationCenter().addObserver(this, NotificationCenter.availableEffectsUpdate);
+                            getNotificationCenter().addObserver(this, NotificationCenter.starReactionAnonymousUpdate);
                             if (this.currentEncryptedChat != null) {
                                 getNotificationCenter().addObserver(this, NotificationCenter.didVerifyMessagesStickers);
                             }
@@ -4016,6 +4017,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         getNotificationCenter().removeObserver(this, NotificationCenter.quickRepliesDeleted);
         getNotificationCenter().removeObserver(this, NotificationCenter.quickRepliesUpdated);
         getNotificationCenter().removeObserver(this, NotificationCenter.availableEffectsUpdate);
+        getNotificationCenter().removeObserver(this, NotificationCenter.starReactionAnonymousUpdate);
         getNotificationCenter().removeObserver(this, NotificationCenter.factCheckLoaded);
         if (this.chatMode == 6) {
             getNotificationCenter().removeObserver(this, NotificationCenter.businessLinksUpdated);
@@ -27266,14 +27268,14 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     /*  JADX ERROR: JadxRuntimeException in pass: BlockProcessor
-        jadx.core.utils.exceptions.JadxRuntimeException: CFG modification limit reached, blocks count: 3811
+        jadx.core.utils.exceptions.JadxRuntimeException: CFG modification limit reached, blocks count: 3816
         	at jadx.core.dex.visitors.blocks.BlockProcessor.processBlocksTree(BlockProcessor.java:59)
         	at jadx.core.dex.visitors.blocks.BlockProcessor.visit(BlockProcessor.java:39)
         */
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     public void didReceivedNotification(int r62, int r63, java.lang.Object... r64) {
         /*
-            Method dump skipped, instructions count: 17356
+            Method dump skipped, instructions count: 17395
             To view this dump add '--comments-level debug' option
         */
         throw new UnsupportedOperationException("Method not decompiled: org.telegram.ui.ChatActivity.didReceivedNotification(int, int, java.lang.Object[]):void");
@@ -28303,7 +28305,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Type inference failed for: r5v17 */
     /* JADX WARN: Type inference failed for: r5v19 */
     /* JADX WARN: Type inference failed for: r7v22 */
-    /* JADX WARN: Type inference failed for: r7v23, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r7v23, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r7v25 */
     /* JADX WARN: Type inference failed for: r7v26 */
     /*
@@ -35385,7 +35387,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Type inference failed for: r12v17 */
     /* JADX WARN: Type inference failed for: r12v18 */
     /* JADX WARN: Type inference failed for: r13v30 */
-    /* JADX WARN: Type inference failed for: r13v31, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r13v31, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r13v77 */
     /* JADX WARN: Type inference failed for: r28v2 */
     /* JADX WARN: Type inference failed for: r2v244 */
@@ -37194,16 +37196,16 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                                                 float f5;
                                                                 ReactionsLayoutInBubble.ReactionButton reactionButton;
                                                                 ChatMessageCell findMessageCell = ChatActivity.this.findMessageCell(messageObject27.getId(), true);
-                                                                if (findMessageCell != null && (reactionButton = findMessageCell.reactionsLayoutInBubble.getReactionButton(visibleReaction)) != null) {
+                                                                if (findMessageCell == null || (reactionButton = findMessageCell.reactionsLayoutInBubble.getReactionButton(visibleReaction)) == null) {
+                                                                    f4 = 0.0f;
+                                                                    f5 = 0.0f;
+                                                                } else {
                                                                     ReactionsLayoutInBubble reactionsLayoutInBubble = findMessageCell.reactionsLayoutInBubble;
                                                                     float f6 = reactionsLayoutInBubble.x + reactionButton.x + (reactionButton.width / 2.0f);
                                                                     f5 = reactionsLayoutInBubble.y + reactionButton.y + (reactionButton.height / 2.0f);
                                                                     f4 = f6;
-                                                                    ChatActivity.this.selectReaction(findMessageCell, messageObject27, reactionsContainerLayout5, view4, f4, f5, visibleReaction, false, z39, z40, false);
                                                                 }
-                                                                f4 = 0.0f;
-                                                                f5 = 0.0f;
-                                                                ChatActivity.this.selectReaction(findMessageCell, messageObject27, reactionsContainerLayout5, view4, f4, f5, visibleReaction, false, z39, z40, false);
+                                                                ChatActivity.this.selectReaction(findMessageCell, messageObject27, reactionsContainerLayout5, view4, f4, f5, visibleReaction, false, (visibleReaction == null || !visibleReaction.isStar) ? z39 : true, z40, false);
                                                             }
                                                         });
                                                         chatScrimPopupContainerLayout.addView(reactionsContainerLayout5, LayoutHelper.createLinear(-1, (int) ((reactionsContainerLayout5.getTopOffset() / AndroidUtilities.density) + 52.0f + f3), 5, 0, 50, 0, -20));
@@ -39226,10 +39228,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         BulletinFactory.of(this).createEmojiBulletin(findDocument, LocaleController.getString(R.string.ChatMultipleReactionsPromo)).setDuration(5000).show();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:69:0x0188  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x018b  */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x01cd  */
-    /* JADX WARN: Removed duplicated region for block: B:81:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x0192  */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x0195  */
+    /* JADX WARN: Removed duplicated region for block: B:82:0x01d7  */
+    /* JADX WARN: Removed duplicated region for block: B:89:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -39261,6 +39263,13 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 starsReactionsSheet.setMessageCell(messageObject.getId(), findMessageCell);
                 starsReactionsSheet.show();
                 return;
+            }
+            View view2 = this.fragmentView;
+            if (view2 != null) {
+                try {
+                    view2.performHapticFeedback(3, 1);
+                } catch (Exception unused) {
+                }
             }
             StarsController.PendingPaidReactions sendPaidReaction = StarsController.getInstance(this.currentAccount).sendPaidReaction(messageObject, this, 1L, true, true, null);
             if (sendPaidReaction == null || findMessageCell == null) {

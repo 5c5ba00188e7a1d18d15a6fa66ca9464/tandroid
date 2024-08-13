@@ -856,6 +856,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     private float[] sideButtonPathCorners1;
     private float[] sideButtonPathCorners2;
     private boolean sideButtonPressed;
+    private boolean sideButtonVisible;
     private float sideStartX;
     private float sideStartY;
     public int signWidth;
@@ -4697,13 +4698,13 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:526:0x07ea, code lost:
-        if (r5 > (r22.sideStartY + org.telegram.messenger.AndroidUtilities.dp((38 + ((r22.drawSideButton != 3 || r22.commentLayout == null) ? 0 : 18)) + (r22.drawSideButton2 != 5 ? 0 : 38)))) goto L579;
+    /* JADX WARN: Code restructure failed: missing block: B:530:0x07f2, code lost:
+        if (r5 > (r22.sideStartY + org.telegram.messenger.AndroidUtilities.dp((38 + ((r22.drawSideButton != 3 || r22.commentLayout == null) ? 0 : 18)) + (r22.drawSideButton2 != 5 ? 0 : 38)))) goto L583;
      */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r1v144 */
     /* JADX WARN: Type inference failed for: r1v55 */
-    /* JADX WARN: Type inference failed for: r1v56, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r1v56, types: [int, boolean] */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -4968,7 +4969,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                             this.forwardBotPressed = true;
                         }
                     }
-                    if (this.drawSideButton != 0 && x >= this.sideStartX - AndroidUtilities.dp(24.0f) && x <= this.sideStartX + AndroidUtilities.dp(40.0f) && y2 >= this.sideStartY - AndroidUtilities.dp(24.0f)) {
+                    if (this.sideButtonVisible && this.drawSideButton != 0 && x >= this.sideStartX - AndroidUtilities.dp(24.0f) && x <= this.sideStartX + AndroidUtilities.dp(40.0f) && y2 >= this.sideStartY - AndroidUtilities.dp(24.0f)) {
                         if (y2 <= this.sideStartY + AndroidUtilities.dp(38 + ((this.drawSideButton != 3 || this.commentLayout == null) ? 0 : 18) + (this.drawSideButton2 != 5 ? 0 : 38))) {
                             if (this.currentMessageObject.isSent()) {
                                 if (this.currentMessageObject.isSponsored()) {
@@ -5326,7 +5327,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 this.sideButtonPressed = false;
                 this.pressedSideButton = 0;
             } else if (motionEvent.getAction() == 2) {
-                if (x >= this.sideStartX - AndroidUtilities.dp(24.0f) && x <= this.sideStartX + AndroidUtilities.dp(40.0f) && y2 >= this.sideStartY - AndroidUtilities.dp(24.0f)) {
+                if (this.sideButtonVisible && x >= this.sideStartX - AndroidUtilities.dp(24.0f) && x <= this.sideStartX + AndroidUtilities.dp(40.0f) && y2 >= this.sideStartY - AndroidUtilities.dp(24.0f)) {
                 }
                 this.sideButtonPressed = false;
                 this.pressedSideButton = 0;
@@ -7045,7 +7046,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Type inference failed for: r2v820 */
     /* JADX WARN: Type inference failed for: r2v827 */
     /* JADX WARN: Type inference failed for: r3v17 */
-    /* JADX WARN: Type inference failed for: r3v18, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r3v18, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r3v980 */
     /* JADX WARN: Type inference failed for: r41v37, types: [android.text.TextPaint] */
     /* JADX WARN: Type inference failed for: r67v1 */
@@ -30645,7 +30646,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Type inference failed for: r5v2, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r5v45 */
     /* JADX WARN: Type inference failed for: r8v150 */
-    /* JADX WARN: Type inference failed for: r8v151, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r8v151, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r8v152 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -33571,6 +33572,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     this.sideStartX -= videoTranscriptionProgress;
                     this.sideStartY -= dp6;
                 }
+                this.sideButtonVisible = true;
                 if (this.drawSideButton == 3) {
                     if (!this.enterTransitionInProgress || this.currentMessageObject.isVoice()) {
                         drawCommentButton(canvas, 1.0f);
@@ -33581,6 +33583,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     float f3 = this.sideStartX;
                     rectF.set(f3, this.sideStartY, AndroidUtilities.dp(32.0f) + f3, this.sideStartY + AndroidUtilities.dp(this.drawSideButton2 == 5 ? 64.0f : 32.0f));
                     if (this.rect.right >= getMeasuredWidth()) {
+                        this.sideButtonVisible = false;
                         return;
                     }
                     applyServiceShaderMatrix();
@@ -33598,7 +33601,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                             path2.rewind();
                         }
                         if (this.sideButtonPathCorners1 == null) {
-                            this.sideButtonPathCorners1 = r2;
+                            this.sideButtonPathCorners1 = r3;
                             float dp7 = AndroidUtilities.dp(16.0f);
                             float[] fArr = {dp7, dp7, dp7, dp7};
                         }

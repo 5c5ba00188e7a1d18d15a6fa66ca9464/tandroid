@@ -417,7 +417,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         this.fullsize = null;
         this.resourcesProvider = resourcesProvider;
         this.lineColor = Theme.getColor(Theme.key_sheet_scrollUp);
-        this.swipeContainer = new ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer(context) { // from class: org.telegram.ui.bots.BotWebViewSheet.1
+        ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer webViewSwipeContainer = new ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer(context) { // from class: org.telegram.ui.bots.BotWebViewSheet.1
             /* JADX WARN: Removed duplicated region for block: B:10:0x001f  */
             /* JADX WARN: Removed duplicated region for block: B:25:0x0081  */
             @Override // android.widget.FrameLayout, android.view.View
@@ -472,6 +472,9 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
                 super.requestLayout();
             }
         };
+        this.swipeContainer = webViewSwipeContainer;
+        webViewSwipeContainer.setAllowFullSizeSwipe(true);
+        this.swipeContainer.setShouldWaitWebViewScroll(true);
         int i = Theme.key_windowBackgroundWhite;
         BotWebViewContainer botWebViewContainer = new BotWebViewContainer(context, resourcesProvider, getColor(i), true) { // from class: org.telegram.ui.bots.BotWebViewSheet.2
             @Override // org.telegram.ui.web.BotWebViewContainer

@@ -97,10 +97,10 @@ public class StarReactionsOverlay extends View {
         this.counterShown = false;
         invalidate();
         ChatMessageCell chatMessageCell = this.cell;
-        if (chatMessageCell != null && chatMessageCell.getMessageObject() != null) {
-            final MessageObject messageObject = this.cell.getMessageObject();
+        if (chatMessageCell != null && chatMessageCell.getPrimaryMessageObject() != null) {
+            final MessageObject primaryMessageObject = this.cell.getPrimaryMessageObject();
             final StarsController starsController = StarsController.getInstance(chatActivity.getCurrentAccount());
-            final long pendingPaidReactions = starsController.getPendingPaidReactions(messageObject);
+            final long pendingPaidReactions = starsController.getPendingPaidReactions(primaryMessageObject);
             if (starsController.balanceAvailable() && starsController.getBalance() < pendingPaidReactions) {
                 StarsController.getInstance(chatActivity.getCurrentAccount()).undoPaidReaction();
                 long dialogId = chatActivity.getDialogId();
@@ -113,7 +113,7 @@ public class StarReactionsOverlay extends View {
                 new StarsIntroActivity.StarsNeededSheet(chatActivity.getContext(), chatActivity.getResourceProvider(), pendingPaidReactions, 5, str, new Runnable() { // from class: org.telegram.ui.Stars.StarReactionsOverlay$$ExternalSyntheticLambda5
                     @Override // java.lang.Runnable
                     public final void run() {
-                        StarsController.this.sendPaidReaction(messageObject, chatActivity, pendingPaidReactions, true, true, null);
+                        StarsController.this.sendPaidReaction(primaryMessageObject, chatActivity, pendingPaidReactions, true, true, null);
                     }
                 }).show();
             }
@@ -131,17 +131,17 @@ public class StarReactionsOverlay extends View {
         chatMessageCell.performHapticFeedback(0);
         onTouchEvent(MotionEvent.obtain(0L, 0L, 3, 0.0f, 0.0f, 0));
         ArrayList<TLRPC$MessageReactor> arrayList = null;
-        MessageObject messageObject = this.cell.getMessageObject();
-        if (messageObject == null) {
+        MessageObject primaryMessageObject = this.cell.getPrimaryMessageObject();
+        if (primaryMessageObject == null) {
             return;
         }
-        TLRPC$Message tLRPC$Message = messageObject.messageOwner;
+        TLRPC$Message tLRPC$Message = primaryMessageObject.messageOwner;
         if (tLRPC$Message != null && (tLRPC$TL_messageReactions = tLRPC$Message.reactions) != null) {
             arrayList = tLRPC$TL_messageReactions.top_reactors;
         }
-        StarsController.getInstance(messageObject.currentAccount).commitPaidReaction();
-        StarsReactionsSheet starsReactionsSheet = new StarsReactionsSheet(getContext(), chatActivity.getCurrentAccount(), chatActivity.getDialogId(), chatActivity, messageObject, arrayList, chatActivity.getResourceProvider());
-        starsReactionsSheet.setMessageCell(messageObject.getId(), this.cell);
+        StarsController.getInstance(primaryMessageObject.currentAccount).commitPaidReaction();
+        StarsReactionsSheet starsReactionsSheet = new StarsReactionsSheet(getContext(), chatActivity.getCurrentAccount(), chatActivity.getDialogId(), chatActivity, primaryMessageObject, arrayList, chatActivity.getResourceProvider());
+        starsReactionsSheet.setMessageCell(primaryMessageObject.getId(), this.cell);
         starsReactionsSheet.show();
     }
 
@@ -335,7 +335,7 @@ public class StarReactionsOverlay extends View {
         if (chatMessageCell == null || this.hidden) {
             return;
         }
-        MessageObject messageObject = chatMessageCell.getMessageObject();
+        MessageObject primaryMessageObject = chatMessageCell.getPrimaryMessageObject();
         StarsController starsController = StarsController.getInstance(this.chatActivity.getCurrentAccount());
         playEffect();
         ReactionsLayoutInBubble.ReactionButton reactionButton = this.cell.reactionsLayoutInBubble.getReactionButton("stars");
@@ -343,10 +343,14 @@ public class StarReactionsOverlay extends View {
             reactionButton.startAnimation();
         }
         if (z) {
-            StarsController.getInstance(this.chatActivity.getCurrentAccount()).sendPaidReaction(this.cell.getMessageObject(), this.chatActivity, 1L, true, false, null);
+            try {
+                performHapticFeedback(3, 1);
+            } catch (Exception unused) {
+            }
+            StarsController.getInstance(this.chatActivity.getCurrentAccount()).sendPaidReaction(this.cell.getPrimaryMessageObject(), this.chatActivity, 1L, true, false, null);
         }
         this.counter.cancelAnimation();
-        this.counter.setText("+" + starsController.getPendingPaidReactions(messageObject));
+        this.counter.setText("+" + starsController.getPendingPaidReactions(primaryMessageObject));
         this.counterShown = true;
         AndroidUtilities.cancelRunOnUIThread(this.hideCounterRunnable);
         AndroidUtilities.runOnUIThread(this.hideCounterRunnable, 1500L);
