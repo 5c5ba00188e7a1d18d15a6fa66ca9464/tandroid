@@ -18146,6 +18146,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             tLRPC$UserFull.flags2 |= 32;
             tLRPC$UserFull.birthday = tLRPC$TL_birthday;
         }
+        getMessagesController().invalidateContentSettings();
         getConnectionsManager().sendRequest(tLRPC$TL_account_updateBirthday, new RequestDelegate() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda116
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
@@ -18215,6 +18216,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             tLRPC$UserFull.birthday = null;
             tLRPC$UserFull.flags2 &= -33;
         }
+        getMessagesController().invalidateContentSettings();
         getConnectionsManager().sendRequest(tLRPC$TL_account_updateBirthday, new RequestDelegate() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda105
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {

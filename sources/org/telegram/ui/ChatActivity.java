@@ -65,6 +65,7 @@ import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.ImageSpan;
 import android.text.style.URLSpan;
+import android.util.Log;
 import android.util.Pair;
 import android.util.Property;
 import android.util.SparseArray;
@@ -1352,28 +1353,28 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* synthetic */ void access$22700(ChatActivity chatActivity) {
+    public static /* synthetic */ void access$22600(ChatActivity chatActivity) {
         chatActivity.checkBotMessageHint();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* synthetic */ void access$22800(ChatActivity chatActivity) {
+    public static /* synthetic */ void access$22700(ChatActivity chatActivity) {
         chatActivity.checkSavedMessagesTagHint();
     }
 
-    static /* synthetic */ int access$23410(ChatActivity chatActivity) {
+    static /* synthetic */ int access$23310(ChatActivity chatActivity) {
         int i = chatActivity.newMentionsCount;
         chatActivity.newMentionsCount = i - 1;
         return i;
     }
 
-    static /* synthetic */ int access$24508(ChatActivity chatActivity) {
+    static /* synthetic */ int access$24408(ChatActivity chatActivity) {
         int i = chatActivity.lastLoadIndex;
         chatActivity.lastLoadIndex = i + 1;
         return i;
     }
 
-    static /* synthetic */ int access$33104(ChatActivity chatActivity) {
+    static /* synthetic */ int access$33004(ChatActivity chatActivity) {
         int i = chatActivity.pinBullerinTag + 1;
         chatActivity.pinBullerinTag = i;
         return i;
@@ -1392,7 +1393,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* synthetic */ void access$51000(ChatActivity chatActivity) {
+    public static /* synthetic */ void access$50900(ChatActivity chatActivity) {
         chatActivity.resetProgressDialogLoading();
     }
 
@@ -4894,15 +4895,12 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             @Override // androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
                             public int getSpanSize(int i20) {
                                 int i21;
-                                if (i20 < ChatActivity.this.chatAdapter.messagesStartRow || i20 >= ChatActivity.this.chatAdapter.messagesEndRow || (i21 = i20 - ChatActivity.this.chatAdapter.messagesStartRow) < 0 || i21 >= ChatActivity.this.chatAdapter.getMessages().size()) {
+                                MessageObject messageObject3;
+                                MessageObject.GroupedMessages validGroupedMessage;
+                                if (i20 < ChatActivity.this.chatAdapter.messagesStartRow || i20 >= ChatActivity.this.chatAdapter.messagesEndRow || (i21 = i20 - ChatActivity.this.chatAdapter.messagesStartRow) < 0 || i21 >= ChatActivity.this.chatAdapter.getMessages().size() || (validGroupedMessage = ChatActivity.this.getValidGroupedMessage((messageObject3 = ChatActivity.this.chatAdapter.getMessages().get(i21)))) == null) {
                                     return 1000;
                                 }
-                                MessageObject messageObject3 = ChatActivity.this.chatAdapter.getMessages().get(i21);
-                                MessageObject.GroupedMessages validGroupedMessage = ChatActivity.this.getValidGroupedMessage(messageObject3);
-                                if (validGroupedMessage != null) {
-                                    return validGroupedMessage.getPosition(messageObject3).spanSize;
-                                }
-                                return 1000;
+                                return validGroupedMessage.getPosition(messageObject3).spanSize;
                             }
                         });
                         this.chatListView.setLayoutManager(this.chatLayoutManager);
@@ -5701,7 +5699,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                     }
                                     ChatActivity.this.loading = true;
                                     ChatActivity.this.waitingForLoad.add(Integer.valueOf(ChatActivity.this.lastLoadIndex));
-                                    HashtagSearchController.getInstance(((BaseFragment) ChatActivity.this).currentAccount).searchHashtag(ChatActivity.this.searchingHashtag, ((BaseFragment) ChatActivity.this).classGuid, ChatActivity.this.searchType, ChatActivity.access$24508(ChatActivity.this));
+                                    HashtagSearchController.getInstance(((BaseFragment) ChatActivity.this).currentAccount).searchHashtag(ChatActivity.this.searchingHashtag, ((BaseFragment) ChatActivity.this).classGuid, ChatActivity.this.searchType, ChatActivity.access$24408(ChatActivity.this));
                                     return;
                                 }
                                 ChatActivity.this.getMediaDataController().loadMoreSearchMessages(true);
@@ -6829,15 +6827,12 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     @Override // androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
                     public int getSpanSize(int i202) {
                         int i212;
-                        if (i202 < ChatActivity.this.chatAdapter.messagesStartRow || i202 >= ChatActivity.this.chatAdapter.messagesEndRow || (i212 = i202 - ChatActivity.this.chatAdapter.messagesStartRow) < 0 || i212 >= ChatActivity.this.chatAdapter.getMessages().size()) {
+                        MessageObject messageObject3;
+                        MessageObject.GroupedMessages validGroupedMessage;
+                        if (i202 < ChatActivity.this.chatAdapter.messagesStartRow || i202 >= ChatActivity.this.chatAdapter.messagesEndRow || (i212 = i202 - ChatActivity.this.chatAdapter.messagesStartRow) < 0 || i212 >= ChatActivity.this.chatAdapter.getMessages().size() || (validGroupedMessage = ChatActivity.this.getValidGroupedMessage((messageObject3 = ChatActivity.this.chatAdapter.getMessages().get(i212)))) == null) {
                             return 1000;
                         }
-                        MessageObject messageObject3 = ChatActivity.this.chatAdapter.getMessages().get(i212);
-                        MessageObject.GroupedMessages validGroupedMessage = ChatActivity.this.getValidGroupedMessage(messageObject3);
-                        if (validGroupedMessage != null) {
-                            return validGroupedMessage.getPosition(messageObject3).spanSize;
-                        }
-                        return 1000;
+                        return validGroupedMessage.getPosition(messageObject3).spanSize;
                     }
                 });
                 this.chatListView.setLayoutManager(this.chatLayoutManager);
@@ -7567,7 +7562,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             }
                             ChatActivity.this.loading = true;
                             ChatActivity.this.waitingForLoad.add(Integer.valueOf(ChatActivity.this.lastLoadIndex));
-                            HashtagSearchController.getInstance(((BaseFragment) ChatActivity.this).currentAccount).searchHashtag(ChatActivity.this.searchingHashtag, ((BaseFragment) ChatActivity.this).classGuid, ChatActivity.this.searchType, ChatActivity.access$24508(ChatActivity.this));
+                            HashtagSearchController.getInstance(((BaseFragment) ChatActivity.this).currentAccount).searchHashtag(ChatActivity.this.searchingHashtag, ((BaseFragment) ChatActivity.this).classGuid, ChatActivity.this.searchType, ChatActivity.access$24408(ChatActivity.this));
                             return;
                         }
                         ChatActivity.this.getMediaDataController().loadMoreSearchMessages(true);
@@ -8429,15 +8424,12 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             @Override // androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
             public int getSpanSize(int i2022) {
                 int i2122;
-                if (i2022 < ChatActivity.this.chatAdapter.messagesStartRow || i2022 >= ChatActivity.this.chatAdapter.messagesEndRow || (i2122 = i2022 - ChatActivity.this.chatAdapter.messagesStartRow) < 0 || i2122 >= ChatActivity.this.chatAdapter.getMessages().size()) {
+                MessageObject messageObject3;
+                MessageObject.GroupedMessages validGroupedMessage;
+                if (i2022 < ChatActivity.this.chatAdapter.messagesStartRow || i2022 >= ChatActivity.this.chatAdapter.messagesEndRow || (i2122 = i2022 - ChatActivity.this.chatAdapter.messagesStartRow) < 0 || i2122 >= ChatActivity.this.chatAdapter.getMessages().size() || (validGroupedMessage = ChatActivity.this.getValidGroupedMessage((messageObject3 = ChatActivity.this.chatAdapter.getMessages().get(i2122)))) == null) {
                     return 1000;
                 }
-                MessageObject messageObject3 = ChatActivity.this.chatAdapter.getMessages().get(i2122);
-                MessageObject.GroupedMessages validGroupedMessage = ChatActivity.this.getValidGroupedMessage(messageObject3);
-                if (validGroupedMessage != null) {
-                    return validGroupedMessage.getPosition(messageObject3).spanSize;
-                }
-                return 1000;
+                return validGroupedMessage.getPosition(messageObject3).spanSize;
             }
         });
         this.chatListView.setLayoutManager(this.chatLayoutManager);
@@ -9167,7 +9159,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     }
                     ChatActivity.this.loading = true;
                     ChatActivity.this.waitingForLoad.add(Integer.valueOf(ChatActivity.this.lastLoadIndex));
-                    HashtagSearchController.getInstance(((BaseFragment) ChatActivity.this).currentAccount).searchHashtag(ChatActivity.this.searchingHashtag, ((BaseFragment) ChatActivity.this).classGuid, ChatActivity.this.searchType, ChatActivity.access$24508(ChatActivity.this));
+                    HashtagSearchController.getInstance(((BaseFragment) ChatActivity.this).currentAccount).searchHashtag(ChatActivity.this.searchingHashtag, ((BaseFragment) ChatActivity.this).classGuid, ChatActivity.this.searchType, ChatActivity.access$24408(ChatActivity.this));
                     return;
                 }
                 ChatActivity.this.getMediaDataController().loadMoreSearchMessages(true);
@@ -12493,22 +12485,20 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         @Override // androidx.recyclerview.widget.GridLayoutManagerFixed
         protected boolean hasSiblingChild(int i) {
             int i2;
+            MessageObject messageObject;
+            MessageObject.GroupedMessages validGroupedMessage;
             byte b;
-            if (i >= ChatActivity.this.chatAdapter.messagesStartRow && i < ChatActivity.this.chatAdapter.messagesEndRow && (i2 = i - ChatActivity.this.chatAdapter.messagesStartRow) >= 0 && i2 < ChatActivity.this.chatAdapter.getMessages().size()) {
-                MessageObject messageObject = ChatActivity.this.chatAdapter.getMessages().get(i2);
-                MessageObject.GroupedMessages validGroupedMessage = ChatActivity.this.getValidGroupedMessage(messageObject);
-                if (validGroupedMessage != null) {
-                    MessageObject.GroupedMessagePosition position = validGroupedMessage.getPosition(messageObject);
-                    if (position.minX != position.maxX && (b = position.minY) == position.maxY && b != 0) {
-                        int size = validGroupedMessage.posArray.size();
-                        for (int i3 = 0; i3 < size; i3++) {
-                            MessageObject.GroupedMessagePosition groupedMessagePosition = validGroupedMessage.posArray.get(i3);
-                            if (groupedMessagePosition != position) {
-                                byte b2 = groupedMessagePosition.minY;
-                                byte b3 = position.minY;
-                                if (b2 <= b3 && groupedMessagePosition.maxY >= b3) {
-                                    return true;
-                                }
+            if (i >= ChatActivity.this.chatAdapter.messagesStartRow && i < ChatActivity.this.chatAdapter.messagesEndRow && (i2 = i - ChatActivity.this.chatAdapter.messagesStartRow) >= 0 && i2 < ChatActivity.this.chatAdapter.getMessages().size() && (validGroupedMessage = ChatActivity.this.getValidGroupedMessage((messageObject = ChatActivity.this.chatAdapter.getMessages().get(i2)))) != null) {
+                MessageObject.GroupedMessagePosition position = validGroupedMessage.getPosition(messageObject);
+                if (position.minX != position.maxX && (b = position.minY) == position.maxY && b != 0) {
+                    int size = validGroupedMessage.posArray.size();
+                    for (int i3 = 0; i3 < size; i3++) {
+                        MessageObject.GroupedMessagePosition groupedMessagePosition = validGroupedMessage.posArray.get(i3);
+                        if (groupedMessagePosition != position) {
+                            byte b2 = groupedMessagePosition.minY;
+                            byte b3 = position.minY;
+                            if (b2 <= b3 && groupedMessagePosition.maxY >= b3) {
+                                return true;
                             }
                         }
                     }
@@ -12797,14 +12787,14 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     AndroidUtilities.cancelRunOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatActivity$22$$ExternalSyntheticLambda2
                         @Override // java.lang.Runnable
                         public final void run() {
-                            ChatActivity.access$22800(ChatActivity.this);
+                            ChatActivity.access$22700(ChatActivity.this);
                         }
                     });
                     final ChatActivity chatActivity3 = ChatActivity.this;
                     AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatActivity$22$$ExternalSyntheticLambda0
                         @Override // java.lang.Runnable
                         public final void run() {
-                            ChatActivity.access$22800(ChatActivity.this);
+                            ChatActivity.access$22700(ChatActivity.this);
                         }
                     }, 2000L);
                 }
@@ -12816,14 +12806,14 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 AndroidUtilities.cancelRunOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatActivity$22$$ExternalSyntheticLambda3
                     @Override // java.lang.Runnable
                     public final void run() {
-                        ChatActivity.access$22700(ChatActivity.this);
+                        ChatActivity.access$22600(ChatActivity.this);
                     }
                 });
                 final ChatActivity chatActivity5 = ChatActivity.this;
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatActivity$22$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
-                        ChatActivity.access$22700(ChatActivity.this);
+                        ChatActivity.access$22600(ChatActivity.this);
                     }
                 }, 2000L);
             }
@@ -14322,6 +14312,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 messageObject2.stableId = i3;
             }
             messageObject2.isOutOwnerCached = null;
+            Log.i("lolkek", "msg " + messageObject2.getId() + " isOutOwnerCached is reset (2)");
             TLRPC$Message tLRPC$Message2 = messageObject2.messageOwner;
             if (tLRPC$Message2 != null) {
                 tLRPC$Message2.out = true;
@@ -14405,6 +14396,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         for (int i8 = 0; i8 < arrayList2.size(); i8++) {
             MessageObject messageObject4 = (MessageObject) arrayList2.get(i8);
             if (!this.filteredMessagesDict.containsKey(messageObject4.getId())) {
+                Log.i("lolkek", "msg " + messageObject4.getId() + " isOutOwnerCached is reset (3)");
                 messageObject4.isOutOwnerCached = null;
                 TLRPC$Message tLRPC$Message3 = messageObject4.messageOwner;
                 if (tLRPC$Message3 != null) {
@@ -14451,10 +14443,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             }
             ArrayList<MessageObject> arrayList3 = this.filteredMessagesByDays.get(messageObject8.dateKeyInt);
             if (arrayList3 == null) {
-                LongSparseArray<ArrayList<MessageObject>> longSparseArray4 = this.filteredMessagesByDays;
-                long j = messageObject8.dateKeyInt;
                 ArrayList<MessageObject> arrayList4 = new ArrayList<>();
-                longSparseArray4.put(j, arrayList4);
+                this.filteredMessagesByDays.put(messageObject8.dateKeyInt, arrayList4);
                 arrayList3 = arrayList4;
             }
             arrayList3.add(messageObject8);
@@ -17170,18 +17160,18 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 ChatActivity.this.pinBulletin.hide();
             }
             ChatActivity.this.showPinBulletin = true;
-            final int access$33104 = ChatActivity.access$33104(ChatActivity.this);
+            final int access$33004 = ChatActivity.access$33004(ChatActivity.this);
             final int pinnedMessagesCount = ChatActivity.this.getPinnedMessagesCount();
             ChatActivity chatActivity = ChatActivity.this;
             chatActivity.pinBulletin = BulletinFactory.createUnpinAllMessagesBulletin(chatActivity, pinnedMessagesCount, z2, new Runnable() { // from class: org.telegram.ui.ChatActivity$75$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
-                    ChatActivity.75.this.lambda$onUnpin$0(z2, arrayList, arrayList2, pinnedMessagesCount, access$33104);
+                    ChatActivity.75.this.lambda$onUnpin$0(z2, arrayList, arrayList2, pinnedMessagesCount, access$33004);
                 }
             }, new Runnable() { // from class: org.telegram.ui.ChatActivity$75$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    ChatActivity.75.this.lambda$onUnpin$1(z2, access$33104);
+                    ChatActivity.75.this.lambda$onUnpin$1(z2, access$33004);
                 }
             }, ChatActivity.this.themeDelegate);
         }
@@ -18067,7 +18057,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public MessageObject.GroupedMessages getValidGroupedMessage(MessageObject messageObject) {
         if (messageObject.getGroupId() != 0) {
             MessageObject.GroupedMessages groupedMessages = this.groupedMessagesMap.get(messageObject.getGroupId());
@@ -27275,7 +27264,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     public void didReceivedNotification(int r62, int r63, java.lang.Object... r64) {
         /*
-            Method dump skipped, instructions count: 17395
+            Method dump skipped, instructions count: 17426
             To view this dump add '--comments-level debug' option
         */
         throw new UnsupportedOperationException("Method not decompiled: org.telegram.ui.ChatActivity.didReceivedNotification(int, int, java.lang.Object[]):void");
@@ -39260,7 +39249,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 }
                 StarsController.getInstance(this.currentAccount).commitPaidReaction();
                 StarsReactionsSheet starsReactionsSheet = new StarsReactionsSheet(getContext(), this.currentAccount, this.dialog_id, this, messageObject, arrayList, this.themeDelegate);
-                starsReactionsSheet.setMessageCell(messageObject.getId(), findMessageCell);
+                starsReactionsSheet.setMessageCell(this, messageObject.getId(), findMessageCell);
                 starsReactionsSheet.show();
                 return;
             }
@@ -43612,23 +43601,23 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             return false;
         }
 
-        static /* synthetic */ int access$19700(ChatActivityAdapter chatActivityAdapter) {
+        static /* synthetic */ int access$19600(ChatActivityAdapter chatActivityAdapter) {
             return chatActivityAdapter.messagesEndRow;
         }
 
-        static /* synthetic */ int access$27800(ChatActivityAdapter chatActivityAdapter) {
+        static /* synthetic */ int access$27700(ChatActivityAdapter chatActivityAdapter) {
             return chatActivityAdapter.botInfoRow;
         }
 
-        static /* synthetic */ int access$35800(ChatActivityAdapter chatActivityAdapter) {
+        static /* synthetic */ int access$35700(ChatActivityAdapter chatActivityAdapter) {
             return chatActivityAdapter.loadingUpRow;
         }
 
-        static /* synthetic */ int access$47300(ChatActivityAdapter chatActivityAdapter) {
+        static /* synthetic */ int access$47200(ChatActivityAdapter chatActivityAdapter) {
             return chatActivityAdapter.loadingDownRow;
         }
 
-        static /* synthetic */ void access$47400(ChatActivityAdapter chatActivityAdapter) {
+        static /* synthetic */ void access$47300(ChatActivityAdapter chatActivityAdapter) {
             chatActivityAdapter.updateRowsInternal();
         }
 
@@ -45218,7 +45207,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 return;
             }
             if (!((BaseFragment) ChatActivity.this).inPreviewMode && ChatActivity.this.chatMode == 0 && !messageObject2.isVoice() && !messageObject2.isRoundVideo()) {
-                ChatActivity.access$23410(ChatActivity.this);
+                ChatActivity.access$23310(ChatActivity.this);
                 if (ChatActivity.this.newMentionsCount <= 0) {
                     ChatActivity.this.newMentionsCount = 0;
                     ChatActivity.this.hasAllMentionsLocal = true;
@@ -46834,16 +46823,16 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             }
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:43:0x00e0, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:43:0x00e2, code lost:
             if (r3.isSame(r32.reaction) == false) goto L44;
          */
-        /* JADX WARN: Removed duplicated region for block: B:106:0x03ea  */
-        /* JADX WARN: Removed duplicated region for block: B:109:0x041b  */
-        /* JADX WARN: Removed duplicated region for block: B:111:0x042a  */
-        /* JADX WARN: Removed duplicated region for block: B:123:0x0495  */
-        /* JADX WARN: Removed duplicated region for block: B:130:0x04b0  */
-        /* JADX WARN: Removed duplicated region for block: B:139:0x051c  */
-        /* JADX WARN: Removed duplicated region for block: B:142:0x052d  */
+        /* JADX WARN: Removed duplicated region for block: B:106:0x03ec  */
+        /* JADX WARN: Removed duplicated region for block: B:109:0x041d  */
+        /* JADX WARN: Removed duplicated region for block: B:111:0x042c  */
+        /* JADX WARN: Removed duplicated region for block: B:123:0x0497  */
+        /* JADX WARN: Removed duplicated region for block: B:130:0x04b2  */
+        /* JADX WARN: Removed duplicated region for block: B:139:0x051e  */
+        /* JADX WARN: Removed duplicated region for block: B:142:0x052f  */
         @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -46892,7 +46881,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 long j = ChatActivity.this.dialog_id;
                 ChatActivity chatActivity = ChatActivity.this;
                 StarsReactionsSheet starsReactionsSheet = new StarsReactionsSheet(context, i3, j, chatActivity, primaryMessageObject, arrayList, chatActivity.themeDelegate);
-                starsReactionsSheet.setMessageCell(primaryMessageObject.getId(), ChatActivity.this.findMessageCell(primaryMessageObject.getId(), true));
+                starsReactionsSheet.setMessageCell(ChatActivity.this, primaryMessageObject.getId(), ChatActivity.this.findMessageCell(primaryMessageObject.getId(), true));
                 starsReactionsSheet.show();
             } else {
                 if (!z) {
@@ -47660,7 +47649,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatActivity$ChatMessageCellDelegate$7$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        ChatActivity.access$51000(ChatActivity.this);
+                        ChatActivity.access$50900(ChatActivity.this);
                     }
                 }, 250L);
             }
@@ -47909,7 +47898,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatActivity$ChatMessageCellDelegate$8$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        ChatActivity.access$51000(ChatActivity.this);
+                        ChatActivity.access$50900(ChatActivity.this);
                     }
                 }, 250L);
             }
@@ -48475,7 +48464,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatActivity$ChatMessageCellDelegate$9$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        ChatActivity.access$51000(ChatActivity.this);
+                        ChatActivity.access$50900(ChatActivity.this);
                     }
                 }, 250L);
             }
@@ -48507,7 +48496,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatActivity$ChatMessageCellDelegate$10$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        ChatActivity.access$51000(ChatActivity.this);
+                        ChatActivity.access$50900(ChatActivity.this);
                     }
                 }, 250L);
             }
@@ -48539,7 +48528,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatActivity$ChatMessageCellDelegate$11$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        ChatActivity.access$51000(ChatActivity.this);
+                        ChatActivity.access$50900(ChatActivity.this);
                     }
                 }, 250L);
             }
@@ -48615,7 +48604,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatActivity$ChatMessageCellDelegate$12$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        ChatActivity.access$51000(ChatActivity.this);
+                        ChatActivity.access$50900(ChatActivity.this);
                     }
                 }, 250L);
             }
@@ -48647,7 +48636,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatActivity$ChatMessageCellDelegate$13$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        ChatActivity.access$51000(ChatActivity.this);
+                        ChatActivity.access$50900(ChatActivity.this);
                     }
                 }, 250L);
             }
@@ -49134,37 +49123,37 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         public ChatScrollCallback() {
         }
 
-        static /* synthetic */ MessageObject access$35902(ChatScrollCallback chatScrollCallback, MessageObject messageObject) {
+        static /* synthetic */ MessageObject access$35802(ChatScrollCallback chatScrollCallback, MessageObject messageObject) {
             chatScrollCallback.scrollTo = messageObject;
             return messageObject;
         }
 
-        static /* synthetic */ boolean access$36002(ChatScrollCallback chatScrollCallback, boolean z) {
+        static /* synthetic */ boolean access$35902(ChatScrollCallback chatScrollCallback, boolean z) {
             chatScrollCallback.lastBottom = z;
             return z;
         }
 
-        static /* synthetic */ int access$36102(ChatScrollCallback chatScrollCallback, int i) {
+        static /* synthetic */ int access$36002(ChatScrollCallback chatScrollCallback, int i) {
             chatScrollCallback.lastItemOffset = i;
             return i;
         }
 
-        static /* synthetic */ int access$36202(ChatScrollCallback chatScrollCallback, int i) {
+        static /* synthetic */ int access$36102(ChatScrollCallback chatScrollCallback, int i) {
             chatScrollCallback.lastPadding = i;
             return i;
         }
 
-        static /* synthetic */ int access$36302(ChatScrollCallback chatScrollCallback, int i) {
+        static /* synthetic */ int access$36202(ChatScrollCallback chatScrollCallback, int i) {
             chatScrollCallback.position = i;
             return i;
         }
 
-        static /* synthetic */ int access$36402(ChatScrollCallback chatScrollCallback, int i) {
+        static /* synthetic */ int access$36302(ChatScrollCallback chatScrollCallback, int i) {
             chatScrollCallback.offset = i;
             return i;
         }
 
-        static /* synthetic */ boolean access$36502(ChatScrollCallback chatScrollCallback, boolean z) {
+        static /* synthetic */ boolean access$36402(ChatScrollCallback chatScrollCallback, boolean z) {
             chatScrollCallback.bottom = z;
             return z;
         }
@@ -50430,11 +50419,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             return isCurrentThemeDark;
         }
 
-        static /* synthetic */ TLRPC$WallPaper access$46600(ThemeDelegate themeDelegate) {
+        static /* synthetic */ TLRPC$WallPaper access$46500(ThemeDelegate themeDelegate) {
             return themeDelegate.wallpaper;
         }
 
-        static /* synthetic */ EmojiThemes access$47500(ThemeDelegate themeDelegate) {
+        static /* synthetic */ EmojiThemes access$47400(ThemeDelegate themeDelegate) {
             return themeDelegate.chatTheme;
         }
 

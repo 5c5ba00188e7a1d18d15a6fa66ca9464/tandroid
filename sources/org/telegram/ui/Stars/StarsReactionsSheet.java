@@ -83,6 +83,7 @@ public class StarsReactionsSheet extends BottomSheet {
     public boolean anonymous;
     private final StarsIntroActivity.StarsBalanceView balanceView;
     private final ButtonWithCounterView buttonView;
+    private ChatActivity chatActivity;
     private final CheckBox2 checkBox;
     private final LinearLayout checkLayout;
     private final View checkSeparatorView;
@@ -404,7 +405,7 @@ public class StarsReactionsSheet extends BottomSheet {
         }
         final long value = this.slider.getValue();
         final StarsController starsController = StarsController.getInstance(i);
-        Runnable runnable = new Runnable() { // from class: org.telegram.ui.Stars.StarsReactionsSheet$$ExternalSyntheticLambda8
+        Runnable runnable = new Runnable() { // from class: org.telegram.ui.Stars.StarsReactionsSheet$$ExternalSyntheticLambda9
             @Override // java.lang.Runnable
             public final void run() {
                 StarsReactionsSheet.this.lambda$new$4(messageObject, i, starsController, chatActivity, value);
@@ -426,7 +427,7 @@ public class StarsReactionsSheet extends BottomSheet {
         if (sendPaidReaction == null) {
             return;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsReactionsSheet$$ExternalSyntheticLambda9
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsReactionsSheet$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
             public final void run() {
                 StarsReactionsSheet.this.lambda$new$3(sendPaidReaction);
@@ -438,13 +439,13 @@ public class StarsReactionsSheet extends BottomSheet {
     public /* synthetic */ void lambda$new$3(final StarsController.PendingPaidReactions pendingPaidReactions) {
         this.sending = true;
         Objects.requireNonNull(pendingPaidReactions);
-        animate3dIcon(new Runnable() { // from class: org.telegram.ui.Stars.StarsReactionsSheet$$ExternalSyntheticLambda5
+        animate3dIcon(new Runnable() { // from class: org.telegram.ui.Stars.StarsReactionsSheet$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
                 StarsController.PendingPaidReactions.this.apply();
             }
         });
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsReactionsSheet$$ExternalSyntheticLambda6
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsReactionsSheet$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
                 StarsReactionsSheet.this.dismiss();
@@ -541,15 +542,49 @@ public class StarsReactionsSheet extends BottomSheet {
         super.dismiss();
     }
 
-    public void setMessageCell(int i, ChatMessageCell chatMessageCell) {
+    public void setMessageCell(ChatActivity chatActivity, int i, ChatMessageCell chatMessageCell) {
+        this.chatActivity = chatActivity;
         this.messageId = i;
         this.messageCell = chatMessageCell;
     }
 
     private void animate3dIcon(final Runnable runnable) {
-        final ReactionsLayoutInBubble.ReactionButton reactionButton;
         ChatMessageCell chatMessageCell = this.messageCell;
-        if (chatMessageCell == null || !chatMessageCell.isCellAttachedToWindow() || this.messageCell.getMessageObject() == null || this.messageCell.getMessageObject().getId() != this.messageId || (reactionButton = this.messageCell.reactionsLayoutInBubble.getReactionButton(ReactionsLayoutInBubble.VisibleReaction.asStar())) == null) {
+        if (chatMessageCell == null || !chatMessageCell.isCellAttachedToWindow() || this.messageCell.getPrimaryMessageObject() == null || this.messageCell.getPrimaryMessageObject().getId() != this.messageId) {
+            return;
+        }
+        final ChatMessageCell chatMessageCell2 = this.messageCell;
+        ReactionsLayoutInBubble.ReactionButton reactionButton = chatMessageCell2.reactionsLayoutInBubble.getReactionButton(ReactionsLayoutInBubble.VisibleReaction.asStar());
+        if (reactionButton == null) {
+            MessageObject.GroupedMessages validGroupedMessage = this.chatActivity.getValidGroupedMessage(this.messageCell.getPrimaryMessageObject());
+            if (validGroupedMessage != null && !validGroupedMessage.posArray.isEmpty()) {
+                MessageObject messageObject = null;
+                Iterator<MessageObject> it = validGroupedMessage.messages.iterator();
+                while (true) {
+                    if (!it.hasNext()) {
+                        break;
+                    }
+                    MessageObject next = it.next();
+                    MessageObject.GroupedMessagePosition position = validGroupedMessage.getPosition(next);
+                    if (position != null) {
+                        int i = position.flags;
+                        if ((i & 1) != 0 && (i & 8) != 0) {
+                            messageObject = next;
+                            break;
+                        }
+                    }
+                }
+                if (messageObject != null) {
+                    chatMessageCell2 = this.chatActivity.findMessageCell(messageObject.getId(), false);
+                }
+            }
+            if (chatMessageCell2 == null) {
+                return;
+            }
+            reactionButton = chatMessageCell2.reactionsLayoutInBubble.getReactionButton(ReactionsLayoutInBubble.VisibleReaction.asStar());
+        }
+        final ReactionsLayoutInBubble.ReactionButton reactionButton2 = reactionButton;
+        if (reactionButton2 == null) {
             return;
         }
         final int[] iArr = new int[2];
@@ -558,19 +593,19 @@ public class StarsReactionsSheet extends BottomSheet {
         rectF.set(this.slider.counterImage.getBounds());
         rectF.inset(-AndroidUtilities.dp(3.5f), -AndroidUtilities.dp(3.5f));
         rectF.offset(iArr[0], iArr[1]);
-        this.icon3dView.whenReady(new Runnable() { // from class: org.telegram.ui.Stars.StarsReactionsSheet$$ExternalSyntheticLambda7
+        this.icon3dView.whenReady(new Runnable() { // from class: org.telegram.ui.Stars.StarsReactionsSheet$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
                 StarsReactionsSheet.this.lambda$animate3dIcon$9();
             }
         });
-        reactionButton.drawImage = false;
-        this.messageCell.invalidate();
+        reactionButton2.drawImage = false;
+        chatMessageCell2.invalidate();
         final RectF rectF2 = new RectF();
-        final Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Stars.StarsReactionsSheet$$ExternalSyntheticLambda10
+        final Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Stars.StarsReactionsSheet$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
-                StarsReactionsSheet.this.lambda$animate3dIcon$10(iArr, rectF2, reactionButton);
+                StarsReactionsSheet.lambda$animate3dIcon$10(ChatMessageCell.this, iArr, rectF2, reactionButton2);
             }
         };
         runnable2.run();
@@ -600,10 +635,9 @@ public class StarsReactionsSheet extends BottomSheet {
             public void onAnimationEnd(Animator animator) {
                 StarsReactionsSheet.this.icon3dView.setVisibility(4);
                 StarsReactionsSheet.this.icon3dView.setPaused(true);
-                reactionButton.drawImage = true;
+                reactionButton2.drawImage = true;
                 StarsReactionsSheet.this.messageCell.invalidate();
                 StarsReactionsSheet.super.dismissInternal();
-                LaunchActivity.getSafeLastFragment();
                 boolean[] zArr2 = zArr;
                 if (!zArr2[0]) {
                     zArr2[0] = true;
@@ -642,9 +676,9 @@ public class StarsReactionsSheet extends BottomSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$animate3dIcon$10(int[] iArr, RectF rectF, ReactionsLayoutInBubble.ReactionButton reactionButton) {
-        this.messageCell.getLocationInWindow(iArr);
-        rectF.set(iArr[0] + this.messageCell.reactionsLayoutInBubble.x + reactionButton.x + AndroidUtilities.dp(4.0f), iArr[1] + this.messageCell.reactionsLayoutInBubble.y + reactionButton.y + ((reactionButton.height - AndroidUtilities.dp(22.0f)) / 2.0f), iArr[0] + this.messageCell.reactionsLayoutInBubble.x + reactionButton.x + AndroidUtilities.dp(26.0f), iArr[1] + this.messageCell.reactionsLayoutInBubble.y + reactionButton.y + ((reactionButton.height + AndroidUtilities.dp(22.0f)) / 2.0f));
+    public static /* synthetic */ void lambda$animate3dIcon$10(ChatMessageCell chatMessageCell, int[] iArr, RectF rectF, ReactionsLayoutInBubble.ReactionButton reactionButton) {
+        chatMessageCell.getLocationInWindow(iArr);
+        rectF.set(iArr[0] + chatMessageCell.reactionsLayoutInBubble.x + reactionButton.x + AndroidUtilities.dp(4.0f), iArr[1] + chatMessageCell.reactionsLayoutInBubble.y + reactionButton.y + ((reactionButton.height - AndroidUtilities.dp(22.0f)) / 2.0f), iArr[0] + chatMessageCell.reactionsLayoutInBubble.x + reactionButton.x + AndroidUtilities.dp(26.0f), iArr[1] + chatMessageCell.reactionsLayoutInBubble.y + reactionButton.y + ((reactionButton.height + AndroidUtilities.dp(22.0f)) / 2.0f));
     }
 
     /* JADX INFO: Access modifiers changed from: private */

@@ -2320,6 +2320,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
                 userFull.birthday = tLRPC$TL_birthday;
                 PrivacyControlActivity.this.getMessagesStorage().updateUserInfo(userFull, false);
             }
+            PrivacyControlActivity.this.getMessagesController().invalidateContentSettings();
             PrivacyControlActivity.this.getConnectionsManager().sendRequest(tLRPC$TL_account_updateBirthday, new RequestDelegate() { // from class: org.telegram.ui.PrivacyControlActivity$ListAdapter$$ExternalSyntheticLambda4
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {

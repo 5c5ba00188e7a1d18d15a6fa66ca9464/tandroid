@@ -7382,6 +7382,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             userFull.flags2 |= 32;
             userFull.birthday = tLRPC$TL_birthday;
         }
+        getMessagesController().invalidateContentSettings();
         getConnectionsManager().sendRequest(tLRPC$TL_account_updateBirthday, new RequestDelegate() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda124
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
