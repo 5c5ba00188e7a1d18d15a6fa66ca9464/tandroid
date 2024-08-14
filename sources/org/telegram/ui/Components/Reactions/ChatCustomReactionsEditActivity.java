@@ -82,6 +82,7 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
     private CustomReactionEditText editText;
     private TextCheckCell enableReactionsCell;
     private final TLRPC$ChatFull info;
+    private boolean initialPaid;
     private boolean isPaused;
     private boolean paid;
     private TextCheckCell paidCheckCell;
@@ -154,8 +155,8 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:79:0x036c A[EDGE_INSN: B:79:0x036c->B:44:0x036c ?: BREAK  , SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:82:0x0314 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:79:0x0365 A[EDGE_INSN: B:79:0x0365->B:44:0x0365 ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:82:0x030d A[SYNTHETIC] */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     @SuppressLint({"ClickableViewAccessibility"})
     /*
@@ -351,7 +352,6 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
             }
             this.editText.append(spannableStringBuilder);
             setCheckedEnableReactionCell(0, this.paid, false);
-            this.initialSelectedEmojis.putAll(this.selectedEmojisMap);
         } else if (tLRPC$ChatReactions instanceof TLRPC$TL_chatReactionsSome) {
             SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder();
             Iterator<TLRPC$Reaction> it = ((TLRPC$TL_chatReactionsSome) tLRPC$ChatReactions).reactions.iterator();
@@ -379,7 +379,6 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
             }
             this.editText.append(spannableStringBuilder2);
             setCheckedEnableReactionCell(1, this.paid, false);
-            this.initialSelectedEmojis.putAll(this.selectedEmojisMap);
         } else if ((tLRPC$ChatReactions instanceof TLRPC$TL_chatReactionsNone) && tLRPC$ChatFull2 != null && tLRPC$ChatFull2.paid_media_allowed && tLRPC$ChatFull2.paid_reactions_available) {
             setCheckedEnableReactionCell(2, this.paid, false);
         } else if (tLRPC$ChatReactions instanceof TLRPC$TL_chatReactionsNone) {
@@ -406,6 +405,8 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
         if (tLRPC$ChatFull3.paid_media_allowed && tLRPC$ChatFull3.paid_reactions_available) {
             toggleStarsEnabled();
         }
+        this.initialSelectedEmojis.putAll(this.selectedEmojisMap);
+        this.initialPaid = this.paid;
         this.fragmentView = frameLayout;
         return frameLayout;
     }
@@ -859,7 +860,7 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
         if (tL_stories$TL_premium_boostsStatus != null && tL_stories$TL_premium_boostsStatus.level < this.selectedCustomReactions) {
             z = false;
         }
-        boolean z2 = this.selectedType != 2 ? z : false;
+        boolean z2 = this.initialPaid == this.paid ? z : true;
         if (z2) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), getResourceProvider());
             builder.setTitle(LocaleController.getString("UnsavedChanges", R.string.UnsavedChanges));
@@ -870,7 +871,7 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
                     ChatCustomReactionsEditActivity.this.lambda$checkChangesBeforeExit$14(dialogInterface, i);
                 }
             });
-            builder.setNegativeButton(LocaleController.getString("Discard", R.string.Discard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda2
+            builder.setNegativeButton(LocaleController.getString(R.string.Discard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda2
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i) {
                     ChatCustomReactionsEditActivity.this.lambda$checkChangesBeforeExit$15(dialogInterface, i);
